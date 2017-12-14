@@ -1,7 +1,10 @@
 package com.ort.app.web.controller;
 
+import java.security.Principal;
+
 import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +17,7 @@ import com.ort.app.web.model.IndexResultContent;
 import com.ort.app.web.model.inner.IndexVillageDto;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exentity.Village;
+import com.ort.fw.security.UserInfo;
 
 @Controller
 public class IndexController {
@@ -28,7 +32,11 @@ public class IndexController {
     //                                                                             Execute
     //                                                                             =======
     @GetMapping("/")
-    private String index(LoginForm form, Model model) {
+    private String index(LoginForm form, Principal principal, Model model) {
+        Authentication authentication = (Authentication) principal;
+        UserInfo user = (UserInfo) authentication.getPrincipal();
+        model.addAttribute("user", user);
+
         setIndexModel(form, model);
         return "index";
     }
