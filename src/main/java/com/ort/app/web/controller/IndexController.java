@@ -4,9 +4,12 @@ import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
-import com.ort.app.web.form.IndexForm;
+import com.ort.app.web.form.LoginForm;
 import com.ort.app.web.model.IndexResultContent;
 import com.ort.app.web.model.inner.IndexVillageDto;
 import com.ort.dbflute.exbhv.VillageBhv;
@@ -25,10 +28,17 @@ public class IndexController {
     //                                                                             Execute
     //                                                                             =======
     @GetMapping("/")
-    private String index(IndexForm form, Model model) {
-        ListResultBean<Village> villageList = villageBhv.selectList(cb -> {});
-        IndexResultContent content = mappingToContent(villageList);
-        model.addAttribute("content", content);
+    private String index(LoginForm form, Model model) {
+        setIndexModel(form, model);
+        return "index";
+    }
+
+    @PostMapping("/login")
+    private String login(@Validated LoginForm form, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            setIndexModel(form, model);
+            return "index";
+        }
         return "index";
     }
 
@@ -46,6 +56,16 @@ public class IndexController {
         villageDto.setVillageId(village.getVilalgeId());
         villageDto.setVillageName(village.getVillageDisplayName());
         return villageDto;
+    }
+
+    // ===================================================================================
+    //                                                                        Assist Logic
+    //                                                                        ============
+    private void setIndexModel(LoginForm form, Model model) {
+        model.addAttribute("form", form);
+        ListResultBean<Village> villageList = villageBhv.selectList(cb -> {});
+        IndexResultContent content = mappingToContent(villageList);
+        model.addAttribute("content", content);
     }
 
 }

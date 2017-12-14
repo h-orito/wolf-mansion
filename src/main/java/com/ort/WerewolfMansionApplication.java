@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
 import com.ort.dbflute.allcommon.DBFluteBeansJavaConfig;
-import com.ort.fw.util.WerewolfMansionWebMvcConfigurer;
+import com.ort.fw.config.WerewolfMansionWebMvcConfigurer;
 
 @SpringBootApplication
 @Import({ DBFluteBeansJavaConfig.class, WerewolfMansionWebMvcConfigurer.class })

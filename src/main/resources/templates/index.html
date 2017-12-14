@@ -13,7 +13,14 @@
 		<div layout:fragment="content">
 			<div id="wrapper">
 				<h1>人狼館</h1>
-
+				
+				<h2>ログイン</h2>
+				<form method="post" action="" th:action="@{/login}" th:object="${form}">
+					ユーザID: <input type="text" class="form-control" th:field="*{userId}" /> 
+					パスワード: <input type="text" class="form-control" th:field="*{password}" /> 
+					<input type="submit" value="ログイン" />
+				</form>
+				
 				<h2>新規村作成</h2>
 				<div class="col-sm-12">
 					<p>

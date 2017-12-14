@@ -1,4 +1,4 @@
-package com.ort.fw.util;
+package com.ort.fw.config;
 
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
