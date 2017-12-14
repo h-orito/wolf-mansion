@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<head>
+<!--/* 個別ページのタイトル */-->
+<title>村作成</title>
+<!--/* 個別ページのjs */-->
+<script src="../static/app/js/new-village.js" th:src="@{/app/js/new-village.js}"></script>
+</head>
+
+<body>
+	<div class="container">
+		<nav layout:replace="~{layout/header::header}"></nav>
+		<div layout:fragment="content">
+			<div id="wrapper">
+				<h1>村作成</h1>
+				<form method="post" action="" th:action="@{/new-village}" th:object="${form}">
+					村名: <input type="text" class="form-control" th:field="*{villageName}" /> 
+					<input type="submit" value="作成" />
+				</form>
+			</div>
+		</div>
+		<footer layout:replace="~{layout/footer::footer}"></footer>
+	</div>
+</body>
+</html>

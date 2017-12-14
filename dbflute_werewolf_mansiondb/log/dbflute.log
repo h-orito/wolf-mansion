@@ -1,0 +1,2353 @@
+2017-12-13 16:40:32,290 [main] INFO  (DfReplaceSchemaTask#begin():92) - +------------------------------------------+
+2017-12-13 16:40:32,293 [main] INFO  (DfReplaceSchemaTask#begin():93) - |                                          |
+2017-12-13 16:40:32,293 [main] INFO  (DfReplaceSchemaTask#begin():94) - |              ReplaceSchema               |
+2017-12-13 16:40:32,297 [main] INFO  (DfReplaceSchemaTask#begin():102) - |                                          |
+2017-12-13 16:40:32,297 [main] INFO  (DfReplaceSchemaTask#begin():103) - +------------------------------------------+
+2017-12-13 16:40:32,298 [main] INFO  (DfReplaceSchemaTask#waitBeforeReps():360) - ...Waiting for your GO SIGN from stdin before ReplaceSchema:
+2017-12-13 16:40:33,320 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-13 16:40:33,320 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-13 16:40:33,320 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-13 16:40:33,320 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-13 16:40:33,325 [main] INFO  (DfDataSourceHandler#createConnection():166) - ...Connecting to database by data source:
+2017-12-13 16:40:33,524 [main] INFO  (DfReplaceSchemaTask#setupLazyConnection():144) - ...Being a lazy connection: Failed to connect: url=jdbc:mysql://localhost:3...
+2017-12-13 16:40:33,534 [main] ERROR (DfDBFluteTaskUtil#logException():150) - Look! Read the message below.
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Failed to execute DBFlute Task 'ReplaceSchema'.
+
+[Advice]
+Check the exception messages and the stack traces.
+* * * * * * * * * */
+org.dbflute.infra.reps.exception.DfReplaceSchemaExecuteNotAllowedException: Look! Read the message below.
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Your ReplaceSchema execution was not allowed.
+
+[Advice]
+Not found SQL files for ReplaceSchema,
+so your execution might be mistake...?
+
+[SQL Root Directory]
+playsql
+* * * * * * * * * */
+	at org.dbflute.infra.reps.DfRepsExecuteLimitter.throwReplaceSchemaExecuteNotAllowedException(DfRepsExecuteLimitter.java:76)
+	at org.dbflute.infra.reps.DfRepsExecuteLimitter.checkExecutableOrNot(DfRepsExecuteLimitter.java:60)
+	at org.dbflute.logic.replaceschema.process.DfCreateSchemaProcess.checkBeforeInitialize(DfCreateSchemaProcess.java:152)
+	at org.dbflute.logic.replaceschema.process.DfCreateSchemaProcess.execute(DfCreateSchemaProcess.java:140)
+	at org.dbflute.task.DfReplaceSchemaTask.createSchema(DfReplaceSchemaTask.java:260)
+	at org.dbflute.task.DfReplaceSchemaTask.doExecuteCoreProcess(DfReplaceSchemaTask.java:242)
+	at org.dbflute.task.DfReplaceSchemaTask.executeCoreProcess(DfReplaceSchemaTask.java:232)
+	at org.dbflute.task.DfReplaceSchemaTask.processMain(DfReplaceSchemaTask.java:228)
+	at org.dbflute.task.DfReplaceSchemaTask.doExecute(DfReplaceSchemaTask.java:158)
+	at org.dbflute.task.bs.DfAbstractTexenTask$1.callActualExecute(DfAbstractTexenTask.java:129)
+	at org.dbflute.task.bs.assistant.DfTaskBasicController.doExecute(DfTaskBasicController.java:192)
+	at org.dbflute.task.bs.assistant.DfTaskBasicController.execute(DfTaskBasicController.java:78)
+	at org.dbflute.task.bs.DfAbstractTexenTask.execute(DfAbstractTexenTask.java:151)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:288)
+	at sun.reflect.GeneratedMethodAccessor3.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:105)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:357)
+	at org.apache.tools.ant.Target.performTasks(Target.java:385)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1329)
+	at org.apache.tools.ant.helper.SingleCheckExecutor.executeTargets(SingleCheckExecutor.java:38)
+	at org.apache.tools.ant.Project.executeTargets(Project.java:1181)
+	at org.apache.tools.ant.taskdefs.Ant.execute(Ant.java:416)
+	at org.apache.tools.ant.taskdefs.CallTarget.execute(CallTarget.java:105)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:288)
+	at sun.reflect.GeneratedMethodAccessor3.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:105)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:357)
+	at org.apache.tools.ant.Target.performTasks(Target.java:385)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1329)
+	at org.apache.tools.ant.Project.executeTarget(Project.java:1298)
+	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:41)
+	at org.apache.tools.ant.Project.executeTargets(Project.java:1181)
+	at org.apache.tools.ant.Main.runBuild(Main.java:698)
+	at org.apache.tools.ant.Main.startAnt(Main.java:199)
+	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:257)
+	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:104)
+2017-12-13 16:40:33,545 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m01s261ms *Abort
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+
+
+_/_/_/_/_/_/_/_/_/_/ {ReplaceSchema}
+2017-12-13 16:44:38,198 [main] INFO  (DfReplaceSchemaTask#begin():92) - +------------------------------------------+
+2017-12-13 16:44:38,203 [main] INFO  (DfReplaceSchemaTask#begin():93) - |                                          |
+2017-12-13 16:44:38,204 [main] INFO  (DfReplaceSchemaTask#begin():94) - |              ReplaceSchema               |
+2017-12-13 16:44:38,209 [main] INFO  (DfReplaceSchemaTask#begin():102) - |                                          |
+2017-12-13 16:44:38,210 [main] INFO  (DfReplaceSchemaTask#begin():103) - +------------------------------------------+
+2017-12-13 16:44:38,211 [main] INFO  (DfReplaceSchemaTask#waitBeforeReps():360) - ...Waiting for your GO SIGN from stdin before ReplaceSchema:
+2017-12-13 16:44:38,543 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-13 16:44:38,543 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-13 16:44:38,544 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-13 16:44:38,544 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-13 16:44:38,551 [main] INFO  (DfDataSourceHandler#createConnection():166) - ...Connecting to database by data source:
+2017-12-13 16:44:38,804 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():233) -   product = MySQL 5.6.37
+2017-12-13 16:44:38,804 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():234) -   driver  = MySQL Connector Java mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 ) for JDBC 4.0
+2017-12-13 16:44:38,817 [main] ERROR (DfDBFluteTaskUtil#logException():150) - Look! Read the message below.
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Failed to execute DBFlute Task 'ReplaceSchema'.
+
+[Advice]
+Check the exception messages and the stack traces.
+
+[Database Product]
+MySQL 5.6.37
+
+[JDBC Driver]
+MySQL Connector Java mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 ) for JDBC 4.0
+* * * * * * * * * */
+org.dbflute.infra.reps.exception.DfReplaceSchemaExecuteNotAllowedException: Look! Read the message below.
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Your ReplaceSchema execution was not allowed.
+
+[Advice]
+Not found SQL files for ReplaceSchema,
+so your execution might be mistake...?
+
+[SQL Root Directory]
+playsql
+* * * * * * * * * */
+	at org.dbflute.infra.reps.DfRepsExecuteLimitter.throwReplaceSchemaExecuteNotAllowedException(DfRepsExecuteLimitter.java:76)
+	at org.dbflute.infra.reps.DfRepsExecuteLimitter.checkExecutableOrNot(DfRepsExecuteLimitter.java:60)
+	at org.dbflute.logic.replaceschema.process.DfCreateSchemaProcess.checkBeforeInitialize(DfCreateSchemaProcess.java:152)
+	at org.dbflute.logic.replaceschema.process.DfCreateSchemaProcess.execute(DfCreateSchemaProcess.java:140)
+	at org.dbflute.task.DfReplaceSchemaTask.createSchema(DfReplaceSchemaTask.java:260)
+	at org.dbflute.task.DfReplaceSchemaTask.doExecuteCoreProcess(DfReplaceSchemaTask.java:242)
+	at org.dbflute.task.DfReplaceSchemaTask.executeCoreProcess(DfReplaceSchemaTask.java:232)
+	at org.dbflute.task.DfReplaceSchemaTask.processMain(DfReplaceSchemaTask.java:228)
+	at org.dbflute.task.DfReplaceSchemaTask.doExecute(DfReplaceSchemaTask.java:158)
+	at org.dbflute.task.bs.DfAbstractTexenTask$1.callActualExecute(DfAbstractTexenTask.java:129)
+	at org.dbflute.task.bs.assistant.DfTaskBasicController.doExecute(DfTaskBasicController.java:192)
+	at org.dbflute.task.bs.assistant.DfTaskBasicController.execute(DfTaskBasicController.java:78)
+	at org.dbflute.task.bs.DfAbstractTexenTask.execute(DfAbstractTexenTask.java:151)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:288)
+	at sun.reflect.GeneratedMethodAccessor3.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:105)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:357)
+	at org.apache.tools.ant.Target.performTasks(Target.java:385)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1329)
+	at org.apache.tools.ant.helper.SingleCheckExecutor.executeTargets(SingleCheckExecutor.java:38)
+	at org.apache.tools.ant.Project.executeTargets(Project.java:1181)
+	at org.apache.tools.ant.taskdefs.Ant.execute(Ant.java:416)
+	at org.apache.tools.ant.taskdefs.CallTarget.execute(CallTarget.java:105)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:288)
+	at sun.reflect.GeneratedMethodAccessor3.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:105)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:357)
+	at org.apache.tools.ant.Target.performTasks(Target.java:385)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1329)
+	at org.apache.tools.ant.Project.executeTarget(Project.java:1298)
+	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:41)
+	at org.apache.tools.ant.Project.executeTargets(Project.java:1181)
+	at org.apache.tools.ant.Main.runBuild(Main.java:698)
+	at org.apache.tools.ant.Main.startAnt(Main.java:199)
+	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:257)
+	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:104)
+2017-12-13 16:44:38,822 [main] INFO  (DfDataSourceHandler#destroy():120) - ...closeReally()
+2017-12-13 16:44:38,832 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s642ms *Abort
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql (MySQL 5.6.37)
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+
+
+_/_/_/_/_/_/_/_/_/_/ {ReplaceSchema}
+2017-12-13 16:45:21,152 [main] INFO  (DfReplaceSchemaTask#begin():92) - +------------------------------------------+
+2017-12-13 16:45:21,158 [main] INFO  (DfReplaceSchemaTask#begin():93) - |                                          |
+2017-12-13 16:45:21,158 [main] INFO  (DfReplaceSchemaTask#begin():94) - |              ReplaceSchema               |
+2017-12-13 16:45:21,164 [main] INFO  (DfReplaceSchemaTask#begin():102) - |                                          |
+2017-12-13 16:45:21,164 [main] INFO  (DfReplaceSchemaTask#begin():103) - +------------------------------------------+
+2017-12-13 16:45:21,165 [main] INFO  (DfReplaceSchemaTask#waitBeforeReps():360) - ...Waiting for your GO SIGN from stdin before ReplaceSchema:
+2017-12-13 16:45:21,984 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-13 16:45:21,986 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-13 16:45:21,987 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-13 16:45:21,987 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-13 16:45:21,992 [main] INFO  (DfDataSourceHandler#createConnection():166) - ...Connecting to database by data source:
+2017-12-13 16:45:22,199 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():233) -   product = MySQL 5.6.37
+2017-12-13 16:45:22,199 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():234) -   driver  = MySQL Connector Java mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 ) for JDBC 4.0
+2017-12-13 16:45:22,207 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():229) - 
+2017-12-13 16:45:22,207 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():230) - * * * * * * * * * * *
+2017-12-13 16:45:22,208 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():231) - *                   *
+2017-12-13 16:45:22,208 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():232) - * Initialize Schema *
+2017-12-13 16:45:22,209 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():233) - *                   *
+2017-12-13 16:45:22,209 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():234) - * * * * * * * * * * *
+2017-12-13 16:45:22,219 [main] INFO  (DfTableExtractor#doGetTableList():66) - ...Getting tables:
+2017-12-13 16:45:22,219 [main] INFO  (DfTableExtractor#doGetTableList():67) -   schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-13 16:45:22,219 [main] INFO  (DfTableExtractor#doGetTableList():68) -   types  = [TABLE, VIEW]
+2017-12-13 16:45:22,258 [main] INFO  (DfCreateSchemaProcess#createSchema():266) - 
+2017-12-13 16:45:22,258 [main] INFO  (DfCreateSchemaProcess#createSchema():267) - * * * * * * * * *
+2017-12-13 16:45:22,259 [main] INFO  (DfCreateSchemaProcess#createSchema():268) - *               *
+2017-12-13 16:45:22,259 [main] INFO  (DfCreateSchemaProcess#createSchema():269) - * Create Schema *
+2017-12-13 16:45:22,260 [main] INFO  (DfCreateSchemaProcess#createSchema():270) - *               *
+2017-12-13 16:45:22,261 [main] INFO  (DfCreateSchemaProcess#createSchema():271) - * * * * * * * * *
+2017-12-13 16:45:22,264 [main] INFO  (DfSqlFileFireMan#fire():64) - ...Firing: replace-schema-10-basic.sql
+2017-12-13 16:45:22,266 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE ACT
+(
+	ACT_CODE VARCHAR(10) NOT NULL COMMENT '行動コード',
+	ACT_NAME VARCHAR(20) NOT NULL COMMENT '行動名称',
+	DISP_ORDER INT NOT NULL COMMENT '表示順',
+	PRIMARY KEY (ACT_CODE)
+) COMMENT = '行動'
+2017-12-13 16:45:22,276 [main] INFO  (DfSqlFileRunnerBase#traceResult():172) -  -> success=1 failure=0
+2017-12-13 16:45:22,276 [main] INFO  (DfSqlFileFireMan#fire():64) - ...Firing: replace-schema.sql
+2017-12-13 16:45:22,277 [main] INFO  (DfSqlFileRunnerBase#traceResult():172) -  -> success=0 failure=0
+2017-12-13 16:45:22,277 [main] INFO  (DfSqlFileFireMan#fire():89) - {Create Schema}: success=1 failure=0 (in 2 files)
+2017-12-13 16:45:22,411 [main] INFO  (DfLoadDataProcess#execute():129) - 
+2017-12-13 16:45:22,411 [main] INFO  (DfLoadDataProcess#execute():130) - * * * * * * * * * * *
+2017-12-13 16:45:22,412 [main] INFO  (DfLoadDataProcess#execute():131) - *                   *
+2017-12-13 16:45:22,413 [main] INFO  (DfLoadDataProcess#execute():132) - * Load Data         *
+2017-12-13 16:45:22,413 [main] INFO  (DfLoadDataProcess#execute():133) - *                   *
+2017-12-13 16:45:22,414 [main] INFO  (DfLoadDataProcess#execute():134) - * * * * * * * * * * *
+2017-12-13 16:45:22,429 [main] INFO  (DfTakeFinallyProcess#takeFinally():229) - 
+2017-12-13 16:45:22,430 [main] INFO  (DfTakeFinallyProcess#takeFinally():230) - * * * * * * * **
+2017-12-13 16:45:22,430 [main] INFO  (DfTakeFinallyProcess#takeFinally():231) - *              *
+2017-12-13 16:45:22,430 [main] INFO  (DfTakeFinallyProcess#takeFinally():232) - * Take Finally *
+2017-12-13 16:45:22,430 [main] INFO  (DfTakeFinallyProcess#takeFinally():233) - *              *
+2017-12-13 16:45:22,430 [main] INFO  (DfTakeFinallyProcess#takeFinally():234) - * * * * * * * **
+2017-12-13 16:45:22,434 [main] INFO  (DfSqlFileFireMan#fire():64) - ...Firing: take-finally.sql
+2017-12-13 16:45:22,435 [main] INFO  (DfSqlFileRunnerBase#traceResult():172) -  -> success=0 failure=0
+2017-12-13 16:45:22,435 [main] INFO  (DfSqlFileFireMan#fire():89) - {Take Finally}: success=0 failure=0 (in 1 files)
+2017-12-13 16:45:22,436 [main] INFO  (DfDataSourceHandler#destroy():120) - ...closeReally()
+2017-12-13 16:45:22,442 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m01s305ms
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql (MySQL 5.6.37)
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+
+ {Create Schema}: success=1 failure=0 (in 2 files)
+  o replace-schema-10-basic.sql
+  o replace-schema.sql
+
+ {Load Data}: loaded-files=0
+  - (no data file)
+
+ {Take Finally}: success=0 failure=0 (in 1 files)
+  o take-finally.sql
+_/_/_/_/_/_/_/_/_/_/ {ReplaceSchema}
+2017-12-13 16:45:22,939 [main] INFO  (TorqueJDBCTransformTask#begin():104) - +------------------------------------------+
+2017-12-13 16:45:22,941 [main] INFO  (TorqueJDBCTransformTask#begin():105) - |                                          |
+2017-12-13 16:45:22,941 [main] INFO  (TorqueJDBCTransformTask#begin():106) - |                   JDBC                   |
+2017-12-13 16:45:22,941 [main] INFO  (TorqueJDBCTransformTask#begin():107) - |                                          |
+2017-12-13 16:45:22,942 [main] INFO  (TorqueJDBCTransformTask#begin():108) - +------------------------------------------+
+2017-12-13 16:45:22,964 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-13 16:45:22,965 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-13 16:45:22,965 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-13 16:45:22,966 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-13 16:45:23,010 [main] INFO  (DfSchemaXmlSerializer#serialize():286) - 
+2017-12-13 16:45:23,010 [main] INFO  (DfSchemaXmlSerializer#serialize():287) - ...Starting to process JDBC to SchemaXML
+2017-12-13 16:45:23,010 [main] INFO  (DfSchemaXmlSerializer#doLoadPreviousSchema():1532) - ...Loading previous schema (schema diff process)
+2017-12-13 16:45:23,031 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-13 16:45:23,140 [main] INFO  (DfSchemaXmlSerializer#generateXML():360) - ...Getting DB connection
+2017-12-13 16:45:23,145 [main] INFO  (DfDataSourceHandler#createConnection():166) - ...Connecting to database by data source:
+2017-12-13 16:45:23,336 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():233) -   product = MySQL 5.6.37
+2017-12-13 16:45:23,336 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():234) -   driver  = MySQL Connector Java mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 ) for JDBC 4.0
+2017-12-13 16:45:23,337 [main] INFO  (DfSchemaXmlSerializer#generateXML():363) - ...Getting DB meta data
+2017-12-13 16:45:23,338 [main] INFO  (DfTableExtractor#doGetTableList():66) - ...Getting tables:
+2017-12-13 16:45:23,338 [main] INFO  (DfTableExtractor#doGetTableList():67) -   schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-13 16:45:23,338 [main] INFO  (DfTableExtractor#doGetTableList():68) -   types  = [TABLE, VIEW]
+2017-12-13 16:45:23,348 [main] INFO  (DfDbCommentExtractorBase#doSelectUserTabComments():121) - select table_type as OBJECT_TYPE, table_name as TABLE_NAME, table_comment as COMMENTS from information_schema.tables where table_schema = 'werewolf_mansiondb' order by table_name asc
+2017-12-13 16:45:23,353 [main] INFO  (DfDbCommentExtractorBase#doSelectUserColComments():168) - select table_name as TABLE_NAME, column_name as COLUMN_NAME, column_comment as COMMENTS from information_schema.columns where table_schema = 'werewolf_mansiondb' order by table_name asc, column_name asc
+2017-12-13 16:45:23,359 [main] INFO  (DfDatetimePrecisionExtractorMySQL#extractDatetimePrecisionMap():59) - select TABLE_NAME, COLUMN_NAME, DATETIME_PRECISION from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA = 'werewolf_mansiondb' and DATA_TYPE = 'datetime'
+2017-12-13 16:45:23,366 [main] INFO  (DfSchemaXmlSerializer#processTable():420) - 
+2017-12-13 16:45:23,366 [main] INFO  (DfSchemaXmlSerializer#processTable():421) - $ /= = = = = = = = = = = = = = = = = = = = = = = = = =
+2017-12-13 16:45:23,366 [main] INFO  (DfSchemaXmlSerializer#processTable():422) - $ [Table List]
+2017-12-13 16:45:23,366 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.act(TABLE) // 行動
+2017-12-13 16:45:23,393 [main] INFO  (DfSchemaXmlSerializer#processTable():434) - $ 
+2017-12-13 16:45:23,394 [main] INFO  (DfSchemaXmlSerializer#processTable():435) - $ [Table Count]
+2017-12-13 16:45:23,394 [main] INFO  (DfSchemaXmlSerializer#processTable():436) - $ 1
+2017-12-13 16:45:23,394 [main] INFO  (DfSchemaXmlSerializer#processTable():437) - $ = = = = = = = = = =/
+2017-12-13 16:45:23,395 [main] INFO  (DfSchemaXmlSerializer#processTable():438) - 
+2017-12-13 16:45:23,396 [main] INFO  (DfSchemaXmlSerializer#processSequence():805) - ...Getting sequences
+2017-12-13 16:45:23,398 [main] INFO  (DfSchemaXmlSerializer#serialize():301) - ...Serializing XML:
+2017-12-13 16:45:23,398 [main] INFO  (DfSchemaXmlSerializer#serialize():302) -   filePath = ./schema/project-schema-wolfbbsdb.xml
+2017-12-13 16:45:23,399 [main] INFO  (DfSchemaXmlSerializer#serialize():303) -   encoding = UTF-8
+2017-12-13 16:45:23,411 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1550) - ...Loading next schema (schema diff process)
+2017-12-13 16:45:23,412 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-13 16:45:23,436 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1555) -  -> different from previous (schema diff)
+2017-12-13 16:45:23,439 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1557) - ...Serializing schema-diff:
+2017-12-13 16:45:23,439 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1558) -   filePath = ./schema/project-history-wolfbbsdb.diffmap
+2017-12-13 16:45:23,524 [main] INFO  (DfDataSourceHandler#destroy():120) - ...closeReally()
+2017-12-13 16:45:23,530 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s597ms
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql (MySQL 5.6.37)
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {JDBC}
+2017-12-13 16:45:24,040 [main] INFO  (TorqueDocumentationTask#begin():177) - +------------------------------------------+
+2017-12-13 16:45:24,041 [main] INFO  (TorqueDocumentationTask#begin():178) - |                                          |
+2017-12-13 16:45:24,042 [main] INFO  (TorqueDocumentationTask#begin():179) - |                   Doc                    |
+2017-12-13 16:45:24,042 [main] INFO  (TorqueDocumentationTask#begin():187) - |                                          |
+2017-12-13 16:45:24,042 [main] INFO  (TorqueDocumentationTask#begin():188) - +------------------------------------------+
+2017-12-13 16:45:24,058 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-13 16:45:24,059 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-13 16:45:24,059 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-13 16:45:24,060 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-13 16:45:24,062 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():249) - 
+2017-12-13 16:45:24,062 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():250) - * * * * * * * * * * *
+2017-12-13 16:45:24,062 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():251) - *                   *
+2017-12-13 16:45:24,062 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():252) - *    Schema HTML    *
+2017-12-13 16:45:24,062 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():253) - *                   *
+2017-12-13 16:45:24,063 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():254) - * * * * * * * * * * *
+2017-12-13 16:45:24,097 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-13 16:45:24,147 [main] INFO  (DfAbstractTexenTask#fireVelocityProcess():253) - generator.parse("doc/ControlDocument.vm", ctx);
+2017-12-13 16:45:24,287 [main] INFO  (Database#doEnableDocumentOutputDirectory():1180) - ...Setting up documentOutputDirectory: ./output/doc
+2017-12-13 16:45:24,294 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():62) - /=======================================
+2017-12-13 16:45:24,294 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():63) - ...Initializing additional primary keys.
+2017-12-13 16:45:24,295 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():88) - ==========/
+2017-12-13 16:45:24,296 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():62) - /=======================================
+2017-12-13 16:45:24,297 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():63) - ...Initializing additional unique keys.
+2017-12-13 16:45:24,297 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():83) - ==========/
+2017-12-13 16:45:24,299 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():68) - /=======================================
+2017-12-13 16:45:24,299 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():69) - ...Initializing additional foreign keys.
+2017-12-13 16:45:24,300 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():88) - ==========/
+2017-12-13 16:45:24,310 [main] INFO  (DfDocumentSelector#doLoadSchemaHistory():157) - ...Loading schema history
+2017-12-13 16:45:24,376 [main] INFO  (DfDocumentSelector#doLoadSchemaHistory():161) -  -> found history: count=11
+2017-12-13 16:45:24,500 [main] INFO  (DfRefreshResourceProcess#show():299) - /===========================================================================
+2017-12-13 16:45:24,501 [main] INFO  (DfRefreshResourceProcess#show():299) - ...Refreshing [werewolf-mansion] by http://localhost:8386/
+2017-12-13 16:45:24,519 [main] INFO  (DfRefreshResourceProcess#show():299) - ...Retrying refreshing by secondary URL http://localhost:8387/ for werewolf-mansion
+2017-12-13 16:45:24,535 [main] INFO  (DfRefreshResourceProcess#show():299) -  => success of the retry refreshing: 8387 for werewolf-mansion
+2017-12-13 16:45:24,535 [main] INFO  (DfRefreshResourceProcess#show():299) - ==========/
+2017-12-13 16:45:24,539 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s507ms
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {Doc}
+2017-12-13 16:45:26,342 [main] INFO  (TorqueDataModelTask#begin():110) - +------------------------------------------+
+2017-12-13 16:45:26,343 [main] INFO  (TorqueDataModelTask#begin():111) - |                                          |
+2017-12-13 16:45:26,344 [main] INFO  (TorqueDataModelTask#begin():112) - |                 Generate                 |
+2017-12-13 16:45:26,344 [main] INFO  (TorqueDataModelTask#begin():113) - |                                          |
+2017-12-13 16:45:26,344 [main] INFO  (TorqueDataModelTask#begin():114) - +------------------------------------------+
+2017-12-13 16:45:26,355 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-13 16:45:26,355 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-13 16:45:26,357 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-13 16:45:26,357 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-13 16:45:26,367 [main] INFO  (TorqueDataModelTask#setupControlTemplate():166) - 
+2017-12-13 16:45:26,367 [main] INFO  (TorqueDataModelTask#setupControlTemplate():167) - ...Using Java control: om/ControlGenerateJava.vm
+2017-12-13 16:45:26,386 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-13 16:45:26,417 [main] INFO  (DfAbstractTexenTask#fireVelocityProcess():253) - generator.parse("om/ControlGenerateJava.vm", ctx);
+2017-12-13 16:45:26,555 [main] INFO  (Database#doEnableGenerateOutputDirectory():1148) - ...Setting up generateOutputDirectory: ../src/main/java
+2017-12-13 16:45:26,557 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():62) - /=======================================
+2017-12-13 16:45:26,558 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():63) - ...Initializing additional primary keys.
+2017-12-13 16:45:26,558 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():88) - ==========/
+2017-12-13 16:45:26,559 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():62) - /=======================================
+2017-12-13 16:45:26,560 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():63) - ...Initializing additional unique keys.
+2017-12-13 16:45:26,560 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():83) - ==========/
+2017-12-13 16:45:26,562 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():68) - /=======================================
+2017-12-13 16:45:26,562 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():69) - ...Initializing additional foreign keys.
+2017-12-13 16:45:26,564 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():88) - ==========/
+2017-12-13 16:45:26,576 [main] INFO  (DfIncludeQueryInitializer#initializeIncludeQuery():58) - /=============================
+2017-12-13 16:45:26,576 [main] INFO  (DfIncludeQueryInitializer#initializeIncludeQuery():59) - ...Initializing include query.
+2017-12-13 16:45:26,576 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - String
+2017-12-13 16:45:26,577 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - Number
+2017-12-13 16:45:26,577 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - Date
+2017-12-13 16:45:26,577 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():86) -   NotEqual -> []
+2017-12-13 16:45:26,577 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():86) -   InScope -> []
+2017-12-13 16:45:26,578 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():86) -   NotInScope -> []
+2017-12-13 16:45:26,578 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - OrderBy
+2017-12-13 16:45:26,578 [main] INFO  (DfIncludeQueryInitializer#initializeIncludeQuery():61) - ========/
+2017-12-13 16:45:26,583 [main] ERROR (DfDBFluteTaskUtil#logException():150) - Look! Read the message below.
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Failed to execute DBFlute Task 'Generate'.
+
+[Advice]
+Check the exception messages and the stack traces.
+* * * * * * * * * */
+java.lang.IllegalStateException: Exception thrown by database.checkProperties(): control=om/ControlGenerateJava.vm
+	at org.dbflute.task.bs.DfAbstractTexenTask.fireVelocityProcess(DfAbstractTexenTask.java:262)
+	at org.apache.torque.task.TorqueDataModelTask.doExecute(TorqueDataModelTask.java:141)
+	at org.dbflute.task.bs.DfAbstractTexenTask$1.callActualExecute(DfAbstractTexenTask.java:129)
+	at org.dbflute.task.bs.assistant.DfTaskBasicController.doExecute(DfTaskBasicController.java:192)
+	at org.dbflute.task.bs.assistant.DfTaskBasicController.execute(DfTaskBasicController.java:78)
+	at org.dbflute.task.bs.DfAbstractTexenTask.execute(DfAbstractTexenTask.java:151)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:288)
+	at sun.reflect.GeneratedMethodAccessor3.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:105)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:357)
+	at org.apache.tools.ant.Target.performTasks(Target.java:385)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1329)
+	at org.apache.tools.ant.helper.SingleCheckExecutor.executeTargets(SingleCheckExecutor.java:38)
+	at org.apache.tools.ant.Project.executeTargets(Project.java:1181)
+	at org.apache.tools.ant.taskdefs.Ant.execute(Ant.java:416)
+	at org.apache.tools.ant.taskdefs.CallTarget.execute(CallTarget.java:105)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:288)
+	at sun.reflect.GeneratedMethodAccessor3.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:105)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:357)
+	at org.apache.tools.ant.Target.performTasks(Target.java:385)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1329)
+	at org.apache.tools.ant.helper.SingleCheckExecutor.executeTargets(SingleCheckExecutor.java:38)
+	at org.apache.tools.ant.Project.executeTargets(Project.java:1181)
+	at org.apache.tools.ant.taskdefs.Ant.execute(Ant.java:416)
+	at org.apache.tools.ant.taskdefs.CallTarget.execute(CallTarget.java:105)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:288)
+	at sun.reflect.GeneratedMethodAccessor3.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:105)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:357)
+	at org.apache.tools.ant.Target.performTasks(Target.java:385)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1329)
+	at org.apache.tools.ant.Project.executeTarget(Project.java:1298)
+	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:41)
+	at org.apache.tools.ant.Project.executeTargets(Project.java:1181)
+	at org.apache.tools.ant.Main.runBuild(Main.java:698)
+	at org.apache.tools.ant.Main.startAnt(Main.java:199)
+	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:257)
+	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:104)
+Caused by: org.dbflute.properties.DfCommonColumnProperties$DfCommonColumnMapRelatedTableNotFoundException: Look! Read the message below.
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+The table related to common columns was not found.
+
+[Advice]
+At least one table should be related to common columns.
+The definition might contain a non-existent common column.
+Make sure your definition is correct.
+
+And DBFlute cannot detect the common columns
+of tables without PK, so check about it too
+
+[Common Column]
+[REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE]
+* * * * * * * * * */
+	at org.dbflute.properties.DfCommonColumnProperties.throwCommonColumnMapRelatedTableNotFoundException(DfCommonColumnProperties.java:175)
+	at org.dbflute.properties.DfCommonColumnProperties.checkDefinition(DfCommonColumnProperties.java:158)
+	at org.apache.torque.engine.database.model.Database.checkProperties(Database.java:1042)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.velocity.util.introspection.UberspectImpl$VelMethodImpl.doInvoke(UberspectImpl.java:395)
+	at org.apache.velocity.util.introspection.UberspectImpl$VelMethodImpl.invoke(UberspectImpl.java:384)
+	at org.apache.velocity.runtime.parser.node.ASTMethod.execute(ASTMethod.java:173)
+	at org.apache.velocity.runtime.parser.node.ASTReference.execute(ASTReference.java:280)
+	at org.apache.velocity.runtime.parser.node.ASTReference.render(ASTReference.java:369)
+	at org.apache.velocity.runtime.parser.node.SimpleNode.render(SimpleNode.java:342)
+	at org.apache.velocity.Template.merge(Template.java:356)
+	at org.apache.velocity.Template.merge(Template.java:260)
+	at org.dbflute.friends.velocity.DfFlutistGenerator.parse(DfFlutistGenerator.java:306)
+	at org.dbflute.task.bs.DfAbstractTexenTask.fireVelocityProcess(DfAbstractTexenTask.java:254)
+	... 47 more
+2017-12-13 16:45:26,591 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s258ms *Abort
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {Generate}
+2017-12-13 16:53:54,401 [main] INFO  (DfReplaceSchemaTask#begin():92) - +------------------------------------------+
+2017-12-13 16:53:54,403 [main] INFO  (DfReplaceSchemaTask#begin():93) - |                                          |
+2017-12-13 16:53:54,404 [main] INFO  (DfReplaceSchemaTask#begin():94) - |              ReplaceSchema               |
+2017-12-13 16:53:54,416 [main] INFO  (DfReplaceSchemaTask#begin():102) - |                                          |
+2017-12-13 16:53:54,416 [main] INFO  (DfReplaceSchemaTask#begin():103) - +------------------------------------------+
+2017-12-13 16:53:54,417 [main] INFO  (DfReplaceSchemaTask#waitBeforeReps():360) - ...Waiting for your GO SIGN from stdin before ReplaceSchema:
+2017-12-13 16:53:54,732 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-13 16:53:54,732 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-13 16:53:54,732 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-13 16:53:54,732 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-13 16:53:54,739 [main] INFO  (DfDataSourceHandler#createConnection():166) - ...Connecting to database by data source:
+2017-12-13 16:53:54,988 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():233) -   product = MySQL 5.6.37
+2017-12-13 16:53:54,988 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():234) -   driver  = MySQL Connector Java mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 ) for JDBC 4.0
+2017-12-13 16:53:54,999 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():229) - 
+2017-12-13 16:53:54,999 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():230) - * * * * * * * * * * *
+2017-12-13 16:53:54,999 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():231) - *                   *
+2017-12-13 16:53:55,000 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():232) - * Initialize Schema *
+2017-12-13 16:53:55,000 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():233) - *                   *
+2017-12-13 16:53:55,001 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():234) - * * * * * * * * * * *
+2017-12-13 16:53:55,009 [main] INFO  (DfTableExtractor#doGetTableList():66) - ...Getting tables:
+2017-12-13 16:53:55,010 [main] INFO  (DfTableExtractor#doGetTableList():67) -   schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-13 16:53:55,010 [main] INFO  (DfTableExtractor#doGetTableList():68) -   types  = [TABLE, VIEW]
+2017-12-13 16:53:55,032 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - truncate table act
+2017-12-13 16:53:55,042 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table act
+2017-12-13 16:53:55,078 [main] INFO  (DfCreateSchemaProcess#createSchema():266) - 
+2017-12-13 16:53:55,079 [main] INFO  (DfCreateSchemaProcess#createSchema():267) - * * * * * * * * *
+2017-12-13 16:53:55,079 [main] INFO  (DfCreateSchemaProcess#createSchema():268) - *               *
+2017-12-13 16:53:55,079 [main] INFO  (DfCreateSchemaProcess#createSchema():269) - * Create Schema *
+2017-12-13 16:53:55,079 [main] INFO  (DfCreateSchemaProcess#createSchema():270) - *               *
+2017-12-13 16:53:55,080 [main] INFO  (DfCreateSchemaProcess#createSchema():271) - * * * * * * * * *
+2017-12-13 16:53:55,083 [main] INFO  (DfSqlFileFireMan#fire():64) - ...Firing: replace-schema-10-basic.sql
+2017-12-13 16:53:55,085 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+/* Create Tables */
+
+CREATE TABLE PLAYER
+(
+	PLAYER_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'プレイヤーID',
+	PLAYER_NAME VARCHAR(12) NOT NULL UNIQUE COMMENT 'プレイヤーID',
+	PLAYER_PASSWORD CHAR(60) NOT NULL COMMENT 'プレイヤーパスワード',
+	PRIMARY KEY (PLAYER_ID)
+) COMMENT = 'プレイヤー'
+2017-12-13 16:53:55,095 [main] INFO  (DfSqlFileRunnerBase#traceResult():172) -  -> success=1 failure=0
+2017-12-13 16:53:55,096 [main] INFO  (DfSqlFileFireMan#fire():64) - ...Firing: replace-schema.sql
+2017-12-13 16:53:55,097 [main] INFO  (DfSqlFileRunnerBase#traceResult():172) -  -> success=0 failure=0
+2017-12-13 16:53:55,097 [main] INFO  (DfSqlFileFireMan#fire():89) - {Create Schema}: success=1 failure=0 (in 2 files)
+2017-12-13 16:53:55,247 [main] INFO  (DfLoadDataProcess#execute():129) - 
+2017-12-13 16:53:55,247 [main] INFO  (DfLoadDataProcess#execute():130) - * * * * * * * * * * *
+2017-12-13 16:53:55,247 [main] INFO  (DfLoadDataProcess#execute():131) - *                   *
+2017-12-13 16:53:55,248 [main] INFO  (DfLoadDataProcess#execute():132) - * Load Data         *
+2017-12-13 16:53:55,248 [main] INFO  (DfLoadDataProcess#execute():133) - *                   *
+2017-12-13 16:53:55,248 [main] INFO  (DfLoadDataProcess#execute():134) - * * * * * * * * * * *
+2017-12-13 16:53:55,275 [main] INFO  (DfTakeFinallyProcess#takeFinally():229) - 
+2017-12-13 16:53:55,275 [main] INFO  (DfTakeFinallyProcess#takeFinally():230) - * * * * * * * **
+2017-12-13 16:53:55,275 [main] INFO  (DfTakeFinallyProcess#takeFinally():231) - *              *
+2017-12-13 16:53:55,276 [main] INFO  (DfTakeFinallyProcess#takeFinally():232) - * Take Finally *
+2017-12-13 16:53:55,276 [main] INFO  (DfTakeFinallyProcess#takeFinally():233) - *              *
+2017-12-13 16:53:55,276 [main] INFO  (DfTakeFinallyProcess#takeFinally():234) - * * * * * * * **
+2017-12-13 16:53:55,280 [main] INFO  (DfSqlFileFireMan#fire():64) - ...Firing: take-finally.sql
+2017-12-13 16:53:55,281 [main] INFO  (DfSqlFileRunnerBase#traceResult():172) -  -> success=0 failure=0
+2017-12-13 16:53:55,282 [main] INFO  (DfSqlFileFireMan#fire():89) - {Take Finally}: success=0 failure=0 (in 1 files)
+2017-12-13 16:53:55,283 [main] INFO  (DfDataSourceHandler#destroy():120) - ...closeReally()
+2017-12-13 16:53:55,291 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s898ms
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql (MySQL 5.6.37)
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+
+ {Create Schema}: success=1 failure=0 (in 2 files)
+  o replace-schema-10-basic.sql
+  o replace-schema.sql
+
+ {Load Data}: loaded-files=0
+  - (no data file)
+
+ {Take Finally}: success=0 failure=0 (in 1 files)
+  o take-finally.sql
+_/_/_/_/_/_/_/_/_/_/ {ReplaceSchema}
+2017-12-13 16:53:55,782 [main] INFO  (TorqueJDBCTransformTask#begin():104) - +------------------------------------------+
+2017-12-13 16:53:55,784 [main] INFO  (TorqueJDBCTransformTask#begin():105) - |                                          |
+2017-12-13 16:53:55,784 [main] INFO  (TorqueJDBCTransformTask#begin():106) - |                   JDBC                   |
+2017-12-13 16:53:55,784 [main] INFO  (TorqueJDBCTransformTask#begin():107) - |                                          |
+2017-12-13 16:53:55,785 [main] INFO  (TorqueJDBCTransformTask#begin():108) - +------------------------------------------+
+2017-12-13 16:53:55,800 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-13 16:53:55,801 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-13 16:53:55,801 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-13 16:53:55,801 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-13 16:53:55,836 [main] INFO  (DfSchemaXmlSerializer#serialize():286) - 
+2017-12-13 16:53:55,836 [main] INFO  (DfSchemaXmlSerializer#serialize():287) - ...Starting to process JDBC to SchemaXML
+2017-12-13 16:53:55,836 [main] INFO  (DfSchemaXmlSerializer#doLoadPreviousSchema():1532) - ...Loading previous schema (schema diff process)
+2017-12-13 16:53:55,847 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-13 16:53:55,910 [main] INFO  (DfSchemaXmlSerializer#generateXML():360) - ...Getting DB connection
+2017-12-13 16:53:55,914 [main] INFO  (DfDataSourceHandler#createConnection():166) - ...Connecting to database by data source:
+2017-12-13 16:53:56,088 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():233) -   product = MySQL 5.6.37
+2017-12-13 16:53:56,089 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():234) -   driver  = MySQL Connector Java mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 ) for JDBC 4.0
+2017-12-13 16:53:56,090 [main] INFO  (DfSchemaXmlSerializer#generateXML():363) - ...Getting DB meta data
+2017-12-13 16:53:56,090 [main] INFO  (DfTableExtractor#doGetTableList():66) - ...Getting tables:
+2017-12-13 16:53:56,091 [main] INFO  (DfTableExtractor#doGetTableList():67) -   schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-13 16:53:56,091 [main] INFO  (DfTableExtractor#doGetTableList():68) -   types  = [TABLE, VIEW]
+2017-12-13 16:53:56,099 [main] INFO  (DfDbCommentExtractorBase#doSelectUserTabComments():121) - select table_type as OBJECT_TYPE, table_name as TABLE_NAME, table_comment as COMMENTS from information_schema.tables where table_schema = 'werewolf_mansiondb' order by table_name asc
+2017-12-13 16:53:56,102 [main] INFO  (DfDbCommentExtractorBase#doSelectUserColComments():168) - select table_name as TABLE_NAME, column_name as COLUMN_NAME, column_comment as COMMENTS from information_schema.columns where table_schema = 'werewolf_mansiondb' order by table_name asc, column_name asc
+2017-12-13 16:53:56,107 [main] INFO  (DfDatetimePrecisionExtractorMySQL#extractDatetimePrecisionMap():59) - select TABLE_NAME, COLUMN_NAME, DATETIME_PRECISION from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA = 'werewolf_mansiondb' and DATA_TYPE = 'datetime'
+2017-12-13 16:53:56,114 [main] INFO  (DfSchemaXmlSerializer#processTable():420) - 
+2017-12-13 16:53:56,115 [main] INFO  (DfSchemaXmlSerializer#processTable():421) - $ /= = = = = = = = = = = = = = = = = = = = = = = = = =
+2017-12-13 16:53:56,115 [main] INFO  (DfSchemaXmlSerializer#processTable():422) - $ [Table List]
+2017-12-13 16:53:56,115 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.player(TABLE) // プレイヤー
+2017-12-13 16:53:56,136 [main] INFO  (DfSchemaXmlSerializer#processTable():434) - $ 
+2017-12-13 16:53:56,137 [main] INFO  (DfSchemaXmlSerializer#processTable():435) - $ [Table Count]
+2017-12-13 16:53:56,137 [main] INFO  (DfSchemaXmlSerializer#processTable():436) - $ 1
+2017-12-13 16:53:56,137 [main] INFO  (DfSchemaXmlSerializer#processTable():437) - $ = = = = = = = = = =/
+2017-12-13 16:53:56,137 [main] INFO  (DfSchemaXmlSerializer#processTable():438) - 
+2017-12-13 16:53:56,139 [main] INFO  (DfSchemaXmlSerializer#processSequence():805) - ...Getting sequences
+2017-12-13 16:53:56,142 [main] INFO  (DfSchemaXmlSerializer#serialize():301) - ...Serializing XML:
+2017-12-13 16:53:56,143 [main] INFO  (DfSchemaXmlSerializer#serialize():302) -   filePath = ./schema/project-schema-wolfbbsdb.xml
+2017-12-13 16:53:56,143 [main] INFO  (DfSchemaXmlSerializer#serialize():303) -   encoding = UTF-8
+2017-12-13 16:53:56,157 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1550) - ...Loading next schema (schema diff process)
+2017-12-13 16:53:56,158 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-13 16:53:56,168 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1555) -  -> different from previous (schema diff)
+2017-12-13 16:53:56,169 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1557) - ...Serializing schema-diff:
+2017-12-13 16:53:56,169 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1558) -   filePath = ./schema/project-history-wolfbbsdb.diffmap
+2017-12-13 16:53:56,225 [main] INFO  (DfDataSourceHandler#destroy():120) - ...closeReally()
+2017-12-13 16:53:56,230 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s454ms
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql (MySQL 5.6.37)
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {JDBC}
+2017-12-13 16:53:56,681 [main] INFO  (TorqueDocumentationTask#begin():177) - +------------------------------------------+
+2017-12-13 16:53:56,683 [main] INFO  (TorqueDocumentationTask#begin():178) - |                                          |
+2017-12-13 16:53:56,683 [main] INFO  (TorqueDocumentationTask#begin():179) - |                   Doc                    |
+2017-12-13 16:53:56,683 [main] INFO  (TorqueDocumentationTask#begin():187) - |                                          |
+2017-12-13 16:53:56,683 [main] INFO  (TorqueDocumentationTask#begin():188) - +------------------------------------------+
+2017-12-13 16:53:56,694 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-13 16:53:56,694 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-13 16:53:56,694 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-13 16:53:56,694 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-13 16:53:56,695 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():249) - 
+2017-12-13 16:53:56,695 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():250) - * * * * * * * * * * *
+2017-12-13 16:53:56,695 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():251) - *                   *
+2017-12-13 16:53:56,695 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():252) - *    Schema HTML    *
+2017-12-13 16:53:56,695 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():253) - *                   *
+2017-12-13 16:53:56,696 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():254) - * * * * * * * * * * *
+2017-12-13 16:53:56,725 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-13 16:53:56,762 [main] INFO  (DfAbstractTexenTask#fireVelocityProcess():253) - generator.parse("doc/ControlDocument.vm", ctx);
+2017-12-13 16:53:56,877 [main] INFO  (Database#doEnableDocumentOutputDirectory():1180) - ...Setting up documentOutputDirectory: ./output/doc
+2017-12-13 16:53:56,883 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():62) - /=======================================
+2017-12-13 16:53:56,883 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():63) - ...Initializing additional primary keys.
+2017-12-13 16:53:56,884 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():88) - ==========/
+2017-12-13 16:53:56,884 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():62) - /=======================================
+2017-12-13 16:53:56,885 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():63) - ...Initializing additional unique keys.
+2017-12-13 16:53:56,885 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():83) - ==========/
+2017-12-13 16:53:56,887 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():68) - /=======================================
+2017-12-13 16:53:56,887 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():69) - ...Initializing additional foreign keys.
+2017-12-13 16:53:56,888 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():88) - ==========/
+2017-12-13 16:53:56,897 [main] INFO  (DfDocumentSelector#doLoadSchemaHistory():157) - ...Loading schema history
+2017-12-13 16:53:56,949 [main] INFO  (DfDocumentSelector#doLoadSchemaHistory():161) -  -> found history: count=12
+2017-12-13 16:53:57,061 [main] INFO  (DfRefreshResourceProcess#show():299) - /===========================================================================
+2017-12-13 16:53:57,062 [main] INFO  (DfRefreshResourceProcess#show():299) - ...Refreshing [werewolf-mansion] by http://localhost:8386/
+2017-12-13 16:53:57,070 [main] INFO  (DfRefreshResourceProcess#show():299) - ...Retrying refreshing by secondary URL http://localhost:8387/ for werewolf-mansion
+2017-12-13 16:53:57,072 [main] INFO  (DfRefreshResourceProcess#show():299) -  => success of the retry refreshing: 8387 for werewolf-mansion
+2017-12-13 16:53:57,072 [main] INFO  (DfRefreshResourceProcess#show():299) - ==========/
+2017-12-13 16:53:57,075 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s400ms
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {Doc}
+2017-12-13 16:53:58,456 [main] INFO  (TorqueDataModelTask#begin():110) - +------------------------------------------+
+2017-12-13 16:53:58,458 [main] INFO  (TorqueDataModelTask#begin():111) - |                                          |
+2017-12-13 16:53:58,458 [main] INFO  (TorqueDataModelTask#begin():112) - |                 Generate                 |
+2017-12-13 16:53:58,458 [main] INFO  (TorqueDataModelTask#begin():113) - |                                          |
+2017-12-13 16:53:58,458 [main] INFO  (TorqueDataModelTask#begin():114) - +------------------------------------------+
+2017-12-13 16:53:58,472 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-13 16:53:58,472 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-13 16:53:58,472 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-13 16:53:58,472 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-13 16:53:58,483 [main] INFO  (TorqueDataModelTask#setupControlTemplate():166) - 
+2017-12-13 16:53:58,483 [main] INFO  (TorqueDataModelTask#setupControlTemplate():167) - ...Using Java control: om/ControlGenerateJava.vm
+2017-12-13 16:53:58,502 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-13 16:53:58,530 [main] INFO  (DfAbstractTexenTask#fireVelocityProcess():253) - generator.parse("om/ControlGenerateJava.vm", ctx);
+2017-12-13 16:53:58,651 [main] INFO  (Database#doEnableGenerateOutputDirectory():1148) - ...Setting up generateOutputDirectory: ../src/main/java
+2017-12-13 16:53:58,653 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():62) - /=======================================
+2017-12-13 16:53:58,653 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():63) - ...Initializing additional primary keys.
+2017-12-13 16:53:58,654 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():88) - ==========/
+2017-12-13 16:53:58,655 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():62) - /=======================================
+2017-12-13 16:53:58,655 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():63) - ...Initializing additional unique keys.
+2017-12-13 16:53:58,656 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():83) - ==========/
+2017-12-13 16:53:58,657 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():68) - /=======================================
+2017-12-13 16:53:58,657 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():69) - ...Initializing additional foreign keys.
+2017-12-13 16:53:58,658 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():88) - ==========/
+2017-12-13 16:53:58,668 [main] INFO  (DfIncludeQueryInitializer#initializeIncludeQuery():58) - /=============================
+2017-12-13 16:53:58,668 [main] INFO  (DfIncludeQueryInitializer#initializeIncludeQuery():59) - ...Initializing include query.
+2017-12-13 16:53:58,668 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - String
+2017-12-13 16:53:58,668 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - Number
+2017-12-13 16:53:58,668 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - Date
+2017-12-13 16:53:58,668 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():86) -   NotEqual -> []
+2017-12-13 16:53:58,669 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():86) -   InScope -> []
+2017-12-13 16:53:58,669 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():86) -   NotInScope -> []
+2017-12-13 16:53:58,669 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - OrderBy
+2017-12-13 16:53:58,669 [main] INFO  (DfIncludeQueryInitializer#initializeIncludeQuery():61) - ========/
+2017-12-13 16:53:58,672 [main] ERROR (DfDBFluteTaskUtil#logException():150) - Look! Read the message below.
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Failed to execute DBFlute Task 'Generate'.
+
+[Advice]
+Check the exception messages and the stack traces.
+* * * * * * * * * */
+java.lang.IllegalStateException: Exception thrown by database.checkProperties(): control=om/ControlGenerateJava.vm
+	at org.dbflute.task.bs.DfAbstractTexenTask.fireVelocityProcess(DfAbstractTexenTask.java:262)
+	at org.apache.torque.task.TorqueDataModelTask.doExecute(TorqueDataModelTask.java:141)
+	at org.dbflute.task.bs.DfAbstractTexenTask$1.callActualExecute(DfAbstractTexenTask.java:129)
+	at org.dbflute.task.bs.assistant.DfTaskBasicController.doExecute(DfTaskBasicController.java:192)
+	at org.dbflute.task.bs.assistant.DfTaskBasicController.execute(DfTaskBasicController.java:78)
+	at org.dbflute.task.bs.DfAbstractTexenTask.execute(DfAbstractTexenTask.java:151)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:288)
+	at sun.reflect.GeneratedMethodAccessor3.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:105)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:357)
+	at org.apache.tools.ant.Target.performTasks(Target.java:385)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1329)
+	at org.apache.tools.ant.helper.SingleCheckExecutor.executeTargets(SingleCheckExecutor.java:38)
+	at org.apache.tools.ant.Project.executeTargets(Project.java:1181)
+	at org.apache.tools.ant.taskdefs.Ant.execute(Ant.java:416)
+	at org.apache.tools.ant.taskdefs.CallTarget.execute(CallTarget.java:105)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:288)
+	at sun.reflect.GeneratedMethodAccessor3.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:105)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:357)
+	at org.apache.tools.ant.Target.performTasks(Target.java:385)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1329)
+	at org.apache.tools.ant.helper.SingleCheckExecutor.executeTargets(SingleCheckExecutor.java:38)
+	at org.apache.tools.ant.Project.executeTargets(Project.java:1181)
+	at org.apache.tools.ant.taskdefs.Ant.execute(Ant.java:416)
+	at org.apache.tools.ant.taskdefs.CallTarget.execute(CallTarget.java:105)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:288)
+	at sun.reflect.GeneratedMethodAccessor3.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:105)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:357)
+	at org.apache.tools.ant.Target.performTasks(Target.java:385)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1329)
+	at org.apache.tools.ant.Project.executeTarget(Project.java:1298)
+	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:41)
+	at org.apache.tools.ant.Project.executeTargets(Project.java:1181)
+	at org.apache.tools.ant.Main.runBuild(Main.java:698)
+	at org.apache.tools.ant.Main.startAnt(Main.java:199)
+	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:257)
+	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:104)
+Caused by: org.dbflute.properties.DfCommonColumnProperties$DfCommonColumnMapRelatedTableNotFoundException: Look! Read the message below.
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+The table related to common columns was not found.
+
+[Advice]
+At least one table should be related to common columns.
+The definition might contain a non-existent common column.
+Make sure your definition is correct.
+
+And DBFlute cannot detect the common columns
+of tables without PK, so check about it too
+
+[Common Column]
+[REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE]
+* * * * * * * * * */
+	at org.dbflute.properties.DfCommonColumnProperties.throwCommonColumnMapRelatedTableNotFoundException(DfCommonColumnProperties.java:175)
+	at org.dbflute.properties.DfCommonColumnProperties.checkDefinition(DfCommonColumnProperties.java:158)
+	at org.apache.torque.engine.database.model.Database.checkProperties(Database.java:1042)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.velocity.util.introspection.UberspectImpl$VelMethodImpl.doInvoke(UberspectImpl.java:395)
+	at org.apache.velocity.util.introspection.UberspectImpl$VelMethodImpl.invoke(UberspectImpl.java:384)
+	at org.apache.velocity.runtime.parser.node.ASTMethod.execute(ASTMethod.java:173)
+	at org.apache.velocity.runtime.parser.node.ASTReference.execute(ASTReference.java:280)
+	at org.apache.velocity.runtime.parser.node.ASTReference.render(ASTReference.java:369)
+	at org.apache.velocity.runtime.parser.node.SimpleNode.render(SimpleNode.java:342)
+	at org.apache.velocity.Template.merge(Template.java:356)
+	at org.apache.velocity.Template.merge(Template.java:260)
+	at org.dbflute.friends.velocity.DfFlutistGenerator.parse(DfFlutistGenerator.java:306)
+	at org.dbflute.task.bs.DfAbstractTexenTask.fireVelocityProcess(DfAbstractTexenTask.java:254)
+	... 47 more
+2017-12-13 16:53:58,678 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s227ms *Abort
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {Generate}
+2017-12-13 16:54:19,063 [main] INFO  (DfReplaceSchemaTask#begin():92) - +------------------------------------------+
+2017-12-13 16:54:19,065 [main] INFO  (DfReplaceSchemaTask#begin():93) - |                                          |
+2017-12-13 16:54:19,065 [main] INFO  (DfReplaceSchemaTask#begin():94) - |              ReplaceSchema               |
+2017-12-13 16:54:19,068 [main] INFO  (DfReplaceSchemaTask#begin():102) - |                                          |
+2017-12-13 16:54:19,068 [main] INFO  (DfReplaceSchemaTask#begin():103) - +------------------------------------------+
+2017-12-13 16:54:19,069 [main] INFO  (DfReplaceSchemaTask#waitBeforeReps():360) - ...Waiting for your GO SIGN from stdin before ReplaceSchema:
+2017-12-13 16:54:19,442 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-13 16:54:19,443 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-13 16:54:19,444 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-13 16:54:19,444 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-13 16:54:19,448 [main] INFO  (DfDataSourceHandler#createConnection():166) - ...Connecting to database by data source:
+2017-12-13 16:54:19,713 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():233) -   product = MySQL 5.6.37
+2017-12-13 16:54:19,713 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():234) -   driver  = MySQL Connector Java mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 ) for JDBC 4.0
+2017-12-13 16:54:19,723 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():229) - 
+2017-12-13 16:54:19,723 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():230) - * * * * * * * * * * *
+2017-12-13 16:54:19,723 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():231) - *                   *
+2017-12-13 16:54:19,725 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():232) - * Initialize Schema *
+2017-12-13 16:54:19,725 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():233) - *                   *
+2017-12-13 16:54:19,725 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():234) - * * * * * * * * * * *
+2017-12-13 16:54:19,733 [main] INFO  (DfTableExtractor#doGetTableList():66) - ...Getting tables:
+2017-12-13 16:54:19,734 [main] INFO  (DfTableExtractor#doGetTableList():67) -   schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-13 16:54:19,734 [main] INFO  (DfTableExtractor#doGetTableList():68) -   types  = [TABLE, VIEW]
+2017-12-13 16:54:19,749 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - truncate table player
+2017-12-13 16:54:19,755 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table player
+2017-12-13 16:54:19,790 [main] INFO  (DfCreateSchemaProcess#createSchema():266) - 
+2017-12-13 16:54:19,790 [main] INFO  (DfCreateSchemaProcess#createSchema():267) - * * * * * * * * *
+2017-12-13 16:54:19,791 [main] INFO  (DfCreateSchemaProcess#createSchema():268) - *               *
+2017-12-13 16:54:19,791 [main] INFO  (DfCreateSchemaProcess#createSchema():269) - * Create Schema *
+2017-12-13 16:54:19,792 [main] INFO  (DfCreateSchemaProcess#createSchema():270) - *               *
+2017-12-13 16:54:19,792 [main] INFO  (DfCreateSchemaProcess#createSchema():271) - * * * * * * * * *
+2017-12-13 16:54:19,796 [main] INFO  (DfSqlFileFireMan#fire():64) - ...Firing: replace-schema-10-basic.sql
+2017-12-13 16:54:19,798 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+/* Create Tables */
+
+CREATE TABLE PLAYER
+(
+	PLAYER_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'プレイヤーID',
+	PLAYER_NAME VARCHAR(12) NOT NULL UNIQUE COMMENT 'プレイヤーID',
+	PLAYER_PASSWORD CHAR(60) NOT NULL COMMENT 'プレイヤーパスワード',
+	REGISTER_DATETIME DATETIME NOT NULL COMMENT '登録日時',
+	REGISTER_TRACE VARCHAR(64) NOT NULL COMMENT '登録トレース',
+	UPDATE_DATETIME DATETIME NOT NULL COMMENT '更新日時',
+	UPDATE_TRACE VARCHAR(64) NOT NULL COMMENT '更新トレース',
+	PRIMARY KEY (PLAYER_ID)
+) COMMENT = 'プレイヤー'
+2017-12-13 16:54:19,808 [main] INFO  (DfSqlFileRunnerBase#traceResult():172) -  -> success=1 failure=0
+2017-12-13 16:54:19,810 [main] INFO  (DfSqlFileFireMan#fire():64) - ...Firing: replace-schema.sql
+2017-12-13 16:54:19,811 [main] INFO  (DfSqlFileRunnerBase#traceResult():172) -  -> success=0 failure=0
+2017-12-13 16:54:19,856 [main] INFO  (DfSqlFileFireMan#fire():89) - {Create Schema}: success=1 failure=0 (in 2 files)
+2017-12-13 16:54:19,934 [main] INFO  (DfLoadDataProcess#execute():129) - 
+2017-12-13 16:54:19,935 [main] INFO  (DfLoadDataProcess#execute():130) - * * * * * * * * * * *
+2017-12-13 16:54:19,935 [main] INFO  (DfLoadDataProcess#execute():131) - *                   *
+2017-12-13 16:54:19,935 [main] INFO  (DfLoadDataProcess#execute():132) - * Load Data         *
+2017-12-13 16:54:19,935 [main] INFO  (DfLoadDataProcess#execute():133) - *                   *
+2017-12-13 16:54:19,935 [main] INFO  (DfLoadDataProcess#execute():134) - * * * * * * * * * * *
+2017-12-13 16:54:19,950 [main] INFO  (DfTakeFinallyProcess#takeFinally():229) - 
+2017-12-13 16:54:19,951 [main] INFO  (DfTakeFinallyProcess#takeFinally():230) - * * * * * * * **
+2017-12-13 16:54:19,951 [main] INFO  (DfTakeFinallyProcess#takeFinally():231) - *              *
+2017-12-13 16:54:19,951 [main] INFO  (DfTakeFinallyProcess#takeFinally():232) - * Take Finally *
+2017-12-13 16:54:19,951 [main] INFO  (DfTakeFinallyProcess#takeFinally():233) - *              *
+2017-12-13 16:54:19,951 [main] INFO  (DfTakeFinallyProcess#takeFinally():234) - * * * * * * * **
+2017-12-13 16:54:19,955 [main] INFO  (DfSqlFileFireMan#fire():64) - ...Firing: take-finally.sql
+2017-12-13 16:54:19,956 [main] INFO  (DfSqlFileRunnerBase#traceResult():172) -  -> success=0 failure=0
+2017-12-13 16:54:19,956 [main] INFO  (DfSqlFileFireMan#fire():89) - {Take Finally}: success=0 failure=0 (in 1 files)
+2017-12-13 16:54:19,957 [main] INFO  (DfDataSourceHandler#destroy():120) - ...closeReally()
+2017-12-13 16:54:19,961 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s907ms
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql (MySQL 5.6.37)
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+
+ {Create Schema}: success=1 failure=0 (in 2 files)
+  o replace-schema-10-basic.sql
+  o replace-schema.sql
+
+ {Load Data}: loaded-files=0
+  - (no data file)
+
+ {Take Finally}: success=0 failure=0 (in 1 files)
+  o take-finally.sql
+_/_/_/_/_/_/_/_/_/_/ {ReplaceSchema}
+2017-12-13 16:54:20,422 [main] INFO  (TorqueJDBCTransformTask#begin():104) - +------------------------------------------+
+2017-12-13 16:54:20,423 [main] INFO  (TorqueJDBCTransformTask#begin():105) - |                                          |
+2017-12-13 16:54:20,423 [main] INFO  (TorqueJDBCTransformTask#begin():106) - |                   JDBC                   |
+2017-12-13 16:54:20,424 [main] INFO  (TorqueJDBCTransformTask#begin():107) - |                                          |
+2017-12-13 16:54:20,424 [main] INFO  (TorqueJDBCTransformTask#begin():108) - +------------------------------------------+
+2017-12-13 16:54:20,436 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-13 16:54:20,437 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-13 16:54:20,437 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-13 16:54:20,437 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-13 16:54:20,463 [main] INFO  (DfSchemaXmlSerializer#serialize():286) - 
+2017-12-13 16:54:20,463 [main] INFO  (DfSchemaXmlSerializer#serialize():287) - ...Starting to process JDBC to SchemaXML
+2017-12-13 16:54:20,463 [main] INFO  (DfSchemaXmlSerializer#doLoadPreviousSchema():1532) - ...Loading previous schema (schema diff process)
+2017-12-13 16:54:20,469 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-13 16:54:20,533 [main] INFO  (DfSchemaXmlSerializer#generateXML():360) - ...Getting DB connection
+2017-12-13 16:54:20,536 [main] INFO  (DfDataSourceHandler#createConnection():166) - ...Connecting to database by data source:
+2017-12-13 16:54:20,714 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():233) -   product = MySQL 5.6.37
+2017-12-13 16:54:20,714 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():234) -   driver  = MySQL Connector Java mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 ) for JDBC 4.0
+2017-12-13 16:54:20,714 [main] INFO  (DfSchemaXmlSerializer#generateXML():363) - ...Getting DB meta data
+2017-12-13 16:54:20,715 [main] INFO  (DfTableExtractor#doGetTableList():66) - ...Getting tables:
+2017-12-13 16:54:20,716 [main] INFO  (DfTableExtractor#doGetTableList():67) -   schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-13 16:54:20,716 [main] INFO  (DfTableExtractor#doGetTableList():68) -   types  = [TABLE, VIEW]
+2017-12-13 16:54:20,721 [main] INFO  (DfDbCommentExtractorBase#doSelectUserTabComments():121) - select table_type as OBJECT_TYPE, table_name as TABLE_NAME, table_comment as COMMENTS from information_schema.tables where table_schema = 'werewolf_mansiondb' order by table_name asc
+2017-12-13 16:54:20,724 [main] INFO  (DfDbCommentExtractorBase#doSelectUserColComments():168) - select table_name as TABLE_NAME, column_name as COLUMN_NAME, column_comment as COMMENTS from information_schema.columns where table_schema = 'werewolf_mansiondb' order by table_name asc, column_name asc
+2017-12-13 16:54:20,730 [main] INFO  (DfDatetimePrecisionExtractorMySQL#extractDatetimePrecisionMap():59) - select TABLE_NAME, COLUMN_NAME, DATETIME_PRECISION from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA = 'werewolf_mansiondb' and DATA_TYPE = 'datetime'
+2017-12-13 16:54:20,736 [main] INFO  (DfSchemaXmlSerializer#processTable():420) - 
+2017-12-13 16:54:20,736 [main] INFO  (DfSchemaXmlSerializer#processTable():421) - $ /= = = = = = = = = = = = = = = = = = = = = = = = = =
+2017-12-13 16:54:20,737 [main] INFO  (DfSchemaXmlSerializer#processTable():422) - $ [Table List]
+2017-12-13 16:54:20,737 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.player(TABLE) // プレイヤー
+2017-12-13 16:54:20,764 [main] INFO  (DfSchemaXmlSerializer#processTable():434) - $ 
+2017-12-13 16:54:20,764 [main] INFO  (DfSchemaXmlSerializer#processTable():435) - $ [Table Count]
+2017-12-13 16:54:20,765 [main] INFO  (DfSchemaXmlSerializer#processTable():436) - $ 1
+2017-12-13 16:54:20,765 [main] INFO  (DfSchemaXmlSerializer#processTable():437) - $ = = = = = = = = = =/
+2017-12-13 16:54:20,765 [main] INFO  (DfSchemaXmlSerializer#processTable():438) - 
+2017-12-13 16:54:20,766 [main] INFO  (DfSchemaXmlSerializer#processSequence():805) - ...Getting sequences
+2017-12-13 16:54:20,767 [main] INFO  (DfSchemaXmlSerializer#serialize():301) - ...Serializing XML:
+2017-12-13 16:54:20,767 [main] INFO  (DfSchemaXmlSerializer#serialize():302) -   filePath = ./schema/project-schema-wolfbbsdb.xml
+2017-12-13 16:54:20,768 [main] INFO  (DfSchemaXmlSerializer#serialize():303) -   encoding = UTF-8
+2017-12-13 16:54:20,780 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1550) - ...Loading next schema (schema diff process)
+2017-12-13 16:54:20,781 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-13 16:54:20,801 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1555) -  -> different from previous (schema diff)
+2017-12-13 16:54:20,802 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1557) - ...Serializing schema-diff:
+2017-12-13 16:54:20,803 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1558) -   filePath = ./schema/project-history-wolfbbsdb.diffmap
+2017-12-13 16:54:20,860 [main] INFO  (DfDataSourceHandler#destroy():120) - ...closeReally()
+2017-12-13 16:54:20,867 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s450ms
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql (MySQL 5.6.37)
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {JDBC}
+2017-12-13 16:54:21,451 [main] INFO  (TorqueDocumentationTask#begin():177) - +------------------------------------------+
+2017-12-13 16:54:21,453 [main] INFO  (TorqueDocumentationTask#begin():178) - |                                          |
+2017-12-13 16:54:21,453 [main] INFO  (TorqueDocumentationTask#begin():179) - |                   Doc                    |
+2017-12-13 16:54:21,453 [main] INFO  (TorqueDocumentationTask#begin():187) - |                                          |
+2017-12-13 16:54:21,454 [main] INFO  (TorqueDocumentationTask#begin():188) - +------------------------------------------+
+2017-12-13 16:54:21,466 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-13 16:54:21,466 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-13 16:54:21,466 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-13 16:54:21,466 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-13 16:54:21,468 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():249) - 
+2017-12-13 16:54:21,468 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():250) - * * * * * * * * * * *
+2017-12-13 16:54:21,468 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():251) - *                   *
+2017-12-13 16:54:21,468 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():252) - *    Schema HTML    *
+2017-12-13 16:54:21,468 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():253) - *                   *
+2017-12-13 16:54:21,468 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():254) - * * * * * * * * * * *
+2017-12-13 16:54:21,492 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-13 16:54:21,544 [main] INFO  (DfAbstractTexenTask#fireVelocityProcess():253) - generator.parse("doc/ControlDocument.vm", ctx);
+2017-12-13 16:54:21,655 [main] INFO  (Database#doEnableDocumentOutputDirectory():1180) - ...Setting up documentOutputDirectory: ./output/doc
+2017-12-13 16:54:21,660 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():62) - /=======================================
+2017-12-13 16:54:21,661 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():63) - ...Initializing additional primary keys.
+2017-12-13 16:54:21,662 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():88) - ==========/
+2017-12-13 16:54:21,663 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():62) - /=======================================
+2017-12-13 16:54:21,663 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():63) - ...Initializing additional unique keys.
+2017-12-13 16:54:21,664 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():83) - ==========/
+2017-12-13 16:54:21,665 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():68) - /=======================================
+2017-12-13 16:54:21,666 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():69) - ...Initializing additional foreign keys.
+2017-12-13 16:54:21,667 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():88) - ==========/
+2017-12-13 16:54:21,675 [main] INFO  (DfDocumentSelector#doLoadSchemaHistory():157) - ...Loading schema history
+2017-12-13 16:54:21,735 [main] INFO  (DfDocumentSelector#doLoadSchemaHistory():161) -  -> found history: count=13
+2017-12-13 16:54:21,847 [main] INFO  (DfRefreshResourceProcess#show():299) - /===========================================================================
+2017-12-13 16:54:21,848 [main] INFO  (DfRefreshResourceProcess#show():299) - ...Refreshing [werewolf-mansion] by http://localhost:8386/
+2017-12-13 16:54:21,857 [main] INFO  (DfRefreshResourceProcess#show():299) - ...Retrying refreshing by secondary URL http://localhost:8387/ for werewolf-mansion
+2017-12-13 16:54:21,859 [main] INFO  (DfRefreshResourceProcess#show():299) -  => success of the retry refreshing: 8387 for werewolf-mansion
+2017-12-13 16:54:21,859 [main] INFO  (DfRefreshResourceProcess#show():299) - ==========/
+2017-12-13 16:54:21,861 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s417ms
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {Doc}
+2017-12-13 16:54:23,077 [main] INFO  (TorqueDataModelTask#begin():110) - +------------------------------------------+
+2017-12-13 16:54:23,078 [main] INFO  (TorqueDataModelTask#begin():111) - |                                          |
+2017-12-13 16:54:23,078 [main] INFO  (TorqueDataModelTask#begin():112) - |                 Generate                 |
+2017-12-13 16:54:23,078 [main] INFO  (TorqueDataModelTask#begin():113) - |                                          |
+2017-12-13 16:54:23,078 [main] INFO  (TorqueDataModelTask#begin():114) - +------------------------------------------+
+2017-12-13 16:54:23,088 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-13 16:54:23,089 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-13 16:54:23,089 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-13 16:54:23,089 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-13 16:54:23,098 [main] INFO  (TorqueDataModelTask#setupControlTemplate():166) - 
+2017-12-13 16:54:23,098 [main] INFO  (TorqueDataModelTask#setupControlTemplate():167) - ...Using Java control: om/ControlGenerateJava.vm
+2017-12-13 16:54:23,117 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-13 16:54:23,147 [main] INFO  (DfAbstractTexenTask#fireVelocityProcess():253) - generator.parse("om/ControlGenerateJava.vm", ctx);
+2017-12-13 16:54:23,265 [main] INFO  (Database#doEnableGenerateOutputDirectory():1148) - ...Setting up generateOutputDirectory: ../src/main/java
+2017-12-13 16:54:23,268 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():62) - /=======================================
+2017-12-13 16:54:23,268 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():63) - ...Initializing additional primary keys.
+2017-12-13 16:54:23,269 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():88) - ==========/
+2017-12-13 16:54:23,270 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():62) - /=======================================
+2017-12-13 16:54:23,270 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():63) - ...Initializing additional unique keys.
+2017-12-13 16:54:23,271 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():83) - ==========/
+2017-12-13 16:54:23,273 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():68) - /=======================================
+2017-12-13 16:54:23,273 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():69) - ...Initializing additional foreign keys.
+2017-12-13 16:54:23,274 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():88) - ==========/
+2017-12-13 16:54:23,282 [main] INFO  (DfIncludeQueryInitializer#initializeIncludeQuery():58) - /=============================
+2017-12-13 16:54:23,282 [main] INFO  (DfIncludeQueryInitializer#initializeIncludeQuery():59) - ...Initializing include query.
+2017-12-13 16:54:23,283 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - String
+2017-12-13 16:54:23,283 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - Number
+2017-12-13 16:54:23,283 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - Date
+2017-12-13 16:54:23,283 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():86) -   NotEqual -> []
+2017-12-13 16:54:23,283 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():86) -   InScope -> []
+2017-12-13 16:54:23,283 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():86) -   NotInScope -> []
+2017-12-13 16:54:23,284 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - OrderBy
+2017-12-13 16:54:23,284 [main] INFO  (DfIncludeQueryInitializer#initializeIncludeQuery():61) - ========/
+2017-12-13 16:54:23,294 [main] INFO  (Database#info():2737) - public void parseAllCommon() {
+2017-12-13 16:54:23,295 [main] INFO  (Database#info():2737) -     parse('CDef');
+2017-12-13 16:54:23,324 [main] INFO  (Database#info():2737) -     parse('DBCurrent');
+2017-12-13 16:54:23,327 [main] INFO  (Database#info():2737) -     parse('DBFluteConfig');
+2017-12-13 16:54:23,336 [main] INFO  (Database#info():2737) -     parse('DBFluteInitializer');
+2017-12-13 16:54:23,339 [main] INFO  (Database#info():2737) -     parse('DBMetaInstanceHandler');
+2017-12-13 16:54:23,445 [main] INFO  (Database#info():2737) -     parse('EntityDefinedCommonColumn');
+2017-12-13 16:54:23,461 [main] INFO  (Database#info():2737) -     parse('ImplementedBehaviorSelector');
+2017-12-13 16:54:23,466 [main] INFO  (Database#info():2737) -     parse('ImplementedCommonColumnAutoSetupper');
+2017-12-13 16:54:23,470 [main] INFO  (Database#info():2737) -     parse('ImplementedInvokerAssistant');
+2017-12-13 16:54:23,478 [main] INFO  (Database#info():2737) -     parse('ImplementedSqlClauseCreator');
+2017-12-13 16:54:23,480 [main] INFO  (Database#info():2737) - }
+2017-12-13 16:54:23,480 [main] INFO  (Database#info():2737) - public void parseContainerConfig() {
+2017-12-13 16:54:23,481 [main] INFO  (Database#info():2737) -     parse('com/ort/dbflute/allcommon/DBFluteBeansJavaConfig.java')
+2017-12-13 16:54:23,490 [main] INFO  (Database#info():2737) - }
+2017-12-13 16:54:23,497 [main] INFO  (DfOldClassHandler#info():1045) - public void deleteOldTableClass() {
+2017-12-13 16:54:23,508 [main] INFO  (DfOldClassHandler#info():1045) - }
+2017-12-13 16:54:23,509 [main] INFO  (Database#info():2737) - public void parseTableClass() {
+2017-12-13 16:54:23,510 [main] INFO  (Database#info():2737) -     parse('player');
+2017-12-13 16:54:23,668 [main] INFO  (Database#info():2737) - }
+2017-12-13 16:54:23,669 [main] INFO  (Database#info():2737) -  
+2017-12-13 16:54:23,686 [main] INFO  (DfRefreshResourceProcess#show():299) - /===========================================================================
+2017-12-13 16:54:23,687 [main] INFO  (DfRefreshResourceProcess#show():299) - ...Refreshing [werewolf-mansion] by http://localhost:8386/
+2017-12-13 16:54:23,689 [main] INFO  (DfRefreshResourceProcess#show():299) - ...Retrying refreshing by secondary URL http://localhost:8387/ for werewolf-mansion
+2017-12-13 16:54:23,691 [main] INFO  (DfRefreshResourceProcess#show():299) -  => success of the retry refreshing: 8387 for werewolf-mansion
+2017-12-13 16:54:23,692 [main] INFO  (DfRefreshResourceProcess#show():299) - ==========/
+2017-12-13 16:54:23,697 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s626ms
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {Generate}
+2017-12-13 16:54:24,601 [main] INFO  (DfOutsideSqlTestTask#begin():77) - +------------------------------------------+
+2017-12-13 16:54:24,608 [main] INFO  (DfOutsideSqlTestTask#begin():78) - |                                          |
+2017-12-13 16:54:24,608 [main] INFO  (DfOutsideSqlTestTask#begin():79) - |              OutsideSqlTest              |
+2017-12-13 16:54:24,609 [main] INFO  (DfOutsideSqlTestTask#begin():80) - |                                          |
+2017-12-13 16:54:24,609 [main] INFO  (DfOutsideSqlTestTask#begin():81) - +------------------------------------------+
+2017-12-13 16:54:24,626 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-13 16:54:24,630 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-13 16:54:24,630 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-13 16:54:24,631 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-13 16:54:24,662 [main] INFO  (DfSqlFileFireMan#fire():89) - {Fired SQL}: success=0 failure=0 (in 0 files)
+2017-12-13 16:54:24,673 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s093ms
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+
+ {Checked SQL}
+_/_/_/_/_/_/_/_/_/_/ {OutsideSqlTest}
+2017-12-13 16:54:25,239 [main] INFO  (DfSql2EntityTask#begin():106) - +------------------------------------------+
+2017-12-13 16:54:25,241 [main] INFO  (DfSql2EntityTask#begin():107) - |                                          |
+2017-12-13 16:54:25,241 [main] INFO  (DfSql2EntityTask#begin():108) - |                Sql2Entity                |
+2017-12-13 16:54:25,241 [main] INFO  (DfSql2EntityTask#begin():109) - |                                          |
+2017-12-13 16:54:25,241 [main] INFO  (DfSql2EntityTask#begin():110) - +------------------------------------------+
+2017-12-13 16:54:25,262 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-13 16:54:25,263 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-13 16:54:25,264 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-13 16:54:25,264 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-13 16:54:25,281 [main] INFO  (DfSql2EntityTask#setupControlTemplate():177) - 
+2017-12-13 16:54:25,281 [main] INFO  (DfSql2EntityTask#setupControlTemplate():178) - ...Using Java control: om/ControlSql2EntityJava.vm
+2017-12-13 16:54:25,286 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-13 16:54:25,348 [main] INFO  (DfSqlFileFireMan#fire():89) - {Fired SQL}: success=0 failure=0 (in 0 files)
+2017-12-13 16:54:25,373 [main] INFO  (DfSql2EntityTask#initControlContext():311) - 
+2017-12-13 16:54:25,374 [main] INFO  (DfSql2EntityTask#initControlContext():312) - ...Preparing generation of customize-entities and parameter-beans
+2017-12-13 16:54:25,374 [main] INFO  (DfSql2EntityTask#initControlContext():313) - * * * * * * * * * *
+2017-12-13 16:54:25,374 [main] INFO  (DfSql2EntityTask#initControlContext():314) - * CustomizeEntity *
+2017-12-13 16:54:25,374 [main] INFO  (DfSql2EntityTask#initControlContext():315) - * * * * * * * * * *
+2017-12-13 16:54:25,374 [main] INFO  (DfSql2EntityTask#showParameterBean():932) - * * * * * * * * *
+2017-12-13 16:54:25,374 [main] INFO  (DfSql2EntityTask#showParameterBean():933) - * ParameterBean *
+2017-12-13 16:54:25,374 [main] INFO  (DfSql2EntityTask#showParameterBean():934) - * * * * * * * * *
+2017-12-13 16:54:25,376 [main] INFO  (DfAbstractTexenTask#fireVelocityProcess():253) - generator.parse("om/ControlSql2EntityJava.vm", ctx);
+2017-12-13 16:54:25,509 [main] INFO  (Database#doEnableSql2EntityOutputDirectory():1164) - ...Setting up sql2EntityOutputDirectory: ../src/main/java
+2017-12-13 16:54:25,511 [main] INFO  (DfOldClassHandler#info():1045) - public void deleteOldCustomizeClass() {
+2017-12-13 16:54:25,518 [main] INFO  (DfOldClassHandler#info():1045) - }
+2017-12-13 16:54:25,518 [main] INFO  (Database#info():2737) - public void parseCustomizeEntity() {
+2017-12-13 16:54:25,519 [main] INFO  (Database#info():2737) - }
+2017-12-13 16:54:25,524 [main] INFO  (DfSql2EntityTask#showTargetSqlFileInformation():303) - 
+/- - - - - - - - - - - - - - - - - - - - - - - -
+Target SQL files: 0
+
+- - - - - - - - - -/
+2017-12-13 16:54:25,528 [main] INFO  (DfRefreshResourceProcess#show():299) - /===========================================================================
+2017-12-13 16:54:25,528 [main] INFO  (DfRefreshResourceProcess#show():299) - ...Refreshing [werewolf-mansion] by http://localhost:8386/
+2017-12-13 16:54:25,530 [main] INFO  (DfRefreshResourceProcess#show():299) - ...Retrying refreshing by secondary URL http://localhost:8387/ for werewolf-mansion
+2017-12-13 16:54:25,531 [main] INFO  (DfRefreshResourceProcess#show():299) -  => success of the retry refreshing: 8387 for werewolf-mansion
+2017-12-13 16:54:25,532 [main] INFO  (DfRefreshResourceProcess#show():299) - ==========/
+2017-12-13 16:54:25,534 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s301ms
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {Sql2Entity}
+2017-12-14 16:00:06,945 [main] INFO  (DfReplaceSchemaTask#begin():92) - +------------------------------------------+
+2017-12-14 16:00:06,950 [main] INFO  (DfReplaceSchemaTask#begin():93) - |                                          |
+2017-12-14 16:00:06,951 [main] INFO  (DfReplaceSchemaTask#begin():94) - |              ReplaceSchema               |
+2017-12-14 16:00:06,968 [main] INFO  (DfReplaceSchemaTask#begin():102) - |                                          |
+2017-12-14 16:00:06,969 [main] INFO  (DfReplaceSchemaTask#begin():103) - +------------------------------------------+
+2017-12-14 16:00:06,970 [main] INFO  (DfReplaceSchemaTask#waitBeforeReps():360) - ...Waiting for your GO SIGN from stdin before ReplaceSchema:
+2017-12-14 16:00:08,789 [main] INFO  (DfReplaceSchemaTask#begin():108) - *The execution of ReplaceSchema was cancelled.
+2017-12-14 16:00:08,814 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m01s865ms *Abort
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+
+    * * * * * * *
+    * Cancelled *
+    * * * * * * *
+_/_/_/_/_/_/_/_/_/_/ {ReplaceSchema}
+2017-12-14 16:00:20,854 [main] INFO  (DfReplaceSchemaTask#begin():92) - +------------------------------------------+
+2017-12-14 16:00:20,856 [main] INFO  (DfReplaceSchemaTask#begin():93) - |                                          |
+2017-12-14 16:00:20,856 [main] INFO  (DfReplaceSchemaTask#begin():94) - |              ReplaceSchema               |
+2017-12-14 16:00:20,859 [main] INFO  (DfReplaceSchemaTask#begin():102) - |                                          |
+2017-12-14 16:00:20,860 [main] INFO  (DfReplaceSchemaTask#begin():103) - +------------------------------------------+
+2017-12-14 16:00:20,860 [main] INFO  (DfReplaceSchemaTask#waitBeforeReps():360) - ...Waiting for your GO SIGN from stdin before ReplaceSchema:
+2017-12-14 16:00:21,127 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-14 16:00:21,128 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-14 16:00:21,128 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-14 16:00:21,128 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-14 16:00:21,138 [main] INFO  (DfDataSourceHandler#createConnection():166) - ...Connecting to database by data source:
+2017-12-14 16:00:21,447 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():233) -   product = MySQL 5.6.37
+2017-12-14 16:00:21,448 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():234) -   driver  = MySQL Connector Java mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 ) for JDBC 4.0
+2017-12-14 16:00:21,461 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():229) - 
+2017-12-14 16:00:21,462 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():230) - * * * * * * * * * * *
+2017-12-14 16:00:21,515 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():231) - *                   *
+2017-12-14 16:00:21,563 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():232) - * Initialize Schema *
+2017-12-14 16:00:21,564 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():233) - *                   *
+2017-12-14 16:00:21,564 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():234) - * * * * * * * * * * *
+2017-12-14 16:00:21,585 [main] INFO  (DfTableExtractor#doGetTableList():66) - ...Getting tables:
+2017-12-14 16:00:21,587 [main] INFO  (DfTableExtractor#doGetTableList():67) -   schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-14 16:00:21,589 [main] INFO  (DfTableExtractor#doGetTableList():68) -   types  = [TABLE, VIEW]
+2017-12-14 16:00:21,643 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - truncate table player
+2017-12-14 16:00:21,658 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table player
+2017-12-14 16:00:21,728 [main] INFO  (DfCreateSchemaProcess#createSchema():266) - 
+2017-12-14 16:00:21,728 [main] INFO  (DfCreateSchemaProcess#createSchema():267) - * * * * * * * * *
+2017-12-14 16:00:21,735 [main] INFO  (DfCreateSchemaProcess#createSchema():268) - *               *
+2017-12-14 16:00:21,736 [main] INFO  (DfCreateSchemaProcess#createSchema():269) - * Create Schema *
+2017-12-14 16:00:21,736 [main] INFO  (DfCreateSchemaProcess#createSchema():270) - *               *
+2017-12-14 16:00:21,737 [main] INFO  (DfCreateSchemaProcess#createSchema():271) - * * * * * * * * *
+2017-12-14 16:00:21,744 [main] INFO  (DfSqlFileFireMan#fire():64) - ...Firing: replace-schema-10-basic.sql
+2017-12-14 16:00:21,750 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+/* Create Tables */
+
+CREATE TABLE CHARA
+(
+	CHARA_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'キャラクターID',
+	CHARA_NAME VARCHAR(40) NOT NULL COMMENT 'キャラクター名',
+	CHARA_GROUP_ID INT UNSIGNED NOT NULL COMMENT 'キャラクターグループID',
+	CHARA_IMG_URL VARCHAR(100) NOT NULL COMMENT 'キャラクター画像URL : コンテキストパス以降',
+	PRIMARY KEY (CHARA_ID)
+) COMMENT = 'キャラクター'
+2017-12-14 16:00:21,796 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE CHARA_GROUP
+(
+	CHARA_GROUP_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'キャラクターグループID',
+	CHARA_NAME VARCHAR(40) NOT NULL COMMENT 'キャラクターグループ名',
+	DESIGNER_ID INT UNSIGNED NOT NULL COMMENT 'デザイナーID',
+	PRIMARY KEY (CHARA_GROUP_ID)
+) COMMENT = 'キャラクターグループ'
+2017-12-14 16:00:21,826 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE DESIGNER
+(
+	DESIGNER_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'デザイナーID',
+	DESIGNER_NAME VARCHAR(40) NOT NULL COMMENT 'デザイナー名',
+	PRIMARY KEY (DESIGNER_ID)
+) COMMENT = 'デザイナー'
+2017-12-14 16:00:21,835 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE MESSAGE
+(
+	MESSAGE_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'メッセージID',
+	VILLAGE_ID INT UNSIGNED NOT NULL COMMENT '村ID',
+	VILLAGE_PLAYER_ID INT UNSIGNED COMMENT '村参加者ID',
+	PLAYER_ID INT UNSIGNED COMMENT 'プレイヤーID',
+	TO_VILLAGE_PLAYER_ID INT UNSIGNED COMMENT 'どの村参加者に',
+	DAY INT UNSIGNED NOT NULL COMMENT '何日目か',
+	MESSAGE_TYPE_CODE VARCHAR(10) NOT NULL COMMENT 'メッセージ種別コード',
+	MESSAGE_NUMBER INT UNSIGNED COMMENT 'メッセージ番号',
+	MESSAGE_CONTENT VARCHAR(1000) NOT NULL COMMENT 'メッセージ内容',
+	MESSAGE_DATETIME DATETIME NOT NULL COMMENT 'メッセージ日時',
+	REGISTER_DATETIME DATETIME NOT NULL COMMENT '登録日時',
+	REGISTER_TRACE VARCHAR(64) NOT NULL COMMENT '登録トレース',
+	UPDATE_DATETIME DATETIME NOT NULL COMMENT '更新日時',
+	UPDATE_TRACE VARCHAR(64) NOT NULL COMMENT '更新トレース',
+	PRIMARY KEY (MESSAGE_ID)
+) COMMENT = 'メッセージ'
+2017-12-14 16:00:21,930 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE MESSAGE_TYPE
+(
+	MESSAGE_TYPE_CODE VARCHAR(10) NOT NULL COMMENT 'メッセージ種別コード',
+	MESSAGE_TYPE_NAME VARCHAR(20) NOT NULL COMMENT 'メッセージ種別名',
+	PRIMARY KEY (MESSAGE_TYPE_CODE)
+) COMMENT = 'メッセージ種別'
+2017-12-14 16:00:21,942 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE PLAYER
+(
+	PLAYER_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'プレイヤーID',
+	PLAYER_NAME VARCHAR(12) NOT NULL UNIQUE COMMENT 'プレイヤーID',
+	PLAYER_PASSWORD CHAR(60) NOT NULL COMMENT 'プレイヤーパスワード',
+	REGISTER_DATETIME DATETIME NOT NULL COMMENT '登録日時',
+	REGISTER_TRACE VARCHAR(64) NOT NULL COMMENT '登録トレース',
+	UPDATE_DATETIME DATETIME NOT NULL COMMENT '更新日時',
+	UPDATE_TRACE VARCHAR(64) NOT NULL COMMENT '更新トレース',
+	PRIMARY KEY (PLAYER_ID)
+) COMMENT = 'プレイヤー'
+2017-12-14 16:00:21,954 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE VILLAGE
+(
+	VILALGE_ID INT UNSIGNED NOT NULL COMMENT '村ID',
+	VILLAGE_DISPLAY_NAME VARCHAR(40) NOT NULL COMMENT '村表示名',
+	VILLAGE_NUM INT UNSIGNED NOT NULL UNIQUE COMMENT '村番号',
+	REGISTER_DATETIME DATETIME NOT NULL COMMENT '登録日時',
+	REGISTER_TRACE VARCHAR(64) NOT NULL COMMENT '登録トレース',
+	UPDATE_DATETIME DATETIME NOT NULL COMMENT '更新日時',
+	UPDATE_TRACE VARCHAR(64) NOT NULL COMMENT '更新トレース',
+	PRIMARY KEY (VILALGE_ID)
+) COMMENT = '村'
+2017-12-14 16:00:21,972 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE VILLAGE_PLAYER
+(
+	VILLAGE_PLAYER_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '村参加者ID',
+	VILLAGE_ID INT UNSIGNED NOT NULL COMMENT '村ID',
+	PLAYER_ID INT UNSIGNED NOT NULL COMMENT 'プレイヤーID',
+	CHARA_ID INT UNSIGNED NOT NULL COMMENT 'キャラクターID',
+	PRIMARY KEY (VILLAGE_PLAYER_ID),
+	CONSTRAINT UQ_village_player_id UNIQUE (VILLAGE_ID, PLAYER_ID)
+) COMMENT = '村参加者'
+2017-12-14 16:00:21,996 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+/* Create Foreign Keys */
+
+ALTER TABLE VILLAGE_PLAYER
+	ADD CONSTRAINT FK_VILLAGE_PLAYER_CHARA FOREIGN KEY (CHARA_ID)
+	REFERENCES CHARA (CHARA_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 16:00:22,011 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE CHARA
+	ADD CONSTRAINT FK_CHARA_CHARA_GROUP FOREIGN KEY (CHARA_GROUP_ID)
+	REFERENCES CHARA_GROUP (CHARA_GROUP_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 16:00:22,022 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE CHARA_GROUP
+	ADD CONSTRAINT FK_CHARA_GROUP_DESIGNER FOREIGN KEY (DESIGNER_ID)
+	REFERENCES DESIGNER (DESIGNER_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 16:00:22,037 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE MESSAGE
+	ADD CONSTRAINT FK_MESSAGE_MESSAGE_TYPE FOREIGN KEY (MESSAGE_TYPE_CODE)
+	REFERENCES MESSAGE_TYPE (MESSAGE_TYPE_CODE)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 16:00:22,051 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE MESSAGE
+	ADD CONSTRAINT FK_MESSAGE_PLAYER FOREIGN KEY (PLAYER_ID)
+	REFERENCES PLAYER (PLAYER_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 16:00:22,066 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE VILLAGE_PLAYER
+	ADD CONSTRAINT FK_VILLAGE_PLAYER_PLAYER FOREIGN KEY (PLAYER_ID)
+	REFERENCES PLAYER (PLAYER_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 16:00:22,095 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE MESSAGE
+	ADD CONSTRAINT FK_MESSAGE_VILLAGE FOREIGN KEY (VILLAGE_ID)
+	REFERENCES VILLAGE (VILALGE_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 16:00:22,111 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE VILLAGE_PLAYER
+	ADD CONSTRAINT FK_VILLAGE_PLAYER_VILLAGE FOREIGN KEY (VILLAGE_ID)
+	REFERENCES VILLAGE (VILALGE_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 16:00:22,124 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE MESSAGE
+	ADD CONSTRAINT FK_MESSAGE_VILLAGE_PLAYER FOREIGN KEY (VILLAGE_PLAYER_ID)
+	REFERENCES VILLAGE_PLAYER (VILLAGE_PLAYER_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 16:00:22,142 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE MESSAGE
+	ADD CONSTRAINT FK_MESSAGE_VILLAGE_PLAYER_TO FOREIGN KEY (TO_VILLAGE_PLAYER_ID)
+	REFERENCES VILLAGE_PLAYER (VILLAGE_PLAYER_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 16:00:22,158 [main] INFO  (DfSqlFileRunnerBase#traceResult():172) -  -> success=18 failure=0
+2017-12-14 16:00:22,159 [main] INFO  (DfSqlFileFireMan#fire():64) - ...Firing: replace-schema.sql
+2017-12-14 16:00:22,160 [main] INFO  (DfSqlFileRunnerBase#traceResult():172) -  -> success=0 failure=0
+2017-12-14 16:00:22,160 [main] INFO  (DfSqlFileFireMan#fire():89) - {Create Schema}: success=18 failure=0 (in 2 files)
+2017-12-14 16:00:22,330 [main] INFO  (DfLoadDataProcess#execute():129) - 
+2017-12-14 16:00:22,331 [main] INFO  (DfLoadDataProcess#execute():130) - * * * * * * * * * * *
+2017-12-14 16:00:22,331 [main] INFO  (DfLoadDataProcess#execute():131) - *                   *
+2017-12-14 16:00:22,331 [main] INFO  (DfLoadDataProcess#execute():132) - * Load Data         *
+2017-12-14 16:00:22,331 [main] INFO  (DfLoadDataProcess#execute():133) - *                   *
+2017-12-14 16:00:22,331 [main] INFO  (DfLoadDataProcess#execute():134) - * * * * * * * * * * *
+2017-12-14 16:00:22,368 [main] INFO  (DfTakeFinallyProcess#takeFinally():229) - 
+2017-12-14 16:00:22,368 [main] INFO  (DfTakeFinallyProcess#takeFinally():230) - * * * * * * * **
+2017-12-14 16:00:22,369 [main] INFO  (DfTakeFinallyProcess#takeFinally():231) - *              *
+2017-12-14 16:00:22,369 [main] INFO  (DfTakeFinallyProcess#takeFinally():232) - * Take Finally *
+2017-12-14 16:00:22,369 [main] INFO  (DfTakeFinallyProcess#takeFinally():233) - *              *
+2017-12-14 16:00:22,369 [main] INFO  (DfTakeFinallyProcess#takeFinally():234) - * * * * * * * **
+2017-12-14 16:00:22,376 [main] INFO  (DfSqlFileFireMan#fire():64) - ...Firing: take-finally.sql
+2017-12-14 16:00:22,377 [main] INFO  (DfSqlFileRunnerBase#traceResult():172) -  -> success=0 failure=0
+2017-12-14 16:00:22,378 [main] INFO  (DfSqlFileFireMan#fire():89) - {Take Finally}: success=0 failure=0 (in 1 files)
+2017-12-14 16:00:22,379 [main] INFO  (DfDataSourceHandler#destroy():120) - ...closeReally()
+2017-12-14 16:00:22,382 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m01s538ms
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql (MySQL 5.6.37)
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+
+ {Create Schema}: success=18 failure=0 (in 2 files)
+  o replace-schema-10-basic.sql
+  o replace-schema.sql
+
+ {Load Data}: loaded-files=0
+  - (no data file)
+
+ {Take Finally}: success=0 failure=0 (in 1 files)
+  o take-finally.sql
+_/_/_/_/_/_/_/_/_/_/ {ReplaceSchema}
+2017-12-14 16:00:22,888 [main] INFO  (TorqueJDBCTransformTask#begin():104) - +------------------------------------------+
+2017-12-14 16:00:22,890 [main] INFO  (TorqueJDBCTransformTask#begin():105) - |                                          |
+2017-12-14 16:00:22,890 [main] INFO  (TorqueJDBCTransformTask#begin():106) - |                   JDBC                   |
+2017-12-14 16:00:22,890 [main] INFO  (TorqueJDBCTransformTask#begin():107) - |                                          |
+2017-12-14 16:00:22,890 [main] INFO  (TorqueJDBCTransformTask#begin():108) - +------------------------------------------+
+2017-12-14 16:00:22,906 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-14 16:00:22,907 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-14 16:00:22,907 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-14 16:00:22,907 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-14 16:00:22,987 [main] INFO  (DfSchemaXmlSerializer#serialize():286) - 
+2017-12-14 16:00:22,989 [main] INFO  (DfSchemaXmlSerializer#serialize():287) - ...Starting to process JDBC to SchemaXML
+2017-12-14 16:00:22,990 [main] INFO  (DfSchemaXmlSerializer#doLoadPreviousSchema():1532) - ...Loading previous schema (schema diff process)
+2017-12-14 16:00:23,031 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-14 16:00:23,140 [main] INFO  (DfSchemaXmlSerializer#generateXML():360) - ...Getting DB connection
+2017-12-14 16:00:23,143 [main] INFO  (DfDataSourceHandler#createConnection():166) - ...Connecting to database by data source:
+2017-12-14 16:00:23,349 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():233) -   product = MySQL 5.6.37
+2017-12-14 16:00:23,350 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():234) -   driver  = MySQL Connector Java mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 ) for JDBC 4.0
+2017-12-14 16:00:23,350 [main] INFO  (DfSchemaXmlSerializer#generateXML():363) - ...Getting DB meta data
+2017-12-14 16:00:23,351 [main] INFO  (DfTableExtractor#doGetTableList():66) - ...Getting tables:
+2017-12-14 16:00:23,351 [main] INFO  (DfTableExtractor#doGetTableList():67) -   schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-14 16:00:23,352 [main] INFO  (DfTableExtractor#doGetTableList():68) -   types  = [TABLE, VIEW]
+2017-12-14 16:00:23,359 [main] INFO  (DfDbCommentExtractorBase#doSelectUserTabComments():121) - select table_type as OBJECT_TYPE, table_name as TABLE_NAME, table_comment as COMMENTS from information_schema.tables where table_schema = 'werewolf_mansiondb' order by table_name asc
+2017-12-14 16:00:23,363 [main] INFO  (DfDbCommentExtractorBase#doSelectUserColComments():168) - select table_name as TABLE_NAME, column_name as COLUMN_NAME, column_comment as COMMENTS from information_schema.columns where table_schema = 'werewolf_mansiondb' order by table_name asc, column_name asc
+2017-12-14 16:00:23,369 [main] INFO  (DfDatetimePrecisionExtractorMySQL#extractDatetimePrecisionMap():59) - select TABLE_NAME, COLUMN_NAME, DATETIME_PRECISION from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA = 'werewolf_mansiondb' and DATA_TYPE = 'datetime'
+2017-12-14 16:00:23,378 [main] INFO  (DfSchemaXmlSerializer#processTable():420) - 
+2017-12-14 16:00:23,379 [main] INFO  (DfSchemaXmlSerializer#processTable():421) - $ /= = = = = = = = = = = = = = = = = = = = = = = = = =
+2017-12-14 16:00:23,379 [main] INFO  (DfSchemaXmlSerializer#processTable():422) - $ [Table List]
+2017-12-14 16:00:23,379 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.chara(TABLE) // キャラクター
+2017-12-14 16:00:23,402 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.chara_group(TABLE) // キャラクターグループ
+2017-12-14 16:00:23,413 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.designer(TABLE) // デザイナー
+2017-12-14 16:00:23,424 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.message(TABLE) // メッセージ
+2017-12-14 16:00:23,443 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.message_type(TABLE) // メッセージ種別
+2017-12-14 16:00:23,474 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.player(TABLE) // プレイヤー
+2017-12-14 16:00:23,485 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.village(TABLE) // 村
+2017-12-14 16:00:23,505 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.village_player(TABLE) // 村参加者
+2017-12-14 16:00:23,514 [main] INFO  (DfSchemaXmlSerializer#processTable():434) - $ 
+2017-12-14 16:00:23,514 [main] INFO  (DfSchemaXmlSerializer#processTable():435) - $ [Table Count]
+2017-12-14 16:00:23,515 [main] INFO  (DfSchemaXmlSerializer#processTable():436) - $ 8
+2017-12-14 16:00:23,515 [main] INFO  (DfSchemaXmlSerializer#processTable():437) - $ = = = = = = = = = =/
+2017-12-14 16:00:23,515 [main] INFO  (DfSchemaXmlSerializer#processTable():438) - 
+2017-12-14 16:00:23,516 [main] INFO  (DfSchemaXmlSerializer#processSequence():805) - ...Getting sequences
+2017-12-14 16:00:23,518 [main] INFO  (DfSchemaXmlSerializer#serialize():301) - ...Serializing XML:
+2017-12-14 16:00:23,519 [main] INFO  (DfSchemaXmlSerializer#serialize():302) -   filePath = ./schema/project-schema-wolfbbsdb.xml
+2017-12-14 16:00:23,519 [main] INFO  (DfSchemaXmlSerializer#serialize():303) -   encoding = UTF-8
+2017-12-14 16:00:23,537 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1550) - ...Loading next schema (schema diff process)
+2017-12-14 16:00:23,539 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-14 16:00:23,604 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1555) -  -> different from previous (schema diff)
+2017-12-14 16:00:23,607 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1557) - ...Serializing schema-diff:
+2017-12-14 16:00:23,607 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1558) -   filePath = ./schema/project-history-wolfbbsdb.diffmap
+2017-12-14 16:00:23,717 [main] INFO  (DfDataSourceHandler#destroy():120) - ...closeReally()
+2017-12-14 16:00:23,724 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s842ms
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql (MySQL 5.6.37)
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {JDBC}
+2017-12-14 16:00:24,231 [main] INFO  (TorqueDocumentationTask#begin():177) - +------------------------------------------+
+2017-12-14 16:00:24,232 [main] INFO  (TorqueDocumentationTask#begin():178) - |                                          |
+2017-12-14 16:00:24,232 [main] INFO  (TorqueDocumentationTask#begin():179) - |                   Doc                    |
+2017-12-14 16:00:24,232 [main] INFO  (TorqueDocumentationTask#begin():187) - |                                          |
+2017-12-14 16:00:24,232 [main] INFO  (TorqueDocumentationTask#begin():188) - +------------------------------------------+
+2017-12-14 16:00:24,243 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-14 16:00:24,243 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-14 16:00:24,244 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-14 16:00:24,244 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-14 16:00:24,245 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():249) - 
+2017-12-14 16:00:24,245 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():250) - * * * * * * * * * * *
+2017-12-14 16:00:24,245 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():251) - *                   *
+2017-12-14 16:00:24,246 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():252) - *    Schema HTML    *
+2017-12-14 16:00:24,246 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():253) - *                   *
+2017-12-14 16:00:24,246 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():254) - * * * * * * * * * * *
+2017-12-14 16:00:24,279 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-14 16:00:24,364 [main] INFO  (DfAbstractTexenTask#fireVelocityProcess():253) - generator.parse("doc/ControlDocument.vm", ctx);
+2017-12-14 16:00:24,555 [main] INFO  (Database#doEnableDocumentOutputDirectory():1180) - ...Setting up documentOutputDirectory: ./output/doc
+2017-12-14 16:00:24,562 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():62) - /=======================================
+2017-12-14 16:00:24,564 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():63) - ...Initializing additional primary keys.
+2017-12-14 16:00:24,565 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():88) - ==========/
+2017-12-14 16:00:24,566 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():62) - /=======================================
+2017-12-14 16:00:24,567 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():63) - ...Initializing additional unique keys.
+2017-12-14 16:00:24,568 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():83) - ==========/
+2017-12-14 16:00:24,570 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():68) - /=======================================
+2017-12-14 16:00:24,570 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():69) - ...Initializing additional foreign keys.
+2017-12-14 16:00:24,571 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():88) - ==========/
+2017-12-14 16:00:24,581 [main] INFO  (DfDocumentSelector#doLoadSchemaHistory():157) - ...Loading schema history
+2017-12-14 16:00:24,683 [main] INFO  (DfDocumentSelector#doLoadSchemaHistory():161) -  -> found history: count=14
+2017-12-14 16:00:24,896 [main] INFO  (DfRefreshResourceProcess#show():299) - /===========================================================================
+2017-12-14 16:00:24,896 [main] INFO  (DfRefreshResourceProcess#show():299) - ...Refreshing [werewolf-mansion] by http://localhost:8386/
+2017-12-14 16:00:24,929 [main] INFO  (DfRefreshResourceProcess#show():299) - ==========/
+2017-12-14 16:00:24,937 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s706ms
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {Doc}
+2017-12-14 16:00:26,557 [main] INFO  (TorqueDataModelTask#begin():110) - +------------------------------------------+
+2017-12-14 16:00:26,558 [main] INFO  (TorqueDataModelTask#begin():111) - |                                          |
+2017-12-14 16:00:26,558 [main] INFO  (TorqueDataModelTask#begin():112) - |                 Generate                 |
+2017-12-14 16:00:26,558 [main] INFO  (TorqueDataModelTask#begin():113) - |                                          |
+2017-12-14 16:00:26,559 [main] INFO  (TorqueDataModelTask#begin():114) - +------------------------------------------+
+2017-12-14 16:00:26,569 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-14 16:00:26,569 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-14 16:00:26,569 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-14 16:00:26,570 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-14 16:00:26,578 [main] INFO  (TorqueDataModelTask#setupControlTemplate():166) - 
+2017-12-14 16:00:26,578 [main] INFO  (TorqueDataModelTask#setupControlTemplate():167) - ...Using Java control: om/ControlGenerateJava.vm
+2017-12-14 16:00:26,603 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-14 16:00:26,663 [main] INFO  (DfAbstractTexenTask#fireVelocityProcess():253) - generator.parse("om/ControlGenerateJava.vm", ctx);
+2017-12-14 16:00:26,932 [main] INFO  (Database#doEnableGenerateOutputDirectory():1148) - ...Setting up generateOutputDirectory: ../src/main/java
+2017-12-14 16:00:26,935 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():62) - /=======================================
+2017-12-14 16:00:26,936 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():63) - ...Initializing additional primary keys.
+2017-12-14 16:00:26,936 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():88) - ==========/
+2017-12-14 16:00:26,937 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():62) - /=======================================
+2017-12-14 16:00:26,937 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():63) - ...Initializing additional unique keys.
+2017-12-14 16:00:26,938 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():83) - ==========/
+2017-12-14 16:00:26,939 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():68) - /=======================================
+2017-12-14 16:00:26,940 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():69) - ...Initializing additional foreign keys.
+2017-12-14 16:00:26,941 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():88) - ==========/
+2017-12-14 16:00:26,949 [main] INFO  (DfIncludeQueryInitializer#initializeIncludeQuery():58) - /=============================
+2017-12-14 16:00:26,949 [main] INFO  (DfIncludeQueryInitializer#initializeIncludeQuery():59) - ...Initializing include query.
+2017-12-14 16:00:26,949 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - String
+2017-12-14 16:00:26,949 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - Number
+2017-12-14 16:00:26,950 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - Date
+2017-12-14 16:00:26,950 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():86) -   NotEqual -> []
+2017-12-14 16:00:26,950 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():86) -   InScope -> []
+2017-12-14 16:00:26,950 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():86) -   NotInScope -> []
+2017-12-14 16:00:26,950 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - OrderBy
+2017-12-14 16:00:26,951 [main] INFO  (DfIncludeQueryInitializer#initializeIncludeQuery():61) - ========/
+2017-12-14 16:00:26,958 [main] INFO  (Database#info():2737) - public void parseAllCommon() {
+2017-12-14 16:00:26,959 [main] INFO  (Database#info():2737) -     parse('CDef');
+2017-12-14 16:00:27,000 [main] INFO  (Database#info():2737) -     parse('DBCurrent');
+2017-12-14 16:00:27,003 [main] INFO  (Database#info():2737) -     parse('DBFluteConfig');
+2017-12-14 16:00:27,018 [main] INFO  (Database#info():2737) -     parse('DBFluteInitializer');
+2017-12-14 16:00:27,022 [main] INFO  (Database#info():2737) -     parse('DBMetaInstanceHandler');
+2017-12-14 16:00:27,042 [main] INFO  (Database#info():2737) -     parse('EntityDefinedCommonColumn');
+2017-12-14 16:00:27,071 [main] INFO  (Database#info():2737) -     parse('ImplementedBehaviorSelector');
+2017-12-14 16:00:27,089 [main] INFO  (Database#info():2737) -     parse('ImplementedCommonColumnAutoSetupper');
+2017-12-14 16:00:27,093 [main] INFO  (Database#info():2737) -     parse('ImplementedInvokerAssistant');
+2017-12-14 16:00:27,096 [main] INFO  (Database#info():2737) -     parse('ImplementedSqlClauseCreator');
+2017-12-14 16:00:27,098 [main] INFO  (Database#info():2737) - }
+2017-12-14 16:00:27,098 [main] INFO  (Database#info():2737) - public void parseContainerConfig() {
+2017-12-14 16:00:27,099 [main] INFO  (Database#info():2737) -     parse('com/ort/dbflute/allcommon/DBFluteBeansJavaConfig.java')
+2017-12-14 16:00:27,109 [main] INFO  (Database#info():2737) - }
+2017-12-14 16:00:27,115 [main] INFO  (DfOldClassHandler#info():1045) - public void deleteOldTableClass() {
+2017-12-14 16:00:27,166 [main] INFO  (DfOldClassHandler#info():1045) - }
+2017-12-14 16:00:27,166 [main] INFO  (Database#info():2737) - public void parseTableClass() {
+2017-12-14 16:00:27,167 [main] INFO  (Database#info():2737) -     parse('chara');
+2017-12-14 16:00:27,408 [main] INFO  (Database#info():2737) -     parse('chara_group');
+2017-12-14 16:00:27,549 [main] INFO  (Database#info():2737) -     parse('designer');
+2017-12-14 16:00:27,660 [main] INFO  (Database#info():2737) -     parse('message');
+2017-12-14 16:00:27,871 [main] INFO  (Database#info():2737) -     parse('message_type');
+2017-12-14 16:00:27,962 [main] INFO  (Database#info():2737) -     parse('player');
+2017-12-14 16:00:28,126 [main] INFO  (Database#info():2737) -     parse('village');
+2017-12-14 16:00:28,244 [main] INFO  (Database#info():2737) -     parse('village_player');
+2017-12-14 16:00:28,404 [main] INFO  (Database#info():2737) - }
+2017-12-14 16:00:28,404 [main] INFO  (Database#info():2737) -  
+2017-12-14 16:00:28,432 [main] INFO  (DfRefreshResourceProcess#show():299) - /===========================================================================
+2017-12-14 16:00:28,432 [main] INFO  (DfRefreshResourceProcess#show():299) - ...Refreshing [werewolf-mansion] by http://localhost:8386/
+2017-12-14 16:00:28,434 [main] INFO  (DfRefreshResourceProcess#show():299) - ==========/
+2017-12-14 16:00:28,438 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m01s886ms
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {Generate}
+2017-12-14 16:00:29,513 [main] INFO  (DfOutsideSqlTestTask#begin():77) - +------------------------------------------+
+2017-12-14 16:00:29,515 [main] INFO  (DfOutsideSqlTestTask#begin():78) - |                                          |
+2017-12-14 16:00:29,515 [main] INFO  (DfOutsideSqlTestTask#begin():79) - |              OutsideSqlTest              |
+2017-12-14 16:00:29,515 [main] INFO  (DfOutsideSqlTestTask#begin():80) - |                                          |
+2017-12-14 16:00:29,515 [main] INFO  (DfOutsideSqlTestTask#begin():81) - +------------------------------------------+
+2017-12-14 16:00:29,534 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-14 16:00:29,535 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-14 16:00:29,535 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-14 16:00:29,535 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-14 16:00:29,656 [main] INFO  (DfSqlFileFireMan#fire():89) - {Fired SQL}: success=0 failure=0 (in 0 files)
+2017-12-14 16:00:29,674 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s159ms
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+
+ {Checked SQL}
+_/_/_/_/_/_/_/_/_/_/ {OutsideSqlTest}
+2017-12-14 16:00:31,008 [main] INFO  (DfSql2EntityTask#begin():106) - +------------------------------------------+
+2017-12-14 16:00:31,010 [main] INFO  (DfSql2EntityTask#begin():107) - |                                          |
+2017-12-14 16:00:31,011 [main] INFO  (DfSql2EntityTask#begin():108) - |                Sql2Entity                |
+2017-12-14 16:00:31,011 [main] INFO  (DfSql2EntityTask#begin():109) - |                                          |
+2017-12-14 16:00:31,011 [main] INFO  (DfSql2EntityTask#begin():110) - +------------------------------------------+
+2017-12-14 16:00:31,157 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-14 16:00:31,158 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-14 16:00:31,159 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-14 16:00:31,160 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-14 16:00:31,175 [main] INFO  (DfSql2EntityTask#setupControlTemplate():177) - 
+2017-12-14 16:00:31,175 [main] INFO  (DfSql2EntityTask#setupControlTemplate():178) - ...Using Java control: om/ControlSql2EntityJava.vm
+2017-12-14 16:00:31,181 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-14 16:00:31,377 [main] INFO  (DfSqlFileFireMan#fire():89) - {Fired SQL}: success=0 failure=0 (in 0 files)
+2017-12-14 16:00:31,489 [main] INFO  (DfSql2EntityTask#initControlContext():311) - 
+2017-12-14 16:00:31,489 [main] INFO  (DfSql2EntityTask#initControlContext():312) - ...Preparing generation of customize-entities and parameter-beans
+2017-12-14 16:00:31,490 [main] INFO  (DfSql2EntityTask#initControlContext():313) - * * * * * * * * * *
+2017-12-14 16:00:31,490 [main] INFO  (DfSql2EntityTask#initControlContext():314) - * CustomizeEntity *
+2017-12-14 16:00:31,490 [main] INFO  (DfSql2EntityTask#initControlContext():315) - * * * * * * * * * *
+2017-12-14 16:00:31,490 [main] INFO  (DfSql2EntityTask#showParameterBean():932) - * * * * * * * * *
+2017-12-14 16:00:31,490 [main] INFO  (DfSql2EntityTask#showParameterBean():933) - * ParameterBean *
+2017-12-14 16:00:31,490 [main] INFO  (DfSql2EntityTask#showParameterBean():934) - * * * * * * * * *
+2017-12-14 16:00:31,496 [main] INFO  (DfAbstractTexenTask#fireVelocityProcess():253) - generator.parse("om/ControlSql2EntityJava.vm", ctx);
+2017-12-14 16:00:31,831 [main] INFO  (Database#doEnableSql2EntityOutputDirectory():1164) - ...Setting up sql2EntityOutputDirectory: ../src/main/java
+2017-12-14 16:00:31,834 [main] INFO  (DfOldClassHandler#info():1045) - public void deleteOldCustomizeClass() {
+2017-12-14 16:00:31,843 [main] INFO  (DfOldClassHandler#info():1045) - }
+2017-12-14 16:00:31,843 [main] INFO  (Database#info():2737) - public void parseCustomizeEntity() {
+2017-12-14 16:00:31,845 [main] INFO  (Database#info():2737) - }
+2017-12-14 16:00:31,911 [main] INFO  (DfSql2EntityTask#showTargetSqlFileInformation():303) - 
+/- - - - - - - - - - - - - - - - - - - - - - - -
+Target SQL files: 0
+
+- - - - - - - - - -/
+2017-12-14 16:00:31,969 [main] INFO  (DfRefreshResourceProcess#show():299) - /===========================================================================
+2017-12-14 16:00:31,973 [main] INFO  (DfRefreshResourceProcess#show():299) - ...Refreshing [werewolf-mansion] by http://localhost:8386/
+2017-12-14 16:00:31,976 [main] INFO  (DfRefreshResourceProcess#show():299) - ==========/
+2017-12-14 16:00:31,983 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s989ms
+
+  DBFLUTE_CLIENT: {wolfbbsdb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {Sql2Entity}
+2017-12-14 18:32:14,125 [main] INFO  (DfReplaceSchemaTask#begin():92) - +------------------------------------------+
+2017-12-14 18:32:14,128 [main] INFO  (DfReplaceSchemaTask#begin():93) - |                                          |
+2017-12-14 18:32:14,129 [main] INFO  (DfReplaceSchemaTask#begin():94) - |              ReplaceSchema               |
+2017-12-14 18:32:14,160 [main] INFO  (DfReplaceSchemaTask#begin():102) - |                                          |
+2017-12-14 18:32:14,160 [main] INFO  (DfReplaceSchemaTask#begin():103) - +------------------------------------------+
+2017-12-14 18:32:14,161 [main] INFO  (DfReplaceSchemaTask#waitBeforeReps():360) - ...Waiting for your GO SIGN from stdin before ReplaceSchema:
+2017-12-14 18:32:16,530 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-14 18:32:16,530 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-14 18:32:16,530 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-14 18:32:16,531 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-14 18:32:16,539 [main] INFO  (DfDataSourceHandler#createConnection():166) - ...Connecting to database by data source:
+2017-12-14 18:32:16,835 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():233) -   product = MySQL 5.6.37
+2017-12-14 18:32:16,836 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():234) -   driver  = MySQL Connector Java mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 ) for JDBC 4.0
+2017-12-14 18:32:16,847 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():229) - 
+2017-12-14 18:32:16,847 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():230) - * * * * * * * * * * *
+2017-12-14 18:32:16,847 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():231) - *                   *
+2017-12-14 18:32:16,848 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():232) - * Initialize Schema *
+2017-12-14 18:32:16,848 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():233) - *                   *
+2017-12-14 18:32:16,849 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():234) - * * * * * * * * * * *
+2017-12-14 18:32:16,860 [main] INFO  (DfTableExtractor#doGetTableList():66) - ...Getting tables:
+2017-12-14 18:32:16,860 [main] INFO  (DfTableExtractor#doGetTableList():67) -   schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-14 18:32:16,860 [main] INFO  (DfTableExtractor#doGetTableList():68) -   types  = [TABLE, VIEW]
+2017-12-14 18:32:16,926 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - truncate table message
+2017-12-14 18:32:16,962 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table chara drop foreign key FK_CHARA_CHARA_GROUP
+2017-12-14 18:32:16,997 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table chara_group drop foreign key FK_CHARA_GROUP_DESIGNER
+2017-12-14 18:32:17,012 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table message drop foreign key FK_MESSAGE_MESSAGE_TYPE
+2017-12-14 18:32:17,019 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table message drop foreign key FK_MESSAGE_PLAYER
+2017-12-14 18:32:17,025 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table message drop foreign key FK_MESSAGE_VILLAGE_PLAYER_TO
+2017-12-14 18:32:17,033 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table message drop foreign key FK_MESSAGE_VILLAGE
+2017-12-14 18:32:17,042 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table message drop foreign key FK_MESSAGE_VILLAGE_PLAYER
+2017-12-14 18:32:17,058 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table village_player drop foreign key FK_VILLAGE_PLAYER_CHARA
+2017-12-14 18:32:17,069 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table village_player drop foreign key FK_VILLAGE_PLAYER_PLAYER
+2017-12-14 18:32:17,078 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table village_player drop foreign key FK_VILLAGE_PLAYER_VILLAGE
+2017-12-14 18:32:17,087 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table chara
+2017-12-14 18:32:17,092 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table chara_group
+2017-12-14 18:32:17,096 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table designer
+2017-12-14 18:32:17,100 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table message
+2017-12-14 18:32:17,105 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table message_type
+2017-12-14 18:32:17,108 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table player
+2017-12-14 18:32:17,112 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table village
+2017-12-14 18:32:17,118 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table village_player
+2017-12-14 18:32:17,234 [main] INFO  (DfCreateSchemaProcess#createSchema():266) - 
+2017-12-14 18:32:17,235 [main] INFO  (DfCreateSchemaProcess#createSchema():267) - * * * * * * * * *
+2017-12-14 18:32:17,236 [main] INFO  (DfCreateSchemaProcess#createSchema():268) - *               *
+2017-12-14 18:32:17,236 [main] INFO  (DfCreateSchemaProcess#createSchema():269) - * Create Schema *
+2017-12-14 18:32:17,237 [main] INFO  (DfCreateSchemaProcess#createSchema():270) - *               *
+2017-12-14 18:32:17,237 [main] INFO  (DfCreateSchemaProcess#createSchema():271) - * * * * * * * * *
+2017-12-14 18:32:17,241 [main] INFO  (DfSqlFileFireMan#fire():64) - ...Firing: replace-schema-10-basic.sql
+2017-12-14 18:32:17,243 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+/* Create Tables */
+
+CREATE TABLE CHARA
+(
+	CHARA_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'キャラクターID',
+	CHARA_NAME VARCHAR(40) NOT NULL COMMENT 'キャラクター名',
+	CHARA_GROUP_ID INT UNSIGNED NOT NULL COMMENT 'キャラクターグループID',
+	CHARA_IMG_URL VARCHAR(100) NOT NULL COMMENT 'キャラクター画像URL : コンテキストパス以降',
+	PRIMARY KEY (CHARA_ID)
+) COMMENT = 'キャラクター'
+2017-12-14 18:32:17,251 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE CHARA_GROUP
+(
+	CHARA_GROUP_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'キャラクターグループID',
+	CHARA_NAME VARCHAR(40) NOT NULL COMMENT 'キャラクターグループ名',
+	DESIGNER_ID INT UNSIGNED NOT NULL COMMENT 'デザイナーID',
+	PRIMARY KEY (CHARA_GROUP_ID)
+) COMMENT = 'キャラクターグループ'
+2017-12-14 18:32:17,260 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE DESIGNER
+(
+	DESIGNER_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'デザイナーID',
+	DESIGNER_NAME VARCHAR(40) NOT NULL COMMENT 'デザイナー名',
+	PRIMARY KEY (DESIGNER_ID)
+) COMMENT = 'デザイナー'
+2017-12-14 18:32:17,268 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE MESSAGE
+(
+	MESSAGE_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'メッセージID',
+	VILLAGE_ID INT UNSIGNED NOT NULL COMMENT '村ID',
+	VILLAGE_PLAYER_ID INT UNSIGNED COMMENT '村参加者ID',
+	PLAYER_ID INT UNSIGNED COMMENT 'プレイヤーID',
+	TO_VILLAGE_PLAYER_ID INT UNSIGNED COMMENT 'どの村参加者に',
+	DAY INT UNSIGNED NOT NULL COMMENT '何日目か',
+	MESSAGE_TYPE_CODE VARCHAR(10) NOT NULL COMMENT 'メッセージ種別コード',
+	MESSAGE_NUMBER INT UNSIGNED COMMENT 'メッセージ番号',
+	MESSAGE_CONTENT VARCHAR(1000) NOT NULL COMMENT 'メッセージ内容',
+	MESSAGE_DATETIME DATETIME NOT NULL COMMENT 'メッセージ日時',
+	REGISTER_DATETIME DATETIME NOT NULL COMMENT '登録日時',
+	REGISTER_TRACE VARCHAR(64) NOT NULL COMMENT '登録トレース',
+	UPDATE_DATETIME DATETIME NOT NULL COMMENT '更新日時',
+	UPDATE_TRACE VARCHAR(64) NOT NULL COMMENT '更新トレース',
+	PRIMARY KEY (MESSAGE_ID)
+) COMMENT = 'メッセージ'
+2017-12-14 18:32:17,280 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE MESSAGE_TYPE
+(
+	MESSAGE_TYPE_CODE VARCHAR(10) NOT NULL COMMENT 'メッセージ種別コード',
+	MESSAGE_TYPE_NAME VARCHAR(20) NOT NULL COMMENT 'メッセージ種別名',
+	PRIMARY KEY (MESSAGE_TYPE_CODE)
+) COMMENT = 'メッセージ種別'
+2017-12-14 18:32:17,291 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE PLAYER
+(
+	PLAYER_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'プレイヤーID',
+	PLAYER_NAME VARCHAR(12) NOT NULL UNIQUE COMMENT 'プレイヤーID',
+	PLAYER_PASSWORD CHAR(60) NOT NULL COMMENT 'プレイヤーパスワード',
+	REGISTER_DATETIME DATETIME NOT NULL COMMENT '登録日時',
+	REGISTER_TRACE VARCHAR(64) NOT NULL COMMENT '登録トレース',
+	UPDATE_DATETIME DATETIME NOT NULL COMMENT '更新日時',
+	UPDATE_TRACE VARCHAR(64) NOT NULL COMMENT '更新トレース',
+	PRIMARY KEY (PLAYER_ID)
+) COMMENT = 'プレイヤー'
+2017-12-14 18:32:17,315 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE VILLAGE
+(
+	VILALGE_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '村ID',
+	VILLAGE_DISPLAY_NAME VARCHAR(40) NOT NULL COMMENT '村表示名',
+	REGISTER_DATETIME DATETIME NOT NULL COMMENT '登録日時',
+	REGISTER_TRACE VARCHAR(64) NOT NULL COMMENT '登録トレース',
+	UPDATE_DATETIME DATETIME NOT NULL COMMENT '更新日時',
+	UPDATE_TRACE VARCHAR(64) NOT NULL COMMENT '更新トレース',
+	PRIMARY KEY (VILALGE_ID)
+) COMMENT = '村'
+2017-12-14 18:32:17,327 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE VILLAGE_PLAYER
+(
+	VILLAGE_PLAYER_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '村参加者ID',
+	VILLAGE_ID INT UNSIGNED NOT NULL COMMENT '村ID',
+	PLAYER_ID INT UNSIGNED NOT NULL COMMENT 'プレイヤーID',
+	CHARA_ID INT UNSIGNED NOT NULL COMMENT 'キャラクターID',
+	PRIMARY KEY (VILLAGE_PLAYER_ID),
+	CONSTRAINT UQ_village_player_id UNIQUE (VILLAGE_ID, PLAYER_ID)
+) COMMENT = '村参加者'
+2017-12-14 18:32:17,337 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+/* Create Foreign Keys */
+
+ALTER TABLE VILLAGE_PLAYER
+	ADD CONSTRAINT FK_VILLAGE_PLAYER_CHARA FOREIGN KEY (CHARA_ID)
+	REFERENCES CHARA (CHARA_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 18:32:17,359 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE CHARA
+	ADD CONSTRAINT FK_CHARA_CHARA_GROUP FOREIGN KEY (CHARA_GROUP_ID)
+	REFERENCES CHARA_GROUP (CHARA_GROUP_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 18:32:17,372 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE CHARA_GROUP
+	ADD CONSTRAINT FK_CHARA_GROUP_DESIGNER FOREIGN KEY (DESIGNER_ID)
+	REFERENCES DESIGNER (DESIGNER_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 18:32:17,386 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE MESSAGE
+	ADD CONSTRAINT FK_MESSAGE_MESSAGE_TYPE FOREIGN KEY (MESSAGE_TYPE_CODE)
+	REFERENCES MESSAGE_TYPE (MESSAGE_TYPE_CODE)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 18:32:17,410 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE MESSAGE
+	ADD CONSTRAINT FK_MESSAGE_PLAYER FOREIGN KEY (PLAYER_ID)
+	REFERENCES PLAYER (PLAYER_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 18:32:17,432 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE VILLAGE_PLAYER
+	ADD CONSTRAINT FK_VILLAGE_PLAYER_PLAYER FOREIGN KEY (PLAYER_ID)
+	REFERENCES PLAYER (PLAYER_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 18:32:17,447 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE MESSAGE
+	ADD CONSTRAINT FK_MESSAGE_VILLAGE FOREIGN KEY (VILLAGE_ID)
+	REFERENCES VILLAGE (VILALGE_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 18:32:17,471 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE VILLAGE_PLAYER
+	ADD CONSTRAINT FK_VILLAGE_PLAYER_VILLAGE FOREIGN KEY (VILLAGE_ID)
+	REFERENCES VILLAGE (VILALGE_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 18:32:17,489 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE MESSAGE
+	ADD CONSTRAINT FK_MESSAGE_VILLAGE_PLAYER FOREIGN KEY (VILLAGE_PLAYER_ID)
+	REFERENCES VILLAGE_PLAYER (VILLAGE_PLAYER_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 18:32:17,519 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE MESSAGE
+	ADD CONSTRAINT FK_MESSAGE_VILLAGE_PLAYER_TO FOREIGN KEY (TO_VILLAGE_PLAYER_ID)
+	REFERENCES VILLAGE_PLAYER (VILLAGE_PLAYER_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-14 18:32:17,535 [main] INFO  (DfSqlFileRunnerBase#traceResult():172) -  -> success=18 failure=0
+2017-12-14 18:32:17,536 [main] INFO  (DfSqlFileFireMan#fire():64) - ...Firing: replace-schema.sql
+2017-12-14 18:32:17,536 [main] INFO  (DfSqlFileRunnerBase#traceResult():172) -  -> success=0 failure=0
+2017-12-14 18:32:17,537 [main] INFO  (DfSqlFileFireMan#fire():89) - {Create Schema}: success=18 failure=0 (in 2 files)
+2017-12-14 18:32:17,651 [main] INFO  (DfLoadDataProcess#execute():129) - 
+2017-12-14 18:32:17,651 [main] INFO  (DfLoadDataProcess#execute():130) - * * * * * * * * * * *
+2017-12-14 18:32:17,651 [main] INFO  (DfLoadDataProcess#execute():131) - *                   *
+2017-12-14 18:32:17,652 [main] INFO  (DfLoadDataProcess#execute():132) - * Load Data         *
+2017-12-14 18:32:17,652 [main] INFO  (DfLoadDataProcess#execute():133) - *                   *
+2017-12-14 18:32:17,652 [main] INFO  (DfLoadDataProcess#execute():134) - * * * * * * * * * * *
+2017-12-14 18:32:17,697 [main] INFO  (DfTakeFinallyProcess#takeFinally():229) - 
+2017-12-14 18:32:17,698 [main] INFO  (DfTakeFinallyProcess#takeFinally():230) - * * * * * * * **
+2017-12-14 18:32:17,698 [main] INFO  (DfTakeFinallyProcess#takeFinally():231) - *              *
+2017-12-14 18:32:17,699 [main] INFO  (DfTakeFinallyProcess#takeFinally():232) - * Take Finally *
+2017-12-14 18:32:17,699 [main] INFO  (DfTakeFinallyProcess#takeFinally():233) - *              *
+2017-12-14 18:32:17,699 [main] INFO  (DfTakeFinallyProcess#takeFinally():234) - * * * * * * * **
+2017-12-14 18:32:17,713 [main] INFO  (DfSqlFileFireMan#fire():64) - ...Firing: take-finally.sql
+2017-12-14 18:32:17,715 [main] INFO  (DfSqlFileRunnerBase#traceResult():172) -  -> success=0 failure=0
+2017-12-14 18:32:17,716 [main] INFO  (DfSqlFileFireMan#fire():89) - {Take Finally}: success=0 failure=0 (in 1 files)
+2017-12-14 18:32:17,716 [main] INFO  (DfDataSourceHandler#destroy():120) - ...closeReally()
+2017-12-14 18:32:17,724 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m03s611ms
+
+  DBFLUTE_CLIENT: {werewolf-mansiondb}
+    database  = mysql (MySQL 5.6.37)
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+
+ {Create Schema}: success=18 failure=0 (in 2 files)
+  o replace-schema-10-basic.sql
+  o replace-schema.sql
+
+ {Load Data}: loaded-files=0
+  - (no data file)
+
+ {Take Finally}: success=0 failure=0 (in 1 files)
+  o take-finally.sql
+_/_/_/_/_/_/_/_/_/_/ {ReplaceSchema}
+2017-12-14 18:32:18,225 [main] INFO  (TorqueJDBCTransformTask#begin():104) - +------------------------------------------+
+2017-12-14 18:32:18,227 [main] INFO  (TorqueJDBCTransformTask#begin():105) - |                                          |
+2017-12-14 18:32:18,228 [main] INFO  (TorqueJDBCTransformTask#begin():106) - |                   JDBC                   |
+2017-12-14 18:32:18,228 [main] INFO  (TorqueJDBCTransformTask#begin():107) - |                                          |
+2017-12-14 18:32:18,228 [main] INFO  (TorqueJDBCTransformTask#begin():108) - +------------------------------------------+
+2017-12-14 18:32:18,242 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-14 18:32:18,242 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-14 18:32:18,242 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-14 18:32:18,242 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-14 18:32:18,282 [main] INFO  (DfSchemaXmlSerializer#serialize():286) - 
+2017-12-14 18:32:18,282 [main] INFO  (DfSchemaXmlSerializer#serialize():287) - ...Starting to process JDBC to SchemaXML
+2017-12-14 18:32:18,282 [main] INFO  (DfSchemaXmlSerializer#doLoadPreviousSchema():1532) - ...Loading previous schema (schema diff process)
+2017-12-14 18:32:18,282 [main] INFO  (DfSchemaXmlSerializer#doLoadPreviousSchema():1535) -  -> no previous (first time)
+2017-12-14 18:32:18,304 [main] INFO  (DfSchemaXmlSerializer#generateXML():360) - ...Getting DB connection
+2017-12-14 18:32:18,307 [main] INFO  (DfDataSourceHandler#createConnection():166) - ...Connecting to database by data source:
+2017-12-14 18:32:18,547 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():233) -   product = MySQL 5.6.37
+2017-12-14 18:32:18,547 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():234) -   driver  = MySQL Connector Java mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 ) for JDBC 4.0
+2017-12-14 18:32:18,547 [main] INFO  (DfSchemaXmlSerializer#generateXML():363) - ...Getting DB meta data
+2017-12-14 18:32:18,549 [main] INFO  (DfTableExtractor#doGetTableList():66) - ...Getting tables:
+2017-12-14 18:32:18,549 [main] INFO  (DfTableExtractor#doGetTableList():67) -   schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-14 18:32:18,549 [main] INFO  (DfTableExtractor#doGetTableList():68) -   types  = [TABLE, VIEW]
+2017-12-14 18:32:18,561 [main] INFO  (DfDbCommentExtractorBase#doSelectUserTabComments():121) - select table_type as OBJECT_TYPE, table_name as TABLE_NAME, table_comment as COMMENTS from information_schema.tables where table_schema = 'werewolf_mansiondb' order by table_name asc
+2017-12-14 18:32:18,564 [main] INFO  (DfDbCommentExtractorBase#doSelectUserColComments():168) - select table_name as TABLE_NAME, column_name as COLUMN_NAME, column_comment as COMMENTS from information_schema.columns where table_schema = 'werewolf_mansiondb' order by table_name asc, column_name asc
+2017-12-14 18:32:18,570 [main] INFO  (DfDatetimePrecisionExtractorMySQL#extractDatetimePrecisionMap():59) - select TABLE_NAME, COLUMN_NAME, DATETIME_PRECISION from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA = 'werewolf_mansiondb' and DATA_TYPE = 'datetime'
+2017-12-14 18:32:18,594 [main] INFO  (DfSchemaXmlSerializer#processTable():420) - 
+2017-12-14 18:32:18,595 [main] INFO  (DfSchemaXmlSerializer#processTable():421) - $ /= = = = = = = = = = = = = = = = = = = = = = = = = =
+2017-12-14 18:32:18,596 [main] INFO  (DfSchemaXmlSerializer#processTable():422) - $ [Table List]
+2017-12-14 18:32:18,596 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.chara(TABLE) // キャラクター
+2017-12-14 18:32:18,643 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.chara_group(TABLE) // キャラクターグループ
+2017-12-14 18:32:18,661 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.designer(TABLE) // デザイナー
+2017-12-14 18:32:18,689 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.message(TABLE) // メッセージ
+2017-12-14 18:32:18,700 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.message_type(TABLE) // メッセージ種別
+2017-12-14 18:32:18,714 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.player(TABLE) // プレイヤー
+2017-12-14 18:32:18,722 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.village(TABLE) // 村
+2017-12-14 18:32:18,732 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.village_player(TABLE) // 村参加者
+2017-12-14 18:32:18,756 [main] INFO  (DfSchemaXmlSerializer#processTable():434) - $ 
+2017-12-14 18:32:18,756 [main] INFO  (DfSchemaXmlSerializer#processTable():435) - $ [Table Count]
+2017-12-14 18:32:18,757 [main] INFO  (DfSchemaXmlSerializer#processTable():436) - $ 8
+2017-12-14 18:32:18,757 [main] INFO  (DfSchemaXmlSerializer#processTable():437) - $ = = = = = = = = = =/
+2017-12-14 18:32:18,757 [main] INFO  (DfSchemaXmlSerializer#processTable():438) - 
+2017-12-14 18:32:18,759 [main] INFO  (DfSchemaXmlSerializer#processSequence():805) - ...Getting sequences
+2017-12-14 18:32:18,765 [main] INFO  (DfSchemaXmlSerializer#serialize():301) - ...Serializing XML:
+2017-12-14 18:32:18,766 [main] INFO  (DfSchemaXmlSerializer#serialize():302) -   filePath = ./schema/project-schema-werewolf-mansiondb.xml
+2017-12-14 18:32:18,767 [main] INFO  (DfSchemaXmlSerializer#serialize():303) -   encoding = UTF-8
+2017-12-14 18:32:18,811 [main] INFO  (DfDataSourceHandler#destroy():120) - ...closeReally()
+2017-12-14 18:32:18,815 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s595ms
+
+  DBFLUTE_CLIENT: {werewolf-mansiondb}
+    database  = mysql (MySQL 5.6.37)
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {JDBC}
+2017-12-14 18:32:19,419 [main] INFO  (TorqueDocumentationTask#begin():177) - +------------------------------------------+
+2017-12-14 18:32:19,421 [main] INFO  (TorqueDocumentationTask#begin():178) - |                                          |
+2017-12-14 18:32:19,422 [main] INFO  (TorqueDocumentationTask#begin():179) - |                   Doc                    |
+2017-12-14 18:32:19,422 [main] INFO  (TorqueDocumentationTask#begin():187) - |                                          |
+2017-12-14 18:32:19,422 [main] INFO  (TorqueDocumentationTask#begin():188) - +------------------------------------------+
+2017-12-14 18:32:19,438 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-14 18:32:19,438 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-14 18:32:19,450 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-14 18:32:19,450 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-14 18:32:19,452 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():249) - 
+2017-12-14 18:32:19,453 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():250) - * * * * * * * * * * *
+2017-12-14 18:32:19,453 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():251) - *                   *
+2017-12-14 18:32:19,453 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():252) - *    Schema HTML    *
+2017-12-14 18:32:19,453 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():253) - *                   *
+2017-12-14 18:32:19,453 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():254) - * * * * * * * * * * *
+2017-12-14 18:32:19,523 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-14 18:32:19,665 [main] INFO  (DfAbstractTexenTask#fireVelocityProcess():253) - generator.parse("doc/ControlDocument.vm", ctx);
+2017-12-14 18:32:19,869 [main] INFO  (Database#doEnableDocumentOutputDirectory():1180) - ...Setting up documentOutputDirectory: ./output/doc
+2017-12-14 18:32:19,876 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():62) - /=======================================
+2017-12-14 18:32:19,877 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():63) - ...Initializing additional primary keys.
+2017-12-14 18:32:19,878 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():88) - ==========/
+2017-12-14 18:32:19,879 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():62) - /=======================================
+2017-12-14 18:32:19,879 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():63) - ...Initializing additional unique keys.
+2017-12-14 18:32:19,879 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():83) - ==========/
+2017-12-14 18:32:19,882 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():68) - /=======================================
+2017-12-14 18:32:19,882 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():69) - ...Initializing additional foreign keys.
+2017-12-14 18:32:19,884 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():88) - ==========/
+2017-12-14 18:32:19,893 [main] INFO  (DfDocumentSelector#doLoadSchemaHistory():157) - ...Loading schema history
+2017-12-14 18:32:19,893 [main] INFO  (DfDocumentSelector#doLoadSchemaHistory():163) -  -> no history
+2017-12-14 18:32:20,081 [main] INFO  (DfRefreshResourceProcess#show():299) - /===========================================================================
+2017-12-14 18:32:20,085 [main] INFO  (DfRefreshResourceProcess#show():299) - ...Refreshing [werewolf-mansion] by http://localhost:8386/
+2017-12-14 18:32:20,096 [main] INFO  (DfRefreshResourceProcess#show():299) - ==========/
+2017-12-14 18:32:20,099 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s689ms
+
+  DBFLUTE_CLIENT: {werewolf-mansiondb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {Doc}
+2017-12-14 18:32:21,519 [main] INFO  (TorqueDataModelTask#begin():110) - +------------------------------------------+
+2017-12-14 18:32:21,521 [main] INFO  (TorqueDataModelTask#begin():111) - |                                          |
+2017-12-14 18:32:21,522 [main] INFO  (TorqueDataModelTask#begin():112) - |                 Generate                 |
+2017-12-14 18:32:21,522 [main] INFO  (TorqueDataModelTask#begin():113) - |                                          |
+2017-12-14 18:32:21,522 [main] INFO  (TorqueDataModelTask#begin():114) - +------------------------------------------+
+2017-12-14 18:32:21,542 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-14 18:32:21,543 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-14 18:32:21,543 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-14 18:32:21,543 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-14 18:32:21,554 [main] INFO  (TorqueDataModelTask#setupControlTemplate():166) - 
+2017-12-14 18:32:21,555 [main] INFO  (TorqueDataModelTask#setupControlTemplate():167) - ...Using Java control: om/ControlGenerateJava.vm
+2017-12-14 18:32:21,576 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-14 18:32:21,705 [main] INFO  (DfAbstractTexenTask#fireVelocityProcess():253) - generator.parse("om/ControlGenerateJava.vm", ctx);
+2017-12-14 18:32:21,854 [main] INFO  (Database#doEnableGenerateOutputDirectory():1148) - ...Setting up generateOutputDirectory: ../src/main/java
+2017-12-14 18:32:21,856 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():62) - /=======================================
+2017-12-14 18:32:21,857 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():63) - ...Initializing additional primary keys.
+2017-12-14 18:32:21,857 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():88) - ==========/
+2017-12-14 18:32:21,858 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():62) - /=======================================
+2017-12-14 18:32:21,858 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():63) - ...Initializing additional unique keys.
+2017-12-14 18:32:21,859 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():83) - ==========/
+2017-12-14 18:32:21,861 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():68) - /=======================================
+2017-12-14 18:32:21,863 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():69) - ...Initializing additional foreign keys.
+2017-12-14 18:32:21,864 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():88) - ==========/
+2017-12-14 18:32:21,874 [main] INFO  (DfIncludeQueryInitializer#initializeIncludeQuery():58) - /=============================
+2017-12-14 18:32:21,875 [main] INFO  (DfIncludeQueryInitializer#initializeIncludeQuery():59) - ...Initializing include query.
+2017-12-14 18:32:21,875 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - String
+2017-12-14 18:32:21,875 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - Number
+2017-12-14 18:32:21,875 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - Date
+2017-12-14 18:32:21,876 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():86) -   NotEqual -> []
+2017-12-14 18:32:21,876 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():86) -   InScope -> []
+2017-12-14 18:32:21,876 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():86) -   NotInScope -> []
+2017-12-14 18:32:21,876 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - OrderBy
+2017-12-14 18:32:21,876 [main] INFO  (DfIncludeQueryInitializer#initializeIncludeQuery():61) - ========/
+2017-12-14 18:32:21,883 [main] INFO  (Database#info():2737) - public void parseAllCommon() {
+2017-12-14 18:32:21,884 [main] INFO  (Database#info():2737) -     parse('CDef');
+2017-12-14 18:32:21,924 [main] INFO  (Database#info():2737) -     parse('DBCurrent');
+2017-12-14 18:32:21,926 [main] INFO  (Database#info():2737) -     parse('DBFluteConfig');
+2017-12-14 18:32:21,946 [main] INFO  (Database#info():2737) -     parse('DBFluteInitializer');
+2017-12-14 18:32:21,952 [main] INFO  (Database#info():2737) -     parse('DBMetaInstanceHandler');
+2017-12-14 18:32:21,994 [main] INFO  (Database#info():2737) -     parse('EntityDefinedCommonColumn');
+2017-12-14 18:32:22,020 [main] INFO  (Database#info():2737) -     parse('ImplementedBehaviorSelector');
+2017-12-14 18:32:22,026 [main] INFO  (Database#info():2737) -     parse('ImplementedCommonColumnAutoSetupper');
+2017-12-14 18:32:22,032 [main] INFO  (Database#info():2737) -     parse('ImplementedInvokerAssistant');
+2017-12-14 18:32:22,039 [main] INFO  (Database#info():2737) -     parse('ImplementedSqlClauseCreator');
+2017-12-14 18:32:22,045 [main] INFO  (Database#info():2737) - }
+2017-12-14 18:32:22,046 [main] INFO  (Database#info():2737) - public void parseContainerConfig() {
+2017-12-14 18:32:22,047 [main] INFO  (Database#info():2737) -     parse('com/ort/dbflute/allcommon/DBFluteBeansJavaConfig.java')
+2017-12-14 18:32:22,073 [main] INFO  (Database#info():2737) - }
+2017-12-14 18:32:22,088 [main] INFO  (DfOldClassHandler#info():1045) - public void deleteOldTableClass() {
+2017-12-14 18:32:22,127 [main] INFO  (DfOldClassHandler#info():1045) - }
+2017-12-14 18:32:22,128 [main] INFO  (Database#info():2737) - public void parseTableClass() {
+2017-12-14 18:32:22,129 [main] INFO  (Database#info():2737) -     parse('chara');
+2017-12-14 18:32:22,374 [main] INFO  (Database#info():2737) -     parse('chara_group');
+2017-12-14 18:32:22,511 [main] INFO  (Database#info():2737) -     parse('designer');
+2017-12-14 18:32:22,701 [main] INFO  (Database#info():2737) -     parse('message');
+2017-12-14 18:32:22,936 [main] INFO  (Database#info():2737) -     parse('message_type');
+2017-12-14 18:32:23,021 [main] INFO  (Database#info():2737) -     parse('player');
+2017-12-14 18:32:23,180 [main] INFO  (Database#info():2737) -     parse('village');
+2017-12-14 18:32:23,308 [main] INFO  (Database#info():2737) -     parse('village_player');
+2017-12-14 18:32:23,455 [main] INFO  (Database#info():2737) - }
+2017-12-14 18:32:23,455 [main] INFO  (Database#info():2737) -  
+2017-12-14 18:32:23,471 [main] INFO  (DfRefreshResourceProcess#show():299) - /===========================================================================
+2017-12-14 18:32:23,471 [main] INFO  (DfRefreshResourceProcess#show():299) - ...Refreshing [werewolf-mansion] by http://localhost:8386/
+2017-12-14 18:32:23,474 [main] INFO  (DfRefreshResourceProcess#show():299) - ==========/
+2017-12-14 18:32:23,478 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m01s967ms
+
+  DBFLUTE_CLIENT: {werewolf-mansiondb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {Generate}
+2017-12-14 18:32:24,386 [main] INFO  (DfOutsideSqlTestTask#begin():77) - +------------------------------------------+
+2017-12-14 18:32:24,392 [main] INFO  (DfOutsideSqlTestTask#begin():78) - |                                          |
+2017-12-14 18:32:24,392 [main] INFO  (DfOutsideSqlTestTask#begin():79) - |              OutsideSqlTest              |
+2017-12-14 18:32:24,392 [main] INFO  (DfOutsideSqlTestTask#begin():80) - |                                          |
+2017-12-14 18:32:24,392 [main] INFO  (DfOutsideSqlTestTask#begin():81) - +------------------------------------------+
+2017-12-14 18:32:24,414 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-14 18:32:24,414 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-14 18:32:24,414 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-14 18:32:24,414 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-14 18:32:24,453 [main] INFO  (DfSqlFileFireMan#fire():89) - {Fired SQL}: success=0 failure=0 (in 0 files)
+2017-12-14 18:32:24,485 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s085ms
+
+  DBFLUTE_CLIENT: {werewolf-mansiondb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+
+ {Checked SQL}
+_/_/_/_/_/_/_/_/_/_/ {OutsideSqlTest}
+2017-12-14 18:32:25,379 [main] INFO  (DfSql2EntityTask#begin():106) - +------------------------------------------+
+2017-12-14 18:32:25,380 [main] INFO  (DfSql2EntityTask#begin():107) - |                                          |
+2017-12-14 18:32:25,380 [main] INFO  (DfSql2EntityTask#begin():108) - |                Sql2Entity                |
+2017-12-14 18:32:25,381 [main] INFO  (DfSql2EntityTask#begin():109) - |                                          |
+2017-12-14 18:32:25,381 [main] INFO  (DfSql2EntityTask#begin():110) - +------------------------------------------+
+2017-12-14 18:32:25,391 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-14 18:32:25,392 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-14 18:32:25,392 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-14 18:32:25,393 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-14 18:32:25,401 [main] INFO  (DfSql2EntityTask#setupControlTemplate():177) - 
+2017-12-14 18:32:25,401 [main] INFO  (DfSql2EntityTask#setupControlTemplate():178) - ...Using Java control: om/ControlSql2EntityJava.vm
+2017-12-14 18:32:25,405 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-14 18:32:25,481 [main] INFO  (DfSqlFileFireMan#fire():89) - {Fired SQL}: success=0 failure=0 (in 0 files)
+2017-12-14 18:32:25,517 [main] INFO  (DfSql2EntityTask#initControlContext():311) - 
+2017-12-14 18:32:25,518 [main] INFO  (DfSql2EntityTask#initControlContext():312) - ...Preparing generation of customize-entities and parameter-beans
+2017-12-14 18:32:25,518 [main] INFO  (DfSql2EntityTask#initControlContext():313) - * * * * * * * * * *
+2017-12-14 18:32:25,518 [main] INFO  (DfSql2EntityTask#initControlContext():314) - * CustomizeEntity *
+2017-12-14 18:32:25,519 [main] INFO  (DfSql2EntityTask#initControlContext():315) - * * * * * * * * * *
+2017-12-14 18:32:25,519 [main] INFO  (DfSql2EntityTask#showParameterBean():932) - * * * * * * * * *
+2017-12-14 18:32:25,519 [main] INFO  (DfSql2EntityTask#showParameterBean():933) - * ParameterBean *
+2017-12-14 18:32:25,520 [main] INFO  (DfSql2EntityTask#showParameterBean():934) - * * * * * * * * *
+2017-12-14 18:32:25,522 [main] INFO  (DfAbstractTexenTask#fireVelocityProcess():253) - generator.parse("om/ControlSql2EntityJava.vm", ctx);
+2017-12-14 18:32:25,684 [main] INFO  (Database#doEnableSql2EntityOutputDirectory():1164) - ...Setting up sql2EntityOutputDirectory: ../src/main/java
+2017-12-14 18:32:25,686 [main] INFO  (DfOldClassHandler#info():1045) - public void deleteOldCustomizeClass() {
+2017-12-14 18:32:25,691 [main] INFO  (DfOldClassHandler#info():1045) - }
+2017-12-14 18:32:25,691 [main] INFO  (Database#info():2737) - public void parseCustomizeEntity() {
+2017-12-14 18:32:25,692 [main] INFO  (Database#info():2737) - }
+2017-12-14 18:32:25,698 [main] INFO  (DfSql2EntityTask#showTargetSqlFileInformation():303) - 
+/- - - - - - - - - - - - - - - - - - - - - - - -
+Target SQL files: 0
+
+- - - - - - - - - -/
+2017-12-14 18:32:25,702 [main] INFO  (DfRefreshResourceProcess#show():299) - /===========================================================================
+2017-12-14 18:32:25,702 [main] INFO  (DfRefreshResourceProcess#show():299) - ...Refreshing [werewolf-mansion] by http://localhost:8386/
+2017-12-14 18:32:25,703 [main] INFO  (DfRefreshResourceProcess#show():299) - ==========/
+2017-12-14 18:32:25,706 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s333ms
+
+  DBFLUTE_CLIENT: {werewolf-mansiondb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {Sql2Entity}

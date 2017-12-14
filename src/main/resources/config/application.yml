@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    username: wmansion
+    password: wmans10n
+    driverClassName: com.mysql.jdbc.Driver
+  thymeleaf:
+    cache: false
+    mode: HTML
+server:
+  contextPath: /werewolf-mansion
+logging:
+  level:
+    org.springframework: WARN
+    root: DEBUG
+    org.seasar.dbflute: DEBUG
+    
+    
+  
