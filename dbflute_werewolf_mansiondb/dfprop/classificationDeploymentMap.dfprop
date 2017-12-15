@@ -16,6 +16,7 @@
 #
 map:{
     ; $$ALL$$    = map:{suffix:_FLG=Flg}
+    ; AUTHORITY  = map:{AUTHORITY_CODE=Authority}
 }
 # ----------------/
 

@@ -13,14 +13,32 @@
 		<div layout:fragment="content">
 			<div id="wrapper">
 				<h1>人狼館</h1>
+
+				<h2 th:if="${user == null}">ログイン</h2>
+				<span th:if="${form.error}" class="text-danger">ユーザIDまたはパスワードが正しくありません。</span>
+				<div class="col-sm-12" th:if="${user == null}">
+					<form method="post" action="" th:action="@{/login}" th:object="${form}">
+						ユーザID:
+						<input type="text" class="form-control" th:field="*{userId}" />
+						パスワード:
+						<input type="password" class="form-control" th:field="*{password}" />
+						<input type="submit" value="ログイン" />
+					</form>
+				</div>
 				
-				<h2>ログイン</h2>
-				<form method="post" action="" th:action="@{/login}" th:object="${form}">
-					ユーザID: <input type="text" class="form-control" th:field="*{userId}" /> 
-					パスワード: <input type="text" class="form-control" th:field="*{password}" /> 
-					<input type="submit" value="ログイン" />
-				</form>
-				
+				<h2 th:if="${user == null}">新規登録</h2>
+				<div class="col-sm-12" th:if="${user == null}">
+					<a href="javascript:void(0);" th:href="@{/new-player}">新規登録</a>
+				</div>
+
+				<h2 th:if="${user != null}">ログイン</h2>
+				<div class="col-sm-12" th:if="${user != null}">
+					<form method="post" action="" th:action="@{/logout}" th:object="${form}">
+						<span th:text="'ユーザID: ' + ${user.username}">ユーザID: hoge</span>
+						<input type="submit" value="ログアウト" />
+					</form>
+				</div>
+
 				<h2>新規村作成</h2>
 				<div class="col-sm-12">
 					<p>

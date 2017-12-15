@@ -31,6 +31,7 @@ public class DBMetaInstanceHandler implements DBMetaProvider {
     protected static final Map<String, String> _tableDbNameClassNameMap;
     static {
         final Map<String, String> tmpMap = newHashMap();
+        tmpMap.put("authority", "com.ort.dbflute.bsentity.dbmeta.AuthorityDbm");
         tmpMap.put("chara", "com.ort.dbflute.bsentity.dbmeta.CharaDbm");
         tmpMap.put("chara_group", "com.ort.dbflute.bsentity.dbmeta.CharaGroupDbm");
         tmpMap.put("designer", "com.ort.dbflute.bsentity.dbmeta.DesignerDbm");

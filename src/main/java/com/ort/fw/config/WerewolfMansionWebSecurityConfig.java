@@ -1,9 +1,12 @@
 package com.ort.fw.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.ort.fw.security.UserInfoService;
@@ -24,7 +27,8 @@ public class WerewolfMansionWebSecurityConfig extends WebSecurityConfigurerAdapt
         http.authorizeRequests()
                 // アクセス権限の設定
                 // staticディレクトリにある、'/css/','fonts','/js/'は制限なし
-                .antMatchers("/css/**", "/fonts/**", "/js/**")
+                // 一時的に全て許可
+                .antMatchers("/css/**", "/fonts/**", "/js/**", "/**")
                 .permitAll()
                 // '/admin/'で始まるURLには、'ADMIN'ロールのみアクセス可
                 .antMatchers("/admin/**")
@@ -37,6 +41,10 @@ public class WerewolfMansionWebSecurityConfig extends WebSecurityConfigurerAdapt
                 .formLogin()
                 // ログイン処理のURL
                 .loginPage("/login")
+                // ログイン成功時の遷移先URL
+                .defaultSuccessUrl("/")
+                // ログイン失敗時の遷移先URL
+                .failureUrl("/?error=true")
                 // usernameのパラメタ名
                 .usernameParameter("userId")
                 // passwordのパラメタ名
@@ -58,6 +66,14 @@ public class WerewolfMansionWebSecurityConfig extends WebSecurityConfigurerAdapt
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userInfoService);
+        //        auth.userDetailsService(userInfoService);
+        auth.authenticationProvider(createAuthProvider());
+    }
+
+    private AuthenticationProvider createAuthProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userInfoService);
+        authProvider.setPasswordEncoder(new BCryptPasswordEncoder());
+        return authProvider;
     }
 }

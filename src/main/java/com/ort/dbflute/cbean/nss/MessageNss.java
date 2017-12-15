@@ -28,9 +28,11 @@ public class MessageNss {
     /**
      * With nested relation columns to select clause. <br>
      * player by my PLAYER_ID, named 'player'.
+     * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
      */
-    public void withPlayer() {
+    public PlayerNss withPlayer() {
         _query.xdoNss(() -> _query.queryPlayer());
+        return new PlayerNss(_query.queryPlayer());
     }
     /**
      * With nested relation columns to select clause. <br>

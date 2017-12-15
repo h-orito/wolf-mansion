@@ -258,6 +258,11 @@ public class BsMessageCB extends AbstractConditionBean {
         doSetupSelect(() -> query().queryMessageType());
     }
 
+    protected PlayerNss _nssPlayer;
+    public PlayerNss xdfgetNssPlayer() {
+        if (_nssPlayer == null) { _nssPlayer = new PlayerNss(null); }
+        return _nssPlayer;
+    }
     /**
      * Set up relation columns to select clause. <br>
      * player by my PLAYER_ID, named 'player'.
@@ -269,13 +274,17 @@ public class BsMessageCB extends AbstractConditionBean {
      *     ... = <span style="color: #553000">message</span>.<span style="color: #CC4747">getPlayer()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
      * });
      * </pre>
+     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
      */
-    public void setupSelect_Player() {
+    public PlayerNss setupSelect_Player() {
         assertSetupSelectPurpose("player");
         if (hasSpecifiedLocalColumn()) {
             specify().columnPlayerId();
         }
         doSetupSelect(() -> query().queryPlayer());
+        if (_nssPlayer == null || !_nssPlayer.hasConditionQuery())
+        { _nssPlayer = new PlayerNss(query().queryPlayer()); }
+        return _nssPlayer;
     }
 
     protected VillagePlayerNss _nssVillagePlayerByToVillagePlayerId;

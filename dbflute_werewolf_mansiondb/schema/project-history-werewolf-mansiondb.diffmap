@@ -1,0 +1,56 @@
+map:{
+    ; 2017/12/15 15:56:22 = map:{
+        ; diffDate = 2017/12/15 15:56:22
+        ; tableCount = map:{
+            ; next = 9
+            ; previous = 8
+        }
+        ; tableDiff = map:{
+            ; authority = map:{
+                ; tableName = authority
+                ; diffType = ADD
+            }
+            ; player = map:{
+                ; tableName = player
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; AUTHORITY_CODE = map:{
+                        ; columnName = AUTHORITY_CODE
+                        ; diffType = ADD
+                    }
+                    ; AUTHORITY = map:{
+                        ; columnName = AUTHORITY
+                        ; diffType = DELETE
+                    }
+                }
+                ; foreignKeyDiff = map:{
+                    ; FK_PLAYER_AUTHORITY = map:{
+                        ; constraintName = FK_PLAYER_AUTHORITY
+                        ; diffType = ADD
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_PLAYER_AUTHORITY = map:{
+                        ; constraintName = FK_PLAYER_AUTHORITY
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
+    ; 2017/12/15 15:52:34 = map:{
+        ; diffDate = 2017/12/15 15:52:34
+        ; tableDiff = map:{
+            ; player = map:{
+                ; tableName = player
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; AUTHORITY = map:{
+                        ; columnName = AUTHORITY
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
+}

@@ -240,6 +240,47 @@
 			</table_properties>
 		</table>
 		<table>
+			<physical_name>authority</physical_name>
+			<logical_name>権限</logical_name>
+			<description></description>
+			<height>75</height>
+			<width>120</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>275</x>
+			<y>600</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>authority_code</physical_name>
+					<logical_name>権限コード</logical_name>
+					<type>varchar(n)</type>
+					<length>10</length>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>authority_name</physical_name>
+					<logical_name>権限名</logical_name>
+					<type>varchar(n)</type>
+					<length>20</length>
+					<not_null>true</not_null>
+				</normal_column>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
 			<physical_name>designer</physical_name>
 			<logical_name>デザイナー</logical_name>
 			<description></description>
@@ -507,6 +548,21 @@
 				<b>192</b>
 			</color>
 			<connections>
+				<relationship>
+					<name>FK_player_authority</name>
+					<source>table.authority</source>
+					<target>table.player</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>authority_code</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
 			</connections>
 			<columns>
 				<normal_column>
@@ -531,6 +587,12 @@
 					<logical_name>プレイヤーパスワード</logical_name>
 					<type>character(n)</type>
 					<length>60</length>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>authority_code</physical_name>
+					<referred_column>table.authority.authority_code</referred_column>
+					<relationship>FK_player_authority</relationship>
 					<not_null>true</not_null>
 				</normal_column>
 				<column_group>共通カラム</column_group>

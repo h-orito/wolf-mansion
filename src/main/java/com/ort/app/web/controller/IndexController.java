@@ -1,16 +1,12 @@
 package com.ort.app.web.controller;
 
-import java.security.Principal;
-
 import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import com.ort.app.web.form.LoginForm;
 import com.ort.app.web.model.IndexResultContent;
@@ -32,21 +28,14 @@ public class IndexController {
     //                                                                             Execute
     //                                                                             =======
     @GetMapping("/")
-    private String index(LoginForm form, Principal principal, Model model) {
-        Authentication authentication = (Authentication) principal;
-        UserInfo user = (UserInfo) authentication.getPrincipal();
-        model.addAttribute("user", user);
+    private String index(LoginForm form, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof UserInfo) {
+            UserInfo user = UserInfo.class.cast(authentication.getPrincipal());
+            model.addAttribute("user", user);
+        }
 
         setIndexModel(form, model);
-        return "index";
-    }
-
-    @PostMapping("/login")
-    private String login(@Validated LoginForm form, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            setIndexModel(form, model);
-            return "index";
-        }
         return "index";
     }
 

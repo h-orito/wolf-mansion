@@ -61,5 +61,12 @@ map:{
              ; code=false; name=False; alias=いいえ ; comment=無効を示す
         }
     }
+    ; Authority = list:{
+        ; map:{topComment=権限; codeType=String}
+        ; map:{
+            ; table=AUTHORITY
+            ; code=AUTHORITY_CODE; name=AUTHORITY_NAME
+        }
+    }
 }
 # ----------------/

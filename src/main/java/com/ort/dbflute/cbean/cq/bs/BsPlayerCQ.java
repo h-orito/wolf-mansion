@@ -161,6 +161,26 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
      */
     public BsPlayerCQ addOrderBy_PlayerPassword_Desc() { regOBD("PLAYER_PASSWORD"); return this; }
 
+    protected ConditionValue _authorityCode;
+    public ConditionValue xdfgetAuthorityCode()
+    { if (_authorityCode == null) { _authorityCode = nCV(); }
+      return _authorityCode; }
+    protected ConditionValue xgetCValueAuthorityCode() { return xdfgetAuthorityCode(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(10), FK to authority, classification=Authority}
+     * @return this. (NotNull)
+     */
+    public BsPlayerCQ addOrderBy_AuthorityCode_Asc() { regOBA("AUTHORITY_CODE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(10), FK to authority, classification=Authority}
+     * @return this. (NotNull)
+     */
+    public BsPlayerCQ addOrderBy_AuthorityCode_Desc() { regOBD("AUTHORITY_CODE"); return this; }
+
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
     { if (_registerDatetime == null) { _registerDatetime = nCV(); }
@@ -280,11 +300,36 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
     //                                                                         Union Query
     //                                                                         ===========
     public void reflectRelationOnUnionQuery(ConditionQuery bqs, ConditionQuery uqs) {
+        PlayerCQ bq = (PlayerCQ)bqs;
+        PlayerCQ uq = (PlayerCQ)uqs;
+        if (bq.hasConditionQueryAuthority()) {
+            uq.queryAuthority().reflectRelationOnUnionQuery(bq.queryAuthority(), uq.queryAuthority());
+        }
     }
 
     // ===================================================================================
     //                                                                       Foreign Query
     //                                                                       =============
+    /**
+     * Get the condition-query for relation table. <br>
+     * authority by my AUTHORITY_CODE, named 'authority'.
+     * @return The instance of condition-query. (NotNull)
+     */
+    public AuthorityCQ queryAuthority() {
+        return xdfgetConditionQueryAuthority();
+    }
+    public AuthorityCQ xdfgetConditionQueryAuthority() {
+        String prop = "authority";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryAuthority()); xsetupOuterJoinAuthority(); }
+        return xgetQueRlMap(prop);
+    }
+    protected AuthorityCQ xcreateQueryAuthority() {
+        String nrp = xresolveNRP("player", "authority"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        return xinitRelCQ(new AuthorityCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "authority", nrp);
+    }
+    protected void xsetupOuterJoinAuthority() { xregOutJo("authority"); }
+    public boolean hasConditionQueryAuthority() { return xhasQueRlMap("authority"); }
+
     protected Map<String, Object> xfindFixedConditionDynamicParameterMap(String property) {
         return null;
     }

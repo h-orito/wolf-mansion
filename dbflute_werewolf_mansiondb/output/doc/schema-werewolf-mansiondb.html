@@ -275,6 +275,7 @@ dl.procedurelist dd.column pre {
 <p class="sublink">
  <a href="#cdef">Classification Definition</a>
 </p>
+<p class="sisterlink"><a href="./history-werewolf-mansiondb.html">to HistoryHTML</a></p>
 </div>
 
 <h2>Table List</h2>
@@ -298,6 +299,15 @@ dl.procedurelist dd.column pre {
 	<tbody id="table-list-body">
 	<tr>
 		<td class="rownumcell">1</td>
+		<td><a href="#authority" title="type=TABLE, primaryKey={AUTHORITY_CODE}, nameLength=9, columnCount=2">authority</a></td>
+		<td class="typecell">TABLE</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#player" title="FK_PLAYER_AUTHORITY">player</a></td>
+		<td class="commentcell"> 権限</td>
+		<td class="subcell">Authority</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
 		<td><a href="#chara" title="type=TABLE, primaryKey={CHARA_ID}, nameLength=5, columnCount=4">chara</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara_group" title="FK_CHARA_CHARA_GROUP">chara_group</a></td>
@@ -306,7 +316,7 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">Chara</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">2</td>
+		<td class="rownumcell">3</td>
 		<td><a href="#chara_group" title="type=TABLE, primaryKey={CHARA_GROUP_ID}, nameLength=11, columnCount=3">chara_group</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#designer" title="FK_CHARA_GROUP_DESIGNER">designer</a></td>
@@ -315,7 +325,7 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">CharaGroup</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">3</td>
+		<td class="rownumcell">4</td>
 		<td><a href="#designer" title="type=TABLE, primaryKey={DESIGNER_ID}, nameLength=8, columnCount=2">designer</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -324,7 +334,7 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">Designer</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">4</td>
+		<td class="rownumcell">5</td>
 		<td><a href="#message" title="type=TABLE, primaryKey={MESSAGE_ID}, nameLength=7, columnCount=14">message</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#message_type" title="FK_MESSAGE_MESSAGE_TYPE">message_type</a>, <a href="#player" title="FK_MESSAGE_PLAYER">player</a>, <a href="#village_player" title="FK_MESSAGE_VILLAGE_PLAYER_TO">village_player</a>, <a href="#village" title="FK_MESSAGE_VILLAGE">village</a>, <a href="#village_player" title="FK_MESSAGE_VILLAGE_PLAYER">village_player</a></td>
@@ -333,7 +343,7 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">Message</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">5</td>
+		<td class="rownumcell">6</td>
 		<td><a href="#message_type" title="type=TABLE, primaryKey={MESSAGE_TYPE_CODE}, nameLength=12, columnCount=2">message_type</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -342,16 +352,16 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">MessageType</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">6</td>
-		<td><a href="#player" title="type=TABLE, primaryKey={PLAYER_ID}, nameLength=6, columnCount=7">player</a></td>
+		<td class="rownumcell">7</td>
+		<td><a href="#player" title="type=TABLE, primaryKey={PLAYER_ID}, nameLength=6, columnCount=8">player</a></td>
 		<td class="typecell">TABLE</td>
-		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#authority" title="FK_PLAYER_AUTHORITY">authority</a></td>
 		<td class="relcell"><a href="#message" title="FK_MESSAGE_PLAYER">message</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_PLAYER">village_player</a></td>
 		<td class="commentcell"> プレイヤー</td>
 		<td class="subcell">Player</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">7</td>
+		<td class="rownumcell">8</td>
 		<td><a href="#village" title="type=TABLE, primaryKey={VILALGE_ID}, nameLength=7, columnCount=6">village</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -360,7 +370,7 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">Village</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">8</td>
+		<td class="rownumcell">9</td>
 		<td><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=4">village_player</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara" title="FK_VILLAGE_PLAYER_CHARA">chara</a>, <a href="#player" title="FK_VILLAGE_PLAYER_PLAYER">player</a>, <a href="#village" title="FK_VILLAGE_PLAYER_VILLAGE">village</a></td>
@@ -371,6 +381,65 @@ dl.procedurelist dd.column pre {
 	</tbody>
 </table>
 
+<h2 id="authority" title="type=TABLE, primaryKey={AUTHORITY_CODE}, nameLength=9, columnCount=2">
+authority
+</h2>
+<p class="tablecomment">権限</p>
+<table>
+	<thead>
+	<tr>
+		<th class="rownumhead">No.</th>
+		<th>PK</th>
+		<th>ID</th>
+		<th>UQ</th>
+		<th>IX</th>
+		<th>Not<br />Null</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Size</th>
+		<th>ForeignTable</th>
+		<th>ReferrerTable</th>
+		<th>Classification</th>
+		<th>ColumnComment</th>
+		<th>PropertyName</th>
+		<th>JavaType</th>
+	</tr>
+	</thead>
+	<tr>
+		<td class="rownumcell">1</td>
+		<td class="flgcell" title="PRIMARY">o</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td id="authority_authority_code">AUTHORITY_CODE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell"><a href="#player" title="FK_PLAYER_AUTHORITY">player</a>&nbsp;</td>
+		<td class="relcell"><a href="#AuthorityCls">Authority</a></td>
+		<td class="commentcell"> 権限コード</td>
+		<td class="subcell">authorityCode</td>
+		<td class="subcell">String</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td id="authority_authority_name">AUTHORITY_NAME</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"> 権限名</td>
+		<td class="subcell">authorityName</td>
+		<td class="subcell">String</td>
+	</tr>
+</table>
 <h2 id="chara" title="type=TABLE, primaryKey={CHARA_ID}, nameLength=5, columnCount=4">
 chara
 </h2>
@@ -921,7 +990,7 @@ message_type
 		<td class="subcell">String</td>
 	</tr>
 </table>
-<h2 id="player" title="type=TABLE, primaryKey={PLAYER_ID}, nameLength=6, columnCount=7">
+<h2 id="player" title="type=TABLE, primaryKey={PLAYER_ID}, nameLength=6, columnCount=8">
 player
 </h2>
 <p class="tablecomment">プレイヤー</p>
@@ -1001,6 +1070,23 @@ player
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_PLAYER_AUTHORITY(AUTHORITY_CODE)">o</td>
+		<td class="flgcell">*</td>
+		<td id="player_authority_code">AUTHORITY_CODE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell"><a href="#authority" title="FK_PLAYER_AUTHORITY">authority</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#AuthorityCls">Authority</a></td>
+		<td class="commentcell"> 権限コード</td>
+		<td class="subcell">authorityCode</td>
+		<td class="subcell">String</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">5</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">*</td>
 		<td class="comcolcell" id="player_register_datetime">REGISTER_DATETIME</td>
@@ -1014,7 +1100,7 @@ player
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">5</td>
+		<td class="rownumcell">6</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1031,7 +1117,7 @@ player
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">6</td>
+		<td class="rownumcell">7</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1048,7 +1134,7 @@ player
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">7</td>
+		<td class="rownumcell">8</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1320,6 +1406,30 @@ village_player
 				<td>False</td>
 				<td>いいえ</td>
 				<td class="commentcell">無効を示す</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>Authority</td>
+		<td class="clstypecell">table</td>
+		<td>権限</td>
+		<td>
+			<table class="child">
+			<tr>
+				<th id="AuthorityCls">Code</th>
+				<th>Name</th>
+				<th>Comment</th>
+			</tr>
+			<tr>
+				<td>ADMIN</td>
+				<td>管理者</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>PLAYER</td>
+				<td>プレイヤー</td>
+				<td class="commentcell"> &nbsp;</td>
 			</tr>
 			</table>
 		</td>

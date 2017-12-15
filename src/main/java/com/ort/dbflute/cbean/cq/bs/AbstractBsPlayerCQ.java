@@ -589,6 +589,133 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
     protected abstract ConditionValue xgetCValuePlayerPassword();
 
     /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(10), FK to authority, classification=Authority}
+     * @param authorityCode The value of authorityCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    protected void setAuthorityCode_Equal(String authorityCode) {
+        doSetAuthorityCode_Equal(fRES(authorityCode));
+    }
+
+    /**
+     * Equal(=). As Authority. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(10), FK to authority, classification=Authority} <br>
+     * 権限
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setAuthorityCode_Equal_AsAuthority(CDef.Authority cdef) {
+        doSetAuthorityCode_Equal(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * Equal(=). As 管理者 (ADMIN). And OnlyOnceRegistered. <br>
+     * 管理者
+     */
+    public void setAuthorityCode_Equal_管理者() {
+        setAuthorityCode_Equal_AsAuthority(CDef.Authority.管理者);
+    }
+
+    /**
+     * Equal(=). As プレイヤー (PLAYER). And OnlyOnceRegistered. <br>
+     * プレイヤー
+     */
+    public void setAuthorityCode_Equal_プレイヤー() {
+        setAuthorityCode_Equal_AsAuthority(CDef.Authority.プレイヤー);
+    }
+
+    protected void doSetAuthorityCode_Equal(String authorityCode) {
+        regAuthorityCode(CK_EQ, authorityCode);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(10), FK to authority, classification=Authority}
+     * @param authorityCode The value of authorityCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    protected void setAuthorityCode_NotEqual(String authorityCode) {
+        doSetAuthorityCode_NotEqual(fRES(authorityCode));
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As Authority. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(10), FK to authority, classification=Authority} <br>
+     * 権限
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setAuthorityCode_NotEqual_AsAuthority(CDef.Authority cdef) {
+        doSetAuthorityCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 管理者 (ADMIN). And OnlyOnceRegistered. <br>
+     * 管理者
+     */
+    public void setAuthorityCode_NotEqual_管理者() {
+        setAuthorityCode_NotEqual_AsAuthority(CDef.Authority.管理者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As プレイヤー (PLAYER). And OnlyOnceRegistered. <br>
+     * プレイヤー
+     */
+    public void setAuthorityCode_NotEqual_プレイヤー() {
+        setAuthorityCode_NotEqual_AsAuthority(CDef.Authority.プレイヤー);
+    }
+
+    protected void doSetAuthorityCode_NotEqual(String authorityCode) {
+        regAuthorityCode(CK_NES, authorityCode);
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(10), FK to authority, classification=Authority}
+     * @param authorityCodeList The collection of authorityCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    protected void setAuthorityCode_InScope(Collection<String> authorityCodeList) {
+        doSetAuthorityCode_InScope(authorityCodeList);
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Authority. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(10), FK to authority, classification=Authority} <br>
+     * 権限
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setAuthorityCode_InScope_AsAuthority(Collection<CDef.Authority> cdefList) {
+        doSetAuthorityCode_InScope(cTStrL(cdefList));
+    }
+
+    protected void doSetAuthorityCode_InScope(Collection<String> authorityCodeList) {
+        regINS(CK_INS, cTL(authorityCodeList), xgetCValueAuthorityCode(), "AUTHORITY_CODE");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(10), FK to authority, classification=Authority}
+     * @param authorityCodeList The collection of authorityCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    protected void setAuthorityCode_NotInScope(Collection<String> authorityCodeList) {
+        doSetAuthorityCode_NotInScope(authorityCodeList);
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. As Authority. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(10), FK to authority, classification=Authority} <br>
+     * 権限
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setAuthorityCode_NotInScope_AsAuthority(Collection<CDef.Authority> cdefList) {
+        doSetAuthorityCode_NotInScope(cTStrL(cdefList));
+    }
+
+    protected void doSetAuthorityCode_NotInScope(Collection<String> authorityCodeList) {
+        regINS(CK_NINS, cTL(authorityCodeList), xgetCValueAuthorityCode(), "AUTHORITY_CODE");
+    }
+
+    protected void regAuthorityCode(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueAuthorityCode(), "AUTHORITY_CODE"); }
+    protected abstract ConditionValue xgetCValueAuthorityCode();
+
+    /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @param registerDatetime The value of registerDatetime as equal. (basically NotNull: error as default, or no condition as option)

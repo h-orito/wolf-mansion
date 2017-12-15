@@ -15,7 +15,7 @@ import com.ort.dbflute.cbean.*;
  *     PLAYER_ID
  *
  * [column]
- *     PLAYER_ID, PLAYER_NAME, PLAYER_PASSWORD, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     PLAYER_ID, PLAYER_NAME, PLAYER_PASSWORD, AUTHORITY_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -27,13 +27,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [foreign table]
- *     
+ *     authority
  *
  * [referrer table]
  *     message, village_player
  *
  * [foreign property]
- *     
+ *     authority
  *
  * [referrer property]
  *     messageList, villagePlayerList
@@ -132,6 +132,13 @@ public class LoaderOfPlayer {
     // ===================================================================================
     //                                                                    Pull out Foreign
     //                                                                    ================
+    protected LoaderOfAuthority _foreignAuthorityLoader;
+    public LoaderOfAuthority pulloutAuthority() {
+        if (_foreignAuthorityLoader == null)
+        { _foreignAuthorityLoader = new LoaderOfAuthority().ready(myBhv().pulloutAuthority(_selectedList), _selector); }
+        return _foreignAuthorityLoader;
+    }
+
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
