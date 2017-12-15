@@ -238,7 +238,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
     //                                                                       =============
     /**
      * Get the condition-query for relation table. <br>
-     * chara by my CHARA_ID, named 'chara'.
+     * CHARA by my CHARA_ID, named 'chara'.
      * @return The instance of condition-query. (NotNull)
      */
     public CharaCQ queryChara() {
@@ -258,7 +258,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
 
     /**
      * Get the condition-query for relation table. <br>
-     * player by my PLAYER_ID, named 'player'.
+     * PLAYER by my PLAYER_ID, named 'player'.
      * @return The instance of condition-query. (NotNull)
      */
     public PlayerCQ queryPlayer() {
@@ -278,7 +278,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
 
     /**
      * Get the condition-query for relation table. <br>
-     * village by my VILLAGE_ID, named 'village'.
+     * VILLAGE by my VILLAGE_ID, named 'village'.
      * @return The instance of condition-query. (NotNull)
      */
     public VillageCQ queryVillage() {

@@ -239,7 +239,7 @@ public class BsCharaGroupCB extends AbstractConditionBean {
     //                                                                         ===========
     /**
      * Set up relation columns to select clause. <br>
-     * designer by my DESIGNER_ID, named 'designer'.
+     * DESIGNER by my DESIGNER_ID, named 'designer'.
      * <pre>
      * <span style="color: #0000C0">charaGroupBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_Designer()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
@@ -332,7 +332,7 @@ public class BsCharaGroupCB extends AbstractConditionBean {
         protected String getTableDbName() { return "chara_group"; }
         /**
          * Prepare to specify functions about relation table. <br>
-         * designer by my DESIGNER_ID, named 'designer'.
+         * DESIGNER by my DESIGNER_ID, named 'designer'.
          * @return The instance for specification for relation table to specify. (NotNull)
          */
         public DesignerCB.HpSpecification specifyDesigner() {
@@ -353,7 +353,7 @@ public class BsCharaGroupCB extends AbstractConditionBean {
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
          * {select max(FOO) from chara where ...) as FOO_MAX} <br>
-         * chara by CHARA_GROUP_ID, named 'charaList'.
+         * CHARA by CHARA_GROUP_ID, named 'charaList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(charaCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
          *     charaCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>

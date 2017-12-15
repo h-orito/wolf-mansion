@@ -416,7 +416,7 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
     //                                                                       =============
     /**
      * Get the condition-query for relation table. <br>
-     * message_type by my MESSAGE_TYPE_CODE, named 'messageType'.
+     * MESSAGE_TYPE by my MESSAGE_TYPE_CODE, named 'messageType'.
      * @return The instance of condition-query. (NotNull)
      */
     public MessageTypeCQ queryMessageType() {
@@ -436,7 +436,7 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
 
     /**
      * Get the condition-query for relation table. <br>
-     * player by my PLAYER_ID, named 'player'.
+     * PLAYER by my PLAYER_ID, named 'player'.
      * @return The instance of condition-query. (NotNull)
      */
     public PlayerCQ queryPlayer() {
@@ -456,7 +456,7 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
 
     /**
      * Get the condition-query for relation table. <br>
-     * village_player by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'.
+     * VILLAGE_PLAYER by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'.
      * @return The instance of condition-query. (NotNull)
      */
     public VillagePlayerCQ queryVillagePlayerByToVillagePlayerId() {
@@ -476,7 +476,7 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
 
     /**
      * Get the condition-query for relation table. <br>
-     * village by my VILLAGE_ID, named 'village'.
+     * VILLAGE by my VILLAGE_ID, named 'village'.
      * @return The instance of condition-query. (NotNull)
      */
     public VillageCQ queryVillage() {
@@ -496,7 +496,7 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
 
     /**
      * Get the condition-query for relation table. <br>
-     * village_player by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'.
+     * VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'.
      * @return The instance of condition-query. (NotNull)
      */
     public VillagePlayerCQ queryVillagePlayerByVillagePlayerId() {

@@ -52,9 +52,9 @@ public class MessageTypeDbm extends AbstractDBMeta {
     //                                                                          Table Info
     //                                                                          ==========
     protected final String _tableDbName = "message_type";
-    protected final String _tableDispName = "message_type";
+    protected final String _tableDispName = "MESSAGE_TYPE";
     protected final String _tablePropertyName = "messageType";
-    protected final TableSqlName _tableSqlName = new TableSqlName("message_type", _tableDbName);
+    protected final TableSqlName _tableSqlName = new TableSqlName("MESSAGE_TYPE", _tableDbName);
     { _tableSqlName.xacceptFilter(DBFluteConfig.getInstance().getTableSqlNameFilter()); }
     public String getTableDbName() { return _tableDbName; }
     public String getTableDispName() { return _tableDispName; }
@@ -110,7 +110,7 @@ public class MessageTypeDbm extends AbstractDBMeta {
     //                                     Referrer Property
     //                                     -----------------
     /**
-     * message by MESSAGE_TYPE_CODE, named 'messageList'.
+     * MESSAGE by MESSAGE_TYPE_CODE, named 'messageList'.
      * @return The information object of referrer property. (NotNull)
      */
     public ReferrerInfo referrerMessageList() {

@@ -303,7 +303,7 @@ public class BsDesignerCB extends AbstractConditionBean {
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
          * {select max(FOO) from chara_group where ...) as FOO_MAX} <br>
-         * chara_group by DESIGNER_ID, named 'charaGroupList'.
+         * CHARA_GROUP by DESIGNER_ID, named 'charaGroupList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(groupCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
          *     groupCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>

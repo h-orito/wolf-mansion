@@ -20,14 +20,14 @@ public class MessageNss {
     //                                                                     ===============
     /**
      * With nested relation columns to select clause. <br>
-     * message_type by my MESSAGE_TYPE_CODE, named 'messageType'.
+     * MESSAGE_TYPE by my MESSAGE_TYPE_CODE, named 'messageType'.
      */
     public void withMessageType() {
         _query.xdoNss(() -> _query.queryMessageType());
     }
     /**
      * With nested relation columns to select clause. <br>
-     * player by my PLAYER_ID, named 'player'.
+     * PLAYER by my PLAYER_ID, named 'player'.
      * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
      */
     public PlayerNss withPlayer() {
@@ -36,7 +36,7 @@ public class MessageNss {
     }
     /**
      * With nested relation columns to select clause. <br>
-     * village_player by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'.
+     * VILLAGE_PLAYER by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'.
      * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
      */
     public VillagePlayerNss withVillagePlayerByToVillagePlayerId() {
@@ -45,14 +45,14 @@ public class MessageNss {
     }
     /**
      * With nested relation columns to select clause. <br>
-     * village by my VILLAGE_ID, named 'village'.
+     * VILLAGE by my VILLAGE_ID, named 'village'.
      */
     public void withVillage() {
         _query.xdoNss(() -> _query.queryVillage());
     }
     /**
      * With nested relation columns to select clause. <br>
-     * village_player by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'.
+     * VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'.
      * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
      */
     public VillagePlayerNss withVillagePlayerByVillagePlayerId() {

@@ -11,7 +11,7 @@ import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The entity of village as TABLE. <br>
+ * The entity of VILLAGE as TABLE. <br>
  * 村
  * <pre>
  * [primary-key]
@@ -33,7 +33,7 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [referrer table]
- *     message, village_player
+ *     MESSAGE, VILLAGE_PLAYER
  *
  * [foreign property]
  *     
@@ -116,11 +116,11 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    /** message by VILLAGE_ID, named 'messageList'. */
+    /** MESSAGE by VILLAGE_ID, named 'messageList'. */
     protected List<Message> _messageList;
 
     /**
-     * [get] message by VILLAGE_ID, named 'messageList'.
+     * [get] MESSAGE by VILLAGE_ID, named 'messageList'.
      * @return The entity list of referrer property 'messageList'. (NotNull: even if no loading, returns empty list)
      */
     public List<Message> getMessageList() {
@@ -129,18 +129,18 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] message by VILLAGE_ID, named 'messageList'.
+     * [set] MESSAGE by VILLAGE_ID, named 'messageList'.
      * @param messageList The entity list of referrer property 'messageList'. (NullAllowed)
      */
     public void setMessageList(List<Message> messageList) {
         _messageList = messageList;
     }
 
-    /** village_player by VILLAGE_ID, named 'villagePlayerList'. */
+    /** VILLAGE_PLAYER by VILLAGE_ID, named 'villagePlayerList'. */
     protected List<VillagePlayer> _villagePlayerList;
 
     /**
-     * [get] village_player by VILLAGE_ID, named 'villagePlayerList'.
+     * [get] VILLAGE_PLAYER by VILLAGE_ID, named 'villagePlayerList'.
      * @return The entity list of referrer property 'villagePlayerList'. (NotNull: even if no loading, returns empty list)
      */
     public List<VillagePlayer> getVillagePlayerList() {
@@ -149,7 +149,7 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] village_player by VILLAGE_ID, named 'villagePlayerList'.
+     * [set] VILLAGE_PLAYER by VILLAGE_ID, named 'villagePlayerList'.
      * @param villagePlayerList The entity list of referrer property 'villagePlayerList'. (NullAllowed)
      */
     public void setVillagePlayerList(List<VillagePlayer> villagePlayerList) {
@@ -256,7 +256,7 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
      */
     public String getVillageDisplayName() {
         checkSpecifiedProperty("villageDisplayName");
-        return _villageDisplayName;
+        return convertEmptyToNull(_villageDisplayName);
     }
 
     /**
@@ -296,7 +296,7 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
      */
     public String getRegisterTrace() {
         checkSpecifiedProperty("registerTrace");
-        return _registerTrace;
+        return convertEmptyToNull(_registerTrace);
     }
 
     /**
@@ -336,7 +336,7 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
      */
     public String getUpdateTrace() {
         checkSpecifiedProperty("updateTrace");
-        return _updateTrace;
+        return convertEmptyToNull(_updateTrace);
     }
 
     /**

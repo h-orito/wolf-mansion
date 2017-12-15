@@ -13,7 +13,7 @@ import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The entity of message as TABLE. <br>
+ * The entity of MESSAGE as TABLE. <br>
  * メッセージ
  * <pre>
  * [primary-key]
@@ -32,7 +32,7 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     message_type, player, village_player, village
+ *     MESSAGE_TYPE, PLAYER, VILLAGE_PLAYER, VILLAGE
  *
  * [referrer table]
  *     
@@ -155,11 +155,11 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
-    /** message_type by my MESSAGE_TYPE_CODE, named 'messageType'. */
+    /** MESSAGE_TYPE by my MESSAGE_TYPE_CODE, named 'messageType'. */
     protected OptionalEntity<MessageType> _messageType;
 
     /**
-     * [get] message_type by my MESSAGE_TYPE_CODE, named 'messageType'. <br>
+     * [get] MESSAGE_TYPE by my MESSAGE_TYPE_CODE, named 'messageType'. <br>
      * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
      * @return The entity of foreign property 'messageType'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
@@ -169,18 +169,18 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] message_type by my MESSAGE_TYPE_CODE, named 'messageType'.
+     * [set] MESSAGE_TYPE by my MESSAGE_TYPE_CODE, named 'messageType'.
      * @param messageType The entity of foreign property 'messageType'. (NullAllowed)
      */
     public void setMessageType(OptionalEntity<MessageType> messageType) {
         _messageType = messageType;
     }
 
-    /** player by my PLAYER_ID, named 'player'. */
+    /** PLAYER by my PLAYER_ID, named 'player'. */
     protected OptionalEntity<Player> _player;
 
     /**
-     * [get] player by my PLAYER_ID, named 'player'. <br>
+     * [get] PLAYER by my PLAYER_ID, named 'player'. <br>
      * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
      * @return The entity of foreign property 'player'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
@@ -190,18 +190,18 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] player by my PLAYER_ID, named 'player'.
+     * [set] PLAYER by my PLAYER_ID, named 'player'.
      * @param player The entity of foreign property 'player'. (NullAllowed)
      */
     public void setPlayer(OptionalEntity<Player> player) {
         _player = player;
     }
 
-    /** village_player by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'. */
+    /** VILLAGE_PLAYER by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'. */
     protected OptionalEntity<VillagePlayer> _villagePlayerByToVillagePlayerId;
 
     /**
-     * [get] village_player by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'. <br>
+     * [get] VILLAGE_PLAYER by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'. <br>
      * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
      * @return The entity of foreign property 'villagePlayerByToVillagePlayerId'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
@@ -211,18 +211,18 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] village_player by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'.
+     * [set] VILLAGE_PLAYER by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'.
      * @param villagePlayerByToVillagePlayerId The entity of foreign property 'villagePlayerByToVillagePlayerId'. (NullAllowed)
      */
     public void setVillagePlayerByToVillagePlayerId(OptionalEntity<VillagePlayer> villagePlayerByToVillagePlayerId) {
         _villagePlayerByToVillagePlayerId = villagePlayerByToVillagePlayerId;
     }
 
-    /** village by my VILLAGE_ID, named 'village'. */
+    /** VILLAGE by my VILLAGE_ID, named 'village'. */
     protected OptionalEntity<Village> _village;
 
     /**
-     * [get] village by my VILLAGE_ID, named 'village'. <br>
+     * [get] VILLAGE by my VILLAGE_ID, named 'village'. <br>
      * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
      * @return The entity of foreign property 'village'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
@@ -232,18 +232,18 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] village by my VILLAGE_ID, named 'village'.
+     * [set] VILLAGE by my VILLAGE_ID, named 'village'.
      * @param village The entity of foreign property 'village'. (NullAllowed)
      */
     public void setVillage(OptionalEntity<Village> village) {
         _village = village;
     }
 
-    /** village_player by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'. */
+    /** VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'. */
     protected OptionalEntity<VillagePlayer> _villagePlayerByVillagePlayerId;
 
     /**
-     * [get] village_player by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'. <br>
+     * [get] VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'. <br>
      * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
      * @return The entity of foreign property 'villagePlayerByVillagePlayerId'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
@@ -253,7 +253,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] village_player by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'.
+     * [set] VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'.
      * @param villagePlayerByVillagePlayerId The entity of foreign property 'villagePlayerByVillagePlayerId'. (NullAllowed)
      */
     public void setVillagePlayerByVillagePlayerId(OptionalEntity<VillagePlayer> villagePlayerByVillagePlayerId) {
@@ -486,7 +486,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
      */
     public String getMessageTypeCode() {
         checkSpecifiedProperty("messageTypeCode");
-        return _messageTypeCode;
+        return convertEmptyToNull(_messageTypeCode);
     }
 
     /**
@@ -526,7 +526,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
      */
     public String getMessageContent() {
         checkSpecifiedProperty("messageContent");
-        return _messageContent;
+        return convertEmptyToNull(_messageContent);
     }
 
     /**
@@ -586,7 +586,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
      */
     public String getRegisterTrace() {
         checkSpecifiedProperty("registerTrace");
-        return _registerTrace;
+        return convertEmptyToNull(_registerTrace);
     }
 
     /**
@@ -626,7 +626,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
      */
     public String getUpdateTrace() {
         checkSpecifiedProperty("updateTrace");
-        return _updateTrace;
+        return convertEmptyToNull(_updateTrace);
     }
 
     /**

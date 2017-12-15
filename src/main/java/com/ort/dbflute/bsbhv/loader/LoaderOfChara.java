@@ -9,7 +9,7 @@ import com.ort.dbflute.exentity.*;
 import com.ort.dbflute.cbean.*;
 
 /**
- * The referrer loader of chara as TABLE. <br>
+ * The referrer loader of CHARA as TABLE. <br>
  * <pre>
  * [primary key]
  *     CHARA_ID
@@ -27,10 +27,10 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [foreign table]
- *     chara_group
+ *     CHARA_GROUP
  *
  * [referrer table]
- *     village_player
+ *     VILLAGE_PLAYER
  *
  * [foreign property]
  *     charaGroup
@@ -65,7 +65,7 @@ public class LoaderOfChara {
 
     /**
      * Load referrer of villagePlayerList by the set-upper of referrer. <br>
-     * village_player by CHARA_ID, named 'villagePlayerList'.
+     * VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerList'.
      * <pre>
      * <span style="color: #0000C0">charaBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">charaList</span>, <span style="color: #553000">charaLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">charaLoader</span>.<span style="color: #CC4747">loadVillagePlayer</span>(<span style="color: #553000">playerCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {

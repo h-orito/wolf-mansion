@@ -12,7 +12,7 @@ import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The entity of chara as TABLE. <br>
+ * The entity of CHARA as TABLE. <br>
  * キャラクター
  * <pre>
  * [primary-key]
@@ -31,10 +31,10 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     chara_group
+ *     CHARA_GROUP
  *
  * [referrer table]
- *     village_player
+ *     VILLAGE_PLAYER
  *
  * [foreign property]
  *     charaGroup
@@ -104,11 +104,11 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity {
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
-    /** chara_group by my CHARA_GROUP_ID, named 'charaGroup'. */
+    /** CHARA_GROUP by my CHARA_GROUP_ID, named 'charaGroup'. */
     protected OptionalEntity<CharaGroup> _charaGroup;
 
     /**
-     * [get] chara_group by my CHARA_GROUP_ID, named 'charaGroup'. <br>
+     * [get] CHARA_GROUP by my CHARA_GROUP_ID, named 'charaGroup'. <br>
      * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
      * @return The entity of foreign property 'charaGroup'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
@@ -118,7 +118,7 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity {
     }
 
     /**
-     * [set] chara_group by my CHARA_GROUP_ID, named 'charaGroup'.
+     * [set] CHARA_GROUP by my CHARA_GROUP_ID, named 'charaGroup'.
      * @param charaGroup The entity of foreign property 'charaGroup'. (NullAllowed)
      */
     public void setCharaGroup(OptionalEntity<CharaGroup> charaGroup) {
@@ -128,11 +128,11 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity {
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    /** village_player by CHARA_ID, named 'villagePlayerList'. */
+    /** VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerList'. */
     protected List<VillagePlayer> _villagePlayerList;
 
     /**
-     * [get] village_player by CHARA_ID, named 'villagePlayerList'.
+     * [get] VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerList'.
      * @return The entity list of referrer property 'villagePlayerList'. (NotNull: even if no loading, returns empty list)
      */
     public List<VillagePlayer> getVillagePlayerList() {
@@ -141,7 +141,7 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity {
     }
 
     /**
-     * [set] village_player by CHARA_ID, named 'villagePlayerList'.
+     * [set] VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerList'.
      * @param villagePlayerList The entity list of referrer property 'villagePlayerList'. (NullAllowed)
      */
     public void setVillagePlayerList(List<VillagePlayer> villagePlayerList) {
@@ -249,7 +249,7 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity {
      */
     public String getCharaName() {
         checkSpecifiedProperty("charaName");
-        return _charaName;
+        return convertEmptyToNull(_charaName);
     }
 
     /**
@@ -289,7 +289,7 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity {
      */
     public String getCharaImgUrl() {
         checkSpecifiedProperty("charaImgUrl");
-        return _charaImgUrl;
+        return convertEmptyToNull(_charaImgUrl);
     }
 
     /**

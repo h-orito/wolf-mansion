@@ -11,7 +11,7 @@ import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The entity of authority as TABLE. <br>
+ * The entity of AUTHORITY as TABLE. <br>
  * 権限
  * <pre>
  * [primary-key]
@@ -33,7 +33,7 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [referrer table]
- *     player
+ *     PLAYER
  *
  * [foreign property]
  *     
@@ -164,11 +164,11 @@ public abstract class BsAuthority extends AbstractEntity implements DomainEntity
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    /** player by AUTHORITY_CODE, named 'playerList'. */
+    /** PLAYER by AUTHORITY_CODE, named 'playerList'. */
     protected List<Player> _playerList;
 
     /**
-     * [get] player by AUTHORITY_CODE, named 'playerList'.
+     * [get] PLAYER by AUTHORITY_CODE, named 'playerList'.
      * @return The entity list of referrer property 'playerList'. (NotNull: even if no loading, returns empty list)
      */
     public List<Player> getPlayerList() {
@@ -177,7 +177,7 @@ public abstract class BsAuthority extends AbstractEntity implements DomainEntity
     }
 
     /**
-     * [set] player by AUTHORITY_CODE, named 'playerList'.
+     * [set] PLAYER by AUTHORITY_CODE, named 'playerList'.
      * @param playerList The entity list of referrer property 'playerList'. (NullAllowed)
      */
     public void setPlayerList(List<Player> playerList) {
@@ -256,7 +256,7 @@ public abstract class BsAuthority extends AbstractEntity implements DomainEntity
      */
     public String getAuthorityCode() {
         checkSpecifiedProperty("authorityCode");
-        return _authorityCode;
+        return convertEmptyToNull(_authorityCode);
     }
 
     /**
@@ -277,7 +277,7 @@ public abstract class BsAuthority extends AbstractEntity implements DomainEntity
      */
     public String getAuthorityName() {
         checkSpecifiedProperty("authorityName");
-        return _authorityName;
+        return convertEmptyToNull(_authorityName);
     }
 
     /**

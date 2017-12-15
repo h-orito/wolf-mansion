@@ -78,9 +78,9 @@ public class PlayerDbm extends AbstractDBMeta {
     //                                                                          Table Info
     //                                                                          ==========
     protected final String _tableDbName = "player";
-    protected final String _tableDispName = "player";
+    protected final String _tableDispName = "PLAYER";
     protected final String _tablePropertyName = "player";
-    protected final TableSqlName _tableSqlName = new TableSqlName("player", _tableDbName);
+    protected final TableSqlName _tableSqlName = new TableSqlName("PLAYER", _tableDbName);
     { _tableSqlName.xacceptFilter(DBFluteConfig.getInstance().getTableSqlNameFilter()); }
     public String getTableDbName() { return _tableDbName; }
     public String getTableDispName() { return _tableDispName; }
@@ -179,7 +179,7 @@ public class PlayerDbm extends AbstractDBMeta {
     //                                      Foreign Property
     //                                      ----------------
     /**
-     * authority by my AUTHORITY_CODE, named 'authority'.
+     * AUTHORITY by my AUTHORITY_CODE, named 'authority'.
      * @return The information object of foreign property. (NotNull)
      */
     public ForeignInfo foreignAuthority() {
@@ -191,7 +191,7 @@ public class PlayerDbm extends AbstractDBMeta {
     //                                     Referrer Property
     //                                     -----------------
     /**
-     * message by PLAYER_ID, named 'messageList'.
+     * MESSAGE by PLAYER_ID, named 'messageList'.
      * @return The information object of referrer property. (NotNull)
      */
     public ReferrerInfo referrerMessageList() {
@@ -199,7 +199,7 @@ public class PlayerDbm extends AbstractDBMeta {
         return cri("FK_MESSAGE_PLAYER", "messageList", this, MessageDbm.getInstance(), mp, false, "player");
     }
     /**
-     * village_player by PLAYER_ID, named 'villagePlayerList'.
+     * VILLAGE_PLAYER by PLAYER_ID, named 'villagePlayerList'.
      * @return The information object of referrer property. (NotNull)
      */
     public ReferrerInfo referrerVillagePlayerList() {

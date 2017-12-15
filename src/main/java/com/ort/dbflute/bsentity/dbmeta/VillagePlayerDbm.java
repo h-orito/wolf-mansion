@@ -69,9 +69,9 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     //                                                                          Table Info
     //                                                                          ==========
     protected final String _tableDbName = "village_player";
-    protected final String _tableDispName = "village_player";
+    protected final String _tableDispName = "VILLAGE_PLAYER";
     protected final String _tablePropertyName = "villagePlayer";
-    protected final TableSqlName _tableSqlName = new TableSqlName("village_player", _tableDbName);
+    protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_PLAYER", _tableDbName);
     { _tableSqlName.xacceptFilter(DBFluteConfig.getInstance().getTableSqlNameFilter()); }
     public String getTableDbName() { return _tableDbName; }
     public String getTableDispName() { return _tableDispName; }
@@ -147,7 +147,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     //                                      Foreign Property
     //                                      ----------------
     /**
-     * chara by my CHARA_ID, named 'chara'.
+     * CHARA by my CHARA_ID, named 'chara'.
      * @return The information object of foreign property. (NotNull)
      */
     public ForeignInfo foreignChara() {
@@ -155,7 +155,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
         return cfi("FK_VILLAGE_PLAYER_CHARA", "chara", this, CharaDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villagePlayerList", false);
     }
     /**
-     * player by my PLAYER_ID, named 'player'.
+     * PLAYER by my PLAYER_ID, named 'player'.
      * @return The information object of foreign property. (NotNull)
      */
     public ForeignInfo foreignPlayer() {
@@ -163,7 +163,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
         return cfi("FK_VILLAGE_PLAYER_PLAYER", "player", this, PlayerDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villagePlayerList", false);
     }
     /**
-     * village by my VILLAGE_ID, named 'village'.
+     * VILLAGE by my VILLAGE_ID, named 'village'.
      * @return The information object of foreign property. (NotNull)
      */
     public ForeignInfo foreignVillage() {
@@ -175,7 +175,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     //                                     Referrer Property
     //                                     -----------------
     /**
-     * message by TO_VILLAGE_PLAYER_ID, named 'messageByToVillagePlayerIdList'.
+     * MESSAGE by TO_VILLAGE_PLAYER_ID, named 'messageByToVillagePlayerIdList'.
      * @return The information object of referrer property. (NotNull)
      */
     public ReferrerInfo referrerMessageByToVillagePlayerIdList() {
@@ -183,7 +183,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
         return cri("FK_MESSAGE_VILLAGE_PLAYER_TO", "messageByToVillagePlayerIdList", this, MessageDbm.getInstance(), mp, false, "villagePlayerByToVillagePlayerId");
     }
     /**
-     * message by VILLAGE_PLAYER_ID, named 'messageByVillagePlayerIdList'.
+     * MESSAGE by VILLAGE_PLAYER_ID, named 'messageByVillagePlayerIdList'.
      * @return The information object of referrer property. (NotNull)
      */
     public ReferrerInfo referrerMessageByVillagePlayerIdList() {

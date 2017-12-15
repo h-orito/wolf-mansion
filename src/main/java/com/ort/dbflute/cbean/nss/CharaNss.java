@@ -20,7 +20,7 @@ public class CharaNss {
     //                                                                     ===============
     /**
      * With nested relation columns to select clause. <br>
-     * chara_group by my CHARA_GROUP_ID, named 'charaGroup'.
+     * CHARA_GROUP by my CHARA_GROUP_ID, named 'charaGroup'.
      * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
      */
     public CharaGroupNss withCharaGroup() {

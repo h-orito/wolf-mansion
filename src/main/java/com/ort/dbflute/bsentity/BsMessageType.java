@@ -10,7 +10,7 @@ import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The entity of message_type as TABLE. <br>
+ * The entity of MESSAGE_TYPE as TABLE. <br>
  * メッセージ種別
  * <pre>
  * [primary-key]
@@ -32,7 +32,7 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [referrer table]
- *     message
+ *     MESSAGE
  *
  * [foreign property]
  *     
@@ -95,11 +95,11 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    /** message by MESSAGE_TYPE_CODE, named 'messageList'. */
+    /** MESSAGE by MESSAGE_TYPE_CODE, named 'messageList'. */
     protected List<Message> _messageList;
 
     /**
-     * [get] message by MESSAGE_TYPE_CODE, named 'messageList'.
+     * [get] MESSAGE by MESSAGE_TYPE_CODE, named 'messageList'.
      * @return The entity list of referrer property 'messageList'. (NotNull: even if no loading, returns empty list)
      */
     public List<Message> getMessageList() {
@@ -108,7 +108,7 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
     }
 
     /**
-     * [set] message by MESSAGE_TYPE_CODE, named 'messageList'.
+     * [set] MESSAGE by MESSAGE_TYPE_CODE, named 'messageList'.
      * @param messageList The entity list of referrer property 'messageList'. (NullAllowed)
      */
     public void setMessageList(List<Message> messageList) {
@@ -187,7 +187,7 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
      */
     public String getMessageTypeCode() {
         checkSpecifiedProperty("messageTypeCode");
-        return _messageTypeCode;
+        return convertEmptyToNull(_messageTypeCode);
     }
 
     /**
@@ -207,7 +207,7 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
      */
     public String getMessageTypeName() {
         checkSpecifiedProperty("messageTypeName");
-        return _messageTypeName;
+        return convertEmptyToNull(_messageTypeName);
     }
 
     /**

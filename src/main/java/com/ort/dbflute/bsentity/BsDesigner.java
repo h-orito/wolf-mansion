@@ -10,7 +10,7 @@ import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The entity of designer as TABLE. <br>
+ * The entity of DESIGNER as TABLE. <br>
  * デザイナー
  * <pre>
  * [primary-key]
@@ -32,7 +32,7 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [referrer table]
- *     chara_group
+ *     CHARA_GROUP
  *
  * [foreign property]
  *     
@@ -95,11 +95,11 @@ public abstract class BsDesigner extends AbstractEntity implements DomainEntity 
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    /** chara_group by DESIGNER_ID, named 'charaGroupList'. */
+    /** CHARA_GROUP by DESIGNER_ID, named 'charaGroupList'. */
     protected List<CharaGroup> _charaGroupList;
 
     /**
-     * [get] chara_group by DESIGNER_ID, named 'charaGroupList'.
+     * [get] CHARA_GROUP by DESIGNER_ID, named 'charaGroupList'.
      * @return The entity list of referrer property 'charaGroupList'. (NotNull: even if no loading, returns empty list)
      */
     public List<CharaGroup> getCharaGroupList() {
@@ -108,7 +108,7 @@ public abstract class BsDesigner extends AbstractEntity implements DomainEntity 
     }
 
     /**
-     * [set] chara_group by DESIGNER_ID, named 'charaGroupList'.
+     * [set] CHARA_GROUP by DESIGNER_ID, named 'charaGroupList'.
      * @param charaGroupList The entity list of referrer property 'charaGroupList'. (NullAllowed)
      */
     public void setCharaGroupList(List<CharaGroup> charaGroupList) {
@@ -207,7 +207,7 @@ public abstract class BsDesigner extends AbstractEntity implements DomainEntity 
      */
     public String getDesignerName() {
         checkSpecifiedProperty("designerName");
-        return _designerName;
+        return convertEmptyToNull(_designerName);
     }
 
     /**

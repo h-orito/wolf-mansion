@@ -312,7 +312,7 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
     //                                                                       =============
     /**
      * Get the condition-query for relation table. <br>
-     * authority by my AUTHORITY_CODE, named 'authority'.
+     * AUTHORITY by my AUTHORITY_CODE, named 'authority'.
      * @return The instance of condition-query. (NotNull)
      */
     public AuthorityCQ queryAuthority() {

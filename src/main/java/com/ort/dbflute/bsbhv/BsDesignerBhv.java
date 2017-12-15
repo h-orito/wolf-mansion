@@ -22,7 +22,7 @@ import com.ort.dbflute.bsentity.dbmeta.*;
 import com.ort.dbflute.cbean.*;
 
 /**
- * The behavior of designer as TABLE. <br>
+ * The behavior of DESIGNER as TABLE. <br>
  * <pre>
  * [primary key]
  *     DESIGNER_ID
@@ -43,7 +43,7 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [referrer table]
- *     chara_group
+ *     CHARA_GROUP
  *
  * [foreign property]
  *     
@@ -363,7 +363,7 @@ public abstract class BsDesignerBhv extends AbstractBehaviorWritable<Designer, D
 
     /**
      * Load referrer of charaGroupList by the set-upper of referrer. <br>
-     * chara_group by DESIGNER_ID, named 'charaGroupList'.
+     * CHARA_GROUP by DESIGNER_ID, named 'charaGroupList'.
      * <pre>
      * <span style="color: #0000C0">designerBhv</span>.<span style="color: #CC4747">loadCharaGroup</span>(<span style="color: #553000">designerList</span>, <span style="color: #553000">groupCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">groupCB</span>.setupSelect...
@@ -394,7 +394,7 @@ public abstract class BsDesignerBhv extends AbstractBehaviorWritable<Designer, D
 
     /**
      * Load referrer of charaGroupList by the set-upper of referrer. <br>
-     * chara_group by DESIGNER_ID, named 'charaGroupList'.
+     * CHARA_GROUP by DESIGNER_ID, named 'charaGroupList'.
      * <pre>
      * <span style="color: #0000C0">designerBhv</span>.<span style="color: #CC4747">loadCharaGroup</span>(<span style="color: #553000">designer</span>, <span style="color: #553000">groupCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">groupCB</span>.setupSelect...

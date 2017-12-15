@@ -52,9 +52,9 @@ public class DesignerDbm extends AbstractDBMeta {
     //                                                                          Table Info
     //                                                                          ==========
     protected final String _tableDbName = "designer";
-    protected final String _tableDispName = "designer";
+    protected final String _tableDispName = "DESIGNER";
     protected final String _tablePropertyName = "designer";
-    protected final TableSqlName _tableSqlName = new TableSqlName("designer", _tableDbName);
+    protected final TableSqlName _tableSqlName = new TableSqlName("DESIGNER", _tableDbName);
     { _tableSqlName.xacceptFilter(DBFluteConfig.getInstance().getTableSqlNameFilter()); }
     public String getTableDbName() { return _tableDbName; }
     public String getTableDispName() { return _tableDispName; }
@@ -110,7 +110,7 @@ public class DesignerDbm extends AbstractDBMeta {
     //                                     Referrer Property
     //                                     -----------------
     /**
-     * chara_group by DESIGNER_ID, named 'charaGroupList'.
+     * CHARA_GROUP by DESIGNER_ID, named 'charaGroupList'.
      * @return The information object of referrer property. (NotNull)
      */
     public ReferrerInfo referrerCharaGroupList() {

@@ -245,7 +245,7 @@ public class BsCharaCB extends AbstractConditionBean {
     }
     /**
      * Set up relation columns to select clause. <br>
-     * chara_group by my CHARA_GROUP_ID, named 'charaGroup'.
+     * CHARA_GROUP by my CHARA_GROUP_ID, named 'charaGroup'.
      * <pre>
      * <span style="color: #0000C0">charaBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_CharaGroup()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
@@ -347,7 +347,7 @@ public class BsCharaCB extends AbstractConditionBean {
         protected String getTableDbName() { return "chara"; }
         /**
          * Prepare to specify functions about relation table. <br>
-         * chara_group by my CHARA_GROUP_ID, named 'charaGroup'.
+         * CHARA_GROUP by my CHARA_GROUP_ID, named 'charaGroup'.
          * @return The instance for specification for relation table to specify. (NotNull)
          */
         public CharaGroupCB.HpSpecification specifyCharaGroup() {
@@ -368,7 +368,7 @@ public class BsCharaCB extends AbstractConditionBean {
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
          * {select max(FOO) from village_player where ...) as FOO_MAX} <br>
-         * village_player by CHARA_ID, named 'villagePlayerList'.
+         * VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
          *     playerCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>

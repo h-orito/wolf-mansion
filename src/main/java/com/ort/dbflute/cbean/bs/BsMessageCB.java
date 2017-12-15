@@ -240,7 +240,7 @@ public class BsMessageCB extends AbstractConditionBean {
     //                                                                         ===========
     /**
      * Set up relation columns to select clause. <br>
-     * message_type by my MESSAGE_TYPE_CODE, named 'messageType'.
+     * MESSAGE_TYPE by my MESSAGE_TYPE_CODE, named 'messageType'.
      * <pre>
      * <span style="color: #0000C0">messageBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_MessageType()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
@@ -265,7 +265,7 @@ public class BsMessageCB extends AbstractConditionBean {
     }
     /**
      * Set up relation columns to select clause. <br>
-     * player by my PLAYER_ID, named 'player'.
+     * PLAYER by my PLAYER_ID, named 'player'.
      * <pre>
      * <span style="color: #0000C0">messageBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_Player()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
@@ -294,7 +294,7 @@ public class BsMessageCB extends AbstractConditionBean {
     }
     /**
      * Set up relation columns to select clause. <br>
-     * village_player by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'.
+     * VILLAGE_PLAYER by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'.
      * <pre>
      * <span style="color: #0000C0">messageBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_VillagePlayerByToVillagePlayerId()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
@@ -318,7 +318,7 @@ public class BsMessageCB extends AbstractConditionBean {
 
     /**
      * Set up relation columns to select clause. <br>
-     * village by my VILLAGE_ID, named 'village'.
+     * VILLAGE by my VILLAGE_ID, named 'village'.
      * <pre>
      * <span style="color: #0000C0">messageBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_Village()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
@@ -343,7 +343,7 @@ public class BsMessageCB extends AbstractConditionBean {
     }
     /**
      * Set up relation columns to select clause. <br>
-     * village_player by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'.
+     * VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'.
      * <pre>
      * <span style="color: #0000C0">messageBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_VillagePlayerByVillagePlayerId()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
@@ -515,7 +515,7 @@ public class BsMessageCB extends AbstractConditionBean {
         protected String getTableDbName() { return "message"; }
         /**
          * Prepare to specify functions about relation table. <br>
-         * message_type by my MESSAGE_TYPE_CODE, named 'messageType'.
+         * MESSAGE_TYPE by my MESSAGE_TYPE_CODE, named 'messageType'.
          * @return The instance for specification for relation table to specify. (NotNull)
          */
         public MessageTypeCB.HpSpecification specifyMessageType() {
@@ -535,7 +535,7 @@ public class BsMessageCB extends AbstractConditionBean {
         }
         /**
          * Prepare to specify functions about relation table. <br>
-         * player by my PLAYER_ID, named 'player'.
+         * PLAYER by my PLAYER_ID, named 'player'.
          * @return The instance for specification for relation table to specify. (NotNull)
          */
         public PlayerCB.HpSpecification specifyPlayer() {
@@ -555,7 +555,7 @@ public class BsMessageCB extends AbstractConditionBean {
         }
         /**
          * Prepare to specify functions about relation table. <br>
-         * village_player by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'.
+         * VILLAGE_PLAYER by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'.
          * @return The instance for specification for relation table to specify. (NotNull)
          */
         public VillagePlayerCB.HpSpecification specifyVillagePlayerByToVillagePlayerId() {
@@ -575,7 +575,7 @@ public class BsMessageCB extends AbstractConditionBean {
         }
         /**
          * Prepare to specify functions about relation table. <br>
-         * village by my VILLAGE_ID, named 'village'.
+         * VILLAGE by my VILLAGE_ID, named 'village'.
          * @return The instance for specification for relation table to specify. (NotNull)
          */
         public VillageCB.HpSpecification specifyVillage() {
@@ -595,7 +595,7 @@ public class BsMessageCB extends AbstractConditionBean {
         }
         /**
          * Prepare to specify functions about relation table. <br>
-         * village_player by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'.
+         * VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'.
          * @return The instance for specification for relation table to specify. (NotNull)
          */
         public VillagePlayerCB.HpSpecification specifyVillagePlayerByVillagePlayerId() {

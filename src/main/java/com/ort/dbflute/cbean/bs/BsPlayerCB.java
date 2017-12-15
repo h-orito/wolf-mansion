@@ -251,7 +251,7 @@ public class BsPlayerCB extends AbstractConditionBean {
     //                                                                         ===========
     /**
      * Set up relation columns to select clause. <br>
-     * authority by my AUTHORITY_CODE, named 'authority'.
+     * AUTHORITY by my AUTHORITY_CODE, named 'authority'.
      * <pre>
      * <span style="color: #0000C0">playerBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_Authority()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
@@ -369,7 +369,7 @@ public class BsPlayerCB extends AbstractConditionBean {
         protected String getTableDbName() { return "player"; }
         /**
          * Prepare to specify functions about relation table. <br>
-         * authority by my AUTHORITY_CODE, named 'authority'.
+         * AUTHORITY by my AUTHORITY_CODE, named 'authority'.
          * @return The instance for specification for relation table to specify. (NotNull)
          */
         public AuthorityCB.HpSpecification specifyAuthority() {
@@ -390,7 +390,7 @@ public class BsPlayerCB extends AbstractConditionBean {
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
          * {select max(FOO) from message where ...) as FOO_MAX} <br>
-         * message by PLAYER_ID, named 'messageList'.
+         * MESSAGE by PLAYER_ID, named 'messageList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
          *     messageCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -407,7 +407,7 @@ public class BsPlayerCB extends AbstractConditionBean {
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
          * {select max(FOO) from village_player where ...) as FOO_MAX} <br>
-         * village_player by PLAYER_ID, named 'villagePlayerList'.
+         * VILLAGE_PLAYER by PLAYER_ID, named 'villagePlayerList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
          *     playerCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>

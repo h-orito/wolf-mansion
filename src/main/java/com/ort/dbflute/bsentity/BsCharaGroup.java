@@ -12,7 +12,7 @@ import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The entity of chara_group as TABLE. <br>
+ * The entity of CHARA_GROUP as TABLE. <br>
  * キャラクターグループ
  * <pre>
  * [primary-key]
@@ -31,10 +31,10 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     designer
+ *     DESIGNER
  *
  * [referrer table]
- *     chara
+ *     CHARA
  *
  * [foreign property]
  *     designer
@@ -99,11 +99,11 @@ public abstract class BsCharaGroup extends AbstractEntity implements DomainEntit
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
-    /** designer by my DESIGNER_ID, named 'designer'. */
+    /** DESIGNER by my DESIGNER_ID, named 'designer'. */
     protected OptionalEntity<Designer> _designer;
 
     /**
-     * [get] designer by my DESIGNER_ID, named 'designer'. <br>
+     * [get] DESIGNER by my DESIGNER_ID, named 'designer'. <br>
      * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
      * @return The entity of foreign property 'designer'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
@@ -113,7 +113,7 @@ public abstract class BsCharaGroup extends AbstractEntity implements DomainEntit
     }
 
     /**
-     * [set] designer by my DESIGNER_ID, named 'designer'.
+     * [set] DESIGNER by my DESIGNER_ID, named 'designer'.
      * @param designer The entity of foreign property 'designer'. (NullAllowed)
      */
     public void setDesigner(OptionalEntity<Designer> designer) {
@@ -123,11 +123,11 @@ public abstract class BsCharaGroup extends AbstractEntity implements DomainEntit
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    /** chara by CHARA_GROUP_ID, named 'charaList'. */
+    /** CHARA by CHARA_GROUP_ID, named 'charaList'. */
     protected List<Chara> _charaList;
 
     /**
-     * [get] chara by CHARA_GROUP_ID, named 'charaList'.
+     * [get] CHARA by CHARA_GROUP_ID, named 'charaList'.
      * @return The entity list of referrer property 'charaList'. (NotNull: even if no loading, returns empty list)
      */
     public List<Chara> getCharaList() {
@@ -136,7 +136,7 @@ public abstract class BsCharaGroup extends AbstractEntity implements DomainEntit
     }
 
     /**
-     * [set] chara by CHARA_GROUP_ID, named 'charaList'.
+     * [set] CHARA by CHARA_GROUP_ID, named 'charaList'.
      * @param charaList The entity list of referrer property 'charaList'. (NullAllowed)
      */
     public void setCharaList(List<Chara> charaList) {
@@ -243,7 +243,7 @@ public abstract class BsCharaGroup extends AbstractEntity implements DomainEntit
      */
     public String getCharaName() {
         checkSpecifiedProperty("charaName");
-        return _charaName;
+        return convertEmptyToNull(_charaName);
     }
 
     /**

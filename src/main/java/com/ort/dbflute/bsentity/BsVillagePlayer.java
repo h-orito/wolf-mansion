@@ -12,7 +12,7 @@ import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The entity of village_player as TABLE. <br>
+ * The entity of VILLAGE_PLAYER as TABLE. <br>
  * 村参加者
  * <pre>
  * [primary-key]
@@ -31,10 +31,10 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     chara, player, village
+ *     CHARA, PLAYER, VILLAGE
  *
  * [referrer table]
- *     message
+ *     MESSAGE
  *
  * [foreign property]
  *     chara, player, village
@@ -117,11 +117,11 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
-    /** chara by my CHARA_ID, named 'chara'. */
+    /** CHARA by my CHARA_ID, named 'chara'. */
     protected OptionalEntity<Chara> _chara;
 
     /**
-     * [get] chara by my CHARA_ID, named 'chara'. <br>
+     * [get] CHARA by my CHARA_ID, named 'chara'. <br>
      * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
      * @return The entity of foreign property 'chara'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
@@ -131,18 +131,18 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] chara by my CHARA_ID, named 'chara'.
+     * [set] CHARA by my CHARA_ID, named 'chara'.
      * @param chara The entity of foreign property 'chara'. (NullAllowed)
      */
     public void setChara(OptionalEntity<Chara> chara) {
         _chara = chara;
     }
 
-    /** player by my PLAYER_ID, named 'player'. */
+    /** PLAYER by my PLAYER_ID, named 'player'. */
     protected OptionalEntity<Player> _player;
 
     /**
-     * [get] player by my PLAYER_ID, named 'player'. <br>
+     * [get] PLAYER by my PLAYER_ID, named 'player'. <br>
      * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
      * @return The entity of foreign property 'player'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
@@ -152,18 +152,18 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] player by my PLAYER_ID, named 'player'.
+     * [set] PLAYER by my PLAYER_ID, named 'player'.
      * @param player The entity of foreign property 'player'. (NullAllowed)
      */
     public void setPlayer(OptionalEntity<Player> player) {
         _player = player;
     }
 
-    /** village by my VILLAGE_ID, named 'village'. */
+    /** VILLAGE by my VILLAGE_ID, named 'village'. */
     protected OptionalEntity<Village> _village;
 
     /**
-     * [get] village by my VILLAGE_ID, named 'village'. <br>
+     * [get] VILLAGE by my VILLAGE_ID, named 'village'. <br>
      * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
      * @return The entity of foreign property 'village'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
@@ -173,7 +173,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] village by my VILLAGE_ID, named 'village'.
+     * [set] VILLAGE by my VILLAGE_ID, named 'village'.
      * @param village The entity of foreign property 'village'. (NullAllowed)
      */
     public void setVillage(OptionalEntity<Village> village) {
@@ -183,11 +183,11 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    /** message by TO_VILLAGE_PLAYER_ID, named 'messageByToVillagePlayerIdList'. */
+    /** MESSAGE by TO_VILLAGE_PLAYER_ID, named 'messageByToVillagePlayerIdList'. */
     protected List<Message> _messageByToVillagePlayerIdList;
 
     /**
-     * [get] message by TO_VILLAGE_PLAYER_ID, named 'messageByToVillagePlayerIdList'.
+     * [get] MESSAGE by TO_VILLAGE_PLAYER_ID, named 'messageByToVillagePlayerIdList'.
      * @return The entity list of referrer property 'messageByToVillagePlayerIdList'. (NotNull: even if no loading, returns empty list)
      */
     public List<Message> getMessageByToVillagePlayerIdList() {
@@ -196,18 +196,18 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] message by TO_VILLAGE_PLAYER_ID, named 'messageByToVillagePlayerIdList'.
+     * [set] MESSAGE by TO_VILLAGE_PLAYER_ID, named 'messageByToVillagePlayerIdList'.
      * @param messageByToVillagePlayerIdList The entity list of referrer property 'messageByToVillagePlayerIdList'. (NullAllowed)
      */
     public void setMessageByToVillagePlayerIdList(List<Message> messageByToVillagePlayerIdList) {
         _messageByToVillagePlayerIdList = messageByToVillagePlayerIdList;
     }
 
-    /** message by VILLAGE_PLAYER_ID, named 'messageByVillagePlayerIdList'. */
+    /** MESSAGE by VILLAGE_PLAYER_ID, named 'messageByVillagePlayerIdList'. */
     protected List<Message> _messageByVillagePlayerIdList;
 
     /**
-     * [get] message by VILLAGE_PLAYER_ID, named 'messageByVillagePlayerIdList'.
+     * [get] MESSAGE by VILLAGE_PLAYER_ID, named 'messageByVillagePlayerIdList'.
      * @return The entity list of referrer property 'messageByVillagePlayerIdList'. (NotNull: even if no loading, returns empty list)
      */
     public List<Message> getMessageByVillagePlayerIdList() {
@@ -216,7 +216,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] message by VILLAGE_PLAYER_ID, named 'messageByVillagePlayerIdList'.
+     * [set] MESSAGE by VILLAGE_PLAYER_ID, named 'messageByVillagePlayerIdList'.
      * @param messageByVillagePlayerIdList The entity list of referrer property 'messageByVillagePlayerIdList'. (NullAllowed)
      */
     public void setMessageByVillagePlayerIdList(List<Message> messageByVillagePlayerIdList) {

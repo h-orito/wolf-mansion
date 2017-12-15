@@ -22,7 +22,7 @@ import com.ort.dbflute.bsentity.dbmeta.*;
 import com.ort.dbflute.cbean.*;
 
 /**
- * The behavior of message as TABLE. <br>
+ * The behavior of MESSAGE as TABLE. <br>
  * <pre>
  * [primary key]
  *     MESSAGE_ID
@@ -40,7 +40,7 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [foreign table]
- *     message_type, player, village_player, village
+ *     MESSAGE_TYPE, PLAYER, VILLAGE_PLAYER, VILLAGE
  *
  * [referrer table]
  *     

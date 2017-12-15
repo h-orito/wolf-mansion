@@ -22,7 +22,7 @@ import com.ort.dbflute.bsentity.dbmeta.*;
 import com.ort.dbflute.cbean.*;
 
 /**
- * The behavior of village as TABLE. <br>
+ * The behavior of VILLAGE as TABLE. <br>
  * <pre>
  * [primary key]
  *     VILALGE_ID
@@ -43,7 +43,7 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [referrer table]
- *     message, village_player
+ *     MESSAGE, VILLAGE_PLAYER
  *
  * [foreign property]
  *     
@@ -363,7 +363,7 @@ public abstract class BsVillageBhv extends AbstractBehaviorWritable<Village, Vil
 
     /**
      * Load referrer of messageList by the set-upper of referrer. <br>
-     * message by VILLAGE_ID, named 'messageList'.
+     * MESSAGE by VILLAGE_ID, named 'messageList'.
      * <pre>
      * <span style="color: #0000C0">villageBhv</span>.<span style="color: #CC4747">loadMessage</span>(<span style="color: #553000">villageList</span>, <span style="color: #553000">messageCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">messageCB</span>.setupSelect...
@@ -394,7 +394,7 @@ public abstract class BsVillageBhv extends AbstractBehaviorWritable<Village, Vil
 
     /**
      * Load referrer of messageList by the set-upper of referrer. <br>
-     * message by VILLAGE_ID, named 'messageList'.
+     * MESSAGE by VILLAGE_ID, named 'messageList'.
      * <pre>
      * <span style="color: #0000C0">villageBhv</span>.<span style="color: #CC4747">loadMessage</span>(<span style="color: #553000">village</span>, <span style="color: #553000">messageCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">messageCB</span>.setupSelect...
@@ -427,7 +427,7 @@ public abstract class BsVillageBhv extends AbstractBehaviorWritable<Village, Vil
 
     /**
      * Load referrer of villagePlayerList by the set-upper of referrer. <br>
-     * village_player by VILLAGE_ID, named 'villagePlayerList'.
+     * VILLAGE_PLAYER by VILLAGE_ID, named 'villagePlayerList'.
      * <pre>
      * <span style="color: #0000C0">villageBhv</span>.<span style="color: #CC4747">loadVillagePlayer</span>(<span style="color: #553000">villageList</span>, <span style="color: #553000">playerCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">playerCB</span>.setupSelect...
@@ -458,7 +458,7 @@ public abstract class BsVillageBhv extends AbstractBehaviorWritable<Village, Vil
 
     /**
      * Load referrer of villagePlayerList by the set-upper of referrer. <br>
-     * village_player by VILLAGE_ID, named 'villagePlayerList'.
+     * VILLAGE_PLAYER by VILLAGE_ID, named 'villagePlayerList'.
      * <pre>
      * <span style="color: #0000C0">villageBhv</span>.<span style="color: #CC4747">loadVillagePlayer</span>(<span style="color: #553000">village</span>, <span style="color: #553000">playerCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">playerCB</span>.setupSelect...

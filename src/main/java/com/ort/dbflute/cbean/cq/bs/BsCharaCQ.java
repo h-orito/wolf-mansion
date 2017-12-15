@@ -218,7 +218,7 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
     //                                                                       =============
     /**
      * Get the condition-query for relation table. <br>
-     * chara_group by my CHARA_GROUP_ID, named 'charaGroup'.
+     * CHARA_GROUP by my CHARA_GROUP_ID, named 'charaGroup'.
      * @return The instance of condition-query. (NotNull)
      */
     public CharaGroupCQ queryCharaGroup() {

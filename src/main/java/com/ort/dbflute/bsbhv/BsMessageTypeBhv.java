@@ -22,7 +22,7 @@ import com.ort.dbflute.bsentity.dbmeta.*;
 import com.ort.dbflute.cbean.*;
 
 /**
- * The behavior of message_type as TABLE. <br>
+ * The behavior of MESSAGE_TYPE as TABLE. <br>
  * <pre>
  * [primary key]
  *     MESSAGE_TYPE_CODE
@@ -43,7 +43,7 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [referrer table]
- *     message
+ *     MESSAGE
  *
  * [foreign property]
  *     
@@ -363,7 +363,7 @@ public abstract class BsMessageTypeBhv extends AbstractBehaviorWritable<MessageT
 
     /**
      * Load referrer of messageList by the set-upper of referrer. <br>
-     * message by MESSAGE_TYPE_CODE, named 'messageList'.
+     * MESSAGE by MESSAGE_TYPE_CODE, named 'messageList'.
      * <pre>
      * <span style="color: #0000C0">messageTypeBhv</span>.<span style="color: #CC4747">loadMessage</span>(<span style="color: #553000">messageTypeList</span>, <span style="color: #553000">messageCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">messageCB</span>.setupSelect...
@@ -394,7 +394,7 @@ public abstract class BsMessageTypeBhv extends AbstractBehaviorWritable<MessageT
 
     /**
      * Load referrer of messageList by the set-upper of referrer. <br>
-     * message by MESSAGE_TYPE_CODE, named 'messageList'.
+     * MESSAGE by MESSAGE_TYPE_CODE, named 'messageList'.
      * <pre>
      * <span style="color: #0000C0">messageTypeBhv</span>.<span style="color: #CC4747">loadMessage</span>(<span style="color: #553000">messageType</span>, <span style="color: #553000">messageCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">messageCB</span>.setupSelect...

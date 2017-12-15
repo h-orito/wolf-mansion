@@ -20,7 +20,7 @@ public class PlayerNss {
     //                                                                     ===============
     /**
      * With nested relation columns to select clause. <br>
-     * authority by my AUTHORITY_CODE, named 'authority'.
+     * AUTHORITY by my AUTHORITY_CODE, named 'authority'.
      */
     public void withAuthority() {
         _query.xdoNss(() -> _query.queryAuthority());

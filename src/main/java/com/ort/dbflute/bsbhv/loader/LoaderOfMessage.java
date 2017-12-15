@@ -7,7 +7,7 @@ import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The referrer loader of message as TABLE. <br>
+ * The referrer loader of MESSAGE as TABLE. <br>
  * <pre>
  * [primary key]
  *     MESSAGE_ID
@@ -25,7 +25,7 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     message_type, player, village_player, village
+ *     MESSAGE_TYPE, PLAYER, VILLAGE_PLAYER, VILLAGE
  *
  * [referrer table]
  *     

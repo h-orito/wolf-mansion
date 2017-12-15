@@ -56,9 +56,9 @@ public class VillageDbm extends AbstractDBMeta {
     //                                                                          Table Info
     //                                                                          ==========
     protected final String _tableDbName = "village";
-    protected final String _tableDispName = "village";
+    protected final String _tableDispName = "VILLAGE";
     protected final String _tablePropertyName = "village";
-    protected final TableSqlName _tableSqlName = new TableSqlName("village", _tableDbName);
+    protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE", _tableDbName);
     { _tableSqlName.xacceptFilter(DBFluteConfig.getInstance().getTableSqlNameFilter()); }
     public String getTableDbName() { return _tableDbName; }
     public String getTableDispName() { return _tableDispName; }
@@ -142,7 +142,7 @@ public class VillageDbm extends AbstractDBMeta {
     //                                     Referrer Property
     //                                     -----------------
     /**
-     * message by VILLAGE_ID, named 'messageList'.
+     * MESSAGE by VILLAGE_ID, named 'messageList'.
      * @return The information object of referrer property. (NotNull)
      */
     public ReferrerInfo referrerMessageList() {
@@ -150,7 +150,7 @@ public class VillageDbm extends AbstractDBMeta {
         return cri("FK_MESSAGE_VILLAGE", "messageList", this, MessageDbm.getInstance(), mp, false, "village");
     }
     /**
-     * village_player by VILLAGE_ID, named 'villagePlayerList'.
+     * VILLAGE_PLAYER by VILLAGE_ID, named 'villagePlayerList'.
      * @return The information object of referrer property. (NotNull)
      */
     public ReferrerInfo referrerVillagePlayerList() {

@@ -1,8 +1,6 @@
 package com.ort.app.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +13,6 @@ import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.PlayerCreateForm;
 import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exentity.Player;
-import com.ort.fw.security.UserInfo;
 
 @Controller
 public class PlayerController {
@@ -31,12 +28,6 @@ public class PlayerController {
     //                                                                             =======
     @GetMapping("/new-player")
     private String index(PlayerCreateForm form, Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.getPrincipal() instanceof UserInfo) {
-            UserInfo user = UserInfo.class.cast(authentication.getPrincipal());
-            model.addAttribute("user", user);
-        }
-
         setIndexModel(form, model);
         return "new-player";
     }
@@ -66,7 +57,6 @@ public class PlayerController {
         if (count > 0) {
             throw new WerewolfMansionBusinessException("既に登録されているIDです。");
         }
-
     }
 
     // ===================================================================================

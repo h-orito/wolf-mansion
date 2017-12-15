@@ -66,9 +66,9 @@ public class CharaGroupDbm extends AbstractDBMeta {
     //                                                                          Table Info
     //                                                                          ==========
     protected final String _tableDbName = "chara_group";
-    protected final String _tableDispName = "chara_group";
+    protected final String _tableDispName = "CHARA_GROUP";
     protected final String _tablePropertyName = "charaGroup";
-    protected final TableSqlName _tableSqlName = new TableSqlName("chara_group", _tableDbName);
+    protected final TableSqlName _tableSqlName = new TableSqlName("CHARA_GROUP", _tableDbName);
     { _tableSqlName.xacceptFilter(DBFluteConfig.getInstance().getTableSqlNameFilter()); }
     public String getTableDbName() { return _tableDbName; }
     public String getTableDispName() { return _tableDispName; }
@@ -127,7 +127,7 @@ public class CharaGroupDbm extends AbstractDBMeta {
     //                                      Foreign Property
     //                                      ----------------
     /**
-     * designer by my DESIGNER_ID, named 'designer'.
+     * DESIGNER by my DESIGNER_ID, named 'designer'.
      * @return The information object of foreign property. (NotNull)
      */
     public ForeignInfo foreignDesigner() {
@@ -139,7 +139,7 @@ public class CharaGroupDbm extends AbstractDBMeta {
     //                                     Referrer Property
     //                                     -----------------
     /**
-     * chara by CHARA_GROUP_ID, named 'charaList'.
+     * CHARA by CHARA_GROUP_ID, named 'charaList'.
      * @return The information object of referrer property. (NotNull)
      */
     public ReferrerInfo referrerCharaList() {

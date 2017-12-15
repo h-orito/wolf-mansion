@@ -258,7 +258,7 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
     }
     /**
      * Set up relation columns to select clause. <br>
-     * chara by my CHARA_ID, named 'chara'.
+     * CHARA by my CHARA_ID, named 'chara'.
      * <pre>
      * <span style="color: #0000C0">villagePlayerBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_Chara()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
@@ -287,7 +287,7 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
     }
     /**
      * Set up relation columns to select clause. <br>
-     * player by my PLAYER_ID, named 'player'.
+     * PLAYER by my PLAYER_ID, named 'player'.
      * <pre>
      * <span style="color: #0000C0">villagePlayerBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_Player()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
@@ -311,7 +311,7 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
 
     /**
      * Set up relation columns to select clause. <br>
-     * village by my VILLAGE_ID, named 'village'.
+     * VILLAGE by my VILLAGE_ID, named 'village'.
      * <pre>
      * <span style="color: #0000C0">villagePlayerBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_Village()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
@@ -419,7 +419,7 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
         protected String getTableDbName() { return "village_player"; }
         /**
          * Prepare to specify functions about relation table. <br>
-         * chara by my CHARA_ID, named 'chara'.
+         * CHARA by my CHARA_ID, named 'chara'.
          * @return The instance for specification for relation table to specify. (NotNull)
          */
         public CharaCB.HpSpecification specifyChara() {
@@ -439,7 +439,7 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
         }
         /**
          * Prepare to specify functions about relation table. <br>
-         * player by my PLAYER_ID, named 'player'.
+         * PLAYER by my PLAYER_ID, named 'player'.
          * @return The instance for specification for relation table to specify. (NotNull)
          */
         public PlayerCB.HpSpecification specifyPlayer() {
@@ -459,7 +459,7 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
         }
         /**
          * Prepare to specify functions about relation table. <br>
-         * village by my VILLAGE_ID, named 'village'.
+         * VILLAGE by my VILLAGE_ID, named 'village'.
          * @return The instance for specification for relation table to specify. (NotNull)
          */
         public VillageCB.HpSpecification specifyVillage() {
@@ -480,7 +480,7 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
          * {select max(FOO) from message where ...) as FOO_MAX} <br>
-         * message by TO_VILLAGE_PLAYER_ID, named 'messageByToVillagePlayerIdList'.
+         * MESSAGE by TO_VILLAGE_PLAYER_ID, named 'messageByToVillagePlayerIdList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
          *     messageCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -497,7 +497,7 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
          * {select max(FOO) from message where ...) as FOO_MAX} <br>
-         * message by VILLAGE_PLAYER_ID, named 'messageByVillagePlayerIdList'.
+         * MESSAGE by VILLAGE_PLAYER_ID, named 'messageByVillagePlayerIdList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
          *     messageCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>

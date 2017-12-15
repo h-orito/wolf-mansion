@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The entity of player as TABLE. <br>
+ * The entity of PLAYER as TABLE. <br>
  * プレイヤー
  * <pre>
  * [primary-key]
@@ -33,10 +33,10 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     authority
+ *     AUTHORITY
  *
  * [referrer table]
- *     message, village_player
+ *     MESSAGE, VILLAGE_PLAYER
  *
  * [foreign property]
  *     authority
@@ -205,11 +205,11 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
-    /** authority by my AUTHORITY_CODE, named 'authority'. */
+    /** AUTHORITY by my AUTHORITY_CODE, named 'authority'. */
     protected OptionalEntity<Authority> _authority;
 
     /**
-     * [get] authority by my AUTHORITY_CODE, named 'authority'. <br>
+     * [get] AUTHORITY by my AUTHORITY_CODE, named 'authority'. <br>
      * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
      * @return The entity of foreign property 'authority'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
@@ -219,7 +219,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
     }
 
     /**
-     * [set] authority by my AUTHORITY_CODE, named 'authority'.
+     * [set] AUTHORITY by my AUTHORITY_CODE, named 'authority'.
      * @param authority The entity of foreign property 'authority'. (NullAllowed)
      */
     public void setAuthority(OptionalEntity<Authority> authority) {
@@ -229,11 +229,11 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    /** message by PLAYER_ID, named 'messageList'. */
+    /** MESSAGE by PLAYER_ID, named 'messageList'. */
     protected List<Message> _messageList;
 
     /**
-     * [get] message by PLAYER_ID, named 'messageList'.
+     * [get] MESSAGE by PLAYER_ID, named 'messageList'.
      * @return The entity list of referrer property 'messageList'. (NotNull: even if no loading, returns empty list)
      */
     public List<Message> getMessageList() {
@@ -242,18 +242,18 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
     }
 
     /**
-     * [set] message by PLAYER_ID, named 'messageList'.
+     * [set] MESSAGE by PLAYER_ID, named 'messageList'.
      * @param messageList The entity list of referrer property 'messageList'. (NullAllowed)
      */
     public void setMessageList(List<Message> messageList) {
         _messageList = messageList;
     }
 
-    /** village_player by PLAYER_ID, named 'villagePlayerList'. */
+    /** VILLAGE_PLAYER by PLAYER_ID, named 'villagePlayerList'. */
     protected List<VillagePlayer> _villagePlayerList;
 
     /**
-     * [get] village_player by PLAYER_ID, named 'villagePlayerList'.
+     * [get] VILLAGE_PLAYER by PLAYER_ID, named 'villagePlayerList'.
      * @return The entity list of referrer property 'villagePlayerList'. (NotNull: even if no loading, returns empty list)
      */
     public List<VillagePlayer> getVillagePlayerList() {
@@ -262,7 +262,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
     }
 
     /**
-     * [set] village_player by PLAYER_ID, named 'villagePlayerList'.
+     * [set] VILLAGE_PLAYER by PLAYER_ID, named 'villagePlayerList'.
      * @param villagePlayerList The entity list of referrer property 'villagePlayerList'. (NullAllowed)
      */
     public void setVillagePlayerList(List<VillagePlayer> villagePlayerList) {
@@ -378,7 +378,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
      */
     public String getPlayerName() {
         checkSpecifiedProperty("playerName");
-        return _playerName;
+        return convertEmptyToNull(_playerName);
     }
 
     /**
@@ -398,7 +398,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
      */
     public String getPlayerPassword() {
         checkSpecifiedProperty("playerPassword");
-        return _playerPassword;
+        return convertEmptyToNull(_playerPassword);
     }
 
     /**
@@ -418,7 +418,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
      */
     public String getAuthorityCode() {
         checkSpecifiedProperty("authorityCode");
-        return _authorityCode;
+        return convertEmptyToNull(_authorityCode);
     }
 
     /**
@@ -459,7 +459,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
      */
     public String getRegisterTrace() {
         checkSpecifiedProperty("registerTrace");
-        return _registerTrace;
+        return convertEmptyToNull(_registerTrace);
     }
 
     /**
@@ -499,7 +499,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
      */
     public String getUpdateTrace() {
         checkSpecifiedProperty("updateTrace");
-        return _updateTrace;
+        return convertEmptyToNull(_updateTrace);
     }
 
     /**

@@ -41,7 +41,14 @@
 							<li><a href="javascript:void(0);" th:href="@{/}">だよ</a></li>
 						</ul></li>
 				</ul>
+				
+				<form th:if="${user != null}" class="navbar-form navbar-right" role="search" method="post" action="" th:action="@{/logout}">
+					<span th:text="'ユーザID: ' + ${user.username}">ユーザID: hoge</span>
+					<button type="submit" class="btn btn-primary">ログアウト</button>
+				</form>
 			</div>
+			
+
 		</div>
 	</nav>
 </body>

@@ -59,9 +59,9 @@ public class AuthorityDbm extends AbstractDBMeta {
     //                                                                          Table Info
     //                                                                          ==========
     protected final String _tableDbName = "authority";
-    protected final String _tableDispName = "authority";
+    protected final String _tableDispName = "AUTHORITY";
     protected final String _tablePropertyName = "authority";
-    protected final TableSqlName _tableSqlName = new TableSqlName("authority", _tableDbName);
+    protected final TableSqlName _tableSqlName = new TableSqlName("AUTHORITY", _tableDbName);
     { _tableSqlName.xacceptFilter(DBFluteConfig.getInstance().getTableSqlNameFilter()); }
     public String getTableDbName() { return _tableDbName; }
     public String getTableDispName() { return _tableDispName; }
@@ -117,7 +117,7 @@ public class AuthorityDbm extends AbstractDBMeta {
     //                                     Referrer Property
     //                                     -----------------
     /**
-     * player by AUTHORITY_CODE, named 'playerList'.
+     * PLAYER by AUTHORITY_CODE, named 'playerList'.
      * @return The information object of referrer property. (NotNull)
      */
     public ReferrerInfo referrerPlayerList() {

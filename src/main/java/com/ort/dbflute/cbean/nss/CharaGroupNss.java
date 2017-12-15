@@ -20,7 +20,7 @@ public class CharaGroupNss {
     //                                                                     ===============
     /**
      * With nested relation columns to select clause. <br>
-     * designer by my DESIGNER_ID, named 'designer'.
+     * DESIGNER by my DESIGNER_ID, named 'designer'.
      */
     public void withDesigner() {
         _query.xdoNss(() -> _query.queryDesigner());

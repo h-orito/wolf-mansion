@@ -23,7 +23,7 @@ import com.ort.dbflute.bsentity.dbmeta.*;
 import com.ort.dbflute.cbean.*;
 
 /**
- * The behavior of authority as TABLE. <br>
+ * The behavior of AUTHORITY as TABLE. <br>
  * <pre>
  * [primary key]
  *     AUTHORITY_CODE
@@ -44,7 +44,7 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [referrer table]
- *     player
+ *     PLAYER
  *
  * [foreign property]
  *     
@@ -364,7 +364,7 @@ public abstract class BsAuthorityBhv extends AbstractBehaviorWritable<Authority,
 
     /**
      * Load referrer of playerList by the set-upper of referrer. <br>
-     * player by AUTHORITY_CODE, named 'playerList'.
+     * PLAYER by AUTHORITY_CODE, named 'playerList'.
      * <pre>
      * <span style="color: #0000C0">authorityBhv</span>.<span style="color: #CC4747">loadPlayer</span>(<span style="color: #553000">authorityList</span>, <span style="color: #553000">playerCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">playerCB</span>.setupSelect...
@@ -395,7 +395,7 @@ public abstract class BsAuthorityBhv extends AbstractBehaviorWritable<Authority,
 
     /**
      * Load referrer of playerList by the set-upper of referrer. <br>
-     * player by AUTHORITY_CODE, named 'playerList'.
+     * PLAYER by AUTHORITY_CODE, named 'playerList'.
      * <pre>
      * <span style="color: #0000C0">authorityBhv</span>.<span style="color: #CC4747">loadPlayer</span>(<span style="color: #553000">authority</span>, <span style="color: #553000">playerCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">playerCB</span>.setupSelect...

@@ -81,9 +81,9 @@ public class MessageDbm extends AbstractDBMeta {
     //                                                                          Table Info
     //                                                                          ==========
     protected final String _tableDbName = "message";
-    protected final String _tableDispName = "message";
+    protected final String _tableDispName = "MESSAGE";
     protected final String _tablePropertyName = "message";
-    protected final TableSqlName _tableSqlName = new TableSqlName("message", _tableDbName);
+    protected final TableSqlName _tableSqlName = new TableSqlName("MESSAGE", _tableDbName);
     { _tableSqlName.xacceptFilter(DBFluteConfig.getInstance().getTableSqlNameFilter()); }
     public String getTableDbName() { return _tableDbName; }
     public String getTableDispName() { return _tableDispName; }
@@ -219,7 +219,7 @@ public class MessageDbm extends AbstractDBMeta {
     //                                      Foreign Property
     //                                      ----------------
     /**
-     * message_type by my MESSAGE_TYPE_CODE, named 'messageType'.
+     * MESSAGE_TYPE by my MESSAGE_TYPE_CODE, named 'messageType'.
      * @return The information object of foreign property. (NotNull)
      */
     public ForeignInfo foreignMessageType() {
@@ -227,7 +227,7 @@ public class MessageDbm extends AbstractDBMeta {
         return cfi("FK_MESSAGE_MESSAGE_TYPE", "messageType", this, MessageTypeDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageList", false);
     }
     /**
-     * player by my PLAYER_ID, named 'player'.
+     * PLAYER by my PLAYER_ID, named 'player'.
      * @return The information object of foreign property. (NotNull)
      */
     public ForeignInfo foreignPlayer() {
@@ -235,7 +235,7 @@ public class MessageDbm extends AbstractDBMeta {
         return cfi("FK_MESSAGE_PLAYER", "player", this, PlayerDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageList", false);
     }
     /**
-     * village_player by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'.
+     * VILLAGE_PLAYER by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'.
      * @return The information object of foreign property. (NotNull)
      */
     public ForeignInfo foreignVillagePlayerByToVillagePlayerId() {
@@ -243,7 +243,7 @@ public class MessageDbm extends AbstractDBMeta {
         return cfi("FK_MESSAGE_VILLAGE_PLAYER_TO", "villagePlayerByToVillagePlayerId", this, VillagePlayerDbm.getInstance(), mp, 2, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageByToVillagePlayerIdList", false);
     }
     /**
-     * village by my VILLAGE_ID, named 'village'.
+     * VILLAGE by my VILLAGE_ID, named 'village'.
      * @return The information object of foreign property. (NotNull)
      */
     public ForeignInfo foreignVillage() {
@@ -251,7 +251,7 @@ public class MessageDbm extends AbstractDBMeta {
         return cfi("FK_MESSAGE_VILLAGE", "village", this, VillageDbm.getInstance(), mp, 3, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageList", false);
     }
     /**
-     * village_player by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'.
+     * VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'.
      * @return The information object of foreign property. (NotNull)
      */
     public ForeignInfo foreignVillagePlayerByVillagePlayerId() {

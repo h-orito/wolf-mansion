@@ -198,7 +198,7 @@ public class BsCharaGroupCQ extends AbstractBsCharaGroupCQ {
     //                                                                       =============
     /**
      * Get the condition-query for relation table. <br>
-     * designer by my DESIGNER_ID, named 'designer'.
+     * DESIGNER by my DESIGNER_ID, named 'designer'.
      * @return The instance of condition-query. (NotNull)
      */
     public DesignerCQ queryDesigner() {
