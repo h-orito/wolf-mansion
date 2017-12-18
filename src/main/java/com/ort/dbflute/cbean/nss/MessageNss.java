@@ -46,9 +46,11 @@ public class MessageNss {
     /**
      * With nested relation columns to select clause. <br>
      * VILLAGE by my VILLAGE_ID, named 'village'.
+     * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
      */
-    public void withVillage() {
+    public VillageNss withVillage() {
         _query.xdoNss(() -> _query.queryVillage());
+        return new VillageNss(_query.queryVillage());
     }
     /**
      * With nested relation columns to select clause. <br>

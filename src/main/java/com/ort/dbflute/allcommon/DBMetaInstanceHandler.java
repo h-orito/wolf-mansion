@@ -32,14 +32,17 @@ public class DBMetaInstanceHandler implements DBMetaProvider {
     static {
         final Map<String, String> tmpMap = newHashMap();
         tmpMap.put("authority", "com.ort.dbflute.bsentity.dbmeta.AuthorityDbm");
+        tmpMap.put("camp", "com.ort.dbflute.bsentity.dbmeta.CampDbm");
         tmpMap.put("chara", "com.ort.dbflute.bsentity.dbmeta.CharaDbm");
         tmpMap.put("chara_group", "com.ort.dbflute.bsentity.dbmeta.CharaGroupDbm");
         tmpMap.put("designer", "com.ort.dbflute.bsentity.dbmeta.DesignerDbm");
         tmpMap.put("message", "com.ort.dbflute.bsentity.dbmeta.MessageDbm");
         tmpMap.put("message_type", "com.ort.dbflute.bsentity.dbmeta.MessageTypeDbm");
         tmpMap.put("player", "com.ort.dbflute.bsentity.dbmeta.PlayerDbm");
+        tmpMap.put("skill", "com.ort.dbflute.bsentity.dbmeta.SkillDbm");
         tmpMap.put("village", "com.ort.dbflute.bsentity.dbmeta.VillageDbm");
         tmpMap.put("village_player", "com.ort.dbflute.bsentity.dbmeta.VillagePlayerDbm");
+        tmpMap.put("village_settings", "com.ort.dbflute.bsentity.dbmeta.VillageSettingsDbm");
         _tableDbNameClassNameMap = Collections.unmodifiableMap(tmpMap);
     }
 

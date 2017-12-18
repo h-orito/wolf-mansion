@@ -669,6 +669,159 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     protected void regCharaId(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueCharaId(), "CHARA_ID"); }
     protected abstract ConditionValue xgetCValueCharaId();
 
+    /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * @param skillCode The value of skillCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setSkillCode_Equal(String skillCode) {
+        doSetSkillCode_Equal(fRES(skillCode));
+    }
+
+    protected void doSetSkillCode_Equal(String skillCode) {
+        regSkillCode(CK_EQ, skillCode);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * @param skillCode The value of skillCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setSkillCode_NotEqual(String skillCode) {
+        doSetSkillCode_NotEqual(fRES(skillCode));
+    }
+
+    protected void doSetSkillCode_NotEqual(String skillCode) {
+        regSkillCode(CK_NES, skillCode);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * @param skillCode The value of skillCode as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setSkillCode_GreaterThan(String skillCode) {
+        regSkillCode(CK_GT, fRES(skillCode));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * @param skillCode The value of skillCode as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setSkillCode_LessThan(String skillCode) {
+        regSkillCode(CK_LT, fRES(skillCode));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * @param skillCode The value of skillCode as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setSkillCode_GreaterEqual(String skillCode) {
+        regSkillCode(CK_GE, fRES(skillCode));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * @param skillCode The value of skillCode as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setSkillCode_LessEqual(String skillCode) {
+        regSkillCode(CK_LE, fRES(skillCode));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * @param skillCodeList The collection of skillCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setSkillCode_InScope(Collection<String> skillCodeList) {
+        doSetSkillCode_InScope(skillCodeList);
+    }
+
+    protected void doSetSkillCode_InScope(Collection<String> skillCodeList) {
+        regINS(CK_INS, cTL(skillCodeList), xgetCValueSkillCode(), "SKILL_CODE");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * @param skillCodeList The collection of skillCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setSkillCode_NotInScope(Collection<String> skillCodeList) {
+        doSetSkillCode_NotInScope(skillCodeList);
+    }
+
+    protected void doSetSkillCode_NotInScope(Collection<String> skillCodeList) {
+        regINS(CK_NINS, cTL(skillCodeList), xgetCValueSkillCode(), "SKILL_CODE");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill} <br>
+     * <pre>e.g. setSkillCode_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param skillCode The value of skillCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setSkillCode_LikeSearch(String skillCode, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setSkillCode_LikeSearch(skillCode, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill} <br>
+     * <pre>e.g. setSkillCode_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param skillCode The value of skillCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setSkillCode_LikeSearch(String skillCode, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(skillCode), xgetCValueSkillCode(), "SKILL_CODE", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * @param skillCode The value of skillCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setSkillCode_NotLikeSearch(String skillCode, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setSkillCode_NotLikeSearch(skillCode, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * @param skillCode The value of skillCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setSkillCode_NotLikeSearch(String skillCode, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(skillCode), xgetCValueSkillCode(), "SKILL_CODE", likeSearchOption);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     */
+    public void setSkillCode_IsNull() { regSkillCode(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     */
+    public void setSkillCode_IsNullOrEmpty() { regSkillCode(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     */
+    public void setSkillCode_IsNotNull() { regSkillCode(CK_ISNN, DOBJ); }
+
+    protected void regSkillCode(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueSkillCode(), "SKILL_CODE"); }
+    protected abstract ConditionValue xgetCValueSkillCode();
+
     // ===================================================================================
     //                                                                     ScalarCondition
     //                                                                     ===============

@@ -28,7 +28,7 @@ import com.ort.dbflute.cbean.*;
  *     VILLAGE_PLAYER_ID
  *
  * [column]
- *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID
+ *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE
  *
  * [sequence]
  *     
@@ -40,13 +40,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [foreign table]
- *     CHARA, PLAYER, VILLAGE
+ *     CHARA, PLAYER, SKILL, VILLAGE
  *
  * [referrer table]
  *     MESSAGE
  *
  * [foreign property]
- *     chara, player, village
+ *     chara, player, skill, village
  *
  * [referrer property]
  *     messageByToVillagePlayerIdList, messageByVillagePlayerIdList
@@ -533,6 +533,14 @@ public abstract class BsVillagePlayerBhv extends AbstractBehaviorWritable<Villag
      */
     public List<Player> pulloutPlayer(List<VillagePlayer> villagePlayerList)
     { return helpPulloutInternally(villagePlayerList, "player"); }
+
+    /**
+     * Pull out the list of foreign table 'Skill'.
+     * @param villagePlayerList The list of villagePlayer. (NotNull, EmptyAllowed)
+     * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
+     */
+    public List<Skill> pulloutSkill(List<VillagePlayer> villagePlayerList)
+    { return helpPulloutInternally(villagePlayerList, "skill"); }
 
     /**
      * Pull out the list of foreign table 'Village'.

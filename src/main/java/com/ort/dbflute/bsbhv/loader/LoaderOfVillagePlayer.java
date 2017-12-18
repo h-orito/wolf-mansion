@@ -15,7 +15,7 @@ import com.ort.dbflute.cbean.*;
  *     VILLAGE_PLAYER_ID
  *
  * [column]
- *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID
+ *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE
  *
  * [sequence]
  *     
@@ -27,13 +27,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [foreign table]
- *     CHARA, PLAYER, VILLAGE
+ *     CHARA, PLAYER, SKILL, VILLAGE
  *
  * [referrer table]
  *     MESSAGE
  *
  * [foreign property]
- *     chara, player, village
+ *     chara, player, skill, village
  *
  * [referrer property]
  *     messageByToVillagePlayerIdList, messageByVillagePlayerIdList
@@ -144,6 +144,13 @@ public class LoaderOfVillagePlayer {
         if (_foreignPlayerLoader == null)
         { _foreignPlayerLoader = new LoaderOfPlayer().ready(myBhv().pulloutPlayer(_selectedList), _selector); }
         return _foreignPlayerLoader;
+    }
+
+    protected LoaderOfSkill _foreignSkillLoader;
+    public LoaderOfSkill pulloutSkill() {
+        if (_foreignSkillLoader == null)
+        { _foreignSkillLoader = new LoaderOfSkill().ready(myBhv().pulloutSkill(_selectedList), _selector); }
+        return _foreignSkillLoader;
     }
 
     protected LoaderOfVillage _foreignVillageLoader;

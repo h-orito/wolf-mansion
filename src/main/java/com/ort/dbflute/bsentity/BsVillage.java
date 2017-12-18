@@ -3,9 +3,11 @@ package com.ort.dbflute.bsentity;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.dbflute.Entity;
 import org.dbflute.dbmeta.DBMeta;
 import org.dbflute.dbmeta.AbstractEntity;
 import org.dbflute.dbmeta.accessory.DomainEntity;
+import org.dbflute.optional.OptionalEntity;
 import com.ort.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.exentity.*;
@@ -18,7 +20,7 @@ import com.ort.dbflute.exentity.*;
  *     VILALGE_ID
  *
  * [column]
- *     VILALGE_ID, VILLAGE_DISPLAY_NAME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILALGE_ID, VILLAGE_DISPLAY_NAME, WIN_CAMP_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -30,13 +32,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     
+ *     VILLAGE_SETTINGS(AsOne)
  *
  * [referrer table]
- *     MESSAGE, VILLAGE_PLAYER
+ *     MESSAGE, VILLAGE_PLAYER, VILLAGE_SETTINGS
  *
  * [foreign property]
- *     
+ *     villageSettingsAsOne
  *
  * [referrer property]
  *     messageList, villagePlayerList
@@ -45,12 +47,14 @@ import com.ort.dbflute.exentity.*;
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * Integer vilalgeId = entity.getVilalgeId();
  * String villageDisplayName = entity.getVillageDisplayName();
+ * String winCampCode = entity.getWinCampCode();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
  * String updateTrace = entity.getUpdateTrace();
  * entity.setVilalgeId(vilalgeId);
  * entity.setVillageDisplayName(villageDisplayName);
+ * entity.setWinCampCode(winCampCode);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -75,6 +79,9 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
 
     /** VILLAGE_DISPLAY_NAME: {NotNull, VARCHAR(40)} */
     protected String _villageDisplayName;
+
+    /** WIN_CAMP_CODE: {VARCHAR(20)} */
+    protected String _winCampCode;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -113,6 +120,27 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
+    /** village_settings by VILLAGE_ID, named 'villageSettingsAsOne'. */
+    protected OptionalEntity<VillageSettings> _villageSettingsAsOne;
+
+    /**
+     * [get] village_settings by VILLAGE_ID, named 'villageSettingsAsOne'.
+     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
+     * @return the entity of foreign property(referrer-as-one) 'villageSettingsAsOne'. (NotNull, EmptyAllowed: when e.g. no data, no setupSelect)
+     */
+    public OptionalEntity<VillageSettings> getVillageSettingsAsOne() {
+        if (_villageSettingsAsOne == null) { _villageSettingsAsOne = OptionalEntity.relationEmpty(this, "villageSettingsAsOne"); }
+        return _villageSettingsAsOne;
+    }
+
+    /**
+     * [set] village_settings by VILLAGE_ID, named 'villageSettingsAsOne'.
+     * @param villageSettingsAsOne The entity of foreign property(referrer-as-one) 'villageSettingsAsOne'. (NullAllowed)
+     */
+    public void setVillageSettingsAsOne(OptionalEntity<VillageSettings> villageSettingsAsOne) {
+        _villageSettingsAsOne = villageSettingsAsOne;
+    }
+
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
@@ -185,11 +213,16 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     @Override
     protected String doBuildStringWithRelation(String li) {
         StringBuilder sb = new StringBuilder();
+        if (_villageSettingsAsOne != null && _villageSettingsAsOne.isPresent())
+        { sb.append(li).append(xbRDS(_villageSettingsAsOne, "villageSettingsAsOne")); }
         if (_messageList != null) { for (Message et : _messageList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "messageList")); } } }
         if (_villagePlayerList != null) { for (VillagePlayer et : _villagePlayerList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerList")); } } }
         return sb.toString();
+    }
+    protected <ET extends Entity> String xbRDS(org.dbflute.optional.OptionalEntity<ET> et, String name) { // buildRelationDisplayString()
+        return et.get().buildDisplayString(name, true, true);
     }
 
     @Override
@@ -197,6 +230,7 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
         StringBuilder sb = new StringBuilder();
         sb.append(dm).append(xfND(_vilalgeId));
         sb.append(dm).append(xfND(_villageDisplayName));
+        sb.append(dm).append(xfND(_winCampCode));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -211,6 +245,8 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     @Override
     protected String doBuildRelationString(String dm) {
         StringBuilder sb = new StringBuilder();
+        if (_villageSettingsAsOne != null && _villageSettingsAsOne.isPresent())
+        { sb.append(dm).append("villageSettingsAsOne"); }
         if (_messageList != null && !_messageList.isEmpty())
         { sb.append(dm).append("messageList"); }
         if (_villagePlayerList != null && !_villagePlayerList.isEmpty())
@@ -267,6 +303,26 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     public void setVillageDisplayName(String villageDisplayName) {
         registerModifiedProperty("villageDisplayName");
         _villageDisplayName = villageDisplayName;
+    }
+
+    /**
+     * [get] WIN_CAMP_CODE: {VARCHAR(20)} <br>
+     * 勝利陣営コード
+     * @return The value of the column 'WIN_CAMP_CODE'. (NullAllowed even if selected: for no constraint)
+     */
+    public String getWinCampCode() {
+        checkSpecifiedProperty("winCampCode");
+        return convertEmptyToNull(_winCampCode);
+    }
+
+    /**
+     * [set] WIN_CAMP_CODE: {VARCHAR(20)} <br>
+     * 勝利陣営コード
+     * @param winCampCode The value of the column 'WIN_CAMP_CODE'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setWinCampCode(String winCampCode) {
+        registerModifiedProperty("winCampCode");
+        _winCampCode = winCampCode;
     }
 
     /**

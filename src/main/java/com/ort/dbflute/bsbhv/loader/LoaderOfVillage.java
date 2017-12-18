@@ -15,7 +15,7 @@ import com.ort.dbflute.cbean.*;
  *     VILALGE_ID
  *
  * [column]
- *     VILALGE_ID, VILLAGE_DISPLAY_NAME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILALGE_ID, VILLAGE_DISPLAY_NAME, WIN_CAMP_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -27,13 +27,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [foreign table]
- *     
+ *     VILLAGE_SETTINGS(AsOne)
  *
  * [referrer table]
- *     MESSAGE, VILLAGE_PLAYER
+ *     MESSAGE, VILLAGE_PLAYER, VILLAGE_SETTINGS
  *
  * [foreign property]
- *     
+ *     villageSettingsAsOne
  *
  * [referrer property]
  *     messageList, villagePlayerList
@@ -132,6 +132,13 @@ public class LoaderOfVillage {
     // ===================================================================================
     //                                                                    Pull out Foreign
     //                                                                    ================
+    protected LoaderOfVillageSettings _foreignVillageSettingsAsOneLoader;
+    public LoaderOfVillageSettings pulloutVillageSettingsAsOne() {
+        if (_foreignVillageSettingsAsOneLoader == null)
+        { _foreignVillageSettingsAsOneLoader = new LoaderOfVillageSettings().ready(myBhv().pulloutVillageSettingsAsOne(_selectedList), _selector); }
+        return _foreignVillageSettingsAsOneLoader;
+    }
+
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========

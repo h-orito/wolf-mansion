@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.dbflute.Entity;
+import org.dbflute.optional.OptionalEntity;
 import org.dbflute.dbmeta.AbstractDBMeta;
 import org.dbflute.dbmeta.info.*;
 import org.dbflute.dbmeta.name.*;
@@ -44,6 +45,7 @@ public class VillageDbm extends AbstractDBMeta {
     protected void xsetupEpg() {
         setupEpg(_epgMap, et -> ((Village)et).getVilalgeId(), (et, vl) -> ((Village)et).setVilalgeId(cti(vl)), "vilalgeId");
         setupEpg(_epgMap, et -> ((Village)et).getVillageDisplayName(), (et, vl) -> ((Village)et).setVillageDisplayName((String)vl), "villageDisplayName");
+        setupEpg(_epgMap, et -> ((Village)et).getWinCampCode(), (et, vl) -> ((Village)et).setWinCampCode((String)vl), "winCampCode");
         setupEpg(_epgMap, et -> ((Village)et).getRegisterDatetime(), (et, vl) -> ((Village)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((Village)et).getRegisterTrace(), (et, vl) -> ((Village)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((Village)et).getUpdateDatetime(), (et, vl) -> ((Village)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -51,6 +53,18 @@ public class VillageDbm extends AbstractDBMeta {
     }
     public PropertyGateway findPropertyGateway(String prop)
     { return doFindEpg(_epgMap, prop); }
+
+    // -----------------------------------------------------
+    //                                      Foreign Property
+    //                                      ----------------
+    protected final Map<String, PropertyGateway> _efpgMap = newHashMap();
+    { xsetupEfpg(); }
+    @SuppressWarnings("unchecked")
+    protected void xsetupEfpg() {
+        setupEfpg(_efpgMap, et -> ((Village)et).getVillageSettingsAsOne(), (et, vl) -> ((Village)et).setVillageSettingsAsOne((OptionalEntity<VillageSettings>)vl), "villageSettingsAsOne");
+    }
+    public PropertyGateway findForeignPropertyGateway(String prop)
+    { return doFindEfpg(_efpgMap, prop); }
 
     // ===================================================================================
     //                                                                          Table Info
@@ -70,6 +84,7 @@ public class VillageDbm extends AbstractDBMeta {
     //                                                                         ===========
     protected final ColumnInfo _columnVilalgeId = cci("VILALGE_ID", "VILALGE_ID", null, null, Integer.class, "vilalgeId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "messageList,villagePlayerList", null, false);
     protected final ColumnInfo _columnVillageDisplayName = cci("VILLAGE_DISPLAY_NAME", "VILLAGE_DISPLAY_NAME", null, null, String.class, "villageDisplayName", null, false, false, true, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnWinCampCode = cci("WIN_CAMP_CODE", "WIN_CAMP_CODE", null, null, String.class, "winCampCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -85,6 +100,11 @@ public class VillageDbm extends AbstractDBMeta {
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageDisplayName() { return _columnVillageDisplayName; }
+    /**
+     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnWinCampCode() { return _columnWinCampCode; }
     /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
@@ -110,6 +130,7 @@ public class VillageDbm extends AbstractDBMeta {
         List<ColumnInfo> ls = newArrayList();
         ls.add(columnVilalgeId());
         ls.add(columnVillageDisplayName());
+        ls.add(columnWinCampCode());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());
@@ -137,6 +158,14 @@ public class VillageDbm extends AbstractDBMeta {
     // -----------------------------------------------------
     //                                      Foreign Property
     //                                      ----------------
+    /**
+     * village_settings by VILLAGE_ID, named 'villageSettingsAsOne'.
+     * @return The information object of foreign property(referrer-as-one). (NotNull)
+     */
+    public ForeignInfo foreignVillageSettingsAsOne() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVilalgeId(), VillageSettingsDbm.getInstance().columnVillageId());
+        return cfi("FK_VILLAGE_SETTINGS_VILLAGE", "villageSettingsAsOne", this, VillageSettingsDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, true, false, true, false, null, null, false, "village", false);
+    }
 
     // -----------------------------------------------------
     //                                     Referrer Property

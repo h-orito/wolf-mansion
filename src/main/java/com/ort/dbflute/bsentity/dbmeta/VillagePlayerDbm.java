@@ -47,6 +47,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getVillageId(), (et, vl) -> ((VillagePlayer)et).setVillageId(cti(vl)), "villageId");
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getPlayerId(), (et, vl) -> ((VillagePlayer)et).setPlayerId(cti(vl)), "playerId");
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getCharaId(), (et, vl) -> ((VillagePlayer)et).setCharaId(cti(vl)), "charaId");
+        setupEpg(_epgMap, et -> ((VillagePlayer)et).getSkillCode(), (et, vl) -> ((VillagePlayer)et).setSkillCode((String)vl), "skillCode");
     }
     public PropertyGateway findPropertyGateway(String prop)
     { return doFindEpg(_epgMap, prop); }
@@ -60,6 +61,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     protected void xsetupEfpg() {
         setupEfpg(_efpgMap, et -> ((VillagePlayer)et).getChara(), (et, vl) -> ((VillagePlayer)et).setChara((OptionalEntity<Chara>)vl), "chara");
         setupEfpg(_efpgMap, et -> ((VillagePlayer)et).getPlayer(), (et, vl) -> ((VillagePlayer)et).setPlayer((OptionalEntity<Player>)vl), "player");
+        setupEfpg(_efpgMap, et -> ((VillagePlayer)et).getSkill(), (et, vl) -> ((VillagePlayer)et).setSkill((OptionalEntity<Skill>)vl), "skill");
         setupEfpg(_efpgMap, et -> ((VillagePlayer)et).getVillage(), (et, vl) -> ((VillagePlayer)et).setVillage((OptionalEntity<Village>)vl), "village");
     }
     public PropertyGateway findForeignPropertyGateway(String prop)
@@ -85,6 +87,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnVillageId = cci("VILLAGE_ID", "VILLAGE_ID", null, null, Integer.class, "villageId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "village", null, null, false);
     protected final ColumnInfo _columnPlayerId = cci("PLAYER_ID", "PLAYER_ID", null, null, Integer.class, "playerId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "player", null, null, false);
     protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "chara", null, null, false);
+    protected final ColumnInfo _columnSkillCode = cci("SKILL_CODE", "SKILL_CODE", null, null, String.class, "skillCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, "skill", null, null, false);
 
     /**
      * VILLAGE_PLAYER_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
@@ -106,6 +109,11 @@ public class VillagePlayerDbm extends AbstractDBMeta {
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharaId() { return _columnCharaId; }
+    /**
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnSkillCode() { return _columnSkillCode; }
 
     protected List<ColumnInfo> ccil() {
         List<ColumnInfo> ls = newArrayList();
@@ -113,6 +121,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
         ls.add(columnVillageId());
         ls.add(columnPlayerId());
         ls.add(columnCharaId());
+        ls.add(columnSkillCode());
         return ls;
     }
 
@@ -163,12 +172,20 @@ public class VillagePlayerDbm extends AbstractDBMeta {
         return cfi("FK_VILLAGE_PLAYER_PLAYER", "player", this, PlayerDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villagePlayerList", false);
     }
     /**
+     * SKILL by my SKILL_CODE, named 'skill'.
+     * @return The information object of foreign property. (NotNull)
+     */
+    public ForeignInfo foreignSkill() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnSkillCode(), SkillDbm.getInstance().columnSkillCode());
+        return cfi("FK_VILLAGE_PLAYER_SKILL", "skill", this, SkillDbm.getInstance(), mp, 2, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villagePlayerList", false);
+    }
+    /**
      * VILLAGE by my VILLAGE_ID, named 'village'.
      * @return The information object of foreign property. (NotNull)
      */
     public ForeignInfo foreignVillage() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillageId(), VillageDbm.getInstance().columnVilalgeId());
-        return cfi("FK_VILLAGE_PLAYER_VILLAGE", "village", this, VillageDbm.getInstance(), mp, 2, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villagePlayerList", false);
+        return cfi("FK_VILLAGE_PLAYER_VILLAGE", "village", this, VillageDbm.getInstance(), mp, 3, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villagePlayerList", false);
     }
 
     // -----------------------------------------------------

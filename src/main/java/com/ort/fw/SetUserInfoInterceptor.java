@@ -16,6 +16,9 @@ public class SetUserInfoInterceptor extends HandlerInterceptorAdapter {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
             throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            return;
+        }
         if (authentication.getPrincipal() instanceof UserInfo) {
             UserInfo user = UserInfo.class.cast(authentication.getPrincipal());
             modelAndView.addObject("user", user);

@@ -141,6 +141,26 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
      */
     public BsVillageCQ addOrderBy_VillageDisplayName_Desc() { regOBD("VILLAGE_DISPLAY_NAME"); return this; }
 
+    protected ConditionValue _winCampCode;
+    public ConditionValue xdfgetWinCampCode()
+    { if (_winCampCode == null) { _winCampCode = nCV(); }
+      return _winCampCode; }
+    protected ConditionValue xgetCValueWinCampCode() { return xdfgetWinCampCode(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * @return this. (NotNull)
+     */
+    public BsVillageCQ addOrderBy_WinCampCode_Asc() { regOBA("WIN_CAMP_CODE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * @return this. (NotNull)
+     */
+    public BsVillageCQ addOrderBy_WinCampCode_Desc() { regOBD("WIN_CAMP_CODE"); return this; }
+
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
     { if (_registerDatetime == null) { _registerDatetime = nCV(); }
@@ -260,11 +280,34 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
     //                                                                         Union Query
     //                                                                         ===========
     public void reflectRelationOnUnionQuery(ConditionQuery bqs, ConditionQuery uqs) {
+        VillageCQ bq = (VillageCQ)bqs;
+        VillageCQ uq = (VillageCQ)uqs;
+        if (bq.hasConditionQueryVillageSettingsAsOne()) {
+            uq.queryVillageSettingsAsOne().reflectRelationOnUnionQuery(bq.queryVillageSettingsAsOne(), uq.queryVillageSettingsAsOne());
+        }
     }
 
     // ===================================================================================
     //                                                                       Foreign Query
     //                                                                       =============
+    /**
+     * Get the condition-query for relation table. <br>
+     * village_settings by VILLAGE_ID, named 'villageSettingsAsOne'.
+     * @return The instance of condition-query. (NotNull)
+     */
+    public VillageSettingsCQ queryVillageSettingsAsOne() { return xdfgetConditionQueryVillageSettingsAsOne(); }
+    public VillageSettingsCQ xdfgetConditionQueryVillageSettingsAsOne() {
+        String prop = "villageSettingsAsOne";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryVillageSettingsAsOne()); xsetupOuterJoinVillageSettingsAsOne(); }
+        return xgetQueRlMap(prop);
+    }
+    protected VillageSettingsCQ xcreateQueryVillageSettingsAsOne() {
+        String nrp = xresolveNRP("village", "villageSettingsAsOne"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        return xinitRelCQ(new VillageSettingsCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "villageSettingsAsOne", nrp);
+    }
+    protected void xsetupOuterJoinVillageSettingsAsOne() { xregOutJo("villageSettingsAsOne"); }
+    public boolean hasConditionQueryVillageSettingsAsOne() { return xhasQueRlMap("villageSettingsAsOne"); }
+
     protected Map<String, Object> xfindFixedConditionDynamicParameterMap(String property) {
         return null;
     }

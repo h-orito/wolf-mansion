@@ -454,6 +454,159 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
     protected abstract ConditionValue xgetCValueVillageDisplayName();
 
     /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * @param winCampCode The value of winCampCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setWinCampCode_Equal(String winCampCode) {
+        doSetWinCampCode_Equal(fRES(winCampCode));
+    }
+
+    protected void doSetWinCampCode_Equal(String winCampCode) {
+        regWinCampCode(CK_EQ, winCampCode);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * @param winCampCode The value of winCampCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setWinCampCode_NotEqual(String winCampCode) {
+        doSetWinCampCode_NotEqual(fRES(winCampCode));
+    }
+
+    protected void doSetWinCampCode_NotEqual(String winCampCode) {
+        regWinCampCode(CK_NES, winCampCode);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * @param winCampCode The value of winCampCode as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setWinCampCode_GreaterThan(String winCampCode) {
+        regWinCampCode(CK_GT, fRES(winCampCode));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * @param winCampCode The value of winCampCode as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setWinCampCode_LessThan(String winCampCode) {
+        regWinCampCode(CK_LT, fRES(winCampCode));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * @param winCampCode The value of winCampCode as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setWinCampCode_GreaterEqual(String winCampCode) {
+        regWinCampCode(CK_GE, fRES(winCampCode));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * @param winCampCode The value of winCampCode as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setWinCampCode_LessEqual(String winCampCode) {
+        regWinCampCode(CK_LE, fRES(winCampCode));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * @param winCampCodeList The collection of winCampCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setWinCampCode_InScope(Collection<String> winCampCodeList) {
+        doSetWinCampCode_InScope(winCampCodeList);
+    }
+
+    protected void doSetWinCampCode_InScope(Collection<String> winCampCodeList) {
+        regINS(CK_INS, cTL(winCampCodeList), xgetCValueWinCampCode(), "WIN_CAMP_CODE");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * @param winCampCodeList The collection of winCampCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setWinCampCode_NotInScope(Collection<String> winCampCodeList) {
+        doSetWinCampCode_NotInScope(winCampCodeList);
+    }
+
+    protected void doSetWinCampCode_NotInScope(Collection<String> winCampCodeList) {
+        regINS(CK_NINS, cTL(winCampCodeList), xgetCValueWinCampCode(), "WIN_CAMP_CODE");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * WIN_CAMP_CODE: {VARCHAR(20)} <br>
+     * <pre>e.g. setWinCampCode_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param winCampCode The value of winCampCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setWinCampCode_LikeSearch(String winCampCode, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setWinCampCode_LikeSearch(winCampCode, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * WIN_CAMP_CODE: {VARCHAR(20)} <br>
+     * <pre>e.g. setWinCampCode_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param winCampCode The value of winCampCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setWinCampCode_LikeSearch(String winCampCode, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(winCampCode), xgetCValueWinCampCode(), "WIN_CAMP_CODE", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * @param winCampCode The value of winCampCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setWinCampCode_NotLikeSearch(String winCampCode, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setWinCampCode_NotLikeSearch(winCampCode, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * @param winCampCode The value of winCampCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setWinCampCode_NotLikeSearch(String winCampCode, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(winCampCode), xgetCValueWinCampCode(), "WIN_CAMP_CODE", likeSearchOption);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * WIN_CAMP_CODE: {VARCHAR(20)}
+     */
+    public void setWinCampCode_IsNull() { regWinCampCode(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * WIN_CAMP_CODE: {VARCHAR(20)}
+     */
+    public void setWinCampCode_IsNullOrEmpty() { regWinCampCode(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * WIN_CAMP_CODE: {VARCHAR(20)}
+     */
+    public void setWinCampCode_IsNotNull() { regWinCampCode(CK_ISNN, DOBJ); }
+
+    protected void regWinCampCode(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueWinCampCode(), "WIN_CAMP_CODE"); }
+    protected abstract ConditionValue xgetCValueWinCampCode();
+
+    /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @param registerDatetime The value of registerDatetime as equal. (basically NotNull: error as default, or no condition as option)

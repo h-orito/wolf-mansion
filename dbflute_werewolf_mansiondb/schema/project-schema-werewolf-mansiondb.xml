@@ -10,6 +10,14 @@
         <column comment="権限名" dbType="VARCHAR" javaType="String"
             name="AUTHORITY_NAME" required="true" size="20" type="VARCHAR"/>
     </table>
+    <table comment="陣営" name="camp"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column comment="陣営コード" dbType="VARCHAR" javaType="String"
+            name="CAMP_CODE" pkName="PRIMARY" pkPosition="1"
+            primaryKey="true" required="true" size="20" type="VARCHAR"/>
+        <column comment="陣営名" dbType="VARCHAR" javaType="String"
+            name="CAMP_NAME" required="true" size="20" type="VARCHAR"/>
+    </table>
     <table comment="キャラクター" name="chara"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
         <column autoIncrement="true" comment="キャラクターID"
@@ -172,6 +180,23 @@
             <index-column name="AUTHORITY_CODE" position="1"/>
         </index>
     </table>
+    <table comment="役職" name="skill"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column comment="役職コード" dbType="VARCHAR" javaType="String"
+            name="SKILL_CODE" pkName="PRIMARY" pkPosition="1"
+            primaryKey="true" required="true" size="20" type="VARCHAR"/>
+        <column comment="役職名" dbType="VARCHAR" javaType="String"
+            name="SKILL_NAME" required="true" size="20" type="VARCHAR"/>
+        <column comment="陣営コード" dbType="VARCHAR" javaType="String"
+            name="CAMP_CODE" required="true" size="20" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="camp" name="FK_SKILL_CAMP">
+            <reference foreign="CAMP_CODE" local="CAMP_CODE"/>
+        </foreign-key>
+        <index name="FK_SKILL_CAMP">
+            <index-column name="CAMP_CODE" position="1"/>
+        </index>
+    </table>
     <table comment="村" name="village"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
         <column autoIncrement="true" comment="村ID" dbType="INT UNSIGNED"
@@ -179,6 +204,8 @@
             pkPosition="1" primaryKey="true" required="true" size="10" type="INTEGER"/>
         <column comment="村表示名" dbType="VARCHAR" javaType="String"
             name="VILLAGE_DISPLAY_NAME" required="true" size="40" type="VARCHAR"/>
+        <column comment="勝利陣営コード" dbType="VARCHAR" javaType="String"
+            name="WIN_CAMP_CODE" size="20" type="VARCHAR"/>
         <column comment="登録日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>
@@ -203,6 +230,8 @@
             size="10" type="INTEGER"/>
         <column comment="キャラクターID" dbType="INT UNSIGNED"
             javaType="Integer" name="CHARA_ID" required="true" size="10" type="INTEGER"/>
+        <column comment="役職コード" dbType="VARCHAR" javaType="String"
+            name="SKILL_CODE" size="20" type="VARCHAR"/>
         <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
             foreignTable="chara" name="FK_VILLAGE_PLAYER_CHARA">
             <reference foreign="CHARA_ID" local="CHARA_ID"/>
@@ -210,6 +239,10 @@
         <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
             foreignTable="player" name="FK_VILLAGE_PLAYER_PLAYER">
             <reference foreign="PLAYER_ID" local="PLAYER_ID"/>
+        </foreign-key>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="skill" name="FK_VILLAGE_PLAYER_SKILL">
+            <reference foreign="SKILL_CODE" local="SKILL_CODE"/>
         </foreign-key>
         <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
             foreignTable="village" name="FK_VILLAGE_PLAYER_VILLAGE">
@@ -225,5 +258,32 @@
         <index name="FK_VILLAGE_PLAYER_PLAYER">
             <index-column name="PLAYER_ID" position="1"/>
         </index>
+        <index name="FK_VILLAGE_PLAYER_SKILL">
+            <index-column name="SKILL_CODE" position="1"/>
+        </index>
+    </table>
+    <table comment="村設定" name="village_settings"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column comment="村ID" dbType="INT UNSIGNED" javaType="Integer"
+            name="VILLAGE_ID" pkName="PRIMARY" pkPosition="1"
+            primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="最低開始人数" dbType="INT UNSIGNED"
+            javaType="Integer" name="START_PERSON_MIN_NUM" size="10" type="INTEGER"/>
+        <column comment="定員" dbType="INT UNSIGNED" javaType="Integer"
+            name="PERSON_MAX_NUM" size="10" type="INTEGER"/>
+        <column comment="開始日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="START_DATETIME"
+            size="19" type="TIMESTAMP"/>
+        <column comment="更新間隔（秒）" dbType="INT UNSIGNED"
+            javaType="Integer" name="DAY_CHANGE_INTERVAL_SECONDS"
+            required="true" size="10" type="INTEGER"/>
+        <column comment="記名投票か" dbType="BIT" javaType="Boolean"
+            name="IS_OPEN_VOTE" required="true" type="BIT"/>
+        <column comment="役職希望有効か" dbType="BIT" javaType="Boolean"
+            name="IS_POSSIBLE_SKILL_REQUEST" required="true" type="BIT"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="village" name="FK_VILLAGE_SETTINGS_VILLAGE">
+            <reference foreign="VILALGE_ID" local="VILLAGE_ID"/>
+        </foreign-key>
     </table>
 </database>

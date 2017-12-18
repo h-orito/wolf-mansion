@@ -85,6 +85,7 @@ public class VillagePlayerCIQ extends AbstractBsVillagePlayerCQ {
     protected ConditionValue xgetCValueVillageId() { return _myCQ.xdfgetVillageId(); }
     protected ConditionValue xgetCValuePlayerId() { return _myCQ.xdfgetPlayerId(); }
     protected ConditionValue xgetCValueCharaId() { return _myCQ.xdfgetCharaId(); }
+    protected ConditionValue xgetCValueSkillCode() { return _myCQ.xdfgetSkillCode(); }
     protected Map<String, Object> xfindFixedConditionDynamicParameterMap(String pp) { return null; }
     public String keepScalarCondition(VillagePlayerCQ sq)
     { throwIICBOE("ScalarCondition"); return null; }

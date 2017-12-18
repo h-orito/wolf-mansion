@@ -181,6 +181,26 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
      */
     public BsVillagePlayerCQ addOrderBy_CharaId_Desc() { regOBD("CHARA_ID"); return this; }
 
+    protected ConditionValue _skillCode;
+    public ConditionValue xdfgetSkillCode()
+    { if (_skillCode == null) { _skillCode = nCV(); }
+      return _skillCode; }
+    protected ConditionValue xgetCValueSkillCode() { return xdfgetSkillCode(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * @return this. (NotNull)
+     */
+    public BsVillagePlayerCQ addOrderBy_SkillCode_Asc() { regOBA("SKILL_CODE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * @return this. (NotNull)
+     */
+    public BsVillagePlayerCQ addOrderBy_SkillCode_Desc() { regOBD("SKILL_CODE"); return this; }
+
     // ===================================================================================
     //                                                             SpecifiedDerivedOrderBy
     //                                                             =======================
@@ -227,6 +247,9 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
         }
         if (bq.hasConditionQueryPlayer()) {
             uq.queryPlayer().reflectRelationOnUnionQuery(bq.queryPlayer(), uq.queryPlayer());
+        }
+        if (bq.hasConditionQuerySkill()) {
+            uq.querySkill().reflectRelationOnUnionQuery(bq.querySkill(), uq.querySkill());
         }
         if (bq.hasConditionQueryVillage()) {
             uq.queryVillage().reflectRelationOnUnionQuery(bq.queryVillage(), uq.queryVillage());
@@ -275,6 +298,26 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
     }
     protected void xsetupOuterJoinPlayer() { xregOutJo("player"); }
     public boolean hasConditionQueryPlayer() { return xhasQueRlMap("player"); }
+
+    /**
+     * Get the condition-query for relation table. <br>
+     * SKILL by my SKILL_CODE, named 'skill'.
+     * @return The instance of condition-query. (NotNull)
+     */
+    public SkillCQ querySkill() {
+        return xdfgetConditionQuerySkill();
+    }
+    public SkillCQ xdfgetConditionQuerySkill() {
+        String prop = "skill";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQuerySkill()); xsetupOuterJoinSkill(); }
+        return xgetQueRlMap(prop);
+    }
+    protected SkillCQ xcreateQuerySkill() {
+        String nrp = xresolveNRP("village_player", "skill"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        return xinitRelCQ(new SkillCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "skill", nrp);
+    }
+    protected void xsetupOuterJoinSkill() { xregOutJo("skill"); }
+    public boolean hasConditionQuerySkill() { return xhasQueRlMap("skill"); }
 
     /**
      * Get the condition-query for relation table. <br>

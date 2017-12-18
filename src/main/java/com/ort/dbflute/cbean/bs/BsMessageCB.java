@@ -316,6 +316,11 @@ public class BsMessageCB extends AbstractConditionBean {
         return _nssVillagePlayerByToVillagePlayerId;
     }
 
+    protected VillageNss _nssVillage;
+    public VillageNss xdfgetNssVillage() {
+        if (_nssVillage == null) { _nssVillage = new VillageNss(null); }
+        return _nssVillage;
+    }
     /**
      * Set up relation columns to select clause. <br>
      * VILLAGE by my VILLAGE_ID, named 'village'.
@@ -327,13 +332,17 @@ public class BsMessageCB extends AbstractConditionBean {
      *     ... = <span style="color: #553000">message</span>.<span style="color: #CC4747">getVillage()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
      * });
      * </pre>
+     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
      */
-    public void setupSelect_Village() {
+    public VillageNss setupSelect_Village() {
         assertSetupSelectPurpose("village");
         if (hasSpecifiedLocalColumn()) {
             specify().columnVillageId();
         }
         doSetupSelect(() -> query().queryVillage());
+        if (_nssVillage == null || !_nssVillage.hasConditionQuery())
+        { _nssVillage = new VillageNss(query().queryVillage()); }
+        return _nssVillage;
     }
 
     protected VillagePlayerNss _nssVillagePlayerByVillagePlayerId;

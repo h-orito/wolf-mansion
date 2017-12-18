@@ -118,16 +118,52 @@ p.tablecount {
 </div>
 
 <div class="section">
+	<h2><span class="dt">Diff Date: </span>2017/12/18 14:04:20</h2>
+	<p class="tablecount"><span class="dt">table count: </span>9&nbsp;-&gt;&nbsp;12</p>
+
+	<h3>Add Table</h3>
+	<ul class="table-content">
+		<li><a href="./schema-werewolf-mansiondb.html#camp">CAMP</a></li>
+		<li><a href="./schema-werewolf-mansiondb.html#skill">SKILL</a></li>
+		<li><a href="./schema-werewolf-mansiondb.html#village_settings">VILLAGE_SETTINGS</a></li>
+	</ul>
+	<h3>Change Table</h3>
+	<div class="table-content">
+		<h4><a href="./schema-werewolf-mansiondb.html#village">VILLAGE</a></h4>
+		<div class="change-table-content">
+			<h5>Add Column</h5>
+			<ul class="column-content">
+				<li>WIN_CAMP_CODE</li>
+			</ul>
+		</div>
+		<h4><a href="./schema-werewolf-mansiondb.html#village_player">VILLAGE_PLAYER</a></h4>
+		<div class="change-table-content">
+			<h5>Add Column</h5>
+			<ul class="column-content">
+				<li>SKILL_CODE</li>
+			</ul>
+			<h5>Add FK</h5>
+			<ul class="column-content">
+				<li>FK_VILLAGE_PLAYER_SKILL</li>
+			</ul>
+			<h5>Add Index</h5>
+			<ul class="column-content">
+				<li>FK_VILLAGE_PLAYER_SKILL</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="section">
 	<h2><span class="dt">Diff Date: </span>2017/12/15 15:56:22</h2>
 	<p class="tablecount"><span class="dt">table count: </span>8&nbsp;-&gt;&nbsp;9</p>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
-		<li><a href="./schema-werewolf-mansiondb.html#authority">AUTHORITY</a></li>
+		<li>AUTHORITY</li>
 	</ul>
 	<h3>Change Table</h3>
 	<div class="table-content">
-		<h4><a href="./schema-werewolf-mansiondb.html#player">PLAYER</a></h4>
+		<h4>PLAYER</h4>
 		<div class="change-table-content">
 			<h5>Add Column</h5>
 			<ul class="column-content">

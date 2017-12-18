@@ -10,6 +10,6 @@ public class WerewolfMansionWebMvcConfigurer extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new SetAccessContextInterceptor()).addPathPatterns("/**").excludePathPatterns("/static/**");
-        registry.addInterceptor(new SetUserInfoInterceptor()).addPathPatterns("/**").excludePathPatterns("/static.**");
+        registry.addInterceptor(new SetUserInfoInterceptor()).addPathPatterns("/**").excludePathPatterns("/static/**");
     }
 }

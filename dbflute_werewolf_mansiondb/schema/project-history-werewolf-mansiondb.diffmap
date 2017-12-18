@@ -1,4 +1,57 @@
 map:{
+    ; 2017/12/18 14:04:20 = map:{
+        ; diffDate = 2017/12/18 14:04:20
+        ; tableCount = map:{
+            ; next = 12
+            ; previous = 9
+        }
+        ; tableDiff = map:{
+            ; camp = map:{
+                ; tableName = camp
+                ; diffType = ADD
+            }
+            ; skill = map:{
+                ; tableName = skill
+                ; diffType = ADD
+            }
+            ; village_settings = map:{
+                ; tableName = village_settings
+                ; diffType = ADD
+            }
+            ; village = map:{
+                ; tableName = village
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; WIN_CAMP_CODE = map:{
+                        ; columnName = WIN_CAMP_CODE
+                        ; diffType = ADD
+                    }
+                }
+            }
+            ; village_player = map:{
+                ; tableName = village_player
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; SKILL_CODE = map:{
+                        ; columnName = SKILL_CODE
+                        ; diffType = ADD
+                    }
+                }
+                ; foreignKeyDiff = map:{
+                    ; FK_VILLAGE_PLAYER_SKILL = map:{
+                        ; constraintName = FK_VILLAGE_PLAYER_SKILL
+                        ; diffType = ADD
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_VILLAGE_PLAYER_SKILL = map:{
+                        ; constraintName = FK_VILLAGE_PLAYER_SKILL
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2017/12/15 15:56:22 = map:{
         ; diffDate = 2017/12/15 15:56:22
         ; tableCount = map:{

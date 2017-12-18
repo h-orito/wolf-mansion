@@ -19,7 +19,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_PLAYER_ID
  *
  * [column]
- *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID
+ *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE
  *
  * [sequence]
  *     
@@ -31,13 +31,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     CHARA, PLAYER, VILLAGE
+ *     CHARA, PLAYER, SKILL, VILLAGE
  *
  * [referrer table]
  *     MESSAGE
  *
  * [foreign property]
- *     chara, player, village
+ *     chara, player, skill, village
  *
  * [referrer property]
  *     messageByToVillagePlayerIdList, messageByVillagePlayerIdList
@@ -48,10 +48,12 @@ import com.ort.dbflute.exentity.*;
  * Integer villageId = entity.getVillageId();
  * Integer playerId = entity.getPlayerId();
  * Integer charaId = entity.getCharaId();
+ * String skillCode = entity.getSkillCode();
  * entity.setVillagePlayerId(villagePlayerId);
  * entity.setVillageId(villageId);
  * entity.setPlayerId(playerId);
  * entity.setCharaId(charaId);
+ * entity.setSkillCode(skillCode);
  * = = = = = = = = = =/
  * </pre>
  * @author DBFlute(AutoGenerator)
@@ -78,6 +80,9 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /** CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara} */
     protected Integer _charaId;
+
+    /** SKILL_CODE: {IX, VARCHAR(20), FK to skill} */
+    protected String _skillCode;
 
     // ===================================================================================
     //                                                                             DB Meta
@@ -157,6 +162,27 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setPlayer(OptionalEntity<Player> player) {
         _player = player;
+    }
+
+    /** SKILL by my SKILL_CODE, named 'skill'. */
+    protected OptionalEntity<Skill> _skill;
+
+    /**
+     * [get] SKILL by my SKILL_CODE, named 'skill'. <br>
+     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
+     * @return The entity of foreign property 'skill'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
+     */
+    public OptionalEntity<Skill> getSkill() {
+        if (_skill == null) { _skill = OptionalEntity.relationEmpty(this, "skill"); }
+        return _skill;
+    }
+
+    /**
+     * [set] SKILL by my SKILL_CODE, named 'skill'.
+     * @param skill The entity of foreign property 'skill'. (NullAllowed)
+     */
+    public void setSkill(OptionalEntity<Skill> skill) {
+        _skill = skill;
     }
 
     /** VILLAGE by my VILLAGE_ID, named 'village'. */
@@ -256,6 +282,8 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         { sb.append(li).append(xbRDS(_chara, "chara")); }
         if (_player != null && _player.isPresent())
         { sb.append(li).append(xbRDS(_player, "player")); }
+        if (_skill != null && _skill.isPresent())
+        { sb.append(li).append(xbRDS(_skill, "skill")); }
         if (_village != null && _village.isPresent())
         { sb.append(li).append(xbRDS(_village, "village")); }
         if (_messageByToVillagePlayerIdList != null) { for (Message et : _messageByToVillagePlayerIdList)
@@ -275,6 +303,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         sb.append(dm).append(xfND(_villageId));
         sb.append(dm).append(xfND(_playerId));
         sb.append(dm).append(xfND(_charaId));
+        sb.append(dm).append(xfND(_skillCode));
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length());
         }
@@ -289,6 +318,8 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         { sb.append(dm).append("chara"); }
         if (_player != null && _player.isPresent())
         { sb.append(dm).append("player"); }
+        if (_skill != null && _skill.isPresent())
+        { sb.append(dm).append("skill"); }
         if (_village != null && _village.isPresent())
         { sb.append(dm).append("village"); }
         if (_messageByToVillagePlayerIdList != null && !_messageByToVillagePlayerIdList.isEmpty())
@@ -387,5 +418,25 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public void setCharaId(Integer charaId) {
         registerModifiedProperty("charaId");
         _charaId = charaId;
+    }
+
+    /**
+     * [get] SKILL_CODE: {IX, VARCHAR(20), FK to skill} <br>
+     * 役職コード
+     * @return The value of the column 'SKILL_CODE'. (NullAllowed even if selected: for no constraint)
+     */
+    public String getSkillCode() {
+        checkSpecifiedProperty("skillCode");
+        return convertEmptyToNull(_skillCode);
+    }
+
+    /**
+     * [set] SKILL_CODE: {IX, VARCHAR(20), FK to skill} <br>
+     * 役職コード
+     * @param skillCode The value of the column 'SKILL_CODE'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setSkillCode(String skillCode) {
+        registerModifiedProperty("skillCode");
+        _skillCode = skillCode;
     }
 }

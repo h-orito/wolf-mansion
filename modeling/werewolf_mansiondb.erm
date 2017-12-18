@@ -113,8 +113,8 @@
 			<width>288</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>211</x>
-			<y>399</y>
+			<x>198</x>
+			<y>650</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -184,8 +184,8 @@
 			<width>288</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>203</x>
-			<y>201</y>
+			<x>196</x>
+			<y>814</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -244,15 +244,15 @@
 			<logical_name>権限</logical_name>
 			<description></description>
 			<height>75</height>
-			<width>120</width>
+			<width>234</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>275</x>
-			<y>600</y>
+			<x>622</x>
+			<y>919</y>
 			<color>
-				<r>128</r>
-				<g>128</g>
-				<b>192</b>
+				<r>254</r>
+				<g>251</g>
+				<b>0</b>
 			</color>
 			<connections>
 			</connections>
@@ -281,6 +281,47 @@
 			</table_properties>
 		</table>
 		<table>
+			<physical_name>camp</physical_name>
+			<logical_name>陣営</logical_name>
+			<description></description>
+			<height>75</height>
+			<width>207</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>219</x>
+			<y>298</y>
+			<color>
+				<r>254</r>
+				<g>251</g>
+				<b>0</b>
+			</color>
+			<connections>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>camp_code</physical_name>
+					<logical_name>陣営コード</logical_name>
+					<type>varchar(n)</type>
+					<length>20</length>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>camp_name</physical_name>
+					<logical_name>陣営名</logical_name>
+					<type>varchar(n)</type>
+					<length>20</length>
+					<not_null>true</not_null>
+				</normal_column>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
 			<physical_name>designer</physical_name>
 			<logical_name>デザイナー</logical_name>
 			<description></description>
@@ -288,8 +329,8 @@
 			<width>237</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>234</x>
-			<y>55</y>
+			<x>215</x>
+			<y>983</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -330,8 +371,8 @@
 			<width>294</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1116</x>
-			<y>345</y>
+			<x>1034</x>
+			<y>447</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -499,12 +540,12 @@
 			<width>294</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1540</x>
-			<y>446</y>
+			<x>1076</x>
+			<y>327</y>
 			<color>
-				<r>128</r>
-				<g>128</g>
-				<b>192</b>
+				<r>254</r>
+				<g>251</g>
+				<b>0</b>
 			</color>
 			<connections>
 			</connections>
@@ -536,12 +577,12 @@
 			<physical_name>player</physical_name>
 			<logical_name>プレイヤー</logical_name>
 			<description></description>
-			<height>107</height>
+			<height>125</height>
 			<width>266</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>622</x>
-			<y>595</y>
+			<x>628</x>
+			<y>732</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -605,6 +646,68 @@
 			</table_properties>
 		</table>
 		<table>
+			<physical_name>skill</physical_name>
+			<logical_name>役職</logical_name>
+			<description></description>
+			<height>89</height>
+			<width>210</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>221</x>
+			<y>469</y>
+			<color>
+				<r>254</r>
+				<g>251</g>
+				<b>0</b>
+			</color>
+			<connections>
+				<relationship>
+					<name>FK_skill_camp</name>
+					<source>table.camp</source>
+					<target>table.skill</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name> camp_code</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>skill_code</physical_name>
+					<logical_name>役職コード</logical_name>
+					<type>varchar(n)</type>
+					<length>20</length>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>skill_name</physical_name>
+					<logical_name>役職名</logical_name>
+					<type>varchar(n)</type>
+					<length>20</length>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name> camp_code</physical_name>
+					<referred_column>table.camp.camp_code</referred_column>
+					<relationship>FK_skill_camp</relationship>
+					<not_null>true</not_null>
+				</normal_column>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
 			<physical_name>village</physical_name>
 			<logical_name>村</logical_name>
 			<description></description>
@@ -612,8 +715,8 @@
 			<width>253</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>628</x>
-			<y>202</y>
+			<x>636</x>
+			<y>313</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -638,6 +741,12 @@
 					<length>40</length>
 					<not_null>true</not_null>
 				</normal_column>
+				<normal_column>
+					<physical_name>win_camp_code</physical_name>
+					<logical_name>勝利陣営コード</logical_name>
+					<type>varchar(n)</type>
+					<length>20</length>
+				</normal_column>
 				<column_group>共通カラム</column_group>
 			</columns>
 			<indexes>
@@ -651,12 +760,12 @@
 			<physical_name>village_player</physical_name>
 			<logical_name>村参加者</logical_name>
 			<description></description>
-			<height>107</height>
+			<height>125</height>
 			<width>247</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>643</x>
-			<y>402</y>
+			<x>645</x>
+			<y>495</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -708,6 +817,21 @@
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
 				</relationship>
+				<relationship>
+					<name>FK_village_player_skill</name>
+					<source>table.skill</source>
+					<target>table.village_player</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>skill_code</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
 			</connections>
 			<columns>
 				<normal_column>
@@ -737,6 +861,11 @@
 					<relationship>FK_village_player_CHARA</relationship>
 					<not_null>true</not_null>
 				</normal_column>
+				<normal_column>
+					<physical_name>skill_code</physical_name>
+					<referred_column>table.skill.skill_code</referred_column>
+					<relationship>FK_village_player_skill</relationship>
+				</normal_column>
 			</columns>
 			<indexes>
 			</indexes>
@@ -752,6 +881,90 @@
 						</column>
 					</columns>
 				</compound_unique_key>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
+			<physical_name>village_settings</physical_name>
+			<logical_name>村設定</logical_name>
+			<description></description>
+			<height>161</height>
+			<width>330</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>610</x>
+			<y>23</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+				<relationship>
+					<name>FK_village_settings_village</name>
+					<source>table.village</source>
+					<target>table.village_settings</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>village_id</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..1</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>village_id</physical_name>
+					<referred_column>table.village.vilalge_id</referred_column>
+					<relationship>FK_village_settings_village</relationship>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>start_person_min_num</physical_name>
+					<logical_name>最低開始人数</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+				</normal_column>
+				<normal_column>
+					<physical_name>person_max_num</physical_name>
+					<logical_name>定員</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+				</normal_column>
+				<normal_column>
+					<physical_name>start_datetime</physical_name>
+					<logical_name>開始日時</logical_name>
+					<type>datetime</type>
+				</normal_column>
+				<normal_column>
+					<physical_name>day_change_interval_seconds</physical_name>
+					<logical_name>更新間隔（秒）</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>is_open_vote</physical_name>
+					<logical_name>記名投票か</logical_name>
+					<type>boolean</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>is_possible_skill_request</physical_name>
+					<logical_name>役職希望有効か</logical_name>
+					<type>boolean</type>
+					<not_null>true</not_null>
+				</normal_column>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
 			</compound_unique_key_list>
 			<table_properties>
 			</table_properties>

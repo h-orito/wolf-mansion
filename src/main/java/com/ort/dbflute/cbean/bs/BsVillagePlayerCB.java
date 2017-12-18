@@ -309,6 +309,40 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
         return _nssPlayer;
     }
 
+    protected SkillNss _nssSkill;
+    public SkillNss xdfgetNssSkill() {
+        if (_nssSkill == null) { _nssSkill = new SkillNss(null); }
+        return _nssSkill;
+    }
+    /**
+     * Set up relation columns to select clause. <br>
+     * SKILL by my SKILL_CODE, named 'skill'.
+     * <pre>
+     * <span style="color: #0000C0">villagePlayerBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_Skill()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     *     <span style="color: #553000">cb</span>.query().set...
+     * }).alwaysPresent(<span style="color: #553000">villagePlayer</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     ... = <span style="color: #553000">villagePlayer</span>.<span style="color: #CC4747">getSkill()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
+     * });
+     * </pre>
+     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
+     */
+    public SkillNss setupSelect_Skill() {
+        assertSetupSelectPurpose("skill");
+        if (hasSpecifiedLocalColumn()) {
+            specify().columnSkillCode();
+        }
+        doSetupSelect(() -> query().querySkill());
+        if (_nssSkill == null || !_nssSkill.hasConditionQuery())
+        { _nssSkill = new SkillNss(query().querySkill()); }
+        return _nssSkill;
+    }
+
+    protected VillageNss _nssVillage;
+    public VillageNss xdfgetNssVillage() {
+        if (_nssVillage == null) { _nssVillage = new VillageNss(null); }
+        return _nssVillage;
+    }
     /**
      * Set up relation columns to select clause. <br>
      * VILLAGE by my VILLAGE_ID, named 'village'.
@@ -320,13 +354,17 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
      *     ... = <span style="color: #553000">villagePlayer</span>.<span style="color: #CC4747">getVillage()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
      * });
      * </pre>
+     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
      */
-    public void setupSelect_Village() {
+    public VillageNss setupSelect_Village() {
         assertSetupSelectPurpose("village");
         if (hasSpecifiedLocalColumn()) {
             specify().columnVillageId();
         }
         doSetupSelect(() -> query().queryVillage());
+        if (_nssVillage == null || !_nssVillage.hasConditionQuery())
+        { _nssVillage = new VillageNss(query().queryVillage()); }
+        return _nssVillage;
     }
 
     // [DBFlute-0.7.4]
@@ -372,6 +410,7 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
     public static class HpSpecification extends HpAbstractSpecification<VillagePlayerCQ> {
         protected CharaCB.HpSpecification _chara;
         protected PlayerCB.HpSpecification _player;
+        protected SkillCB.HpSpecification _skill;
         protected VillageCB.HpSpecification _village;
         public HpSpecification(ConditionBean baseCB, HpSpQyCall<VillagePlayerCQ> qyCall
                              , HpCBPurpose purpose, DBMetaProvider dbmetaProvider
@@ -397,6 +436,11 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCharaId() { return doColumn("CHARA_ID"); }
+        /**
+         * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnSkillCode() { return doColumn("SKILL_CODE"); }
         public void everyColumn() { doEveryColumn(); }
         public void exceptRecordMetaColumn() { doExceptRecordMetaColumn(); }
         @Override
@@ -409,6 +453,10 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
             if (qyCall().qy().hasConditionQueryPlayer()
                     || qyCall().qy().xgetReferrerQuery() instanceof PlayerCQ) {
                 columnPlayerId(); // FK or one-to-one referrer
+            }
+            if (qyCall().qy().hasConditionQuerySkill()
+                    || qyCall().qy().xgetReferrerQuery() instanceof SkillCQ) {
+                columnSkillCode(); // FK or one-to-one referrer
             }
             if (qyCall().qy().hasConditionQueryVillage()
                     || qyCall().qy().xgetReferrerQuery() instanceof VillageCQ) {
@@ -456,6 +504,26 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
                 }
             }
             return _player;
+        }
+        /**
+         * Prepare to specify functions about relation table. <br>
+         * SKILL by my SKILL_CODE, named 'skill'.
+         * @return The instance for specification for relation table to specify. (NotNull)
+         */
+        public SkillCB.HpSpecification specifySkill() {
+            assertRelation("skill");
+            if (_skill == null) {
+                _skill = new SkillCB.HpSpecification(_baseCB
+                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQuerySkill()
+                                    , () -> _qyCall.qy().querySkill())
+                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
+                if (xhasSyncQyCall()) { // inherits it
+                    _skill.xsetSyncQyCall(xcreateSpQyCall(
+                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQuerySkill()
+                      , () -> xsyncQyCall().qy().querySkill()));
+                }
+            }
+            return _skill;
         }
         /**
          * Prepare to specify functions about relation table. <br>

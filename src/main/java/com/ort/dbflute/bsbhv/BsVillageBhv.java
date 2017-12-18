@@ -28,7 +28,7 @@ import com.ort.dbflute.cbean.*;
  *     VILALGE_ID
  *
  * [column]
- *     VILALGE_ID, VILLAGE_DISPLAY_NAME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILALGE_ID, VILLAGE_DISPLAY_NAME, WIN_CAMP_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -40,13 +40,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [foreign table]
- *     
+ *     VILLAGE_SETTINGS(AsOne)
  *
  * [referrer table]
- *     MESSAGE, VILLAGE_PLAYER
+ *     MESSAGE, VILLAGE_PLAYER, VILLAGE_SETTINGS
  *
  * [foreign property]
- *     
+ *     villageSettingsAsOne
  *
  * [referrer property]
  *     messageList, villagePlayerList
@@ -492,6 +492,14 @@ public abstract class BsVillageBhv extends AbstractBehaviorWritable<Village, Vil
     // ===================================================================================
     //                                                                   Pull out Relation
     //                                                                   =================
+    /**
+     * Pull out the list of referrer-as-one table 'VillageSettings'.
+     * @param villageList The list of village. (NotNull, EmptyAllowed)
+     * @return The list of referrer-as-one table. (NotNull, EmptyAllowed, NotNullElement)
+     */
+    public List<VillageSettings> pulloutVillageSettingsAsOne(List<Village> villageList)
+    { return helpPulloutInternally(villageList, "villageSettingsAsOne"); }
+
     // ===================================================================================
     //                                                                      Extract Column
     //                                                                      ==============
