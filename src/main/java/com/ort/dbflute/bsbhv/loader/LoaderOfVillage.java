@@ -15,7 +15,7 @@ import com.ort.dbflute.cbean.*;
  *     VILALGE_ID
  *
  * [column]
- *     VILALGE_ID, VILLAGE_DISPLAY_NAME, WIN_CAMP_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILALGE_ID, VILLAGE_DISPLAY_NAME, VILLAGE_STATUS_CODE, WIN_CAMP_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -27,13 +27,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [foreign table]
- *     VILLAGE_SETTINGS(AsOne)
+ *     VILLAGE_STATUS, CAMP, VILLAGE_SETTINGS(AsOne)
  *
  * [referrer table]
  *     MESSAGE, VILLAGE_PLAYER, VILLAGE_SETTINGS
  *
  * [foreign property]
- *     villageSettingsAsOne
+ *     villageStatus, camp, villageSettingsAsOne
  *
  * [referrer property]
  *     messageList, villagePlayerList
@@ -132,6 +132,20 @@ public class LoaderOfVillage {
     // ===================================================================================
     //                                                                    Pull out Foreign
     //                                                                    ================
+    protected LoaderOfVillageStatus _foreignVillageStatusLoader;
+    public LoaderOfVillageStatus pulloutVillageStatus() {
+        if (_foreignVillageStatusLoader == null)
+        { _foreignVillageStatusLoader = new LoaderOfVillageStatus().ready(myBhv().pulloutVillageStatus(_selectedList), _selector); }
+        return _foreignVillageStatusLoader;
+    }
+
+    protected LoaderOfCamp _foreignCampLoader;
+    public LoaderOfCamp pulloutCamp() {
+        if (_foreignCampLoader == null)
+        { _foreignCampLoader = new LoaderOfCamp().ready(myBhv().pulloutCamp(_selectedList), _selector); }
+        return _foreignCampLoader;
+    }
+
     protected LoaderOfVillageSettings _foreignVillageSettingsAsOneLoader;
     public LoaderOfVillageSettings pulloutVillageSettingsAsOne() {
         if (_foreignVillageSettingsAsOneLoader == null)

@@ -1,4 +1,75 @@
 map:{
+    ; 2017/12/19 20:58:48 = map:{
+        ; diffDate = 2017/12/19 20:58:48
+        ; tableCount = map:{
+            ; next = 13
+            ; previous = 12
+        }
+        ; tableDiff = map:{
+            ; village_status = map:{
+                ; tableName = village_status
+                ; diffType = ADD
+            }
+            ; message = map:{
+                ; tableName = message
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; MESSAGE_TYPE_CODE = map:{
+                        ; columnName = MESSAGE_TYPE_CODE
+                        ; diffType = CHANGE
+                        ; columnSizeDiff = map:{
+                            ; next = 20
+                            ; previous = 10
+                        }
+                    }
+                }
+            }
+            ; message_type = map:{
+                ; tableName = message_type
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; MESSAGE_TYPE_CODE = map:{
+                        ; columnName = MESSAGE_TYPE_CODE
+                        ; diffType = CHANGE
+                        ; columnSizeDiff = map:{
+                            ; next = 20
+                            ; previous = 10
+                        }
+                    }
+                }
+            }
+            ; village = map:{
+                ; tableName = village
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; VILLAGE_STATUS_CODE = map:{
+                        ; columnName = VILLAGE_STATUS_CODE
+                        ; diffType = ADD
+                    }
+                }
+                ; foreignKeyDiff = map:{
+                    ; FK_VILLAGE_VILLAGE_STATUS = map:{
+                        ; constraintName = FK_VILLAGE_VILLAGE_STATUS
+                        ; diffType = ADD
+                    }
+                    ; FK_VILLAGE_CAMP = map:{
+                        ; constraintName = FK_VILLAGE_CAMP
+                        ; diffType = ADD
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_VILLAGE_CAMP = map:{
+                        ; constraintName = FK_VILLAGE_CAMP
+                        ; diffType = ADD
+                    }
+                    ; FK_VILLAGE_VILLAGE_STATUS = map:{
+                        ; constraintName = FK_VILLAGE_VILLAGE_STATUS
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2017/12/18 14:04:20 = map:{
         ; diffDate = 2017/12/18 14:04:20
         ; tableCount = map:{

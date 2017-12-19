@@ -10,6 +10,7 @@ import org.dbflute.dbmeta.accessory.DomainEntity;
 import org.dbflute.optional.OptionalEntity;
 import com.ort.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.*;
 
 /**
@@ -20,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILALGE_ID
  *
  * [column]
- *     VILALGE_ID, VILLAGE_DISPLAY_NAME, WIN_CAMP_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILALGE_ID, VILLAGE_DISPLAY_NAME, VILLAGE_STATUS_CODE, WIN_CAMP_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -32,13 +33,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     VILLAGE_SETTINGS(AsOne)
+ *     VILLAGE_STATUS, CAMP, VILLAGE_SETTINGS(AsOne)
  *
  * [referrer table]
  *     MESSAGE, VILLAGE_PLAYER, VILLAGE_SETTINGS
  *
  * [foreign property]
- *     villageSettingsAsOne
+ *     villageStatus, camp, villageSettingsAsOne
  *
  * [referrer property]
  *     messageList, villagePlayerList
@@ -47,6 +48,7 @@ import com.ort.dbflute.exentity.*;
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * Integer vilalgeId = entity.getVilalgeId();
  * String villageDisplayName = entity.getVillageDisplayName();
+ * String villageStatusCode = entity.getVillageStatusCode();
  * String winCampCode = entity.getWinCampCode();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
@@ -54,6 +56,7 @@ import com.ort.dbflute.exentity.*;
  * String updateTrace = entity.getUpdateTrace();
  * entity.setVilalgeId(vilalgeId);
  * entity.setVillageDisplayName(villageDisplayName);
+ * entity.setVillageStatusCode(villageStatusCode);
  * entity.setWinCampCode(winCampCode);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
@@ -80,7 +83,10 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     /** VILLAGE_DISPLAY_NAME: {NotNull, VARCHAR(40)} */
     protected String _villageDisplayName;
 
-    /** WIN_CAMP_CODE: {VARCHAR(20)} */
+    /** VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus} */
+    protected String _villageStatusCode;
+
+    /** WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp} */
     protected String _winCampCode;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
@@ -118,8 +124,272 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     }
 
     // ===================================================================================
+    //                                                             Classification Property
+    //                                                             =======================
+    /**
+     * Get the value of villageStatusCode as the classification of VillageStatus. <br>
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus} <br>
+     * 村ステータス
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.VillageStatus getVillageStatusCodeAsVillageStatus() {
+        return CDef.VillageStatus.codeOf(getVillageStatusCode());
+    }
+
+    /**
+     * Set the value of villageStatusCode as the classification of VillageStatus. <br>
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus} <br>
+     * 村ステータス
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setVillageStatusCodeAsVillageStatus(CDef.VillageStatus cdef) {
+        setVillageStatusCode(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * Get the value of winCampCode as the classification of Camp. <br>
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp} <br>
+     * 陣営
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Camp getWinCampCodeAsCamp() {
+        return CDef.Camp.codeOf(getWinCampCode());
+    }
+
+    /**
+     * Set the value of winCampCode as the classification of Camp. <br>
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp} <br>
+     * 陣営
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setWinCampCodeAsCamp(CDef.Camp cdef) {
+        setWinCampCode(cdef != null ? cdef.code() : null);
+    }
+
+    // ===================================================================================
+    //                                                              Classification Setting
+    //                                                              ======================
+    /**
+     * Set the value of villageStatusCode as 廃村 (CANCEL). <br>
+     * 廃村
+     */
+    public void setVillageStatusCode_廃村() {
+        setVillageStatusCodeAsVillageStatus(CDef.VillageStatus.廃村);
+    }
+
+    /**
+     * Set the value of villageStatusCode as 終了 (COMPLETED). <br>
+     * 終了
+     */
+    public void setVillageStatusCode_終了() {
+        setVillageStatusCodeAsVillageStatus(CDef.VillageStatus.終了);
+    }
+
+    /**
+     * Set the value of villageStatusCode as エピローグ (EPILOGUE). <br>
+     * エピローグ
+     */
+    public void setVillageStatusCode_エピローグ() {
+        setVillageStatusCodeAsVillageStatus(CDef.VillageStatus.エピローグ);
+    }
+
+    /**
+     * Set the value of villageStatusCode as 募集中 (IN_PREPARATION). <br>
+     * 募集中
+     */
+    public void setVillageStatusCode_募集中() {
+        setVillageStatusCodeAsVillageStatus(CDef.VillageStatus.募集中);
+    }
+
+    /**
+     * Set the value of villageStatusCode as 進行中 (IN_PROGRESS). <br>
+     * 進行中
+     */
+    public void setVillageStatusCode_進行中() {
+        setVillageStatusCodeAsVillageStatus(CDef.VillageStatus.進行中);
+    }
+
+    /**
+     * Set the value of villageStatusCode as 開始待ち (WAITING). <br>
+     * 開始待ち
+     */
+    public void setVillageStatusCode_開始待ち() {
+        setVillageStatusCodeAsVillageStatus(CDef.VillageStatus.開始待ち);
+    }
+
+    /**
+     * Set the value of winCampCode as 狐陣営 (FOX). <br>
+     * 狐陣営
+     */
+    public void setWinCampCode_狐陣営() {
+        setWinCampCodeAsCamp(CDef.Camp.狐陣営);
+    }
+
+    /**
+     * Set the value of winCampCode as 村人陣営 (VILLAGER). <br>
+     * 村人陣営
+     */
+    public void setWinCampCode_村人陣営() {
+        setWinCampCodeAsCamp(CDef.Camp.村人陣営);
+    }
+
+    /**
+     * Set the value of winCampCode as 人狼陣営 (WEREWOLF). <br>
+     * 人狼陣営
+     */
+    public void setWinCampCode_人狼陣営() {
+        setWinCampCodeAsCamp(CDef.Camp.人狼陣営);
+    }
+
+    // ===================================================================================
+    //                                                        Classification Determination
+    //                                                        ============================
+    /**
+     * Is the value of villageStatusCode 廃村? <br>
+     * 廃村
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isVillageStatusCode廃村() {
+        CDef.VillageStatus cdef = getVillageStatusCodeAsVillageStatus();
+        return cdef != null ? cdef.equals(CDef.VillageStatus.廃村) : false;
+    }
+
+    /**
+     * Is the value of villageStatusCode 終了? <br>
+     * 終了
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isVillageStatusCode終了() {
+        CDef.VillageStatus cdef = getVillageStatusCodeAsVillageStatus();
+        return cdef != null ? cdef.equals(CDef.VillageStatus.終了) : false;
+    }
+
+    /**
+     * Is the value of villageStatusCode エピローグ? <br>
+     * エピローグ
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isVillageStatusCodeエピローグ() {
+        CDef.VillageStatus cdef = getVillageStatusCodeAsVillageStatus();
+        return cdef != null ? cdef.equals(CDef.VillageStatus.エピローグ) : false;
+    }
+
+    /**
+     * Is the value of villageStatusCode 募集中? <br>
+     * 募集中
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isVillageStatusCode募集中() {
+        CDef.VillageStatus cdef = getVillageStatusCodeAsVillageStatus();
+        return cdef != null ? cdef.equals(CDef.VillageStatus.募集中) : false;
+    }
+
+    /**
+     * Is the value of villageStatusCode 進行中? <br>
+     * 進行中
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isVillageStatusCode進行中() {
+        CDef.VillageStatus cdef = getVillageStatusCodeAsVillageStatus();
+        return cdef != null ? cdef.equals(CDef.VillageStatus.進行中) : false;
+    }
+
+    /**
+     * Is the value of villageStatusCode 開始待ち? <br>
+     * 開始待ち
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isVillageStatusCode開始待ち() {
+        CDef.VillageStatus cdef = getVillageStatusCodeAsVillageStatus();
+        return cdef != null ? cdef.equals(CDef.VillageStatus.開始待ち) : false;
+    }
+
+    /**
+     * Is the value of winCampCode 狐陣営? <br>
+     * 狐陣営
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isWinCampCode狐陣営() {
+        CDef.Camp cdef = getWinCampCodeAsCamp();
+        return cdef != null ? cdef.equals(CDef.Camp.狐陣営) : false;
+    }
+
+    /**
+     * Is the value of winCampCode 村人陣営? <br>
+     * 村人陣営
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isWinCampCode村人陣営() {
+        CDef.Camp cdef = getWinCampCodeAsCamp();
+        return cdef != null ? cdef.equals(CDef.Camp.村人陣営) : false;
+    }
+
+    /**
+     * Is the value of winCampCode 人狼陣営? <br>
+     * 人狼陣営
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isWinCampCode人狼陣営() {
+        CDef.Camp cdef = getWinCampCodeAsCamp();
+        return cdef != null ? cdef.equals(CDef.Camp.人狼陣営) : false;
+    }
+
+    // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
+    /** VILLAGE_STATUS by my VILLAGE_STATUS_CODE, named 'villageStatus'. */
+    protected OptionalEntity<VillageStatus> _villageStatus;
+
+    /**
+     * [get] VILLAGE_STATUS by my VILLAGE_STATUS_CODE, named 'villageStatus'. <br>
+     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
+     * @return The entity of foreign property 'villageStatus'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
+     */
+    public OptionalEntity<VillageStatus> getVillageStatus() {
+        if (_villageStatus == null) { _villageStatus = OptionalEntity.relationEmpty(this, "villageStatus"); }
+        return _villageStatus;
+    }
+
+    /**
+     * [set] VILLAGE_STATUS by my VILLAGE_STATUS_CODE, named 'villageStatus'.
+     * @param villageStatus The entity of foreign property 'villageStatus'. (NullAllowed)
+     */
+    public void setVillageStatus(OptionalEntity<VillageStatus> villageStatus) {
+        _villageStatus = villageStatus;
+    }
+
+    /** CAMP by my WIN_CAMP_CODE, named 'camp'. */
+    protected OptionalEntity<Camp> _camp;
+
+    /**
+     * [get] CAMP by my WIN_CAMP_CODE, named 'camp'. <br>
+     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
+     * @return The entity of foreign property 'camp'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
+     */
+    public OptionalEntity<Camp> getCamp() {
+        if (_camp == null) { _camp = OptionalEntity.relationEmpty(this, "camp"); }
+        return _camp;
+    }
+
+    /**
+     * [set] CAMP by my WIN_CAMP_CODE, named 'camp'.
+     * @param camp The entity of foreign property 'camp'. (NullAllowed)
+     */
+    public void setCamp(OptionalEntity<Camp> camp) {
+        _camp = camp;
+    }
+
     /** village_settings by VILLAGE_ID, named 'villageSettingsAsOne'. */
     protected OptionalEntity<VillageSettings> _villageSettingsAsOne;
 
@@ -213,6 +483,10 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     @Override
     protected String doBuildStringWithRelation(String li) {
         StringBuilder sb = new StringBuilder();
+        if (_villageStatus != null && _villageStatus.isPresent())
+        { sb.append(li).append(xbRDS(_villageStatus, "villageStatus")); }
+        if (_camp != null && _camp.isPresent())
+        { sb.append(li).append(xbRDS(_camp, "camp")); }
         if (_villageSettingsAsOne != null && _villageSettingsAsOne.isPresent())
         { sb.append(li).append(xbRDS(_villageSettingsAsOne, "villageSettingsAsOne")); }
         if (_messageList != null) { for (Message et : _messageList)
@@ -230,6 +504,7 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
         StringBuilder sb = new StringBuilder();
         sb.append(dm).append(xfND(_vilalgeId));
         sb.append(dm).append(xfND(_villageDisplayName));
+        sb.append(dm).append(xfND(_villageStatusCode));
         sb.append(dm).append(xfND(_winCampCode));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
@@ -245,6 +520,10 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     @Override
     protected String doBuildRelationString(String dm) {
         StringBuilder sb = new StringBuilder();
+        if (_villageStatus != null && _villageStatus.isPresent())
+        { sb.append(dm).append("villageStatus"); }
+        if (_camp != null && _camp.isPresent())
+        { sb.append(dm).append("camp"); }
         if (_villageSettingsAsOne != null && _villageSettingsAsOne.isPresent())
         { sb.append(dm).append("villageSettingsAsOne"); }
         if (_messageList != null && !_messageList.isEmpty())
@@ -306,7 +585,28 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] WIN_CAMP_CODE: {VARCHAR(20)} <br>
+     * [get] VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus} <br>
+     * 村ステータスコード
+     * @return The value of the column 'VILLAGE_STATUS_CODE'. (basically NotNull if selected: for the constraint)
+     */
+    public String getVillageStatusCode() {
+        checkSpecifiedProperty("villageStatusCode");
+        return convertEmptyToNull(_villageStatusCode);
+    }
+
+    /**
+     * [set] VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus} <br>
+     * 村ステータスコード
+     * @param villageStatusCode The value of the column 'VILLAGE_STATUS_CODE'. (basically NotNull if update: for the constraint)
+     */
+    protected void setVillageStatusCode(String villageStatusCode) {
+        checkClassificationCode("VILLAGE_STATUS_CODE", CDef.DefMeta.VillageStatus, villageStatusCode);
+        registerModifiedProperty("villageStatusCode");
+        _villageStatusCode = villageStatusCode;
+    }
+
+    /**
+     * [get] WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 勝利陣営コード
      * @return The value of the column 'WIN_CAMP_CODE'. (NullAllowed even if selected: for no constraint)
      */
@@ -316,11 +616,12 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] WIN_CAMP_CODE: {VARCHAR(20)} <br>
+     * [set] WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 勝利陣営コード
      * @param winCampCode The value of the column 'WIN_CAMP_CODE'. (NullAllowed: null update allowed for no constraint)
      */
-    public void setWinCampCode(String winCampCode) {
+    protected void setWinCampCode(String winCampCode) {
+        checkClassificationCode("WIN_CAMP_CODE", CDef.DefMeta.Camp, winCampCode);
         registerModifiedProperty("winCampCode");
         _winCampCode = winCampCode;
     }
@@ -403,5 +704,21 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     public void setUpdateTrace(String updateTrace) {
         registerModifiedProperty("updateTrace");
         _updateTrace = updateTrace;
+    }
+
+    /**
+     * For framework so basically DON'T use this method.
+     * @param villageStatusCode The value of the column 'VILLAGE_STATUS_CODE'. (basically NotNull if update: for the constraint)
+     */
+    public void mynativeMappingVillageStatusCode(String villageStatusCode) {
+        setVillageStatusCode(villageStatusCode);
+    }
+
+    /**
+     * For framework so basically DON'T use this method.
+     * @param winCampCode The value of the column 'WIN_CAMP_CODE'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void mynativeMappingWinCampCode(String winCampCode) {
+        setWinCampCode(winCampCode);
     }
 }

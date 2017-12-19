@@ -68,5 +68,33 @@ map:{
             ; code=AUTHORITY_CODE; name=AUTHORITY_NAME
         }
     }
+    ; Camp = list:{
+        ; map:{topComment=陣営; codeType=String}
+        ; map:{
+            ; table=CAMP
+            ; code=CAMP_CODE; name=CAMP_NAME
+        }
+    }
+    ; VillageStatus = list:{
+        ; map:{topComment=村ステータス; codeType=String}
+        ; map:{
+            ; table=VILLAGE_STATUS
+            ; code=VILLAGE_STATUS_CODE; name=VILLAGE_STATUS_NAME
+        }
+    }
+    ; Skill = list:{
+        ; map:{topComment=役職; codeType=String}
+        ; map:{
+            ; table=SKILL
+            ; code=SKILL_CODE; name=SKILL_NAME
+        }
+    }
+    ; MessageType = list:{
+        ; map:{topComment=メッセージ種別; codeType=String}
+        ; map:{
+            ; table=MESSAGE_TYPE
+            ; code=MESSAGE_TYPE_CODE; name=MESSAGE_TYPE_NAME
+        }
+    }
 }
 # ----------------/

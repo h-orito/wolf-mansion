@@ -12,6 +12,7 @@ import org.dbflute.cbean.scoping.*;
 import org.dbflute.dbmeta.DBMetaProvider;
 import org.dbflute.twowaysql.factory.SqlAnalyzerFactory;
 import org.dbflute.twowaysql.style.BoundDateDisplayTimeZoneProvider;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.DBFluteConfig;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.allcommon.ImplementedInvokerAssistant;
@@ -80,13 +81,13 @@ public class BsCampCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param campCode : PK, NotNull, VARCHAR(20). (NotNull)
+     * @param campCode : PK, NotNull, VARCHAR(20), classification=Camp. (NotNull)
      * @return this. (NotNull)
      */
-    public CampCB acceptPK(String campCode) {
+    public CampCB acceptPK(CDef.Camp campCode) {
         assertObjectNotNull("campCode", campCode);
         BsCampCB cb = this;
-        cb.query().setCampCode_Equal(campCode);
+        cb.query().setCampCode_Equal_AsCamp(campCode);
         return (CampCB)this;
     }
 
@@ -283,7 +284,7 @@ public class BsCampCB extends AbstractConditionBean {
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * CAMP_CODE: {PK, NotNull, VARCHAR(20)}
+         * CAMP_CODE: {PK, NotNull, VARCHAR(20), classification=Camp}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCampCode() { return doColumn("CAMP_CODE"); }
@@ -316,6 +317,23 @@ public class BsCampCB extends AbstractConditionBean {
             assertDerived("skillList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
             return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<SkillCB> sq, CampCQ cq, String al, DerivedReferrerOption op)
                     -> cq.xsderiveSkillList(fn, sq, al, op), _dbmetaProvider);
+        }
+        /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
+         * {select max(FOO) from village where ...) as FOO_MAX} <br>
+         * VILLAGE by WIN_CAMP_CODE, named 'villageList'.
+         * <pre>
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(villageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     villageCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     villageCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, Village.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        public HpSDRFunction<VillageCB, CampCQ> derivedVillage() {
+            assertDerived("villageList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillageCB> sq, CampCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveVillageList(fn, sq, al, op), _dbmetaProvider);
         }
         /**
          * Prepare for (Specify)MyselfDerived (SubQuery).

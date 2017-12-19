@@ -95,14 +95,14 @@ public class BsSkillCQ extends AbstractBsSkillCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * SKILL_CODE: {PK, NotNull, VARCHAR(20)}
+     * SKILL_CODE: {PK, NotNull, VARCHAR(20), classification=Skill}
      * @return this. (NotNull)
      */
     public BsSkillCQ addOrderBy_SkillCode_Asc() { regOBA("SKILL_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * SKILL_CODE: {PK, NotNull, VARCHAR(20)}
+     * SKILL_CODE: {PK, NotNull, VARCHAR(20), classification=Skill}
      * @return this. (NotNull)
      */
     public BsSkillCQ addOrderBy_SkillCode_Desc() { regOBD("SKILL_CODE"); return this; }
@@ -135,14 +135,14 @@ public class BsSkillCQ extends AbstractBsSkillCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp}
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
      * @return this. (NotNull)
      */
     public BsSkillCQ addOrderBy_CampCode_Asc() { regOBA("CAMP_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp}
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
      * @return this. (NotNull)
      */
     public BsSkillCQ addOrderBy_CampCode_Desc() { regOBD("CAMP_CODE"); return this; }

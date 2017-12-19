@@ -189,14 +189,14 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      * @return this. (NotNull)
      */
     public BsVillagePlayerCQ addOrderBy_SkillCode_Asc() { regOBA("SKILL_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      * @return this. (NotNull)
      */
     public BsVillagePlayerCQ addOrderBy_SkillCode_Desc() { regOBD("SKILL_CODE"); return this; }

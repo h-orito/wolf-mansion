@@ -12,6 +12,7 @@ import org.dbflute.cbean.scoping.*;
 import org.dbflute.dbmeta.DBMetaProvider;
 import org.dbflute.twowaysql.factory.SqlAnalyzerFactory;
 import org.dbflute.twowaysql.style.BoundDateDisplayTimeZoneProvider;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.DBFluteConfig;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.allcommon.ImplementedInvokerAssistant;
@@ -80,13 +81,13 @@ public class BsMessageTypeCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param messageTypeCode : PK, NotNull, VARCHAR(10). (NotNull)
+     * @param messageTypeCode : PK, NotNull, VARCHAR(20), classification=MessageType. (NotNull)
      * @return this. (NotNull)
      */
-    public MessageTypeCB acceptPK(String messageTypeCode) {
+    public MessageTypeCB acceptPK(CDef.MessageType messageTypeCode) {
         assertObjectNotNull("messageTypeCode", messageTypeCode);
         BsMessageTypeCB cb = this;
-        cb.query().setMessageTypeCode_Equal(messageTypeCode);
+        cb.query().setMessageTypeCode_Equal_AsMessageType(messageTypeCode);
         return (MessageTypeCB)this;
     }
 
@@ -283,7 +284,7 @@ public class BsMessageTypeCB extends AbstractConditionBean {
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * MESSAGE_TYPE_CODE: {PK, NotNull, VARCHAR(10)}
+         * MESSAGE_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=MessageType}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnMessageTypeCode() { return doColumn("MESSAGE_TYPE_CODE"); }

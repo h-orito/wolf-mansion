@@ -795,11 +795,77 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(10), FK to message_type}
+     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
      * @param messageTypeCode The value of messageTypeCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setMessageTypeCode_Equal(String messageTypeCode) {
+    protected void setMessageTypeCode_Equal(String messageTypeCode) {
         doSetMessageTypeCode_Equal(fRES(messageTypeCode));
+    }
+
+    /**
+     * Equal(=). As MessageType. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * メッセージ種別
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setMessageTypeCode_Equal_AsMessageType(CDef.MessageType cdef) {
+        doSetMessageTypeCode_Equal(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * Equal(=). As 死者の呻き (GRAVE_SAY). And OnlyOnceRegistered. <br>
+     * 死者の呻き
+     */
+    public void setMessageTypeCode_Equal_死者の呻き() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.死者の呻き);
+    }
+
+    /**
+     * Equal(=). As 共鳴発言 (MASON_SAY). And OnlyOnceRegistered. <br>
+     * 共鳴発言
+     */
+    public void setMessageTypeCode_Equal_共鳴発言() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.共鳴発言);
+    }
+
+    /**
+     * Equal(=). As 独り言 (MONOLOGUE_SAY). And OnlyOnceRegistered. <br>
+     * 独り言
+     */
+    public void setMessageTypeCode_Equal_独り言() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.独り言);
+    }
+
+    /**
+     * Equal(=). As 通常発言 (NORMAL_SAY). And OnlyOnceRegistered. <br>
+     * 通常発言
+     */
+    public void setMessageTypeCode_Equal_通常発言() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.通常発言);
+    }
+
+    /**
+     * Equal(=). As 非公開システムメッセージ (PRIVATE_SYSTEM). And OnlyOnceRegistered. <br>
+     * 非公開システムメッセージ
+     */
+    public void setMessageTypeCode_Equal_非公開システムメッセージ() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.非公開システムメッセージ);
+    }
+
+    /**
+     * Equal(=). As 公開システムメッセージ (PUBLIC_SYSTEM). And OnlyOnceRegistered. <br>
+     * 公開システムメッセージ
+     */
+    public void setMessageTypeCode_Equal_公開システムメッセージ() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.公開システムメッセージ);
+    }
+
+    /**
+     * Equal(=). As 人狼の囁き (WEREWOLF_SAY). And OnlyOnceRegistered. <br>
+     * 人狼の囁き
+     */
+    public void setMessageTypeCode_Equal_人狼の囁き() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.人狼の囁き);
     }
 
     protected void doSetMessageTypeCode_Equal(String messageTypeCode) {
@@ -808,11 +874,77 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(10), FK to message_type}
+     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
      * @param messageTypeCode The value of messageTypeCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setMessageTypeCode_NotEqual(String messageTypeCode) {
+    protected void setMessageTypeCode_NotEqual(String messageTypeCode) {
         doSetMessageTypeCode_NotEqual(fRES(messageTypeCode));
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As MessageType. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * メッセージ種別
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType cdef) {
+        doSetMessageTypeCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 死者の呻き (GRAVE_SAY). And OnlyOnceRegistered. <br>
+     * 死者の呻き
+     */
+    public void setMessageTypeCode_NotEqual_死者の呻き() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.死者の呻き);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 共鳴発言 (MASON_SAY). And OnlyOnceRegistered. <br>
+     * 共鳴発言
+     */
+    public void setMessageTypeCode_NotEqual_共鳴発言() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.共鳴発言);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 独り言 (MONOLOGUE_SAY). And OnlyOnceRegistered. <br>
+     * 独り言
+     */
+    public void setMessageTypeCode_NotEqual_独り言() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.独り言);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 通常発言 (NORMAL_SAY). And OnlyOnceRegistered. <br>
+     * 通常発言
+     */
+    public void setMessageTypeCode_NotEqual_通常発言() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.通常発言);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 非公開システムメッセージ (PRIVATE_SYSTEM). And OnlyOnceRegistered. <br>
+     * 非公開システムメッセージ
+     */
+    public void setMessageTypeCode_NotEqual_非公開システムメッセージ() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.非公開システムメッセージ);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 公開システムメッセージ (PUBLIC_SYSTEM). And OnlyOnceRegistered. <br>
+     * 公開システムメッセージ
+     */
+    public void setMessageTypeCode_NotEqual_公開システムメッセージ() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.公開システムメッセージ);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 人狼の囁き (WEREWOLF_SAY). And OnlyOnceRegistered. <br>
+     * 人狼の囁き
+     */
+    public void setMessageTypeCode_NotEqual_人狼の囁き() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.人狼の囁き);
     }
 
     protected void doSetMessageTypeCode_NotEqual(String messageTypeCode) {
@@ -820,48 +952,22 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
     }
 
     /**
-     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(10), FK to message_type}
-     * @param messageTypeCode The value of messageTypeCode as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setMessageTypeCode_GreaterThan(String messageTypeCode) {
-        regMessageTypeCode(CK_GT, fRES(messageTypeCode));
-    }
-
-    /**
-     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(10), FK to message_type}
-     * @param messageTypeCode The value of messageTypeCode as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setMessageTypeCode_LessThan(String messageTypeCode) {
-        regMessageTypeCode(CK_LT, fRES(messageTypeCode));
-    }
-
-    /**
-     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(10), FK to message_type}
-     * @param messageTypeCode The value of messageTypeCode as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setMessageTypeCode_GreaterEqual(String messageTypeCode) {
-        regMessageTypeCode(CK_GE, fRES(messageTypeCode));
-    }
-
-    /**
-     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(10), FK to message_type}
-     * @param messageTypeCode The value of messageTypeCode as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setMessageTypeCode_LessEqual(String messageTypeCode) {
-        regMessageTypeCode(CK_LE, fRES(messageTypeCode));
-    }
-
-    /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(10), FK to message_type}
+     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
      * @param messageTypeCodeList The collection of messageTypeCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setMessageTypeCode_InScope(Collection<String> messageTypeCodeList) {
+    protected void setMessageTypeCode_InScope(Collection<String> messageTypeCodeList) {
         doSetMessageTypeCode_InScope(messageTypeCodeList);
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As MessageType. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * メッセージ種別
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setMessageTypeCode_InScope_AsMessageType(Collection<CDef.MessageType> cdefList) {
+        doSetMessageTypeCode_InScope(cTStrL(cdefList));
     }
 
     protected void doSetMessageTypeCode_InScope(Collection<String> messageTypeCodeList) {
@@ -870,59 +976,25 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(10), FK to message_type}
+     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
      * @param messageTypeCodeList The collection of messageTypeCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setMessageTypeCode_NotInScope(Collection<String> messageTypeCodeList) {
+    protected void setMessageTypeCode_NotInScope(Collection<String> messageTypeCodeList) {
         doSetMessageTypeCode_NotInScope(messageTypeCodeList);
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. As MessageType. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * メッセージ種別
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setMessageTypeCode_NotInScope_AsMessageType(Collection<CDef.MessageType> cdefList) {
+        doSetMessageTypeCode_NotInScope(cTStrL(cdefList));
     }
 
     protected void doSetMessageTypeCode_NotInScope(Collection<String> messageTypeCodeList) {
         regINS(CK_NINS, cTL(messageTypeCodeList), xgetCValueMessageTypeCode(), "MESSAGE_TYPE_CODE");
-    }
-
-    /**
-     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(10), FK to message_type} <br>
-     * <pre>e.g. setMessageTypeCode_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
-     * @param messageTypeCode The value of messageTypeCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param opLambda The callback for option of like-search. (NotNull)
-     */
-    public void setMessageTypeCode_LikeSearch(String messageTypeCode, ConditionOptionCall<LikeSearchOption> opLambda) {
-        setMessageTypeCode_LikeSearch(messageTypeCode, xcLSOP(opLambda));
-    }
-
-    /**
-     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(10), FK to message_type} <br>
-     * <pre>e.g. setMessageTypeCode_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
-     * @param messageTypeCode The value of messageTypeCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param likeSearchOption The option of like-search. (NotNull)
-     */
-    protected void setMessageTypeCode_LikeSearch(String messageTypeCode, LikeSearchOption likeSearchOption) {
-        regLSQ(CK_LS, fRES(messageTypeCode), xgetCValueMessageTypeCode(), "MESSAGE_TYPE_CODE", likeSearchOption);
-    }
-
-    /**
-     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
-     * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(10), FK to message_type}
-     * @param messageTypeCode The value of messageTypeCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param opLambda The callback for option of like-search. (NotNull)
-     */
-    public void setMessageTypeCode_NotLikeSearch(String messageTypeCode, ConditionOptionCall<LikeSearchOption> opLambda) {
-        setMessageTypeCode_NotLikeSearch(messageTypeCode, xcLSOP(opLambda));
-    }
-
-    /**
-     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
-     * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(10), FK to message_type}
-     * @param messageTypeCode The value of messageTypeCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param likeSearchOption The option of not-like-search. (NotNull)
-     */
-    protected void setMessageTypeCode_NotLikeSearch(String messageTypeCode, LikeSearchOption likeSearchOption) {
-        regLSQ(CK_NLS, fRES(messageTypeCode), xgetCValueMessageTypeCode(), "MESSAGE_TYPE_CODE", likeSearchOption);
     }
 
     protected void regMessageTypeCode(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueMessageTypeCode(), "MESSAGE_TYPE_CODE"); }

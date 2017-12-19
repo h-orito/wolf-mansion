@@ -85,7 +85,7 @@
         <column comment="何日目か" dbType="INT UNSIGNED" javaType="Integer"
             name="DAY" required="true" size="10" type="INTEGER"/>
         <column comment="メッセージ種別コード" dbType="VARCHAR" javaType="String"
-            name="MESSAGE_TYPE_CODE" required="true" size="10" type="VARCHAR"/>
+            name="MESSAGE_TYPE_CODE" required="true" size="20" type="VARCHAR"/>
         <column comment="メッセージ番号" dbType="INT UNSIGNED"
             javaType="Integer" name="MESSAGE_NUMBER" size="10" type="INTEGER"/>
         <column comment="メッセージ内容" dbType="VARCHAR" javaType="String"
@@ -143,7 +143,7 @@
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
         <column comment="メッセージ種別コード" dbType="VARCHAR" javaType="String"
             name="MESSAGE_TYPE_CODE" pkName="PRIMARY" pkPosition="1"
-            primaryKey="true" required="true" size="10" type="VARCHAR"/>
+            primaryKey="true" required="true" size="20" type="VARCHAR"/>
         <column comment="メッセージ種別名" dbType="VARCHAR" javaType="String"
             name="MESSAGE_TYPE_NAME" required="true" size="20" type="VARCHAR"/>
     </table>
@@ -204,6 +204,8 @@
             pkPosition="1" primaryKey="true" required="true" size="10" type="INTEGER"/>
         <column comment="村表示名" dbType="VARCHAR" javaType="String"
             name="VILLAGE_DISPLAY_NAME" required="true" size="40" type="VARCHAR"/>
+        <column comment="村ステータスコード" dbType="VARCHAR" javaType="String"
+            name="VILLAGE_STATUS_CODE" required="true" size="20" type="VARCHAR"/>
         <column comment="勝利陣営コード" dbType="VARCHAR" javaType="String"
             name="WIN_CAMP_CODE" size="20" type="VARCHAR"/>
         <column comment="登録日時" dbType="DATETIME"
@@ -216,6 +218,20 @@
             required="true" size="19" type="TIMESTAMP"/>
         <column comment="更新トレース" dbType="VARCHAR" javaType="String"
             name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="village_status" name="FK_VILLAGE_VILLAGE_STATUS">
+            <reference foreign="VILLAGE_STATUS_CODE" local="VILLAGE_STATUS_CODE"/>
+        </foreign-key>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="camp" name="FK_VILLAGE_CAMP">
+            <reference foreign="CAMP_CODE" local="WIN_CAMP_CODE"/>
+        </foreign-key>
+        <index name="FK_VILLAGE_CAMP">
+            <index-column name="WIN_CAMP_CODE" position="1"/>
+        </index>
+        <index name="FK_VILLAGE_VILLAGE_STATUS">
+            <index-column name="VILLAGE_STATUS_CODE" position="1"/>
+        </index>
     </table>
     <table comment="村参加者" name="village_player"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
@@ -285,5 +301,13 @@
             foreignTable="village" name="FK_VILLAGE_SETTINGS_VILLAGE">
             <reference foreign="VILALGE_ID" local="VILLAGE_ID"/>
         </foreign-key>
+    </table>
+    <table comment="村ステータス" name="village_status"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column comment="村ステータスコード" dbType="VARCHAR" javaType="String"
+            name="VILLAGE_STATUS_CODE" pkName="PRIMARY" pkPosition="1"
+            primaryKey="true" required="true" size="20" type="VARCHAR"/>
+        <column comment="村ステータス名" dbType="VARCHAR" javaType="String"
+            name="VILLAGE_STATUS_NAME" required="true" size="20" type="VARCHAR"/>
     </table>
 </database>

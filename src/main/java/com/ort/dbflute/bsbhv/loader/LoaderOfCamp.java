@@ -30,13 +30,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [referrer table]
- *     SKILL
+ *     SKILL, VILLAGE
  *
  * [foreign property]
  *     
  *
  * [referrer property]
- *     skillList
+ *     skillList, villageList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -93,6 +93,40 @@ public class LoaderOfCamp {
     public NestedReferrerLoaderGateway<LoaderOfSkill> loadSkill(ReferrerConditionSetupper<SkillCB> refCBLambda) {
         myBhv().loadSkill(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerSkill = refLs);
         return hd -> hd.handle(new LoaderOfSkill().ready(_referrerSkill, _selector));
+    }
+
+    protected List<Village> _referrerVillage;
+
+    /**
+     * Load referrer of villageList by the set-upper of referrer. <br>
+     * VILLAGE by WIN_CAMP_CODE, named 'villageList'.
+     * <pre>
+     * <span style="color: #0000C0">campBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">campList</span>, <span style="color: #553000">campLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">campLoader</span>.<span style="color: #CC4747">loadVillage</span>(<span style="color: #553000">villageCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *         <span style="color: #553000">villageCB</span>.setupSelect...
+     *         <span style="color: #553000">villageCB</span>.query().set...
+     *         <span style="color: #553000">villageCB</span>.query().addOrderBy...
+     *     }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     *     <span style="color: #3F7E5E">//}).withNestedReferrer(<span style="color: #553000">villageLoader</span> -&gt; {</span>
+     *     <span style="color: #3F7E5E">//    villageLoader.load...</span>
+     *     <span style="color: #3F7E5E">//});</span>
+     * });
+     * for (Camp camp : <span style="color: #553000">campList</span>) {
+     *     ... = camp.<span style="color: #CC4747">getVillageList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setWinCampCode_InScope(pkList);
+     * cb.query().addOrderBy_WinCampCode_Asc();
+     * </pre>
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerLoaderGateway<LoaderOfVillage> loadVillage(ReferrerConditionSetupper<VillageCB> refCBLambda) {
+        myBhv().loadVillage(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerVillage = refLs);
+        return hd -> hd.handle(new LoaderOfVillage().ready(_referrerVillage, _selector));
     }
 
     // ===================================================================================

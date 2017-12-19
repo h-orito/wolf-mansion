@@ -9,6 +9,7 @@ import org.dbflute.dbmeta.AbstractEntity;
 import org.dbflute.dbmeta.accessory.DomainEntity;
 import org.dbflute.optional.OptionalEntity;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.*;
 
 /**
@@ -65,13 +66,13 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** SKILL_CODE: {PK, NotNull, VARCHAR(20)} */
+    /** SKILL_CODE: {PK, NotNull, VARCHAR(20), classification=Skill} */
     protected String _skillCode;
 
     /** SKILL_NAME: {NotNull, VARCHAR(20)} */
     protected String _skillName;
 
-    /** CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp} */
+    /** CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} */
     protected String _campCode;
 
     // ===================================================================================
@@ -94,6 +95,361 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean hasPrimaryKeyValue() {
         if (_skillCode == null) { return false; }
         return true;
+    }
+
+    // ===================================================================================
+    //                                                             Classification Property
+    //                                                             =======================
+    /**
+     * Get the value of skillCode as the classification of Skill. <br>
+     * SKILL_CODE: {PK, NotNull, VARCHAR(20), classification=Skill} <br>
+     * 役職
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Skill getSkillCodeAsSkill() {
+        return CDef.Skill.codeOf(getSkillCode());
+    }
+
+    /**
+     * Set the value of skillCode as the classification of Skill. <br>
+     * SKILL_CODE: {PK, NotNull, VARCHAR(20), classification=Skill} <br>
+     * 役職
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setSkillCodeAsSkill(CDef.Skill cdef) {
+        setSkillCode(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * Get the value of campCode as the classification of Camp. <br>
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
+     * 陣営
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Camp getCampCodeAsCamp() {
+        return CDef.Camp.codeOf(getCampCode());
+    }
+
+    /**
+     * Set the value of campCode as the classification of Camp. <br>
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
+     * 陣営
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setCampCodeAsCamp(CDef.Camp cdef) {
+        setCampCode(cdef != null ? cdef.code() : null);
+    }
+
+    // ===================================================================================
+    //                                                              Classification Setting
+    //                                                              ======================
+    /**
+     * Set the value of skillCode as C国狂人 (CMADMAN). <br>
+     * C国狂人
+     */
+    public void setSkillCode_C国狂人() {
+        setSkillCodeAsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * Set the value of skillCode as 魔神官 (EVILMEDIUM). <br>
+     * 魔神官
+     */
+    public void setSkillCode_魔神官() {
+        setSkillCodeAsSkill(CDef.Skill.魔神官);
+    }
+
+    /**
+     * Set the value of skillCode as 妖狐 (FOX). <br>
+     * 妖狐
+     */
+    public void setSkillCode_妖狐() {
+        setSkillCodeAsSkill(CDef.Skill.妖狐);
+    }
+
+    /**
+     * Set the value of skillCode as 導師 (GURU). <br>
+     * 導師
+     */
+    public void setSkillCode_導師() {
+        setSkillCodeAsSkill(CDef.Skill.導師);
+    }
+
+    /**
+     * Set the value of skillCode as 狩人 (HUNTER). <br>
+     * 狩人
+     */
+    public void setSkillCode_狩人() {
+        setSkillCodeAsSkill(CDef.Skill.狩人);
+    }
+
+    /**
+     * Set the value of skillCode as 狂人 (MADMAN). <br>
+     * 狂人
+     */
+    public void setSkillCode_狂人() {
+        setSkillCodeAsSkill(CDef.Skill.狂人);
+    }
+
+    /**
+     * Set the value of skillCode as 共有者 (MAISON). <br>
+     * 共有者
+     */
+    public void setSkillCode_共有者() {
+        setSkillCodeAsSkill(CDef.Skill.共有者);
+    }
+
+    /**
+     * Set the value of skillCode as 霊能者 (MEDIUM). <br>
+     * 霊能者
+     */
+    public void setSkillCode_霊能者() {
+        setSkillCodeAsSkill(CDef.Skill.霊能者);
+    }
+
+    /**
+     * Set the value of skillCode as 占い師 (SEER). <br>
+     * 占い師
+     */
+    public void setSkillCode_占い師() {
+        setSkillCodeAsSkill(CDef.Skill.占い師);
+    }
+
+    /**
+     * Set the value of skillCode as 聖痕者 (STIGMA). <br>
+     * 聖痕者
+     */
+    public void setSkillCode_聖痕者() {
+        setSkillCodeAsSkill(CDef.Skill.聖痕者);
+    }
+
+    /**
+     * Set the value of skillCode as 村人 (VILLAGER). <br>
+     * 村人
+     */
+    public void setSkillCode_村人() {
+        setSkillCodeAsSkill(CDef.Skill.村人);
+    }
+
+    /**
+     * Set the value of skillCode as 人狼 (WEREWOLF). <br>
+     * 人狼
+     */
+    public void setSkillCode_人狼() {
+        setSkillCodeAsSkill(CDef.Skill.人狼);
+    }
+
+    /**
+     * Set the value of skillCode as 賢者 (WISE). <br>
+     * 賢者
+     */
+    public void setSkillCode_賢者() {
+        setSkillCodeAsSkill(CDef.Skill.賢者);
+    }
+
+    /**
+     * Set the value of campCode as 狐陣営 (FOX). <br>
+     * 狐陣営
+     */
+    public void setCampCode_狐陣営() {
+        setCampCodeAsCamp(CDef.Camp.狐陣営);
+    }
+
+    /**
+     * Set the value of campCode as 村人陣営 (VILLAGER). <br>
+     * 村人陣営
+     */
+    public void setCampCode_村人陣営() {
+        setCampCodeAsCamp(CDef.Camp.村人陣営);
+    }
+
+    /**
+     * Set the value of campCode as 人狼陣営 (WEREWOLF). <br>
+     * 人狼陣営
+     */
+    public void setCampCode_人狼陣営() {
+        setCampCodeAsCamp(CDef.Camp.人狼陣営);
+    }
+
+    // ===================================================================================
+    //                                                        Classification Determination
+    //                                                        ============================
+    /**
+     * Is the value of skillCode C国狂人? <br>
+     * C国狂人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCodeC国狂人() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.C国狂人) : false;
+    }
+
+    /**
+     * Is the value of skillCode 魔神官? <br>
+     * 魔神官
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode魔神官() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.魔神官) : false;
+    }
+
+    /**
+     * Is the value of skillCode 妖狐? <br>
+     * 妖狐
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode妖狐() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.妖狐) : false;
+    }
+
+    /**
+     * Is the value of skillCode 導師? <br>
+     * 導師
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode導師() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.導師) : false;
+    }
+
+    /**
+     * Is the value of skillCode 狩人? <br>
+     * 狩人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode狩人() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.狩人) : false;
+    }
+
+    /**
+     * Is the value of skillCode 狂人? <br>
+     * 狂人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode狂人() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.狂人) : false;
+    }
+
+    /**
+     * Is the value of skillCode 共有者? <br>
+     * 共有者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode共有者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.共有者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 霊能者? <br>
+     * 霊能者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode霊能者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.霊能者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 占い師? <br>
+     * 占い師
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode占い師() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.占い師) : false;
+    }
+
+    /**
+     * Is the value of skillCode 聖痕者? <br>
+     * 聖痕者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode聖痕者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.聖痕者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 村人? <br>
+     * 村人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode村人() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.村人) : false;
+    }
+
+    /**
+     * Is the value of skillCode 人狼? <br>
+     * 人狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode人狼() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.人狼) : false;
+    }
+
+    /**
+     * Is the value of skillCode 賢者? <br>
+     * 賢者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode賢者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.賢者) : false;
+    }
+
+    /**
+     * Is the value of campCode 狐陣営? <br>
+     * 狐陣営
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isCampCode狐陣営() {
+        CDef.Camp cdef = getCampCodeAsCamp();
+        return cdef != null ? cdef.equals(CDef.Camp.狐陣営) : false;
+    }
+
+    /**
+     * Is the value of campCode 村人陣営? <br>
+     * 村人陣営
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isCampCode村人陣営() {
+        CDef.Camp cdef = getCampCodeAsCamp();
+        return cdef != null ? cdef.equals(CDef.Camp.村人陣営) : false;
+    }
+
+    /**
+     * Is the value of campCode 人狼陣営? <br>
+     * 人狼陣営
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isCampCode人狼陣営() {
+        CDef.Camp cdef = getCampCodeAsCamp();
+        return cdef != null ? cdef.equals(CDef.Camp.人狼陣営) : false;
     }
 
     // ===================================================================================
@@ -217,7 +573,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] SKILL_CODE: {PK, NotNull, VARCHAR(20)} <br>
+     * [get] SKILL_CODE: {PK, NotNull, VARCHAR(20), classification=Skill} <br>
      * 役職コード
      * @return The value of the column 'SKILL_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -227,11 +583,12 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
-     * [set] SKILL_CODE: {PK, NotNull, VARCHAR(20)} <br>
+     * [set] SKILL_CODE: {PK, NotNull, VARCHAR(20), classification=Skill} <br>
      * 役職コード
      * @param skillCode The value of the column 'SKILL_CODE'. (basically NotNull if update: for the constraint)
      */
-    public void setSkillCode(String skillCode) {
+    protected void setSkillCode(String skillCode) {
+        checkClassificationCode("SKILL_CODE", CDef.DefMeta.Skill, skillCode);
         registerModifiedProperty("skillCode");
         _skillCode = skillCode;
     }
@@ -257,7 +614,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
-     * [get] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp} <br>
+     * [get] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営コード
      * @return The value of the column 'CAMP_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -267,12 +624,29 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
-     * [set] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp} <br>
+     * [set] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営コード
      * @param campCode The value of the column 'CAMP_CODE'. (basically NotNull if update: for the constraint)
      */
-    public void setCampCode(String campCode) {
+    protected void setCampCode(String campCode) {
+        checkClassificationCode("CAMP_CODE", CDef.DefMeta.Camp, campCode);
         registerModifiedProperty("campCode");
         _campCode = campCode;
+    }
+
+    /**
+     * For framework so basically DON'T use this method.
+     * @param skillCode The value of the column 'SKILL_CODE'. (basically NotNull if update: for the constraint)
+     */
+    public void mynativeMappingSkillCode(String skillCode) {
+        setSkillCode(skillCode);
+    }
+
+    /**
+     * For framework so basically DON'T use this method.
+     * @param campCode The value of the column 'CAMP_CODE'. (basically NotNull if update: for the constraint)
+     */
+    public void mynativeMappingCampCode(String campCode) {
+        setCampCode(campCode);
     }
 }

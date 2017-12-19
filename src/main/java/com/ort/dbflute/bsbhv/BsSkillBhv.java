@@ -15,6 +15,7 @@ import org.dbflute.exception.*;
 import org.dbflute.hook.CommonColumnAutoSetupper;
 import org.dbflute.optional.OptionalEntity;
 import org.dbflute.outsidesql.executor.*;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.bsbhv.loader.*;
 import com.ort.dbflute.exentity.*;
@@ -159,29 +160,29 @@ public abstract class BsSkillBhv extends AbstractBehaviorWritable<Skill, SkillCB
 
     /**
      * Select the entity by the primary-key value.
-     * @param skillCode : PK, NotNull, VARCHAR(20). (NotNull)
+     * @param skillCode : PK, NotNull, VARCHAR(20), classification=Skill. (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    public OptionalEntity<Skill> selectByPK(String skillCode) {
+    public OptionalEntity<Skill> selectByPK(CDef.Skill skillCode) {
         return facadeSelectByPK(skillCode);
     }
 
-    protected OptionalEntity<Skill> facadeSelectByPK(String skillCode) {
+    protected OptionalEntity<Skill> facadeSelectByPK(CDef.Skill skillCode) {
         return doSelectOptionalByPK(skillCode, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends Skill> ENTITY doSelectByPK(String skillCode, Class<? extends ENTITY> tp) {
+    protected <ENTITY extends Skill> ENTITY doSelectByPK(CDef.Skill skillCode, Class<? extends ENTITY> tp) {
         return doSelectEntity(xprepareCBAsPK(skillCode), tp);
     }
 
-    protected <ENTITY extends Skill> OptionalEntity<ENTITY> doSelectOptionalByPK(String skillCode, Class<? extends ENTITY> tp) {
+    protected <ENTITY extends Skill> OptionalEntity<ENTITY> doSelectOptionalByPK(CDef.Skill skillCode, Class<? extends ENTITY> tp) {
         return createOptionalEntity(doSelectByPK(skillCode, tp), skillCode);
     }
 
-    protected SkillCB xprepareCBAsPK(String skillCode) {
+    protected SkillCB xprepareCBAsPK(CDef.Skill skillCode) {
         assertObjectNotNull("skillCode", skillCode);
         return newConditionBean().acceptPK(skillCode);
     }

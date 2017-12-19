@@ -8,6 +8,11 @@ public class IndexVillageDto {
     /** 村名 */
     private String villageName;
 
+    /** 状態 */
+    private String status;
+
+    /** 開始日時 */
+
     public Integer getVillageId() {
         return villageId;
     }

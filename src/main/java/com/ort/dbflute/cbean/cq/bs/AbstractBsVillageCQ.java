@@ -455,11 +455,236 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
+     * @param villageStatusCode The value of villageStatusCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    protected void setVillageStatusCode_Equal(String villageStatusCode) {
+        doSetVillageStatusCode_Equal(fRES(villageStatusCode));
+    }
+
+    /**
+     * Equal(=). As VillageStatus. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus} <br>
+     * 村ステータス
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setVillageStatusCode_Equal_AsVillageStatus(CDef.VillageStatus cdef) {
+        doSetVillageStatusCode_Equal(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * Equal(=). As 廃村 (CANCEL). And OnlyOnceRegistered. <br>
+     * 廃村
+     */
+    public void setVillageStatusCode_Equal_廃村() {
+        setVillageStatusCode_Equal_AsVillageStatus(CDef.VillageStatus.廃村);
+    }
+
+    /**
+     * Equal(=). As 終了 (COMPLETED). And OnlyOnceRegistered. <br>
+     * 終了
+     */
+    public void setVillageStatusCode_Equal_終了() {
+        setVillageStatusCode_Equal_AsVillageStatus(CDef.VillageStatus.終了);
+    }
+
+    /**
+     * Equal(=). As エピローグ (EPILOGUE). And OnlyOnceRegistered. <br>
+     * エピローグ
+     */
+    public void setVillageStatusCode_Equal_エピローグ() {
+        setVillageStatusCode_Equal_AsVillageStatus(CDef.VillageStatus.エピローグ);
+    }
+
+    /**
+     * Equal(=). As 募集中 (IN_PREPARATION). And OnlyOnceRegistered. <br>
+     * 募集中
+     */
+    public void setVillageStatusCode_Equal_募集中() {
+        setVillageStatusCode_Equal_AsVillageStatus(CDef.VillageStatus.募集中);
+    }
+
+    /**
+     * Equal(=). As 進行中 (IN_PROGRESS). And OnlyOnceRegistered. <br>
+     * 進行中
+     */
+    public void setVillageStatusCode_Equal_進行中() {
+        setVillageStatusCode_Equal_AsVillageStatus(CDef.VillageStatus.進行中);
+    }
+
+    /**
+     * Equal(=). As 開始待ち (WAITING). And OnlyOnceRegistered. <br>
+     * 開始待ち
+     */
+    public void setVillageStatusCode_Equal_開始待ち() {
+        setVillageStatusCode_Equal_AsVillageStatus(CDef.VillageStatus.開始待ち);
+    }
+
+    protected void doSetVillageStatusCode_Equal(String villageStatusCode) {
+        regVillageStatusCode(CK_EQ, villageStatusCode);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
+     * @param villageStatusCode The value of villageStatusCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    protected void setVillageStatusCode_NotEqual(String villageStatusCode) {
+        doSetVillageStatusCode_NotEqual(fRES(villageStatusCode));
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As VillageStatus. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus} <br>
+     * 村ステータス
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setVillageStatusCode_NotEqual_AsVillageStatus(CDef.VillageStatus cdef) {
+        doSetVillageStatusCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 廃村 (CANCEL). And OnlyOnceRegistered. <br>
+     * 廃村
+     */
+    public void setVillageStatusCode_NotEqual_廃村() {
+        setVillageStatusCode_NotEqual_AsVillageStatus(CDef.VillageStatus.廃村);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 終了 (COMPLETED). And OnlyOnceRegistered. <br>
+     * 終了
+     */
+    public void setVillageStatusCode_NotEqual_終了() {
+        setVillageStatusCode_NotEqual_AsVillageStatus(CDef.VillageStatus.終了);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As エピローグ (EPILOGUE). And OnlyOnceRegistered. <br>
+     * エピローグ
+     */
+    public void setVillageStatusCode_NotEqual_エピローグ() {
+        setVillageStatusCode_NotEqual_AsVillageStatus(CDef.VillageStatus.エピローグ);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 募集中 (IN_PREPARATION). And OnlyOnceRegistered. <br>
+     * 募集中
+     */
+    public void setVillageStatusCode_NotEqual_募集中() {
+        setVillageStatusCode_NotEqual_AsVillageStatus(CDef.VillageStatus.募集中);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 進行中 (IN_PROGRESS). And OnlyOnceRegistered. <br>
+     * 進行中
+     */
+    public void setVillageStatusCode_NotEqual_進行中() {
+        setVillageStatusCode_NotEqual_AsVillageStatus(CDef.VillageStatus.進行中);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 開始待ち (WAITING). And OnlyOnceRegistered. <br>
+     * 開始待ち
+     */
+    public void setVillageStatusCode_NotEqual_開始待ち() {
+        setVillageStatusCode_NotEqual_AsVillageStatus(CDef.VillageStatus.開始待ち);
+    }
+
+    protected void doSetVillageStatusCode_NotEqual(String villageStatusCode) {
+        regVillageStatusCode(CK_NES, villageStatusCode);
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
+     * @param villageStatusCodeList The collection of villageStatusCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    protected void setVillageStatusCode_InScope(Collection<String> villageStatusCodeList) {
+        doSetVillageStatusCode_InScope(villageStatusCodeList);
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As VillageStatus. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus} <br>
+     * 村ステータス
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setVillageStatusCode_InScope_AsVillageStatus(Collection<CDef.VillageStatus> cdefList) {
+        doSetVillageStatusCode_InScope(cTStrL(cdefList));
+    }
+
+    protected void doSetVillageStatusCode_InScope(Collection<String> villageStatusCodeList) {
+        regINS(CK_INS, cTL(villageStatusCodeList), xgetCValueVillageStatusCode(), "VILLAGE_STATUS_CODE");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
+     * @param villageStatusCodeList The collection of villageStatusCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    protected void setVillageStatusCode_NotInScope(Collection<String> villageStatusCodeList) {
+        doSetVillageStatusCode_NotInScope(villageStatusCodeList);
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. As VillageStatus. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus} <br>
+     * 村ステータス
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setVillageStatusCode_NotInScope_AsVillageStatus(Collection<CDef.VillageStatus> cdefList) {
+        doSetVillageStatusCode_NotInScope(cTStrL(cdefList));
+    }
+
+    protected void doSetVillageStatusCode_NotInScope(Collection<String> villageStatusCodeList) {
+        regINS(CK_NINS, cTL(villageStatusCodeList), xgetCValueVillageStatusCode(), "VILLAGE_STATUS_CODE");
+    }
+
+    protected void regVillageStatusCode(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueVillageStatusCode(), "VILLAGE_STATUS_CODE"); }
+    protected abstract ConditionValue xgetCValueVillageStatusCode();
+
+    /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @param winCampCode The value of winCampCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setWinCampCode_Equal(String winCampCode) {
+    protected void setWinCampCode_Equal(String winCampCode) {
         doSetWinCampCode_Equal(fRES(winCampCode));
+    }
+
+    /**
+     * Equal(=). As Camp. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp} <br>
+     * 陣営
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setWinCampCode_Equal_AsCamp(CDef.Camp cdef) {
+        doSetWinCampCode_Equal(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * Equal(=). As 狐陣営 (FOX). And OnlyOnceRegistered. <br>
+     * 狐陣営
+     */
+    public void setWinCampCode_Equal_狐陣営() {
+        setWinCampCode_Equal_AsCamp(CDef.Camp.狐陣営);
+    }
+
+    /**
+     * Equal(=). As 村人陣営 (VILLAGER). And OnlyOnceRegistered. <br>
+     * 村人陣営
+     */
+    public void setWinCampCode_Equal_村人陣営() {
+        setWinCampCode_Equal_AsCamp(CDef.Camp.村人陣営);
+    }
+
+    /**
+     * Equal(=). As 人狼陣営 (WEREWOLF). And OnlyOnceRegistered. <br>
+     * 人狼陣営
+     */
+    public void setWinCampCode_Equal_人狼陣営() {
+        setWinCampCode_Equal_AsCamp(CDef.Camp.人狼陣営);
     }
 
     protected void doSetWinCampCode_Equal(String winCampCode) {
@@ -468,11 +693,45 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @param winCampCode The value of winCampCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setWinCampCode_NotEqual(String winCampCode) {
+    protected void setWinCampCode_NotEqual(String winCampCode) {
         doSetWinCampCode_NotEqual(fRES(winCampCode));
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As Camp. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp} <br>
+     * 陣営
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setWinCampCode_NotEqual_AsCamp(CDef.Camp cdef) {
+        doSetWinCampCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 狐陣営 (FOX). And OnlyOnceRegistered. <br>
+     * 狐陣営
+     */
+    public void setWinCampCode_NotEqual_狐陣営() {
+        setWinCampCode_NotEqual_AsCamp(CDef.Camp.狐陣営);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 村人陣営 (VILLAGER). And OnlyOnceRegistered. <br>
+     * 村人陣営
+     */
+    public void setWinCampCode_NotEqual_村人陣営() {
+        setWinCampCode_NotEqual_AsCamp(CDef.Camp.村人陣営);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 人狼陣営 (WEREWOLF). And OnlyOnceRegistered. <br>
+     * 人狼陣営
+     */
+    public void setWinCampCode_NotEqual_人狼陣営() {
+        setWinCampCode_NotEqual_AsCamp(CDef.Camp.人狼陣営);
     }
 
     protected void doSetWinCampCode_NotEqual(String winCampCode) {
@@ -480,48 +739,22 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
     }
 
     /**
-     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {VARCHAR(20)}
-     * @param winCampCode The value of winCampCode as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setWinCampCode_GreaterThan(String winCampCode) {
-        regWinCampCode(CK_GT, fRES(winCampCode));
-    }
-
-    /**
-     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {VARCHAR(20)}
-     * @param winCampCode The value of winCampCode as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setWinCampCode_LessThan(String winCampCode) {
-        regWinCampCode(CK_LT, fRES(winCampCode));
-    }
-
-    /**
-     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {VARCHAR(20)}
-     * @param winCampCode The value of winCampCode as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setWinCampCode_GreaterEqual(String winCampCode) {
-        regWinCampCode(CK_GE, fRES(winCampCode));
-    }
-
-    /**
-     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {VARCHAR(20)}
-     * @param winCampCode The value of winCampCode as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setWinCampCode_LessEqual(String winCampCode) {
-        regWinCampCode(CK_LE, fRES(winCampCode));
-    }
-
-    /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @param winCampCodeList The collection of winCampCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setWinCampCode_InScope(Collection<String> winCampCodeList) {
+    protected void setWinCampCode_InScope(Collection<String> winCampCodeList) {
         doSetWinCampCode_InScope(winCampCodeList);
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Camp. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp} <br>
+     * 陣営
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setWinCampCode_InScope_AsCamp(Collection<CDef.Camp> cdefList) {
+        doSetWinCampCode_InScope(cTStrL(cdefList));
     }
 
     protected void doSetWinCampCode_InScope(Collection<String> winCampCodeList) {
@@ -530,11 +763,21 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @param winCampCodeList The collection of winCampCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setWinCampCode_NotInScope(Collection<String> winCampCodeList) {
+    protected void setWinCampCode_NotInScope(Collection<String> winCampCodeList) {
         doSetWinCampCode_NotInScope(winCampCodeList);
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. As Camp. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp} <br>
+     * 陣営
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setWinCampCode_NotInScope_AsCamp(Collection<CDef.Camp> cdefList) {
+        doSetWinCampCode_NotInScope(cTStrL(cdefList));
     }
 
     protected void doSetWinCampCode_NotInScope(Collection<String> winCampCodeList) {
@@ -542,64 +785,20 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
     }
 
     /**
-     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * WIN_CAMP_CODE: {VARCHAR(20)} <br>
-     * <pre>e.g. setWinCampCode_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
-     * @param winCampCode The value of winCampCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param opLambda The callback for option of like-search. (NotNull)
-     */
-    public void setWinCampCode_LikeSearch(String winCampCode, ConditionOptionCall<LikeSearchOption> opLambda) {
-        setWinCampCode_LikeSearch(winCampCode, xcLSOP(opLambda));
-    }
-
-    /**
-     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * WIN_CAMP_CODE: {VARCHAR(20)} <br>
-     * <pre>e.g. setWinCampCode_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
-     * @param winCampCode The value of winCampCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param likeSearchOption The option of like-search. (NotNull)
-     */
-    protected void setWinCampCode_LikeSearch(String winCampCode, LikeSearchOption likeSearchOption) {
-        regLSQ(CK_LS, fRES(winCampCode), xgetCValueWinCampCode(), "WIN_CAMP_CODE", likeSearchOption);
-    }
-
-    /**
-     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
-     * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * WIN_CAMP_CODE: {VARCHAR(20)}
-     * @param winCampCode The value of winCampCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param opLambda The callback for option of like-search. (NotNull)
-     */
-    public void setWinCampCode_NotLikeSearch(String winCampCode, ConditionOptionCall<LikeSearchOption> opLambda) {
-        setWinCampCode_NotLikeSearch(winCampCode, xcLSOP(opLambda));
-    }
-
-    /**
-     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
-     * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * WIN_CAMP_CODE: {VARCHAR(20)}
-     * @param winCampCode The value of winCampCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param likeSearchOption The option of not-like-search. (NotNull)
-     */
-    protected void setWinCampCode_NotLikeSearch(String winCampCode, LikeSearchOption likeSearchOption) {
-        regLSQ(CK_NLS, fRES(winCampCode), xgetCValueWinCampCode(), "WIN_CAMP_CODE", likeSearchOption);
-    }
-
-    /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      */
     public void setWinCampCode_IsNull() { regWinCampCode(CK_ISN, DOBJ); }
 
     /**
      * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      */
     public void setWinCampCode_IsNullOrEmpty() { regWinCampCode(CK_ISNOE, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      */
     public void setWinCampCode_IsNotNull() { regWinCampCode(CK_ISNN, DOBJ); }
 

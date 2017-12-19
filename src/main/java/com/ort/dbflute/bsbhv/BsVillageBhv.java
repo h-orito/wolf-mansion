@@ -28,7 +28,7 @@ import com.ort.dbflute.cbean.*;
  *     VILALGE_ID
  *
  * [column]
- *     VILALGE_ID, VILLAGE_DISPLAY_NAME, WIN_CAMP_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILALGE_ID, VILLAGE_DISPLAY_NAME, VILLAGE_STATUS_CODE, WIN_CAMP_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -40,13 +40,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [foreign table]
- *     VILLAGE_SETTINGS(AsOne)
+ *     VILLAGE_STATUS, CAMP, VILLAGE_SETTINGS(AsOne)
  *
  * [referrer table]
  *     MESSAGE, VILLAGE_PLAYER, VILLAGE_SETTINGS
  *
  * [foreign property]
- *     villageSettingsAsOne
+ *     villageStatus, camp, villageSettingsAsOne
  *
  * [referrer property]
  *     messageList, villagePlayerList
@@ -492,6 +492,22 @@ public abstract class BsVillageBhv extends AbstractBehaviorWritable<Village, Vil
     // ===================================================================================
     //                                                                   Pull out Relation
     //                                                                   =================
+    /**
+     * Pull out the list of foreign table 'VillageStatus'.
+     * @param villageList The list of village. (NotNull, EmptyAllowed)
+     * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
+     */
+    public List<VillageStatus> pulloutVillageStatus(List<Village> villageList)
+    { return helpPulloutInternally(villageList, "villageStatus"); }
+
+    /**
+     * Pull out the list of foreign table 'Camp'.
+     * @param villageList The list of village. (NotNull, EmptyAllowed)
+     * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
+     */
+    public List<Camp> pulloutCamp(List<Village> villageList)
+    { return helpPulloutInternally(villageList, "camp"); }
+
     /**
      * Pull out the list of referrer-as-one table 'VillageSettings'.
      * @param villageList The list of village. (NotNull, EmptyAllowed)

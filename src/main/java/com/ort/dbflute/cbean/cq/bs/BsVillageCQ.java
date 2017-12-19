@@ -141,6 +141,26 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
      */
     public BsVillageCQ addOrderBy_VillageDisplayName_Desc() { regOBD("VILLAGE_DISPLAY_NAME"); return this; }
 
+    protected ConditionValue _villageStatusCode;
+    public ConditionValue xdfgetVillageStatusCode()
+    { if (_villageStatusCode == null) { _villageStatusCode = nCV(); }
+      return _villageStatusCode; }
+    protected ConditionValue xgetCValueVillageStatusCode() { return xdfgetVillageStatusCode(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
+     * @return this. (NotNull)
+     */
+    public BsVillageCQ addOrderBy_VillageStatusCode_Asc() { regOBA("VILLAGE_STATUS_CODE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
+     * @return this. (NotNull)
+     */
+    public BsVillageCQ addOrderBy_VillageStatusCode_Desc() { regOBD("VILLAGE_STATUS_CODE"); return this; }
+
     protected ConditionValue _winCampCode;
     public ConditionValue xdfgetWinCampCode()
     { if (_winCampCode == null) { _winCampCode = nCV(); }
@@ -149,14 +169,14 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @return this. (NotNull)
      */
     public BsVillageCQ addOrderBy_WinCampCode_Asc() { regOBA("WIN_CAMP_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @return this. (NotNull)
      */
     public BsVillageCQ addOrderBy_WinCampCode_Desc() { regOBD("WIN_CAMP_CODE"); return this; }
@@ -282,6 +302,12 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
     public void reflectRelationOnUnionQuery(ConditionQuery bqs, ConditionQuery uqs) {
         VillageCQ bq = (VillageCQ)bqs;
         VillageCQ uq = (VillageCQ)uqs;
+        if (bq.hasConditionQueryVillageStatus()) {
+            uq.queryVillageStatus().reflectRelationOnUnionQuery(bq.queryVillageStatus(), uq.queryVillageStatus());
+        }
+        if (bq.hasConditionQueryCamp()) {
+            uq.queryCamp().reflectRelationOnUnionQuery(bq.queryCamp(), uq.queryCamp());
+        }
         if (bq.hasConditionQueryVillageSettingsAsOne()) {
             uq.queryVillageSettingsAsOne().reflectRelationOnUnionQuery(bq.queryVillageSettingsAsOne(), uq.queryVillageSettingsAsOne());
         }
@@ -290,6 +316,46 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
     // ===================================================================================
     //                                                                       Foreign Query
     //                                                                       =============
+    /**
+     * Get the condition-query for relation table. <br>
+     * VILLAGE_STATUS by my VILLAGE_STATUS_CODE, named 'villageStatus'.
+     * @return The instance of condition-query. (NotNull)
+     */
+    public VillageStatusCQ queryVillageStatus() {
+        return xdfgetConditionQueryVillageStatus();
+    }
+    public VillageStatusCQ xdfgetConditionQueryVillageStatus() {
+        String prop = "villageStatus";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryVillageStatus()); xsetupOuterJoinVillageStatus(); }
+        return xgetQueRlMap(prop);
+    }
+    protected VillageStatusCQ xcreateQueryVillageStatus() {
+        String nrp = xresolveNRP("village", "villageStatus"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        return xinitRelCQ(new VillageStatusCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "villageStatus", nrp);
+    }
+    protected void xsetupOuterJoinVillageStatus() { xregOutJo("villageStatus"); }
+    public boolean hasConditionQueryVillageStatus() { return xhasQueRlMap("villageStatus"); }
+
+    /**
+     * Get the condition-query for relation table. <br>
+     * CAMP by my WIN_CAMP_CODE, named 'camp'.
+     * @return The instance of condition-query. (NotNull)
+     */
+    public CampCQ queryCamp() {
+        return xdfgetConditionQueryCamp();
+    }
+    public CampCQ xdfgetConditionQueryCamp() {
+        String prop = "camp";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryCamp()); xsetupOuterJoinCamp(); }
+        return xgetQueRlMap(prop);
+    }
+    protected CampCQ xcreateQueryCamp() {
+        String nrp = xresolveNRP("village", "camp"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        return xinitRelCQ(new CampCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "camp", nrp);
+    }
+    protected void xsetupOuterJoinCamp() { xregOutJo("camp"); }
+    public boolean hasConditionQueryCamp() { return xhasQueRlMap("camp"); }
+
     /**
      * Get the condition-query for relation table. <br>
      * village_settings by VILLAGE_ID, named 'villageSettingsAsOne'.

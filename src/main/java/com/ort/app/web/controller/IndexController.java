@@ -51,7 +51,7 @@ public class IndexController {
     //                                                                        ============
     private void setIndexModel(LoginForm form, Model model) {
         model.addAttribute("form", form);
-        ListResultBean<Village> villageList = villageBhv.selectList(cb -> {});
+        ListResultBean<Village> villageList = villageBhv.selectList(cb -> cb.setupSelect_VillageSettingsAsOne());
         IndexResultContent content = mappingToContent(villageList);
         model.addAttribute("content", content);
     }

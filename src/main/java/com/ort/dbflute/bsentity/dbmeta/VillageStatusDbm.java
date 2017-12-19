@@ -13,17 +13,17 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of message_type. (Singleton)
+ * The DB meta of village_status. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
-public class MessageTypeDbm extends AbstractDBMeta {
+public class VillageStatusDbm extends AbstractDBMeta {
 
     // ===================================================================================
     //                                                                           Singleton
     //                                                                           =========
-    private static final MessageTypeDbm _instance = new MessageTypeDbm();
-    private MessageTypeDbm() {}
-    public static MessageTypeDbm getInstance() { return _instance; }
+    private static final VillageStatusDbm _instance = new VillageStatusDbm();
+    private VillageStatusDbm() {}
+    public static VillageStatusDbm getInstance() { return _instance; }
 
     // ===================================================================================
     //                                                                       Current DBDef
@@ -42,15 +42,15 @@ public class MessageTypeDbm extends AbstractDBMeta {
     protected final Map<String, PropertyGateway> _epgMap = newHashMap();
     { xsetupEpg(); }
     protected void xsetupEpg() {
-        setupEpg(_epgMap, et -> ((MessageType)et).getMessageTypeCode(), (et, vl) -> {
-            CDef.MessageType cls = (CDef.MessageType)gcls(et, columnMessageTypeCode(), vl);
+        setupEpg(_epgMap, et -> ((VillageStatus)et).getVillageStatusCode(), (et, vl) -> {
+            CDef.VillageStatus cls = (CDef.VillageStatus)gcls(et, columnVillageStatusCode(), vl);
             if (cls != null) {
-                ((MessageType)et).setMessageTypeCodeAsMessageType(cls);
+                ((VillageStatus)et).setVillageStatusCodeAsVillageStatus(cls);
             } else {
-                ((MessageType)et).mynativeMappingMessageTypeCode((String)vl);
+                ((VillageStatus)et).mynativeMappingVillageStatusCode((String)vl);
             }
-        }, "messageTypeCode");
-        setupEpg(_epgMap, et -> ((MessageType)et).getMessageTypeName(), (et, vl) -> ((MessageType)et).setMessageTypeName((String)vl), "messageTypeName");
+        }, "villageStatusCode");
+        setupEpg(_epgMap, et -> ((VillageStatus)et).getVillageStatusName(), (et, vl) -> ((VillageStatus)et).setVillageStatusName((String)vl), "villageStatusName");
     }
     public PropertyGateway findPropertyGateway(String prop)
     { return doFindEpg(_epgMap, prop); }
@@ -58,10 +58,10 @@ public class MessageTypeDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "message_type";
-    protected final String _tableDispName = "MESSAGE_TYPE";
-    protected final String _tablePropertyName = "messageType";
-    protected final TableSqlName _tableSqlName = new TableSqlName("MESSAGE_TYPE", _tableDbName);
+    protected final String _tableDbName = "village_status";
+    protected final String _tableDispName = "VILLAGE_STATUS";
+    protected final String _tablePropertyName = "villageStatus";
+    protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_STATUS", _tableDbName);
     { _tableSqlName.xacceptFilter(DBFluteConfig.getInstance().getTableSqlNameFilter()); }
     public String getTableDbName() { return _tableDbName; }
     public String getTableDispName() { return _tableDispName; }
@@ -71,24 +71,24 @@ public class MessageTypeDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnMessageTypeCode = cci("MESSAGE_TYPE_CODE", "MESSAGE_TYPE_CODE", null, null, String.class, "messageTypeCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "messageList", CDef.DefMeta.MessageType, false);
-    protected final ColumnInfo _columnMessageTypeName = cci("MESSAGE_TYPE_NAME", "MESSAGE_TYPE_NAME", null, null, String.class, "messageTypeName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnVillageStatusCode = cci("VILLAGE_STATUS_CODE", "VILLAGE_STATUS_CODE", null, null, String.class, "villageStatusCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "villageList", CDef.DefMeta.VillageStatus, false);
+    protected final ColumnInfo _columnVillageStatusName = cci("VILLAGE_STATUS_NAME", "VILLAGE_STATUS_NAME", null, null, String.class, "villageStatusName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
 
     /**
-     * MESSAGE_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=MessageType}
+     * VILLAGE_STATUS_CODE: {PK, NotNull, VARCHAR(20), classification=VillageStatus}
      * @return The information object of specified column. (NotNull)
      */
-    public ColumnInfo columnMessageTypeCode() { return _columnMessageTypeCode; }
+    public ColumnInfo columnVillageStatusCode() { return _columnVillageStatusCode; }
     /**
-     * MESSAGE_TYPE_NAME: {NotNull, VARCHAR(20)}
+     * VILLAGE_STATUS_NAME: {NotNull, VARCHAR(20)}
      * @return The information object of specified column. (NotNull)
      */
-    public ColumnInfo columnMessageTypeName() { return _columnMessageTypeName; }
+    public ColumnInfo columnVillageStatusName() { return _columnVillageStatusName; }
 
     protected List<ColumnInfo> ccil() {
         List<ColumnInfo> ls = newArrayList();
-        ls.add(columnMessageTypeCode());
-        ls.add(columnMessageTypeName());
+        ls.add(columnVillageStatusCode());
+        ls.add(columnVillageStatusName());
         return ls;
     }
 
@@ -100,7 +100,7 @@ public class MessageTypeDbm extends AbstractDBMeta {
     // -----------------------------------------------------
     //                                       Primary Element
     //                                       ---------------
-    protected UniqueInfo cpui() { return hpcpui(columnMessageTypeCode()); }
+    protected UniqueInfo cpui() { return hpcpui(columnVillageStatusCode()); }
     public boolean hasPrimaryKey() { return true; }
     public boolean hasCompoundPrimaryKey() { return false; }
 
@@ -117,12 +117,12 @@ public class MessageTypeDbm extends AbstractDBMeta {
     //                                     Referrer Property
     //                                     -----------------
     /**
-     * MESSAGE by MESSAGE_TYPE_CODE, named 'messageList'.
+     * VILLAGE by VILLAGE_STATUS_CODE, named 'villageList'.
      * @return The information object of referrer property. (NotNull)
      */
-    public ReferrerInfo referrerMessageList() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnMessageTypeCode(), MessageDbm.getInstance().columnMessageTypeCode());
-        return cri("FK_MESSAGE_MESSAGE_TYPE", "messageList", this, MessageDbm.getInstance(), mp, false, "messageType");
+    public ReferrerInfo referrerVillageList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillageStatusCode(), VillageDbm.getInstance().columnVillageStatusCode());
+        return cri("FK_VILLAGE_VILLAGE_STATUS", "villageList", this, VillageDbm.getInstance(), mp, false, "villageStatus");
     }
 
     // ===================================================================================
@@ -132,27 +132,27 @@ public class MessageTypeDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                           Type Name
     //                                                                           =========
-    public String getEntityTypeName() { return "com.ort.dbflute.exentity.MessageType"; }
-    public String getConditionBeanTypeName() { return "com.ort.dbflute.cbean.MessageTypeCB"; }
-    public String getBehaviorTypeName() { return "com.ort.dbflute.exbhv.MessageTypeBhv"; }
+    public String getEntityTypeName() { return "com.ort.dbflute.exentity.VillageStatus"; }
+    public String getConditionBeanTypeName() { return "com.ort.dbflute.cbean.VillageStatusCB"; }
+    public String getBehaviorTypeName() { return "com.ort.dbflute.exbhv.VillageStatusBhv"; }
 
     // ===================================================================================
     //                                                                         Object Type
     //                                                                         ===========
-    public Class<MessageType> getEntityType() { return MessageType.class; }
+    public Class<VillageStatus> getEntityType() { return VillageStatus.class; }
 
     // ===================================================================================
     //                                                                     Object Instance
     //                                                                     ===============
-    public MessageType newEntity() { return new MessageType(); }
+    public VillageStatus newEntity() { return new VillageStatus(); }
 
     // ===================================================================================
     //                                                                   Map Communication
     //                                                                   =================
     public void acceptPrimaryKeyMap(Entity et, Map<String, ? extends Object> mp)
-    { doAcceptPrimaryKeyMap((MessageType)et, mp); }
+    { doAcceptPrimaryKeyMap((VillageStatus)et, mp); }
     public void acceptAllColumnMap(Entity et, Map<String, ? extends Object> mp)
-    { doAcceptAllColumnMap((MessageType)et, mp); }
+    { doAcceptAllColumnMap((VillageStatus)et, mp); }
     public Map<String, Object> extractPrimaryKeyMap(Entity et) { return doExtractPrimaryKeyMap(et); }
     public Map<String, Object> extractAllColumnMap(Entity et) { return doExtractAllColumnMap(et); }
 }

@@ -15,6 +15,7 @@ import org.dbflute.exception.*;
 import org.dbflute.hook.CommonColumnAutoSetupper;
 import org.dbflute.optional.OptionalEntity;
 import org.dbflute.outsidesql.executor.*;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.bsbhv.loader.*;
 import com.ort.dbflute.exentity.*;
@@ -43,13 +44,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [referrer table]
- *     SKILL
+ *     SKILL, VILLAGE
  *
  * [foreign property]
  *     
  *
  * [referrer property]
- *     skillList
+ *     skillList, villageList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -159,29 +160,29 @@ public abstract class BsCampBhv extends AbstractBehaviorWritable<Camp, CampCB> {
 
     /**
      * Select the entity by the primary-key value.
-     * @param campCode : PK, NotNull, VARCHAR(20). (NotNull)
+     * @param campCode : PK, NotNull, VARCHAR(20), classification=Camp. (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    public OptionalEntity<Camp> selectByPK(String campCode) {
+    public OptionalEntity<Camp> selectByPK(CDef.Camp campCode) {
         return facadeSelectByPK(campCode);
     }
 
-    protected OptionalEntity<Camp> facadeSelectByPK(String campCode) {
+    protected OptionalEntity<Camp> facadeSelectByPK(CDef.Camp campCode) {
         return doSelectOptionalByPK(campCode, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends Camp> ENTITY doSelectByPK(String campCode, Class<? extends ENTITY> tp) {
+    protected <ENTITY extends Camp> ENTITY doSelectByPK(CDef.Camp campCode, Class<? extends ENTITY> tp) {
         return doSelectEntity(xprepareCBAsPK(campCode), tp);
     }
 
-    protected <ENTITY extends Camp> OptionalEntity<ENTITY> doSelectOptionalByPK(String campCode, Class<? extends ENTITY> tp) {
+    protected <ENTITY extends Camp> OptionalEntity<ENTITY> doSelectOptionalByPK(CDef.Camp campCode, Class<? extends ENTITY> tp) {
         return createOptionalEntity(doSelectByPK(campCode, tp), campCode);
     }
 
-    protected CampCB xprepareCBAsPK(String campCode) {
+    protected CampCB xprepareCBAsPK(CDef.Camp campCode) {
         assertObjectNotNull("campCode", campCode);
         return newConditionBean().acceptPK(campCode);
     }
@@ -423,6 +424,70 @@ public abstract class BsCampBhv extends AbstractBehaviorWritable<Camp, CampCB> {
 
     protected NestedReferrerListGateway<Skill> doLoadSkill(List<Camp> campList, LoadReferrerOption<SkillCB, Skill> option) {
         return helpLoadReferrerInternally(campList, option, "skillList");
+    }
+
+    /**
+     * Load referrer of villageList by the set-upper of referrer. <br>
+     * VILLAGE by WIN_CAMP_CODE, named 'villageList'.
+     * <pre>
+     * <span style="color: #0000C0">campBhv</span>.<span style="color: #CC4747">loadVillage</span>(<span style="color: #553000">campList</span>, <span style="color: #553000">villageCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">villageCB</span>.setupSelect...
+     *     <span style="color: #553000">villageCB</span>.query().set...
+     *     <span style="color: #553000">villageCB</span>.query().addOrderBy...
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * <span style="color: #70226C">for</span> (Camp camp : <span style="color: #553000">campList</span>) {
+     *     ... = camp.<span style="color: #CC4747">getVillageList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setWinCampCode_InScope(pkList);
+     * cb.query().addOrderBy_WinCampCode_Asc();
+     * </pre>
+     * @param campList The entity list of camp. (NotNull)
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerListGateway<Village> loadVillage(List<Camp> campList, ReferrerConditionSetupper<VillageCB> refCBLambda) {
+        xassLRArg(campList, refCBLambda);
+        return doLoadVillage(campList, new LoadReferrerOption<VillageCB, Village>().xinit(refCBLambda));
+    }
+
+    /**
+     * Load referrer of villageList by the set-upper of referrer. <br>
+     * VILLAGE by WIN_CAMP_CODE, named 'villageList'.
+     * <pre>
+     * <span style="color: #0000C0">campBhv</span>.<span style="color: #CC4747">loadVillage</span>(<span style="color: #553000">camp</span>, <span style="color: #553000">villageCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">villageCB</span>.setupSelect...
+     *     <span style="color: #553000">villageCB</span>.query().set...
+     *     <span style="color: #553000">villageCB</span>.query().addOrderBy...
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * ... = <span style="color: #553000">camp</span>.<span style="color: #CC4747">getVillageList()</span>;
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setWinCampCode_InScope(pkList);
+     * cb.query().addOrderBy_WinCampCode_Asc();
+     * </pre>
+     * @param camp The entity of camp. (NotNull)
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerListGateway<Village> loadVillage(Camp camp, ReferrerConditionSetupper<VillageCB> refCBLambda) {
+        xassLRArg(camp, refCBLambda);
+        return doLoadVillage(xnewLRLs(camp), new LoadReferrerOption<VillageCB, Village>().xinit(refCBLambda));
+    }
+
+    protected NestedReferrerListGateway<Village> doLoadVillage(List<Camp> campList, LoadReferrerOption<VillageCB, Village> option) {
+        return helpLoadReferrerInternally(campList, option, "villageList");
     }
 
     // ===================================================================================

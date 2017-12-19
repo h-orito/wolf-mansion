@@ -45,7 +45,22 @@ public class VillageDbm extends AbstractDBMeta {
     protected void xsetupEpg() {
         setupEpg(_epgMap, et -> ((Village)et).getVilalgeId(), (et, vl) -> ((Village)et).setVilalgeId(cti(vl)), "vilalgeId");
         setupEpg(_epgMap, et -> ((Village)et).getVillageDisplayName(), (et, vl) -> ((Village)et).setVillageDisplayName((String)vl), "villageDisplayName");
-        setupEpg(_epgMap, et -> ((Village)et).getWinCampCode(), (et, vl) -> ((Village)et).setWinCampCode((String)vl), "winCampCode");
+        setupEpg(_epgMap, et -> ((Village)et).getVillageStatusCode(), (et, vl) -> {
+            CDef.VillageStatus cls = (CDef.VillageStatus)gcls(et, columnVillageStatusCode(), vl);
+            if (cls != null) {
+                ((Village)et).setVillageStatusCodeAsVillageStatus(cls);
+            } else {
+                ((Village)et).mynativeMappingVillageStatusCode((String)vl);
+            }
+        }, "villageStatusCode");
+        setupEpg(_epgMap, et -> ((Village)et).getWinCampCode(), (et, vl) -> {
+            CDef.Camp cls = (CDef.Camp)gcls(et, columnWinCampCode(), vl);
+            if (cls != null) {
+                ((Village)et).setWinCampCodeAsCamp(cls);
+            } else {
+                ((Village)et).mynativeMappingWinCampCode((String)vl);
+            }
+        }, "winCampCode");
         setupEpg(_epgMap, et -> ((Village)et).getRegisterDatetime(), (et, vl) -> ((Village)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((Village)et).getRegisterTrace(), (et, vl) -> ((Village)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((Village)et).getUpdateDatetime(), (et, vl) -> ((Village)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -61,6 +76,8 @@ public class VillageDbm extends AbstractDBMeta {
     { xsetupEfpg(); }
     @SuppressWarnings("unchecked")
     protected void xsetupEfpg() {
+        setupEfpg(_efpgMap, et -> ((Village)et).getVillageStatus(), (et, vl) -> ((Village)et).setVillageStatus((OptionalEntity<VillageStatus>)vl), "villageStatus");
+        setupEfpg(_efpgMap, et -> ((Village)et).getCamp(), (et, vl) -> ((Village)et).setCamp((OptionalEntity<Camp>)vl), "camp");
         setupEfpg(_efpgMap, et -> ((Village)et).getVillageSettingsAsOne(), (et, vl) -> ((Village)et).setVillageSettingsAsOne((OptionalEntity<VillageSettings>)vl), "villageSettingsAsOne");
     }
     public PropertyGateway findForeignPropertyGateway(String prop)
@@ -84,7 +101,8 @@ public class VillageDbm extends AbstractDBMeta {
     //                                                                         ===========
     protected final ColumnInfo _columnVilalgeId = cci("VILALGE_ID", "VILALGE_ID", null, null, Integer.class, "vilalgeId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "messageList,villagePlayerList", null, false);
     protected final ColumnInfo _columnVillageDisplayName = cci("VILLAGE_DISPLAY_NAME", "VILLAGE_DISPLAY_NAME", null, null, String.class, "villageDisplayName", null, false, false, true, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnWinCampCode = cci("WIN_CAMP_CODE", "WIN_CAMP_CODE", null, null, String.class, "winCampCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnVillageStatusCode = cci("VILLAGE_STATUS_CODE", "VILLAGE_STATUS_CODE", null, null, String.class, "villageStatusCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "villageStatus", null, CDef.DefMeta.VillageStatus, false);
+    protected final ColumnInfo _columnWinCampCode = cci("WIN_CAMP_CODE", "WIN_CAMP_CODE", null, null, String.class, "winCampCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, "camp", null, CDef.DefMeta.Camp, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -101,7 +119,12 @@ public class VillageDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnVillageDisplayName() { return _columnVillageDisplayName; }
     /**
-     * WIN_CAMP_CODE: {VARCHAR(20)}
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnVillageStatusCode() { return _columnVillageStatusCode; }
+    /**
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnWinCampCode() { return _columnWinCampCode; }
@@ -130,6 +153,7 @@ public class VillageDbm extends AbstractDBMeta {
         List<ColumnInfo> ls = newArrayList();
         ls.add(columnVilalgeId());
         ls.add(columnVillageDisplayName());
+        ls.add(columnVillageStatusCode());
         ls.add(columnWinCampCode());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
@@ -159,12 +183,28 @@ public class VillageDbm extends AbstractDBMeta {
     //                                      Foreign Property
     //                                      ----------------
     /**
+     * VILLAGE_STATUS by my VILLAGE_STATUS_CODE, named 'villageStatus'.
+     * @return The information object of foreign property. (NotNull)
+     */
+    public ForeignInfo foreignVillageStatus() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillageStatusCode(), VillageStatusDbm.getInstance().columnVillageStatusCode());
+        return cfi("FK_VILLAGE_VILLAGE_STATUS", "villageStatus", this, VillageStatusDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villageList", false);
+    }
+    /**
+     * CAMP by my WIN_CAMP_CODE, named 'camp'.
+     * @return The information object of foreign property. (NotNull)
+     */
+    public ForeignInfo foreignCamp() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnWinCampCode(), CampDbm.getInstance().columnCampCode());
+        return cfi("FK_VILLAGE_CAMP", "camp", this, CampDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villageList", false);
+    }
+    /**
      * village_settings by VILLAGE_ID, named 'villageSettingsAsOne'.
      * @return The information object of foreign property(referrer-as-one). (NotNull)
      */
     public ForeignInfo foreignVillageSettingsAsOne() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVilalgeId(), VillageSettingsDbm.getInstance().columnVillageId());
-        return cfi("FK_VILLAGE_SETTINGS_VILLAGE", "villageSettingsAsOne", this, VillageSettingsDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, true, false, true, false, null, null, false, "village", false);
+        return cfi("FK_VILLAGE_SETTINGS_VILLAGE", "villageSettingsAsOne", this, VillageSettingsDbm.getInstance(), mp, 2, org.dbflute.optional.OptionalEntity.class, true, false, true, false, null, null, false, "village", false);
     }
 
     // -----------------------------------------------------

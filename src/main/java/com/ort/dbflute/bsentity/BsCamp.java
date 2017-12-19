@@ -7,6 +7,7 @@ import org.dbflute.dbmeta.DBMeta;
 import org.dbflute.dbmeta.AbstractEntity;
 import org.dbflute.dbmeta.accessory.DomainEntity;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.*;
 
 /**
@@ -32,13 +33,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [referrer table]
- *     SKILL
+ *     SKILL, VILLAGE
  *
  * [foreign property]
  *     
  *
  * [referrer property]
- *     skillList
+ *     skillList, villageList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -61,7 +62,7 @@ public abstract class BsCamp extends AbstractEntity implements DomainEntity {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** CAMP_CODE: {PK, NotNull, VARCHAR(20)} */
+    /** CAMP_CODE: {PK, NotNull, VARCHAR(20), classification=Camp} */
     protected String _campCode;
 
     /** CAMP_NAME: {NotNull, VARCHAR(20)} */
@@ -90,6 +91,93 @@ public abstract class BsCamp extends AbstractEntity implements DomainEntity {
     }
 
     // ===================================================================================
+    //                                                             Classification Property
+    //                                                             =======================
+    /**
+     * Get the value of campCode as the classification of Camp. <br>
+     * CAMP_CODE: {PK, NotNull, VARCHAR(20), classification=Camp} <br>
+     * 陣営
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Camp getCampCodeAsCamp() {
+        return CDef.Camp.codeOf(getCampCode());
+    }
+
+    /**
+     * Set the value of campCode as the classification of Camp. <br>
+     * CAMP_CODE: {PK, NotNull, VARCHAR(20), classification=Camp} <br>
+     * 陣営
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setCampCodeAsCamp(CDef.Camp cdef) {
+        setCampCode(cdef != null ? cdef.code() : null);
+    }
+
+    // ===================================================================================
+    //                                                              Classification Setting
+    //                                                              ======================
+    /**
+     * Set the value of campCode as 狐陣営 (FOX). <br>
+     * 狐陣営
+     */
+    public void setCampCode_狐陣営() {
+        setCampCodeAsCamp(CDef.Camp.狐陣営);
+    }
+
+    /**
+     * Set the value of campCode as 村人陣営 (VILLAGER). <br>
+     * 村人陣営
+     */
+    public void setCampCode_村人陣営() {
+        setCampCodeAsCamp(CDef.Camp.村人陣営);
+    }
+
+    /**
+     * Set the value of campCode as 人狼陣営 (WEREWOLF). <br>
+     * 人狼陣営
+     */
+    public void setCampCode_人狼陣営() {
+        setCampCodeAsCamp(CDef.Camp.人狼陣営);
+    }
+
+    // ===================================================================================
+    //                                                        Classification Determination
+    //                                                        ============================
+    /**
+     * Is the value of campCode 狐陣営? <br>
+     * 狐陣営
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isCampCode狐陣営() {
+        CDef.Camp cdef = getCampCodeAsCamp();
+        return cdef != null ? cdef.equals(CDef.Camp.狐陣営) : false;
+    }
+
+    /**
+     * Is the value of campCode 村人陣営? <br>
+     * 村人陣営
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isCampCode村人陣営() {
+        CDef.Camp cdef = getCampCodeAsCamp();
+        return cdef != null ? cdef.equals(CDef.Camp.村人陣営) : false;
+    }
+
+    /**
+     * Is the value of campCode 人狼陣営? <br>
+     * 人狼陣営
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isCampCode人狼陣営() {
+        CDef.Camp cdef = getCampCodeAsCamp();
+        return cdef != null ? cdef.equals(CDef.Camp.人狼陣営) : false;
+    }
+
+    // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
     // ===================================================================================
@@ -113,6 +201,26 @@ public abstract class BsCamp extends AbstractEntity implements DomainEntity {
      */
     public void setSkillList(List<Skill> skillList) {
         _skillList = skillList;
+    }
+
+    /** VILLAGE by WIN_CAMP_CODE, named 'villageList'. */
+    protected List<Village> _villageList;
+
+    /**
+     * [get] VILLAGE by WIN_CAMP_CODE, named 'villageList'.
+     * @return The entity list of referrer property 'villageList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<Village> getVillageList() {
+        if (_villageList == null) { _villageList = newReferrerList(); }
+        return _villageList;
+    }
+
+    /**
+     * [set] VILLAGE by WIN_CAMP_CODE, named 'villageList'.
+     * @param villageList The entity list of referrer property 'villageList'. (NullAllowed)
+     */
+    public void setVillageList(List<Village> villageList) {
+        _villageList = villageList;
     }
 
     protected <ELEMENT> List<ELEMENT> newReferrerList() { // overriding to import
@@ -146,6 +254,8 @@ public abstract class BsCamp extends AbstractEntity implements DomainEntity {
         StringBuilder sb = new StringBuilder();
         if (_skillList != null) { for (Skill et : _skillList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "skillList")); } } }
+        if (_villageList != null) { for (Village et : _villageList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "villageList")); } } }
         return sb.toString();
     }
 
@@ -166,6 +276,8 @@ public abstract class BsCamp extends AbstractEntity implements DomainEntity {
         StringBuilder sb = new StringBuilder();
         if (_skillList != null && !_skillList.isEmpty())
         { sb.append(dm).append("skillList"); }
+        if (_villageList != null && !_villageList.isEmpty())
+        { sb.append(dm).append("villageList"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }
@@ -181,7 +293,7 @@ public abstract class BsCamp extends AbstractEntity implements DomainEntity {
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] CAMP_CODE: {PK, NotNull, VARCHAR(20)} <br>
+     * [get] CAMP_CODE: {PK, NotNull, VARCHAR(20), classification=Camp} <br>
      * 陣営コード
      * @return The value of the column 'CAMP_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -191,11 +303,12 @@ public abstract class BsCamp extends AbstractEntity implements DomainEntity {
     }
 
     /**
-     * [set] CAMP_CODE: {PK, NotNull, VARCHAR(20)} <br>
+     * [set] CAMP_CODE: {PK, NotNull, VARCHAR(20), classification=Camp} <br>
      * 陣営コード
      * @param campCode The value of the column 'CAMP_CODE'. (basically NotNull if update: for the constraint)
      */
-    public void setCampCode(String campCode) {
+    protected void setCampCode(String campCode) {
+        checkClassificationCode("CAMP_CODE", CDef.DefMeta.Camp, campCode);
         registerModifiedProperty("campCode");
         _campCode = campCode;
     }
@@ -218,5 +331,13 @@ public abstract class BsCamp extends AbstractEntity implements DomainEntity {
     public void setCampName(String campName) {
         registerModifiedProperty("campName");
         _campName = campName;
+    }
+
+    /**
+     * For framework so basically DON'T use this method.
+     * @param campCode The value of the column 'CAMP_CODE'. (basically NotNull if update: for the constraint)
+     */
+    public void mynativeMappingCampCode(String campCode) {
+        setCampCode(campCode);
     }
 }

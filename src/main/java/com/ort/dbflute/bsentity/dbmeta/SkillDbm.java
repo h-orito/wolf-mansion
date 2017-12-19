@@ -43,9 +43,23 @@ public class SkillDbm extends AbstractDBMeta {
     protected final Map<String, PropertyGateway> _epgMap = newHashMap();
     { xsetupEpg(); }
     protected void xsetupEpg() {
-        setupEpg(_epgMap, et -> ((Skill)et).getSkillCode(), (et, vl) -> ((Skill)et).setSkillCode((String)vl), "skillCode");
+        setupEpg(_epgMap, et -> ((Skill)et).getSkillCode(), (et, vl) -> {
+            CDef.Skill cls = (CDef.Skill)gcls(et, columnSkillCode(), vl);
+            if (cls != null) {
+                ((Skill)et).setSkillCodeAsSkill(cls);
+            } else {
+                ((Skill)et).mynativeMappingSkillCode((String)vl);
+            }
+        }, "skillCode");
         setupEpg(_epgMap, et -> ((Skill)et).getSkillName(), (et, vl) -> ((Skill)et).setSkillName((String)vl), "skillName");
-        setupEpg(_epgMap, et -> ((Skill)et).getCampCode(), (et, vl) -> ((Skill)et).setCampCode((String)vl), "campCode");
+        setupEpg(_epgMap, et -> ((Skill)et).getCampCode(), (et, vl) -> {
+            CDef.Camp cls = (CDef.Camp)gcls(et, columnCampCode(), vl);
+            if (cls != null) {
+                ((Skill)et).setCampCodeAsCamp(cls);
+            } else {
+                ((Skill)et).mynativeMappingCampCode((String)vl);
+            }
+        }, "campCode");
     }
     public PropertyGateway findPropertyGateway(String prop)
     { return doFindEpg(_epgMap, prop); }
@@ -78,12 +92,12 @@ public class SkillDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnSkillCode = cci("SKILL_CODE", "SKILL_CODE", null, null, String.class, "skillCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "villagePlayerList", null, false);
+    protected final ColumnInfo _columnSkillCode = cci("SKILL_CODE", "SKILL_CODE", null, null, String.class, "skillCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "villagePlayerList", CDef.DefMeta.Skill, false);
     protected final ColumnInfo _columnSkillName = cci("SKILL_NAME", "SKILL_NAME", null, null, String.class, "skillName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnCampCode = cci("CAMP_CODE", "CAMP_CODE", null, null, String.class, "campCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "camp", null, null, false);
+    protected final ColumnInfo _columnCampCode = cci("CAMP_CODE", "CAMP_CODE", null, null, String.class, "campCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "camp", null, CDef.DefMeta.Camp, false);
 
     /**
-     * SKILL_CODE: {PK, NotNull, VARCHAR(20)}
+     * SKILL_CODE: {PK, NotNull, VARCHAR(20), classification=Skill}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnSkillCode() { return _columnSkillCode; }
@@ -93,7 +107,7 @@ public class SkillDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnSkillName() { return _columnSkillName; }
     /**
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp}
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCampCode() { return _columnCampCode; }

@@ -311,7 +311,7 @@ dl.procedurelist dd.column pre {
 		<td><a href="#camp" title="type=TABLE, primaryKey={CAMP_CODE}, nameLength=4, columnCount=2">CAMP</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
-		<td class="relcell"><a href="#skill" title="FK_SKILL_CAMP">SKILL</a></td>
+		<td class="relcell"><a href="#skill" title="FK_SKILL_CAMP">SKILL</a>, <a href="#village" title="FK_VILLAGE_CAMP">VILLAGE</a></td>
 		<td class="commentcell"> 陣営</td>
 		<td class="subcell">Camp</td>
 	</tr>
@@ -380,9 +380,9 @@ dl.procedurelist dd.column pre {
 	</tr>
 	<tr>
 		<td class="rownumcell">10</td>
-		<td><a href="#village" title="type=TABLE, primaryKey={VILALGE_ID}, nameLength=7, columnCount=7">VILLAGE</a></td>
+		<td><a href="#village" title="type=TABLE, primaryKey={VILALGE_ID}, nameLength=7, columnCount=8">VILLAGE</a></td>
 		<td class="typecell">TABLE</td>
-		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#village_status" title="FK_VILLAGE_VILLAGE_STATUS">VILLAGE_STATUS</a>, <a href="#camp" title="FK_VILLAGE_CAMP">CAMP</a></td>
 		<td class="relcell"><a href="#message" title="FK_MESSAGE_VILLAGE">MESSAGE</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE_PLAYER</a>, <a href="#village_settings" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE_SETTINGS</a></td>
 		<td class="commentcell"> 村</td>
 		<td class="subcell">Village</td>
@@ -404,6 +404,15 @@ dl.procedurelist dd.column pre {
 		<td class="relcell">&nbsp;</td>
 		<td class="commentcell"> 村設定</td>
 		<td class="subcell">VillageSettings</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">13</td>
+		<td><a href="#village_status" title="type=TABLE, primaryKey={VILLAGE_STATUS_CODE}, nameLength=14, columnCount=2">VILLAGE_STATUS</a></td>
+		<td class="typecell">TABLE</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#village" title="FK_VILLAGE_VILLAGE_STATUS">VILLAGE</a></td>
+		<td class="commentcell"> 村ステータス</td>
+		<td class="subcell">VillageStatus</td>
 	</tr>
 	</tbody>
 </table>
@@ -502,8 +511,8 @@ CAMP
 		<td class="typecell">VARCHAR</td>
 		<td class="sizecell"> 20 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell"><a href="#skill" title="FK_SKILL_CAMP">SKILL</a>&nbsp;</td>
-		<td class="relcell"> &nbsp;</td>
+		<td class="relcell"><a href="#skill" title="FK_SKILL_CAMP">SKILL</a>,<br><a href="#village" title="FK_VILLAGE_CAMP">VILLAGE</a>&nbsp;</td>
+		<td class="relcell"><a href="#CampCls">Camp</a></td>
 		<td class="commentcell"> 陣営コード</td>
 		<td class="subcell">campCode</td>
 		<td class="subcell">String</td>
@@ -889,10 +898,10 @@ MESSAGE
 		<td class="flgcell">*</td>
 		<td id="message_message_type_code">MESSAGE_TYPE_CODE</td>
 		<td class="typecell">VARCHAR</td>
-		<td class="sizecell"> 10 </td>
+		<td class="sizecell"> 20 </td>
 		<td class="relcell"><a href="#message_type" title="FK_MESSAGE_MESSAGE_TYPE">MESSAGE_TYPE</a>&nbsp;</td>
 		<td class="relcell">&nbsp;</td>
-		<td class="relcell"> &nbsp;</td>
+		<td class="relcell"><a href="#MessageTypeCls">MessageType</a></td>
 		<td class="commentcell"> メッセージ種別コード</td>
 		<td class="subcell">messageTypeCode</td>
 		<td class="subcell">String</td>
@@ -1050,10 +1059,10 @@ MESSAGE_TYPE
 		<td class="flgcell">*</td>
 		<td id="message_type_message_type_code">MESSAGE_TYPE_CODE</td>
 		<td class="typecell">VARCHAR</td>
-		<td class="sizecell"> 10 </td>
+		<td class="sizecell"> 20 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
 		<td class="relcell"><a href="#message" title="FK_MESSAGE_MESSAGE_TYPE">MESSAGE</a>&nbsp;</td>
-		<td class="relcell"> &nbsp;</td>
+		<td class="relcell"><a href="#MessageTypeCls">MessageType</a></td>
 		<td class="commentcell"> メッセージ種別コード</td>
 		<td class="subcell">messageTypeCode</td>
 		<td class="subcell">String</td>
@@ -1273,7 +1282,7 @@ SKILL
 		<td class="sizecell"> 20 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
 		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL">VILLAGE_PLAYER</a>&nbsp;</td>
-		<td class="relcell"> &nbsp;</td>
+		<td class="relcell"><a href="#SkillCls">Skill</a></td>
 		<td class="commentcell"> 役職コード</td>
 		<td class="subcell">skillCode</td>
 		<td class="subcell">String</td>
@@ -1307,13 +1316,13 @@ SKILL
 		<td class="sizecell"> 20 </td>
 		<td class="relcell"><a href="#camp" title="FK_SKILL_CAMP">CAMP</a>&nbsp;</td>
 		<td class="relcell">&nbsp;</td>
-		<td class="relcell"> &nbsp;</td>
+		<td class="relcell"><a href="#CampCls">Camp</a></td>
 		<td class="commentcell"> 陣営コード</td>
 		<td class="subcell">campCode</td>
 		<td class="subcell">String</td>
 	</tr>
 </table>
-<h2 id="village" title="type=TABLE, primaryKey={VILALGE_ID}, nameLength=7, columnCount=7">
+<h2 id="village" title="type=TABLE, primaryKey={VILALGE_ID}, nameLength=7, columnCount=8">
 VILLAGE
 </h2>
 <p class="tablecomment">村</p>
@@ -1376,20 +1385,37 @@ VILLAGE
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_VILLAGE_VILLAGE_STATUS(VILLAGE_STATUS_CODE)">o</td>
+		<td class="flgcell">*</td>
+		<td id="village_village_status_code">VILLAGE_STATUS_CODE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell"><a href="#village_status" title="FK_VILLAGE_VILLAGE_STATUS">VILLAGE_STATUS</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#VillageStatusCls">VillageStatus</a></td>
+		<td class="commentcell"> 村ステータスコード</td>
+		<td class="subcell">villageStatusCode</td>
+		<td class="subcell">String</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">4</td>
 		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_VILLAGE_CAMP(WIN_CAMP_CODE)">o</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td id="village_win_camp_code">WIN_CAMP_CODE</td>
 		<td class="typecell">VARCHAR</td>
 		<td class="sizecell"> 20 </td>
-		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell"><a href="#camp" title="FK_VILLAGE_CAMP">CAMP</a>&nbsp;</td>
 		<td class="relcell">&nbsp;</td>
-		<td class="relcell"> &nbsp;</td>
+		<td class="relcell"><a href="#CampCls">Camp</a></td>
 		<td class="commentcell"> 勝利陣営コード</td>
 		<td class="subcell">winCampCode</td>
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">4</td>
+		<td class="rownumcell">5</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1406,7 +1432,7 @@ VILLAGE
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">5</td>
+		<td class="rownumcell">6</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1423,7 +1449,7 @@ VILLAGE
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">6</td>
+		<td class="rownumcell">7</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1440,7 +1466,7 @@ VILLAGE
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">7</td>
+		<td class="rownumcell">8</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1561,7 +1587,7 @@ VILLAGE_PLAYER
 		<td class="sizecell"> 20 </td>
 		<td class="relcell"><a href="#skill" title="FK_VILLAGE_PLAYER_SKILL">SKILL</a>&nbsp;</td>
 		<td class="relcell">&nbsp;</td>
-		<td class="relcell"> &nbsp;</td>
+		<td class="relcell"><a href="#SkillCls">Skill</a></td>
 		<td class="commentcell"> 役職コード</td>
 		<td class="subcell">skillCode</td>
 		<td class="subcell">String</td>
@@ -1711,6 +1737,65 @@ VILLAGE_SETTINGS
 		<td class="subcell">Boolean</td>
 	</tr>
 </table>
+<h2 id="village_status" title="type=TABLE, primaryKey={VILLAGE_STATUS_CODE}, nameLength=14, columnCount=2">
+VILLAGE_STATUS
+</h2>
+<p class="tablecomment">村ステータス</p>
+<table>
+	<thead>
+	<tr>
+		<th class="rownumhead">No.</th>
+		<th>PK</th>
+		<th>ID</th>
+		<th>UQ</th>
+		<th>IX</th>
+		<th>Not<br />Null</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Size</th>
+		<th>ForeignTable</th>
+		<th>ReferrerTable</th>
+		<th>Classification</th>
+		<th>ColumnComment</th>
+		<th>PropertyName</th>
+		<th>JavaType</th>
+	</tr>
+	</thead>
+	<tr>
+		<td class="rownumcell">1</td>
+		<td class="flgcell" title="PRIMARY">o</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td id="village_status_village_status_code">VILLAGE_STATUS_CODE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell"><a href="#village" title="FK_VILLAGE_VILLAGE_STATUS">VILLAGE</a>&nbsp;</td>
+		<td class="relcell"><a href="#VillageStatusCls">VillageStatus</a></td>
+		<td class="commentcell"> 村ステータスコード</td>
+		<td class="subcell">villageStatusCode</td>
+		<td class="subcell">String</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td id="village_status_village_status_name">VILLAGE_STATUS_NAME</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"> 村ステータス名</td>
+		<td class="subcell">villageStatusName</td>
+		<td class="subcell">String</td>
+	</tr>
+</table>
 
 <h2 id="cdef">Classification Definition</h2>
 <table>
@@ -1769,6 +1854,207 @@ VILLAGE_SETTINGS
 			<tr>
 				<td>PLAYER</td>
 				<td>プレイヤー</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>Camp</td>
+		<td class="clstypecell">table</td>
+		<td>陣営</td>
+		<td>
+			<table class="child">
+			<tr>
+				<th id="CampCls">Code</th>
+				<th>Name</th>
+				<th>Comment</th>
+			</tr>
+			<tr>
+				<td>FOX</td>
+				<td>狐陣営</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>VILLAGER</td>
+				<td>村人陣営</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>WEREWOLF</td>
+				<td>人狼陣営</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>VillageStatus</td>
+		<td class="clstypecell">table</td>
+		<td>村ステータス</td>
+		<td>
+			<table class="child">
+			<tr>
+				<th id="VillageStatusCls">Code</th>
+				<th>Name</th>
+				<th>Comment</th>
+			</tr>
+			<tr>
+				<td>CANCEL</td>
+				<td>廃村</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>COMPLETED</td>
+				<td>終了</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>EPILOGUE</td>
+				<td>エピローグ</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>IN_PREPARATION</td>
+				<td>募集中</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>IN_PROGRESS</td>
+				<td>進行中</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>WAITING</td>
+				<td>開始待ち</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>Skill</td>
+		<td class="clstypecell">table</td>
+		<td>役職</td>
+		<td>
+			<table class="child">
+			<tr>
+				<th id="SkillCls">Code</th>
+				<th>Name</th>
+				<th>Comment</th>
+			</tr>
+			<tr>
+				<td>CMADMAN</td>
+				<td>C国狂人</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>EVILMEDIUM</td>
+				<td>魔神官</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>FOX</td>
+				<td>妖狐</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>GURU</td>
+				<td>導師</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>HUNTER</td>
+				<td>狩人</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>MADMAN</td>
+				<td>狂人</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>MAISON</td>
+				<td>共有者</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>MEDIUM</td>
+				<td>霊能者</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>SEER</td>
+				<td>占い師</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>STIGMA</td>
+				<td>聖痕者</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>VILLAGER</td>
+				<td>村人</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>WEREWOLF</td>
+				<td>人狼</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>WISE</td>
+				<td>賢者</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>MessageType</td>
+		<td class="clstypecell">table</td>
+		<td>メッセージ種別</td>
+		<td>
+			<table class="child">
+			<tr>
+				<th id="MessageTypeCls">Code</th>
+				<th>Name</th>
+				<th>Comment</th>
+			</tr>
+			<tr>
+				<td>GRAVE_SAY</td>
+				<td>死者の呻き</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>MASON_SAY</td>
+				<td>共鳴発言</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>MONOLOGUE_SAY</td>
+				<td>独り言</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>NORMAL_SAY</td>
+				<td>通常発言</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>PRIVATE_SYSTEM</td>
+				<td>非公開システムメッセージ</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>PUBLIC_SYSTEM</td>
+				<td>公開システムメッセージ</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>WEREWOLF_SAY</td>
+				<td>人狼の囁き</td>
 				<td class="commentcell"> &nbsp;</td>
 			</tr>
 			</table>

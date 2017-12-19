@@ -21,20 +21,20 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-bean of skill.
+ * The base condition-bean of village_status.
  * @author DBFlute(AutoGenerator)
  */
-public class BsSkillCB extends AbstractConditionBean {
+public class BsVillageStatusCB extends AbstractConditionBean {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected SkillCQ _conditionQuery;
+    protected VillageStatusCQ _conditionQuery;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public BsSkillCB() {
+    public BsVillageStatusCB() {
         if (DBFluteConfig.getInstance().isPagingCountLater()) {
             enablePagingCountLater();
         }
@@ -73,7 +73,7 @@ public class BsSkillCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "skill";
+        return "village_status";
     }
 
     // ===================================================================================
@@ -81,23 +81,23 @@ public class BsSkillCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param skillCode : PK, NotNull, VARCHAR(20), classification=Skill. (NotNull)
+     * @param villageStatusCode : PK, NotNull, VARCHAR(20), classification=VillageStatus. (NotNull)
      * @return this. (NotNull)
      */
-    public SkillCB acceptPK(CDef.Skill skillCode) {
-        assertObjectNotNull("skillCode", skillCode);
-        BsSkillCB cb = this;
-        cb.query().setSkillCode_Equal_AsSkill(skillCode);
-        return (SkillCB)this;
+    public VillageStatusCB acceptPK(CDef.VillageStatus villageStatusCode) {
+        assertObjectNotNull("villageStatusCode", villageStatusCode);
+        BsVillageStatusCB cb = this;
+        cb.query().setVillageStatusCode_Equal_AsVillageStatus(villageStatusCode);
+        return (VillageStatusCB)this;
     }
 
     public ConditionBean addOrderBy_PK_Asc() {
-        query().addOrderBy_SkillCode_Asc();
+        query().addOrderBy_VillageStatusCode_Asc();
         return this;
     }
 
     public ConditionBean addOrderBy_PK_Desc() {
-        query().addOrderBy_SkillCode_Desc();
+        query().addOrderBy_VillageStatusCode_Desc();
         return this;
     }
 
@@ -161,34 +161,34 @@ public class BsSkillCB extends AbstractConditionBean {
      * </pre>
      * @return The instance of condition-query for base-point table to set up query. (NotNull)
      */
-    public SkillCQ query() {
+    public VillageStatusCQ query() {
         assertQueryPurpose(); // assert only when user-public query 
         return doGetConditionQuery();
     }
 
-    public SkillCQ xdfgetConditionQuery() { // public for parameter comment and internal
+    public VillageStatusCQ xdfgetConditionQuery() { // public for parameter comment and internal
         return doGetConditionQuery();
     }
 
-    protected SkillCQ doGetConditionQuery() {
+    protected VillageStatusCQ doGetConditionQuery() {
         if (_conditionQuery == null) {
             _conditionQuery = createLocalCQ();
         }
         return _conditionQuery;
     }
 
-    protected SkillCQ createLocalCQ() {
+    protected VillageStatusCQ createLocalCQ() {
         return xcreateCQ(null, getSqlClause(), getSqlClause().getBasePointAliasName(), 0);
     }
 
-    protected SkillCQ xcreateCQ(ConditionQuery childQuery, SqlClause sqlClause, String aliasName, int nestLevel) {
-        SkillCQ cq = xnewCQ(childQuery, sqlClause, aliasName, nestLevel);
+    protected VillageStatusCQ xcreateCQ(ConditionQuery childQuery, SqlClause sqlClause, String aliasName, int nestLevel) {
+        VillageStatusCQ cq = xnewCQ(childQuery, sqlClause, aliasName, nestLevel);
         cq.xsetBaseCB(this);
         return cq;
     }
 
-    protected SkillCQ xnewCQ(ConditionQuery childQuery, SqlClause sqlClause, String aliasName, int nestLevel) {
-        return new SkillCQ(childQuery, sqlClause, aliasName, nestLevel);
+    protected VillageStatusCQ xnewCQ(ConditionQuery childQuery, SqlClause sqlClause, String aliasName, int nestLevel) {
+        return new VillageStatusCQ(childQuery, sqlClause, aliasName, nestLevel);
     }
 
     /**
@@ -212,10 +212,10 @@ public class BsSkillCB extends AbstractConditionBean {
      * </pre>
      * @param unionCBLambda The callback for query of 'union'. (NotNull)
      */
-    public void union(UnionQuery<SkillCB> unionCBLambda) {
-        final SkillCB cb = new SkillCB(); cb.xsetupForUnion(this); xsyncUQ(cb); 
+    public void union(UnionQuery<VillageStatusCB> unionCBLambda) {
+        final VillageStatusCB cb = new VillageStatusCB(); cb.xsetupForUnion(this); xsyncUQ(cb); 
         try { lock(); unionCBLambda.query(cb); } finally { unlock(); } xsaveUCB(cb);
-        final SkillCQ cq = cb.query(); query().xsetUnionQuery(cq);
+        final VillageStatusCQ cq = cb.query(); query().xsetUnionQuery(cq);
     }
 
     /**
@@ -229,35 +229,15 @@ public class BsSkillCB extends AbstractConditionBean {
      * </pre>
      * @param unionCBLambda The callback for query of 'union all'. (NotNull)
      */
-    public void unionAll(UnionQuery<SkillCB> unionCBLambda) {
-        final SkillCB cb = new SkillCB(); cb.xsetupForUnion(this); xsyncUQ(cb);
+    public void unionAll(UnionQuery<VillageStatusCB> unionCBLambda) {
+        final VillageStatusCB cb = new VillageStatusCB(); cb.xsetupForUnion(this); xsyncUQ(cb);
         try { lock(); unionCBLambda.query(cb); } finally { unlock(); } xsaveUCB(cb);
-        final SkillCQ cq = cb.query(); query().xsetUnionAllQuery(cq);
+        final VillageStatusCQ cq = cb.query(); query().xsetUnionAllQuery(cq);
     }
 
     // ===================================================================================
     //                                                                         SetupSelect
     //                                                                         ===========
-    /**
-     * Set up relation columns to select clause. <br>
-     * CAMP by my CAMP_CODE, named 'camp'.
-     * <pre>
-     * <span style="color: #0000C0">skillBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_Camp()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
-     *     <span style="color: #553000">cb</span>.query().set...
-     * }).alwaysPresent(<span style="color: #553000">skill</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     ... = <span style="color: #553000">skill</span>.<span style="color: #CC4747">getCamp()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
-     * });
-     * </pre>
-     */
-    public void setupSelect_Camp() {
-        assertSetupSelectPurpose("camp");
-        if (hasSpecifiedLocalColumn()) {
-            specify().columnCampCode();
-        }
-        doSetupSelect(() -> query().queryCamp());
-    }
-
     // [DBFlute-0.7.4]
     // ===================================================================================
     //                                                                             Specify
@@ -298,83 +278,53 @@ public class BsSkillCB extends AbstractConditionBean {
         return _specification != null && _specification.hasSpecifiedColumn();
     }
 
-    public static class HpSpecification extends HpAbstractSpecification<SkillCQ> {
-        protected CampCB.HpSpecification _camp;
-        public HpSpecification(ConditionBean baseCB, HpSpQyCall<SkillCQ> qyCall
+    public static class HpSpecification extends HpAbstractSpecification<VillageStatusCQ> {
+        public HpSpecification(ConditionBean baseCB, HpSpQyCall<VillageStatusCQ> qyCall
                              , HpCBPurpose purpose, DBMetaProvider dbmetaProvider
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * SKILL_CODE: {PK, NotNull, VARCHAR(20), classification=Skill}
+         * VILLAGE_STATUS_CODE: {PK, NotNull, VARCHAR(20), classification=VillageStatus}
          * @return The information object of specified column. (NotNull)
          */
-        public SpecifiedColumn columnSkillCode() { return doColumn("SKILL_CODE"); }
+        public SpecifiedColumn columnVillageStatusCode() { return doColumn("VILLAGE_STATUS_CODE"); }
         /**
-         * SKILL_NAME: {NotNull, VARCHAR(20)}
+         * VILLAGE_STATUS_NAME: {NotNull, VARCHAR(20)}
          * @return The information object of specified column. (NotNull)
          */
-        public SpecifiedColumn columnSkillName() { return doColumn("SKILL_NAME"); }
-        /**
-         * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
-         * @return The information object of specified column. (NotNull)
-         */
-        public SpecifiedColumn columnCampCode() { return doColumn("CAMP_CODE"); }
+        public SpecifiedColumn columnVillageStatusName() { return doColumn("VILLAGE_STATUS_NAME"); }
         public void everyColumn() { doEveryColumn(); }
         public void exceptRecordMetaColumn() { doExceptRecordMetaColumn(); }
         @Override
         protected void doSpecifyRequiredColumn() {
-            columnSkillCode(); // PK
-            if (qyCall().qy().hasConditionQueryCamp()
-                    || qyCall().qy().xgetReferrerQuery() instanceof CampCQ) {
-                columnCampCode(); // FK or one-to-one referrer
-            }
+            columnVillageStatusCode(); // PK
         }
         @Override
-        protected String getTableDbName() { return "skill"; }
-        /**
-         * Prepare to specify functions about relation table. <br>
-         * CAMP by my CAMP_CODE, named 'camp'.
-         * @return The instance for specification for relation table to specify. (NotNull)
-         */
-        public CampCB.HpSpecification specifyCamp() {
-            assertRelation("camp");
-            if (_camp == null) {
-                _camp = new CampCB.HpSpecification(_baseCB
-                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryCamp()
-                                    , () -> _qyCall.qy().queryCamp())
-                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
-                if (xhasSyncQyCall()) { // inherits it
-                    _camp.xsetSyncQyCall(xcreateSpQyCall(
-                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryCamp()
-                      , () -> xsyncQyCall().qy().queryCamp()));
-                }
-            }
-            return _camp;
-        }
+        protected String getTableDbName() { return "village_status"; }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from village_player where ...) as FOO_MAX} <br>
-         * VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerList'.
+         * {select max(FOO) from village where ...) as FOO_MAX} <br>
+         * VILLAGE by VILLAGE_STATUS_CODE, named 'villageList'.
          * <pre>
-         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-         *     playerCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
-         *     playerCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
-         * }, VillagePlayer.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(villageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     villageCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     villageCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, Village.<span style="color: #CC4747">ALIAS_foo...</span>);
          * </pre>
          * @return The object to set up a function for referrer table. (NotNull)
          */
-        public HpSDRFunction<VillagePlayerCB, SkillCQ> derivedVillagePlayer() {
-            assertDerived("villagePlayerList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillagePlayerCB> sq, SkillCQ cq, String al, DerivedReferrerOption op)
-                    -> cq.xsderiveVillagePlayerList(fn, sq, al, op), _dbmetaProvider);
+        public HpSDRFunction<VillageCB, VillageStatusCQ> derivedVillage() {
+            assertDerived("villageList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillageCB> sq, VillageStatusCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveVillageList(fn, sq, al, op), _dbmetaProvider);
         }
         /**
          * Prepare for (Specify)MyselfDerived (SubQuery).
          * @return The object to set up a function for myself table. (NotNull)
          */
-        public HpSDRFunction<SkillCB, SkillCQ> myselfDerived() {
+        public HpSDRFunction<VillageStatusCB, VillageStatusCQ> myselfDerived() {
             assertDerived("myselfDerived"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<SkillCB> sq, SkillCQ cq, String al, DerivedReferrerOption op)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillageStatusCB> sq, VillageStatusCQ cq, String al, DerivedReferrerOption op)
                     -> cq.xsmyselfDerive(fn, sq, al, op), _dbmetaProvider);
         }
     }
@@ -387,9 +337,9 @@ public class BsSkillCB extends AbstractConditionBean {
      * This is very specialty so you can get the frontier spirit. Bon voyage!
      * @return The condition-bean for dream cruise, which is linked to main condition-bean.
      */
-    public SkillCB dreamCruiseCB() {
-        SkillCB cb = new SkillCB();
-        cb.xsetupForDreamCruise((SkillCB) this);
+    public VillageStatusCB dreamCruiseCB() {
+        VillageStatusCB cb = new VillageStatusCB();
+        cb.xsetupForDreamCruise((VillageStatusCB) this);
         return cb;
     }
 
@@ -414,15 +364,15 @@ public class BsSkillCB extends AbstractConditionBean {
      * @param colCBLambda The callback for specify-query of left column. (NotNull)
      * @return The object for setting up operand and right column. (NotNull)
      */
-    public HpColQyOperand<SkillCB> columnQuery(final SpecifyQuery<SkillCB> colCBLambda) {
+    public HpColQyOperand<VillageStatusCB> columnQuery(final SpecifyQuery<VillageStatusCB> colCBLambda) {
         return xcreateColQyOperand((rightSp, operand) -> {
             return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), colCBLambda, rightSp, operand);
         });
     }
 
-    protected SkillCB xcreateColumnQueryCB() {
-        SkillCB cb = new SkillCB();
-        cb.xsetupForColumnQuery((SkillCB)this);
+    protected VillageStatusCB xcreateColumnQueryCB() {
+        VillageStatusCB cb = new VillageStatusCB();
+        cb.xsetupForColumnQuery((VillageStatusCB)this);
         return cb;
     }
 
@@ -442,8 +392,8 @@ public class BsSkillCB extends AbstractConditionBean {
      * </pre>
      * @param orCBLambda The callback for query of or-condition. (NotNull)
      */
-    public void orScopeQuery(OrQuery<SkillCB> orCBLambda) {
-        xorSQ((SkillCB)this, orCBLambda);
+    public void orScopeQuery(OrQuery<VillageStatusCB> orCBLambda) {
+        xorSQ((VillageStatusCB)this, orCBLambda);
     }
 
     /**
@@ -461,8 +411,8 @@ public class BsSkillCB extends AbstractConditionBean {
      * </pre>
      * @param andCBLambda The callback for query of and-condition. (NotNull)
      */
-    public void orScopeQueryAndPart(AndQuery<SkillCB> andCBLambda) {
-        xorSQAP((SkillCB)this, andCBLambda);
+    public void orScopeQueryAndPart(AndQuery<VillageStatusCB> andCBLambda) {
+        xorSQAP((VillageStatusCB)this, andCBLambda);
     }
 
     // ===================================================================================
@@ -492,11 +442,11 @@ public class BsSkillCB extends AbstractConditionBean {
     //                                                                        ============
     @Override
     protected void xprepareSyncQyCall(ConditionBean mainCB) {
-        final SkillCB cb;
+        final VillageStatusCB cb;
         if (mainCB != null) {
-            cb = (SkillCB)mainCB;
+            cb = (VillageStatusCB)mainCB;
         } else {
-            cb = new SkillCB();
+            cb = new VillageStatusCB();
         }
         specify().xsetSyncQyCall(xcreateSpQyCall(() -> true, () -> cb.query()));
     }
@@ -505,8 +455,8 @@ public class BsSkillCB extends AbstractConditionBean {
     //                                                                            Internal
     //                                                                            ========
     // very internal (for suppressing warn about 'Not Use Import')
-    protected String xgetConditionBeanClassNameInternally() { return SkillCB.class.getName(); }
-    protected String xgetConditionQueryClassNameInternally() { return SkillCQ.class.getName(); }
+    protected String xgetConditionBeanClassNameInternally() { return VillageStatusCB.class.getName(); }
+    protected String xgetConditionQueryClassNameInternally() { return VillageStatusCQ.class.getName(); }
     protected String xgetSubQueryClassNameInternally() { return SubQuery.class.getName(); }
     protected String xgetConditionOptionClassNameInternally() { return ConditionOption.class.getName(); }
 }

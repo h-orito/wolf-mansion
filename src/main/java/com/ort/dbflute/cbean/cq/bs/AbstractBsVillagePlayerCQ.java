@@ -671,11 +671,125 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      * @param skillCode The value of skillCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setSkillCode_Equal(String skillCode) {
+    protected void setSkillCode_Equal(String skillCode) {
         doSetSkillCode_Equal(fRES(skillCode));
+    }
+
+    /**
+     * Equal(=). As Skill. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * 役職
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setSkillCode_Equal_AsSkill(CDef.Skill cdef) {
+        doSetSkillCode_Equal(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * Equal(=). As C国狂人 (CMADMAN). And OnlyOnceRegistered. <br>
+     * C国狂人
+     */
+    public void setSkillCode_Equal_C国狂人() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * Equal(=). As 魔神官 (EVILMEDIUM). And OnlyOnceRegistered. <br>
+     * 魔神官
+     */
+    public void setSkillCode_Equal_魔神官() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.魔神官);
+    }
+
+    /**
+     * Equal(=). As 妖狐 (FOX). And OnlyOnceRegistered. <br>
+     * 妖狐
+     */
+    public void setSkillCode_Equal_妖狐() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.妖狐);
+    }
+
+    /**
+     * Equal(=). As 導師 (GURU). And OnlyOnceRegistered. <br>
+     * 導師
+     */
+    public void setSkillCode_Equal_導師() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.導師);
+    }
+
+    /**
+     * Equal(=). As 狩人 (HUNTER). And OnlyOnceRegistered. <br>
+     * 狩人
+     */
+    public void setSkillCode_Equal_狩人() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.狩人);
+    }
+
+    /**
+     * Equal(=). As 狂人 (MADMAN). And OnlyOnceRegistered. <br>
+     * 狂人
+     */
+    public void setSkillCode_Equal_狂人() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.狂人);
+    }
+
+    /**
+     * Equal(=). As 共有者 (MAISON). And OnlyOnceRegistered. <br>
+     * 共有者
+     */
+    public void setSkillCode_Equal_共有者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.共有者);
+    }
+
+    /**
+     * Equal(=). As 霊能者 (MEDIUM). And OnlyOnceRegistered. <br>
+     * 霊能者
+     */
+    public void setSkillCode_Equal_霊能者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.霊能者);
+    }
+
+    /**
+     * Equal(=). As 占い師 (SEER). And OnlyOnceRegistered. <br>
+     * 占い師
+     */
+    public void setSkillCode_Equal_占い師() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.占い師);
+    }
+
+    /**
+     * Equal(=). As 聖痕者 (STIGMA). And OnlyOnceRegistered. <br>
+     * 聖痕者
+     */
+    public void setSkillCode_Equal_聖痕者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.聖痕者);
+    }
+
+    /**
+     * Equal(=). As 村人 (VILLAGER). And OnlyOnceRegistered. <br>
+     * 村人
+     */
+    public void setSkillCode_Equal_村人() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.村人);
+    }
+
+    /**
+     * Equal(=). As 人狼 (WEREWOLF). And OnlyOnceRegistered. <br>
+     * 人狼
+     */
+    public void setSkillCode_Equal_人狼() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.人狼);
+    }
+
+    /**
+     * Equal(=). As 賢者 (WISE). And OnlyOnceRegistered. <br>
+     * 賢者
+     */
+    public void setSkillCode_Equal_賢者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.賢者);
     }
 
     protected void doSetSkillCode_Equal(String skillCode) {
@@ -684,11 +798,125 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      * @param skillCode The value of skillCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setSkillCode_NotEqual(String skillCode) {
+    protected void setSkillCode_NotEqual(String skillCode) {
         doSetSkillCode_NotEqual(fRES(skillCode));
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As Skill. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * 役職
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setSkillCode_NotEqual_AsSkill(CDef.Skill cdef) {
+        doSetSkillCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As C国狂人 (CMADMAN). And OnlyOnceRegistered. <br>
+     * C国狂人
+     */
+    public void setSkillCode_NotEqual_C国狂人() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 魔神官 (EVILMEDIUM). And OnlyOnceRegistered. <br>
+     * 魔神官
+     */
+    public void setSkillCode_NotEqual_魔神官() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.魔神官);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 妖狐 (FOX). And OnlyOnceRegistered. <br>
+     * 妖狐
+     */
+    public void setSkillCode_NotEqual_妖狐() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.妖狐);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 導師 (GURU). And OnlyOnceRegistered. <br>
+     * 導師
+     */
+    public void setSkillCode_NotEqual_導師() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.導師);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 狩人 (HUNTER). And OnlyOnceRegistered. <br>
+     * 狩人
+     */
+    public void setSkillCode_NotEqual_狩人() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.狩人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 狂人 (MADMAN). And OnlyOnceRegistered. <br>
+     * 狂人
+     */
+    public void setSkillCode_NotEqual_狂人() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.狂人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 共有者 (MAISON). And OnlyOnceRegistered. <br>
+     * 共有者
+     */
+    public void setSkillCode_NotEqual_共有者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.共有者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 霊能者 (MEDIUM). And OnlyOnceRegistered. <br>
+     * 霊能者
+     */
+    public void setSkillCode_NotEqual_霊能者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.霊能者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 占い師 (SEER). And OnlyOnceRegistered. <br>
+     * 占い師
+     */
+    public void setSkillCode_NotEqual_占い師() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.占い師);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 聖痕者 (STIGMA). And OnlyOnceRegistered. <br>
+     * 聖痕者
+     */
+    public void setSkillCode_NotEqual_聖痕者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.聖痕者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 村人 (VILLAGER). And OnlyOnceRegistered. <br>
+     * 村人
+     */
+    public void setSkillCode_NotEqual_村人() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.村人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 人狼 (WEREWOLF). And OnlyOnceRegistered. <br>
+     * 人狼
+     */
+    public void setSkillCode_NotEqual_人狼() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.人狼);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 賢者 (WISE). And OnlyOnceRegistered. <br>
+     * 賢者
+     */
+    public void setSkillCode_NotEqual_賢者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.賢者);
     }
 
     protected void doSetSkillCode_NotEqual(String skillCode) {
@@ -696,48 +924,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
-     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
-     * @param skillCode The value of skillCode as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setSkillCode_GreaterThan(String skillCode) {
-        regSkillCode(CK_GT, fRES(skillCode));
-    }
-
-    /**
-     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
-     * @param skillCode The value of skillCode as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setSkillCode_LessThan(String skillCode) {
-        regSkillCode(CK_LT, fRES(skillCode));
-    }
-
-    /**
-     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
-     * @param skillCode The value of skillCode as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setSkillCode_GreaterEqual(String skillCode) {
-        regSkillCode(CK_GE, fRES(skillCode));
-    }
-
-    /**
-     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
-     * @param skillCode The value of skillCode as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setSkillCode_LessEqual(String skillCode) {
-        regSkillCode(CK_LE, fRES(skillCode));
-    }
-
-    /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      * @param skillCodeList The collection of skillCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setSkillCode_InScope(Collection<String> skillCodeList) {
+    protected void setSkillCode_InScope(Collection<String> skillCodeList) {
         doSetSkillCode_InScope(skillCodeList);
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * 役職
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setSkillCode_InScope_AsSkill(Collection<CDef.Skill> cdefList) {
+        doSetSkillCode_InScope(cTStrL(cdefList));
     }
 
     protected void doSetSkillCode_InScope(Collection<String> skillCodeList) {
@@ -746,11 +948,21 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      * @param skillCodeList The collection of skillCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setSkillCode_NotInScope(Collection<String> skillCodeList) {
+    protected void setSkillCode_NotInScope(Collection<String> skillCodeList) {
         doSetSkillCode_NotInScope(skillCodeList);
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * 役職
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setSkillCode_NotInScope_AsSkill(Collection<CDef.Skill> cdefList) {
+        doSetSkillCode_NotInScope(cTStrL(cdefList));
     }
 
     protected void doSetSkillCode_NotInScope(Collection<String> skillCodeList) {
@@ -758,64 +970,20 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
-     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill} <br>
-     * <pre>e.g. setSkillCode_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
-     * @param skillCode The value of skillCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param opLambda The callback for option of like-search. (NotNull)
-     */
-    public void setSkillCode_LikeSearch(String skillCode, ConditionOptionCall<LikeSearchOption> opLambda) {
-        setSkillCode_LikeSearch(skillCode, xcLSOP(opLambda));
-    }
-
-    /**
-     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill} <br>
-     * <pre>e.g. setSkillCode_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
-     * @param skillCode The value of skillCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param likeSearchOption The option of like-search. (NotNull)
-     */
-    protected void setSkillCode_LikeSearch(String skillCode, LikeSearchOption likeSearchOption) {
-        regLSQ(CK_LS, fRES(skillCode), xgetCValueSkillCode(), "SKILL_CODE", likeSearchOption);
-    }
-
-    /**
-     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
-     * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
-     * @param skillCode The value of skillCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param opLambda The callback for option of like-search. (NotNull)
-     */
-    public void setSkillCode_NotLikeSearch(String skillCode, ConditionOptionCall<LikeSearchOption> opLambda) {
-        setSkillCode_NotLikeSearch(skillCode, xcLSOP(opLambda));
-    }
-
-    /**
-     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
-     * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
-     * @param skillCode The value of skillCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param likeSearchOption The option of not-like-search. (NotNull)
-     */
-    protected void setSkillCode_NotLikeSearch(String skillCode, LikeSearchOption likeSearchOption) {
-        regLSQ(CK_NLS, fRES(skillCode), xgetCValueSkillCode(), "SKILL_CODE", likeSearchOption);
-    }
-
-    /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      */
     public void setSkillCode_IsNull() { regSkillCode(CK_ISN, DOBJ); }
 
     /**
      * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      */
     public void setSkillCode_IsNullOrEmpty() { regSkillCode(CK_ISNOE, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      */
     public void setSkillCode_IsNotNull() { regSkillCode(CK_ISNN, DOBJ); }
 

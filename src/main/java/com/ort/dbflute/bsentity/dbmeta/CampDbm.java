@@ -42,7 +42,14 @@ public class CampDbm extends AbstractDBMeta {
     protected final Map<String, PropertyGateway> _epgMap = newHashMap();
     { xsetupEpg(); }
     protected void xsetupEpg() {
-        setupEpg(_epgMap, et -> ((Camp)et).getCampCode(), (et, vl) -> ((Camp)et).setCampCode((String)vl), "campCode");
+        setupEpg(_epgMap, et -> ((Camp)et).getCampCode(), (et, vl) -> {
+            CDef.Camp cls = (CDef.Camp)gcls(et, columnCampCode(), vl);
+            if (cls != null) {
+                ((Camp)et).setCampCodeAsCamp(cls);
+            } else {
+                ((Camp)et).mynativeMappingCampCode((String)vl);
+            }
+        }, "campCode");
         setupEpg(_epgMap, et -> ((Camp)et).getCampName(), (et, vl) -> ((Camp)et).setCampName((String)vl), "campName");
     }
     public PropertyGateway findPropertyGateway(String prop)
@@ -64,11 +71,11 @@ public class CampDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnCampCode = cci("CAMP_CODE", "CAMP_CODE", null, null, String.class, "campCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "skillList", null, false);
+    protected final ColumnInfo _columnCampCode = cci("CAMP_CODE", "CAMP_CODE", null, null, String.class, "campCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "skillList,villageList", CDef.DefMeta.Camp, false);
     protected final ColumnInfo _columnCampName = cci("CAMP_NAME", "CAMP_NAME", null, null, String.class, "campName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
 
     /**
-     * CAMP_CODE: {PK, NotNull, VARCHAR(20)}
+     * CAMP_CODE: {PK, NotNull, VARCHAR(20), classification=Camp}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCampCode() { return _columnCampCode; }
@@ -116,6 +123,14 @@ public class CampDbm extends AbstractDBMeta {
     public ReferrerInfo referrerSkillList() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCampCode(), SkillDbm.getInstance().columnCampCode());
         return cri("FK_SKILL_CAMP", "skillList", this, SkillDbm.getInstance(), mp, false, "camp");
+    }
+    /**
+     * VILLAGE by WIN_CAMP_CODE, named 'villageList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerVillageList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCampCode(), VillageDbm.getInstance().columnWinCampCode());
+        return cri("FK_VILLAGE_CAMP", "villageList", this, VillageDbm.getInstance(), mp, false, "camp");
     }
 
     // ===================================================================================

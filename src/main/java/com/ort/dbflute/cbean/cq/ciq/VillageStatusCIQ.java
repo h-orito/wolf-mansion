@@ -12,21 +12,21 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of camp.
+ * The condition-query for in-line of village_status.
  * @author DBFlute(AutoGenerator)
  */
-public class CampCIQ extends AbstractBsCampCQ {
+public class VillageStatusCIQ extends AbstractBsVillageStatusCQ {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected BsCampCQ _myCQ;
+    protected BsVillageStatusCQ _myCQ;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public CampCIQ(ConditionQuery referrerQuery, SqlClause sqlClause
-                        , String aliasName, int nestLevel, BsCampCQ myCQ) {
+    public VillageStatusCIQ(ConditionQuery referrerQuery, SqlClause sqlClause
+                        , String aliasName, int nestLevel, BsVillageStatusCQ myCQ) {
         super(referrerQuery, sqlClause, aliasName, nestLevel);
         _myCQ = myCQ;
         _foreignPropertyName = _myCQ.xgetForeignPropertyName(); // accept foreign property name
@@ -61,38 +61,28 @@ public class CampCIQ extends AbstractBsCampCQ {
     // ===================================================================================
     //                                                                Override about Query
     //                                                                ====================
-    protected ConditionValue xgetCValueCampCode() { return _myCQ.xdfgetCampCode(); }
-    public String keepCampCode_ExistsReferrer_SkillList(SkillCQ sq)
+    protected ConditionValue xgetCValueVillageStatusCode() { return _myCQ.xdfgetVillageStatusCode(); }
+    public String keepVillageStatusCode_ExistsReferrer_VillageList(VillageCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
-    public String keepCampCode_ExistsReferrer_VillageList(VillageCQ sq)
-    { throwIICBOE("ExistsReferrer"); return null; }
-    public String keepCampCode_NotExistsReferrer_SkillList(SkillCQ sq)
+    public String keepVillageStatusCode_NotExistsReferrer_VillageList(VillageCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
-    public String keepCampCode_NotExistsReferrer_VillageList(VillageCQ sq)
-    { throwIICBOE("NotExistsReferrer"); return null; }
-    public String keepCampCode_SpecifyDerivedReferrer_SkillList(SkillCQ sq)
+    public String keepVillageStatusCode_SpecifyDerivedReferrer_VillageList(VillageCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
-    public String keepCampCode_SpecifyDerivedReferrer_VillageList(VillageCQ sq)
-    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
-    public String keepCampCode_QueryDerivedReferrer_SkillList(SkillCQ sq)
+    public String keepVillageStatusCode_QueryDerivedReferrer_VillageList(VillageCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepCampCode_QueryDerivedReferrer_SkillListParameter(Object vl)
+    public String keepVillageStatusCode_QueryDerivedReferrer_VillageListParameter(Object vl)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepCampCode_QueryDerivedReferrer_VillageList(VillageCQ sq)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepCampCode_QueryDerivedReferrer_VillageListParameter(Object vl)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    protected ConditionValue xgetCValueCampName() { return _myCQ.xdfgetCampName(); }
+    protected ConditionValue xgetCValueVillageStatusName() { return _myCQ.xdfgetVillageStatusName(); }
     protected Map<String, Object> xfindFixedConditionDynamicParameterMap(String pp) { return null; }
-    public String keepScalarCondition(CampCQ sq)
+    public String keepScalarCondition(VillageStatusCQ sq)
     { throwIICBOE("ScalarCondition"); return null; }
-    public String keepSpecifyMyselfDerived(CampCQ sq)
+    public String keepSpecifyMyselfDerived(VillageStatusCQ sq)
     { throwIICBOE("(Specify)MyselfDerived"); return null;}
-    public String keepQueryMyselfDerived(CampCQ sq)
+    public String keepQueryMyselfDerived(VillageStatusCQ sq)
     { throwIICBOE("(Query)MyselfDerived"); return null;}
     public String keepQueryMyselfDerivedParameter(Object vl)
     { throwIICBOE("(Query)MyselfDerived"); return null;}
-    public String keepMyselfExists(CampCQ sq)
+    public String keepMyselfExists(VillageStatusCQ sq)
     { throwIICBOE("MyselfExists"); return null;}
 
     protected void throwIICBOE(String name)
@@ -102,6 +92,6 @@ public class CampCIQ extends AbstractBsCampCQ {
     //                                                                       Very Internal
     //                                                                       =============
     // very internal (for suppressing warn about 'Not Use Import')
-    protected String xinCB() { return CampCB.class.getName(); }
-    protected String xinCQ() { return CampCQ.class.getName(); }
+    protected String xinCB() { return VillageStatusCB.class.getName(); }
+    protected String xinCQ() { return VillageStatusCQ.class.getName(); }
 }

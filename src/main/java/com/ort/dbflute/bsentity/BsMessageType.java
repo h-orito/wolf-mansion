@@ -7,6 +7,7 @@ import org.dbflute.dbmeta.DBMeta;
 import org.dbflute.dbmeta.AbstractEntity;
 import org.dbflute.dbmeta.accessory.DomainEntity;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.*;
 
 /**
@@ -61,7 +62,7 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** MESSAGE_TYPE_CODE: {PK, NotNull, VARCHAR(10)} */
+    /** MESSAGE_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=MessageType} */
     protected String _messageTypeCode;
 
     /** MESSAGE_TYPE_NAME: {NotNull, VARCHAR(20)} */
@@ -87,6 +88,169 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
     public boolean hasPrimaryKeyValue() {
         if (_messageTypeCode == null) { return false; }
         return true;
+    }
+
+    // ===================================================================================
+    //                                                             Classification Property
+    //                                                             =======================
+    /**
+     * Get the value of messageTypeCode as the classification of MessageType. <br>
+     * MESSAGE_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=MessageType} <br>
+     * メッセージ種別
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.MessageType getMessageTypeCodeAsMessageType() {
+        return CDef.MessageType.codeOf(getMessageTypeCode());
+    }
+
+    /**
+     * Set the value of messageTypeCode as the classification of MessageType. <br>
+     * MESSAGE_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=MessageType} <br>
+     * メッセージ種別
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setMessageTypeCodeAsMessageType(CDef.MessageType cdef) {
+        setMessageTypeCode(cdef != null ? cdef.code() : null);
+    }
+
+    // ===================================================================================
+    //                                                              Classification Setting
+    //                                                              ======================
+    /**
+     * Set the value of messageTypeCode as 死者の呻き (GRAVE_SAY). <br>
+     * 死者の呻き
+     */
+    public void setMessageTypeCode_死者の呻き() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.死者の呻き);
+    }
+
+    /**
+     * Set the value of messageTypeCode as 共鳴発言 (MASON_SAY). <br>
+     * 共鳴発言
+     */
+    public void setMessageTypeCode_共鳴発言() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.共鳴発言);
+    }
+
+    /**
+     * Set the value of messageTypeCode as 独り言 (MONOLOGUE_SAY). <br>
+     * 独り言
+     */
+    public void setMessageTypeCode_独り言() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.独り言);
+    }
+
+    /**
+     * Set the value of messageTypeCode as 通常発言 (NORMAL_SAY). <br>
+     * 通常発言
+     */
+    public void setMessageTypeCode_通常発言() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.通常発言);
+    }
+
+    /**
+     * Set the value of messageTypeCode as 非公開システムメッセージ (PRIVATE_SYSTEM). <br>
+     * 非公開システムメッセージ
+     */
+    public void setMessageTypeCode_非公開システムメッセージ() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.非公開システムメッセージ);
+    }
+
+    /**
+     * Set the value of messageTypeCode as 公開システムメッセージ (PUBLIC_SYSTEM). <br>
+     * 公開システムメッセージ
+     */
+    public void setMessageTypeCode_公開システムメッセージ() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.公開システムメッセージ);
+    }
+
+    /**
+     * Set the value of messageTypeCode as 人狼の囁き (WEREWOLF_SAY). <br>
+     * 人狼の囁き
+     */
+    public void setMessageTypeCode_人狼の囁き() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.人狼の囁き);
+    }
+
+    // ===================================================================================
+    //                                                        Classification Determination
+    //                                                        ============================
+    /**
+     * Is the value of messageTypeCode 死者の呻き? <br>
+     * 死者の呻き
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode死者の呻き() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.死者の呻き) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 共鳴発言? <br>
+     * 共鳴発言
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode共鳴発言() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.共鳴発言) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 独り言? <br>
+     * 独り言
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode独り言() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.独り言) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 通常発言? <br>
+     * 通常発言
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode通常発言() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.通常発言) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 非公開システムメッセージ? <br>
+     * 非公開システムメッセージ
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode非公開システムメッセージ() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.非公開システムメッセージ) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 公開システムメッセージ? <br>
+     * 公開システムメッセージ
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode公開システムメッセージ() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.公開システムメッセージ) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 人狼の囁き? <br>
+     * 人狼の囁き
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode人狼の囁き() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.人狼の囁き) : false;
     }
 
     // ===================================================================================
@@ -181,7 +345,7 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] MESSAGE_TYPE_CODE: {PK, NotNull, VARCHAR(10)} <br>
+     * [get] MESSAGE_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=MessageType} <br>
      * メッセージ種別コード
      * @return The value of the column 'MESSAGE_TYPE_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -191,11 +355,12 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
     }
 
     /**
-     * [set] MESSAGE_TYPE_CODE: {PK, NotNull, VARCHAR(10)} <br>
+     * [set] MESSAGE_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=MessageType} <br>
      * メッセージ種別コード
      * @param messageTypeCode The value of the column 'MESSAGE_TYPE_CODE'. (basically NotNull if update: for the constraint)
      */
-    public void setMessageTypeCode(String messageTypeCode) {
+    protected void setMessageTypeCode(String messageTypeCode) {
+        checkClassificationCode("MESSAGE_TYPE_CODE", CDef.DefMeta.MessageType, messageTypeCode);
         registerModifiedProperty("messageTypeCode");
         _messageTypeCode = messageTypeCode;
     }
@@ -218,5 +383,13 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
     public void setMessageTypeName(String messageTypeName) {
         registerModifiedProperty("messageTypeName");
         _messageTypeName = messageTypeName;
+    }
+
+    /**
+     * For framework so basically DON'T use this method.
+     * @param messageTypeCode The value of the column 'MESSAGE_TYPE_CODE'. (basically NotNull if update: for the constraint)
+     */
+    public void mynativeMappingMessageTypeCode(String messageTypeCode) {
+        setMessageTypeCode(messageTypeCode);
     }
 }

@@ -554,7 +554,7 @@
 					<physical_name>message_type_code</physical_name>
 					<logical_name>メッセージ種別コード</logical_name>
 					<type>varchar(n)</type>
-					<length>10</length>
+					<length>20</length>
 					<not_null>true</not_null>
 					<primary_key>true</primary_key>
 				</normal_column>
@@ -723,6 +723,36 @@
 				<b>192</b>
 			</color>
 			<connections>
+				<relationship>
+					<name>FK_village_camp</name>
+					<source>table.camp</source>
+					<target>table.village</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>win_camp_code</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+				<relationship>
+					<name>FK_village_village_status</name>
+					<source>table.village_status</source>
+					<target>table.village</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>village_status_code</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
 			</connections>
 			<columns>
 				<normal_column>
@@ -742,10 +772,16 @@
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
+					<physical_name>village_status_code</physical_name>
+					<referred_column>table.village_status.village_status_code</referred_column>
+					<relationship>FK_village_village_status</relationship>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
 					<physical_name>win_camp_code</physical_name>
 					<logical_name>勝利陣営コード</logical_name>
-					<type>varchar(n)</type>
-					<length>20</length>
+					<referred_column>table.camp.camp_code</referred_column>
+					<relationship>FK_village_camp</relationship>
 				</normal_column>
 				<column_group>共通カラム</column_group>
 			</columns>
@@ -959,6 +995,47 @@
 					<physical_name>is_possible_skill_request</physical_name>
 					<logical_name>役職希望有効か</logical_name>
 					<type>boolean</type>
+					<not_null>true</not_null>
+				</normal_column>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
+			<physical_name>village_status</physical_name>
+			<logical_name>村ステータス</logical_name>
+			<description></description>
+			<height>75</height>
+			<width>292</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>217</x>
+			<y>183</y>
+			<color>
+				<r>254</r>
+				<g>251</g>
+				<b>0</b>
+			</color>
+			<connections>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>village_status_code</physical_name>
+					<logical_name>村ステータスコード</logical_name>
+					<type>varchar(n)</type>
+					<length>20</length>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>village_status_name</physical_name>
+					<logical_name>村ステータス名</logical_name>
+					<type>varchar(n)</type>
+					<length>20</length>
 					<not_null>true</not_null>
 				</normal_column>
 			</columns>

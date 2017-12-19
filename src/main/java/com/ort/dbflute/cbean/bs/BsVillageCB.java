@@ -238,6 +238,46 @@ public class BsVillageCB extends AbstractConditionBean {
     // ===================================================================================
     //                                                                         SetupSelect
     //                                                                         ===========
+    /**
+     * Set up relation columns to select clause. <br>
+     * VILLAGE_STATUS by my VILLAGE_STATUS_CODE, named 'villageStatus'.
+     * <pre>
+     * <span style="color: #0000C0">villageBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_VillageStatus()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     *     <span style="color: #553000">cb</span>.query().set...
+     * }).alwaysPresent(<span style="color: #553000">village</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     ... = <span style="color: #553000">village</span>.<span style="color: #CC4747">getVillageStatus()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
+     * });
+     * </pre>
+     */
+    public void setupSelect_VillageStatus() {
+        assertSetupSelectPurpose("villageStatus");
+        if (hasSpecifiedLocalColumn()) {
+            specify().columnVillageStatusCode();
+        }
+        doSetupSelect(() -> query().queryVillageStatus());
+    }
+
+    /**
+     * Set up relation columns to select clause. <br>
+     * CAMP by my WIN_CAMP_CODE, named 'camp'.
+     * <pre>
+     * <span style="color: #0000C0">villageBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_Camp()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     *     <span style="color: #553000">cb</span>.query().set...
+     * }).alwaysPresent(<span style="color: #553000">village</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     ... = <span style="color: #553000">village</span>.<span style="color: #CC4747">getCamp()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
+     * });
+     * </pre>
+     */
+    public void setupSelect_Camp() {
+        assertSetupSelectPurpose("camp");
+        if (hasSpecifiedLocalColumn()) {
+            specify().columnWinCampCode();
+        }
+        doSetupSelect(() -> query().queryCamp());
+    }
+
     protected VillageSettingsNss _nssVillageSettingsAsOne;
     public VillageSettingsNss xdfgetNssVillageSettingsAsOne() {
         if (_nssVillageSettingsAsOne == null) { _nssVillageSettingsAsOne = new VillageSettingsNss(null); }
@@ -248,7 +288,7 @@ public class BsVillageCB extends AbstractConditionBean {
      * village_settings by VILLAGE_ID, named 'villageSettingsAsOne'.
      * <pre>
      * <span style="color: #0000C0">villageBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_VillageSettingsAsOne(${dynamicFixedConditionVariables})</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_VillageSettingsAsOne()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
      *     <span style="color: #553000">cb</span>.query().set...
      * }).alwaysPresent(<span style="color: #553000">village</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     ... = <span style="color: #553000">village</span>.<span style="color: #CC4747">getVillageSettingsAsOne()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
@@ -305,6 +345,8 @@ public class BsVillageCB extends AbstractConditionBean {
     }
 
     public static class HpSpecification extends HpAbstractSpecification<VillageCQ> {
+        protected VillageStatusCB.HpSpecification _villageStatus;
+        protected CampCB.HpSpecification _camp;
         protected VillageSettingsCB.HpSpecification _villageSettingsAsOne;
         public HpSpecification(ConditionBean baseCB, HpSpQyCall<VillageCQ> qyCall
                              , HpCBPurpose purpose, DBMetaProvider dbmetaProvider
@@ -321,7 +363,12 @@ public class BsVillageCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnVillageDisplayName() { return doColumn("VILLAGE_DISPLAY_NAME"); }
         /**
-         * WIN_CAMP_CODE: {VARCHAR(20)}
+         * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnVillageStatusCode() { return doColumn("VILLAGE_STATUS_CODE"); }
+        /**
+         * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnWinCampCode() { return doColumn("WIN_CAMP_CODE"); }
@@ -350,9 +397,57 @@ public class BsVillageCB extends AbstractConditionBean {
         @Override
         protected void doSpecifyRequiredColumn() {
             columnVilalgeId(); // PK
+            if (qyCall().qy().hasConditionQueryVillageStatus()
+                    || qyCall().qy().xgetReferrerQuery() instanceof VillageStatusCQ) {
+                columnVillageStatusCode(); // FK or one-to-one referrer
+            }
+            if (qyCall().qy().hasConditionQueryCamp()
+                    || qyCall().qy().xgetReferrerQuery() instanceof CampCQ) {
+                columnWinCampCode(); // FK or one-to-one referrer
+            }
         }
         @Override
         protected String getTableDbName() { return "village"; }
+        /**
+         * Prepare to specify functions about relation table. <br>
+         * VILLAGE_STATUS by my VILLAGE_STATUS_CODE, named 'villageStatus'.
+         * @return The instance for specification for relation table to specify. (NotNull)
+         */
+        public VillageStatusCB.HpSpecification specifyVillageStatus() {
+            assertRelation("villageStatus");
+            if (_villageStatus == null) {
+                _villageStatus = new VillageStatusCB.HpSpecification(_baseCB
+                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryVillageStatus()
+                                    , () -> _qyCall.qy().queryVillageStatus())
+                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
+                if (xhasSyncQyCall()) { // inherits it
+                    _villageStatus.xsetSyncQyCall(xcreateSpQyCall(
+                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryVillageStatus()
+                      , () -> xsyncQyCall().qy().queryVillageStatus()));
+                }
+            }
+            return _villageStatus;
+        }
+        /**
+         * Prepare to specify functions about relation table. <br>
+         * CAMP by my WIN_CAMP_CODE, named 'camp'.
+         * @return The instance for specification for relation table to specify. (NotNull)
+         */
+        public CampCB.HpSpecification specifyCamp() {
+            assertRelation("camp");
+            if (_camp == null) {
+                _camp = new CampCB.HpSpecification(_baseCB
+                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryCamp()
+                                    , () -> _qyCall.qy().queryCamp())
+                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
+                if (xhasSyncQyCall()) { // inherits it
+                    _camp.xsetSyncQyCall(xcreateSpQyCall(
+                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryCamp()
+                      , () -> xsyncQyCall().qy().queryCamp()));
+                }
+            }
+            return _camp;
+        }
         /**
          * Prepare to specify functions about relation table. <br>
          * village_settings by VILLAGE_ID, named 'villageSettingsAsOne'.

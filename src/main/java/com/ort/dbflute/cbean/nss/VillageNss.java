@@ -20,6 +20,20 @@ public class VillageNss {
     //                                                                     ===============
     /**
      * With nested relation columns to select clause. <br>
+     * VILLAGE_STATUS by my VILLAGE_STATUS_CODE, named 'villageStatus'.
+     */
+    public void withVillageStatus() {
+        _query.xdoNss(() -> _query.queryVillageStatus());
+    }
+    /**
+     * With nested relation columns to select clause. <br>
+     * CAMP by my WIN_CAMP_CODE, named 'camp'.
+     */
+    public void withCamp() {
+        _query.xdoNss(() -> _query.queryCamp());
+    }
+    /**
+     * With nested relation columns to select clause. <br>
      * village_settings by VILLAGE_ID, named 'villageSettingsAsOne'.
      * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
      */
