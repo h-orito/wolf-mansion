@@ -1,4 +1,113 @@
 map:{
+    ; 2017/12/20 00:28:20 = map:{
+        ; diffDate = 2017/12/20 00:28:20
+        ; tableDiff = map:{
+            ; AUTHORITY = map:{
+                ; tableName = AUTHORITY
+                ; diffType = ADD
+            }
+            ; CAMP = map:{
+                ; tableName = CAMP
+                ; diffType = ADD
+            }
+            ; CHARA = map:{
+                ; tableName = CHARA
+                ; diffType = ADD
+            }
+            ; CHARA_GROUP = map:{
+                ; tableName = CHARA_GROUP
+                ; diffType = ADD
+            }
+            ; DESIGNER = map:{
+                ; tableName = DESIGNER
+                ; diffType = ADD
+            }
+            ; MESSAGE = map:{
+                ; tableName = MESSAGE
+                ; diffType = ADD
+            }
+            ; MESSAGE_TYPE = map:{
+                ; tableName = MESSAGE_TYPE
+                ; diffType = ADD
+            }
+            ; PLAYER = map:{
+                ; tableName = PLAYER
+                ; diffType = ADD
+            }
+            ; SKILL = map:{
+                ; tableName = SKILL
+                ; diffType = ADD
+            }
+            ; VILLAGE = map:{
+                ; tableName = VILLAGE
+                ; diffType = ADD
+            }
+            ; VILLAGE_PLAYER = map:{
+                ; tableName = VILLAGE_PLAYER
+                ; diffType = ADD
+            }
+            ; VILLAGE_SETTINGS = map:{
+                ; tableName = VILLAGE_SETTINGS
+                ; diffType = ADD
+            }
+            ; VILLAGE_STATUS = map:{
+                ; tableName = VILLAGE_STATUS
+                ; diffType = ADD
+            }
+            ; authority = map:{
+                ; tableName = authority
+                ; diffType = DELETE
+            }
+            ; camp = map:{
+                ; tableName = camp
+                ; diffType = DELETE
+            }
+            ; chara = map:{
+                ; tableName = chara
+                ; diffType = DELETE
+            }
+            ; chara_group = map:{
+                ; tableName = chara_group
+                ; diffType = DELETE
+            }
+            ; designer = map:{
+                ; tableName = designer
+                ; diffType = DELETE
+            }
+            ; message = map:{
+                ; tableName = message
+                ; diffType = DELETE
+            }
+            ; message_type = map:{
+                ; tableName = message_type
+                ; diffType = DELETE
+            }
+            ; player = map:{
+                ; tableName = player
+                ; diffType = DELETE
+            }
+            ; skill = map:{
+                ; tableName = skill
+                ; diffType = DELETE
+            }
+            ; village = map:{
+                ; tableName = village
+                ; diffType = DELETE
+            }
+            ; village_player = map:{
+                ; tableName = village_player
+                ; diffType = DELETE
+            }
+            ; village_settings = map:{
+                ; tableName = village_settings
+                ; diffType = DELETE
+            }
+            ; village_status = map:{
+                ; tableName = village_status
+                ; diffType = DELETE
+            }
+        }
+    }
     ; 2017/12/19 20:58:48 = map:{
         ; diffDate = 2017/12/19 20:58:48
         ; tableCount = map:{

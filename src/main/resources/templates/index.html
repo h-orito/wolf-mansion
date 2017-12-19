@@ -28,11 +28,8 @@
 				<span th:if="${form.error}" class="text-danger">ユーザIDまたはパスワードが正しくありません。</span>
 				<div class="col-sm-12" th:if="${user == null}">
 					<form method="post" action="" th:action="@{/login}" th:object="${form}">
-						ユーザID:
-						<input type="text" class="form-control" th:field="*{userId}" />
-						パスワード:
-						<input type="password" class="form-control" th:field="*{password}" />
-						<input type="submit" value="ログイン" />
+						ユーザID: <input type="text" class="form-control" th:field="*{userId}" /> パスワード: <input type="password" class="form-control"
+							th:field="*{password}" /> <input type="submit" value="ログイン" />
 					</form>
 				</div>
 
@@ -42,16 +39,15 @@
 				</div>
 
 				<h2 class="h3">村一覧</h2>
+				<a th:if="${user != null}" href="javascript:void(0);" th:href="@{/new-village}" class="pull-right">新規村作成</a>
 				<div class="col-sm-12">
-					<a th:if="${user != null}" href="javascript:void(0);" th:href="@{/new-village}" class="pull-right">新規村作成</a>
 					<div class="table-responsive clearfix">
 						<table class="table table-bordered table-condensed">
 							<tbody>
 								<tr th:each="village : ${content.villageList}" class="">
-									<td>
-										<a href="javascript:void(0);" th:href="@{/village/{villageId}(villageId=${village.villageId})}"
-											th:text="${village.villageName}" class="">村名</a>
-									</td>
+									<td><a href="javascript:void(0);" th:href="@{/village/{villageId}(villageId=${village.villageId})}" th:text="${village.villageName}"
+										class="">村名</a></td>
+									<td th:text="${village.status}"></td>
 								</tr>
 							</tbody>
 						</table>

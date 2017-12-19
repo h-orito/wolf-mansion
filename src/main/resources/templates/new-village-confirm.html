@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<head>
+<!--/* 個別ページのタイトル */-->
+<title>村作成確認</title>
+<!--/* 個別ページのcss,js */-->
+<script src="../static/app/js/new-village-confirm.js" th:src="@{/app/js/new-village-confirm.js}"></script>
+</head>
+
+<body>
+	<div class="container">
+		<nav layout:replace="~{layout/header::header}"></nav>
+		<div layout:fragment="content">
+			<div id="wrapper">
+				<h1>村作成確認</h1>
+				<div class="col-sm-12">
+					<form method="post" action="" th:action="@{/new-village}" th:object="${villageForm}" class="form-horizontal">
+						<div class="table-responsive clearfix">
+							<table class="table table-bordered table-condensed">
+								<tr>
+									<th>村名</th>
+									<td th:text="*{villageName}"></td>
+								</tr>
+								<tr>
+									<th>最低開始人数</th>
+									<td th:text="*{startPersonMinNum} + '人'"></td>
+								</tr>
+								<tr>
+									<th>定員</th>
+									<td th:text="*{personMaxNum} + '人'"></td>
+								</tr>
+								<tr>
+									<th>更新間隔</th>
+									<td th:text="*{dayChangeIntervalHours} + '時間' + *{dayChangeIntervalMinutes} + '分' + *{dayChangeIntervalSeconds} + '秒'"></td>
+								</tr>
+								<tr>
+									<th>開始日時</th>
+									<td th:text="*{startYear} + '/' + *{startMonth} + '/' + *{startDay} + ' ' + *{startHour} + ':' + *{startMinute}"></td>
+								</tr>
+								<tr>
+									<th>投票</th>
+									<td th:text="*{isOpenVote} ? '記名投票' : '無記名投票'"></td>
+								</tr>
+								<tr>
+									<th>役職希望</th>
+									<td th:text="*{isPossibleSkillRequest} ? '有効' : '無効'"></td>
+								</tr>
+							</table>
+							<input type="hidden" th:field="*{villageName}" />
+							<input type="hidden" th:field="*{startPersonMinNum}" />
+							<input type="hidden" th:field="*{personMaxNum}" />
+							<input type="hidden" th:field="*{dayChangeIntervalHours}" />
+							<input type="hidden" th:field="*{dayChangeIntervalMinutes}" />
+							<input type="hidden" th:field="*{dayChangeIntervalSeconds}" />
+							<input type="hidden" th:field="*{startYear}" />
+							<input type="hidden" th:field=*{startMonth} />
+							<input type="hidden" th:field="*{startDay}" />
+							<input type="hidden" th:field="*{startHour}" />
+							<input type="hidden" th:field="*{startMinute}" />
+							<input type="hidden" th:field="*{isOpenVote}" />
+							<input type="hidden" th:field="*{isPossibleSkillRequest}" />
+						</div>
+						<div class="form-group">
+							<input type="submit" class="btn btn-sm btn-success pull-right" value="作成" />
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<footer layout:replace="~{layout/footer::footer}"></footer>
+	</div>
+</body>
+</html>

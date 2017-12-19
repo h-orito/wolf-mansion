@@ -52,12 +52,21 @@ public class VillageController {
         return "new-village";
     }
 
+    // 確認画面
+    @PostMapping("/new-village/confirm")
+    private String newVillageConfirm(@Validated @ModelAttribute("villageForm") NewVillageForm villageForm, BindingResult bindingResult,
+            Model model) {
+        if (bindingResult.hasErrors()) {
+            return "new-village";
+        }
+        return "new-village-confirm";
+    }
+
     // 新規村作成
     @PostMapping("/new-village")
     private String makeVillage(@Validated @ModelAttribute("villageForm") NewVillageForm villageForm, BindingResult bindingResult,
             Model model) {
         if (bindingResult.hasErrors()) {
-            // model.addAttribute("villageForm", form);
             return "new-village";
         }
 
@@ -87,6 +96,7 @@ public class VillageController {
     private Village insertVillage(NewVillageForm villageForm) {
         Village village = new Village();
         village.setVillageDisplayName(villageForm.getVillageName());
+        village.setVillageStatusCode_募集中();
         villageBhv.insert(village);
         return village;
     }

@@ -11,8 +11,6 @@ public class IndexVillageDto {
     /** 状態 */
     private String status;
 
-    /** 開始日時 */
-
     public Integer getVillageId() {
         return villageId;
     }
@@ -28,4 +26,13 @@ public class IndexVillageDto {
     public void setVillageName(String villageName) {
         this.villageName = villageName;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
 }

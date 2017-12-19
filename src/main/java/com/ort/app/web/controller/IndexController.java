@@ -43,6 +43,7 @@ public class IndexController {
         IndexVillageDto villageDto = new IndexVillageDto();
         villageDto.setVillageId(village.getVilalgeId());
         villageDto.setVillageName(village.getVillageDisplayName());
+        villageDto.setStatus(village.getVillageStatus().get().getVillageStatusName());
         return villageDto;
     }
 
@@ -51,7 +52,10 @@ public class IndexController {
     //                                                                        ============
     private void setIndexModel(LoginForm form, Model model) {
         model.addAttribute("form", form);
-        ListResultBean<Village> villageList = villageBhv.selectList(cb -> cb.setupSelect_VillageSettingsAsOne());
+        ListResultBean<Village> villageList = villageBhv.selectList(cb -> {
+            cb.setupSelect_VillageSettingsAsOne();
+            cb.setupSelect_VillageStatus();
+        });
         IndexResultContent content = mappingToContent(villageList);
         model.addAttribute("content", content);
     }

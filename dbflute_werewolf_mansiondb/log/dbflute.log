@@ -8689,3 +8689,789 @@ _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
     repsEnvType      = ut
     refreshProject   = $$AutoDetect$$
 _/_/_/_/_/_/_/_/_/_/ {Sql2Entity}
+2017-12-20 00:28:16,340 [main] INFO  (DfReplaceSchemaTask#begin():92) - +------------------------------------------+
+2017-12-20 00:28:16,348 [main] INFO  (DfReplaceSchemaTask#begin():93) - |                                          |
+2017-12-20 00:28:16,363 [main] INFO  (DfReplaceSchemaTask#begin():94) - |              ReplaceSchema               |
+2017-12-20 00:28:16,376 [main] INFO  (DfReplaceSchemaTask#begin():102) - |                                          |
+2017-12-20 00:28:16,376 [main] INFO  (DfReplaceSchemaTask#begin():103) - +------------------------------------------+
+2017-12-20 00:28:16,378 [main] INFO  (DfReplaceSchemaTask#waitBeforeReps():360) - ...Waiting for your GO SIGN from stdin before ReplaceSchema:
+2017-12-20 00:28:16,479 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-20 00:28:16,480 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-20 00:28:16,480 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-20 00:28:16,480 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-20 00:28:16,499 [main] INFO  (DfDataSourceHandler#createConnection():166) - ...Connecting to database by data source:
+2017-12-20 00:28:17,308 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():233) -   product = MySQL 5.7.16
+2017-12-20 00:28:17,309 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():234) -   driver  = MySQL Connector Java mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 ) for JDBC 4.0
+2017-12-20 00:28:17,333 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():229) - 
+2017-12-20 00:28:17,334 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():230) - * * * * * * * * * * *
+2017-12-20 00:28:17,335 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():231) - *                   *
+2017-12-20 00:28:17,336 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():232) - * Initialize Schema *
+2017-12-20 00:28:17,337 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():233) - *                   *
+2017-12-20 00:28:17,337 [main] INFO  (DfCreateSchemaProcess#initializeSchemaMainDrop():234) - * * * * * * * * * * *
+2017-12-20 00:28:17,375 [main] INFO  (DfTableExtractor#doGetTableList():66) - ...Getting tables:
+2017-12-20 00:28:17,376 [main] INFO  (DfTableExtractor#doGetTableList():67) -   schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-20 00:28:17,376 [main] INFO  (DfTableExtractor#doGetTableList():68) -   types  = [TABLE, VIEW]
+2017-12-20 00:28:17,480 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - truncate table MESSAGE
+2017-12-20 00:28:17,538 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table CHARA drop foreign key FK_CHARA_CHARA_GROUP
+2017-12-20 00:28:17,568 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table CHARA_GROUP drop foreign key FK_CHARA_GROUP_DESIGNER
+2017-12-20 00:28:17,581 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table MESSAGE drop foreign key FK_MESSAGE_MESSAGE_TYPE
+2017-12-20 00:28:17,595 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table MESSAGE drop foreign key FK_MESSAGE_PLAYER
+2017-12-20 00:28:17,605 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table MESSAGE drop foreign key FK_MESSAGE_VILLAGE_PLAYER_TO
+2017-12-20 00:28:17,618 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table MESSAGE drop foreign key FK_MESSAGE_VILLAGE
+2017-12-20 00:28:17,632 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table MESSAGE drop foreign key FK_MESSAGE_VILLAGE_PLAYER
+2017-12-20 00:28:17,645 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table PLAYER drop foreign key FK_PLAYER_AUTHORITY
+2017-12-20 00:28:17,665 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table VILLAGE_PLAYER drop foreign key FK_VILLAGE_PLAYER_CHARA
+2017-12-20 00:28:17,675 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table VILLAGE_PLAYER drop foreign key FK_VILLAGE_PLAYER_PLAYER
+2017-12-20 00:28:17,689 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - alter table VILLAGE_PLAYER drop foreign key FK_VILLAGE_PLAYER_VILLAGE
+2017-12-20 00:28:17,703 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table AUTHORITY
+2017-12-20 00:28:17,715 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table CHARA
+2017-12-20 00:28:17,720 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table CHARA_GROUP
+2017-12-20 00:28:17,729 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table DESIGNER
+2017-12-20 00:28:17,735 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table MESSAGE
+2017-12-20 00:28:17,741 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table MESSAGE_TYPE
+2017-12-20 00:28:17,747 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table PLAYER
+2017-12-20 00:28:17,756 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table VILLAGE
+2017-12-20 00:28:17,767 [main] INFO  (DfSchemaInitializerJdbc#logReplaceSql():609) - drop table VILLAGE_PLAYER
+2017-12-20 00:28:17,830 [main] INFO  (DfCreateSchemaProcess#createSchema():266) - 
+2017-12-20 00:28:17,830 [main] INFO  (DfCreateSchemaProcess#createSchema():267) - * * * * * * * * *
+2017-12-20 00:28:17,831 [main] INFO  (DfCreateSchemaProcess#createSchema():268) - *               *
+2017-12-20 00:28:17,831 [main] INFO  (DfCreateSchemaProcess#createSchema():269) - * Create Schema *
+2017-12-20 00:28:17,834 [main] INFO  (DfCreateSchemaProcess#createSchema():270) - *               *
+2017-12-20 00:28:17,835 [main] INFO  (DfCreateSchemaProcess#createSchema():271) - * * * * * * * * *
+2017-12-20 00:28:17,840 [main] INFO  (DfSqlFileFireMan#fire():64) - ...Firing: replace-schema-10-basic.sql
+2017-12-20 00:28:17,845 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+/* Create Tables */
+
+CREATE TABLE AUTHORITY
+(
+	AUTHORITY_CODE VARCHAR(10) NOT NULL COMMENT '権限コード',
+	AUTHORITY_NAME VARCHAR(20) NOT NULL COMMENT '権限名',
+	PRIMARY KEY (AUTHORITY_CODE)
+) COMMENT = '権限'
+2017-12-20 00:28:17,863 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE CAMP
+(
+	CAMP_CODE VARCHAR(20) NOT NULL COMMENT '陣営コード',
+	CAMP_NAME VARCHAR(20) NOT NULL COMMENT '陣営名',
+	PRIMARY KEY (CAMP_CODE)
+) COMMENT = '陣営'
+2017-12-20 00:28:17,883 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE CHARA
+(
+	CHARA_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'キャラクターID',
+	CHARA_NAME VARCHAR(40) NOT NULL COMMENT 'キャラクター名',
+	CHARA_GROUP_ID INT UNSIGNED NOT NULL COMMENT 'キャラクターグループID',
+	CHARA_IMG_URL VARCHAR(100) NOT NULL COMMENT 'キャラクター画像URL : コンテキストパス以降',
+	PRIMARY KEY (CHARA_ID)
+) COMMENT = 'キャラクター'
+2017-12-20 00:28:17,900 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE CHARA_GROUP
+(
+	CHARA_GROUP_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'キャラクターグループID',
+	CHARA_NAME VARCHAR(40) NOT NULL COMMENT 'キャラクターグループ名',
+	DESIGNER_ID INT UNSIGNED NOT NULL COMMENT 'デザイナーID',
+	PRIMARY KEY (CHARA_GROUP_ID)
+) COMMENT = 'キャラクターグループ'
+2017-12-20 00:28:17,912 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE DESIGNER
+(
+	DESIGNER_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'デザイナーID',
+	DESIGNER_NAME VARCHAR(40) NOT NULL COMMENT 'デザイナー名',
+	PRIMARY KEY (DESIGNER_ID)
+) COMMENT = 'デザイナー'
+2017-12-20 00:28:17,924 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE MESSAGE
+(
+	MESSAGE_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'メッセージID',
+	VILLAGE_ID INT UNSIGNED NOT NULL COMMENT '村ID',
+	VILLAGE_PLAYER_ID INT UNSIGNED COMMENT '村参加者ID',
+	PLAYER_ID INT UNSIGNED COMMENT 'プレイヤーID',
+	TO_VILLAGE_PLAYER_ID INT UNSIGNED COMMENT 'どの村参加者に',
+	DAY INT UNSIGNED NOT NULL COMMENT '何日目か',
+	MESSAGE_TYPE_CODE VARCHAR(20) NOT NULL COMMENT 'メッセージ種別コード',
+	MESSAGE_NUMBER INT UNSIGNED COMMENT 'メッセージ番号',
+	MESSAGE_CONTENT VARCHAR(1000) NOT NULL COMMENT 'メッセージ内容',
+	MESSAGE_DATETIME DATETIME NOT NULL COMMENT 'メッセージ日時',
+	REGISTER_DATETIME DATETIME NOT NULL COMMENT '登録日時',
+	REGISTER_TRACE VARCHAR(64) NOT NULL COMMENT '登録トレース',
+	UPDATE_DATETIME DATETIME NOT NULL COMMENT '更新日時',
+	UPDATE_TRACE VARCHAR(64) NOT NULL COMMENT '更新トレース',
+	PRIMARY KEY (MESSAGE_ID)
+) COMMENT = 'メッセージ'
+2017-12-20 00:28:17,945 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE MESSAGE_TYPE
+(
+	MESSAGE_TYPE_CODE VARCHAR(20) NOT NULL COMMENT 'メッセージ種別コード',
+	MESSAGE_TYPE_NAME VARCHAR(20) NOT NULL COMMENT 'メッセージ種別名',
+	PRIMARY KEY (MESSAGE_TYPE_CODE)
+) COMMENT = 'メッセージ種別'
+2017-12-20 00:28:17,964 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE PLAYER
+(
+	PLAYER_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'プレイヤーID',
+	PLAYER_NAME VARCHAR(12) NOT NULL UNIQUE COMMENT 'プレイヤーID',
+	PLAYER_PASSWORD CHAR(60) NOT NULL COMMENT 'プレイヤーパスワード',
+	AUTHORITY_CODE VARCHAR(10) NOT NULL COMMENT '権限コード',
+	REGISTER_DATETIME DATETIME NOT NULL COMMENT '登録日時',
+	REGISTER_TRACE VARCHAR(64) NOT NULL COMMENT '登録トレース',
+	UPDATE_DATETIME DATETIME NOT NULL COMMENT '更新日時',
+	UPDATE_TRACE VARCHAR(64) NOT NULL COMMENT '更新トレース',
+	PRIMARY KEY (PLAYER_ID)
+) COMMENT = 'プレイヤー'
+2017-12-20 00:28:17,979 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE SKILL
+(
+	SKILL_CODE VARCHAR(20) NOT NULL COMMENT '役職コード',
+	SKILL_NAME VARCHAR(20) NOT NULL COMMENT '役職名',
+	 CAMP_CODE VARCHAR(20) NOT NULL COMMENT '陣営コード',
+	PRIMARY KEY (SKILL_CODE)
+) COMMENT = '役職'
+2017-12-20 00:28:17,991 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE VILLAGE
+(
+	VILALGE_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '村ID',
+	VILLAGE_DISPLAY_NAME VARCHAR(40) NOT NULL COMMENT '村表示名',
+	VILLAGE_STATUS_CODE VARCHAR(20) NOT NULL COMMENT '村ステータスコード',
+	WIN_CAMP_CODE VARCHAR(20) COMMENT '勝利陣営コード',
+	REGISTER_DATETIME DATETIME NOT NULL COMMENT '登録日時',
+	REGISTER_TRACE VARCHAR(64) NOT NULL COMMENT '登録トレース',
+	UPDATE_DATETIME DATETIME NOT NULL COMMENT '更新日時',
+	UPDATE_TRACE VARCHAR(64) NOT NULL COMMENT '更新トレース',
+	PRIMARY KEY (VILALGE_ID)
+) COMMENT = '村'
+2017-12-20 00:28:18,007 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE VILLAGE_PLAYER
+(
+	VILLAGE_PLAYER_ID INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '村参加者ID',
+	VILLAGE_ID INT UNSIGNED NOT NULL COMMENT '村ID',
+	PLAYER_ID INT UNSIGNED NOT NULL COMMENT 'プレイヤーID',
+	CHARA_ID INT UNSIGNED NOT NULL COMMENT 'キャラクターID',
+	SKILL_CODE VARCHAR(20) COMMENT '役職コード',
+	PRIMARY KEY (VILLAGE_PLAYER_ID),
+	CONSTRAINT UQ_village_player_id UNIQUE (VILLAGE_ID, PLAYER_ID)
+) COMMENT = '村参加者'
+2017-12-20 00:28:18,017 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE VILLAGE_SETTINGS
+(
+	VILLAGE_ID INT UNSIGNED NOT NULL COMMENT '村ID',
+	START_PERSON_MIN_NUM INT UNSIGNED COMMENT '最低開始人数',
+	PERSON_MAX_NUM INT UNSIGNED COMMENT '定員',
+	START_DATETIME DATETIME COMMENT '開始日時',
+	DAY_CHANGE_INTERVAL_SECONDS INT UNSIGNED NOT NULL COMMENT '更新間隔（秒）',
+	IS_OPEN_VOTE BOOLEAN NOT NULL COMMENT '記名投票か',
+	IS_POSSIBLE_SKILL_REQUEST BOOLEAN NOT NULL COMMENT '役職希望有効か',
+	PRIMARY KEY (VILLAGE_ID)
+) COMMENT = '村設定'
+2017-12-20 00:28:18,037 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+CREATE TABLE VILLAGE_STATUS
+(
+	VILLAGE_STATUS_CODE VARCHAR(20) NOT NULL COMMENT '村ステータスコード',
+	VILLAGE_STATUS_NAME VARCHAR(20) NOT NULL COMMENT '村ステータス名',
+	PRIMARY KEY (VILLAGE_STATUS_CODE)
+) COMMENT = '村ステータス'
+2017-12-20 00:28:18,051 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+/* Create Foreign Keys */
+
+ALTER TABLE PLAYER
+	ADD CONSTRAINT FK_PLAYER_AUTHORITY FOREIGN KEY (AUTHORITY_CODE)
+	REFERENCES AUTHORITY (AUTHORITY_CODE)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-20 00:28:18,075 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE SKILL
+	ADD CONSTRAINT FK_SKILL_CAMP FOREIGN KEY ( CAMP_CODE)
+	REFERENCES CAMP (CAMP_CODE)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-20 00:28:18,091 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE VILLAGE
+	ADD CONSTRAINT FK_VILLAGE_CAMP FOREIGN KEY (WIN_CAMP_CODE)
+	REFERENCES CAMP (CAMP_CODE)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-20 00:28:18,110 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE VILLAGE_PLAYER
+	ADD CONSTRAINT FK_VILLAGE_PLAYER_CHARA FOREIGN KEY (CHARA_ID)
+	REFERENCES CHARA (CHARA_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-20 00:28:18,130 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE CHARA
+	ADD CONSTRAINT FK_CHARA_CHARA_GROUP FOREIGN KEY (CHARA_GROUP_ID)
+	REFERENCES CHARA_GROUP (CHARA_GROUP_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-20 00:28:18,146 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE CHARA_GROUP
+	ADD CONSTRAINT FK_CHARA_GROUP_DESIGNER FOREIGN KEY (DESIGNER_ID)
+	REFERENCES DESIGNER (DESIGNER_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-20 00:28:18,163 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE MESSAGE
+	ADD CONSTRAINT FK_MESSAGE_MESSAGE_TYPE FOREIGN KEY (MESSAGE_TYPE_CODE)
+	REFERENCES MESSAGE_TYPE (MESSAGE_TYPE_CODE)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-20 00:28:18,183 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE MESSAGE
+	ADD CONSTRAINT FK_MESSAGE_PLAYER FOREIGN KEY (PLAYER_ID)
+	REFERENCES PLAYER (PLAYER_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-20 00:28:18,204 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE VILLAGE_PLAYER
+	ADD CONSTRAINT FK_VILLAGE_PLAYER_PLAYER FOREIGN KEY (PLAYER_ID)
+	REFERENCES PLAYER (PLAYER_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-20 00:28:18,227 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE VILLAGE_PLAYER
+	ADD CONSTRAINT FK_VILLAGE_PLAYER_SKILL FOREIGN KEY (SKILL_CODE)
+	REFERENCES SKILL (SKILL_CODE)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-20 00:28:18,244 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE MESSAGE
+	ADD CONSTRAINT FK_MESSAGE_VILLAGE FOREIGN KEY (VILLAGE_ID)
+	REFERENCES VILLAGE (VILALGE_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-20 00:28:18,268 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE VILLAGE_PLAYER
+	ADD CONSTRAINT FK_VILLAGE_PLAYER_VILLAGE FOREIGN KEY (VILLAGE_ID)
+	REFERENCES VILLAGE (VILALGE_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-20 00:28:18,297 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE VILLAGE_SETTINGS
+	ADD CONSTRAINT FK_VILLAGE_SETTINGS_VILLAGE FOREIGN KEY (VILLAGE_ID)
+	REFERENCES VILLAGE (VILALGE_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-20 00:28:18,315 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE MESSAGE
+	ADD CONSTRAINT FK_MESSAGE_VILLAGE_PLAYER FOREIGN KEY (VILLAGE_PLAYER_ID)
+	REFERENCES VILLAGE_PLAYER (VILLAGE_PLAYER_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-20 00:28:18,336 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE MESSAGE
+	ADD CONSTRAINT FK_MESSAGE_VILLAGE_PLAYER_TO FOREIGN KEY (TO_VILLAGE_PLAYER_ID)
+	REFERENCES VILLAGE_PLAYER (VILLAGE_PLAYER_ID)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-20 00:28:18,360 [main] INFO  (DfSqlFileRunnerBase#traceSql():168) - 
+ALTER TABLE VILLAGE
+	ADD CONSTRAINT FK_VILLAGE_VILLAGE_STATUS FOREIGN KEY (VILLAGE_STATUS_CODE)
+	REFERENCES VILLAGE_STATUS (VILLAGE_STATUS_CODE)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+2017-12-20 00:28:18,381 [main] INFO  (DfSqlFileRunnerBase#traceResult():172) -  -> success=29 failure=0
+2017-12-20 00:28:18,382 [main] INFO  (DfSqlFileFireMan#fire():64) - ...Firing: replace-schema.sql
+2017-12-20 00:28:18,383 [main] INFO  (DfSqlFileRunnerBase#traceResult():172) -  -> success=0 failure=0
+2017-12-20 00:28:18,383 [main] INFO  (DfSqlFileFireMan#fire():89) - {Create Schema}: success=29 failure=0 (in 2 files)
+2017-12-20 00:28:18,435 [main] INFO  (DfLoadDataProcess#execute():129) - 
+2017-12-20 00:28:18,435 [main] INFO  (DfLoadDataProcess#execute():130) - * * * * * * * * * * *
+2017-12-20 00:28:18,436 [main] INFO  (DfLoadDataProcess#execute():131) - *                   *
+2017-12-20 00:28:18,436 [main] INFO  (DfLoadDataProcess#execute():132) - * Load Data         *
+2017-12-20 00:28:18,436 [main] INFO  (DfLoadDataProcess#execute():133) - *                   *
+2017-12-20 00:28:18,436 [main] INFO  (DfLoadDataProcess#execute():134) - * * * * * * * * * * *
+2017-12-20 00:28:18,463 [main] INFO  (DfDelimiterDataWriterImpl#writeData():87) - /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+2017-12-20 00:28:18,464 [main] INFO  (DfDelimiterDataWriterImpl#writeData():88) - writeData(playsql/data/common/tsv/UTF-8/01-authority.tsv)
+2017-12-20 00:28:18,464 [main] INFO  (DfDelimiterDataWriterImpl#writeData():89) - = = = = = = =/
+2017-12-20 00:28:18,465 [main] INFO  (DfTableExtractor#doGetTableList():66) - ...Getting tables:
+2017-12-20 00:28:18,465 [main] INFO  (DfTableExtractor#doGetTableList():67) -   schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-20 00:28:18,465 [main] INFO  (DfTableExtractor#doGetTableList():68) -   types  = [TABLE, VIEW]
+2017-12-20 00:28:18,482 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - authority:{PLAYER, プレイヤー}
+2017-12-20 00:28:18,501 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - authority:{ADMIN, 管理者}
+2017-12-20 00:28:18,503 [main] INFO  (DfAbsractDataWriter#noticeLoadedRowSize():1099) -  -> 2 rows are loaded to authority
+2017-12-20 00:28:18,505 [main] INFO  (DfDelimiterDataWriterImpl#writeData():87) - /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+2017-12-20 00:28:18,506 [main] INFO  (DfDelimiterDataWriterImpl#writeData():88) - writeData(playsql/data/common/tsv/UTF-8/02-camp.tsv)
+2017-12-20 00:28:18,506 [main] INFO  (DfDelimiterDataWriterImpl#writeData():89) - = = = = = = =/
+2017-12-20 00:28:18,506 [main] INFO  (DfTableExtractor#doGetTableList():66) - ...Getting tables:
+2017-12-20 00:28:18,506 [main] INFO  (DfTableExtractor#doGetTableList():67) -   schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-20 00:28:18,507 [main] INFO  (DfTableExtractor#doGetTableList():68) -   types  = [TABLE, VIEW]
+2017-12-20 00:28:18,518 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - camp:{VILLAGER, 村人陣営}
+2017-12-20 00:28:18,519 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - camp:{WEREWOLF, 人狼陣営}
+2017-12-20 00:28:18,519 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - camp:{FOX, 狐陣営}
+2017-12-20 00:28:18,522 [main] INFO  (DfAbsractDataWriter#noticeLoadedRowSize():1099) -  -> 3 rows are loaded to camp
+2017-12-20 00:28:18,523 [main] INFO  (DfDelimiterDataWriterImpl#writeData():87) - /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+2017-12-20 00:28:18,523 [main] INFO  (DfDelimiterDataWriterImpl#writeData():88) - writeData(playsql/data/common/tsv/UTF-8/03-village_status.tsv)
+2017-12-20 00:28:18,523 [main] INFO  (DfDelimiterDataWriterImpl#writeData():89) - = = = = = = =/
+2017-12-20 00:28:18,524 [main] INFO  (DfTableExtractor#doGetTableList():66) - ...Getting tables:
+2017-12-20 00:28:18,524 [main] INFO  (DfTableExtractor#doGetTableList():67) -   schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-20 00:28:18,524 [main] INFO  (DfTableExtractor#doGetTableList():68) -   types  = [TABLE, VIEW]
+2017-12-20 00:28:18,541 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - village_status:{IN_PREPARATION, 募集中}
+2017-12-20 00:28:18,544 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - village_status:{WAITING, 開始待ち}
+2017-12-20 00:28:18,545 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - village_status:{IN_PROGRESS, 進行中}
+2017-12-20 00:28:18,545 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - village_status:{EPILOGUE, エピローグ}
+2017-12-20 00:28:18,546 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - village_status:{COMPLETED, 終了}
+2017-12-20 00:28:18,546 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - village_status:{CANCEL, 廃村}
+2017-12-20 00:28:18,549 [main] INFO  (DfAbsractDataWriter#noticeLoadedRowSize():1099) -  -> 6 rows are loaded to village_status
+2017-12-20 00:28:18,549 [main] INFO  (DfDelimiterDataWriterImpl#writeData():87) - /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+2017-12-20 00:28:18,550 [main] INFO  (DfDelimiterDataWriterImpl#writeData():88) - writeData(playsql/data/common/tsv/UTF-8/04-skill.tsv)
+2017-12-20 00:28:18,550 [main] INFO  (DfDelimiterDataWriterImpl#writeData():89) - = = = = = = =/
+2017-12-20 00:28:18,550 [main] INFO  (DfTableExtractor#doGetTableList():66) - ...Getting tables:
+2017-12-20 00:28:18,550 [main] INFO  (DfTableExtractor#doGetTableList():67) -   schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-20 00:28:18,551 [main] INFO  (DfTableExtractor#doGetTableList():68) -   types  = [TABLE, VIEW]
+2017-12-20 00:28:18,562 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - skill:{VILLAGER, 村人, VILLAGER}
+2017-12-20 00:28:18,563 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - skill:{SEER, 占い師, VILLAGER}
+2017-12-20 00:28:18,563 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - skill:{MEDIUM, 霊能者, VILLAGER}
+2017-12-20 00:28:18,565 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - skill:{HUNTER, 狩人, VILLAGER}
+2017-12-20 00:28:18,566 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - skill:{MAISON, 共有者, VILLAGER}
+2017-12-20 00:28:18,567 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - skill:{STIGMA, 聖痕者, VILLAGER}
+2017-12-20 00:28:18,567 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - skill:{WISE, 賢者, VILLAGER}
+2017-12-20 00:28:18,567 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - skill:{GURU, 導師, VILLAGER}
+2017-12-20 00:28:18,567 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - skill:{MADMAN, 狂人, WEREWOLF}
+2017-12-20 00:28:18,568 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - skill:{CMADMAN, C国狂人, WEREWOLF}
+2017-12-20 00:28:18,568 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - skill:{EVILMEDIUM, 魔神官, WEREWOLF}
+2017-12-20 00:28:18,568 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - skill:{WEREWOLF, 人狼, WEREWOLF}
+2017-12-20 00:28:18,569 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - skill:{FOX, 妖狐, FOX}
+2017-12-20 00:28:18,575 [main] INFO  (DfAbsractDataWriter#noticeLoadedRowSize():1099) -  -> 13 rows are loaded to skill
+2017-12-20 00:28:18,575 [main] INFO  (DfDelimiterDataWriterImpl#writeData():87) - /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+2017-12-20 00:28:18,576 [main] INFO  (DfDelimiterDataWriterImpl#writeData():88) - writeData(playsql/data/common/tsv/UTF-8/05-message_type.tsv)
+2017-12-20 00:28:18,576 [main] INFO  (DfDelimiterDataWriterImpl#writeData():89) - = = = = = = =/
+2017-12-20 00:28:18,576 [main] INFO  (DfTableExtractor#doGetTableList():66) - ...Getting tables:
+2017-12-20 00:28:18,576 [main] INFO  (DfTableExtractor#doGetTableList():67) -   schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-20 00:28:18,576 [main] INFO  (DfTableExtractor#doGetTableList():68) -   types  = [TABLE, VIEW]
+2017-12-20 00:28:18,583 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - message_type:{PUBLIC_SYSTEM, 公開システムメッセージ}
+2017-12-20 00:28:18,584 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - message_type:{PRIVATE_SYSTEM, 非公開システムメッセージ}
+2017-12-20 00:28:18,586 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - message_type:{NORMAL_SAY, 通常発言}
+2017-12-20 00:28:18,587 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - message_type:{MONOLOGUE_SAY, 独り言}
+2017-12-20 00:28:18,595 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - message_type:{GRAVE_SAY, 死者の呻き}
+2017-12-20 00:28:18,596 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - message_type:{WEREWOLF_SAY, 人狼の囁き}
+2017-12-20 00:28:18,596 [main] INFO  (DfAbsractDataWriter#handleLoggingInsert():1083) - message_type:{MASON_SAY, 共鳴発言}
+2017-12-20 00:28:18,601 [main] INFO  (DfAbsractDataWriter#noticeLoadedRowSize():1099) -  -> 7 rows are loaded to message_type
+2017-12-20 00:28:18,603 [main] INFO  (DfLoadDataProcess#lazyCheckLoadedClassifiaction():380) - ...Checking implicit set of classification
+2017-12-20 00:28:18,627 [main] INFO  (DfDatabaseProperties#createMainSchemaConnection():981) - ...Creating connection to main schema: {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-20 00:28:18,646 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for Authority classification
+select AUTHORITY_CODE as cls_code, AUTHORITY_NAME as cls_name
+     , AUTHORITY_NAME as cls_alias, null as cls_comment
+  from AUTHORITY
+2017-12-20 00:28:18,649 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for Camp classification
+select CAMP_CODE as cls_code, CAMP_NAME as cls_name
+     , CAMP_NAME as cls_alias, null as cls_comment
+  from CAMP
+2017-12-20 00:28:18,651 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for VillageStatus classification
+select VILLAGE_STATUS_CODE as cls_code, VILLAGE_STATUS_NAME as cls_name
+     , VILLAGE_STATUS_NAME as cls_alias, null as cls_comment
+  from VILLAGE_STATUS
+2017-12-20 00:28:18,653 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for Skill classification
+select SKILL_CODE as cls_code, SKILL_NAME as cls_name
+     , SKILL_NAME as cls_alias, null as cls_comment
+  from SKILL
+2017-12-20 00:28:18,676 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for MessageType classification
+select MESSAGE_TYPE_CODE as cls_code, MESSAGE_TYPE_NAME as cls_name
+     , MESSAGE_TYPE_NAME as cls_alias, null as cls_comment
+  from MESSAGE_TYPE
+2017-12-20 00:28:18,694 [main] INFO  (DfTakeFinallyProcess#takeFinally():229) - 
+2017-12-20 00:28:18,694 [main] INFO  (DfTakeFinallyProcess#takeFinally():230) - * * * * * * * **
+2017-12-20 00:28:18,695 [main] INFO  (DfTakeFinallyProcess#takeFinally():231) - *              *
+2017-12-20 00:28:18,695 [main] INFO  (DfTakeFinallyProcess#takeFinally():232) - * Take Finally *
+2017-12-20 00:28:18,696 [main] INFO  (DfTakeFinallyProcess#takeFinally():233) - *              *
+2017-12-20 00:28:18,696 [main] INFO  (DfTakeFinallyProcess#takeFinally():234) - * * * * * * * **
+2017-12-20 00:28:18,702 [main] INFO  (DfSqlFileFireMan#fire():64) - ...Firing: take-finally.sql
+2017-12-20 00:28:18,703 [main] INFO  (DfSqlFileRunnerBase#traceResult():172) -  -> success=0 failure=0
+2017-12-20 00:28:18,703 [main] INFO  (DfSqlFileFireMan#fire():89) - {Take Finally}: success=0 failure=0 (in 1 files)
+2017-12-20 00:28:18,704 [main] INFO  (DfDataSourceHandler#destroy():120) - ...closeReally()
+2017-12-20 00:28:18,707 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m02s396ms
+
+  DBFLUTE_CLIENT: {werewolf-mansiondb}
+    database  = mysql (MySQL 5.7.16)
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {user=wmansion, password=wmans10n}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+
+ {Create Schema}: success=29 failure=0 (in 2 files)
+  o replace-schema-10-basic.sql
+  o replace-schema.sql
+
+ {Load Data}: loaded-files=5
+  (common)
+  o 01-authority.tsv
+  o 02-camp.tsv
+  o 03-village_status.tsv
+  o (and other tsv files...)
+
+ {Take Finally}: success=0 failure=0 (in 1 files)
+  o take-finally.sql
+_/_/_/_/_/_/_/_/_/_/ {ReplaceSchema}
+2017-12-20 00:28:19,437 [main] INFO  (TorqueJDBCTransformTask#begin():104) - +------------------------------------------+
+2017-12-20 00:28:19,439 [main] INFO  (TorqueJDBCTransformTask#begin():105) - |                                          |
+2017-12-20 00:28:19,440 [main] INFO  (TorqueJDBCTransformTask#begin():106) - |                   JDBC                   |
+2017-12-20 00:28:19,440 [main] INFO  (TorqueJDBCTransformTask#begin():107) - |                                          |
+2017-12-20 00:28:19,440 [main] INFO  (TorqueJDBCTransformTask#begin():108) - +------------------------------------------+
+2017-12-20 00:28:19,463 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-20 00:28:19,463 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-20 00:28:19,464 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-20 00:28:19,464 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-20 00:28:19,515 [main] INFO  (DfSchemaXmlSerializer#serialize():286) - 
+2017-12-20 00:28:19,517 [main] INFO  (DfSchemaXmlSerializer#serialize():287) - ...Starting to process JDBC to SchemaXML
+2017-12-20 00:28:19,518 [main] INFO  (DfSchemaXmlSerializer#doLoadPreviousSchema():1532) - ...Loading previous schema (schema diff process)
+2017-12-20 00:28:19,532 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-20 00:28:19,660 [main] INFO  (DfSchemaXmlSerializer#generateXML():360) - ...Getting DB connection
+2017-12-20 00:28:19,663 [main] INFO  (DfDataSourceHandler#createConnection():166) - ...Connecting to database by data source:
+2017-12-20 00:28:19,961 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():233) -   product = MySQL 5.7.16
+2017-12-20 00:28:19,962 [main] INFO  (DfDataSourceHandler#setupConnectionMetaInfo():234) -   driver  = MySQL Connector Java mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 ) for JDBC 4.0
+2017-12-20 00:28:19,963 [main] INFO  (DfSchemaXmlSerializer#generateXML():363) - ...Getting DB meta data
+2017-12-20 00:28:19,964 [main] INFO  (DfTableExtractor#doGetTableList():66) - ...Getting tables:
+2017-12-20 00:28:19,964 [main] INFO  (DfTableExtractor#doGetTableList():67) -   schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-20 00:28:19,965 [main] INFO  (DfTableExtractor#doGetTableList():68) -   types  = [TABLE, VIEW]
+2017-12-20 00:28:19,975 [main] INFO  (DfDbCommentExtractorBase#doSelectUserTabComments():121) - select table_type as OBJECT_TYPE, table_name as TABLE_NAME, table_comment as COMMENTS from information_schema.tables where table_schema = 'werewolf_mansiondb' order by table_name asc
+2017-12-20 00:28:19,981 [main] INFO  (DfDbCommentExtractorBase#doSelectUserColComments():168) - select table_name as TABLE_NAME, column_name as COLUMN_NAME, column_comment as COMMENTS from information_schema.columns where table_schema = 'werewolf_mansiondb' order by table_name asc, column_name asc
+2017-12-20 00:28:19,989 [main] INFO  (DfDatetimePrecisionExtractorMySQL#extractDatetimePrecisionMap():59) - select TABLE_NAME, COLUMN_NAME, DATETIME_PRECISION from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA = 'werewolf_mansiondb' and DATA_TYPE = 'datetime'
+2017-12-20 00:28:19,999 [main] INFO  (DfSchemaXmlSerializer#processTable():420) - 
+2017-12-20 00:28:20,006 [main] INFO  (DfSchemaXmlSerializer#processTable():421) - $ /= = = = = = = = = = = = = = = = = = = = = = = = = =
+2017-12-20 00:28:20,018 [main] INFO  (DfSchemaXmlSerializer#processTable():422) - $ [Table List]
+2017-12-20 00:28:20,019 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.AUTHORITY(TABLE) // 権限
+2017-12-20 00:28:20,068 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.CAMP(TABLE) // 陣営
+2017-12-20 00:28:20,081 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.CHARA(TABLE) // キャラクター
+2017-12-20 00:28:20,103 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.CHARA_GROUP(TABLE) // キャラクターグループ
+2017-12-20 00:28:20,141 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.DESIGNER(TABLE) // デザイナー
+2017-12-20 00:28:20,151 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.MESSAGE(TABLE) // メッセージ
+2017-12-20 00:28:20,177 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.MESSAGE_TYPE(TABLE) // メッセージ種別
+2017-12-20 00:28:20,200 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.PLAYER(TABLE) // プレイヤー
+2017-12-20 00:28:20,208 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.SKILL(TABLE) // 役職
+2017-12-20 00:28:20,217 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.VILLAGE(TABLE) // 村
+2017-12-20 00:28:20,238 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.VILLAGE_PLAYER(TABLE) // 村参加者
+2017-12-20 00:28:20,262 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.VILLAGE_SETTINGS(TABLE) // 村設定
+2017-12-20 00:28:20,278 [main] INFO  (DfSchemaXmlSerializer#doProcessTable():502) - $ werewolf_mansiondb.VILLAGE_STATUS(TABLE) // 村ステータス
+2017-12-20 00:28:20,288 [main] INFO  (DfSchemaXmlSerializer#processTable():434) - $ 
+2017-12-20 00:28:20,289 [main] INFO  (DfSchemaXmlSerializer#processTable():435) - $ [Table Count]
+2017-12-20 00:28:20,289 [main] INFO  (DfSchemaXmlSerializer#processTable():436) - $ 13
+2017-12-20 00:28:20,289 [main] INFO  (DfSchemaXmlSerializer#processTable():437) - $ = = = = = = = = = =/
+2017-12-20 00:28:20,289 [main] INFO  (DfSchemaXmlSerializer#processTable():438) - 
+2017-12-20 00:28:20,292 [main] INFO  (DfSchemaXmlSerializer#processSequence():805) - ...Getting sequences
+2017-12-20 00:28:20,296 [main] INFO  (DfSchemaXmlSerializer#serialize():301) - ...Serializing XML:
+2017-12-20 00:28:20,296 [main] INFO  (DfSchemaXmlSerializer#serialize():302) -   filePath = ./schema/project-schema-werewolf-mansiondb.xml
+2017-12-20 00:28:20,297 [main] INFO  (DfSchemaXmlSerializer#serialize():303) -   encoding = UTF-8
+2017-12-20 00:28:20,413 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1550) - ...Loading next schema (schema diff process)
+2017-12-20 00:28:20,415 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-20 00:28:20,443 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1555) -  -> different from previous (schema diff)
+2017-12-20 00:28:20,447 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1557) - ...Serializing schema-diff:
+2017-12-20 00:28:20,447 [main] INFO  (DfSchemaXmlSerializer#doLoadNextSchema():1558) -   filePath = ./schema/project-history-werewolf-mansiondb.diffmap
+2017-12-20 00:28:20,455 [main] INFO  (DfDataSourceHandler#destroy():120) - ...closeReally()
+2017-12-20 00:28:20,462 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m01s036ms
+
+  DBFLUTE_CLIENT: {werewolf-mansiondb}
+    database  = mysql (MySQL 5.7.16)
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {JDBC}
+2017-12-20 00:28:21,185 [main] INFO  (TorqueDocumentationTask#begin():177) - +------------------------------------------+
+2017-12-20 00:28:21,192 [main] INFO  (TorqueDocumentationTask#begin():178) - |                                          |
+2017-12-20 00:28:21,194 [main] INFO  (TorqueDocumentationTask#begin():179) - |                   Doc                    |
+2017-12-20 00:28:21,195 [main] INFO  (TorqueDocumentationTask#begin():187) - |                                          |
+2017-12-20 00:28:21,196 [main] INFO  (TorqueDocumentationTask#begin():188) - +------------------------------------------+
+2017-12-20 00:28:21,240 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-20 00:28:21,247 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-20 00:28:21,247 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-20 00:28:21,248 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-20 00:28:21,250 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():249) - 
+2017-12-20 00:28:21,250 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():250) - * * * * * * * * * * *
+2017-12-20 00:28:21,253 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():251) - *                   *
+2017-12-20 00:28:21,254 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():252) - *    Schema HTML    *
+2017-12-20 00:28:21,254 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():253) - *                   *
+2017-12-20 00:28:21,255 [main] INFO  (TorqueDocumentationTask#processSchemaHtml():254) - * * * * * * * * * * *
+2017-12-20 00:28:21,334 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-20 00:28:21,433 [main] INFO  (DfAbstractTexenTask#fireVelocityProcess():253) - generator.parse("doc/ControlDocument.vm", ctx);
+2017-12-20 00:28:21,613 [main] INFO  (Database#doEnableDocumentOutputDirectory():1180) - ...Setting up documentOutputDirectory: ./output/doc
+2017-12-20 00:28:21,622 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():62) - /=======================================
+2017-12-20 00:28:21,623 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():63) - ...Initializing additional primary keys.
+2017-12-20 00:28:21,625 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():88) - ==========/
+2017-12-20 00:28:21,626 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():62) - /=======================================
+2017-12-20 00:28:21,627 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():63) - ...Initializing additional unique keys.
+2017-12-20 00:28:21,628 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():83) - ==========/
+2017-12-20 00:28:21,630 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():68) - /=======================================
+2017-12-20 00:28:21,630 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():69) - ...Initializing additional foreign keys.
+2017-12-20 00:28:21,632 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():88) - ==========/
+2017-12-20 00:28:21,640 [main] INFO  (DfDatabaseProperties#createMainSchemaConnection():981) - ...Creating connection to main schema: {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-20 00:28:21,947 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for Authority classification
+select AUTHORITY_CODE as cls_code, AUTHORITY_NAME as cls_name
+     , AUTHORITY_NAME as cls_alias, null as cls_comment
+  from AUTHORITY
+2017-12-20 00:28:21,951 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for Camp classification
+select CAMP_CODE as cls_code, CAMP_NAME as cls_name
+     , CAMP_NAME as cls_alias, null as cls_comment
+  from CAMP
+2017-12-20 00:28:21,956 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for VillageStatus classification
+select VILLAGE_STATUS_CODE as cls_code, VILLAGE_STATUS_NAME as cls_name
+     , VILLAGE_STATUS_NAME as cls_alias, null as cls_comment
+  from VILLAGE_STATUS
+2017-12-20 00:28:21,960 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for Skill classification
+select SKILL_CODE as cls_code, SKILL_NAME as cls_name
+     , SKILL_NAME as cls_alias, null as cls_comment
+  from SKILL
+2017-12-20 00:28:21,963 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for MessageType classification
+select MESSAGE_TYPE_CODE as cls_code, MESSAGE_TYPE_NAME as cls_name
+     , MESSAGE_TYPE_NAME as cls_alias, null as cls_comment
+  from MESSAGE_TYPE
+2017-12-20 00:28:21,968 [main] INFO  (DfDocumentSelector#doLoadSchemaHistory():157) - ...Loading schema history
+2017-12-20 00:28:22,006 [main] INFO  (DfDocumentSelector#doLoadSchemaHistory():161) -  -> found history: count=5
+2017-12-20 00:28:22,291 [main] INFO  (DfRefreshResourceProcess#show():299) - /===========================================================================
+2017-12-20 00:28:22,292 [main] INFO  (DfRefreshResourceProcess#show():299) - ...Refreshing [werewolf-mansion] by http://localhost:8386/
+2017-12-20 00:28:22,326 [main] INFO  (DfRefreshResourceProcess#show():299) - ==========/
+2017-12-20 00:28:22,367 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m01s181ms
+
+  DBFLUTE_CLIENT: {werewolf-mansiondb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {user=wmansion, password=wmans10n}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {Doc}
+2017-12-20 00:28:24,731 [main] INFO  (TorqueDataModelTask#begin():110) - +------------------------------------------+
+2017-12-20 00:28:24,734 [main] INFO  (TorqueDataModelTask#begin():111) - |                                          |
+2017-12-20 00:28:24,734 [main] INFO  (TorqueDataModelTask#begin():112) - |                 Generate                 |
+2017-12-20 00:28:24,734 [main] INFO  (TorqueDataModelTask#begin():113) - |                                          |
+2017-12-20 00:28:24,735 [main] INFO  (TorqueDataModelTask#begin():114) - +------------------------------------------+
+2017-12-20 00:28:24,762 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-20 00:28:24,763 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-20 00:28:24,764 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-20 00:28:24,765 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-20 00:28:24,779 [main] INFO  (TorqueDataModelTask#setupControlTemplate():166) - 
+2017-12-20 00:28:24,779 [main] INFO  (TorqueDataModelTask#setupControlTemplate():167) - ...Using Java control: om/ControlGenerateJava.vm
+2017-12-20 00:28:24,826 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-20 00:28:24,881 [main] INFO  (DfAbstractTexenTask#fireVelocityProcess():253) - generator.parse("om/ControlGenerateJava.vm", ctx);
+2017-12-20 00:28:25,072 [main] INFO  (Database#doEnableGenerateOutputDirectory():1148) - ...Setting up generateOutputDirectory: ../src/main/java
+2017-12-20 00:28:25,075 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():62) - /=======================================
+2017-12-20 00:28:25,075 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():63) - ...Initializing additional primary keys.
+2017-12-20 00:28:25,076 [main] INFO  (DfAdditionalPrimaryKeyInitializer#initializeAdditionalPrimaryKey():88) - ==========/
+2017-12-20 00:28:25,077 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():62) - /=======================================
+2017-12-20 00:28:25,077 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():63) - ...Initializing additional unique keys.
+2017-12-20 00:28:25,078 [main] INFO  (DfAdditionalUniqueKeyInitializer#initializeAdditionalUniqueKey():83) - ==========/
+2017-12-20 00:28:25,079 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():68) - /=======================================
+2017-12-20 00:28:25,080 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():69) - ...Initializing additional foreign keys.
+2017-12-20 00:28:25,081 [main] INFO  (DfAdditionalForeignKeyInitializer#initializeAdditionalForeignKey():88) - ==========/
+2017-12-20 00:28:25,087 [main] INFO  (DfDatabaseProperties#createMainSchemaConnection():981) - ...Creating connection to main schema: {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-20 00:28:25,341 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for Authority classification
+select AUTHORITY_CODE as cls_code, AUTHORITY_NAME as cls_name
+     , AUTHORITY_NAME as cls_alias, null as cls_comment
+  from AUTHORITY
+2017-12-20 00:28:25,345 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for Camp classification
+select CAMP_CODE as cls_code, CAMP_NAME as cls_name
+     , CAMP_NAME as cls_alias, null as cls_comment
+  from CAMP
+2017-12-20 00:28:25,346 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for VillageStatus classification
+select VILLAGE_STATUS_CODE as cls_code, VILLAGE_STATUS_NAME as cls_name
+     , VILLAGE_STATUS_NAME as cls_alias, null as cls_comment
+  from VILLAGE_STATUS
+2017-12-20 00:28:25,348 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for Skill classification
+select SKILL_CODE as cls_code, SKILL_NAME as cls_name
+     , SKILL_NAME as cls_alias, null as cls_comment
+  from SKILL
+2017-12-20 00:28:25,352 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for MessageType classification
+select MESSAGE_TYPE_CODE as cls_code, MESSAGE_TYPE_NAME as cls_name
+     , MESSAGE_TYPE_NAME as cls_alias, null as cls_comment
+  from MESSAGE_TYPE
+2017-12-20 00:28:25,365 [main] INFO  (DfIncludeQueryInitializer#initializeIncludeQuery():58) - /=============================
+2017-12-20 00:28:25,365 [main] INFO  (DfIncludeQueryInitializer#initializeIncludeQuery():59) - ...Initializing include query.
+2017-12-20 00:28:25,366 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - String
+2017-12-20 00:28:25,366 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - Number
+2017-12-20 00:28:25,366 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - Date
+2017-12-20 00:28:25,366 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():86) -   NotEqual -> []
+2017-12-20 00:28:25,367 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():86) -   InScope -> []
+2017-12-20 00:28:25,367 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():86) -   NotInScope -> []
+2017-12-20 00:28:25,367 [main] INFO  (DfIncludeQueryInitializer#checkQueryMap():81) - OrderBy
+2017-12-20 00:28:25,367 [main] INFO  (DfIncludeQueryInitializer#initializeIncludeQuery():61) - ========/
+2017-12-20 00:28:25,378 [main] INFO  (Database#info():2737) - public void parseAllCommon() {
+2017-12-20 00:28:25,379 [main] INFO  (Database#info():2737) -     parse('CDef');
+2017-12-20 00:28:25,470 [main] INFO  (Database#info():2737) -     parse('DBCurrent');
+2017-12-20 00:28:25,475 [main] INFO  (Database#info():2737) -     parse('DBFluteConfig');
+2017-12-20 00:28:25,492 [main] INFO  (Database#info():2737) -     parse('DBFluteInitializer');
+2017-12-20 00:28:25,498 [main] INFO  (Database#info():2737) -     parse('DBMetaInstanceHandler');
+2017-12-20 00:28:25,541 [main] INFO  (Database#info():2737) -     parse('EntityDefinedCommonColumn');
+2017-12-20 00:28:25,561 [main] INFO  (Database#info():2737) -     parse('ImplementedBehaviorSelector');
+2017-12-20 00:28:25,566 [main] INFO  (Database#info():2737) -     parse('ImplementedCommonColumnAutoSetupper');
+2017-12-20 00:28:25,572 [main] INFO  (Database#info():2737) -     parse('ImplementedInvokerAssistant');
+2017-12-20 00:28:25,578 [main] INFO  (Database#info():2737) -     parse('ImplementedSqlClauseCreator');
+2017-12-20 00:28:25,583 [main] INFO  (Database#info():2737) - }
+2017-12-20 00:28:25,584 [main] INFO  (Database#info():2737) - public void parseContainerConfig() {
+2017-12-20 00:28:25,584 [main] INFO  (Database#info():2737) -     parse('com/ort/dbflute/allcommon/DBFluteBeansJavaConfig.java')
+2017-12-20 00:28:25,605 [main] INFO  (Database#info():2737) - }
+2017-12-20 00:28:25,610 [main] INFO  (DfOldClassHandler#info():1045) - public void deleteOldTableClass() {
+2017-12-20 00:28:25,650 [main] INFO  (DfOldClassHandler#info():1045) - }
+2017-12-20 00:28:25,651 [main] INFO  (Database#info():2737) - public void parseTableClass() {
+2017-12-20 00:28:25,655 [main] INFO  (Database#info():2737) -     parse('AUTHORITY');
+2017-12-20 00:28:25,913 [main] INFO  (Database#info():2737) -     parse('CAMP');
+2017-12-20 00:28:26,114 [main] INFO  (Database#info():2737) -     parse('CHARA');
+2017-12-20 00:28:26,283 [main] INFO  (Database#info():2737) -     parse('CHARA_GROUP');
+2017-12-20 00:28:26,459 [main] INFO  (Database#info():2737) -     parse('DESIGNER');
+2017-12-20 00:28:26,585 [main] INFO  (Database#info():2737) -     parse('MESSAGE');
+2017-12-20 00:28:26,816 [main] INFO  (Database#info():2737) -     parse('MESSAGE_TYPE');
+2017-12-20 00:28:26,939 [main] INFO  (Database#info():2737) -     parse('PLAYER');
+2017-12-20 00:28:27,128 [main] INFO  (Database#info():2737) -     parse('SKILL');
+2017-12-20 00:28:27,279 [main] INFO  (Database#info():2737) -     parse('VILLAGE');
+2017-12-20 00:28:27,481 [main] INFO  (Database#info():2737) -     parse('VILLAGE_PLAYER');
+2017-12-20 00:28:27,675 [main] INFO  (Database#info():2737) -     parse('VILLAGE_SETTINGS');
+2017-12-20 00:28:27,797 [main] INFO  (Database#info():2737) -     parse('VILLAGE_STATUS');
+2017-12-20 00:28:27,920 [main] INFO  (Database#info():2737) - }
+2017-12-20 00:28:27,920 [main] INFO  (Database#info():2737) -  
+2017-12-20 00:28:27,970 [main] INFO  (DfRefreshResourceProcess#show():299) - /===========================================================================
+2017-12-20 00:28:27,970 [main] INFO  (DfRefreshResourceProcess#show():299) - ...Refreshing [werewolf-mansion] by http://localhost:8386/
+2017-12-20 00:28:27,978 [main] INFO  (DfRefreshResourceProcess#show():299) - ==========/
+2017-12-20 00:28:27,983 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m03s266ms
+
+  DBFLUTE_CLIENT: {werewolf-mansiondb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {user=wmansion, password=wmans10n}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {Generate}
+2017-12-20 00:28:30,337 [main] INFO  (DfOutsideSqlTestTask#begin():77) - +------------------------------------------+
+2017-12-20 00:28:30,341 [main] INFO  (DfOutsideSqlTestTask#begin():78) - |                                          |
+2017-12-20 00:28:30,342 [main] INFO  (DfOutsideSqlTestTask#begin():79) - |              OutsideSqlTest              |
+2017-12-20 00:28:30,342 [main] INFO  (DfOutsideSqlTestTask#begin():80) - |                                          |
+2017-12-20 00:28:30,343 [main] INFO  (DfOutsideSqlTestTask#begin():81) - +------------------------------------------+
+2017-12-20 00:28:30,431 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-20 00:28:30,431 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-20 00:28:30,431 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-20 00:28:30,431 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-20 00:28:30,496 [main] INFO  (DfSqlFileFireMan#fire():89) - {Fired SQL}: success=0 failure=0 (in 0 files)
+2017-12-20 00:28:30,510 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m00s211ms
+
+  DBFLUTE_CLIENT: {werewolf-mansiondb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+
+ {Checked SQL}
+_/_/_/_/_/_/_/_/_/_/ {OutsideSqlTest}
+2017-12-20 00:28:32,172 [main] INFO  (DfSql2EntityTask#begin():106) - +------------------------------------------+
+2017-12-20 00:28:32,175 [main] INFO  (DfSql2EntityTask#begin():107) - |                                          |
+2017-12-20 00:28:32,175 [main] INFO  (DfSql2EntityTask#begin():108) - |                Sql2Entity                |
+2017-12-20 00:28:32,175 [main] INFO  (DfSql2EntityTask#begin():109) - |                                          |
+2017-12-20 00:28:32,175 [main] INFO  (DfSql2EntityTask#begin():110) - +------------------------------------------+
+2017-12-20 00:28:32,213 [main] INFO  (DfDataSourceHandler#prepare():78) - ...Preparing data source:
+2017-12-20 00:28:32,214 [main] INFO  (DfDataSourceHandler#prepare():79) -   driver = com.mysql.jdbc.Driver
+2017-12-20 00:28:32,214 [main] INFO  (DfDataSourceHandler#prepare():80) -   url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+2017-12-20 00:28:32,214 [main] INFO  (DfDataSourceHandler#prepare():81) -   user   = wmansion
+2017-12-20 00:28:32,233 [main] INFO  (DfSql2EntityTask#setupControlTemplate():177) - 
+2017-12-20 00:28:32,235 [main] INFO  (DfSql2EntityTask#setupControlTemplate():178) - ...Using Java control: om/ControlSql2EntityJava.vm
+2017-12-20 00:28:32,241 [main] INFO  (DTDResolver#resolveEntity():195) - ...Resolving XML by database.dtd in same package
+2017-12-20 00:28:32,561 [main] INFO  (DfSqlFileFireMan#fire():89) - {Fired SQL}: success=0 failure=0 (in 0 files)
+2017-12-20 00:28:32,653 [main] INFO  (DfSql2EntityTask#initControlContext():311) - 
+2017-12-20 00:28:32,653 [main] INFO  (DfSql2EntityTask#initControlContext():312) - ...Preparing generation of customize-entities and parameter-beans
+2017-12-20 00:28:32,654 [main] INFO  (DfSql2EntityTask#initControlContext():313) - * * * * * * * * * *
+2017-12-20 00:28:32,654 [main] INFO  (DfSql2EntityTask#initControlContext():314) - * CustomizeEntity *
+2017-12-20 00:28:32,655 [main] INFO  (DfSql2EntityTask#initControlContext():315) - * * * * * * * * * *
+2017-12-20 00:28:32,655 [main] INFO  (DfSql2EntityTask#showParameterBean():932) - * * * * * * * * *
+2017-12-20 00:28:32,656 [main] INFO  (DfSql2EntityTask#showParameterBean():933) - * ParameterBean *
+2017-12-20 00:28:32,656 [main] INFO  (DfSql2EntityTask#showParameterBean():934) - * * * * * * * * *
+2017-12-20 00:28:32,660 [main] INFO  (DfAbstractTexenTask#fireVelocityProcess():253) - generator.parse("om/ControlSql2EntityJava.vm", ctx);
+2017-12-20 00:28:33,185 [main] INFO  (DfDatabaseProperties#createMainSchemaConnection():981) - ...Creating connection to main schema: {werewolf_mansiondb.$$NoNameSchema$$ as main}
+2017-12-20 00:28:34,049 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for Authority classification
+select AUTHORITY_CODE as cls_code, AUTHORITY_NAME as cls_name
+     , AUTHORITY_NAME as cls_alias, null as cls_comment
+  from AUTHORITY
+2017-12-20 00:28:34,054 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for Camp classification
+select CAMP_CODE as cls_code, CAMP_NAME as cls_name
+     , CAMP_NAME as cls_alias, null as cls_comment
+  from CAMP
+2017-12-20 00:28:34,059 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for VillageStatus classification
+select VILLAGE_STATUS_CODE as cls_code, VILLAGE_STATUS_NAME as cls_name
+     , VILLAGE_STATUS_NAME as cls_alias, null as cls_comment
+  from VILLAGE_STATUS
+2017-12-20 00:28:34,061 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for Skill classification
+select SKILL_CODE as cls_code, SKILL_NAME as cls_name
+     , SKILL_NAME as cls_alias, null as cls_comment
+  from SKILL
+2017-12-20 00:28:34,064 [main] INFO  (DfClassificationProperties#setupTableClassification():688) - ...Selecting for MessageType classification
+select MESSAGE_TYPE_CODE as cls_code, MESSAGE_TYPE_NAME as cls_name
+     , MESSAGE_TYPE_NAME as cls_alias, null as cls_comment
+  from MESSAGE_TYPE
+2017-12-20 00:28:34,075 [main] INFO  (Database#doEnableSql2EntityOutputDirectory():1164) - ...Setting up sql2EntityOutputDirectory: ../src/main/java
+2017-12-20 00:28:34,079 [main] INFO  (DfOldClassHandler#info():1045) - public void deleteOldCustomizeClass() {
+2017-12-20 00:28:34,092 [main] INFO  (DfOldClassHandler#info():1045) - }
+2017-12-20 00:28:34,096 [main] INFO  (Database#info():2737) - public void parseCustomizeEntity() {
+2017-12-20 00:28:34,098 [main] INFO  (Database#info():2737) - }
+2017-12-20 00:28:34,117 [main] INFO  (DfSql2EntityTask#showTargetSqlFileInformation():303) - 
+/- - - - - - - - - - - - - - - - - - - - - - - -
+Target SQL files: 0
+
+- - - - - - - - - -/
+2017-12-20 00:28:34,125 [main] INFO  (DfRefreshResourceProcess#show():299) - /===========================================================================
+2017-12-20 00:28:34,126 [main] INFO  (DfRefreshResourceProcess#show():299) - ...Refreshing [werewolf-mansion] by http://localhost:8386/
+2017-12-20 00:28:34,129 [main] INFO  (DfRefreshResourceProcess#show():299) - ==========/
+2017-12-20 00:28:34,135 [main] INFO  (DfDBFluteTaskUtil#logFinalMessage():139) - 
+_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+[Final Message]: 00m01s983ms
+
+  DBFLUTE_CLIENT: {werewolf-mansiondb}
+    database  = mysql
+    language  = java
+    container = spring
+    package   = com.ort.dbflute
+
+  DBFLUTE_ENVIRONMENT_TYPE: {}
+    driver = com.mysql.jdbc.Driver
+    url    = jdbc:mysql://localhost:3306/werewolf_mansiondb?characterEncoding=UTF-8
+    schema = {werewolf_mansiondb.$$NoNameSchema$$ as main}
+    user   = wmansion
+    props  = {user=wmansion, password=wmans10n}
+    additionalSchema = 
+    repsEnvType      = ut
+    refreshProject   = $$AutoDetect$$
+_/_/_/_/_/_/_/_/_/_/ {Sql2Entity}

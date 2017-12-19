@@ -67,7 +67,7 @@ public abstract class BsVillagePlayerBhv extends AbstractBehaviorWritable<Villag
     /** {@inheritDoc} */
     public VillagePlayerDbm asDBMeta() { return VillagePlayerDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "village_player"; }
+    public String asTableDbName() { return "VILLAGE_PLAYER"; }
 
     // ===================================================================================
     //                                                                        New Instance
@@ -188,8 +188,8 @@ public abstract class BsVillagePlayerBhv extends AbstractBehaviorWritable<Villag
 
     /**
      * Select the entity by the unique-key value.
-     * @param villageId : UQ+, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
-     * @param playerId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to player. (NotNull)
+     * @param villageId : UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
+     * @param playerId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER. (NotNull)
      * @return The optional entity selected by the unique key. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.

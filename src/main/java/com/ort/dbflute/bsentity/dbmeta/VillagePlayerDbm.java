@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of village_player. (Singleton)
+ * The DB meta of VILLAGE_PLAYER. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillagePlayerDbm extends AbstractDBMeta {
@@ -77,7 +77,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "village_player";
+    protected final String _tableDbName = "VILLAGE_PLAYER";
     protected final String _tableDispName = "VILLAGE_PLAYER";
     protected final String _tablePropertyName = "villagePlayer";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_PLAYER", _tableDbName);
@@ -102,22 +102,22 @@ public class VillagePlayerDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnVillagePlayerId() { return _columnVillagePlayerId; }
     /**
-     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
     /**
-     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to player}
+     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnPlayerId() { return _columnPlayerId; }
     /**
-     * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharaId() { return _columnCharaId; }
     /**
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnSkillCode() { return _columnSkillCode; }

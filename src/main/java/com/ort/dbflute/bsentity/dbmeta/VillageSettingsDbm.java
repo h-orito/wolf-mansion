@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of village_settings. (Singleton)
+ * The DB meta of VILLAGE_SETTINGS. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillageSettingsDbm extends AbstractDBMeta {
@@ -69,7 +69,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "village_settings";
+    protected final String _tableDbName = "VILLAGE_SETTINGS";
     protected final String _tableDispName = "VILLAGE_SETTINGS";
     protected final String _tablePropertyName = "villageSettings";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_SETTINGS", _tableDbName);
@@ -91,7 +91,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnIsPossibleSkillRequest = cci("IS_POSSIBLE_SKILL_REQUEST", "IS_POSSIBLE_SKILL_REQUEST", null, null, Boolean.class, "isPossibleSkillRequest", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, null, false);
 
     /**
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
