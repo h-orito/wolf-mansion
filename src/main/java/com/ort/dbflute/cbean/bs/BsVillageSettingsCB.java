@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of VILLAGE_SETTINGS.
+ * The base condition-bean of village_settings.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillageSettingsCB extends AbstractConditionBean {
@@ -73,7 +73,7 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "VILLAGE_SETTINGS";
+        return "village_settings";
     }
 
     // ===================================================================================
@@ -81,7 +81,7 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
+     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
      * @return this. (NotNull)
      */
     public VillageSettingsCB acceptPK(Integer villageId) {
@@ -238,6 +238,35 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
     // ===================================================================================
     //                                                                         SetupSelect
     //                                                                         ===========
+    protected CharaGroupNss _nssCharaGroup;
+    public CharaGroupNss xdfgetNssCharaGroup() {
+        if (_nssCharaGroup == null) { _nssCharaGroup = new CharaGroupNss(null); }
+        return _nssCharaGroup;
+    }
+    /**
+     * Set up relation columns to select clause. <br>
+     * CHARA_GROUP by my CHARACTER_GROUP_ID, named 'charaGroup'.
+     * <pre>
+     * <span style="color: #0000C0">villageSettingsBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_CharaGroup()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     *     <span style="color: #553000">cb</span>.query().set...
+     * }).alwaysPresent(<span style="color: #553000">villageSettings</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     ... = <span style="color: #553000">villageSettings</span>.<span style="color: #CC4747">getCharaGroup()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
+     * });
+     * </pre>
+     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
+     */
+    public CharaGroupNss setupSelect_CharaGroup() {
+        assertSetupSelectPurpose("charaGroup");
+        if (hasSpecifiedLocalColumn()) {
+            specify().columnCharacterGroupId();
+        }
+        doSetupSelect(() -> query().queryCharaGroup());
+        if (_nssCharaGroup == null || !_nssCharaGroup.hasConditionQuery())
+        { _nssCharaGroup = new CharaGroupNss(query().queryCharaGroup()); }
+        return _nssCharaGroup;
+    }
+
     protected VillageNss _nssVillage;
     public VillageNss xdfgetNssVillage() {
         if (_nssVillage == null) { _nssVillage = new VillageNss(null); }
@@ -305,13 +334,14 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
     }
 
     public static class HpSpecification extends HpAbstractSpecification<VillageSettingsCQ> {
+        protected CharaGroupCB.HpSpecification _charaGroup;
         protected VillageCB.HpSpecification _village;
         public HpSpecification(ConditionBean baseCB, HpSpQyCall<VillageSettingsCQ> qyCall
                              , HpCBPurpose purpose, DBMetaProvider dbmetaProvider
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageId() { return doColumn("VILLAGE_ID"); }
@@ -336,23 +366,72 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnDayChangeIntervalSeconds() { return doColumn("DAY_CHANGE_INTERVAL_SECONDS"); }
         /**
-         * IS_OPEN_VOTE: {NotNull, BIT}
+         * IS_OPEN_VOTE: {NotNull, BIT, classification=Flg}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnIsOpenVote() { return doColumn("IS_OPEN_VOTE"); }
         /**
-         * IS_POSSIBLE_SKILL_REQUEST: {NotNull, BIT}
+         * IS_POSSIBLE_SKILL_REQUEST: {NotNull, BIT, classification=Flg}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnIsPossibleSkillRequest() { return doColumn("IS_POSSIBLE_SKILL_REQUEST"); }
+        /**
+         * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnCharacterGroupId() { return doColumn("CHARACTER_GROUP_ID"); }
+        /**
+         * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnRegisterDatetime() { return doColumn("REGISTER_DATETIME"); }
+        /**
+         * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnRegisterTrace() { return doColumn("REGISTER_TRACE"); }
+        /**
+         * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnUpdateDatetime() { return doColumn("UPDATE_DATETIME"); }
+        /**
+         * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnUpdateTrace() { return doColumn("UPDATE_TRACE"); }
         public void everyColumn() { doEveryColumn(); }
         public void exceptRecordMetaColumn() { doExceptRecordMetaColumn(); }
         @Override
         protected void doSpecifyRequiredColumn() {
             columnVillageId(); // PK
+            if (qyCall().qy().hasConditionQueryCharaGroup()
+                    || qyCall().qy().xgetReferrerQuery() instanceof CharaGroupCQ) {
+                columnCharacterGroupId(); // FK or one-to-one referrer
+            }
         }
         @Override
-        protected String getTableDbName() { return "VILLAGE_SETTINGS"; }
+        protected String getTableDbName() { return "village_settings"; }
+        /**
+         * Prepare to specify functions about relation table. <br>
+         * CHARA_GROUP by my CHARACTER_GROUP_ID, named 'charaGroup'.
+         * @return The instance for specification for relation table to specify. (NotNull)
+         */
+        public CharaGroupCB.HpSpecification specifyCharaGroup() {
+            assertRelation("charaGroup");
+            if (_charaGroup == null) {
+                _charaGroup = new CharaGroupCB.HpSpecification(_baseCB
+                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryCharaGroup()
+                                    , () -> _qyCall.qy().queryCharaGroup())
+                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
+                if (xhasSyncQyCall()) { // inherits it
+                    _charaGroup.xsetSyncQyCall(xcreateSpQyCall(
+                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryCharaGroup()
+                      , () -> xsyncQyCall().qy().queryCharaGroup()));
+                }
+            }
+            return _charaGroup;
+        }
         /**
          * Prepare to specify functions about relation table. <br>
          * VILLAGE by my VILLAGE_ID, named 'village'.

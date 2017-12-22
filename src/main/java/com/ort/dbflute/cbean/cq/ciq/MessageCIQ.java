@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of MESSAGE.
+ * The condition-query for in-line of message.
  * @author DBFlute(AutoGenerator)
  */
 public class MessageCIQ extends AbstractBsMessageCQ {
@@ -65,7 +65,6 @@ public class MessageCIQ extends AbstractBsMessageCQ {
     protected ConditionValue xgetCValueVillageId() { return _myCQ.xdfgetVillageId(); }
     protected ConditionValue xgetCValueVillagePlayerId() { return _myCQ.xdfgetVillagePlayerId(); }
     protected ConditionValue xgetCValuePlayerId() { return _myCQ.xdfgetPlayerId(); }
-    protected ConditionValue xgetCValueToVillagePlayerId() { return _myCQ.xdfgetToVillagePlayerId(); }
     protected ConditionValue xgetCValueDay() { return _myCQ.xdfgetDay(); }
     protected ConditionValue xgetCValueMessageTypeCode() { return _myCQ.xdfgetMessageTypeCode(); }
     protected ConditionValue xgetCValueMessageNumber() { return _myCQ.xdfgetMessageNumber(); }

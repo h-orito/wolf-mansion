@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of VILLAGE_PLAYER.
+ * The base condition-bean of village_player.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillagePlayerCB extends AbstractConditionBean {
@@ -73,7 +73,7 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "VILLAGE_PLAYER";
+        return "village_player";
     }
 
     // ===================================================================================
@@ -93,11 +93,24 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
 
     /**
      * Accept the query condition of unique key as equal.
-     * @param villageId : UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
-     * @param playerId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER. (NotNull)
+     * @param villageId : UQ+, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
+     * @param charaId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to chara. (NotNull)
      * @return this. (NotNull)
      */
-    public VillagePlayerCB acceptUniqueOf(Integer villageId, Integer playerId) {
+    public VillagePlayerCB acceptUniqueOfVillageIdCharaId(Integer villageId, Integer charaId) {
+        assertObjectNotNull("villageId", villageId);assertObjectNotNull("charaId", charaId);
+        BsVillagePlayerCB cb = this;
+        cb.query().setVillageId_Equal(villageId);cb.query().setCharaId_Equal(charaId);
+        return (VillagePlayerCB)this;
+    }
+
+    /**
+     * Accept the query condition of unique key as equal.
+     * @param villageId : UQ+, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
+     * @param playerId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to player. (NotNull)
+     * @return this. (NotNull)
+     */
+    public VillagePlayerCB acceptUniqueOfVillageIdPlayerId(Integer villageId, Integer playerId) {
         assertObjectNotNull("villageId", villageId);assertObjectNotNull("playerId", playerId);
         BsVillagePlayerCB cb = this;
         cb.query().setVillageId_Equal(villageId);cb.query().setPlayerId_Equal(playerId);
@@ -280,6 +293,26 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
         return _nssChara;
     }
 
+    /**
+     * Set up relation columns to select clause. <br>
+     * DEAD_REASON by my DEAD_REASON_CODE, named 'deadReason'.
+     * <pre>
+     * <span style="color: #0000C0">villagePlayerBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_DeadReason()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     *     <span style="color: #553000">cb</span>.query().set...
+     * }).alwaysPresent(<span style="color: #553000">villagePlayer</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     ... = <span style="color: #553000">villagePlayer</span>.<span style="color: #CC4747">getDeadReason()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
+     * });
+     * </pre>
+     */
+    public void setupSelect_DeadReason() {
+        assertSetupSelectPurpose("deadReason");
+        if (hasSpecifiedLocalColumn()) {
+            specify().columnDeadReasonCode();
+        }
+        doSetupSelect(() -> query().queryDeadReason());
+    }
+
     protected PlayerNss _nssPlayer;
     public PlayerNss xdfgetNssPlayer() {
         if (_nssPlayer == null) { _nssPlayer = new PlayerNss(null); }
@@ -409,6 +442,7 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
 
     public static class HpSpecification extends HpAbstractSpecification<VillagePlayerCQ> {
         protected CharaCB.HpSpecification _chara;
+        protected DeadReasonCB.HpSpecification _deadReason;
         protected PlayerCB.HpSpecification _player;
         protected SkillCB.HpSpecification _skill;
         protected VillageCB.HpSpecification _village;
@@ -422,25 +456,65 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnVillagePlayerId() { return doColumn("VILLAGE_PLAYER_ID"); }
         /**
-         * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+         * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageId() { return doColumn("VILLAGE_ID"); }
         /**
-         * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
+         * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to player}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnPlayerId() { return doColumn("PLAYER_ID"); }
         /**
-         * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA}
+         * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to chara}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCharaId() { return doColumn("CHARA_ID"); }
         /**
-         * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill}
+         * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnSkillCode() { return doColumn("SKILL_CODE"); }
+        /**
+         * ROOM_NUMBER: {INT UNSIGNED(10)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnRoomNumber() { return doColumn("ROOM_NUMBER"); }
+        /**
+         * IS_DEAD: {NotNull, BIT, classification=Flg}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnIsDead() { return doColumn("IS_DEAD"); }
+        /**
+         * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnDeadReasonCode() { return doColumn("DEAD_REASON_CODE"); }
+        /**
+         * DEAD_DAY: {INT UNSIGNED(10)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnDeadDay() { return doColumn("DEAD_DAY"); }
+        /**
+         * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnRegisterDatetime() { return doColumn("REGISTER_DATETIME"); }
+        /**
+         * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnRegisterTrace() { return doColumn("REGISTER_TRACE"); }
+        /**
+         * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnUpdateDatetime() { return doColumn("UPDATE_DATETIME"); }
+        /**
+         * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnUpdateTrace() { return doColumn("UPDATE_TRACE"); }
         public void everyColumn() { doEveryColumn(); }
         public void exceptRecordMetaColumn() { doExceptRecordMetaColumn(); }
         @Override
@@ -449,6 +523,10 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
             if (qyCall().qy().hasConditionQueryChara()
                     || qyCall().qy().xgetReferrerQuery() instanceof CharaCQ) {
                 columnCharaId(); // FK or one-to-one referrer
+            }
+            if (qyCall().qy().hasConditionQueryDeadReason()
+                    || qyCall().qy().xgetReferrerQuery() instanceof DeadReasonCQ) {
+                columnDeadReasonCode(); // FK or one-to-one referrer
             }
             if (qyCall().qy().hasConditionQueryPlayer()
                     || qyCall().qy().xgetReferrerQuery() instanceof PlayerCQ) {
@@ -464,7 +542,7 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "VILLAGE_PLAYER"; }
+        protected String getTableDbName() { return "village_player"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * CHARA by my CHARA_ID, named 'chara'.
@@ -484,6 +562,26 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
                 }
             }
             return _chara;
+        }
+        /**
+         * Prepare to specify functions about relation table. <br>
+         * DEAD_REASON by my DEAD_REASON_CODE, named 'deadReason'.
+         * @return The instance for specification for relation table to specify. (NotNull)
+         */
+        public DeadReasonCB.HpSpecification specifyDeadReason() {
+            assertRelation("deadReason");
+            if (_deadReason == null) {
+                _deadReason = new DeadReasonCB.HpSpecification(_baseCB
+                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryDeadReason()
+                                    , () -> _qyCall.qy().queryDeadReason())
+                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
+                if (xhasSyncQyCall()) { // inherits it
+                    _deadReason.xsetSyncQyCall(xcreateSpQyCall(
+                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryDeadReason()
+                      , () -> xsyncQyCall().qy().queryDeadReason()));
+                }
+            }
+            return _deadReason;
         }
         /**
          * Prepare to specify functions about relation table. <br>
@@ -547,8 +645,8 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from MESSAGE where ...) as FOO_MAX} <br>
-         * MESSAGE by TO_VILLAGE_PLAYER_ID, named 'messageByToVillagePlayerIdList'.
+         * {select max(FOO) from message where ...) as FOO_MAX} <br>
+         * MESSAGE by VILLAGE_PLAYER_ID, named 'messageList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
          *     messageCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -557,27 +655,10 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
          * </pre>
          * @return The object to set up a function for referrer table. (NotNull)
          */
-        public HpSDRFunction<MessageCB, VillagePlayerCQ> derivedMessageByToVillagePlayerId() {
-            assertDerived("messageByToVillagePlayerIdList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+        public HpSDRFunction<MessageCB, VillagePlayerCQ> derivedMessage() {
+            assertDerived("messageList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
             return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<MessageCB> sq, VillagePlayerCQ cq, String al, DerivedReferrerOption op)
-                    -> cq.xsderiveMessageByToVillagePlayerIdList(fn, sq, al, op), _dbmetaProvider);
-        }
-        /**
-         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from MESSAGE where ...) as FOO_MAX} <br>
-         * MESSAGE by VILLAGE_PLAYER_ID, named 'messageByVillagePlayerIdList'.
-         * <pre>
-         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-         *     messageCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
-         *     messageCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
-         * }, Message.<span style="color: #CC4747">ALIAS_foo...</span>);
-         * </pre>
-         * @return The object to set up a function for referrer table. (NotNull)
-         */
-        public HpSDRFunction<MessageCB, VillagePlayerCQ> derivedMessageByVillagePlayerId() {
-            assertDerived("messageByVillagePlayerIdList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<MessageCB> sq, VillagePlayerCQ cq, String al, DerivedReferrerOption op)
-                    -> cq.xsderiveMessageByVillagePlayerIdList(fn, sq, al, op), _dbmetaProvider);
+                    -> cq.xsderiveMessageList(fn, sq, al, op), _dbmetaProvider);
         }
         /**
          * Prepare for (Specify)MyselfDerived (SubQuery).

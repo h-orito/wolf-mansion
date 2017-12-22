@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of MESSAGE. (Singleton)
+ * The DB meta of message. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class MessageDbm extends AbstractDBMeta {
@@ -47,7 +47,6 @@ public class MessageDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((Message)et).getVillageId(), (et, vl) -> ((Message)et).setVillageId(cti(vl)), "villageId");
         setupEpg(_epgMap, et -> ((Message)et).getVillagePlayerId(), (et, vl) -> ((Message)et).setVillagePlayerId(cti(vl)), "villagePlayerId");
         setupEpg(_epgMap, et -> ((Message)et).getPlayerId(), (et, vl) -> ((Message)et).setPlayerId(cti(vl)), "playerId");
-        setupEpg(_epgMap, et -> ((Message)et).getToVillagePlayerId(), (et, vl) -> ((Message)et).setToVillagePlayerId(cti(vl)), "toVillagePlayerId");
         setupEpg(_epgMap, et -> ((Message)et).getDay(), (et, vl) -> ((Message)et).setDay(cti(vl)), "day");
         setupEpg(_epgMap, et -> ((Message)et).getMessageTypeCode(), (et, vl) -> {
             CDef.MessageType cls = (CDef.MessageType)gcls(et, columnMessageTypeCode(), vl);
@@ -77,9 +76,8 @@ public class MessageDbm extends AbstractDBMeta {
     protected void xsetupEfpg() {
         setupEfpg(_efpgMap, et -> ((Message)et).getMessageType(), (et, vl) -> ((Message)et).setMessageType((OptionalEntity<MessageType>)vl), "messageType");
         setupEfpg(_efpgMap, et -> ((Message)et).getPlayer(), (et, vl) -> ((Message)et).setPlayer((OptionalEntity<Player>)vl), "player");
-        setupEfpg(_efpgMap, et -> ((Message)et).getVillagePlayerByToVillagePlayerId(), (et, vl) -> ((Message)et).setVillagePlayerByToVillagePlayerId((OptionalEntity<VillagePlayer>)vl), "villagePlayerByToVillagePlayerId");
-        setupEfpg(_efpgMap, et -> ((Message)et).getVillage(), (et, vl) -> ((Message)et).setVillage((OptionalEntity<Village>)vl), "village");
-        setupEfpg(_efpgMap, et -> ((Message)et).getVillagePlayerByVillagePlayerId(), (et, vl) -> ((Message)et).setVillagePlayerByVillagePlayerId((OptionalEntity<VillagePlayer>)vl), "villagePlayerByVillagePlayerId");
+        setupEfpg(_efpgMap, et -> ((Message)et).getVillageDay(), (et, vl) -> ((Message)et).setVillageDay((OptionalEntity<VillageDay>)vl), "villageDay");
+        setupEfpg(_efpgMap, et -> ((Message)et).getVillagePlayer(), (et, vl) -> ((Message)et).setVillagePlayer((OptionalEntity<VillagePlayer>)vl), "villagePlayer");
     }
     public PropertyGateway findForeignPropertyGateway(String prop)
     { return doFindEfpg(_efpgMap, prop); }
@@ -87,7 +85,7 @@ public class MessageDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "MESSAGE";
+    protected final String _tableDbName = "message";
     protected final String _tableDispName = "MESSAGE";
     protected final String _tablePropertyName = "message";
     protected final TableSqlName _tableSqlName = new TableSqlName("MESSAGE", _tableDbName);
@@ -101,11 +99,10 @@ public class MessageDbm extends AbstractDBMeta {
     //                                                                         Column Info
     //                                                                         ===========
     protected final ColumnInfo _columnMessageId = cci("MESSAGE_ID", "MESSAGE_ID", null, null, Integer.class, "messageId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnVillageId = cci("VILLAGE_ID", "VILLAGE_ID", null, null, Integer.class, "villageId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "village", null, null, false);
-    protected final ColumnInfo _columnVillagePlayerId = cci("VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", null, null, Integer.class, "villagePlayerId", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villagePlayerByVillagePlayerId", null, null, false);
+    protected final ColumnInfo _columnVillageId = cci("VILLAGE_ID", "VILLAGE_ID", null, null, Integer.class, "villageId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villageDay", null, null, false);
+    protected final ColumnInfo _columnVillagePlayerId = cci("VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", null, null, Integer.class, "villagePlayerId", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villagePlayer", null, null, false);
     protected final ColumnInfo _columnPlayerId = cci("PLAYER_ID", "PLAYER_ID", null, null, Integer.class, "playerId", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, "player", null, null, false);
-    protected final ColumnInfo _columnToVillagePlayerId = cci("TO_VILLAGE_PLAYER_ID", "TO_VILLAGE_PLAYER_ID", null, null, Integer.class, "toVillagePlayerId", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villagePlayerByToVillagePlayerId", null, null, false);
-    protected final ColumnInfo _columnDay = cci("DAY", "DAY", null, null, Integer.class, "day", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnDay = cci("DAY", "DAY", null, null, Integer.class, "day", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villageDay", null, null, false);
     protected final ColumnInfo _columnMessageTypeCode = cci("MESSAGE_TYPE_CODE", "MESSAGE_TYPE_CODE", null, null, String.class, "messageTypeCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "messageType", null, CDef.DefMeta.MessageType, false);
     protected final ColumnInfo _columnMessageNumber = cci("MESSAGE_NUMBER", "MESSAGE_NUMBER", null, null, Integer.class, "messageNumber", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnMessageContent = cci("MESSAGE_CONTENT", "MESSAGE_CONTENT", null, null, String.class, "messageContent", null, false, false, true, "VARCHAR", 1000, 0, null, null, false, null, null, null, null, null, false);
@@ -121,32 +118,27 @@ public class MessageDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnMessageId() { return _columnMessageId; }
     /**
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
     /**
-     * VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillagePlayerId() { return _columnVillagePlayerId; }
     /**
-     * PLAYER_ID: {IX, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {IX, INT UNSIGNED(10), FK to player}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnPlayerId() { return _columnPlayerId; }
     /**
-     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
-     * @return The information object of specified column. (NotNull)
-     */
-    public ColumnInfo columnToVillagePlayerId() { return _columnToVillagePlayerId; }
-    /**
-     * DAY: {NotNull, INT UNSIGNED(10)}
+     * DAY: {NotNull, INT UNSIGNED(10), FK to village_day}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnDay() { return _columnDay; }
     /**
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnMessageTypeCode() { return _columnMessageTypeCode; }
@@ -192,7 +184,6 @@ public class MessageDbm extends AbstractDBMeta {
         ls.add(columnVillageId());
         ls.add(columnVillagePlayerId());
         ls.add(columnPlayerId());
-        ls.add(columnToVillagePlayerId());
         ls.add(columnDay());
         ls.add(columnMessageTypeCode());
         ls.add(columnMessageNumber());
@@ -242,28 +233,22 @@ public class MessageDbm extends AbstractDBMeta {
         return cfi("FK_MESSAGE_PLAYER", "player", this, PlayerDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageList", false);
     }
     /**
-     * VILLAGE_PLAYER by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'.
+     * VILLAGE_DAY by my VILLAGE_ID, DAY, named 'villageDay'.
      * @return The information object of foreign property. (NotNull)
      */
-    public ForeignInfo foreignVillagePlayerByToVillagePlayerId() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnToVillagePlayerId(), VillagePlayerDbm.getInstance().columnVillagePlayerId());
-        return cfi("FK_MESSAGE_VILLAGE_PLAYER_TO", "villagePlayerByToVillagePlayerId", this, VillagePlayerDbm.getInstance(), mp, 2, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageByToVillagePlayerIdList", false);
+    public ForeignInfo foreignVillageDay() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMapSized(4);
+        mp.put(columnVillageId(), VillageDayDbm.getInstance().columnVillageId());
+        mp.put(columnDay(), VillageDayDbm.getInstance().columnDay());
+        return cfi("FK_MESSAGE_VILLAGE_DAY", "villageDay", this, VillageDayDbm.getInstance(), mp, 2, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageList", false);
     }
     /**
-     * VILLAGE by my VILLAGE_ID, named 'village'.
+     * VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayer'.
      * @return The information object of foreign property. (NotNull)
      */
-    public ForeignInfo foreignVillage() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillageId(), VillageDbm.getInstance().columnVilalgeId());
-        return cfi("FK_MESSAGE_VILLAGE", "village", this, VillageDbm.getInstance(), mp, 3, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageList", false);
-    }
-    /**
-     * VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'.
-     * @return The information object of foreign property. (NotNull)
-     */
-    public ForeignInfo foreignVillagePlayerByVillagePlayerId() {
+    public ForeignInfo foreignVillagePlayer() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillagePlayerId(), VillagePlayerDbm.getInstance().columnVillagePlayerId());
-        return cfi("FK_MESSAGE_VILLAGE_PLAYER", "villagePlayerByVillagePlayerId", this, VillagePlayerDbm.getInstance(), mp, 4, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageByVillagePlayerIdList", false);
+        return cfi("FK_MESSAGE_VILLAGE_PLAYER", "villagePlayer", this, VillagePlayerDbm.getInstance(), mp, 3, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageList", false);
     }
 
     // -----------------------------------------------------

@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of DESIGNER.
+ * The base condition-query of designer.
  * @author DBFlute(AutoGenerator)
  */
 public class BsDesignerCQ extends AbstractBsDesignerCQ {
@@ -35,7 +35,7 @@ public class BsDesignerCQ extends AbstractBsDesignerCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from DESIGNER) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from designer) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsDesignerCQ extends AbstractBsDesignerCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join DESIGNER on ... and FOO = [value] ...}
+     * {select ... from ... left outer join designer on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -126,6 +126,86 @@ public class BsDesignerCQ extends AbstractBsDesignerCQ {
      * @return this. (NotNull)
      */
     public BsDesignerCQ addOrderBy_DesignerName_Desc() { regOBD("DESIGNER_NAME"); return this; }
+
+    protected ConditionValue _registerDatetime;
+    public ConditionValue xdfgetRegisterDatetime()
+    { if (_registerDatetime == null) { _registerDatetime = nCV(); }
+      return _registerDatetime; }
+    protected ConditionValue xgetCValueRegisterDatetime() { return xdfgetRegisterDatetime(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+     * @return this. (NotNull)
+     */
+    public BsDesignerCQ addOrderBy_RegisterDatetime_Asc() { regOBA("REGISTER_DATETIME"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+     * @return this. (NotNull)
+     */
+    public BsDesignerCQ addOrderBy_RegisterDatetime_Desc() { regOBD("REGISTER_DATETIME"); return this; }
+
+    protected ConditionValue _registerTrace;
+    public ConditionValue xdfgetRegisterTrace()
+    { if (_registerTrace == null) { _registerTrace = nCV(); }
+      return _registerTrace; }
+    protected ConditionValue xgetCValueRegisterTrace() { return xdfgetRegisterTrace(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+     * @return this. (NotNull)
+     */
+    public BsDesignerCQ addOrderBy_RegisterTrace_Asc() { regOBA("REGISTER_TRACE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+     * @return this. (NotNull)
+     */
+    public BsDesignerCQ addOrderBy_RegisterTrace_Desc() { regOBD("REGISTER_TRACE"); return this; }
+
+    protected ConditionValue _updateDatetime;
+    public ConditionValue xdfgetUpdateDatetime()
+    { if (_updateDatetime == null) { _updateDatetime = nCV(); }
+      return _updateDatetime; }
+    protected ConditionValue xgetCValueUpdateDatetime() { return xdfgetUpdateDatetime(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+     * @return this. (NotNull)
+     */
+    public BsDesignerCQ addOrderBy_UpdateDatetime_Asc() { regOBA("UPDATE_DATETIME"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+     * @return this. (NotNull)
+     */
+    public BsDesignerCQ addOrderBy_UpdateDatetime_Desc() { regOBD("UPDATE_DATETIME"); return this; }
+
+    protected ConditionValue _updateTrace;
+    public ConditionValue xdfgetUpdateTrace()
+    { if (_updateTrace == null) { _updateTrace = nCV(); }
+      return _updateTrace; }
+    protected ConditionValue xgetCValueUpdateTrace() { return xdfgetUpdateTrace(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+     * @return this. (NotNull)
+     */
+    public BsDesignerCQ addOrderBy_UpdateTrace_Asc() { regOBA("UPDATE_TRACE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+     * @return this. (NotNull)
+     */
+    public BsDesignerCQ addOrderBy_UpdateTrace_Desc() { regOBD("UPDATE_TRACE"); return this; }
 
     // ===================================================================================
     //                                                             SpecifiedDerivedOrderBy

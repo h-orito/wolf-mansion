@@ -25,16 +25,16 @@ import com.ort.dbflute.cbean.*;
  * The behavior of VILLAGE as TABLE. <br>
  * <pre>
  * [primary key]
- *     VILALGE_ID
+ *     VILLAGE_ID
  *
  * [column]
- *     VILALGE_ID, VILLAGE_DISPLAY_NAME, VILLAGE_STATUS_CODE, WIN_CAMP_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, VILLAGE_DISPLAY_NAME, VILLAGE_STATUS_CODE, WIN_CAMP_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
  *
  * [identity]
- *     VILALGE_ID
+ *     VILLAGE_ID
  *
  * [version-no]
  *     
@@ -43,13 +43,13 @@ import com.ort.dbflute.cbean.*;
  *     VILLAGE_STATUS, CAMP, VILLAGE_SETTINGS(AsOne)
  *
  * [referrer table]
- *     MESSAGE, VILLAGE_PLAYER, VILLAGE_SETTINGS
+ *     VILLAGE_DAY, VILLAGE_PLAYER, VILLAGE_SETTINGS
  *
  * [foreign property]
  *     villageStatus, camp, villageSettingsAsOne
  *
  * [referrer property]
- *     messageList, villagePlayerList
+ *     villageDayList, villagePlayerList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -67,7 +67,7 @@ public abstract class BsVillageBhv extends AbstractBehaviorWritable<Village, Vil
     /** {@inheritDoc} */
     public VillageDbm asDBMeta() { return VillageDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "VILLAGE"; }
+    public String asTableDbName() { return "village"; }
 
     // ===================================================================================
     //                                                                        New Instance
@@ -159,31 +159,31 @@ public abstract class BsVillageBhv extends AbstractBehaviorWritable<Village, Vil
 
     /**
      * Select the entity by the primary-key value.
-     * @param vilalgeId : PK, ID, NotNull, INT UNSIGNED(10). (NotNull)
+     * @param villageId : PK, ID, NotNull, INT UNSIGNED(10). (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    public OptionalEntity<Village> selectByPK(Integer vilalgeId) {
-        return facadeSelectByPK(vilalgeId);
+    public OptionalEntity<Village> selectByPK(Integer villageId) {
+        return facadeSelectByPK(villageId);
     }
 
-    protected OptionalEntity<Village> facadeSelectByPK(Integer vilalgeId) {
-        return doSelectOptionalByPK(vilalgeId, typeOfSelectedEntity());
+    protected OptionalEntity<Village> facadeSelectByPK(Integer villageId) {
+        return doSelectOptionalByPK(villageId, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends Village> ENTITY doSelectByPK(Integer vilalgeId, Class<? extends ENTITY> tp) {
-        return doSelectEntity(xprepareCBAsPK(vilalgeId), tp);
+    protected <ENTITY extends Village> ENTITY doSelectByPK(Integer villageId, Class<? extends ENTITY> tp) {
+        return doSelectEntity(xprepareCBAsPK(villageId), tp);
     }
 
-    protected <ENTITY extends Village> OptionalEntity<ENTITY> doSelectOptionalByPK(Integer vilalgeId, Class<? extends ENTITY> tp) {
-        return createOptionalEntity(doSelectByPK(vilalgeId, tp), vilalgeId);
+    protected <ENTITY extends Village> OptionalEntity<ENTITY> doSelectOptionalByPK(Integer villageId, Class<? extends ENTITY> tp) {
+        return createOptionalEntity(doSelectByPK(villageId, tp), villageId);
     }
 
-    protected VillageCB xprepareCBAsPK(Integer vilalgeId) {
-        assertObjectNotNull("vilalgeId", vilalgeId);
-        return newConditionBean().acceptPK(vilalgeId);
+    protected VillageCB xprepareCBAsPK(Integer villageId) {
+        assertObjectNotNull("villageId", villageId);
+        return newConditionBean().acceptPK(villageId);
     }
 
     // ===================================================================================
@@ -362,19 +362,19 @@ public abstract class BsVillageBhv extends AbstractBehaviorWritable<Village, Vil
     }
 
     /**
-     * Load referrer of messageList by the set-upper of referrer. <br>
-     * MESSAGE by VILLAGE_ID, named 'messageList'.
+     * Load referrer of villageDayList by the set-upper of referrer. <br>
+     * VILLAGE_DAY by VILLAGE_ID, named 'villageDayList'.
      * <pre>
-     * <span style="color: #0000C0">villageBhv</span>.<span style="color: #CC4747">loadMessage</span>(<span style="color: #553000">villageList</span>, <span style="color: #553000">messageCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">messageCB</span>.setupSelect...
-     *     <span style="color: #553000">messageCB</span>.query().set...
-     *     <span style="color: #553000">messageCB</span>.query().addOrderBy...
+     * <span style="color: #0000C0">villageBhv</span>.<span style="color: #CC4747">loadVillageDay</span>(<span style="color: #553000">villageList</span>, <span style="color: #553000">dayCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">dayCB</span>.setupSelect...
+     *     <span style="color: #553000">dayCB</span>.query().set...
+     *     <span style="color: #553000">dayCB</span>.query().addOrderBy...
      * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
      * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
      * <span style="color: #3F7E5E">//    ...</span>
      * <span style="color: #3F7E5E">//});</span>
      * <span style="color: #70226C">for</span> (Village village : <span style="color: #553000">villageList</span>) {
-     *     ... = village.<span style="color: #CC4747">getMessageList()</span>;
+     *     ... = village.<span style="color: #CC4747">getVillageDayList()</span>;
      * }
      * </pre>
      * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
@@ -387,24 +387,24 @@ public abstract class BsVillageBhv extends AbstractBehaviorWritable<Village, Vil
      * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    public NestedReferrerListGateway<Message> loadMessage(List<Village> villageList, ReferrerConditionSetupper<MessageCB> refCBLambda) {
+    public NestedReferrerListGateway<VillageDay> loadVillageDay(List<Village> villageList, ReferrerConditionSetupper<VillageDayCB> refCBLambda) {
         xassLRArg(villageList, refCBLambda);
-        return doLoadMessage(villageList, new LoadReferrerOption<MessageCB, Message>().xinit(refCBLambda));
+        return doLoadVillageDay(villageList, new LoadReferrerOption<VillageDayCB, VillageDay>().xinit(refCBLambda));
     }
 
     /**
-     * Load referrer of messageList by the set-upper of referrer. <br>
-     * MESSAGE by VILLAGE_ID, named 'messageList'.
+     * Load referrer of villageDayList by the set-upper of referrer. <br>
+     * VILLAGE_DAY by VILLAGE_ID, named 'villageDayList'.
      * <pre>
-     * <span style="color: #0000C0">villageBhv</span>.<span style="color: #CC4747">loadMessage</span>(<span style="color: #553000">village</span>, <span style="color: #553000">messageCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">messageCB</span>.setupSelect...
-     *     <span style="color: #553000">messageCB</span>.query().set...
-     *     <span style="color: #553000">messageCB</span>.query().addOrderBy...
+     * <span style="color: #0000C0">villageBhv</span>.<span style="color: #CC4747">loadVillageDay</span>(<span style="color: #553000">village</span>, <span style="color: #553000">dayCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">dayCB</span>.setupSelect...
+     *     <span style="color: #553000">dayCB</span>.query().set...
+     *     <span style="color: #553000">dayCB</span>.query().addOrderBy...
      * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
      * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
      * <span style="color: #3F7E5E">//    ...</span>
      * <span style="color: #3F7E5E">//});</span>
-     * ... = <span style="color: #553000">village</span>.<span style="color: #CC4747">getMessageList()</span>;
+     * ... = <span style="color: #553000">village</span>.<span style="color: #CC4747">getVillageDayList()</span>;
      * </pre>
      * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
      * The condition-bean, which the set-upper provides, has settings before callback as follows:
@@ -416,13 +416,13 @@ public abstract class BsVillageBhv extends AbstractBehaviorWritable<Village, Vil
      * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    public NestedReferrerListGateway<Message> loadMessage(Village village, ReferrerConditionSetupper<MessageCB> refCBLambda) {
+    public NestedReferrerListGateway<VillageDay> loadVillageDay(Village village, ReferrerConditionSetupper<VillageDayCB> refCBLambda) {
         xassLRArg(village, refCBLambda);
-        return doLoadMessage(xnewLRLs(village), new LoadReferrerOption<MessageCB, Message>().xinit(refCBLambda));
+        return doLoadVillageDay(xnewLRLs(village), new LoadReferrerOption<VillageDayCB, VillageDay>().xinit(refCBLambda));
     }
 
-    protected NestedReferrerListGateway<Message> doLoadMessage(List<Village> villageList, LoadReferrerOption<MessageCB, Message> option) {
-        return helpLoadReferrerInternally(villageList, option, "messageList");
+    protected NestedReferrerListGateway<VillageDay> doLoadVillageDay(List<Village> villageList, LoadReferrerOption<VillageDayCB, VillageDay> option) {
+        return helpLoadReferrerInternally(villageList, option, "villageDayList");
     }
 
     /**
@@ -520,12 +520,12 @@ public abstract class BsVillageBhv extends AbstractBehaviorWritable<Village, Vil
     //                                                                      Extract Column
     //                                                                      ==============
     /**
-     * Extract the value list of (single) primary key vilalgeId.
+     * Extract the value list of (single) primary key villageId.
      * @param villageList The list of village. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    public List<Integer> extractVilalgeIdList(List<Village> villageList)
-    { return helpExtractListInternally(villageList, "vilalgeId"); }
+    public List<Integer> extractVillageIdList(List<Village> villageList)
+    { return helpExtractListInternally(villageList, "villageId"); }
 
     // ===================================================================================
     //                                                                       Entity Update

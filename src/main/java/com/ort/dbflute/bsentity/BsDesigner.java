@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.dbflute.dbmeta.DBMeta;
 import org.dbflute.dbmeta.AbstractEntity;
 import org.dbflute.dbmeta.accessory.DomainEntity;
+import com.ort.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.exentity.*;
 
@@ -17,7 +18,7 @@ import com.ort.dbflute.exentity.*;
  *     DESIGNER_ID
  *
  * [column]
- *     DESIGNER_ID, DESIGNER_NAME
+ *     DESIGNER_ID, DESIGNER_NAME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -44,13 +45,21 @@ import com.ort.dbflute.exentity.*;
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * Integer designerId = entity.getDesignerId();
  * String designerName = entity.getDesignerName();
+ * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
+ * String registerTrace = entity.getRegisterTrace();
+ * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
+ * String updateTrace = entity.getUpdateTrace();
  * entity.setDesignerId(designerId);
  * entity.setDesignerName(designerName);
+ * entity.setRegisterDatetime(registerDatetime);
+ * entity.setRegisterTrace(registerTrace);
+ * entity.setUpdateDatetime(updateDatetime);
+ * entity.setUpdateTrace(updateTrace);
  * = = = = = = = = = =/
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-public abstract class BsDesigner extends AbstractEntity implements DomainEntity {
+public abstract class BsDesigner extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {
 
     // ===================================================================================
     //                                                                          Definition
@@ -67,6 +76,18 @@ public abstract class BsDesigner extends AbstractEntity implements DomainEntity 
     /** DESIGNER_NAME: {NotNull, VARCHAR(40)} */
     protected String _designerName;
 
+    /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
+    protected java.time.LocalDateTime _registerDatetime;
+
+    /** REGISTER_TRACE: {NotNull, VARCHAR(64)} */
+    protected String _registerTrace;
+
+    /** UPDATE_DATETIME: {NotNull, DATETIME(19)} */
+    protected java.time.LocalDateTime _updateDatetime;
+
+    /** UPDATE_TRACE: {NotNull, VARCHAR(64)} */
+    protected String _updateTrace;
+
     // ===================================================================================
     //                                                                             DB Meta
     //                                                                             =======
@@ -77,7 +98,7 @@ public abstract class BsDesigner extends AbstractEntity implements DomainEntity 
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "DESIGNER";
+        return "designer";
     }
 
     // ===================================================================================
@@ -154,6 +175,10 @@ public abstract class BsDesigner extends AbstractEntity implements DomainEntity 
         StringBuilder sb = new StringBuilder();
         sb.append(dm).append(xfND(_designerId));
         sb.append(dm).append(xfND(_designerName));
+        sb.append(dm).append(xfND(_registerDatetime));
+        sb.append(dm).append(xfND(_registerTrace));
+        sb.append(dm).append(xfND(_updateDatetime));
+        sb.append(dm).append(xfND(_updateTrace));
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length());
         }
@@ -218,5 +243,85 @@ public abstract class BsDesigner extends AbstractEntity implements DomainEntity 
     public void setDesignerName(String designerName) {
         registerModifiedProperty("designerName");
         _designerName = designerName;
+    }
+
+    /**
+     * [get] REGISTER_DATETIME: {NotNull, DATETIME(19)} <br>
+     * 登録日時
+     * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
+     */
+    public java.time.LocalDateTime getRegisterDatetime() {
+        checkSpecifiedProperty("registerDatetime");
+        return _registerDatetime;
+    }
+
+    /**
+     * [set] REGISTER_DATETIME: {NotNull, DATETIME(19)} <br>
+     * 登録日時
+     * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
+     */
+    public void setRegisterDatetime(java.time.LocalDateTime registerDatetime) {
+        registerModifiedProperty("registerDatetime");
+        _registerDatetime = registerDatetime;
+    }
+
+    /**
+     * [get] REGISTER_TRACE: {NotNull, VARCHAR(64)} <br>
+     * 登録トレース
+     * @return The value of the column 'REGISTER_TRACE'. (basically NotNull if selected: for the constraint)
+     */
+    public String getRegisterTrace() {
+        checkSpecifiedProperty("registerTrace");
+        return convertEmptyToNull(_registerTrace);
+    }
+
+    /**
+     * [set] REGISTER_TRACE: {NotNull, VARCHAR(64)} <br>
+     * 登録トレース
+     * @param registerTrace The value of the column 'REGISTER_TRACE'. (basically NotNull if update: for the constraint)
+     */
+    public void setRegisterTrace(String registerTrace) {
+        registerModifiedProperty("registerTrace");
+        _registerTrace = registerTrace;
+    }
+
+    /**
+     * [get] UPDATE_DATETIME: {NotNull, DATETIME(19)} <br>
+     * 更新日時
+     * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
+     */
+    public java.time.LocalDateTime getUpdateDatetime() {
+        checkSpecifiedProperty("updateDatetime");
+        return _updateDatetime;
+    }
+
+    /**
+     * [set] UPDATE_DATETIME: {NotNull, DATETIME(19)} <br>
+     * 更新日時
+     * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
+     */
+    public void setUpdateDatetime(java.time.LocalDateTime updateDatetime) {
+        registerModifiedProperty("updateDatetime");
+        _updateDatetime = updateDatetime;
+    }
+
+    /**
+     * [get] UPDATE_TRACE: {NotNull, VARCHAR(64)} <br>
+     * 更新トレース
+     * @return The value of the column 'UPDATE_TRACE'. (basically NotNull if selected: for the constraint)
+     */
+    public String getUpdateTrace() {
+        checkSpecifiedProperty("updateTrace");
+        return convertEmptyToNull(_updateTrace);
+    }
+
+    /**
+     * [set] UPDATE_TRACE: {NotNull, VARCHAR(64)} <br>
+     * 更新トレース
+     * @param updateTrace The value of the column 'UPDATE_TRACE'. (basically NotNull if update: for the constraint)
+     */
+    public void setUpdateTrace(String updateTrace) {
+        registerModifiedProperty("updateTrace");
+        _updateTrace = updateTrace;
     }
 }

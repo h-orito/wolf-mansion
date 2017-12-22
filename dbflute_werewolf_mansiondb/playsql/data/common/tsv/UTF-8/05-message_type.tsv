@@ -1,6 +1,8 @@
 message_type_code	message_type_name
 PUBLIC_SYSTEM	公開システムメッセージ
 PRIVATE_SYSTEM	非公開システムメッセージ
+PRIVATE_SEER	占い結果
+PRIVATE_PSYCHIC	霊視結果
 NORMAL_SAY	通常発言
 MONOLOGUE_SAY	独り言
 GRAVE_SAY	死者の呻き

@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of DESIGNER.
+ * The condition-query for in-line of designer.
  * @author DBFlute(AutoGenerator)
  */
 public class DesignerCIQ extends AbstractBsDesignerCQ {
@@ -73,6 +73,10 @@ public class DesignerCIQ extends AbstractBsDesignerCQ {
     public String keepDesignerId_QueryDerivedReferrer_CharaGroupListParameter(Object vl)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     protected ConditionValue xgetCValueDesignerName() { return _myCQ.xdfgetDesignerName(); }
+    protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
+    protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }
+    protected ConditionValue xgetCValueUpdateDatetime() { return _myCQ.xdfgetUpdateDatetime(); }
+    protected ConditionValue xgetCValueUpdateTrace() { return _myCQ.xdfgetUpdateTrace(); }
     protected Map<String, Object> xfindFixedConditionDynamicParameterMap(String pp) { return null; }
     public String keepScalarCondition(DesignerCQ sq)
     { throwIICBOE("ScalarCondition"); return null; }

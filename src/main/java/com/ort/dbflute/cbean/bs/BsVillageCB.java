@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of VILLAGE.
+ * The base condition-bean of village.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillageCB extends AbstractConditionBean {
@@ -73,7 +73,7 @@ public class BsVillageCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "VILLAGE";
+        return "village";
     }
 
     // ===================================================================================
@@ -81,23 +81,23 @@ public class BsVillageCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param vilalgeId : PK, ID, NotNull, INT UNSIGNED(10). (NotNull)
+     * @param villageId : PK, ID, NotNull, INT UNSIGNED(10). (NotNull)
      * @return this. (NotNull)
      */
-    public VillageCB acceptPK(Integer vilalgeId) {
-        assertObjectNotNull("vilalgeId", vilalgeId);
+    public VillageCB acceptPK(Integer villageId) {
+        assertObjectNotNull("villageId", villageId);
         BsVillageCB cb = this;
-        cb.query().setVilalgeId_Equal(vilalgeId);
+        cb.query().setVillageId_Equal(villageId);
         return (VillageCB)this;
     }
 
     public ConditionBean addOrderBy_PK_Asc() {
-        query().addOrderBy_VilalgeId_Asc();
+        query().addOrderBy_VillageId_Asc();
         return this;
     }
 
     public ConditionBean addOrderBy_PK_Desc() {
-        query().addOrderBy_VilalgeId_Desc();
+        query().addOrderBy_VillageId_Desc();
         return this;
     }
 
@@ -285,7 +285,7 @@ public class BsVillageCB extends AbstractConditionBean {
     }
     /**
      * Set up relation columns to select clause. <br>
-     * VILLAGE_SETTINGS by VILLAGE_ID, named 'villageSettingsAsOne'.
+     * village_settings by VILLAGE_ID, named 'villageSettingsAsOne'.
      * <pre>
      * <span style="color: #0000C0">villageBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_VillageSettingsAsOne()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
@@ -353,22 +353,22 @@ public class BsVillageCB extends AbstractConditionBean {
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * VILALGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+         * VILLAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
          * @return The information object of specified column. (NotNull)
          */
-        public SpecifiedColumn columnVilalgeId() { return doColumn("VILALGE_ID"); }
+        public SpecifiedColumn columnVillageId() { return doColumn("VILLAGE_ID"); }
         /**
          * VILLAGE_DISPLAY_NAME: {NotNull, VARCHAR(40)}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageDisplayName() { return doColumn("VILLAGE_DISPLAY_NAME"); }
         /**
-         * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus}
+         * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageStatusCode() { return doColumn("VILLAGE_STATUS_CODE"); }
         /**
-         * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+         * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnWinCampCode() { return doColumn("WIN_CAMP_CODE"); }
@@ -396,7 +396,7 @@ public class BsVillageCB extends AbstractConditionBean {
         public void exceptRecordMetaColumn() { doExceptRecordMetaColumn(); }
         @Override
         protected void doSpecifyRequiredColumn() {
-            columnVilalgeId(); // PK
+            columnVillageId(); // PK
             if (qyCall().qy().hasConditionQueryVillageStatus()
                     || qyCall().qy().xgetReferrerQuery() instanceof VillageStatusCQ) {
                 columnVillageStatusCode(); // FK or one-to-one referrer
@@ -407,7 +407,7 @@ public class BsVillageCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "VILLAGE"; }
+        protected String getTableDbName() { return "village"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * VILLAGE_STATUS by my VILLAGE_STATUS_CODE, named 'villageStatus'.
@@ -450,7 +450,7 @@ public class BsVillageCB extends AbstractConditionBean {
         }
         /**
          * Prepare to specify functions about relation table. <br>
-         * VILLAGE_SETTINGS by VILLAGE_ID, named 'villageSettingsAsOne'.
+         * village_settings by VILLAGE_ID, named 'villageSettingsAsOne'.
          * @return The instance for specification for relation table to specify. (NotNull)
          */
         public VillageSettingsCB.HpSpecification specifyVillageSettingsAsOne() {
@@ -470,24 +470,24 @@ public class BsVillageCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from MESSAGE where ...) as FOO_MAX} <br>
-         * MESSAGE by VILLAGE_ID, named 'messageList'.
+         * {select max(FOO) from village_day where ...) as FOO_MAX} <br>
+         * VILLAGE_DAY by VILLAGE_ID, named 'villageDayList'.
          * <pre>
-         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-         *     messageCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
-         *     messageCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
-         * }, Message.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(dayCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     dayCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     dayCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, VillageDay.<span style="color: #CC4747">ALIAS_foo...</span>);
          * </pre>
          * @return The object to set up a function for referrer table. (NotNull)
          */
-        public HpSDRFunction<MessageCB, VillageCQ> derivedMessage() {
-            assertDerived("messageList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<MessageCB> sq, VillageCQ cq, String al, DerivedReferrerOption op)
-                    -> cq.xsderiveMessageList(fn, sq, al, op), _dbmetaProvider);
+        public HpSDRFunction<VillageDayCB, VillageCQ> derivedVillageDay() {
+            assertDerived("villageDayList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillageDayCB> sq, VillageCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveVillageDayList(fn, sq, al, op), _dbmetaProvider);
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from VILLAGE_PLAYER where ...) as FOO_MAX} <br>
+         * {select max(FOO) from village_player where ...) as FOO_MAX} <br>
          * VILLAGE_PLAYER by VILLAGE_ID, named 'villagePlayerList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {

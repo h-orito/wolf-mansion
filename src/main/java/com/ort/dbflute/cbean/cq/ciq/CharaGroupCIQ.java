@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of CHARA_GROUP.
+ * The condition-query for in-line of chara_group.
  * @author DBFlute(AutoGenerator)
  */
 public class CharaGroupCIQ extends AbstractBsCharaGroupCQ {
@@ -64,16 +64,30 @@ public class CharaGroupCIQ extends AbstractBsCharaGroupCQ {
     protected ConditionValue xgetCValueCharaGroupId() { return _myCQ.xdfgetCharaGroupId(); }
     public String keepCharaGroupId_ExistsReferrer_CharaList(CharaCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
+    public String keepCharaGroupId_ExistsReferrer_VillageSettingsList(VillageSettingsCQ sq)
+    { throwIICBOE("ExistsReferrer"); return null; }
     public String keepCharaGroupId_NotExistsReferrer_CharaList(CharaCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
+    public String keepCharaGroupId_NotExistsReferrer_VillageSettingsList(VillageSettingsCQ sq)
+    { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepCharaGroupId_SpecifyDerivedReferrer_CharaList(CharaCQ sq)
+    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
+    public String keepCharaGroupId_SpecifyDerivedReferrer_VillageSettingsList(VillageSettingsCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepCharaGroupId_QueryDerivedReferrer_CharaList(CharaCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepCharaGroupId_QueryDerivedReferrer_CharaListParameter(Object vl)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    protected ConditionValue xgetCValueCharaName() { return _myCQ.xdfgetCharaName(); }
+    public String keepCharaGroupId_QueryDerivedReferrer_VillageSettingsList(VillageSettingsCQ sq)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepCharaGroupId_QueryDerivedReferrer_VillageSettingsListParameter(Object vl)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    protected ConditionValue xgetCValueCharaGroupName() { return _myCQ.xdfgetCharaGroupName(); }
     protected ConditionValue xgetCValueDesignerId() { return _myCQ.xdfgetDesignerId(); }
+    protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
+    protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }
+    protected ConditionValue xgetCValueUpdateDatetime() { return _myCQ.xdfgetUpdateDatetime(); }
+    protected ConditionValue xgetCValueUpdateTrace() { return _myCQ.xdfgetUpdateTrace(); }
     protected Map<String, Object> xfindFixedConditionDynamicParameterMap(String pp) { return null; }
     public String keepScalarCondition(CharaGroupCQ sq)
     { throwIICBOE("ScalarCondition"); return null; }

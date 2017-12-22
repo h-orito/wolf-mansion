@@ -690,6 +690,12 @@ public interface CDef extends Classification {
         /** 通常発言 */
         通常発言("NORMAL_SAY", "通常発言", emptyStrings())
         ,
+        /** 霊視結果 */
+        霊視結果("PRIVATE_PSYCHIC", "霊視結果", emptyStrings())
+        ,
+        /** 占い結果 */
+        占い結果("PRIVATE_SEER", "占い結果", emptyStrings())
+        ,
         /** 非公開システムメッセージ */
         非公開システムメッセージ("PRIVATE_SYSTEM", "非公開システムメッセージ", emptyStrings())
         ,

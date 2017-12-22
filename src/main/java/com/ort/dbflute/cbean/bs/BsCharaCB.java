@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of CHARA.
+ * The base condition-bean of chara.
  * @author DBFlute(AutoGenerator)
  */
 public class BsCharaCB extends AbstractConditionBean {
@@ -73,7 +73,7 @@ public class BsCharaCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "CHARA";
+        return "chara";
     }
 
     // ===================================================================================
@@ -324,7 +324,12 @@ public class BsCharaCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnCharaName() { return doColumn("CHARA_NAME"); }
         /**
-         * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+         * CHARA_SHORT_NAME: {NotNull, CHAR(1)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnCharaShortName() { return doColumn("CHARA_SHORT_NAME"); }
+        /**
+         * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCharaGroupId() { return doColumn("CHARA_GROUP_ID"); }
@@ -333,6 +338,31 @@ public class BsCharaCB extends AbstractConditionBean {
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCharaImgUrl() { return doColumn("CHARA_IMG_URL"); }
+        /**
+         * IS_DUMMY: {NotNull, BIT, classification=Flg}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnIsDummy() { return doColumn("IS_DUMMY"); }
+        /**
+         * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnRegisterDatetime() { return doColumn("REGISTER_DATETIME"); }
+        /**
+         * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnRegisterTrace() { return doColumn("REGISTER_TRACE"); }
+        /**
+         * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnUpdateDatetime() { return doColumn("UPDATE_DATETIME"); }
+        /**
+         * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnUpdateTrace() { return doColumn("UPDATE_TRACE"); }
         public void everyColumn() { doEveryColumn(); }
         public void exceptRecordMetaColumn() { doExceptRecordMetaColumn(); }
         @Override
@@ -344,7 +374,7 @@ public class BsCharaCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "CHARA"; }
+        protected String getTableDbName() { return "chara"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * CHARA_GROUP by my CHARA_GROUP_ID, named 'charaGroup'.
@@ -367,7 +397,58 @@ public class BsCharaCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from VILLAGE_PLAYER where ...) as FOO_MAX} <br>
+         * {select max(FOO) from ability where ...) as FOO_MAX} <br>
+         * ABILITY by CHARA_ID, named 'abilityByCharaIdList'.
+         * <pre>
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     abilityCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     abilityCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, Ability.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        public HpSDRFunction<AbilityCB, CharaCQ> derivedAbilityByCharaId() {
+            assertDerived("abilityByCharaIdList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<AbilityCB> sq, CharaCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveAbilityByCharaIdList(fn, sq, al, op), _dbmetaProvider);
+        }
+        /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
+         * {select max(FOO) from ability where ...) as FOO_MAX} <br>
+         * ABILITY by TARGET_CHARA_ID, named 'abilityByTargetCharaIdList'.
+         * <pre>
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     abilityCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     abilityCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, Ability.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        public HpSDRFunction<AbilityCB, CharaCQ> derivedAbilityByTargetCharaId() {
+            assertDerived("abilityByTargetCharaIdList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<AbilityCB> sq, CharaCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveAbilityByTargetCharaIdList(fn, sq, al, op), _dbmetaProvider);
+        }
+        /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
+         * {select max(FOO) from footstep where ...) as FOO_MAX} <br>
+         * FOOTSTEP by CHARA_ID, named 'footstepList'.
+         * <pre>
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(footstepCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     footstepCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     footstepCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, Footstep.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        public HpSDRFunction<FootstepCB, CharaCQ> derivedFootstep() {
+            assertDerived("footstepList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<FootstepCB> sq, CharaCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveFootstepList(fn, sq, al, op), _dbmetaProvider);
+        }
+        /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
+         * {select max(FOO) from village_player where ...) as FOO_MAX} <br>
          * VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -381,6 +462,40 @@ public class BsCharaCB extends AbstractConditionBean {
             assertDerived("villagePlayerList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
             return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillagePlayerCB> sq, CharaCQ cq, String al, DerivedReferrerOption op)
                     -> cq.xsderiveVillagePlayerList(fn, sq, al, op), _dbmetaProvider);
+        }
+        /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
+         * {select max(FOO) from vote where ...) as FOO_MAX} <br>
+         * VOTE by CHARA_ID, named 'voteByCharaIdList'.
+         * <pre>
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(voteCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     voteCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     voteCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, Vote.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        public HpSDRFunction<VoteCB, CharaCQ> derivedVoteByCharaId() {
+            assertDerived("voteByCharaIdList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VoteCB> sq, CharaCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveVoteByCharaIdList(fn, sq, al, op), _dbmetaProvider);
+        }
+        /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
+         * {select max(FOO) from vote where ...) as FOO_MAX} <br>
+         * VOTE by VOTE_CHARA_ID, named 'voteByVoteCharaIdList'.
+         * <pre>
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(voteCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     voteCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     voteCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, Vote.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        public HpSDRFunction<VoteCB, CharaCQ> derivedVoteByVoteCharaId() {
+            assertDerived("voteByVoteCharaIdList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VoteCB> sq, CharaCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveVoteByVoteCharaIdList(fn, sq, al, op), _dbmetaProvider);
         }
         /**
          * Prepare for (Specify)MyselfDerived (SubQuery).

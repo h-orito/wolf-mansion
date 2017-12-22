@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of CHARA_GROUP. (Singleton)
+ * The DB meta of chara_group. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class CharaGroupDbm extends AbstractDBMeta {
@@ -44,8 +44,12 @@ public class CharaGroupDbm extends AbstractDBMeta {
     { xsetupEpg(); }
     protected void xsetupEpg() {
         setupEpg(_epgMap, et -> ((CharaGroup)et).getCharaGroupId(), (et, vl) -> ((CharaGroup)et).setCharaGroupId(cti(vl)), "charaGroupId");
-        setupEpg(_epgMap, et -> ((CharaGroup)et).getCharaName(), (et, vl) -> ((CharaGroup)et).setCharaName((String)vl), "charaName");
+        setupEpg(_epgMap, et -> ((CharaGroup)et).getCharaGroupName(), (et, vl) -> ((CharaGroup)et).setCharaGroupName((String)vl), "charaGroupName");
         setupEpg(_epgMap, et -> ((CharaGroup)et).getDesignerId(), (et, vl) -> ((CharaGroup)et).setDesignerId(cti(vl)), "designerId");
+        setupEpg(_epgMap, et -> ((CharaGroup)et).getRegisterDatetime(), (et, vl) -> ((CharaGroup)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
+        setupEpg(_epgMap, et -> ((CharaGroup)et).getRegisterTrace(), (et, vl) -> ((CharaGroup)et).setRegisterTrace((String)vl), "registerTrace");
+        setupEpg(_epgMap, et -> ((CharaGroup)et).getUpdateDatetime(), (et, vl) -> ((CharaGroup)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
+        setupEpg(_epgMap, et -> ((CharaGroup)et).getUpdateTrace(), (et, vl) -> ((CharaGroup)et).setUpdateTrace((String)vl), "updateTrace");
     }
     public PropertyGateway findPropertyGateway(String prop)
     { return doFindEpg(_epgMap, prop); }
@@ -65,7 +69,7 @@ public class CharaGroupDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "CHARA_GROUP";
+    protected final String _tableDbName = "chara_group";
     protected final String _tableDispName = "CHARA_GROUP";
     protected final String _tablePropertyName = "charaGroup";
     protected final TableSqlName _tableSqlName = new TableSqlName("CHARA_GROUP", _tableDbName);
@@ -78,9 +82,13 @@ public class CharaGroupDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnCharaGroupId = cci("CHARA_GROUP_ID", "CHARA_GROUP_ID", null, null, Integer.class, "charaGroupId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "charaList", null, false);
-    protected final ColumnInfo _columnCharaName = cci("CHARA_NAME", "CHARA_NAME", null, null, String.class, "charaName", null, false, false, true, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnCharaGroupId = cci("CHARA_GROUP_ID", "CHARA_GROUP_ID", null, null, Integer.class, "charaGroupId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "charaList,villageSettingsList", null, false);
+    protected final ColumnInfo _columnCharaGroupName = cci("CHARA_GROUP_NAME", "CHARA_GROUP_NAME", null, null, String.class, "charaGroupName", null, false, false, true, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnDesignerId = cci("DESIGNER_ID", "DESIGNER_ID", null, null, Integer.class, "designerId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "designer", null, null, false);
+    protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
+    protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
+    protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
+    protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
      * CHARA_GROUP_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
@@ -88,21 +96,45 @@ public class CharaGroupDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnCharaGroupId() { return _columnCharaGroupId; }
     /**
-     * CHARA_NAME: {NotNull, VARCHAR(40)}
+     * CHARA_GROUP_NAME: {NotNull, VARCHAR(40)}
      * @return The information object of specified column. (NotNull)
      */
-    public ColumnInfo columnCharaName() { return _columnCharaName; }
+    public ColumnInfo columnCharaGroupName() { return _columnCharaGroupName; }
     /**
-     * DESIGNER_ID: {IX, NotNull, INT UNSIGNED(10), FK to DESIGNER}
+     * DESIGNER_ID: {IX, NotNull, INT UNSIGNED(10), FK to designer}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnDesignerId() { return _columnDesignerId; }
+    /**
+     * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnRegisterDatetime() { return _columnRegisterDatetime; }
+    /**
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnRegisterTrace() { return _columnRegisterTrace; }
+    /**
+     * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnUpdateDatetime() { return _columnUpdateDatetime; }
+    /**
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnUpdateTrace() { return _columnUpdateTrace; }
 
     protected List<ColumnInfo> ccil() {
         List<ColumnInfo> ls = newArrayList();
         ls.add(columnCharaGroupId());
-        ls.add(columnCharaName());
+        ls.add(columnCharaGroupName());
         ls.add(columnDesignerId());
+        ls.add(columnRegisterDatetime());
+        ls.add(columnRegisterTrace());
+        ls.add(columnUpdateDatetime());
+        ls.add(columnUpdateTrace());
         return ls;
     }
 
@@ -146,11 +178,26 @@ public class CharaGroupDbm extends AbstractDBMeta {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaGroupId(), CharaDbm.getInstance().columnCharaGroupId());
         return cri("FK_CHARA_CHARA_GROUP", "charaList", this, CharaDbm.getInstance(), mp, false, "charaGroup");
     }
+    /**
+     * VILLAGE_SETTINGS by CHARACTER_GROUP_ID, named 'villageSettingsList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerVillageSettingsList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaGroupId(), VillageSettingsDbm.getInstance().columnCharacterGroupId());
+        return cri("FK_VILLAGE_SETTINGS_CHARA_GROUP", "villageSettingsList", this, VillageSettingsDbm.getInstance(), mp, false, "charaGroup");
+    }
 
     // ===================================================================================
     //                                                                        Various Info
     //                                                                        ============
     public boolean hasIdentity() { return true; }
+    public boolean hasCommonColumn() { return true; }
+    public List<ColumnInfo> getCommonColumnInfoList()
+    { return newArrayList(columnRegisterDatetime(), columnRegisterTrace(), columnUpdateDatetime(), columnUpdateTrace()); }
+    public List<ColumnInfo> getCommonColumnInfoBeforeInsertList()
+    { return newArrayList(columnRegisterDatetime(), columnRegisterTrace(), columnUpdateDatetime(), columnUpdateTrace()); }
+    public List<ColumnInfo> getCommonColumnInfoBeforeUpdateList()
+    { return newArrayList(columnUpdateDatetime(), columnUpdateTrace()); }
 
     // ===================================================================================
     //                                                                           Type Name

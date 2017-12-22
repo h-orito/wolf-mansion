@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.VillagePlayerCQ;
 
 /**
- * The nest select set-upper of VILLAGE_PLAYER.
+ * The nest select set-upper of village_player.
  * @author DBFlute(AutoGenerator)
  */
 public class VillagePlayerNss {
@@ -26,6 +26,13 @@ public class VillagePlayerNss {
     public CharaNss withChara() {
         _query.xdoNss(() -> _query.queryChara());
         return new CharaNss(_query.queryChara());
+    }
+    /**
+     * With nested relation columns to select clause. <br>
+     * DEAD_REASON by my DEAD_REASON_CODE, named 'deadReason'.
+     */
+    public void withDeadReason() {
+        _query.xdoNss(() -> _query.queryDeadReason());
     }
     /**
      * With nested relation columns to select clause. <br>

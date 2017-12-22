@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of VILLAGE.
+ * The base condition-query of village.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillageCQ extends AbstractBsVillageCQ {
@@ -35,7 +35,7 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from VILLAGE) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from village) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join VILLAGE on ... and FOO = [value] ...}
+     * {select ... from ... left outer join village on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -73,53 +73,53 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-    protected ConditionValue _vilalgeId;
-    public ConditionValue xdfgetVilalgeId()
-    { if (_vilalgeId == null) { _vilalgeId = nCV(); }
-      return _vilalgeId; }
-    protected ConditionValue xgetCValueVilalgeId() { return xdfgetVilalgeId(); }
+    protected ConditionValue _villageId;
+    public ConditionValue xdfgetVillageId()
+    { if (_villageId == null) { _villageId = nCV(); }
+      return _villageId; }
+    protected ConditionValue xgetCValueVillageId() { return xdfgetVillageId(); }
 
-    public Map<String, MessageCQ> xdfgetVilalgeId_ExistsReferrer_MessageList() { return xgetSQueMap("vilalgeId_ExistsReferrer_MessageList"); }
-    public String keepVilalgeId_ExistsReferrer_MessageList(MessageCQ sq) { return xkeepSQue("vilalgeId_ExistsReferrer_MessageList", sq); }
+    public Map<String, VillageDayCQ> xdfgetVillageId_ExistsReferrer_VillageDayList() { return xgetSQueMap("villageId_ExistsReferrer_VillageDayList"); }
+    public String keepVillageId_ExistsReferrer_VillageDayList(VillageDayCQ sq) { return xkeepSQue("villageId_ExistsReferrer_VillageDayList", sq); }
 
-    public Map<String, VillagePlayerCQ> xdfgetVilalgeId_ExistsReferrer_VillagePlayerList() { return xgetSQueMap("vilalgeId_ExistsReferrer_VillagePlayerList"); }
-    public String keepVilalgeId_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("vilalgeId_ExistsReferrer_VillagePlayerList", sq); }
+    public Map<String, VillagePlayerCQ> xdfgetVillageId_ExistsReferrer_VillagePlayerList() { return xgetSQueMap("villageId_ExistsReferrer_VillagePlayerList"); }
+    public String keepVillageId_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("villageId_ExistsReferrer_VillagePlayerList", sq); }
 
-    public Map<String, MessageCQ> xdfgetVilalgeId_NotExistsReferrer_MessageList() { return xgetSQueMap("vilalgeId_NotExistsReferrer_MessageList"); }
-    public String keepVilalgeId_NotExistsReferrer_MessageList(MessageCQ sq) { return xkeepSQue("vilalgeId_NotExistsReferrer_MessageList", sq); }
+    public Map<String, VillageDayCQ> xdfgetVillageId_NotExistsReferrer_VillageDayList() { return xgetSQueMap("villageId_NotExistsReferrer_VillageDayList"); }
+    public String keepVillageId_NotExistsReferrer_VillageDayList(VillageDayCQ sq) { return xkeepSQue("villageId_NotExistsReferrer_VillageDayList", sq); }
 
-    public Map<String, VillagePlayerCQ> xdfgetVilalgeId_NotExistsReferrer_VillagePlayerList() { return xgetSQueMap("vilalgeId_NotExistsReferrer_VillagePlayerList"); }
-    public String keepVilalgeId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("vilalgeId_NotExistsReferrer_VillagePlayerList", sq); }
+    public Map<String, VillagePlayerCQ> xdfgetVillageId_NotExistsReferrer_VillagePlayerList() { return xgetSQueMap("villageId_NotExistsReferrer_VillagePlayerList"); }
+    public String keepVillageId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("villageId_NotExistsReferrer_VillagePlayerList", sq); }
 
-    public Map<String, MessageCQ> xdfgetVilalgeId_SpecifyDerivedReferrer_MessageList() { return xgetSQueMap("vilalgeId_SpecifyDerivedReferrer_MessageList"); }
-    public String keepVilalgeId_SpecifyDerivedReferrer_MessageList(MessageCQ sq) { return xkeepSQue("vilalgeId_SpecifyDerivedReferrer_MessageList", sq); }
+    public Map<String, VillageDayCQ> xdfgetVillageId_SpecifyDerivedReferrer_VillageDayList() { return xgetSQueMap("villageId_SpecifyDerivedReferrer_VillageDayList"); }
+    public String keepVillageId_SpecifyDerivedReferrer_VillageDayList(VillageDayCQ sq) { return xkeepSQue("villageId_SpecifyDerivedReferrer_VillageDayList", sq); }
 
-    public Map<String, VillagePlayerCQ> xdfgetVilalgeId_SpecifyDerivedReferrer_VillagePlayerList() { return xgetSQueMap("vilalgeId_SpecifyDerivedReferrer_VillagePlayerList"); }
-    public String keepVilalgeId_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("vilalgeId_SpecifyDerivedReferrer_VillagePlayerList", sq); }
+    public Map<String, VillagePlayerCQ> xdfgetVillageId_SpecifyDerivedReferrer_VillagePlayerList() { return xgetSQueMap("villageId_SpecifyDerivedReferrer_VillagePlayerList"); }
+    public String keepVillageId_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("villageId_SpecifyDerivedReferrer_VillagePlayerList", sq); }
 
-    public Map<String, MessageCQ> xdfgetVilalgeId_QueryDerivedReferrer_MessageList() { return xgetSQueMap("vilalgeId_QueryDerivedReferrer_MessageList"); }
-    public String keepVilalgeId_QueryDerivedReferrer_MessageList(MessageCQ sq) { return xkeepSQue("vilalgeId_QueryDerivedReferrer_MessageList", sq); }
-    public Map<String, Object> xdfgetVilalgeId_QueryDerivedReferrer_MessageListParameter() { return xgetSQuePmMap("vilalgeId_QueryDerivedReferrer_MessageList"); }
-    public String keepVilalgeId_QueryDerivedReferrer_MessageListParameter(Object pm) { return xkeepSQuePm("vilalgeId_QueryDerivedReferrer_MessageList", pm); }
+    public Map<String, VillageDayCQ> xdfgetVillageId_QueryDerivedReferrer_VillageDayList() { return xgetSQueMap("villageId_QueryDerivedReferrer_VillageDayList"); }
+    public String keepVillageId_QueryDerivedReferrer_VillageDayList(VillageDayCQ sq) { return xkeepSQue("villageId_QueryDerivedReferrer_VillageDayList", sq); }
+    public Map<String, Object> xdfgetVillageId_QueryDerivedReferrer_VillageDayListParameter() { return xgetSQuePmMap("villageId_QueryDerivedReferrer_VillageDayList"); }
+    public String keepVillageId_QueryDerivedReferrer_VillageDayListParameter(Object pm) { return xkeepSQuePm("villageId_QueryDerivedReferrer_VillageDayList", pm); }
 
-    public Map<String, VillagePlayerCQ> xdfgetVilalgeId_QueryDerivedReferrer_VillagePlayerList() { return xgetSQueMap("vilalgeId_QueryDerivedReferrer_VillagePlayerList"); }
-    public String keepVilalgeId_QueryDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("vilalgeId_QueryDerivedReferrer_VillagePlayerList", sq); }
-    public Map<String, Object> xdfgetVilalgeId_QueryDerivedReferrer_VillagePlayerListParameter() { return xgetSQuePmMap("vilalgeId_QueryDerivedReferrer_VillagePlayerList"); }
-    public String keepVilalgeId_QueryDerivedReferrer_VillagePlayerListParameter(Object pm) { return xkeepSQuePm("vilalgeId_QueryDerivedReferrer_VillagePlayerList", pm); }
+    public Map<String, VillagePlayerCQ> xdfgetVillageId_QueryDerivedReferrer_VillagePlayerList() { return xgetSQueMap("villageId_QueryDerivedReferrer_VillagePlayerList"); }
+    public String keepVillageId_QueryDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("villageId_QueryDerivedReferrer_VillagePlayerList", sq); }
+    public Map<String, Object> xdfgetVillageId_QueryDerivedReferrer_VillagePlayerListParameter() { return xgetSQuePmMap("villageId_QueryDerivedReferrer_VillagePlayerList"); }
+    public String keepVillageId_QueryDerivedReferrer_VillagePlayerListParameter(Object pm) { return xkeepSQuePm("villageId_QueryDerivedReferrer_VillagePlayerList", pm); }
 
     /** 
      * Add order-by as ascend. <br>
-     * VILALGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * VILLAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
      */
-    public BsVillageCQ addOrderBy_VilalgeId_Asc() { regOBA("VILALGE_ID"); return this; }
+    public BsVillageCQ addOrderBy_VillageId_Asc() { regOBA("VILLAGE_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILALGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * VILLAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
      */
-    public BsVillageCQ addOrderBy_VilalgeId_Desc() { regOBD("VILALGE_ID"); return this; }
+    public BsVillageCQ addOrderBy_VillageId_Desc() { regOBD("VILLAGE_ID"); return this; }
 
     protected ConditionValue _villageDisplayName;
     public ConditionValue xdfgetVillageDisplayName()
@@ -149,14 +149,14 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus}
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
      * @return this. (NotNull)
      */
     public BsVillageCQ addOrderBy_VillageStatusCode_Asc() { regOBA("VILLAGE_STATUS_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus}
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
      * @return this. (NotNull)
      */
     public BsVillageCQ addOrderBy_VillageStatusCode_Desc() { regOBD("VILLAGE_STATUS_CODE"); return this; }
@@ -169,14 +169,14 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @return this. (NotNull)
      */
     public BsVillageCQ addOrderBy_WinCampCode_Asc() { regOBA("WIN_CAMP_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @return this. (NotNull)
      */
     public BsVillageCQ addOrderBy_WinCampCode_Desc() { regOBD("WIN_CAMP_CODE"); return this; }
@@ -330,7 +330,7 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
         return xgetQueRlMap(prop);
     }
     protected VillageStatusCQ xcreateQueryVillageStatus() {
-        String nrp = xresolveNRP("VILLAGE", "villageStatus"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("village", "villageStatus"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillageStatusCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "villageStatus", nrp);
     }
     protected void xsetupOuterJoinVillageStatus() { xregOutJo("villageStatus"); }
@@ -350,7 +350,7 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
         return xgetQueRlMap(prop);
     }
     protected CampCQ xcreateQueryCamp() {
-        String nrp = xresolveNRP("VILLAGE", "camp"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("village", "camp"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new CampCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "camp", nrp);
     }
     protected void xsetupOuterJoinCamp() { xregOutJo("camp"); }
@@ -358,7 +358,7 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
 
     /**
      * Get the condition-query for relation table. <br>
-     * VILLAGE_SETTINGS by VILLAGE_ID, named 'villageSettingsAsOne'.
+     * village_settings by VILLAGE_ID, named 'villageSettingsAsOne'.
      * @return The instance of condition-query. (NotNull)
      */
     public VillageSettingsCQ queryVillageSettingsAsOne() { return xdfgetConditionQueryVillageSettingsAsOne(); }
@@ -368,7 +368,7 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
         return xgetQueRlMap(prop);
     }
     protected VillageSettingsCQ xcreateQueryVillageSettingsAsOne() {
-        String nrp = xresolveNRP("VILLAGE", "villageSettingsAsOne"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("village", "villageSettingsAsOne"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillageSettingsCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "villageSettingsAsOne", nrp);
     }
     protected void xsetupOuterJoinVillageSettingsAsOne() { xregOutJo("villageSettingsAsOne"); }

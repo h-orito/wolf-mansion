@@ -8,6 +8,7 @@ import org.dbflute.dbmeta.DBMeta;
 import org.dbflute.dbmeta.AbstractEntity;
 import org.dbflute.dbmeta.accessory.DomainEntity;
 import org.dbflute.optional.OptionalEntity;
+import com.ort.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.*;
@@ -20,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_PLAYER_ID
  *
  * [column]
- *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE
+ *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, ROOM_NUMBER, IS_DEAD, DEAD_REASON_CODE, DEAD_DAY, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -32,16 +33,16 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     CHARA, PLAYER, SKILL, VILLAGE
+ *     CHARA, DEAD_REASON, PLAYER, SKILL, VILLAGE
  *
  * [referrer table]
  *     MESSAGE
  *
  * [foreign property]
- *     chara, player, skill, village
+ *     chara, deadReason, player, skill, village
  *
  * [referrer property]
- *     messageByToVillagePlayerIdList, messageByVillagePlayerIdList
+ *     messageList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -50,16 +51,32 @@ import com.ort.dbflute.exentity.*;
  * Integer playerId = entity.getPlayerId();
  * Integer charaId = entity.getCharaId();
  * String skillCode = entity.getSkillCode();
+ * Integer roomNumber = entity.getRoomNumber();
+ * Boolean isDead = entity.getIsDead();
+ * String deadReasonCode = entity.getDeadReasonCode();
+ * Integer deadDay = entity.getDeadDay();
+ * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
+ * String registerTrace = entity.getRegisterTrace();
+ * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
+ * String updateTrace = entity.getUpdateTrace();
  * entity.setVillagePlayerId(villagePlayerId);
  * entity.setVillageId(villageId);
  * entity.setPlayerId(playerId);
  * entity.setCharaId(charaId);
  * entity.setSkillCode(skillCode);
+ * entity.setRoomNumber(roomNumber);
+ * entity.setIsDead(isDead);
+ * entity.setDeadReasonCode(deadReasonCode);
+ * entity.setDeadDay(deadDay);
+ * entity.setRegisterDatetime(registerDatetime);
+ * entity.setRegisterTrace(registerTrace);
+ * entity.setUpdateDatetime(updateDatetime);
+ * entity.setUpdateTrace(updateTrace);
  * = = = = = = = = = =/
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-public abstract class BsVillagePlayer extends AbstractEntity implements DomainEntity {
+public abstract class BsVillagePlayer extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {
 
     // ===================================================================================
     //                                                                          Definition
@@ -73,17 +90,41 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     /** VILLAGE_PLAYER_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
     protected Integer _villagePlayerId;
 
-    /** VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
+    /** VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village} */
     protected Integer _villageId;
 
-    /** PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER} */
+    /** PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to player} */
     protected Integer _playerId;
 
-    /** CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA} */
+    /** CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to chara} */
     protected Integer _charaId;
 
-    /** SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} */
+    /** SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} */
     protected String _skillCode;
+
+    /** ROOM_NUMBER: {INT UNSIGNED(10)} */
+    protected Integer _roomNumber;
+
+    /** IS_DEAD: {NotNull, BIT, classification=Flg} */
+    protected Boolean _isDead;
+
+    /** DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason} */
+    protected String _deadReasonCode;
+
+    /** DEAD_DAY: {INT UNSIGNED(10)} */
+    protected Integer _deadDay;
+
+    /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
+    protected java.time.LocalDateTime _registerDatetime;
+
+    /** REGISTER_TRACE: {NotNull, VARCHAR(64)} */
+    protected String _registerTrace;
+
+    /** UPDATE_DATETIME: {NotNull, DATETIME(19)} */
+    protected java.time.LocalDateTime _updateDatetime;
+
+    /** UPDATE_TRACE: {NotNull, VARCHAR(64)} */
+    protected String _updateTrace;
 
     // ===================================================================================
     //                                                                             DB Meta
@@ -95,7 +136,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "VILLAGE_PLAYER";
+        return "village_player";
     }
 
     // ===================================================================================
@@ -110,10 +151,23 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     /**
      * To be unique by the unique column. <br>
      * You can update the entity by the key when entity update (NOT batch update).
-     * @param villageId : UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
-     * @param playerId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER. (NotNull)
+     * @param villageId : UQ+, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
+     * @param charaId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to chara. (NotNull)
      */
-    public void uniqueBy(Integer villageId, Integer playerId) {
+    public void uniqueByVillageIdCharaId(Integer villageId, Integer charaId) {
+        __uniqueDrivenProperties.clear();
+        __uniqueDrivenProperties.addPropertyName("villageId");
+        __uniqueDrivenProperties.addPropertyName("charaId");
+        setVillageId(villageId);setCharaId(charaId);
+    }
+
+    /**
+     * To be unique by the unique column. <br>
+     * You can update the entity by the key when entity update (NOT batch update).
+     * @param villageId : UQ+, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
+     * @param playerId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to player. (NotNull)
+     */
+    public void uniqueByVillageIdPlayerId(Integer villageId, Integer playerId) {
         __uniqueDrivenProperties.clear();
         __uniqueDrivenProperties.addPropertyName("villageId");
         __uniqueDrivenProperties.addPropertyName("playerId");
@@ -125,7 +179,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     //                                                             =======================
     /**
      * Get the value of skillCode as the classification of Skill. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -136,12 +190,33 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * Set the value of skillCode as the classification of Skill. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
     public void setSkillCodeAsSkill(CDef.Skill cdef) {
         setSkillCode(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * Get the value of isDead as the classification of Flg. <br>
+     * IS_DEAD: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Flg getIsDeadAsFlg() {
+        return CDef.Flg.codeOf(getIsDead());
+    }
+
+    /**
+     * Set the value of isDead as the classification of Flg. <br>
+     * IS_DEAD: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setIsDeadAsFlg(CDef.Flg cdef) {
+        setIsDead(cdef != null ? toBoolean(cdef.code()) : null);
     }
 
     // ===================================================================================
@@ -249,6 +324,22 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSkillCode_賢者() {
         setSkillCodeAsSkill(CDef.Skill.賢者);
+    }
+
+    /**
+     * Set the value of isDead as True (true). <br>
+     * はい: 有効を示す
+     */
+    public void setIsDead_True() {
+        setIsDeadAsFlg(CDef.Flg.True);
+    }
+
+    /**
+     * Set the value of isDead as False (false). <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsDead_False() {
+        setIsDeadAsFlg(CDef.Flg.False);
     }
 
     // ===================================================================================
@@ -397,6 +488,40 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         return cdef != null ? cdef.equals(CDef.Skill.賢者) : false;
     }
 
+    /**
+     * Is the value of isDead True? <br>
+     * はい: 有効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsDeadTrue() {
+        CDef.Flg cdef = getIsDeadAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
+    }
+
+    /**
+     * Is the value of isDead False? <br>
+     * いいえ: 無効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsDeadFalse() {
+        CDef.Flg cdef = getIsDeadAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
+    // ===================================================================================
+    //                                                           Classification Name/Alias
+    //                                                           =========================
+    /**
+     * Get the value of the column 'isDead' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     */
+    public String getIsDeadAlias() {
+        CDef.Flg cdef = getIsDeadAsFlg();
+        return cdef != null ? cdef.alias() : null;
+    }
+
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
@@ -419,6 +544,27 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setChara(OptionalEntity<Chara> chara) {
         _chara = chara;
+    }
+
+    /** DEAD_REASON by my DEAD_REASON_CODE, named 'deadReason'. */
+    protected OptionalEntity<DeadReason> _deadReason;
+
+    /**
+     * [get] DEAD_REASON by my DEAD_REASON_CODE, named 'deadReason'. <br>
+     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
+     * @return The entity of foreign property 'deadReason'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
+     */
+    public OptionalEntity<DeadReason> getDeadReason() {
+        if (_deadReason == null) { _deadReason = OptionalEntity.relationEmpty(this, "deadReason"); }
+        return _deadReason;
+    }
+
+    /**
+     * [set] DEAD_REASON by my DEAD_REASON_CODE, named 'deadReason'.
+     * @param deadReason The entity of foreign property 'deadReason'. (NullAllowed)
+     */
+    public void setDeadReason(OptionalEntity<DeadReason> deadReason) {
+        _deadReason = deadReason;
     }
 
     /** PLAYER by my PLAYER_ID, named 'player'. */
@@ -487,44 +633,24 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    /** MESSAGE by TO_VILLAGE_PLAYER_ID, named 'messageByToVillagePlayerIdList'. */
-    protected List<Message> _messageByToVillagePlayerIdList;
+    /** MESSAGE by VILLAGE_PLAYER_ID, named 'messageList'. */
+    protected List<Message> _messageList;
 
     /**
-     * [get] MESSAGE by TO_VILLAGE_PLAYER_ID, named 'messageByToVillagePlayerIdList'.
-     * @return The entity list of referrer property 'messageByToVillagePlayerIdList'. (NotNull: even if no loading, returns empty list)
+     * [get] MESSAGE by VILLAGE_PLAYER_ID, named 'messageList'.
+     * @return The entity list of referrer property 'messageList'. (NotNull: even if no loading, returns empty list)
      */
-    public List<Message> getMessageByToVillagePlayerIdList() {
-        if (_messageByToVillagePlayerIdList == null) { _messageByToVillagePlayerIdList = newReferrerList(); }
-        return _messageByToVillagePlayerIdList;
+    public List<Message> getMessageList() {
+        if (_messageList == null) { _messageList = newReferrerList(); }
+        return _messageList;
     }
 
     /**
-     * [set] MESSAGE by TO_VILLAGE_PLAYER_ID, named 'messageByToVillagePlayerIdList'.
-     * @param messageByToVillagePlayerIdList The entity list of referrer property 'messageByToVillagePlayerIdList'. (NullAllowed)
+     * [set] MESSAGE by VILLAGE_PLAYER_ID, named 'messageList'.
+     * @param messageList The entity list of referrer property 'messageList'. (NullAllowed)
      */
-    public void setMessageByToVillagePlayerIdList(List<Message> messageByToVillagePlayerIdList) {
-        _messageByToVillagePlayerIdList = messageByToVillagePlayerIdList;
-    }
-
-    /** MESSAGE by VILLAGE_PLAYER_ID, named 'messageByVillagePlayerIdList'. */
-    protected List<Message> _messageByVillagePlayerIdList;
-
-    /**
-     * [get] MESSAGE by VILLAGE_PLAYER_ID, named 'messageByVillagePlayerIdList'.
-     * @return The entity list of referrer property 'messageByVillagePlayerIdList'. (NotNull: even if no loading, returns empty list)
-     */
-    public List<Message> getMessageByVillagePlayerIdList() {
-        if (_messageByVillagePlayerIdList == null) { _messageByVillagePlayerIdList = newReferrerList(); }
-        return _messageByVillagePlayerIdList;
-    }
-
-    /**
-     * [set] MESSAGE by VILLAGE_PLAYER_ID, named 'messageByVillagePlayerIdList'.
-     * @param messageByVillagePlayerIdList The entity list of referrer property 'messageByVillagePlayerIdList'. (NullAllowed)
-     */
-    public void setMessageByVillagePlayerIdList(List<Message> messageByVillagePlayerIdList) {
-        _messageByVillagePlayerIdList = messageByVillagePlayerIdList;
+    public void setMessageList(List<Message> messageList) {
+        _messageList = messageList;
     }
 
     protected <ELEMENT> List<ELEMENT> newReferrerList() { // overriding to import
@@ -558,16 +684,16 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         StringBuilder sb = new StringBuilder();
         if (_chara != null && _chara.isPresent())
         { sb.append(li).append(xbRDS(_chara, "chara")); }
+        if (_deadReason != null && _deadReason.isPresent())
+        { sb.append(li).append(xbRDS(_deadReason, "deadReason")); }
         if (_player != null && _player.isPresent())
         { sb.append(li).append(xbRDS(_player, "player")); }
         if (_skill != null && _skill.isPresent())
         { sb.append(li).append(xbRDS(_skill, "skill")); }
         if (_village != null && _village.isPresent())
         { sb.append(li).append(xbRDS(_village, "village")); }
-        if (_messageByToVillagePlayerIdList != null) { for (Message et : _messageByToVillagePlayerIdList)
-        { if (et != null) { sb.append(li).append(xbRDS(et, "messageByToVillagePlayerIdList")); } } }
-        if (_messageByVillagePlayerIdList != null) { for (Message et : _messageByVillagePlayerIdList)
-        { if (et != null) { sb.append(li).append(xbRDS(et, "messageByVillagePlayerIdList")); } } }
+        if (_messageList != null) { for (Message et : _messageList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "messageList")); } } }
         return sb.toString();
     }
     protected <ET extends Entity> String xbRDS(org.dbflute.optional.OptionalEntity<ET> et, String name) { // buildRelationDisplayString()
@@ -582,6 +708,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         sb.append(dm).append(xfND(_playerId));
         sb.append(dm).append(xfND(_charaId));
         sb.append(dm).append(xfND(_skillCode));
+        sb.append(dm).append(xfND(_roomNumber));
+        sb.append(dm).append(xfND(_isDead));
+        sb.append(dm).append(xfND(_deadReasonCode));
+        sb.append(dm).append(xfND(_deadDay));
+        sb.append(dm).append(xfND(_registerDatetime));
+        sb.append(dm).append(xfND(_registerTrace));
+        sb.append(dm).append(xfND(_updateDatetime));
+        sb.append(dm).append(xfND(_updateTrace));
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length());
         }
@@ -594,16 +728,16 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         StringBuilder sb = new StringBuilder();
         if (_chara != null && _chara.isPresent())
         { sb.append(dm).append("chara"); }
+        if (_deadReason != null && _deadReason.isPresent())
+        { sb.append(dm).append("deadReason"); }
         if (_player != null && _player.isPresent())
         { sb.append(dm).append("player"); }
         if (_skill != null && _skill.isPresent())
         { sb.append(dm).append("skill"); }
         if (_village != null && _village.isPresent())
         { sb.append(dm).append("village"); }
-        if (_messageByToVillagePlayerIdList != null && !_messageByToVillagePlayerIdList.isEmpty())
-        { sb.append(dm).append("messageByToVillagePlayerIdList"); }
-        if (_messageByVillagePlayerIdList != null && !_messageByVillagePlayerIdList.isEmpty())
-        { sb.append(dm).append("messageByVillagePlayerIdList"); }
+        if (_messageList != null && !_messageList.isEmpty())
+        { sb.append(dm).append("messageList"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }
@@ -639,7 +773,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [get] VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -649,7 +783,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [set] VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -659,7 +793,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER} <br>
+     * [get] PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to player} <br>
      * プレイヤーID
      * @return The value of the column 'PLAYER_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -669,7 +803,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER} <br>
+     * [set] PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to player} <br>
      * プレイヤーID
      * @param playerId The value of the column 'PLAYER_ID'. (basically NotNull if update: for the constraint)
      */
@@ -679,7 +813,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA} <br>
+     * [get] CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
      * キャラクターID
      * @return The value of the column 'CHARA_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -689,7 +823,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA} <br>
+     * [set] CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
      * キャラクターID
      * @param charaId The value of the column 'CHARA_ID'. (basically NotNull if update: for the constraint)
      */
@@ -699,7 +833,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * [get] SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職コード
      * @return The value of the column 'SKILL_CODE'. (NullAllowed even if selected: for no constraint)
      */
@@ -709,7 +843,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * [set] SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職コード
      * @param skillCode The value of the column 'SKILL_CODE'. (NullAllowed: null update allowed for no constraint)
      */
@@ -717,6 +851,167 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         checkClassificationCode("SKILL_CODE", CDef.DefMeta.Skill, skillCode);
         registerModifiedProperty("skillCode");
         _skillCode = skillCode;
+    }
+
+    /**
+     * [get] ROOM_NUMBER: {INT UNSIGNED(10)} <br>
+     * 部屋番号
+     * @return The value of the column 'ROOM_NUMBER'. (NullAllowed even if selected: for no constraint)
+     */
+    public Integer getRoomNumber() {
+        checkSpecifiedProperty("roomNumber");
+        return _roomNumber;
+    }
+
+    /**
+     * [set] ROOM_NUMBER: {INT UNSIGNED(10)} <br>
+     * 部屋番号
+     * @param roomNumber The value of the column 'ROOM_NUMBER'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setRoomNumber(Integer roomNumber) {
+        registerModifiedProperty("roomNumber");
+        _roomNumber = roomNumber;
+    }
+
+    /**
+     * [get] IS_DEAD: {NotNull, BIT, classification=Flg} <br>
+     * 死亡しているか
+     * @return The value of the column 'IS_DEAD'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getIsDead() {
+        checkSpecifiedProperty("isDead");
+        return _isDead;
+    }
+
+    /**
+     * [set] IS_DEAD: {NotNull, BIT, classification=Flg} <br>
+     * 死亡しているか
+     * @param isDead The value of the column 'IS_DEAD'. (basically NotNull if update: for the constraint)
+     */
+    public void setIsDead(Boolean isDead) {
+        checkClassificationCode("IS_DEAD", CDef.DefMeta.Flg, isDead);
+        registerModifiedProperty("isDead");
+        _isDead = isDead;
+    }
+
+    /**
+     * [get] DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason} <br>
+     * 死亡理由コード
+     * @return The value of the column 'DEAD_REASON_CODE'. (NullAllowed even if selected: for no constraint)
+     */
+    public String getDeadReasonCode() {
+        checkSpecifiedProperty("deadReasonCode");
+        return convertEmptyToNull(_deadReasonCode);
+    }
+
+    /**
+     * [set] DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason} <br>
+     * 死亡理由コード
+     * @param deadReasonCode The value of the column 'DEAD_REASON_CODE'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setDeadReasonCode(String deadReasonCode) {
+        registerModifiedProperty("deadReasonCode");
+        _deadReasonCode = deadReasonCode;
+    }
+
+    /**
+     * [get] DEAD_DAY: {INT UNSIGNED(10)} <br>
+     * 何日目に死亡したか
+     * @return The value of the column 'DEAD_DAY'. (NullAllowed even if selected: for no constraint)
+     */
+    public Integer getDeadDay() {
+        checkSpecifiedProperty("deadDay");
+        return _deadDay;
+    }
+
+    /**
+     * [set] DEAD_DAY: {INT UNSIGNED(10)} <br>
+     * 何日目に死亡したか
+     * @param deadDay The value of the column 'DEAD_DAY'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setDeadDay(Integer deadDay) {
+        registerModifiedProperty("deadDay");
+        _deadDay = deadDay;
+    }
+
+    /**
+     * [get] REGISTER_DATETIME: {NotNull, DATETIME(19)} <br>
+     * 登録日時
+     * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
+     */
+    public java.time.LocalDateTime getRegisterDatetime() {
+        checkSpecifiedProperty("registerDatetime");
+        return _registerDatetime;
+    }
+
+    /**
+     * [set] REGISTER_DATETIME: {NotNull, DATETIME(19)} <br>
+     * 登録日時
+     * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
+     */
+    public void setRegisterDatetime(java.time.LocalDateTime registerDatetime) {
+        registerModifiedProperty("registerDatetime");
+        _registerDatetime = registerDatetime;
+    }
+
+    /**
+     * [get] REGISTER_TRACE: {NotNull, VARCHAR(64)} <br>
+     * 登録トレース
+     * @return The value of the column 'REGISTER_TRACE'. (basically NotNull if selected: for the constraint)
+     */
+    public String getRegisterTrace() {
+        checkSpecifiedProperty("registerTrace");
+        return convertEmptyToNull(_registerTrace);
+    }
+
+    /**
+     * [set] REGISTER_TRACE: {NotNull, VARCHAR(64)} <br>
+     * 登録トレース
+     * @param registerTrace The value of the column 'REGISTER_TRACE'. (basically NotNull if update: for the constraint)
+     */
+    public void setRegisterTrace(String registerTrace) {
+        registerModifiedProperty("registerTrace");
+        _registerTrace = registerTrace;
+    }
+
+    /**
+     * [get] UPDATE_DATETIME: {NotNull, DATETIME(19)} <br>
+     * 更新日時
+     * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
+     */
+    public java.time.LocalDateTime getUpdateDatetime() {
+        checkSpecifiedProperty("updateDatetime");
+        return _updateDatetime;
+    }
+
+    /**
+     * [set] UPDATE_DATETIME: {NotNull, DATETIME(19)} <br>
+     * 更新日時
+     * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
+     */
+    public void setUpdateDatetime(java.time.LocalDateTime updateDatetime) {
+        registerModifiedProperty("updateDatetime");
+        _updateDatetime = updateDatetime;
+    }
+
+    /**
+     * [get] UPDATE_TRACE: {NotNull, VARCHAR(64)} <br>
+     * 更新トレース
+     * @return The value of the column 'UPDATE_TRACE'. (basically NotNull if selected: for the constraint)
+     */
+    public String getUpdateTrace() {
+        checkSpecifiedProperty("updateTrace");
+        return convertEmptyToNull(_updateTrace);
+    }
+
+    /**
+     * [set] UPDATE_TRACE: {NotNull, VARCHAR(64)} <br>
+     * 更新トレース
+     * @param updateTrace The value of the column 'UPDATE_TRACE'. (basically NotNull if update: for the constraint)
+     */
+    public void setUpdateTrace(String updateTrace) {
+        registerModifiedProperty("updateTrace");
+        _updateTrace = updateTrace;
     }
 
     /**

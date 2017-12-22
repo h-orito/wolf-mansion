@@ -5,7 +5,8 @@ import java.io.Serializable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Length;
 
 public class NewVillageForm implements Serializable {
 
@@ -13,7 +14,7 @@ public class NewVillageForm implements Serializable {
 
     /** 村表示名 */
     @NotNull
-    @Size(min = 5, max = 20)
+    @Length(min = 5, max = 20)
     private String villageName;
 
     /** 最低開始人数 */
@@ -62,10 +63,21 @@ public class NewVillageForm implements Serializable {
     private Integer startMinute;
 
     /** 記名投票か */
+    @NotNull
     private Boolean isOpenVote;
 
     /** 役職希望有効か */
+    @NotNull
     private Boolean isPossibleSkillRequest;
+
+    /** キャラセットID */
+    @NotNull
+    private Integer characterSetId;
+
+    /** ダミーキャラ入村発言 */
+    @NotNull
+    @Length(max = 200)
+    private String dummyJoinMessage;
 
     public String getVillageName() {
         return villageName;
@@ -169,6 +181,22 @@ public class NewVillageForm implements Serializable {
 
     public void setIsPossibleSkillRequest(Boolean isPossibleSkillRequest) {
         this.isPossibleSkillRequest = isPossibleSkillRequest;
+    }
+
+    public Integer getCharacterSetId() {
+        return characterSetId;
+    }
+
+    public void setCharacterSetId(Integer characterSetId) {
+        this.characterSetId = characterSetId;
+    }
+
+    public String getDummyJoinMessage() {
+        return dummyJoinMessage;
+    }
+
+    public void setDummyJoinMessage(String dummyJoinMessage) {
+        this.dummyJoinMessage = dummyJoinMessage;
     }
 
 }

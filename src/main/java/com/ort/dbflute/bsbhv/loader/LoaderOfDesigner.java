@@ -15,7 +15,7 @@ import com.ort.dbflute.cbean.*;
  *     DESIGNER_ID
  *
  * [column]
- *     DESIGNER_ID, DESIGNER_NAME
+ *     DESIGNER_ID, DESIGNER_NAME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     

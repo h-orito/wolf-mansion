@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of VILLAGE_SETTINGS.
+ * The abstract condition-query of village_settings.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
     }
 
     public String asTableDbName() {
-        return "VILLAGE_SETTINGS";
+        return "village_settings";
     }
 
     // ===================================================================================
@@ -45,7 +45,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
     //                                                                               =====
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_Equal(Integer villageId) {
@@ -58,7 +58,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_NotEqual(Integer villageId) {
@@ -71,7 +71,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterThan(Integer villageId) {
@@ -80,7 +80,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessThan(Integer villageId) {
@@ -89,7 +89,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterEqual(Integer villageId) {
@@ -98,7 +98,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessEqual(Integer villageId) {
@@ -109,7 +109,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -122,7 +122,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -133,7 +133,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageIdList The collection of villageId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_InScope(Collection<Integer> villageIdList) {
@@ -146,7 +146,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageIdList The collection of villageId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_NotInScope(Collection<Integer> villageIdList) {
@@ -159,13 +159,13 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      */
     public void setVillageId_IsNull() { regVillageId(CK_ISN, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      */
     public void setVillageId_IsNotNull() { regVillageId(CK_ISNN, DOBJ); }
 
@@ -636,10 +636,40 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * IS_OPEN_VOTE: {NotNull, BIT}
+     * IS_OPEN_VOTE: {NotNull, BIT, classification=Flg}
      * @param isOpenVote The value of isOpenVote as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setIsOpenVote_Equal(Boolean isOpenVote) {
+        regIsOpenVote(CK_EQ, isOpenVote);
+    }
+
+    /**
+     * Equal(=). As Flg. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * IS_OPEN_VOTE: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsOpenVote_Equal_AsFlg(CDef.Flg cdef) {
+        doSetIsOpenVote_Equal(cdef != null ? Boolean.valueOf(cdef.code()) : null);
+    }
+
+    /**
+     * Equal(=). As True. And OnlyOnceRegistered. <br>
+     * はい: 有効を示す
+     */
+    public void setIsOpenVote_Equal_True() {
+        doSetIsOpenVote_Equal(Boolean.valueOf(CDef.Flg.True.code()));
+    }
+
+    /**
+     * Equal(=). As False. And OnlyOnceRegistered. <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsOpenVote_Equal_False() {
+        doSetIsOpenVote_Equal(Boolean.valueOf(CDef.Flg.False.code()));
+    }
+
+    protected void doSetIsOpenVote_Equal(Boolean isOpenVote) {
         regIsOpenVote(CK_EQ, isOpenVote);
     }
 
@@ -648,15 +678,582 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * IS_POSSIBLE_SKILL_REQUEST: {NotNull, BIT}
+     * IS_POSSIBLE_SKILL_REQUEST: {NotNull, BIT, classification=Flg}
      * @param isPossibleSkillRequest The value of isPossibleSkillRequest as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setIsPossibleSkillRequest_Equal(Boolean isPossibleSkillRequest) {
         regIsPossibleSkillRequest(CK_EQ, isPossibleSkillRequest);
     }
 
+    /**
+     * Equal(=). As Flg. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * IS_POSSIBLE_SKILL_REQUEST: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsPossibleSkillRequest_Equal_AsFlg(CDef.Flg cdef) {
+        doSetIsPossibleSkillRequest_Equal(cdef != null ? Boolean.valueOf(cdef.code()) : null);
+    }
+
+    /**
+     * Equal(=). As True. And OnlyOnceRegistered. <br>
+     * はい: 有効を示す
+     */
+    public void setIsPossibleSkillRequest_Equal_True() {
+        doSetIsPossibleSkillRequest_Equal(Boolean.valueOf(CDef.Flg.True.code()));
+    }
+
+    /**
+     * Equal(=). As False. And OnlyOnceRegistered. <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsPossibleSkillRequest_Equal_False() {
+        doSetIsPossibleSkillRequest_Equal(Boolean.valueOf(CDef.Flg.False.code()));
+    }
+
+    protected void doSetIsPossibleSkillRequest_Equal(Boolean isPossibleSkillRequest) {
+        regIsPossibleSkillRequest(CK_EQ, isPossibleSkillRequest);
+    }
+
     protected void regIsPossibleSkillRequest(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueIsPossibleSkillRequest(), "IS_POSSIBLE_SKILL_REQUEST"); }
     protected abstract ConditionValue xgetCValueIsPossibleSkillRequest();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * @param characterGroupId The value of characterGroupId as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setCharacterGroupId_Equal(Integer characterGroupId) {
+        doSetCharacterGroupId_Equal(characterGroupId);
+    }
+
+    protected void doSetCharacterGroupId_Equal(Integer characterGroupId) {
+        regCharacterGroupId(CK_EQ, characterGroupId);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * @param characterGroupId The value of characterGroupId as notEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setCharacterGroupId_NotEqual(Integer characterGroupId) {
+        doSetCharacterGroupId_NotEqual(characterGroupId);
+    }
+
+    protected void doSetCharacterGroupId_NotEqual(Integer characterGroupId) {
+        regCharacterGroupId(CK_NES, characterGroupId);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * @param characterGroupId The value of characterGroupId as greaterThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setCharacterGroupId_GreaterThan(Integer characterGroupId) {
+        regCharacterGroupId(CK_GT, characterGroupId);
+    }
+
+    /**
+     * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * @param characterGroupId The value of characterGroupId as lessThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setCharacterGroupId_LessThan(Integer characterGroupId) {
+        regCharacterGroupId(CK_LT, characterGroupId);
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * @param characterGroupId The value of characterGroupId as greaterEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setCharacterGroupId_GreaterEqual(Integer characterGroupId) {
+        regCharacterGroupId(CK_GE, characterGroupId);
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * @param characterGroupId The value of characterGroupId as lessEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setCharacterGroupId_LessEqual(Integer characterGroupId) {
+        regCharacterGroupId(CK_LE, characterGroupId);
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * @param minNumber The min number of characterGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of characterGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param opLambda The callback for option of range-of. (NotNull)
+     */
+    public void setCharacterGroupId_RangeOf(Integer minNumber, Integer maxNumber, ConditionOptionCall<RangeOfOption> opLambda) {
+        setCharacterGroupId_RangeOf(minNumber, maxNumber, xcROOP(opLambda));
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * @param minNumber The min number of characterGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of characterGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param rangeOfOption The option of range-of. (NotNull)
+     */
+    protected void setCharacterGroupId_RangeOf(Integer minNumber, Integer maxNumber, RangeOfOption rangeOfOption) {
+        regROO(minNumber, maxNumber, xgetCValueCharacterGroupId(), "CHARACTER_GROUP_ID", rangeOfOption);
+    }
+
+    /**
+     * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * @param characterGroupIdList The collection of characterGroupId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharacterGroupId_InScope(Collection<Integer> characterGroupIdList) {
+        doSetCharacterGroupId_InScope(characterGroupIdList);
+    }
+
+    protected void doSetCharacterGroupId_InScope(Collection<Integer> characterGroupIdList) {
+        regINS(CK_INS, cTL(characterGroupIdList), xgetCValueCharacterGroupId(), "CHARACTER_GROUP_ID");
+    }
+
+    /**
+     * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * @param characterGroupIdList The collection of characterGroupId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharacterGroupId_NotInScope(Collection<Integer> characterGroupIdList) {
+        doSetCharacterGroupId_NotInScope(characterGroupIdList);
+    }
+
+    protected void doSetCharacterGroupId_NotInScope(Collection<Integer> characterGroupIdList) {
+        regINS(CK_NINS, cTL(characterGroupIdList), xgetCValueCharacterGroupId(), "CHARACTER_GROUP_ID");
+    }
+
+    protected void regCharacterGroupId(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueCharacterGroupId(), "CHARACTER_GROUP_ID"); }
+    protected abstract ConditionValue xgetCValueCharacterGroupId();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+     * @param registerDatetime The value of registerDatetime as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRegisterDatetime_Equal(java.time.LocalDateTime registerDatetime) {
+        regRegisterDatetime(CK_EQ,  registerDatetime);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+     * @param registerDatetime The value of registerDatetime as greaterThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRegisterDatetime_GreaterThan(java.time.LocalDateTime registerDatetime) {
+        regRegisterDatetime(CK_GT,  registerDatetime);
+    }
+
+    /**
+     * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+     * @param registerDatetime The value of registerDatetime as lessThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRegisterDatetime_LessThan(java.time.LocalDateTime registerDatetime) {
+        regRegisterDatetime(CK_LT,  registerDatetime);
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+     * @param registerDatetime The value of registerDatetime as greaterEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRegisterDatetime_GreaterEqual(java.time.LocalDateTime registerDatetime) {
+        regRegisterDatetime(CK_GE,  registerDatetime);
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+     * @param registerDatetime The value of registerDatetime as lessEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRegisterDatetime_LessEqual(java.time.LocalDateTime registerDatetime) {
+        regRegisterDatetime(CK_LE, registerDatetime);
+    }
+
+    /**
+     * FromTo with various options. (versatile) {(default) fromDatetime &lt;= column &lt;= toDatetime} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+     * <pre>e.g. setRegisterDatetime_FromTo(fromDate, toDate, op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">compareAsDate()</span>);</pre>
+     * @param fromDatetime The from-datetime(yyyy/MM/dd HH:mm:ss.SSS) of registerDatetime. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of registerDatetime. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param opLambda The callback for option of from-to. (NotNull)
+     */
+    public void setRegisterDatetime_FromTo(java.time.LocalDateTime fromDatetime, java.time.LocalDateTime toDatetime, ConditionOptionCall<FromToOption> opLambda) {
+        setRegisterDatetime_FromTo(fromDatetime, toDatetime, xcFTOP(opLambda));
+    }
+
+    /**
+     * FromTo with various options. (versatile) {(default) fromDatetime &lt;= column &lt;= toDatetime} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+     * <pre>e.g. setRegisterDatetime_FromTo(fromDate, toDate, new <span style="color: #CC4747">FromToOption</span>().compareAsDate());</pre>
+     * @param fromDatetime The from-datetime(yyyy/MM/dd HH:mm:ss.SSS) of registerDatetime. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of registerDatetime. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param fromToOption The option of from-to. (NotNull)
+     */
+    protected void setRegisterDatetime_FromTo(java.time.LocalDateTime fromDatetime, java.time.LocalDateTime toDatetime, FromToOption fromToOption) {
+        String nm = "REGISTER_DATETIME"; FromToOption op = fromToOption;
+        regFTQ(xfFTHD(fromDatetime, nm, op), xfFTHD(toDatetime, nm, op), xgetCValueRegisterDatetime(), nm, op);
+    }
+
+    protected void regRegisterDatetime(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueRegisterDatetime(), "REGISTER_DATETIME"); }
+    protected abstract ConditionValue xgetCValueRegisterDatetime();
+
+    /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+     * @param registerTrace The value of registerTrace as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setRegisterTrace_Equal(String registerTrace) {
+        doSetRegisterTrace_Equal(fRES(registerTrace));
+    }
+
+    protected void doSetRegisterTrace_Equal(String registerTrace) {
+        regRegisterTrace(CK_EQ, registerTrace);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+     * @param registerTrace The value of registerTrace as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setRegisterTrace_NotEqual(String registerTrace) {
+        doSetRegisterTrace_NotEqual(fRES(registerTrace));
+    }
+
+    protected void doSetRegisterTrace_NotEqual(String registerTrace) {
+        regRegisterTrace(CK_NES, registerTrace);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+     * @param registerTrace The value of registerTrace as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setRegisterTrace_GreaterThan(String registerTrace) {
+        regRegisterTrace(CK_GT, fRES(registerTrace));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+     * @param registerTrace The value of registerTrace as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setRegisterTrace_LessThan(String registerTrace) {
+        regRegisterTrace(CK_LT, fRES(registerTrace));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+     * @param registerTrace The value of registerTrace as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setRegisterTrace_GreaterEqual(String registerTrace) {
+        regRegisterTrace(CK_GE, fRES(registerTrace));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+     * @param registerTrace The value of registerTrace as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setRegisterTrace_LessEqual(String registerTrace) {
+        regRegisterTrace(CK_LE, fRES(registerTrace));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+     * @param registerTraceList The collection of registerTrace as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setRegisterTrace_InScope(Collection<String> registerTraceList) {
+        doSetRegisterTrace_InScope(registerTraceList);
+    }
+
+    protected void doSetRegisterTrace_InScope(Collection<String> registerTraceList) {
+        regINS(CK_INS, cTL(registerTraceList), xgetCValueRegisterTrace(), "REGISTER_TRACE");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+     * @param registerTraceList The collection of registerTrace as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setRegisterTrace_NotInScope(Collection<String> registerTraceList) {
+        doSetRegisterTrace_NotInScope(registerTraceList);
+    }
+
+    protected void doSetRegisterTrace_NotInScope(Collection<String> registerTraceList) {
+        regINS(CK_NINS, cTL(registerTraceList), xgetCValueRegisterTrace(), "REGISTER_TRACE");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)} <br>
+     * <pre>e.g. setRegisterTrace_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param registerTrace The value of registerTrace as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setRegisterTrace_LikeSearch(String registerTrace, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setRegisterTrace_LikeSearch(registerTrace, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)} <br>
+     * <pre>e.g. setRegisterTrace_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param registerTrace The value of registerTrace as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setRegisterTrace_LikeSearch(String registerTrace, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(registerTrace), xgetCValueRegisterTrace(), "REGISTER_TRACE", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+     * @param registerTrace The value of registerTrace as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setRegisterTrace_NotLikeSearch(String registerTrace, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setRegisterTrace_NotLikeSearch(registerTrace, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+     * @param registerTrace The value of registerTrace as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setRegisterTrace_NotLikeSearch(String registerTrace, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(registerTrace), xgetCValueRegisterTrace(), "REGISTER_TRACE", likeSearchOption);
+    }
+
+    protected void regRegisterTrace(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueRegisterTrace(), "REGISTER_TRACE"); }
+    protected abstract ConditionValue xgetCValueRegisterTrace();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+     * @param updateDatetime The value of updateDatetime as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setUpdateDatetime_Equal(java.time.LocalDateTime updateDatetime) {
+        regUpdateDatetime(CK_EQ,  updateDatetime);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+     * @param updateDatetime The value of updateDatetime as greaterThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setUpdateDatetime_GreaterThan(java.time.LocalDateTime updateDatetime) {
+        regUpdateDatetime(CK_GT,  updateDatetime);
+    }
+
+    /**
+     * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+     * @param updateDatetime The value of updateDatetime as lessThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setUpdateDatetime_LessThan(java.time.LocalDateTime updateDatetime) {
+        regUpdateDatetime(CK_LT,  updateDatetime);
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+     * @param updateDatetime The value of updateDatetime as greaterEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setUpdateDatetime_GreaterEqual(java.time.LocalDateTime updateDatetime) {
+        regUpdateDatetime(CK_GE,  updateDatetime);
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+     * @param updateDatetime The value of updateDatetime as lessEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setUpdateDatetime_LessEqual(java.time.LocalDateTime updateDatetime) {
+        regUpdateDatetime(CK_LE, updateDatetime);
+    }
+
+    /**
+     * FromTo with various options. (versatile) {(default) fromDatetime &lt;= column &lt;= toDatetime} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+     * <pre>e.g. setUpdateDatetime_FromTo(fromDate, toDate, op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">compareAsDate()</span>);</pre>
+     * @param fromDatetime The from-datetime(yyyy/MM/dd HH:mm:ss.SSS) of updateDatetime. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of updateDatetime. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param opLambda The callback for option of from-to. (NotNull)
+     */
+    public void setUpdateDatetime_FromTo(java.time.LocalDateTime fromDatetime, java.time.LocalDateTime toDatetime, ConditionOptionCall<FromToOption> opLambda) {
+        setUpdateDatetime_FromTo(fromDatetime, toDatetime, xcFTOP(opLambda));
+    }
+
+    /**
+     * FromTo with various options. (versatile) {(default) fromDatetime &lt;= column &lt;= toDatetime} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+     * <pre>e.g. setUpdateDatetime_FromTo(fromDate, toDate, new <span style="color: #CC4747">FromToOption</span>().compareAsDate());</pre>
+     * @param fromDatetime The from-datetime(yyyy/MM/dd HH:mm:ss.SSS) of updateDatetime. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of updateDatetime. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param fromToOption The option of from-to. (NotNull)
+     */
+    protected void setUpdateDatetime_FromTo(java.time.LocalDateTime fromDatetime, java.time.LocalDateTime toDatetime, FromToOption fromToOption) {
+        String nm = "UPDATE_DATETIME"; FromToOption op = fromToOption;
+        regFTQ(xfFTHD(fromDatetime, nm, op), xfFTHD(toDatetime, nm, op), xgetCValueUpdateDatetime(), nm, op);
+    }
+
+    protected void regUpdateDatetime(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueUpdateDatetime(), "UPDATE_DATETIME"); }
+    protected abstract ConditionValue xgetCValueUpdateDatetime();
+
+    /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+     * @param updateTrace The value of updateTrace as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setUpdateTrace_Equal(String updateTrace) {
+        doSetUpdateTrace_Equal(fRES(updateTrace));
+    }
+
+    protected void doSetUpdateTrace_Equal(String updateTrace) {
+        regUpdateTrace(CK_EQ, updateTrace);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+     * @param updateTrace The value of updateTrace as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setUpdateTrace_NotEqual(String updateTrace) {
+        doSetUpdateTrace_NotEqual(fRES(updateTrace));
+    }
+
+    protected void doSetUpdateTrace_NotEqual(String updateTrace) {
+        regUpdateTrace(CK_NES, updateTrace);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+     * @param updateTrace The value of updateTrace as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setUpdateTrace_GreaterThan(String updateTrace) {
+        regUpdateTrace(CK_GT, fRES(updateTrace));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+     * @param updateTrace The value of updateTrace as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setUpdateTrace_LessThan(String updateTrace) {
+        regUpdateTrace(CK_LT, fRES(updateTrace));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+     * @param updateTrace The value of updateTrace as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setUpdateTrace_GreaterEqual(String updateTrace) {
+        regUpdateTrace(CK_GE, fRES(updateTrace));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+     * @param updateTrace The value of updateTrace as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setUpdateTrace_LessEqual(String updateTrace) {
+        regUpdateTrace(CK_LE, fRES(updateTrace));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+     * @param updateTraceList The collection of updateTrace as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setUpdateTrace_InScope(Collection<String> updateTraceList) {
+        doSetUpdateTrace_InScope(updateTraceList);
+    }
+
+    protected void doSetUpdateTrace_InScope(Collection<String> updateTraceList) {
+        regINS(CK_INS, cTL(updateTraceList), xgetCValueUpdateTrace(), "UPDATE_TRACE");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+     * @param updateTraceList The collection of updateTrace as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setUpdateTrace_NotInScope(Collection<String> updateTraceList) {
+        doSetUpdateTrace_NotInScope(updateTraceList);
+    }
+
+    protected void doSetUpdateTrace_NotInScope(Collection<String> updateTraceList) {
+        regINS(CK_NINS, cTL(updateTraceList), xgetCValueUpdateTrace(), "UPDATE_TRACE");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)} <br>
+     * <pre>e.g. setUpdateTrace_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param updateTrace The value of updateTrace as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setUpdateTrace_LikeSearch(String updateTrace, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setUpdateTrace_LikeSearch(updateTrace, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)} <br>
+     * <pre>e.g. setUpdateTrace_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param updateTrace The value of updateTrace as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setUpdateTrace_LikeSearch(String updateTrace, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(updateTrace), xgetCValueUpdateTrace(), "UPDATE_TRACE", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+     * @param updateTrace The value of updateTrace as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setUpdateTrace_NotLikeSearch(String updateTrace, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setUpdateTrace_NotLikeSearch(updateTrace, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+     * @param updateTrace The value of updateTrace as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setUpdateTrace_NotLikeSearch(String updateTrace, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(updateTrace), xgetCValueUpdateTrace(), "UPDATE_TRACE", likeSearchOption);
+    }
+
+    protected void regUpdateTrace(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueUpdateTrace(), "UPDATE_TRACE"); }
+    protected abstract ConditionValue xgetCValueUpdateTrace();
 
     // ===================================================================================
     //                                                                     ScalarCondition

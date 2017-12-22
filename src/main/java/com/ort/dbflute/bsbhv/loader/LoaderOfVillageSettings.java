@@ -13,7 +13,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID
  *
  * [column]
- *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST
+ *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, CHARACTER_GROUP_ID, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -25,13 +25,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     VILLAGE
+ *     CHARA_GROUP, VILLAGE
  *
  * [referrer table]
  *     
  *
  * [foreign property]
- *     village
+ *     charaGroup, village
  *
  * [referrer property]
  *     
@@ -59,6 +59,13 @@ public class LoaderOfVillageSettings {
     // ===================================================================================
     //                                                                    Pull out Foreign
     //                                                                    ================
+    protected LoaderOfCharaGroup _foreignCharaGroupLoader;
+    public LoaderOfCharaGroup pulloutCharaGroup() {
+        if (_foreignCharaGroupLoader == null)
+        { _foreignCharaGroupLoader = new LoaderOfCharaGroup().ready(myBhv().pulloutCharaGroup(_selectedList), _selector); }
+        return _foreignCharaGroupLoader;
+    }
+
     protected LoaderOfVillage _foreignVillageLoader;
     public LoaderOfVillage pulloutVillage() {
         if (_foreignVillageLoader == null)

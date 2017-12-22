@@ -20,7 +20,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-bean of CHARA_GROUP.
+ * The base condition-bean of chara_group.
  * @author DBFlute(AutoGenerator)
  */
 public class BsCharaGroupCB extends AbstractConditionBean {
@@ -72,7 +72,7 @@ public class BsCharaGroupCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "CHARA_GROUP";
+        return "chara_group";
     }
 
     // ===================================================================================
@@ -309,15 +309,35 @@ public class BsCharaGroupCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnCharaGroupId() { return doColumn("CHARA_GROUP_ID"); }
         /**
-         * CHARA_NAME: {NotNull, VARCHAR(40)}
+         * CHARA_GROUP_NAME: {NotNull, VARCHAR(40)}
          * @return The information object of specified column. (NotNull)
          */
-        public SpecifiedColumn columnCharaName() { return doColumn("CHARA_NAME"); }
+        public SpecifiedColumn columnCharaGroupName() { return doColumn("CHARA_GROUP_NAME"); }
         /**
-         * DESIGNER_ID: {IX, NotNull, INT UNSIGNED(10), FK to DESIGNER}
+         * DESIGNER_ID: {IX, NotNull, INT UNSIGNED(10), FK to designer}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnDesignerId() { return doColumn("DESIGNER_ID"); }
+        /**
+         * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnRegisterDatetime() { return doColumn("REGISTER_DATETIME"); }
+        /**
+         * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnRegisterTrace() { return doColumn("REGISTER_TRACE"); }
+        /**
+         * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnUpdateDatetime() { return doColumn("UPDATE_DATETIME"); }
+        /**
+         * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnUpdateTrace() { return doColumn("UPDATE_TRACE"); }
         public void everyColumn() { doEveryColumn(); }
         public void exceptRecordMetaColumn() { doExceptRecordMetaColumn(); }
         @Override
@@ -329,7 +349,7 @@ public class BsCharaGroupCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "CHARA_GROUP"; }
+        protected String getTableDbName() { return "chara_group"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * DESIGNER by my DESIGNER_ID, named 'designer'.
@@ -352,7 +372,7 @@ public class BsCharaGroupCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from CHARA where ...) as FOO_MAX} <br>
+         * {select max(FOO) from chara where ...) as FOO_MAX} <br>
          * CHARA by CHARA_GROUP_ID, named 'charaList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(charaCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -366,6 +386,23 @@ public class BsCharaGroupCB extends AbstractConditionBean {
             assertDerived("charaList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
             return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<CharaCB> sq, CharaGroupCQ cq, String al, DerivedReferrerOption op)
                     -> cq.xsderiveCharaList(fn, sq, al, op), _dbmetaProvider);
+        }
+        /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
+         * {select max(FOO) from village_settings where ...) as FOO_MAX} <br>
+         * VILLAGE_SETTINGS by CHARACTER_GROUP_ID, named 'villageSettingsList'.
+         * <pre>
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(settingsCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     settingsCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     settingsCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, VillageSettings.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        public HpSDRFunction<VillageSettingsCB, CharaGroupCQ> derivedVillageSettings() {
+            assertDerived("villageSettingsList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillageSettingsCB> sq, CharaGroupCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveVillageSettingsList(fn, sq, al, op), _dbmetaProvider);
         }
         /**
          * Prepare for (Specify)MyselfDerived (SubQuery).

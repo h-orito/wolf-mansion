@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of VILLAGE_SETTINGS.
+ * The condition-query for in-line of village_settings.
  * @author DBFlute(AutoGenerator)
  */
 public class VillageSettingsCIQ extends AbstractBsVillageSettingsCQ {
@@ -68,6 +68,11 @@ public class VillageSettingsCIQ extends AbstractBsVillageSettingsCQ {
     protected ConditionValue xgetCValueDayChangeIntervalSeconds() { return _myCQ.xdfgetDayChangeIntervalSeconds(); }
     protected ConditionValue xgetCValueIsOpenVote() { return _myCQ.xdfgetIsOpenVote(); }
     protected ConditionValue xgetCValueIsPossibleSkillRequest() { return _myCQ.xdfgetIsPossibleSkillRequest(); }
+    protected ConditionValue xgetCValueCharacterGroupId() { return _myCQ.xdfgetCharacterGroupId(); }
+    protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
+    protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }
+    protected ConditionValue xgetCValueUpdateDatetime() { return _myCQ.xdfgetUpdateDatetime(); }
+    protected ConditionValue xgetCValueUpdateTrace() { return _myCQ.xdfgetUpdateTrace(); }
     protected Map<String, Object> xfindFixedConditionDynamicParameterMap(String pp) { return null; }
     public String keepScalarCondition(VillageSettingsCQ sq)
     { throwIICBOE("ScalarCondition"); return null; }

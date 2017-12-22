@@ -28,7 +28,7 @@ import com.ort.dbflute.cbean.*;
  *     MESSAGE_ID
  *
  * [column]
- *     MESSAGE_ID, VILLAGE_ID, VILLAGE_PLAYER_ID, PLAYER_ID, TO_VILLAGE_PLAYER_ID, DAY, MESSAGE_TYPE_CODE, MESSAGE_NUMBER, MESSAGE_CONTENT, MESSAGE_DATETIME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     MESSAGE_ID, VILLAGE_ID, VILLAGE_PLAYER_ID, PLAYER_ID, DAY, MESSAGE_TYPE_CODE, MESSAGE_NUMBER, MESSAGE_CONTENT, MESSAGE_DATETIME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -40,13 +40,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [foreign table]
- *     MESSAGE_TYPE, PLAYER, VILLAGE_PLAYER, VILLAGE
+ *     MESSAGE_TYPE, PLAYER, VILLAGE_DAY, VILLAGE_PLAYER
  *
  * [referrer table]
  *     
  *
  * [foreign property]
- *     messageType, player, villagePlayerByToVillagePlayerId, village, villagePlayerByVillagePlayerId
+ *     messageType, player, villageDay, villagePlayer
  *
  * [referrer property]
  *     
@@ -67,7 +67,7 @@ public abstract class BsMessageBhv extends AbstractBehaviorWritable<Message, Mes
     /** {@inheritDoc} */
     public MessageDbm asDBMeta() { return MessageDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "MESSAGE"; }
+    public String asTableDbName() { return "message"; }
 
     // ===================================================================================
     //                                                                        New Instance
@@ -381,28 +381,20 @@ public abstract class BsMessageBhv extends AbstractBehaviorWritable<Message, Mes
     { return helpPulloutInternally(messageList, "player"); }
 
     /**
-     * Pull out the list of foreign table 'VillagePlayer'.
+     * Pull out the list of foreign table 'VillageDay'.
      * @param messageList The list of message. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    public List<VillagePlayer> pulloutVillagePlayerByToVillagePlayerId(List<Message> messageList)
-    { return helpPulloutInternally(messageList, "villagePlayerByToVillagePlayerId"); }
-
-    /**
-     * Pull out the list of foreign table 'Village'.
-     * @param messageList The list of message. (NotNull, EmptyAllowed)
-     * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
-     */
-    public List<Village> pulloutVillage(List<Message> messageList)
-    { return helpPulloutInternally(messageList, "village"); }
+    public List<VillageDay> pulloutVillageDay(List<Message> messageList)
+    { return helpPulloutInternally(messageList, "villageDay"); }
 
     /**
      * Pull out the list of foreign table 'VillagePlayer'.
      * @param messageList The list of message. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    public List<VillagePlayer> pulloutVillagePlayerByVillagePlayerId(List<Message> messageList)
-    { return helpPulloutInternally(messageList, "villagePlayerByVillagePlayerId"); }
+    public List<VillagePlayer> pulloutVillagePlayer(List<Message> messageList)
+    { return helpPulloutInternally(messageList, "villagePlayer"); }
 
     // ===================================================================================
     //                                                                      Extract Column

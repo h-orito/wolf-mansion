@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of CHARA. (Singleton)
+ * The DB meta of chara. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class CharaDbm extends AbstractDBMeta {
@@ -45,8 +45,16 @@ public class CharaDbm extends AbstractDBMeta {
     protected void xsetupEpg() {
         setupEpg(_epgMap, et -> ((Chara)et).getCharaId(), (et, vl) -> ((Chara)et).setCharaId(cti(vl)), "charaId");
         setupEpg(_epgMap, et -> ((Chara)et).getCharaName(), (et, vl) -> ((Chara)et).setCharaName((String)vl), "charaName");
+        setupEpg(_epgMap, et -> ((Chara)et).getCharaShortName(), (et, vl) -> ((Chara)et).setCharaShortName((String)vl), "charaShortName");
         setupEpg(_epgMap, et -> ((Chara)et).getCharaGroupId(), (et, vl) -> ((Chara)et).setCharaGroupId(cti(vl)), "charaGroupId");
         setupEpg(_epgMap, et -> ((Chara)et).getCharaImgUrl(), (et, vl) -> ((Chara)et).setCharaImgUrl((String)vl), "charaImgUrl");
+        setupEpg(_epgMap, et -> ((Chara)et).getIsDummy(), (et, vl) -> {
+            ((Chara)et).setIsDummy((Boolean)vl);
+        }, "isDummy");
+        setupEpg(_epgMap, et -> ((Chara)et).getRegisterDatetime(), (et, vl) -> ((Chara)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
+        setupEpg(_epgMap, et -> ((Chara)et).getRegisterTrace(), (et, vl) -> ((Chara)et).setRegisterTrace((String)vl), "registerTrace");
+        setupEpg(_epgMap, et -> ((Chara)et).getUpdateDatetime(), (et, vl) -> ((Chara)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
+        setupEpg(_epgMap, et -> ((Chara)et).getUpdateTrace(), (et, vl) -> ((Chara)et).setUpdateTrace((String)vl), "updateTrace");
     }
     public PropertyGateway findPropertyGateway(String prop)
     { return doFindEpg(_epgMap, prop); }
@@ -66,7 +74,7 @@ public class CharaDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "CHARA";
+    protected final String _tableDbName = "chara";
     protected final String _tableDispName = "CHARA";
     protected final String _tablePropertyName = "chara";
     protected final TableSqlName _tableSqlName = new TableSqlName("CHARA", _tableDbName);
@@ -79,10 +87,16 @@ public class CharaDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "villagePlayerList", null, false);
+    protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "abilityByCharaIdList,abilityByTargetCharaIdList,footstepList,villagePlayerList,voteByCharaIdList,voteByVoteCharaIdList", null, false);
     protected final ColumnInfo _columnCharaName = cci("CHARA_NAME", "CHARA_NAME", null, null, String.class, "charaName", null, false, false, true, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnCharaShortName = cci("CHARA_SHORT_NAME", "CHARA_SHORT_NAME", null, null, String.class, "charaShortName", null, false, false, true, "CHAR", 1, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnCharaGroupId = cci("CHARA_GROUP_ID", "CHARA_GROUP_ID", null, null, Integer.class, "charaGroupId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "charaGroup", null, null, false);
     protected final ColumnInfo _columnCharaImgUrl = cci("CHARA_IMG_URL", "CHARA_IMG_URL", null, null, String.class, "charaImgUrl", null, false, false, true, "VARCHAR", 100, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnIsDummy = cci("IS_DUMMY", "IS_DUMMY", null, null, Boolean.class, "isDummy", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
+    protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
+    protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
+    protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
+    protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
      * CHARA_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
@@ -95,7 +109,12 @@ public class CharaDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnCharaName() { return _columnCharaName; }
     /**
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARA_SHORT_NAME: {NotNull, CHAR(1)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnCharaShortName() { return _columnCharaShortName; }
+    /**
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharaGroupId() { return _columnCharaGroupId; }
@@ -104,13 +123,44 @@ public class CharaDbm extends AbstractDBMeta {
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharaImgUrl() { return _columnCharaImgUrl; }
+    /**
+     * IS_DUMMY: {NotNull, BIT, classification=Flg}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnIsDummy() { return _columnIsDummy; }
+    /**
+     * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnRegisterDatetime() { return _columnRegisterDatetime; }
+    /**
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnRegisterTrace() { return _columnRegisterTrace; }
+    /**
+     * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnUpdateDatetime() { return _columnUpdateDatetime; }
+    /**
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnUpdateTrace() { return _columnUpdateTrace; }
 
     protected List<ColumnInfo> ccil() {
         List<ColumnInfo> ls = newArrayList();
         ls.add(columnCharaId());
         ls.add(columnCharaName());
+        ls.add(columnCharaShortName());
         ls.add(columnCharaGroupId());
         ls.add(columnCharaImgUrl());
+        ls.add(columnIsDummy());
+        ls.add(columnRegisterDatetime());
+        ls.add(columnRegisterTrace());
+        ls.add(columnUpdateDatetime());
+        ls.add(columnUpdateTrace());
         return ls;
     }
 
@@ -147,6 +197,30 @@ public class CharaDbm extends AbstractDBMeta {
     //                                     Referrer Property
     //                                     -----------------
     /**
+     * ABILITY by CHARA_ID, named 'abilityByCharaIdList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerAbilityByCharaIdList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaId(), AbilityDbm.getInstance().columnCharaId());
+        return cri("FK_ABILITY_CHARA", "abilityByCharaIdList", this, AbilityDbm.getInstance(), mp, false, "charaByCharaId");
+    }
+    /**
+     * ABILITY by TARGET_CHARA_ID, named 'abilityByTargetCharaIdList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerAbilityByTargetCharaIdList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaId(), AbilityDbm.getInstance().columnTargetCharaId());
+        return cri("FK_ABILITY_CHARA_TARGET", "abilityByTargetCharaIdList", this, AbilityDbm.getInstance(), mp, false, "charaByTargetCharaId");
+    }
+    /**
+     * FOOTSTEP by CHARA_ID, named 'footstepList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerFootstepList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaId(), FootstepDbm.getInstance().columnCharaId());
+        return cri("FK_FOOTSTEP_CHARA", "footstepList", this, FootstepDbm.getInstance(), mp, false, "chara");
+    }
+    /**
      * VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerList'.
      * @return The information object of referrer property. (NotNull)
      */
@@ -154,11 +228,34 @@ public class CharaDbm extends AbstractDBMeta {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaId(), VillagePlayerDbm.getInstance().columnCharaId());
         return cri("FK_VILLAGE_PLAYER_CHARA", "villagePlayerList", this, VillagePlayerDbm.getInstance(), mp, false, "chara");
     }
+    /**
+     * VOTE by CHARA_ID, named 'voteByCharaIdList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerVoteByCharaIdList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaId(), VoteDbm.getInstance().columnCharaId());
+        return cri("FK_VOTE_CHARA", "voteByCharaIdList", this, VoteDbm.getInstance(), mp, false, "charaByCharaId");
+    }
+    /**
+     * VOTE by VOTE_CHARA_ID, named 'voteByVoteCharaIdList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerVoteByVoteCharaIdList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaId(), VoteDbm.getInstance().columnVoteCharaId());
+        return cri("FK_VOTE_CHARA_TO", "voteByVoteCharaIdList", this, VoteDbm.getInstance(), mp, false, "charaByVoteCharaId");
+    }
 
     // ===================================================================================
     //                                                                        Various Info
     //                                                                        ============
     public boolean hasIdentity() { return true; }
+    public boolean hasCommonColumn() { return true; }
+    public List<ColumnInfo> getCommonColumnInfoList()
+    { return newArrayList(columnRegisterDatetime(), columnRegisterTrace(), columnUpdateDatetime(), columnUpdateTrace()); }
+    public List<ColumnInfo> getCommonColumnInfoBeforeInsertList()
+    { return newArrayList(columnRegisterDatetime(), columnRegisterTrace(), columnUpdateDatetime(), columnUpdateTrace()); }
+    public List<ColumnInfo> getCommonColumnInfoBeforeUpdateList()
+    { return newArrayList(columnUpdateDatetime(), columnUpdateTrace()); }
 
     // ===================================================================================
     //                                                                           Type Name

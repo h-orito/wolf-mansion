@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of VILLAGE. (Singleton)
+ * The DB meta of village. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillageDbm extends AbstractDBMeta {
@@ -43,7 +43,7 @@ public class VillageDbm extends AbstractDBMeta {
     protected final Map<String, PropertyGateway> _epgMap = newHashMap();
     { xsetupEpg(); }
     protected void xsetupEpg() {
-        setupEpg(_epgMap, et -> ((Village)et).getVilalgeId(), (et, vl) -> ((Village)et).setVilalgeId(cti(vl)), "vilalgeId");
+        setupEpg(_epgMap, et -> ((Village)et).getVillageId(), (et, vl) -> ((Village)et).setVillageId(cti(vl)), "villageId");
         setupEpg(_epgMap, et -> ((Village)et).getVillageDisplayName(), (et, vl) -> ((Village)et).setVillageDisplayName((String)vl), "villageDisplayName");
         setupEpg(_epgMap, et -> ((Village)et).getVillageStatusCode(), (et, vl) -> {
             CDef.VillageStatus cls = (CDef.VillageStatus)gcls(et, columnVillageStatusCode(), vl);
@@ -86,7 +86,7 @@ public class VillageDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "VILLAGE";
+    protected final String _tableDbName = "village";
     protected final String _tableDispName = "VILLAGE";
     protected final String _tablePropertyName = "village";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE", _tableDbName);
@@ -99,7 +99,7 @@ public class VillageDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnVilalgeId = cci("VILALGE_ID", "VILALGE_ID", null, null, Integer.class, "vilalgeId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "messageList,villagePlayerList", null, false);
+    protected final ColumnInfo _columnVillageId = cci("VILLAGE_ID", "VILLAGE_ID", null, null, Integer.class, "villageId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "villageDayList,villagePlayerList", null, false);
     protected final ColumnInfo _columnVillageDisplayName = cci("VILLAGE_DISPLAY_NAME", "VILLAGE_DISPLAY_NAME", null, null, String.class, "villageDisplayName", null, false, false, true, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnVillageStatusCode = cci("VILLAGE_STATUS_CODE", "VILLAGE_STATUS_CODE", null, null, String.class, "villageStatusCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "villageStatus", null, CDef.DefMeta.VillageStatus, false);
     protected final ColumnInfo _columnWinCampCode = cci("WIN_CAMP_CODE", "WIN_CAMP_CODE", null, null, String.class, "winCampCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, "camp", null, CDef.DefMeta.Camp, false);
@@ -109,22 +109,22 @@ public class VillageDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
-     * VILALGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * VILLAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
      * @return The information object of specified column. (NotNull)
      */
-    public ColumnInfo columnVilalgeId() { return _columnVilalgeId; }
+    public ColumnInfo columnVillageId() { return _columnVillageId; }
     /**
      * VILLAGE_DISPLAY_NAME: {NotNull, VARCHAR(40)}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageDisplayName() { return _columnVillageDisplayName; }
     /**
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus}
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageStatusCode() { return _columnVillageStatusCode; }
     /**
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnWinCampCode() { return _columnWinCampCode; }
@@ -151,7 +151,7 @@ public class VillageDbm extends AbstractDBMeta {
 
     protected List<ColumnInfo> ccil() {
         List<ColumnInfo> ls = newArrayList();
-        ls.add(columnVilalgeId());
+        ls.add(columnVillageId());
         ls.add(columnVillageDisplayName());
         ls.add(columnVillageStatusCode());
         ls.add(columnWinCampCode());
@@ -170,7 +170,7 @@ public class VillageDbm extends AbstractDBMeta {
     // -----------------------------------------------------
     //                                       Primary Element
     //                                       ---------------
-    protected UniqueInfo cpui() { return hpcpui(columnVilalgeId()); }
+    protected UniqueInfo cpui() { return hpcpui(columnVillageId()); }
     public boolean hasPrimaryKey() { return true; }
     public boolean hasCompoundPrimaryKey() { return false; }
 
@@ -199,11 +199,11 @@ public class VillageDbm extends AbstractDBMeta {
         return cfi("FK_VILLAGE_CAMP", "camp", this, CampDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villageList", false);
     }
     /**
-     * VILLAGE_SETTINGS by VILLAGE_ID, named 'villageSettingsAsOne'.
+     * village_settings by VILLAGE_ID, named 'villageSettingsAsOne'.
      * @return The information object of foreign property(referrer-as-one). (NotNull)
      */
     public ForeignInfo foreignVillageSettingsAsOne() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVilalgeId(), VillageSettingsDbm.getInstance().columnVillageId());
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillageId(), VillageSettingsDbm.getInstance().columnVillageId());
         return cfi("FK_VILLAGE_SETTINGS_VILLAGE", "villageSettingsAsOne", this, VillageSettingsDbm.getInstance(), mp, 2, org.dbflute.optional.OptionalEntity.class, true, false, true, false, null, null, false, "village", false);
     }
 
@@ -211,19 +211,19 @@ public class VillageDbm extends AbstractDBMeta {
     //                                     Referrer Property
     //                                     -----------------
     /**
-     * MESSAGE by VILLAGE_ID, named 'messageList'.
+     * VILLAGE_DAY by VILLAGE_ID, named 'villageDayList'.
      * @return The information object of referrer property. (NotNull)
      */
-    public ReferrerInfo referrerMessageList() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVilalgeId(), MessageDbm.getInstance().columnVillageId());
-        return cri("FK_MESSAGE_VILLAGE", "messageList", this, MessageDbm.getInstance(), mp, false, "village");
+    public ReferrerInfo referrerVillageDayList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillageId(), VillageDayDbm.getInstance().columnVillageId());
+        return cri("FK_VILLAGE_DAY_VILLAGE", "villageDayList", this, VillageDayDbm.getInstance(), mp, false, "village");
     }
     /**
      * VILLAGE_PLAYER by VILLAGE_ID, named 'villagePlayerList'.
      * @return The information object of referrer property. (NotNull)
      */
     public ReferrerInfo referrerVillagePlayerList() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVilalgeId(), VillagePlayerDbm.getInstance().columnVillageId());
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillageId(), VillagePlayerDbm.getInstance().columnVillageId());
         return cri("FK_VILLAGE_PLAYER_VILLAGE", "villagePlayerList", this, VillagePlayerDbm.getInstance(), mp, false, "village");
     }
 

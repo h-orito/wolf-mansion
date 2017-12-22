@@ -7,6 +7,10 @@ spring:
   thymeleaf:
     cache: false
     mode: HTML
+  messages:
+    basename: messages
+    cache-seconds: -1
+    encoding: UTF-8
 server:
   contextPath: /werewolf-mansion
 logging:

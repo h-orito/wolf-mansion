@@ -12,16 +12,16 @@ import com.ort.dbflute.cbean.*;
  * The referrer loader of VILLAGE as TABLE. <br>
  * <pre>
  * [primary key]
- *     VILALGE_ID
+ *     VILLAGE_ID
  *
  * [column]
- *     VILALGE_ID, VILLAGE_DISPLAY_NAME, VILLAGE_STATUS_CODE, WIN_CAMP_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, VILLAGE_DISPLAY_NAME, VILLAGE_STATUS_CODE, WIN_CAMP_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
  *
  * [identity]
- *     VILALGE_ID
+ *     VILLAGE_ID
  *
  * [version-no]
  *     
@@ -30,13 +30,13 @@ import com.ort.dbflute.cbean.*;
  *     VILLAGE_STATUS, CAMP, VILLAGE_SETTINGS(AsOne)
  *
  * [referrer table]
- *     MESSAGE, VILLAGE_PLAYER, VILLAGE_SETTINGS
+ *     VILLAGE_DAY, VILLAGE_PLAYER, VILLAGE_SETTINGS
  *
  * [foreign property]
  *     villageStatus, camp, villageSettingsAsOne
  *
  * [referrer property]
- *     messageList, villagePlayerList
+ *     villageDayList, villagePlayerList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -61,24 +61,24 @@ public class LoaderOfVillage {
     // ===================================================================================
     //                                                                       Load Referrer
     //                                                                       =============
-    protected List<Message> _referrerMessage;
+    protected List<VillageDay> _referrerVillageDay;
 
     /**
-     * Load referrer of messageList by the set-upper of referrer. <br>
-     * MESSAGE by VILLAGE_ID, named 'messageList'.
+     * Load referrer of villageDayList by the set-upper of referrer. <br>
+     * VILLAGE_DAY by VILLAGE_ID, named 'villageDayList'.
      * <pre>
      * <span style="color: #0000C0">villageBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">villageList</span>, <span style="color: #553000">villageLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">villageLoader</span>.<span style="color: #CC4747">loadMessage</span>(<span style="color: #553000">messageCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *         <span style="color: #553000">messageCB</span>.setupSelect...
-     *         <span style="color: #553000">messageCB</span>.query().set...
-     *         <span style="color: #553000">messageCB</span>.query().addOrderBy...
+     *     <span style="color: #553000">villageLoader</span>.<span style="color: #CC4747">loadVillageDay</span>(<span style="color: #553000">dayCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *         <span style="color: #553000">dayCB</span>.setupSelect...
+     *         <span style="color: #553000">dayCB</span>.query().set...
+     *         <span style="color: #553000">dayCB</span>.query().addOrderBy...
      *     }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
-     *     <span style="color: #3F7E5E">//}).withNestedReferrer(<span style="color: #553000">messageLoader</span> -&gt; {</span>
-     *     <span style="color: #3F7E5E">//    messageLoader.load...</span>
+     *     <span style="color: #3F7E5E">//}).withNestedReferrer(<span style="color: #553000">dayLoader</span> -&gt; {</span>
+     *     <span style="color: #3F7E5E">//    dayLoader.load...</span>
      *     <span style="color: #3F7E5E">//});</span>
      * });
      * for (Village village : <span style="color: #553000">villageList</span>) {
-     *     ... = village.<span style="color: #CC4747">getMessageList()</span>;
+     *     ... = village.<span style="color: #CC4747">getVillageDayList()</span>;
      * }
      * </pre>
      * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
@@ -90,9 +90,9 @@ public class LoaderOfVillage {
      * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    public NestedReferrerLoaderGateway<LoaderOfMessage> loadMessage(ReferrerConditionSetupper<MessageCB> refCBLambda) {
-        myBhv().loadMessage(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerMessage = refLs);
-        return hd -> hd.handle(new LoaderOfMessage().ready(_referrerMessage, _selector));
+    public NestedReferrerLoaderGateway<LoaderOfVillageDay> loadVillageDay(ReferrerConditionSetupper<VillageDayCB> refCBLambda) {
+        myBhv().loadVillageDay(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerVillageDay = refLs);
+        return hd -> hd.handle(new LoaderOfVillageDay().ready(_referrerVillageDay, _selector));
     }
 
     protected List<VillagePlayer> _referrerVillagePlayer;

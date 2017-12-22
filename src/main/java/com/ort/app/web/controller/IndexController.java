@@ -41,7 +41,7 @@ public class IndexController {
 
     private IndexVillageDto convertToIndexVillage(Village village) {
         IndexVillageDto villageDto = new IndexVillageDto();
-        villageDto.setVillageId(village.getVilalgeId());
+        villageDto.setVillageId(village.getVillageId());
         villageDto.setVillageName(village.getVillageDisplayName());
         villageDto.setStatus(village.getVillageStatus().get().getVillageStatusName());
         return villageDto;

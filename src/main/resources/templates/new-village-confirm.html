@@ -45,6 +45,14 @@
 									<th>役職希望</th>
 									<td th:text="*{isPossibleSkillRequest} ? '有効' : '無効'"></td>
 								</tr>
+								<tr>
+									<th>キャラクターセット</th>
+									<td th:text="${characterSetName}"></td>
+								</tr>
+								<tr>
+									<th>ダミーキャラ入村発言</th>
+									<td th:text="*{dummyJoinMessage}"></td>
+								</tr>
 							</table>
 							<input type="hidden" th:field="*{villageName}" />
 							<input type="hidden" th:field="*{startPersonMinNum}" />
@@ -59,6 +67,8 @@
 							<input type="hidden" th:field="*{startMinute}" />
 							<input type="hidden" th:field="*{isOpenVote}" />
 							<input type="hidden" th:field="*{isPossibleSkillRequest}" />
+							<input type="hidden" th:field="*{characterSetId}" />
+							<input type="hidden" th:field="*{dummyJoinMessage}" />
 						</div>
 						<div class="form-group">
 							<input type="submit" class="btn btn-sm btn-success pull-right" value="作成" />

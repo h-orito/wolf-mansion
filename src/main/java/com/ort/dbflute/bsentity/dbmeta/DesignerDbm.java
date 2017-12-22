@@ -13,7 +13,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of DESIGNER. (Singleton)
+ * The DB meta of designer. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class DesignerDbm extends AbstractDBMeta {
@@ -44,6 +44,10 @@ public class DesignerDbm extends AbstractDBMeta {
     protected void xsetupEpg() {
         setupEpg(_epgMap, et -> ((Designer)et).getDesignerId(), (et, vl) -> ((Designer)et).setDesignerId(cti(vl)), "designerId");
         setupEpg(_epgMap, et -> ((Designer)et).getDesignerName(), (et, vl) -> ((Designer)et).setDesignerName((String)vl), "designerName");
+        setupEpg(_epgMap, et -> ((Designer)et).getRegisterDatetime(), (et, vl) -> ((Designer)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
+        setupEpg(_epgMap, et -> ((Designer)et).getRegisterTrace(), (et, vl) -> ((Designer)et).setRegisterTrace((String)vl), "registerTrace");
+        setupEpg(_epgMap, et -> ((Designer)et).getUpdateDatetime(), (et, vl) -> ((Designer)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
+        setupEpg(_epgMap, et -> ((Designer)et).getUpdateTrace(), (et, vl) -> ((Designer)et).setUpdateTrace((String)vl), "updateTrace");
     }
     public PropertyGateway findPropertyGateway(String prop)
     { return doFindEpg(_epgMap, prop); }
@@ -51,7 +55,7 @@ public class DesignerDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "DESIGNER";
+    protected final String _tableDbName = "designer";
     protected final String _tableDispName = "DESIGNER";
     protected final String _tablePropertyName = "designer";
     protected final TableSqlName _tableSqlName = new TableSqlName("DESIGNER", _tableDbName);
@@ -66,6 +70,10 @@ public class DesignerDbm extends AbstractDBMeta {
     //                                                                         ===========
     protected final ColumnInfo _columnDesignerId = cci("DESIGNER_ID", "DESIGNER_ID", null, null, Integer.class, "designerId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "charaGroupList", null, false);
     protected final ColumnInfo _columnDesignerName = cci("DESIGNER_NAME", "DESIGNER_NAME", null, null, String.class, "designerName", null, false, false, true, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
+    protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
+    protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
+    protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
      * DESIGNER_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
@@ -77,11 +85,35 @@ public class DesignerDbm extends AbstractDBMeta {
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnDesignerName() { return _columnDesignerName; }
+    /**
+     * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnRegisterDatetime() { return _columnRegisterDatetime; }
+    /**
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnRegisterTrace() { return _columnRegisterTrace; }
+    /**
+     * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnUpdateDatetime() { return _columnUpdateDatetime; }
+    /**
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnUpdateTrace() { return _columnUpdateTrace; }
 
     protected List<ColumnInfo> ccil() {
         List<ColumnInfo> ls = newArrayList();
         ls.add(columnDesignerId());
         ls.add(columnDesignerName());
+        ls.add(columnRegisterDatetime());
+        ls.add(columnRegisterTrace());
+        ls.add(columnUpdateDatetime());
+        ls.add(columnUpdateTrace());
         return ls;
     }
 
@@ -122,6 +154,13 @@ public class DesignerDbm extends AbstractDBMeta {
     //                                                                        Various Info
     //                                                                        ============
     public boolean hasIdentity() { return true; }
+    public boolean hasCommonColumn() { return true; }
+    public List<ColumnInfo> getCommonColumnInfoList()
+    { return newArrayList(columnRegisterDatetime(), columnRegisterTrace(), columnUpdateDatetime(), columnUpdateTrace()); }
+    public List<ColumnInfo> getCommonColumnInfoBeforeInsertList()
+    { return newArrayList(columnRegisterDatetime(), columnRegisterTrace(), columnUpdateDatetime(), columnUpdateTrace()); }
+    public List<ColumnInfo> getCommonColumnInfoBeforeUpdateList()
+    { return newArrayList(columnUpdateDatetime(), columnUpdateTrace()); }
 
     // ===================================================================================
     //                                                                           Type Name

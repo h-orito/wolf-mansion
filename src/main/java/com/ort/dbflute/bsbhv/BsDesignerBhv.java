@@ -28,7 +28,7 @@ import com.ort.dbflute.cbean.*;
  *     DESIGNER_ID
  *
  * [column]
- *     DESIGNER_ID, DESIGNER_NAME
+ *     DESIGNER_ID, DESIGNER_NAME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -67,7 +67,7 @@ public abstract class BsDesignerBhv extends AbstractBehaviorWritable<Designer, D
     /** {@inheritDoc} */
     public DesignerDbm asDBMeta() { return DesignerDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "DESIGNER"; }
+    public String asTableDbName() { return "designer"; }
 
     // ===================================================================================
     //                                                                        New Instance

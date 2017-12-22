@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     MESSAGE_ID
  *
  * [column]
- *     MESSAGE_ID, VILLAGE_ID, VILLAGE_PLAYER_ID, PLAYER_ID, TO_VILLAGE_PLAYER_ID, DAY, MESSAGE_TYPE_CODE, MESSAGE_NUMBER, MESSAGE_CONTENT, MESSAGE_DATETIME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     MESSAGE_ID, VILLAGE_ID, VILLAGE_PLAYER_ID, PLAYER_ID, DAY, MESSAGE_TYPE_CODE, MESSAGE_NUMBER, MESSAGE_CONTENT, MESSAGE_DATETIME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -33,13 +33,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     MESSAGE_TYPE, PLAYER, VILLAGE_PLAYER, VILLAGE
+ *     MESSAGE_TYPE, PLAYER, VILLAGE_DAY, VILLAGE_PLAYER
  *
  * [referrer table]
  *     
  *
  * [foreign property]
- *     messageType, player, villagePlayerByToVillagePlayerId, village, villagePlayerByVillagePlayerId
+ *     messageType, player, villageDay, villagePlayer
  *
  * [referrer property]
  *     
@@ -50,7 +50,6 @@ import com.ort.dbflute.exentity.*;
  * Integer villageId = entity.getVillageId();
  * Integer villagePlayerId = entity.getVillagePlayerId();
  * Integer playerId = entity.getPlayerId();
- * Integer toVillagePlayerId = entity.getToVillagePlayerId();
  * Integer day = entity.getDay();
  * String messageTypeCode = entity.getMessageTypeCode();
  * Integer messageNumber = entity.getMessageNumber();
@@ -64,7 +63,6 @@ import com.ort.dbflute.exentity.*;
  * entity.setVillageId(villageId);
  * entity.setVillagePlayerId(villagePlayerId);
  * entity.setPlayerId(playerId);
- * entity.setToVillagePlayerId(toVillagePlayerId);
  * entity.setDay(day);
  * entity.setMessageTypeCode(messageTypeCode);
  * entity.setMessageNumber(messageNumber);
@@ -92,22 +90,19 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     /** MESSAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
     protected Integer _messageId;
 
-    /** VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
+    /** VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to village_day} */
     protected Integer _villageId;
 
-    /** VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER} */
+    /** VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player} */
     protected Integer _villagePlayerId;
 
-    /** PLAYER_ID: {IX, INT UNSIGNED(10), FK to PLAYER} */
+    /** PLAYER_ID: {IX, INT UNSIGNED(10), FK to player} */
     protected Integer _playerId;
 
-    /** TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER} */
-    protected Integer _toVillagePlayerId;
-
-    /** DAY: {NotNull, INT UNSIGNED(10)} */
+    /** DAY: {NotNull, INT UNSIGNED(10), FK to village_day} */
     protected Integer _day;
 
-    /** MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} */
+    /** MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} */
     protected String _messageTypeCode;
 
     /** MESSAGE_NUMBER: {INT UNSIGNED(10)} */
@@ -141,7 +136,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "MESSAGE";
+        return "message";
     }
 
     // ===================================================================================
@@ -158,7 +153,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     //                                                             =======================
     /**
      * Get the value of messageTypeCode as the classification of MessageType. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
+     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
      * メッセージ種別
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -169,7 +164,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
 
     /**
      * Set the value of messageTypeCode as the classification of MessageType. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
+     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
      * メッセージ種別
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -210,6 +205,22 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
      */
     public void setMessageTypeCode_通常発言() {
         setMessageTypeCodeAsMessageType(CDef.MessageType.通常発言);
+    }
+
+    /**
+     * Set the value of messageTypeCode as 霊視結果 (PRIVATE_PSYCHIC). <br>
+     * 霊視結果
+     */
+    public void setMessageTypeCode_霊視結果() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.霊視結果);
+    }
+
+    /**
+     * Set the value of messageTypeCode as 占い結果 (PRIVATE_SEER). <br>
+     * 占い結果
+     */
+    public void setMessageTypeCode_占い結果() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.占い結果);
     }
 
     /**
@@ -281,6 +292,28 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     public boolean isMessageTypeCode通常発言() {
         CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
         return cdef != null ? cdef.equals(CDef.MessageType.通常発言) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 霊視結果? <br>
+     * 霊視結果
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode霊視結果() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.霊視結果) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 占い結果? <br>
+     * 占い結果
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode占い結果() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.占い結果) : false;
     }
 
     /**
@@ -361,67 +394,46 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
         _player = player;
     }
 
-    /** VILLAGE_PLAYER by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'. */
-    protected OptionalEntity<VillagePlayer> _villagePlayerByToVillagePlayerId;
+    /** VILLAGE_DAY by my VILLAGE_ID, DAY, named 'villageDay'. */
+    protected OptionalEntity<VillageDay> _villageDay;
 
     /**
-     * [get] VILLAGE_PLAYER by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'. <br>
+     * [get] VILLAGE_DAY by my VILLAGE_ID, DAY, named 'villageDay'. <br>
      * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
-     * @return The entity of foreign property 'villagePlayerByToVillagePlayerId'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
+     * @return The entity of foreign property 'villageDay'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
-    public OptionalEntity<VillagePlayer> getVillagePlayerByToVillagePlayerId() {
-        if (_villagePlayerByToVillagePlayerId == null) { _villagePlayerByToVillagePlayerId = OptionalEntity.relationEmpty(this, "villagePlayerByToVillagePlayerId"); }
-        return _villagePlayerByToVillagePlayerId;
+    public OptionalEntity<VillageDay> getVillageDay() {
+        if (_villageDay == null) { _villageDay = OptionalEntity.relationEmpty(this, "villageDay"); }
+        return _villageDay;
     }
 
     /**
-     * [set] VILLAGE_PLAYER by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'.
-     * @param villagePlayerByToVillagePlayerId The entity of foreign property 'villagePlayerByToVillagePlayerId'. (NullAllowed)
+     * [set] VILLAGE_DAY by my VILLAGE_ID, DAY, named 'villageDay'.
+     * @param villageDay The entity of foreign property 'villageDay'. (NullAllowed)
      */
-    public void setVillagePlayerByToVillagePlayerId(OptionalEntity<VillagePlayer> villagePlayerByToVillagePlayerId) {
-        _villagePlayerByToVillagePlayerId = villagePlayerByToVillagePlayerId;
+    public void setVillageDay(OptionalEntity<VillageDay> villageDay) {
+        _villageDay = villageDay;
     }
 
-    /** VILLAGE by my VILLAGE_ID, named 'village'. */
-    protected OptionalEntity<Village> _village;
+    /** VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayer'. */
+    protected OptionalEntity<VillagePlayer> _villagePlayer;
 
     /**
-     * [get] VILLAGE by my VILLAGE_ID, named 'village'. <br>
+     * [get] VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayer'. <br>
      * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
-     * @return The entity of foreign property 'village'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
+     * @return The entity of foreign property 'villagePlayer'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
-    public OptionalEntity<Village> getVillage() {
-        if (_village == null) { _village = OptionalEntity.relationEmpty(this, "village"); }
-        return _village;
+    public OptionalEntity<VillagePlayer> getVillagePlayer() {
+        if (_villagePlayer == null) { _villagePlayer = OptionalEntity.relationEmpty(this, "villagePlayer"); }
+        return _villagePlayer;
     }
 
     /**
-     * [set] VILLAGE by my VILLAGE_ID, named 'village'.
-     * @param village The entity of foreign property 'village'. (NullAllowed)
+     * [set] VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayer'.
+     * @param villagePlayer The entity of foreign property 'villagePlayer'. (NullAllowed)
      */
-    public void setVillage(OptionalEntity<Village> village) {
-        _village = village;
-    }
-
-    /** VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'. */
-    protected OptionalEntity<VillagePlayer> _villagePlayerByVillagePlayerId;
-
-    /**
-     * [get] VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'. <br>
-     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
-     * @return The entity of foreign property 'villagePlayerByVillagePlayerId'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
-     */
-    public OptionalEntity<VillagePlayer> getVillagePlayerByVillagePlayerId() {
-        if (_villagePlayerByVillagePlayerId == null) { _villagePlayerByVillagePlayerId = OptionalEntity.relationEmpty(this, "villagePlayerByVillagePlayerId"); }
-        return _villagePlayerByVillagePlayerId;
-    }
-
-    /**
-     * [set] VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'.
-     * @param villagePlayerByVillagePlayerId The entity of foreign property 'villagePlayerByVillagePlayerId'. (NullAllowed)
-     */
-    public void setVillagePlayerByVillagePlayerId(OptionalEntity<VillagePlayer> villagePlayerByVillagePlayerId) {
-        _villagePlayerByVillagePlayerId = villagePlayerByVillagePlayerId;
+    public void setVillagePlayer(OptionalEntity<VillagePlayer> villagePlayer) {
+        _villagePlayer = villagePlayer;
     }
 
     // ===================================================================================
@@ -460,12 +472,10 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
         { sb.append(li).append(xbRDS(_messageType, "messageType")); }
         if (_player != null && _player.isPresent())
         { sb.append(li).append(xbRDS(_player, "player")); }
-        if (_villagePlayerByToVillagePlayerId != null && _villagePlayerByToVillagePlayerId.isPresent())
-        { sb.append(li).append(xbRDS(_villagePlayerByToVillagePlayerId, "villagePlayerByToVillagePlayerId")); }
-        if (_village != null && _village.isPresent())
-        { sb.append(li).append(xbRDS(_village, "village")); }
-        if (_villagePlayerByVillagePlayerId != null && _villagePlayerByVillagePlayerId.isPresent())
-        { sb.append(li).append(xbRDS(_villagePlayerByVillagePlayerId, "villagePlayerByVillagePlayerId")); }
+        if (_villageDay != null && _villageDay.isPresent())
+        { sb.append(li).append(xbRDS(_villageDay, "villageDay")); }
+        if (_villagePlayer != null && _villagePlayer.isPresent())
+        { sb.append(li).append(xbRDS(_villagePlayer, "villagePlayer")); }
         return sb.toString();
     }
     protected <ET extends Entity> String xbRDS(org.dbflute.optional.OptionalEntity<ET> et, String name) { // buildRelationDisplayString()
@@ -479,7 +489,6 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
         sb.append(dm).append(xfND(_villageId));
         sb.append(dm).append(xfND(_villagePlayerId));
         sb.append(dm).append(xfND(_playerId));
-        sb.append(dm).append(xfND(_toVillagePlayerId));
         sb.append(dm).append(xfND(_day));
         sb.append(dm).append(xfND(_messageTypeCode));
         sb.append(dm).append(xfND(_messageNumber));
@@ -503,12 +512,10 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
         { sb.append(dm).append("messageType"); }
         if (_player != null && _player.isPresent())
         { sb.append(dm).append("player"); }
-        if (_villagePlayerByToVillagePlayerId != null && _villagePlayerByToVillagePlayerId.isPresent())
-        { sb.append(dm).append("villagePlayerByToVillagePlayerId"); }
-        if (_village != null && _village.isPresent())
-        { sb.append(dm).append("village"); }
-        if (_villagePlayerByVillagePlayerId != null && _villagePlayerByVillagePlayerId.isPresent())
-        { sb.append(dm).append("villagePlayerByVillagePlayerId"); }
+        if (_villageDay != null && _villageDay.isPresent())
+        { sb.append(dm).append("villageDay"); }
+        if (_villagePlayer != null && _villagePlayer.isPresent())
+        { sb.append(dm).append("villagePlayer"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }
@@ -544,7 +551,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [get] VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to village_day} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -554,7 +561,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [set] VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to village_day} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -564,7 +571,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
+     * [get] VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player} <br>
      * 村参加者ID
      * @return The value of the column 'VILLAGE_PLAYER_ID'. (NullAllowed even if selected: for no constraint)
      */
@@ -574,7 +581,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
+     * [set] VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player} <br>
      * 村参加者ID
      * @param villagePlayerId The value of the column 'VILLAGE_PLAYER_ID'. (NullAllowed: null update allowed for no constraint)
      */
@@ -584,7 +591,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] PLAYER_ID: {IX, INT UNSIGNED(10), FK to PLAYER} <br>
+     * [get] PLAYER_ID: {IX, INT UNSIGNED(10), FK to player} <br>
      * プレイヤーID
      * @return The value of the column 'PLAYER_ID'. (NullAllowed even if selected: for no constraint)
      */
@@ -594,7 +601,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] PLAYER_ID: {IX, INT UNSIGNED(10), FK to PLAYER} <br>
+     * [set] PLAYER_ID: {IX, INT UNSIGNED(10), FK to player} <br>
      * プレイヤーID
      * @param playerId The value of the column 'PLAYER_ID'. (NullAllowed: null update allowed for no constraint)
      */
@@ -604,27 +611,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
-     * どの村参加者に
-     * @return The value of the column 'TO_VILLAGE_PLAYER_ID'. (NullAllowed even if selected: for no constraint)
-     */
-    public Integer getToVillagePlayerId() {
-        checkSpecifiedProperty("toVillagePlayerId");
-        return _toVillagePlayerId;
-    }
-
-    /**
-     * [set] TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
-     * どの村参加者に
-     * @param toVillagePlayerId The value of the column 'TO_VILLAGE_PLAYER_ID'. (NullAllowed: null update allowed for no constraint)
-     */
-    public void setToVillagePlayerId(Integer toVillagePlayerId) {
-        registerModifiedProperty("toVillagePlayerId");
-        _toVillagePlayerId = toVillagePlayerId;
-    }
-
-    /**
-     * [get] DAY: {NotNull, INT UNSIGNED(10)} <br>
+     * [get] DAY: {NotNull, INT UNSIGNED(10), FK to village_day} <br>
      * 何日目か
      * @return The value of the column 'DAY'. (basically NotNull if selected: for the constraint)
      */
@@ -634,7 +621,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] DAY: {NotNull, INT UNSIGNED(10)} <br>
+     * [set] DAY: {NotNull, INT UNSIGNED(10), FK to village_day} <br>
      * 何日目か
      * @param day The value of the column 'DAY'. (basically NotNull if update: for the constraint)
      */
@@ -644,7 +631,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
+     * [get] MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
      * メッセージ種別コード
      * @return The value of the column 'MESSAGE_TYPE_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -654,7 +641,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
+     * [set] MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
      * メッセージ種別コード
      * @param messageTypeCode The value of the column 'MESSAGE_TYPE_CODE'. (basically NotNull if update: for the constraint)
      */

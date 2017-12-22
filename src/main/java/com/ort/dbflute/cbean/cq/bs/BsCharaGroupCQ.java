@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of CHARA_GROUP.
+ * The base condition-query of chara_group.
  * @author DBFlute(AutoGenerator)
  */
 public class BsCharaGroupCQ extends AbstractBsCharaGroupCQ {
@@ -35,7 +35,7 @@ public class BsCharaGroupCQ extends AbstractBsCharaGroupCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from CHARA_GROUP) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from chara_group) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsCharaGroupCQ extends AbstractBsCharaGroupCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join CHARA_GROUP on ... and FOO = [value] ...}
+     * {select ... from ... left outer join chara_group on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -82,16 +82,30 @@ public class BsCharaGroupCQ extends AbstractBsCharaGroupCQ {
     public Map<String, CharaCQ> xdfgetCharaGroupId_ExistsReferrer_CharaList() { return xgetSQueMap("charaGroupId_ExistsReferrer_CharaList"); }
     public String keepCharaGroupId_ExistsReferrer_CharaList(CharaCQ sq) { return xkeepSQue("charaGroupId_ExistsReferrer_CharaList", sq); }
 
+    public Map<String, VillageSettingsCQ> xdfgetCharaGroupId_ExistsReferrer_VillageSettingsList() { return xgetSQueMap("charaGroupId_ExistsReferrer_VillageSettingsList"); }
+    public String keepCharaGroupId_ExistsReferrer_VillageSettingsList(VillageSettingsCQ sq) { return xkeepSQue("charaGroupId_ExistsReferrer_VillageSettingsList", sq); }
+
     public Map<String, CharaCQ> xdfgetCharaGroupId_NotExistsReferrer_CharaList() { return xgetSQueMap("charaGroupId_NotExistsReferrer_CharaList"); }
     public String keepCharaGroupId_NotExistsReferrer_CharaList(CharaCQ sq) { return xkeepSQue("charaGroupId_NotExistsReferrer_CharaList", sq); }
 
+    public Map<String, VillageSettingsCQ> xdfgetCharaGroupId_NotExistsReferrer_VillageSettingsList() { return xgetSQueMap("charaGroupId_NotExistsReferrer_VillageSettingsList"); }
+    public String keepCharaGroupId_NotExistsReferrer_VillageSettingsList(VillageSettingsCQ sq) { return xkeepSQue("charaGroupId_NotExistsReferrer_VillageSettingsList", sq); }
+
     public Map<String, CharaCQ> xdfgetCharaGroupId_SpecifyDerivedReferrer_CharaList() { return xgetSQueMap("charaGroupId_SpecifyDerivedReferrer_CharaList"); }
     public String keepCharaGroupId_SpecifyDerivedReferrer_CharaList(CharaCQ sq) { return xkeepSQue("charaGroupId_SpecifyDerivedReferrer_CharaList", sq); }
+
+    public Map<String, VillageSettingsCQ> xdfgetCharaGroupId_SpecifyDerivedReferrer_VillageSettingsList() { return xgetSQueMap("charaGroupId_SpecifyDerivedReferrer_VillageSettingsList"); }
+    public String keepCharaGroupId_SpecifyDerivedReferrer_VillageSettingsList(VillageSettingsCQ sq) { return xkeepSQue("charaGroupId_SpecifyDerivedReferrer_VillageSettingsList", sq); }
 
     public Map<String, CharaCQ> xdfgetCharaGroupId_QueryDerivedReferrer_CharaList() { return xgetSQueMap("charaGroupId_QueryDerivedReferrer_CharaList"); }
     public String keepCharaGroupId_QueryDerivedReferrer_CharaList(CharaCQ sq) { return xkeepSQue("charaGroupId_QueryDerivedReferrer_CharaList", sq); }
     public Map<String, Object> xdfgetCharaGroupId_QueryDerivedReferrer_CharaListParameter() { return xgetSQuePmMap("charaGroupId_QueryDerivedReferrer_CharaList"); }
     public String keepCharaGroupId_QueryDerivedReferrer_CharaListParameter(Object pm) { return xkeepSQuePm("charaGroupId_QueryDerivedReferrer_CharaList", pm); }
+
+    public Map<String, VillageSettingsCQ> xdfgetCharaGroupId_QueryDerivedReferrer_VillageSettingsList() { return xgetSQueMap("charaGroupId_QueryDerivedReferrer_VillageSettingsList"); }
+    public String keepCharaGroupId_QueryDerivedReferrer_VillageSettingsList(VillageSettingsCQ sq) { return xkeepSQue("charaGroupId_QueryDerivedReferrer_VillageSettingsList", sq); }
+    public Map<String, Object> xdfgetCharaGroupId_QueryDerivedReferrer_VillageSettingsListParameter() { return xgetSQuePmMap("charaGroupId_QueryDerivedReferrer_VillageSettingsList"); }
+    public String keepCharaGroupId_QueryDerivedReferrer_VillageSettingsListParameter(Object pm) { return xkeepSQuePm("charaGroupId_QueryDerivedReferrer_VillageSettingsList", pm); }
 
     /** 
      * Add order-by as ascend. <br>
@@ -107,25 +121,25 @@ public class BsCharaGroupCQ extends AbstractBsCharaGroupCQ {
      */
     public BsCharaGroupCQ addOrderBy_CharaGroupId_Desc() { regOBD("CHARA_GROUP_ID"); return this; }
 
-    protected ConditionValue _charaName;
-    public ConditionValue xdfgetCharaName()
-    { if (_charaName == null) { _charaName = nCV(); }
-      return _charaName; }
-    protected ConditionValue xgetCValueCharaName() { return xdfgetCharaName(); }
+    protected ConditionValue _charaGroupName;
+    public ConditionValue xdfgetCharaGroupName()
+    { if (_charaGroupName == null) { _charaGroupName = nCV(); }
+      return _charaGroupName; }
+    protected ConditionValue xgetCValueCharaGroupName() { return xdfgetCharaGroupName(); }
 
     /** 
      * Add order-by as ascend. <br>
-     * CHARA_NAME: {NotNull, VARCHAR(40)}
+     * CHARA_GROUP_NAME: {NotNull, VARCHAR(40)}
      * @return this. (NotNull)
      */
-    public BsCharaGroupCQ addOrderBy_CharaName_Asc() { regOBA("CHARA_NAME"); return this; }
+    public BsCharaGroupCQ addOrderBy_CharaGroupName_Asc() { regOBA("CHARA_GROUP_NAME"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * CHARA_NAME: {NotNull, VARCHAR(40)}
+     * CHARA_GROUP_NAME: {NotNull, VARCHAR(40)}
      * @return this. (NotNull)
      */
-    public BsCharaGroupCQ addOrderBy_CharaName_Desc() { regOBD("CHARA_NAME"); return this; }
+    public BsCharaGroupCQ addOrderBy_CharaGroupName_Desc() { regOBD("CHARA_GROUP_NAME"); return this; }
 
     protected ConditionValue _designerId;
     public ConditionValue xdfgetDesignerId()
@@ -135,17 +149,97 @@ public class BsCharaGroupCQ extends AbstractBsCharaGroupCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * DESIGNER_ID: {IX, NotNull, INT UNSIGNED(10), FK to DESIGNER}
+     * DESIGNER_ID: {IX, NotNull, INT UNSIGNED(10), FK to designer}
      * @return this. (NotNull)
      */
     public BsCharaGroupCQ addOrderBy_DesignerId_Asc() { regOBA("DESIGNER_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * DESIGNER_ID: {IX, NotNull, INT UNSIGNED(10), FK to DESIGNER}
+     * DESIGNER_ID: {IX, NotNull, INT UNSIGNED(10), FK to designer}
      * @return this. (NotNull)
      */
     public BsCharaGroupCQ addOrderBy_DesignerId_Desc() { regOBD("DESIGNER_ID"); return this; }
+
+    protected ConditionValue _registerDatetime;
+    public ConditionValue xdfgetRegisterDatetime()
+    { if (_registerDatetime == null) { _registerDatetime = nCV(); }
+      return _registerDatetime; }
+    protected ConditionValue xgetCValueRegisterDatetime() { return xdfgetRegisterDatetime(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+     * @return this. (NotNull)
+     */
+    public BsCharaGroupCQ addOrderBy_RegisterDatetime_Asc() { regOBA("REGISTER_DATETIME"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+     * @return this. (NotNull)
+     */
+    public BsCharaGroupCQ addOrderBy_RegisterDatetime_Desc() { regOBD("REGISTER_DATETIME"); return this; }
+
+    protected ConditionValue _registerTrace;
+    public ConditionValue xdfgetRegisterTrace()
+    { if (_registerTrace == null) { _registerTrace = nCV(); }
+      return _registerTrace; }
+    protected ConditionValue xgetCValueRegisterTrace() { return xdfgetRegisterTrace(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+     * @return this. (NotNull)
+     */
+    public BsCharaGroupCQ addOrderBy_RegisterTrace_Asc() { regOBA("REGISTER_TRACE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+     * @return this. (NotNull)
+     */
+    public BsCharaGroupCQ addOrderBy_RegisterTrace_Desc() { regOBD("REGISTER_TRACE"); return this; }
+
+    protected ConditionValue _updateDatetime;
+    public ConditionValue xdfgetUpdateDatetime()
+    { if (_updateDatetime == null) { _updateDatetime = nCV(); }
+      return _updateDatetime; }
+    protected ConditionValue xgetCValueUpdateDatetime() { return xdfgetUpdateDatetime(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+     * @return this. (NotNull)
+     */
+    public BsCharaGroupCQ addOrderBy_UpdateDatetime_Asc() { regOBA("UPDATE_DATETIME"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+     * @return this. (NotNull)
+     */
+    public BsCharaGroupCQ addOrderBy_UpdateDatetime_Desc() { regOBD("UPDATE_DATETIME"); return this; }
+
+    protected ConditionValue _updateTrace;
+    public ConditionValue xdfgetUpdateTrace()
+    { if (_updateTrace == null) { _updateTrace = nCV(); }
+      return _updateTrace; }
+    protected ConditionValue xgetCValueUpdateTrace() { return xdfgetUpdateTrace(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+     * @return this. (NotNull)
+     */
+    public BsCharaGroupCQ addOrderBy_UpdateTrace_Asc() { regOBA("UPDATE_TRACE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+     * @return this. (NotNull)
+     */
+    public BsCharaGroupCQ addOrderBy_UpdateTrace_Desc() { regOBD("UPDATE_TRACE"); return this; }
 
     // ===================================================================================
     //                                                             SpecifiedDerivedOrderBy
@@ -210,7 +304,7 @@ public class BsCharaGroupCQ extends AbstractBsCharaGroupCQ {
         return xgetQueRlMap(prop);
     }
     protected DesignerCQ xcreateQueryDesigner() {
-        String nrp = xresolveNRP("CHARA_GROUP", "designer"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("chara_group", "designer"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new DesignerCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "designer", nrp);
     }
     protected void xsetupOuterJoinDesigner() { xregOutJo("designer"); }

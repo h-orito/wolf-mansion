@@ -78,7 +78,7 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "MESSAGE_TYPE";
+        return "message_type";
     }
 
     // ===================================================================================
@@ -150,6 +150,22 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of messageTypeCode as 霊視結果 (PRIVATE_PSYCHIC). <br>
+     * 霊視結果
+     */
+    public void setMessageTypeCode_霊視結果() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.霊視結果);
+    }
+
+    /**
+     * Set the value of messageTypeCode as 占い結果 (PRIVATE_SEER). <br>
+     * 占い結果
+     */
+    public void setMessageTypeCode_占い結果() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.占い結果);
+    }
+
+    /**
      * Set the value of messageTypeCode as 非公開システムメッセージ (PRIVATE_SYSTEM). <br>
      * 非公開システムメッセージ
      */
@@ -218,6 +234,28 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
     public boolean isMessageTypeCode通常発言() {
         CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
         return cdef != null ? cdef.equals(CDef.MessageType.通常発言) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 霊視結果? <br>
+     * 霊視結果
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode霊視結果() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.霊視結果) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 占い結果? <br>
+     * 占い結果
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode占い結果() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.占い結果) : false;
     }
 
     /**

@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of CHARA.
+ * The base condition-query of chara.
  * @author DBFlute(AutoGenerator)
  */
 public class BsCharaCQ extends AbstractBsCharaCQ {
@@ -35,7 +35,7 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from CHARA) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from chara) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join CHARA on ... and FOO = [value] ...}
+     * {select ... from ... left outer join chara on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -79,19 +79,89 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
       return _charaId; }
     protected ConditionValue xgetCValueCharaId() { return xdfgetCharaId(); }
 
+    public Map<String, AbilityCQ> xdfgetCharaId_ExistsReferrer_AbilityByCharaIdList() { return xgetSQueMap("charaId_ExistsReferrer_AbilityByCharaIdList"); }
+    public String keepCharaId_ExistsReferrer_AbilityByCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_ExistsReferrer_AbilityByCharaIdList", sq); }
+
+    public Map<String, AbilityCQ> xdfgetCharaId_ExistsReferrer_AbilityByTargetCharaIdList() { return xgetSQueMap("charaId_ExistsReferrer_AbilityByTargetCharaIdList"); }
+    public String keepCharaId_ExistsReferrer_AbilityByTargetCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_ExistsReferrer_AbilityByTargetCharaIdList", sq); }
+
+    public Map<String, FootstepCQ> xdfgetCharaId_ExistsReferrer_FootstepList() { return xgetSQueMap("charaId_ExistsReferrer_FootstepList"); }
+    public String keepCharaId_ExistsReferrer_FootstepList(FootstepCQ sq) { return xkeepSQue("charaId_ExistsReferrer_FootstepList", sq); }
+
     public Map<String, VillagePlayerCQ> xdfgetCharaId_ExistsReferrer_VillagePlayerList() { return xgetSQueMap("charaId_ExistsReferrer_VillagePlayerList"); }
     public String keepCharaId_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("charaId_ExistsReferrer_VillagePlayerList", sq); }
+
+    public Map<String, VoteCQ> xdfgetCharaId_ExistsReferrer_VoteByCharaIdList() { return xgetSQueMap("charaId_ExistsReferrer_VoteByCharaIdList"); }
+    public String keepCharaId_ExistsReferrer_VoteByCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_ExistsReferrer_VoteByCharaIdList", sq); }
+
+    public Map<String, VoteCQ> xdfgetCharaId_ExistsReferrer_VoteByVoteCharaIdList() { return xgetSQueMap("charaId_ExistsReferrer_VoteByVoteCharaIdList"); }
+    public String keepCharaId_ExistsReferrer_VoteByVoteCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_ExistsReferrer_VoteByVoteCharaIdList", sq); }
+
+    public Map<String, AbilityCQ> xdfgetCharaId_NotExistsReferrer_AbilityByCharaIdList() { return xgetSQueMap("charaId_NotExistsReferrer_AbilityByCharaIdList"); }
+    public String keepCharaId_NotExistsReferrer_AbilityByCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_AbilityByCharaIdList", sq); }
+
+    public Map<String, AbilityCQ> xdfgetCharaId_NotExistsReferrer_AbilityByTargetCharaIdList() { return xgetSQueMap("charaId_NotExistsReferrer_AbilityByTargetCharaIdList"); }
+    public String keepCharaId_NotExistsReferrer_AbilityByTargetCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_AbilityByTargetCharaIdList", sq); }
+
+    public Map<String, FootstepCQ> xdfgetCharaId_NotExistsReferrer_FootstepList() { return xgetSQueMap("charaId_NotExistsReferrer_FootstepList"); }
+    public String keepCharaId_NotExistsReferrer_FootstepList(FootstepCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_FootstepList", sq); }
 
     public Map<String, VillagePlayerCQ> xdfgetCharaId_NotExistsReferrer_VillagePlayerList() { return xgetSQueMap("charaId_NotExistsReferrer_VillagePlayerList"); }
     public String keepCharaId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_VillagePlayerList", sq); }
 
+    public Map<String, VoteCQ> xdfgetCharaId_NotExistsReferrer_VoteByCharaIdList() { return xgetSQueMap("charaId_NotExistsReferrer_VoteByCharaIdList"); }
+    public String keepCharaId_NotExistsReferrer_VoteByCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_VoteByCharaIdList", sq); }
+
+    public Map<String, VoteCQ> xdfgetCharaId_NotExistsReferrer_VoteByVoteCharaIdList() { return xgetSQueMap("charaId_NotExistsReferrer_VoteByVoteCharaIdList"); }
+    public String keepCharaId_NotExistsReferrer_VoteByVoteCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_VoteByVoteCharaIdList", sq); }
+
+    public Map<String, AbilityCQ> xdfgetCharaId_SpecifyDerivedReferrer_AbilityByCharaIdList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_AbilityByCharaIdList"); }
+    public String keepCharaId_SpecifyDerivedReferrer_AbilityByCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_AbilityByCharaIdList", sq); }
+
+    public Map<String, AbilityCQ> xdfgetCharaId_SpecifyDerivedReferrer_AbilityByTargetCharaIdList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_AbilityByTargetCharaIdList"); }
+    public String keepCharaId_SpecifyDerivedReferrer_AbilityByTargetCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_AbilityByTargetCharaIdList", sq); }
+
+    public Map<String, FootstepCQ> xdfgetCharaId_SpecifyDerivedReferrer_FootstepList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_FootstepList"); }
+    public String keepCharaId_SpecifyDerivedReferrer_FootstepList(FootstepCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_FootstepList", sq); }
+
     public Map<String, VillagePlayerCQ> xdfgetCharaId_SpecifyDerivedReferrer_VillagePlayerList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_VillagePlayerList"); }
     public String keepCharaId_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_VillagePlayerList", sq); }
+
+    public Map<String, VoteCQ> xdfgetCharaId_SpecifyDerivedReferrer_VoteByCharaIdList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_VoteByCharaIdList"); }
+    public String keepCharaId_SpecifyDerivedReferrer_VoteByCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_VoteByCharaIdList", sq); }
+
+    public Map<String, VoteCQ> xdfgetCharaId_SpecifyDerivedReferrer_VoteByVoteCharaIdList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_VoteByVoteCharaIdList"); }
+    public String keepCharaId_SpecifyDerivedReferrer_VoteByVoteCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_VoteByVoteCharaIdList", sq); }
+
+    public Map<String, AbilityCQ> xdfgetCharaId_QueryDerivedReferrer_AbilityByCharaIdList() { return xgetSQueMap("charaId_QueryDerivedReferrer_AbilityByCharaIdList"); }
+    public String keepCharaId_QueryDerivedReferrer_AbilityByCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_AbilityByCharaIdList", sq); }
+    public Map<String, Object> xdfgetCharaId_QueryDerivedReferrer_AbilityByCharaIdListParameter() { return xgetSQuePmMap("charaId_QueryDerivedReferrer_AbilityByCharaIdList"); }
+    public String keepCharaId_QueryDerivedReferrer_AbilityByCharaIdListParameter(Object pm) { return xkeepSQuePm("charaId_QueryDerivedReferrer_AbilityByCharaIdList", pm); }
+
+    public Map<String, AbilityCQ> xdfgetCharaId_QueryDerivedReferrer_AbilityByTargetCharaIdList() { return xgetSQueMap("charaId_QueryDerivedReferrer_AbilityByTargetCharaIdList"); }
+    public String keepCharaId_QueryDerivedReferrer_AbilityByTargetCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_AbilityByTargetCharaIdList", sq); }
+    public Map<String, Object> xdfgetCharaId_QueryDerivedReferrer_AbilityByTargetCharaIdListParameter() { return xgetSQuePmMap("charaId_QueryDerivedReferrer_AbilityByTargetCharaIdList"); }
+    public String keepCharaId_QueryDerivedReferrer_AbilityByTargetCharaIdListParameter(Object pm) { return xkeepSQuePm("charaId_QueryDerivedReferrer_AbilityByTargetCharaIdList", pm); }
+
+    public Map<String, FootstepCQ> xdfgetCharaId_QueryDerivedReferrer_FootstepList() { return xgetSQueMap("charaId_QueryDerivedReferrer_FootstepList"); }
+    public String keepCharaId_QueryDerivedReferrer_FootstepList(FootstepCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_FootstepList", sq); }
+    public Map<String, Object> xdfgetCharaId_QueryDerivedReferrer_FootstepListParameter() { return xgetSQuePmMap("charaId_QueryDerivedReferrer_FootstepList"); }
+    public String keepCharaId_QueryDerivedReferrer_FootstepListParameter(Object pm) { return xkeepSQuePm("charaId_QueryDerivedReferrer_FootstepList", pm); }
 
     public Map<String, VillagePlayerCQ> xdfgetCharaId_QueryDerivedReferrer_VillagePlayerList() { return xgetSQueMap("charaId_QueryDerivedReferrer_VillagePlayerList"); }
     public String keepCharaId_QueryDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_VillagePlayerList", sq); }
     public Map<String, Object> xdfgetCharaId_QueryDerivedReferrer_VillagePlayerListParameter() { return xgetSQuePmMap("charaId_QueryDerivedReferrer_VillagePlayerList"); }
     public String keepCharaId_QueryDerivedReferrer_VillagePlayerListParameter(Object pm) { return xkeepSQuePm("charaId_QueryDerivedReferrer_VillagePlayerList", pm); }
+
+    public Map<String, VoteCQ> xdfgetCharaId_QueryDerivedReferrer_VoteByCharaIdList() { return xgetSQueMap("charaId_QueryDerivedReferrer_VoteByCharaIdList"); }
+    public String keepCharaId_QueryDerivedReferrer_VoteByCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_VoteByCharaIdList", sq); }
+    public Map<String, Object> xdfgetCharaId_QueryDerivedReferrer_VoteByCharaIdListParameter() { return xgetSQuePmMap("charaId_QueryDerivedReferrer_VoteByCharaIdList"); }
+    public String keepCharaId_QueryDerivedReferrer_VoteByCharaIdListParameter(Object pm) { return xkeepSQuePm("charaId_QueryDerivedReferrer_VoteByCharaIdList", pm); }
+
+    public Map<String, VoteCQ> xdfgetCharaId_QueryDerivedReferrer_VoteByVoteCharaIdList() { return xgetSQueMap("charaId_QueryDerivedReferrer_VoteByVoteCharaIdList"); }
+    public String keepCharaId_QueryDerivedReferrer_VoteByVoteCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_VoteByVoteCharaIdList", sq); }
+    public Map<String, Object> xdfgetCharaId_QueryDerivedReferrer_VoteByVoteCharaIdListParameter() { return xgetSQuePmMap("charaId_QueryDerivedReferrer_VoteByVoteCharaIdList"); }
+    public String keepCharaId_QueryDerivedReferrer_VoteByVoteCharaIdListParameter(Object pm) { return xkeepSQuePm("charaId_QueryDerivedReferrer_VoteByVoteCharaIdList", pm); }
 
     /** 
      * Add order-by as ascend. <br>
@@ -127,6 +197,26 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
      */
     public BsCharaCQ addOrderBy_CharaName_Desc() { regOBD("CHARA_NAME"); return this; }
 
+    protected ConditionValue _charaShortName;
+    public ConditionValue xdfgetCharaShortName()
+    { if (_charaShortName == null) { _charaShortName = nCV(); }
+      return _charaShortName; }
+    protected ConditionValue xgetCValueCharaShortName() { return xdfgetCharaShortName(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * CHARA_SHORT_NAME: {NotNull, CHAR(1)}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_CharaShortName_Asc() { regOBA("CHARA_SHORT_NAME"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * CHARA_SHORT_NAME: {NotNull, CHAR(1)}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_CharaShortName_Desc() { regOBD("CHARA_SHORT_NAME"); return this; }
+
     protected ConditionValue _charaGroupId;
     public ConditionValue xdfgetCharaGroupId()
     { if (_charaGroupId == null) { _charaGroupId = nCV(); }
@@ -135,14 +225,14 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @return this. (NotNull)
      */
     public BsCharaCQ addOrderBy_CharaGroupId_Asc() { regOBA("CHARA_GROUP_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @return this. (NotNull)
      */
     public BsCharaCQ addOrderBy_CharaGroupId_Desc() { regOBD("CHARA_GROUP_ID"); return this; }
@@ -166,6 +256,106 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
      * @return this. (NotNull)
      */
     public BsCharaCQ addOrderBy_CharaImgUrl_Desc() { regOBD("CHARA_IMG_URL"); return this; }
+
+    protected ConditionValue _isDummy;
+    public ConditionValue xdfgetIsDummy()
+    { if (_isDummy == null) { _isDummy = nCV(); }
+      return _isDummy; }
+    protected ConditionValue xgetCValueIsDummy() { return xdfgetIsDummy(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * IS_DUMMY: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_IsDummy_Asc() { regOBA("IS_DUMMY"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * IS_DUMMY: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_IsDummy_Desc() { regOBD("IS_DUMMY"); return this; }
+
+    protected ConditionValue _registerDatetime;
+    public ConditionValue xdfgetRegisterDatetime()
+    { if (_registerDatetime == null) { _registerDatetime = nCV(); }
+      return _registerDatetime; }
+    protected ConditionValue xgetCValueRegisterDatetime() { return xdfgetRegisterDatetime(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_RegisterDatetime_Asc() { regOBA("REGISTER_DATETIME"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * REGISTER_DATETIME: {NotNull, DATETIME(19)}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_RegisterDatetime_Desc() { regOBD("REGISTER_DATETIME"); return this; }
+
+    protected ConditionValue _registerTrace;
+    public ConditionValue xdfgetRegisterTrace()
+    { if (_registerTrace == null) { _registerTrace = nCV(); }
+      return _registerTrace; }
+    protected ConditionValue xgetCValueRegisterTrace() { return xdfgetRegisterTrace(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_RegisterTrace_Asc() { regOBA("REGISTER_TRACE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * REGISTER_TRACE: {NotNull, VARCHAR(64)}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_RegisterTrace_Desc() { regOBD("REGISTER_TRACE"); return this; }
+
+    protected ConditionValue _updateDatetime;
+    public ConditionValue xdfgetUpdateDatetime()
+    { if (_updateDatetime == null) { _updateDatetime = nCV(); }
+      return _updateDatetime; }
+    protected ConditionValue xgetCValueUpdateDatetime() { return xdfgetUpdateDatetime(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_UpdateDatetime_Asc() { regOBA("UPDATE_DATETIME"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * UPDATE_DATETIME: {NotNull, DATETIME(19)}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_UpdateDatetime_Desc() { regOBD("UPDATE_DATETIME"); return this; }
+
+    protected ConditionValue _updateTrace;
+    public ConditionValue xdfgetUpdateTrace()
+    { if (_updateTrace == null) { _updateTrace = nCV(); }
+      return _updateTrace; }
+    protected ConditionValue xgetCValueUpdateTrace() { return xdfgetUpdateTrace(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_UpdateTrace_Asc() { regOBA("UPDATE_TRACE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * UPDATE_TRACE: {NotNull, VARCHAR(64)}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_UpdateTrace_Desc() { regOBD("UPDATE_TRACE"); return this; }
 
     // ===================================================================================
     //                                                             SpecifiedDerivedOrderBy
@@ -230,7 +420,7 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
         return xgetQueRlMap(prop);
     }
     protected CharaGroupCQ xcreateQueryCharaGroup() {
-        String nrp = xresolveNRP("CHARA", "charaGroup"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("chara", "charaGroup"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new CharaGroupCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "charaGroup", nrp);
     }
     protected void xsetupOuterJoinCharaGroup() { xregOutJo("charaGroup"); }

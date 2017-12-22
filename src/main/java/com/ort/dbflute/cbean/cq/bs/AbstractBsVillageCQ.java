@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of VILLAGE.
+ * The abstract condition-query of village.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "VILLAGE";
+        return "village";
     }
 
     // ===================================================================================
@@ -45,141 +45,141 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
     //                                                                               =====
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILALGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
-     * @param vilalgeId The value of vilalgeId as equal. (basically NotNull: error as default, or no condition as option)
+     * VILLAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * @param villageId The value of villageId as equal. (basically NotNull: error as default, or no condition as option)
      */
-    public void setVilalgeId_Equal(Integer vilalgeId) {
-        doSetVilalgeId_Equal(vilalgeId);
+    public void setVillageId_Equal(Integer villageId) {
+        doSetVillageId_Equal(villageId);
     }
 
-    protected void doSetVilalgeId_Equal(Integer vilalgeId) {
-        regVilalgeId(CK_EQ, vilalgeId);
+    protected void doSetVillageId_Equal(Integer villageId) {
+        regVillageId(CK_EQ, villageId);
     }
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILALGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
-     * @param vilalgeId The value of vilalgeId as notEqual. (basically NotNull: error as default, or no condition as option)
+     * VILLAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * @param villageId The value of villageId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
-    public void setVilalgeId_NotEqual(Integer vilalgeId) {
-        doSetVilalgeId_NotEqual(vilalgeId);
+    public void setVillageId_NotEqual(Integer villageId) {
+        doSetVillageId_NotEqual(villageId);
     }
 
-    protected void doSetVilalgeId_NotEqual(Integer vilalgeId) {
-        regVilalgeId(CK_NES, vilalgeId);
+    protected void doSetVillageId_NotEqual(Integer villageId) {
+        regVillageId(CK_NES, villageId);
     }
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILALGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
-     * @param vilalgeId The value of vilalgeId as greaterThan. (basically NotNull: error as default, or no condition as option)
+     * VILLAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * @param villageId The value of villageId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
-    public void setVilalgeId_GreaterThan(Integer vilalgeId) {
-        regVilalgeId(CK_GT, vilalgeId);
+    public void setVillageId_GreaterThan(Integer villageId) {
+        regVillageId(CK_GT, villageId);
     }
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILALGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
-     * @param vilalgeId The value of vilalgeId as lessThan. (basically NotNull: error as default, or no condition as option)
+     * VILLAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * @param villageId The value of villageId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
-    public void setVilalgeId_LessThan(Integer vilalgeId) {
-        regVilalgeId(CK_LT, vilalgeId);
+    public void setVillageId_LessThan(Integer villageId) {
+        regVillageId(CK_LT, villageId);
     }
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILALGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
-     * @param vilalgeId The value of vilalgeId as greaterEqual. (basically NotNull: error as default, or no condition as option)
+     * VILLAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * @param villageId The value of villageId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
-    public void setVilalgeId_GreaterEqual(Integer vilalgeId) {
-        regVilalgeId(CK_GE, vilalgeId);
+    public void setVillageId_GreaterEqual(Integer villageId) {
+        regVillageId(CK_GE, villageId);
     }
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILALGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
-     * @param vilalgeId The value of vilalgeId as lessEqual. (basically NotNull: error as default, or no condition as option)
+     * VILLAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * @param villageId The value of villageId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
-    public void setVilalgeId_LessEqual(Integer vilalgeId) {
-        regVilalgeId(CK_LE, vilalgeId);
+    public void setVillageId_LessEqual(Integer villageId) {
+        regVillageId(CK_LE, villageId);
     }
 
     /**
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILALGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
-     * @param minNumber The min number of vilalgeId. (basically NotNull: if op.allowOneSide(), null allowed)
-     * @param maxNumber The max number of vilalgeId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * VILLAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
      */
-    public void setVilalgeId_RangeOf(Integer minNumber, Integer maxNumber, ConditionOptionCall<RangeOfOption> opLambda) {
-        setVilalgeId_RangeOf(minNumber, maxNumber, xcROOP(opLambda));
+    public void setVillageId_RangeOf(Integer minNumber, Integer maxNumber, ConditionOptionCall<RangeOfOption> opLambda) {
+        setVillageId_RangeOf(minNumber, maxNumber, xcROOP(opLambda));
     }
 
     /**
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILALGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
-     * @param minNumber The min number of vilalgeId. (basically NotNull: if op.allowOneSide(), null allowed)
-     * @param maxNumber The max number of vilalgeId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * VILLAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
      */
-    protected void setVilalgeId_RangeOf(Integer minNumber, Integer maxNumber, RangeOfOption rangeOfOption) {
-        regROO(minNumber, maxNumber, xgetCValueVilalgeId(), "VILALGE_ID", rangeOfOption);
+    protected void setVillageId_RangeOf(Integer minNumber, Integer maxNumber, RangeOfOption rangeOfOption) {
+        regROO(minNumber, maxNumber, xgetCValueVillageId(), "VILLAGE_ID", rangeOfOption);
     }
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILALGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
-     * @param vilalgeIdList The collection of vilalgeId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * VILLAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * @param villageIdList The collection of villageId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setVilalgeId_InScope(Collection<Integer> vilalgeIdList) {
-        doSetVilalgeId_InScope(vilalgeIdList);
+    public void setVillageId_InScope(Collection<Integer> villageIdList) {
+        doSetVillageId_InScope(villageIdList);
     }
 
-    protected void doSetVilalgeId_InScope(Collection<Integer> vilalgeIdList) {
-        regINS(CK_INS, cTL(vilalgeIdList), xgetCValueVilalgeId(), "VILALGE_ID");
+    protected void doSetVillageId_InScope(Collection<Integer> villageIdList) {
+        regINS(CK_INS, cTL(villageIdList), xgetCValueVillageId(), "VILLAGE_ID");
     }
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILALGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
-     * @param vilalgeIdList The collection of vilalgeId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * VILLAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * @param villageIdList The collection of villageId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setVilalgeId_NotInScope(Collection<Integer> vilalgeIdList) {
-        doSetVilalgeId_NotInScope(vilalgeIdList);
+    public void setVillageId_NotInScope(Collection<Integer> villageIdList) {
+        doSetVillageId_NotInScope(villageIdList);
     }
 
-    protected void doSetVilalgeId_NotInScope(Collection<Integer> vilalgeIdList) {
-        regINS(CK_NINS, cTL(vilalgeIdList), xgetCValueVilalgeId(), "VILALGE_ID");
+    protected void doSetVillageId_NotInScope(Collection<Integer> villageIdList) {
+        regINS(CK_NINS, cTL(villageIdList), xgetCValueVillageId(), "VILLAGE_ID");
     }
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select VILLAGE_ID from MESSAGE where ...)} <br>
-     * MESSAGE by VILLAGE_ID, named 'messageAsOne'.
+     * {exists (select VILLAGE_ID from village_day where ...)} <br>
+     * village_day by VILLAGE_ID, named 'villageDayAsOne'.
      * <pre>
-     * cb.query().<span style="color: #CC4747">existsMessage</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     messageCB.query().set...
+     * cb.query().<span style="color: #CC4747">existsVillageDay</span>(dayCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     dayCB.query().set...
      * });
      * </pre>
-     * @param subCBLambda The callback for sub-query of MessageList for 'exists'. (NotNull)
+     * @param subCBLambda The callback for sub-query of VillageDayList for 'exists'. (NotNull)
      */
-    public void existsMessage(SubQuery<MessageCB> subCBLambda) {
+    public void existsVillageDay(SubQuery<VillageDayCB> subCBLambda) {
         assertObjectNotNull("subCBLambda", subCBLambda);
-        MessageCB cb = new MessageCB(); cb.xsetupForExistsReferrer(this);
-        lockCall(() -> subCBLambda.query(cb)); String pp = keepVilalgeId_ExistsReferrer_MessageList(cb.query());
-        registerExistsReferrer(cb.query(), "VILALGE_ID", "VILLAGE_ID", pp, "messageList");
+        VillageDayCB cb = new VillageDayCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepVillageId_ExistsReferrer_VillageDayList(cb.query());
+        registerExistsReferrer(cb.query(), "VILLAGE_ID", "VILLAGE_ID", pp, "villageDayList");
     }
-    public abstract String keepVilalgeId_ExistsReferrer_MessageList(MessageCQ sq);
+    public abstract String keepVillageId_ExistsReferrer_VillageDayList(VillageDayCQ sq);
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select VILLAGE_ID from VILLAGE_PLAYER where ...)} <br>
-     * VILLAGE_PLAYER by VILLAGE_ID, named 'villagePlayerAsOne'.
+     * {exists (select VILLAGE_ID from village_player where ...)} <br>
+     * village_player by VILLAGE_ID, named 'villagePlayerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsVillagePlayer</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
@@ -190,96 +190,96 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
     public void existsVillagePlayer(SubQuery<VillagePlayerCB> subCBLambda) {
         assertObjectNotNull("subCBLambda", subCBLambda);
         VillagePlayerCB cb = new VillagePlayerCB(); cb.xsetupForExistsReferrer(this);
-        lockCall(() -> subCBLambda.query(cb)); String pp = keepVilalgeId_ExistsReferrer_VillagePlayerList(cb.query());
-        registerExistsReferrer(cb.query(), "VILALGE_ID", "VILLAGE_ID", pp, "villagePlayerList");
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepVillageId_ExistsReferrer_VillagePlayerList(cb.query());
+        registerExistsReferrer(cb.query(), "VILLAGE_ID", "VILLAGE_ID", pp, "villagePlayerList");
     }
-    public abstract String keepVilalgeId_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq);
+    public abstract String keepVillageId_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq);
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select VILLAGE_ID from MESSAGE where ...)} <br>
-     * MESSAGE by VILLAGE_ID, named 'messageAsOne'.
+     * {not exists (select VILLAGE_ID from village_day where ...)} <br>
+     * village_day by VILLAGE_ID, named 'villageDayAsOne'.
      * <pre>
-     * cb.query().<span style="color: #CC4747">notExistsMessage</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     messageCB.query().set...
+     * cb.query().<span style="color: #CC4747">notExistsVillageDay</span>(dayCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     dayCB.query().set...
      * });
      * </pre>
-     * @param subCBLambda The callback for sub-query of VilalgeId_NotExistsReferrer_MessageList for 'not exists'. (NotNull)
+     * @param subCBLambda The callback for sub-query of VillageId_NotExistsReferrer_VillageDayList for 'not exists'. (NotNull)
      */
-    public void notExistsMessage(SubQuery<MessageCB> subCBLambda) {
+    public void notExistsVillageDay(SubQuery<VillageDayCB> subCBLambda) {
         assertObjectNotNull("subCBLambda", subCBLambda);
-        MessageCB cb = new MessageCB(); cb.xsetupForExistsReferrer(this);
-        lockCall(() -> subCBLambda.query(cb)); String pp = keepVilalgeId_NotExistsReferrer_MessageList(cb.query());
-        registerNotExistsReferrer(cb.query(), "VILALGE_ID", "VILLAGE_ID", pp, "messageList");
+        VillageDayCB cb = new VillageDayCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepVillageId_NotExistsReferrer_VillageDayList(cb.query());
+        registerNotExistsReferrer(cb.query(), "VILLAGE_ID", "VILLAGE_ID", pp, "villageDayList");
     }
-    public abstract String keepVilalgeId_NotExistsReferrer_MessageList(MessageCQ sq);
+    public abstract String keepVillageId_NotExistsReferrer_VillageDayList(VillageDayCQ sq);
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select VILLAGE_ID from VILLAGE_PLAYER where ...)} <br>
-     * VILLAGE_PLAYER by VILLAGE_ID, named 'villagePlayerAsOne'.
+     * {not exists (select VILLAGE_ID from village_player where ...)} <br>
+     * village_player by VILLAGE_ID, named 'villagePlayerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsVillagePlayer</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
      * });
      * </pre>
-     * @param subCBLambda The callback for sub-query of VilalgeId_NotExistsReferrer_VillagePlayerList for 'not exists'. (NotNull)
+     * @param subCBLambda The callback for sub-query of VillageId_NotExistsReferrer_VillagePlayerList for 'not exists'. (NotNull)
      */
     public void notExistsVillagePlayer(SubQuery<VillagePlayerCB> subCBLambda) {
         assertObjectNotNull("subCBLambda", subCBLambda);
         VillagePlayerCB cb = new VillagePlayerCB(); cb.xsetupForExistsReferrer(this);
-        lockCall(() -> subCBLambda.query(cb)); String pp = keepVilalgeId_NotExistsReferrer_VillagePlayerList(cb.query());
-        registerNotExistsReferrer(cb.query(), "VILALGE_ID", "VILLAGE_ID", pp, "villagePlayerList");
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepVillageId_NotExistsReferrer_VillagePlayerList(cb.query());
+        registerNotExistsReferrer(cb.query(), "VILLAGE_ID", "VILLAGE_ID", pp, "villagePlayerList");
     }
-    public abstract String keepVilalgeId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq);
+    public abstract String keepVillageId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq);
 
-    public void xsderiveMessageList(String fn, SubQuery<MessageCB> sq, String al, DerivedReferrerOption op) {
+    public void xsderiveVillageDayList(String fn, SubQuery<VillageDayCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
-        MessageCB cb = new MessageCB(); cb.xsetupForDerivedReferrer(this);
-        lockCall(() -> sq.query(cb)); String pp = keepVilalgeId_SpecifyDerivedReferrer_MessageList(cb.query());
-        registerSpecifyDerivedReferrer(fn, cb.query(), "VILALGE_ID", "VILLAGE_ID", pp, "messageList", al, op);
+        VillageDayCB cb = new VillageDayCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepVillageId_SpecifyDerivedReferrer_VillageDayList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "VILLAGE_ID", "VILLAGE_ID", pp, "villageDayList", al, op);
     }
-    public abstract String keepVilalgeId_SpecifyDerivedReferrer_MessageList(MessageCQ sq);
+    public abstract String keepVillageId_SpecifyDerivedReferrer_VillageDayList(VillageDayCQ sq);
 
     public void xsderiveVillagePlayerList(String fn, SubQuery<VillagePlayerCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
         VillagePlayerCB cb = new VillagePlayerCB(); cb.xsetupForDerivedReferrer(this);
-        lockCall(() -> sq.query(cb)); String pp = keepVilalgeId_SpecifyDerivedReferrer_VillagePlayerList(cb.query());
-        registerSpecifyDerivedReferrer(fn, cb.query(), "VILALGE_ID", "VILLAGE_ID", pp, "villagePlayerList", al, op);
+        lockCall(() -> sq.query(cb)); String pp = keepVillageId_SpecifyDerivedReferrer_VillagePlayerList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "VILLAGE_ID", "VILLAGE_ID", pp, "villagePlayerList", al, op);
     }
-    public abstract String keepVilalgeId_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq);
+    public abstract String keepVillageId_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq);
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from MESSAGE where ...)} <br>
-     * MESSAGE by VILLAGE_ID, named 'messageAsOne'.
+     * {FOO &lt;= (select max(BAR) from village_day where ...)} <br>
+     * village_day by VILLAGE_ID, named 'villageDayAsOne'.
      * <pre>
-     * cb.query().<span style="color: #CC4747">derivedMessage()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     messageCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
-     *     messageCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * cb.query().<span style="color: #CC4747">derivedVillageDay()</span>.<span style="color: #CC4747">max</span>(dayCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     dayCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     dayCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
      * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
      * </pre>
      * @return The object to set up a function for referrer table. (NotNull)
      */
-    public HpQDRFunction<MessageCB> derivedMessage() {
-        return xcreateQDRFunctionMessageList();
+    public HpQDRFunction<VillageDayCB> derivedVillageDay() {
+        return xcreateQDRFunctionVillageDayList();
     }
-    protected HpQDRFunction<MessageCB> xcreateQDRFunctionMessageList() {
-        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveMessageList(fn, sq, rd, vl, op));
+    protected HpQDRFunction<VillageDayCB> xcreateQDRFunctionVillageDayList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveVillageDayList(fn, sq, rd, vl, op));
     }
-    public void xqderiveMessageList(String fn, SubQuery<MessageCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+    public void xqderiveVillageDayList(String fn, SubQuery<VillageDayCB> sq, String rd, Object vl, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
-        MessageCB cb = new MessageCB(); cb.xsetupForDerivedReferrer(this);
-        lockCall(() -> sq.query(cb)); String sqpp = keepVilalgeId_QueryDerivedReferrer_MessageList(cb.query()); String prpp = keepVilalgeId_QueryDerivedReferrer_MessageListParameter(vl);
-        registerQueryDerivedReferrer(fn, cb.query(), "VILALGE_ID", "VILLAGE_ID", sqpp, "messageList", rd, vl, prpp, op);
+        VillageDayCB cb = new VillageDayCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepVillageId_QueryDerivedReferrer_VillageDayList(cb.query()); String prpp = keepVillageId_QueryDerivedReferrer_VillageDayListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "VILLAGE_ID", "VILLAGE_ID", sqpp, "villageDayList", rd, vl, prpp, op);
     }
-    public abstract String keepVilalgeId_QueryDerivedReferrer_MessageList(MessageCQ sq);
-    public abstract String keepVilalgeId_QueryDerivedReferrer_MessageListParameter(Object vl);
+    public abstract String keepVillageId_QueryDerivedReferrer_VillageDayList(VillageDayCQ sq);
+    public abstract String keepVillageId_QueryDerivedReferrer_VillageDayListParameter(Object vl);
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from VILLAGE_PLAYER where ...)} <br>
-     * VILLAGE_PLAYER by VILLAGE_ID, named 'villagePlayerAsOne'.
+     * {FOO &lt;= (select max(BAR) from village_player where ...)} <br>
+     * village_player by VILLAGE_ID, named 'villagePlayerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVillagePlayer()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -297,26 +297,26 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
     public void xqderiveVillagePlayerList(String fn, SubQuery<VillagePlayerCB> sq, String rd, Object vl, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
         VillagePlayerCB cb = new VillagePlayerCB(); cb.xsetupForDerivedReferrer(this);
-        lockCall(() -> sq.query(cb)); String sqpp = keepVilalgeId_QueryDerivedReferrer_VillagePlayerList(cb.query()); String prpp = keepVilalgeId_QueryDerivedReferrer_VillagePlayerListParameter(vl);
-        registerQueryDerivedReferrer(fn, cb.query(), "VILALGE_ID", "VILLAGE_ID", sqpp, "villagePlayerList", rd, vl, prpp, op);
+        lockCall(() -> sq.query(cb)); String sqpp = keepVillageId_QueryDerivedReferrer_VillagePlayerList(cb.query()); String prpp = keepVillageId_QueryDerivedReferrer_VillagePlayerListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "VILLAGE_ID", "VILLAGE_ID", sqpp, "villagePlayerList", rd, vl, prpp, op);
     }
-    public abstract String keepVilalgeId_QueryDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq);
-    public abstract String keepVilalgeId_QueryDerivedReferrer_VillagePlayerListParameter(Object vl);
+    public abstract String keepVillageId_QueryDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq);
+    public abstract String keepVillageId_QueryDerivedReferrer_VillagePlayerListParameter(Object vl);
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * VILALGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * VILLAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
      */
-    public void setVilalgeId_IsNull() { regVilalgeId(CK_ISN, DOBJ); }
+    public void setVillageId_IsNull() { regVillageId(CK_ISN, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * VILALGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * VILLAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
      */
-    public void setVilalgeId_IsNotNull() { regVilalgeId(CK_ISNN, DOBJ); }
+    public void setVillageId_IsNotNull() { regVillageId(CK_ISNN, DOBJ); }
 
-    protected void regVilalgeId(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueVilalgeId(), "VILALGE_ID"); }
-    protected abstract ConditionValue xgetCValueVilalgeId();
+    protected void regVillageId(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueVillageId(), "VILLAGE_ID"); }
+    protected abstract ConditionValue xgetCValueVillageId();
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
@@ -455,7 +455,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus}
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
      * @param villageStatusCode The value of villageStatusCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setVillageStatusCode_Equal(String villageStatusCode) {
@@ -464,7 +464,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). As VillageStatus. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus} <br>
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus} <br>
      * 村ステータス
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -526,7 +526,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus}
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
      * @param villageStatusCode The value of villageStatusCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setVillageStatusCode_NotEqual(String villageStatusCode) {
@@ -535,7 +535,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). As VillageStatus. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus} <br>
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus} <br>
      * 村ステータス
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -597,7 +597,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus}
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
      * @param villageStatusCodeList The collection of villageStatusCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setVillageStatusCode_InScope(Collection<String> villageStatusCodeList) {
@@ -606,7 +606,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. As VillageStatus. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus} <br>
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus} <br>
      * 村ステータス
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -620,7 +620,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus}
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
      * @param villageStatusCodeList The collection of villageStatusCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setVillageStatusCode_NotInScope(Collection<String> villageStatusCodeList) {
@@ -629,7 +629,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. As VillageStatus. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus} <br>
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus} <br>
      * 村ステータス
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -646,7 +646,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @param winCampCode The value of winCampCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setWinCampCode_Equal(String winCampCode) {
@@ -655,7 +655,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). As Camp. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -693,7 +693,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @param winCampCode The value of winCampCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setWinCampCode_NotEqual(String winCampCode) {
@@ -702,7 +702,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). As Camp. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -740,7 +740,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @param winCampCodeList The collection of winCampCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setWinCampCode_InScope(Collection<String> winCampCodeList) {
@@ -749,7 +749,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. As Camp. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -763,7 +763,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @param winCampCodeList The collection of winCampCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setWinCampCode_NotInScope(Collection<String> winCampCodeList) {
@@ -772,7 +772,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. As Camp. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -786,19 +786,19 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      */
     public void setWinCampCode_IsNull() { regWinCampCode(CK_ISN, DOBJ); }
 
     /**
      * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      */
     public void setWinCampCode_IsNullOrEmpty() { regWinCampCode(CK_ISNOE, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      */
     public void setWinCampCode_IsNotNull() { regWinCampCode(CK_ISNN, DOBJ); }
 
@@ -1344,7 +1344,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
     public void xsmyselfDerive(String fn, SubQuery<VillageCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
         VillageCB cb = new VillageCB(); cb.xsetupForDerivedReferrer(this);
-        lockCall(() -> sq.query(cb)); String pp = keepSpecifyMyselfDerived(cb.query()); String pk = "VILALGE_ID";
+        lockCall(() -> sq.query(cb)); String pp = keepSpecifyMyselfDerived(cb.query()); String pk = "VILLAGE_ID";
         registerSpecifyMyselfDerived(fn, cb.query(), pk, pk, pp, "myselfDerived", al, op);
     }
     public abstract String keepSpecifyMyselfDerived(VillageCQ sq);
@@ -1360,7 +1360,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
     protected <CB extends ConditionBean> void xqderiveMyselfDerived(String fn, SubQuery<CB> sq, String rd, Object vl, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
         VillageCB cb = new VillageCB(); cb.xsetupForDerivedReferrer(this); sq.query((CB)cb);
-        String pk = "VILALGE_ID";
+        String pk = "VILLAGE_ID";
         String sqpp = keepQueryMyselfDerived(cb.query()); // for saving query-value.
         String prpp = keepQueryMyselfDerivedParameter(vl);
         registerQueryMyselfDerived(fn, cb.query(), pk, pk, sqpp, "myselfDerived", rd, vl, prpp, op);

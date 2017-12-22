@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of VILLAGE.
+ * The condition-query for in-line of village.
  * @author DBFlute(AutoGenerator)
  */
 public class VillageCIQ extends AbstractBsVillageCQ {
@@ -61,26 +61,26 @@ public class VillageCIQ extends AbstractBsVillageCQ {
     // ===================================================================================
     //                                                                Override about Query
     //                                                                ====================
-    protected ConditionValue xgetCValueVilalgeId() { return _myCQ.xdfgetVilalgeId(); }
-    public String keepVilalgeId_ExistsReferrer_MessageList(MessageCQ sq)
+    protected ConditionValue xgetCValueVillageId() { return _myCQ.xdfgetVillageId(); }
+    public String keepVillageId_ExistsReferrer_VillageDayList(VillageDayCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
-    public String keepVilalgeId_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
+    public String keepVillageId_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
-    public String keepVilalgeId_NotExistsReferrer_MessageList(MessageCQ sq)
+    public String keepVillageId_NotExistsReferrer_VillageDayList(VillageDayCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
-    public String keepVilalgeId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
+    public String keepVillageId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
-    public String keepVilalgeId_SpecifyDerivedReferrer_MessageList(MessageCQ sq)
+    public String keepVillageId_SpecifyDerivedReferrer_VillageDayList(VillageDayCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
-    public String keepVilalgeId_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq)
+    public String keepVillageId_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
-    public String keepVilalgeId_QueryDerivedReferrer_MessageList(MessageCQ sq)
+    public String keepVillageId_QueryDerivedReferrer_VillageDayList(VillageDayCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepVilalgeId_QueryDerivedReferrer_MessageListParameter(Object vl)
+    public String keepVillageId_QueryDerivedReferrer_VillageDayListParameter(Object vl)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepVilalgeId_QueryDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq)
+    public String keepVillageId_QueryDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepVilalgeId_QueryDerivedReferrer_VillagePlayerListParameter(Object vl)
+    public String keepVillageId_QueryDerivedReferrer_VillagePlayerListParameter(Object vl)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     protected ConditionValue xgetCValueVillageDisplayName() { return _myCQ.xdfgetVillageDisplayName(); }
     protected ConditionValue xgetCValueVillageStatusCode() { return _myCQ.xdfgetVillageStatusCode(); }
