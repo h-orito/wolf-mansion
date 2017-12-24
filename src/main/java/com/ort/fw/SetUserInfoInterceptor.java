@@ -21,7 +21,9 @@ public class SetUserInfoInterceptor extends HandlerInterceptorAdapter {
         }
         if (authentication.getPrincipal() instanceof UserInfo) {
             UserInfo user = UserInfo.class.cast(authentication.getPrincipal());
-            modelAndView.addObject("user", user);
+            if (modelAndView != null) {
+                modelAndView.addObject("user", user);
+            }
         }
     }
 }

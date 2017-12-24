@@ -9,11 +9,22 @@ public class VillageResultContent implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /** 村ID */
+    private Integer villageId;
+
     /** 村名 */
     private String villageName;
 
     /** メッセージリスト */
     private List<VillageMessageDto> messageList;
+
+    public Integer getVillageId() {
+        return villageId;
+    }
+
+    public void setVillageId(Integer villageId) {
+        this.villageId = villageId;
+    }
 
     public String getVillageName() {
         return villageName;

@@ -1,0 +1,59 @@
+.text-white {
+	color: #ffffff;
+}
+
+.bg-red {
+	background-color: red;
+}
+
+.bg-gray {
+	background-color: gray;
+}
+
+.btn-gray {
+	background-color: gray;
+	color: #ffffff;
+}
+
+/*
+.modal-header {
+	padding: 30px;
+	border-bottom: 1px solid #e5e5e5
+}
+
+.modal-body {
+	position: relative;
+	padding: 30px
+}
+
+.modal-footer {
+	padding: 30px;
+	text-align: right;
+	border-top: 1px solid #e5e5e5
+}
+*/
+
+.message {
+	font-family: sans-serif;
+	padding: 9px;
+	border-radius: 5px;
+	margin-bottom: 20px;
+	border: 1px solid #e3e3e3;
+	font-size: 12px;
+	min-height: 77px;
+	word-wrap: break-word;
+	padding: 9px;
+}
+
+.message-normal {
+	color: #546E7A;
+	background-color: #ffffff;
+}
+
+.bg-whitegray {
+	background-color: #e0e0e0;
+}
+
+.bg-white {
+	background-color: #ffffff;
+}

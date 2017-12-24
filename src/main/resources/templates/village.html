@@ -4,7 +4,7 @@
 <!--/* 個別ページのタイトル */-->
 <title th:text="${content.villageName} + '村'">テスト村</title>
 <!--/* 個別ページのjs */-->
-<script src="../static/app/js/new-village.js" th:src="@{/app/js/new-village.js}"></script>
+<script src="../static/app/js/village.js" th:src="@{/app/js/village.js}"></script>
 </head>
 
 <body>
@@ -12,24 +12,15 @@
 		<nav layout:replace="~{layout/header::header}"></nav>
 		<div layout:fragment="content">
 			<div id="wrapper">
+				<div class="hidden" th:data-village-id="${content.villageId}"></div>
+
 				<div class="col-sm-12">
-					<div class="table-responsive clearfix">
-						<table class="table table-bordered table-condensed">
-							<tbody>
-								<tr th:each="message : ${content.messageList}" class="">
-									<td>
-										<img th:src="${message.characterImageUrl}" src="" />
-									</td>
-									<td th:text="${message.characterName}"></td>
-									<td th:text="${message.messageType}"></td>
-									<td th:text="${message.messageContent}"></td>
-									<td th:text="${message.messageDatetime}"></td>
-								</tr>
-							</tbody>
-						</table>
+					<div class="row" data-message-area>
+						<div class="message col-sm-12 text-muted">読み込み中...</div>
 					</div>
 				</div>
 			</div>
+			<script id="message-template" type="text/x-handlebars-template" layout:include="~{/village-template/message::message}"></script>
 		</div>
 		<footer layout:replace="~{layout/footer::footer}"></footer>
 	</div>

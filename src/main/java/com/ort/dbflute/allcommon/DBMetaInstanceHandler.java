@@ -31,25 +31,25 @@ public class DBMetaInstanceHandler implements DBMetaProvider {
     protected static final Map<String, String> _tableDbNameClassNameMap;
     static {
         final Map<String, String> tmpMap = newHashMap();
-        tmpMap.put("ability", "com.ort.dbflute.bsentity.dbmeta.AbilityDbm");
-        tmpMap.put("ability_type", "com.ort.dbflute.bsentity.dbmeta.AbilityTypeDbm");
-        tmpMap.put("authority", "com.ort.dbflute.bsentity.dbmeta.AuthorityDbm");
-        tmpMap.put("camp", "com.ort.dbflute.bsentity.dbmeta.CampDbm");
-        tmpMap.put("chara", "com.ort.dbflute.bsentity.dbmeta.CharaDbm");
-        tmpMap.put("chara_group", "com.ort.dbflute.bsentity.dbmeta.CharaGroupDbm");
-        tmpMap.put("dead_reason", "com.ort.dbflute.bsentity.dbmeta.DeadReasonDbm");
-        tmpMap.put("designer", "com.ort.dbflute.bsentity.dbmeta.DesignerDbm");
-        tmpMap.put("footstep", "com.ort.dbflute.bsentity.dbmeta.FootstepDbm");
-        tmpMap.put("message", "com.ort.dbflute.bsentity.dbmeta.MessageDbm");
-        tmpMap.put("message_type", "com.ort.dbflute.bsentity.dbmeta.MessageTypeDbm");
-        tmpMap.put("player", "com.ort.dbflute.bsentity.dbmeta.PlayerDbm");
-        tmpMap.put("skill", "com.ort.dbflute.bsentity.dbmeta.SkillDbm");
-        tmpMap.put("village", "com.ort.dbflute.bsentity.dbmeta.VillageDbm");
-        tmpMap.put("village_day", "com.ort.dbflute.bsentity.dbmeta.VillageDayDbm");
-        tmpMap.put("village_player", "com.ort.dbflute.bsentity.dbmeta.VillagePlayerDbm");
-        tmpMap.put("village_settings", "com.ort.dbflute.bsentity.dbmeta.VillageSettingsDbm");
-        tmpMap.put("village_status", "com.ort.dbflute.bsentity.dbmeta.VillageStatusDbm");
-        tmpMap.put("vote", "com.ort.dbflute.bsentity.dbmeta.VoteDbm");
+        tmpMap.put("ABILITY", "com.ort.dbflute.bsentity.dbmeta.AbilityDbm");
+        tmpMap.put("ABILITY_TYPE", "com.ort.dbflute.bsentity.dbmeta.AbilityTypeDbm");
+        tmpMap.put("AUTHORITY", "com.ort.dbflute.bsentity.dbmeta.AuthorityDbm");
+        tmpMap.put("CAMP", "com.ort.dbflute.bsentity.dbmeta.CampDbm");
+        tmpMap.put("CHARA", "com.ort.dbflute.bsentity.dbmeta.CharaDbm");
+        tmpMap.put("CHARA_GROUP", "com.ort.dbflute.bsentity.dbmeta.CharaGroupDbm");
+        tmpMap.put("DEAD_REASON", "com.ort.dbflute.bsentity.dbmeta.DeadReasonDbm");
+        tmpMap.put("DESIGNER", "com.ort.dbflute.bsentity.dbmeta.DesignerDbm");
+        tmpMap.put("FOOTSTEP", "com.ort.dbflute.bsentity.dbmeta.FootstepDbm");
+        tmpMap.put("MESSAGE", "com.ort.dbflute.bsentity.dbmeta.MessageDbm");
+        tmpMap.put("MESSAGE_TYPE", "com.ort.dbflute.bsentity.dbmeta.MessageTypeDbm");
+        tmpMap.put("PLAYER", "com.ort.dbflute.bsentity.dbmeta.PlayerDbm");
+        tmpMap.put("SKILL", "com.ort.dbflute.bsentity.dbmeta.SkillDbm");
+        tmpMap.put("VILLAGE", "com.ort.dbflute.bsentity.dbmeta.VillageDbm");
+        tmpMap.put("VILLAGE_DAY", "com.ort.dbflute.bsentity.dbmeta.VillageDayDbm");
+        tmpMap.put("VILLAGE_PLAYER", "com.ort.dbflute.bsentity.dbmeta.VillagePlayerDbm");
+        tmpMap.put("VILLAGE_SETTINGS", "com.ort.dbflute.bsentity.dbmeta.VillageSettingsDbm");
+        tmpMap.put("VILLAGE_STATUS", "com.ort.dbflute.bsentity.dbmeta.VillageStatusDbm");
+        tmpMap.put("VOTE", "com.ort.dbflute.bsentity.dbmeta.VoteDbm");
         _tableDbNameClassNameMap = Collections.unmodifiableMap(tmpMap);
     }
 

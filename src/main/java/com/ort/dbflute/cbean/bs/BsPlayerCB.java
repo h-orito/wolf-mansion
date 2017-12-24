@@ -20,7 +20,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-bean of player.
+ * The base condition-bean of PLAYER.
  * @author DBFlute(AutoGenerator)
  */
 public class BsPlayerCB extends AbstractConditionBean {
@@ -72,7 +72,7 @@ public class BsPlayerCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "player";
+        return "PLAYER";
     }
 
     // ===================================================================================
@@ -331,7 +331,7 @@ public class BsPlayerCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnPlayerPassword() { return doColumn("PLAYER_PASSWORD"); }
         /**
-         * AUTHORITY_CODE: {IX, NotNull, VARCHAR(10), FK to authority, classification=Authority}
+         * AUTHORITY_CODE: {IX, NotNull, VARCHAR(10), FK to AUTHORITY, classification=Authority}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnAuthorityCode() { return doColumn("AUTHORITY_CODE"); }
@@ -366,7 +366,7 @@ public class BsPlayerCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "player"; }
+        protected String getTableDbName() { return "PLAYER"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * AUTHORITY by my AUTHORITY_CODE, named 'authority'.
@@ -389,7 +389,7 @@ public class BsPlayerCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from message where ...) as FOO_MAX} <br>
+         * {select max(FOO) from MESSAGE where ...) as FOO_MAX} <br>
          * MESSAGE by PLAYER_ID, named 'messageList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -406,7 +406,7 @@ public class BsPlayerCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from village_player where ...) as FOO_MAX} <br>
+         * {select max(FOO) from VILLAGE_PLAYER where ...) as FOO_MAX} <br>
          * VILLAGE_PLAYER by PLAYER_ID, named 'villagePlayerList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {

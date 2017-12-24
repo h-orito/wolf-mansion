@@ -2,8 +2,6 @@ package com.ort.app.web.model.inner;
 
 import java.time.LocalDateTime;
 
-import com.ort.dbflute.allcommon.CDef;
-
 public class VillageMessageDto {
 
     /** プレイヤー名 */
@@ -16,7 +14,7 @@ public class VillageMessageDto {
     private String characterImageUrl;
 
     /** メッセージ種別 */
-    private CDef.MessageType messageType;
+    private String messageType;
 
     /** メッセージ番号 */
     private Integer messageNumber;
@@ -51,11 +49,11 @@ public class VillageMessageDto {
         this.characterImageUrl = characterImageUrl;
     }
 
-    public CDef.MessageType getMessageType() {
+    public String getMessageType() {
         return messageType;
     }
 
-    public void setMessageType(CDef.MessageType messageType) {
+    public void setMessageType(String messageType) {
         this.messageType = messageType;
     }
 

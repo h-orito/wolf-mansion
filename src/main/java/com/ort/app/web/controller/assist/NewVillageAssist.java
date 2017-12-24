@@ -10,20 +10,19 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
+import com.ort.app.web.controller.logic.MessageLogic;
+import com.ort.app.web.controller.logic.VillageLogic;
 import com.ort.app.web.form.NewVillageForm;
 import com.ort.app.web.model.common.SelectOptionDto;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.CharaGroupBhv;
-import com.ort.dbflute.exbhv.MessageBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
-import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exbhv.VillageSettingsBhv;
 import com.ort.dbflute.exentity.CharaGroup;
-import com.ort.dbflute.exentity.Message;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
-import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillageSettings;
 import com.ort.fw.util.WerewolfMansionDateUtil;
 
@@ -43,19 +42,19 @@ public class NewVillageAssist {
     private VillageDayBhv villageDayBhv;
 
     @Autowired
-    private VillagePlayerBhv villagePlayerBhv;
-
-    @Autowired
     private CharaBhv charaBhv;
 
     @Autowired
     private CharaGroupBhv charaGroupBhv;
 
     @Autowired
-    private MessageBhv messageBhv;
+    private MessageSource messageSource;
 
     @Autowired
-    private MessageSource messageSource;
+    private MessageLogic messageLogic;
+
+    @Autowired
+    private VillageLogic villageLogic;
 
     // ===================================================================================
     //                                                                             Execute
@@ -115,14 +114,11 @@ public class NewVillageAssist {
 
     // 村建て初期メッセージ登録
     private void insertInitialMessage(NewVillageForm villageForm, Village village, Locale locale) {
-        Message message = new Message();
-        message.setVillageId(village.getVillageId());
-        message.setDay(0);
-        message.setMessageTypeCode_公開システムメッセージ();
-        message.setMessageNumber(0); // TODO h-orito 発番ロジック (2017/12/22)
-        message.setMessageContent(messageSource.getMessage("newvillage.initial.message", null, locale));
-        message.setMessageDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
-        messageBhv.insert(message);
+        messageLogic.insertMessage( // 
+                village.getVillageId(), // 村ID
+                0, // day
+                CDef.MessageType.公開システムメッセージ, // 発言種別
+                messageSource.getMessage("newvillage.initial.message", null, locale)); // メッセージ内容
     }
 
     private Village insertVillage(NewVillageForm villageForm) {
@@ -148,32 +144,6 @@ public class NewVillageAssist {
         villageSettingsBhv.insert(settings);
     }
 
-    private void insertDummyCharaMessage(NewVillageForm villageForm, Village village, VillagePlayer dummyVillagePlayer) {
-        Message message = new Message();
-        message.setVillageId(village.getVillageId());
-        message.setVillagePlayerId(dummyVillagePlayer.getVillagePlayerId());
-        message.setDay(0);
-        message.setMessageTypeCode_通常発言();
-        message.setMessageNumber(0); // TODO h-orito 発番ロジック (2017/12/22)
-        message.setMessageContent(villageForm.getDummyJoinMessage());
-        message.setMessageDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
-        messageBhv.insert(message);
-    }
-
-    private VillagePlayer insertDummyVillagePlayer(NewVillageForm villageForm, Village village) {
-        VillagePlayer villagePlayer = new VillagePlayer();
-        villagePlayer.setVillageId(village.getVillageId());
-        villagePlayer.setPlayerId(1); // ダミーキャラのプレイヤーID
-        Integer dummyCharaId = charaBhv.selectEntityWithDeletedCheck(cb -> {
-            cb.query().setCharaGroupId_Equal(villageForm.getCharacterSetId());
-            cb.query().setIsDummy_Equal_True();
-        }).getCharaId();
-        villagePlayer.setCharaId(dummyCharaId);
-        villagePlayer.setIsDead_False();
-        villagePlayerBhv.insert(villagePlayer);
-        return villagePlayer;
-    }
-
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
@@ -187,9 +157,11 @@ public class NewVillageAssist {
     }
 
     private void joinDummyChara(NewVillageForm villageForm, Village village) {
-        // 参加させる
-        VillagePlayer dummyVillagePlayer = insertDummyVillagePlayer(villageForm, village);
-        // 参加発言
-        insertDummyCharaMessage(villageForm, village, dummyVillagePlayer);
+        int dummyPlayerId = 1;
+        Integer dummyCharaId = charaBhv.selectEntityWithDeletedCheck(cb -> {
+            cb.query().setCharaGroupId_Equal(villageForm.getCharacterSetId());
+            cb.query().setIsDummy_Equal_True();
+        }).getCharaId();
+        villageLogic.participate(village.getVillageId(), dummyPlayerId, dummyCharaId, villageForm.getDummyJoinMessage());
     }
 }

@@ -72,7 +72,7 @@ public abstract class BsVillageDay extends AbstractEntity implements DomainEntit
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
     protected Integer _villageId;
 
     /** DAY: {PK, NotNull, INT UNSIGNED(10)} */
@@ -100,7 +100,7 @@ public abstract class BsVillageDay extends AbstractEntity implements DomainEntit
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "village_day";
+        return "VILLAGE_DAY";
     }
 
     // ===================================================================================
@@ -311,7 +311,7 @@ public abstract class BsVillageDay extends AbstractEntity implements DomainEntit
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -321,7 +321,7 @@ public abstract class BsVillageDay extends AbstractEntity implements DomainEntit
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
