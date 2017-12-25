@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of VILLAGE_PLAYER.
+ * The abstract condition-query of village_player.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "VILLAGE_PLAYER";
+        return "village_player";
     }
 
     // ===================================================================================
@@ -159,8 +159,8 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select VILLAGE_PLAYER_ID from MESSAGE where ...)} <br>
-     * MESSAGE by VILLAGE_PLAYER_ID, named 'messageAsOne'.
+     * {exists (select VILLAGE_PLAYER_ID from message where ...)} <br>
+     * message by VILLAGE_PLAYER_ID, named 'messageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsMessage</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     messageCB.query().set...
@@ -178,8 +178,8 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select VILLAGE_PLAYER_ID from MESSAGE where ...)} <br>
-     * MESSAGE by VILLAGE_PLAYER_ID, named 'messageAsOne'.
+     * {not exists (select VILLAGE_PLAYER_ID from message where ...)} <br>
+     * message by VILLAGE_PLAYER_ID, named 'messageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsMessage</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     messageCB.query().set...
@@ -205,8 +205,8 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from MESSAGE where ...)} <br>
-     * MESSAGE by VILLAGE_PLAYER_ID, named 'messageAsOne'.
+     * {FOO &lt;= (select max(BAR) from message where ...)} <br>
+     * message by VILLAGE_PLAYER_ID, named 'messageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedMessage()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     messageCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -247,7 +247,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_Equal(Integer villageId) {
@@ -260,7 +260,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_NotEqual(Integer villageId) {
@@ -273,7 +273,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterThan(Integer villageId) {
@@ -282,7 +282,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessThan(Integer villageId) {
@@ -291,7 +291,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterEqual(Integer villageId) {
@@ -300,7 +300,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessEqual(Integer villageId) {
@@ -311,7 +311,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -324,7 +324,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -335,7 +335,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageIdList The collection of villageId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_InScope(Collection<Integer> villageIdList) {
@@ -348,7 +348,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageIdList The collection of villageId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_NotInScope(Collection<Integer> villageIdList) {
@@ -364,7 +364,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to player}
      * @param playerId The value of playerId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setPlayerId_Equal(Integer playerId) {
@@ -377,7 +377,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to player}
      * @param playerId The value of playerId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setPlayerId_NotEqual(Integer playerId) {
@@ -390,7 +390,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to player}
      * @param playerId The value of playerId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setPlayerId_GreaterThan(Integer playerId) {
@@ -399,7 +399,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to player}
      * @param playerId The value of playerId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setPlayerId_LessThan(Integer playerId) {
@@ -408,7 +408,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to player}
      * @param playerId The value of playerId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setPlayerId_GreaterEqual(Integer playerId) {
@@ -417,7 +417,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to player}
      * @param playerId The value of playerId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setPlayerId_LessEqual(Integer playerId) {
@@ -428,7 +428,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to player}
      * @param minNumber The min number of playerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of playerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -441,7 +441,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to player}
      * @param minNumber The min number of playerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of playerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -452,7 +452,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to player}
      * @param playerIdList The collection of playerId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setPlayerId_InScope(Collection<Integer> playerIdList) {
@@ -465,7 +465,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to player}
      * @param playerIdList The collection of playerId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setPlayerId_NotInScope(Collection<Integer> playerIdList) {
@@ -481,7 +481,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
+     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to chara}
      * @param charaId The value of charaId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_Equal(Integer charaId) {
@@ -494,7 +494,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
+     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to chara}
      * @param charaId The value of charaId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_NotEqual(Integer charaId) {
@@ -507,7 +507,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
+     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to chara}
      * @param charaId The value of charaId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_GreaterThan(Integer charaId) {
@@ -516,7 +516,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
+     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to chara}
      * @param charaId The value of charaId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_LessThan(Integer charaId) {
@@ -525,7 +525,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
+     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to chara}
      * @param charaId The value of charaId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_GreaterEqual(Integer charaId) {
@@ -534,7 +534,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
+     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to chara}
      * @param charaId The value of charaId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_LessEqual(Integer charaId) {
@@ -545,7 +545,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
+     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to chara}
      * @param minNumber The min number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -558,7 +558,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
+     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to chara}
      * @param minNumber The min number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -569,7 +569,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
+     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to chara}
      * @param charaIdList The collection of charaId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharaId_InScope(Collection<Integer> charaIdList) {
@@ -582,7 +582,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
+     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to chara}
      * @param charaIdList The collection of charaId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharaId_NotInScope(Collection<Integer> charaIdList) {
@@ -598,7 +598,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      * @param skillCode The value of skillCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setSkillCode_Equal(String skillCode) {
@@ -607,7 +607,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). As Skill. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -653,6 +653,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_Equal_狩人() {
         setSkillCode_Equal_AsSkill(CDef.Skill.狩人);
+    }
+
+    /**
+     * Equal(=). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
+     * おまかせ
+     */
+    public void setSkillCode_Equal_おまかせ() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ);
     }
 
     /**
@@ -725,7 +733,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      * @param skillCode The value of skillCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setSkillCode_NotEqual(String skillCode) {
@@ -734,7 +742,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). As Skill. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -780,6 +788,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_狩人() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.狩人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
+     * おまかせ
+     */
+    public void setSkillCode_NotEqual_おまかせ() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ);
     }
 
     /**
@@ -852,7 +868,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      * @param skillCodeList The collection of skillCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setSkillCode_InScope(Collection<String> skillCodeList) {
@@ -861,7 +877,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -875,7 +891,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      * @param skillCodeList The collection of skillCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setSkillCode_NotInScope(Collection<String> skillCodeList) {
@@ -884,7 +900,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -898,24 +914,361 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      */
     public void setSkillCode_IsNull() { regSkillCode(CK_ISN, DOBJ); }
 
     /**
      * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      */
     public void setSkillCode_IsNullOrEmpty() { regSkillCode(CK_ISNOE, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      */
     public void setSkillCode_IsNotNull() { regSkillCode(CK_ISNN, DOBJ); }
 
     protected void regSkillCode(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueSkillCode(), "SKILL_CODE"); }
     protected abstract ConditionValue xgetCValueSkillCode();
+
+    /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
+     * @param requestSkillCode The value of requestSkillCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    protected void setRequestSkillCode_Equal(String requestSkillCode) {
+        doSetRequestSkillCode_Equal(fRES(requestSkillCode));
+    }
+
+    /**
+     * Equal(=). As Skill. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * 役職
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRequestSkillCode_Equal_AsSkill(CDef.Skill cdef) {
+        doSetRequestSkillCode_Equal(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * Equal(=). As C国狂人 (CMADMAN). And OnlyOnceRegistered. <br>
+     * C国狂人
+     */
+    public void setRequestSkillCode_Equal_C国狂人() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * Equal(=). As 魔神官 (EVILMEDIUM). And OnlyOnceRegistered. <br>
+     * 魔神官
+     */
+    public void setRequestSkillCode_Equal_魔神官() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.魔神官);
+    }
+
+    /**
+     * Equal(=). As 妖狐 (FOX). And OnlyOnceRegistered. <br>
+     * 妖狐
+     */
+    public void setRequestSkillCode_Equal_妖狐() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.妖狐);
+    }
+
+    /**
+     * Equal(=). As 導師 (GURU). And OnlyOnceRegistered. <br>
+     * 導師
+     */
+    public void setRequestSkillCode_Equal_導師() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.導師);
+    }
+
+    /**
+     * Equal(=). As 狩人 (HUNTER). And OnlyOnceRegistered. <br>
+     * 狩人
+     */
+    public void setRequestSkillCode_Equal_狩人() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.狩人);
+    }
+
+    /**
+     * Equal(=). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
+     * おまかせ
+     */
+    public void setRequestSkillCode_Equal_おまかせ() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * Equal(=). As 狂人 (MADMAN). And OnlyOnceRegistered. <br>
+     * 狂人
+     */
+    public void setRequestSkillCode_Equal_狂人() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.狂人);
+    }
+
+    /**
+     * Equal(=). As 共有者 (MAISON). And OnlyOnceRegistered. <br>
+     * 共有者
+     */
+    public void setRequestSkillCode_Equal_共有者() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.共有者);
+    }
+
+    /**
+     * Equal(=). As 霊能者 (MEDIUM). And OnlyOnceRegistered. <br>
+     * 霊能者
+     */
+    public void setRequestSkillCode_Equal_霊能者() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.霊能者);
+    }
+
+    /**
+     * Equal(=). As 占い師 (SEER). And OnlyOnceRegistered. <br>
+     * 占い師
+     */
+    public void setRequestSkillCode_Equal_占い師() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.占い師);
+    }
+
+    /**
+     * Equal(=). As 聖痕者 (STIGMA). And OnlyOnceRegistered. <br>
+     * 聖痕者
+     */
+    public void setRequestSkillCode_Equal_聖痕者() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.聖痕者);
+    }
+
+    /**
+     * Equal(=). As 村人 (VILLAGER). And OnlyOnceRegistered. <br>
+     * 村人
+     */
+    public void setRequestSkillCode_Equal_村人() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.村人);
+    }
+
+    /**
+     * Equal(=). As 人狼 (WEREWOLF). And OnlyOnceRegistered. <br>
+     * 人狼
+     */
+    public void setRequestSkillCode_Equal_人狼() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.人狼);
+    }
+
+    /**
+     * Equal(=). As 賢者 (WISE). And OnlyOnceRegistered. <br>
+     * 賢者
+     */
+    public void setRequestSkillCode_Equal_賢者() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.賢者);
+    }
+
+    protected void doSetRequestSkillCode_Equal(String requestSkillCode) {
+        regRequestSkillCode(CK_EQ, requestSkillCode);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
+     * @param requestSkillCode The value of requestSkillCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    protected void setRequestSkillCode_NotEqual(String requestSkillCode) {
+        doSetRequestSkillCode_NotEqual(fRES(requestSkillCode));
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As Skill. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * 役職
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRequestSkillCode_NotEqual_AsSkill(CDef.Skill cdef) {
+        doSetRequestSkillCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As C国狂人 (CMADMAN). And OnlyOnceRegistered. <br>
+     * C国狂人
+     */
+    public void setRequestSkillCode_NotEqual_C国狂人() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 魔神官 (EVILMEDIUM). And OnlyOnceRegistered. <br>
+     * 魔神官
+     */
+    public void setRequestSkillCode_NotEqual_魔神官() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.魔神官);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 妖狐 (FOX). And OnlyOnceRegistered. <br>
+     * 妖狐
+     */
+    public void setRequestSkillCode_NotEqual_妖狐() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.妖狐);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 導師 (GURU). And OnlyOnceRegistered. <br>
+     * 導師
+     */
+    public void setRequestSkillCode_NotEqual_導師() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.導師);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 狩人 (HUNTER). And OnlyOnceRegistered. <br>
+     * 狩人
+     */
+    public void setRequestSkillCode_NotEqual_狩人() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.狩人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
+     * おまかせ
+     */
+    public void setRequestSkillCode_NotEqual_おまかせ() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 狂人 (MADMAN). And OnlyOnceRegistered. <br>
+     * 狂人
+     */
+    public void setRequestSkillCode_NotEqual_狂人() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.狂人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 共有者 (MAISON). And OnlyOnceRegistered. <br>
+     * 共有者
+     */
+    public void setRequestSkillCode_NotEqual_共有者() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.共有者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 霊能者 (MEDIUM). And OnlyOnceRegistered. <br>
+     * 霊能者
+     */
+    public void setRequestSkillCode_NotEqual_霊能者() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.霊能者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 占い師 (SEER). And OnlyOnceRegistered. <br>
+     * 占い師
+     */
+    public void setRequestSkillCode_NotEqual_占い師() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.占い師);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 聖痕者 (STIGMA). And OnlyOnceRegistered. <br>
+     * 聖痕者
+     */
+    public void setRequestSkillCode_NotEqual_聖痕者() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.聖痕者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 村人 (VILLAGER). And OnlyOnceRegistered. <br>
+     * 村人
+     */
+    public void setRequestSkillCode_NotEqual_村人() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.村人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 人狼 (WEREWOLF). And OnlyOnceRegistered. <br>
+     * 人狼
+     */
+    public void setRequestSkillCode_NotEqual_人狼() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.人狼);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 賢者 (WISE). And OnlyOnceRegistered. <br>
+     * 賢者
+     */
+    public void setRequestSkillCode_NotEqual_賢者() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.賢者);
+    }
+
+    protected void doSetRequestSkillCode_NotEqual(String requestSkillCode) {
+        regRequestSkillCode(CK_NES, requestSkillCode);
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
+     * @param requestSkillCodeList The collection of requestSkillCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    protected void setRequestSkillCode_InScope(Collection<String> requestSkillCodeList) {
+        doSetRequestSkillCode_InScope(requestSkillCodeList);
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * 役職
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setRequestSkillCode_InScope_AsSkill(Collection<CDef.Skill> cdefList) {
+        doSetRequestSkillCode_InScope(cTStrL(cdefList));
+    }
+
+    protected void doSetRequestSkillCode_InScope(Collection<String> requestSkillCodeList) {
+        regINS(CK_INS, cTL(requestSkillCodeList), xgetCValueRequestSkillCode(), "REQUEST_SKILL_CODE");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
+     * @param requestSkillCodeList The collection of requestSkillCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    protected void setRequestSkillCode_NotInScope(Collection<String> requestSkillCodeList) {
+        doSetRequestSkillCode_NotInScope(requestSkillCodeList);
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * 役職
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setRequestSkillCode_NotInScope_AsSkill(Collection<CDef.Skill> cdefList) {
+        doSetRequestSkillCode_NotInScope(cTStrL(cdefList));
+    }
+
+    protected void doSetRequestSkillCode_NotInScope(Collection<String> requestSkillCodeList) {
+        regINS(CK_NINS, cTL(requestSkillCodeList), xgetCValueRequestSkillCode(), "REQUEST_SKILL_CODE");
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
+     */
+    public void setRequestSkillCode_IsNull() { regRequestSkillCode(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
+     */
+    public void setRequestSkillCode_IsNullOrEmpty() { regRequestSkillCode(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
+     */
+    public void setRequestSkillCode_IsNotNull() { regRequestSkillCode(CK_ISNN, DOBJ); }
+
+    protected void regRequestSkillCode(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueRequestSkillCode(), "REQUEST_SKILL_CODE"); }
+    protected abstract ConditionValue xgetCValueRequestSkillCode();
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
@@ -1090,11 +1443,53 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON}
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason}
      * @param deadReasonCode The value of deadReasonCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setDeadReasonCode_Equal(String deadReasonCode) {
+    protected void setDeadReasonCode_Equal(String deadReasonCode) {
         doSetDeadReasonCode_Equal(fRES(deadReasonCode));
+    }
+
+    /**
+     * Equal(=). As DeadReason. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
+     * 死亡理由
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setDeadReasonCode_Equal_AsDeadReason(CDef.DeadReason cdef) {
+        doSetDeadReasonCode_Equal(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * Equal(=). As 襲撃 (ATTACK). And OnlyOnceRegistered. <br>
+     * 襲撃
+     */
+    public void setDeadReasonCode_Equal_襲撃() {
+        setDeadReasonCode_Equal_AsDeadReason(CDef.DeadReason.襲撃);
+    }
+
+    /**
+     * Equal(=). As 呪殺 (DIVINED). And OnlyOnceRegistered. <br>
+     * 呪殺
+     */
+    public void setDeadReasonCode_Equal_呪殺() {
+        setDeadReasonCode_Equal_AsDeadReason(CDef.DeadReason.呪殺);
+    }
+
+    /**
+     * Equal(=). As 処刑 (EXECUTE). And OnlyOnceRegistered. <br>
+     * 処刑
+     */
+    public void setDeadReasonCode_Equal_処刑() {
+        setDeadReasonCode_Equal_AsDeadReason(CDef.DeadReason.処刑);
+    }
+
+    /**
+     * Equal(=). As 突然 (SUDDON). And OnlyOnceRegistered. <br>
+     * 突然
+     */
+    public void setDeadReasonCode_Equal_突然() {
+        setDeadReasonCode_Equal_AsDeadReason(CDef.DeadReason.突然);
     }
 
     protected void doSetDeadReasonCode_Equal(String deadReasonCode) {
@@ -1103,11 +1498,53 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON}
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason}
      * @param deadReasonCode The value of deadReasonCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setDeadReasonCode_NotEqual(String deadReasonCode) {
+    protected void setDeadReasonCode_NotEqual(String deadReasonCode) {
         doSetDeadReasonCode_NotEqual(fRES(deadReasonCode));
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As DeadReason. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
+     * 死亡理由
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setDeadReasonCode_NotEqual_AsDeadReason(CDef.DeadReason cdef) {
+        doSetDeadReasonCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 襲撃 (ATTACK). And OnlyOnceRegistered. <br>
+     * 襲撃
+     */
+    public void setDeadReasonCode_NotEqual_襲撃() {
+        setDeadReasonCode_NotEqual_AsDeadReason(CDef.DeadReason.襲撃);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 呪殺 (DIVINED). And OnlyOnceRegistered. <br>
+     * 呪殺
+     */
+    public void setDeadReasonCode_NotEqual_呪殺() {
+        setDeadReasonCode_NotEqual_AsDeadReason(CDef.DeadReason.呪殺);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 処刑 (EXECUTE). And OnlyOnceRegistered. <br>
+     * 処刑
+     */
+    public void setDeadReasonCode_NotEqual_処刑() {
+        setDeadReasonCode_NotEqual_AsDeadReason(CDef.DeadReason.処刑);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 突然 (SUDDON). And OnlyOnceRegistered. <br>
+     * 突然
+     */
+    public void setDeadReasonCode_NotEqual_突然() {
+        setDeadReasonCode_NotEqual_AsDeadReason(CDef.DeadReason.突然);
     }
 
     protected void doSetDeadReasonCode_NotEqual(String deadReasonCode) {
@@ -1115,48 +1552,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
-     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON}
-     * @param deadReasonCode The value of deadReasonCode as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setDeadReasonCode_GreaterThan(String deadReasonCode) {
-        regDeadReasonCode(CK_GT, fRES(deadReasonCode));
-    }
-
-    /**
-     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON}
-     * @param deadReasonCode The value of deadReasonCode as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setDeadReasonCode_LessThan(String deadReasonCode) {
-        regDeadReasonCode(CK_LT, fRES(deadReasonCode));
-    }
-
-    /**
-     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON}
-     * @param deadReasonCode The value of deadReasonCode as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setDeadReasonCode_GreaterEqual(String deadReasonCode) {
-        regDeadReasonCode(CK_GE, fRES(deadReasonCode));
-    }
-
-    /**
-     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON}
-     * @param deadReasonCode The value of deadReasonCode as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setDeadReasonCode_LessEqual(String deadReasonCode) {
-        regDeadReasonCode(CK_LE, fRES(deadReasonCode));
-    }
-
-    /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON}
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason}
      * @param deadReasonCodeList The collection of deadReasonCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setDeadReasonCode_InScope(Collection<String> deadReasonCodeList) {
+    protected void setDeadReasonCode_InScope(Collection<String> deadReasonCodeList) {
         doSetDeadReasonCode_InScope(deadReasonCodeList);
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As DeadReason. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
+     * 死亡理由
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDeadReasonCode_InScope_AsDeadReason(Collection<CDef.DeadReason> cdefList) {
+        doSetDeadReasonCode_InScope(cTStrL(cdefList));
     }
 
     protected void doSetDeadReasonCode_InScope(Collection<String> deadReasonCodeList) {
@@ -1165,11 +1576,21 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON}
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason}
      * @param deadReasonCodeList The collection of deadReasonCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setDeadReasonCode_NotInScope(Collection<String> deadReasonCodeList) {
+    protected void setDeadReasonCode_NotInScope(Collection<String> deadReasonCodeList) {
         doSetDeadReasonCode_NotInScope(deadReasonCodeList);
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. As DeadReason. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
+     * 死亡理由
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDeadReasonCode_NotInScope_AsDeadReason(Collection<CDef.DeadReason> cdefList) {
+        doSetDeadReasonCode_NotInScope(cTStrL(cdefList));
     }
 
     protected void doSetDeadReasonCode_NotInScope(Collection<String> deadReasonCodeList) {
@@ -1177,64 +1598,20 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
-     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON} <br>
-     * <pre>e.g. setDeadReasonCode_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
-     * @param deadReasonCode The value of deadReasonCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param opLambda The callback for option of like-search. (NotNull)
-     */
-    public void setDeadReasonCode_LikeSearch(String deadReasonCode, ConditionOptionCall<LikeSearchOption> opLambda) {
-        setDeadReasonCode_LikeSearch(deadReasonCode, xcLSOP(opLambda));
-    }
-
-    /**
-     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON} <br>
-     * <pre>e.g. setDeadReasonCode_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
-     * @param deadReasonCode The value of deadReasonCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param likeSearchOption The option of like-search. (NotNull)
-     */
-    protected void setDeadReasonCode_LikeSearch(String deadReasonCode, LikeSearchOption likeSearchOption) {
-        regLSQ(CK_LS, fRES(deadReasonCode), xgetCValueDeadReasonCode(), "DEAD_REASON_CODE", likeSearchOption);
-    }
-
-    /**
-     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
-     * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON}
-     * @param deadReasonCode The value of deadReasonCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param opLambda The callback for option of like-search. (NotNull)
-     */
-    public void setDeadReasonCode_NotLikeSearch(String deadReasonCode, ConditionOptionCall<LikeSearchOption> opLambda) {
-        setDeadReasonCode_NotLikeSearch(deadReasonCode, xcLSOP(opLambda));
-    }
-
-    /**
-     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
-     * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON}
-     * @param deadReasonCode The value of deadReasonCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param likeSearchOption The option of not-like-search. (NotNull)
-     */
-    protected void setDeadReasonCode_NotLikeSearch(String deadReasonCode, LikeSearchOption likeSearchOption) {
-        regLSQ(CK_NLS, fRES(deadReasonCode), xgetCValueDeadReasonCode(), "DEAD_REASON_CODE", likeSearchOption);
-    }
-
-    /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON}
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason}
      */
     public void setDeadReasonCode_IsNull() { regDeadReasonCode(CK_ISN, DOBJ); }
 
     /**
      * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON}
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason}
      */
     public void setDeadReasonCode_IsNullOrEmpty() { regDeadReasonCode(CK_ISNOE, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON}
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason}
      */
     public void setDeadReasonCode_IsNotNull() { regDeadReasonCode(CK_ISNN, DOBJ); }
 

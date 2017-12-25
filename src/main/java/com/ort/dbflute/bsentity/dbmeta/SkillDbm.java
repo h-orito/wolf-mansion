@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of SKILL. (Singleton)
+ * The DB meta of skill. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class SkillDbm extends AbstractDBMeta {
@@ -79,7 +79,7 @@ public class SkillDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "SKILL";
+    protected final String _tableDbName = "skill";
     protected final String _tableDispName = "SKILL";
     protected final String _tablePropertyName = "skill";
     protected final TableSqlName _tableSqlName = new TableSqlName("SKILL", _tableDbName);
@@ -92,7 +92,7 @@ public class SkillDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnSkillCode = cci("SKILL_CODE", "SKILL_CODE", null, null, String.class, "skillCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "villagePlayerList", CDef.DefMeta.Skill, false);
+    protected final ColumnInfo _columnSkillCode = cci("SKILL_CODE", "SKILL_CODE", null, null, String.class, "skillCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "villagePlayerByRequestSkillCodeList,villagePlayerBySkillCodeList", CDef.DefMeta.Skill, false);
     protected final ColumnInfo _columnSkillName = cci("SKILL_NAME", "SKILL_NAME", null, null, String.class, "skillName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnCampCode = cci("CAMP_CODE", "CAMP_CODE", null, null, String.class, "campCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "camp", null, CDef.DefMeta.Camp, false);
 
@@ -107,7 +107,7 @@ public class SkillDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnSkillName() { return _columnSkillName; }
     /**
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCampCode() { return _columnCampCode; }
@@ -153,12 +153,20 @@ public class SkillDbm extends AbstractDBMeta {
     //                                     Referrer Property
     //                                     -----------------
     /**
-     * VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerList'.
+     * VILLAGE_PLAYER by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeList'.
      * @return The information object of referrer property. (NotNull)
      */
-    public ReferrerInfo referrerVillagePlayerList() {
+    public ReferrerInfo referrerVillagePlayerByRequestSkillCodeList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnSkillCode(), VillagePlayerDbm.getInstance().columnRequestSkillCode());
+        return cri("FK_VILLAGE_PLAYER_SKILL_REQUEST", "villagePlayerByRequestSkillCodeList", this, VillagePlayerDbm.getInstance(), mp, false, "skillByRequestSkillCode");
+    }
+    /**
+     * VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerBySkillCodeList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerVillagePlayerBySkillCodeList() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnSkillCode(), VillagePlayerDbm.getInstance().columnSkillCode());
-        return cri("FK_VILLAGE_PLAYER_SKILL", "villagePlayerList", this, VillagePlayerDbm.getInstance(), mp, false, "skill");
+        return cri("FK_VILLAGE_PLAYER_SKILL", "villagePlayerBySkillCodeList", this, VillagePlayerDbm.getInstance(), mp, false, "skillBySkillCode");
     }
 
     // ===================================================================================

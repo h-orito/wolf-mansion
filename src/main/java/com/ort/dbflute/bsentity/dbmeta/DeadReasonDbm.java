@@ -13,7 +13,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of DEAD_REASON. (Singleton)
+ * The DB meta of dead_reason. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class DeadReasonDbm extends AbstractDBMeta {
@@ -42,7 +42,14 @@ public class DeadReasonDbm extends AbstractDBMeta {
     protected final Map<String, PropertyGateway> _epgMap = newHashMap();
     { xsetupEpg(); }
     protected void xsetupEpg() {
-        setupEpg(_epgMap, et -> ((DeadReason)et).getDeadReasonCode(), (et, vl) -> ((DeadReason)et).setDeadReasonCode((String)vl), "deadReasonCode");
+        setupEpg(_epgMap, et -> ((DeadReason)et).getDeadReasonCode(), (et, vl) -> {
+            CDef.DeadReason cls = (CDef.DeadReason)gcls(et, columnDeadReasonCode(), vl);
+            if (cls != null) {
+                ((DeadReason)et).setDeadReasonCodeAsDeadReason(cls);
+            } else {
+                ((DeadReason)et).mynativeMappingDeadReasonCode((String)vl);
+            }
+        }, "deadReasonCode");
         setupEpg(_epgMap, et -> ((DeadReason)et).getDeadReasonName(), (et, vl) -> ((DeadReason)et).setDeadReasonName((String)vl), "deadReasonName");
     }
     public PropertyGateway findPropertyGateway(String prop)
@@ -51,7 +58,7 @@ public class DeadReasonDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "DEAD_REASON";
+    protected final String _tableDbName = "dead_reason";
     protected final String _tableDispName = "DEAD_REASON";
     protected final String _tablePropertyName = "deadReason";
     protected final TableSqlName _tableSqlName = new TableSqlName("DEAD_REASON", _tableDbName);
@@ -64,11 +71,11 @@ public class DeadReasonDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnDeadReasonCode = cci("DEAD_REASON_CODE", "DEAD_REASON_CODE", null, null, String.class, "deadReasonCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "villagePlayerList", null, false);
+    protected final ColumnInfo _columnDeadReasonCode = cci("DEAD_REASON_CODE", "DEAD_REASON_CODE", null, null, String.class, "deadReasonCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "villagePlayerList", CDef.DefMeta.DeadReason, false);
     protected final ColumnInfo _columnDeadReasonName = cci("DEAD_REASON_NAME", "DEAD_REASON_NAME", null, null, String.class, "deadReasonName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
 
     /**
-     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)}
+     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20), classification=DeadReason}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnDeadReasonCode() { return _columnDeadReasonCode; }

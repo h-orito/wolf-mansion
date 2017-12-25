@@ -12,6 +12,7 @@ import org.dbflute.cbean.scoping.*;
 import org.dbflute.dbmeta.DBMetaProvider;
 import org.dbflute.twowaysql.factory.SqlAnalyzerFactory;
 import org.dbflute.twowaysql.style.BoundDateDisplayTimeZoneProvider;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.DBFluteConfig;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.allcommon.ImplementedInvokerAssistant;
@@ -20,7 +21,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-bean of DEAD_REASON.
+ * The base condition-bean of dead_reason.
  * @author DBFlute(AutoGenerator)
  */
 public class BsDeadReasonCB extends AbstractConditionBean {
@@ -72,7 +73,7 @@ public class BsDeadReasonCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "DEAD_REASON";
+        return "dead_reason";
     }
 
     // ===================================================================================
@@ -80,13 +81,13 @@ public class BsDeadReasonCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param deadReasonCode : PK, NotNull, VARCHAR(20). (NotNull)
+     * @param deadReasonCode : PK, NotNull, VARCHAR(20), classification=DeadReason. (NotNull)
      * @return this. (NotNull)
      */
-    public DeadReasonCB acceptPK(String deadReasonCode) {
+    public DeadReasonCB acceptPK(CDef.DeadReason deadReasonCode) {
         assertObjectNotNull("deadReasonCode", deadReasonCode);
         BsDeadReasonCB cb = this;
-        cb.query().setDeadReasonCode_Equal(deadReasonCode);
+        cb.query().setDeadReasonCode_Equal_AsDeadReason(deadReasonCode);
         return (DeadReasonCB)this;
     }
 
@@ -283,7 +284,7 @@ public class BsDeadReasonCB extends AbstractConditionBean {
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)}
+         * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20), classification=DeadReason}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnDeadReasonCode() { return doColumn("DEAD_REASON_CODE"); }
@@ -299,10 +300,10 @@ public class BsDeadReasonCB extends AbstractConditionBean {
             columnDeadReasonCode(); // PK
         }
         @Override
-        protected String getTableDbName() { return "DEAD_REASON"; }
+        protected String getTableDbName() { return "dead_reason"; }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from VILLAGE_PLAYER where ...) as FOO_MAX} <br>
+         * {select max(FOO) from village_player where ...) as FOO_MAX} <br>
          * VILLAGE_PLAYER by DEAD_REASON_CODE, named 'villagePlayerList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {

@@ -538,6 +538,9 @@ public interface CDef extends Classification {
         /** 狩人 */
         狩人("HUNTER", "狩人", emptyStrings())
         ,
+        /** おまかせ */
+        おまかせ("LEFTOVER", "おまかせ", emptyStrings())
+        ,
         /** 狂人 */
         狂人("MADMAN", "狂人", emptyStrings())
         ,
@@ -817,6 +820,134 @@ public interface CDef extends Classification {
         @Override public String toString() { return code(); }
     }
 
+    /**
+     * 死亡理由
+     */
+    public enum DeadReason implements CDef {
+        /** 襲撃 */
+        襲撃("ATTACK", "襲撃", emptyStrings())
+        ,
+        /** 呪殺 */
+        呪殺("DIVINED", "呪殺", emptyStrings())
+        ,
+        /** 処刑 */
+        処刑("EXECUTE", "処刑", emptyStrings())
+        ,
+        /** 突然 */
+        突然("SUDDON", "突然", emptyStrings())
+        ;
+        private static final Map<String, DeadReason> _codeClsMap = new HashMap<String, DeadReason>();
+        private static final Map<String, DeadReason> _nameClsMap = new HashMap<String, DeadReason>();
+        static {
+            for (DeadReason value : values()) {
+                _codeClsMap.put(value.code().toLowerCase(), value);
+                for (String sister : value.sisterSet()) { _codeClsMap.put(sister.toLowerCase(), value); }
+                _nameClsMap.put(value.name().toLowerCase(), value);
+            }
+        }
+        private String _code; private String _alias; private Set<String> _sisterSet;
+        private DeadReason(String code, String alias, String[] sisters)
+        { _code = code; _alias = alias; _sisterSet = Collections.unmodifiableSet(new LinkedHashSet<String>(Arrays.asList(sisters))); }
+        public String code() { return _code; } public String alias() { return _alias; }
+        public Set<String> sisterSet() { return _sisterSet; }
+        public Map<String, Object> subItemMap() { return Collections.emptyMap(); }
+        public ClassificationMeta meta() { return CDef.DefMeta.DeadReason; }
+
+        public boolean inGroup(String groupName) {
+            return false;
+        }
+
+        /**
+         * Get the classification of the code. (CaseInsensitive)
+         * @param code The value of code, which is case-insensitive. (NullAllowed: if null, returns empty)
+         * @return The optional classification corresponding to the code. (NotNull, EmptyAllowed: if not found, returns empty)
+         */
+        public static OptionalThing<DeadReason> of(Object code) {
+            if (code == null) { return OptionalThing.ofNullable(null, () -> { throw new ClassificationNotFoundException("null code specified"); }); }
+            if (code instanceof DeadReason) { return OptionalThing.of((DeadReason)code); }
+            if (code instanceof OptionalThing<?>) { return of(((OptionalThing<?>)code).orElse(null)); }
+            return OptionalThing.ofNullable(_codeClsMap.get(code.toString().toLowerCase()), () ->{
+                throw new ClassificationNotFoundException("Unknown classification code: " + code);
+            });
+        }
+
+        /**
+         * Find the classification by the name. (CaseInsensitive)
+         * @param name The string of name, which is case-insensitive. (NotNull)
+         * @return The optional classification corresponding to the name. (NotNull, EmptyAllowed: if not found, returns empty)
+         */
+        public static OptionalThing<DeadReason> byName(String name) {
+            if (name == null) { throw new IllegalArgumentException("The argument 'name' should not be null."); }
+            return OptionalThing.ofNullable(_nameClsMap.get(name.toLowerCase()), () ->{
+                throw new ClassificationNotFoundException("Unknown classification name: " + name);
+            });
+        }
+
+        /**
+         * <span style="color: #AD4747; font-size: 120%">Old style so use of(code).</span> <br>
+         * Get the classification by the code. (CaseInsensitive)
+         * @param code The value of code, which is case-insensitive. (NullAllowed: if null, returns null)
+         * @return The instance of the corresponding classification to the code. (NullAllowed: if not found, returns null)
+         */
+        public static DeadReason codeOf(Object code) {
+            if (code == null) { return null; }
+            if (code instanceof DeadReason) { return (DeadReason)code; }
+            return _codeClsMap.get(code.toString().toLowerCase());
+        }
+
+        /**
+         * <span style="color: #AD4747; font-size: 120%">Old style so use byName(name).</span> <br>
+         * Get the classification by the name (also called 'value' in ENUM world).
+         * @param name The string of name, which is case-sensitive. (NullAllowed: if null, returns null)
+         * @return The instance of the corresponding classification to the name. (NullAllowed: if not found, returns null)
+         */
+        public static DeadReason nameOf(String name) {
+            if (name == null) { return null; }
+            try { return valueOf(name); } catch (RuntimeException ignored) { return null; }
+        }
+
+        /**
+         * Get the list of all classification elements. (returns new copied list)
+         * @return The snapshot list of all classification elements. (NotNull)
+         */
+        public static List<DeadReason> listAll() {
+            return new ArrayList<DeadReason>(Arrays.asList(values()));
+        }
+
+        /**
+         * Get the list of classification elements in the specified group. (returns new copied list) <br>
+         * @param groupName The string of group name, which is case-insensitive. (NotNull)
+         * @return The snapshot list of classification elements in the group. (NotNull, EmptyAllowed: if not found, throws exception)
+         */
+        public static List<DeadReason> listByGroup(String groupName) {
+            if (groupName == null) { throw new IllegalArgumentException("The argument 'groupName' should not be null."); }
+            throw new ClassificationNotFoundException("Unknown classification group: DeadReason." + groupName);
+        }
+
+        /**
+         * Get the list of classification elements corresponding to the specified codes. (returns new copied list) <br>
+         * @param codeList The list of plain code, which is case-insensitive. (NotNull)
+         * @return The snapshot list of classification elements in the code list. (NotNull, EmptyAllowed: when empty specified)
+         */
+        public static List<DeadReason> listOf(Collection<String> codeList) {
+            if (codeList == null) { throw new IllegalArgumentException("The argument 'codeList' should not be null."); }
+            List<DeadReason> clsList = new ArrayList<DeadReason>(codeList.size());
+            for (String code : codeList) { clsList.add(of(code).get()); }
+            return clsList;
+        }
+
+        /**
+         * Get the list of classification elements in the specified group. (returns new copied list) <br>
+         * @param groupName The string of group name, which is case-sensitive. (NullAllowed: if null, returns empty list)
+         * @return The snapshot list of classification elements in the group. (NotNull, EmptyAllowed: if the group is not found)
+         */
+        public static List<DeadReason> groupOf(String groupName) {
+            return new ArrayList<DeadReason>(4);
+        }
+
+        @Override public String toString() { return code(); }
+    }
+
     public enum DefMeta implements ClassificationMeta {
         /** フラグを示す */
         Flg
@@ -835,6 +966,9 @@ public interface CDef extends Classification {
         ,
         /** メッセージ種別 */
         MessageType
+        ,
+        /** 死亡理由 */
+        DeadReason
         ;
         public String classificationName() {
             return name(); // same as definition name
@@ -847,6 +981,7 @@ public interface CDef extends Classification {
             if (VillageStatus.name().equals(name())) { return CDef.VillageStatus.of(code); }
             if (Skill.name().equals(name())) { return CDef.Skill.of(code); }
             if (MessageType.name().equals(name())) { return CDef.MessageType.of(code); }
+            if (DeadReason.name().equals(name())) { return CDef.DeadReason.of(code); }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
@@ -857,6 +992,7 @@ public interface CDef extends Classification {
             if (VillageStatus.name().equals(name())) { return CDef.VillageStatus.byName(name); }
             if (Skill.name().equals(name())) { return CDef.Skill.byName(name); }
             if (MessageType.name().equals(name())) { return CDef.MessageType.byName(name); }
+            if (DeadReason.name().equals(name())) { return CDef.DeadReason.byName(name); }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
@@ -867,6 +1003,7 @@ public interface CDef extends Classification {
             if (VillageStatus.name().equals(name())) { return CDef.VillageStatus.codeOf(code); }
             if (Skill.name().equals(name())) { return CDef.Skill.codeOf(code); }
             if (MessageType.name().equals(name())) { return CDef.MessageType.codeOf(code); }
+            if (DeadReason.name().equals(name())) { return CDef.DeadReason.codeOf(code); }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
@@ -877,6 +1014,7 @@ public interface CDef extends Classification {
             if (VillageStatus.name().equals(name())) { return CDef.VillageStatus.valueOf(name); }
             if (Skill.name().equals(name())) { return CDef.Skill.valueOf(name); }
             if (MessageType.name().equals(name())) { return CDef.MessageType.valueOf(name); }
+            if (DeadReason.name().equals(name())) { return CDef.DeadReason.valueOf(name); }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
@@ -887,6 +1025,7 @@ public interface CDef extends Classification {
             if (VillageStatus.name().equals(name())) { return toClsList(CDef.VillageStatus.listAll()); }
             if (Skill.name().equals(name())) { return toClsList(CDef.Skill.listAll()); }
             if (MessageType.name().equals(name())) { return toClsList(CDef.MessageType.listAll()); }
+            if (DeadReason.name().equals(name())) { return toClsList(CDef.DeadReason.listAll()); }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
@@ -897,6 +1036,7 @@ public interface CDef extends Classification {
             if (VillageStatus.name().equals(name())) { return toClsList(CDef.VillageStatus.listByGroup(groupName)); }
             if (Skill.name().equals(name())) { return toClsList(CDef.Skill.listByGroup(groupName)); }
             if (MessageType.name().equals(name())) { return toClsList(CDef.MessageType.listByGroup(groupName)); }
+            if (DeadReason.name().equals(name())) { return toClsList(CDef.DeadReason.listByGroup(groupName)); }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
@@ -907,6 +1047,7 @@ public interface CDef extends Classification {
             if (VillageStatus.name().equals(name())) { return toClsList(CDef.VillageStatus.listOf(codeList)); }
             if (Skill.name().equals(name())) { return toClsList(CDef.Skill.listOf(codeList)); }
             if (MessageType.name().equals(name())) { return toClsList(CDef.MessageType.listOf(codeList)); }
+            if (DeadReason.name().equals(name())) { return toClsList(CDef.DeadReason.listOf(codeList)); }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
@@ -917,6 +1058,7 @@ public interface CDef extends Classification {
             if (VillageStatus.name().equals(name())) { return toClsList(CDef.VillageStatus.groupOf(groupName)); }
             if (Skill.name().equals(name())) { return toClsList(CDef.Skill.groupOf(groupName)); }
             if (MessageType.name().equals(name())) { return toClsList(CDef.MessageType.groupOf(groupName)); }
+            if (DeadReason.name().equals(name())) { return toClsList(CDef.DeadReason.groupOf(groupName)); }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
@@ -932,6 +1074,7 @@ public interface CDef extends Classification {
             if (VillageStatus.name().equals(name())) { return ClassificationCodeType.String; }
             if (Skill.name().equals(name())) { return ClassificationCodeType.String; }
             if (MessageType.name().equals(name())) { return ClassificationCodeType.String; }
+            if (DeadReason.name().equals(name())) { return ClassificationCodeType.String; }
             return ClassificationCodeType.String; // as default
         }
 
@@ -942,6 +1085,7 @@ public interface CDef extends Classification {
             if (VillageStatus.name().equals(name())) { return ClassificationUndefinedHandlingType.LOGGING; }
             if (Skill.name().equals(name())) { return ClassificationUndefinedHandlingType.LOGGING; }
             if (MessageType.name().equals(name())) { return ClassificationUndefinedHandlingType.LOGGING; }
+            if (DeadReason.name().equals(name())) { return ClassificationUndefinedHandlingType.LOGGING; }
             return ClassificationUndefinedHandlingType.LOGGING; // as default
         }
 
@@ -953,6 +1097,7 @@ public interface CDef extends Classification {
             if (VillageStatus.name().equalsIgnoreCase(classificationName)) { return OptionalThing.of(CDef.DefMeta.VillageStatus); }
             if (Skill.name().equalsIgnoreCase(classificationName)) { return OptionalThing.of(CDef.DefMeta.Skill); }
             if (MessageType.name().equalsIgnoreCase(classificationName)) { return OptionalThing.of(CDef.DefMeta.MessageType); }
+            if (DeadReason.name().equalsIgnoreCase(classificationName)) { return OptionalThing.of(CDef.DefMeta.DeadReason); }
             return OptionalThing.ofNullable(null, () -> {
                 throw new ClassificationNotFoundException("Unknown classification: " + classificationName);
             });
@@ -966,6 +1111,7 @@ public interface CDef extends Classification {
             if (VillageStatus.name().equalsIgnoreCase(classificationName)) { return CDef.DefMeta.VillageStatus; }
             if (Skill.name().equalsIgnoreCase(classificationName)) { return CDef.DefMeta.Skill; }
             if (MessageType.name().equalsIgnoreCase(classificationName)) { return CDef.DefMeta.MessageType; }
+            if (DeadReason.name().equalsIgnoreCase(classificationName)) { return CDef.DefMeta.DeadReason; }
             throw new IllegalStateException("Unknown classification: " + classificationName);
         }
 

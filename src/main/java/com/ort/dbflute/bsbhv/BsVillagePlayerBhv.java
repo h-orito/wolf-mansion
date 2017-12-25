@@ -28,7 +28,7 @@ import com.ort.dbflute.cbean.*;
  *     VILLAGE_PLAYER_ID
  *
  * [column]
- *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, ROOM_NUMBER, IS_DEAD, DEAD_REASON_CODE, DEAD_DAY, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, DEAD_REASON_CODE, DEAD_DAY, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -46,7 +46,7 @@ import com.ort.dbflute.cbean.*;
  *     MESSAGE
  *
  * [foreign property]
- *     chara, deadReason, player, skill, village
+ *     chara, deadReason, player, skillByRequestSkillCode, skillBySkillCode, village
  *
  * [referrer property]
  *     messageList
@@ -67,7 +67,7 @@ public abstract class BsVillagePlayerBhv extends AbstractBehaviorWritable<Villag
     /** {@inheritDoc} */
     public VillagePlayerDbm asDBMeta() { return VillagePlayerDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "VILLAGE_PLAYER"; }
+    public String asTableDbName() { return "village_player"; }
 
     // ===================================================================================
     //                                                                        New Instance
@@ -188,8 +188,8 @@ public abstract class BsVillagePlayerBhv extends AbstractBehaviorWritable<Villag
 
     /**
      * Select the entity by the unique-key value.
-     * @param villageId : UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
-     * @param charaId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to CHARA. (NotNull)
+     * @param villageId : UQ+, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
+     * @param charaId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to chara. (NotNull)
      * @return The optional entity selected by the unique key. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
@@ -214,8 +214,8 @@ public abstract class BsVillagePlayerBhv extends AbstractBehaviorWritable<Villag
 
     /**
      * Select the entity by the unique-key value.
-     * @param villageId : UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
-     * @param playerId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER. (NotNull)
+     * @param villageId : UQ+, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
+     * @param playerId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to player. (NotNull)
      * @return The optional entity selected by the unique key. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
@@ -509,8 +509,16 @@ public abstract class BsVillagePlayerBhv extends AbstractBehaviorWritable<Villag
      * @param villagePlayerList The list of villagePlayer. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    public List<Skill> pulloutSkill(List<VillagePlayer> villagePlayerList)
-    { return helpPulloutInternally(villagePlayerList, "skill"); }
+    public List<Skill> pulloutSkillByRequestSkillCode(List<VillagePlayer> villagePlayerList)
+    { return helpPulloutInternally(villagePlayerList, "skillByRequestSkillCode"); }
+
+    /**
+     * Pull out the list of foreign table 'Skill'.
+     * @param villagePlayerList The list of villagePlayer. (NotNull, EmptyAllowed)
+     * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
+     */
+    public List<Skill> pulloutSkillBySkillCode(List<VillagePlayer> villagePlayerList)
+    { return helpPulloutInternally(villagePlayerList, "skillBySkillCode"); }
 
     /**
      * Pull out the list of foreign table 'Village'.

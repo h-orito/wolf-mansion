@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of SKILL.
+ * The abstract condition-query of skill.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "SKILL";
+        return "skill";
     }
 
     // ===================================================================================
@@ -100,6 +100,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_Equal_狩人() {
         setSkillCode_Equal_AsSkill(CDef.Skill.狩人);
+    }
+
+    /**
+     * Equal(=). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
+     * おまかせ
+     */
+    public void setSkillCode_Equal_おまかせ() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ);
     }
 
     /**
@@ -230,6 +238,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
+     * おまかせ
+     */
+    public void setSkillCode_NotEqual_おまかせ() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 狂人 (MADMAN). And OnlyOnceRegistered. <br>
      * 狂人
      */
@@ -345,76 +361,149 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select SKILL_CODE from VILLAGE_PLAYER where ...)} <br>
-     * VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerAsOne'.
+     * {exists (select REQUEST_SKILL_CODE from village_player where ...)} <br>
+     * village_player by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeAsOne'.
      * <pre>
-     * cb.query().<span style="color: #CC4747">existsVillagePlayer</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * cb.query().<span style="color: #CC4747">existsVillagePlayerByRequestSkillCode</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
      * });
      * </pre>
-     * @param subCBLambda The callback for sub-query of VillagePlayerList for 'exists'. (NotNull)
+     * @param subCBLambda The callback for sub-query of VillagePlayerByRequestSkillCodeList for 'exists'. (NotNull)
      */
-    public void existsVillagePlayer(SubQuery<VillagePlayerCB> subCBLambda) {
+    public void existsVillagePlayerByRequestSkillCode(SubQuery<VillagePlayerCB> subCBLambda) {
         assertObjectNotNull("subCBLambda", subCBLambda);
         VillagePlayerCB cb = new VillagePlayerCB(); cb.xsetupForExistsReferrer(this);
-        lockCall(() -> subCBLambda.query(cb)); String pp = keepSkillCode_ExistsReferrer_VillagePlayerList(cb.query());
-        registerExistsReferrer(cb.query(), "SKILL_CODE", "SKILL_CODE", pp, "villagePlayerList");
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepSkillCode_ExistsReferrer_VillagePlayerByRequestSkillCodeList(cb.query());
+        registerExistsReferrer(cb.query(), "SKILL_CODE", "REQUEST_SKILL_CODE", pp, "villagePlayerByRequestSkillCodeList");
     }
-    public abstract String keepSkillCode_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq);
+    public abstract String keepSkillCode_ExistsReferrer_VillagePlayerByRequestSkillCodeList(VillagePlayerCQ sq);
+
+    /**
+     * Set up ExistsReferrer (correlated sub-query). <br>
+     * {exists (select SKILL_CODE from village_player where ...)} <br>
+     * village_player by SKILL_CODE, named 'villagePlayerBySkillCodeAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">existsVillagePlayerBySkillCode</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     playerCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of VillagePlayerBySkillCodeList for 'exists'. (NotNull)
+     */
+    public void existsVillagePlayerBySkillCode(SubQuery<VillagePlayerCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        VillagePlayerCB cb = new VillagePlayerCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepSkillCode_ExistsReferrer_VillagePlayerBySkillCodeList(cb.query());
+        registerExistsReferrer(cb.query(), "SKILL_CODE", "SKILL_CODE", pp, "villagePlayerBySkillCodeList");
+    }
+    public abstract String keepSkillCode_ExistsReferrer_VillagePlayerBySkillCodeList(VillagePlayerCQ sq);
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select SKILL_CODE from VILLAGE_PLAYER where ...)} <br>
-     * VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerAsOne'.
+     * {not exists (select REQUEST_SKILL_CODE from village_player where ...)} <br>
+     * village_player by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeAsOne'.
      * <pre>
-     * cb.query().<span style="color: #CC4747">notExistsVillagePlayer</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * cb.query().<span style="color: #CC4747">notExistsVillagePlayerByRequestSkillCode</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
      * });
      * </pre>
-     * @param subCBLambda The callback for sub-query of SkillCode_NotExistsReferrer_VillagePlayerList for 'not exists'. (NotNull)
+     * @param subCBLambda The callback for sub-query of SkillCode_NotExistsReferrer_VillagePlayerByRequestSkillCodeList for 'not exists'. (NotNull)
      */
-    public void notExistsVillagePlayer(SubQuery<VillagePlayerCB> subCBLambda) {
+    public void notExistsVillagePlayerByRequestSkillCode(SubQuery<VillagePlayerCB> subCBLambda) {
         assertObjectNotNull("subCBLambda", subCBLambda);
         VillagePlayerCB cb = new VillagePlayerCB(); cb.xsetupForExistsReferrer(this);
-        lockCall(() -> subCBLambda.query(cb)); String pp = keepSkillCode_NotExistsReferrer_VillagePlayerList(cb.query());
-        registerNotExistsReferrer(cb.query(), "SKILL_CODE", "SKILL_CODE", pp, "villagePlayerList");
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepSkillCode_NotExistsReferrer_VillagePlayerByRequestSkillCodeList(cb.query());
+        registerNotExistsReferrer(cb.query(), "SKILL_CODE", "REQUEST_SKILL_CODE", pp, "villagePlayerByRequestSkillCodeList");
     }
-    public abstract String keepSkillCode_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq);
+    public abstract String keepSkillCode_NotExistsReferrer_VillagePlayerByRequestSkillCodeList(VillagePlayerCQ sq);
 
-    public void xsderiveVillagePlayerList(String fn, SubQuery<VillagePlayerCB> sq, String al, DerivedReferrerOption op) {
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br>
+     * {not exists (select SKILL_CODE from village_player where ...)} <br>
+     * village_player by SKILL_CODE, named 'villagePlayerBySkillCodeAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">notExistsVillagePlayerBySkillCode</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     playerCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of SkillCode_NotExistsReferrer_VillagePlayerBySkillCodeList for 'not exists'. (NotNull)
+     */
+    public void notExistsVillagePlayerBySkillCode(SubQuery<VillagePlayerCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        VillagePlayerCB cb = new VillagePlayerCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepSkillCode_NotExistsReferrer_VillagePlayerBySkillCodeList(cb.query());
+        registerNotExistsReferrer(cb.query(), "SKILL_CODE", "SKILL_CODE", pp, "villagePlayerBySkillCodeList");
+    }
+    public abstract String keepSkillCode_NotExistsReferrer_VillagePlayerBySkillCodeList(VillagePlayerCQ sq);
+
+    public void xsderiveVillagePlayerByRequestSkillCodeList(String fn, SubQuery<VillagePlayerCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
         VillagePlayerCB cb = new VillagePlayerCB(); cb.xsetupForDerivedReferrer(this);
-        lockCall(() -> sq.query(cb)); String pp = keepSkillCode_SpecifyDerivedReferrer_VillagePlayerList(cb.query());
-        registerSpecifyDerivedReferrer(fn, cb.query(), "SKILL_CODE", "SKILL_CODE", pp, "villagePlayerList", al, op);
+        lockCall(() -> sq.query(cb)); String pp = keepSkillCode_SpecifyDerivedReferrer_VillagePlayerByRequestSkillCodeList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "SKILL_CODE", "REQUEST_SKILL_CODE", pp, "villagePlayerByRequestSkillCodeList", al, op);
     }
-    public abstract String keepSkillCode_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq);
+    public abstract String keepSkillCode_SpecifyDerivedReferrer_VillagePlayerByRequestSkillCodeList(VillagePlayerCQ sq);
+
+    public void xsderiveVillagePlayerBySkillCodeList(String fn, SubQuery<VillagePlayerCB> sq, String al, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        VillagePlayerCB cb = new VillagePlayerCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepSkillCode_SpecifyDerivedReferrer_VillagePlayerBySkillCodeList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "SKILL_CODE", "SKILL_CODE", pp, "villagePlayerBySkillCodeList", al, op);
+    }
+    public abstract String keepSkillCode_SpecifyDerivedReferrer_VillagePlayerBySkillCodeList(VillagePlayerCQ sq);
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from VILLAGE_PLAYER where ...)} <br>
-     * VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerAsOne'.
+     * {FOO &lt;= (select max(BAR) from village_player where ...)} <br>
+     * village_player by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeAsOne'.
      * <pre>
-     * cb.query().<span style="color: #CC4747">derivedVillagePlayer()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * cb.query().<span style="color: #CC4747">derivedVillagePlayerByRequestSkillCode()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
      *     playerCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
      * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
      * </pre>
      * @return The object to set up a function for referrer table. (NotNull)
      */
-    public HpQDRFunction<VillagePlayerCB> derivedVillagePlayer() {
-        return xcreateQDRFunctionVillagePlayerList();
+    public HpQDRFunction<VillagePlayerCB> derivedVillagePlayerByRequestSkillCode() {
+        return xcreateQDRFunctionVillagePlayerByRequestSkillCodeList();
     }
-    protected HpQDRFunction<VillagePlayerCB> xcreateQDRFunctionVillagePlayerList() {
-        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveVillagePlayerList(fn, sq, rd, vl, op));
+    protected HpQDRFunction<VillagePlayerCB> xcreateQDRFunctionVillagePlayerByRequestSkillCodeList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveVillagePlayerByRequestSkillCodeList(fn, sq, rd, vl, op));
     }
-    public void xqderiveVillagePlayerList(String fn, SubQuery<VillagePlayerCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+    public void xqderiveVillagePlayerByRequestSkillCodeList(String fn, SubQuery<VillagePlayerCB> sq, String rd, Object vl, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
         VillagePlayerCB cb = new VillagePlayerCB(); cb.xsetupForDerivedReferrer(this);
-        lockCall(() -> sq.query(cb)); String sqpp = keepSkillCode_QueryDerivedReferrer_VillagePlayerList(cb.query()); String prpp = keepSkillCode_QueryDerivedReferrer_VillagePlayerListParameter(vl);
-        registerQueryDerivedReferrer(fn, cb.query(), "SKILL_CODE", "SKILL_CODE", sqpp, "villagePlayerList", rd, vl, prpp, op);
+        lockCall(() -> sq.query(cb)); String sqpp = keepSkillCode_QueryDerivedReferrer_VillagePlayerByRequestSkillCodeList(cb.query()); String prpp = keepSkillCode_QueryDerivedReferrer_VillagePlayerByRequestSkillCodeListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "SKILL_CODE", "REQUEST_SKILL_CODE", sqpp, "villagePlayerByRequestSkillCodeList", rd, vl, prpp, op);
     }
-    public abstract String keepSkillCode_QueryDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq);
-    public abstract String keepSkillCode_QueryDerivedReferrer_VillagePlayerListParameter(Object vl);
+    public abstract String keepSkillCode_QueryDerivedReferrer_VillagePlayerByRequestSkillCodeList(VillagePlayerCQ sq);
+    public abstract String keepSkillCode_QueryDerivedReferrer_VillagePlayerByRequestSkillCodeListParameter(Object vl);
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
+     * {FOO &lt;= (select max(BAR) from village_player where ...)} <br>
+     * village_player by SKILL_CODE, named 'villagePlayerBySkillCodeAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">derivedVillagePlayerBySkillCode()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     playerCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     playerCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    public HpQDRFunction<VillagePlayerCB> derivedVillagePlayerBySkillCode() {
+        return xcreateQDRFunctionVillagePlayerBySkillCodeList();
+    }
+    protected HpQDRFunction<VillagePlayerCB> xcreateQDRFunctionVillagePlayerBySkillCodeList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveVillagePlayerBySkillCodeList(fn, sq, rd, vl, op));
+    }
+    public void xqderiveVillagePlayerBySkillCodeList(String fn, SubQuery<VillagePlayerCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        VillagePlayerCB cb = new VillagePlayerCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepSkillCode_QueryDerivedReferrer_VillagePlayerBySkillCodeList(cb.query()); String prpp = keepSkillCode_QueryDerivedReferrer_VillagePlayerBySkillCodeListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "SKILL_CODE", "SKILL_CODE", sqpp, "villagePlayerBySkillCodeList", rd, vl, prpp, op);
+    }
+    public abstract String keepSkillCode_QueryDerivedReferrer_VillagePlayerBySkillCodeList(VillagePlayerCQ sq);
+    public abstract String keepSkillCode_QueryDerivedReferrer_VillagePlayerBySkillCodeListParameter(Object vl);
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
@@ -568,7 +657,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
      * @param campCode The value of campCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setCampCode_Equal(String campCode) {
@@ -577,7 +666,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). As Camp. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -615,7 +704,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
      * @param campCode The value of campCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setCampCode_NotEqual(String campCode) {
@@ -624,7 +713,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). As Camp. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -662,7 +751,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
      * @param campCodeList The collection of campCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setCampCode_InScope(Collection<String> campCodeList) {
@@ -671,7 +760,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. As Camp. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -685,7 +774,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
      * @param campCodeList The collection of campCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setCampCode_NotInScope(Collection<String> campCodeList) {
@@ -694,7 +783,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. As Camp. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */

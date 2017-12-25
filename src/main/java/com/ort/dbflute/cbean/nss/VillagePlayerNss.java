@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.VillagePlayerCQ;
 
 /**
- * The nest select set-upper of VILLAGE_PLAYER.
+ * The nest select set-upper of village_player.
  * @author DBFlute(AutoGenerator)
  */
 public class VillagePlayerNss {
@@ -45,12 +45,21 @@ public class VillagePlayerNss {
     }
     /**
      * With nested relation columns to select clause. <br>
-     * SKILL by my SKILL_CODE, named 'skill'.
+     * SKILL by my REQUEST_SKILL_CODE, named 'skillByRequestSkillCode'.
      * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
      */
-    public SkillNss withSkill() {
-        _query.xdoNss(() -> _query.querySkill());
-        return new SkillNss(_query.querySkill());
+    public SkillNss withSkillByRequestSkillCode() {
+        _query.xdoNss(() -> _query.querySkillByRequestSkillCode());
+        return new SkillNss(_query.querySkillByRequestSkillCode());
+    }
+    /**
+     * With nested relation columns to select clause. <br>
+     * SKILL by my SKILL_CODE, named 'skillBySkillCode'.
+     * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
+     */
+    public SkillNss withSkillBySkillCode() {
+        _query.xdoNss(() -> _query.querySkillBySkillCode());
+        return new SkillNss(_query.querySkillBySkillCode());
     }
     /**
      * With nested relation columns to select clause. <br>

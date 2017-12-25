@@ -17,6 +17,7 @@
 map:{
     ; $$ALL$$    = map:{prefix:IS_=Flg}
     ; AUTHORITY  = map:{AUTHORITY_CODE=Authority}
+    ; DEADREASON = map:{DEAD_REASON_CODE=DeadReason}
 }
 # ----------------/
 

@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of SKILL.
+ * The base condition-query of skill.
  * @author DBFlute(AutoGenerator)
  */
 public class BsSkillCQ extends AbstractBsSkillCQ {
@@ -35,7 +35,7 @@ public class BsSkillCQ extends AbstractBsSkillCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from SKILL) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from skill) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsSkillCQ extends AbstractBsSkillCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join SKILL on ... and FOO = [value] ...}
+     * {select ... from ... left outer join skill on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -79,19 +79,33 @@ public class BsSkillCQ extends AbstractBsSkillCQ {
       return _skillCode; }
     protected ConditionValue xgetCValueSkillCode() { return xdfgetSkillCode(); }
 
-    public Map<String, VillagePlayerCQ> xdfgetSkillCode_ExistsReferrer_VillagePlayerList() { return xgetSQueMap("skillCode_ExistsReferrer_VillagePlayerList"); }
-    public String keepSkillCode_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("skillCode_ExistsReferrer_VillagePlayerList", sq); }
+    public Map<String, VillagePlayerCQ> xdfgetSkillCode_ExistsReferrer_VillagePlayerByRequestSkillCodeList() { return xgetSQueMap("skillCode_ExistsReferrer_VillagePlayerByRequestSkillCodeList"); }
+    public String keepSkillCode_ExistsReferrer_VillagePlayerByRequestSkillCodeList(VillagePlayerCQ sq) { return xkeepSQue("skillCode_ExistsReferrer_VillagePlayerByRequestSkillCodeList", sq); }
 
-    public Map<String, VillagePlayerCQ> xdfgetSkillCode_NotExistsReferrer_VillagePlayerList() { return xgetSQueMap("skillCode_NotExistsReferrer_VillagePlayerList"); }
-    public String keepSkillCode_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("skillCode_NotExistsReferrer_VillagePlayerList", sq); }
+    public Map<String, VillagePlayerCQ> xdfgetSkillCode_ExistsReferrer_VillagePlayerBySkillCodeList() { return xgetSQueMap("skillCode_ExistsReferrer_VillagePlayerBySkillCodeList"); }
+    public String keepSkillCode_ExistsReferrer_VillagePlayerBySkillCodeList(VillagePlayerCQ sq) { return xkeepSQue("skillCode_ExistsReferrer_VillagePlayerBySkillCodeList", sq); }
 
-    public Map<String, VillagePlayerCQ> xdfgetSkillCode_SpecifyDerivedReferrer_VillagePlayerList() { return xgetSQueMap("skillCode_SpecifyDerivedReferrer_VillagePlayerList"); }
-    public String keepSkillCode_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("skillCode_SpecifyDerivedReferrer_VillagePlayerList", sq); }
+    public Map<String, VillagePlayerCQ> xdfgetSkillCode_NotExistsReferrer_VillagePlayerByRequestSkillCodeList() { return xgetSQueMap("skillCode_NotExistsReferrer_VillagePlayerByRequestSkillCodeList"); }
+    public String keepSkillCode_NotExistsReferrer_VillagePlayerByRequestSkillCodeList(VillagePlayerCQ sq) { return xkeepSQue("skillCode_NotExistsReferrer_VillagePlayerByRequestSkillCodeList", sq); }
 
-    public Map<String, VillagePlayerCQ> xdfgetSkillCode_QueryDerivedReferrer_VillagePlayerList() { return xgetSQueMap("skillCode_QueryDerivedReferrer_VillagePlayerList"); }
-    public String keepSkillCode_QueryDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("skillCode_QueryDerivedReferrer_VillagePlayerList", sq); }
-    public Map<String, Object> xdfgetSkillCode_QueryDerivedReferrer_VillagePlayerListParameter() { return xgetSQuePmMap("skillCode_QueryDerivedReferrer_VillagePlayerList"); }
-    public String keepSkillCode_QueryDerivedReferrer_VillagePlayerListParameter(Object pm) { return xkeepSQuePm("skillCode_QueryDerivedReferrer_VillagePlayerList", pm); }
+    public Map<String, VillagePlayerCQ> xdfgetSkillCode_NotExistsReferrer_VillagePlayerBySkillCodeList() { return xgetSQueMap("skillCode_NotExistsReferrer_VillagePlayerBySkillCodeList"); }
+    public String keepSkillCode_NotExistsReferrer_VillagePlayerBySkillCodeList(VillagePlayerCQ sq) { return xkeepSQue("skillCode_NotExistsReferrer_VillagePlayerBySkillCodeList", sq); }
+
+    public Map<String, VillagePlayerCQ> xdfgetSkillCode_SpecifyDerivedReferrer_VillagePlayerByRequestSkillCodeList() { return xgetSQueMap("skillCode_SpecifyDerivedReferrer_VillagePlayerByRequestSkillCodeList"); }
+    public String keepSkillCode_SpecifyDerivedReferrer_VillagePlayerByRequestSkillCodeList(VillagePlayerCQ sq) { return xkeepSQue("skillCode_SpecifyDerivedReferrer_VillagePlayerByRequestSkillCodeList", sq); }
+
+    public Map<String, VillagePlayerCQ> xdfgetSkillCode_SpecifyDerivedReferrer_VillagePlayerBySkillCodeList() { return xgetSQueMap("skillCode_SpecifyDerivedReferrer_VillagePlayerBySkillCodeList"); }
+    public String keepSkillCode_SpecifyDerivedReferrer_VillagePlayerBySkillCodeList(VillagePlayerCQ sq) { return xkeepSQue("skillCode_SpecifyDerivedReferrer_VillagePlayerBySkillCodeList", sq); }
+
+    public Map<String, VillagePlayerCQ> xdfgetSkillCode_QueryDerivedReferrer_VillagePlayerByRequestSkillCodeList() { return xgetSQueMap("skillCode_QueryDerivedReferrer_VillagePlayerByRequestSkillCodeList"); }
+    public String keepSkillCode_QueryDerivedReferrer_VillagePlayerByRequestSkillCodeList(VillagePlayerCQ sq) { return xkeepSQue("skillCode_QueryDerivedReferrer_VillagePlayerByRequestSkillCodeList", sq); }
+    public Map<String, Object> xdfgetSkillCode_QueryDerivedReferrer_VillagePlayerByRequestSkillCodeListParameter() { return xgetSQuePmMap("skillCode_QueryDerivedReferrer_VillagePlayerByRequestSkillCodeList"); }
+    public String keepSkillCode_QueryDerivedReferrer_VillagePlayerByRequestSkillCodeListParameter(Object pm) { return xkeepSQuePm("skillCode_QueryDerivedReferrer_VillagePlayerByRequestSkillCodeList", pm); }
+
+    public Map<String, VillagePlayerCQ> xdfgetSkillCode_QueryDerivedReferrer_VillagePlayerBySkillCodeList() { return xgetSQueMap("skillCode_QueryDerivedReferrer_VillagePlayerBySkillCodeList"); }
+    public String keepSkillCode_QueryDerivedReferrer_VillagePlayerBySkillCodeList(VillagePlayerCQ sq) { return xkeepSQue("skillCode_QueryDerivedReferrer_VillagePlayerBySkillCodeList", sq); }
+    public Map<String, Object> xdfgetSkillCode_QueryDerivedReferrer_VillagePlayerBySkillCodeListParameter() { return xgetSQuePmMap("skillCode_QueryDerivedReferrer_VillagePlayerBySkillCodeList"); }
+    public String keepSkillCode_QueryDerivedReferrer_VillagePlayerBySkillCodeListParameter(Object pm) { return xkeepSQuePm("skillCode_QueryDerivedReferrer_VillagePlayerBySkillCodeList", pm); }
 
     /** 
      * Add order-by as ascend. <br>
@@ -135,14 +149,14 @@ public class BsSkillCQ extends AbstractBsSkillCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
      * @return this. (NotNull)
      */
     public BsSkillCQ addOrderBy_CampCode_Asc() { regOBA("CAMP_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
      * @return this. (NotNull)
      */
     public BsSkillCQ addOrderBy_CampCode_Desc() { regOBD("CAMP_CODE"); return this; }
@@ -210,7 +224,7 @@ public class BsSkillCQ extends AbstractBsSkillCQ {
         return xgetQueRlMap(prop);
     }
     protected CampCQ xcreateQueryCamp() {
-        String nrp = xresolveNRP("SKILL", "camp"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("skill", "camp"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new CampCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "camp", nrp);
     }
     protected void xsetupOuterJoinCamp() { xregOutJo("camp"); }

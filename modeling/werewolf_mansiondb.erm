@@ -1203,6 +1203,21 @@
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
 				</relationship>
+				<relationship>
+					<name>FK_village_player_skill_request</name>
+					<source>table.skill</source>
+					<target>table.village_player</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>request_skill_code</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
 			</connections>
 			<columns>
 				<normal_column>
@@ -1236,6 +1251,12 @@
 					<physical_name>skill_code</physical_name>
 					<referred_column>table.skill.skill_code</referred_column>
 					<relationship>FK_village_player_skill</relationship>
+				</normal_column>
+				<normal_column>
+					<physical_name>request_skill_code</physical_name>
+					<logical_name>希望役職コード</logical_name>
+					<referred_column>table.skill.skill_code</referred_column>
+					<relationship>FK_village_player_skill_request</relationship>
 				</normal_column>
 				<normal_column>
 					<physical_name>room_number</physical_name>

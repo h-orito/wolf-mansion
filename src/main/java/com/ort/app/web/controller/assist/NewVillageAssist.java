@@ -162,6 +162,6 @@ public class NewVillageAssist {
             cb.query().setCharaGroupId_Equal(villageForm.getCharacterSetId());
             cb.query().setIsDummy_Equal_True();
         }).getCharaId();
-        villageLogic.participate(village.getVillageId(), dummyPlayerId, dummyCharaId, villageForm.getDummyJoinMessage());
+        villageLogic.participate(village.getVillageId(), dummyPlayerId, dummyCharaId, CDef.Skill.村人, villageForm.getDummyJoinMessage());
     }
 }

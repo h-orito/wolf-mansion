@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-bean of SKILL.
+ * The base condition-bean of skill.
  * @author DBFlute(AutoGenerator)
  */
 public class BsSkillCB extends AbstractConditionBean {
@@ -73,7 +73,7 @@ public class BsSkillCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "SKILL";
+        return "skill";
     }
 
     // ===================================================================================
@@ -315,7 +315,7 @@ public class BsSkillCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnSkillName() { return doColumn("SKILL_NAME"); }
         /**
-         * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
+         * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCampCode() { return doColumn("CAMP_CODE"); }
@@ -330,7 +330,7 @@ public class BsSkillCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "SKILL"; }
+        protected String getTableDbName() { return "skill"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * CAMP by my CAMP_CODE, named 'camp'.
@@ -353,8 +353,8 @@ public class BsSkillCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from VILLAGE_PLAYER where ...) as FOO_MAX} <br>
-         * VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerList'.
+         * {select max(FOO) from village_player where ...) as FOO_MAX} <br>
+         * VILLAGE_PLAYER by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
          *     playerCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -363,10 +363,27 @@ public class BsSkillCB extends AbstractConditionBean {
          * </pre>
          * @return The object to set up a function for referrer table. (NotNull)
          */
-        public HpSDRFunction<VillagePlayerCB, SkillCQ> derivedVillagePlayer() {
-            assertDerived("villagePlayerList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+        public HpSDRFunction<VillagePlayerCB, SkillCQ> derivedVillagePlayerByRequestSkillCode() {
+            assertDerived("villagePlayerByRequestSkillCodeList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
             return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillagePlayerCB> sq, SkillCQ cq, String al, DerivedReferrerOption op)
-                    -> cq.xsderiveVillagePlayerList(fn, sq, al, op), _dbmetaProvider);
+                    -> cq.xsderiveVillagePlayerByRequestSkillCodeList(fn, sq, al, op), _dbmetaProvider);
+        }
+        /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
+         * {select max(FOO) from village_player where ...) as FOO_MAX} <br>
+         * VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerBySkillCodeList'.
+         * <pre>
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     playerCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     playerCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, VillagePlayer.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        public HpSDRFunction<VillagePlayerCB, SkillCQ> derivedVillagePlayerBySkillCode() {
+            assertDerived("villagePlayerBySkillCodeList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillagePlayerCB> sq, SkillCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveVillagePlayerBySkillCodeList(fn, sq, al, op), _dbmetaProvider);
         }
         /**
          * Prepare for (Specify)MyselfDerived (SubQuery).

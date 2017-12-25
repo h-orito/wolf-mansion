@@ -41,7 +41,7 @@ import com.ort.dbflute.exentity.*;
  *     camp
  *
  * [referrer property]
- *     villagePlayerList
+ *     villagePlayerByRequestSkillCodeList, villagePlayerBySkillCodeList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -72,7 +72,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     /** SKILL_NAME: {NotNull, VARCHAR(20)} */
     protected String _skillName;
 
-    /** CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} */
+    /** CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} */
     protected String _campCode;
 
     // ===================================================================================
@@ -85,7 +85,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "SKILL";
+        return "skill";
     }
 
     // ===================================================================================
@@ -123,7 +123,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * Get the value of campCode as the classification of Camp. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -134,7 +134,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * Set the value of campCode as the classification of Camp. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -183,6 +183,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
      */
     public void setSkillCode_狩人() {
         setSkillCodeAsSkill(CDef.Skill.狩人);
+    }
+
+    /**
+     * Set the value of skillCode as おまかせ (LEFTOVER). <br>
+     * おまかせ
+     */
+    public void setSkillCode_おまかせ() {
+        setSkillCodeAsSkill(CDef.Skill.おまかせ);
     }
 
     /**
@@ -329,6 +337,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isSkillCode狩人() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.狩人) : false;
+    }
+
+    /**
+     * Is the value of skillCode おまかせ? <br>
+     * おまかせ
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCodeおまかせ() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.おまかせ) : false;
     }
 
     /**
@@ -479,24 +498,44 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    /** VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerList'. */
-    protected List<VillagePlayer> _villagePlayerList;
+    /** VILLAGE_PLAYER by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeList'. */
+    protected List<VillagePlayer> _villagePlayerByRequestSkillCodeList;
 
     /**
-     * [get] VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerList'.
-     * @return The entity list of referrer property 'villagePlayerList'. (NotNull: even if no loading, returns empty list)
+     * [get] VILLAGE_PLAYER by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeList'.
+     * @return The entity list of referrer property 'villagePlayerByRequestSkillCodeList'. (NotNull: even if no loading, returns empty list)
      */
-    public List<VillagePlayer> getVillagePlayerList() {
-        if (_villagePlayerList == null) { _villagePlayerList = newReferrerList(); }
-        return _villagePlayerList;
+    public List<VillagePlayer> getVillagePlayerByRequestSkillCodeList() {
+        if (_villagePlayerByRequestSkillCodeList == null) { _villagePlayerByRequestSkillCodeList = newReferrerList(); }
+        return _villagePlayerByRequestSkillCodeList;
     }
 
     /**
-     * [set] VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerList'.
-     * @param villagePlayerList The entity list of referrer property 'villagePlayerList'. (NullAllowed)
+     * [set] VILLAGE_PLAYER by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeList'.
+     * @param villagePlayerByRequestSkillCodeList The entity list of referrer property 'villagePlayerByRequestSkillCodeList'. (NullAllowed)
      */
-    public void setVillagePlayerList(List<VillagePlayer> villagePlayerList) {
-        _villagePlayerList = villagePlayerList;
+    public void setVillagePlayerByRequestSkillCodeList(List<VillagePlayer> villagePlayerByRequestSkillCodeList) {
+        _villagePlayerByRequestSkillCodeList = villagePlayerByRequestSkillCodeList;
+    }
+
+    /** VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerBySkillCodeList'. */
+    protected List<VillagePlayer> _villagePlayerBySkillCodeList;
+
+    /**
+     * [get] VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerBySkillCodeList'.
+     * @return The entity list of referrer property 'villagePlayerBySkillCodeList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<VillagePlayer> getVillagePlayerBySkillCodeList() {
+        if (_villagePlayerBySkillCodeList == null) { _villagePlayerBySkillCodeList = newReferrerList(); }
+        return _villagePlayerBySkillCodeList;
+    }
+
+    /**
+     * [set] VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerBySkillCodeList'.
+     * @param villagePlayerBySkillCodeList The entity list of referrer property 'villagePlayerBySkillCodeList'. (NullAllowed)
+     */
+    public void setVillagePlayerBySkillCodeList(List<VillagePlayer> villagePlayerBySkillCodeList) {
+        _villagePlayerBySkillCodeList = villagePlayerBySkillCodeList;
     }
 
     protected <ELEMENT> List<ELEMENT> newReferrerList() { // overriding to import
@@ -530,8 +569,10 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
         StringBuilder sb = new StringBuilder();
         if (_camp != null && _camp.isPresent())
         { sb.append(li).append(xbRDS(_camp, "camp")); }
-        if (_villagePlayerList != null) { for (VillagePlayer et : _villagePlayerList)
-        { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerList")); } } }
+        if (_villagePlayerByRequestSkillCodeList != null) { for (VillagePlayer et : _villagePlayerByRequestSkillCodeList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerByRequestSkillCodeList")); } } }
+        if (_villagePlayerBySkillCodeList != null) { for (VillagePlayer et : _villagePlayerBySkillCodeList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerBySkillCodeList")); } } }
         return sb.toString();
     }
     protected <ET extends Entity> String xbRDS(org.dbflute.optional.OptionalEntity<ET> et, String name) { // buildRelationDisplayString()
@@ -556,8 +597,10 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
         StringBuilder sb = new StringBuilder();
         if (_camp != null && _camp.isPresent())
         { sb.append(dm).append("camp"); }
-        if (_villagePlayerList != null && !_villagePlayerList.isEmpty())
-        { sb.append(dm).append("villagePlayerList"); }
+        if (_villagePlayerByRequestSkillCodeList != null && !_villagePlayerByRequestSkillCodeList.isEmpty())
+        { sb.append(dm).append("villagePlayerByRequestSkillCodeList"); }
+        if (_villagePlayerBySkillCodeList != null && !_villagePlayerBySkillCodeList.isEmpty())
+        { sb.append(dm).append("villagePlayerBySkillCodeList"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }
@@ -614,7 +657,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
-     * [get] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * [get] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営コード
      * @return The value of the column 'CAMP_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -624,7 +667,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
-     * [set] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * [set] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営コード
      * @param campCode The value of the column 'CAMP_CODE'. (basically NotNull if update: for the constraint)
      */

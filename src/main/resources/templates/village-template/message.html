@@ -19,6 +19,8 @@
 			</div>
 			{{else if (eq messageType 'PUBLIC_SYSTEM')}}
 			<div class="message col-sm-12 message-public-system">{{{escapeHtmlWithoutBr messageContent}}}</div>
+			{{else if (eq messageType 'PRIVATE_SYSTEM')}}
+			<div class="message col-sm-12 message-private-system">{{{escapeHtmlWithoutBr messageContent}}}</div>
 			{{/if}}
 		</div>
 	</div>

@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_PLAYER_ID
  *
  * [column]
- *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, ROOM_NUMBER, IS_DEAD, DEAD_REASON_CODE, DEAD_DAY, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, DEAD_REASON_CODE, DEAD_DAY, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -39,7 +39,7 @@ import com.ort.dbflute.exentity.*;
  *     MESSAGE
  *
  * [foreign property]
- *     chara, deadReason, player, skill, village
+ *     chara, deadReason, player, skillByRequestSkillCode, skillBySkillCode, village
  *
  * [referrer property]
  *     messageList
@@ -51,6 +51,7 @@ import com.ort.dbflute.exentity.*;
  * Integer playerId = entity.getPlayerId();
  * Integer charaId = entity.getCharaId();
  * String skillCode = entity.getSkillCode();
+ * String requestSkillCode = entity.getRequestSkillCode();
  * Integer roomNumber = entity.getRoomNumber();
  * Boolean isDead = entity.getIsDead();
  * String deadReasonCode = entity.getDeadReasonCode();
@@ -64,6 +65,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setPlayerId(playerId);
  * entity.setCharaId(charaId);
  * entity.setSkillCode(skillCode);
+ * entity.setRequestSkillCode(requestSkillCode);
  * entity.setRoomNumber(roomNumber);
  * entity.setIsDead(isDead);
  * entity.setDeadReasonCode(deadReasonCode);
@@ -90,17 +92,20 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     /** VILLAGE_PLAYER_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
     protected Integer _villagePlayerId;
 
-    /** VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
+    /** VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village} */
     protected Integer _villageId;
 
-    /** PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER} */
+    /** PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to player} */
     protected Integer _playerId;
 
-    /** CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to CHARA} */
+    /** CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to chara} */
     protected Integer _charaId;
 
-    /** SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} */
+    /** SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} */
     protected String _skillCode;
+
+    /** REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} */
+    protected String _requestSkillCode;
 
     /** ROOM_NUMBER: {INT UNSIGNED(10)} */
     protected Integer _roomNumber;
@@ -108,7 +113,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     /** IS_DEAD: {NotNull, BIT, classification=Flg} */
     protected Boolean _isDead;
 
-    /** DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON} */
+    /** DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} */
     protected String _deadReasonCode;
 
     /** DEAD_DAY: {INT UNSIGNED(10)} */
@@ -136,7 +141,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "VILLAGE_PLAYER";
+        return "village_player";
     }
 
     // ===================================================================================
@@ -151,8 +156,8 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     /**
      * To be unique by the unique column. <br>
      * You can update the entity by the key when entity update (NOT batch update).
-     * @param villageId : UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
-     * @param charaId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to CHARA. (NotNull)
+     * @param villageId : UQ+, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
+     * @param charaId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to chara. (NotNull)
      */
     public void uniqueByVillageIdCharaId(Integer villageId, Integer charaId) {
         __uniqueDrivenProperties.clear();
@@ -164,8 +169,8 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     /**
      * To be unique by the unique column. <br>
      * You can update the entity by the key when entity update (NOT batch update).
-     * @param villageId : UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
-     * @param playerId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER. (NotNull)
+     * @param villageId : UQ+, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
+     * @param playerId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to player. (NotNull)
      */
     public void uniqueByVillageIdPlayerId(Integer villageId, Integer playerId) {
         __uniqueDrivenProperties.clear();
@@ -179,7 +184,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     //                                                             =======================
     /**
      * Get the value of skillCode as the classification of Skill. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -190,12 +195,33 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * Set the value of skillCode as the classification of Skill. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
     public void setSkillCodeAsSkill(CDef.Skill cdef) {
         setSkillCode(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * Get the value of requestSkillCode as the classification of Skill. <br>
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * 役職
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Skill getRequestSkillCodeAsSkill() {
+        return CDef.Skill.codeOf(getRequestSkillCode());
+    }
+
+    /**
+     * Set the value of requestSkillCode as the classification of Skill. <br>
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * 役職
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setRequestSkillCodeAsSkill(CDef.Skill cdef) {
+        setRequestSkillCode(cdef != null ? cdef.code() : null);
     }
 
     /**
@@ -217,6 +243,27 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setIsDeadAsFlg(CDef.Flg cdef) {
         setIsDead(cdef != null ? toBoolean(cdef.code()) : null);
+    }
+
+    /**
+     * Get the value of deadReasonCode as the classification of DeadReason. <br>
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
+     * 死亡理由
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.DeadReason getDeadReasonCodeAsDeadReason() {
+        return CDef.DeadReason.codeOf(getDeadReasonCode());
+    }
+
+    /**
+     * Set the value of deadReasonCode as the classification of DeadReason. <br>
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
+     * 死亡理由
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setDeadReasonCodeAsDeadReason(CDef.DeadReason cdef) {
+        setDeadReasonCode(cdef != null ? cdef.code() : null);
     }
 
     // ===================================================================================
@@ -260,6 +307,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSkillCode_狩人() {
         setSkillCodeAsSkill(CDef.Skill.狩人);
+    }
+
+    /**
+     * Set the value of skillCode as おまかせ (LEFTOVER). <br>
+     * おまかせ
+     */
+    public void setSkillCode_おまかせ() {
+        setSkillCodeAsSkill(CDef.Skill.おまかせ);
     }
 
     /**
@@ -327,6 +382,118 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as C国狂人 (CMADMAN). <br>
+     * C国狂人
+     */
+    public void setRequestSkillCode_C国狂人() {
+        setRequestSkillCodeAsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 魔神官 (EVILMEDIUM). <br>
+     * 魔神官
+     */
+    public void setRequestSkillCode_魔神官() {
+        setRequestSkillCodeAsSkill(CDef.Skill.魔神官);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 妖狐 (FOX). <br>
+     * 妖狐
+     */
+    public void setRequestSkillCode_妖狐() {
+        setRequestSkillCodeAsSkill(CDef.Skill.妖狐);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 導師 (GURU). <br>
+     * 導師
+     */
+    public void setRequestSkillCode_導師() {
+        setRequestSkillCodeAsSkill(CDef.Skill.導師);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 狩人 (HUNTER). <br>
+     * 狩人
+     */
+    public void setRequestSkillCode_狩人() {
+        setRequestSkillCodeAsSkill(CDef.Skill.狩人);
+    }
+
+    /**
+     * Set the value of requestSkillCode as おまかせ (LEFTOVER). <br>
+     * おまかせ
+     */
+    public void setRequestSkillCode_おまかせ() {
+        setRequestSkillCodeAsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 狂人 (MADMAN). <br>
+     * 狂人
+     */
+    public void setRequestSkillCode_狂人() {
+        setRequestSkillCodeAsSkill(CDef.Skill.狂人);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 共有者 (MAISON). <br>
+     * 共有者
+     */
+    public void setRequestSkillCode_共有者() {
+        setRequestSkillCodeAsSkill(CDef.Skill.共有者);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 霊能者 (MEDIUM). <br>
+     * 霊能者
+     */
+    public void setRequestSkillCode_霊能者() {
+        setRequestSkillCodeAsSkill(CDef.Skill.霊能者);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 占い師 (SEER). <br>
+     * 占い師
+     */
+    public void setRequestSkillCode_占い師() {
+        setRequestSkillCodeAsSkill(CDef.Skill.占い師);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 聖痕者 (STIGMA). <br>
+     * 聖痕者
+     */
+    public void setRequestSkillCode_聖痕者() {
+        setRequestSkillCodeAsSkill(CDef.Skill.聖痕者);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 村人 (VILLAGER). <br>
+     * 村人
+     */
+    public void setRequestSkillCode_村人() {
+        setRequestSkillCodeAsSkill(CDef.Skill.村人);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 人狼 (WEREWOLF). <br>
+     * 人狼
+     */
+    public void setRequestSkillCode_人狼() {
+        setRequestSkillCodeAsSkill(CDef.Skill.人狼);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 賢者 (WISE). <br>
+     * 賢者
+     */
+    public void setRequestSkillCode_賢者() {
+        setRequestSkillCodeAsSkill(CDef.Skill.賢者);
+    }
+
+    /**
      * Set the value of isDead as True (true). <br>
      * はい: 有効を示す
      */
@@ -340,6 +507,38 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setIsDead_False() {
         setIsDeadAsFlg(CDef.Flg.False);
+    }
+
+    /**
+     * Set the value of deadReasonCode as 襲撃 (ATTACK). <br>
+     * 襲撃
+     */
+    public void setDeadReasonCode_襲撃() {
+        setDeadReasonCodeAsDeadReason(CDef.DeadReason.襲撃);
+    }
+
+    /**
+     * Set the value of deadReasonCode as 呪殺 (DIVINED). <br>
+     * 呪殺
+     */
+    public void setDeadReasonCode_呪殺() {
+        setDeadReasonCodeAsDeadReason(CDef.DeadReason.呪殺);
+    }
+
+    /**
+     * Set the value of deadReasonCode as 処刑 (EXECUTE). <br>
+     * 処刑
+     */
+    public void setDeadReasonCode_処刑() {
+        setDeadReasonCodeAsDeadReason(CDef.DeadReason.処刑);
+    }
+
+    /**
+     * Set the value of deadReasonCode as 突然 (SUDDON). <br>
+     * 突然
+     */
+    public void setDeadReasonCode_突然() {
+        setDeadReasonCodeAsDeadReason(CDef.DeadReason.突然);
     }
 
     // ===================================================================================
@@ -398,6 +597,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode狩人() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.狩人) : false;
+    }
+
+    /**
+     * Is the value of skillCode おまかせ? <br>
+     * おまかせ
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCodeおまかせ() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.おまかせ) : false;
     }
 
     /**
@@ -489,6 +699,160 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode C国狂人? <br>
+     * C国狂人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCodeC国狂人() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.C国狂人) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 魔神官? <br>
+     * 魔神官
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode魔神官() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.魔神官) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 妖狐? <br>
+     * 妖狐
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode妖狐() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.妖狐) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 導師? <br>
+     * 導師
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode導師() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.導師) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 狩人? <br>
+     * 狩人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode狩人() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.狩人) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode おまかせ? <br>
+     * おまかせ
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCodeおまかせ() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.おまかせ) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 狂人? <br>
+     * 狂人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode狂人() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.狂人) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 共有者? <br>
+     * 共有者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode共有者() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.共有者) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 霊能者? <br>
+     * 霊能者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode霊能者() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.霊能者) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 占い師? <br>
+     * 占い師
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode占い師() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.占い師) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 聖痕者? <br>
+     * 聖痕者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode聖痕者() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.聖痕者) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 村人? <br>
+     * 村人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode村人() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.村人) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 人狼? <br>
+     * 人狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode人狼() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.人狼) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 賢者? <br>
+     * 賢者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode賢者() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.賢者) : false;
+    }
+
+    /**
      * Is the value of isDead True? <br>
      * はい: 有効を示す
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -508,6 +872,50 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isIsDeadFalse() {
         CDef.Flg cdef = getIsDeadAsFlg();
         return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
+    /**
+     * Is the value of deadReasonCode 襲撃? <br>
+     * 襲撃
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isDeadReasonCode襲撃() {
+        CDef.DeadReason cdef = getDeadReasonCodeAsDeadReason();
+        return cdef != null ? cdef.equals(CDef.DeadReason.襲撃) : false;
+    }
+
+    /**
+     * Is the value of deadReasonCode 呪殺? <br>
+     * 呪殺
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isDeadReasonCode呪殺() {
+        CDef.DeadReason cdef = getDeadReasonCodeAsDeadReason();
+        return cdef != null ? cdef.equals(CDef.DeadReason.呪殺) : false;
+    }
+
+    /**
+     * Is the value of deadReasonCode 処刑? <br>
+     * 処刑
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isDeadReasonCode処刑() {
+        CDef.DeadReason cdef = getDeadReasonCodeAsDeadReason();
+        return cdef != null ? cdef.equals(CDef.DeadReason.処刑) : false;
+    }
+
+    /**
+     * Is the value of deadReasonCode 突然? <br>
+     * 突然
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isDeadReasonCode突然() {
+        CDef.DeadReason cdef = getDeadReasonCodeAsDeadReason();
+        return cdef != null ? cdef.equals(CDef.DeadReason.突然) : false;
     }
 
     // ===================================================================================
@@ -588,25 +996,46 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         _player = player;
     }
 
-    /** SKILL by my SKILL_CODE, named 'skill'. */
-    protected OptionalEntity<Skill> _skill;
+    /** SKILL by my REQUEST_SKILL_CODE, named 'skillByRequestSkillCode'. */
+    protected OptionalEntity<Skill> _skillByRequestSkillCode;
 
     /**
-     * [get] SKILL by my SKILL_CODE, named 'skill'. <br>
+     * [get] SKILL by my REQUEST_SKILL_CODE, named 'skillByRequestSkillCode'. <br>
      * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
-     * @return The entity of foreign property 'skill'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
+     * @return The entity of foreign property 'skillByRequestSkillCode'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
-    public OptionalEntity<Skill> getSkill() {
-        if (_skill == null) { _skill = OptionalEntity.relationEmpty(this, "skill"); }
-        return _skill;
+    public OptionalEntity<Skill> getSkillByRequestSkillCode() {
+        if (_skillByRequestSkillCode == null) { _skillByRequestSkillCode = OptionalEntity.relationEmpty(this, "skillByRequestSkillCode"); }
+        return _skillByRequestSkillCode;
     }
 
     /**
-     * [set] SKILL by my SKILL_CODE, named 'skill'.
-     * @param skill The entity of foreign property 'skill'. (NullAllowed)
+     * [set] SKILL by my REQUEST_SKILL_CODE, named 'skillByRequestSkillCode'.
+     * @param skillByRequestSkillCode The entity of foreign property 'skillByRequestSkillCode'. (NullAllowed)
      */
-    public void setSkill(OptionalEntity<Skill> skill) {
-        _skill = skill;
+    public void setSkillByRequestSkillCode(OptionalEntity<Skill> skillByRequestSkillCode) {
+        _skillByRequestSkillCode = skillByRequestSkillCode;
+    }
+
+    /** SKILL by my SKILL_CODE, named 'skillBySkillCode'. */
+    protected OptionalEntity<Skill> _skillBySkillCode;
+
+    /**
+     * [get] SKILL by my SKILL_CODE, named 'skillBySkillCode'. <br>
+     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
+     * @return The entity of foreign property 'skillBySkillCode'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
+     */
+    public OptionalEntity<Skill> getSkillBySkillCode() {
+        if (_skillBySkillCode == null) { _skillBySkillCode = OptionalEntity.relationEmpty(this, "skillBySkillCode"); }
+        return _skillBySkillCode;
+    }
+
+    /**
+     * [set] SKILL by my SKILL_CODE, named 'skillBySkillCode'.
+     * @param skillBySkillCode The entity of foreign property 'skillBySkillCode'. (NullAllowed)
+     */
+    public void setSkillBySkillCode(OptionalEntity<Skill> skillBySkillCode) {
+        _skillBySkillCode = skillBySkillCode;
     }
 
     /** VILLAGE by my VILLAGE_ID, named 'village'. */
@@ -688,8 +1117,10 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         { sb.append(li).append(xbRDS(_deadReason, "deadReason")); }
         if (_player != null && _player.isPresent())
         { sb.append(li).append(xbRDS(_player, "player")); }
-        if (_skill != null && _skill.isPresent())
-        { sb.append(li).append(xbRDS(_skill, "skill")); }
+        if (_skillByRequestSkillCode != null && _skillByRequestSkillCode.isPresent())
+        { sb.append(li).append(xbRDS(_skillByRequestSkillCode, "skillByRequestSkillCode")); }
+        if (_skillBySkillCode != null && _skillBySkillCode.isPresent())
+        { sb.append(li).append(xbRDS(_skillBySkillCode, "skillBySkillCode")); }
         if (_village != null && _village.isPresent())
         { sb.append(li).append(xbRDS(_village, "village")); }
         if (_messageList != null) { for (Message et : _messageList)
@@ -708,6 +1139,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         sb.append(dm).append(xfND(_playerId));
         sb.append(dm).append(xfND(_charaId));
         sb.append(dm).append(xfND(_skillCode));
+        sb.append(dm).append(xfND(_requestSkillCode));
         sb.append(dm).append(xfND(_roomNumber));
         sb.append(dm).append(xfND(_isDead));
         sb.append(dm).append(xfND(_deadReasonCode));
@@ -732,8 +1164,10 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         { sb.append(dm).append("deadReason"); }
         if (_player != null && _player.isPresent())
         { sb.append(dm).append("player"); }
-        if (_skill != null && _skill.isPresent())
-        { sb.append(dm).append("skill"); }
+        if (_skillByRequestSkillCode != null && _skillByRequestSkillCode.isPresent())
+        { sb.append(dm).append("skillByRequestSkillCode"); }
+        if (_skillBySkillCode != null && _skillBySkillCode.isPresent())
+        { sb.append(dm).append("skillBySkillCode"); }
         if (_village != null && _village.isPresent())
         { sb.append(dm).append("village"); }
         if (_messageList != null && !_messageList.isEmpty())
@@ -773,7 +1207,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [get] VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -783,7 +1217,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [set] VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -793,7 +1227,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER} <br>
+     * [get] PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to player} <br>
      * プレイヤーID
      * @return The value of the column 'PLAYER_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -803,7 +1237,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER} <br>
+     * [set] PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to player} <br>
      * プレイヤーID
      * @param playerId The value of the column 'PLAYER_ID'. (basically NotNull if update: for the constraint)
      */
@@ -813,7 +1247,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to CHARA} <br>
+     * [get] CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
      * キャラクターID
      * @return The value of the column 'CHARA_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -823,7 +1257,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to CHARA} <br>
+     * [set] CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
      * キャラクターID
      * @param charaId The value of the column 'CHARA_ID'. (basically NotNull if update: for the constraint)
      */
@@ -833,7 +1267,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * [get] SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職コード
      * @return The value of the column 'SKILL_CODE'. (NullAllowed even if selected: for no constraint)
      */
@@ -843,7 +1277,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * [set] SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職コード
      * @param skillCode The value of the column 'SKILL_CODE'. (NullAllowed: null update allowed for no constraint)
      */
@@ -851,6 +1285,27 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         checkClassificationCode("SKILL_CODE", CDef.DefMeta.Skill, skillCode);
         registerModifiedProperty("skillCode");
         _skillCode = skillCode;
+    }
+
+    /**
+     * [get] REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * 希望役職コード
+     * @return The value of the column 'REQUEST_SKILL_CODE'. (NullAllowed even if selected: for no constraint)
+     */
+    public String getRequestSkillCode() {
+        checkSpecifiedProperty("requestSkillCode");
+        return convertEmptyToNull(_requestSkillCode);
+    }
+
+    /**
+     * [set] REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * 希望役職コード
+     * @param requestSkillCode The value of the column 'REQUEST_SKILL_CODE'. (NullAllowed: null update allowed for no constraint)
+     */
+    protected void setRequestSkillCode(String requestSkillCode) {
+        checkClassificationCode("REQUEST_SKILL_CODE", CDef.DefMeta.Skill, requestSkillCode);
+        registerModifiedProperty("requestSkillCode");
+        _requestSkillCode = requestSkillCode;
     }
 
     /**
@@ -895,7 +1350,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON} <br>
+     * [get] DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
      * 死亡理由コード
      * @return The value of the column 'DEAD_REASON_CODE'. (NullAllowed even if selected: for no constraint)
      */
@@ -905,11 +1360,12 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON} <br>
+     * [set] DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
      * 死亡理由コード
      * @param deadReasonCode The value of the column 'DEAD_REASON_CODE'. (NullAllowed: null update allowed for no constraint)
      */
-    public void setDeadReasonCode(String deadReasonCode) {
+    protected void setDeadReasonCode(String deadReasonCode) {
+        checkClassificationCode("DEAD_REASON_CODE", CDef.DefMeta.DeadReason, deadReasonCode);
         registerModifiedProperty("deadReasonCode");
         _deadReasonCode = deadReasonCode;
     }
@@ -1020,5 +1476,21 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void mynativeMappingSkillCode(String skillCode) {
         setSkillCode(skillCode);
+    }
+
+    /**
+     * For framework so basically DON'T use this method.
+     * @param requestSkillCode The value of the column 'REQUEST_SKILL_CODE'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void mynativeMappingRequestSkillCode(String requestSkillCode) {
+        setRequestSkillCode(requestSkillCode);
+    }
+
+    /**
+     * For framework so basically DON'T use this method.
+     * @param deadReasonCode The value of the column 'DEAD_REASON_CODE'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void mynativeMappingDeadReasonCode(String deadReasonCode) {
+        setDeadReasonCode(deadReasonCode);
     }
 }

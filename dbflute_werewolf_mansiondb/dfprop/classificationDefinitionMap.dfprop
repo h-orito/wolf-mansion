@@ -96,5 +96,12 @@ map:{
             ; code=MESSAGE_TYPE_CODE; name=MESSAGE_TYPE_NAME
         }
     }
+    ; DeadReason = list:{
+        ; map:{topComment=死亡理由; codeType=String}
+        ; map:{
+            ; table=DEAD_REASON
+            ; code=DEAD_REASON_CODE; name=DEAD_REASON_NAME
+        }
+    }
 }
 # ----------------/

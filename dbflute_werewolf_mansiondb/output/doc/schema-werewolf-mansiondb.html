@@ -410,7 +410,7 @@ dl.procedurelist dd.column pre {
 		<td><a href="#skill" title="type=TABLE, primaryKey={SKILL_CODE}, nameLength=5, columnCount=3">SKILL</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#camp" title="FK_SKILL_CAMP">CAMP</a></td>
-		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL">VILLAGE_PLAYER</a></td>
+		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">VILLAGE_PLAYER</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL">VILLAGE_PLAYER</a></td>
 		<td class="commentcell"> 役職</td>
 		<td class="subcell">Skill</td>
 	</tr>
@@ -434,9 +434,9 @@ dl.procedurelist dd.column pre {
 	</tr>
 	<tr>
 		<td class="rownumcell">16</td>
-		<td><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=13">VILLAGE_PLAYER</a></td>
+		<td><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=14">VILLAGE_PLAYER</a></td>
 		<td class="typecell">TABLE</td>
-		<td class="relcell"><a href="#chara" title="FK_VILLAGE_PLAYER_CHARA">CHARA</a>, <a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_REASON">DEAD_REASON</a>, <a href="#player" title="FK_VILLAGE_PLAYER_PLAYER">PLAYER</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL">SKILL</a>, <a href="#village" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE</a></td>
+		<td class="relcell"><a href="#chara" title="FK_VILLAGE_PLAYER_CHARA">CHARA</a>, <a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_REASON">DEAD_REASON</a>, <a href="#player" title="FK_VILLAGE_PLAYER_PLAYER">PLAYER</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL">SKILL</a>, <a href="#village" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE</a></td>
 		<td class="relcell"><a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER">MESSAGE</a></td>
 		<td class="commentcell"> 村参加者</td>
 		<td class="subcell">VillagePlayer</td>
@@ -1201,7 +1201,7 @@ DEAD_REASON
 		<td class="sizecell"> 20 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
 		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_DEAD_REASON">VILLAGE_PLAYER</a>&nbsp;</td>
-		<td class="relcell"> &nbsp;</td>
+		<td class="relcell"><a href="#DeadReasonCls">DeadReason</a></td>
 		<td class="commentcell"> 死亡理由コード</td>
 		<td class="subcell">deadReasonCode</td>
 		<td class="subcell">String</td>
@@ -2013,7 +2013,7 @@ SKILL
 		<td class="typecell">VARCHAR</td>
 		<td class="sizecell"> 20 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL">VILLAGE_PLAYER</a>&nbsp;</td>
+		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">VILLAGE_PLAYER</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL">VILLAGE_PLAYER</a>&nbsp;</td>
 		<td class="relcell"><a href="#SkillCls">Skill</a></td>
 		<td class="commentcell"> 役職コード</td>
 		<td class="subcell">skillCode</td>
@@ -2342,7 +2342,7 @@ VILLAGE_DAY
 		<td class="subcell">String</td>
 	</tr>
 </table>
-<h2 id="village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=13">
+<h2 id="village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=14">
 VILLAGE_PLAYER
 </h2>
 <p class="tablecomment">村参加者</p>
@@ -2456,6 +2456,23 @@ VILLAGE_PLAYER
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_VILLAGE_PLAYER_SKILL_REQUEST(REQUEST_SKILL_CODE)">o</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td id="village_player_request_skill_code">REQUEST_SKILL_CODE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell"><a href="#skill" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">SKILL</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#SkillCls">Skill</a></td>
+		<td class="commentcell"> 希望役職コード</td>
+		<td class="subcell">requestSkillCode</td>
+		<td class="subcell">String</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">7</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td id="village_player_room_number">ROOM_NUMBER</td>
@@ -2469,7 +2486,7 @@ VILLAGE_PLAYER
 		<td class="subcell">Integer</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">7</td>
+		<td class="rownumcell">8</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2486,7 +2503,7 @@ VILLAGE_PLAYER
 		<td class="subcell">Boolean</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">8</td>
+		<td class="rownumcell">9</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2497,13 +2514,13 @@ VILLAGE_PLAYER
 		<td class="sizecell"> 20 </td>
 		<td class="relcell"><a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_REASON">DEAD_REASON</a>&nbsp;</td>
 		<td class="relcell">&nbsp;</td>
-		<td class="relcell"> &nbsp;</td>
+		<td class="relcell"><a href="#DeadReasonCls">DeadReason</a></td>
 		<td class="commentcell"> 死亡理由コード</td>
 		<td class="subcell">deadReasonCode</td>
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">9</td>
+		<td class="rownumcell">10</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2520,7 +2537,7 @@ VILLAGE_PLAYER
 		<td class="subcell">Integer</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">10</td>
+		<td class="rownumcell">11</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2537,7 +2554,7 @@ VILLAGE_PLAYER
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">11</td>
+		<td class="rownumcell">12</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2554,7 +2571,7 @@ VILLAGE_PLAYER
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">12</td>
+		<td class="rownumcell">13</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2571,7 +2588,7 @@ VILLAGE_PLAYER
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">13</td>
+		<td class="rownumcell">14</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -3210,6 +3227,11 @@ VOTE
 				<td class="commentcell"> &nbsp;</td>
 			</tr>
 			<tr>
+				<td>LEFTOVER</td>
+				<td>おまかせ</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
 				<td>MADMAN</td>
 				<td>狂人</td>
 				<td class="commentcell"> &nbsp;</td>
@@ -3306,6 +3328,40 @@ VOTE
 			<tr>
 				<td>WEREWOLF_SAY</td>
 				<td>人狼の囁き</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>DeadReason</td>
+		<td class="clstypecell">table</td>
+		<td>死亡理由</td>
+		<td>
+			<table class="child">
+			<tr>
+				<th id="DeadReasonCls">Code</th>
+				<th>Name</th>
+				<th>Comment</th>
+			</tr>
+			<tr>
+				<td>ATTACK</td>
+				<td>襲撃</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>DIVINED</td>
+				<td>呪殺</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>EXECUTE</td>
+				<td>処刑</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>SUDDON</td>
+				<td>突然</td>
 				<td class="commentcell"> &nbsp;</td>
 			</tr>
 			</table>

@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of DEAD_REASON.
+ * The base condition-query of dead_reason.
  * @author DBFlute(AutoGenerator)
  */
 public class BsDeadReasonCQ extends AbstractBsDeadReasonCQ {
@@ -35,7 +35,7 @@ public class BsDeadReasonCQ extends AbstractBsDeadReasonCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from DEAD_REASON) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from dead_reason) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsDeadReasonCQ extends AbstractBsDeadReasonCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join DEAD_REASON on ... and FOO = [value] ...}
+     * {select ... from ... left outer join dead_reason on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -95,14 +95,14 @@ public class BsDeadReasonCQ extends AbstractBsDeadReasonCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)}
+     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20), classification=DeadReason}
      * @return this. (NotNull)
      */
     public BsDeadReasonCQ addOrderBy_DeadReasonCode_Asc() { regOBA("DEAD_REASON_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)}
+     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20), classification=DeadReason}
      * @return this. (NotNull)
      */
     public BsDeadReasonCQ addOrderBy_DeadReasonCode_Desc() { regOBD("DEAD_REASON_CODE"); return this; }

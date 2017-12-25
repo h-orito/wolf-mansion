@@ -14,10 +14,57 @@
 			<div id="wrapper">
 				<div class="hidden" th:data-village-id="${content.villageId}"></div>
 
-				<div class="col-sm-12">
+				<!--// 入村者 //-->
+				<div class="col-sm-2 small">
+					<table class="table table-bordered table-condensed" th:each="statusDto : ${content.memberList}">
+						<tr>
+							<th th:text="${statusDto.status}">生存</th>
+						</tr>
+						<tr th:each="member : ${statusDto.statusMemberList}">
+							<td th:text="${member.charaName} + ${member.deadDay != null ? ' ' + member.deadDay : ''}"></td>
+						</tr>
+						<tr th:if="${statusDto.statusMemberList.size() == 0}">
+							<td>なし</td>
+						</tr>
+					</table>
+				</div>
+				<!--// ログ部分 //-->
+				<div class="col-sm-10">
 					<div class="row" data-message-area>
 						<div class="message col-sm-12 text-muted">読み込み中...</div>
 					</div>
+				</div>
+
+				<!-- // 参戦欄 //-->
+				<div class="col-sm-10" th:if="${content.isDispParticipateForm}">
+					入村する
+					<span th:if="${participateErrorMessage != null}" class="text-danger" th:test="${participateErrorMessage}">error</span>
+					<form method="post" action="" th:action="@{/village/{villageId}/participate(villageId=${content.villageId})}" th:object="${participateForm}" class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">キャラクター</label>
+							<div class="col-sm-4">
+								<select class="form-control" th:field="*{charaId}">
+									<option th:each="chara : ${content.selectableCharaList}" th:value="${chara.id}" th:text="${chara.name}" th:data-chara-img-url="${chara.url}"></option>
+								</select> <span th:if="${#fields.hasErrors('charaId')}" th:errors="*{charaId}" class="help-block text-danger">error!</span>
+							</div>
+							<label class="col-sm-2 control-label">役職希望</label>
+							<div class="col-sm-4">
+								<select class="form-control" th:field="*{requestedSkill}">
+									<option th:each="skill : ${content.selectableSkillList}" th:value="${skill.code}" th:text="${skill.name}"></option>
+								</select> <span th:if="${#fields.hasErrors('requestedSkill')}" th:errors="*{requestedSkill}" class="help-block text-danger">error!</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">発言</label>
+							<div class="col-sm-10">
+								<textarea class="form-control" th:field="*{joinMessage}" placeholder="人狼なんているわけないじゃん。みんな大げさだなあ"></textarea>
+								<span th:if="${#fields.hasErrors('joinMessage')}" th:errors="*{joinMessage}" class="help-block text-danger">error!</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<input type="submit" class="btn btn-sm btn-success pull-right" value="入村する" />
+						</div>
+					</form>
 				</div>
 			</div>
 			<script id="message-template" type="text/x-handlebars-template" layout:include="~{/village-template/message::message}"></script>

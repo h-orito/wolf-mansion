@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of DEAD_REASON.
+ * The abstract condition-query of dead_reason.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "DEAD_REASON";
+        return "dead_reason";
     }
 
     // ===================================================================================
@@ -45,11 +45,53 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
     //                                                                               =====
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)}
+     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20), classification=DeadReason}
      * @param deadReasonCode The value of deadReasonCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setDeadReasonCode_Equal(String deadReasonCode) {
+    protected void setDeadReasonCode_Equal(String deadReasonCode) {
         doSetDeadReasonCode_Equal(fRES(deadReasonCode));
+    }
+
+    /**
+     * Equal(=). As DeadReason. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20), classification=DeadReason} <br>
+     * 死亡理由
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setDeadReasonCode_Equal_AsDeadReason(CDef.DeadReason cdef) {
+        doSetDeadReasonCode_Equal(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * Equal(=). As 襲撃 (ATTACK). And OnlyOnceRegistered. <br>
+     * 襲撃
+     */
+    public void setDeadReasonCode_Equal_襲撃() {
+        setDeadReasonCode_Equal_AsDeadReason(CDef.DeadReason.襲撃);
+    }
+
+    /**
+     * Equal(=). As 呪殺 (DIVINED). And OnlyOnceRegistered. <br>
+     * 呪殺
+     */
+    public void setDeadReasonCode_Equal_呪殺() {
+        setDeadReasonCode_Equal_AsDeadReason(CDef.DeadReason.呪殺);
+    }
+
+    /**
+     * Equal(=). As 処刑 (EXECUTE). And OnlyOnceRegistered. <br>
+     * 処刑
+     */
+    public void setDeadReasonCode_Equal_処刑() {
+        setDeadReasonCode_Equal_AsDeadReason(CDef.DeadReason.処刑);
+    }
+
+    /**
+     * Equal(=). As 突然 (SUDDON). And OnlyOnceRegistered. <br>
+     * 突然
+     */
+    public void setDeadReasonCode_Equal_突然() {
+        setDeadReasonCode_Equal_AsDeadReason(CDef.DeadReason.突然);
     }
 
     protected void doSetDeadReasonCode_Equal(String deadReasonCode) {
@@ -58,11 +100,53 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)}
+     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20), classification=DeadReason}
      * @param deadReasonCode The value of deadReasonCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setDeadReasonCode_NotEqual(String deadReasonCode) {
+    protected void setDeadReasonCode_NotEqual(String deadReasonCode) {
         doSetDeadReasonCode_NotEqual(fRES(deadReasonCode));
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As DeadReason. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20), classification=DeadReason} <br>
+     * 死亡理由
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setDeadReasonCode_NotEqual_AsDeadReason(CDef.DeadReason cdef) {
+        doSetDeadReasonCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 襲撃 (ATTACK). And OnlyOnceRegistered. <br>
+     * 襲撃
+     */
+    public void setDeadReasonCode_NotEqual_襲撃() {
+        setDeadReasonCode_NotEqual_AsDeadReason(CDef.DeadReason.襲撃);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 呪殺 (DIVINED). And OnlyOnceRegistered. <br>
+     * 呪殺
+     */
+    public void setDeadReasonCode_NotEqual_呪殺() {
+        setDeadReasonCode_NotEqual_AsDeadReason(CDef.DeadReason.呪殺);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 処刑 (EXECUTE). And OnlyOnceRegistered. <br>
+     * 処刑
+     */
+    public void setDeadReasonCode_NotEqual_処刑() {
+        setDeadReasonCode_NotEqual_AsDeadReason(CDef.DeadReason.処刑);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 突然 (SUDDON). And OnlyOnceRegistered. <br>
+     * 突然
+     */
+    public void setDeadReasonCode_NotEqual_突然() {
+        setDeadReasonCode_NotEqual_AsDeadReason(CDef.DeadReason.突然);
     }
 
     protected void doSetDeadReasonCode_NotEqual(String deadReasonCode) {
@@ -70,48 +154,22 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
     }
 
     /**
-     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)}
-     * @param deadReasonCode The value of deadReasonCode as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setDeadReasonCode_GreaterThan(String deadReasonCode) {
-        regDeadReasonCode(CK_GT, fRES(deadReasonCode));
-    }
-
-    /**
-     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)}
-     * @param deadReasonCode The value of deadReasonCode as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setDeadReasonCode_LessThan(String deadReasonCode) {
-        regDeadReasonCode(CK_LT, fRES(deadReasonCode));
-    }
-
-    /**
-     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)}
-     * @param deadReasonCode The value of deadReasonCode as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setDeadReasonCode_GreaterEqual(String deadReasonCode) {
-        regDeadReasonCode(CK_GE, fRES(deadReasonCode));
-    }
-
-    /**
-     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)}
-     * @param deadReasonCode The value of deadReasonCode as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setDeadReasonCode_LessEqual(String deadReasonCode) {
-        regDeadReasonCode(CK_LE, fRES(deadReasonCode));
-    }
-
-    /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)}
+     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20), classification=DeadReason}
      * @param deadReasonCodeList The collection of deadReasonCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setDeadReasonCode_InScope(Collection<String> deadReasonCodeList) {
+    protected void setDeadReasonCode_InScope(Collection<String> deadReasonCodeList) {
         doSetDeadReasonCode_InScope(deadReasonCodeList);
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As DeadReason. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20), classification=DeadReason} <br>
+     * 死亡理由
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDeadReasonCode_InScope_AsDeadReason(Collection<CDef.DeadReason> cdefList) {
+        doSetDeadReasonCode_InScope(cTStrL(cdefList));
     }
 
     protected void doSetDeadReasonCode_InScope(Collection<String> deadReasonCodeList) {
@@ -120,11 +178,21 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)}
+     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20), classification=DeadReason}
      * @param deadReasonCodeList The collection of deadReasonCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setDeadReasonCode_NotInScope(Collection<String> deadReasonCodeList) {
+    protected void setDeadReasonCode_NotInScope(Collection<String> deadReasonCodeList) {
         doSetDeadReasonCode_NotInScope(deadReasonCodeList);
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. As DeadReason. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20), classification=DeadReason} <br>
+     * 死亡理由
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDeadReasonCode_NotInScope_AsDeadReason(Collection<CDef.DeadReason> cdefList) {
+        doSetDeadReasonCode_NotInScope(cTStrL(cdefList));
     }
 
     protected void doSetDeadReasonCode_NotInScope(Collection<String> deadReasonCodeList) {
@@ -132,53 +200,9 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
     }
 
     /**
-     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)} <br>
-     * <pre>e.g. setDeadReasonCode_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
-     * @param deadReasonCode The value of deadReasonCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param opLambda The callback for option of like-search. (NotNull)
-     */
-    public void setDeadReasonCode_LikeSearch(String deadReasonCode, ConditionOptionCall<LikeSearchOption> opLambda) {
-        setDeadReasonCode_LikeSearch(deadReasonCode, xcLSOP(opLambda));
-    }
-
-    /**
-     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)} <br>
-     * <pre>e.g. setDeadReasonCode_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
-     * @param deadReasonCode The value of deadReasonCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param likeSearchOption The option of like-search. (NotNull)
-     */
-    protected void setDeadReasonCode_LikeSearch(String deadReasonCode, LikeSearchOption likeSearchOption) {
-        regLSQ(CK_LS, fRES(deadReasonCode), xgetCValueDeadReasonCode(), "DEAD_REASON_CODE", likeSearchOption);
-    }
-
-    /**
-     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
-     * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)}
-     * @param deadReasonCode The value of deadReasonCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param opLambda The callback for option of like-search. (NotNull)
-     */
-    public void setDeadReasonCode_NotLikeSearch(String deadReasonCode, ConditionOptionCall<LikeSearchOption> opLambda) {
-        setDeadReasonCode_NotLikeSearch(deadReasonCode, xcLSOP(opLambda));
-    }
-
-    /**
-     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
-     * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)}
-     * @param deadReasonCode The value of deadReasonCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param likeSearchOption The option of not-like-search. (NotNull)
-     */
-    protected void setDeadReasonCode_NotLikeSearch(String deadReasonCode, LikeSearchOption likeSearchOption) {
-        regLSQ(CK_NLS, fRES(deadReasonCode), xgetCValueDeadReasonCode(), "DEAD_REASON_CODE", likeSearchOption);
-    }
-
-    /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select DEAD_REASON_CODE from VILLAGE_PLAYER where ...)} <br>
-     * VILLAGE_PLAYER by DEAD_REASON_CODE, named 'villagePlayerAsOne'.
+     * {exists (select DEAD_REASON_CODE from village_player where ...)} <br>
+     * village_player by DEAD_REASON_CODE, named 'villagePlayerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsVillagePlayer</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
@@ -196,8 +220,8 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select DEAD_REASON_CODE from VILLAGE_PLAYER where ...)} <br>
-     * VILLAGE_PLAYER by DEAD_REASON_CODE, named 'villagePlayerAsOne'.
+     * {not exists (select DEAD_REASON_CODE from village_player where ...)} <br>
+     * village_player by DEAD_REASON_CODE, named 'villagePlayerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsVillagePlayer</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
@@ -223,8 +247,8 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from VILLAGE_PLAYER where ...)} <br>
-     * VILLAGE_PLAYER by DEAD_REASON_CODE, named 'villagePlayerAsOne'.
+     * {FOO &lt;= (select max(BAR) from village_player where ...)} <br>
+     * village_player by DEAD_REASON_CODE, named 'villagePlayerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVillagePlayer()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -250,13 +274,13 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)}
+     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20), classification=DeadReason}
      */
     public void setDeadReasonCode_IsNull() { regDeadReasonCode(CK_ISN, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)}
+     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20), classification=DeadReason}
      */
     public void setDeadReasonCode_IsNotNull() { regDeadReasonCode(CK_ISNN, DOBJ); }
 

@@ -15,6 +15,7 @@ import org.dbflute.exception.*;
 import org.dbflute.hook.CommonColumnAutoSetupper;
 import org.dbflute.optional.OptionalEntity;
 import org.dbflute.outsidesql.executor.*;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.bsbhv.loader.*;
 import com.ort.dbflute.exentity.*;
@@ -67,7 +68,7 @@ public abstract class BsDeadReasonBhv extends AbstractBehaviorWritable<DeadReaso
     /** {@inheritDoc} */
     public DeadReasonDbm asDBMeta() { return DeadReasonDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "DEAD_REASON"; }
+    public String asTableDbName() { return "dead_reason"; }
 
     // ===================================================================================
     //                                                                        New Instance
@@ -159,29 +160,29 @@ public abstract class BsDeadReasonBhv extends AbstractBehaviorWritable<DeadReaso
 
     /**
      * Select the entity by the primary-key value.
-     * @param deadReasonCode : PK, NotNull, VARCHAR(20). (NotNull)
+     * @param deadReasonCode : PK, NotNull, VARCHAR(20), classification=DeadReason. (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    public OptionalEntity<DeadReason> selectByPK(String deadReasonCode) {
+    public OptionalEntity<DeadReason> selectByPK(CDef.DeadReason deadReasonCode) {
         return facadeSelectByPK(deadReasonCode);
     }
 
-    protected OptionalEntity<DeadReason> facadeSelectByPK(String deadReasonCode) {
+    protected OptionalEntity<DeadReason> facadeSelectByPK(CDef.DeadReason deadReasonCode) {
         return doSelectOptionalByPK(deadReasonCode, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends DeadReason> ENTITY doSelectByPK(String deadReasonCode, Class<? extends ENTITY> tp) {
+    protected <ENTITY extends DeadReason> ENTITY doSelectByPK(CDef.DeadReason deadReasonCode, Class<? extends ENTITY> tp) {
         return doSelectEntity(xprepareCBAsPK(deadReasonCode), tp);
     }
 
-    protected <ENTITY extends DeadReason> OptionalEntity<ENTITY> doSelectOptionalByPK(String deadReasonCode, Class<? extends ENTITY> tp) {
+    protected <ENTITY extends DeadReason> OptionalEntity<ENTITY> doSelectOptionalByPK(CDef.DeadReason deadReasonCode, Class<? extends ENTITY> tp) {
         return createOptionalEntity(doSelectByPK(deadReasonCode, tp), deadReasonCode);
     }
 
-    protected DeadReasonCB xprepareCBAsPK(String deadReasonCode) {
+    protected DeadReasonCB xprepareCBAsPK(CDef.DeadReason deadReasonCode) {
         assertObjectNotNull("deadReasonCode", deadReasonCode);
         return newConditionBean().acceptPK(deadReasonCode);
     }

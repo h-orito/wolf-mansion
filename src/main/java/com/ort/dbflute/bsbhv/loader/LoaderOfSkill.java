@@ -36,7 +36,7 @@ import com.ort.dbflute.cbean.*;
  *     camp
  *
  * [referrer property]
- *     villagePlayerList
+ *     villagePlayerByRequestSkillCodeList, villagePlayerBySkillCodeList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -61,14 +61,14 @@ public class LoaderOfSkill {
     // ===================================================================================
     //                                                                       Load Referrer
     //                                                                       =============
-    protected List<VillagePlayer> _referrerVillagePlayer;
+    protected List<VillagePlayer> _referrerVillagePlayerByRequestSkillCode;
 
     /**
-     * Load referrer of villagePlayerList by the set-upper of referrer. <br>
-     * VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerList'.
+     * Load referrer of villagePlayerByRequestSkillCodeList by the set-upper of referrer. <br>
+     * VILLAGE_PLAYER by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeList'.
      * <pre>
      * <span style="color: #0000C0">skillBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">skillList</span>, <span style="color: #553000">skillLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">skillLoader</span>.<span style="color: #CC4747">loadVillagePlayer</span>(<span style="color: #553000">playerCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">skillLoader</span>.<span style="color: #CC4747">loadVillagePlayerByRequestSkillCode</span>(<span style="color: #553000">playerCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *         <span style="color: #553000">playerCB</span>.setupSelect...
      *         <span style="color: #553000">playerCB</span>.query().set...
      *         <span style="color: #553000">playerCB</span>.query().addOrderBy...
@@ -78,7 +78,41 @@ public class LoaderOfSkill {
      *     <span style="color: #3F7E5E">//});</span>
      * });
      * for (Skill skill : <span style="color: #553000">skillList</span>) {
-     *     ... = skill.<span style="color: #CC4747">getVillagePlayerList()</span>;
+     *     ... = skill.<span style="color: #CC4747">getVillagePlayerByRequestSkillCodeList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setRequestSkillCode_InScope(pkList);
+     * cb.query().addOrderBy_RequestSkillCode_Asc();
+     * </pre>
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerLoaderGateway<LoaderOfVillagePlayer> loadVillagePlayerByRequestSkillCode(ReferrerConditionSetupper<VillagePlayerCB> refCBLambda) {
+        myBhv().loadVillagePlayerByRequestSkillCode(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerVillagePlayerByRequestSkillCode = refLs);
+        return hd -> hd.handle(new LoaderOfVillagePlayer().ready(_referrerVillagePlayerByRequestSkillCode, _selector));
+    }
+
+    protected List<VillagePlayer> _referrerVillagePlayerBySkillCode;
+
+    /**
+     * Load referrer of villagePlayerBySkillCodeList by the set-upper of referrer. <br>
+     * VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerBySkillCodeList'.
+     * <pre>
+     * <span style="color: #0000C0">skillBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">skillList</span>, <span style="color: #553000">skillLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">skillLoader</span>.<span style="color: #CC4747">loadVillagePlayerBySkillCode</span>(<span style="color: #553000">playerCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *         <span style="color: #553000">playerCB</span>.setupSelect...
+     *         <span style="color: #553000">playerCB</span>.query().set...
+     *         <span style="color: #553000">playerCB</span>.query().addOrderBy...
+     *     }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     *     <span style="color: #3F7E5E">//}).withNestedReferrer(<span style="color: #553000">playerLoader</span> -&gt; {</span>
+     *     <span style="color: #3F7E5E">//    playerLoader.load...</span>
+     *     <span style="color: #3F7E5E">//});</span>
+     * });
+     * for (Skill skill : <span style="color: #553000">skillList</span>) {
+     *     ... = skill.<span style="color: #CC4747">getVillagePlayerBySkillCodeList()</span>;
      * }
      * </pre>
      * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
@@ -90,9 +124,9 @@ public class LoaderOfSkill {
      * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    public NestedReferrerLoaderGateway<LoaderOfVillagePlayer> loadVillagePlayer(ReferrerConditionSetupper<VillagePlayerCB> refCBLambda) {
-        myBhv().loadVillagePlayer(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerVillagePlayer = refLs);
-        return hd -> hd.handle(new LoaderOfVillagePlayer().ready(_referrerVillagePlayer, _selector));
+    public NestedReferrerLoaderGateway<LoaderOfVillagePlayer> loadVillagePlayerBySkillCode(ReferrerConditionSetupper<VillagePlayerCB> refCBLambda) {
+        myBhv().loadVillagePlayerBySkillCode(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerVillagePlayerBySkillCode = refLs);
+        return hd -> hd.handle(new LoaderOfVillagePlayer().ready(_referrerVillagePlayerBySkillCode, _selector));
     }
 
     // ===================================================================================

@@ -7,6 +7,7 @@ import org.dbflute.dbmeta.DBMeta;
 import org.dbflute.dbmeta.AbstractEntity;
 import org.dbflute.dbmeta.accessory.DomainEntity;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.*;
 
 /**
@@ -61,7 +62,7 @@ public abstract class BsDeadReason extends AbstractEntity implements DomainEntit
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)} */
+    /** DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20), classification=DeadReason} */
     protected String _deadReasonCode;
 
     /** DEAD_REASON_NAME: {NotNull, VARCHAR(20)} */
@@ -77,7 +78,7 @@ public abstract class BsDeadReason extends AbstractEntity implements DomainEntit
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "DEAD_REASON";
+        return "dead_reason";
     }
 
     // ===================================================================================
@@ -87,6 +88,112 @@ public abstract class BsDeadReason extends AbstractEntity implements DomainEntit
     public boolean hasPrimaryKeyValue() {
         if (_deadReasonCode == null) { return false; }
         return true;
+    }
+
+    // ===================================================================================
+    //                                                             Classification Property
+    //                                                             =======================
+    /**
+     * Get the value of deadReasonCode as the classification of DeadReason. <br>
+     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20), classification=DeadReason} <br>
+     * 死亡理由
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.DeadReason getDeadReasonCodeAsDeadReason() {
+        return CDef.DeadReason.codeOf(getDeadReasonCode());
+    }
+
+    /**
+     * Set the value of deadReasonCode as the classification of DeadReason. <br>
+     * DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20), classification=DeadReason} <br>
+     * 死亡理由
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setDeadReasonCodeAsDeadReason(CDef.DeadReason cdef) {
+        setDeadReasonCode(cdef != null ? cdef.code() : null);
+    }
+
+    // ===================================================================================
+    //                                                              Classification Setting
+    //                                                              ======================
+    /**
+     * Set the value of deadReasonCode as 襲撃 (ATTACK). <br>
+     * 襲撃
+     */
+    public void setDeadReasonCode_襲撃() {
+        setDeadReasonCodeAsDeadReason(CDef.DeadReason.襲撃);
+    }
+
+    /**
+     * Set the value of deadReasonCode as 呪殺 (DIVINED). <br>
+     * 呪殺
+     */
+    public void setDeadReasonCode_呪殺() {
+        setDeadReasonCodeAsDeadReason(CDef.DeadReason.呪殺);
+    }
+
+    /**
+     * Set the value of deadReasonCode as 処刑 (EXECUTE). <br>
+     * 処刑
+     */
+    public void setDeadReasonCode_処刑() {
+        setDeadReasonCodeAsDeadReason(CDef.DeadReason.処刑);
+    }
+
+    /**
+     * Set the value of deadReasonCode as 突然 (SUDDON). <br>
+     * 突然
+     */
+    public void setDeadReasonCode_突然() {
+        setDeadReasonCodeAsDeadReason(CDef.DeadReason.突然);
+    }
+
+    // ===================================================================================
+    //                                                        Classification Determination
+    //                                                        ============================
+    /**
+     * Is the value of deadReasonCode 襲撃? <br>
+     * 襲撃
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isDeadReasonCode襲撃() {
+        CDef.DeadReason cdef = getDeadReasonCodeAsDeadReason();
+        return cdef != null ? cdef.equals(CDef.DeadReason.襲撃) : false;
+    }
+
+    /**
+     * Is the value of deadReasonCode 呪殺? <br>
+     * 呪殺
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isDeadReasonCode呪殺() {
+        CDef.DeadReason cdef = getDeadReasonCodeAsDeadReason();
+        return cdef != null ? cdef.equals(CDef.DeadReason.呪殺) : false;
+    }
+
+    /**
+     * Is the value of deadReasonCode 処刑? <br>
+     * 処刑
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isDeadReasonCode処刑() {
+        CDef.DeadReason cdef = getDeadReasonCodeAsDeadReason();
+        return cdef != null ? cdef.equals(CDef.DeadReason.処刑) : false;
+    }
+
+    /**
+     * Is the value of deadReasonCode 突然? <br>
+     * 突然
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isDeadReasonCode突然() {
+        CDef.DeadReason cdef = getDeadReasonCodeAsDeadReason();
+        return cdef != null ? cdef.equals(CDef.DeadReason.突然) : false;
     }
 
     // ===================================================================================
@@ -181,7 +288,7 @@ public abstract class BsDeadReason extends AbstractEntity implements DomainEntit
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)} <br>
+     * [get] DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20), classification=DeadReason} <br>
      * 死亡理由コード
      * @return The value of the column 'DEAD_REASON_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -191,11 +298,12 @@ public abstract class BsDeadReason extends AbstractEntity implements DomainEntit
     }
 
     /**
-     * [set] DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20)} <br>
+     * [set] DEAD_REASON_CODE: {PK, NotNull, VARCHAR(20), classification=DeadReason} <br>
      * 死亡理由コード
      * @param deadReasonCode The value of the column 'DEAD_REASON_CODE'. (basically NotNull if update: for the constraint)
      */
-    public void setDeadReasonCode(String deadReasonCode) {
+    protected void setDeadReasonCode(String deadReasonCode) {
+        checkClassificationCode("DEAD_REASON_CODE", CDef.DefMeta.DeadReason, deadReasonCode);
         registerModifiedProperty("deadReasonCode");
         _deadReasonCode = deadReasonCode;
     }
@@ -218,5 +326,13 @@ public abstract class BsDeadReason extends AbstractEntity implements DomainEntit
     public void setDeadReasonName(String deadReasonName) {
         registerModifiedProperty("deadReasonName");
         _deadReasonName = deadReasonName;
+    }
+
+    /**
+     * For framework so basically DON'T use this method.
+     * @param deadReasonCode The value of the column 'DEAD_REASON_CODE'. (basically NotNull if update: for the constraint)
+     */
+    public void mynativeMappingDeadReasonCode(String deadReasonCode) {
+        setDeadReasonCode(deadReasonCode);
     }
 }

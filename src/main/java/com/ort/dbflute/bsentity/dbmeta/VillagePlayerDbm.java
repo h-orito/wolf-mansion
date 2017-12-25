@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of VILLAGE_PLAYER. (Singleton)
+ * The DB meta of village_player. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillagePlayerDbm extends AbstractDBMeta {
@@ -55,11 +55,26 @@ public class VillagePlayerDbm extends AbstractDBMeta {
                 ((VillagePlayer)et).mynativeMappingSkillCode((String)vl);
             }
         }, "skillCode");
+        setupEpg(_epgMap, et -> ((VillagePlayer)et).getRequestSkillCode(), (et, vl) -> {
+            CDef.Skill cls = (CDef.Skill)gcls(et, columnRequestSkillCode(), vl);
+            if (cls != null) {
+                ((VillagePlayer)et).setRequestSkillCodeAsSkill(cls);
+            } else {
+                ((VillagePlayer)et).mynativeMappingRequestSkillCode((String)vl);
+            }
+        }, "requestSkillCode");
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getRoomNumber(), (et, vl) -> ((VillagePlayer)et).setRoomNumber(cti(vl)), "roomNumber");
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getIsDead(), (et, vl) -> {
             ((VillagePlayer)et).setIsDead((Boolean)vl);
         }, "isDead");
-        setupEpg(_epgMap, et -> ((VillagePlayer)et).getDeadReasonCode(), (et, vl) -> ((VillagePlayer)et).setDeadReasonCode((String)vl), "deadReasonCode");
+        setupEpg(_epgMap, et -> ((VillagePlayer)et).getDeadReasonCode(), (et, vl) -> {
+            CDef.DeadReason cls = (CDef.DeadReason)gcls(et, columnDeadReasonCode(), vl);
+            if (cls != null) {
+                ((VillagePlayer)et).setDeadReasonCodeAsDeadReason(cls);
+            } else {
+                ((VillagePlayer)et).mynativeMappingDeadReasonCode((String)vl);
+            }
+        }, "deadReasonCode");
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getDeadDay(), (et, vl) -> ((VillagePlayer)et).setDeadDay(cti(vl)), "deadDay");
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getRegisterDatetime(), (et, vl) -> ((VillagePlayer)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getRegisterTrace(), (et, vl) -> ((VillagePlayer)et).setRegisterTrace((String)vl), "registerTrace");
@@ -79,7 +94,8 @@ public class VillagePlayerDbm extends AbstractDBMeta {
         setupEfpg(_efpgMap, et -> ((VillagePlayer)et).getChara(), (et, vl) -> ((VillagePlayer)et).setChara((OptionalEntity<Chara>)vl), "chara");
         setupEfpg(_efpgMap, et -> ((VillagePlayer)et).getDeadReason(), (et, vl) -> ((VillagePlayer)et).setDeadReason((OptionalEntity<DeadReason>)vl), "deadReason");
         setupEfpg(_efpgMap, et -> ((VillagePlayer)et).getPlayer(), (et, vl) -> ((VillagePlayer)et).setPlayer((OptionalEntity<Player>)vl), "player");
-        setupEfpg(_efpgMap, et -> ((VillagePlayer)et).getSkill(), (et, vl) -> ((VillagePlayer)et).setSkill((OptionalEntity<Skill>)vl), "skill");
+        setupEfpg(_efpgMap, et -> ((VillagePlayer)et).getSkillByRequestSkillCode(), (et, vl) -> ((VillagePlayer)et).setSkillByRequestSkillCode((OptionalEntity<Skill>)vl), "skillByRequestSkillCode");
+        setupEfpg(_efpgMap, et -> ((VillagePlayer)et).getSkillBySkillCode(), (et, vl) -> ((VillagePlayer)et).setSkillBySkillCode((OptionalEntity<Skill>)vl), "skillBySkillCode");
         setupEfpg(_efpgMap, et -> ((VillagePlayer)et).getVillage(), (et, vl) -> ((VillagePlayer)et).setVillage((OptionalEntity<Village>)vl), "village");
     }
     public PropertyGateway findForeignPropertyGateway(String prop)
@@ -88,7 +104,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "VILLAGE_PLAYER";
+    protected final String _tableDbName = "village_player";
     protected final String _tableDispName = "VILLAGE_PLAYER";
     protected final String _tablePropertyName = "villagePlayer";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_PLAYER", _tableDbName);
@@ -105,10 +121,11 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnVillageId = cci("VILLAGE_ID", "VILLAGE_ID", null, null, Integer.class, "villageId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "village", null, null, false);
     protected final ColumnInfo _columnPlayerId = cci("PLAYER_ID", "PLAYER_ID", null, null, Integer.class, "playerId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "player", null, null, false);
     protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "chara", null, null, false);
-    protected final ColumnInfo _columnSkillCode = cci("SKILL_CODE", "SKILL_CODE", null, null, String.class, "skillCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, "skill", null, CDef.DefMeta.Skill, false);
+    protected final ColumnInfo _columnSkillCode = cci("SKILL_CODE", "SKILL_CODE", null, null, String.class, "skillCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, "skillBySkillCode", null, CDef.DefMeta.Skill, false);
+    protected final ColumnInfo _columnRequestSkillCode = cci("REQUEST_SKILL_CODE", "REQUEST_SKILL_CODE", null, null, String.class, "requestSkillCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, "skillByRequestSkillCode", null, CDef.DefMeta.Skill, false);
     protected final ColumnInfo _columnRoomNumber = cci("ROOM_NUMBER", "ROOM_NUMBER", null, null, Integer.class, "roomNumber", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnIsDead = cci("IS_DEAD", "IS_DEAD", null, null, Boolean.class, "isDead", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
-    protected final ColumnInfo _columnDeadReasonCode = cci("DEAD_REASON_CODE", "DEAD_REASON_CODE", null, null, String.class, "deadReasonCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, "deadReason", null, null, false);
+    protected final ColumnInfo _columnDeadReasonCode = cci("DEAD_REASON_CODE", "DEAD_REASON_CODE", null, null, String.class, "deadReasonCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, "deadReason", null, CDef.DefMeta.DeadReason, false);
     protected final ColumnInfo _columnDeadDay = cci("DEAD_DAY", "DEAD_DAY", null, null, Integer.class, "deadDay", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
@@ -121,25 +138,30 @@ public class VillagePlayerDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnVillagePlayerId() { return _columnVillagePlayerId; }
     /**
-     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
     /**
-     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to player}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnPlayerId() { return _columnPlayerId; }
     /**
-     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
+     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to chara}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharaId() { return _columnCharaId; }
     /**
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnSkillCode() { return _columnSkillCode; }
+    /**
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnRequestSkillCode() { return _columnRequestSkillCode; }
     /**
      * ROOM_NUMBER: {INT UNSIGNED(10)}
      * @return The information object of specified column. (NotNull)
@@ -151,7 +173,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnIsDead() { return _columnIsDead; }
     /**
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON}
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnDeadReasonCode() { return _columnDeadReasonCode; }
@@ -188,6 +210,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
         ls.add(columnPlayerId());
         ls.add(columnCharaId());
         ls.add(columnSkillCode());
+        ls.add(columnRequestSkillCode());
         ls.add(columnRoomNumber());
         ls.add(columnIsDead());
         ls.add(columnDeadReasonCode());
@@ -260,12 +283,20 @@ public class VillagePlayerDbm extends AbstractDBMeta {
         return cfi("FK_VILLAGE_PLAYER_PLAYER", "player", this, PlayerDbm.getInstance(), mp, 2, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villagePlayerList", false);
     }
     /**
-     * SKILL by my SKILL_CODE, named 'skill'.
+     * SKILL by my REQUEST_SKILL_CODE, named 'skillByRequestSkillCode'.
      * @return The information object of foreign property. (NotNull)
      */
-    public ForeignInfo foreignSkill() {
+    public ForeignInfo foreignSkillByRequestSkillCode() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnRequestSkillCode(), SkillDbm.getInstance().columnSkillCode());
+        return cfi("FK_VILLAGE_PLAYER_SKILL_REQUEST", "skillByRequestSkillCode", this, SkillDbm.getInstance(), mp, 3, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villagePlayerByRequestSkillCodeList", false);
+    }
+    /**
+     * SKILL by my SKILL_CODE, named 'skillBySkillCode'.
+     * @return The information object of foreign property. (NotNull)
+     */
+    public ForeignInfo foreignSkillBySkillCode() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnSkillCode(), SkillDbm.getInstance().columnSkillCode());
-        return cfi("FK_VILLAGE_PLAYER_SKILL", "skill", this, SkillDbm.getInstance(), mp, 3, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villagePlayerList", false);
+        return cfi("FK_VILLAGE_PLAYER_SKILL", "skillBySkillCode", this, SkillDbm.getInstance(), mp, 4, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villagePlayerBySkillCodeList", false);
     }
     /**
      * VILLAGE by my VILLAGE_ID, named 'village'.
@@ -273,7 +304,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
      */
     public ForeignInfo foreignVillage() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillageId(), VillageDbm.getInstance().columnVillageId());
-        return cfi("FK_VILLAGE_PLAYER_VILLAGE", "village", this, VillageDbm.getInstance(), mp, 4, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villagePlayerList", false);
+        return cfi("FK_VILLAGE_PLAYER_VILLAGE", "village", this, VillageDbm.getInstance(), mp, 5, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villagePlayerList", false);
     }
 
     // -----------------------------------------------------
