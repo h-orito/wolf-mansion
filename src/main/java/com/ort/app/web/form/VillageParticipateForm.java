@@ -22,6 +22,9 @@ public class VillageParticipateForm implements Serializable {
     @Length(max = 200)
     private String joinMessage;
 
+    /** 入村人数(管理者用) */
+    private Integer personNumber;
+
     public Integer getCharaId() {
         return charaId;
     }
@@ -44,5 +47,13 @@ public class VillageParticipateForm implements Serializable {
 
     public void setJoinMessage(String joinMessage) {
         this.joinMessage = joinMessage;
+    }
+
+    public Integer getPersonNumber() {
+        return personNumber;
+    }
+
+    public void setPersonNumber(Integer personNumber) {
+        this.personNumber = personNumber;
     }
 }

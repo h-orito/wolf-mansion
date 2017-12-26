@@ -62,7 +62,7 @@ public abstract class BsAuthority extends AbstractEntity implements DomainEntity
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** AUTHORITY_CODE: {PK, NotNull, VARCHAR(10), classification=Authority} */
+    /** AUTHORITY_CODE: {PK, NotNull, VARCHAR(20), classification=Authority} */
     protected String _authorityCode;
 
     /** AUTHORITY_NAME: {NotNull, VARCHAR(20)} */
@@ -78,7 +78,7 @@ public abstract class BsAuthority extends AbstractEntity implements DomainEntity
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "authority";
+        return "AUTHORITY";
     }
 
     // ===================================================================================
@@ -95,7 +95,7 @@ public abstract class BsAuthority extends AbstractEntity implements DomainEntity
     //                                                             =======================
     /**
      * Get the value of authorityCode as the classification of Authority. <br>
-     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(10), classification=Authority} <br>
+     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(20), classification=Authority} <br>
      * 権限
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -106,7 +106,7 @@ public abstract class BsAuthority extends AbstractEntity implements DomainEntity
 
     /**
      * Set the value of authorityCode as the classification of Authority. <br>
-     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(10), classification=Authority} <br>
+     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(20), classification=Authority} <br>
      * 権限
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -118,7 +118,7 @@ public abstract class BsAuthority extends AbstractEntity implements DomainEntity
     //                                                              Classification Setting
     //                                                              ======================
     /**
-     * Set the value of authorityCode as 管理者 (ADMIN). <br>
+     * Set the value of authorityCode as 管理者 (ROLE_ADMIN). <br>
      * 管理者
      */
     public void setAuthorityCode_管理者() {
@@ -126,7 +126,7 @@ public abstract class BsAuthority extends AbstractEntity implements DomainEntity
     }
 
     /**
-     * Set the value of authorityCode as プレイヤー (PLAYER). <br>
+     * Set the value of authorityCode as プレイヤー (ROLE_PLAYER). <br>
      * プレイヤー
      */
     public void setAuthorityCode_プレイヤー() {
@@ -250,7 +250,7 @@ public abstract class BsAuthority extends AbstractEntity implements DomainEntity
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] AUTHORITY_CODE: {PK, NotNull, VARCHAR(10), classification=Authority} <br>
+     * [get] AUTHORITY_CODE: {PK, NotNull, VARCHAR(20), classification=Authority} <br>
      * 権限コード
      * @return The value of the column 'AUTHORITY_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -260,7 +260,7 @@ public abstract class BsAuthority extends AbstractEntity implements DomainEntity
     }
 
     /**
-     * [set] AUTHORITY_CODE: {PK, NotNull, VARCHAR(10), classification=Authority} <br>
+     * [set] AUTHORITY_CODE: {PK, NotNull, VARCHAR(20), classification=Authority} <br>
      * 権限コード
      * @param authorityCode The value of the column 'AUTHORITY_CODE'. (basically NotNull if update: for the constraint)
      */

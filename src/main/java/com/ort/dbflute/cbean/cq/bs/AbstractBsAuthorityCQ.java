@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of authority.
+ * The abstract condition-query of AUTHORITY.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsAuthorityCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsAuthorityCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "authority";
+        return "AUTHORITY";
     }
 
     // ===================================================================================
@@ -45,7 +45,7 @@ public abstract class AbstractBsAuthorityCQ extends AbstractConditionQuery {
     //                                                                               =====
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(10), classification=Authority}
+     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(20), classification=Authority}
      * @param authorityCode The value of authorityCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setAuthorityCode_Equal(String authorityCode) {
@@ -54,7 +54,7 @@ public abstract class AbstractBsAuthorityCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). As Authority. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(10), classification=Authority} <br>
+     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(20), classification=Authority} <br>
      * 権限
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -63,7 +63,7 @@ public abstract class AbstractBsAuthorityCQ extends AbstractConditionQuery {
     }
 
     /**
-     * Equal(=). As 管理者 (ADMIN). And OnlyOnceRegistered. <br>
+     * Equal(=). As 管理者 (ROLE_ADMIN). And OnlyOnceRegistered. <br>
      * 管理者
      */
     public void setAuthorityCode_Equal_管理者() {
@@ -71,7 +71,7 @@ public abstract class AbstractBsAuthorityCQ extends AbstractConditionQuery {
     }
 
     /**
-     * Equal(=). As プレイヤー (PLAYER). And OnlyOnceRegistered. <br>
+     * Equal(=). As プレイヤー (ROLE_PLAYER). And OnlyOnceRegistered. <br>
      * プレイヤー
      */
     public void setAuthorityCode_Equal_プレイヤー() {
@@ -84,7 +84,7 @@ public abstract class AbstractBsAuthorityCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(10), classification=Authority}
+     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(20), classification=Authority}
      * @param authorityCode The value of authorityCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setAuthorityCode_NotEqual(String authorityCode) {
@@ -93,7 +93,7 @@ public abstract class AbstractBsAuthorityCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). As Authority. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(10), classification=Authority} <br>
+     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(20), classification=Authority} <br>
      * 権限
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -102,7 +102,7 @@ public abstract class AbstractBsAuthorityCQ extends AbstractConditionQuery {
     }
 
     /**
-     * NotEqual(&lt;&gt;). As 管理者 (ADMIN). And OnlyOnceRegistered. <br>
+     * NotEqual(&lt;&gt;). As 管理者 (ROLE_ADMIN). And OnlyOnceRegistered. <br>
      * 管理者
      */
     public void setAuthorityCode_NotEqual_管理者() {
@@ -110,7 +110,7 @@ public abstract class AbstractBsAuthorityCQ extends AbstractConditionQuery {
     }
 
     /**
-     * NotEqual(&lt;&gt;). As プレイヤー (PLAYER). And OnlyOnceRegistered. <br>
+     * NotEqual(&lt;&gt;). As プレイヤー (ROLE_PLAYER). And OnlyOnceRegistered. <br>
      * プレイヤー
      */
     public void setAuthorityCode_NotEqual_プレイヤー() {
@@ -123,7 +123,7 @@ public abstract class AbstractBsAuthorityCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(10), classification=Authority}
+     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(20), classification=Authority}
      * @param authorityCodeList The collection of authorityCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setAuthorityCode_InScope(Collection<String> authorityCodeList) {
@@ -132,7 +132,7 @@ public abstract class AbstractBsAuthorityCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. As Authority. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(10), classification=Authority} <br>
+     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(20), classification=Authority} <br>
      * 権限
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -146,7 +146,7 @@ public abstract class AbstractBsAuthorityCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(10), classification=Authority}
+     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(20), classification=Authority}
      * @param authorityCodeList The collection of authorityCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setAuthorityCode_NotInScope(Collection<String> authorityCodeList) {
@@ -155,7 +155,7 @@ public abstract class AbstractBsAuthorityCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. As Authority. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(10), classification=Authority} <br>
+     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(20), classification=Authority} <br>
      * 権限
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -169,8 +169,8 @@ public abstract class AbstractBsAuthorityCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select AUTHORITY_CODE from player where ...)} <br>
-     * player by AUTHORITY_CODE, named 'playerAsOne'.
+     * {exists (select AUTHORITY_CODE from PLAYER where ...)} <br>
+     * PLAYER by AUTHORITY_CODE, named 'playerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsPlayer</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
@@ -188,8 +188,8 @@ public abstract class AbstractBsAuthorityCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select AUTHORITY_CODE from player where ...)} <br>
-     * player by AUTHORITY_CODE, named 'playerAsOne'.
+     * {not exists (select AUTHORITY_CODE from PLAYER where ...)} <br>
+     * PLAYER by AUTHORITY_CODE, named 'playerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsPlayer</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
@@ -215,8 +215,8 @@ public abstract class AbstractBsAuthorityCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from player where ...)} <br>
-     * player by AUTHORITY_CODE, named 'playerAsOne'.
+     * {FOO &lt;= (select max(BAR) from PLAYER where ...)} <br>
+     * PLAYER by AUTHORITY_CODE, named 'playerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedPlayer()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -242,13 +242,13 @@ public abstract class AbstractBsAuthorityCQ extends AbstractConditionQuery {
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(10), classification=Authority}
+     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(20), classification=Authority}
      */
     public void setAuthorityCode_IsNull() { regAuthorityCode(CK_ISN, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(10), classification=Authority}
+     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(20), classification=Authority}
      */
     public void setAuthorityCode_IsNotNull() { regAuthorityCode(CK_ISNN, DOBJ); }
 

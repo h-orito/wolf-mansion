@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of authority.
+ * The base condition-query of AUTHORITY.
  * @author DBFlute(AutoGenerator)
  */
 public class BsAuthorityCQ extends AbstractBsAuthorityCQ {
@@ -35,7 +35,7 @@ public class BsAuthorityCQ extends AbstractBsAuthorityCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from authority) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from AUTHORITY) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsAuthorityCQ extends AbstractBsAuthorityCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join authority on ... and FOO = [value] ...}
+     * {select ... from ... left outer join AUTHORITY on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -95,14 +95,14 @@ public class BsAuthorityCQ extends AbstractBsAuthorityCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(10), classification=Authority}
+     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(20), classification=Authority}
      * @return this. (NotNull)
      */
     public BsAuthorityCQ addOrderBy_AuthorityCode_Asc() { regOBA("AUTHORITY_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(10), classification=Authority}
+     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(20), classification=Authority}
      * @return this. (NotNull)
      */
     public BsAuthorityCQ addOrderBy_AuthorityCode_Desc() { regOBD("AUTHORITY_CODE"); return this; }

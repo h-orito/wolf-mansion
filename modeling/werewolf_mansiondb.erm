@@ -434,7 +434,7 @@
 					<physical_name>authority_code</physical_name>
 					<logical_name>権限コード</logical_name>
 					<type>varchar(n)</type>
-					<length>10</length>
+					<length>20</length>
 					<not_null>true</not_null>
 					<primary_key>true</primary_key>
 				</normal_column>

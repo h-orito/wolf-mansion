@@ -741,7 +741,7 @@ AUTHORITY
 		<td class="flgcell">*</td>
 		<td id="authority_authority_code">AUTHORITY_CODE</td>
 		<td class="typecell">VARCHAR</td>
-		<td class="sizecell"> 10 </td>
+		<td class="sizecell"> 20 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
 		<td class="relcell"><a href="#player" title="FK_PLAYER_AUTHORITY">PLAYER</a>&nbsp;</td>
 		<td class="relcell"><a href="#AuthorityCls">Authority</a></td>
@@ -1901,7 +1901,7 @@ PLAYER
 		<td class="flgcell">*</td>
 		<td id="player_authority_code">AUTHORITY_CODE</td>
 		<td class="typecell">VARCHAR</td>
-		<td class="sizecell"> 10 </td>
+		<td class="sizecell"> 20 </td>
 		<td class="relcell"><a href="#authority" title="FK_PLAYER_AUTHORITY">AUTHORITY</a>&nbsp;</td>
 		<td class="relcell">&nbsp;</td>
 		<td class="relcell"><a href="#AuthorityCls">Authority</a></td>
@@ -3105,12 +3105,12 @@ VOTE
 				<th>Comment</th>
 			</tr>
 			<tr>
-				<td>ADMIN</td>
+				<td>ROLE_ADMIN</td>
 				<td>管理者</td>
 				<td class="commentcell"> &nbsp;</td>
 			</tr>
 			<tr>
-				<td>PLAYER</td>
+				<td>ROLE_PLAYER</td>
 				<td>プレイヤー</td>
 				<td class="commentcell"> &nbsp;</td>
 			</tr>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <!--/* 個別ページのタイトル */-->
 <title th:text="${content.villageName} + '村'">テスト村</title>
@@ -37,9 +38,9 @@
 
 				<!-- // 参戦欄 //-->
 				<div class="col-sm-10" th:if="${content.isDispParticipateForm}">
-					入村する
-					<span th:if="${participateErrorMessage != null}" class="text-danger" th:test="${participateErrorMessage}">error</span>
-					<form method="post" action="" th:action="@{/village/{villageId}/participate(villageId=${content.villageId})}" th:object="${participateForm}" class="form-horizontal">
+					入村する <span th:if="${participateErrorMessage != null}" class="text-danger" th:test="${participateErrorMessage}">error</span>
+					<form method="post" action="" th:action="@{/village/{villageId}/participate(villageId=${content.villageId})}" th:object="${participateForm}"
+						class="form-horizontal">
 						<div class="form-group">
 							<label class="col-sm-2 control-label">キャラクター</label>
 							<div class="col-sm-4">
@@ -63,6 +64,21 @@
 						</div>
 						<div class="form-group">
 							<input type="submit" class="btn btn-sm btn-success pull-right" value="入村する" />
+						</div>
+					</form>
+				</div>
+				<div class="col-sm-10" sec:authorize="hasRole('ROLE_ADMIN')">
+					管理者メニュー：入村
+					<form method="post" action="" th:action="@{/admin/village/{villageId}/allparticipate(villageId=${content.villageId})}"
+						class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">入村人数</label>
+							<div class="col-sm-10">
+								<input class="form-control" type="text" th:value="16" th:name="personNumber" />
+							</div>
+						</div>
+						<div class="form-group">
+							<input type="submit" class="btn btn-sm btn-success pull-right" value="人数分入村させる" />
 						</div>
 					</form>
 				</div>

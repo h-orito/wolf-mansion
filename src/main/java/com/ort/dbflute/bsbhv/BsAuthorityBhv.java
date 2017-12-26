@@ -68,7 +68,7 @@ public abstract class BsAuthorityBhv extends AbstractBehaviorWritable<Authority,
     /** {@inheritDoc} */
     public AuthorityDbm asDBMeta() { return AuthorityDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "authority"; }
+    public String asTableDbName() { return "AUTHORITY"; }
 
     // ===================================================================================
     //                                                                        New Instance
@@ -160,7 +160,7 @@ public abstract class BsAuthorityBhv extends AbstractBehaviorWritable<Authority,
 
     /**
      * Select the entity by the primary-key value.
-     * @param authorityCode : PK, NotNull, VARCHAR(10), classification=Authority. (NotNull)
+     * @param authorityCode : PK, NotNull, VARCHAR(20), classification=Authority. (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.

@@ -143,10 +143,10 @@ public interface CDef extends Classification {
      */
     public enum Authority implements CDef {
         /** 管理者 */
-        管理者("ADMIN", "管理者", emptyStrings())
+        管理者("ROLE_ADMIN", "管理者", emptyStrings())
         ,
         /** プレイヤー */
-        プレイヤー("PLAYER", "プレイヤー", emptyStrings())
+        プレイヤー("ROLE_PLAYER", "プレイヤー", emptyStrings())
         ;
         private static final Map<String, Authority> _codeClsMap = new HashMap<String, Authority>();
         private static final Map<String, Authority> _nameClsMap = new HashMap<String, Authority>();

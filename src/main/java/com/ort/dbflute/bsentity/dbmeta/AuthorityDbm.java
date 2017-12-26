@@ -13,7 +13,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of authority. (Singleton)
+ * The DB meta of AUTHORITY. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class AuthorityDbm extends AbstractDBMeta {
@@ -58,7 +58,7 @@ public class AuthorityDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "authority";
+    protected final String _tableDbName = "AUTHORITY";
     protected final String _tableDispName = "AUTHORITY";
     protected final String _tablePropertyName = "authority";
     protected final TableSqlName _tableSqlName = new TableSqlName("AUTHORITY", _tableDbName);
@@ -71,11 +71,11 @@ public class AuthorityDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnAuthorityCode = cci("AUTHORITY_CODE", "AUTHORITY_CODE", null, null, String.class, "authorityCode", null, true, false, true, "VARCHAR", 10, 0, null, null, false, null, null, null, "playerList", CDef.DefMeta.Authority, false);
+    protected final ColumnInfo _columnAuthorityCode = cci("AUTHORITY_CODE", "AUTHORITY_CODE", null, null, String.class, "authorityCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "playerList", CDef.DefMeta.Authority, false);
     protected final ColumnInfo _columnAuthorityName = cci("AUTHORITY_NAME", "AUTHORITY_NAME", null, null, String.class, "authorityName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
 
     /**
-     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(10), classification=Authority}
+     * AUTHORITY_CODE: {PK, NotNull, VARCHAR(20), classification=Authority}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnAuthorityCode() { return _columnAuthorityCode; }

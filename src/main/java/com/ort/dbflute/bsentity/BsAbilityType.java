@@ -77,7 +77,7 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "ability_type";
+        return "ABILITY_TYPE";
     }
 
     // ===================================================================================
