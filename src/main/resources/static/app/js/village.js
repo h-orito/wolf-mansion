@@ -14,7 +14,7 @@ $(function() {
 		url : GET_MESSAGE_URL,
 		data : {
 			'villageId' : villageId,
-			'day' : 0
+			'day' : null
 		}
 	}).then(function(response) {
 		console.log(response);

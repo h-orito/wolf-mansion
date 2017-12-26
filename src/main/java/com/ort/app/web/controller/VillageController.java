@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ort.app.web.controller.assist.VillageAssist;
+import com.ort.app.web.controller.logic.DayChangeLogic;
 import com.ort.app.web.controller.logic.VillageLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageGetMessageListForm;
@@ -39,12 +40,18 @@ public class VillageController {
     @Autowired
     private VillageLogic villageLogic;
 
+    @Autowired
+    DayChangeLogic dayChangeLogic;
+
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
     // 村最新日付初期表示
     @GetMapping("/village/{villageId}")
     private String villageIndex(@PathVariable Integer villageId, Model model) {
+        // 日付更新
+        dayChangeLogic.dayChangeIfNeeded(villageId);
+
         // 最新の日付取得
         int day = assist.selectLatestDay(villageId);
         assist.setIndexModel(villageId, day, model);

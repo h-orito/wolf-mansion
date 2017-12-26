@@ -11,6 +11,8 @@ import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 import org.dbflute.cbean.result.ListResultBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +34,7 @@ public class DayChangeLogic {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
+    private static final Logger logger = LoggerFactory.getLogger(DayChangeLogic.class);
 
     // ===================================================================================
     //                                                                           Attribute
@@ -152,6 +155,7 @@ public class DayChangeLogic {
         addNotRequestToUpdatePlayerList(playerList, skillPersonNumMap, updatePlayerList);
         // update
         updatePlayerList.stream().forEach(player -> {
+            logger.info("village_player_id: " + player.getVillagePlayerId() + " skill: " + player.getSkillCode());
             villagePlayerBhv.update(player);
         });
         // 役職割り当てについてメッセージ追加
@@ -210,7 +214,7 @@ public class DayChangeLogic {
                 count++;
             }
             for (VillagePlayer requestedPlayer : requestPlayerList) {
-                if (count >= capacity) {
+                if (count >= capacity || requestedPlayer.getPlayerId().equals(1)) {
                     break;
                 }
                 updatePlayerList.add(makeUpdateVillagePlayerBean(requestedPlayer.getVillagePlayerId(), skill));
@@ -222,7 +226,7 @@ public class DayChangeLogic {
     private VillagePlayer makeUpdateVillagePlayerBean(Integer villagePlayerId, CDef.Skill skill) {
         VillagePlayer villagePlayer = new VillagePlayer();
         villagePlayer.setVillagePlayerId(villagePlayerId);
-        villagePlayer.setRequestSkillCodeAsSkill(skill);
+        villagePlayer.setSkillCodeAsSkill(skill);
         return villagePlayer;
     }
 
