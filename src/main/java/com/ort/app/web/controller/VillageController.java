@@ -49,7 +49,7 @@ public class VillageController {
     // 村最新日付初期表示
     @GetMapping("/village/{villageId}")
     private String villageIndex(@PathVariable Integer villageId, Model model) {
-        // 日付更新
+        // 更新時間が過ぎていたら日付更新
         dayChangeLogic.dayChangeIfNeeded(villageId);
 
         // 最新の日付取得
@@ -58,10 +58,20 @@ public class VillageController {
         return "village";
     }
 
+    // 村最新日付初期表示
+    @GetMapping("/village/{villageId}/day/{day}")
+    private String villageDayIndex(@PathVariable Integer villageId, @PathVariable Integer day, Model model) {
+        assist.setIndexModel(villageId, day, model);
+        return "village";
+    }
+
     // 発言取得
     @GetMapping("/village/getMessageList")
     @ResponseBody
     private VillageMessageListResultContent getDayMessageList(VillageGetMessageListForm form) {
+        // 更新時間が過ぎていたら日付更新
+        dayChangeLogic.dayChangeIfNeeded(form.getVillageId());
+
         return assist.getMessageList(form);
     }
 

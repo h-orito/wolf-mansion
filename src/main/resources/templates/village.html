@@ -13,9 +13,9 @@
 		<nav layout:replace="~{layout/header::header}"></nav>
 		<div layout:fragment="content">
 			<div id="wrapper">
-				<div class="hidden" th:data-village-id="${content.villageId}"></div>
+				<div class="hidden" th:data-village-id="${content.villageId}" th:data-day="${content.day}"></div>
 
-				<!--// 入村者 //-->
+				<!--/* 入村者 */-->
 				<div class="col-sm-2 small">
 					<table class="table table-bordered table-condensed" th:each="statusDto : ${content.memberList}">
 						<tr>
@@ -29,14 +29,33 @@
 						</tr>
 					</table>
 				</div>
-				<!--// ログ部分 //-->
+				<!--/* ログ部分 */-->
+				<div class="col-sm-10 small">
+					<h1 class="h5" style="margin-left: -15px;" th:text="${content.villageId} + '. ' + ${content.villageName} + '村'"></h1>
+					<hr style="margin-top: 5px; margin-bottom: 10px; margin-left: -15px;" />
+				</div>
+
+				<!--/* 日付リスト */-->
+				<div class="col-sm-10 small">
+					<ul style="padding-left: 0px;">
+						<li th:each="day : ${content.dayList}" style="list-style-type: none; display: inline; margin-right: 10px;"><span
+							th:if="${day == content.day && day != 0 && day != content.epilogueDay}" th:text="${day} + '日目'"></span> <span
+							th:if="${day == content.day && day == 0}" th:text="プロローグ"></span> <span th:if="${day == content.day && day == content.epilogueDay}"
+							th:text="エピローグ"></span> <a th:if="${day != content.day && day != 0 && day != content.epilogueDay}" th:text="${day} + '日目'"
+							href="javascript:void(0);" th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a> <a
+							th:if="${day != content.day && day == 0}" th:text="プロローグ" href="javascript:void(0);"
+							th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a> <a
+							th:if="${day != content.day && day == content.epilogueDay}" th:text="エピローグ" href="javascript:void(0);"
+							th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a></li>
+					</ul>
+				</div>
 				<div class="col-sm-10">
 					<div class="row" data-message-area>
 						<div class="message col-sm-12 text-muted">読み込み中...</div>
 					</div>
 				</div>
 
-				<!-- // 参戦欄 //-->
+				<!--/* 参戦欄 */-->
 				<div class="col-sm-10" th:if="${content.isDispParticipateForm}">
 					入村する <span th:if="${participateErrorMessage != null}" class="text-danger" th:test="${participateErrorMessage}">error</span>
 					<form method="post" action="" th:action="@{/village/{villageId}/participate(villageId=${content.villageId})}" th:object="${participateForm}"
@@ -69,8 +88,7 @@
 				</div>
 				<div class="col-sm-10" sec:authorize="hasRole('ROLE_ADMIN')">
 					管理者メニュー：入村
-					<form method="post" action="" th:action="@{/admin/village/{villageId}/allparticipate(villageId=${content.villageId})}"
-						class="form-horizontal">
+					<form method="post" action="" th:action="@{/admin/village/{villageId}/allparticipate(villageId=${content.villageId})}" class="form-horizontal">
 						<div class="form-group">
 							<label class="col-sm-2 control-label">入村人数</label>
 							<div class="col-sm-10">

@@ -6,6 +6,7 @@ $(function() {
 	// ----------------------------------------------
 	//var contextPath = $('#context-path').text();
 	var villageId = $("[data-village-id]").data('village-id');
+	var day = $("[data-day]").data('day');
 	var GET_MESSAGE_URL = contextPath + 'village/getMessageList';
 	var messageTemplate = Handlebars.compile($("#message-template").html());
 	
@@ -14,7 +15,7 @@ $(function() {
 		url : GET_MESSAGE_URL,
 		data : {
 			'villageId' : villageId,
-			'day' : null
+			'day' : day
 		}
 	}).then(function(response) {
 		console.log(response);

@@ -18,6 +18,15 @@ public class VillageResultContent implements Serializable {
     /** 村名 */
     private String villageName;
 
+    /** 何日目か */
+    private Integer day;
+
+    /** 日付リスト */
+    private List<Integer> dayList;
+
+    /** エピローグ日時 */
+    private Integer epilogueDay;
+
     /** 参加者一覧 */
     private List<VillageMemberDto> memberList;
 
@@ -25,13 +34,31 @@ public class VillageResultContent implements Serializable {
     private List<VillageMessageDto> messageList;
 
     /** 参戦フォームを表示するか */
-    private boolean isDispParticipateForm;
+    private Boolean isDispParticipateForm;
 
     /** 参戦フォームで選択するキャラクターリスト */
     private List<VillageCharaDto> selectableCharaList;
 
     /** 参戦フォームで選択する希望役職リスト */
     private List<VillageSkillDto> selectableSkillList;
+
+    /** 発言フォームを表示するか */
+    private Boolean isDispSayForm;
+
+    /** 通常発言可能か */
+    private Boolean isAvailableNormalSay;
+
+    /** 囁き発言可能か */
+    private Boolean isAvailableWerewolfSay;
+
+    /** 共有発言可能か */
+    private Boolean isAvailableMasonSay;
+
+    /** 墓下発言可能か */
+    private Boolean isAvailableGraveSay;
+
+    /** 独り言可能か */
+    private Boolean isAvailableMonologueSay;
 
     public Integer getVillageId() {
         return villageId;
@@ -47,6 +74,30 @@ public class VillageResultContent implements Serializable {
 
     public void setVillageName(String villageName) {
         this.villageName = villageName;
+    }
+
+    public Integer getDay() {
+        return day;
+    }
+
+    public void setDay(Integer day) {
+        this.day = day;
+    }
+
+    public List<Integer> getDayList() {
+        return dayList;
+    }
+
+    public void setDayList(List<Integer> dayList) {
+        this.dayList = dayList;
+    }
+
+    public Integer getEpilogueDay() {
+        return epilogueDay;
+    }
+
+    public void setEpilogueDay(Integer epilogueDay) {
+        this.epilogueDay = epilogueDay;
     }
 
     public List<VillageMemberDto> getMemberList() {
@@ -65,11 +116,11 @@ public class VillageResultContent implements Serializable {
         this.messageList = messageList;
     }
 
-    public boolean getIsDispParticipateForm() {
+    public Boolean getIsDispParticipateForm() {
         return isDispParticipateForm;
     }
 
-    public void setIsDispParticipateForm(boolean isDispParticipateForm) {
+    public void setIsDispParticipateForm(Boolean isDispParticipateForm) {
         this.isDispParticipateForm = isDispParticipateForm;
     }
 
@@ -88,4 +139,53 @@ public class VillageResultContent implements Serializable {
     public void setSelectableSkillList(List<VillageSkillDto> selectableSkillList) {
         this.selectableSkillList = selectableSkillList;
     }
+
+    public Boolean getIsDispSayForm() {
+        return isDispSayForm;
+    }
+
+    public void setIsDispSayForm(Boolean isDispSayForm) {
+        this.isDispSayForm = isDispSayForm;
+    }
+
+    public Boolean getIsAvailableNormalSay() {
+        return isAvailableNormalSay;
+    }
+
+    public void setIsAvailableNormalSay(Boolean isAvailableNormalSay) {
+        this.isAvailableNormalSay = isAvailableNormalSay;
+    }
+
+    public Boolean getIsAvailableWerewolfSay() {
+        return isAvailableWerewolfSay;
+    }
+
+    public void setIsAvailableWerewolfSay(Boolean isAvailableWerewolfSay) {
+        this.isAvailableWerewolfSay = isAvailableWerewolfSay;
+    }
+
+    public Boolean getIsAvailableMasonSay() {
+        return isAvailableMasonSay;
+    }
+
+    public void setIsAvailableMasonSay(Boolean isAvailableMasonSay) {
+        this.isAvailableMasonSay = isAvailableMasonSay;
+    }
+
+    public Boolean getIsAvailableGraveSay() {
+        return isAvailableGraveSay;
+    }
+
+    public void setIsAvailableGraveSay(Boolean isAvailableGraveSay) {
+        this.isAvailableGraveSay = isAvailableGraveSay;
+    }
+
+    public Boolean getIsAvailableMonologueSay() {
+        return isAvailableMonologueSay;
+    }
+
+    public void setIsAvailableMonologueSay(Boolean isAvailableMonologueSay) {
+        this.isAvailableMonologueSay = isAvailableMonologueSay;
+    }
+
 }
