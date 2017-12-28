@@ -61,6 +61,7 @@ public class DayChangeLogic {
         if (!shouldChangeDay(villageId, day)) {
             return;
         }
+
         // 村日付を追加
         insertVillageDayTransactional(villageId, day + 1);
 
@@ -101,6 +102,7 @@ public class DayChangeLogic {
             cb.setupSelect_VillageSettingsAsOne();
             cb.query().setVillageId_Equal(villageId);
         });
+        villageBhv.loadVillagePlayer(village, cb -> {});
         return village;
     }
 
@@ -129,6 +131,11 @@ public class DayChangeLogic {
         if (WerewolfMansionDateUtil.currentLocalDateTime().isBefore(changeDatetime)) {
             return false;
         }
+        // 最低開始人数を満たしていない
+        if (village.getVillagePlayerList().size() < village.getVillageSettingsAsOne().get().getStartPersonMinNum()) {
+            return false;
+        }
+
         return true;
     }
 

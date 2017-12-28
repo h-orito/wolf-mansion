@@ -15,6 +15,7 @@ import com.ort.app.web.controller.logic.VillageLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageGetMessageListForm;
 import com.ort.app.web.form.VillageParticipateForm;
+import com.ort.app.web.form.VillageSayForm;
 import com.ort.app.web.model.VillageMessageListResultContent;
 import com.ort.app.web.model.VillageResultContent;
 import com.ort.app.web.model.inner.VillageCharaDto;
@@ -77,7 +78,7 @@ public class VillageAssist {
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
-    public void setIndexModel(Integer villageId, int day, Model model) {
+    public void setIndexModel(Integer villageId, int day, VillageSayForm sayForm, Model model) {
         Village village = selectVillage(villageId);
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo(); // ログインしているか
         boolean isDispParticipateForm = isDispParticipateForm(day, userInfo); // 参戦フォームを表示するか
@@ -85,32 +86,26 @@ public class VillageAssist {
         List<Skill> selectableSkillList = isDispParticipateForm ? selectSelectableSkillList(villageId) : null; // 希望役職に選べる役職
         model.addAttribute("participateForm", new VillageParticipateForm());
         ListResultBean<VillageDay> dayList = villageDayBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
-        OptionalThing<VillagePlayer> optVillagePlayer = selectVillagePlayer(userInfo);
+        OptionalThing<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
         boolean isDispSayForm = isDispSayForm(villageId, userInfo, optVillagePlayer, day, dayList); // 発言フォームを表示するか
         boolean isAvailableNormalSay = isDispSayForm && isAvailableNormalSay(village, optVillagePlayer.get()); // 通常発言可能か
         boolean isAvailableWerewolfSay = isDispSayForm && isAvailableWerewolfSay(village, optVillagePlayer.get()); // 囁き可能か
         boolean isAvailableMasonSay = isDispSayForm && isAvailableMasonSay(village, optVillagePlayer.get()); // 共有者発言可能か
         boolean isAvailableGraveSay = isDispSayForm && isAvailableGraveSay(village, optVillagePlayer.get()); // 死者の呻きが発言可能か
         boolean isAvailableMonologueSay = isDispSayForm && isAvailableMonologueSay(village); // 独り言が発言可能か
-        VillageResultContent content =
-                mappingToContent(village, isDispParticipateForm, selectableCharaList, selectableSkillList, isDispSayForm, day, dayList,
-                        isAvailableNormalSay, isAvailableWerewolfSay, isAvailableMasonSay, isAvailableGraveSay, isAvailableMonologueSay);
+        setDefaultMessageTypeIfNeeded(sayForm, isDispSayForm, isAvailableNormalSay, isAvailableWerewolfSay, isAvailableMasonSay,
+                isAvailableGraveSay, isAvailableMonologueSay, model); // デフォルト発言区分
+
+        VillageResultContent content = mappingToContent(village, isDispParticipateForm, selectableCharaList, selectableSkillList,
+                isDispSayForm, day, dayList, isAvailableNormalSay, isAvailableWerewolfSay, isAvailableMasonSay, isAvailableGraveSay,
+                isAvailableMonologueSay, optVillagePlayer);
         model.addAttribute("content", content);
     }
 
-    private OptionalThing<VillagePlayer> selectVillagePlayer(UserInfo userInfo) {
-        if (userInfo == null) {
-            return OptionalThing.empty();
-        }
-        return villagePlayerBhv.selectEntity(cb -> {
-            cb.query().queryPlayer().setPlayerName_Equal(userInfo.getUsername());
-            cb.orScopeQuery(orCB -> {
-                orCB.query().setDeadReasonCode_IsNull();
-                orCB.query().setDeadReasonCode_NotEqual_突然();
-            });
-            cb.query().queryVillage().setVillageStatusCode_NotInScope_AsVillageStatus(
-                    Arrays.asList(CDef.VillageStatus.廃村, CDef.VillageStatus.終了));
-        });
+    public void setConfirmModel(Integer villageId, Model model) {
+        Village village = selectVillage(villageId);
+        model.addAttribute("villageName", village.getVillageDisplayName());
+
     }
 
     public VillageMessageListResultContent getMessageList(VillageGetMessageListForm form) {
@@ -138,6 +133,33 @@ public class VillageAssist {
                 playerBhv.selectEntityWithDeletedCheck(cb -> cb.query().setPlayerName_Equal(userInfo.getUsername())).getPlayerId();
         villageLogic.participate(villageId, playerId, participateForm.getCharaId(), CDef.Skill.codeOf(participateForm.getRequestedSkill()),
                 participateForm.getJoinMessage());
+    }
+
+    // 発言可能かチェック
+    public boolean isAvailableSay(Integer villageId, UserInfo userInfo, VillageSayForm sayForm) {
+        CDef.MessageType type = CDef.MessageType.codeOf(sayForm.getMessageType());
+        if (type == null) {
+            throw new IllegalArgumentException("発言種別が改ざんされている");
+        }
+        Village village = selectVillage(villageId);
+        VillagePlayer villagePlayer = selectVillagePlayer(villageId, userInfo).orElseThrow(() -> {
+            return new IllegalArgumentException("セッション切れ？");
+        });
+        switch (type) {
+        case 人狼の囁き:
+            return isAvailableWerewolfSay(village, villagePlayer);
+        case 通常発言:
+            return isAvailableNormalSay(village, villagePlayer);
+        case 共鳴発言:
+            return isAvailableMasonSay(village, villagePlayer);
+        case 死者の呻き:
+            return isAvailableGraveSay(village, villagePlayer);
+        case 独り言:
+            return isAvailableMonologueSay(village);
+        default:
+            throw new IllegalArgumentException("発言種別が改ざんされている type: " + type);
+        }
+
     }
 
     // ===================================================================================
@@ -178,13 +200,30 @@ public class VillageAssist {
         return skillBhv.selectList(cb -> {});
     }
 
+    public OptionalThing<VillagePlayer> selectVillagePlayer(Integer villageId, UserInfo userInfo) {
+        if (userInfo == null) {
+            return OptionalThing.empty();
+        }
+        return villagePlayerBhv.selectEntity(cb -> {
+            cb.setupSelect_Chara();
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().queryPlayer().setPlayerName_Equal(userInfo.getUsername());
+            cb.orScopeQuery(orCB -> {
+                orCB.query().setDeadReasonCode_IsNull();
+                orCB.query().setDeadReasonCode_NotEqual_突然();
+            });
+            cb.query().queryVillage().setVillageStatusCode_NotInScope_AsVillageStatus(
+                    Arrays.asList(CDef.VillageStatus.廃村, CDef.VillageStatus.終了));
+        });
+    }
+
     // ===================================================================================
     //                                                                             Mapping
     //                                                                             =======
     private VillageResultContent mappingToContent(Village village, boolean isDispParticipateForm, List<Chara> selectableCharaList,
             List<Skill> selectableSkillList, boolean isDispSayForm, int day, ListResultBean<VillageDay> dayList,
             boolean isAvailableNormalSay, boolean isAvailableWerewolfSay, boolean isAvailableMasonSay, boolean isAvailableGraveSay,
-            boolean isAvailableMonologueSay) {
+            boolean isAvailableMonologueSay, OptionalThing<VillagePlayer> optVillagePlayer) {
         VillageResultContent content = new VillageResultContent();
         content.setVillageId(village.getVillageId());
         content.setVillageName(village.getVillageDisplayName());
@@ -203,6 +242,7 @@ public class VillageAssist {
         content.setIsAvailableMasonSay(isAvailableMasonSay);
         content.setIsAvailableGraveSay(isAvailableGraveSay);
         content.setIsAvailableMonologueSay(isAvailableMonologueSay);
+        content.setCharaImageUrl(optVillagePlayer.map(vp -> vp.getChara().get().getCharaImgUrl()).orElse(null));
         return content;
     }
 
@@ -418,5 +458,27 @@ public class VillageAssist {
             });
         });
         return villageSettings.getCharaGroup().get().getCharaList();
+    }
+
+    // デフォルト発言区分
+    private void setDefaultMessageTypeIfNeeded(VillageSayForm sayForm, boolean isDispSayForm, boolean isAvailableNormalSay,
+            boolean isAvailableWerewolfSay, boolean isAvailableMasonSay, boolean isAvailableGraveSay, boolean isAvailableMonologueSay,
+            Model model) {
+        if (sayForm != null || !isDispSayForm) {
+            return;
+        }
+        VillageSayForm form = new VillageSayForm();
+        if (isAvailableWerewolfSay) {
+            form.setMessageType(CDef.MessageType.人狼の囁き.code());
+        } else if (isAvailableMasonSay) {
+            form.setMessageType(CDef.MessageType.共鳴発言.code());
+        } else if (isAvailableNormalSay) {
+            form.setMessageType(CDef.MessageType.通常発言.code());
+        } else if (isAvailableGraveSay) {
+            form.setMessageType(CDef.MessageType.死者の呻き.code());
+        } else {
+            form.setMessageType(CDef.MessageType.独り言.code());
+        }
+        model.addAttribute("sayForm", form);
     }
 }

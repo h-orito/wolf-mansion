@@ -60,6 +60,9 @@ public class VillageResultContent implements Serializable {
     /** 独り言可能か */
     private Boolean isAvailableMonologueSay;
 
+    /** 参戦しているキャラの画像 */
+    private String charaImageUrl;
+
     public Integer getVillageId() {
         return villageId;
     }
@@ -186,6 +189,14 @@ public class VillageResultContent implements Serializable {
 
     public void setIsAvailableMonologueSay(Boolean isAvailableMonologueSay) {
         this.isAvailableMonologueSay = isAvailableMonologueSay;
+    }
+
+    public String getCharaImageUrl() {
+        return charaImageUrl;
+    }
+
+    public void setCharaImageUrl(String charaImageUrl) {
+        this.charaImageUrl = charaImageUrl;
     }
 
 }

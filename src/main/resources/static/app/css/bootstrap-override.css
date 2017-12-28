@@ -50,6 +50,27 @@
 	background-color: #ffffff;
 }
 
+.message-werewolf {
+	color: #546E7A;
+	background-color: #f2dede;
+}
+
+.message-mason {
+	color: #546E7A;
+	background-color: #def2de;
+}
+
+.message-monologue {
+	color: #546E7A;
+	background-color: #e0e0e0;
+}
+
+.message-grave {
+	color: #546E7A;
+	background-color: #d9edf7;
+}
+
+
 .message-private-system {
 	color: #cccccc;
 	border: 1px solid #cccccc;

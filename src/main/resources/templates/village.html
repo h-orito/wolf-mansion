@@ -16,7 +16,7 @@
 				<div class="hidden" th:data-village-id="${content.villageId}" th:data-day="${content.day}"></div>
 
 				<!--/* 入村者 */-->
-				<div class="col-sm-2 small">
+				<div class="col-sm-2 small" style="min-height: 100vh;">
 					<table class="table table-bordered table-condensed" th:each="statusDto : ${content.memberList}">
 						<tr>
 							<th th:text="${statusDto.status}">生存</th>
@@ -29,76 +29,124 @@
 						</tr>
 					</table>
 				</div>
-				<!--/* ログ部分 */-->
-				<div class="col-sm-10 small">
-					<h1 class="h5" style="margin-left: -15px;" th:text="${content.villageId} + '. ' + ${content.villageName} + '村'"></h1>
-					<hr style="margin-top: 5px; margin-bottom: 10px; margin-left: -15px;" />
-				</div>
 
-				<!--/* 日付リスト */-->
-				<div class="col-sm-10 small">
-					<ul style="padding-left: 0px;">
-						<li th:each="day : ${content.dayList}" style="list-style-type: none; display: inline; margin-right: 10px;"><span
-							th:if="${day == content.day && day != 0 && day != content.epilogueDay}" th:text="${day} + '日目'"></span> <span
-							th:if="${day == content.day && day == 0}" th:text="プロローグ"></span> <span th:if="${day == content.day && day == content.epilogueDay}"
-							th:text="エピローグ"></span> <a th:if="${day != content.day && day != 0 && day != content.epilogueDay}" th:text="${day} + '日目'"
-							href="javascript:void(0);" th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a> <a
-							th:if="${day != content.day && day == 0}" th:text="プロローグ" href="javascript:void(0);"
-							th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a> <a
-							th:if="${day != content.day && day == content.epilogueDay}" th:text="エピローグ" href="javascript:void(0);"
-							th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a></li>
-					</ul>
-				</div>
+				<!--/* 村タイトル、日付リンク */-->
 				<div class="col-sm-10">
-					<div class="row" data-message-area>
-						<div class="message col-sm-12 text-muted">読み込み中...</div>
-					</div>
-				</div>
+					<div class="">
+						<!--/* rowを外した */-->
+						<h1 class="h5" style="" th:text="${content.villageId} + '. ' + ${content.villageName} + '村'"></h1>
+						<hr style="margin-top: 5px; margin-bottom: 10px;" />
 
-				<!--/* 参戦欄 */-->
-				<div class="col-sm-10" th:if="${content.isDispParticipateForm}">
-					入村する <span th:if="${participateErrorMessage != null}" class="text-danger" th:test="${participateErrorMessage}">error</span>
-					<form method="post" action="" th:action="@{/village/{villageId}/participate(villageId=${content.villageId})}" th:object="${participateForm}"
-						class="form-horizontal">
-						<div class="form-group">
-							<label class="col-sm-2 control-label">キャラクター</label>
-							<div class="col-sm-4">
-								<select class="form-control" th:field="*{charaId}">
-									<option th:each="chara : ${content.selectableCharaList}" th:value="${chara.id}" th:text="${chara.name}" th:data-chara-img-url="${chara.url}"></option>
-								</select> <span th:if="${#fields.hasErrors('charaId')}" th:errors="*{charaId}" class="help-block text-danger">error!</span>
+						<!--/* 日付リスト */-->
+						<div class="col-sm-12 small">
+							<ul style="padding-left: 0px;">
+								<li th:each="day : ${content.dayList}" style="list-style-type: none; display: inline; margin-right: 10px;"><span
+									th:if="${day == content.day && day != 0 && day != content.epilogueDay}" th:text="${day} + '日目'"></span> <span
+									th:if="${day == content.day && day == 0}" th:text="プロローグ"></span> <span th:if="${day == content.day && day == content.epilogueDay}"
+									th:text="エピローグ"></span> <a th:if="${day != content.day && day != 0 && day != content.epilogueDay}" th:text="${day} + '日目'"
+									href="javascript:void(0);" th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a> <a
+									th:if="${day != content.day && day == 0}" th:text="プロローグ" href="javascript:void(0);"
+									th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a> <a
+									th:if="${day != content.day && day == content.epilogueDay}" th:text="エピローグ" href="javascript:void(0);"
+									th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a></li>
+							</ul>
+						</div>
+
+						<!--/* ログ部分 */-->
+						<div class="col-sm-12">
+							<div class="row" data-message-area>
+								<div class="message col-sm-12 text-muted">読み込み中...</div>
 							</div>
-							<label class="col-sm-2 control-label">役職希望</label>
-							<div class="col-sm-4">
-								<select class="form-control" th:field="*{requestedSkill}">
-									<option th:each="skill : ${content.selectableSkillList}" th:value="${skill.code}" th:text="${skill.name}"></option>
-								</select> <span th:if="${#fields.hasErrors('requestedSkill')}" th:errors="*{requestedSkill}" class="help-block text-danger">error!</span>
+							<hr style="margin-top: 5px; margin-bottom: 10px; margin-left: -15px;" />
+						</div>
+
+						<!--/* 参戦欄 */-->
+						<div class="col-sm-12" th:if="${content.isDispParticipateForm}">
+							入村する <span th:if="${participateErrorMessage != null}" class="text-danger" th:test="${participateErrorMessage}">error</span>
+							<form method="post" action="" th:action="@{/village/{villageId}/participate(villageId=${content.villageId})}" th:object="${participateForm}"
+								class="form-horizontal">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">キャラクター</label>
+									<div class="col-sm-4">
+										<select class="form-control" th:field="*{charaId}">
+											<option th:each="chara : ${content.selectableCharaList}" th:value="${chara.id}" th:text="${chara.name}"
+												th:data-chara-img-url="${chara.url}"></option>
+										</select> <span th:if="${#fields.hasErrors('charaId')}" th:errors="*{charaId}" class="help-block text-danger">error!</span>
+									</div>
+									<label class="col-sm-2 control-label">役職希望</label>
+									<div class="col-sm-4">
+										<select class="form-control" th:field="*{requestedSkill}">
+											<option th:each="skill : ${content.selectableSkillList}" th:value="${skill.code}" th:text="${skill.name}"></option>
+										</select> <span th:if="${#fields.hasErrors('requestedSkill')}" th:errors="*{requestedSkill}" class="help-block text-danger">error!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">発言</label>
+									<div class="col-sm-10">
+										<textarea class="form-control" th:field="*{joinMessage}" placeholder="人狼なんているわけないじゃん。みんな大げさだなあ"></textarea>
+										<span th:if="${#fields.hasErrors('joinMessage')}" th:errors="*{joinMessage}" class="help-block text-danger">error!</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<input type="submit" class="btn btn-sm btn-success pull-right" value="入村する" />
+								</div>
+							</form>
+						</div>
+
+						<!--/* 発言欄 */-->
+						<div class="col-sm-12 well" th:if="${content.isDispSayForm}">
+							<div class="">
+								<!--/* rowを外した */-->
+								<h2 class="h5">発言する</h2>
+								<span th:if="${sayErrorMessage != null}" class="text-danger" th:test="${sayErrorMessage}">error</span>
+								<form method="post" action="" th:action="@{/village/{villageId}/confirm(villageId=${content.villageId})}" th:object="${sayForm}"
+									class="form-horizontal">
+									<div class="form-group">
+										<div class="col-sm-12 btn-group" data-toggle="buttons">
+											<label th:if="${content.isAvailableWerewolfSay}" class="btn btn-sm btn-success active"> <input type="radio" class=""
+													th:field="*{messageType}" value="WEREWOLF_SAY" autocomplete="off" />囁き
+											</label> <label th:if="${content.isAvailableNormalSay}" th:class="'btn btn-sm btn-success' + ${content.isAvailableWerewolfSay ? '': ' active'}">
+												<input type="radio" class="" th:field="*{messageType}" value="NORMAL_SAY" autocomplete="off" />通常
+											</label> <label th:if="${content.isAvailableMasonSay}" class="btn btn-sm btn-success"> <input type="radio" class=""
+													th:field="*{messageType}" value="MASON_SAY" autocomplete="off" />共鳴
+											</label> <label th:if="${content.isAvailableGraveSay}" class="btn btn-sm btn-success active"> <input type="radio" class=""
+													th:field="*{messageType}" value="GRAVE_SAY" autocomplete="off" />呻き
+											</label> <label th:if="${content.isAvailableMonologueSay}" class="btn btn-sm btn-success"> <input type="radio" class=""
+													th:field="*{messageType}" value="MONOLOGUE_SAY" autocomplete="off" />独り言
+											</label>
+										</div>
+										<div class="col-sm-12" style="display: flex;">
+											<div th:style="'width: 50px; height: 77px; background: url(\'' + ${content.charaImageUrl} + '\'); background-repeat: no-repeat;'"></div>
+											<div style="flex: 1; margin-left: 5px; min-height: 77px;">
+												<textarea class="form-control" th:field="*{message}" style="min-height: 77px;"></textarea>
+											</div>
+											<span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="help-block text-danger">error!</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-12">
+											<input type="submit" class="btn btn-sm btn-success pull-right" value="確認画面へ" />
+										</div>
+									</div>
+								</form>
 							</div>
 						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">発言</label>
-							<div class="col-sm-10">
-								<textarea class="form-control" th:field="*{joinMessage}" placeholder="人狼なんているわけないじゃん。みんな大げさだなあ"></textarea>
-								<span th:if="${#fields.hasErrors('joinMessage')}" th:errors="*{joinMessage}" class="help-block text-danger">error!</span>
-							</div>
+
+						<div class="col-sm-10" sec:authorize="hasRole('ROLE_ADMIN')">
+							管理者メニュー：入村
+							<form method="post" action="" th:action="@{/admin/village/{villageId}/allparticipate(villageId=${content.villageId})}" class="form-horizontal">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">入村人数</label>
+									<div class="col-sm-10">
+										<input class="form-control" type="text" th:value="16" th:name="personNumber" />
+									</div>
+								</div>
+								<div class="form-group">
+									<input type="submit" class="btn btn-sm btn-success pull-right" value="人数分入村させる" />
+								</div>
+							</form>
 						</div>
-						<div class="form-group">
-							<input type="submit" class="btn btn-sm btn-success pull-right" value="入村する" />
-						</div>
-					</form>
-				</div>
-				<div class="col-sm-10" sec:authorize="hasRole('ROLE_ADMIN')">
-					管理者メニュー：入村
-					<form method="post" action="" th:action="@{/admin/village/{villageId}/allparticipate(villageId=${content.villageId})}" class="form-horizontal">
-						<div class="form-group">
-							<label class="col-sm-2 control-label">入村人数</label>
-							<div class="col-sm-10">
-								<input class="form-control" type="text" th:value="16" th:name="personNumber" />
-							</div>
-						</div>
-						<div class="form-group">
-							<input type="submit" class="btn btn-sm btn-success pull-right" value="人数分入村させる" />
-						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 			<script id="message-template" type="text/x-handlebars-template" layout:include="~{/village-template/message::message}"></script>
