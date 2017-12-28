@@ -31,8 +31,15 @@ Handlebars.registerHelper('eq', function(param1, param2) {
 Handlebars.registerHelper('neq', function(param1, param2) {
 	return param1 != param2;
 });
-Handlebars.registerHelper('or', function(param1, param2) {
-	return param1 || param2;
+Handlebars.registerHelper('or', function() {
+	//argumentsに渡された引数が入っている
+	var existsTrue = false;
+    for (var i = 0; i < arguments.length; i++) {
+        if (arguments[i]) {
+        		existsTrue = true;
+        }
+    }
+	return existsTrue;
 });
 Handlebars.registerHelper('timeFormat', function(time) {
 	var year = time.year;

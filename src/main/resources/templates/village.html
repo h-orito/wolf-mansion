@@ -61,7 +61,7 @@
 						</div>
 
 						<!--/* 参戦欄 */-->
-						<div class="col-sm-12" th:if="${content.isDispParticipateForm}">
+						<div class="col-sm-12 well" th:if="${content.isDispParticipateForm}">
 							入村する <span th:if="${participateErrorMessage != null}" class="text-danger" th:test="${participateErrorMessage}">error</span>
 							<form method="post" action="" th:action="@{/village/{villageId}/participate(villageId=${content.villageId})}" th:object="${participateForm}"
 								class="form-horizontal">
@@ -103,16 +103,17 @@
 									class="form-horizontal">
 									<div class="form-group">
 										<div class="col-sm-12 btn-group" data-toggle="buttons">
-											<label th:if="${content.isAvailableWerewolfSay}" class="btn btn-sm btn-success active"> <input type="radio" class=""
-													th:field="*{messageType}" value="WEREWOLF_SAY" autocomplete="off" />囁き
-											</label> <label th:if="${content.isAvailableNormalSay}" th:class="'btn btn-sm btn-success' + ${content.isAvailableWerewolfSay ? '': ' active'}">
+											<label th:if="${content.isAvailableWerewolfSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'WEREWOLF_SAY' ? 'active' : ''}">
+												<input type="radio" class="" th:field="*{messageType}" value="WEREWOLF_SAY" autocomplete="off" />囁き
+											</label> <label th:if="${content.isAvailableNormalSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'NORMAL_SAY' ? 'active' : ''}">
 												<input type="radio" class="" th:field="*{messageType}" value="NORMAL_SAY" autocomplete="off" />通常
-											</label> <label th:if="${content.isAvailableMasonSay}" class="btn btn-sm btn-success"> <input type="radio" class=""
-													th:field="*{messageType}" value="MASON_SAY" autocomplete="off" />共鳴
-											</label> <label th:if="${content.isAvailableGraveSay}" class="btn btn-sm btn-success active"> <input type="radio" class=""
-													th:field="*{messageType}" value="GRAVE_SAY" autocomplete="off" />呻き
-											</label> <label th:if="${content.isAvailableMonologueSay}" class="btn btn-sm btn-success"> <input type="radio" class=""
-													th:field="*{messageType}" value="MONOLOGUE_SAY" autocomplete="off" />独り言
+											</label> <label th:if="${content.isAvailableMasonSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'MASON_SAY' ? 'active' : ''}">
+												<input type="radio" class="" th:field="*{messageType}" value="MASON_SAY" autocomplete="off" />共鳴
+											</label> <label th:if="${content.isAvailableGraveSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'GRAVE_SAY' ? 'active' : ''}">
+												<input type="radio" class="" th:field="*{messageType}" value="GRAVE_SAY" autocomplete="off" />呻き
+											</label> <label th:if="${content.isAvailableMonologueSay}"
+												th:class="'btn btn-sm btn-success ' + *{messageType == 'MONOLOGUE_SAY' ? 'active' : ''}"> <input type="radio" class=""
+												th:field="*{messageType}" value="MONOLOGUE_SAY" autocomplete="off" />独り言
 											</label>
 										</div>
 										<div class="col-sm-12" style="display: flex;">

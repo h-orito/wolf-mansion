@@ -18,11 +18,15 @@
 						<div class="col-sm-12">
 							<div class="row">
 								<!--// 通常発言 //-->
-								<div
-									class="'col-sm-12 ' + *{'NORMAL_SAY'.equals(messageType) ? 'message-normal' : 'WEREWOLF_SAY'.equals(messageType) ? 'message-werewolf' : 
-								'MASON_SAY'.equals(messageType) ? 'message-mason' : 'MONOLOGUE_SAY'.equals(messageType) ? 'message-monologue' : 'GRAVE_SAY'.equals(messageType) ? 'message-grave'}">
+								<div class="col-sm-12">
 									<div class="row" style="display: flex;">
-										<div class="message message-normal" style="flex: 1; margin-left: 5px;">
+										<div
+											th:class="'message ' + *{messageType == 'NORMAL_SAY' ? 'message-normal' : 
+														messageType == 'WEREWOLF_SAY' ? 'message-werewolf' : 
+														messageType == 'MASON_SAY' ? 'message-mason' : 
+														messageType == 'MONOLOGUE_SAY' ? 'message-monologue' : 
+														messageType == 'GRAVE_SAY' ? 'message-grave' : ''}"
+											style="flex: 1; margin-left: 5px;">
 											<th:block th:if="*{message}">
 												<th:block th:each="str, stat : *{message.split('\r\n|\r|\n', -1)}">
 													<th:block th:text="${str}" />
@@ -33,9 +37,8 @@
 									</div>
 								</div>
 							</div>
-							<input type="hidden" th:field="*{message}" />
-							<input type="hidden" th:field="*{messageType}" />
-							<input type="submit" class="btn btn-sm btn-success pull-right" value="発言する" />
+							<input type="hidden" th:field="*{message}" /> <input type="hidden" th:field="*{messageType}" /> <input type="submit"
+								class="btn btn-sm btn-success pull-right" value="発言する" />
 						</div>
 					</form>
 				</div>
