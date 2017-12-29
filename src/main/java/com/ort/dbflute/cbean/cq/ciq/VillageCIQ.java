@@ -84,6 +84,8 @@ public class VillageCIQ extends AbstractBsVillageCQ {
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     protected ConditionValue xgetCValueVillageDisplayName() { return _myCQ.xdfgetVillageDisplayName(); }
     protected ConditionValue xgetCValueVillageStatusCode() { return _myCQ.xdfgetVillageStatusCode(); }
+    protected ConditionValue xgetCValueRoomSizeWidth() { return _myCQ.xdfgetRoomSizeWidth(); }
+    protected ConditionValue xgetCValueRoomSizeHeight() { return _myCQ.xdfgetRoomSizeHeight(); }
     protected ConditionValue xgetCValueEpilogueDay() { return _myCQ.xdfgetEpilogueDay(); }
     protected ConditionValue xgetCValueWinCampCode() { return _myCQ.xdfgetWinCampCode(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }

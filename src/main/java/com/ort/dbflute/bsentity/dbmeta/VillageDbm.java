@@ -53,6 +53,8 @@ public class VillageDbm extends AbstractDBMeta {
                 ((Village)et).mynativeMappingVillageStatusCode((String)vl);
             }
         }, "villageStatusCode");
+        setupEpg(_epgMap, et -> ((Village)et).getRoomSizeWidth(), (et, vl) -> ((Village)et).setRoomSizeWidth(cti(vl)), "roomSizeWidth");
+        setupEpg(_epgMap, et -> ((Village)et).getRoomSizeHeight(), (et, vl) -> ((Village)et).setRoomSizeHeight(cti(vl)), "roomSizeHeight");
         setupEpg(_epgMap, et -> ((Village)et).getEpilogueDay(), (et, vl) -> ((Village)et).setEpilogueDay(cti(vl)), "epilogueDay");
         setupEpg(_epgMap, et -> ((Village)et).getWinCampCode(), (et, vl) -> {
             CDef.Camp cls = (CDef.Camp)gcls(et, columnWinCampCode(), vl);
@@ -103,6 +105,8 @@ public class VillageDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnVillageId = cci("VILLAGE_ID", "VILLAGE_ID", null, null, Integer.class, "villageId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "villageDayList,villagePlayerList", null, false);
     protected final ColumnInfo _columnVillageDisplayName = cci("VILLAGE_DISPLAY_NAME", "VILLAGE_DISPLAY_NAME", null, null, String.class, "villageDisplayName", null, false, false, true, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnVillageStatusCode = cci("VILLAGE_STATUS_CODE", "VILLAGE_STATUS_CODE", null, null, String.class, "villageStatusCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "villageStatus", null, CDef.DefMeta.VillageStatus, false);
+    protected final ColumnInfo _columnRoomSizeWidth = cci("ROOM_SIZE_WIDTH", "ROOM_SIZE_WIDTH", null, null, Integer.class, "roomSizeWidth", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnRoomSizeHeight = cci("ROOM_SIZE_HEIGHT", "ROOM_SIZE_HEIGHT", null, null, Integer.class, "roomSizeHeight", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnEpilogueDay = cci("EPILOGUE_DAY", "EPILOGUE_DAY", null, null, Integer.class, "epilogueDay", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnWinCampCode = cci("WIN_CAMP_CODE", "WIN_CAMP_CODE", null, null, String.class, "winCampCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, "camp", null, CDef.DefMeta.Camp, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -125,6 +129,16 @@ public class VillageDbm extends AbstractDBMeta {
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageStatusCode() { return _columnVillageStatusCode; }
+    /**
+     * ROOM_SIZE_WIDTH: {INT UNSIGNED(10)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnRoomSizeWidth() { return _columnRoomSizeWidth; }
+    /**
+     * ROOM_SIZE_HEIGHT: {INT UNSIGNED(10)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnRoomSizeHeight() { return _columnRoomSizeHeight; }
     /**
      * EPILOGUE_DAY: {INT UNSIGNED(10)}
      * @return The information object of specified column. (NotNull)
@@ -161,6 +175,8 @@ public class VillageDbm extends AbstractDBMeta {
         ls.add(columnVillageId());
         ls.add(columnVillageDisplayName());
         ls.add(columnVillageStatusCode());
+        ls.add(columnRoomSizeWidth());
+        ls.add(columnRoomSizeHeight());
         ls.add(columnEpilogueDay());
         ls.add(columnWinCampCode());
         ls.add(columnRegisterDatetime());

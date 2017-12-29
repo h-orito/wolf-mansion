@@ -161,6 +161,46 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
      */
     public BsVillageCQ addOrderBy_VillageStatusCode_Desc() { regOBD("VILLAGE_STATUS_CODE"); return this; }
 
+    protected ConditionValue _roomSizeWidth;
+    public ConditionValue xdfgetRoomSizeWidth()
+    { if (_roomSizeWidth == null) { _roomSizeWidth = nCV(); }
+      return _roomSizeWidth; }
+    protected ConditionValue xgetCValueRoomSizeWidth() { return xdfgetRoomSizeWidth(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * ROOM_SIZE_WIDTH: {INT UNSIGNED(10)}
+     * @return this. (NotNull)
+     */
+    public BsVillageCQ addOrderBy_RoomSizeWidth_Asc() { regOBA("ROOM_SIZE_WIDTH"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * ROOM_SIZE_WIDTH: {INT UNSIGNED(10)}
+     * @return this. (NotNull)
+     */
+    public BsVillageCQ addOrderBy_RoomSizeWidth_Desc() { regOBD("ROOM_SIZE_WIDTH"); return this; }
+
+    protected ConditionValue _roomSizeHeight;
+    public ConditionValue xdfgetRoomSizeHeight()
+    { if (_roomSizeHeight == null) { _roomSizeHeight = nCV(); }
+      return _roomSizeHeight; }
+    protected ConditionValue xgetCValueRoomSizeHeight() { return xdfgetRoomSizeHeight(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * ROOM_SIZE_HEIGHT: {INT UNSIGNED(10)}
+     * @return this. (NotNull)
+     */
+    public BsVillageCQ addOrderBy_RoomSizeHeight_Asc() { regOBA("ROOM_SIZE_HEIGHT"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * ROOM_SIZE_HEIGHT: {INT UNSIGNED(10)}
+     * @return this. (NotNull)
+     */
+    public BsVillageCQ addOrderBy_RoomSizeHeight_Desc() { regOBD("ROOM_SIZE_HEIGHT"); return this; }
+
     protected ConditionValue _epilogueDay;
     public ConditionValue xdfgetEpilogueDay()
     { if (_epilogueDay == null) { _epilogueDay = nCV(); }

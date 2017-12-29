@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID
  *
  * [column]
- *     VILLAGE_ID, VILLAGE_DISPLAY_NAME, VILLAGE_STATUS_CODE, EPILOGUE_DAY, WIN_CAMP_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, VILLAGE_DISPLAY_NAME, VILLAGE_STATUS_CODE, ROOM_SIZE_WIDTH, ROOM_SIZE_HEIGHT, EPILOGUE_DAY, WIN_CAMP_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -49,6 +49,8 @@ import com.ort.dbflute.exentity.*;
  * Integer villageId = entity.getVillageId();
  * String villageDisplayName = entity.getVillageDisplayName();
  * String villageStatusCode = entity.getVillageStatusCode();
+ * Integer roomSizeWidth = entity.getRoomSizeWidth();
+ * Integer roomSizeHeight = entity.getRoomSizeHeight();
  * Integer epilogueDay = entity.getEpilogueDay();
  * String winCampCode = entity.getWinCampCode();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
@@ -58,6 +60,8 @@ import com.ort.dbflute.exentity.*;
  * entity.setVillageId(villageId);
  * entity.setVillageDisplayName(villageDisplayName);
  * entity.setVillageStatusCode(villageStatusCode);
+ * entity.setRoomSizeWidth(roomSizeWidth);
+ * entity.setRoomSizeHeight(roomSizeHeight);
  * entity.setEpilogueDay(epilogueDay);
  * entity.setWinCampCode(winCampCode);
  * entity.setRegisterDatetime(registerDatetime);
@@ -87,6 +91,12 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
 
     /** VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus} */
     protected String _villageStatusCode;
+
+    /** ROOM_SIZE_WIDTH: {INT UNSIGNED(10)} */
+    protected Integer _roomSizeWidth;
+
+    /** ROOM_SIZE_HEIGHT: {INT UNSIGNED(10)} */
+    protected Integer _roomSizeHeight;
 
     /** EPILOGUE_DAY: {INT UNSIGNED(10)} */
     protected Integer _epilogueDay;
@@ -510,6 +520,8 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
         sb.append(dm).append(xfND(_villageId));
         sb.append(dm).append(xfND(_villageDisplayName));
         sb.append(dm).append(xfND(_villageStatusCode));
+        sb.append(dm).append(xfND(_roomSizeWidth));
+        sb.append(dm).append(xfND(_roomSizeHeight));
         sb.append(dm).append(xfND(_epilogueDay));
         sb.append(dm).append(xfND(_winCampCode));
         sb.append(dm).append(xfND(_registerDatetime));
@@ -609,6 +621,46 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
         checkClassificationCode("VILLAGE_STATUS_CODE", CDef.DefMeta.VillageStatus, villageStatusCode);
         registerModifiedProperty("villageStatusCode");
         _villageStatusCode = villageStatusCode;
+    }
+
+    /**
+     * [get] ROOM_SIZE_WIDTH: {INT UNSIGNED(10)} <br>
+     * 部屋サイズ（横）
+     * @return The value of the column 'ROOM_SIZE_WIDTH'. (NullAllowed even if selected: for no constraint)
+     */
+    public Integer getRoomSizeWidth() {
+        checkSpecifiedProperty("roomSizeWidth");
+        return _roomSizeWidth;
+    }
+
+    /**
+     * [set] ROOM_SIZE_WIDTH: {INT UNSIGNED(10)} <br>
+     * 部屋サイズ（横）
+     * @param roomSizeWidth The value of the column 'ROOM_SIZE_WIDTH'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setRoomSizeWidth(Integer roomSizeWidth) {
+        registerModifiedProperty("roomSizeWidth");
+        _roomSizeWidth = roomSizeWidth;
+    }
+
+    /**
+     * [get] ROOM_SIZE_HEIGHT: {INT UNSIGNED(10)} <br>
+     * 部屋サイズ（縦）
+     * @return The value of the column 'ROOM_SIZE_HEIGHT'. (NullAllowed even if selected: for no constraint)
+     */
+    public Integer getRoomSizeHeight() {
+        checkSpecifiedProperty("roomSizeHeight");
+        return _roomSizeHeight;
+    }
+
+    /**
+     * [set] ROOM_SIZE_HEIGHT: {INT UNSIGNED(10)} <br>
+     * 部屋サイズ（縦）
+     * @param roomSizeHeight The value of the column 'ROOM_SIZE_HEIGHT'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setRoomSizeHeight(Integer roomSizeHeight) {
+        registerModifiedProperty("roomSizeHeight");
+        _roomSizeHeight = roomSizeHeight;
     }
 
     /**

@@ -18,6 +18,3 @@ logging:
     org.springframework: WARN
     root: INFO
     org.seasar.dbflute: INFO
-    
-    
-  

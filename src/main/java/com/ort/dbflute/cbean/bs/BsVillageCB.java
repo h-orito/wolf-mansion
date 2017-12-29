@@ -368,6 +368,16 @@ public class BsVillageCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnVillageStatusCode() { return doColumn("VILLAGE_STATUS_CODE"); }
         /**
+         * ROOM_SIZE_WIDTH: {INT UNSIGNED(10)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnRoomSizeWidth() { return doColumn("ROOM_SIZE_WIDTH"); }
+        /**
+         * ROOM_SIZE_HEIGHT: {INT UNSIGNED(10)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnRoomSizeHeight() { return doColumn("ROOM_SIZE_HEIGHT"); }
+        /**
          * EPILOGUE_DAY: {INT UNSIGNED(10)}
          * @return The information object of specified column. (NotNull)
          */

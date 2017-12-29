@@ -337,6 +337,10 @@
             name="VILLAGE_DISPLAY_NAME" required="true" size="40" type="VARCHAR"/>
         <column comment="村ステータスコード" dbType="VARCHAR" javaType="String"
             name="VILLAGE_STATUS_CODE" required="true" size="20" type="VARCHAR"/>
+        <column comment="部屋サイズ（横）" dbType="INT UNSIGNED"
+            javaType="Integer" name="ROOM_SIZE_WIDTH" size="10" type="INTEGER"/>
+        <column comment="部屋サイズ（縦）" dbType="INT UNSIGNED"
+            javaType="Integer" name="ROOM_SIZE_HEIGHT" size="10" type="INTEGER"/>
         <column comment="エピローグ日" dbType="INT UNSIGNED"
             javaType="Integer" name="EPILOGUE_DAY" size="10" type="INTEGER"/>
         <column comment="勝利陣営コード" dbType="VARCHAR" javaType="String"

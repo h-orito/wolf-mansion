@@ -1,4 +1,23 @@
 map:{
+    ; 2017/12/29 18:41:19 = map:{
+        ; diffDate = 2017/12/29 18:41:19
+        ; tableDiff = map:{
+            ; village = map:{
+                ; tableName = village
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; ROOM_SIZE_WIDTH = map:{
+                        ; columnName = ROOM_SIZE_WIDTH
+                        ; diffType = ADD
+                    }
+                    ; ROOM_SIZE_HEIGHT = map:{
+                        ; columnName = ROOM_SIZE_HEIGHT
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2017/12/29 10:47:22 = map:{
         ; diffDate = 2017/12/29 10:47:22
         ; tableDiff = map:{

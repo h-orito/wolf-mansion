@@ -646,6 +646,264 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * ROOM_SIZE_WIDTH: {INT UNSIGNED(10)}
+     * @param roomSizeWidth The value of roomSizeWidth as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRoomSizeWidth_Equal(Integer roomSizeWidth) {
+        doSetRoomSizeWidth_Equal(roomSizeWidth);
+    }
+
+    protected void doSetRoomSizeWidth_Equal(Integer roomSizeWidth) {
+        regRoomSizeWidth(CK_EQ, roomSizeWidth);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * ROOM_SIZE_WIDTH: {INT UNSIGNED(10)}
+     * @param roomSizeWidth The value of roomSizeWidth as notEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRoomSizeWidth_NotEqual(Integer roomSizeWidth) {
+        doSetRoomSizeWidth_NotEqual(roomSizeWidth);
+    }
+
+    protected void doSetRoomSizeWidth_NotEqual(Integer roomSizeWidth) {
+        regRoomSizeWidth(CK_NES, roomSizeWidth);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * ROOM_SIZE_WIDTH: {INT UNSIGNED(10)}
+     * @param roomSizeWidth The value of roomSizeWidth as greaterThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRoomSizeWidth_GreaterThan(Integer roomSizeWidth) {
+        regRoomSizeWidth(CK_GT, roomSizeWidth);
+    }
+
+    /**
+     * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * ROOM_SIZE_WIDTH: {INT UNSIGNED(10)}
+     * @param roomSizeWidth The value of roomSizeWidth as lessThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRoomSizeWidth_LessThan(Integer roomSizeWidth) {
+        regRoomSizeWidth(CK_LT, roomSizeWidth);
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * ROOM_SIZE_WIDTH: {INT UNSIGNED(10)}
+     * @param roomSizeWidth The value of roomSizeWidth as greaterEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRoomSizeWidth_GreaterEqual(Integer roomSizeWidth) {
+        regRoomSizeWidth(CK_GE, roomSizeWidth);
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * ROOM_SIZE_WIDTH: {INT UNSIGNED(10)}
+     * @param roomSizeWidth The value of roomSizeWidth as lessEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRoomSizeWidth_LessEqual(Integer roomSizeWidth) {
+        regRoomSizeWidth(CK_LE, roomSizeWidth);
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * ROOM_SIZE_WIDTH: {INT UNSIGNED(10)}
+     * @param minNumber The min number of roomSizeWidth. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of roomSizeWidth. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param opLambda The callback for option of range-of. (NotNull)
+     */
+    public void setRoomSizeWidth_RangeOf(Integer minNumber, Integer maxNumber, ConditionOptionCall<RangeOfOption> opLambda) {
+        setRoomSizeWidth_RangeOf(minNumber, maxNumber, xcROOP(opLambda));
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * ROOM_SIZE_WIDTH: {INT UNSIGNED(10)}
+     * @param minNumber The min number of roomSizeWidth. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of roomSizeWidth. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param rangeOfOption The option of range-of. (NotNull)
+     */
+    protected void setRoomSizeWidth_RangeOf(Integer minNumber, Integer maxNumber, RangeOfOption rangeOfOption) {
+        regROO(minNumber, maxNumber, xgetCValueRoomSizeWidth(), "ROOM_SIZE_WIDTH", rangeOfOption);
+    }
+
+    /**
+     * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * ROOM_SIZE_WIDTH: {INT UNSIGNED(10)}
+     * @param roomSizeWidthList The collection of roomSizeWidth as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setRoomSizeWidth_InScope(Collection<Integer> roomSizeWidthList) {
+        doSetRoomSizeWidth_InScope(roomSizeWidthList);
+    }
+
+    protected void doSetRoomSizeWidth_InScope(Collection<Integer> roomSizeWidthList) {
+        regINS(CK_INS, cTL(roomSizeWidthList), xgetCValueRoomSizeWidth(), "ROOM_SIZE_WIDTH");
+    }
+
+    /**
+     * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * ROOM_SIZE_WIDTH: {INT UNSIGNED(10)}
+     * @param roomSizeWidthList The collection of roomSizeWidth as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setRoomSizeWidth_NotInScope(Collection<Integer> roomSizeWidthList) {
+        doSetRoomSizeWidth_NotInScope(roomSizeWidthList);
+    }
+
+    protected void doSetRoomSizeWidth_NotInScope(Collection<Integer> roomSizeWidthList) {
+        regINS(CK_NINS, cTL(roomSizeWidthList), xgetCValueRoomSizeWidth(), "ROOM_SIZE_WIDTH");
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * ROOM_SIZE_WIDTH: {INT UNSIGNED(10)}
+     */
+    public void setRoomSizeWidth_IsNull() { regRoomSizeWidth(CK_ISN, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * ROOM_SIZE_WIDTH: {INT UNSIGNED(10)}
+     */
+    public void setRoomSizeWidth_IsNotNull() { regRoomSizeWidth(CK_ISNN, DOBJ); }
+
+    protected void regRoomSizeWidth(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueRoomSizeWidth(), "ROOM_SIZE_WIDTH"); }
+    protected abstract ConditionValue xgetCValueRoomSizeWidth();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * ROOM_SIZE_HEIGHT: {INT UNSIGNED(10)}
+     * @param roomSizeHeight The value of roomSizeHeight as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRoomSizeHeight_Equal(Integer roomSizeHeight) {
+        doSetRoomSizeHeight_Equal(roomSizeHeight);
+    }
+
+    protected void doSetRoomSizeHeight_Equal(Integer roomSizeHeight) {
+        regRoomSizeHeight(CK_EQ, roomSizeHeight);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * ROOM_SIZE_HEIGHT: {INT UNSIGNED(10)}
+     * @param roomSizeHeight The value of roomSizeHeight as notEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRoomSizeHeight_NotEqual(Integer roomSizeHeight) {
+        doSetRoomSizeHeight_NotEqual(roomSizeHeight);
+    }
+
+    protected void doSetRoomSizeHeight_NotEqual(Integer roomSizeHeight) {
+        regRoomSizeHeight(CK_NES, roomSizeHeight);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * ROOM_SIZE_HEIGHT: {INT UNSIGNED(10)}
+     * @param roomSizeHeight The value of roomSizeHeight as greaterThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRoomSizeHeight_GreaterThan(Integer roomSizeHeight) {
+        regRoomSizeHeight(CK_GT, roomSizeHeight);
+    }
+
+    /**
+     * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * ROOM_SIZE_HEIGHT: {INT UNSIGNED(10)}
+     * @param roomSizeHeight The value of roomSizeHeight as lessThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRoomSizeHeight_LessThan(Integer roomSizeHeight) {
+        regRoomSizeHeight(CK_LT, roomSizeHeight);
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * ROOM_SIZE_HEIGHT: {INT UNSIGNED(10)}
+     * @param roomSizeHeight The value of roomSizeHeight as greaterEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRoomSizeHeight_GreaterEqual(Integer roomSizeHeight) {
+        regRoomSizeHeight(CK_GE, roomSizeHeight);
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * ROOM_SIZE_HEIGHT: {INT UNSIGNED(10)}
+     * @param roomSizeHeight The value of roomSizeHeight as lessEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRoomSizeHeight_LessEqual(Integer roomSizeHeight) {
+        regRoomSizeHeight(CK_LE, roomSizeHeight);
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * ROOM_SIZE_HEIGHT: {INT UNSIGNED(10)}
+     * @param minNumber The min number of roomSizeHeight. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of roomSizeHeight. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param opLambda The callback for option of range-of. (NotNull)
+     */
+    public void setRoomSizeHeight_RangeOf(Integer minNumber, Integer maxNumber, ConditionOptionCall<RangeOfOption> opLambda) {
+        setRoomSizeHeight_RangeOf(minNumber, maxNumber, xcROOP(opLambda));
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * ROOM_SIZE_HEIGHT: {INT UNSIGNED(10)}
+     * @param minNumber The min number of roomSizeHeight. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of roomSizeHeight. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param rangeOfOption The option of range-of. (NotNull)
+     */
+    protected void setRoomSizeHeight_RangeOf(Integer minNumber, Integer maxNumber, RangeOfOption rangeOfOption) {
+        regROO(minNumber, maxNumber, xgetCValueRoomSizeHeight(), "ROOM_SIZE_HEIGHT", rangeOfOption);
+    }
+
+    /**
+     * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * ROOM_SIZE_HEIGHT: {INT UNSIGNED(10)}
+     * @param roomSizeHeightList The collection of roomSizeHeight as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setRoomSizeHeight_InScope(Collection<Integer> roomSizeHeightList) {
+        doSetRoomSizeHeight_InScope(roomSizeHeightList);
+    }
+
+    protected void doSetRoomSizeHeight_InScope(Collection<Integer> roomSizeHeightList) {
+        regINS(CK_INS, cTL(roomSizeHeightList), xgetCValueRoomSizeHeight(), "ROOM_SIZE_HEIGHT");
+    }
+
+    /**
+     * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * ROOM_SIZE_HEIGHT: {INT UNSIGNED(10)}
+     * @param roomSizeHeightList The collection of roomSizeHeight as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setRoomSizeHeight_NotInScope(Collection<Integer> roomSizeHeightList) {
+        doSetRoomSizeHeight_NotInScope(roomSizeHeightList);
+    }
+
+    protected void doSetRoomSizeHeight_NotInScope(Collection<Integer> roomSizeHeightList) {
+        regINS(CK_NINS, cTL(roomSizeHeightList), xgetCValueRoomSizeHeight(), "ROOM_SIZE_HEIGHT");
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * ROOM_SIZE_HEIGHT: {INT UNSIGNED(10)}
+     */
+    public void setRoomSizeHeight_IsNull() { regRoomSizeHeight(CK_ISN, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * ROOM_SIZE_HEIGHT: {INT UNSIGNED(10)}
+     */
+    public void setRoomSizeHeight_IsNotNull() { regRoomSizeHeight(CK_ISNN, DOBJ); }
+
+    protected void regRoomSizeHeight(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueRoomSizeHeight(), "ROOM_SIZE_HEIGHT"); }
+    protected abstract ConditionValue xgetCValueRoomSizeHeight();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * EPILOGUE_DAY: {INT UNSIGNED(10)}
      * @param epilogueDay The value of epilogueDay as equal. (basically NotNull: error as default, or no condition as option)
      */

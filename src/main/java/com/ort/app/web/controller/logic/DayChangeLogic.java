@@ -83,9 +83,10 @@ public class DayChangeLogic {
 
         // 日付切り替え処理
         if (day == 0) {
-            // 更新前がプロローグだった場合は役職割り当てと村ステータス更新
-            assignSkill(villageId);
-            updateVillageStatus(villageId, CDef.VillageStatus.進行中);
+            // 1日目
+            assignSkill(villageId); // 役職割り当て
+            assignRoom(villageId);
+            updateVillageStatus(villageId, CDef.VillageStatus.進行中); // 村ステータス更新
         } else {
             // 
 
@@ -184,6 +185,44 @@ public class DayChangeLogic {
         });
         // 役職割り当てについてメッセージ追加
         insertAssignedMessage(villageId);
+    }
+
+    // 部屋を割り当てる
+    private void assignRoom(Integer villageId) {
+        ListResultBean<VillagePlayer> playerList = villagePlayerBhv.selectList(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+        });
+        // 部屋サイズを決めて登録
+        Village village = calculateRoomSizeAndUpdate(villageId, playerList.size());
+        // TODO h-orito 部屋サイズの考え方要検討 (2017/12/29)
+        List<Integer> roomNumList = new ArrayList<>();
+        for (int i = 1; i <= village.getRoomSizeWidth() * village.getRoomSizeHeight(); i++) {
+            roomNumList.add(i);
+        }
+        Collections.shuffle(roomNumList);
+        for (int i = 0; i < playerList.size(); i++) {
+            VillagePlayer entity = new VillagePlayer();
+            entity.setRoomNumber(roomNumList.get(i));
+            VillagePlayer player = playerList.get(i);
+            villagePlayerBhv.queryUpdate(entity, cb -> cb.query().setVillagePlayerId_Equal(player.getVillagePlayerId()));
+            logger.info("部屋割り当て villagePlayerId: {}, roomNumber:{}", player.getVillagePlayerId(), roomNumList.get(i));
+        }
+    }
+
+    private Village calculateRoomSizeAndUpdate(Integer villageId, int personNum) {
+        for (int width = 3; width <= 5; width++) {
+            for (int height = width - 1; height <= width; height++) {
+                // 最低でもheightぶんの部屋数が空くようにする
+                if (width * height >= personNum + height) {
+                    Village village = new Village();
+                    village.setRoomSizeWidth(width);
+                    village.setRoomSizeHeight(height);
+                    villageBhv.queryUpdate(village, cb -> cb.query().setVillageId_Equal(villageId));
+                    return village;
+                }
+            }
+        }
+        throw new IllegalStateException("村人数が多すぎ？ personNum: " + personNum);
     }
 
     private void insertAssignedMessage(Integer villageId) {

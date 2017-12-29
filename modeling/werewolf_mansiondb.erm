@@ -1043,6 +1043,18 @@
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
+					<physical_name>room_size_width</physical_name>
+					<logical_name>部屋サイズ（横）</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+				</normal_column>
+				<normal_column>
+					<physical_name>room_size_height</physical_name>
+					<logical_name>部屋サイズ（縦）</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+				</normal_column>
+				<normal_column>
 					<physical_name>epilogue_day</physical_name>
 					<logical_name>エピローグ日</logical_name>
 					<type>integer</type>
