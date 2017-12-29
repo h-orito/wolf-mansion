@@ -112,7 +112,7 @@
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
 			<x>378</x>
-			<y>1010</y>
+			<y>1003</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -1043,6 +1043,12 @@
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
+					<physical_name>epilogue_day</physical_name>
+					<logical_name>エピローグ日</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+				</normal_column>
+				<normal_column>
 					<physical_name>win_camp_code</physical_name>
 					<logical_name>勝利陣営コード</logical_name>
 					<referred_column>table.camp.camp_code</referred_column>
@@ -1102,6 +1108,12 @@
 					<unsigned>true</unsigned>
 					<not_null>true</not_null>
 					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>daychange_datetime</physical_name>
+					<logical_name>日付更新日時</logical_name>
+					<type>datetime</type>
+					<not_null>true</not_null>
 				</normal_column>
 				<column_group>共通カラム</column_group>
 			</columns>

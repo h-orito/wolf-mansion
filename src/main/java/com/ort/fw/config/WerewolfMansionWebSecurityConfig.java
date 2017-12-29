@@ -26,13 +26,13 @@ public class WerewolfMansionWebSecurityConfig extends WebSecurityConfigurerAdapt
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 // アクセス権限の設定
-                // staticディレクトリにある、'/css/','fonts','/js/'は制限なし
-                // 一時的に全て許可
-                .antMatchers("/css/**", "/fonts/**", "/js/**", "/**")
-                .permitAll()
                 // '/admin/'で始まるURLには、'ADMIN'ロールのみアクセス可
                 .antMatchers("/admin/**")
                 .hasRole("ADMIN")
+                // staticディレクトリにある、'/css/','fonts','/js/'は制限なし
+                // 一時的に全て許可
+                .antMatchers("/app/**", "/lib/**", "/**")
+                .permitAll()
                 // 他は制限なし
                 .anyRequest()
                 .authenticated()
@@ -40,7 +40,8 @@ public class WerewolfMansionWebSecurityConfig extends WebSecurityConfigurerAdapt
                 // ログイン処理の設定
                 .formLogin()
                 // ログイン処理のURL
-                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .loginPage("/")
                 // ログイン成功時の遷移先URL
                 .defaultSuccessUrl("/")
                 // ログイン失敗時の遷移先URL

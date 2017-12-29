@@ -1,6 +1,5 @@
 package com.ort.app.web.controller;
 
-import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ort.app.web.controller.assist.VillageAssist;
 import com.ort.app.web.controller.logic.DayChangeLogic;
 import com.ort.app.web.controller.logic.MessageLogic;
-import com.ort.app.web.controller.logic.VillageLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageGetMessageListForm;
 import com.ort.app.web.form.VillageParticipateForm;
@@ -23,8 +21,6 @@ import com.ort.app.web.form.VillageSayForm;
 import com.ort.app.web.model.VillageMessageListResultContent;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.MessageType;
-import com.ort.dbflute.exbhv.CharaBhv;
-import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionUserInfoUtil;
@@ -37,12 +33,6 @@ public class VillageController {
     //                                                                           =========
     @Autowired
     private VillageAssist assist;
-
-    @Autowired
-    private CharaBhv charaBhv;
-
-    @Autowired
-    private VillageLogic villageLogic;
 
     @Autowired
     DayChangeLogic dayChangeLogic;
@@ -152,27 +142,6 @@ public class VillageController {
         }
 
         messageLogic.insertMessage(villageId, day, type, sayForm.getMessage(), villagePlayer.getVillagePlayerId());
-        return "redirect:/village/" + villageId;
-    }
-
-    // 管理者機能：参戦
-    @PostMapping("/admin/village/{villageId}/allparticipate")
-    private String allparticipate(@PathVariable Integer villageId, VillageParticipateForm participateForm, Model model) {
-        // 参戦していないキャラを人数分探す
-        ListResultBean<Chara> charaList = charaBhv.selectList(cb -> {
-            cb.query().queryCharaGroup().existsVillageSettings(
-                    villageSettingsCB -> villageSettingsCB.query().setVillageId_Equal(villageId));
-            cb.query().notExistsVillagePlayer(villagePlayerCB -> villagePlayerCB.query().setVillageId_Equal(villageId));
-            cb.fetchFirst(participateForm.getPersonNumber());
-        });
-        for (int i = 0; i < charaList.size(); i++) {
-            int playerId = i + 2; // テストアカウントは2~
-            // 希望役職をランダムに取得
-            CDef.Skill randomSkill = CDef.Skill.values()[(int) (Math.random() * CDef.Skill.values().length - 1)];
-            // 入村
-            villageLogic.participate(villageId, playerId, charaList.get(i).getCharaId(), randomSkill, "テストアカウント入村です。playerId：" + playerId);
-        }
-
         return "redirect:/village/" + villageId;
     }
 

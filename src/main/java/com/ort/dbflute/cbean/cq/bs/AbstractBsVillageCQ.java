@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of VILLAGE.
+ * The abstract condition-query of village.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "VILLAGE";
+        return "village";
     }
 
     // ===================================================================================
@@ -159,8 +159,8 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select VILLAGE_ID from VILLAGE_DAY where ...)} <br>
-     * VILLAGE_DAY by VILLAGE_ID, named 'villageDayAsOne'.
+     * {exists (select VILLAGE_ID from village_day where ...)} <br>
+     * village_day by VILLAGE_ID, named 'villageDayAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsVillageDay</span>(dayCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     dayCB.query().set...
@@ -178,8 +178,8 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select VILLAGE_ID from VILLAGE_PLAYER where ...)} <br>
-     * VILLAGE_PLAYER by VILLAGE_ID, named 'villagePlayerAsOne'.
+     * {exists (select VILLAGE_ID from village_player where ...)} <br>
+     * village_player by VILLAGE_ID, named 'villagePlayerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsVillagePlayer</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
@@ -197,8 +197,8 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select VILLAGE_ID from VILLAGE_DAY where ...)} <br>
-     * VILLAGE_DAY by VILLAGE_ID, named 'villageDayAsOne'.
+     * {not exists (select VILLAGE_ID from village_day where ...)} <br>
+     * village_day by VILLAGE_ID, named 'villageDayAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsVillageDay</span>(dayCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     dayCB.query().set...
@@ -216,8 +216,8 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select VILLAGE_ID from VILLAGE_PLAYER where ...)} <br>
-     * VILLAGE_PLAYER by VILLAGE_ID, named 'villagePlayerAsOne'.
+     * {not exists (select VILLAGE_ID from village_player where ...)} <br>
+     * village_player by VILLAGE_ID, named 'villagePlayerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsVillagePlayer</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
@@ -251,8 +251,8 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from VILLAGE_DAY where ...)} <br>
-     * VILLAGE_DAY by VILLAGE_ID, named 'villageDayAsOne'.
+     * {FOO &lt;= (select max(BAR) from village_day where ...)} <br>
+     * village_day by VILLAGE_ID, named 'villageDayAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVillageDay()</span>.<span style="color: #CC4747">max</span>(dayCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     dayCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -278,8 +278,8 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from VILLAGE_PLAYER where ...)} <br>
-     * VILLAGE_PLAYER by VILLAGE_ID, named 'villagePlayerAsOne'.
+     * {FOO &lt;= (select max(BAR) from village_player where ...)} <br>
+     * village_player by VILLAGE_ID, named 'villagePlayerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVillagePlayer()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -455,7 +455,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus}
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
      * @param villageStatusCode The value of villageStatusCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setVillageStatusCode_Equal(String villageStatusCode) {
@@ -464,7 +464,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). As VillageStatus. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus} <br>
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus} <br>
      * 村ステータス
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -526,7 +526,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus}
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
      * @param villageStatusCode The value of villageStatusCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setVillageStatusCode_NotEqual(String villageStatusCode) {
@@ -535,7 +535,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). As VillageStatus. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus} <br>
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus} <br>
      * 村ステータス
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -597,7 +597,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus}
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
      * @param villageStatusCodeList The collection of villageStatusCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setVillageStatusCode_InScope(Collection<String> villageStatusCodeList) {
@@ -606,7 +606,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. As VillageStatus. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus} <br>
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus} <br>
      * 村ステータス
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -620,7 +620,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus}
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
      * @param villageStatusCodeList The collection of villageStatusCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setVillageStatusCode_NotInScope(Collection<String> villageStatusCodeList) {
@@ -629,7 +629,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. As VillageStatus. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus} <br>
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus} <br>
      * 村ステータス
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -645,8 +645,137 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
     protected abstract ConditionValue xgetCValueVillageStatusCode();
 
     /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * EPILOGUE_DAY: {INT UNSIGNED(10)}
+     * @param epilogueDay The value of epilogueDay as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setEpilogueDay_Equal(Integer epilogueDay) {
+        doSetEpilogueDay_Equal(epilogueDay);
+    }
+
+    protected void doSetEpilogueDay_Equal(Integer epilogueDay) {
+        regEpilogueDay(CK_EQ, epilogueDay);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * EPILOGUE_DAY: {INT UNSIGNED(10)}
+     * @param epilogueDay The value of epilogueDay as notEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setEpilogueDay_NotEqual(Integer epilogueDay) {
+        doSetEpilogueDay_NotEqual(epilogueDay);
+    }
+
+    protected void doSetEpilogueDay_NotEqual(Integer epilogueDay) {
+        regEpilogueDay(CK_NES, epilogueDay);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * EPILOGUE_DAY: {INT UNSIGNED(10)}
+     * @param epilogueDay The value of epilogueDay as greaterThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setEpilogueDay_GreaterThan(Integer epilogueDay) {
+        regEpilogueDay(CK_GT, epilogueDay);
+    }
+
+    /**
+     * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * EPILOGUE_DAY: {INT UNSIGNED(10)}
+     * @param epilogueDay The value of epilogueDay as lessThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setEpilogueDay_LessThan(Integer epilogueDay) {
+        regEpilogueDay(CK_LT, epilogueDay);
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * EPILOGUE_DAY: {INT UNSIGNED(10)}
+     * @param epilogueDay The value of epilogueDay as greaterEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setEpilogueDay_GreaterEqual(Integer epilogueDay) {
+        regEpilogueDay(CK_GE, epilogueDay);
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * EPILOGUE_DAY: {INT UNSIGNED(10)}
+     * @param epilogueDay The value of epilogueDay as lessEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setEpilogueDay_LessEqual(Integer epilogueDay) {
+        regEpilogueDay(CK_LE, epilogueDay);
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * EPILOGUE_DAY: {INT UNSIGNED(10)}
+     * @param minNumber The min number of epilogueDay. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of epilogueDay. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param opLambda The callback for option of range-of. (NotNull)
+     */
+    public void setEpilogueDay_RangeOf(Integer minNumber, Integer maxNumber, ConditionOptionCall<RangeOfOption> opLambda) {
+        setEpilogueDay_RangeOf(minNumber, maxNumber, xcROOP(opLambda));
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * EPILOGUE_DAY: {INT UNSIGNED(10)}
+     * @param minNumber The min number of epilogueDay. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of epilogueDay. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param rangeOfOption The option of range-of. (NotNull)
+     */
+    protected void setEpilogueDay_RangeOf(Integer minNumber, Integer maxNumber, RangeOfOption rangeOfOption) {
+        regROO(minNumber, maxNumber, xgetCValueEpilogueDay(), "EPILOGUE_DAY", rangeOfOption);
+    }
+
+    /**
+     * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * EPILOGUE_DAY: {INT UNSIGNED(10)}
+     * @param epilogueDayList The collection of epilogueDay as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setEpilogueDay_InScope(Collection<Integer> epilogueDayList) {
+        doSetEpilogueDay_InScope(epilogueDayList);
+    }
+
+    protected void doSetEpilogueDay_InScope(Collection<Integer> epilogueDayList) {
+        regINS(CK_INS, cTL(epilogueDayList), xgetCValueEpilogueDay(), "EPILOGUE_DAY");
+    }
+
+    /**
+     * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * EPILOGUE_DAY: {INT UNSIGNED(10)}
+     * @param epilogueDayList The collection of epilogueDay as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setEpilogueDay_NotInScope(Collection<Integer> epilogueDayList) {
+        doSetEpilogueDay_NotInScope(epilogueDayList);
+    }
+
+    protected void doSetEpilogueDay_NotInScope(Collection<Integer> epilogueDayList) {
+        regINS(CK_NINS, cTL(epilogueDayList), xgetCValueEpilogueDay(), "EPILOGUE_DAY");
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * EPILOGUE_DAY: {INT UNSIGNED(10)}
+     */
+    public void setEpilogueDay_IsNull() { regEpilogueDay(CK_ISN, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * EPILOGUE_DAY: {INT UNSIGNED(10)}
+     */
+    public void setEpilogueDay_IsNotNull() { regEpilogueDay(CK_ISNN, DOBJ); }
+
+    protected void regEpilogueDay(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueEpilogueDay(), "EPILOGUE_DAY"); }
+    protected abstract ConditionValue xgetCValueEpilogueDay();
+
+    /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @param winCampCode The value of winCampCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setWinCampCode_Equal(String winCampCode) {
@@ -655,7 +784,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). As Camp. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -693,7 +822,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @param winCampCode The value of winCampCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setWinCampCode_NotEqual(String winCampCode) {
@@ -702,7 +831,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). As Camp. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -740,7 +869,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @param winCampCodeList The collection of winCampCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setWinCampCode_InScope(Collection<String> winCampCodeList) {
@@ -749,7 +878,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. As Camp. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -763,7 +892,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @param winCampCodeList The collection of winCampCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setWinCampCode_NotInScope(Collection<String> winCampCodeList) {
@@ -772,7 +901,7 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. As Camp. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -786,19 +915,19 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      */
     public void setWinCampCode_IsNull() { regWinCampCode(CK_ISN, DOBJ); }
 
     /**
      * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      */
     public void setWinCampCode_IsNullOrEmpty() { regWinCampCode(CK_ISNOE, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      */
     public void setWinCampCode_IsNotNull() { regWinCampCode(CK_ISNN, DOBJ); }
 

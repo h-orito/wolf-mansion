@@ -26,6 +26,7 @@ import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
+import com.ort.dbflute.exentity.VillageSettings;
 import com.ort.fw.util.WerewolfMansionDateUtil;
 
 @Component
@@ -55,15 +56,30 @@ public class DayChangeLogic {
     //                                                                             Execute
     //                                                                             =======
     public void dayChangeIfNeeded(Integer villageId) {
-        Integer day = selectMaxVillageDay(villageId);
+        VillageDay maxVillageDay = selectMaxVillageDay(villageId);
+        VillageSettings settings = maxVillageDay.getVillage().get().getVillageSettingsAsOne().get();
+        LocalDateTime daychangeDatetime = maxVillageDay.getDaychangeDatetime();
+        Integer intervalSeconds = settings.getDayChangeIntervalSeconds();
+        LocalDateTime nextDaychangeDatetime = daychangeDatetime.plusSeconds(intervalSeconds);
+        Integer day = maxVillageDay.getDay();
 
         // 日付更新の必要がなければ終了
-        if (!shouldChangeDay(villageId, day)) {
+        if (!shouldChangeDay(villageId, daychangeDatetime)) {
+            return;
+        }
+
+        // 最低開始人数を満たしていない
+        List<VillagePlayer> villagePlayerList = maxVillageDay.getVillage().get().getVillagePlayerList();
+        if (villagePlayerList.size() < settings.getStartPersonMinNum()) {
+            // 村日付を1日延長
+            updateVillageDayTransactional(villageId, day, nextDaychangeDatetime);
+            // 延長メッセージ登録
+            messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, "まだ村人たちは揃っていないようだ。");
             return;
         }
 
         // 村日付を追加
-        insertVillageDayTransactional(villageId, day + 1);
+        insertVillageDayTransactional(villageId, day + 1, nextDaychangeDatetime);
 
         // 日付切り替え処理
         if (day == 0) {
@@ -77,24 +93,20 @@ public class DayChangeLogic {
 
     }
 
-    // 村日付のみ即コミットされるようにする。publicでないと効かないので注意。
-    @Transactional(rollbackFor = Exception.class) // 念のため検査例外でもロールバックされるようにしておく
-    public void insertVillageDayTransactional(Integer villageId, int day) {
-        VillageDay villageDay = new VillageDay();
-        villageDay.setVillageId(villageId);
-        villageDay.setDay(day);
-        villageDayBhv.insert(villageDay);
-    }
-
     // ===================================================================================
     //                                                                              Select
     //                                                                              ======
-    private Integer selectMaxVillageDay(Integer villageId) {
-        Integer maxDay = villageDayBhv.selectScalar(Integer.class).max(cb -> {
-            cb.specify().columnDay();
+    private VillageDay selectMaxVillageDay(Integer villageId) {
+        VillageDay villageDay = villageDayBhv.selectEntity(cb -> {
+            cb.setupSelect_Village().withVillageSettingsAsOne();
             cb.query().setVillageId_Equal(villageId);
+            cb.query().addOrderBy_Day_Desc();
+            cb.fetchFirst(1);
         }).get();
-        return maxDay;
+        villageDayBhv.load(villageDay, loader -> {
+            loader.pulloutVillage().loadVillagePlayer(cb -> {});
+        });
+        return villageDay;
     }
 
     private Village selectVillage(Integer villageId) {
@@ -115,11 +127,29 @@ public class DayChangeLogic {
         villageBhv.queryUpdate(village, cb -> cb.query().setVillageId_Equal(villageId));
     }
 
+    // 村日付のみ即コミットされるようにする。publicでないと効かないので注意。
+    public void updateVillageDayTransactional(Integer villageId, int day, LocalDateTime nextDaychangeDatetime) {
+        VillageDay villageDay = new VillageDay();
+        villageDay.setVillageId(villageId);
+        villageDay.setDay(day);
+        villageDay.setDaychangeDatetime(nextDaychangeDatetime);
+        villageDayBhv.update(villageDay);
+    }
+
+    @Transactional(rollbackFor = Exception.class) // 念のため検査例外でもロールバックされるようにしておく
+    public void insertVillageDayTransactional(Integer villageId, int day, LocalDateTime nextDayChangeDatetime) {
+        VillageDay villageDay = new VillageDay();
+        villageDay.setVillageId(villageId);
+        villageDay.setDay(day);
+        villageDay.setDaychangeDatetime(nextDayChangeDatetime);
+        villageDayBhv.insert(villageDay);
+    }
+
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
     // 日付更新の必要があるか
-    private boolean shouldChangeDay(Integer villageId, Integer maxDay) {
+    private boolean shouldChangeDay(Integer villageId, LocalDateTime nextDayChangeDatetime) {
         // 村が終了していたら必要なし
         Village village = selectVillage(villageId);
         VillageStatus villageStatus = village.getVillageStatusCodeAsVillageStatus();
@@ -127,24 +157,11 @@ public class DayChangeLogic {
             return false;
         }
         // 最新の村日付の更新時間を過ぎていない
-        LocalDateTime changeDatetime = calculateChangeDatetime(villageId, village, maxDay);
-        if (WerewolfMansionDateUtil.currentLocalDateTime().isBefore(changeDatetime)) {
-            return false;
-        }
-        // 最低開始人数を満たしていない
-        if (village.getVillagePlayerList().size() < village.getVillageSettingsAsOne().get().getStartPersonMinNum()) {
+        if (WerewolfMansionDateUtil.currentLocalDateTime().isBefore(nextDayChangeDatetime)) {
             return false;
         }
 
         return true;
-    }
-
-    // 更新時間を計算
-    private LocalDateTime calculateChangeDatetime(Integer villageId, Village village, Integer maxDay) {
-        LocalDateTime startDatetime = village.getVillageSettingsAsOne().get().getStartDatetime();
-        LocalDateTime changeDatetime =
-                startDatetime.plusSeconds(village.getVillageSettingsAsOne().get().getDayChangeIntervalSeconds() * (maxDay));
-        return changeDatetime;
     }
 
     // 役職を割り当てる

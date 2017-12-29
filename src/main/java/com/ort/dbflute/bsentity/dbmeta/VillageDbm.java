@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of VILLAGE. (Singleton)
+ * The DB meta of village. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillageDbm extends AbstractDBMeta {
@@ -53,6 +53,7 @@ public class VillageDbm extends AbstractDBMeta {
                 ((Village)et).mynativeMappingVillageStatusCode((String)vl);
             }
         }, "villageStatusCode");
+        setupEpg(_epgMap, et -> ((Village)et).getEpilogueDay(), (et, vl) -> ((Village)et).setEpilogueDay(cti(vl)), "epilogueDay");
         setupEpg(_epgMap, et -> ((Village)et).getWinCampCode(), (et, vl) -> {
             CDef.Camp cls = (CDef.Camp)gcls(et, columnWinCampCode(), vl);
             if (cls != null) {
@@ -86,7 +87,7 @@ public class VillageDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "VILLAGE";
+    protected final String _tableDbName = "village";
     protected final String _tableDispName = "VILLAGE";
     protected final String _tablePropertyName = "village";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE", _tableDbName);
@@ -102,6 +103,7 @@ public class VillageDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnVillageId = cci("VILLAGE_ID", "VILLAGE_ID", null, null, Integer.class, "villageId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "villageDayList,villagePlayerList", null, false);
     protected final ColumnInfo _columnVillageDisplayName = cci("VILLAGE_DISPLAY_NAME", "VILLAGE_DISPLAY_NAME", null, null, String.class, "villageDisplayName", null, false, false, true, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnVillageStatusCode = cci("VILLAGE_STATUS_CODE", "VILLAGE_STATUS_CODE", null, null, String.class, "villageStatusCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "villageStatus", null, CDef.DefMeta.VillageStatus, false);
+    protected final ColumnInfo _columnEpilogueDay = cci("EPILOGUE_DAY", "EPILOGUE_DAY", null, null, Integer.class, "epilogueDay", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnWinCampCode = cci("WIN_CAMP_CODE", "WIN_CAMP_CODE", null, null, String.class, "winCampCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, "camp", null, CDef.DefMeta.Camp, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
@@ -119,12 +121,17 @@ public class VillageDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnVillageDisplayName() { return _columnVillageDisplayName; }
     /**
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus}
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageStatusCode() { return _columnVillageStatusCode; }
     /**
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * EPILOGUE_DAY: {INT UNSIGNED(10)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnEpilogueDay() { return _columnEpilogueDay; }
+    /**
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnWinCampCode() { return _columnWinCampCode; }
@@ -154,6 +161,7 @@ public class VillageDbm extends AbstractDBMeta {
         ls.add(columnVillageId());
         ls.add(columnVillageDisplayName());
         ls.add(columnVillageStatusCode());
+        ls.add(columnEpilogueDay());
         ls.add(columnWinCampCode());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
@@ -199,7 +207,7 @@ public class VillageDbm extends AbstractDBMeta {
         return cfi("FK_VILLAGE_CAMP", "camp", this, CampDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villageList", false);
     }
     /**
-     * VILLAGE_SETTINGS by VILLAGE_ID, named 'villageSettingsAsOne'.
+     * village_settings by VILLAGE_ID, named 'villageSettingsAsOne'.
      * @return The information object of foreign property(referrer-as-one). (NotNull)
      */
     public ForeignInfo foreignVillageSettingsAsOne() {

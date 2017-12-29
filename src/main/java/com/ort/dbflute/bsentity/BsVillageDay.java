@@ -20,7 +20,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID, DAY
  *
  * [column]
- *     VILLAGE_ID, DAY, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, DAY, DAYCHANGE_DATETIME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -47,12 +47,14 @@ import com.ort.dbflute.exentity.*;
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * Integer villageId = entity.getVillageId();
  * Integer day = entity.getDay();
+ * java.time.LocalDateTime daychangeDatetime = entity.getDaychangeDatetime();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
  * String updateTrace = entity.getUpdateTrace();
  * entity.setVillageId(villageId);
  * entity.setDay(day);
+ * entity.setDaychangeDatetime(daychangeDatetime);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -72,11 +74,14 @@ public abstract class BsVillageDay extends AbstractEntity implements DomainEntit
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} */
     protected Integer _villageId;
 
     /** DAY: {PK, NotNull, INT UNSIGNED(10)} */
     protected Integer _day;
+
+    /** DAYCHANGE_DATETIME: {NotNull, DATETIME(19)} */
+    protected java.time.LocalDateTime _daychangeDatetime;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -100,7 +105,7 @@ public abstract class BsVillageDay extends AbstractEntity implements DomainEntit
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "VILLAGE_DAY";
+        return "village_day";
     }
 
     // ===================================================================================
@@ -272,6 +277,7 @@ public abstract class BsVillageDay extends AbstractEntity implements DomainEntit
         StringBuilder sb = new StringBuilder();
         sb.append(dm).append(xfND(_villageId));
         sb.append(dm).append(xfND(_day));
+        sb.append(dm).append(xfND(_daychangeDatetime));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -311,7 +317,7 @@ public abstract class BsVillageDay extends AbstractEntity implements DomainEntit
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -321,7 +327,7 @@ public abstract class BsVillageDay extends AbstractEntity implements DomainEntit
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -348,6 +354,26 @@ public abstract class BsVillageDay extends AbstractEntity implements DomainEntit
     public void setDay(Integer day) {
         registerModifiedProperty("day");
         _day = day;
+    }
+
+    /**
+     * [get] DAYCHANGE_DATETIME: {NotNull, DATETIME(19)} <br>
+     * 日付更新日時
+     * @return The value of the column 'DAYCHANGE_DATETIME'. (basically NotNull if selected: for the constraint)
+     */
+    public java.time.LocalDateTime getDaychangeDatetime() {
+        checkSpecifiedProperty("daychangeDatetime");
+        return _daychangeDatetime;
+    }
+
+    /**
+     * [set] DAYCHANGE_DATETIME: {NotNull, DATETIME(19)} <br>
+     * 日付更新日時
+     * @param daychangeDatetime The value of the column 'DAYCHANGE_DATETIME'. (basically NotNull if update: for the constraint)
+     */
+    public void setDaychangeDatetime(java.time.LocalDateTime daychangeDatetime) {
+        registerModifiedProperty("daychangeDatetime");
+        _daychangeDatetime = daychangeDatetime;
     }
 
     /**

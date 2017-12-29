@@ -90,9 +90,9 @@ public class NewVillageAssist {
         // 村
         Village village = insertVillage(villageForm);
         // 村設定
-        insertVillageSettings(villageForm, village);
+        VillageSettings settings = insertVillageSettings(villageForm, village);
         // 村日付
-        insertVillageDay(village, 0);
+        insertVillageDay(village, 0, settings.getStartDatetime());
         // システムメッセージ
         insertInitialMessage(villageForm, village, locale);
         // ダミーキャラを参加させる
@@ -105,10 +105,11 @@ public class NewVillageAssist {
     //                                                                              Update
     //                                                                              ======
     // 村日付登録
-    private void insertVillageDay(Village village, int day) {
+    private void insertVillageDay(Village village, int day, LocalDateTime startDatetime) {
         VillageDay villageDay = new VillageDay();
         villageDay.setVillageId(village.getVillageId());
         villageDay.setDay(day);
+        villageDay.setDaychangeDatetime(startDatetime);
         villageDayBhv.insert(villageDay);
     }
 
@@ -129,7 +130,7 @@ public class NewVillageAssist {
         return village;
     }
 
-    private void insertVillageSettings(NewVillageForm villageForm, Village village) {
+    private VillageSettings insertVillageSettings(NewVillageForm villageForm, Village village) {
         VillageSettings settings = new VillageSettings();
         settings.setVillageId(village.getVillageId());
         settings.setStartPersonMinNum(villageForm.getStartPersonMinNum());
@@ -142,6 +143,7 @@ public class NewVillageAssist {
         settings.setIsPossibleSkillRequest(villageForm.getIsPossibleSkillRequest());
         settings.setCharacterGroupId(villageForm.getCharacterSetId());
         villageSettingsBhv.insert(settings);
+        return settings;
     }
 
     // ===================================================================================
