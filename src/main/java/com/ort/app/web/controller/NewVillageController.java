@@ -54,6 +54,7 @@ public class NewVillageController {
     private String newVillageConfirm(@Validated @ModelAttribute("villageForm") NewVillageForm villageForm, BindingResult bindingResult,
             Model model) {
         if (bindingResult.hasErrors()) {
+            newVillageAssist.setIndexModel(villageForm, model);
             return "new-village";
         }
         // キャラセット名を取得
@@ -69,6 +70,7 @@ public class NewVillageController {
     private String makeVillage(@Validated @ModelAttribute("villageForm") NewVillageForm villageForm, BindingResult bindingResult,
             Model model, Locale locale) {
         if (bindingResult.hasErrors()) {
+            newVillageAssist.setIndexModel(villageForm, model);
             return "new-village";
         }
         Village village = newVillageAssist.createVillage(villageForm, locale);

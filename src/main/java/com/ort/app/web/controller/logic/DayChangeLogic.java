@@ -146,6 +146,17 @@ public class DayChangeLogic {
         villageDayBhv.insert(villageDay);
     }
 
+    private void assignRoomAndUpdate(ListResultBean<VillagePlayer> playerList, List<Integer> roomNumList) {
+        Collections.shuffle(roomNumList);
+        for (int i = 0; i < playerList.size(); i++) {
+            VillagePlayer entity = new VillagePlayer();
+            entity.setRoomNumber(roomNumList.get(i));
+            VillagePlayer player = playerList.get(i);
+            villagePlayerBhv.queryUpdate(entity, cb -> cb.query().setVillagePlayerId_Equal(player.getVillagePlayerId()));
+            logger.info("部屋割り当て villagePlayerId: {}, roomNumber:{}", player.getVillagePlayerId(), roomNumList.get(i));
+        }
+    }
+
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
@@ -194,26 +205,23 @@ public class DayChangeLogic {
         });
         // 部屋サイズを決めて登録
         Village village = calculateRoomSizeAndUpdate(villageId, playerList.size());
-        // TODO h-orito 部屋サイズの考え方要検討 (2017/12/29)
         List<Integer> roomNumList = new ArrayList<>();
         for (int i = 1; i <= village.getRoomSizeWidth() * village.getRoomSizeHeight(); i++) {
             roomNumList.add(i);
         }
-        Collections.shuffle(roomNumList);
-        for (int i = 0; i < playerList.size(); i++) {
-            VillagePlayer entity = new VillagePlayer();
-            entity.setRoomNumber(roomNumList.get(i));
-            VillagePlayer player = playerList.get(i);
-            villagePlayerBhv.queryUpdate(entity, cb -> cb.query().setVillagePlayerId_Equal(player.getVillagePlayerId()));
-            logger.info("部屋割り当て villagePlayerId: {}, roomNumber:{}", player.getVillagePlayerId(), roomNumList.get(i));
-        }
+        // 部屋を割り当てて登録
+        assignRoomAndUpdate(playerList, roomNumList);
+        // デバッグ用
+        printAssign(villageId, village);
+        // 部屋割り当てメッセージ登録
+        insertRoomAssignMessage(villageId);
     }
 
     private Village calculateRoomSizeAndUpdate(Integer villageId, int personNum) {
         for (int width = 3; width <= 5; width++) {
             for (int height = width - 1; height <= width; height++) {
-                // 最低でもheightぶんの部屋数が空くようにする
-                if (width * height >= personNum + height) {
+                // 最低でも3部屋空くようにする
+                if (width * height >= personNum + 3) {
                     Village village = new Village();
                     village.setRoomSizeWidth(width);
                     village.setRoomSizeHeight(height);
@@ -241,6 +249,24 @@ public class DayChangeLogic {
         for (VillagePlayer player : playerList) {
             joiner.add(String.format("%sの役職は%sになりました。（希望役職：%s）", player.getChara().get().getCharaName(),
                     player.getSkillBySkillCode().get().getSkillName(), player.getSkillByRequestSkillCode().get().getSkillName()));
+        }
+        return joiner.toString();
+    }
+
+    private void insertRoomAssignMessage(Integer villageId) {
+        ListResultBean<VillagePlayer> playerList = villagePlayerBhv.selectList(cb -> {
+            cb.setupSelect_Chara();
+            cb.query().setVillageId_Equal(villageId);
+        });
+        String message = makeRoomAssignedMessage(playerList);
+        messageLogic.insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ, message);
+    }
+
+    private String makeRoomAssignedMessage(ListResultBean<VillagePlayer> playerList) {
+        StringJoiner joiner = new StringJoiner("\n", "人狼の痕跡を残すため、村人たちはそれぞれ別の部屋で夜を明かすことにした。\n\n", "");
+        for (VillagePlayer player : playerList) {
+            joiner.add(String.format("[%s] %sには、部屋番号%02dが割り当てられた。", player.getChara().get().getCharaShortName(),
+                    player.getChara().get().getCharaName(), player.getRoomNumber()));
         }
         return joiner.toString();
     }
@@ -336,4 +362,29 @@ public class DayChangeLogic {
 
         return personNumMap;
     }
+
+    private void printAssign(Integer villageId, Village village) {
+        if (logger.isInfoEnabled()) {
+            ListResultBean<VillagePlayer> vpList = villagePlayerBhv.selectList(cb -> {
+                cb.setupSelect_Chara();
+                cb.query().setVillageId_Equal(villageId);
+                cb.query().addOrderBy_RoomNumber_Asc();
+            });
+            for (int i = 0; i < village.getRoomSizeHeight(); i++) {
+                StringJoiner joiner = new StringJoiner(" ");
+
+                for (int j = 0; j < village.getRoomSizeWidth(); j++) {
+                    int num = village.getRoomSizeWidth() * i + j + 1;
+                    String playerName = vpList.stream()
+                            .filter(vplayer -> vplayer.getRoomNumber().equals(num))
+                            .findFirst()
+                            .map(vplayer -> vplayer.getChara().get().getCharaShortName())
+                            .orElse("＿");
+                    joiner.add(playerName);
+                }
+                logger.info(joiner.toString());
+            }
+        }
+    }
+
 }

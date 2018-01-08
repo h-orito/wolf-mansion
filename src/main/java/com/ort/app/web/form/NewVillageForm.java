@@ -76,7 +76,7 @@ public class NewVillageForm implements Serializable {
 
     /** ダミーキャラ入村発言 */
     @NotNull
-    @Length(max = 200)
+    @Length(min = 1, max = 200)
     private String dummyJoinMessage;
 
     public String getVillageName() {
