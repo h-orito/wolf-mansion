@@ -15,6 +15,7 @@ import org.dbflute.exception.*;
 import org.dbflute.hook.CommonColumnAutoSetupper;
 import org.dbflute.optional.OptionalEntity;
 import org.dbflute.outsidesql.executor.*;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.bsbhv.loader.*;
 import com.ort.dbflute.exentity.*;
@@ -25,7 +26,7 @@ import com.ort.dbflute.cbean.*;
  * The behavior of ABILITY as TABLE. <br>
  * <pre>
  * [primary key]
- *     VILLAGE_ID, DAY, CHARA_ID
+ *     VILLAGE_ID, DAY, CHARA_ID, ABILITY_TYPE_CODE
  *
  * [column]
  *     VILLAGE_ID, DAY, CHARA_ID, TARGET_CHARA_ID, ABILITY_TYPE_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
@@ -162,30 +163,31 @@ public abstract class BsAbilityBhv extends AbstractBehaviorWritable<Ability, Abi
      * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
      * @param day : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
      * @param charaId : PK, IX, NotNull, INT UNSIGNED(10), FK to chara. (NotNull)
+     * @param abilityTypeCode : PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType. (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    public OptionalEntity<Ability> selectByPK(Integer villageId, Integer day, Integer charaId) {
-        return facadeSelectByPK(villageId, day, charaId);
+    public OptionalEntity<Ability> selectByPK(Integer villageId, Integer day, Integer charaId, CDef.AbilityType abilityTypeCode) {
+        return facadeSelectByPK(villageId, day, charaId, abilityTypeCode);
     }
 
-    protected OptionalEntity<Ability> facadeSelectByPK(Integer villageId, Integer day, Integer charaId) {
-        return doSelectOptionalByPK(villageId, day, charaId, typeOfSelectedEntity());
+    protected OptionalEntity<Ability> facadeSelectByPK(Integer villageId, Integer day, Integer charaId, CDef.AbilityType abilityTypeCode) {
+        return doSelectOptionalByPK(villageId, day, charaId, abilityTypeCode, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends Ability> ENTITY doSelectByPK(Integer villageId, Integer day, Integer charaId, Class<? extends ENTITY> tp) {
-        return doSelectEntity(xprepareCBAsPK(villageId, day, charaId), tp);
+    protected <ENTITY extends Ability> ENTITY doSelectByPK(Integer villageId, Integer day, Integer charaId, CDef.AbilityType abilityTypeCode, Class<? extends ENTITY> tp) {
+        return doSelectEntity(xprepareCBAsPK(villageId, day, charaId, abilityTypeCode), tp);
     }
 
-    protected <ENTITY extends Ability> OptionalEntity<ENTITY> doSelectOptionalByPK(Integer villageId, Integer day, Integer charaId, Class<? extends ENTITY> tp) {
-        return createOptionalEntity(doSelectByPK(villageId, day, charaId, tp), villageId, day, charaId);
+    protected <ENTITY extends Ability> OptionalEntity<ENTITY> doSelectOptionalByPK(Integer villageId, Integer day, Integer charaId, CDef.AbilityType abilityTypeCode, Class<? extends ENTITY> tp) {
+        return createOptionalEntity(doSelectByPK(villageId, day, charaId, abilityTypeCode, tp), villageId, day, charaId, abilityTypeCode);
     }
 
-    protected AbilityCB xprepareCBAsPK(Integer villageId, Integer day, Integer charaId) {
-        assertObjectNotNull("villageId", villageId);assertObjectNotNull("day", day);assertObjectNotNull("charaId", charaId);
-        return newConditionBean().acceptPK(villageId, day, charaId);
+    protected AbilityCB xprepareCBAsPK(Integer villageId, Integer day, Integer charaId, CDef.AbilityType abilityTypeCode) {
+        assertObjectNotNull("villageId", villageId);assertObjectNotNull("day", day);assertObjectNotNull("charaId", charaId);assertObjectNotNull("abilityTypeCode", abilityTypeCode);
+        return newConditionBean().acceptPK(villageId, day, charaId, abilityTypeCode);
     }
 
     // ===================================================================================

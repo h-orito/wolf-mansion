@@ -12,6 +12,7 @@ import org.dbflute.cbean.scoping.*;
 import org.dbflute.dbmeta.DBMetaProvider;
 import org.dbflute.twowaysql.factory.SqlAnalyzerFactory;
 import org.dbflute.twowaysql.style.BoundDateDisplayTimeZoneProvider;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.DBFluteConfig;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.allcommon.ImplementedInvokerAssistant;
@@ -84,12 +85,13 @@ public class BsAbilityCB extends AbstractConditionBean {
      * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
      * @param day : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
      * @param charaId : PK, IX, NotNull, INT UNSIGNED(10), FK to chara. (NotNull)
+     * @param abilityTypeCode : PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType. (NotNull)
      * @return this. (NotNull)
      */
-    public AbilityCB acceptPK(Integer villageId, Integer day, Integer charaId) {
-        assertObjectNotNull("villageId", villageId);assertObjectNotNull("day", day);assertObjectNotNull("charaId", charaId);
+    public AbilityCB acceptPK(Integer villageId, Integer day, Integer charaId, CDef.AbilityType abilityTypeCode) {
+        assertObjectNotNull("villageId", villageId);assertObjectNotNull("day", day);assertObjectNotNull("charaId", charaId);assertObjectNotNull("abilityTypeCode", abilityTypeCode);
         BsAbilityCB cb = this;
-        cb.query().setVillageId_Equal(villageId);cb.query().setDay_Equal(day);cb.query().setCharaId_Equal(charaId);
+        cb.query().setVillageId_Equal(villageId);cb.query().setDay_Equal(day);cb.query().setCharaId_Equal(charaId);cb.query().setAbilityTypeCode_Equal_AsAbilityType(abilityTypeCode);
         return (AbilityCB)this;
     }
 
@@ -97,6 +99,7 @@ public class BsAbilityCB extends AbstractConditionBean {
         query().addOrderBy_VillageId_Asc();
         query().addOrderBy_Day_Asc();
         query().addOrderBy_CharaId_Asc();
+        query().addOrderBy_AbilityTypeCode_Asc();
         return this;
     }
 
@@ -104,6 +107,7 @@ public class BsAbilityCB extends AbstractConditionBean {
         query().addOrderBy_VillageId_Desc();
         query().addOrderBy_Day_Desc();
         query().addOrderBy_CharaId_Desc();
+        query().addOrderBy_AbilityTypeCode_Desc();
         return this;
     }
 
@@ -258,9 +262,6 @@ public class BsAbilityCB extends AbstractConditionBean {
      */
     public void setupSelect_AbilityType() {
         assertSetupSelectPurpose("abilityType");
-        if (hasSpecifiedLocalColumn()) {
-            specify().columnAbilityTypeCode();
-        }
         doSetupSelect(() -> query().queryAbilityType());
     }
 
@@ -415,7 +416,7 @@ public class BsAbilityCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnTargetCharaId() { return doColumn("TARGET_CHARA_ID"); }
         /**
-         * ABILITY_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to ability_type}
+         * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnAbilityTypeCode() { return doColumn("ABILITY_TYPE_CODE"); }
@@ -446,10 +447,7 @@ public class BsAbilityCB extends AbstractConditionBean {
             columnVillageId(); // PK
             columnDay(); // PK
             columnCharaId(); // PK
-            if (qyCall().qy().hasConditionQueryAbilityType()
-                    || qyCall().qy().xgetReferrerQuery() instanceof AbilityTypeCQ) {
-                columnAbilityTypeCode(); // FK or one-to-one referrer
-            }
+            columnAbilityTypeCode(); // PK
             if (qyCall().qy().hasConditionQueryCharaByTargetCharaId()
                     || qyCall().qy().xgetReferrerQuery() instanceof CharaCQ) {
                 columnTargetCharaId(); // FK or one-to-one referrer

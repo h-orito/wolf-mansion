@@ -7,6 +7,7 @@ import org.dbflute.dbmeta.DBMeta;
 import org.dbflute.dbmeta.AbstractEntity;
 import org.dbflute.dbmeta.accessory.DomainEntity;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.*;
 
 /**
@@ -61,7 +62,7 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** ABILITY_TYPE_CODE: {PK, NotNull, VARCHAR(20)} */
+    /** ABILITY_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=AbilityType} */
     protected String _abilityTypeCode;
 
     /** ABILITY_TYPE_NAME: {NotNull, VARCHAR(20)} */
@@ -87,6 +88,93 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean hasPrimaryKeyValue() {
         if (_abilityTypeCode == null) { return false; }
         return true;
+    }
+
+    // ===================================================================================
+    //                                                             Classification Property
+    //                                                             =======================
+    /**
+     * Get the value of abilityTypeCode as the classification of AbilityType. <br>
+     * ABILITY_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=AbilityType} <br>
+     * 能力種別
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.AbilityType getAbilityTypeCodeAsAbilityType() {
+        return CDef.AbilityType.codeOf(getAbilityTypeCode());
+    }
+
+    /**
+     * Set the value of abilityTypeCode as the classification of AbilityType. <br>
+     * ABILITY_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=AbilityType} <br>
+     * 能力種別
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setAbilityTypeCodeAsAbilityType(CDef.AbilityType cdef) {
+        setAbilityTypeCode(cdef != null ? cdef.code() : null);
+    }
+
+    // ===================================================================================
+    //                                                              Classification Setting
+    //                                                              ======================
+    /**
+     * Set the value of abilityTypeCode as 襲撃 (ATTACK). <br>
+     * 襲撃
+     */
+    public void setAbilityTypeCode_襲撃() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.襲撃);
+    }
+
+    /**
+     * Set the value of abilityTypeCode as 占い (DIVINE). <br>
+     * 占い
+     */
+    public void setAbilityTypeCode_占い() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.占い);
+    }
+
+    /**
+     * Set the value of abilityTypeCode as 護衛 (GUARD). <br>
+     * 護衛
+     */
+    public void setAbilityTypeCode_護衛() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.護衛);
+    }
+
+    // ===================================================================================
+    //                                                        Classification Determination
+    //                                                        ============================
+    /**
+     * Is the value of abilityTypeCode 襲撃? <br>
+     * 襲撃
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode襲撃() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.襲撃) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 占い? <br>
+     * 占い
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode占い() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.占い) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 護衛? <br>
+     * 護衛
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode護衛() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.護衛) : false;
     }
 
     // ===================================================================================
@@ -181,7 +269,7 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] ABILITY_TYPE_CODE: {PK, NotNull, VARCHAR(20)} <br>
+     * [get] ABILITY_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=AbilityType} <br>
      * 能力種別コード
      * @return The value of the column 'ABILITY_TYPE_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -191,11 +279,12 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
-     * [set] ABILITY_TYPE_CODE: {PK, NotNull, VARCHAR(20)} <br>
+     * [set] ABILITY_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=AbilityType} <br>
      * 能力種別コード
      * @param abilityTypeCode The value of the column 'ABILITY_TYPE_CODE'. (basically NotNull if update: for the constraint)
      */
-    public void setAbilityTypeCode(String abilityTypeCode) {
+    protected void setAbilityTypeCode(String abilityTypeCode) {
+        checkClassificationCode("ABILITY_TYPE_CODE", CDef.DefMeta.AbilityType, abilityTypeCode);
         registerModifiedProperty("abilityTypeCode");
         _abilityTypeCode = abilityTypeCode;
     }
@@ -218,5 +307,13 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public void setAbilityTypeName(String abilityTypeName) {
         registerModifiedProperty("abilityTypeName");
         _abilityTypeName = abilityTypeName;
+    }
+
+    /**
+     * For framework so basically DON'T use this method.
+     * @param abilityTypeCode The value of the column 'ABILITY_TYPE_CODE'. (basically NotNull if update: for the constraint)
+     */
+    public void mynativeMappingAbilityTypeCode(String abilityTypeCode) {
+        setAbilityTypeCode(abilityTypeCode);
     }
 }

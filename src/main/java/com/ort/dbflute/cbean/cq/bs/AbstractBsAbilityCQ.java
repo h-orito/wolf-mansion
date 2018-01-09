@@ -549,11 +549,45 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * ABILITY_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to ability_type}
+     * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType}
      * @param abilityTypeCode The value of abilityTypeCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setAbilityTypeCode_Equal(String abilityTypeCode) {
+    protected void setAbilityTypeCode_Equal(String abilityTypeCode) {
         doSetAbilityTypeCode_Equal(fRES(abilityTypeCode));
+    }
+
+    /**
+     * Equal(=). As AbilityType. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType} <br>
+     * 能力種別
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType cdef) {
+        doSetAbilityTypeCode_Equal(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * Equal(=). As 襲撃 (ATTACK). And OnlyOnceRegistered. <br>
+     * 襲撃
+     */
+    public void setAbilityTypeCode_Equal_襲撃() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.襲撃);
+    }
+
+    /**
+     * Equal(=). As 占い (DIVINE). And OnlyOnceRegistered. <br>
+     * 占い
+     */
+    public void setAbilityTypeCode_Equal_占い() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.占い);
+    }
+
+    /**
+     * Equal(=). As 護衛 (GUARD). And OnlyOnceRegistered. <br>
+     * 護衛
+     */
+    public void setAbilityTypeCode_Equal_護衛() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.護衛);
     }
 
     protected void doSetAbilityTypeCode_Equal(String abilityTypeCode) {
@@ -562,11 +596,45 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * ABILITY_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to ability_type}
+     * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType}
      * @param abilityTypeCode The value of abilityTypeCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setAbilityTypeCode_NotEqual(String abilityTypeCode) {
+    protected void setAbilityTypeCode_NotEqual(String abilityTypeCode) {
         doSetAbilityTypeCode_NotEqual(fRES(abilityTypeCode));
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As AbilityType. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType} <br>
+     * 能力種別
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType cdef) {
+        doSetAbilityTypeCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 襲撃 (ATTACK). And OnlyOnceRegistered. <br>
+     * 襲撃
+     */
+    public void setAbilityTypeCode_NotEqual_襲撃() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.襲撃);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 占い (DIVINE). And OnlyOnceRegistered. <br>
+     * 占い
+     */
+    public void setAbilityTypeCode_NotEqual_占い() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.占い);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 護衛 (GUARD). And OnlyOnceRegistered. <br>
+     * 護衛
+     */
+    public void setAbilityTypeCode_NotEqual_護衛() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.護衛);
     }
 
     protected void doSetAbilityTypeCode_NotEqual(String abilityTypeCode) {
@@ -574,48 +642,22 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
-     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * ABILITY_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to ability_type}
-     * @param abilityTypeCode The value of abilityTypeCode as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setAbilityTypeCode_GreaterThan(String abilityTypeCode) {
-        regAbilityTypeCode(CK_GT, fRES(abilityTypeCode));
-    }
-
-    /**
-     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * ABILITY_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to ability_type}
-     * @param abilityTypeCode The value of abilityTypeCode as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setAbilityTypeCode_LessThan(String abilityTypeCode) {
-        regAbilityTypeCode(CK_LT, fRES(abilityTypeCode));
-    }
-
-    /**
-     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * ABILITY_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to ability_type}
-     * @param abilityTypeCode The value of abilityTypeCode as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setAbilityTypeCode_GreaterEqual(String abilityTypeCode) {
-        regAbilityTypeCode(CK_GE, fRES(abilityTypeCode));
-    }
-
-    /**
-     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * ABILITY_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to ability_type}
-     * @param abilityTypeCode The value of abilityTypeCode as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setAbilityTypeCode_LessEqual(String abilityTypeCode) {
-        regAbilityTypeCode(CK_LE, fRES(abilityTypeCode));
-    }
-
-    /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * ABILITY_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to ability_type}
+     * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType}
      * @param abilityTypeCodeList The collection of abilityTypeCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setAbilityTypeCode_InScope(Collection<String> abilityTypeCodeList) {
+    protected void setAbilityTypeCode_InScope(Collection<String> abilityTypeCodeList) {
         doSetAbilityTypeCode_InScope(abilityTypeCodeList);
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As AbilityType. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType} <br>
+     * 能力種別
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setAbilityTypeCode_InScope_AsAbilityType(Collection<CDef.AbilityType> cdefList) {
+        doSetAbilityTypeCode_InScope(cTStrL(cdefList));
     }
 
     protected void doSetAbilityTypeCode_InScope(Collection<String> abilityTypeCodeList) {
@@ -624,11 +666,21 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * ABILITY_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to ability_type}
+     * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType}
      * @param abilityTypeCodeList The collection of abilityTypeCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setAbilityTypeCode_NotInScope(Collection<String> abilityTypeCodeList) {
+    protected void setAbilityTypeCode_NotInScope(Collection<String> abilityTypeCodeList) {
         doSetAbilityTypeCode_NotInScope(abilityTypeCodeList);
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. As AbilityType. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType} <br>
+     * 能力種別
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setAbilityTypeCode_NotInScope_AsAbilityType(Collection<CDef.AbilityType> cdefList) {
+        doSetAbilityTypeCode_NotInScope(cTStrL(cdefList));
     }
 
     protected void doSetAbilityTypeCode_NotInScope(Collection<String> abilityTypeCodeList) {
@@ -636,48 +688,16 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
-     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * ABILITY_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to ability_type} <br>
-     * <pre>e.g. setAbilityTypeCode_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
-     * @param abilityTypeCode The value of abilityTypeCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param opLambda The callback for option of like-search. (NotNull)
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType}
      */
-    public void setAbilityTypeCode_LikeSearch(String abilityTypeCode, ConditionOptionCall<LikeSearchOption> opLambda) {
-        setAbilityTypeCode_LikeSearch(abilityTypeCode, xcLSOP(opLambda));
-    }
+    public void setAbilityTypeCode_IsNull() { regAbilityTypeCode(CK_ISN, DOBJ); }
 
     /**
-     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * ABILITY_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to ability_type} <br>
-     * <pre>e.g. setAbilityTypeCode_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
-     * @param abilityTypeCode The value of abilityTypeCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param likeSearchOption The option of like-search. (NotNull)
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType}
      */
-    protected void setAbilityTypeCode_LikeSearch(String abilityTypeCode, LikeSearchOption likeSearchOption) {
-        regLSQ(CK_LS, fRES(abilityTypeCode), xgetCValueAbilityTypeCode(), "ABILITY_TYPE_CODE", likeSearchOption);
-    }
-
-    /**
-     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
-     * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * ABILITY_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to ability_type}
-     * @param abilityTypeCode The value of abilityTypeCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param opLambda The callback for option of like-search. (NotNull)
-     */
-    public void setAbilityTypeCode_NotLikeSearch(String abilityTypeCode, ConditionOptionCall<LikeSearchOption> opLambda) {
-        setAbilityTypeCode_NotLikeSearch(abilityTypeCode, xcLSOP(opLambda));
-    }
-
-    /**
-     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
-     * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * ABILITY_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to ability_type}
-     * @param abilityTypeCode The value of abilityTypeCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param likeSearchOption The option of not-like-search. (NotNull)
-     */
-    protected void setAbilityTypeCode_NotLikeSearch(String abilityTypeCode, LikeSearchOption likeSearchOption) {
-        regLSQ(CK_NLS, fRES(abilityTypeCode), xgetCValueAbilityTypeCode(), "ABILITY_TYPE_CODE", likeSearchOption);
-    }
+    public void setAbilityTypeCode_IsNotNull() { regAbilityTypeCode(CK_ISNN, DOBJ); }
 
     protected void regAbilityTypeCode(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueAbilityTypeCode(), "ABILITY_TYPE_CODE"); }
     protected abstract ConditionValue xgetCValueAbilityTypeCode();

@@ -103,5 +103,12 @@ map:{
             ; code=DEAD_REASON_CODE; name=DEAD_REASON_NAME
         }
     }
+    ; AbilityType = list:{
+        ; map:{topComment=能力種別; codeType=String}
+        ; map:{
+            ; table=ABILITY_TYPE
+            ; code=ABILITY_TYPE_CODE; name=ABILITY_TYPE_NAME
+        }
+    }
 }
 # ----------------/

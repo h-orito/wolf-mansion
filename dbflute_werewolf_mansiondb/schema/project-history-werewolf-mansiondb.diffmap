@@ -1,4 +1,23 @@
 map:{
+    ; 2018/01/09 20:48:57 = map:{
+        ; diffDate = 2018/01/09 20:48:57
+        ; tableDiff = map:{
+            ; ability = map:{
+                ; tableName = ability
+                ; diffType = CHANGE
+                ; primaryKeyDiff = map:{
+                    ; PRIMARY = map:{
+                        ; constraintName = PRIMARY
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = VILLAGE_ID, DAY, CHARA_ID, ABILITY_TYPE_CODE
+                            ; previous = VILLAGE_ID, DAY, CHARA_ID
+                        }
+                    }
+                }
+            }
+        }
+    }
     ; 2017/12/29 18:41:19 = map:{
         ; diffDate = 2017/12/29 18:41:19
         ; tableDiff = map:{

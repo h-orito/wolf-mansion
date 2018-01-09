@@ -95,14 +95,14 @@ public class BsAbilityTypeCQ extends AbstractBsAbilityTypeCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * ABILITY_TYPE_CODE: {PK, NotNull, VARCHAR(20)}
+     * ABILITY_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=AbilityType}
      * @return this. (NotNull)
      */
     public BsAbilityTypeCQ addOrderBy_AbilityTypeCode_Asc() { regOBA("ABILITY_TYPE_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * ABILITY_TYPE_CODE: {PK, NotNull, VARCHAR(20)}
+     * ABILITY_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=AbilityType}
      * @return this. (NotNull)
      */
     public BsAbilityTypeCQ addOrderBy_AbilityTypeCode_Desc() { regOBD("ABILITY_TYPE_CODE"); return this; }

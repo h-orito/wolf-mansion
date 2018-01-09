@@ -10,7 +10,7 @@ import com.ort.dbflute.exentity.*;
  * The referrer loader of ABILITY as TABLE. <br>
  * <pre>
  * [primary key]
- *     VILLAGE_ID, DAY, CHARA_ID
+ *     VILLAGE_ID, DAY, CHARA_ID, ABILITY_TYPE_CODE
  *
  * [column]
  *     VILLAGE_ID, DAY, CHARA_ID, TARGET_CHARA_ID, ABILITY_TYPE_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE

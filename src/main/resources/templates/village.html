@@ -102,7 +102,7 @@
 								<form method="post" action="" th:action="@{/village/{villageId}/confirm(villageId=${content.villageId})}" th:object="${sayForm}"
 									class="form-horizontal">
 									<div class="form-group">
-										<div class="col-sm-12 btn-group" data-toggle="buttons">
+										<div class="col-sm-12 btn-group" data-toggle="buttons" data-say-type>
 											<label th:if="${content.isAvailableWerewolfSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'WEREWOLF_SAY' ? 'active' : ''}">
 												<input type="radio" class="" th:field="*{messageType}" value="WEREWOLF_SAY" autocomplete="off" />囁き
 											</label> <label th:if="${content.isAvailableNormalSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'NORMAL_SAY' ? 'active' : ''}">
@@ -118,7 +118,7 @@
 										<div class="col-sm-12" style="display: flex;">
 											<div th:style="'width: 50px; height: 77px; background: url(\'' + ${content.charaImageUrl} + '\'); background-repeat: no-repeat;'"></div>
 											<div style="flex: 1; margin-left: 5px; min-height: 77px;">
-												<textarea class="form-control" th:field="*{message}" style="min-height: 77px;"></textarea>
+												<textarea class="form-control" th:field="*{message}" style="min-height: 77px;" data-say-textarea></textarea>
 											</div>
 											<span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="help-block text-danger">error!</span>
 										</div>

@@ -12,6 +12,7 @@ import org.dbflute.cbean.scoping.*;
 import org.dbflute.dbmeta.DBMetaProvider;
 import org.dbflute.twowaysql.factory.SqlAnalyzerFactory;
 import org.dbflute.twowaysql.style.BoundDateDisplayTimeZoneProvider;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.DBFluteConfig;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.allcommon.ImplementedInvokerAssistant;
@@ -80,13 +81,13 @@ public class BsAbilityTypeCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param abilityTypeCode : PK, NotNull, VARCHAR(20). (NotNull)
+     * @param abilityTypeCode : PK, NotNull, VARCHAR(20), classification=AbilityType. (NotNull)
      * @return this. (NotNull)
      */
-    public AbilityTypeCB acceptPK(String abilityTypeCode) {
+    public AbilityTypeCB acceptPK(CDef.AbilityType abilityTypeCode) {
         assertObjectNotNull("abilityTypeCode", abilityTypeCode);
         BsAbilityTypeCB cb = this;
-        cb.query().setAbilityTypeCode_Equal(abilityTypeCode);
+        cb.query().setAbilityTypeCode_Equal_AsAbilityType(abilityTypeCode);
         return (AbilityTypeCB)this;
     }
 
@@ -283,7 +284,7 @@ public class BsAbilityTypeCB extends AbstractConditionBean {
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * ABILITY_TYPE_CODE: {PK, NotNull, VARCHAR(20)}
+         * ABILITY_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=AbilityType}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnAbilityTypeCode() { return doColumn("ABILITY_TYPE_CODE"); }

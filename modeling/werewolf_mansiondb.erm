@@ -365,6 +365,7 @@
 					<referred_column>table.ability_type.ability_type_code</referred_column>
 					<relationship>FK_ability_ability_type</relationship>
 					<not_null>true</not_null>
+					<primary_key>true</primary_key>
 				</normal_column>
 				<column_group>共通カラム</column_group>
 			</columns>

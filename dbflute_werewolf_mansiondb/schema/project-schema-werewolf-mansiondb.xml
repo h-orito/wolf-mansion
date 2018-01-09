@@ -17,7 +17,8 @@
             javaType="Integer" name="TARGET_CHARA_ID" required="true"
             size="10" type="INTEGER"/>
         <column comment="能力種別コード" dbType="VARCHAR" javaType="String"
-            name="ABILITY_TYPE_CODE" required="true" size="20" type="VARCHAR"/>
+            name="ABILITY_TYPE_CODE" pkName="PRIMARY" pkPosition="4"
+            primaryKey="true" required="true" size="20" type="VARCHAR"/>
         <column comment="登録日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>

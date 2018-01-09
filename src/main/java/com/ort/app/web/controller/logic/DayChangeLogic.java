@@ -7,26 +7,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.dbflute.cbean.result.ListResultBean;
+import org.dbflute.optional.OptionalEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.allcommon.CDef.VillageStatus;
+import com.ort.dbflute.exbhv.AbilityBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
+import com.ort.dbflute.exbhv.VoteBhv;
+import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillageSettings;
+import com.ort.dbflute.exentity.Vote;
 import com.ort.fw.util.WerewolfMansionDateUtil;
 
 @Component
@@ -48,6 +56,12 @@ public class DayChangeLogic {
 
     @Autowired
     VillagePlayerBhv villagePlayerBhv;
+
+    @Autowired
+    AbilityBhv abilityBhv;
+
+    @Autowired
+    VoteBhv voteBhv;
 
     @Autowired
     MessageLogic messageLogic;
@@ -79,17 +93,19 @@ public class DayChangeLogic {
         }
 
         // 村日付を追加
-        insertVillageDayTransactional(villageId, day + 1, nextDaychangeDatetime);
+        int newDay = day + 1;
+        insertVillageDayTransactional(villageId, newDay, nextDaychangeDatetime);
 
         // 日付切り替え処理
         if (day == 0) {
             // 1日目
             assignSkill(villageId); // 役職割り当て
-            assignRoom(villageId);
+            assignRoom(villageId); // 部屋割り当て
             updateVillageStatus(villageId, CDef.VillageStatus.進行中); // 村ステータス更新
+            setDefaultVoteAndAbility(villageId, newDay); // 投票、能力行使のデフォルト設定
         } else {
-            // 
-
+            // 1日目以外
+            dayChange(villageId, newDay);
         }
 
     }
@@ -117,6 +133,15 @@ public class DayChangeLogic {
         });
         villageBhv.loadVillagePlayer(village, cb -> {});
         return village;
+    }
+
+    private ListResultBean<VillagePlayer> selectVillagePlayerList(Integer villageId) {
+        ListResultBean<VillagePlayer> villagePlayerList = villagePlayerBhv.selectList(cb -> {
+            cb.setupSelect_Chara();
+            cb.setupSelect_SkillBySkillCode();
+            cb.query().setVillageId_Equal(villageId);
+        });
+        return villagePlayerList;
     }
 
     // ===================================================================================
@@ -155,6 +180,88 @@ public class DayChangeLogic {
             villagePlayerBhv.queryUpdate(entity, cb -> cb.query().setVillagePlayerId_Equal(player.getVillagePlayerId()));
             logger.info("部屋割り当て villagePlayerId: {}, roomNumber:{}", player.getVillagePlayerId(), roomNumList.get(i));
         }
+    }
+
+    // デフォルトの噛み先を設定
+    private void insertDefaultAttack(Integer villageId, int newDay, ListResultBean<VillagePlayer> villagePlayerList) {
+        // 噛まれる人
+        Integer attackedCharaId = null;
+        if (newDay == 1) {
+            // ダミーキャラ固定
+            attackedCharaId = villagePlayerList.stream()
+                    .filter(vp -> BooleanUtils.isTrue(vp.getChara().get().getIsDummy()))
+                    .findFirst()
+                    .get()
+                    .getCharaId();
+        } else {
+            // 狼以外の生存している誰か
+            attackedCharaId = villagePlayerList.stream()
+                    .filter(vp -> vp.getSkillCodeAsSkill() != CDef.Skill.人狼 && vp.isIsDeadFalse())
+                    .findFirst()
+                    .get()
+                    .getCharaId();
+        }
+        // 噛む人
+        // 生存している狼の誰か
+        Integer attackCharaId = villagePlayerList.stream()
+                .filter(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.人狼 && vp.isIsDeadFalse())
+                .findFirst()
+                .get()
+                .getCharaId();
+        insertAbility(villageId, newDay, attackedCharaId, attackCharaId, CDef.AbilityType.襲撃);
+    }
+
+    private void insertAbility(Integer villageId, int newDay, Integer charaId, Integer targetCharaId, CDef.AbilityType abilityType) {
+        Ability attack = new Ability();
+        attack.setVillageId(villageId);
+        attack.setDay(newDay);
+        attack.setCharaId(targetCharaId);
+        attack.setTargetCharaId(charaId);
+        attack.setAbilityTypeCodeAsAbilityType(abilityType);
+        abilityBhv.insert(attack);
+    }
+
+    private void insertVote(Integer villageId, int newDay, Integer charaId, Integer targetCharaId) {
+        Vote vote = new Vote();
+        vote.setVillageId(villageId);
+        vote.setDay(newDay);
+        vote.setCharaId(charaId);
+        vote.setVoteCharaId(targetCharaId);
+        voteBhv.insert(vote);
+    }
+
+    private void insertDefaultGuard(Integer villageId, int newDay, ListResultBean<VillagePlayer> villagePlayerList) {
+        // 護衛する人
+        Optional<VillagePlayer> optHunter =
+                villagePlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.狩人 && vp.isIsDeadFalse()).findFirst();
+        if (!optHunter.isPresent()) {
+            return;
+        }
+        Integer hunterCharaId = optHunter.get().getCharaId();
+        // 護衛される人
+        Integer targetCharaId = villagePlayerList.stream()
+                .filter(vp -> !vp.getCharaId().equals(hunterCharaId) && vp.isIsDeadFalse() && vp.getSkillCodeAsSkill() != CDef.Skill.狩人)
+                .findFirst()
+                .get()
+                .getCharaId();
+        insertAbility(villageId, newDay, hunterCharaId, targetCharaId, CDef.AbilityType.護衛);
+    }
+
+    private void insertDefaultSeer(Integer villageId, int newDay, ListResultBean<VillagePlayer> villagePlayerList) {
+        // 占う人
+        Optional<VillagePlayer> optSeer =
+                villagePlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.占い師 && vp.isIsDeadFalse()).findFirst();
+        if (!optSeer.isPresent()) {
+            return;
+        }
+        Integer seerCharaId = optSeer.get().getCharaId();
+        // 占われる人
+        Integer targetCharaId = villagePlayerList.stream()
+                .filter(vp -> !vp.getCharaId().equals(seerCharaId) && vp.isIsDeadFalse())
+                .findFirst()
+                .get()
+                .getCharaId();
+        insertAbility(villageId, newDay, seerCharaId, targetCharaId, CDef.AbilityType.占い);
     }
 
     // ===================================================================================
@@ -387,4 +494,276 @@ public class DayChangeLogic {
         }
     }
 
+    // 投票、能力行使のデフォルト設定
+    private void setDefaultVoteAndAbility(Integer villageId, int newDay) {
+        ListResultBean<VillagePlayer> villagePlayerList = selectVillagePlayerList(villageId);
+        // 噛み
+        insertDefaultAttack(villageId, newDay, villagePlayerList);
+        // 占い
+        insertDefaultSeer(villageId, newDay, villagePlayerList);
+        // 護衛
+        insertDefaultGuard(villageId, newDay, villagePlayerList);
+        // 投票
+        villagePlayerList.stream().filter(vp -> vp.isIsDeadFalse()).forEach(vp -> {
+            insertVote(villageId, newDay, vp.getCharaId(), vp.getCharaId());
+        });
+    }
+
+    // 初日以外の日付更新処理
+    private void dayChange(Integer villageId, int day) {
+        ListResultBean<VillagePlayer> villagePlayerList = selectVillagePlayerList(villageId);
+        // 突然死
+        // TODO h-orito あとで実装する (2018/01/09)
+
+        // TODO h-orito 2日目の処理 (2018/01/09)
+        // 処刑
+        VillagePlayer executedPlayer = execute(villageId, day, villagePlayerList);
+
+        // 護衛
+        Optional<VillagePlayer> optGuardedPlayer = guard(villageId, day, villagePlayerList, executedPlayer);
+
+        // 占い
+        Optional<VillagePlayer> optDivinedPlayer = divine(villageId, day, villagePlayerList, executedPlayer);
+
+        // 呪殺
+        Optional<VillagePlayer> optDivineKilledPlayer = divineKill(villageId, day, villagePlayerList, executedPlayer, optDivinedPlayer);
+
+        // 霊能
+        psychic(villageId, day, villagePlayerList, executedPlayer);
+
+        // 襲撃
+        Optional<VillagePlayer> optAttackedPlayer = attack(villageId, day, villagePlayerList, executedPlayer, optGuardedPlayer);
+
+        // 無残メッセージ
+        insertAttackedMessage(villageId, day, optDivineKilledPlayer, optAttackedPlayer);
+
+        // 勝敗判定
+
+        // 投票、能力行使のデフォルト設定
+        setDefaultVoteAndAbility(villageId, day);
+    }
+
+    // 無残メッセージ
+    private void insertAttackedMessage(Integer villageId, int day, Optional<VillagePlayer> optDivineKilledPlayer,
+            Optional<VillagePlayer> optAttackedPlayer) {
+        List<VillagePlayer> attackedPlayerList = new ArrayList<>();
+        optDivineKilledPlayer.ifPresent(player -> attackedPlayerList.add(player));
+        optAttackedPlayer.ifPresent(player -> attackedPlayerList.add(player));
+        if (CollectionUtils.isEmpty(attackedPlayerList)) {
+            messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, "今日は犠牲者がいないようだ。人狼は襲撃に失敗したのだろうか。");
+        } else {
+            Collections.shuffle(attackedPlayerList);
+            StringJoiner joiner = new StringJoiner("と", "次の日の朝、", "が無残な姿で発見された。");
+            attackedPlayerList.stream().forEach(player -> {
+                joiner.add(player.getChara().get().getCharaName());
+            });
+            messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
+        }
+    }
+
+    // 襲撃
+    private Optional<VillagePlayer> attack(Integer villageId, int day, ListResultBean<VillagePlayer> villagePlayerList,
+            VillagePlayer executedPlayer, Optional<VillagePlayer> optGuardedPlayer) {
+        Optional<VillagePlayer> optLivingWerewolf = villagePlayerList.stream()
+                .filter(vp -> vp.isIsDeadFalse() && !vp.getVillagePlayerId().equals(executedPlayer.getVillagePlayerId())
+                        && vp.getSkillCodeAsSkill() == CDef.Skill.人狼)
+                .findAny();
+        if (!optLivingWerewolf.isPresent()) {
+            return Optional.empty(); // 人狼がいない場合は何もしない
+        }
+        OptionalEntity<Ability> optAttack = abilityBhv.selectEntity(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_Equal(day - 1);
+            cb.query().setAbilityTypeCode_Equal_襲撃();
+        });
+        if (!optAttack.isPresent()) {
+            return Optional.empty(); // 能力セットしていない場合は何もしない
+        }
+        VillagePlayer targetPlayer =
+                villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(optAttack.get().getTargetCharaId())).findFirst().get();
+        // 襲撃メッセージ
+        String attackMessage = String.format("%s！今日がお前の命日だ！", targetPlayer.getChara().get().getCharaName());
+        messageLogic.insertMessage(villageId, day, CDef.MessageType.人狼の囁き, attackMessage, optLivingWerewolf.get().getVillagePlayerId());
+
+        // 襲撃成功したか
+        boolean isAttackSuccess = isAttackSuccess(targetPlayer, executedPlayer.getVillagePlayerId(), optGuardedPlayer);
+        if (isAttackSuccess) {
+            return Optional.ofNullable(targetPlayer);
+        }
+        return Optional.empty();
+    }
+
+    // 襲撃成功したか
+    private boolean isAttackSuccess(VillagePlayer attackedPlayer, Integer executedPlayerId, Optional<VillagePlayer> optGuardedPlayer) {
+        if (attackedPlayer.getVillagePlayerId().equals(executedPlayerId)) {
+            return false; // 処刑されていた
+        }
+        if (optGuardedPlayer.isPresent() && optGuardedPlayer.get().getVillagePlayerId().equals(attackedPlayer.getVillagePlayerId())) {
+            return false; // 護衛されていた
+        }
+        if (attackedPlayer.getSkillCodeAsSkill() == CDef.Skill.妖狐) {
+            return false; // 噛み先が妖狐
+        }
+        return true;
+    }
+
+    // 霊視
+    private void psychic(Integer villageId, int day, ListResultBean<VillagePlayer> villagePlayerList, VillagePlayer executedPlayer) {
+        Optional<VillagePlayer> optLivingPsychic = villagePlayerList.stream()
+                .filter(vp -> vp.isIsDeadFalse() && !vp.getVillagePlayerId().equals(executedPlayer.getVillagePlayerId())
+                        && vp.getSkillCodeAsSkill() == CDef.Skill.霊能者)
+                .findFirst();
+        if (!optLivingPsychic.isPresent()) {
+            return; // 霊能者が既に死亡している場合は何もしない
+        }
+        boolean isTargetWerewolf = executedPlayer.getSkillCodeAsSkill() == CDef.Skill.人狼;
+        String message = String.format("処刑された霊が語りかける...\n%sは%sのようだ。", executedPlayer.getChara().get().getCharaName(),
+                isTargetWerewolf ? "人狼" : "人間");
+        messageLogic.insertMessage(villageId, day, CDef.MessageType.霊視結果, message);
+    }
+
+    // 呪殺
+    private Optional<VillagePlayer> divineKill(Integer villageId, int day, ListResultBean<VillagePlayer> villagePlayerList,
+            VillagePlayer executedPlayer, Optional<VillagePlayer> optDivinedPlayer) {
+        if (!optDivinedPlayer.isPresent()) {
+            return Optional.empty();
+        }
+        Optional<VillagePlayer> optDivineKilledPlayer = villagePlayerList.stream()
+                .filter(vp -> vp.isIsDeadFalse() && !vp.getVillagePlayerId().equals(executedPlayer.getVillagePlayerId())
+                        && vp.getSkillCodeAsSkill() == CDef.Skill.妖狐
+                        && vp.getVillagePlayerId().equals(optDivinedPlayer.get().getVillagePlayerId()))
+                .findFirst();
+        if (!optDivineKilledPlayer.isPresent()) {
+            return Optional.empty();
+        }
+        // 死亡処理
+        VillagePlayer vPlayer = new VillagePlayer();
+        vPlayer.setDeadReasonCode_呪殺();
+        vPlayer.setIsDead_True();
+        villagePlayerBhv.queryUpdate(vPlayer, cb -> cb.query().setVillagePlayerId_Equal(optDivineKilledPlayer.get().getVillagePlayerId()));
+
+        return optDivineKilledPlayer;
+    }
+
+    // 占い
+    private Optional<VillagePlayer> divine(Integer villageId, int day, ListResultBean<VillagePlayer> villagePlayerList,
+            VillagePlayer executedPlayer) {
+        Optional<VillagePlayer> optLivingSeer = villagePlayerList.stream()
+                .filter(vp -> vp.isIsDeadFalse() && !vp.getVillagePlayerId().equals(executedPlayer.getVillagePlayerId())
+                        && vp.getSkillCodeAsSkill() == CDef.Skill.占い師)
+                .findFirst();
+        if (!optLivingSeer.isPresent()) {
+            return Optional.empty(); // 占い師が既に死亡している場合は何もしない
+        }
+        OptionalEntity<Ability> optSeer = abilityBhv.selectEntity(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_Equal(day - 1);
+            cb.query().setAbilityTypeCode_Equal_占い();
+        });
+        if (!optSeer.isPresent()) {
+            return Optional.empty(); // 能力セットしていない場合は何もしない
+        }
+        VillagePlayer targetPlayer =
+                villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(optSeer.get().getTargetCharaId())).findFirst().get();
+        boolean isTargetWerewolf = targetPlayer.getSkillCodeAsSkill() == CDef.Skill.人狼;
+        String targetCharaName = targetPlayer.getChara().get().getCharaName();
+        String message = String.format("%sは、%sを占った。\n%sは%sのようだ。", optLivingSeer.get().getChara().get().getCharaName(), targetCharaName,
+                targetCharaName, isTargetWerewolf ? "人狼" : "人間");
+        messageLogic.insertMessage(villageId, day, CDef.MessageType.占い結果, message);
+        return Optional.ofNullable(targetPlayer);
+    }
+
+    // 護衛
+    private Optional<VillagePlayer> guard(Integer villageId, int day, ListResultBean<VillagePlayer> villagePlayerList,
+            VillagePlayer executedPlayer) {
+        Optional<VillagePlayer> optLivingHunter = villagePlayerList.stream()
+                .filter(vp -> vp.isIsDeadFalse() && !vp.getVillagePlayerId().equals(executedPlayer.getVillagePlayerId())
+                        && vp.getSkillCodeAsSkill() == CDef.Skill.狩人)
+                .findFirst();
+        if (!optLivingHunter.isPresent()) {
+            return Optional.empty(); // 狩人が既に死亡している場合は何もしない
+        }
+        OptionalEntity<Ability> optGuard = abilityBhv.selectEntity(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_Equal(day - 1);
+            cb.query().setAbilityTypeCode_Equal_護衛();
+        });
+        if (!optGuard.isPresent()) {
+            return Optional.empty(); // 能力セットしていない場合は何もしない
+        }
+        VillagePlayer targetPlayer =
+                villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(optGuard.get().getTargetCharaId())).findFirst().get();
+        String message = String.format("%sは、%sを護衛している。", optLivingHunter.get().getChara().get().getCharaName(),
+                targetPlayer.getChara().get().getCharaName());
+        messageLogic.insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
+        return Optional.ofNullable(targetPlayer);
+    }
+
+    // 処刑
+    private VillagePlayer execute(Integer villageId, int day, ListResultBean<VillagePlayer> villagePlayerList) {
+        ListResultBean<Vote> voteList = voteBhv.selectList(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_Equal(day - 1); // 前日の投票を使う
+        });
+        Map<Integer, Integer> voteNumMap = new HashMap<>();
+        List<Integer> executedCharaIdList = new ArrayList<>();
+        int maxVoteCount = 0;
+        for (Vote vote : voteList) {
+            Integer targetCharaId = vote.getVoteCharaId();
+            if (voteNumMap.containsKey(targetCharaId)) {
+                continue;
+            }
+            int voteCount = (int) voteList.stream().filter(v -> v.getVoteCharaId().equals(targetCharaId)).count();
+            voteNumMap.put(targetCharaId, voteCount);
+            if (maxVoteCount < voteCount) {
+                maxVoteCount = voteCount;
+                executedCharaIdList.clear();
+                executedCharaIdList.add(targetCharaId);
+            } else if (maxVoteCount == voteCount) {
+                executedCharaIdList.add(targetCharaId);
+            }
+        }
+        Collections.sort(executedCharaIdList); // 得票数が同じ場合はランダム
+        VillagePlayer executedPlayer =
+                villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(executedCharaIdList.get(0))).findFirst().get();
+
+        // 処刑
+        VillagePlayer vPlayer = new VillagePlayer();
+        vPlayer.setDeadReasonCode_処刑();
+        vPlayer.setIsDead_True();
+        villagePlayerBhv.queryUpdate(vPlayer, cb -> cb.query().setVillagePlayerId_Equal(executedPlayer.getVillagePlayerId()));
+
+        // 個別投票メッセージ登録
+        insertEachVoteMessage(villageId, day, villagePlayerList, voteList);
+        // 集計メッセージ登録
+        insertExecuteResultMessage(villageId, day, villagePlayerList, voteNumMap, executedPlayer);
+
+        return executedPlayer;
+    }
+
+    private void insertEachVoteMessage(Integer villageId, int day, ListResultBean<VillagePlayer> villagePlayerList,
+            ListResultBean<Vote> voteList) {
+        StringJoiner joiner = new StringJoiner("\n");
+        for (Vote vote : voteList) {
+            Integer charaId = vote.getCharaId();
+            VillagePlayer player = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(charaId)).findFirst().get();
+            Integer targetCharaId = vote.getVoteCharaId();
+            VillagePlayer targetPlayer = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(targetCharaId)).findFirst().get();
+            joiner.add(String.format("%sは、%sに投票した。", player.getChara().get().getCharaName(), targetPlayer.getChara().get().getCharaName()));
+        }
+        messageLogic.insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ, joiner.toString());
+    }
+
+    private void insertExecuteResultMessage(Integer villageId, int day, ListResultBean<VillagePlayer> villagePlayerList,
+            Map<Integer, Integer> voteNumMap, VillagePlayer executedPlayer) {
+        StringJoiner joiner = new StringJoiner("\n");
+        for (Entry<Integer, Integer> entry : voteNumMap.entrySet()) {
+            Integer targetCharaId = entry.getKey();
+            Integer voteCount = entry.getValue();
+            VillagePlayer targetPlayer = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(targetCharaId)).findFirst().get();
+            joiner.add(String.format("%s、%d票", targetPlayer.getChara().get().getCharaName(), voteCount));
+        }
+        joiner.add(String.format("\n%sは村人達の手により処刑された。", executedPlayer.getChara().get().getCharaName()));
+        messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
+    }
 }

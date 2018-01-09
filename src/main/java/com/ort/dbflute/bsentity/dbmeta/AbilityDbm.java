@@ -47,7 +47,14 @@ public class AbilityDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((Ability)et).getDay(), (et, vl) -> ((Ability)et).setDay(cti(vl)), "day");
         setupEpg(_epgMap, et -> ((Ability)et).getCharaId(), (et, vl) -> ((Ability)et).setCharaId(cti(vl)), "charaId");
         setupEpg(_epgMap, et -> ((Ability)et).getTargetCharaId(), (et, vl) -> ((Ability)et).setTargetCharaId(cti(vl)), "targetCharaId");
-        setupEpg(_epgMap, et -> ((Ability)et).getAbilityTypeCode(), (et, vl) -> ((Ability)et).setAbilityTypeCode((String)vl), "abilityTypeCode");
+        setupEpg(_epgMap, et -> ((Ability)et).getAbilityTypeCode(), (et, vl) -> {
+            CDef.AbilityType cls = (CDef.AbilityType)gcls(et, columnAbilityTypeCode(), vl);
+            if (cls != null) {
+                ((Ability)et).setAbilityTypeCodeAsAbilityType(cls);
+            } else {
+                ((Ability)et).mynativeMappingAbilityTypeCode((String)vl);
+            }
+        }, "abilityTypeCode");
         setupEpg(_epgMap, et -> ((Ability)et).getRegisterDatetime(), (et, vl) -> ((Ability)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((Ability)et).getRegisterTrace(), (et, vl) -> ((Ability)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((Ability)et).getUpdateDatetime(), (et, vl) -> ((Ability)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -91,7 +98,7 @@ public class AbilityDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnDay = cci("DAY", "DAY", null, null, Integer.class, "day", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villageDay", null, null, false);
     protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "charaByCharaId", null, null, false);
     protected final ColumnInfo _columnTargetCharaId = cci("TARGET_CHARA_ID", "TARGET_CHARA_ID", null, null, Integer.class, "targetCharaId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "charaByTargetCharaId", null, null, false);
-    protected final ColumnInfo _columnAbilityTypeCode = cci("ABILITY_TYPE_CODE", "ABILITY_TYPE_CODE", null, null, String.class, "abilityTypeCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "abilityType", null, null, false);
+    protected final ColumnInfo _columnAbilityTypeCode = cci("ABILITY_TYPE_CODE", "ABILITY_TYPE_CODE", null, null, String.class, "abilityTypeCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "abilityType", null, CDef.DefMeta.AbilityType, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -118,7 +125,7 @@ public class AbilityDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnTargetCharaId() { return _columnTargetCharaId; }
     /**
-     * ABILITY_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to ability_type}
+     * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnAbilityTypeCode() { return _columnAbilityTypeCode; }
@@ -170,6 +177,7 @@ public class AbilityDbm extends AbstractDBMeta {
         ls.add(columnVillageId());
         ls.add(columnDay());
         ls.add(columnCharaId());
+        ls.add(columnAbilityTypeCode());
         return hpcpui(ls);
     }
     public boolean hasPrimaryKey() { return true; }

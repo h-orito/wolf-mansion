@@ -10,6 +10,7 @@ import org.dbflute.dbmeta.accessory.DomainEntity;
 import org.dbflute.optional.OptionalEntity;
 import com.ort.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.*;
 
 /**
@@ -17,7 +18,7 @@ import com.ort.dbflute.exentity.*;
  * 能力行使
  * <pre>
  * [primary-key]
- *     VILLAGE_ID, DAY, CHARA_ID
+ *     VILLAGE_ID, DAY, CHARA_ID, ABILITY_TYPE_CODE
  *
  * [column]
  *     VILLAGE_ID, DAY, CHARA_ID, TARGET_CHARA_ID, ABILITY_TYPE_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
@@ -90,7 +91,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     /** TARGET_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara} */
     protected Integer _targetCharaId;
 
-    /** ABILITY_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to ability_type} */
+    /** ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType} */
     protected String _abilityTypeCode;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
@@ -126,7 +127,95 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
         if (_villageId == null) { return false; }
         if (_day == null) { return false; }
         if (_charaId == null) { return false; }
+        if (_abilityTypeCode == null) { return false; }
         return true;
+    }
+
+    // ===================================================================================
+    //                                                             Classification Property
+    //                                                             =======================
+    /**
+     * Get the value of abilityTypeCode as the classification of AbilityType. <br>
+     * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType} <br>
+     * 能力種別
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.AbilityType getAbilityTypeCodeAsAbilityType() {
+        return CDef.AbilityType.codeOf(getAbilityTypeCode());
+    }
+
+    /**
+     * Set the value of abilityTypeCode as the classification of AbilityType. <br>
+     * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType} <br>
+     * 能力種別
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setAbilityTypeCodeAsAbilityType(CDef.AbilityType cdef) {
+        setAbilityTypeCode(cdef != null ? cdef.code() : null);
+    }
+
+    // ===================================================================================
+    //                                                              Classification Setting
+    //                                                              ======================
+    /**
+     * Set the value of abilityTypeCode as 襲撃 (ATTACK). <br>
+     * 襲撃
+     */
+    public void setAbilityTypeCode_襲撃() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.襲撃);
+    }
+
+    /**
+     * Set the value of abilityTypeCode as 占い (DIVINE). <br>
+     * 占い
+     */
+    public void setAbilityTypeCode_占い() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.占い);
+    }
+
+    /**
+     * Set the value of abilityTypeCode as 護衛 (GUARD). <br>
+     * 護衛
+     */
+    public void setAbilityTypeCode_護衛() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.護衛);
+    }
+
+    // ===================================================================================
+    //                                                        Classification Determination
+    //                                                        ============================
+    /**
+     * Is the value of abilityTypeCode 襲撃? <br>
+     * 襲撃
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode襲撃() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.襲撃) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 占い? <br>
+     * 占い
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode占い() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.占い) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 護衛? <br>
+     * 護衛
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode護衛() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.護衛) : false;
     }
 
     // ===================================================================================
@@ -233,6 +322,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
             if (!xSV(_villageId, other._villageId)) { return false; }
             if (!xSV(_day, other._day)) { return false; }
             if (!xSV(_charaId, other._charaId)) { return false; }
+            if (!xSV(_abilityTypeCode, other._abilityTypeCode)) { return false; }
             return true;
         } else {
             return false;
@@ -246,6 +336,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
         hs = xCH(hs, _villageId);
         hs = xCH(hs, _day);
         hs = xCH(hs, _charaId);
+        hs = xCH(hs, _abilityTypeCode);
         return hs;
     }
 
@@ -391,7 +482,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] ABILITY_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to ability_type} <br>
+     * [get] ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType} <br>
      * 能力種別コード
      * @return The value of the column 'ABILITY_TYPE_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -401,11 +492,12 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] ABILITY_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to ability_type} <br>
+     * [set] ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType} <br>
      * 能力種別コード
      * @param abilityTypeCode The value of the column 'ABILITY_TYPE_CODE'. (basically NotNull if update: for the constraint)
      */
-    public void setAbilityTypeCode(String abilityTypeCode) {
+    protected void setAbilityTypeCode(String abilityTypeCode) {
+        checkClassificationCode("ABILITY_TYPE_CODE", CDef.DefMeta.AbilityType, abilityTypeCode);
         registerModifiedProperty("abilityTypeCode");
         _abilityTypeCode = abilityTypeCode;
     }
@@ -488,5 +580,13 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public void setUpdateTrace(String updateTrace) {
         registerModifiedProperty("updateTrace");
         _updateTrace = updateTrace;
+    }
+
+    /**
+     * For framework so basically DON'T use this method.
+     * @param abilityTypeCode The value of the column 'ABILITY_TYPE_CODE'. (basically NotNull if update: for the constraint)
+     */
+    public void mynativeMappingAbilityTypeCode(String abilityTypeCode) {
+        setAbilityTypeCode(abilityTypeCode);
     }
 }

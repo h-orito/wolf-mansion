@@ -42,7 +42,14 @@ public class AbilityTypeDbm extends AbstractDBMeta {
     protected final Map<String, PropertyGateway> _epgMap = newHashMap();
     { xsetupEpg(); }
     protected void xsetupEpg() {
-        setupEpg(_epgMap, et -> ((AbilityType)et).getAbilityTypeCode(), (et, vl) -> ((AbilityType)et).setAbilityTypeCode((String)vl), "abilityTypeCode");
+        setupEpg(_epgMap, et -> ((AbilityType)et).getAbilityTypeCode(), (et, vl) -> {
+            CDef.AbilityType cls = (CDef.AbilityType)gcls(et, columnAbilityTypeCode(), vl);
+            if (cls != null) {
+                ((AbilityType)et).setAbilityTypeCodeAsAbilityType(cls);
+            } else {
+                ((AbilityType)et).mynativeMappingAbilityTypeCode((String)vl);
+            }
+        }, "abilityTypeCode");
         setupEpg(_epgMap, et -> ((AbilityType)et).getAbilityTypeName(), (et, vl) -> ((AbilityType)et).setAbilityTypeName((String)vl), "abilityTypeName");
     }
     public PropertyGateway findPropertyGateway(String prop)
@@ -64,11 +71,11 @@ public class AbilityTypeDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnAbilityTypeCode = cci("ABILITY_TYPE_CODE", "ABILITY_TYPE_CODE", null, null, String.class, "abilityTypeCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "abilityList", null, false);
+    protected final ColumnInfo _columnAbilityTypeCode = cci("ABILITY_TYPE_CODE", "ABILITY_TYPE_CODE", null, null, String.class, "abilityTypeCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "abilityList", CDef.DefMeta.AbilityType, false);
     protected final ColumnInfo _columnAbilityTypeName = cci("ABILITY_TYPE_NAME", "ABILITY_TYPE_NAME", null, null, String.class, "abilityTypeName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
 
     /**
-     * ABILITY_TYPE_CODE: {PK, NotNull, VARCHAR(20)}
+     * ABILITY_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=AbilityType}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnAbilityTypeCode() { return _columnAbilityTypeCode; }
