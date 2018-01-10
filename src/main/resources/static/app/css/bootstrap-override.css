@@ -46,35 +46,40 @@
 }
 
 .message-normal {
-	color: #546E7A;
+	color: #555555;
 	background-color: #ffffff;
 }
 
 .message-werewolf {
-	color: #546E7A;
-	background-color: #f2dede;
+	color: #333333;
+	background-color: #f2aeae;
+	border: 1px solid #f2aeae;
 }
 
 .message-mason {
-	color: #546E7A;
-	background-color: #def2de;
+	color: #333333;
+	background-color: #aef2ae;
+	border: 1px solid #aef2ae;
 }
 
 .message-monologue {
-	color: #546E7A;
-	background-color: #e0e0e0;
+	color: #333333;
+	background-color: #a0a0a0;
+	border: 1px solid #a0a0a0;
 }
 
 .message-grave {
-	color: #546E7A;
-	background-color: #d9edf7;
+	color: #333333;
+	background-color: #a9edf7;
+	border: 1px solid #a9edf7;
 }
 
 
 .message-private-system {
-	color: #cccccc;
+	color: #eeeeee;
 	border: 1px solid #cccccc;
 	min-height: 0px;
+	background-color: #333333;
 }
 
 .message-public-system {

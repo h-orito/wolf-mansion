@@ -180,6 +180,7 @@ public class VillageAssist {
         villageBhv.loadVillagePlayer(village, villagePlayerCB -> { // 参加者一覧用
             villagePlayerCB.setupSelect_Chara();
             villagePlayerCB.setupSelect_DeadReason();
+            villagePlayerCB.query().addOrderBy_DeadDay_Asc();
         });
         return village;
     }
@@ -229,7 +230,7 @@ public class VillageAssist {
         content.setVillageName(village.getVillageDisplayName());
         content.setDay(day);
         content.setDayList(dayList.stream().map(VillageDay::getDay).collect(Collectors.toList()));
-        content.setEpilogueDay(null); // TODO h-orito エピローグ日時がDBにない (2017/12/27)
+        content.setEpilogueDay(village.getEpilogueDay());
         content.setIsDispParticipateForm(isDispParticipateForm);
         content.setSelectableCharaList(selectableCharaList == null ? null
                 : selectableCharaList.stream().map(chara -> convertToCharaPart(chara)).collect(Collectors.toList()));

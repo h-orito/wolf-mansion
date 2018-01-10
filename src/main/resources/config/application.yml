@@ -16,5 +16,5 @@ server:
 logging:
   level:
     org.springframework: WARN
-    root: INFO
-    org.seasar.dbflute: INFO
+    root: DEBUG
+    org.seasar.dbflute: DEBUG

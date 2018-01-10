@@ -16,8 +16,8 @@
 				<div class="hidden" th:data-village-id="${content.villageId}" th:data-day="${content.day}"></div>
 
 				<!--/* 入村者 */-->
-				<div class="col-sm-2 small" style="min-height: 100vh;">
-					<table class="table table-bordered table-condensed" th:each="statusDto : ${content.memberList}">
+				<div class="col-sm-3 small" style="min-height: 100vh;">
+					<table class="table table-bordered table-condensed small" th:each="statusDto : ${content.memberList}">
 						<tr>
 							<th th:text="${statusDto.status}">生存</th>
 						</tr>
@@ -31,7 +31,7 @@
 				</div>
 
 				<!--/* 村タイトル、日付リンク */-->
-				<div class="col-sm-10">
+				<div class="col-sm-9">
 					<div class="">
 						<!--/* rowを外した */-->
 						<h1 class="h5" style="" th:text="${content.villageId} + '. ' + ${content.villageName} + '村'"></h1>
@@ -41,13 +41,16 @@
 						<div class="col-sm-12 small">
 							<ul style="padding-left: 0px;">
 								<li th:each="day : ${content.dayList}" style="list-style-type: none; display: inline; margin-right: 10px;"><span
-									th:if="${day == content.day && day != 0 && day != content.epilogueDay}" th:text="${day} + '日目'"></span> <span
+									th:if="${day == content.day && day != 0 && day != content.epilogueDay && day - 1 != content.epilogueDay}" th:text="${day} + '日目'"></span> <span
 									th:if="${day == content.day && day == 0}" th:text="プロローグ"></span> <span th:if="${day == content.day && day == content.epilogueDay}"
-									th:text="エピローグ"></span> <a th:if="${day != content.day && day != 0 && day != content.epilogueDay}" th:text="${day} + '日目'"
+									th:text="エピローグ"></span> <span th:if="${day == content.day && day - 1 == content.epilogueDay}" th:text="終了"></span><a
+									th:if="${day != content.day && day != 0 && day != content.epilogueDay && day - 1 != content.epilogueDay}" th:text="${day} + '日目'"
 									href="javascript:void(0);" th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a> <a
 									th:if="${day != content.day && day == 0}" th:text="プロローグ" href="javascript:void(0);"
 									th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a> <a
 									th:if="${day != content.day && day == content.epilogueDay}" th:text="エピローグ" href="javascript:void(0);"
+									th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a> <a
+									th:if="${day != content.day && day - 1 == content.epilogueDay}" th:text="終了" href="javascript:void(0);"
 									th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a></li>
 							</ul>
 						</div>
