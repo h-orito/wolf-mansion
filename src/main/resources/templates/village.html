@@ -155,8 +155,47 @@
 							</div>
 						</div>
 
+						<!--/* 能力行使欄 */-->
+						<div class="col-sm-12 well" style="padding-top: 10px;" th:if="${content.skillName != null}">
+							<div class="">
+								<p class="small" th:if="${content.skillName == 'SEER'}">あなたは占い師です。毎晩一人を占い、人間か人狼かを知ることができます。</p>
+								<p class="small" th:if="${content.skillName == 'WEREWOLF'}">あなたは人狼です。毎晩一人を襲撃することができます。また、人狼同士にしか聞こえない会話が可能です。</p>
+								<p class="small" th:if="${content.skillName == 'HUNTER'}">あなたは狩人です。毎晩一人を人狼の襲撃から守ることができます。</p>
+								<p class="small" th:if="${content.skillName == 'MEDIUM'}">あなたは霊能者です。処刑された・突然死した人物が人間であったか人狼であったかを知ることができます。</p>
+								<p class="small" th:if="${content.skillName == 'MADMAN'}">あなたは狂人です。特別な能力はありませんが、人狼の勝利があなたの勝利となります。</p>
+								<p class="small" th:if="${content.skillName == 'MASON'}">あなたは共有者です。特別な能力はありませんが、共有者同士にしか聞こえない会話が可能です。</p>
+								<p class="small" th:if="${content.skillName == 'FOX'}">
+									あなたは妖狐です。最後まで生存するとあなたの勝利となります。<br>人狼に襲撃されても死亡しませんが、占われると死亡します。
+								</p>
+								<p class="small" th:if="${content.skillName == 'VILLAGER'}">あなたは村人です。特別な能力はありません。</p>
+
+								<h2 class="h5" th:if="${content.skillName == 'WEREWOLF' && content.abilityTargetList != null && content.abilityTargetList.size() > 0}"
+									th:text="襲う"></h2>
+								<h2 class="h5" th:if="${content.skillName == 'SEER' && content.abilityTargetList != null && content.abilityTargetList.size() > 0}"
+									th:text="占う"></h2>
+								<h2 class="h5" th:if="${content.skillName == 'HUNTER' && content.abilityTargetList != null && content.abilityTargetList.size() > 0}"
+									th:text="護衛する"></h2>
+								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
+									th:if="${content.abilityTargetList != null && content.abilityTargetList.size() > 0}" th:object="${abilityForm}" class="form-horizontal">
+									<div class="form-group">
+										<div class="col-sm-12">
+											<select class="form-control" th:field="*{charaId}">
+												<option th:if="${content.skillName == 'WEREWOLF' && content.day > 1}" value="">なし</option>
+												<option th:each="target : ${content.abilityTargetList}" th:value="${target.charaId}" th:text="${target.charaName}"></option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-12">
+											<input type="submit" class="btn btn-sm btn-success pull-right" value="セット" />
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+
 						<div class="col-sm-12 well" sec:authorize="hasRole('ROLE_ADMIN')">
-							管理者メニュー
+							<h2 class="h5">管理者メニュー</h2>
 							<form method="post" action="" th:action="@{/admin/village/{villageId}/allparticipate(villageId=${content.villageId})}" class="form-horizontal">
 								<div class="form-group">
 									<label class="col-sm-2 control-label">入村させる</label>

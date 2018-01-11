@@ -8,6 +8,7 @@ import com.ort.app.web.model.inner.VillageMemberDto;
 import com.ort.app.web.model.inner.VillageMessageDto;
 import com.ort.app.web.model.inner.VillageRoomAssignedRowDto;
 import com.ort.app.web.model.inner.VillageSkillDto;
+import com.ort.dbflute.exentity.Chara;
 
 public class VillageResultContent implements Serializable {
 
@@ -69,6 +70,18 @@ public class VillageResultContent implements Serializable {
 
     /** 参戦しているキャラの画像 */
     private String charaImageUrl;
+
+    /** 能力行使対象リスト */
+    private List<Chara> abilityTargetList;
+
+    /** 投票対象リスト */
+    private List<Chara> voteTargetList;
+
+    /** 役職 */
+    private String skillName;
+
+    /** 死んでいるか */
+    private Boolean isDead;
 
     public Integer getVillageId() {
         return villageId;
@@ -220,6 +233,38 @@ public class VillageResultContent implements Serializable {
 
     public void setCharaImageUrl(String charaImageUrl) {
         this.charaImageUrl = charaImageUrl;
+    }
+
+    public List<Chara> getAbilityTargetList() {
+        return abilityTargetList;
+    }
+
+    public void setAbilityTargetList(List<Chara> abilityTargetList) {
+        this.abilityTargetList = abilityTargetList;
+    }
+
+    public List<Chara> getVoteTargetList() {
+        return voteTargetList;
+    }
+
+    public void setVoteTargetList(List<Chara> voteTargetList) {
+        this.voteTargetList = voteTargetList;
+    }
+
+    public String getSkillName() {
+        return skillName;
+    }
+
+    public void setSkillName(String skillName) {
+        this.skillName = skillName;
+    }
+
+    public Boolean getIsDead() {
+        return isDead;
+    }
+
+    public void setIsDead(Boolean isDead) {
+        this.isDead = isDead;
     }
 
 }

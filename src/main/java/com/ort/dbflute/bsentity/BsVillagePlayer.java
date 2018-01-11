@@ -326,7 +326,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * Set the value of skillCode as 共有者 (MAISON). <br>
+     * Set the value of skillCode as 共有者 (MASON). <br>
      * 共有者
      */
     public void setSkillCode_共有者() {
@@ -438,7 +438,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * Set the value of requestSkillCode as 共有者 (MAISON). <br>
+     * Set the value of requestSkillCode as 共有者 (MASON). <br>
      * 共有者
      */
     public void setRequestSkillCode_共有者() {

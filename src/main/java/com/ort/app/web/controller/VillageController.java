@@ -15,6 +15,7 @@ import com.ort.app.web.controller.assist.VillageAssist;
 import com.ort.app.web.controller.logic.DayChangeLogic;
 import com.ort.app.web.controller.logic.MessageLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
+import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageGetMessageListForm;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.app.web.form.VillageSayForm;
@@ -142,6 +143,25 @@ public class VillageController {
         }
 
         messageLogic.insertMessage(villageId, day, type, sayForm.getMessage(), villagePlayer.getVillagePlayerId());
+        return "redirect:/village/" + villageId;
+    }
+
+    // 能力セットする
+    @PostMapping("/village/{villageId}/setAbility")
+    private String setAbility(@PathVariable Integer villageId, @Validated @ModelAttribute("abilityForm") VillageAbilityForm abilityForm,
+            BindingResult result, Model model) {
+        // ログインしていなかったらNG
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        if (result.hasErrors() || userInfo == null) {
+            // 最新の日付を表示
+            return setIndexModelAndReturnView(villageId, null, model);
+        }
+
+        int day = assist.selectLatestDay(villageId);
+        VillagePlayer villagePlayer = assist.selectVillagePlayer(villageId, userInfo).orElseThrow(() -> {
+            return new IllegalArgumentException("セッション切れ？");
+        });
+
         return "redirect:/village/" + villageId;
     }
 

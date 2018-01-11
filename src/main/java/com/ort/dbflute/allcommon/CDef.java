@@ -545,7 +545,7 @@ public interface CDef extends Classification {
         狂人("MADMAN", "狂人", emptyStrings())
         ,
         /** 共有者 */
-        共有者("MAISON", "共有者", emptyStrings())
+        共有者("MASON", "共有者", emptyStrings())
         ,
         /** 霊能者 */
         霊能者("MEDIUM", "霊能者", emptyStrings())

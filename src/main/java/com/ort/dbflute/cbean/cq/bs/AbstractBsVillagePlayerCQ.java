@@ -672,7 +672,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
-     * Equal(=). As 共有者 (MAISON). And OnlyOnceRegistered. <br>
+     * Equal(=). As 共有者 (MASON). And OnlyOnceRegistered. <br>
      * 共有者
      */
     public void setSkillCode_Equal_共有者() {
@@ -807,7 +807,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
-     * NotEqual(&lt;&gt;). As 共有者 (MAISON). And OnlyOnceRegistered. <br>
+     * NotEqual(&lt;&gt;). As 共有者 (MASON). And OnlyOnceRegistered. <br>
      * 共有者
      */
     public void setSkillCode_NotEqual_共有者() {
@@ -1009,7 +1009,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
-     * Equal(=). As 共有者 (MAISON). And OnlyOnceRegistered. <br>
+     * Equal(=). As 共有者 (MASON). And OnlyOnceRegistered. <br>
      * 共有者
      */
     public void setRequestSkillCode_Equal_共有者() {
@@ -1144,7 +1144,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
-     * NotEqual(&lt;&gt;). As 共有者 (MAISON). And OnlyOnceRegistered. <br>
+     * NotEqual(&lt;&gt;). As 共有者 (MASON). And OnlyOnceRegistered. <br>
      * 共有者
      */
     public void setRequestSkillCode_NotEqual_共有者() {

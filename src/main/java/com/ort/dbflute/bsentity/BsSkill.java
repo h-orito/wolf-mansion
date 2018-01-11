@@ -202,7 +202,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
-     * Set the value of skillCode as 共有者 (MAISON). <br>
+     * Set the value of skillCode as 共有者 (MASON). <br>
      * 共有者
      */
     public void setSkillCode_共有者() {
