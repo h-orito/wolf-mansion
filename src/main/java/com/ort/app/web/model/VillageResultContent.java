@@ -6,6 +6,7 @@ import java.util.List;
 import com.ort.app.web.model.inner.VillageCharaDto;
 import com.ort.app.web.model.inner.VillageMemberDto;
 import com.ort.app.web.model.inner.VillageMessageDto;
+import com.ort.app.web.model.inner.VillageRoomAssignedRowDto;
 import com.ort.app.web.model.inner.VillageSkillDto;
 
 public class VillageResultContent implements Serializable {
@@ -29,6 +30,12 @@ public class VillageResultContent implements Serializable {
 
     /** 参加者一覧 */
     private List<VillageMemberDto> memberList;
+
+    /** 参加者部屋割り当て */
+    private List<VillageRoomAssignedRowDto> roomAssignedRowList;
+
+    /** 部屋の横サイズ */
+    private Integer roomWidth;
 
     /** メッセージリスト */
     private List<VillageMessageDto> messageList;
@@ -109,6 +116,22 @@ public class VillageResultContent implements Serializable {
 
     public void setMemberList(List<VillageMemberDto> memberList) {
         this.memberList = memberList;
+    }
+
+    public List<VillageRoomAssignedRowDto> getRoomAssignedRowList() {
+        return roomAssignedRowList;
+    }
+
+    public void setRoomAssignedRowList(List<VillageRoomAssignedRowDto> roomAssignedRowList) {
+        this.roomAssignedRowList = roomAssignedRowList;
+    }
+
+    public Integer getRoomWidth() {
+        return roomWidth;
+    }
+
+    public void setRoomWidth(Integer roomWidth) {
+        this.roomWidth = roomWidth;
     }
 
     public List<VillageMessageDto> getMessageList() {

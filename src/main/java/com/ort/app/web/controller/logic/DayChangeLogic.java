@@ -525,7 +525,7 @@ public class DayChangeLogic {
     private void insertLivingPlayerMessage(Integer villageId, int day, List<VillagePlayer> vPlayerList) {
         long livePersonNum = vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).count();
         StringJoiner joiner = new StringJoiner("、", "現在の生存者は、以下の" + livePersonNum + "名。\n", "");
-        vPlayerList.stream().forEach(player -> {
+        vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).forEach(player -> {
             joiner.add(player.getChara().get().getCharaName());
         });
         messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());

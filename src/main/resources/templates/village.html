@@ -28,6 +28,26 @@
 							<td>なし</td>
 						</tr>
 					</table>
+
+					<div class="table-responsive">
+						<table class="table-bordered table-condensed small" th:if="${content.roomWidth != null}">
+							<!-- tableがあるとwidth:100%になるので外す -->
+							<tr>
+								<th th:colspan="${content.roomWidth}">部屋割り当て</th>
+							</tr>
+							<tbody>
+								<tr th:each="row : ${content.roomAssignedRowList}">
+									<td th:each="room: ${row.roomAssignedList}" class="small"
+										th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
+									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
+									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
+										<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+											th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 
 				<!--/* 村タイトル、日付リンク */-->
@@ -121,7 +141,7 @@
 										<div class="col-sm-12" style="display: flex;">
 											<div th:style="'width: 50px; height: 77px; background: url(\'' + ${content.charaImageUrl} + '\'); background-repeat: no-repeat;'"></div>
 											<div style="flex: 1; margin-left: 5px; min-height: 77px;">
-												<textarea class="form-control" th:field="*{message}" style="min-height: 77px;" data-say-textarea></textarea>
+												<textarea class="form-control small" th:field="*{message}" style="min-height: 77px;" data-say-textarea></textarea>
 											</div>
 											<span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="help-block text-danger">error!</span>
 										</div>

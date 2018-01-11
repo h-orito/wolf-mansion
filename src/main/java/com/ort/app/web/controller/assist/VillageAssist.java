@@ -1,5 +1,6 @@
 package com.ort.app.web.controller.assist;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +23,8 @@ import com.ort.app.web.model.inner.VillageCharaDto;
 import com.ort.app.web.model.inner.VillageMemberDetailDto;
 import com.ort.app.web.model.inner.VillageMemberDto;
 import com.ort.app.web.model.inner.VillageMessageDto;
+import com.ort.app.web.model.inner.VillageRoomAssignedDto;
+import com.ort.app.web.model.inner.VillageRoomAssignedRowDto;
 import com.ort.app.web.model.inner.VillageSkillDto;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.CharaBhv;
@@ -237,6 +240,8 @@ public class VillageAssist {
         content.setSelectableSkillList(selectableSkillList == null ? null
                 : selectableSkillList.stream().map(skill -> convertToSkillPart(skill)).collect(Collectors.toList()));
         content.setMemberList(convertToMemberPart(village.getVillagePlayerList()));
+        content.setRoomAssignedRowList(convertToRoomAssignedPart(village, village.getVillagePlayerList()));
+        content.setRoomWidth(village.getRoomSizeWidth());
         content.setIsDispSayForm(isDispSayForm);
         content.setIsAvailableNormalSay(isAvailableNormalSay);
         content.setIsAvailableWerewolfSay(isAvailableWerewolfSay);
@@ -285,6 +290,31 @@ public class VillageAssist {
         suddonlyDeathMember.setStatusMemberList(
                 suddonlyDeathMemberList.stream().map(mem -> convertToMemberDetailPart(mem)).collect(Collectors.toList()));
         return Arrays.asList(aliveMember, executedMember, attackedMember, suddonlyDeathMember);
+    }
+
+    private List<VillageRoomAssignedRowDto> convertToRoomAssignedPart(Village village, List<VillagePlayer> villagePlayerList) {
+        if (villagePlayerList.stream().anyMatch(vp -> vp.getRoomNumber() == null)) {
+            return null; // 部屋がまだ割り当てられていない
+        }
+        Integer width = village.getRoomSizeWidth();
+        Integer height = village.getRoomSizeHeight();
+        List<VillageRoomAssignedRowDto> roomAssignedRowList = new ArrayList<>();
+        for (int i = 0; i < height; i++) {
+            VillageRoomAssignedRowDto row = new VillageRoomAssignedRowDto();
+            for (int j = 1; j <= width; j++) {
+                VillageRoomAssignedDto room = new VillageRoomAssignedDto();
+                final int roomNum = i * width + j;
+                room.setRoomNumber(String.format("%02d", roomNum));
+                villagePlayerList.stream().filter(vp -> vp.getRoomNumber().equals(roomNum)).findFirst().ifPresent(vp -> {
+                    room.setCharaName(vp.getChara().get().getCharaShortName());
+                    room.setCharaImgUrl(vp.getChara().get().getCharaImgUrl());
+                    room.setIsDead(BooleanUtils.isTrue(vp.getIsDead()));
+                });
+                row.getRoomAssignedList().add(room);
+            }
+            roomAssignedRowList.add(row);
+        }
+        return roomAssignedRowList;
     }
 
     private VillageMemberDetailDto convertToMemberDetailPart(VillagePlayer mem) {
