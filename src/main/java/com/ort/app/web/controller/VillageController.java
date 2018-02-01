@@ -1,5 +1,7 @@
 package com.ort.app.web.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,12 +15,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ort.app.web.controller.assist.VillageAssist;
 import com.ort.app.web.controller.logic.DayChangeLogic;
+import com.ort.app.web.controller.logic.FootstepLogic;
 import com.ort.app.web.controller.logic.MessageLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageAbilityForm;
+import com.ort.app.web.form.VillageGetFootstepListForm;
 import com.ort.app.web.form.VillageGetMessageListForm;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.app.web.form.VillageSayForm;
+import com.ort.app.web.model.VillageGetFootstepListResultContent;
 import com.ort.app.web.model.VillageMessageListResultContent;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.MessageType;
@@ -36,10 +41,13 @@ public class VillageController {
     private VillageAssist assist;
 
     @Autowired
-    DayChangeLogic dayChangeLogic;
+    private DayChangeLogic dayChangeLogic;
 
     @Autowired
-    MessageLogic messageLogic;
+    private MessageLogic messageLogic;
+
+    @Autowired
+    private FootstepLogic footstepLogic;
 
     // ===================================================================================
     //                                                                             Execute
@@ -163,6 +171,47 @@ public class VillageController {
         });
 
         return "redirect:/village/" + villageId;
+    }
+
+    // 足音候補取得
+    @GetMapping("/village/getFootstepList")
+    @ResponseBody
+    private VillageGetFootstepListResultContent getFootstepList(@Validated VillageGetFootstepListForm form, BindingResult result) {
+        // ログインしていなかったらNG
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        if (result.hasErrors() || userInfo == null) {
+            return null;
+        }
+        VillagePlayer villagePlayer = assist.selectVillagePlayer(form.getVillageId(), userInfo).orElseThrow(() -> {
+            return null;
+        });
+        if (isInvalidFootstep(villagePlayer, form)) {
+            return null;
+        }
+        int day = assist.selectLatestDay(form.getVillageId());
+        List<String> footStepList =
+                footstepLogic.getFootstepCandidateList(form.getVillageId(), villagePlayer, day, form.getCharaId(), form.getTargetCharaId());
+        VillageGetFootstepListResultContent response = new VillageGetFootstepListResultContent();
+        response.setFootstepList(footStepList);
+        return response;
+    }
+
+    // ===================================================================================
+    //                                                                          Validation
+    //                                                                          ==========
+    private boolean isInvalidFootstep(VillagePlayer villagePlayer, VillageGetFootstepListForm form) {
+        CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
+        if (skill != CDef.Skill.人狼 && skill != CDef.Skill.占い師) {
+            return true;
+        }
+        if (skill == CDef.Skill.人狼 && form.getCharaId() == null) {
+            return true;
+        }
+        if (skill == CDef.Skill.占い師 && form.getTargetCharaId() == null) {
+            return true;
+        }
+
+        return false;
     }
 
     // ===================================================================================

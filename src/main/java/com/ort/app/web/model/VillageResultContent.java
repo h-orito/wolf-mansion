@@ -74,6 +74,9 @@ public class VillageResultContent implements Serializable {
     /** 能力行使対象リスト */
     private List<Chara> abilityTargetList;
 
+    /** 襲撃担当者リスト */
+    private List<Chara> attackerList;
+
     /** 投票対象リスト */
     private List<Chara> voteTargetList;
 
@@ -241,6 +244,14 @@ public class VillageResultContent implements Serializable {
 
     public void setAbilityTargetList(List<Chara> abilityTargetList) {
         this.abilityTargetList = abilityTargetList;
+    }
+
+    public List<Chara> getAttackerList() {
+        return attackerList;
+    }
+
+    public void setAttackerList(List<Chara> attackerList) {
+        this.attackerList = attackerList;
     }
 
     public List<Chara> getVoteTargetList() {

@@ -2,18 +2,29 @@ package com.ort.app.web.form;
 
 import java.io.Serializable;
 
-public class VillageAbilityForm implements Serializable {
+import javax.validation.constraints.NotNull;
+
+public class VillageGetFootstepListForm implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /** 行使キャラID */
+    /** 村ID */
+    @NotNull
+    private Integer villageId;
+
+    /** 実行者キャラID(狼のみ) */
     private Integer charaId;
 
     /** 対象キャラID */
     private Integer targetCharaId;
 
-    /** 足音 */
-    private String footstep;
+    public Integer getVillageId() {
+        return villageId;
+    }
+
+    public void setVillageId(Integer villageId) {
+        this.villageId = villageId;
+    }
 
     public Integer getCharaId() {
         return charaId;
@@ -29,13 +40,5 @@ public class VillageAbilityForm implements Serializable {
 
     public void setTargetCharaId(Integer targetCharaId) {
         this.targetCharaId = targetCharaId;
-    }
-
-    public String getFootstep() {
-        return footstep;
-    }
-
-    public void setFootstep(String footstep) {
-        this.footstep = footstep;
     }
 }

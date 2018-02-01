@@ -15,7 +15,7 @@ public class MessageLogic {
     //                                                                           Attribute
     //                                                                           =========
     @Autowired
-    MessageBhv messageBhv;
+    private MessageBhv messageBhv;
 
     // ===================================================================================
     //                                                                             Execute

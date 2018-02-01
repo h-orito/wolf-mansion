@@ -15,8 +15,6 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.dbflute.cbean.result.ListResultBean;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -25,7 +23,6 @@ import org.springframework.util.CollectionUtils;
 
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Camp;
-import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.allcommon.CDef.VillageStatus;
 import com.ort.dbflute.exbhv.AbilityBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
@@ -33,6 +30,7 @@ import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exbhv.VoteBhv;
 import com.ort.dbflute.exentity.Ability;
+import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
@@ -44,30 +42,31 @@ import com.ort.fw.util.WerewolfMansionDateUtil;
 public class DayChangeLogic {
 
     // ===================================================================================
-    //                                                                          Definition
-    //                                                                          ==========
-    private static final Logger logger = LoggerFactory.getLogger(DayChangeLogic.class);
-
-    // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
     @Autowired
-    VillageBhv villageBhv;
+    private VillageBhv villageBhv;
 
     @Autowired
-    VillageDayBhv villageDayBhv;
+    private VillageDayBhv villageDayBhv;
 
     @Autowired
-    VillagePlayerBhv villagePlayerBhv;
+    private VillagePlayerBhv villagePlayerBhv;
 
     @Autowired
-    AbilityBhv abilityBhv;
+    private AbilityBhv abilityBhv;
 
     @Autowired
-    VoteBhv voteBhv;
+    private VoteBhv voteBhv;
 
     @Autowired
-    MessageLogic messageLogic;
+    private AssignLogic assignLogic;
+
+    @Autowired
+    private FootstepLogic footstepLogic;
+
+    @Autowired
+    private MessageLogic messageLogic;
 
     @Autowired
     private MessageSource messageSource;
@@ -102,8 +101,8 @@ public class DayChangeLogic {
         insertVillageDayTransactional(villageId, newDay, nextDaychangeDatetime); // 村日付を追加
 
         if (day == 0) { // プロ→1日目
-            assignSkill(villageId, vPlayerList); // 役職割り当て
-            assignRoom(villageId, vPlayerList); // 部屋割り当て
+            assignLogic.assignSkill(villageId, vPlayerList); // 役職割り当て
+            assignLogic.assignRoom(villageId, vPlayerList); // 部屋割り当て
             updateVillageStatus(villageId, CDef.VillageStatus.進行中); // 村ステータス更新
             setDefaultVoteAndAbility(villageId, newDay); // 投票、能力行使のデフォルト設定
         } else if (village.getVillageStatusCodeAsVillageStatus() == CDef.VillageStatus.エピローグ) {
@@ -118,6 +117,13 @@ public class DayChangeLogic {
     // ===================================================================================
     //                                                                              Select
     //                                                                              ======
+    private Village selectVillage(Integer villageId) {
+        return villageBhv.selectEntityWithDeletedCheck(cb -> {
+            cb.setupSelect_VillageSettingsAsOne();
+            cb.query().setVillageId_Equal(villageId);
+        });
+    }
+
     private VillageDay selectMaxVillageDay(Integer villageId) {
         VillageDay villageDay = villageDayBhv.selectEntity(cb -> {
             cb.setupSelect_Village().withVillageSettingsAsOne();
@@ -186,17 +192,6 @@ public class DayChangeLogic {
         villageDayBhv.insert(villageDay);
     }
 
-    private void assignRoomAndUpdate(List<VillagePlayer> playerList, List<Integer> roomNumList) {
-        Collections.shuffle(roomNumList);
-        for (int i = 0; i < playerList.size(); i++) {
-            VillagePlayer entity = new VillagePlayer();
-            entity.setRoomNumber(roomNumList.get(i));
-            VillagePlayer player = playerList.get(i);
-            villagePlayerBhv.queryUpdate(entity, cb -> cb.query().setVillagePlayerId_Equal(player.getVillagePlayerId()));
-            logger.info("部屋割り当て villagePlayerId: {}, roomNumber:{}", player.getVillagePlayerId(), roomNumList.get(i));
-        }
-    }
-
     private void insertAbility(Integer villageId, int newDay, Integer charaId, Integer targetCharaId, CDef.AbilityType abilityType) {
         Ability attack = new Ability();
         attack.setVillageId(villageId);
@@ -242,218 +237,14 @@ public class DayChangeLogic {
         return true;
     }
 
-    // 役職を割り当てる
-    private void assignSkill(Integer villageId, List<VillagePlayer> vPlayerList) {
-        // 村人数に応じた役職人数Map（key: 役職, value: 役職人数）
-        Map<CDef.Skill, Integer> skillPersonNumMap = makeSkillPersonNumMap(vPlayerList.size());
-        // 更新用プレイヤーリスト
-        List<VillagePlayer> updatePlayerList = new ArrayList<>();
-        // 役職希望した人について、役職ごとの最大人数まで割り当てて更新用リストに追加
-        addRequestToUpdatePlayerList(vPlayerList, skillPersonNumMap, updatePlayerList);
-        // 希望していないもしくはまだ割り当てられていないプレイヤーを更新用リストに追加
-        addNotRequestToUpdatePlayerList(vPlayerList, skillPersonNumMap, updatePlayerList);
-        // update
-        updatePlayerList.stream().forEach(player -> {
-            logger.info("village_player_id: " + player.getVillagePlayerId() + " skill: " + player.getSkillCode());
-            villagePlayerBhv.update(player);
-        });
-        // 役職割り当てについてメッセージ追加
-        insertAssignedMessage(villageId);
-    }
-
-    // 部屋を割り当てる
-    private void assignRoom(Integer villageId, List<VillagePlayer> vPlayerList) {
-        // 部屋サイズを決めて登録
-        Village village = calculateRoomSizeAndUpdate(villageId, vPlayerList.size());
-        List<Integer> roomNumList = new ArrayList<>();
-        for (int i = 1; i <= village.getRoomSizeWidth() * village.getRoomSizeHeight(); i++) {
-            roomNumList.add(i);
-        }
-        // 部屋を割り当てて登録
-        assignRoomAndUpdate(vPlayerList, roomNumList);
-        // デバッグ用
-        printAssign(villageId, village);
-        // 部屋割り当てメッセージ登録
-        insertRoomAssignMessage(villageId);
-    }
-
-    private Village calculateRoomSizeAndUpdate(Integer villageId, int personNum) {
-        for (int width = 3; width <= 5; width++) {
-            for (int height = width - 1; height <= width; height++) {
-                // 最低でも3部屋空くようにする
-                if (width * height >= personNum + 3) {
-                    Village village = new Village();
-                    village.setRoomSizeWidth(width);
-                    village.setRoomSizeHeight(height);
-                    villageBhv.queryUpdate(village, cb -> cb.query().setVillageId_Equal(villageId));
-                    return village;
-                }
-            }
-        }
-        throw new IllegalStateException("村人数が多すぎ？ personNum: " + personNum);
-    }
-
-    private void insertAssignedMessage(Integer villageId) {
-        ListResultBean<VillagePlayer> playerList = villagePlayerBhv.selectList(cb -> {
-            cb.setupSelect_Chara();
-            cb.setupSelect_SkillByRequestSkillCode();
-            cb.setupSelect_SkillBySkillCode();
-            cb.query().setVillageId_Equal(villageId);
-        });
-        String message = makeAssignedMessage(playerList);
-        messageLogic.insertMessage(villageId, 1, CDef.MessageType.非公開システムメッセージ, message);
-    }
-
-    private String makeAssignedMessage(ListResultBean<VillagePlayer> playerList) {
-        StringJoiner joiner = new StringJoiner("\n");
-        for (VillagePlayer player : playerList) {
-            joiner.add(String.format("%sの役職は%sになりました。（希望役職：%s）", player.getChara().get().getCharaName(),
-                    player.getSkillBySkillCode().get().getSkillName(), player.getSkillByRequestSkillCode().get().getSkillName()));
-        }
-        return joiner.toString();
-    }
-
-    private void insertRoomAssignMessage(Integer villageId) {
-        ListResultBean<VillagePlayer> playerList = villagePlayerBhv.selectList(cb -> {
-            cb.setupSelect_Chara();
-            cb.query().setVillageId_Equal(villageId);
-        });
-        String message = makeRoomAssignedMessage(playerList);
-        messageLogic.insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ, message);
-    }
-
-    private String makeRoomAssignedMessage(ListResultBean<VillagePlayer> playerList) {
-        StringJoiner joiner = new StringJoiner("\n", "人狼の痕跡を残すため、村人たちはそれぞれ別の部屋で夜を明かすことにした。\n\n", "");
-        for (VillagePlayer player : playerList) {
-            joiner.add(String.format("[%s] %sには、部屋番号%02dが割り当てられた。", player.getChara().get().getCharaShortName(),
-                    player.getChara().get().getCharaName(), player.getRoomNumber()));
-        }
-        return joiner.toString();
-    }
-
-    private void addNotRequestToUpdatePlayerList(List<VillagePlayer> playerList, Map<CDef.Skill, Integer> skillPersonNumMap,
-            List<VillagePlayer> updatePlayerList) {
-        List<VillagePlayer> noAssignedPlayer = playerList.stream()
-                .filter(player -> updatePlayerList.stream()
-                        .noneMatch(updPlayer -> updPlayer.getVillagePlayerId().equals(player.getVillagePlayerId())))
-                .collect(Collectors.toList());
-        Collections.shuffle(noAssignedPlayer); // シャッフル
-        noAssignedPlayer.forEach(player -> {
-            // 枠が余っている役職を探す
-            CDef.Skill skill = findNotPopularSkill(skillPersonNumMap, updatePlayerList);
-            updatePlayerList.add(makeUpdateVillagePlayerBean(player.getVillagePlayerId(), skill));
-        });
-    }
-
-    private void addRequestToUpdatePlayerList(List<VillagePlayer> vPlayerList, Map<CDef.Skill, Integer> skillPersonNumMap,
-            List<VillagePlayer> updatePlayerList) {
-        for (Entry<CDef.Skill, Integer> entry : skillPersonNumMap.entrySet()) {
-            CDef.Skill skill = entry.getKey();
-            int capacity = entry.getValue();
-            // この役職を希望している人
-            List<VillagePlayer> requestPlayerList =
-                    vPlayerList.stream().filter(player -> skill == player.getRequestSkillCodeAsSkill()).collect(Collectors.toList());
-            Collections.shuffle(requestPlayerList); // シャッフル
-            int count = 0;
-            if (skill == CDef.Skill.村人) {
-                // ダミーは強制村人
-                Integer dummyVillagePlayerId =
-                        vPlayerList.stream().filter(p -> p.getChara().get().isIsDummyTrue()).findFirst().get().getVillagePlayerId();
-                updatePlayerList.add(makeUpdateVillagePlayerBean(dummyVillagePlayerId, CDef.Skill.村人));
-                count++;
-            }
-            for (VillagePlayer requestedPlayer : requestPlayerList) {
-                if (count >= capacity || requestedPlayer.getPlayerId().equals(1)) {
-                    break;
-                }
-                updatePlayerList.add(makeUpdateVillagePlayerBean(requestedPlayer.getVillagePlayerId(), skill));
-                count++;
-            }
-        }
-    }
-
-    private VillagePlayer makeUpdateVillagePlayerBean(Integer villagePlayerId, CDef.Skill skill) {
-        VillagePlayer villagePlayer = new VillagePlayer();
-        villagePlayer.setVillagePlayerId(villagePlayerId);
-        villagePlayer.setSkillCodeAsSkill(skill);
-        return villagePlayer;
-    }
-
-    private Skill findNotPopularSkill(Map<Skill, Integer> skillPersonNumMap, List<VillagePlayer> updatePlayerList) {
-        for (Entry<CDef.Skill, Integer> entry : skillPersonNumMap.entrySet()) {
-            CDef.Skill skill = entry.getKey();
-            int capacity = entry.getValue();
-            long assignedPlayerNum = updatePlayerList.stream().filter(player -> player.getSkillCodeAsSkill() == skill).count();
-            if (assignedPlayerNum < capacity) {
-                return skill;
-            }
-        }
-        return null;
-    }
-
-    // 村人数に応じた役職人数
-    private Map<Skill, Integer> makeSkillPersonNumMap(int personNum) {
-        Map<Skill, Integer> personNumMap = new HashMap<>();
-
-        // 狼
-        int wolfNum = personNum >= 13 ? 3 : personNum >= 6 ? 2 : 1;
-        personNumMap.put(CDef.Skill.人狼, wolfNum);
-        // 占
-        int seerNum = 1;
-        personNumMap.put(CDef.Skill.占い師, seerNum);
-        // 霊
-        int mediumNum = 1;
-        personNumMap.put(CDef.Skill.霊能者, mediumNum);
-        // 狩人
-        int hunterNum = personNum >= 11 ? 1 : 0;
-        personNumMap.put(CDef.Skill.狩人, hunterNum);
-        // 狂人
-        int madmanNum = personNum >= 11 ? 1 : 0;
-        personNumMap.put(CDef.Skill.狂人, madmanNum);
-        // 共有
-        int masonNum = personNum >= 16 ? 2 : 0;
-        personNumMap.put(CDef.Skill.共有者, masonNum);
-        // 狐
-        int foxNum = personNum >= 17 ? 1 : 0;
-        personNumMap.put(CDef.Skill.妖狐, foxNum);
-        // 村人
-        int villagerNum = personNum - wolfNum - seerNum - mediumNum - hunterNum - madmanNum - masonNum - foxNum;
-        personNumMap.put(CDef.Skill.村人, villagerNum);
-
-        return personNumMap;
-    }
-
-    private void printAssign(Integer villageId, Village village) {
-        if (logger.isInfoEnabled()) {
-            ListResultBean<VillagePlayer> vpList = villagePlayerBhv.selectList(cb -> {
-                cb.setupSelect_Chara();
-                cb.query().setVillageId_Equal(villageId);
-                cb.query().addOrderBy_RoomNumber_Asc();
-            });
-            for (int i = 0; i < village.getRoomSizeHeight(); i++) {
-                StringJoiner joiner = new StringJoiner(" ");
-
-                for (int j = 0; j < village.getRoomSizeWidth(); j++) {
-                    int num = village.getRoomSizeWidth() * i + j + 1;
-                    String playerName = vpList.stream()
-                            .filter(vplayer -> vplayer.getRoomNumber().equals(num))
-                            .findFirst()
-                            .map(vplayer -> vplayer.getChara().get().getCharaShortName())
-                            .orElse("＿");
-                    joiner.add(playerName);
-                }
-                logger.info(joiner.toString());
-            }
-        }
-    }
-
     // 投票、能力行使のデフォルト設定、生存者メッセージ登録
     private void setDefaultVoteAndAbility(Integer villageId, int newDay) {
+        Village village = selectVillage(villageId);
         List<VillagePlayer> vPlayerList = selectVillagePlayerList(villageId);
         // 噛み
-        insertDefaultAttack(villageId, newDay, vPlayerList);
+        insertDefaultAttack(villageId, newDay, vPlayerList, village);
         // 占い
-        insertDefaultSeer(villageId, newDay, vPlayerList);
+        insertDefaultSeer(villageId, newDay, vPlayerList, village);
         if (newDay == 1) {
             return; // 1日目は護衛と投票なし
         }
@@ -468,7 +259,7 @@ public class DayChangeLogic {
     }
 
     // デフォルトの噛み先を設定
-    private void insertDefaultAttack(Integer villageId, int newDay, List<VillagePlayer> villagePlayerList) {
+    private void insertDefaultAttack(Integer villageId, int newDay, List<VillagePlayer> villagePlayerList, Village village) {
         // 噛まれる人
         Integer attackedCharaId = null;
         if (newDay == 1) {
@@ -482,9 +273,35 @@ public class DayChangeLogic {
             // 狼以外の生存している誰か
             attackedCharaId = getRandomInList(villagePlayerList, vp -> vp.getSkillCodeAsSkill() != CDef.Skill.人狼).getCharaId();
         }
-        // 噛む人（生存している狼の誰か）
-        Integer attackCharaId = getRandomInList(villagePlayerList, vp -> vp.getSkillCodeAsSkill() == CDef.Skill.人狼).getCharaId();
+        // 噛む人（生存している狼で、狼が2名以上の場合は昨日噛んだ人は除外）
+        List<Chara> attackableWolfList = getAttackableWolfList(villageId, newDay, villagePlayerList);
+        Integer attackCharaId = getRandomInList(attackableWolfList).getCharaId();
+        // 能力セット
         insertAbility(villageId, newDay, attackCharaId, attackedCharaId, CDef.AbilityType.襲撃);
+        // 時計回りの足音セット
+        String footStep = footstepLogic.makeClockwiseFootStep(village, attackCharaId, attackedCharaId, villagePlayerList);
+        footstepLogic.insertFootStep(villageId, newDay, attackCharaId, footStep);
+    }
+
+    private List<Chara> getAttackableWolfList(Integer villageId, int day, List<VillagePlayer> villagePlayerList) {
+        // 昨日襲撃した狼
+        Integer yesterdayAttackerId = abilityBhv.selectEntity(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_Equal(day - 1);
+            cb.query().setAbilityTypeCode_Equal_襲撃();
+        }).map(ab -> ab.getCharaId()).orElse(null);
+        // 生存している狼リスト
+        List<Chara> liveAttackerList = villagePlayerList.stream()
+                .filter(vp -> vp.isIsDeadFalse() && vp.getSkillCodeAsSkill() == CDef.Skill.人狼)
+                .map(vp -> vp.getChara().get())
+                .collect(Collectors.toList());
+        // 生存している狼が1名ではない場合は、昨日襲撃した狼は襲撃できない
+        if (liveAttackerList.size() > 1) {
+            return liveAttackerList.stream().filter(attacker -> !attacker.getCharaId().equals(yesterdayAttackerId)).collect(
+                    Collectors.toList());
+        } else {
+            return liveAttackerList;
+        }
     }
 
     private void insertDefaultGuard(Integer villageId, int newDay, List<VillagePlayer> villagePlayerList) {
@@ -500,7 +317,7 @@ public class DayChangeLogic {
         insertAbility(villageId, newDay, hunterCharaId, targetCharaId, CDef.AbilityType.護衛);
     }
 
-    private void insertDefaultSeer(Integer villageId, int newDay, List<VillagePlayer> villagePlayerList) {
+    private void insertDefaultSeer(Integer villageId, int newDay, List<VillagePlayer> villagePlayerList, Village village) {
         // 占う人
         Optional<VillagePlayer> optSeer =
                 villagePlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.占い師 && vp.isIsDeadFalse()).findFirst();
@@ -511,6 +328,9 @@ public class DayChangeLogic {
         // 占われる人（生存者の中の誰か）
         Integer targetCharaId = getRandomInList(villagePlayerList, vp -> !vp.getCharaId().equals(seerCharaId)).getCharaId();
         insertAbility(villageId, newDay, seerCharaId, targetCharaId, CDef.AbilityType.占い);
+        // 時計回りの足音セット
+        String footStep = footstepLogic.makeClockwiseFootStep(village, seerCharaId, targetCharaId, villagePlayerList);
+        footstepLogic.insertFootStep(villageId, newDay, seerCharaId, footStep);
     }
 
     // リストを引数の条件で絞りつつ、生存者の中からランダムで1名取得する
@@ -519,6 +339,11 @@ public class DayChangeLogic {
                 villagePlayerList.stream().filter(predicate).filter(vp -> vp.isIsDeadFalse()).collect(Collectors.toList());
         Collections.shuffle(candidateList);
         return candidateList.get(0);
+    }
+
+    private Chara getRandomInList(List<Chara> charaList) {
+        Collections.shuffle(charaList);
+        return charaList.get(0);
     }
 
     // 生存者メッセージ登録
