@@ -12,7 +12,6 @@ import org.dbflute.optional.OptionalThing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
 
 import com.ort.app.web.controller.logic.VillageLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
@@ -41,7 +40,6 @@ import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exbhv.VillageSettingsBhv;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Chara;
-import com.ort.dbflute.exentity.Footstep;
 import com.ort.dbflute.exentity.Message;
 import com.ort.dbflute.exentity.Skill;
 import com.ort.dbflute.exentity.Village;
@@ -109,7 +107,7 @@ public class VillageAssist {
                 isAvailableGraveSay, isAvailableMonologueSay, model); // デフォルト発言区分
         List<Chara> abilityTargetList = makeAbilityTargetList(village, optVillagePlayer, day, isLatestDay(day, dayList));
         List<Chara> attackerList = makeAttackerList(village, optVillagePlayer, day, isLatestDay(day, dayList));
-        setAbilityTarget(villageId, village, abilityTargetList, optVillagePlayer, day, model);
+        setAbilityTarget(villageId, village, abilityTargetList, optVillagePlayer, day, isLatestDay(day, dayList), model);
         List<Chara> voteTargetList = makeVoteTargetList(village, optVillagePlayer, day, isLatestDay(day, dayList));
 
         VillageResultContent content = mappingToContent(village, isDispParticipateForm, selectableCharaList, selectableSkillList,
@@ -541,36 +539,49 @@ public class VillageAssist {
     }
 
     private void setAbilityTarget(Integer villageId, Village village, List<Chara> abilityTargetList,
-            OptionalThing<VillagePlayer> optVillagePlayer, int day, Model model) {
-        if (CollectionUtils.isEmpty(abilityTargetList)) {
+            OptionalThing<VillagePlayer> optVillagePlayer, int day, boolean isLatestDay, Model model) {
+        if (!optVillagePlayer.isPresent() || optVillagePlayer.get().isIsDeadTrue() || !isLatestDay || !village.isVillageStatusCode進行中()) {
             return;
         }
         CDef.Skill skill = optVillagePlayer.get().getSkillCodeAsSkill();
-        CDef.AbilityType type =
-                skill == CDef.Skill.人狼 ? CDef.AbilityType.襲撃 : skill == CDef.Skill.占い師 ? CDef.AbilityType.占い : CDef.AbilityType.護衛;
-        OptionalEntity<Ability> optAbility = abilityBhv.selectEntity(cb -> {
-            cb.query().setVillageId_Equal(villageId);
-            cb.query().setDay_Equal(day);
-            cb.query().setAbilityTypeCode_Equal_AsAbilityType(type);
-        });
+        if (skill != CDef.Skill.人狼 && skill != CDef.Skill.占い師 && skill != CDef.Skill.狩人 && skill != CDef.Skill.狂人
+                && skill != CDef.Skill.妖狐) {
+            return;
+        }
 
         VillageAbilityForm abilityForm = new VillageAbilityForm();
-        optAbility.ifPresent(ab -> {
+        CDef.AbilityType type = skill == CDef.Skill.人狼 ? CDef.AbilityType.襲撃
+                : skill == CDef.Skill.占い師 ? CDef.AbilityType.占い : skill == CDef.Skill.狩人 ? CDef.AbilityType.護衛 : null;
+        OptionalEntity<Ability> optAbility = selectAbility(villageId, day, type);
+        if (optAbility.isPresent()) {
+            Ability ab = optAbility.get();
             abilityForm.setCharaId(ab.getCharaId());
             model.addAttribute("charaName", getCharacterNameFromCharaId(village, ab.getCharaId()));
             abilityForm.setTargetCharaId(ab.getTargetCharaId());
             model.addAttribute("targetCharaName", getCharacterNameFromCharaId(village, ab.getTargetCharaId()));
-            OptionalEntity<Footstep> optFootstep = footstepBhv.selectEntity(cb -> {
-                cb.query().setVillageId_Equal(villageId);
-                cb.query().setDay_Equal(day);
-                cb.query().setCharaId_Equal(ab.getCharaId());
-            });
-            optFootstep.ifPresent(fs -> {
-                abilityForm.setFootstep(fs.getFootstepRoomNumbers());
-                model.addAttribute("footstep", fs.getFootstepRoomNumbers());
-            });
+        }
+
+        footstepBhv.selectEntity(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_Equal(day);
+            cb.query().setCharaId_Equal(optAbility.isPresent() ? optAbility.get().getCharaId() : optVillagePlayer.get().getCharaId());
+        }).ifPresent(fs -> {
+            abilityForm.setFootstep(fs.getFootstepRoomNumbers());
+            model.addAttribute("footstep", fs.getFootstepRoomNumbers());
         });
+
         model.addAttribute("abilityForm", abilityForm);
+    }
+
+    private OptionalEntity<Ability> selectAbility(Integer villageId, int day, CDef.AbilityType type) {
+        if (type == null) {
+            return OptionalEntity.empty();
+        }
+        return abilityBhv.selectEntity(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_Equal(day);
+            cb.query().setAbilityTypeCode_Equal_AsAbilityType(type);
+        });
     }
 
     private String getCharacterNameFromCharaId(Village village, Integer charaId) {

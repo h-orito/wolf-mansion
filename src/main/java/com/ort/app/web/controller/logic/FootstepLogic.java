@@ -121,6 +121,35 @@ public class FootstepLogic {
         return null;
     }
 
+    // 足音が直線か
+    public boolean isFootstepStraight(Village village, String footstep) {
+        String[] footstepArray = footstep.split(",");
+        if (footstepArray.length < 2) {
+            // TODO h-orito 「なし」と数字が枠内に収まっているかのチェック (2018/02/02)
+            return true;
+        }
+        Integer width = village.getRoomSizeWidth();
+        boolean existRightMove = false;
+        boolean existDownMove = false;
+        for (int i = 0; i < footstepArray.length - 1; i++) {
+            int nowRoomNum = Integer.parseInt(footstepArray[i]) - 1;
+            int nextRoomNum = Integer.parseInt(footstepArray[i + 1]) - 1;
+            int nowx = nowRoomNum % width; // 始点のx座標
+            int nextx = nextRoomNum % width; // 終点のx座標
+            int nowy = nowRoomNum / width; // 始点のy座標
+            int nexty = nextRoomNum / width; // 終点のy座標
+            if (nextx - nowx == 1 && nowy == nexty) { // right
+                existRightMove = true;
+            } else if (nowx == nextx && nexty - nowy == 1) { // down
+                existDownMove = true;
+            } else {
+                throw new IllegalArgumentException("右もしくは下に動いていない");
+            }
+        }
+        // 右もしくは下方向にのみ動いていればok
+        return (existRightMove && !existDownMove) || (!existRightMove && existDownMove);
+    }
+
     // ===================================================================================
     //                                                                              Select
     //                                                                              ======

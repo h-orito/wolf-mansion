@@ -141,14 +141,14 @@ public class BsAbilityCQ extends AbstractBsAbilityCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * TARGET_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
      * @return this. (NotNull)
      */
     public BsAbilityCQ addOrderBy_TargetCharaId_Asc() { regOBA("TARGET_CHARA_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * TARGET_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
      * @return this. (NotNull)
      */
     public BsAbilityCQ addOrderBy_TargetCharaId_Desc() { regOBD("TARGET_CHARA_ID"); return this; }

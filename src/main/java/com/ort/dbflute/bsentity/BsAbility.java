@@ -88,7 +88,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     /** CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara} */
     protected Integer _charaId;
 
-    /** TARGET_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara} */
+    /** TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara} */
     protected Integer _targetCharaId;
 
     /** ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType} */
@@ -462,9 +462,9 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] TARGET_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
+     * [get] TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara} <br>
      * 行使対象キャラID
-     * @return The value of the column 'TARGET_CHARA_ID'. (basically NotNull if selected: for the constraint)
+     * @return The value of the column 'TARGET_CHARA_ID'. (NullAllowed even if selected: for no constraint)
      */
     public Integer getTargetCharaId() {
         checkSpecifiedProperty("targetCharaId");
@@ -472,9 +472,9 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] TARGET_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
+     * [set] TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara} <br>
      * 行使対象キャラID
-     * @param targetCharaId The value of the column 'TARGET_CHARA_ID'. (basically NotNull if update: for the constraint)
+     * @param targetCharaId The value of the column 'TARGET_CHARA_ID'. (NullAllowed: null update allowed for no constraint)
      */
     public void setTargetCharaId(Integer targetCharaId) {
         registerModifiedProperty("targetCharaId");

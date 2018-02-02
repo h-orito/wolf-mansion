@@ -432,7 +432,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * TARGET_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
      * @param targetCharaId The value of targetCharaId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setTargetCharaId_Equal(Integer targetCharaId) {
@@ -445,7 +445,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * TARGET_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
      * @param targetCharaId The value of targetCharaId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setTargetCharaId_NotEqual(Integer targetCharaId) {
@@ -458,7 +458,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * TARGET_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
      * @param targetCharaId The value of targetCharaId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setTargetCharaId_GreaterThan(Integer targetCharaId) {
@@ -467,7 +467,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * TARGET_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
      * @param targetCharaId The value of targetCharaId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setTargetCharaId_LessThan(Integer targetCharaId) {
@@ -476,7 +476,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * TARGET_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
      * @param targetCharaId The value of targetCharaId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setTargetCharaId_GreaterEqual(Integer targetCharaId) {
@@ -485,7 +485,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * TARGET_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
      * @param targetCharaId The value of targetCharaId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setTargetCharaId_LessEqual(Integer targetCharaId) {
@@ -496,7 +496,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * TARGET_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
      * @param minNumber The min number of targetCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of targetCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -509,7 +509,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * TARGET_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
      * @param minNumber The min number of targetCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of targetCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -520,7 +520,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * TARGET_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
      * @param targetCharaIdList The collection of targetCharaId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setTargetCharaId_InScope(Collection<Integer> targetCharaIdList) {
@@ -533,7 +533,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * TARGET_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
      * @param targetCharaIdList The collection of targetCharaId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setTargetCharaId_NotInScope(Collection<Integer> targetCharaIdList) {
@@ -543,6 +543,18 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     protected void doSetTargetCharaId_NotInScope(Collection<Integer> targetCharaIdList) {
         regINS(CK_NINS, cTL(targetCharaIdList), xgetCValueTargetCharaId(), "TARGET_CHARA_ID");
     }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
+     */
+    public void setTargetCharaId_IsNull() { regTargetCharaId(CK_ISN, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
+     */
+    public void setTargetCharaId_IsNotNull() { regTargetCharaId(CK_ISNN, DOBJ); }
 
     protected void regTargetCharaId(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueTargetCharaId(), "TARGET_CHARA_ID"); }
     protected abstract ConditionValue xgetCValueTargetCharaId();

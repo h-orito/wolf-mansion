@@ -250,6 +250,8 @@ public class DayChangeLogic {
         }
         // 護衛
         insertDefaultGuard(villageId, newDay, vPlayerList);
+        // 狂人と妖狐の足音
+        insertDefaultFootstep(villageId, newDay, vPlayerList);
         // 投票
         vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).forEach(vp -> {
             insertVote(villageId, newDay, vp.getCharaId(), vp.getCharaId());
@@ -281,6 +283,7 @@ public class DayChangeLogic {
         // 時計回りの足音セット
         String footStep = footstepLogic.makeClockwiseFootStep(village, attackCharaId, attackedCharaId, villagePlayerList);
         footstepLogic.insertFootStep(villageId, newDay, attackCharaId, footStep);
+        messageLogic.insertAbilityMessage(villageId, newDay, attackCharaId, attackedCharaId, villagePlayerList, footStep, true);
     }
 
     private List<Chara> getAttackableWolfList(Integer villageId, int day, List<VillagePlayer> villagePlayerList) {
@@ -315,6 +318,7 @@ public class DayChangeLogic {
         // 護衛される人(生存者の中の誰か）
         Integer targetCharaId = getRandomInList(villagePlayerList, vp -> !vp.getCharaId().equals(hunterCharaId)).getCharaId();
         insertAbility(villageId, newDay, hunterCharaId, targetCharaId, CDef.AbilityType.護衛);
+        messageLogic.insertAbilityMessage(villageId, newDay, hunterCharaId, targetCharaId, villagePlayerList, null, true);
     }
 
     private void insertDefaultSeer(Integer villageId, int newDay, List<VillagePlayer> villagePlayerList, Village village) {
@@ -331,6 +335,21 @@ public class DayChangeLogic {
         // 時計回りの足音セット
         String footStep = footstepLogic.makeClockwiseFootStep(village, seerCharaId, targetCharaId, villagePlayerList);
         footstepLogic.insertFootStep(villageId, newDay, seerCharaId, footStep);
+        messageLogic.insertAbilityMessage(villageId, newDay, seerCharaId, targetCharaId, villagePlayerList, footStep, true);
+    }
+
+    private void insertDefaultFootstep(Integer villageId, int newDay, List<VillagePlayer> vPlayerList) {
+        // 妖狐狂人
+        List<VillagePlayer> foxMadmanList = vPlayerList.stream()
+                .filter(vp -> (vp.getSkillCodeAsSkill() == CDef.Skill.妖狐 || vp.getSkillCodeAsSkill() == CDef.Skill.狂人)
+                        && vp.isIsDeadFalse())
+                .collect(Collectors.toList());
+        for (VillagePlayer vp : foxMadmanList) {
+            Integer charaId = vp.getCharaId();
+            // 足音なしセット
+            footstepLogic.insertFootStep(villageId, newDay, charaId, "なし");
+            messageLogic.insertFootstepMessage(villageId, newDay, charaId, vPlayerList, "なし", true);
+        }
     }
 
     // リストを引数の条件で絞りつつ、生存者の中からランダムで1名取得する

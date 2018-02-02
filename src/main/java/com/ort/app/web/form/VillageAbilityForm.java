@@ -6,13 +6,13 @@ public class VillageAbilityForm implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /** 行使キャラID */
+    /** 行使キャラID(人狼のみ) */
     private Integer charaId;
 
-    /** 対象キャラID */
+    /** 対象キャラID(人狼、占い、狩人のみ) */
     private Integer targetCharaId;
 
-    /** 足音 */
+    /** 足音(人狼、占い、妖狐、狂人のみ) */
     private String footstep;
 
     public Integer getCharaId() {

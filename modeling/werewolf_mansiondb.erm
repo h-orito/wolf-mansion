@@ -358,7 +358,6 @@
 					<logical_name>行使対象キャラID</logical_name>
 					<referred_column>table.CHARA.chara_id</referred_column>
 					<relationship>FK_ability_CHARA_target</relationship>
-					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
 					<physical_name>ability_type_code</physical_name>

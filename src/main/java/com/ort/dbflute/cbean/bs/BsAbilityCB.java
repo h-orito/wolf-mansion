@@ -411,7 +411,7 @@ public class BsAbilityCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnCharaId() { return doColumn("CHARA_ID"); }
         /**
-         * TARGET_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+         * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnTargetCharaId() { return doColumn("TARGET_CHARA_ID"); }

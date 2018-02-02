@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ort.app.web.controller.assist.VillageAssist;
+import com.ort.app.web.controller.logic.AbilityLogic;
 import com.ort.app.web.controller.logic.DayChangeLogic;
 import com.ort.app.web.controller.logic.FootstepLogic;
 import com.ort.app.web.controller.logic.MessageLogic;
@@ -48,6 +49,9 @@ public class VillageController {
 
     @Autowired
     private FootstepLogic footstepLogic;
+
+    @Autowired
+    private AbilityLogic abilityLogic;
 
     // ===================================================================================
     //                                                                             Execute
@@ -164,12 +168,16 @@ public class VillageController {
             // 最新の日付を表示
             return setIndexModelAndReturnView(villageId, null, model);
         }
-
-        int day = assist.selectLatestDay(villageId);
         VillagePlayer villagePlayer = assist.selectVillagePlayer(villageId, userInfo).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
-
+        if (isInvalidAbility(villagePlayer, abilityForm)) {
+            // 最新の日付を表示
+            return setIndexModelAndReturnView(villageId, null, model);
+        }
+        int day = assist.selectLatestDay(villageId);
+        abilityLogic.setAbility(villageId, villagePlayer, day, abilityForm.getCharaId(), abilityForm.getTargetCharaId(),
+                abilityForm.getFootstep());
         return "redirect:/village/" + villageId;
     }
 
@@ -211,6 +219,34 @@ public class VillageController {
             return true;
         }
 
+        return false;
+    }
+
+    // ちゃんとしたチェックはロジック側でやる。必須チェックのみやる。
+    private boolean isInvalidAbility(VillagePlayer villagePlayer, VillageAbilityForm abilityForm) {
+        CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
+        if (skill != CDef.Skill.人狼 && skill != CDef.Skill.占い師 && skill != CDef.Skill.狩人 && skill != CDef.Skill.狂人
+                && skill != CDef.Skill.妖狐) {
+            return true;
+        }
+        Integer charaId = abilityForm.getCharaId();
+        Integer targetCharaId = abilityForm.getTargetCharaId();
+        String footstep = abilityForm.getFootstep();
+        if (skill == CDef.Skill.人狼 && targetCharaId != null && (charaId == null || footstep == null)) {
+            return true;
+        }
+        if (skill == CDef.Skill.占い師 && (targetCharaId == null || footstep == null)) {
+            return true;
+        }
+        if (skill == CDef.Skill.狩人 && targetCharaId == null) {
+            return true;
+        }
+        if ((skill == CDef.Skill.妖狐 || skill == CDef.Skill.狂人) && footstep == null) {
+            return true;
+        }
+        if (villagePlayer.isIsDeadTrue()) {
+            return true;
+        }
         return false;
     }
 
