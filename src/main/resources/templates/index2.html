@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/top-layout}">
+<head>
+<!--/* 個別ページのタイトル */-->
+<title></title>
+<!--/* 個別ページのjs */-->
+<script src="../static/app/js/index.js" th:src="@{/app/js/index.js}"></script>
+</head>
+
+<body>
+	<div class="container">
+		<div layout:fragment="content">
+			<div id="wrapper">
+				<!--/* トップ画像 */-->
+
+				<div class="col-sm-12">
+					<img src="" th:src="@{/app/images/top.jpg}" style="width: 100%;"> <span
+						style="color: #fff; position: absolute; top: 40%; left: 30%; font-size: 30px;">人狼館国</span>
+				</div>
+
+				<div class="col-sm-4 top-menu">
+					<div class="top-menu-inner" style="display: block; text-align: center;">
+						<span class="glyphicon glyphicon-info-sign"></span>
+						<h2 class="h3">このサイトは</h2>
+						About
+					</div>
+				</div>
+
+				<div class="col-sm-4 top-menu">
+					<div style="display: block; text-align: center;">
+						<span class="glyphicon glyphicon-bullhorn"></span>
+						<h2 class="h3">告知事項</h2>
+						Announcement
+					</div>
+				</div>
+
+				<div class="col-sm-4 top-menu">
+					<div class="top-menu-inner" style="display: block; text-align: center;">
+						<span class="glyphicon glyphicon-book"></span>
+						<h2 class="h3">ルール</h2>
+						Rule
+					</div>
+				</div>
+
+				<div class="col-sm-4 top-menu">
+					<div style="display: block; text-align: center;">
+						<h2 class="h3">村一覧</h2>
+						Village
+					</div>
+				</div>
+
+				<div class="col-sm-4 top-menu">
+					<div style="display: block; text-align: center;">
+						<h2 class="h3">村を建てる</h2>
+						New village
+					</div>
+				</div>
+
+				<div class="col-sm-4 top-menu">
+					<div style="display: block; text-align: center;">
+						<h2 class="h3">ログイン</h2>
+						Login
+					</div>
+				</div>
+
+				<div class="col-sm-4 top-menu">
+					<div style="display: block; text-align: center;">
+						<h2 class="h3">ID登録</h2>
+						Sign up
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer layout:replace="~{layout/footer::footer}"></footer>
+	</div>
+</body>
+</html>

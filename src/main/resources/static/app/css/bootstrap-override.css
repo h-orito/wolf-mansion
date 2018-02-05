@@ -9,6 +9,25 @@
 	}
 }
 
+/* ƒgƒbƒv */
+.top-menu {
+	height: 200px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-clip: content-box;
+	background-color: #333333;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.top-menu:hover {
+	color: #0ce3ac;
+	border: 1px solid #0ce3ac;
+	background-color: #444444;
+	cursor: pointer;
+}
+
 .text-white {
 	color: #ffffff;
 }

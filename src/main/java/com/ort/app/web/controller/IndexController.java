@@ -27,7 +27,7 @@ public class IndexController {
     @GetMapping("/")
     private String index(LoginForm form, Model model) {
         setIndexModel(form, model);
-        return "index";
+        return "index2";
     }
 
     // ===================================================================================
