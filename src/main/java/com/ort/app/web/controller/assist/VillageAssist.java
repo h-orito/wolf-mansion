@@ -19,6 +19,7 @@ import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageGetMessageListForm;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.app.web.form.VillageSayForm;
+import com.ort.app.web.form.VillageVoteForm;
 import com.ort.app.web.model.VillageMessageListResultContent;
 import com.ort.app.web.model.VillageResultContent;
 import com.ort.app.web.model.inner.VillageCharaDto;
@@ -38,6 +39,7 @@ import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exbhv.VillageSettingsBhv;
+import com.ort.dbflute.exbhv.VoteBhv;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.Message;
@@ -77,6 +79,9 @@ public class VillageAssist {
     private AbilityBhv abilityBhv;
 
     @Autowired
+    private VoteBhv voteBhv;
+
+    @Autowired
     private FootstepBhv footstepBhv;
 
     @Autowired
@@ -109,7 +114,7 @@ public class VillageAssist {
         List<Chara> attackerList = makeAttackerList(village, optVillagePlayer, day, isLatestDay(day, dayList));
         setAbilityTarget(villageId, village, abilityTargetList, optVillagePlayer, day, isLatestDay(day, dayList), model);
         List<Chara> voteTargetList = makeVoteTargetList(village, optVillagePlayer, day, isLatestDay(day, dayList));
-
+        setVoteTarget(villageId, village, optVillagePlayer, day, isLatestDay(day, dayList), model);
         VillageResultContent content = mappingToContent(village, isDispParticipateForm, selectableCharaList, selectableSkillList,
                 isDispSayForm, day, dayList, isAvailableNormalSay, isAvailableWerewolfSay, isAvailableMasonSay, isAvailableGraveSay,
                 isAvailableMonologueSay, optVillagePlayer, abilityTargetList, attackerList, voteTargetList);
@@ -132,12 +137,18 @@ public class VillageAssist {
 
     public void assertAlreadyParticipateChara(Integer villageId, VillageParticipateForm participateForm)
             throws WerewolfMansionBusinessException {
+        Village village = villageBhv.selectEntityWithDeletedCheck(cb -> {
+            cb.setupSelect_VillageSettingsAsOne();
+            cb.query().setVillageId_Equal(villageId);
+        });
         int participateCount = villagePlayerBhv.selectCount(cb -> {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setCharaId_Equal(participateForm.getCharaId());
         });
         if (participateCount > 0) {
             throw new WerewolfMansionBusinessException("既に参加されているキャラクターです。別のキャラクターを選択してください。");
+        } else if (participateCount >= village.getVillageSettingsAsOne().get().getPersonMaxNum()) {
+            throw new WerewolfMansionBusinessException("既に上限人数まで参加しているプレイヤーがいるため参加できません。");
         }
     }
 
@@ -212,8 +223,10 @@ public class VillageAssist {
     }
 
     private List<Skill> selectSelectableSkillList(Integer villageId) {
-        // TODO h-orito いったん全役職 (2017/12/25)
-        return skillBhv.selectList(cb -> {});
+        return skillBhv.selectList(cb -> {
+            cb.query().setSkillCode_InScope_AsSkill(Arrays.asList(CDef.Skill.おまかせ, CDef.Skill.人狼, CDef.Skill.共有者, CDef.Skill.占い師,
+                    CDef.Skill.妖狐, CDef.Skill.村人, CDef.Skill.狂人, CDef.Skill.狩人, CDef.Skill.霊能者));
+        });
     }
 
     public OptionalThing<VillagePlayer> selectVillagePlayer(Integer villageId, UserInfo userInfo) {
@@ -571,6 +584,24 @@ public class VillageAssist {
         });
 
         model.addAttribute("abilityForm", abilityForm);
+    }
+
+    private void setVoteTarget(Integer villageId, Village village, OptionalThing<VillagePlayer> optVillagePlayer, int day,
+            boolean isLatestDay, Model model) {
+        if (!optVillagePlayer.isPresent() || optVillagePlayer.get().isIsDeadTrue() || !isLatestDay || !village.isVillageStatusCode進行中()) {
+            return;
+        }
+        voteBhv.selectEntity(cb -> {
+            cb.setupSelect_CharaByVoteCharaId();
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setCharaId_Equal(optVillagePlayer.get().getCharaId());
+            cb.query().setDay_Equal(day);
+        }).ifPresent(vote -> {
+            VillageVoteForm form = new VillageVoteForm();
+            form.setTargetCharaId(vote.getVoteCharaId());
+            model.addAttribute("voteForm", form);
+            model.addAttribute("voteTarget", vote.getCharaByVoteCharaId().get().getCharaName());
+        });
     }
 
     private OptionalEntity<Ability> selectAbility(Integer villageId, int day, CDef.AbilityType type) {

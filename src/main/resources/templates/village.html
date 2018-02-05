@@ -42,7 +42,7 @@
 									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
 										<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-											th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+										th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
 									</td>
 								</tr>
 							</tbody>
@@ -85,35 +85,40 @@
 
 						<!--/* 参戦欄 */-->
 						<div class="col-sm-12 well" th:if="${content.isDispParticipateForm}">
-							入村する <span th:if="${participateErrorMessage != null}" class="text-danger" th:test="${participateErrorMessage}">error</span>
-							<form method="post" action="" th:action="@{/village/{villageId}/participate(villageId=${content.villageId})}" th:object="${participateForm}"
-								class="form-horizontal">
-								<div class="form-group">
-									<label class="col-sm-2 control-label">キャラクター</label>
-									<div class="col-sm-4">
-										<select class="form-control" th:field="*{charaId}">
-											<option th:each="chara : ${content.selectableCharaList}" th:value="${chara.id}" th:text="${chara.name}"
-												th:data-chara-img-url="${chara.url}"></option>
-										</select> <span th:if="${#fields.hasErrors('charaId')}" th:errors="*{charaId}" class="help-block text-danger">error!</span>
+							<div class="">
+								<h2 class="h5">入村する</h2>
+								<span th:if="${participateErrorMessage != null}" class="text-danger" th:test="${participateErrorMessage}">error</span>
+								<form method="post" action="" th:action="@{/village/{villageId}/participate(villageId=${content.villageId})}" th:object="${participateForm}"
+									class="form-horizontal">
+									<div class="form-group">
+										<label class="col-sm-2 control-label">キャラクター</label>
+										<div class="col-sm-4">
+											<select class="form-control" th:field="*{charaId}">
+												<option th:each="chara : ${content.selectableCharaList}" th:value="${chara.id}" th:text="${chara.name}"
+													th:data-chara-img-url="${chara.url}"></option>
+											</select> <span th:if="${#fields.hasErrors('charaId')}" th:errors="*{charaId}" class="help-block text-danger">error!</span>
+										</div>
+										<label class="col-sm-2 control-label">役職希望</label>
+										<div class="col-sm-4">
+											<select class="form-control" th:field="*{requestedSkill}">
+												<option th:each="skill : ${content.selectableSkillList}" th:value="${skill.code}" th:text="${skill.name}"></option>
+											</select> <span th:if="${#fields.hasErrors('requestedSkill')}" th:errors="*{requestedSkill}" class="help-block text-danger">error!</span>
+										</div>
 									</div>
-									<label class="col-sm-2 control-label">役職希望</label>
-									<div class="col-sm-4">
-										<select class="form-control" th:field="*{requestedSkill}">
-											<option th:each="skill : ${content.selectableSkillList}" th:value="${skill.code}" th:text="${skill.name}"></option>
-										</select> <span th:if="${#fields.hasErrors('requestedSkill')}" th:errors="*{requestedSkill}" class="help-block text-danger">error!</span>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">発言</label>
+										<div class="col-sm-10">
+											<textarea class="form-control" th:field="*{joinMessage}" placeholder="人狼なんているわけないじゃん。みんな大げさだなあ" style="height: 10em;"></textarea>
+											<span th:if="${#fields.hasErrors('joinMessage')}" th:errors="*{joinMessage}" class="help-block text-danger">error!</span>
+										</div>
 									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label">発言</label>
-									<div class="col-sm-10">
-										<textarea class="form-control" th:field="*{joinMessage}" placeholder="人狼なんているわけないじゃん。みんな大げさだなあ"></textarea>
-										<span th:if="${#fields.hasErrors('joinMessage')}" th:errors="*{joinMessage}" class="help-block text-danger">error!</span>
+									<div class="form-group">
+										<div class="col-sm-12">
+											<input type="submit" class="btn btn-sm btn-success pull-right" value="入村する" />
+										</div>
 									</div>
-								</div>
-								<div class="form-group">
-									<input type="submit" class="btn btn-sm btn-success pull-right" value="入村する" />
-								</div>
-							</form>
+								</form>
+							</div>
 						</div>
 
 						<!--/* 発言欄 */-->
@@ -155,6 +160,31 @@
 							</div>
 						</div>
 
+						<!--/* 投票欄 */-->
+						<div class="col-sm-12 well" style="padding-top: 10px;" th:if="${content.voteTargetList != null && content.voteTargetList.size() > 0}">
+							<div class="">
+								<h2 class="h5">投票する</h2>
+								<p class="small">一番票を集めた人物が処刑されます。同数の場合はランダムで決定されます。</p>
+								<p class="small" th:text="'現在の投票先: ' + ${voteTarget}"></p>
+								<hr />
+								<form method="post" action="" th:action="@{/village/{villageId}/setVote(villageId=${content.villageId})}" th:object="${voteForm}"
+									class="form-horizontal">
+									<div class="form-group small">
+										<div class="col-sm-12">
+											<select class="form-control" th:field="*{targetCharaId}">
+												<option th:each="target : ${content.voteTargetList}" th:value="${target.charaId}" th:text="${target.charaName}"></option>
+											</select> に投票する
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-12">
+											<input type="submit" class="btn btn-sm btn-success pull-right" value="セット" />
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+
 						<!--/* 能力行使欄 */-->
 						<div class="col-sm-12 well" style="padding-top: 10px;" th:if="${content.skillName != null && content.isDispSayForm}" data-ability>
 							<div class="">
@@ -174,7 +204,8 @@
 								<p class="small"
 									th:if="${content.skillName == 'SEER' || content.skillName == 'WEREWOLF' || content.skillName == 'FOX'|| content.skillName == 'MADMAN'}"
 									th:text="'通過する部屋: ' + ${footstep == '' ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"></p>
-								<hr th:if="${content.skillName == 'SEER' || content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER' || content.skillName == 'FOX'|| content.skillName == 'MADMAN'}" />
+								<hr
+									th:if="${content.skillName == 'SEER' || content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER' || content.skillName == 'FOX'|| content.skillName == 'MADMAN'}" />
 								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
 									th:if="${content.abilityTargetList != null && content.abilityTargetList.size() > 0}" th:object="${abilityForm}" class="form-horizontal">
 									<div class="form-group small">
@@ -205,8 +236,7 @@
 									th:if="${content.abilityTargetList == null && abilityForm != null}" th:object="${abilityForm}" class="form-horizontal">
 									<div class="form-group small">
 										<div class="col-sm-12" th:if="${content.skillName == 'FOX' || content.skillName == 'MADMAN'}">
-											通過する部屋
-											<input type="text" class="form-control" th:field="*{footstep}" />
+											通過する部屋 <input type="text" class="form-control" th:field="*{footstep}" />
 										</div>
 									</div>
 									<div class="form-group">
@@ -231,7 +261,8 @@
 									</div>
 								</div>
 							</form>
-							<form method="post" action="" th:action="@{/admin/village/{villageId}/dayChange(villageId=${content.villageId})}" class="form-horizontal">
+							<form method="post" th:if="${content.day == 0}" action="" th:action="@{/admin/village/{villageId}/dayChange(villageId=${content.villageId})}"
+								class="form-horizontal">
 								<div class="form-group">
 									<label class="col-sm-2 control-label">日付を進める</label>
 									<div class="col-sm-8"></div>

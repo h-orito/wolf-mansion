@@ -2,6 +2,7 @@ package com.ort.app.web.controller;
 
 import java.util.List;
 
+import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,11 +25,15 @@ import com.ort.app.web.form.VillageGetFootstepListForm;
 import com.ort.app.web.form.VillageGetMessageListForm;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.app.web.form.VillageSayForm;
+import com.ort.app.web.form.VillageVoteForm;
 import com.ort.app.web.model.VillageGetFootstepListResultContent;
 import com.ort.app.web.model.VillageMessageListResultContent;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.MessageType;
+import com.ort.dbflute.exbhv.VillagePlayerBhv;
+import com.ort.dbflute.exbhv.VoteBhv;
 import com.ort.dbflute.exentity.VillagePlayer;
+import com.ort.dbflute.exentity.Vote;
 import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 
@@ -52,6 +57,12 @@ public class VillageController {
 
     @Autowired
     private AbilityLogic abilityLogic;
+
+    @Autowired
+    private VillagePlayerBhv villagePlayerBhv;
+
+    @Autowired
+    private VoteBhv voteBhv;
 
     // ===================================================================================
     //                                                                             Execute
@@ -181,6 +192,28 @@ public class VillageController {
         return "redirect:/village/" + villageId;
     }
 
+    // 投票セットする
+    @PostMapping("/village/{villageId}/setVote")
+    private String setVote(@PathVariable Integer villageId, @Validated @ModelAttribute("voteForm") VillageVoteForm voteForm,
+            BindingResult result, Model model) {
+        // ログインしていなかったらNG
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        if (result.hasErrors() || userInfo == null) {
+            // 最新の日付を表示
+            return setIndexModelAndReturnView(villageId, null, model);
+        }
+        VillagePlayer villagePlayer = assist.selectVillagePlayer(villageId, userInfo).orElseThrow(() -> {
+            return new IllegalArgumentException("セッション切れ？");
+        });
+        if (isInvalidVote(villageId, villagePlayer, voteForm)) {
+            // 最新の日付を表示
+            return setIndexModelAndReturnView(villageId, null, model);
+        }
+        int day = assist.selectLatestDay(villageId);
+        setVote(villageId, villagePlayer, day, villagePlayer.getCharaId(), voteForm.getTargetCharaId());
+        return "redirect:/village/" + villageId;
+    }
+
     // 足音候補取得
     @GetMapping("/village/getFootstepList")
     @ResponseBody
@@ -248,6 +281,34 @@ public class VillageController {
             return true;
         }
         return false;
+    }
+
+    private boolean isInvalidVote(Integer villageId, VillagePlayer villagePlayer, VillageVoteForm voteForm) {
+        List<VillagePlayer> villagePlayerList = selectVillagePlayerList(villageId);
+        return !villagePlayerList.stream().anyMatch(vp -> vp.isIsDeadFalse() && vp.getCharaId().equals(voteForm.getTargetCharaId()));
+    }
+
+    // ===================================================================================
+    //                                                                              Select
+    //                                                                              ======
+    private ListResultBean<VillagePlayer> selectVillagePlayerList(Integer villageId) {
+        return villagePlayerBhv.selectList(cb -> {
+            cb.setupSelect_Chara();
+            cb.setupSelect_SkillBySkillCode();
+            cb.query().setVillageId_Equal(villageId);
+        });
+    }
+
+    // ===================================================================================
+    //                                                                              Update
+    //                                                                              ======
+    private void setVote(Integer villageId, VillagePlayer villagePlayer, int day, Integer charaId, Integer targetCharaId) {
+        Vote vote = new Vote();
+        vote.setVillageId(villageId);
+        vote.setDay(day);
+        vote.setCharaId(charaId);
+        vote.setVoteCharaId(targetCharaId);
+        voteBhv.update(vote);
     }
 
     // ===================================================================================

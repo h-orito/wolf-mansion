@@ -245,13 +245,13 @@ public class DayChangeLogic {
         insertDefaultAttack(villageId, newDay, vPlayerList, village);
         // 占い
         insertDefaultSeer(villageId, newDay, vPlayerList, village);
+        // 狂人と妖狐の足音
+        insertDefaultFootstep(villageId, newDay, vPlayerList);
         if (newDay == 1) {
             return; // 1日目は護衛と投票なし
         }
         // 護衛
         insertDefaultGuard(villageId, newDay, vPlayerList);
-        // 狂人と妖狐の足音
-        insertDefaultFootstep(villageId, newDay, vPlayerList);
         // 投票
         vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).forEach(vp -> {
             insertVote(villageId, newDay, vp.getCharaId(), vp.getCharaId());

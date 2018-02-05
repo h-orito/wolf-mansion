@@ -124,9 +124,13 @@ public class FootstepLogic {
     // 足音が直線か
     public boolean isFootstepStraight(Village village, String footstep) {
         String[] footstepArray = footstep.split(",");
+        if (footstepArray.length < 1) {
+            return false;
+        }
+        int maxRoomNum = village.getRoomSizeWidth() * village.getRoomSizeHeight();
         if (footstepArray.length < 2) {
-            // TODO h-orito 「なし」と数字が枠内に収まっているかのチェック (2018/02/02)
-            return true;
+            String fs = footstepArray[0];
+            return NO_FOOTSTEP.equals(fs) || (0 < Integer.parseInt(fs) && Integer.parseInt(fs) <= maxRoomNum);
         }
         Integer width = village.getRoomSizeWidth();
         boolean existRightMove = false;
@@ -134,6 +138,10 @@ public class FootstepLogic {
         for (int i = 0; i < footstepArray.length - 1; i++) {
             int nowRoomNum = Integer.parseInt(footstepArray[i]) - 1;
             int nextRoomNum = Integer.parseInt(footstepArray[i + 1]) - 1;
+            if (nowRoomNum < 1 || maxRoomNum < nowRoomNum || nextRoomNum < 1 || maxRoomNum < nextRoomNum) {
+                // 変な数字が紛れてたらNG
+                return false;
+            }
             int nowx = nowRoomNum % width; // 始点のx座標
             int nextx = nextRoomNum % width; // 終点のx座標
             int nowy = nowRoomNum / width; // 始点のy座標
