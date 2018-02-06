@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/top-layout}">
+<head>
+<!--/* 個別ページのタイトル */-->
+<title></title>
+<!--/* 個別ページのjs */-->
+<script src="../static/app/js/index.js" th:src="@{/app/js/index.js}"></script>
+</head>
+
+<body>
+	<div class="container">
+		<div layout:fragment="content">
+			<div id="wrapper">
+				<!--/* トップ画像 */-->
+				<div class="col-sm-12 top-image" data-goto="">
+					<img src="" th:src="@{/app/images/top-small.jpg}" style="width: 100%;"> <span
+						style="color: #fff; position: absolute; bottom: 5%; left: 7%; font-size: 30px;">人狼館</span>
+				</div>
+
+				<div class="col-sm-12 col-xs-12">
+					<h1 class="h4">ルール</h1>
+					<p>
+						いつか書きます。
+					</p>
+				</div>
+
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		<footer layout:replace="~{layout/footer::footer}"></footer>
+	</div>
+</body>
+</html>
