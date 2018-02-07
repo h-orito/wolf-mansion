@@ -7,6 +7,10 @@ body {
 	height: 30px;
 }
 
+ul {
+	-webkit-padding-start: 20px;
+}
+
 @media ( min-width : 768px) {
 	.form-horizontal .control-label {
 		padding-top: 5px;
@@ -15,7 +19,8 @@ body {
 
 /* ƒgƒbƒv */
 .top-image {
-	cursor: pointer;	
+	cursor: pointer;
+	margin-bottom: 15px;
 }
 
 .top-menu {
