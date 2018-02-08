@@ -2,6 +2,11 @@ body {
 	font-size: 12px;
 }
 
+.container {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
 .form-control {
 	font-size: 12px;
 	height: 30px;
@@ -34,12 +39,10 @@ ul {
 }
 
 .top-menu-inner {
-	height: 200px;
 	width: 100%;
 }
 
 .top-menu-inner-row {
-	height: 100px;
 	display: -webkit-flex;
 	display: flex;
 	-webkit-align-items: center;
@@ -48,10 +51,16 @@ ul {
 	justify-content: center;
 }
 
-.top-menu-selectable {
-	height: 100px;
+.top-menu-selectable-area {
 	background-clip: content-box;
-	background-color: #00002a;
+	background-color: #0b162a;
+	border: 1px solid #333333;
+	padding: 0;
+}
+
+.top-menu-selectable {
+	background-clip: content-box;
+	background-color: #0b162a;
 	border: 1px solid #333333;
 	padding: 0;
 }
@@ -63,6 +72,21 @@ ul {
 	background-color: #22224a;
 	cursor: pointer;
 }
+
+tr.top-menu-selectable:hover {
+	color: #0ce3ac;
+	border: 1px solid #0ce3ac;
+	background-color: #22224a;
+	cursor: pointer;
+}
+
+.h100px {
+	height: 100px;
+}
+.h200px {
+	height: 200px;
+}
+
 
 .text-white {
 	color: #ffffff;

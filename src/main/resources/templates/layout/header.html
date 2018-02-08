@@ -19,37 +19,11 @@
 <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<nav class="navbar navbar-default" layout:fragment="header">
-		<!--/* この配下がreplace対象 */-->
-		<!--/* navbar-fixed-top */-->
-		<div class="container-fruid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarEexample3">
-					<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" th:href="@{/}">人狼館</a>
-			</div>
-
-			<div class="collapse navbar-collapse" id="navbarEexample3">
-				<ul class="nav navbar-nav">
-					<li><a href="javascript:void(0);" th:href="@{/}">リンク1</a></li>
-					<li><a href="javascript:void(0);" th:href="'javascript:void(0);'" class="dropdown-toggle" data-toggle="dropdown">ドロップダウンメニュー<b
-							class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="javascript:void(0);" th:href="@{/}">ドロップダウン</a></li>
-							<li><a href="javascript:void(0);" th:href="@{/}">どろっぷだうん</a></li>
-							<li><a href="javascript:void(0);" th:href="@{/}">だよ</a></li>
-						</ul></li>
-				</ul>
-				
-				<form th:if="${user != null}" class="navbar-form navbar-right" role="search" method="post" action="" th:action="@{/logout}">
-					<span th:text="'ユーザID: ' + ${user.username}">ユーザID: hoge</span>
-					<button type="submit" class="btn btn-primary">ログアウト</button>
-				</form>
-			</div>
-			
-
-		</div>
-	</nav>
+	<div class="col-sm-12 top-image" data-goto="" layout:fragment="header">
+		<img src="" th:src="@{/app/images/top-small.jpg}" style="width: 100%;"> <span
+			style="color: #000; position: absolute; bottom: 5.5%; left: 7.4%; font-size: x-large;"><b>人狼館</b></span> <span
+			style="color: #fff; position: absolute; bottom: 5%; left: 7%; font-size: x-large;">人狼館</span> <span th:if="${user != null}"
+			style="color: #fff; position: absolute; bottom: 5px; right: 2%;" th:text="'ユーザID: ' + ${user.username}">ユーザID: hoge</span>
+	</div>
 </body>
 </html>

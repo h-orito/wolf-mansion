@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/top-layout}">
 <head>
 <!--/* 個別ページのタイトル */-->
 <title></title>
@@ -9,33 +9,168 @@
 
 <body>
 	<div class="container">
-		<nav layout:replace="~{layout/header::header}"></nav>
 		<div layout:fragment="content">
 			<div id="wrapper">
-				<h2 class="h3">このサイトは</h2>
-				<div class="col-sm-12">
-					<p>
-						人狼のルールに加え、特殊ルールである「人狼館の推理村」ルールを加えた人狼がプレイできるサイトです。<br> 通常の人狼をプレイしたことがある、もしくは十分にルールを読み込んでいることが参加の前提となります。<br>
-					</p>
+				<!--/* トップ画像 */-->
+				<div class="col-sm-12 top-image" data-goto="">
+					<img src="" th:src="@{/app/images/top.jpg}" style="width: 100%;"> <span
+						style="color: #fff; position: absolute; bottom: 5%; left: 7%; font-size: 30px;">人狼館</span> <span th:if="${user != null}"
+						style="color: #fff; position: absolute; bottom: 5px; right: 2%;" th:text="'ユーザID: ' + ${user.username}">ユーザID: hoge</span>
 				</div>
 
-				<h2 class="h3">告知事項</h2>
-				<div class="col-sm-12">
-					<p>開発なうです</p>
+				<div class="col-sm-6 col-xs-12 top-menu">
+					<div class="top-menu-inner h200px" style="display: block; text-align: center;">
+						<div class="row">
+							<div class="col-sm-12 top-menu-inner-row h100px">
+								<h2 class="h5">人狼館について</h2>
+							</div>
+							<div class="col-sm-12 top-menu-inner-row h100px">
+								<div class="col-sm-4 col-xs-4 top-menu-selectable h100px" data-goto="about">
+									<div style="padding-top: 15px;">
+										<span class="glyphicon glyphicon-info-sign"></span>
+										<h3 class="h6">本サイトは</h3>
+										About
+									</div>
+								</div>
+								<div class="col-sm-4 col-xs-4 top-menu-selectable h100px" data-goto="rule">
+									<div style="padding-top: 15px;">
+										<span class="glyphicon glyphicon-book"></span>
+										<h3 class="h6">ルール</h3>
+										Rule
+									</div>
+								</div>
+								<div class="col-sm-4 col-xs-4 top-menu-selectable h100px" data-goto="announce">
+									<div style="padding-top: 15px;">
+										<span class="glyphicon glyphicon-bullhorn"></span>
+										<h3 class="h6">お知らせ</h3>
+										Announce
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 
-				<h2 th:if="${user == null}" class="h3">ログイン</h2>
-				<span th:if="${form.error}" class="text-danger">ユーザIDまたはパスワードが正しくありません。</span>
-				<div class="col-sm-12" th:if="${user == null}">
-					<form method="post" action="" th:action="@{/login}" th:object="${form}">
-						ユーザID: <input type="text" class="form-control" th:field="*{userId}" /> パスワード: <input type="password" class="form-control"
-							th:field="*{password}" /> <input type="submit" value="ログイン" />
-					</form>
+				<div class="col-sm-6 col-xs-12 top-menu">
+					<div class="top-menu-inner h200px" style="display: block; text-align: center;">
+						<div class="row">
+							<div class="col-sm-12 top-menu-inner-row h100px">
+								<h2 class="h5">登録/ログイン</h2>
+							</div>
+							<div class="col-sm-12 top-menu-inner-row h100px">
+								<div th:if="${user == null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px" data-goto="new-player">
+									<div style="padding-top: 15px;">
+										<span class="glyphicon glyphicon-pencil"></span>
+										<h3 class="h6">ID登録</h3>
+										Register
+									</div>
+								</div>
+								<div th:if="${user == null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px" data-goto="login">
+									<div style="padding-top: 15px;">
+										<span class="glyphicon glyphicon-lock"></span>
+										<h3 class="h6">ログイン</h3>
+										Login
+									</div>
+								</div>
+								<div th:if="${user != null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px" data-submit>
+									<div style="padding-top: 15px;">
+										<span class="glyphicon glyphicon-lock"></span>
+										<h3 class="h6">ログアウト</h3>
+										Logout
+									</div>
+									<form method="post" action="" th:action="@{/logout}"></form>
+								</div>
+								<div th:if="${user != null}" class="col-sm-6 col-xs-6 top-menu-selectable">
+									<div style="padding-top: 15px;">
+										<span class="glyphicon glyphicon-signal"></span>
+										<h3 class="h6">個人戦績</h3>
+										Stats
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 
-				<h2 th:if="${user == null}" class="h3">新規登録</h2>
-				<div class="col-sm-12" th:if="${user == null}">
-					<a href="javascript:void(0);" th:href="@{/new-player}">新規登録</a>
+				<div class="col-sm-6 col-xs-12 top-menu">
+					<div class="top-menu-inner h200px" style="display: block; text-align: center;">
+						<div class="row">
+							<div class="col-sm-12 top-menu-inner-row h100px">
+								<h2 class="h5">参加する</h2>
+							</div>
+							<div class="col-sm-12 top-menu-inner-row h100px">
+								<div class="col-sm-6 col-xs-6 top-menu-selectable h100px"
+									th:class="${user == null ? 'col-sm-12 col-xs-12' : 'col-sm-6 col-xs-6'} + ' top-menu-selectable h100px'">
+									<div style="padding-top: 15px;">
+										<span class="glyphicon glyphicon-list-alt"></span>
+										<h3 class="h6">村一覧</h3>
+										Village list
+									</div>
+								</div>
+								<div class="col-sm-6 col-xs-6 top-menu-selectable h100px" th:if="${user != null}">
+									<div style="padding-top: 15px;">
+										<span class="glyphicon glyphicon-plus"></span>
+										<h3 class="h6">村を建てる</h3>
+										Create Village
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-6 col-xs-12 top-menu">
+					<div class="top-menu-inner h200px" style="display: block; text-align: center;">
+						<div class="row">
+							<div class="col-sm-12 top-menu-inner-row h100px">
+								<h2 class="h5">キャラチップ</h2>
+							</div>
+							<div class="col-sm-12 top-menu-inner-row h100px">
+								<div class="col-sm-6 col-xs-6 top-menu-selectable h100px"
+									th:class="${user == null ? 'col-sm-12 col-xs-12' : 'col-sm-6 col-xs-6'} + ' top-menu-selectable h100px'">
+									<div style="padding-top: 15px;">
+										<span class="glyphicon glyphicon-list-alt"></span>
+										<h3 class="h6">一覧</h3>
+										Character list
+									</div>
+								</div>
+								<div class="col-sm-6 col-xs-6 top-menu-selectable h100px" th:if="${user != null}">
+									<div style="padding-top: 15px;">
+										<span class="glyphicon glyphicon-plus"></span>
+										<h3 class="h6">登録</h3>
+										Upload Character
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-12 col-xs-12 top-menu">
+					<div class="top-menu-inner" style="display: block; text-align: center;">
+						<div class="row">
+							<div class="col-sm-12 top-menu-inner-row h100px">
+								<h2 class="h5">開催中の村</h2>
+							</div>
+							<div class="col-sm-12 top-menu-inner-row">
+								<div class="col-sm-12 col-xs-12 top-menu-selectable-area">
+									<div class="table-responsive clearfix">
+										<table class="table table-bordered table-condensed" style="margin-bottom: 0px;">
+											<tbody>
+												<tr th:each="village : ${content.villageList}" class="top-menu-selectable">
+													<td>
+														<a href="javascript:void(0);" th:href="@{/village/{villageId}(villageId=${village.villageId})}" th:text="${village.villageName}"
+															class="">村名</a>
+													</td>
+													<td th:text="${village.status}"></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 
 				<h2 class="h3">村一覧</h2>
@@ -45,14 +180,17 @@
 						<table class="table table-bordered table-condensed">
 							<tbody>
 								<tr th:each="village : ${content.villageList}" class="">
-									<td><a href="javascript:void(0);" th:href="@{/village/{villageId}(villageId=${village.villageId})}" th:text="${village.villageName}"
-										class="">村名</a></td>
+									<td>
+										<a href="javascript:void(0);" th:href="@{/village/{villageId}(villageId=${village.villageId})}" th:text="${village.villageName}" class="">村名</a>
+									</td>
 									<td th:text="${village.status}"></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
+
+				<div class="clearfix"></div>
 			</div>
 		</div>
 		<footer layout:replace="~{layout/footer::footer}"></footer>

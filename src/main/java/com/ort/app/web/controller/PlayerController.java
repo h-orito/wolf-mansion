@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
+import com.ort.app.web.form.LoginForm;
 import com.ort.app.web.form.PlayerCreateForm;
 import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exentity.Player;
@@ -30,6 +31,12 @@ public class PlayerController {
     private String index(PlayerCreateForm form, Model model) {
         setIndexModel(form, model);
         return "new-player";
+    }
+
+    @GetMapping("/login")
+    private String index(LoginForm form, Model model) {
+        model.addAttribute("form", form);
+        return "login";
     }
 
     // プレイヤー新規登録
