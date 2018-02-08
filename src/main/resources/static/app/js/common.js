@@ -1,16 +1,15 @@
 // api
 var werewolfmansion = werewolfmansion || {};
-werewolfmansion.api = {
-};
+werewolfmansion.api = {};
 
 var contextPath;
 $(function() {
 	contextPath = $('#context-path').text();
-	
-	$('body').on('click', '[data-goto]', function(){
+
+	$('body').on('click', '[data-goto]', function() {
 		location.href = contextPath + $(this).data('goto');
 	});
-	$('body').on('click', '[data-submit]', function(){
+	$('body').on('click', '[data-submit]', function() {
 		const $form = $(this).find('form');
 		$form.submit();
 		return false;
@@ -34,13 +33,13 @@ Handlebars.registerHelper('neq', function(param1, param2) {
 	return param1 != param2;
 });
 Handlebars.registerHelper('or', function() {
-	//argumentsに渡された引数が入っている
+	// argumentsに渡された引数が入っている
 	var existsTrue = false;
-    for (var i = 0; i < arguments.length; i++) {
-        if (arguments[i]) {
-        		existsTrue = true;
-        }
-    }
+	for (var i = 0; i < arguments.length; i++) {
+		if (arguments[i]) {
+			existsTrue = true;
+		}
+	}
 	return existsTrue;
 });
 Handlebars.registerHelper('timeFormat', function(time) {

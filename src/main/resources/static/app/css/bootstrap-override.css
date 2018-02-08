@@ -65,6 +65,17 @@ ul {
 	padding: 0;
 }
 
+.top-menu-selectable-area table a:not(.btn), .top-menu-selectable-area .table a:not(.btn) {
+	color: #fff;
+	text-decoration: none;
+}
+
+@media ( max-width : 767px) {
+	.top-menu-selectable-area .table-responsive {
+		margin-bottom: 0px;
+	}
+}
+
 .top-menu-selectable:hover {
 	color: #0ce3ac;
 	border: 1px solid #0ce3ac;
@@ -75,18 +86,25 @@ ul {
 
 tr.top-menu-selectable:hover {
 	color: #0ce3ac;
-	border: 1px solid #0ce3ac;
+	border-left: 1px solid #0ce3ac;
+	border-right: 1px solid #0ce3ac;
+	background-clip: border-box;
 	background-color: #22224a;
+	cursor: pointer;
+}
+
+tr.top-menu-selectable:hover a {
+	color: #0ce3ac;
 	cursor: pointer;
 }
 
 .h100px {
 	height: 100px;
 }
+
 .h200px {
 	height: 200px;
 }
-
 
 .text-white {
 	color: #ffffff;

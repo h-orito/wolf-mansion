@@ -80,7 +80,7 @@
 									</div>
 									<form method="post" action="" th:action="@{/logout}"></form>
 								</div>
-								<div th:if="${user != null}" class="col-sm-6 col-xs-6 top-menu-selectable">
+								<div th:if="${user != null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px">
 									<div style="padding-top: 15px;">
 										<span class="glyphicon glyphicon-signal"></span>
 										<h3 class="h6">個人戦績</h3>
@@ -107,7 +107,7 @@
 										Village list
 									</div>
 								</div>
-								<div class="col-sm-6 col-xs-6 top-menu-selectable h100px" th:if="${user != null}">
+								<div class="col-sm-6 col-xs-6 top-menu-selectable h100px" th:if="${user != null}" data-goto="new-village">
 									<div style="padding-top: 15px;">
 										<span class="glyphicon glyphicon-plus"></span>
 										<h3 class="h6">村を建てる</h3>
@@ -155,13 +155,10 @@
 							<div class="col-sm-12 top-menu-inner-row">
 								<div class="col-sm-12 col-xs-12 top-menu-selectable-area">
 									<div class="table-responsive clearfix">
-										<table class="table table-bordered table-condensed" style="margin-bottom: 0px;">
+										<table class="table table-bordered table-condensed" style="margin-bottom: 0px; border-collapse: collapse;">
 											<tbody>
-												<tr th:each="village : ${content.villageList}" class="top-menu-selectable">
-													<td>
-														<a href="javascript:void(0);" th:href="@{/village/{villageId}(villageId=${village.villageId})}" th:text="${village.villageName}"
-															class="">村名</a>
-													</td>
+												<tr th:each="village : ${content.villageList}" class="top-menu-selectable" data-goto-village>
+													<td th:data-village-url="@{/village/{villageId}(villageId=${village.villageId})}" th:text="${village.villageName}"></td>
 													<td th:text="${village.status}"></td>
 												</tr>
 											</tbody>
@@ -172,24 +169,6 @@
 						</div>
 					</div>
 				</div>
-
-				<h2 class="h3">村一覧</h2>
-				<a th:if="${user != null}" href="javascript:void(0);" th:href="@{/new-village}" class="pull-right">新規村作成</a>
-				<div class="col-sm-12">
-					<div class="table-responsive clearfix">
-						<table class="table table-bordered table-condensed">
-							<tbody>
-								<tr th:each="village : ${content.villageList}" class="">
-									<td>
-										<a href="javascript:void(0);" th:href="@{/village/{villageId}(villageId=${village.villageId})}" th:text="${village.villageName}" class="">村名</a>
-									</td>
-									<td th:text="${village.status}"></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-
 				<div class="clearfix"></div>
 			</div>
 		</div>
