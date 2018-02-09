@@ -1,5 +1,7 @@
 package com.ort.app.web.controller;
 
+import java.util.Arrays;
+
 import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.ort.app.web.form.LoginForm;
 import com.ort.app.web.model.IndexResultContent;
 import com.ort.app.web.model.inner.IndexVillageDto;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exentity.Village;
 
@@ -55,6 +58,8 @@ public class IndexController {
         ListResultBean<Village> villageList = villageBhv.selectList(cb -> {
             cb.setupSelect_VillageSettingsAsOne();
             cb.setupSelect_VillageStatus();
+            cb.query().setVillageStatusCode_InScope_AsVillageStatus(
+                    Arrays.asList(CDef.VillageStatus.エピローグ, CDef.VillageStatus.募集中, CDef.VillageStatus.進行中, CDef.VillageStatus.開始待ち));
         });
         IndexResultContent content = mappingToContent(villageList);
         model.addAttribute("content", content);

@@ -258,6 +258,9 @@ public class DayChangeLogic {
         });
         // 生存者メッセージ登録
         insertLivingPlayerMessage(villageId, newDay, vPlayerList);
+
+        // 足音メッセージ登録
+        insertFootstepMessage(villageId, newDay, vPlayerList);
     }
 
     // デフォルトの噛み先を設定
@@ -373,6 +376,16 @@ public class DayChangeLogic {
             joiner.add(player.getChara().get().getCharaName());
         });
         messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
+    }
+
+    private void insertFootstepMessage(Integer villageId, int newDay, List<VillagePlayer> vPlayerList) {
+        if (newDay == 1) {
+            return;
+        }
+        List<Integer> livingPlayerRoomNumList =
+                vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).map(VillagePlayer::getRoomNumber).collect(Collectors.toList());
+        String message = footstepLogic.getFootstepMessage(villageId, newDay - 1, livingPlayerRoomNumList);
+        messageLogic.insertMessage(villageId, newDay, CDef.MessageType.公開システムメッセージ, message);
     }
 
     // 初日、2日目以外の日付更新処理

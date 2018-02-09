@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
@@ -41,16 +42,18 @@ public class PlayerController {
 
     // プレイヤー新規登録
     @PostMapping("/new-player")
-    private String createPlayer(@Validated PlayerCreateForm form, BindingResult result, Model model) {
+    private String createPlayer(@Validated @ModelAttribute("form") PlayerCreateForm form, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "/new-player";
+            setIndexModel(form, model);
+            return "new-player";
         }
 
         try {
             selectPlayer(form);
         } catch (WerewolfMansionBusinessException e) {
+            setIndexModel(form, model);
             model.addAttribute("errorMessage", e.getMessage());
-            return "/new-player";
+            return "new-player";
         }
         insertPlayer(form);
         return "redirect:/";

@@ -6,7 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -156,6 +159,41 @@ public class FootstepLogic {
         }
         // 右もしくは下方向にのみ動いていればok
         return (existRightMove && !existDownMove) || (!existRightMove && existDownMove);
+    }
+
+    public String getFootstepMessage(Integer villageId, int day, List<Integer> livingRoomNumList) {
+        List<Footstep> footStepList = footStepBhv.selectList(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_Equal(day);
+        });
+        // 無音を除去
+        footStepList = footStepList.stream().filter(fs -> !NO_FOOTSTEP.equals(fs.getFootstepRoomNumbers())).collect(Collectors.toList());
+
+        StringJoiner joiner = new StringJoiner("\n", "館の大広間に集まった村人達は、昨晩聞こえた足音について確認した。\n\n", "");
+        if (CollectionUtils.isEmpty(footStepList)) {
+            joiner.add("足音を聞いたものはいなかった...。");
+            return joiner.toString();
+        }
+        // 生存者のいない部屋の音を除去
+        List<String> livingRoomFootstepList = footStepList.stream().map(fs -> {
+            String[] footsteps = fs.getFootstepRoomNumbers().split(",");
+            StringJoiner fsJoiner = new StringJoiner(",");
+            for (String fsRoomNum : footsteps) {
+                if (livingRoomNumList.stream().anyMatch(num -> num.equals(Integer.parseInt(fsRoomNum)))) {
+                    fsJoiner.add(String.format("部屋%02d", Integer.parseInt(fsRoomNum)));
+                }
+            }
+            return fsJoiner.toString();
+        }).filter(fs -> StringUtils.isNotEmpty(fs)).collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(livingRoomFootstepList)) {
+            joiner.add("足音を聞いたものはいなかった...。");
+            return joiner.toString();
+        }
+        Collections.shuffle(livingRoomFootstepList);
+        livingRoomFootstepList.forEach(fs -> {
+            joiner.add(String.format("%sで足音が聞こえた...。", fs));
+        });
+        return joiner.toString();
     }
 
     // ===================================================================================

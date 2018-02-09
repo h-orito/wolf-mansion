@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<head>
+<!--/* 個別ページのタイトル */-->
+<title>キャラチップ一覧</title>
+<!--/* 個別ページのjs */-->
+</head>
+
+<body>
+	<div class="container">
+		<div layout:fragment="content">
+			<div id="wrapper">
+				<div class="col-sm-12 col-xs-12">
+					<h1 class="h4">キャラチップ一覧</h1>
+					<div class="table-responsive">
+						<table class="table table-bordered table-condensed small" th:if="${content.charaGroupList != null && content.charaGroupList.size() > 0}">
+							<thead>
+								<tr>
+									<th class="vertical-middle">キャラチップ名</th>
+									<th class="vertical-middle">作者名</th>
+									<th class="vertical-middle">キャラ<br>チップ数
+									</th>
+									<th class="vertical-middle">例</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="charaGroup : ${content.charaGroupList}">
+									<td class="vertical-middle">
+										<a href="javascript:void(0);" th:href="@{/chara-group/{charaGroupId}(charaGroupId=${charaGroup.charaGroupId})}"
+											th:text="${charaGroup.charaGroupName}"></a>
+									</td>
+									<td class="vertical-middle" th:text="${charaGroup.designerName}"></td>
+									<td class="vertical-middle" th:text="${charaGroup.charaNum + '人'}"></td>
+									<td class="vertical-middle">
+										<img src="" th:src="${charaGroup.dummyImgUrl}" style="width: 50px; height: 77px;" />
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		<footer layout:replace="~{layout/footer::footer}"></footer>
+	</div>
+</body>
+</html>

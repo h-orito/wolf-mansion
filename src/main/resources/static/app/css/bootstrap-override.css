@@ -63,11 +63,16 @@ ul {
 	background-color: #0b162a;
 	border: 1px solid #333333;
 	padding: 0;
-}
-
-.top-menu-selectable-area table a:not(.btn), .top-menu-selectable-area .table a:not(.btn) {
 	color: #fff;
 	text-decoration: none;
+	color: #fff;
+	cursor: pointer;
+}
+
+.top-menu-selectable-inner {
+	padding-top: 15px;
+	height: 100px;
+	display: inline-block;
 }
 
 @media ( max-width : 767px) {
@@ -78,6 +83,7 @@ ul {
 
 .top-menu-selectable:hover {
 	color: #0ce3ac;
+	text-decoration: none;
 	border: 1px solid #0ce3ac;
 	background-clip: content-box;
 	background-color: #22224a;
@@ -106,6 +112,10 @@ tr.top-menu-selectable:hover a {
 	height: 200px;
 }
 
+.vertical-middle {
+	vertical-align: middle !important;
+}
+
 .text-white {
 	color: #ffffff;
 }
@@ -123,23 +133,6 @@ tr.top-menu-selectable:hover a {
 	color: #ffffff;
 }
 
-/*
-.modal-header {
-	padding: 30px;
-	border-bottom: 1px solid #e5e5e5
-}
-
-.modal-body {
-	position: relative;
-	padding: 30px
-}
-
-.modal-footer {
-	padding: 30px;
-	text-align: right;
-	border-top: 1px solid #e5e5e5
-}
-*/
 .message {
 	font-family: sans-serif;
 	padding: 9px;

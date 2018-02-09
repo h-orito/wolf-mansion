@@ -9,11 +9,6 @@ $(function() {
 	$('body').on('click', '[data-goto]', function() {
 		location.href = contextPath + $(this).data('goto');
 	});
-	$('body').on('click', '[data-submit]', function() {
-		const $form = $(this).find('form');
-		$form.submit();
-		return false;
-	});
 });
 
 // ---------------------------------------------------

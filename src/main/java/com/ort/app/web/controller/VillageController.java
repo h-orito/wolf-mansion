@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ort.app.web.controller.assist.VillageAssist;
+import com.ort.app.web.controller.assist.VillageListAssist;
 import com.ort.app.web.controller.logic.AbilityLogic;
 import com.ort.app.web.controller.logic.DayChangeLogic;
 import com.ort.app.web.controller.logic.FootstepLogic;
@@ -47,6 +48,9 @@ public class VillageController {
     private VillageAssist assist;
 
     @Autowired
+    private VillageListAssist villageListAssist;
+
+    @Autowired
     private DayChangeLogic dayChangeLogic;
 
     @Autowired
@@ -67,6 +71,12 @@ public class VillageController {
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
+    // 村一覧初期表示
+    @GetMapping("/village")
+    private String villageListIndex(Model model) {
+        return villageListAssist.setIndexModel(model);
+    }
+
     // 村最新日付初期表示
     @GetMapping("/village/{villageId}")
     private String villageIndex(@PathVariable Integer villageId, Model model) {

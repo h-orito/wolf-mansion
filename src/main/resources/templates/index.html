@@ -25,27 +25,19 @@
 								<h2 class="h5">人狼館について</h2>
 							</div>
 							<div class="col-sm-12 top-menu-inner-row h100px">
-								<div class="col-sm-4 col-xs-4 top-menu-selectable h100px" data-goto="about">
-									<div style="padding-top: 15px;">
-										<span class="glyphicon glyphicon-info-sign"></span>
-										<h3 class="h6">本サイトは</h3>
+								<a href="javascript:void(0);" th:href="@{/about}" class="col-sm-4 col-xs-4 top-menu-selectable h100px"> <span
+									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-info-sign"></span> <span class="h6" style="display: block;">本サイトは</span>
 										About
-									</div>
-								</div>
-								<div class="col-sm-4 col-xs-4 top-menu-selectable h100px" data-goto="rule">
-									<div style="padding-top: 15px;">
-										<span class="glyphicon glyphicon-book"></span>
-										<h3 class="h6">ルール</h3>
+								</span>
+								</a> <a href="javascript:void(0);" th:href="@{/rule}" class="col-sm-4 col-xs-4 top-menu-selectable h100px"> <span
+									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-book"></span> <span class="h6" style="display: block;">ルール</span>
 										Rule
-									</div>
-								</div>
-								<div class="col-sm-4 col-xs-4 top-menu-selectable h100px" data-goto="announce">
-									<div style="padding-top: 15px;">
-										<span class="glyphicon glyphicon-bullhorn"></span>
-										<h3 class="h6">お知らせ</h3>
+								</span>
+								</a> <a href="javascript:void(0);" th:href="@{/announce}" class="col-sm-4 col-xs-4 top-menu-selectable h100px"> <span
+									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-bullhorn"></span> <span class="h6" style="display: block;">お知らせ</span>
 										Announce
-									</div>
-								</div>
+								</span>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -58,39 +50,28 @@
 								<h2 class="h5">登録/ログイン</h2>
 							</div>
 							<div class="col-sm-12 top-menu-inner-row h100px">
-								<div th:if="${user == null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px" data-goto="new-player">
-									<div style="padding-top: 15px;">
-										<span class="glyphicon glyphicon-pencil"></span>
-										<h3 class="h6">ID登録</h3>
+								<a href="javascript:void(0);" th:href="@{/new-player}" th:if="${user == null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
+									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-pencil"></span> <span class="h6" style="display: block;">ID登録</span>
 										Register
-									</div>
-								</div>
-								<div th:if="${user == null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px" data-goto="login">
-									<div style="padding-top: 15px;">
-										<span class="glyphicon glyphicon-lock"></span>
-										<h3 class="h6">ログイン</h3>
+								</span>
+								</a> <a href="javascript:void(0);" th:href="@{/login}" th:if="${user == null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
+									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-lock"></span> <span class="h6" style="display: block;">ログイン</span>
 										Login
-									</div>
-								</div>
-								<div th:if="${user != null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px" data-submit>
-									<div style="padding-top: 15px;">
-										<span class="glyphicon glyphicon-lock"></span>
-										<h3 class="h6">ログアウト</h3>
+								</span>
+								</a> <a href="javascript:void(0);" th:if="${user != null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px" data-submit-logout> <span
+									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-lock"></span> <span class="h6" style="display: block;">ログアウト</span>
 										Logout
-									</div>
-									<form method="post" action="" th:action="@{/logout}"></form>
-								</div>
-								<div th:if="${user != null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px">
-									<div style="padding-top: 15px;">
-										<span class="glyphicon glyphicon-signal"></span>
-										<h3 class="h6">個人戦績</h3>
+								</span>
+								</a> <a href="javascript:void(0);" th:if="${user != null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px" data-submit-logout> <span
+									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-signal"></span> <span class="h6" style="display: block;">戦績</span>
 										Stats
-									</div>
-								</div>
+								</span>
+								</a>
 							</div>
 						</div>
 					</div>
 				</div>
+				<form id="logout-form" method="post" action="" th:action="@{/logout}"></form>
 
 				<div class="col-sm-6 col-xs-12 top-menu">
 					<div class="top-menu-inner h200px" style="display: block; text-align: center;">
@@ -99,21 +80,16 @@
 								<h2 class="h5">参加する</h2>
 							</div>
 							<div class="col-sm-12 top-menu-inner-row h100px">
-								<div class="col-sm-6 col-xs-6 top-menu-selectable h100px"
-									th:class="${user == null ? 'col-sm-12 col-xs-12' : 'col-sm-6 col-xs-6'} + ' top-menu-selectable h100px'">
-									<div style="padding-top: 15px;">
-										<span class="glyphicon glyphicon-list-alt"></span>
-										<h3 class="h6">村一覧</h3>
+								<a href="javascript:void(0);" th:href="@{/village}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"
+									th:class="${user == null ? 'col-sm-12 col-xs-12' : 'col-sm-6 col-xs-6'} + ' top-menu-selectable h100px'"> <span
+									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-list-alt"></span> <span class="h6" style="display: block;">村一覧</span>
 										Village list
-									</div>
-								</div>
-								<div class="col-sm-6 col-xs-6 top-menu-selectable h100px" th:if="${user != null}" data-goto="new-village">
-									<div style="padding-top: 15px;">
-										<span class="glyphicon glyphicon-plus"></span>
-										<h3 class="h6">村を建てる</h3>
+								</span>
+								</a> <a href="javascript:void(0);" th:href="@{/new-village}" th:if="${user != null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
+									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-plus"></span> <span class="h6" style="display: block;">村を建てる</span>
 										Create Village
-									</div>
-								</div>
+								</span>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -126,21 +102,16 @@
 								<h2 class="h5">キャラチップ</h2>
 							</div>
 							<div class="col-sm-12 top-menu-inner-row h100px">
-								<div class="col-sm-6 col-xs-6 top-menu-selectable h100px"
-									th:class="${user == null ? 'col-sm-12 col-xs-12' : 'col-sm-6 col-xs-6'} + ' top-menu-selectable h100px'">
-									<div style="padding-top: 15px;">
-										<span class="glyphicon glyphicon-list-alt"></span>
-										<h3 class="h6">一覧</h3>
+								<a href="javascript:void(0);" th:href="@{/chara-group}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"
+									th:class="${user == null ? 'col-sm-12 col-xs-12' : 'col-sm-6 col-xs-6'} + ' top-menu-selectable h100px'"> <span
+									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-list-alt"></span> <span class="h6" style="display: block;">一覧</span>
 										Character list
-									</div>
-								</div>
-								<div class="col-sm-6 col-xs-6 top-menu-selectable h100px" th:if="${user != null}">
-									<div style="padding-top: 15px;">
-										<span class="glyphicon glyphicon-plus"></span>
-										<h3 class="h6">登録</h3>
+								</span>
+								</a> <a href="javascript:void(0);" th:href="@{/chara-upload}" th:if="${user != null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
+									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-plus"></span> <span class="h6" style="display: block;">登録</span>
 										Upload Character
-									</div>
-								</div>
+								</span>
+								</a>
 							</div>
 						</div>
 					</div>
