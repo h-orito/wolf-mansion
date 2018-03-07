@@ -92,6 +92,7 @@ public class VillageMessageAssist {
             return OptionalEntity.empty();
         }
         return villagePlayerBhv.selectEntity(cb -> {
+            cb.setupSelect_Player();
             cb.setupSelect_SkillBySkillCode();
             cb.query().setVillageId_Equal(villageId);
             cb.query().queryPlayer().setPlayerName_Equal(userInfo.getUsername());
@@ -136,6 +137,10 @@ public class VillageMessageAssist {
     //                                                                        Assist Logic
     //                                                                        ============
     private List<CDef.MessageType> makeMessageTypeList(OptionalEntity<VillagePlayer> optVillagePlayer, Integer villageId) {
+        if (optVillagePlayer.isPresent() && "master".equals(optVillagePlayer.get().getPlayer().get().getPlayerName())) {
+            // masterは全て見られる
+            return CDef.MessageType.listAll();
+        }
         Village village = selectVillage(villageId);
         List<CDef.MessageType> dispAllowedMessageTypeList =
                 new ArrayList<>(Arrays.asList(CDef.MessageType.公開システムメッセージ, CDef.MessageType.通常発言));
