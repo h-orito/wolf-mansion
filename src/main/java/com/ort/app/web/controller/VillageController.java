@@ -3,6 +3,7 @@ package com.ort.app.web.controller;
 import java.util.List;
 
 import org.dbflute.cbean.result.ListResultBean;
+import org.dbflute.optional.OptionalThing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ort.app.web.controller.assist.VillageAssist;
 import com.ort.app.web.controller.assist.VillageListAssist;
+import com.ort.app.web.controller.assist.VillageMessageAssist;
 import com.ort.app.web.controller.logic.AbilityLogic;
 import com.ort.app.web.controller.logic.DayChangeLogic;
 import com.ort.app.web.controller.logic.FootstepLogic;
@@ -46,6 +48,9 @@ public class VillageController {
     //                                                                           =========
     @Autowired
     private VillageAssist assist;
+
+    @Autowired
+    private VillageMessageAssist villageMessageAssist;
 
     @Autowired
     private VillageListAssist villageListAssist;
@@ -100,8 +105,9 @@ public class VillageController {
     private VillageMessageListResultContent getDayMessageList(VillageGetMessageListForm form) {
         // 更新時間が過ぎていたら日付更新
         dayChangeLogic.dayChangeIfNeeded(form.getVillageId());
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
 
-        return assist.getMessageList(form);
+        return villageMessageAssist.getMessageList(form, userInfo);
     }
 
     // 参戦
@@ -233,15 +239,17 @@ public class VillageController {
         if (result.hasErrors() || userInfo == null) {
             return null;
         }
-        VillagePlayer villagePlayer = assist.selectVillagePlayer(form.getVillageId(), userInfo).orElseThrow(() -> {
+        OptionalThing<VillagePlayer> optVillagePlayer = assist.selectVillagePlayer(form.getVillageId(), userInfo);
+        if (!optVillagePlayer.isPresent()) {
             return null;
-        });
-        if (isInvalidFootstep(villagePlayer, form)) {
+        }
+        VillagePlayer vPlayer = optVillagePlayer.get();
+        if (isInvalidFootstep(vPlayer, form)) {
             return null;
         }
         int day = assist.selectLatestDay(form.getVillageId());
         List<String> footStepList =
-                footstepLogic.getFootstepCandidateList(form.getVillageId(), villagePlayer, day, form.getCharaId(), form.getTargetCharaId());
+                footstepLogic.getFootstepCandidateList(form.getVillageId(), vPlayer, day, form.getCharaId(), form.getTargetCharaId());
         VillageGetFootstepListResultContent response = new VillageGetFootstepListResultContent();
         response.setFootstepList(footStepList);
         return response;
