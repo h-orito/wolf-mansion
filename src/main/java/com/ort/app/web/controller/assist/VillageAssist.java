@@ -16,23 +16,19 @@ import org.springframework.ui.Model;
 import com.ort.app.web.controller.logic.VillageLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageAbilityForm;
-import com.ort.app.web.form.VillageGetMessageListForm;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.app.web.form.VillageSayForm;
 import com.ort.app.web.form.VillageVoteForm;
-import com.ort.app.web.model.VillageMessageListResultContent;
 import com.ort.app.web.model.VillageResultContent;
 import com.ort.app.web.model.inner.VillageCharaDto;
 import com.ort.app.web.model.inner.VillageMemberDetailDto;
 import com.ort.app.web.model.inner.VillageMemberDto;
-import com.ort.app.web.model.inner.VillageMessageDto;
 import com.ort.app.web.model.inner.VillageRoomAssignedDto;
 import com.ort.app.web.model.inner.VillageRoomAssignedRowDto;
 import com.ort.app.web.model.inner.VillageSkillDto;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.AbilityBhv;
 import com.ort.dbflute.exbhv.FootstepBhv;
-import com.ort.dbflute.exbhv.MessageBhv;
 import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exbhv.SkillBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
@@ -42,7 +38,6 @@ import com.ort.dbflute.exbhv.VillageSettingsBhv;
 import com.ort.dbflute.exbhv.VoteBhv;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Chara;
-import com.ort.dbflute.exentity.Message;
 import com.ort.dbflute.exentity.Skill;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
@@ -85,9 +80,6 @@ public class VillageAssist {
     private FootstepBhv footstepBhv;
 
     @Autowired
-    private MessageBhv messageBhv;
-
-    @Autowired
     private VillageLogic villageLogic;
 
     // ===================================================================================
@@ -102,7 +94,7 @@ public class VillageAssist {
         model.addAttribute("participateForm", new VillageParticipateForm());
         ListResultBean<VillageDay> dayList = villageDayBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
         OptionalThing<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
-        boolean isDispSayForm = isDispSayForm(villageId, userInfo, optVillagePlayer, day, dayList); // 発言フォームを表示するか
+        boolean isDispSayForm = isDispSayForm(villageId, village, userInfo, optVillagePlayer, day, dayList); // 発言フォームを表示するか
         boolean isAvailableNormalSay = isDispSayForm && isAvailableNormalSay(village, optVillagePlayer.get()); // 通常発言可能か
         boolean isAvailableWerewolfSay = isDispSayForm && isAvailableWerewolfSay(village, optVillagePlayer.get()); // 囁き可能か
         boolean isAvailableMasonSay = isDispSayForm && isAvailableMasonSay(village, optVillagePlayer.get()); // 共有者発言可能か
@@ -125,14 +117,6 @@ public class VillageAssist {
         Village village = selectVillage(villageId);
         model.addAttribute("villageName", village.getVillageDisplayName());
 
-    }
-
-    public VillageMessageListResultContent getMessageList(VillageGetMessageListForm form) {
-        Integer villageId = form.getVillageId();
-        int day = form.getDay() != null ? form.getDay() : selectLatestDay(villageId);
-        ListResultBean<Message> messageList = selectMessageList(form.getVillageId(), day);
-        VillageMessageListResultContent content = mappingToMessageListContent(messageList);
-        return content;
     }
 
     public void assertAlreadyParticipateChara(Integer villageId, VillageParticipateForm participateForm)
@@ -209,17 +193,6 @@ public class VillageAssist {
             villagePlayerCB.query().addOrderBy_DeadDay_Asc();
         });
         return village;
-    }
-
-    private ListResultBean<Message> selectMessageList(Integer villageId, Integer day) {
-        return messageBhv.selectList(cb -> {
-            cb.setupSelect_VillagePlayer().withPlayer();
-            cb.setupSelect_VillagePlayer().withChara();
-            cb.query().setVillageId_Equal(villageId);
-            cb.query().setDay_Equal(day);
-            cb.query().addOrderBy_MessageDatetime_Asc();
-            cb.query().addOrderBy_MessageId_Asc();
-        });
     }
 
     private List<Skill> selectSelectableSkillList(Integer villageId) {
@@ -372,30 +345,6 @@ public class VillageAssist {
         return part;
     }
 
-    private VillageMessageListResultContent mappingToMessageListContent(ListResultBean<Message> messageList) {
-        VillageMessageListResultContent content = new VillageMessageListResultContent();
-        content.setMessageList(convertToMessageList(messageList));
-        return content;
-    }
-
-    private List<VillageMessageDto> convertToMessageList(List<Message> messageList) {
-        return messageList.stream().map(message -> {
-            VillageMessageDto messageDto = new VillageMessageDto();
-            messageDto.setCharacterName(
-                    message.getVillagePlayer().map(villagePlayer -> villagePlayer.getChara().get().getCharaName()).orElse(null));
-            messageDto.setCharacterImageUrl(
-                    message.getVillagePlayer().map(villagePlayer -> villagePlayer.getChara().get().getCharaImgUrl()).orElse(null));
-            // エピ入ってないと表示しちゃだめ
-            // messageDto.setPlayerName(
-            //         message.getVillagePlayer().map(villagePlayer -> villagePlayer.getPlayer().get().getPlayerName()).orElse(null));
-            messageDto.setMessageContent(message.getMessageContent());
-            messageDto.setMessageDatetime(message.getMessageDatetime());
-            messageDto.setMessageNumber(message.getMessageNumber());
-            messageDto.setMessageType(message.getMessageTypeCodeAsMessageType().code());
-            return messageDto;
-        }).collect(Collectors.toList());
-    }
-
     // 参戦フォームを表示するか
     private boolean isDispParticipateForm(int day, UserInfo userInfo) {
         // ログインしていない場合は表示しない
@@ -422,8 +371,8 @@ public class VillageAssist {
     }
 
     // 発言フォームを表示するか
-    private boolean isDispSayForm(Integer villageId, UserInfo userInfo, OptionalThing<VillagePlayer> optVillagePlayer, int day,
-            ListResultBean<VillageDay> dayList) {
+    private boolean isDispSayForm(Integer villageId, Village village, UserInfo userInfo, OptionalThing<VillagePlayer> optVillagePlayer,
+            int day, ListResultBean<VillageDay> dayList) {
         // ログインしていない場合は表示しない
         if (userInfo == null) {
             return false;
@@ -432,9 +381,12 @@ public class VillageAssist {
         if (!optVillagePlayer.isPresent()) {
             return false;
         }
-
         // 最新日以外は表示しない
         if (!isLatestDay(day, dayList)) {
+            return false;
+        }
+        // 突然死した場合はエピローグ以外表示しない
+        if (optVillagePlayer.get().getDeadReasonCodeAsDeadReason() == CDef.DeadReason.突然 && !village.isVillageStatusCodeエピローグ()) {
             return false;
         }
         return true;

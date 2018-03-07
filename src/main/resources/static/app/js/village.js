@@ -79,6 +79,9 @@ $(function() {
 				'targetCharaId' : targetCharaId
 			}
 		}).then(function(response) {
+			if (response == '') {
+				return;
+			}
 			$footstepSelect.empty();
 			$.each(response.footstepList, function(idx, val) {
 				$footstepSelect.append($('<option></option>', {
