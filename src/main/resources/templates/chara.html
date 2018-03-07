@@ -13,25 +13,10 @@
 				<div class="col-sm-12 col-xs-12">
 					<h1 class="h4" th:text="${'キャラチップ: ' + content.charaGroupName}"></h1>
 					<p th:text="${'作者: ' + content.designerName + '様'}"></p>
-					<div class="table-responsive">
-						<table class="table table-bordered table-condensed small" th:if="${content.charaList != null && content.charaList.size() > 0}">
-							<thead>
-								<tr>
-									<th class="vertical-middle">キャラ名</th>
-									<th class="vertical-middle">略称</th>
-									<th class="vertical-middle"></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="chara : ${content.charaList}">
-									<td class="vertical-middle" th:text="${chara.charaName}"></td>
-									<td class="vertical-middle" th:text="${chara.charaShortName}"></td>
-									<td class="vertical-middle">
-										<img src="" th:src="${chara.charaImgUrl}" style="width: 50px; height: 77px;" />
-									</td>
-								</tr>
-							</tbody>
-						</table>
+					<div class="col-sm-3" style="border: 1px solid #464545;" th:if="${content.charaList != null && content.charaList.size() > 0}"
+						th:each="chara : ${content.charaList}">
+						<span style="display: block; text-align: center;"><img src="" th:src="${chara.charaImgUrl}" style="width: 50px; height: 77px;" /></span> <span
+							style="display: block; text-align: center;" th:text="${'[' + chara.charaShortName + '] ' + chara.charaName}"></span>
 					</div>
 				</div>
 

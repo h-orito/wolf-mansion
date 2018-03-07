@@ -12,8 +12,8 @@
 		<nav layout:replace="~{layout/header::header}"></nav>
 		<div layout:fragment="content">
 			<div id="wrapper">
-				<h1>村作成確認</h1>
 				<div class="col-sm-12">
+					<h1 class="h4">村作成確認</h1>
 					<form method="post" action="" th:action="@{/new-village}" th:object="${villageForm}" class="form-horizontal">
 						<div class="table-responsive clearfix">
 							<table class="table table-bordered table-condensed">
@@ -54,24 +54,18 @@
 									<td th:text="*{dummyJoinMessage}"></td>
 								</tr>
 							</table>
-							<input type="hidden" th:field="*{villageName}" />
-							<input type="hidden" th:field="*{startPersonMinNum}" />
-							<input type="hidden" th:field="*{personMaxNum}" />
-							<input type="hidden" th:field="*{dayChangeIntervalHours}" />
-							<input type="hidden" th:field="*{dayChangeIntervalMinutes}" />
-							<input type="hidden" th:field="*{dayChangeIntervalSeconds}" />
-							<input type="hidden" th:field="*{startYear}" />
-							<input type="hidden" th:field=*{startMonth} />
-							<input type="hidden" th:field="*{startDay}" />
-							<input type="hidden" th:field="*{startHour}" />
-							<input type="hidden" th:field="*{startMinute}" />
-							<input type="hidden" th:field="*{isOpenVote}" />
-							<input type="hidden" th:field="*{isPossibleSkillRequest}" />
-							<input type="hidden" th:field="*{characterSetId}" />
-							<input type="hidden" th:field="*{dummyJoinMessage}" />
+							<input type="hidden" th:field="*{villageName}" /> <input type="hidden" th:field="*{startPersonMinNum}" /> <input type="hidden"
+								th:field="*{personMaxNum}" /> <input type="hidden" th:field="*{dayChangeIntervalHours}" /> <input type="hidden"
+								th:field="*{dayChangeIntervalMinutes}" /> <input type="hidden" th:field="*{dayChangeIntervalSeconds}" /> <input type="hidden"
+								th:field="*{startYear}" /> <input type="hidden" th:field=*{startMonth} /> <input type="hidden" th:field="*{startDay}" /> <input
+								type="hidden" th:field="*{startHour}" /> <input type="hidden" th:field="*{startMinute}" /> <input type="hidden" th:field="*{isOpenVote}" />
+							<input type="hidden" th:field="*{isPossibleSkillRequest}" /> <input type="hidden" th:field="*{characterSetId}" /> <input type="hidden"
+								th:field="*{dummyJoinMessage}" />
 						</div>
 						<div class="form-group">
-							<input type="submit" class="btn btn-sm btn-success pull-right" value="作成" />
+							<div class="col-sm-12 pull-right">
+								<input type="submit" class="btn btn-sm btn-success pull-right" value="作成" />
+							</div>
 						</div>
 					</form>
 				</div>

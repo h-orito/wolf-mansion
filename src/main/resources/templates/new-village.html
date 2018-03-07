@@ -12,43 +12,43 @@
 		<nav layout:replace="~{layout/header::header}"></nav>
 		<div layout:fragment="content">
 			<div id="wrapper">
-				<h1>村作成</h1>
-				<div class="col-sm-12">
+				<div class="col-sm-12 col-xs-12">
+					<h1 class="h4">村作成</h1>
 					<form method="post" action="" th:action="@{/new-village/confirm}" th:object="${villageForm}" class="form-horizontal">
 						<div class="form-group">
 							<label class="col-sm-2 control-label">村名</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" th:field="*{villageName}" placeholder="【身内】レタス村" />
-								<span th:if="${#fields.hasErrors('villageName')}" th:errors="*{villageName}" class="help-block text-danger">error!</span>
+								<input type="text" class="form-control" th:field="*{villageName}" placeholder="【身内】レタス村" /> <span th:if="${#fields.hasErrors('villageName')}"
+									th:errors="*{villageName}" class="help-block text-danger">error!</span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">最低開始人数</label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control" th:field="*{startPersonMinNum}" placeholder="8" />
-								<span th:if="${#fields.hasErrors('startPersonMinNum')}" th:errors="*{startPersonMinNum}" class="help-block text-danger">error!</span>
+							<label class="col-sm-2 col-xs-3 control-label">最低開始人数</label>
+							<div class="col-sm-4 col-xs-3">
+								<input type="text" class="form-control" th:field="*{startPersonMinNum}" placeholder="8" /> <span
+									th:if="${#fields.hasErrors('startPersonMinNum')}" th:errors="*{startPersonMinNum}" class="help-block text-danger">error!</span>
 							</div>
-							<label class="col-sm-2 control-label">定員</label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control" th:field="*{personMaxNum}" placeholder="16" />
-								<span th:if="${#fields.hasErrors('personMaxNum')}" th:errors="*{personMaxNum}" class="help-block text-danger">error!</span>
+							<label class="col-sm-2 col-xs-3 control-label">定員</label>
+							<div class="col-sm-4 col-xs-3">
+								<input type="text" class="form-control" th:field="*{personMaxNum}" placeholder="16" /> <span th:if="${#fields.hasErrors('personMaxNum')}"
+									th:errors="*{personMaxNum}" class="help-block text-danger">error!</span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">更新間隔</label>
-							<div class="col-sm-2">
+							<label class="col-sm-2 col-xs-12 control-label">更新間隔</label>
+							<div class="col-sm-2 col-xs-4">
 								<select class="form-control" th:field="*{dayChangeIntervalHours}">
 									<option th:each="i : ${#numbers.sequence(0, 48)}" th:value="${i}" th:text="${i}+ '時間'">0時間</option>
 								</select>
 							</div>
-							<div class="col-sm-2">
+							<div class="col-sm-2 col-xs-4">
 								<select class="form-control" th:field="*{dayChangeIntervalMinutes}">
 									<option th:each="i : ${#numbers.sequence(0, 59)}" th:value="${i}" th:text="${i}+ '分'">0分</option>
 								</select>
 							</div>
-							<div class="col-sm-2">
+							<div class="col-sm-2 col-xs-4">
 								<select class="form-control" th:field="*{dayChangeIntervalSeconds}">
-									<option th:each="i : ${#numbers.sequence(0, 59)}" th:value="${i}" th:text="${i}+ '秒'">0秒</option>
+									<option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i*10}" th:text="${i*10}+ '秒'">0秒</option>
 								</select>
 							</div>
 						</div>
@@ -59,31 +59,31 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">開始日時</label>
+							<label class="col-sm-2 col-xs-12 control-label">開始日時</label>
 							<!--/* datetimepickerを使う */-->
-							<div class="col-sm-2">
+							<div class="col-sm-2 col-xs-4">
 								<select class="form-control" th:field="*{startYear}">
-									<option th:each="i : ${#numbers.sequence(2017, 2020)}" th:value="${i}" th:text="${i}+ '年'"></option>
+									<option th:each="i : ${#numbers.sequence(nowYear, nowYear+1)}" th:value="${i}" th:text="${i}+ '年'"></option>
 								</select>
 							</div>
-							<div class="col-sm-2">
+							<div class="col-sm-2 col-xs-4">
 								<select class="form-control" th:field="*{startMonth}">
 									<option th:each="i : ${#numbers.sequence(1,12)}" th:value="${i}" th:text="${i}+ '月'"></option>
 								</select>
 							</div>
-							<div class="col-sm-2">
+							<div class="col-sm-2 col-xs-4">
 								<select class="form-control" th:field="*{startDay}">
 									<option th:each="i : ${#numbers.sequence(1,31)}" th:value="${i}" th:text="${i}+ '日'"></option>
 								</select>
 							</div>
-							<div class="col-sm-2">
+							<div class="col-sm-2 col-xs-6">
 								<select class="form-control" th:field="*{startHour}">
 									<option th:each="i : ${#numbers.sequence(0,23)}" th:value="${i}" th:text="${i}+ '時'"></option>
 								</select>
 							</div>
-							<div class="col-sm-2">
+							<div class="col-sm-2 col-xs-6">
 								<select class="form-control" th:field="*{startMinute}">
-									<option th:each="i : ${#numbers.sequence(0,59)}" th:value="${i}" th:text="${i}+ '分'"></option>
+									<option th:each="i : ${#numbers.sequence(0,11)}" th:value="${i*5}" th:text="${i*5}+ '分'"></option>
 								</select>
 							</div>
 						</div>
@@ -97,7 +97,7 @@
 							<label class="col-sm-2 control-label">投票</label>
 							<div class="col-sm-4 btn-group" data-toggle="buttons">
 								<label class="btn btn-sm btn-warning active"> <input type="radio" class="" th:field="*{isOpenVote}" value="true" autocomplete="off"
-										checked />記名
+									checked />記名
 								</label> <label class="btn btn-sm btn-warning"> <input type="radio" class="" th:field="*{isOpenVote}" value="false" autocomplete="off" />無記名
 								</label>
 							</div>
@@ -106,9 +106,9 @@
 							<label class="col-sm-2 control-label">役職希望</label>
 							<div class="col-sm-4 btn-group" data-toggle="buttons">
 								<label class="btn btn-sm btn-warning active"> <input type="radio" class="" th:field="*{isPossibleSkillRequest}" value="true"
-										autocomplete="off" checked />有効
+									autocomplete="off" checked />有効
 								</label> <label class="btn btn-sm btn-warning"> <input type="radio" class="" th:field="*{isPossibleSkillRequest}" value="false"
-										autocomplete="off" />無効
+									autocomplete="off" />無効
 								</label>
 							</div>
 						</div>
@@ -128,10 +128,14 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<input type="submit" class="btn btn-sm btn-success pull-right" value="確認画面へ" />
+							<div class="col-sm-12 col-xs-12 pull-right">
+								<input type="submit" class="btn btn-sm btn-success pull-right" value="確認画面へ" />
+							</div>
 						</div>
 					</form>
 				</div>
+
+				<div class="col-sm-12 col-xs-12 clearfix"></div>
 			</div>
 		</div>
 		<footer layout:replace="~{layout/footer::footer}"></footer>

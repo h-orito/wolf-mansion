@@ -1,5 +1,6 @@
 package com.ort.app.web.controller.assist;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
@@ -79,6 +80,10 @@ public class NewVillageAssist {
             form.setStartMinute(0);
         }
         model.addAttribute("villageForm", form);
+
+        // 現在の年
+        LocalDate now = WerewolfMansionDateUtil.currentLocalDate();
+        model.addAttribute("nowYear", now.getYear());
 
         ListResultBean<CharaGroup> charaGroupList = charaGroupBhv.selectList(cb -> cb.setupSelect_Designer());
         List<SelectOptionDto<Integer>> characterSetList = convertToCharacterSetList(charaGroupList);
