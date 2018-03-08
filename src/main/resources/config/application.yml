@@ -15,6 +15,6 @@ server:
   contextPath: /werewolf-mansion
 logging:
   level:
-    org.springframework: WARN
-    root: INFO
-    org.seasar.dbflute: INFO
+    org.springframework: ERROR
+    root: ERROR
+    org.seasar.dbflute: ERROR

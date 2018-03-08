@@ -12,7 +12,7 @@ public class VillageSayForm implements Serializable {
 
     /** 発言 */
     @NotNull
-    @Length(max = 200)
+    @Length(min = 1, max = 200)
     private String message;
 
     /** 発言種別 */

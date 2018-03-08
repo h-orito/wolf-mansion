@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.dbflute.hook.AccessContext;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionDateUtil;
+import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 
 public class SetAccessContextInterceptor extends HandlerInterceptorAdapter {
 
@@ -20,14 +22,11 @@ public class SetAccessContextInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         // [アクセス日時]
-        // 例えば、アプリで日時を取得する統一したインターフェースからの日時を利用。
         LocalDateTime accessLocalDateTime = WerewolfMansionDateUtil.currentLocalDateTime();
 
         // [アクセスユーザ]
-        // 例えば、セッション上のログインユーザを利用。
-        // ログインしていない場合のことも考慮すること。
-        //        String accessUser = getSession().getLoginUser();
-        String accessUser = "hoge"; // TODO h-orito 実装 (2017/12/14)
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        String accessUser = userInfo == null ? "not login user" : userInfo.getUsername();
 
         AccessContext context = new AccessContext();
         context.setAccessLocalDateTime(accessLocalDateTime);

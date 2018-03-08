@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,11 +26,14 @@ import com.ort.app.web.controller.logic.FootstepLogic;
 import com.ort.app.web.controller.logic.MessageLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageAbilityForm;
+import com.ort.app.web.form.VillageGetAnchorMessageForm;
 import com.ort.app.web.form.VillageGetFootstepListForm;
 import com.ort.app.web.form.VillageGetMessageListForm;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.app.web.form.VillageSayForm;
 import com.ort.app.web.form.VillageVoteForm;
+import com.ort.app.web.form.validator.VillageSayFormValidator;
+import com.ort.app.web.model.VillageAnchorMessageResultContent;
 import com.ort.app.web.model.VillageGetFootstepListResultContent;
 import com.ort.app.web.model.VillageMessageListResultContent;
 import com.ort.dbflute.allcommon.CDef;
@@ -73,6 +78,14 @@ public class VillageController {
     @Autowired
     private VoteBhv voteBhv;
 
+    @Autowired
+    private VillageSayFormValidator villageSayFormValidator;
+
+    @InitBinder("sayForm")
+    public void initBinder(WebDataBinder binder) {
+        binder.addValidators(villageSayFormValidator);
+    }
+
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
@@ -108,6 +121,20 @@ public class VillageController {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
 
         return villageMessageAssist.getMessageList(form, userInfo);
+    }
+
+    // アンカー発言取得
+    @GetMapping("/village/getAnchorMessage")
+    @ResponseBody
+    private VillageAnchorMessageResultContent getAnchorMessage(@Validated VillageGetAnchorMessageForm form, BindingResult result) {
+        if (result.hasErrors()) {
+            return null;
+        }
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        if (!villageMessageAssist.isViewAllowedMessage(form, userInfo)) {
+            return null;
+        }
+        return villageMessageAssist.getAnchorMessage(form);
     }
 
     // 参戦

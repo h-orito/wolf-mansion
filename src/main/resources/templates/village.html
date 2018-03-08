@@ -42,7 +42,7 @@
 									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
 										<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-										th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+											th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
 									</td>
 								</tr>
 							</tbody>
@@ -129,6 +129,7 @@
 								<span th:if="${sayErrorMessage != null}" class="text-danger" th:test="${sayErrorMessage}">error</span>
 								<form method="post" action="" th:action="@{/village/{villageId}/confirm(villageId=${content.villageId})}" th:object="${sayForm}"
 									class="form-horizontal">
+									<span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="help-block text-danger">error!</span>
 									<div class="form-group">
 										<div class="col-sm-12 btn-group" data-toggle="buttons" data-say-type>
 											<label th:if="${content.isAvailableWerewolfSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'WEREWOLF_SAY' ? 'active' : ''}">
@@ -148,12 +149,12 @@
 											<div style="flex: 1; margin-left: 5px; min-height: 77px;">
 												<textarea class="form-control small" th:field="*{message}" style="min-height: 77px;" data-say-textarea></textarea>
 											</div>
-											<span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="help-block text-danger">error!</span>
 										</div>
 									</div>
 									<div class="form-group">
 										<div class="col-sm-12">
-											<input type="submit" class="btn btn-sm btn-success pull-right" value="確認画面へ" />
+											<span class="" style="margin-left: 55px;" data-message-count>文字数: 0/200, 行数: 1/10</span>
+											<input type="submit" class="btn btn-sm btn-success pull-right hidden" value="確認画面へ" data-message-submit-btn />
 										</div>
 									</div>
 								</form>
@@ -236,7 +237,8 @@
 									th:if="${content.abilityTargetList == null && abilityForm != null}" th:object="${abilityForm}" class="form-horizontal">
 									<div class="form-group small">
 										<div class="col-sm-12" th:if="${content.skillName == 'FOX' || content.skillName == 'MADMAN'}">
-											通過する部屋 <input type="text" class="form-control" th:field="*{footstep}" />
+											通過する部屋
+											<input type="text" class="form-control" th:field="*{footstep}" />
 										</div>
 									</div>
 									<div class="form-group">
@@ -250,7 +252,8 @@
 
 						<div class="col-sm-12 well" sec:authorize="hasRole('ROLE_ADMIN')">
 							<h2 class="h5">管理者メニュー</h2>
-							<form method="post" th:if="${content.day == 0}" action="" th:action="@{/admin/village/{villageId}/allparticipate(villageId=${content.villageId})}" class="form-horizontal">
+							<form method="post" th:if="${content.day == 0}" action=""
+								th:action="@{/admin/village/{villageId}/allparticipate(villageId=${content.villageId})}" class="form-horizontal">
 								<div class="form-group">
 									<label class="col-sm-2 control-label">入村させる</label>
 									<div class="col-sm-8">
@@ -261,8 +264,7 @@
 									</div>
 								</div>
 							</form>
-							<form method="post" action="" th:action="@{/admin/village/{villageId}/dayChange(villageId=${content.villageId})}"
-								class="form-horizontal">
+							<form method="post" action="" th:action="@{/admin/village/{villageId}/dayChange(villageId=${content.villageId})}" class="form-horizontal">
 								<div class="form-group">
 									<label class="col-sm-2 control-label">日付を進める</label>
 									<div class="col-sm-8"></div>
@@ -272,10 +274,29 @@
 								</div>
 							</form>
 						</div>
+
+						<!--/* 日付リスト */-->
+						<div class="col-sm-12 small">
+							<ul style="padding-left: 0px;">
+								<li th:each="day : ${content.dayList}" style="list-style-type: none; display: inline; margin-right: 10px;"><span
+									th:if="${day == content.day && day != 0 && day != content.epilogueDay && day - 1 != content.epilogueDay}" th:text="${day} + '日目'"></span> <span
+									th:if="${day == content.day && day == 0}" th:text="プロローグ"></span> <span th:if="${day == content.day && day == content.epilogueDay}"
+									th:text="エピローグ"></span> <span th:if="${day == content.day && day - 1 == content.epilogueDay}" th:text="終了"></span><a
+									th:if="${day != content.day && day != 0 && day != content.epilogueDay && day - 1 != content.epilogueDay}" th:text="${day} + '日目'"
+									href="javascript:void(0);" th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a> <a
+									th:if="${day != content.day && day == 0}" th:text="プロローグ" href="javascript:void(0);"
+									th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a> <a
+									th:if="${day != content.day && day == content.epilogueDay}" th:text="エピローグ" href="javascript:void(0);"
+									th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a> <a
+									th:if="${day != content.day && day - 1 == content.epilogueDay}" th:text="終了" href="javascript:void(0);"
+									th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a></li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
 			<script id="message-template" type="text/x-handlebars-template" layout:include="~{/village-template/message::message}"></script>
+			<script id="message-partial-template" type="text/x-handlebars-template" layout:include="~{/village-template/message-partial::message-partial}"></script>
 		</div>
 		<footer layout:replace="~{layout/footer::footer}"></footer>
 	</div>

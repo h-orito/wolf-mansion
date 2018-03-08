@@ -12,6 +12,9 @@ public class VillageMessageListResultContent implements Serializable {
     /** メッセージリスト */
     private List<VillageMessageDto> messageList;
 
+    /** 村状態メッセージ */
+    private String villageStatusMessage;
+
     public List<VillageMessageDto> getMessageList() {
         return messageList;
     }
@@ -19,4 +22,13 @@ public class VillageMessageListResultContent implements Serializable {
     public void setMessageList(List<VillageMessageDto> messageList) {
         this.messageList = messageList;
     }
+
+    public String getVillageStatusMessage() {
+        return villageStatusMessage;
+    }
+
+    public void setVillageStatusMessage(String villageStatusMessage) {
+        this.villageStatusMessage = villageStatusMessage;
+    }
+
 }

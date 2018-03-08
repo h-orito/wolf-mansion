@@ -185,6 +185,16 @@ tr.top-menu-selectable:hover a {
 	min-height: 0px;
 }
 
+.message-announce {
+	color: #ff0000;
+	border: 1px solid #ff0000;
+	min-height: 0px;
+}
+
+.message a {
+	color: #f00000;
+}
+
 .bg-whitegray {
 	background-color: #e0e0e0;
 }
@@ -195,4 +205,12 @@ tr.top-menu-selectable:hover a {
 
 .well {
 	padding: 0 15px;
+}
+
+.loading {
+	background: url("../images/loading.gif"), #eeeeee;
+	background-size: 90px 90px;
+	background-repeat: no-repeat;
+	background-position: center;
+	opacity: 0.6;
 }
