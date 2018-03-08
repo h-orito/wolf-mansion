@@ -35,7 +35,7 @@ map:{
     #   e.g. if ut, data files in './playsql/data/ut/...' are loaded
     #  If DBFlute environment type is specified, inherits it as default.
     #
-    #; repsEnvType = ut
+    ; repsEnvType = ut
     # - - - - - - - - - -/
 
     # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
