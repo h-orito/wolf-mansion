@@ -154,7 +154,7 @@
 									<div class="form-group">
 										<div class="col-sm-12">
 											<span class="" style="margin-left: 55px;" data-message-count>文字数: 0/200, 行数: 1/10</span>
-											<input type="submit" class="btn btn-sm btn-success pull-right hidden" value="確認画面へ" data-message-submit-btn />
+											<input type="submit" class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />
 										</div>
 									</div>
 								</form>
@@ -294,6 +294,11 @@
 						</div>
 					</div>
 				</div>
+				
+				<div class="btn btn-primary goto goto-top" data-goto-top><span class="glyphicon glyphicon-arrow-up"></span></div>
+				<div class="btn btn-primary goto refresh" data-refresh><span class="glyphicon glyphicon-refresh"></span></div>
+				<div class="btn btn-primary goto filter" data-refresh><span class="glyphicon glyphicon-filter"></span></div>
+				<div class="btn btn-primary goto goto-bottom" data-goto-bottom><span class="glyphicon glyphicon-arrow-down"></span></div>
 			</div>
 			<script id="message-template" type="text/x-handlebars-template" layout:include="~{/village-template/message::message}"></script>
 			<script id="message-partial-template" type="text/x-handlebars-template" layout:include="~{/village-template/message-partial::message-partial}"></script>

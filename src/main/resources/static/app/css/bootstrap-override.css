@@ -214,3 +214,37 @@ tr.top-menu-selectable:hover a {
 	background-position: center;
 	opacity: 0.6;
 }
+
+.goto {
+	z-index: 100;
+	position: fixed;
+	width: 40px;
+	height: 40px;
+	vertical-align: middle;
+	border-radius: 50%;
+	line-height: 19px;
+}
+
+.goto-top {
+	bottom: 160px;
+	right: 10px;
+}
+
+.filter {
+	bottom: 110px;
+	right: 10px;
+}
+
+.refresh {
+	bottom: 60px;
+	right: 10px;
+}
+
+.goto-bottom {
+	bottom: 10px;
+	right: 10px;
+}
+
+.goto span {
+	right: 5px;
+}

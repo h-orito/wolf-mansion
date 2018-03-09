@@ -37,45 +37,95 @@ $(function() {
 		}).then(function(response) {
 			// htmlエスケープと、アンカーの変換を行う
 			$.each(response.messageList, function() {
-				this.messageContent = this.messageContent.replace(/(\r\n|\n|\r)/gm, '<br>').split('<br>').map(function(item) { // 先に改行を分割
-					item = item.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); // htmlエスケープ
-					item = item.replace(/&gt;&gt;(\d)/g, '<a href=\"javascript:void(0);\" data-message-anchor=\"$1\">&gt;&gt;$1<\/a>'); // 次にアンカーをaタグにする
-					item = item.replace(/&gt;&gt;\+(\d)/g, '<a href=\"javascript:void(0);\" data-message-grave-anchor=\"$1\">&gt;&gt;\+$1<\/a>');
-					item = item.replace(/&gt;&gt;=(\d)/g, '<a href=\"javascript:void(0);\" data-message-mason-anchor=\"$1\">&gt;&gt;=$1<\/a>');
-					return item.replace(/&gt;&gt;\*(\d)/g, '<a href=\"javascript:void(0);\" data-message-whisper-anchor=\"$1\">&gt;&gt;\*$1<\/a>');
-				}).join('<br>');
+				this.messageContent = escapeAndSetAnchor(this.messageContent);
 			});
 			$("[data-message-area]").html(messageTemplate(response));
 			$("[data-message-area]").removeClass('loading');
 		});
 	}
+	
+	function escapeAndSetAnchor(message) {
+		return message.replace(/(\r\n|\n|\r)/gm, '<br>').split('<br>').map(function(item) { // 先に改行を分割
+			item = item.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); // htmlエスケープ
+			item = item.replace(/&gt;&gt;(\d)/g, '<a href=\"javascript:void(0);\" data-message-anchor=\"$1\">&gt;&gt;$1<\/a>'); // 次にアンカーをaタグにする
+			item = item.replace(/&gt;&gt;\+(\d)/g, '<a href=\"javascript:void(0);\" data-message-grave-anchor=\"$1\">&gt;&gt;\+$1<\/a>');
+			item = item.replace(/&gt;&gt;=(\d)/g, '<a href=\"javascript:void(0);\" data-message-mason-anchor=\"$1\">&gt;&gt;=$1<\/a>');
+			return item.replace(/&gt;&gt;\*(\d)/g, '<a href=\"javascript:void(0);\" data-message-whisper-anchor=\"$1\">&gt;&gt;\*$1<\/a>');
+		}).join('<br>');
+	}
 
 	// アンカー
 	$('body').on('click', '[data-message-anchor]', function() {
 		const messageNumber = $(this).data('message-anchor');
+		handlingNumberAnchor($(this), 'NORMAL_SAY', messageNumber);
+	});
+	$('body').on('click', '[data-message-grave-anchor]', function() {
+		const messageNumber = $(this).data('message-grave-anchor');
+		handlingNumberAnchor($(this), 'GRAVE_SAY', messageNumber);
+	});
+	$('body').on('click', '[data-message-mason-anchor]', function() {
+		const messageNumber = $(this).data('message-mason-anchor');
+		handlingNumberAnchor($(this), 'MASON_SAY', messageNumber);
+	});
+	$('body').on('click', '[data-message-whisper-anchor]', function() {
+		const messageNumber = $(this).data('message-whisper-anchor');
+		handlingNumberAnchor($(this), 'WEREWOLF_SAY', messageNumber);
+	});
+
+	function handlingNumberAnchor($anchor, messageType, messageNumber) {
+		const $thisMessage = $anchor.closest('[data-message]');
+		const anchorClassName = getClassName($anchor) + '_' + messageType.substring(0, 1) + messageNumber;
+
+		if ($('body').find('.' + anchorClassName).length != 0) { // 既に読み込み済みの場合
+			$('body').find('.' + anchorClassName).collapse('toggle');
+			return false;
+		}
+
 		return $.ajax({
 			type : 'GET',
 			url : GET_ANCHOR_MESSAGE_URL,
 			data : {
 				'villageId' : villageId,
 				'messageNumber' : messageNumber,
-				'messageType' : 'NORMAL_SAY'
+				'messageType' : messageType
 			}
 		}).then(function(response) {
 			if (response == '') {
 				return;
 			}
 			// htmlエスケープと、アンカーの変換を行う
-			response.message.messageContent = response.message.messageContent.replace(/(\r\n|\n|\r)/gm, '<br>').split('<br>').map(function(item) { // 先に改行を分割
-				item = item.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); // htmlエスケープ
-				item = item.replace(/(&gt;&gt;\d)/g, '<a href=\"javascript:void(0);\" data-message-anchor>$1<\/a>'); // 次にアンカーをaタグにする
-				item = item.replace(/(&gt;&gt;\+\d)/g, '<a href=\"javascript:void(0);\" data-message-grave-anchor>$1<\/a>');
-				item = item.replace(/(&gt;&gt;=\d)/g, '<a href=\"javascript:void(0);\" data-message-mason-anchor>$1<\/a>');
-				return item.replace(/(&gt;&gt;\*\d)/g, '<a href=\"javascript:void(0);\" data-message-whisper-anchor>$1<\/a>');
-			}).join('<br>');
-
-			$(this).closest('[data-message]').after(messagePartialTemplate(response.message));
+			response.message.messageContent = escapeAndSetAnchor(response.message.messageContent);
+			let $anchorMessage = makeAnchorMessage($(messagePartialTemplate(response.message)), anchorClassName);
+			$thisMessage.after($anchorMessage);
+			$('.' + anchorClassName).collapse('toggle');
+			return false;
 		});
+
+	}
+
+	function getClassName($anchor) {
+		return $.grep($anchor.closest('[data-message]').attr('class').split(' '), function(elm, idx) {
+			return String(elm).indexOf('say') != -1;
+		})[0];
+	}
+
+	function makeAnchorMessage($message, anchorClassName) {
+		var beforeClassName = $.grep($message.attr('class').split(' '), function(elm, idx) {
+			return String(elm).indexOf('say') != -1;
+		})[0];
+		$message.removeClass(beforeClassName);
+		$message.addClass(anchorClassName);
+		$message.addClass('collapse');
+		$message.addClass('well');
+		// $message.find('div.message').addClass('bg-white');
+		$message.closest('[data-message]').prepend(
+				'<span class="btn btn-default btn-sm pull-right close-anchor" style="margin-left:5px; margin-right: -15px;">×</span>');
+		return $message;
+	}
+
+	// アンカー閉じるボタン
+	$('body').on('click', '.close-anchor', function() {
+		$(this).closest('[data-message]').collapse('hide');
 	});
 
 	// 発言種別に応じて発言エリアの色を分ける
