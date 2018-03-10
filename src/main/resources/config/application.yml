@@ -16,7 +16,7 @@ server:
   port: 8089
 logging:
   level:
-    org.springframework: ERROR
-    root: ERROR
+    org.springframework: INFO
+    root: INFO
     org.seasar.dbflute: ERROR
   file: /var/log/werewolf-mansion/tomcat.log
