@@ -13,6 +13,7 @@ spring:
     encoding: UTF-8
 server:
   contextPath: /werewolf-mansion
+  port: 8089
 logging:
   level:
     org.springframework: ERROR
