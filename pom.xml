@@ -6,7 +6,7 @@
 	<groupId>com.ort</groupId>
 	<artifactId>werewolf-mansion</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>werewolf-mansion</name>
 	<description>Werewolf Mansion Case File Web Project.</description>
@@ -39,7 +39,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- spring boot -->

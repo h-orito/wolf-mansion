@@ -18,3 +18,4 @@ logging:
     org.springframework: ERROR
     root: ERROR
     org.seasar.dbflute: ERROR
+  file: /var/log/werewolf-mansion/tomcat.log
