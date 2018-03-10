@@ -28,7 +28,7 @@
 									<td>
 										<a href="javascript:void(0);" th:href="@{/village/{villageId}(villageId=${village.villageId})}" th:text="${village.villageName}"></a>
 									</td>
-									<td>TODO</td>
+									<td th:text="${village.participateNum}"></td>
 									<td th:text="${village.status}"></td>
 								</tr>
 							</tbody>

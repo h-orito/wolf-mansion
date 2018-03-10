@@ -287,13 +287,16 @@ public class VillageController {
     //                                                                          ==========
     private boolean isInvalidFootstep(VillagePlayer villagePlayer, VillageGetFootstepListForm form) {
         CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
-        if (skill != CDef.Skill.人狼 && skill != CDef.Skill.占い師) {
+        if (skill != CDef.Skill.人狼 && skill != CDef.Skill.占い師 && skill != CDef.Skill.狩人) {
             return true;
         }
         if (skill == CDef.Skill.人狼 && form.getCharaId() == null) {
             return true;
         }
         if (skill == CDef.Skill.占い師 && form.getTargetCharaId() == null) {
+            return true;
+        }
+        if (skill == CDef.Skill.狩人 && form.getTargetCharaId() == null) {
             return true;
         }
 

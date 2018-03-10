@@ -251,7 +251,7 @@ public class DayChangeLogic {
             return; // 1日目は護衛と投票なし
         }
         // 護衛
-        insertDefaultGuard(villageId, newDay, vPlayerList);
+        insertDefaultGuard(villageId, newDay, vPlayerList, village);
         // 投票
         vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).forEach(vp -> {
             insertVote(villageId, newDay, vp.getCharaId(), vp.getCharaId());
@@ -310,7 +310,7 @@ public class DayChangeLogic {
         }
     }
 
-    private void insertDefaultGuard(Integer villageId, int newDay, List<VillagePlayer> villagePlayerList) {
+    private void insertDefaultGuard(Integer villageId, int newDay, List<VillagePlayer> villagePlayerList, Village village) {
         // 護衛する人
         Optional<VillagePlayer> optHunter =
                 villagePlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.狩人 && vp.isIsDeadFalse()).findFirst();
@@ -321,6 +321,9 @@ public class DayChangeLogic {
         // 護衛される人(生存者の中の誰か）
         Integer targetCharaId = getRandomInList(villagePlayerList, vp -> !vp.getCharaId().equals(hunterCharaId)).getCharaId();
         insertAbility(villageId, newDay, hunterCharaId, targetCharaId, CDef.AbilityType.護衛);
+        // 時計回りの足音セット
+        String footStep = footstepLogic.makeClockwiseFootStep(village, hunterCharaId, targetCharaId, villagePlayerList);
+        footstepLogic.insertFootStep(villageId, newDay, hunterCharaId, footStep);
         messageLogic.insertAbilityMessage(villageId, newDay, hunterCharaId, targetCharaId, villagePlayerList, null, true);
     }
 

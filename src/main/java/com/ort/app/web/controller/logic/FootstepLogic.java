@@ -118,7 +118,7 @@ public class FootstepLogic {
 
         if (skill == CDef.Skill.人狼) {
             return makeWolfSeerFootstepCandidateList(charaId, targetCharaId, village, villagePlayerList);
-        } else if (skill == CDef.Skill.占い師) {
+        } else if (skill == CDef.Skill.占い師 || skill == CDef.Skill.狩人) {
             return makeWolfSeerFootstepCandidateList(villagePlayer.getCharaId(), targetCharaId, village, villagePlayerList);
         }
         return null;
@@ -127,7 +127,7 @@ public class FootstepLogic {
     // 足音が直線か
     public boolean isFootstepStraight(Village village, String footstep) {
         String[] footstepArray = footstep.split(",");
-        if (footstepArray.length < 1) {
+        if (StringUtils.isEmpty(footstep) || footstepArray.length < 1) {
             return false;
         }
         int maxRoomNum = village.getRoomSizeWidth() * village.getRoomSizeHeight();
@@ -288,7 +288,7 @@ public class FootstepLogic {
         }
     }
 
-    // 人狼と占いの足音候補リスト
+    // 人狼と占いと狩人の足音候補リスト
     private List<String> makeWolfSeerFootstepCandidateList(Integer charaId, Integer targetCharaId, Village village,
             List<VillagePlayer> villagePlayerList) {
         Set<String> footstepSet = new HashSet<>();

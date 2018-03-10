@@ -77,6 +77,8 @@ public class AbilityLogic {
                 return;
             }
             updateAbility(villageId, day, villagePlayer.getCharaId(), CDef.AbilityType.護衛, targetCharaId);
+            deleteFootstep(villageId, day, villagePlayer.getCharaId(), footstep);
+            insertFootstep(villageId, day, villagePlayer.getCharaId(), footstep);
             messageLogic.insertAbilityMessage(villageId, day, villagePlayer.getCharaId(), targetCharaId, villagePlayerList, null, false);
         case 妖狐:
         case 狂人:
@@ -259,6 +261,12 @@ public class AbilityLogic {
         }
         // 1日目はセットできない
         if (day == 1) {
+            return true;
+        }
+        // 自分、護衛対象、足音の整合性がとれていなかったらNG
+        List<String> footstepCandidateList =
+                footstepLogic.getFootstepCandidateList(village.getVillageId(), villagePlayer, day, charaId, targetCharaId);
+        if (!footstepCandidateList.contains(footstep)) {
             return true;
         }
 

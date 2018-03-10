@@ -17,13 +17,20 @@
 <script src="../../static/lib/bootstrap/js/bootstrap.min.js" th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
 <script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js" th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
 <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-0917187897820609",
+          enable_page_level_ads: true
+     });
+</script>
 </head>
 <body>
 	<div class="col-sm-12 top-image" data-goto="" layout:fragment="header">
 		<img src="" th:src="@{/app/images/top-small.jpg}" style="width: 100%;"> <span
 			style="color: #000; position: absolute; bottom: 5.5%; left: 7.4%; font-size: x-large;"><b>人狼館</b></span> <span
 			style="color: #fff; position: absolute; bottom: 5%; left: 7%; font-size: x-large;">人狼館</span> <span th:if="${user != null}"
-			style="color: #fff; position: absolute; bottom: 5px; right: 2%;" th:text="'ユーザID: ' + ${user.username}">ユーザID: hoge</span>
+			style="color: #fff; position: absolute; bottom: 5px; right: 15px;" th:text="'ユーザID: ' + ${user.username}">ユーザID: hoge</span>
 	</div>
 </body>
 </html>

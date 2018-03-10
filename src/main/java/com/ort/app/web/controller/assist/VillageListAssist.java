@@ -45,6 +45,9 @@ public class VillageListAssist {
         VillageListVillageDto part = new VillageListVillageDto();
         part.setVillageId(village.getVillageId());
         part.setVillageName(village.getVillageDisplayName());
+        int participateNum = village.getVillagePlayerList().size();
+        Integer maxNum = village.getVillageSettingsAsOne().get().getPersonMaxNum();
+        part.setParticipateNum(String.format("%d/%d", participateNum, maxNum));
         part.setStatus(village.getVillageStatusCodeAsVillageStatus().alias());
         return part;
     }
@@ -53,11 +56,13 @@ public class VillageListAssist {
     //                                                                              Select
     //                                                                              ======
     private ListResultBean<Village> selectVillageList() {
-        return villageBhv.selectList(cb -> {
+        ListResultBean<Village> villageList = villageBhv.selectList(cb -> {
             cb.setupSelect_Camp();
             cb.setupSelect_VillageSettingsAsOne();
             cb.setupSelect_VillageStatus();
             cb.query().addOrderBy_VillageDisplayName_Desc();
         });
+        villageBhv.loadVillagePlayer(villageList, cb -> {});
+        return villageList;
     }
 }

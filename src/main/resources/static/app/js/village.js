@@ -21,7 +21,7 @@ $(function() {
 		loadAndDisplayMessage();
 		changeSayTextAreaBackgroundColor(); // 画面表示時にも切り替える
 		replaceFootstepList(); // 画面表示時にも取得して切り替える
-
+		selectDefaultFootsteps(); // 狐と狂人だったら選択していた足音の部屋を選択状態にする
 	}
 
 	// メッセージ取得
@@ -43,7 +43,7 @@ $(function() {
 			$("[data-message-area]").removeClass('loading');
 		});
 	}
-	
+
 	function escapeAndSetAnchor(message) {
 		return message.replace(/(\r\n|\n|\r)/gm, '<br>').split('<br>').map(function(item) { // 先に改行を分割
 			item = item.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); // htmlエスケープ
@@ -214,4 +214,65 @@ $(function() {
 			$submitbtn.prop('disabled', false);
 		}
 	});
+
+	// 画面上部遷移
+	$('body').on('click', '[data-goto-top]', function() {
+		$('html, body').animate({
+			scrollTop : 0
+		}, 200);
+		return false;
+	});
+
+	// 画面下部遷移
+	$('body').on('click', '[data-goto-bottom]', function() {
+		$('html, body').animate({
+			scrollTop : $(document).height()
+		}, 200);
+		return false;
+	});
+
+	// 更新
+	$('body').on('click', '[data-refresh]', function() {
+		loadAndDisplayMessage();
+	});
+	
+	// 足音選択
+	$('body').on('click', '[data-footstep-select-table] td', function(){
+		const $table = $('[data-footstep-select-table]');
+		const $footstepHdInput = $('[data-footstep-hd-input]');
+		const $footstepInput = $('[data-footstep-input]');
+		
+		$(this).toggleClass('footstep-selected-room');
+		
+		let footsteps = [];
+		$table.find('.footstep-selected-room').each(function(){
+			footsteps.push($(this).data('footstep-room-number'));
+		});
+		
+		if (footsteps.length < 1) {
+			$footstepHdInput.val('なし');
+			$footstepInput.text('なし');
+		} else {
+			footsteps.sort();
+			$footstepHdInput.val(footsteps.join(','));
+			$footstepInput.text(footsteps.join(','));
+		}		
+	});
+	
+	function selectDefaultFootsteps() {
+		const $table = $('[data-footstep-select-table]');
+		if ($table.length < 1) {
+			return;
+		}
+		const footstepsStr = $('[data-footstep-hd-input]').val();
+		if (footstepsStr === 'なし') {
+			return;
+		}
+		const footsteps = footstepsStr.split(',');
+		$table.find('[data-footstep-room-number]').each(function(){
+			if ($.inArray($(this).data('footstep-room-number'), footsteps) != -1) {
+				$(this).addClass('footstep-selected-room');
+			}
+		});
+	}
 });

@@ -15,38 +15,75 @@
 			<div id="wrapper">
 				<div class="hidden" th:data-village-id="${content.villageId}" th:data-day="${content.day}"></div>
 
-				<!--/* 入村者 */-->
-				<div class="col-sm-3 small" style="min-height: 100vh;">
-					<table class="table table-bordered table-condensed small" th:each="statusDto : ${content.memberList}">
-						<tr>
-							<th th:text="${statusDto.status}">生存</th>
-						</tr>
-						<tr th:each="member : ${statusDto.statusMemberList}">
-							<td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName}"></td>
-						</tr>
-						<tr th:if="${statusDto.statusMemberList.size() == 0}">
-							<td>なし</td>
-						</tr>
-					</table>
+				<div class="col-sm-12">
+					<h1 class="h5" th:text="${content.villageId} + '. ' + ${content.villageName} + '村'"></h1>
+					<hr style="margin-top: 5px; margin-bottom: 10px;" />
 
-					<div class="table-responsive">
-						<table class="table-bordered table-condensed small" th:if="${content.roomWidth != null}">
-							<!-- tableがあるとwidth:100%になるので外す -->
-							<tr>
-								<th th:colspan="${content.roomWidth}">部屋割り当て</th>
-							</tr>
-							<tbody>
-								<tr th:each="row : ${content.roomAssignedRowList}">
-									<td th:each="room: ${row.roomAssignedList}" class="small"
-										th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
+					<!--/* 日付リスト */-->
+					<div class="col-sm-12 small">
+						<ul style="padding-left: 0px;">
+							<li th:each="day : ${content.dayList}" style="list-style-type: none; display: inline; margin-right: 10px;"><span
+								th:if="${day == content.day && day != 0 && day != content.epilogueDay && day - 1 != content.epilogueDay}" th:text="${day} + '日目'"></span> <span
+								th:if="${day == content.day && day == 0}" th:text="プロローグ"></span> <span th:if="${day == content.day && day == content.epilogueDay}"
+								th:text="エピローグ"></span> <span th:if="${day == content.day && day - 1 == content.epilogueDay}" th:text="終了"></span><a
+								th:if="${day != content.day && day != 0 && day != content.epilogueDay && day - 1 != content.epilogueDay}" th:text="${day} + '日目'"
+								href="javascript:void(0);" th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a> <a
+								th:if="${day != content.day && day == 0}" th:text="プロローグ" href="javascript:void(0);"
+								th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a> <a
+								th:if="${day != content.day && day == content.epilogueDay}" th:text="エピローグ" href="javascript:void(0);"
+								th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a> <a
+								th:if="${day != content.day && day - 1 == content.epilogueDay}" th:text="終了" href="javascript:void(0);"
+								th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a></li>
+						</ul>
+					</div>
+				</div>
+				<!--/* 入村者 */-->
+				<div class="col-sm-3 small side">
+					<div class="panel-group">
+						<div class="panel panel-default">
+							<div class="panel-heading clearfix">
+								<a href="javascript:void(0);" data-toggle="collapse" data-target="#memberlist" aria-expanded="false">参加者リスト</a>
+							</div>
+							<div class="panel-collapse collapse" id="memberlist">
+								<div class="panel-body">
+									<table class="table table-bordered table-condensed small" th:each="statusDto : ${content.memberList}">
+										<tr>
+											<th th:text="${statusDto.status}">生存</th>
+										</tr>
+										<tr th:each="member : ${statusDto.statusMemberList}">
+											<td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName}"></td>
+										</tr>
+										<tr th:if="${statusDto.statusMemberList.size() == 0}">
+											<td>なし</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+							<div class="panel-heading clearfix" th:if="${content.roomWidth != null}">
+								<a href="javascript:void(0);" data-toggle="collapse" data-target="#roomlist" aria-expanded="false">部屋割り当て</a>
+							</div>
+							<div class="panel-collapse collapse" id="roomlist" th:if="${content.roomWidth != null}">
+								<div class="panel-body table-responsive">
+									<table class="table-bordered table-condensed small">
+										<!-- tableがあるとwidth:100%になるので外す -->
+										<tr>
+											<th th:colspan="${content.roomWidth}">部屋割り当て</th>
+										</tr>
+										<tbody>
+											<tr th:each="row : ${content.roomAssignedRowList}">
+												<td th:each="room: ${row.roomAssignedList}" class="small"
+													th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
 									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
-										<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-											th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+													<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+													th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 
@@ -54,26 +91,6 @@
 				<div class="col-sm-9">
 					<div class="">
 						<!--/* rowを外した */-->
-						<h1 class="h5" style="" th:text="${content.villageId} + '. ' + ${content.villageName} + '村'"></h1>
-						<hr style="margin-top: 5px; margin-bottom: 10px;" />
-
-						<!--/* 日付リスト */-->
-						<div class="col-sm-12 small">
-							<ul style="padding-left: 0px;">
-								<li th:each="day : ${content.dayList}" style="list-style-type: none; display: inline; margin-right: 10px;"><span
-									th:if="${day == content.day && day != 0 && day != content.epilogueDay && day - 1 != content.epilogueDay}" th:text="${day} + '日目'"></span> <span
-									th:if="${day == content.day && day == 0}" th:text="プロローグ"></span> <span th:if="${day == content.day && day == content.epilogueDay}"
-									th:text="エピローグ"></span> <span th:if="${day == content.day && day - 1 == content.epilogueDay}" th:text="終了"></span><a
-									th:if="${day != content.day && day != 0 && day != content.epilogueDay && day - 1 != content.epilogueDay}" th:text="${day} + '日目'"
-									href="javascript:void(0);" th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a> <a
-									th:if="${day != content.day && day == 0}" th:text="プロローグ" href="javascript:void(0);"
-									th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a> <a
-									th:if="${day != content.day && day == content.epilogueDay}" th:text="エピローグ" href="javascript:void(0);"
-									th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a> <a
-									th:if="${day != content.day && day - 1 == content.epilogueDay}" th:text="終了" href="javascript:void(0);"
-									th:href="@{/village/{villageId}/day/{day}(villageId=${content.villageId}, day=${day})}"></a></li>
-							</ul>
-						</div>
 
 						<!--/* ログ部分 */-->
 						<div class="col-sm-12">
@@ -153,8 +170,8 @@
 									</div>
 									<div class="form-group">
 										<div class="col-sm-12">
-											<span class="" style="margin-left: 55px;" data-message-count>文字数: 0/200, 行数: 1/10</span>
-											<input type="submit" class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />
+											<span class="" style="margin-left: 55px;" data-message-count>文字数: 0/200, 行数: 1/10</span> <input type="submit"
+												class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />
 										</div>
 									</div>
 								</form>
@@ -201,14 +218,15 @@
 									th:if="${content.skillName == 'SEER' || content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER' || content.skillName == 'FOX'|| content.skillName == 'MADMAN'}" />
 								<p class="small" th:if="${content.skillName == 'SEER'}" th:text="'現在の選択: ' + ${targetCharaName} + ' を占う'"></p>
 								<p class="small" th:if="${content.skillName == 'WEREWOLF'}" th:text="'現在の選択: ' + ${charaName} + ' が ' + ${targetCharaName} + ' を襲う'"></p>
-								<p class="small" th:if="${content.skillName == 'HUNTER'}" th:text="'現在の選択: ' + ${targetCharaName} + ' を護衛する'"></p>
+								<p class="small" th:if="${content.skillName == 'HUNTER' && content.day > 1}" th:text="'現在の選択: ' + ${targetCharaName} + ' を護衛する'"></p>
 								<p class="small"
-									th:if="${content.skillName == 'SEER' || content.skillName == 'WEREWOLF' || content.skillName == 'FOX'|| content.skillName == 'MADMAN'}"
-									th:text="'通過する部屋: ' + ${footstep == '' ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"></p>
+									th:if="${content.skillName == 'SEER' || content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER' || content.skillName == 'FOX'|| content.skillName == 'MADMAN'}"
+									th:text="'通過する部屋: ' + ${footstep == '' || footstep == null ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"></p>
 								<hr
 									th:if="${content.skillName == 'SEER' || content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER' || content.skillName == 'FOX'|| content.skillName == 'MADMAN'}" />
 								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
 									th:if="${content.abilityTargetList != null && content.abilityTargetList.size() > 0}" th:object="${abilityForm}" class="form-horizontal">
+									<h2 class="h5">能力をセットする</h2>
 									<div class="form-group small">
 										<div class="col-sm-12" th:if="${content.skillName == 'WEREWOLF'}">
 											襲撃者 <select class="form-control" th:field="*{charaId}" data-attacker-select>
@@ -222,7 +240,7 @@
 												<option th:each="target : ${content.abilityTargetList}" th:value="${target.charaId}" th:text="${target.charaName}"></option>
 											</select> <span th:if="${content.skillName == 'SEER'}" th:text="を占う"></span> <span th:if="${content.skillName == 'HUNTER'}" th:text="を護衛する"></span>
 										</div>
-										<div class="col-sm-12" th:if="${content.skillName == 'SEER' || content.skillName == 'WEREWOLF'}">
+										<div class="col-sm-12" th:if="${content.skillName == 'SEER' || content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER'}">
 											通過する部屋<select class="form-control" name="footstep" data-footstep-select>
 											</select>
 										</div>
@@ -234,11 +252,28 @@
 									</div>
 								</form>
 								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
-									th:if="${content.abilityTargetList == null && abilityForm != null}" th:object="${abilityForm}" class="form-horizontal">
+									th:if="${content.abilityTargetList == null && abilityForm != null && (content.skillName == 'FOX' || content.skillName == 'MADMAN')}"
+									th:object="${abilityForm}" class="form-horizontal">
+									<h2 class="h5">能力をセットする</h2>
+									<p class="small">
+										任意の部屋からその直線上の部屋に向かって徘徊し、通過した部屋に足音を響かせることが可能です。部屋を選択してセットしてください。<br>徘徊しない場合は何も選択せずセットしてください。
+									</p>
 									<div class="form-group small">
 										<div class="col-sm-12" th:if="${content.skillName == 'FOX' || content.skillName == 'MADMAN'}">
-											通過する部屋
-											<input type="text" class="form-control" th:field="*{footstep}" />
+											<table class="table-bordered table-condensed small" data-footstep-select-table>
+												<tbody>
+													<tr th:each="row : ${content.roomAssignedRowList}">
+														<td th:each="room: ${row.roomAssignedList}" class="small"
+															th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
+									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
+									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}"
+															th:data-footstep-room-number="${room.roomNumber}"><span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+															th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span></td>
+													</tr>
+												</tbody>
+											</table>
+											通過する部屋 : <span data-footstep-input th:text="*{footstep}">なし</span> <input type="hidden" class="form-control" th:field="*{footstep}"
+												data-footstep-hd-input />
 										</div>
 									</div>
 									<div class="form-group">
@@ -294,11 +329,19 @@
 						</div>
 					</div>
 				</div>
-				
-				<div class="btn btn-primary goto goto-top" data-goto-top><span class="glyphicon glyphicon-arrow-up"></span></div>
-				<div class="btn btn-primary goto refresh" data-refresh><span class="glyphicon glyphicon-refresh"></span></div>
-				<div class="btn btn-primary goto filter" data-refresh><span class="glyphicon glyphicon-filter"></span></div>
-				<div class="btn btn-primary goto goto-bottom" data-goto-bottom><span class="glyphicon glyphicon-arrow-down"></span></div>
+
+				<div class="btn btn-primary goto goto-top" data-goto-top>
+					<span class="glyphicon glyphicon-arrow-up"></span>
+				</div>
+				<div class="btn btn-primary goto refresh" data-refresh>
+					<span class="glyphicon glyphicon-refresh"></span>
+				</div>
+				<div class="btn btn-primary goto filter" data-filter>
+					<span class="glyphicon glyphicon-filter"></span>
+				</div>
+				<div class="btn btn-primary goto goto-bottom" data-goto-bottom>
+					<span class="glyphicon glyphicon-arrow-down"></span>
+				</div>
 			</div>
 			<script id="message-template" type="text/x-handlebars-template" layout:include="~{/village-template/message::message}"></script>
 			<script id="message-partial-template" type="text/x-handlebars-template" layout:include="~{/village-template/message-partial::message-partial}"></script>

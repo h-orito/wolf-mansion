@@ -8,6 +8,9 @@ public class VillageListVillageDto {
     /** 村名 */
     private String villageName;
 
+    /** 人数 */
+    private String participateNum;
+
     /** 状態 */
     private String status;
 
@@ -25,6 +28,14 @@ public class VillageListVillageDto {
 
     public void setVillageName(String villageName) {
         this.villageName = villageName;
+    }
+
+    public String getParticipateNum() {
+        return participateNum;
+    }
+
+    public void setParticipateNum(String participateNum) {
+        this.participateNum = participateNum;
     }
 
     public String getStatus() {
