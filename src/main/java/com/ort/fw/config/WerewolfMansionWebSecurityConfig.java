@@ -45,7 +45,7 @@ public class WerewolfMansionWebSecurityConfig extends WebSecurityConfigurerAdapt
                 // ログイン成功時の遷移先URL
                 .defaultSuccessUrl("/")
                 // ログイン失敗時の遷移先URL
-                .failureUrl("/?error=true")
+                .failureUrl("/login?error=true")
                 // usernameのパラメタ名
                 .usernameParameter("userId")
                 // passwordのパラメタ名

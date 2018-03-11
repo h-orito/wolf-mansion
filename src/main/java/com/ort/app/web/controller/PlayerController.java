@@ -1,5 +1,6 @@
 package com.ort.app.web.controller;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
@@ -36,6 +37,9 @@ public class PlayerController {
 
     @GetMapping("/login")
     private String index(LoginForm form, Model model) {
+        if (BooleanUtils.isTrue(form.getError())) {
+            model.addAttribute("errorMessage", "ユーザIDまたはパスワードが違います");
+        }
         model.addAttribute("form", form);
         return "login";
     }
