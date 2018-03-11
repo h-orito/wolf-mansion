@@ -24,6 +24,9 @@ public class WerewolfMansionWebSecurityConfig extends WebSecurityConfigurerAdapt
     //                                                                             =======
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // remember-meでの認証だけでなくきちんと認証させたいURLは
+        // https://qiita.com/opengl-8080/items/7c34053c74448d39e8f5
+        // を参考にして設定する
         http.authorizeRequests()
                 // アクセス権限の設定
                 // '/admin/'で始まるURLには、'ADMIN'ロールのみアクセス可
