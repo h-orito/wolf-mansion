@@ -32,6 +32,7 @@ import com.ort.app.web.form.VillageGetMessageListForm;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.app.web.form.VillageSayForm;
 import com.ort.app.web.form.VillageVoteForm;
+import com.ort.app.web.form.validator.VillageParticipateFormValidator;
 import com.ort.app.web.form.validator.VillageSayFormValidator;
 import com.ort.app.web.model.VillageAnchorMessageResultContent;
 import com.ort.app.web.model.VillageGetFootstepListResultContent;
@@ -81,9 +82,17 @@ public class VillageController {
     @Autowired
     private VillageSayFormValidator villageSayFormValidator;
 
+    @Autowired
+    private VillageParticipateFormValidator villageParticipateFormValidator;
+
     @InitBinder("sayForm")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(villageSayFormValidator);
+    }
+
+    @InitBinder("participateForm")
+    public void initBinderParticipate(WebDataBinder binder) {
+        binder.addValidators(villageParticipateFormValidator);
     }
 
     // ===================================================================================
@@ -102,13 +111,13 @@ public class VillageController {
         dayChangeLogic.dayChangeIfNeeded(villageId);
 
         // 最新の日付を表示
-        return setIndexModelAndReturnView(villageId, null, model);
+        return setIndexModelAndReturnView(villageId, null, null, model);
     }
 
     // 村最新日付初期表示
     @GetMapping("/village/{villageId}/day/{day}")
     private String villageDayIndex(@PathVariable Integer villageId, @PathVariable Integer day, Model model) {
-        assist.setIndexModel(villageId, day, null, model);
+        assist.setIndexModel(villageId, day, null, null, model);
         return "village";
     }
 
@@ -145,14 +154,14 @@ public class VillageController {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return setIndexModelAndReturnView(villageId, null, model);
+            return setIndexModelAndReturnView(villageId, null, participateForm, model);
         }
         // 既にそのキャラが参戦していたらNG
         try {
             assist.assertAlreadyParticipateChara(villageId, participateForm);
         } catch (WerewolfMansionBusinessException e) {
             model.addAttribute("participateErrorMessage", e.getMessage());
-            return setIndexModelAndReturnView(villageId, null, model);
+            return setIndexModelAndReturnView(villageId, null, participateForm, model);
         }
 
         // 入村
@@ -169,12 +178,12 @@ public class VillageController {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return setIndexModelAndReturnView(villageId, sayForm, model);
+            return setIndexModelAndReturnView(villageId, sayForm, null, model);
         }
         // 発言権利がなかったらNG
         if (!assist.isAvailableSay(villageId, userInfo, sayForm)) {
             // 最新の日付を表示
-            return setIndexModelAndReturnView(villageId, sayForm, model);
+            return setIndexModelAndReturnView(villageId, sayForm, null, model);
         }
 
         model.addAttribute("villageId", villageId);
@@ -191,12 +200,12 @@ public class VillageController {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return setIndexModelAndReturnView(villageId, sayForm, model);
+            return setIndexModelAndReturnView(villageId, sayForm, null, model);
         }
         // 発言権利がなかったらNG
         if (!assist.isAvailableSay(villageId, userInfo, sayForm)) {
             // 最新の日付を表示
-            return setIndexModelAndReturnView(villageId, sayForm, model);
+            return setIndexModelAndReturnView(villageId, sayForm, null, model);
         }
 
         int day = assist.selectLatestDay(villageId);
@@ -220,14 +229,14 @@ public class VillageController {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return setIndexModelAndReturnView(villageId, null, model);
+            return setIndexModelAndReturnView(villageId, null, null, model);
         }
         VillagePlayer villagePlayer = assist.selectVillagePlayer(villageId, userInfo).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
         if (isInvalidAbility(villagePlayer, abilityForm)) {
             // 最新の日付を表示
-            return setIndexModelAndReturnView(villageId, null, model);
+            return setIndexModelAndReturnView(villageId, null, null, model);
         }
         int day = assist.selectLatestDay(villageId);
         abilityLogic.setAbility(villageId, villagePlayer, day, abilityForm.getCharaId(), abilityForm.getTargetCharaId(),
@@ -243,14 +252,14 @@ public class VillageController {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return setIndexModelAndReturnView(villageId, null, model);
+            return setIndexModelAndReturnView(villageId, null, null, model);
         }
         VillagePlayer villagePlayer = assist.selectVillagePlayer(villageId, userInfo).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
         if (isInvalidVote(villageId, villagePlayer, voteForm)) {
             // 最新の日付を表示
-            return setIndexModelAndReturnView(villageId, null, model);
+            return setIndexModelAndReturnView(villageId, null, null, model);
         }
         int day = assist.selectLatestDay(villageId);
         setVote(villageId, villagePlayer, day, villagePlayer.getCharaId(), voteForm.getTargetCharaId());
@@ -362,10 +371,11 @@ public class VillageController {
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
-    private String setIndexModelAndReturnView(Integer villageId, VillageSayForm sayForm, Model model) {
+    private String setIndexModelAndReturnView(Integer villageId, VillageSayForm sayForm, VillageParticipateForm participateForm,
+            Model model) {
         // 最新の日付取得
         int day = assist.selectLatestDay(villageId);
-        assist.setIndexModel(villageId, day, sayForm, model);
+        assist.setIndexModel(villageId, day, sayForm, participateForm, model);
         return "village";
     }
 }

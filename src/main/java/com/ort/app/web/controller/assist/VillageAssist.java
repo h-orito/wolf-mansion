@@ -85,13 +85,13 @@ public class VillageAssist {
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
-    public void setIndexModel(Integer villageId, int day, VillageSayForm sayForm, Model model) {
+    public void setIndexModel(Integer villageId, int day, VillageSayForm sayForm, VillageParticipateForm participateForm, Model model) {
         Village village = selectVillage(villageId);
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo(); // ログインしているか
         boolean isDispParticipateForm = isDispParticipateForm(day, userInfo); // 参戦フォームを表示するか
         List<Chara> selectableCharaList = isDispParticipateForm ? selectSelectableCharaList(villageId) : null; // 参戦可能なキャラ
         List<Skill> selectableSkillList = isDispParticipateForm ? selectSelectableSkillList(villageId) : null; // 希望役職に選べる役職
-        model.addAttribute("participateForm", new VillageParticipateForm());
+        model.addAttribute("participateForm", participateForm == null ? new VillageParticipateForm() : participateForm);
         ListResultBean<VillageDay> dayList = villageDayBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
         OptionalThing<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
         boolean isDispSayForm = isDispSayForm(villageId, village, userInfo, optVillagePlayer, day, dayList); // 発言フォームを表示するか

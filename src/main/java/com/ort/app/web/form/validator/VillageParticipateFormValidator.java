@@ -4,14 +4,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.ort.app.web.form.VillageSayForm;
+import com.ort.app.web.form.VillageParticipateForm;
 
 @Component
-public class VillageSayFormValidator implements Validator {
+public class VillageParticipateFormValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> paramClass) {
-        return VillageSayForm.class.isAssignableFrom(paramClass);
+        return VillageParticipateForm.class.isAssignableFrom(paramClass);
     }
 
     @Override
@@ -21,9 +21,9 @@ public class VillageSayFormValidator implements Validator {
             return;
         }
 
-        VillageSayForm form = (VillageSayForm) paramObject;
+        VillageParticipateForm form = (VillageParticipateForm) paramObject;
 
-        String message = form.getMessage();
+        String message = form.getJoinMessage();
         if (message == null) {
             return;
         }
@@ -32,11 +32,11 @@ public class VillageSayFormValidator implements Validator {
         int lineSeparatorNum = message.split("\r\n").length - 1;
         int messageLength = length - lineSeparatorNum;
         if (messageLength <= 0 || 200 < messageLength) {
-            errors.rejectValue("message", "VillageSayForm.validator.message.length");
+            errors.rejectValue("joinMessage", "VillageSayForm.validator.message.length");
         }
         // 行数が11以上
         if (message.split("\n").length > 10) {
-            errors.rejectValue("message", "VillageSayForm.validator.message.line");
+            errors.rejectValue("joinMessage", "VillageSayForm.validator.message.line");
         }
     }
 

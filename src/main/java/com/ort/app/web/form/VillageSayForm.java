@@ -4,15 +4,12 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Length;
-
 public class VillageSayForm implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /** 発言 */
     @NotNull
-    @Length(min = 1, max = 200)
     private String message;
 
     /** 発言種別 */

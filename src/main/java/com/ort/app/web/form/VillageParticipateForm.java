@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Length;
-
 public class VillageParticipateForm implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -19,7 +17,6 @@ public class VillageParticipateForm implements Serializable {
 
     /** 入村発言 */
     @NotNull
-    @Length(max = 200)
     private String joinMessage;
 
     /** 入村人数(管理者用) */
