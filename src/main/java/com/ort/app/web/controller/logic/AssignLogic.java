@@ -118,7 +118,7 @@ public class AssignLogic {
         personNumMap.put(CDef.Skill.狂人, madmanNum);
         // 共有
         int masonNum = personNum >= 16 ? 2 : 0;
-        personNumMap.put(CDef.Skill.共有者, masonNum);
+        personNumMap.put(CDef.Skill.共鳴者, masonNum);
         // 狐
         int foxNum = personNum >= 17 ? 1 : 0;
         personNumMap.put(CDef.Skill.妖狐, foxNum);

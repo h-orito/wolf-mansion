@@ -279,7 +279,7 @@ public class VillageMessageAssist {
             return false;
         }
         VillagePlayer vPlayer = optVillagePlayer.get();
-        if (vPlayer.isIsDeadFalse() && vPlayer.getSkillCodeAsSkill() == CDef.Skill.共有者) {
+        if (vPlayer.isIsDeadFalse() && vPlayer.getSkillCodeAsSkill() == CDef.Skill.共鳴者) {
             return true;
         }
         return false;

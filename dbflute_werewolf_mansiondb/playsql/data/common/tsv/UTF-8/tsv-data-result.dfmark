@@ -6,13 +6,13 @@
 * * * * * * * * * *
 data-directory: playsql/data/common/tsv/UTF-8
 
-01-authority.tsv (2)
-02-camp.tsv (3)
-03-village_status.tsv (6)
-04-skill.tsv (14)
-05-message_type.tsv (9)
-06-dead_reason.tsv (4)
-07-ability_type.tsv (3)
-08-designer.tsv (1)
-09-chara_group.tsv (1)
-10-chara.tsv (20)
+01-AUTHORITY.tsv (2)
+02-CAMP.tsv (3)
+03-VILLAGE_STATUS.tsv (6)
+04-SKILL.tsv (14)
+05-MESSAGE_TYPE.tsv (9)
+06-DEAD_REASON.tsv (4)
+07-ABILITY_TYPE.tsv (3)
+08-DESIGNER.tsv (1)
+09-CHARA_GROUP.tsv (1)
+10-CHARA.tsv (20)

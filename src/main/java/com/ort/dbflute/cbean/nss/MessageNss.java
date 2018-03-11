@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.MessageCQ;
 
 /**
- * The nest select set-upper of message.
+ * The nest select set-upper of MESSAGE.
  * @author DBFlute(AutoGenerator)
  */
 public class MessageNss {

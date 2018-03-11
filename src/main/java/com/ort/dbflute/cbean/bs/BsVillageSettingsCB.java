@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of village_settings.
+ * The base condition-bean of VILLAGE_SETTINGS.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillageSettingsCB extends AbstractConditionBean {
@@ -73,7 +73,7 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "village_settings";
+        return "VILLAGE_SETTINGS";
     }
 
     // ===================================================================================
@@ -81,7 +81,7 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
+     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
      * @return this. (NotNull)
      */
     public VillageSettingsCB acceptPK(Integer villageId) {
@@ -341,7 +341,7 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageId() { return doColumn("VILLAGE_ID"); }
@@ -376,7 +376,7 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnIsPossibleSkillRequest() { return doColumn("IS_POSSIBLE_SKILL_REQUEST"); }
         /**
-         * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+         * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCharacterGroupId() { return doColumn("CHARACTER_GROUP_ID"); }
@@ -411,7 +411,7 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "village_settings"; }
+        protected String getTableDbName() { return "VILLAGE_SETTINGS"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * CHARA_GROUP by my CHARACTER_GROUP_ID, named 'charaGroup'.

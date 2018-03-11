@@ -197,7 +197,7 @@ public class VillageAssist {
 
     private List<Skill> selectSelectableSkillList(Integer villageId) {
         return skillBhv.selectList(cb -> {
-            cb.query().setSkillCode_InScope_AsSkill(Arrays.asList(CDef.Skill.おまかせ, CDef.Skill.人狼, CDef.Skill.共有者, CDef.Skill.占い師,
+            cb.query().setSkillCode_InScope_AsSkill(Arrays.asList(CDef.Skill.おまかせ, CDef.Skill.人狼, CDef.Skill.共鳴者, CDef.Skill.占い師,
                     CDef.Skill.妖狐, CDef.Skill.村人, CDef.Skill.狂人, CDef.Skill.狩人, CDef.Skill.霊能者));
         });
     }
@@ -425,7 +425,7 @@ public class VillageAssist {
     private boolean isAvailableMasonSay(Village village, VillagePlayer villagePlayer) {
         // 共有以外は不可
         CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
-        if (skill != CDef.Skill.共有者) {
+        if (skill != CDef.Skill.共鳴者) {
             return false;
         }
         // 死亡していたら不可
