@@ -64,7 +64,8 @@ public class WerewolfMansionWebSecurityConfig extends WebSecurityConfigurerAdapt
                 .invalidateHttpSession(true)
                 .permitAll()
                 .and()
-                .rememberMe();
+                .rememberMe()
+                .key("X7kmptSvar");
     }
 
     @Override
