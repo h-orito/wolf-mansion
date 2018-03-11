@@ -10,6 +10,7 @@ body {
 .form-control {
 	font-size: 12px;
 	height: 30px;
+	padding: 5px 10px;
 }
 
 ul {
