@@ -221,7 +221,8 @@
 								<p class="small" th:if="${content.skillName == 'HUNTER' && content.day > 1}" th:text="'現在の選択: ' + ${targetCharaName} + ' を護衛する'"></p>
 								<p class="small"
 									th:if="${content.skillName == 'SEER' || content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER' || content.skillName == 'FOX'|| content.skillName == 'MADMAN'}"
-									th:text="'通過する部屋: ' + ${footstep == '' || footstep == null ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"></p>
+									th:text="'通過する部屋: ' + ${footstep == '' || footstep == null ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"
+									th:data-selected-footstep="${footstep == '' || footstep == null ? 'なし': footstep}"></p>
 								<hr
 									th:if="${content.skillName == 'SEER' || content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER' || content.skillName == 'FOX'|| content.skillName == 'MADMAN'}" />
 								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"

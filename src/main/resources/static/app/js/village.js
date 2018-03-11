@@ -20,7 +20,14 @@ $(function() {
 	function init() {
 		loadAndDisplayMessage();
 		changeSayTextAreaBackgroundColor(); // 画面表示時にも切り替える
-		replaceFootstepList(); // 画面表示時にも取得して切り替える
+		let def = replaceFootstepList(); // 画面表示時にも取得して切り替える
+		if ($('[data-footstep-select]') != null) {
+			// 選択していた足音をプルダウンから選択する
+			const nowSelectedFootstep = $('[data-selected-footstep]').data('selected-footstep');
+			def.then(function(){
+				$('[data-footstep-select]').val(nowSelectedFootstep);
+			});
+		}
 		selectDefaultFootsteps(); // 狐と狂人だったら選択していた足音の部屋を選択状態にする
 	}
 
@@ -172,7 +179,7 @@ $(function() {
 		const charaId = $attackerSelect == null ? null : $attackerSelect.val();
 		const $targetSelect = $('[data-ability-target-select]');
 		const targetCharaId = $targetSelect == null ? null : $targetSelect.val();
-		$.ajax({
+		return $.ajax({
 			type : 'GET',
 			url : GET_FOOTSTEP_URL,
 			data : {
