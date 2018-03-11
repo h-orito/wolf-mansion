@@ -62,7 +62,9 @@ public class WerewolfMansionWebSecurityConfig extends WebSecurityConfigurerAdapt
                 .deleteCookies("JSESSIONID")
                 // ログアウト時のセッション破棄を有効化
                 .invalidateHttpSession(true)
-                .permitAll();
+                .permitAll()
+                .and()
+                .rememberMe();
     }
 
     @Override
