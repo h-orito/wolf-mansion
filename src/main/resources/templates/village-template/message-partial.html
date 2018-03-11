@@ -6,10 +6,10 @@
 	<div class="col-sm-12 say-n{{messageNumber}}" data-message>
 		<div class="row">
 			<div class="col-sm-12 small">
-				<span style="margin-left: -15px;">{{messageNumber}}. {{characterName}}</span> <span class="pull-right" style="margin-right: -15px;">{{timeFormat
+				<span style="margin-left: -15px;">{{messageNumber}}. {{characterName}}</span> <span style="margin-left: 10px;">{{timeFormat
 					messageDatetime}}</span>
 			</div>
-			<div class="col-sm-12">
+			<div class="col-sm-12 col-xs-12">
 				<div class="row" style="display: flex;">
 					<div style="width: 50px; height: 77px; background: url('{{characterImageUrl}}'); background-repeat: no-repeat;"></div>
 					<div class="message message-normal" style="flex: 1; margin-left: 5px;">{{{messageContent}}}</div>
@@ -21,10 +21,10 @@
 	<div class="col-sm-12 say-w{{messageNumber}}" data-message>
 		<div class="row">
 			<div class="col-sm-12 small">
-				<span style="margin-left: -15px;">{{messageNumber}}. {{characterName}}</span> <span class="pull-right" style="margin-right: -15px;">{{timeFormat
+				<span style="margin-left: -15px;">{{messageNumber}}. {{characterName}}</span> <span style="margin-left: 10px;">{{timeFormat
 					messageDatetime}}</span>
 			</div>
-			<div class="col-sm-12">
+			<div class="col-sm-12 col-xs-12">
 				<div class="row" style="display: flex;">
 					<div style="width: 50px; height: 77px; background: url('{{characterImageUrl}}'); background-repeat: no-repeat;"></div>
 					<div class="message message-werewolf" style="flex: 1; margin-left: 5px;">{{{messageContent}}}</div>
@@ -36,10 +36,10 @@
 	<div class="col-sm-12" data-message>
 		<div class="row">
 			<div class="col-sm-12 small">
-				<span style="margin-left: -15px;">{{messageNumber}}. {{characterName}}</span> <span class="pull-right" style="margin-right: -15px;">{{timeFormat
+				<span style="margin-left: -15px;">{{messageNumber}}. {{characterName}}</span> <span style="margin-left: 10px;">{{timeFormat
 					messageDatetime}}</span>
 			</div>
-			<div class="col-sm-12">
+			<div class="col-sm-12 col-xs-12">
 				<div class="row" style="display: flex;">
 					<div style="width: 50px; height: 77px; background: url('{{characterImageUrl}}'); background-repeat: no-repeat;"></div>
 					<div class="message message-monologue" style="flex: 1; margin-left: 5px;">{{{messageContent}}}</div>
@@ -51,10 +51,10 @@
 	<div class="col-sm-12 say-m{{messageNumber}}" data-message>
 		<div class="row">
 			<div class="col-sm-12 small">
-				<span style="margin-left: -15px;">{{messageNumber}}. {{characterName}}</span> <span class="pull-right" style="margin-right: -15px;">{{timeFormat
+				<span style="margin-left: -15px;">{{messageNumber}}. {{characterName}}</span> <span style="margin-left: 10px;">{{timeFormat
 					messageDatetime}}</span>
 			</div>
-			<div class="col-sm-12">
+			<div class="col-sm-12 col-xs-12">
 				<div class="row" style="display: flex;">
 					<div style="width: 50px; height: 77px; background: url('{{characterImageUrl}}'); background-repeat: no-repeat;"></div>
 					<div class="message message-mason" style="flex: 1; margin-left: 5px;">{{{messageContent}}}</div>
@@ -66,10 +66,10 @@
 	<div class="col-sm-12 say-g{{messageNumber}}" data-message>
 		<div class="row">
 			<div class="col-sm-12 small">
-				<span style="margin-left: -15px;">{{messageNumber}}. {{characterName}}</span> <span class="pull-right" style="margin-right: -15px;">{{timeFormat
+				<span style="margin-left: -15px;">{{messageNumber}}. {{characterName}}</span> <span style="margin-left: 10px;">{{timeFormat
 					messageDatetime}}</span>
 			</div>
-			<div class="col-sm-12">
+			<div class="col-sm-12 col-xs-12">
 				<div class="row" style="display: flex;">
 					<div style="width: 50px; height: 77px; background: url('{{characterImageUrl}}'); background-repeat: no-repeat;"></div>
 					<div class="message message-grave" style="flex: 1; margin-left: 5px;">{{{messageContent}}}</div>
@@ -80,13 +80,13 @@
 	{{else if (eq messageType 'PUBLIC_SYSTEM')}}
 	<div class="col-sm-12" data-message>
 		<div class="row">
-			<div class="message col-sm-12 message-public-system">{{{messageContent}}}</div>
+			<div class="message col-sm-12 col-xs-12 message-public-system">{{{messageContent}}}</div>
 		</div>
 	</div>
 	{{else if (or (eq messageType 'PRIVATE_SYSTEM') (eq messageType 'PRIVATE_SEER') (eq messageType 'PRIVATE_PSYCHIC'))}}
 	<div class="col-sm-12" data-message>
 		<div class="row">
-			<div class="message col-sm-12 message-private-system">{{{messageContent}}}</div>
+			<div class="message col-sm-12 col-xs-12 message-private-system">{{{messageContent}}}</div>
 		</div>
 	</div>
 	{{/if}}
