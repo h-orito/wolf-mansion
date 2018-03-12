@@ -68,6 +68,7 @@ public class WerewolfMansionWebSecurityConfig extends WebSecurityConfigurerAdapt
                 .permitAll()
                 .and()
                 .rememberMe()
+                .userDetailsService(userInfoService)
                 .key("X7kmptSvar");
     }
 
