@@ -27,16 +27,18 @@ public class VillageParticipateFormValidator implements Validator {
         if (message == null) {
             return;
         }
+        // 末尾に改行文字列が含まれているとsplit時に削られるので削除してチェック
+        String trimedMessage = message.trim();
         // 改行数＋それ以外の文字が200文字以上
-        int length = message.length();
-        int lineSeparatorNum = message.split("\r\n").length - 1;
+        int length = trimedMessage.length();
+        int lineSeparatorNum = trimedMessage.split("\r\n").length - 1;
         int messageLength = length - lineSeparatorNum;
         if (messageLength <= 0 || 200 < messageLength) {
-            errors.rejectValue("joinMessage", "VillageSayForm.validator.message.length");
+            errors.rejectValue("message", "VillageSayForm.validator.message.length");
         }
         // 行数が11以上
-        if (message.split("\n").length > 10) {
-            errors.rejectValue("joinMessage", "VillageSayForm.validator.message.line");
+        if (trimedMessage.split("\r\n").length > 10) {
+            errors.rejectValue("message", "VillageSayForm.validator.message.line");
         }
     }
 
