@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.ort.app.web.controller.logic.VillageLogic;
+import com.ort.app.web.controller.logic.VillageParticipateLogic;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.CharaBhv;
@@ -29,7 +29,7 @@ public class AdminController {
     private VillageDayBhv villageDayBhv;
 
     @Autowired
-    private VillageLogic villageLogic;
+    private VillageParticipateLogic villageLogic;
 
     // ===================================================================================
     //                                                                             Execute

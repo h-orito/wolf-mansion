@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
-import com.ort.app.web.controller.logic.VillageLogic;
+import com.ort.app.web.controller.logic.VillageParticipateLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
@@ -81,7 +81,7 @@ public class VillageAssist {
     private FootstepBhv footstepBhv;
 
     @Autowired
-    private VillageLogic villageLogic;
+    private VillageParticipateLogic villageParticipateLogic;
 
     // ===================================================================================
     //                                                                             Execute
@@ -148,8 +148,13 @@ public class VillageAssist {
     public void participate(Integer villageId, VillageParticipateForm participateForm, UserInfo userInfo) {
         Integer playerId =
                 playerBhv.selectEntityWithDeletedCheck(cb -> cb.query().setPlayerName_Equal(userInfo.getUsername())).getPlayerId();
-        villageLogic.participate(villageId, playerId, participateForm.getCharaId(), CDef.Skill.codeOf(participateForm.getRequestedSkill()),
-                participateForm.getJoinMessage());
+        villageParticipateLogic.participate(villageId, playerId, participateForm.getCharaId(),
+                CDef.Skill.codeOf(participateForm.getRequestedSkill()), participateForm.getJoinMessage());
+    }
+
+    // 退村する
+    public void leave(VillagePlayer vPlayer) {
+        villageParticipateLogic.leave(vPlayer);
     }
 
     // 発言可能かチェック

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
 import com.ort.app.web.controller.logic.MessageLogic;
-import com.ort.app.web.controller.logic.VillageLogic;
+import com.ort.app.web.controller.logic.VillageParticipateLogic;
 import com.ort.app.web.form.NewVillageForm;
 import com.ort.app.web.model.common.SelectOptionDto;
 import com.ort.dbflute.allcommon.CDef;
@@ -55,7 +55,7 @@ public class NewVillageAssist {
     private MessageLogic messageLogic;
 
     @Autowired
-    private VillageLogic villageLogic;
+    private VillageParticipateLogic villageLogic;
 
     // ===================================================================================
     //                                                                             Execute
