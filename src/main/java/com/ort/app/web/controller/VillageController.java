@@ -26,6 +26,7 @@ import com.ort.app.web.controller.logic.FootstepLogic;
 import com.ort.app.web.controller.logic.MessageLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageAbilityForm;
+import com.ort.app.web.form.VillageChangeRequestSkillForm;
 import com.ort.app.web.form.VillageGetAnchorMessageForm;
 import com.ort.app.web.form.VillageGetFootstepListForm;
 import com.ort.app.web.form.VillageGetMessageListForm;
@@ -111,13 +112,13 @@ public class VillageController {
         dayChangeLogic.dayChangeIfNeeded(villageId);
 
         // 最新の日付を表示
-        return setIndexModelAndReturnView(villageId, null, null, model);
+        return setIndexModelAndReturnView(villageId, null, null, null, model);
     }
 
     // 村最新日付初期表示
     @GetMapping("/village/{villageId}/day/{day}")
     private String villageDayIndex(@PathVariable Integer villageId, @PathVariable Integer day, Model model) {
-        assist.setIndexModel(villageId, day, null, null, model);
+        assist.setIndexModel(villageId, day, null, null, null, model);
         return "village";
     }
 
@@ -154,18 +155,50 @@ public class VillageController {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return setIndexModelAndReturnView(villageId, null, participateForm, model);
+            return setIndexModelAndReturnView(villageId, null, participateForm, null, model);
         }
         // 既にそのキャラが参戦していたらNG
         try {
             assist.assertAlreadyParticipateChara(villageId, participateForm);
         } catch (WerewolfMansionBusinessException e) {
             model.addAttribute("participateErrorMessage", e.getMessage());
-            return setIndexModelAndReturnView(villageId, null, participateForm, model);
+            return setIndexModelAndReturnView(villageId, null, participateForm, null, model);
         }
 
         // 入村
         assist.participate(villageId, participateForm, userInfo);
+
+        return "redirect:/village/" + villageId;
+    }
+
+    // 希望役職変更
+    @PostMapping("/village/{villageId}/change-skill")
+    private String changeSkill(@PathVariable Integer villageId,
+            @Validated @ModelAttribute("changeRequestSkill") VillageChangeRequestSkillForm changeRequestSkillForm, BindingResult result,
+            Model model) {
+        // ログインしていなかったらNG
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        if (result.hasErrors() || userInfo == null) {
+            // 最新の日付を表示
+            return setIndexModelAndReturnView(villageId, null, null, changeRequestSkillForm, model);
+        }
+        // 役職希望変更
+        //        assist.participate(villageId, participateForm, userInfo);
+
+        return "redirect:/village/" + villageId;
+    }
+
+    // 退村
+    @PostMapping("/village/{villageId}/leave")
+    private String leave(@PathVariable Integer villageId, Model model) {
+        // ログインしていなかったらNG
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        if (userInfo == null) {
+            // 最新の日付を表示
+            return setIndexModelAndReturnView(villageId, null, null, null, model);
+        }
+        // 退村
+        //        assist.participate(villageId, participateForm, userInfo);
 
         return "redirect:/village/" + villageId;
     }
@@ -178,12 +211,12 @@ public class VillageController {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return setIndexModelAndReturnView(villageId, sayForm, null, model);
+            return setIndexModelAndReturnView(villageId, sayForm, null, null, model);
         }
         // 発言権利がなかったらNG
         if (!assist.isAvailableSay(villageId, userInfo, sayForm)) {
             // 最新の日付を表示
-            return setIndexModelAndReturnView(villageId, sayForm, null, model);
+            return setIndexModelAndReturnView(villageId, sayForm, null, null, model);
         }
 
         model.addAttribute("villageId", villageId);
@@ -200,12 +233,12 @@ public class VillageController {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return setIndexModelAndReturnView(villageId, sayForm, null, model);
+            return setIndexModelAndReturnView(villageId, sayForm, null, null, model);
         }
         // 発言権利がなかったらNG
         if (!assist.isAvailableSay(villageId, userInfo, sayForm)) {
             // 最新の日付を表示
-            return setIndexModelAndReturnView(villageId, sayForm, null, model);
+            return setIndexModelAndReturnView(villageId, sayForm, null, null, model);
         }
 
         int day = assist.selectLatestDay(villageId);
@@ -229,14 +262,14 @@ public class VillageController {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return setIndexModelAndReturnView(villageId, null, null, model);
+            return setIndexModelAndReturnView(villageId, null, null, null, model);
         }
         VillagePlayer villagePlayer = assist.selectVillagePlayer(villageId, userInfo).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
         if (isInvalidAbility(villagePlayer, abilityForm)) {
             // 最新の日付を表示
-            return setIndexModelAndReturnView(villageId, null, null, model);
+            return setIndexModelAndReturnView(villageId, null, null, null, model);
         }
         int day = assist.selectLatestDay(villageId);
         abilityLogic.setAbility(villageId, villagePlayer, day, abilityForm.getCharaId(), abilityForm.getTargetCharaId(),
@@ -252,14 +285,14 @@ public class VillageController {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return setIndexModelAndReturnView(villageId, null, null, model);
+            return setIndexModelAndReturnView(villageId, null, null, null, model);
         }
         VillagePlayer villagePlayer = assist.selectVillagePlayer(villageId, userInfo).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
         if (isInvalidVote(villageId, villagePlayer, voteForm)) {
             // 最新の日付を表示
-            return setIndexModelAndReturnView(villageId, null, null, model);
+            return setIndexModelAndReturnView(villageId, null, null, null, model);
         }
         int day = assist.selectLatestDay(villageId);
         setVote(villageId, villagePlayer, day, villagePlayer.getCharaId(), voteForm.getTargetCharaId());
@@ -372,10 +405,10 @@ public class VillageController {
     //                                                                        Assist Logic
     //                                                                        ============
     private String setIndexModelAndReturnView(Integer villageId, VillageSayForm sayForm, VillageParticipateForm participateForm,
-            Model model) {
+            VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
         // 最新の日付取得
         int day = assist.selectLatestDay(villageId);
-        assist.setIndexModel(villageId, day, sayForm, participateForm, model);
+        assist.setIndexModel(villageId, day, sayForm, participateForm, changeRequestSkillForm, model);
         return "village";
     }
 }

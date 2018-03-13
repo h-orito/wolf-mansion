@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import com.ort.app.web.controller.logic.VillageLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageAbilityForm;
+import com.ort.app.web.form.VillageChangeRequestSkillForm;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.app.web.form.VillageSayForm;
 import com.ort.app.web.form.VillageVoteForm;
@@ -85,15 +86,21 @@ public class VillageAssist {
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
-    public void setIndexModel(Integer villageId, int day, VillageSayForm sayForm, VillageParticipateForm participateForm, Model model) {
+    public void setIndexModel(Integer villageId, int day, VillageSayForm sayForm, VillageParticipateForm participateForm,
+            VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
         Village village = selectVillage(villageId);
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo(); // ログインしているか
         boolean isDispParticipateForm = isDispParticipateForm(day, userInfo); // 参戦フォームを表示するか
         List<Chara> selectableCharaList = isDispParticipateForm ? selectSelectableCharaList(villageId) : null; // 参戦可能なキャラ
-        List<Skill> selectableSkillList = isDispParticipateForm ? selectSelectableSkillList(villageId) : null; // 希望役職に選べる役職
         model.addAttribute("participateForm", participateForm == null ? new VillageParticipateForm() : participateForm);
         ListResultBean<VillageDay> dayList = villageDayBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
         OptionalThing<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
+        boolean isDispChangeRequestSkillForm = isDispChangeRequestSkillForm(day, optVillagePlayer); // 役職希望変更フォームを表示するか
+        model.addAttribute("changeRequestSkillForm",
+                makeChangeRequestSkillForm(isDispChangeRequestSkillForm, changeRequestSkillForm, optVillagePlayer, model));
+        List<Skill> selectableSkillList =
+                isDispParticipateForm || isDispChangeRequestSkillForm ? selectSelectableSkillList(villageId) : null; // 希望役職に選べる役職
+        boolean isDispLeaveVillageForm = isDispLeaveVillageForm(day, optVillagePlayer); // 退村フォームを表示するか
         boolean isDispSayForm = isDispSayForm(villageId, village, userInfo, optVillagePlayer, day, dayList); // 発言フォームを表示するか
         boolean isAvailableNormalSay = isDispSayForm && isAvailableNormalSay(village, optVillagePlayer.get()); // 通常発言可能か
         boolean isAvailableWerewolfSay = isDispSayForm && isAvailableWerewolfSay(village, optVillagePlayer.get()); // 囁き可能か
@@ -107,16 +114,17 @@ public class VillageAssist {
         setAbilityTarget(villageId, village, abilityTargetList, optVillagePlayer, day, isLatestDay(day, dayList), model);
         List<Chara> voteTargetList = makeVoteTargetList(village, optVillagePlayer, day, isLatestDay(day, dayList));
         setVoteTarget(villageId, village, optVillagePlayer, day, isLatestDay(day, dayList), model);
-        VillageResultContent content = mappingToContent(village, isDispParticipateForm, selectableCharaList, selectableSkillList,
-                isDispSayForm, day, dayList, isAvailableNormalSay, isAvailableWerewolfSay, isAvailableMasonSay, isAvailableGraveSay,
-                isAvailableMonologueSay, optVillagePlayer, abilityTargetList, attackerList, voteTargetList);
+        VillageResultContent content =
+                mappingToContent(village, isDispParticipateForm, isDispChangeRequestSkillForm, isDispLeaveVillageForm, selectableCharaList,
+                        selectableSkillList, isDispSayForm, day, dayList, isAvailableNormalSay, isAvailableWerewolfSay, isAvailableMasonSay,
+                        isAvailableGraveSay, isAvailableMonologueSay, optVillagePlayer, abilityTargetList, attackerList, voteTargetList);
+
         model.addAttribute("content", content);
     }
 
     public void setConfirmModel(Integer villageId, Model model) {
         Village village = selectVillage(villageId);
         model.addAttribute("villageName", village.getVillageDisplayName());
-
     }
 
     public void assertAlreadyParticipateChara(Integer villageId, VillageParticipateForm participateForm)
@@ -223,11 +231,12 @@ public class VillageAssist {
     // ===================================================================================
     //                                                                             Mapping
     //                                                                             =======
-    private VillageResultContent mappingToContent(Village village, boolean isDispParticipateForm, List<Chara> selectableCharaList,
-            List<Skill> selectableSkillList, boolean isDispSayForm, int day, ListResultBean<VillageDay> dayList,
-            boolean isAvailableNormalSay, boolean isAvailableWerewolfSay, boolean isAvailableMasonSay, boolean isAvailableGraveSay,
-            boolean isAvailableMonologueSay, OptionalThing<VillagePlayer> optVillagePlayer, List<Chara> abilityTargetList,
-            List<Chara> attackerList, List<Chara> voteTargetList) {
+    private VillageResultContent mappingToContent(Village village, boolean isDispParticipateForm, boolean isDispChangeRequestSkillForm,
+            boolean isDispLeaveVillageForm, List<Chara> selectableCharaList, List<Skill> selectableSkillList, boolean isDispSayForm,
+            int day, ListResultBean<VillageDay> dayList, boolean isAvailableNormalSay, boolean isAvailableWerewolfSay,
+            boolean isAvailableMasonSay, boolean isAvailableGraveSay, boolean isAvailableMonologueSay,
+            OptionalThing<VillagePlayer> optVillagePlayer, List<Chara> abilityTargetList, List<Chara> attackerList,
+            List<Chara> voteTargetList) {
         VillageResultContent content = new VillageResultContent();
         content.setVillageId(village.getVillageId());
         content.setVillageName(village.getVillageDisplayName());
@@ -235,6 +244,8 @@ public class VillageAssist {
         content.setDayList(dayList.stream().map(VillageDay::getDay).collect(Collectors.toList()));
         content.setEpilogueDay(village.getEpilogueDay());
         content.setIsDispParticipateForm(isDispParticipateForm);
+        content.setIsDispChangeRequestSkillForm(isDispChangeRequestSkillForm);
+        content.setIsDispLeaveVillageForm(isDispLeaveVillageForm);
         content.setSelectableCharaList(selectableCharaList == null ? null
                 : selectableCharaList.stream().map(chara -> convertToCharaPart(chara)).collect(Collectors.toList()));
         content.setSelectableSkillList(selectableSkillList == null ? null
@@ -365,6 +376,32 @@ public class VillageAssist {
             });
         });
         if (participateCount > 0) {
+            return false;
+        }
+        return true;
+    }
+
+    // 希望役職変更フォームを表示するか
+    private boolean isDispChangeRequestSkillForm(int day, OptionalThing<VillagePlayer> optVillagePlayer) {
+        // 0日目でない場合表示しない
+        if (day != 0) {
+            return false;
+        }
+        // この村に参戦していない場合は表示しない
+        if (!optVillagePlayer.isPresent()) {
+            return false;
+        }
+        return true;
+    }
+
+    // 希望役職変更フォームを表示するか
+    private boolean isDispLeaveVillageForm(int day, OptionalThing<VillagePlayer> optVillagePlayer) {
+        // 0日目でない場合表示しない
+        if (day != 0) {
+            return false;
+        }
+        // この村に参戦していない場合は表示しない
+        if (!optVillagePlayer.isPresent()) {
             return false;
         }
         return true;
@@ -649,5 +686,20 @@ public class VillageAssist {
         } else {
             return liveAttackerList;
         }
+    }
+
+    private VillageChangeRequestSkillForm makeChangeRequestSkillForm(boolean isDispChangeRequestSkillForm,
+            VillageChangeRequestSkillForm changeRequestSkillForm, OptionalThing<VillagePlayer> optVillagePlayer, Model model) {
+        if (!isDispChangeRequestSkillForm) {
+            return null;
+        }
+        if (changeRequestSkillForm != null) {
+            model.addAttribute("requestSkillName", CDef.Skill.codeOf(changeRequestSkillForm.getRequestedSkill()).alias());
+            return changeRequestSkillForm;
+        }
+        VillageChangeRequestSkillForm form = new VillageChangeRequestSkillForm();
+        form.setRequestedSkill(optVillagePlayer.get().getRequestSkillCode());
+        model.addAttribute("requestSkillName", CDef.Skill.codeOf(optVillagePlayer.get().getRequestSkillCode()).alias());
+        return form;
     }
 }

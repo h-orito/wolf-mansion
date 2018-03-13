@@ -137,6 +137,30 @@
 								</form>
 							</div>
 						</div>
+						
+						<!--/* 役職希望変更欄 */-->
+						<div class="col-sm-12 well" th:if="${content.isDispChangeRequestSkillForm}">
+							<div class="">
+								<h2 class="h5">役職希望を変更する</h2>
+								<form method="post" action="" th:action="@{/village/{villageId}/change-skill(villageId=${content.villageId})}" th:object="${changeRequestSkillForm}"
+									class="form-horizontal">
+									<p class="small" th:text="'あなたは ' + ${requestSkillName} +' を希望しています。'"></p>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">役職希望</label>
+										<div class="col-sm-4">
+											<select class="form-control" th:field="*{requestedSkill}">
+												<option th:each="skill : ${content.selectableSkillList}" th:value="${skill.code}" th:text="${skill.name}"></option>
+											</select> <span th:if="${#fields.hasErrors('requestedSkill')}" th:errors="*{requestedSkill}" class="help-block text-danger">error!</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-12">
+											<input type="submit" class="btn btn-sm btn-success pull-right" value="役職希望を変更する" />
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
 
 						<!--/* 発言欄 */-->
 						<div class="col-sm-12 well" th:if="${content.isDispSayForm}">
@@ -177,6 +201,20 @@
 								</form>
 							</div>
 						</div>
+						
+						<!--/* 退村欄 */-->
+						<div class="col-sm-12 well" th:if="${content.isDispLeaveVillageForm}">
+							<div class="">
+								<h2 class="h5">退村する</h2>
+								<form method="post" action="" th:action="@{/village/{villageId}/leave(villageId=${content.villageId})}" class="form-horizontal">
+									<div class="form-group">
+										<div class="col-sm-12">
+											<input type="submit" class="btn btn-sm btn-success pull-right" value="村を出る" />
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
 
 						<!--/* 投票欄 */-->
 						<div class="col-sm-12 well" style="padding-top: 10px;" th:if="${content.voteTargetList != null && content.voteTargetList.size() > 0}">
@@ -206,6 +244,7 @@
 						<!--/* 能力行使欄 */-->
 						<div class="col-sm-12 well" style="padding-top: 10px;" th:if="${content.skillName != null && content.isDispSayForm}" data-ability>
 							<div class="">
+								<!--/* 役職説明 */-->
 								<p class="small" th:if="${content.skillName == 'SEER'}" th:utext="#{skill.seer.description}"></p>
 								<p class="small" th:if="${content.skillName == 'WEREWOLF'}" th:utext="#{skill.werewolf.description}"></p>
 								<p class="small" th:if="${content.skillName == 'HUNTER'}" th:utext="#{skill.hunter.description}"></p>
@@ -216,6 +255,7 @@
 								<p class="small" th:if="${content.skillName == 'VILLAGER'}" th:utext="#{skill.villager.description}"></p>
 								<hr
 									th:if="${content.skillName == 'SEER' || content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER' || content.skillName == 'FOX'|| content.skillName == 'MADMAN'}" />
+								<!--/* 能力行使内容 */-->
 								<p class="small" th:if="${content.skillName == 'SEER'}" th:text="'現在の選択: ' + ${targetCharaName} + ' を占う'"></p>
 								<p class="small" th:if="${content.skillName == 'WEREWOLF'}" th:text="'現在の選択: ' + ${charaName} + ' が ' + ${targetCharaName} + ' を襲う'"></p>
 								<p class="small" th:if="${content.skillName == 'HUNTER' && content.day > 1}" th:text="'現在の選択: ' + ${targetCharaName} + ' を護衛する'"></p>
@@ -225,6 +265,7 @@
 									th:data-selected-footstep="${footstep == '' || footstep == null ? 'なし': footstep}"></p>
 								<hr
 									th:if="${content.skillName == 'SEER' || content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER' || content.skillName == 'FOX'|| content.skillName == 'MADMAN'}" />
+								<!--/* 人狼、占い師、狩人用能力セット */-->
 								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
 									th:if="${content.abilityTargetList != null && content.abilityTargetList.size() > 0}" th:object="${abilityForm}" class="form-horizontal">
 									<h2 class="h5">能力をセットする</h2>
@@ -252,6 +293,7 @@
 										</div>
 									</div>
 								</form>
+								<!--/* 狂人、妖狐用能力セット */-->
 								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
 									th:if="${content.abilityTargetList == null && abilityForm != null && (content.skillName == 'FOX' || content.skillName == 'MADMAN')}"
 									th:object="${abilityForm}" class="form-horizontal">

@@ -44,6 +44,12 @@ public class VillageResultContent implements Serializable {
     /** 参戦フォームを表示するか */
     private Boolean isDispParticipateForm;
 
+    /** 希望役職変更フォームを表示するか */
+    private Boolean isDispChangeRequestSkillForm;
+
+    /** 退村フォームを表示するか */
+    private Boolean isDispLeaveVillageForm;
+
     /** 参戦フォームで選択するキャラクターリスト */
     private List<VillageCharaDto> selectableCharaList;
 
@@ -164,6 +170,22 @@ public class VillageResultContent implements Serializable {
 
     public void setIsDispParticipateForm(Boolean isDispParticipateForm) {
         this.isDispParticipateForm = isDispParticipateForm;
+    }
+
+    public Boolean getIsDispChangeRequestSkillForm() {
+        return isDispChangeRequestSkillForm;
+    }
+
+    public void setIsDispChangeRequestSkillForm(Boolean isDispChangeRequestSkillForm) {
+        this.isDispChangeRequestSkillForm = isDispChangeRequestSkillForm;
+    }
+
+    public Boolean getIsDispLeaveVillageForm() {
+        return isDispLeaveVillageForm;
+    }
+
+    public void setIsDispLeaveVillageForm(Boolean isDispLeaveVillageForm) {
+        this.isDispLeaveVillageForm = isDispLeaveVillageForm;
     }
 
     public List<VillageCharaDto> getSelectableCharaList() {
