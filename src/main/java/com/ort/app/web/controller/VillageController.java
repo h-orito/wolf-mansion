@@ -182,8 +182,11 @@ public class VillageController {
             // 最新の日付を表示
             return setIndexModelAndReturnView(villageId, null, null, changeRequestSkillForm, model);
         }
+        VillagePlayer villagePlayer = assist.selectVillagePlayer(villageId, userInfo).orElseThrow(() -> {
+            return new IllegalArgumentException("セッション切れ？");
+        });
         // 役職希望変更
-        //        assist.participate(villageId, participateForm, userInfo);
+        assist.changeRequestSkill(villagePlayer, changeRequestSkillForm.getRequestedSkill());
 
         return "redirect:/village/" + villageId;
     }

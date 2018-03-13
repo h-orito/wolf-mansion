@@ -57,6 +57,24 @@ public class VillageParticipateLogic {
         messageLogic.insertMessage(villagePlayer.getVillageId(), 0, CDef.MessageType.公開システムメッセージ, String.format("%sは村を去った。", charaName));
     }
 
+    public void changeRequestSkill(VillagePlayer villagePlayer, String skillCode) {
+        CDef.Skill requestSkill = CDef.Skill.codeOf(skillCode);
+        if (requestSkill == null) {
+            throw new IllegalArgumentException("不正な役職コード");
+        }
+        VillagePlayer entity = new VillagePlayer();
+        entity.setRequestSkillCodeAsSkill(requestSkill);
+        // 希望役職変更
+        villagePlayerBhv.queryUpdate(entity, cb -> {
+            cb.query().setVillagePlayerId_Equal(villagePlayer.getVillagePlayerId());
+        });
+        // 変更メッセージ
+        String charaName =
+                charaBhv.selectEntityWithDeletedCheck(cb -> cb.query().setCharaId_Equal(villagePlayer.getCharaId())).getCharaName();
+        String message = messageSource.getMessage("requestskill.message", new String[] { charaName, requestSkill.alias() }, Locale.JAPAN);
+        messageLogic.insertMessage(villagePlayer.getVillageId(), 0, CDef.MessageType.非公開システムメッセージ, message);
+    }
+
     // ===================================================================================
     //                                                                              Update
     //                                                                              ======

@@ -157,6 +157,11 @@ public class VillageAssist {
         villageParticipateLogic.leave(vPlayer);
     }
 
+    // 役職希望変更
+    public void changeRequestSkill(VillagePlayer vPlayer, String skillCode) {
+        villageParticipateLogic.changeRequestSkill(vPlayer, skillCode);
+    }
+
     // 発言可能かチェック
     public boolean isAvailableSay(Integer villageId, UserInfo userInfo, VillageSayForm sayForm) {
         CDef.MessageType type = CDef.MessageType.codeOf(sayForm.getMessageType());
