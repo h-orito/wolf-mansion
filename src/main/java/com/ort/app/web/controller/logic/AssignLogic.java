@@ -221,6 +221,7 @@ public class AssignLogic {
     private void insertRoomAssignMessage(Integer villageId) {
         ListResultBean<VillagePlayer> playerList = villagePlayerBhv.selectList(cb -> {
             cb.setupSelect_Chara();
+            cb.query().setIsGone_Equal_False();
             cb.query().setVillageId_Equal(villageId);
         });
         String message = makeRoomAssignedMessage(playerList);
