@@ -96,12 +96,12 @@ public class VillageAssist {
         model.addAttribute("participateForm", participateForm == null ? new VillageParticipateForm() : participateForm);
         ListResultBean<VillageDay> dayList = villageDayBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
         OptionalThing<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
-        boolean isDispChangeRequestSkillForm = isDispChangeRequestSkillForm(day, optVillagePlayer); // 役職希望変更フォームを表示するか
+        boolean isDispChangeRequestSkillForm = isDispChangeRequestSkillForm(day, optVillagePlayer, village); // 役職希望変更フォームを表示するか
         model.addAttribute("changeRequestSkillForm",
                 makeChangeRequestSkillForm(isDispChangeRequestSkillForm, changeRequestSkillForm, optVillagePlayer, model));
         List<Skill> selectableSkillList =
                 isDispParticipateForm || isDispChangeRequestSkillForm ? selectSelectableSkillList(villageId) : null; // 希望役職に選べる役職
-        boolean isDispLeaveVillageForm = isDispLeaveVillageForm(day, optVillagePlayer); // 退村フォームを表示するか
+        boolean isDispLeaveVillageForm = isDispLeaveVillageForm(day, optVillagePlayer, village); // 退村フォームを表示するか
         boolean isDispSayForm = isDispSayForm(villageId, village, userInfo, optVillagePlayer, day, dayList); // 発言フォームを表示するか
         boolean isAvailableNormalSay = isDispSayForm && isAvailableNormalSay(village, optVillagePlayer.get()); // 通常発言可能か
         boolean isAvailableWerewolfSay = isDispSayForm && isAvailableWerewolfSay(village, optVillagePlayer.get()); // 囁き可能か
@@ -157,11 +157,19 @@ public class VillageAssist {
 
     // 退村する
     public void leave(VillagePlayer vPlayer) {
+        Village village = villageBhv.selectEntityWithDeletedCheck(cb -> cb.query().setVillageId_Equal(vPlayer.getVillageId()));
+        if (!village.isVillageStatusCode募集中() && !village.isVillageStatusCode開始待ち()) {
+            return;
+        }
         villageParticipateLogic.leave(vPlayer);
     }
 
     // 役職希望変更
     public void changeRequestSkill(VillagePlayer vPlayer, String skillCode) {
+        Village village = villageBhv.selectEntityWithDeletedCheck(cb -> cb.query().setVillageId_Equal(vPlayer.getVillageId()));
+        if (!village.isVillageStatusCode募集中() && !village.isVillageStatusCode開始待ち()) {
+            return;
+        }
         villageParticipateLogic.changeRequestSkill(vPlayer, skillCode);
     }
 
@@ -377,8 +385,8 @@ public class VillageAssist {
         if (userInfo == null) {
             return false;
         }
-        // 0日目でない場合表示しない
-        if (day != 0) {
+        // 現在プロローグでない場合表示しない
+        if (!village.isVillageStatusCode募集中() && !village.isVillageStatusCode開始待ち()) {
             return false;
         }
         // 決着のついていない村に参戦している場合表示しない
@@ -405,9 +413,9 @@ public class VillageAssist {
     }
 
     // 希望役職変更フォームを表示するか
-    private boolean isDispChangeRequestSkillForm(int day, OptionalThing<VillagePlayer> optVillagePlayer) {
-        // 0日目でない場合表示しない
-        if (day != 0) {
+    private boolean isDispChangeRequestSkillForm(int day, OptionalThing<VillagePlayer> optVillagePlayer, Village village) {
+        // 現在プロローグでない場合表示しない
+        if (!village.isVillageStatusCode募集中() && !village.isVillageStatusCode開始待ち()) {
             return false;
         }
         // この村に参戦していない場合は表示しない
@@ -418,9 +426,9 @@ public class VillageAssist {
     }
 
     // 希望役職変更フォームを表示するか
-    private boolean isDispLeaveVillageForm(int day, OptionalThing<VillagePlayer> optVillagePlayer) {
-        // 0日目でない場合表示しない
-        if (day != 0) {
+    private boolean isDispLeaveVillageForm(int day, OptionalThing<VillagePlayer> optVillagePlayer, Village village) {
+        // 現在プロローグでない場合表示しない
+        if (!village.isVillageStatusCode募集中() && !village.isVillageStatusCode開始待ち()) {
             return false;
         }
         // この村に参戦していない場合は表示しない

@@ -76,7 +76,7 @@
 									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
 													<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-													th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+														th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
 												</td>
 											</tr>
 										</tbody>
@@ -137,13 +137,13 @@
 								</form>
 							</div>
 						</div>
-						
+
 						<!--/* 役職希望変更欄 */-->
 						<div class="col-sm-12 well" th:if="${content.isDispChangeRequestSkillForm}">
 							<div class="">
 								<h2 class="h5">役職希望を変更する</h2>
-								<form method="post" action="" th:action="@{/village/{villageId}/change-skill(villageId=${content.villageId})}" th:object="${changeRequestSkillForm}"
-									class="form-horizontal">
+								<form method="post" action="" th:action="@{/village/{villageId}/change-skill(villageId=${content.villageId})}"
+									th:object="${changeRequestSkillForm}" class="form-horizontal">
 									<p class="small" th:text="'あなたは ' + ${requestSkillName} +' を希望しています。'"></p>
 									<div class="form-group">
 										<label class="col-sm-2 control-label">役職希望</label>
@@ -194,14 +194,14 @@
 									</div>
 									<div class="form-group">
 										<div class="col-sm-12">
-											<span class="" style="margin-left: 55px;" data-message-count>文字数: 0/200, 行数: 1/10</span> <input type="submit"
-												class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />
+											<span class="" style="margin-left: 55px;" data-message-count>文字数: 0/200, 行数: 1/10</span>
+											<input type="submit" class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />
 										</div>
 									</div>
 								</form>
 							</div>
 						</div>
-						
+
 						<!--/* 退村欄 */-->
 						<div class="col-sm-12 well" th:if="${content.isDispLeaveVillageForm}">
 							<div class="">
@@ -310,13 +310,15 @@
 															th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
 									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}"
-															th:data-footstep-room-number="${room.roomNumber}"><span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-															th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span></td>
+															th:data-footstep-room-number="${room.roomNumber}">
+															<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+																th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+														</td>
 													</tr>
 												</tbody>
 											</table>
-											通過する部屋 : <span data-footstep-input th:text="*{footstep}">なし</span> <input type="hidden" class="form-control" th:field="*{footstep}"
-												data-footstep-hd-input />
+											通過する部屋 : <span data-footstep-input th:text="*{footstep}">なし</span>
+											<input type="hidden" class="form-control" th:field="*{footstep}" data-footstep-hd-input />
 										</div>
 									</div>
 									<div class="form-group">
@@ -351,7 +353,8 @@
 									</div>
 								</div>
 							</form>
-							<form method="post" action="" th:action="@{/admin/village/{villageId}/leave(villageId=${content.villageId})}" class="form-horizontal">
+							<form method="post" action="" th:action="@{/admin/village/{villageId}/leave(villageId=${content.villageId})}"
+								th:if="${content.isDispLeaveVillageForm}" class="form-horizontal">
 								<div class="form-group">
 									<label class="col-sm-2 control-label">強制退村</label>
 									<div class="col-sm-8">
