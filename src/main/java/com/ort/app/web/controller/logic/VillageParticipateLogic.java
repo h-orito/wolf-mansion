@@ -36,7 +36,10 @@ public class VillageParticipateLogic {
         // 村参加
         Integer villagePlayerId = insertVillagePlayer(villageId, playerId, charaId, requestSkill, joinMessage);
         // 参加メッセージ
-        int participateNum = villagePlayerBhv.selectCount(cb -> cb.query().setVillageId_Equal(villageId));
+        int participateNum = villagePlayerBhv.selectCount(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setIsGone_Equal_False();
+        });
         String charaName = charaBhv.selectEntityWithDeletedCheck(cb -> cb.query().setCharaId_Equal(charaId)).getCharaName();
         messageLogic.insertMessage(villageId, 0, CDef.MessageType.公開システムメッセージ, String.format("%d人目、%s。", participateNum, charaName));
         // 参加発言
@@ -48,7 +51,9 @@ public class VillageParticipateLogic {
 
     public void leave(VillagePlayer villagePlayer) {
         // プレイヤー削除
-        villagePlayerBhv.queryDelete(cb -> {
+        VillagePlayer entity = new VillagePlayer();
+        entity.setIsGone_True();
+        villagePlayerBhv.queryUpdate(entity, cb -> {
             cb.query().setVillagePlayerId_Equal(villagePlayer.getVillagePlayerId());
         });
         // 退村発言
@@ -84,6 +89,7 @@ public class VillageParticipateLogic {
         villagePlayer.setPlayerId(playerId);
         villagePlayer.setCharaId(charaId);
         villagePlayer.setIsDead_False();
+        villagePlayer.setIsGone_False();
         villagePlayer.setRequestSkillCodeAsSkill(requestSkill);
         villagePlayerBhv.insert(villagePlayer);
         return villagePlayer.getVillagePlayerId();

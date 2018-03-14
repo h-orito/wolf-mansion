@@ -209,7 +209,7 @@
 								<form method="post" action="" th:action="@{/village/{villageId}/leave(villageId=${content.villageId})}" class="form-horizontal">
 									<div class="form-group">
 										<div class="col-sm-12">
-											<input type="submit" class="btn btn-sm btn-success pull-right disabled" value="村を出る(実装中)" disabled="true" />
+											<input type="submit" class="btn btn-sm btn-success pull-right" value="村を出る" />
 										</div>
 									</div>
 								</form>
@@ -348,6 +348,17 @@
 									<div class="col-sm-8"></div>
 									<div class="col-sm-2">
 										<input type="submit" class="btn btn-sm btn-success pull-right" value="日付を進める" />
+									</div>
+								</div>
+							</form>
+							<form method="post" action="" th:action="@{/admin/village/{villageId}/leave(villageId=${content.villageId})}" class="form-horizontal">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">強制退村</label>
+									<div class="col-sm-8">
+										<input class="form-control" type="text" value="" name="villagePlayerId" placeholder="village_player_id" />
+									</div>
+									<div class="col-sm-2">
+										<input type="submit" class="btn btn-sm btn-success pull-right" value="退村" />
 									</div>
 								</div>
 							</form>

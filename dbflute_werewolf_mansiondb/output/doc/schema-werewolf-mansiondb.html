@@ -434,7 +434,7 @@ dl.procedurelist dd.column pre {
 	</tr>
 	<tr>
 		<td class="rownumcell">16</td>
-		<td><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=14">VILLAGE_PLAYER</a></td>
+		<td><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=15">VILLAGE_PLAYER</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara" title="FK_VILLAGE_PLAYER_CHARA">CHARA</a>, <a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_REASON">DEAD_REASON</a>, <a href="#player" title="FK_VILLAGE_PLAYER_PLAYER">PLAYER</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL">SKILL</a>, <a href="#village" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE</a></td>
 		<td class="relcell"><a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER">MESSAGE</a></td>
@@ -2410,7 +2410,7 @@ VILLAGE_DAY
 		<td class="subcell">String</td>
 	</tr>
 </table>
-<h2 id="village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=14">
+<h2 id="village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=15">
 VILLAGE_PLAYER
 </h2>
 <p class="tablecomment">村参加者</p>
@@ -2455,8 +2455,8 @@ VILLAGE_PLAYER
 		<td class="rownumcell">2</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
-		<td class="flgcell" title="UQ_village_player_chara_id(VILLAGE_ID, CHARA_ID), UQ_village_player_id(VILLAGE_ID, PLAYER_ID)">o<span class="flgplus">+</span></td>
 		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_VILLAGE_PLAYER_VILLAGE(VILLAGE_ID)">o</td>
 		<td class="flgcell">*</td>
 		<td id="village_player_village_id">VILLAGE_ID</td>
 		<td class="typecell">INT UNSIGNED</td>
@@ -2472,7 +2472,7 @@ VILLAGE_PLAYER
 		<td class="rownumcell">3</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
-		<td class="flgcell" title="UQ_village_player_id(VILLAGE_ID, PLAYER_ID)"><span class="flgplus">+</span>o</td>
+		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell" title="FK_VILLAGE_PLAYER_PLAYER(PLAYER_ID)">o</td>
 		<td class="flgcell">*</td>
 		<td id="village_player_player_id">PLAYER_ID</td>
@@ -2489,7 +2489,7 @@ VILLAGE_PLAYER
 		<td class="rownumcell">4</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
-		<td class="flgcell" title="UQ_village_player_chara_id(VILLAGE_ID, CHARA_ID)"><span class="flgplus">+</span>o</td>
+		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell" title="FK_VILLAGE_PLAYER_CHARA(CHARA_ID)">o</td>
 		<td class="flgcell">*</td>
 		<td id="village_player_chara_id">CHARA_ID</td>
@@ -2611,6 +2611,23 @@ VILLAGE_PLAYER
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">*</td>
+		<td id="village_player_is_gone">IS_GONE</td>
+		<td class="typecell">BIT</td>
+		<td class="sizecell"> &nbsp;</td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#FlgCls">Flg</a></td>
+		<td class="commentcell"> 退村済みか</td>
+		<td class="subcell">isGone</td>
+		<td class="subcell">Boolean</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">12</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
 		<td class="comcolcell" id="village_player_register_datetime">REGISTER_DATETIME</td>
 		<td class="typecell">DATETIME</td>
 		<td class="sizecell"> 19 </td>
@@ -2622,7 +2639,7 @@ VILLAGE_PLAYER
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">12</td>
+		<td class="rownumcell">13</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2639,7 +2656,7 @@ VILLAGE_PLAYER
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">13</td>
+		<td class="rownumcell">14</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2656,7 +2673,7 @@ VILLAGE_PLAYER
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">14</td>
+		<td class="rownumcell">15</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>

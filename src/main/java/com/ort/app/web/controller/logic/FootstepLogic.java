@@ -202,6 +202,7 @@ public class FootstepLogic {
     private ListResultBean<VillagePlayer> selectVillagePlayerList(Integer villageId) {
         return villagePlayerBhv.selectList(cb -> {
             cb.query().setVillageId_Equal(villageId);
+            cb.query().setIsGone_Equal_False();
         });
     }
 

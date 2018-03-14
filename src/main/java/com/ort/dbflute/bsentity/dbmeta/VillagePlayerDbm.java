@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of VILLAGE_PLAYER. (Singleton)
+ * The DB meta of village_player. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillagePlayerDbm extends AbstractDBMeta {
@@ -76,6 +76,9 @@ public class VillagePlayerDbm extends AbstractDBMeta {
             }
         }, "deadReasonCode");
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getDeadDay(), (et, vl) -> ((VillagePlayer)et).setDeadDay(cti(vl)), "deadDay");
+        setupEpg(_epgMap, et -> ((VillagePlayer)et).getIsGone(), (et, vl) -> {
+            ((VillagePlayer)et).setIsGone((Boolean)vl);
+        }, "isGone");
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getRegisterDatetime(), (et, vl) -> ((VillagePlayer)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getRegisterTrace(), (et, vl) -> ((VillagePlayer)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getUpdateDatetime(), (et, vl) -> ((VillagePlayer)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -104,7 +107,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "VILLAGE_PLAYER";
+    protected final String _tableDbName = "village_player";
     protected final String _tableDispName = "VILLAGE_PLAYER";
     protected final String _tablePropertyName = "villagePlayer";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_PLAYER", _tableDbName);
@@ -127,6 +130,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnIsDead = cci("IS_DEAD", "IS_DEAD", null, null, Boolean.class, "isDead", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnDeadReasonCode = cci("DEAD_REASON_CODE", "DEAD_REASON_CODE", null, null, String.class, "deadReasonCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, "deadReason", null, CDef.DefMeta.DeadReason, false);
     protected final ColumnInfo _columnDeadDay = cci("DEAD_DAY", "DEAD_DAY", null, null, Integer.class, "deadDay", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnIsGone = cci("IS_GONE", "IS_GONE", null, null, Boolean.class, "isGone", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -138,27 +142,27 @@ public class VillagePlayerDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnVillagePlayerId() { return _columnVillagePlayerId; }
     /**
-     * VILLAGE_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
     /**
-     * PLAYER_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnPlayerId() { return _columnPlayerId; }
     /**
-     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
+     * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharaId() { return _columnCharaId; }
     /**
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnSkillCode() { return _columnSkillCode; }
     /**
-     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill}
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnRequestSkillCode() { return _columnRequestSkillCode; }
@@ -173,7 +177,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnIsDead() { return _columnIsDead; }
     /**
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason}
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnDeadReasonCode() { return _columnDeadReasonCode; }
@@ -182,6 +186,11 @@ public class VillagePlayerDbm extends AbstractDBMeta {
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnDeadDay() { return _columnDeadDay; }
+    /**
+     * IS_GONE: {NotNull, BIT, classification=Flg}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnIsGone() { return _columnIsGone; }
     /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
@@ -215,6 +224,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
         ls.add(columnIsDead());
         ls.add(columnDeadReasonCode());
         ls.add(columnDeadDay());
+        ls.add(columnIsGone());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());
@@ -233,22 +243,6 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     protected UniqueInfo cpui() { return hpcpui(columnVillagePlayerId()); }
     public boolean hasPrimaryKey() { return true; }
     public boolean hasCompoundPrimaryKey() { return false; }
-
-    // -----------------------------------------------------
-    //                                        Unique Element
-    //                                        --------------
-    public UniqueInfo uniqueOfVillageIdCharaId() {
-        List<ColumnInfo> ls = newArrayListSized(4);
-        ls.add(columnVillageId());
-        ls.add(columnCharaId());
-        return hpcui(ls);
-    }
-    public UniqueInfo uniqueOfVillageIdPlayerId() {
-        List<ColumnInfo> ls = newArrayListSized(4);
-        ls.add(columnVillageId());
-        ls.add(columnPlayerId());
-        return hpcui(ls);
-    }
 
     // ===================================================================================
     //                                                                       Relation Info

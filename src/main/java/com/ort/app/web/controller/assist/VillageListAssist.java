@@ -62,7 +62,7 @@ public class VillageListAssist {
             cb.setupSelect_VillageStatus();
             cb.query().addOrderBy_VillageDisplayName_Desc();
         });
-        villageBhv.loadVillagePlayer(villageList, cb -> {});
+        villageBhv.loadVillagePlayer(villageList, cb -> cb.query().setIsGone_Equal_False());
         return villageList;
     }
 }

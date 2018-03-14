@@ -101,6 +101,7 @@ public class AbilityLogic {
         return villagePlayerBhv.selectList(cb -> {
             cb.setupSelect_Chara();
             cb.setupSelect_SkillBySkillCode();
+            cb.query().setIsGone_Equal_False();
             cb.query().setVillageId_Equal(villageId);
         });
     }

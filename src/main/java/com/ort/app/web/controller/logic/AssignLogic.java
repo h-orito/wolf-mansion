@@ -88,6 +88,7 @@ public class AssignLogic {
             cb.setupSelect_Chara();
             cb.setupSelect_SkillByRequestSkillCode();
             cb.setupSelect_SkillBySkillCode();
+            cb.query().setIsGone_Equal_False();
             cb.query().setVillageId_Equal(villageId);
         });
         String message = makeAssignedMessage(playerList);
@@ -240,6 +241,7 @@ public class AssignLogic {
             ListResultBean<VillagePlayer> vpList = villagePlayerBhv.selectList(cb -> {
                 cb.setupSelect_Chara();
                 cb.query().setVillageId_Equal(villageId);
+                cb.query().setIsGone_Equal_False();
                 cb.query().addOrderBy_RoomNumber_Asc();
             });
             for (int i = 0; i < village.getRoomSizeHeight(); i++) {

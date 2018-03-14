@@ -1305,33 +1305,17 @@
 					<type>integer</type>
 					<unsigned>true</unsigned>
 				</normal_column>
+				<normal_column>
+					<physical_name>is_gone</physical_name>
+					<logical_name>退村済みか</logical_name>
+					<type>boolean</type>
+					<not_null>true</not_null>
+				</normal_column>
 				<column_group>共通カラム</column_group>
 			</columns>
 			<indexes>
 			</indexes>
 			<compound_unique_key_list>
-				<compound_unique_key>
-					<name>UQ_village_player_id</name>
-					<columns>
-						<column>
-							<column_id>table.village_player.village_id</column_id>
-						</column>
-						<column>
-							<column_id>table.village_player.player_id</column_id>
-						</column>
-					</columns>
-				</compound_unique_key>
-				<compound_unique_key>
-					<name>UQ_village_player_chara_id</name>
-					<columns>
-						<column>
-							<column_id>table.village_player.village_id</column_id>
-						</column>
-						<column>
-							<column_id>table.village_player.chara_id</column_id>
-						</column>
-					</columns>
-				</compound_unique_key>
 			</compound_unique_key_list>
 			<table_properties>
 			</table_properties>

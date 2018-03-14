@@ -107,7 +107,7 @@ public class DayChangeLogic {
             setDefaultVoteAndAbility(villageId, newDay); // 投票、能力行使のデフォルト設定
         } else if (village.getVillageStatusCodeAsVillageStatus() == CDef.VillageStatus.エピローグ) {
             updateVillageStatus(villageId, CDef.VillageStatus.終了); // 終了
-            messageLogic.insertMessage(villageId, newDay, CDef.MessageType.公開システムメッセージ, "終了しました。");
+            // messageLogic.insertMessage(villageId, newDay, CDef.MessageType.公開システムメッセージ, "終了しました。"); // 赤字で出すので登録必要なし
         } else {
             // 1日目以外
             dayChange(villageId, newDay, vPlayerList);
@@ -136,6 +136,7 @@ public class DayChangeLogic {
                 cb.setupSelect_Chara();
                 cb.setupSelect_Player();
                 cb.setupSelect_SkillBySkillCode();
+                cb.query().setIsGone_Equal_False();
             });
         });
         return villageDay;
@@ -146,6 +147,7 @@ public class DayChangeLogic {
             cb.setupSelect_Chara();
             cb.setupSelect_Player();
             cb.setupSelect_SkillBySkillCode();
+            cb.query().setIsGone_Equal_False();
             cb.query().setVillageId_Equal(villageId);
         });
     }
@@ -443,6 +445,7 @@ public class DayChangeLogic {
             cb.setupSelect_Player();
             cb.setupSelect_Chara();
             cb.setupSelect_SkillBySkillCode();
+            cb.query().setIsGone_Equal_False();
             cb.query().setVillageId_Equal(villageId);
         });
 
@@ -721,7 +724,7 @@ public class DayChangeLogic {
             VillagePlayer targetPlayer = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(targetCharaId)).findFirst().get();
             joiner.add(String.format("%sは、%sに投票した。", player.getChara().get().getCharaName(), targetPlayer.getChara().get().getCharaName()));
         }
-        messageLogic.insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ, joiner.toString());
+        messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
     }
 
     private void insertExecuteResultMessage(Integer villageId, int day, List<VillagePlayer> villagePlayerList,

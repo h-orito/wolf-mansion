@@ -141,6 +141,7 @@ public class VillageMessageAssist {
             cb.setupSelect_Player();
             cb.setupSelect_SkillBySkillCode();
             cb.query().setVillageId_Equal(villageId);
+            cb.query().setIsGone_Equal_False();
             cb.query().queryPlayer().setPlayerName_Equal(userInfo.getUsername());
         });
     }

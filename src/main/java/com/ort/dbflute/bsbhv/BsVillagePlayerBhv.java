@@ -28,7 +28,7 @@ import com.ort.dbflute.cbean.*;
  *     VILLAGE_PLAYER_ID
  *
  * [column]
- *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, DEAD_REASON_CODE, DEAD_DAY, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, DEAD_REASON_CODE, DEAD_DAY, IS_GONE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -67,7 +67,7 @@ public abstract class BsVillagePlayerBhv extends AbstractBehaviorWritable<Villag
     /** {@inheritDoc} */
     public VillagePlayerDbm asDBMeta() { return VillagePlayerDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "VILLAGE_PLAYER"; }
+    public String asTableDbName() { return "village_player"; }
 
     // ===================================================================================
     //                                                                        New Instance
@@ -184,58 +184,6 @@ public abstract class BsVillagePlayerBhv extends AbstractBehaviorWritable<Villag
     protected VillagePlayerCB xprepareCBAsPK(Integer villagePlayerId) {
         assertObjectNotNull("villagePlayerId", villagePlayerId);
         return newConditionBean().acceptPK(villagePlayerId);
-    }
-
-    /**
-     * Select the entity by the unique-key value.
-     * @param villageId : UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
-     * @param charaId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to CHARA. (NotNull)
-     * @return The optional entity selected by the unique key. (NotNull: if no data, empty entity)
-     * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
-     * @throws EntityDuplicatedException When the entity has been duplicated.
-     * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
-     */
-    public OptionalEntity<VillagePlayer> selectByUniqueOfVillageIdCharaId(Integer villageId, Integer charaId) {
-        return facadeSelectByUniqueOfVillageIdCharaId(villageId, charaId);
-    }
-
-    protected OptionalEntity<VillagePlayer> facadeSelectByUniqueOfVillageIdCharaId(Integer villageId, Integer charaId) {
-        return doSelectByUniqueOfVillageIdCharaId(villageId, charaId, typeOfSelectedEntity());
-    }
-
-    protected <ENTITY extends VillagePlayer> OptionalEntity<ENTITY> doSelectByUniqueOfVillageIdCharaId(Integer villageId, Integer charaId, Class<? extends ENTITY> tp) {
-        return createOptionalEntity(doSelectEntity(xprepareCBAsUniqueOfVillageIdCharaId(villageId, charaId), tp), villageId, charaId);
-    }
-
-    protected VillagePlayerCB xprepareCBAsUniqueOfVillageIdCharaId(Integer villageId, Integer charaId) {
-        assertObjectNotNull("villageId", villageId);assertObjectNotNull("charaId", charaId);
-        return newConditionBean().acceptUniqueOfVillageIdCharaId(villageId, charaId);
-    }
-
-    /**
-     * Select the entity by the unique-key value.
-     * @param villageId : UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
-     * @param playerId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to PLAYER. (NotNull)
-     * @return The optional entity selected by the unique key. (NotNull: if no data, empty entity)
-     * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
-     * @throws EntityDuplicatedException When the entity has been duplicated.
-     * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
-     */
-    public OptionalEntity<VillagePlayer> selectByUniqueOfVillageIdPlayerId(Integer villageId, Integer playerId) {
-        return facadeSelectByUniqueOfVillageIdPlayerId(villageId, playerId);
-    }
-
-    protected OptionalEntity<VillagePlayer> facadeSelectByUniqueOfVillageIdPlayerId(Integer villageId, Integer playerId) {
-        return doSelectByUniqueOfVillageIdPlayerId(villageId, playerId, typeOfSelectedEntity());
-    }
-
-    protected <ENTITY extends VillagePlayer> OptionalEntity<ENTITY> doSelectByUniqueOfVillageIdPlayerId(Integer villageId, Integer playerId, Class<? extends ENTITY> tp) {
-        return createOptionalEntity(doSelectEntity(xprepareCBAsUniqueOfVillageIdPlayerId(villageId, playerId), tp), villageId, playerId);
-    }
-
-    protected VillagePlayerCB xprepareCBAsUniqueOfVillageIdPlayerId(Integer villageId, Integer playerId) {
-        assertObjectNotNull("villageId", villageId);assertObjectNotNull("playerId", playerId);
-        return newConditionBean().acceptUniqueOfVillageIdPlayerId(villageId, playerId);
     }
 
     // ===================================================================================

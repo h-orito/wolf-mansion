@@ -392,6 +392,7 @@ public class VillageController {
             cb.setupSelect_Chara();
             cb.setupSelect_SkillBySkillCode();
             cb.query().setVillageId_Equal(villageId);
+            cb.query().setIsGone_Equal_False();
         });
     }
 

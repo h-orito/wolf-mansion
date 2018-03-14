@@ -17,6 +17,7 @@ import com.ort.app.web.controller.logic.VillageParticipateLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
+import com.ort.app.web.form.VillageLeaveForm;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.app.web.form.VillageSayForm;
 import com.ort.app.web.form.VillageVoteForm;
@@ -90,7 +91,7 @@ public class VillageAssist {
             VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
         Village village = selectVillage(villageId);
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo(); // ログインしているか
-        boolean isDispParticipateForm = isDispParticipateForm(day, userInfo); // 参戦フォームを表示するか
+        boolean isDispParticipateForm = isDispParticipateForm(day, userInfo, village); // 参戦フォームを表示するか
         List<Chara> selectableCharaList = isDispParticipateForm ? selectSelectableCharaList(villageId) : null; // 参戦可能なキャラ
         model.addAttribute("participateForm", participateForm == null ? new VillageParticipateForm() : participateForm);
         ListResultBean<VillageDay> dayList = villageDayBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
@@ -118,8 +119,9 @@ public class VillageAssist {
                 mappingToContent(village, isDispParticipateForm, isDispChangeRequestSkillForm, isDispLeaveVillageForm, selectableCharaList,
                         selectableSkillList, isDispSayForm, day, dayList, isAvailableNormalSay, isAvailableWerewolfSay, isAvailableMasonSay,
                         isAvailableGraveSay, isAvailableMonologueSay, optVillagePlayer, abilityTargetList, attackerList, voteTargetList);
-
         model.addAttribute("content", content);
+
+        model.addAttribute("villageLeaveForm", new VillageLeaveForm());
     }
 
     public void setConfirmModel(Integer villageId, Model model) {
@@ -136,6 +138,7 @@ public class VillageAssist {
         int participateCount = villagePlayerBhv.selectCount(cb -> {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setCharaId_Equal(participateForm.getCharaId());
+            cb.query().setIsGone_Equal_False();
         });
         if (participateCount > 0) {
             throw new WerewolfMansionBusinessException("既に参加されているキャラクターです。別のキャラクターを選択してください。");
@@ -208,6 +211,7 @@ public class VillageAssist {
             villagePlayerCB.setupSelect_Chara();
             villagePlayerCB.setupSelect_SkillBySkillCode();
             villagePlayerCB.setupSelect_DeadReason();
+            villagePlayerCB.query().setIsGone_Equal_False();
             villagePlayerCB.query().addOrderBy_DeadDay_Asc();
         });
         return village;
@@ -228,6 +232,7 @@ public class VillageAssist {
             cb.setupSelect_Chara();
             cb.setupSelect_SkillBySkillCode();
             cb.query().setVillageId_Equal(villageId);
+            cb.query().setIsGone_Equal_False();
             cb.query().queryPlayer().setPlayerName_Equal(userInfo.getUsername());
             cb.orScopeQuery(orCB -> {
                 orCB.query().setDeadReasonCode_IsNull();
@@ -367,7 +372,7 @@ public class VillageAssist {
     }
 
     // 参戦フォームを表示するか
-    private boolean isDispParticipateForm(int day, UserInfo userInfo) {
+    private boolean isDispParticipateForm(int day, UserInfo userInfo, Village village) {
         // ログインしていない場合は表示しない
         if (userInfo == null) {
             return false;
@@ -383,12 +388,20 @@ public class VillageAssist {
             cb.query().existsVillagePlayer(villagePlayerCB -> {
                 villagePlayerCB.query().queryVillage().setVillageStatusCode_InScope_AsVillageStatus(
                         Arrays.asList(CDef.VillageStatus.募集中, CDef.VillageStatus.進行中, CDef.VillageStatus.開始待ち));
+                villagePlayerCB.query().setIsGone_Equal_False();
             });
         });
         if (participateCount > 0) {
             return false;
         }
-        return true;
+        // 既に最大人数まで参加していたら表示しない
+        Integer maxPersonNum = village.getVillageSettingsAsOne().get().getPersonMaxNum();
+        int participateNum = villagePlayerBhv.selectCount(cb -> {
+            cb.query().setVillageId_Equal(village.getVillageId());
+            cb.query().setIsGone_Equal_False();
+        });
+
+        return participateNum < maxPersonNum;
     }
 
     // 希望役職変更フォームを表示するか
@@ -511,6 +524,7 @@ public class VillageAssist {
         // 既に参加しているキャラ
         List<Integer> alreadyParticipatePlayerIdList = villagePlayerBhv.selectList(cb -> {
             cb.query().setVillageId_Equal(villageId);
+            cb.query().setIsGone_Equal_False();
         }).stream().map(VillagePlayer::getCharaId).collect(Collectors.toList());
 
         // 村作成時に選択したキャラクターグループ内で、まだ参戦していないキャラ
