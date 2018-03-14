@@ -168,7 +168,8 @@ public class VillageMessageAssist {
             return null;
         }
         VillageSettings vSettings = village.getVillageSettingsAsOne().get();
-        String startDateTime = vSettings.getStartDatetime().format(DateTimeFormatter.ofPattern("MM/dd HH:mm"));
+        VillageDay maxVillageDay = selectMaxVillageDay(village);
+        String startDateTime = maxVillageDay.getDaychangeDatetime().format(DateTimeFormatter.ofPattern("MM/dd HH:mm"));
         if (village.isVillageStatusCode募集中()) {
             Integer minPersonNum = vSettings.getStartPersonMinNum();
             Integer maxPersonNum = vSettings.getPersonMaxNum();
@@ -196,6 +197,16 @@ public class VillageMessageAssist {
             return messageSource.getMessage("village.status.cancel", new String[] {}, Locale.JAPAN);
         }
         return null;
+    }
+
+    private VillageDay selectMaxVillageDay(Village village) {
+        VillageDay maxVillageDay = villageDayBhv.selectEntity(cb -> {
+            cb.setupSelect_Village().withVillageSettingsAsOne();
+            cb.query().setVillageId_Equal(village.getVillageId());
+            cb.query().addOrderBy_Day_Desc();
+            cb.fetchFirst(1);
+        }).get();
+        return maxVillageDay;
     }
 
     private List<VillageMessageDto> convertToMessageList(List<Message> messageList) {
