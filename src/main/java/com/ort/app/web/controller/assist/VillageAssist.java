@@ -650,19 +650,20 @@ public class VillageAssist {
 
     private void setVillageModelSayForm(VillageResultContent content, Integer villageId, Village village, UserInfo userInfo, int day,
             ListResultBean<VillageDay> dayList, OptionalThing<VillagePlayer> optVillagePlayer, VillageSayForm sayForm, Model model) {
-        boolean isAdmin = userInfo.getAuthorities().stream().anyMatch(a -> a.equals(new SimpleGrantedAuthority("ROLE_ADMIN")));
         boolean isDispSayForm = isDispSayForm(villageId, village, userInfo, optVillagePlayer, day, dayList);
+        boolean isAllSayAvailable =
+                isDispSayForm && userInfo.getAuthorities().stream().anyMatch(a -> a.equals(new SimpleGrantedAuthority("ROLE_ADMIN")));
         boolean isAvailableNormalSay = isDispSayForm && isAvailableNormalSay(village, optVillagePlayer.get()); // 通常発言可能か
         boolean isAvailableWerewolfSay = isDispSayForm && isAvailableWerewolfSay(village, optVillagePlayer.get()); // 囁き可能か
         boolean isAvailableMasonSay = isDispSayForm && isAvailableMasonSay(village, optVillagePlayer.get()); // 共有者発言可能か
         boolean isAvailableGraveSay = isDispSayForm && isAvailableGraveSay(village, optVillagePlayer.get()); // 死者の呻きが発言可能か
         boolean isAvailableMonologueSay = isDispSayForm && isAvailableMonologueSay(village); // 独り言が発言可能か
-        content.setIsDispSayForm(isAdmin || isDispSayForm);
-        content.setIsAvailableNormalSay(isAdmin || isAvailableNormalSay); // 通常発言可能か
-        content.setIsAvailableWerewolfSay(isAdmin || isAvailableWerewolfSay); // 囁き可能か
-        content.setIsAvailableMasonSay(isAdmin || isAvailableMasonSay); // 共有者発言可能か
-        content.setIsAvailableGraveSay(isAdmin || isAvailableGraveSay); // 死者の呻きが発言可能か
-        content.setIsAvailableMonologueSay(isAdmin || isAvailableMonologueSay); // 独り言が発言可能か
+        content.setIsDispSayForm(isAllSayAvailable || isDispSayForm);
+        content.setIsAvailableNormalSay(isAllSayAvailable || isAvailableNormalSay); // 通常発言可能か
+        content.setIsAvailableWerewolfSay(isAllSayAvailable || isAvailableWerewolfSay); // 囁き可能か
+        content.setIsAvailableMasonSay(isAllSayAvailable || isAvailableMasonSay); // 共有者発言可能か
+        content.setIsAvailableGraveSay(isAllSayAvailable || isAvailableGraveSay); // 死者の呻きが発言可能か
+        content.setIsAvailableMonologueSay(isAllSayAvailable || isAvailableMonologueSay); // 独り言が発言可能か
         setDefaultMessageTypeIfNeeded(sayForm, isDispSayForm, isAvailableNormalSay, isAvailableWerewolfSay, isAvailableMasonSay,
                 isAvailableGraveSay, isAvailableMonologueSay, model); // デフォルト発言区分
     }
