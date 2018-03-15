@@ -229,6 +229,7 @@ public class VillageAssist {
         return skillBhv.selectList(cb -> {
             cb.query().setSkillCode_InScope_AsSkill(Arrays.asList(CDef.Skill.おまかせ, CDef.Skill.人狼, CDef.Skill.共鳴者, CDef.Skill.占い師,
                     CDef.Skill.妖狐, CDef.Skill.村人, CDef.Skill.狂人, CDef.Skill.狩人, CDef.Skill.霊能者));
+            cb.query().addOrderBy_DispOrder_Asc();
         });
     }
 
