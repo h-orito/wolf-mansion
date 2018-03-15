@@ -101,6 +101,8 @@ public class DayChangeLogic {
         insertVillageDayTransactional(villageId, newDay, nextDaychangeDatetime); // 村日付を追加
 
         if (day == 0) { // プロ→1日目
+            messageLogic.insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ,
+                    messageSource.getMessage("village.start.message.day1", null, Locale.JAPAN));
             assignLogic.assignSkill(villageId, vPlayerList); // 役職割り当て
             assignLogic.assignRoom(villageId, vPlayerList); // 部屋割り当て
             updateVillageStatus(villageId, CDef.VillageStatus.進行中); // 村ステータス更新
@@ -425,7 +427,7 @@ public class DayChangeLogic {
 
         if (day == 2) {
             messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ,
-                    messageSource.getMessage("village.start.message", null, Locale.JAPAN));
+                    messageSource.getMessage("village.start.message.day2", null, Locale.JAPAN));
         }
 
         // 勝敗判定、エピローグ処理

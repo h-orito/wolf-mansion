@@ -319,6 +319,11 @@ public class BsSkillCB extends AbstractConditionBean {
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCampCode() { return doColumn("CAMP_CODE"); }
+        /**
+         * DISP_ORDER: {NotNull, INT UNSIGNED(10)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnDispOrder() { return doColumn("DISP_ORDER"); }
         public void everyColumn() { doEveryColumn(); }
         public void exceptRecordMetaColumn() { doExceptRecordMetaColumn(); }
         @Override

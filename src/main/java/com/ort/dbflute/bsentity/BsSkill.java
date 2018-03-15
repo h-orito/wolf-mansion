@@ -20,7 +20,7 @@ import com.ort.dbflute.exentity.*;
  *     SKILL_CODE
  *
  * [column]
- *     SKILL_CODE, SKILL_NAME, CAMP_CODE
+ *     SKILL_CODE, SKILL_NAME, CAMP_CODE, DISP_ORDER
  *
  * [sequence]
  *     
@@ -48,9 +48,11 @@ import com.ort.dbflute.exentity.*;
  * String skillCode = entity.getSkillCode();
  * String skillName = entity.getSkillName();
  * String campCode = entity.getCampCode();
+ * Integer dispOrder = entity.getDispOrder();
  * entity.setSkillCode(skillCode);
  * entity.setSkillName(skillName);
  * entity.setCampCode(campCode);
+ * entity.setDispOrder(dispOrder);
  * = = = = = = = = = =/
  * </pre>
  * @author DBFlute(AutoGenerator)
@@ -74,6 +76,9 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /** CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} */
     protected String _campCode;
+
+    /** DISP_ORDER: {NotNull, INT UNSIGNED(10)} */
+    protected Integer _dispOrder;
 
     // ===================================================================================
     //                                                                             DB Meta
@@ -585,6 +590,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
         sb.append(dm).append(xfND(_skillCode));
         sb.append(dm).append(xfND(_skillName));
         sb.append(dm).append(xfND(_campCode));
+        sb.append(dm).append(xfND(_dispOrder));
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length());
         }
@@ -675,6 +681,26 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
         checkClassificationCode("CAMP_CODE", CDef.DefMeta.Camp, campCode);
         registerModifiedProperty("campCode");
         _campCode = campCode;
+    }
+
+    /**
+     * [get] DISP_ORDER: {NotNull, INT UNSIGNED(10)} <br>
+     * 並び順
+     * @return The value of the column 'DISP_ORDER'. (basically NotNull if selected: for the constraint)
+     */
+    public Integer getDispOrder() {
+        checkSpecifiedProperty("dispOrder");
+        return _dispOrder;
+    }
+
+    /**
+     * [set] DISP_ORDER: {NotNull, INT UNSIGNED(10)} <br>
+     * 並び順
+     * @param dispOrder The value of the column 'DISP_ORDER'. (basically NotNull if update: for the constraint)
+     */
+    public void setDispOrder(Integer dispOrder) {
+        registerModifiedProperty("dispOrder");
+        _dispOrder = dispOrder;
     }
 
     /**

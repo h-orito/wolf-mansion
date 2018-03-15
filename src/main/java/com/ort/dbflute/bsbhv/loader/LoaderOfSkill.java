@@ -15,7 +15,7 @@ import com.ort.dbflute.cbean.*;
  *     SKILL_CODE
  *
  * [column]
- *     SKILL_CODE, SKILL_NAME, CAMP_CODE
+ *     SKILL_CODE, SKILL_NAME, CAMP_CODE, DISP_ORDER
  *
  * [sequence]
  *     

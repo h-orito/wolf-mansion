@@ -84,6 +84,7 @@ public class SkillCIQ extends AbstractBsSkillCQ {
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     protected ConditionValue xgetCValueSkillName() { return _myCQ.xdfgetSkillName(); }
     protected ConditionValue xgetCValueCampCode() { return _myCQ.xdfgetCampCode(); }
+    protected ConditionValue xgetCValueDispOrder() { return _myCQ.xdfgetDispOrder(); }
     protected Map<String, Object> xfindFixedConditionDynamicParameterMap(String pp) { return null; }
     public String keepScalarCondition(SkillCQ sq)
     { throwIICBOE("ScalarCondition"); return null; }

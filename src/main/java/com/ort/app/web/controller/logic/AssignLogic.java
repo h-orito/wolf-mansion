@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
+import com.ort.dbflute.exbhv.SkillBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exentity.Village;
@@ -42,6 +43,9 @@ public class AssignLogic {
     @Autowired
     private MessageLogic messageLogic;
 
+    @Autowired
+    private SkillBhv skillBhv;
+
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
@@ -61,6 +65,7 @@ public class AssignLogic {
             villagePlayerBhv.update(player);
         });
         // 役職割り当てについてメッセージ追加
+        insertOrganizationMessage(villageId, skillPersonNumMap);
         insertAssignedMessage(villageId);
     }
 
@@ -83,6 +88,19 @@ public class AssignLogic {
     // ===================================================================================
     //                                                                              Update
     //                                                                              ======
+    private void insertOrganizationMessage(Integer villageId, Map<Skill, Integer> skillPersonNumMap) {
+        StringJoiner joiner = new StringJoiner("、", "この館には、", "いるようだ。");
+        skillBhv.selectList(cb -> {
+            cb.query().addOrderBy_DispOrder_Asc();
+        }).stream().forEach(skill -> {
+            Skill s = skill.getSkillCodeAsSkill();
+            if (skillPersonNumMap.containsKey(s)) {
+                joiner.add(String.format("%sが%d名", s.alias(), skillPersonNumMap.get(s)));
+            }
+        });
+        messageLogic.insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ, joiner.toString());
+    }
+
     private void insertAssignedMessage(Integer villageId) {
         ListResultBean<VillagePlayer> playerList = villagePlayerBhv.selectList(cb -> {
             cb.setupSelect_Chara();

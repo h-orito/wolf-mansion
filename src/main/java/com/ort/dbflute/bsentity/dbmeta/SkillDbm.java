@@ -60,6 +60,7 @@ public class SkillDbm extends AbstractDBMeta {
                 ((Skill)et).mynativeMappingCampCode((String)vl);
             }
         }, "campCode");
+        setupEpg(_epgMap, et -> ((Skill)et).getDispOrder(), (et, vl) -> ((Skill)et).setDispOrder(cti(vl)), "dispOrder");
     }
     public PropertyGateway findPropertyGateway(String prop)
     { return doFindEpg(_epgMap, prop); }
@@ -95,6 +96,7 @@ public class SkillDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnSkillCode = cci("SKILL_CODE", "SKILL_CODE", null, null, String.class, "skillCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "villagePlayerByRequestSkillCodeList,villagePlayerBySkillCodeList", CDef.DefMeta.Skill, false);
     protected final ColumnInfo _columnSkillName = cci("SKILL_NAME", "SKILL_NAME", null, null, String.class, "skillName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnCampCode = cci("CAMP_CODE", "CAMP_CODE", null, null, String.class, "campCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "camp", null, CDef.DefMeta.Camp, false);
+    protected final ColumnInfo _columnDispOrder = cci("DISP_ORDER", "DISP_ORDER", null, null, Integer.class, "dispOrder", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
 
     /**
      * SKILL_CODE: {PK, NotNull, VARCHAR(20), classification=Skill}
@@ -111,12 +113,18 @@ public class SkillDbm extends AbstractDBMeta {
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCampCode() { return _columnCampCode; }
+    /**
+     * DISP_ORDER: {NotNull, INT UNSIGNED(10)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnDispOrder() { return _columnDispOrder; }
 
     protected List<ColumnInfo> ccil() {
         List<ColumnInfo> ls = newArrayList();
         ls.add(columnSkillCode());
         ls.add(columnSkillName());
         ls.add(columnCampCode());
+        ls.add(columnDispOrder());
         return ls;
     }
 
