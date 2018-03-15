@@ -168,7 +168,7 @@ public class VillageController {
         // 入村
         assist.participate(villageId, participateForm, userInfo);
 
-        return "redirect:/village/" + villageId;
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // 希望役職変更
@@ -188,7 +188,7 @@ public class VillageController {
         // 役職希望変更
         assist.changeRequestSkill(villagePlayer, changeRequestSkillForm.getRequestedSkill());
 
-        return "redirect:/village/" + villageId;
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // 退村
@@ -206,7 +206,7 @@ public class VillageController {
         // 退村
         assist.leave(villagePlayer);
 
-        return "redirect:/village/" + villageId;
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // 発言確認画面へ
@@ -257,7 +257,7 @@ public class VillageController {
         }
 
         messageLogic.insertMessage(villageId, day, type, sayForm.getMessage(), villagePlayer.getVillagePlayerId());
-        return "redirect:/village/" + villageId;
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // 能力セットする
@@ -280,7 +280,7 @@ public class VillageController {
         int day = assist.selectLatestDay(villageId);
         abilityLogic.setAbility(villageId, villagePlayer, day, abilityForm.getCharaId(), abilityForm.getTargetCharaId(),
                 abilityForm.getFootstep());
-        return "redirect:/village/" + villageId;
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // 投票セットする
@@ -302,7 +302,7 @@ public class VillageController {
         }
         int day = assist.selectLatestDay(villageId);
         setVote(villageId, villagePlayer, day, villagePlayer.getCharaId(), voteForm.getTargetCharaId());
-        return "redirect:/village/" + villageId;
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // 足音候補取得

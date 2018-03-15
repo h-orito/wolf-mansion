@@ -233,7 +233,7 @@ $(function() {
 	// 画面下部遷移
 	$('body').on('click', '[data-goto-bottom]', function() {
 		$('html, body').animate({
-			scrollTop : $(document).height()
+			scrollTop : $('#bottom').offset().top
 		}, 200);
 		return false;
 	});
