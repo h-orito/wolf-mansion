@@ -10,6 +10,7 @@ import org.dbflute.cbean.result.ListResultBean;
 import org.dbflute.optional.OptionalEntity;
 import org.dbflute.optional.OptionalThing;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
@@ -161,6 +162,10 @@ public class VillageAssist {
         VillagePlayer villagePlayer = selectVillagePlayer(villageId, userInfo).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
+        // 管理者は発言可能
+        if (userInfo.getAuthorities().stream().anyMatch(a -> a.equals(new SimpleGrantedAuthority("ROLE_ADMIN")))) {
+            return true;
+        }
         switch (type) {
         case 人狼の囁き:
             return isAvailableWerewolfSay(village, villagePlayer);
@@ -645,18 +650,19 @@ public class VillageAssist {
 
     private void setVillageModelSayForm(VillageResultContent content, Integer villageId, Village village, UserInfo userInfo, int day,
             ListResultBean<VillageDay> dayList, OptionalThing<VillagePlayer> optVillagePlayer, VillageSayForm sayForm, Model model) {
+        boolean isAdmin = userInfo.getAuthorities().stream().anyMatch(a -> a.equals(new SimpleGrantedAuthority("ROLE_ADMIN")));
         boolean isDispSayForm = isDispSayForm(villageId, village, userInfo, optVillagePlayer, day, dayList);
         boolean isAvailableNormalSay = isDispSayForm && isAvailableNormalSay(village, optVillagePlayer.get()); // 通常発言可能か
         boolean isAvailableWerewolfSay = isDispSayForm && isAvailableWerewolfSay(village, optVillagePlayer.get()); // 囁き可能か
         boolean isAvailableMasonSay = isDispSayForm && isAvailableMasonSay(village, optVillagePlayer.get()); // 共有者発言可能か
         boolean isAvailableGraveSay = isDispSayForm && isAvailableGraveSay(village, optVillagePlayer.get()); // 死者の呻きが発言可能か
         boolean isAvailableMonologueSay = isDispSayForm && isAvailableMonologueSay(village); // 独り言が発言可能か
-        content.setIsDispSayForm(isDispSayForm);
-        content.setIsAvailableNormalSay(isAvailableNormalSay); // 通常発言可能か
-        content.setIsAvailableWerewolfSay(isAvailableWerewolfSay); // 囁き可能か
-        content.setIsAvailableMasonSay(isAvailableMasonSay); // 共有者発言可能か
-        content.setIsAvailableGraveSay(isAvailableGraveSay); // 死者の呻きが発言可能か
-        content.setIsAvailableMonologueSay(isAvailableMonologueSay); // 独り言が発言可能か
+        content.setIsDispSayForm(isAdmin || isDispSayForm);
+        content.setIsAvailableNormalSay(isAdmin || isAvailableNormalSay); // 通常発言可能か
+        content.setIsAvailableWerewolfSay(isAdmin || isAvailableWerewolfSay); // 囁き可能か
+        content.setIsAvailableMasonSay(isAdmin || isAvailableMasonSay); // 共有者発言可能か
+        content.setIsAvailableGraveSay(isAdmin || isAvailableGraveSay); // 死者の呻きが発言可能か
+        content.setIsAvailableMonologueSay(isAdmin || isAvailableMonologueSay); // 独り言が発言可能か
         setDefaultMessageTypeIfNeeded(sayForm, isDispSayForm, isAvailableNormalSay, isAvailableWerewolfSay, isAvailableMasonSay,
                 isAvailableGraveSay, isAvailableMonologueSay, model); // デフォルト発言区分
     }
