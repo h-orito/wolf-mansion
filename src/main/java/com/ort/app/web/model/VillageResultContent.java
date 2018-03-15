@@ -7,6 +7,7 @@ import com.ort.app.web.model.inner.VillageCharaDto;
 import com.ort.app.web.model.inner.VillageMemberDto;
 import com.ort.app.web.model.inner.VillageMessageDto;
 import com.ort.app.web.model.inner.VillageRoomAssignedRowDto;
+import com.ort.app.web.model.inner.VillageSettingsDto;
 import com.ort.app.web.model.inner.VillageSkillDto;
 import com.ort.dbflute.exentity.Chara;
 
@@ -19,6 +20,9 @@ public class VillageResultContent implements Serializable {
 
     /** 村名 */
     private String villageName;
+
+    /** 村設定 */
+    private VillageSettingsDto villageSettings;
 
     /** 何日目か */
     private Integer day;
@@ -106,6 +110,14 @@ public class VillageResultContent implements Serializable {
 
     public void setVillageName(String villageName) {
         this.villageName = villageName;
+    }
+
+    public VillageSettingsDto getVillageSettings() {
+        return villageSettings;
+    }
+
+    public void setVillageSettings(VillageSettingsDto villageSettings) {
+        this.villageSettings = villageSettings;
     }
 
     public Integer getDay() {

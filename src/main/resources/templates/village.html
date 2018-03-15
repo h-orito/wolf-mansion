@@ -22,6 +22,8 @@
 					<!--/* 日付リスト */-->
 					<div class="col-sm-12 small">
 						<ul style="padding-left: 0px;">
+							<li style="list-style-type: none; display: inline; margin-right: 10px;"><a href="javascript:void(0);" data-toggle="modal"
+								data-target="#village-info">情報</a></li>
 							<li th:each="day : ${content.dayList}" style="list-style-type: none; display: inline; margin-right: 10px;"><span
 								th:if="${day == content.day && day != 0 && day != content.epilogueDay && day - 1 != content.epilogueDay}" th:text="${day} + '日目'"></span> <span
 								th:if="${day == content.day && day == 0}" th:text="プロローグ"></span> <span th:if="${day == content.day && day == content.epilogueDay}"
@@ -102,7 +104,7 @@
 
 						<!--/* 画面下部への移動時や発言後ここに遷移させる。ネガティブマージンを指定することでここが下端にしている。 */-->
 						<div id="bottom" class="col-sm-12" style="margin-top: -100vh; padding-top: 100vh;"></div>
-						
+
 						<!--/* 参戦欄 */-->
 						<div class="col-sm-12 well" th:if="${content.isDispParticipateForm}">
 							<div class="">
@@ -401,6 +403,54 @@
 				</div>
 				<div class="btn btn-primary goto goto-bottom" data-goto-bottom>
 					<span class="glyphicon glyphicon-arrow-down"></span>
+				</div>
+
+				<div class="modal fade" id="village-info" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-body">
+								<div class="table-responsive clearfix">
+									<table class="table table-bordered table-condensed" th:object="${content.villageSettings}">
+										<tr>
+											<th>最低開始人数</th>
+											<td th:text="*{startPersonMinNum}"></td>
+										</tr>
+										<tr>
+											<th>定員</th>
+											<td th:text="*{personMaxNum}"></td>
+										</tr>
+										<tr>
+											<th>開始日時</th>
+											<td th:text="*{#temporals.format(startDatetime, 'yyyy/MM/dd HH:mm')}"></td>
+										</tr>
+										<tr>
+											<th>更新間隔</th>
+											<td th:text="*{dayChangeInterval}"></td>
+										</tr>
+										<tr>
+											<th>投票形式</th>
+											<td th:text="*{voteType}"></td>
+										</tr>
+										<tr>
+											<th>役職希望</th>
+											<td th:text="*{skillRequestType}"></td>
+										</tr>
+										<tr>
+											<th>キャラセット</th>
+											<td>
+												<a href="javascript:void(0);" th:href="@{/chara-group/{charaGroupId}(charaGroupId=*{charaGroupId})}" th:text="*{charaGroupName}"
+													target="_blank"></a>
+											</td>
+										</tr>
+									</table>
+								</div>
+								<div class="clearfix small">
+									<a href="javascript:void(0);" class="btn btn-primary pull-right small" data-dismiss="modal">閉じる</a>
+									<input type="button" class="btn btn-default pull-right small disabled" data-dismiss="modal" disabled="true" value="設定変更(未実装)" style="margin-right: 10px;"/>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<script id="message-template" type="text/x-handlebars-template" layout:include="~{village-template/message::message}"></script>

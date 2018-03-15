@@ -27,6 +27,7 @@ import com.ort.app.web.model.inner.VillageMemberDetailDto;
 import com.ort.app.web.model.inner.VillageMemberDto;
 import com.ort.app.web.model.inner.VillageRoomAssignedDto;
 import com.ort.app.web.model.inner.VillageRoomAssignedRowDto;
+import com.ort.app.web.model.inner.VillageSettingsDto;
 import com.ort.app.web.model.inner.VillageSkillDto;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.AbilityBhv;
@@ -91,37 +92,14 @@ public class VillageAssist {
             VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
         Village village = selectVillage(villageId);
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo(); // ログインしているか
-        boolean isDispParticipateForm = isDispParticipateForm(day, userInfo, village); // 参戦フォームを表示するか
-        List<Chara> selectableCharaList = isDispParticipateForm ? selectSelectableCharaList(villageId) : null; // 参戦可能なキャラ
-        model.addAttribute("participateForm", participateForm == null ? new VillageParticipateForm() : participateForm);
         ListResultBean<VillageDay> dayList = villageDayBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
         OptionalThing<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
-        boolean isDispChangeRequestSkillForm = isDispChangeRequestSkillForm(day, optVillagePlayer, village); // 役職希望変更フォームを表示するか
-        model.addAttribute("changeRequestSkillForm",
-                makeChangeRequestSkillForm(isDispChangeRequestSkillForm, changeRequestSkillForm, optVillagePlayer, model));
-        List<Skill> selectableSkillList =
-                isDispParticipateForm || isDispChangeRequestSkillForm ? selectSelectableSkillList(villageId) : null; // 希望役職に選べる役職
-        boolean isDispLeaveVillageForm = isDispLeaveVillageForm(day, optVillagePlayer, village); // 退村フォームを表示するか
-        boolean isDispSayForm = isDispSayForm(villageId, village, userInfo, optVillagePlayer, day, dayList); // 発言フォームを表示するか
-        boolean isAvailableNormalSay = isDispSayForm && isAvailableNormalSay(village, optVillagePlayer.get()); // 通常発言可能か
-        boolean isAvailableWerewolfSay = isDispSayForm && isAvailableWerewolfSay(village, optVillagePlayer.get()); // 囁き可能か
-        boolean isAvailableMasonSay = isDispSayForm && isAvailableMasonSay(village, optVillagePlayer.get()); // 共有者発言可能か
-        boolean isAvailableGraveSay = isDispSayForm && isAvailableGraveSay(village, optVillagePlayer.get()); // 死者の呻きが発言可能か
-        boolean isAvailableMonologueSay = isDispSayForm && isAvailableMonologueSay(village); // 独り言が発言可能か
-        setDefaultMessageTypeIfNeeded(sayForm, isDispSayForm, isAvailableNormalSay, isAvailableWerewolfSay, isAvailableMasonSay,
-                isAvailableGraveSay, isAvailableMonologueSay, model); // デフォルト発言区分
-        List<Chara> abilityTargetList = makeAbilityTargetList(village, optVillagePlayer, day, isLatestDay(day, dayList));
-        List<Chara> attackerList = makeAttackerList(village, optVillagePlayer, day, isLatestDay(day, dayList));
-        setAbilityTarget(villageId, village, abilityTargetList, optVillagePlayer, day, isLatestDay(day, dayList), model);
-        List<Chara> voteTargetList = makeVoteTargetList(village, optVillagePlayer, day, isLatestDay(day, dayList));
-        setVoteTarget(villageId, village, optVillagePlayer, day, isLatestDay(day, dayList), model);
-        VillageResultContent content =
-                mappingToContent(village, isDispParticipateForm, isDispChangeRequestSkillForm, isDispLeaveVillageForm, selectableCharaList,
-                        selectableSkillList, isDispSayForm, day, dayList, isAvailableNormalSay, isAvailableWerewolfSay, isAvailableMasonSay,
-                        isAvailableGraveSay, isAvailableMonologueSay, optVillagePlayer, abilityTargetList, attackerList, voteTargetList);
-        model.addAttribute("content", content);
 
-        model.addAttribute("villageLeaveForm", new VillageLeaveForm());
+        VillageResultContent content = new VillageResultContent();
+        setVillageModelBasicInfo(content, village, day, dayList, optVillagePlayer);
+        setVillageModelForm(content, villageId, village, userInfo, day, dayList, optVillagePlayer, sayForm, participateForm,
+                changeRequestSkillForm, model);
+        model.addAttribute("content", content);
     }
 
     public void setConfirmModel(Integer villageId, Model model) {
@@ -212,7 +190,7 @@ public class VillageAssist {
 
     private Village selectVillage(Integer villageId) {
         Village village = villageBhv.selectEntityWithDeletedCheck(cb -> {
-            cb.setupSelect_VillageSettingsAsOne();
+            cb.setupSelect_VillageSettingsAsOne().withCharaGroup();
             cb.query().setVillageId_Equal(villageId);
         });
         villageBhv.loadVillagePlayer(village, villagePlayerCB -> { // 参加者一覧用
@@ -250,134 +228,6 @@ public class VillageAssist {
             cb.query().queryVillage().setVillageStatusCode_NotInScope_AsVillageStatus(
                     Arrays.asList(CDef.VillageStatus.廃村, CDef.VillageStatus.終了));
         });
-    }
-
-    // ===================================================================================
-    //                                                                             Mapping
-    //                                                                             =======
-    private VillageResultContent mappingToContent(Village village, boolean isDispParticipateForm, boolean isDispChangeRequestSkillForm,
-            boolean isDispLeaveVillageForm, List<Chara> selectableCharaList, List<Skill> selectableSkillList, boolean isDispSayForm,
-            int day, ListResultBean<VillageDay> dayList, boolean isAvailableNormalSay, boolean isAvailableWerewolfSay,
-            boolean isAvailableMasonSay, boolean isAvailableGraveSay, boolean isAvailableMonologueSay,
-            OptionalThing<VillagePlayer> optVillagePlayer, List<Chara> abilityTargetList, List<Chara> attackerList,
-            List<Chara> voteTargetList) {
-        VillageResultContent content = new VillageResultContent();
-        content.setVillageId(village.getVillageId());
-        content.setVillageName(village.getVillageDisplayName());
-        content.setDay(day);
-        content.setDayList(dayList.stream().map(VillageDay::getDay).collect(Collectors.toList()));
-        content.setEpilogueDay(village.getEpilogueDay());
-        content.setIsDispParticipateForm(isDispParticipateForm);
-        content.setIsDispChangeRequestSkillForm(isDispChangeRequestSkillForm);
-        content.setIsDispLeaveVillageForm(isDispLeaveVillageForm);
-        content.setSelectableCharaList(selectableCharaList == null ? null
-                : selectableCharaList.stream().map(chara -> convertToCharaPart(chara)).collect(Collectors.toList()));
-        content.setSelectableSkillList(selectableSkillList == null ? null
-                : selectableSkillList.stream().map(skill -> convertToSkillPart(skill)).collect(Collectors.toList()));
-        content.setMemberList(convertToMemberPart(village.getVillagePlayerList()));
-        content.setRoomAssignedRowList(convertToRoomAssignedPart(village, village.getVillagePlayerList()));
-        content.setRoomWidth(village.getRoomSizeWidth());
-        content.setIsDispSayForm(isDispSayForm);
-        content.setIsAvailableNormalSay(isAvailableNormalSay);
-        content.setIsAvailableWerewolfSay(isAvailableWerewolfSay);
-        content.setIsAvailableMasonSay(isAvailableMasonSay);
-        content.setIsAvailableGraveSay(isAvailableGraveSay);
-        content.setIsAvailableMonologueSay(isAvailableMonologueSay);
-        content.setCharaImageUrl(optVillagePlayer.map(vp -> vp.getChara().get().getCharaImgUrl()).orElse(null));
-        content.setAbilityTargetList(abilityTargetList);
-        content.setAttackerList(attackerList);
-        content.setVoteTargetList(voteTargetList);
-        content.setIsDead(optVillagePlayer.map(VillagePlayer::isIsDeadTrue).orElse(null));
-        content.setSkillName(optVillagePlayer.map(vp -> vp.getSkillCode()).orElse(null));
-
-        return content;
-    }
-
-    private List<VillageMemberDto> convertToMemberPart(List<VillagePlayer> villagePlayerList) {
-        // 生存
-        VillageMemberDto aliveMember = new VillageMemberDto();
-        List<VillagePlayer> aliveMemberList =
-                villagePlayerList.stream().filter(villagePlayer -> villagePlayer.getDeadDay() == null).collect(Collectors.toList());
-        aliveMember.setStatus("生存");
-        aliveMember.setStatusMemberList(aliveMemberList.stream().map(mem -> convertToMemberDetailPart(mem)).collect(Collectors.toList()));
-        // 吊り
-        VillageMemberDto executedMember = new VillageMemberDto();
-        List<VillagePlayer> executedMemberList = villagePlayerList.stream()
-                .filter(villagePlayer -> villagePlayer.getDeadReason().isPresent()
-                        && CDef.DeadReason.処刑 == CDef.DeadReason.codeOf(villagePlayer.getDeadReason().get().getDeadReasonCode()))
-                .collect(Collectors.toList());
-        executedMember.setStatus("処刑死");
-        executedMember
-                .setStatusMemberList(executedMemberList.stream().map(mem -> convertToMemberDetailPart(mem)).collect(Collectors.toList()));
-        // 襲撃・呪殺
-        VillageMemberDto attackedMember = new VillageMemberDto();
-        List<VillagePlayer> attackedMemberList = villagePlayerList.stream().filter(villagePlayer -> {
-            if (!villagePlayer.getDeadReason().isPresent()) {
-                return false;
-            }
-            CDef.DeadReason reason = CDef.DeadReason.codeOf(villagePlayer.getDeadReason().get().getDeadReasonCode());
-            return reason == CDef.DeadReason.襲撃 || reason == CDef.DeadReason.呪殺;
-        }).collect(Collectors.toList());
-        attackedMember.setStatus("襲撃死・呪殺");
-        attackedMember
-                .setStatusMemberList(attackedMemberList.stream().map(mem -> convertToMemberDetailPart(mem)).collect(Collectors.toList()));
-        // 突然死
-        VillageMemberDto suddonlyDeathMember = new VillageMemberDto();
-        List<VillagePlayer> suddonlyDeathMemberList = villagePlayerList.stream()
-                .filter(villagePlayer -> villagePlayer.getDeadReason().isPresent()
-                        && CDef.DeadReason.突然 == CDef.DeadReason.codeOf(villagePlayer.getDeadReason().get().getDeadReasonCode()))
-                .collect(Collectors.toList());
-        suddonlyDeathMember.setStatus("突然死");
-        suddonlyDeathMember.setStatusMemberList(
-                suddonlyDeathMemberList.stream().map(mem -> convertToMemberDetailPart(mem)).collect(Collectors.toList()));
-        return Arrays.asList(aliveMember, executedMember, attackedMember, suddonlyDeathMember);
-    }
-
-    private List<VillageRoomAssignedRowDto> convertToRoomAssignedPart(Village village, List<VillagePlayer> villagePlayerList) {
-        if (villagePlayerList.stream().anyMatch(vp -> vp.getRoomNumber() == null)) {
-            return null; // 部屋がまだ割り当てられていない
-        }
-        Integer width = village.getRoomSizeWidth();
-        Integer height = village.getRoomSizeHeight();
-        List<VillageRoomAssignedRowDto> roomAssignedRowList = new ArrayList<>();
-        for (int i = 0; i < height; i++) {
-            VillageRoomAssignedRowDto row = new VillageRoomAssignedRowDto();
-            for (int j = 1; j <= width; j++) {
-                VillageRoomAssignedDto room = new VillageRoomAssignedDto();
-                final int roomNum = i * width + j;
-                room.setRoomNumber(String.format("%02d", roomNum));
-                villagePlayerList.stream().filter(vp -> vp.getRoomNumber().equals(roomNum)).findFirst().ifPresent(vp -> {
-                    room.setCharaName(vp.getChara().get().getCharaShortName());
-                    room.setCharaImgUrl(vp.getChara().get().getCharaImgUrl());
-                    room.setIsDead(BooleanUtils.isTrue(vp.getIsDead()));
-                });
-                row.getRoomAssignedList().add(room);
-            }
-            roomAssignedRowList.add(row);
-        }
-        return roomAssignedRowList;
-    }
-
-    private VillageMemberDetailDto convertToMemberDetailPart(VillagePlayer mem) {
-        VillageMemberDetailDto detail = new VillageMemberDetailDto();
-        detail.setCharaName(mem.getChara().get().getCharaName());
-        detail.setDeadDay(mem.getDeadDay() != null ? mem.getDeadDay() + "日目" : null);
-        return detail;
-    }
-
-    private VillageSkillDto convertToSkillPart(Skill skill) {
-        VillageSkillDto part = new VillageSkillDto();
-        part.setCode(skill.getSkillCode());
-        part.setName(skill.getSkillName());
-        return part;
-    }
-
-    private VillageCharaDto convertToCharaPart(Chara chara) {
-        VillageCharaDto part = new VillageCharaDto();
-        part.setId(chara.getCharaId());
-        part.setName(chara.getCharaName());
-        part.setUrl(chara.getCharaImgUrl());
-        return part;
     }
 
     // 参戦フォームを表示するか
@@ -721,6 +571,49 @@ public class VillageAssist {
         }
     }
 
+    // 基本的な情報、参加有無に関わらない情報
+    private void setVillageModelBasicInfo(VillageResultContent content, Village village, int day, ListResultBean<VillageDay> dayList,
+            OptionalThing<VillagePlayer> optVillagePlayer) {
+        content.setVillageId(village.getVillageId());
+        content.setVillageName(village.getVillageDisplayName());
+        content.setMemberList(convertToMemberPart(village.getVillagePlayerList()));
+        content.setRoomAssignedRowList(convertToRoomAssignedPart(village, village.getVillagePlayerList()));
+        content.setRoomWidth(village.getRoomSizeWidth());
+        content.setDay(day);
+        content.setDayList(dayList.stream().map(VillageDay::getDay).collect(Collectors.toList()));
+        content.setEpilogueDay(village.getEpilogueDay());
+        content.setVillageSettings(convertToSettings(village.getVillageSettingsAsOne().get(), dayList));
+    }
+
+    // 参加している場合に使う情報
+    private void setVillageModelForm(VillageResultContent content, Integer villageId, Village village, UserInfo userInfo, int day,
+            ListResultBean<VillageDay> dayList, OptionalThing<VillagePlayer> optVillagePlayer, VillageSayForm sayForm,
+            VillageParticipateForm participateForm, VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
+        // 参戦
+        boolean isDispParticipateForm = isDispParticipateForm(day, userInfo, village);
+        setVillageModelParticipateForm(content, villageId, participateForm, model, isDispParticipateForm);
+        // 役職希望変更
+        boolean isDispChangeRequestSkillForm = isDispChangeRequestSkillForm(day, optVillagePlayer, village);
+        setVillageModekChangeRequestSkillForm(content, villageId, optVillagePlayer, changeRequestSkillForm, model, isDispParticipateForm,
+                isDispChangeRequestSkillForm);
+        // 参戦、役職希望変更時に選べる役職
+        content.setSelectableSkillList(isDispParticipateForm || isDispChangeRequestSkillForm
+                ? selectSelectableSkillList(villageId).stream().map(skill -> convertToSkillPart(skill)).collect(Collectors.toList())
+                : null);
+        // 退村
+        content.setIsDispLeaveVillageForm(isDispLeaveVillageForm(day, optVillagePlayer, village));
+        model.addAttribute("villageLeaveForm", new VillageLeaveForm());
+        // 発言
+        setVillageModelSayForm(content, villageId, village, userInfo, day, dayList, optVillagePlayer, sayForm, model);
+        // 能力行使
+        setVillageModelAbilityForm(content, villageId, village, day, dayList, optVillagePlayer, model);
+        // 投票
+        setVoteTarget(villageId, village, optVillagePlayer, day, isLatestDay(day, dayList), model);
+        content.setVoteTargetList(makeVoteTargetList(village, optVillagePlayer, day, isLatestDay(day, dayList)));
+        // 参加情報
+        setVillageModelPlayerInfo(content, optVillagePlayer);
+    }
+
     private VillageChangeRequestSkillForm makeChangeRequestSkillForm(boolean isDispChangeRequestSkillForm,
             VillageChangeRequestSkillForm changeRequestSkillForm, OptionalThing<VillagePlayer> optVillagePlayer, Model model) {
         if (!isDispChangeRequestSkillForm) {
@@ -734,5 +627,164 @@ public class VillageAssist {
         form.setRequestedSkill(optVillagePlayer.get().getRequestSkillCode());
         model.addAttribute("requestSkillName", CDef.Skill.codeOf(optVillagePlayer.get().getRequestSkillCode()).alias());
         return form;
+    }
+
+    private void setVillageModelPlayerInfo(VillageResultContent content, OptionalThing<VillagePlayer> optVillagePlayer) {
+        content.setCharaImageUrl(optVillagePlayer.map(vp -> vp.getChara().get().getCharaImgUrl()).orElse(null));
+        content.setIsDead(optVillagePlayer.map(VillagePlayer::isIsDeadTrue).orElse(null));
+        content.setSkillName(optVillagePlayer.map(vp -> vp.getSkillCode()).orElse(null));
+    }
+
+    private void setVillageModelAbilityForm(VillageResultContent content, Integer villageId, Village village, int day,
+            ListResultBean<VillageDay> dayList, OptionalThing<VillagePlayer> optVillagePlayer, Model model) {
+        List<Chara> abilityTargetList = makeAbilityTargetList(village, optVillagePlayer, day, isLatestDay(day, dayList));
+        content.setAbilityTargetList(abilityTargetList);
+        content.setAttackerList(makeAttackerList(village, optVillagePlayer, day, isLatestDay(day, dayList)));
+        setAbilityTarget(villageId, village, abilityTargetList, optVillagePlayer, day, isLatestDay(day, dayList), model);
+    }
+
+    private void setVillageModelSayForm(VillageResultContent content, Integer villageId, Village village, UserInfo userInfo, int day,
+            ListResultBean<VillageDay> dayList, OptionalThing<VillagePlayer> optVillagePlayer, VillageSayForm sayForm, Model model) {
+        boolean isDispSayForm = isDispSayForm(villageId, village, userInfo, optVillagePlayer, day, dayList);
+        boolean isAvailableNormalSay = isDispSayForm && isAvailableNormalSay(village, optVillagePlayer.get()); // 通常発言可能か
+        boolean isAvailableWerewolfSay = isDispSayForm && isAvailableWerewolfSay(village, optVillagePlayer.get()); // 囁き可能か
+        boolean isAvailableMasonSay = isDispSayForm && isAvailableMasonSay(village, optVillagePlayer.get()); // 共有者発言可能か
+        boolean isAvailableGraveSay = isDispSayForm && isAvailableGraveSay(village, optVillagePlayer.get()); // 死者の呻きが発言可能か
+        boolean isAvailableMonologueSay = isDispSayForm && isAvailableMonologueSay(village); // 独り言が発言可能か
+        content.setIsDispSayForm(isDispSayForm);
+        content.setIsAvailableNormalSay(isAvailableNormalSay); // 通常発言可能か
+        content.setIsAvailableWerewolfSay(isAvailableWerewolfSay); // 囁き可能か
+        content.setIsAvailableMasonSay(isAvailableMasonSay); // 共有者発言可能か
+        content.setIsAvailableGraveSay(isAvailableGraveSay); // 死者の呻きが発言可能か
+        content.setIsAvailableMonologueSay(isAvailableMonologueSay); // 独り言が発言可能か
+        setDefaultMessageTypeIfNeeded(sayForm, isDispSayForm, isAvailableNormalSay, isAvailableWerewolfSay, isAvailableMasonSay,
+                isAvailableGraveSay, isAvailableMonologueSay, model); // デフォルト発言区分
+    }
+
+    private void setVillageModekChangeRequestSkillForm(VillageResultContent content, Integer villageId,
+            OptionalThing<VillagePlayer> optVillagePlayer, VillageChangeRequestSkillForm changeRequestSkillForm, Model model,
+            boolean isDispParticipateForm, boolean isDispChangeRequestSkillForm) {
+        content.setIsDispChangeRequestSkillForm(isDispChangeRequestSkillForm);
+        model.addAttribute("changeRequestSkillForm",
+                makeChangeRequestSkillForm(isDispChangeRequestSkillForm, changeRequestSkillForm, optVillagePlayer, model));
+    }
+
+    private void setVillageModelParticipateForm(VillageResultContent content, Integer villageId, VillageParticipateForm participateForm,
+            Model model, boolean isDispParticipateForm) {
+        content.setIsDispParticipateForm(isDispParticipateForm);
+        content.setSelectableCharaList(isDispParticipateForm
+                ? selectSelectableCharaList(villageId).stream().map(chara -> convertToCharaPart(chara)).collect(Collectors.toList())
+                : null); // 入村可能なキャラ
+        model.addAttribute("participateForm", participateForm == null ? new VillageParticipateForm() : participateForm);
+    }
+
+    // ===================================================================================
+    //                                                                             Mapping
+    //                                                                             =======
+    private List<VillageMemberDto> convertToMemberPart(List<VillagePlayer> villagePlayerList) {
+        // 生存
+        VillageMemberDto aliveMember = new VillageMemberDto();
+        List<VillagePlayer> aliveMemberList =
+                villagePlayerList.stream().filter(villagePlayer -> villagePlayer.getDeadDay() == null).collect(Collectors.toList());
+        aliveMember.setStatus("生存");
+        aliveMember.setStatusMemberList(aliveMemberList.stream().map(mem -> convertToMemberDetailPart(mem)).collect(Collectors.toList()));
+        // 吊り
+        VillageMemberDto executedMember = new VillageMemberDto();
+        List<VillagePlayer> executedMemberList = villagePlayerList.stream()
+                .filter(villagePlayer -> villagePlayer.getDeadReason().isPresent()
+                        && CDef.DeadReason.処刑 == CDef.DeadReason.codeOf(villagePlayer.getDeadReason().get().getDeadReasonCode()))
+                .collect(Collectors.toList());
+        executedMember.setStatus("処刑死");
+        executedMember
+                .setStatusMemberList(executedMemberList.stream().map(mem -> convertToMemberDetailPart(mem)).collect(Collectors.toList()));
+        // 襲撃・呪殺
+        VillageMemberDto attackedMember = new VillageMemberDto();
+        List<VillagePlayer> attackedMemberList = villagePlayerList.stream().filter(villagePlayer -> {
+            if (!villagePlayer.getDeadReason().isPresent()) {
+                return false;
+            }
+            CDef.DeadReason reason = CDef.DeadReason.codeOf(villagePlayer.getDeadReason().get().getDeadReasonCode());
+            return reason == CDef.DeadReason.襲撃 || reason == CDef.DeadReason.呪殺;
+        }).collect(Collectors.toList());
+        attackedMember.setStatus("襲撃死・呪殺");
+        attackedMember
+                .setStatusMemberList(attackedMemberList.stream().map(mem -> convertToMemberDetailPart(mem)).collect(Collectors.toList()));
+        // 突然死
+        VillageMemberDto suddonlyDeathMember = new VillageMemberDto();
+        List<VillagePlayer> suddonlyDeathMemberList = villagePlayerList.stream()
+                .filter(villagePlayer -> villagePlayer.getDeadReason().isPresent()
+                        && CDef.DeadReason.突然 == CDef.DeadReason.codeOf(villagePlayer.getDeadReason().get().getDeadReasonCode()))
+                .collect(Collectors.toList());
+        suddonlyDeathMember.setStatus("突然死");
+        suddonlyDeathMember.setStatusMemberList(
+                suddonlyDeathMemberList.stream().map(mem -> convertToMemberDetailPart(mem)).collect(Collectors.toList()));
+        return Arrays.asList(aliveMember, executedMember, attackedMember, suddonlyDeathMember);
+    }
+
+    private List<VillageRoomAssignedRowDto> convertToRoomAssignedPart(Village village, List<VillagePlayer> villagePlayerList) {
+        if (villagePlayerList.stream().anyMatch(vp -> vp.getRoomNumber() == null)) {
+            return null; // 部屋がまだ割り当てられていない
+        }
+        Integer width = village.getRoomSizeWidth();
+        Integer height = village.getRoomSizeHeight();
+        List<VillageRoomAssignedRowDto> roomAssignedRowList = new ArrayList<>();
+        for (int i = 0; i < height; i++) {
+            VillageRoomAssignedRowDto row = new VillageRoomAssignedRowDto();
+            for (int j = 1; j <= width; j++) {
+                VillageRoomAssignedDto room = new VillageRoomAssignedDto();
+                final int roomNum = i * width + j;
+                room.setRoomNumber(String.format("%02d", roomNum));
+                villagePlayerList.stream().filter(vp -> vp.getRoomNumber().equals(roomNum)).findFirst().ifPresent(vp -> {
+                    room.setCharaName(vp.getChara().get().getCharaShortName());
+                    room.setCharaImgUrl(vp.getChara().get().getCharaImgUrl());
+                    room.setIsDead(BooleanUtils.isTrue(vp.getIsDead()));
+                });
+                row.getRoomAssignedList().add(room);
+            }
+            roomAssignedRowList.add(row);
+        }
+        return roomAssignedRowList;
+    }
+
+    private VillageMemberDetailDto convertToMemberDetailPart(VillagePlayer mem) {
+        VillageMemberDetailDto detail = new VillageMemberDetailDto();
+        detail.setCharaName(mem.getChara().get().getCharaName());
+        detail.setDeadDay(mem.getDeadDay() != null ? mem.getDeadDay() + "日目" : null);
+        return detail;
+    }
+
+    private VillageSkillDto convertToSkillPart(Skill skill) {
+        VillageSkillDto part = new VillageSkillDto();
+        part.setCode(skill.getSkillCode());
+        part.setName(skill.getSkillName());
+        return part;
+    }
+
+    private VillageCharaDto convertToCharaPart(Chara chara) {
+        VillageCharaDto part = new VillageCharaDto();
+        part.setId(chara.getCharaId());
+        part.setName(chara.getCharaName());
+        part.setUrl(chara.getCharaImgUrl());
+        return part;
+    }
+
+    private VillageSettingsDto convertToSettings(VillageSettings settings, ListResultBean<VillageDay> dayList) {
+        VillageSettingsDto part = new VillageSettingsDto();
+        part.setStartDatetime(dayList.get(0).getDaychangeDatetime()); // 0日目の切り替え日時
+        part.setStartPersonMinNum(settings.getStartPersonMinNum());
+        part.setPersonMaxNum(settings.getPersonMaxNum());
+        part.setCharaGroupId(settings.getCharacterGroupId());
+        part.setCharaGroupName(settings.getCharaGroup().get().getCharaGroupName());
+        part.setDayChangeInterval(makeDayChangeIntervalStr(settings.getDayChangeIntervalSeconds()));
+        part.setSkillRequestType(BooleanUtils.isTrue(settings.getIsPossibleSkillRequest()) ? "有効" : "無効");
+        part.setVoteType(BooleanUtils.isTrue(settings.getIsOpenVote()) ? "記名投票" : "無記名投票");
+        return part;
+    }
+
+    private String makeDayChangeIntervalStr(Integer interval) {
+        String hour = interval >= 3600 ? String.format("%02d時間", interval / 3600) : "";
+        String minute = interval >= 60 ? String.format("%02d分", (interval % 3600) / 60) : "";
+        String second = String.format("%02d秒", interval % 60);
+        return hour + minute + second;
     }
 }
