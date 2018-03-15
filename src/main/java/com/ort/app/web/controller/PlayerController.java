@@ -41,6 +41,7 @@ public class PlayerController {
             model.addAttribute("errorMessage", "ユーザIDまたはパスワードが違います");
         }
         model.addAttribute("form", form);
+        model.addAttribute("noAd", true);
         return "login";
     }
 
@@ -90,6 +91,7 @@ public class PlayerController {
     //                                                                        ============
     private void setIndexModel(PlayerCreateForm form, Model model) {
         model.addAttribute("form", form);
+        model.addAttribute("noAd", true); // 広告なし
     }
 
 }
