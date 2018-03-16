@@ -1,5 +1,6 @@
 package com.ort.app.web.controller;
 
+import java.time.LocalDateTime;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class NewVillageController {
     @Autowired
     private NewVillageAssist newVillageAssist;
 
-    @InitBinder
+    @InitBinder("villageForm")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(newVillageFormValidator);
     }
@@ -62,6 +63,10 @@ public class NewVillageController {
                 charaGroupBhv.selectEntityWithDeletedCheck(cb -> cb.query().setCharaGroupId_Equal(villageForm.getCharacterSetId()))
                         .getCharaGroupName();
         model.addAttribute("characterSetName", charaGroupName);
+        // 時間と日時の表示
+        model.addAttribute("startDateTime", makeStartDateTime(villageForm));
+        model.addAttribute("interval", makeInterval(villageForm));
+
         return "new-village-confirm";
     }
 
@@ -75,5 +80,20 @@ public class NewVillageController {
         }
         Village village = newVillageAssist.createVillage(villageForm, locale);
         return "redirect:/village/" + village.getVillageId();
+    }
+
+    // ===================================================================================
+    //                                                                        Assist Logic
+    //                                                                        ============
+    private String makeInterval(NewVillageForm villageForm) {
+        String hour = String.format("%02d時間", villageForm.getDayChangeIntervalHours());
+        String minute = String.format("%02d分", villageForm.getDayChangeIntervalMinutes());
+        String second = String.format("%02d秒", villageForm.getDayChangeIntervalSeconds());
+        return hour + minute + second;
+    }
+
+    private LocalDateTime makeStartDateTime(NewVillageForm villageForm) {
+        return LocalDateTime.of(villageForm.getStartYear(), villageForm.getStartMonth(), villageForm.getStartDay(),
+                villageForm.getStartHour(), villageForm.getStartMinute(), 0);
     }
 }

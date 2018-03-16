@@ -57,6 +57,25 @@ public class NewVillageFormValidator implements Validator {
             errors.rejectValue("startYear", "NewVillageForm.validator.startYear");
         }
 
+        // ダミーキャラ発言
+        String message = form.getDummyJoinMessage();
+        if (message == null) {
+            return;
+        }
+        // 末尾に改行文字列が含まれているとsplit時に削られるので削除してチェック
+        String trimedMessage = message.trim();
+        // 改行数＋それ以外の文字が200文字以上
+        int length = trimedMessage.length();
+        int lineSeparatorNum = trimedMessage.split("\r\n").length - 1;
+        int messageLength = length - lineSeparatorNum;
+        if (messageLength <= 0 || 200 < messageLength) {
+            errors.rejectValue("dummyJoinMessage", "VillageSayForm.validator.message.length");
+        }
+        // 行数が11以上
+        if (trimedMessage.split("\r\n").length > 10) {
+            errors.rejectValue("dummyJoinMessage", "VillageSayForm.validator.message.line");
+        }
+
     }
 
 }

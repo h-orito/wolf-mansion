@@ -25,12 +25,12 @@
 						<div class="form-group">
 							<label class="col-sm-2 col-xs-3 control-label">最低開始人数</label>
 							<div class="col-sm-4 col-xs-3">
-								<input type="text" class="form-control" th:field="*{startPersonMinNum}" placeholder="8" /> <span
+								<input type="number" class="form-control" th:field="*{startPersonMinNum}" placeholder="8" /> <span
 									th:if="${#fields.hasErrors('startPersonMinNum')}" th:errors="*{startPersonMinNum}" class="help-block text-danger">error!</span>
 							</div>
 							<label class="col-sm-2 col-xs-3 control-label">定員</label>
 							<div class="col-sm-4 col-xs-3">
-								<input type="text" class="form-control" th:field="*{personMaxNum}" placeholder="16" /> <span th:if="${#fields.hasErrors('personMaxNum')}"
+								<input type="number" class="form-control" th:field="*{personMaxNum}" placeholder="16" /> <span th:if="${#fields.hasErrors('personMaxNum')}"
 									th:errors="*{personMaxNum}" class="help-block text-danger">error!</span>
 							</div>
 						</div>
