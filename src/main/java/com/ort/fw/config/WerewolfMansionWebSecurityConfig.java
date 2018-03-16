@@ -1,12 +1,14 @@
 package com.ort.fw.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.ort.fw.security.UserInfoService;
@@ -36,6 +38,8 @@ public class WerewolfMansionWebSecurityConfig extends WebSecurityConfigurerAdapt
                 // 一時的に全て許可
                 .antMatchers("/app/**", "/lib/**", "/**")
                 .permitAll()
+                .antMatchers("/change-password")
+                .fullyAuthenticated()
                 // 他は制限なし
                 .anyRequest()
                 .authenticated()
@@ -72,6 +76,11 @@ public class WerewolfMansionWebSecurityConfig extends WebSecurityConfigurerAdapt
                 .key("X7kmptSvar");
     }
 
+    @Bean
+    private PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //        auth.userDetailsService(userInfoService);
@@ -81,7 +90,7 @@ public class WerewolfMansionWebSecurityConfig extends WebSecurityConfigurerAdapt
     private AuthenticationProvider createAuthProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userInfoService);
-        authProvider.setPasswordEncoder(new BCryptPasswordEncoder());
+        authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
 }

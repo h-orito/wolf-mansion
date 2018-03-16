@@ -58,11 +58,15 @@
 									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-lock"></span> <span class="h6" style="display: block;">ログイン</span>
 										Login
 								</span>
-								</a> <a href="javascript:void(0);" th:if="${user != null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px" data-submit-logout> <span
+								</a> <a href="javascript:void(0);" th:href="@{/change-password}" th:if="${user != null}" class="col-sm-4 col-xs-4 top-menu-selectable h100px"> <span
+									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-wrench"></span> <span class="h6" style="display: block;">パスワード変更</span>
+										Change Password
+								</span>
+								</a> <a href="javascript:void(0);" th:if="${user != null}" class="col-sm-4 col-xs-4 top-menu-selectable h100px" data-submit-logout> <span
 									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-lock"></span> <span class="h6" style="display: block;">ログアウト</span>
 										Logout
 								</span>
-								</a> <a href="javascript:void(0);" th:if="${user != null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
+								</a> <a href="javascript:void(0);" th:if="${user != null}" class="col-sm-4 col-xs-4 top-menu-selectable h100px"> <span
 									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-signal"></span> <span class="h6" style="display: block;">戦績(未実装)</span>
 										Stats
 								</span>

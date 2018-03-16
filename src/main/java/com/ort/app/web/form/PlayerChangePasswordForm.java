@@ -7,29 +7,21 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 
-public class PlayerCreateForm implements Serializable {
+public class PlayerChangePasswordForm implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /** ユーザID */
-    @NotNull
-    @Length(min = 3, max = 12)
-    @Pattern(regexp = "[a-zA-Z0-9]*")
-    private String userId;
-
-    /** パスワード */
+    /** 変更後パスワード */
     @NotNull
     @Length(min = 3, max = 12)
     @Pattern(regexp = "[a-zA-Z0-9]*")
     private String password;
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+    /** 変更後確認パスワード */
+    @NotNull
+    @Length(min = 3, max = 12)
+    @Pattern(regexp = "[a-zA-Z0-9]*")
+    private String confirmPassword;
 
     public String getPassword() {
         return password;
@@ -37,5 +29,13 @@ public class PlayerCreateForm implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }
