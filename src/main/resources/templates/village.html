@@ -109,9 +109,9 @@
 						<div class="col-sm-12 well" th:if="${content.isDispParticipateForm}">
 							<div class="">
 								<h2 class="h5">入村する</h2>
-								<span th:if="${participateErrorMessage != null}" class="text-danger" th:test="${participateErrorMessage}">error</span>
 								<form method="post" action="" th:action="@{/village/{villageId}/participate(villageId=${content.villageId})}" th:object="${participateForm}"
 									class="form-horizontal">
+									<span th:if="${participateErrorMessage != null}" class="text-danger" th:text="${participateErrorMessage}">error</span>
 									<div class="form-group">
 										<label class="col-sm-2 control-label">キャラクター</label>
 										<div class="col-sm-4">
@@ -120,11 +120,14 @@
 													th:data-chara-img-url="${chara.url}"></option>
 											</select> <span th:if="${#fields.hasErrors('charaId')}" th:errors="*{charaId}" class="help-block text-danger">error!</span>
 										</div>
-										<label class="col-sm-2 control-label">役職希望</label>
-										<div class="col-sm-4">
+										<label class="col-sm-2 control-label" th:if="${content.isSkillRequestAvailable}">役職希望</label>
+										<div class="col-sm-4" th:if="${content.isSkillRequestAvailable}">
 											<select class="form-control" th:field="*{requestedSkill}">
 												<option th:each="skill : ${content.selectableSkillList}" th:value="${skill.code}" th:text="${skill.name}"></option>
 											</select> <span th:if="${#fields.hasErrors('requestedSkill')}" th:errors="*{requestedSkill}" class="help-block text-danger">error!</span>
+										</div>
+										<div class="col-sm-4" th:if="${!content.isSkillRequestAvailable}">
+											<input type="hidden" name="requestedSkill" value="LEFTOVER" />
 										</div>
 									</div>
 									<div class="form-group">

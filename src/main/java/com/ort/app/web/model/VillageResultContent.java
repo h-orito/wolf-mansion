@@ -27,6 +27,9 @@ public class VillageResultContent implements Serializable {
     /** 何日目か */
     private Integer day;
 
+    /** 役職希望有効か */
+    private Boolean isSkillRequestAvailable;
+
     /** 日付リスト */
     private List<Integer> dayList;
 
@@ -126,6 +129,14 @@ public class VillageResultContent implements Serializable {
 
     public void setDay(Integer day) {
         this.day = day;
+    }
+
+    public Boolean getIsSkillRequestAvailable() {
+        return isSkillRequestAvailable;
+    }
+
+    public void setIsSkillRequestAvailable(Boolean isSkillRequestAvailable) {
+        this.isSkillRequestAvailable = isSkillRequestAvailable;
     }
 
     public List<Integer> getDayList() {

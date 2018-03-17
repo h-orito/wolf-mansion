@@ -159,7 +159,7 @@ public class VillageController {
         }
         // 既にそのキャラが参戦していたらNG
         try {
-            assist.assertAlreadyParticipateChara(villageId, participateForm);
+            assist.assertParticipate(villageId, participateForm);
         } catch (WerewolfMansionBusinessException e) {
             model.addAttribute("participateErrorMessage", e.getMessage());
             return setIndexModelAndReturnView(villageId, null, participateForm, null, model);
