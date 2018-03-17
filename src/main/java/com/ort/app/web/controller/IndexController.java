@@ -60,6 +60,7 @@ public class IndexController {
             cb.setupSelect_VillageStatus();
             cb.query().setVillageStatusCode_InScope_AsVillageStatus(
                     Arrays.asList(CDef.VillageStatus.エピローグ, CDef.VillageStatus.募集中, CDef.VillageStatus.進行中, CDef.VillageStatus.開始待ち));
+            cb.query().addOrderBy_VillageId_Asc();
         });
         IndexResultContent content = mappingToContent(villageList);
         model.addAttribute("content", content);
