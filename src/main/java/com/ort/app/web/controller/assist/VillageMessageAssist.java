@@ -374,7 +374,7 @@ public class VillageMessageAssist {
             OptionalEntity<VillagePlayer> optVillagePlayer) {
         // 終了していたら全開放
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
-            dispAllowedMessageTypeList.add(CDef.MessageType.人狼の囁き);
+            dispAllowedMessageTypeList.add(CDef.MessageType.独り言);
             return;
         }
         // 終了していなかったら自分自身のだけ表示なので、ここでは追加しない
