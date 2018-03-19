@@ -74,6 +74,7 @@ public class WerewolfMansionWebSecurityConfig extends WebSecurityConfigurerAdapt
                 .rememberMe()
                 .userDetailsService(userInfoService)
                 .key("X7kmptSvar");
+        http.csrf().ignoringAntMatchers("/village/*/confirm");
     }
 
     @Bean
