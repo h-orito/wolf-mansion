@@ -11,6 +11,15 @@ $(function() {
 	});
 });
 
+// 二重サブミット防止
+$('body').on('submit', 'form', function() {
+	var self = this;
+	$(":submit", self).prop("disabled", true);
+	setTimeout(function() {
+		$(":submit", self).prop("disabled", false);
+	}, 10000);
+});
+
 // ---------------------------------------------------
 // Handlebar helper
 // ---------------------------------------------------
@@ -48,9 +57,7 @@ Handlebars.registerHelper('timeFormat', function(time) {
 });
 
 Handlebars.registerHelper('escapeHtmlWithoutBr', function(text) {
-	return text.replace(/(\r\n|\n|\r)/gm, '<br>').split('<br>').map(
-			function(item) {
-				return item.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
-						.replace(/'/g, '&#39;');
-			}).join('<br>');
+	return text.replace(/(\r\n|\n|\r)/gm, '<br>').split('<br>').map(function(item) {
+		return item.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+	}).join('<br>');
 });

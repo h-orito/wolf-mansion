@@ -108,8 +108,7 @@ public class VillageAssist {
         model.addAttribute("villageName", village.getVillageDisplayName());
     }
 
-    public void assertAlreadyParticipateChara(Integer villageId, VillageParticipateForm participateForm)
-            throws WerewolfMansionBusinessException {
+    public void assertParticipate(Integer villageId, VillageParticipateForm participateForm) throws WerewolfMansionBusinessException {
         Village village = villageBhv.selectEntityWithDeletedCheck(cb -> {
             cb.setupSelect_VillageSettingsAsOne();
             cb.query().setVillageId_Equal(villageId);
@@ -123,6 +122,11 @@ public class VillageAssist {
             throw new WerewolfMansionBusinessException("既に参加されているキャラクターです。別のキャラクターを選択してください。");
         } else if (participateCount >= village.getVillageSettingsAsOne().get().getPersonMaxNum()) {
             throw new WerewolfMansionBusinessException("既に上限人数まで参加しているプレイヤーがいるため参加できません。");
+        }
+        // 役職希望無効なのにおまかせ以外
+        if (!CDef.Skill.おまかせ.code().equals(participateForm.getRequestedSkill())
+                && BooleanUtils.isFalse(village.getVillageSettingsAsOne().get().getIsPossibleSkillRequest())) {
+            throw new WerewolfMansionBusinessException("希望役職が不正です。");
         }
     }
 
@@ -278,10 +282,14 @@ public class VillageAssist {
         if (!optVillagePlayer.isPresent()) {
             return false;
         }
+        // 役職希望有効出ない場合は表示しない
+        if (!BooleanUtils.isTrue(village.getVillageSettingsAsOne().get().getIsPossibleSkillRequest())) {
+            return false;
+        }
         return true;
     }
 
-    // 希望役職変更フォームを表示するか
+    // 退村フォームを表示するか
     private boolean isDispLeaveVillageForm(int day, OptionalThing<VillagePlayer> optVillagePlayer, Village village) {
         // 現在プロローグでない場合表示しない
         if (!village.isVillageStatusCode募集中() && !village.isVillageStatusCode開始待ち()) {
@@ -588,6 +596,7 @@ public class VillageAssist {
         content.setDayList(dayList.stream().map(VillageDay::getDay).collect(Collectors.toList()));
         content.setEpilogueDay(village.getEpilogueDay());
         content.setVillageSettings(convertToSettings(village.getVillageSettingsAsOne().get(), dayList));
+        content.setIsSkillRequestAvailable(village.getVillageSettingsAsOne().get().getIsPossibleSkillRequest());
     }
 
     // 参加している場合に使う情報
