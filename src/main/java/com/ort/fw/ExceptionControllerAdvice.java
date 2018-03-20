@@ -28,7 +28,7 @@ public class ExceptionControllerAdvice {
     //                                                                             =======
     @ExceptionHandler(Exception.class)
     public String exception(Exception e) {
-        logger.error(e.getStackTrace().toString());
+        logger.error(e.getMessage(), e);
         return "error";
     }
 

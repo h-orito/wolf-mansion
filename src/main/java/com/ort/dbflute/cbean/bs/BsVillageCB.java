@@ -363,6 +363,11 @@ public class BsVillageCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnVillageDisplayName() { return doColumn("VILLAGE_DISPLAY_NAME"); }
         /**
+         * CREATE_PLAYER_NAME: {NotNull, VARCHAR(12)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnCreatePlayerName() { return doColumn("CREATE_PLAYER_NAME"); }
+        /**
          * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
          * @return The information object of specified column. (NotNull)
          */

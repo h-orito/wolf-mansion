@@ -1,7 +1,6 @@
 package com.ort.app.web.controller;
 
 import java.time.LocalDateTime;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +18,8 @@ import com.ort.app.web.form.NewVillageForm;
 import com.ort.app.web.form.validator.NewVillageFormValidator;
 import com.ort.dbflute.exbhv.CharaGroupBhv;
 import com.ort.dbflute.exentity.Village;
+import com.ort.fw.security.UserInfo;
+import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 
 @Controller
 public class NewVillageController {
@@ -58,6 +59,13 @@ public class NewVillageController {
             newVillageAssist.setIndexModel(villageForm, model);
             return "new-village";
         }
+        // ログインしていなかったらNG
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        if (userInfo == null) {
+            model.addAttribute("errorMessage", "ログインし直してください。");
+            newVillageAssist.setIndexModel(villageForm, model);
+            return "new-village";
+        }
         // キャラセット名を取得
         String charaGroupName =
                 charaGroupBhv.selectEntityWithDeletedCheck(cb -> cb.query().setCharaGroupId_Equal(villageForm.getCharacterSetId()))
@@ -73,12 +81,19 @@ public class NewVillageController {
     // 新規村作成
     @PostMapping("/new-village")
     private String makeVillage(@Validated @ModelAttribute("villageForm") NewVillageForm villageForm, BindingResult bindingResult,
-            Model model, Locale locale) {
+            Model model) {
         if (bindingResult.hasErrors()) {
             newVillageAssist.setIndexModel(villageForm, model);
             return "new-village";
         }
-        Village village = newVillageAssist.createVillage(villageForm, locale);
+        // ログインしていなかったらNG
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        if (userInfo == null) {
+            model.addAttribute("errorMessage", "ログインし直してください。");
+            newVillageAssist.setIndexModel(villageForm, model);
+            return "new-village";
+        }
+        Village village = newVillageAssist.createVillage(villageForm, userInfo.getUsername());
         return "redirect:/village/" + village.getVillageId();
     }
 

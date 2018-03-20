@@ -45,6 +45,7 @@ public class VillageDbm extends AbstractDBMeta {
     protected void xsetupEpg() {
         setupEpg(_epgMap, et -> ((Village)et).getVillageId(), (et, vl) -> ((Village)et).setVillageId(cti(vl)), "villageId");
         setupEpg(_epgMap, et -> ((Village)et).getVillageDisplayName(), (et, vl) -> ((Village)et).setVillageDisplayName((String)vl), "villageDisplayName");
+        setupEpg(_epgMap, et -> ((Village)et).getCreatePlayerName(), (et, vl) -> ((Village)et).setCreatePlayerName((String)vl), "createPlayerName");
         setupEpg(_epgMap, et -> ((Village)et).getVillageStatusCode(), (et, vl) -> {
             CDef.VillageStatus cls = (CDef.VillageStatus)gcls(et, columnVillageStatusCode(), vl);
             if (cls != null) {
@@ -104,6 +105,7 @@ public class VillageDbm extends AbstractDBMeta {
     //                                                                         ===========
     protected final ColumnInfo _columnVillageId = cci("VILLAGE_ID", "VILLAGE_ID", null, null, Integer.class, "villageId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "villageDayList,villagePlayerList", null, false);
     protected final ColumnInfo _columnVillageDisplayName = cci("VILLAGE_DISPLAY_NAME", "VILLAGE_DISPLAY_NAME", null, null, String.class, "villageDisplayName", null, false, false, true, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnCreatePlayerName = cci("CREATE_PLAYER_NAME", "CREATE_PLAYER_NAME", null, null, String.class, "createPlayerName", null, false, false, true, "VARCHAR", 12, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnVillageStatusCode = cci("VILLAGE_STATUS_CODE", "VILLAGE_STATUS_CODE", null, null, String.class, "villageStatusCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "villageStatus", null, CDef.DefMeta.VillageStatus, false);
     protected final ColumnInfo _columnRoomSizeWidth = cci("ROOM_SIZE_WIDTH", "ROOM_SIZE_WIDTH", null, null, Integer.class, "roomSizeWidth", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnRoomSizeHeight = cci("ROOM_SIZE_HEIGHT", "ROOM_SIZE_HEIGHT", null, null, Integer.class, "roomSizeHeight", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
@@ -124,6 +126,11 @@ public class VillageDbm extends AbstractDBMeta {
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageDisplayName() { return _columnVillageDisplayName; }
+    /**
+     * CREATE_PLAYER_NAME: {NotNull, VARCHAR(12)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnCreatePlayerName() { return _columnCreatePlayerName; }
     /**
      * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
      * @return The information object of specified column. (NotNull)
@@ -174,6 +181,7 @@ public class VillageDbm extends AbstractDBMeta {
         List<ColumnInfo> ls = newArrayList();
         ls.add(columnVillageId());
         ls.add(columnVillageDisplayName());
+        ls.add(columnCreatePlayerName());
         ls.add(columnVillageStatusCode());
         ls.add(columnRoomSizeWidth());
         ls.add(columnRoomSizeHeight());

@@ -91,15 +91,15 @@ public class NewVillageAssist {
     }
 
     // 村作成
-    public Village createVillage(NewVillageForm villageForm, Locale locale) {
+    public Village createVillage(NewVillageForm villageForm, String userName) {
         // 村
-        Village village = insertVillage(villageForm);
+        Village village = insertVillage(villageForm, userName);
         // 村設定
         VillageSettings settings = insertVillageSettings(villageForm, village);
         // 村日付
         insertVillageDay(village, 0, settings.getStartDatetime());
         // システムメッセージ
-        insertInitialMessage(villageForm, village, locale);
+        insertInitialMessage(villageForm, village);
         // ダミーキャラを参加させる
         joinDummyChara(villageForm, village);
 
@@ -119,18 +119,19 @@ public class NewVillageAssist {
     }
 
     // 村建て初期メッセージ登録
-    private void insertInitialMessage(NewVillageForm villageForm, Village village, Locale locale) {
+    private void insertInitialMessage(NewVillageForm villageForm, Village village) {
         messageLogic.insertMessage( // 
                 village.getVillageId(), // 村ID
                 0, // day
                 CDef.MessageType.公開システムメッセージ, // 発言種別
-                messageSource.getMessage("newvillage.initial.message", null, locale)); // メッセージ内容
+                messageSource.getMessage("newvillage.initial.message", null, Locale.JAPAN)); // メッセージ内容
     }
 
-    private Village insertVillage(NewVillageForm villageForm) {
+    private Village insertVillage(NewVillageForm villageForm, String userName) {
         Village village = new Village();
         village.setVillageDisplayName(villageForm.getVillageName());
         village.setVillageStatusCode_募集中();
+        village.setCreatePlayerName(userName);
         villageBhv.insert(village);
         return village;
     }

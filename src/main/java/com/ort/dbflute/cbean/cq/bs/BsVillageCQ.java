@@ -141,6 +141,26 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
      */
     public BsVillageCQ addOrderBy_VillageDisplayName_Desc() { regOBD("VILLAGE_DISPLAY_NAME"); return this; }
 
+    protected ConditionValue _createPlayerName;
+    public ConditionValue xdfgetCreatePlayerName()
+    { if (_createPlayerName == null) { _createPlayerName = nCV(); }
+      return _createPlayerName; }
+    protected ConditionValue xgetCValueCreatePlayerName() { return xdfgetCreatePlayerName(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * CREATE_PLAYER_NAME: {NotNull, VARCHAR(12)}
+     * @return this. (NotNull)
+     */
+    public BsVillageCQ addOrderBy_CreatePlayerName_Asc() { regOBA("CREATE_PLAYER_NAME"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * CREATE_PLAYER_NAME: {NotNull, VARCHAR(12)}
+     * @return this. (NotNull)
+     */
+    public BsVillageCQ addOrderBy_CreatePlayerName_Desc() { regOBD("CREATE_PLAYER_NAME"); return this; }
+
     protected ConditionValue _villageStatusCode;
     public ConditionValue xdfgetVillageStatusCode()
     { if (_villageStatusCode == null) { _villageStatusCode = nCV(); }

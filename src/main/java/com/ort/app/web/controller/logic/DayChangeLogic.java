@@ -112,7 +112,7 @@ public class DayChangeLogic {
             // messageLogic.insertMessage(villageId, newDay, CDef.MessageType.公開システムメッセージ, "終了しました。"); // 赤字で出すので登録必要なし
         } else {
             // 1日目以外
-            dayChange(villageId, newDay, vPlayerList);
+            dayChange(villageId, newDay, vPlayerList, settings);
         }
     }
 
@@ -396,12 +396,12 @@ public class DayChangeLogic {
     }
 
     // 初日、2日目以外の日付更新処理
-    private void dayChange(Integer villageId, int day, List<VillagePlayer> vPlayerList) {
+    private void dayChange(Integer villageId, int day, List<VillagePlayer> vPlayerList, VillageSettings settings) {
         // 突然死
         // TODO h-orito あとで実装する (2018/01/09)
 
         // 処刑
-        VillagePlayer executedPlayer = execute(villageId, day, vPlayerList);
+        VillagePlayer executedPlayer = execute(villageId, day, vPlayerList, settings);
         Integer executedPlayerId = executedPlayer == null ? null : executedPlayer.getVillagePlayerId();
 
         // 能力行使内容取得
@@ -674,7 +674,7 @@ public class DayChangeLogic {
     }
 
     // 処刑
-    private VillagePlayer execute(Integer villageId, int day, List<VillagePlayer> vPlayerList) {
+    private VillagePlayer execute(Integer villageId, int day, List<VillagePlayer> vPlayerList, VillageSettings settings) {
         if (day == 2) {
             return null; // 1→2日目は処刑なし
         }
@@ -688,7 +688,7 @@ public class DayChangeLogic {
         // 処刑
         updateVillagePlayerDead(day, executedPlayer, CDef.DeadReason.処刑); // 死亡処理
         // 個別投票メッセージ登録
-        insertEachVoteMessage(villageId, day, vPlayerList, voteList);
+        insertEachVoteMessage(villageId, day, vPlayerList, voteList, settings);
         // 集計メッセージ登録
         insertExecuteResultMessage(villageId, day, vPlayerList, voteNumMap, executedPlayer);
 
@@ -717,7 +717,8 @@ public class DayChangeLogic {
         return executedCharaIdList;
     }
 
-    private void insertEachVoteMessage(Integer villageId, int day, List<VillagePlayer> villagePlayerList, ListResultBean<Vote> voteList) {
+    private void insertEachVoteMessage(Integer villageId, int day, List<VillagePlayer> villagePlayerList, ListResultBean<Vote> voteList,
+            VillageSettings settings) {
         StringJoiner joiner = new StringJoiner("\n");
         for (Vote vote : voteList) {
             Integer charaId = vote.getCharaId();
@@ -726,7 +727,8 @@ public class DayChangeLogic {
             VillagePlayer targetPlayer = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(targetCharaId)).findFirst().get();
             joiner.add(String.format("%sは、%sに投票した。", player.getChara().get().getCharaName(), targetPlayer.getChara().get().getCharaName()));
         }
-        messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
+        messageLogic.insertMessage(villageId, day,
+                settings.isIsOpenVoteTrue() ? CDef.MessageType.公開システムメッセージ : CDef.MessageType.非公開システムメッセージ, joiner.toString());
     }
 
     private void insertExecuteResultMessage(Integer villageId, int day, List<VillagePlayer> villagePlayerList,

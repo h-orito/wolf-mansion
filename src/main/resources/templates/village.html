@@ -78,7 +78,7 @@
 									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
 													<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-													th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+														th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
 												</td>
 											</tr>
 										</tbody>
@@ -174,12 +174,11 @@
 						<div class="col-sm-12 well" style="padding-top: 10px;" th:if="${content.isDead}">
 							<div class="">
 								<p class="small">
-									あなたは死亡しました。現世の思い出を語り合いましょう。<br>
-									墓下では推理発言やCOを行っても問題ありません。
+									あなたは死亡しました。現世の思い出を語り合いましょう。<br> 墓下では推理発言やCOを行っても問題ありません。
 								</p>
 							</div>
 						</div>
-						
+
 						<div class="col-sm-12 well" th:if="${content.isDispSayForm}">
 							<div class="">
 								<!--/* rowを外した */-->
@@ -211,8 +210,8 @@
 									</div>
 									<div class="form-group">
 										<div class="col-sm-12">
-											<span class="" style="margin-left: 55px;" data-message-count>文字数: 0/200, 行数: 1/10</span> <input type="submit"
-												class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />
+											<span class="" style="margin-left: 55px;" data-message-count>文字数: 0/200, 行数: 1/10</span>
+											<input type="submit" class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />
 										</div>
 									</div>
 								</form>
@@ -328,13 +327,15 @@
 															th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
 									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}"
-															th:data-footstep-room-number="${room.roomNumber}"><span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-															th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span></td>
+															th:data-footstep-room-number="${room.roomNumber}">
+															<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+																th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+														</td>
 													</tr>
 												</tbody>
 											</table>
-											通過する部屋 : <span data-footstep-input th:text="*{footstep}">なし</span> <input type="hidden" class="form-control" th:field="*{footstep}"
-												data-footstep-hd-input />
+											通過する部屋 : <span data-footstep-input th:text="*{footstep}">なし</span>
+											<input type="hidden" class="form-control" th:field="*{footstep}" data-footstep-hd-input />
 										</div>
 									</div>
 									<div class="form-group">
@@ -448,14 +449,23 @@
 										</tr>
 										<tr>
 											<th>キャラセット</th>
-											<td><a href="javascript:void(0);" th:href="@{/chara-group/{charaGroupId}(charaGroupId=*{charaGroupId})}" th:text="*{charaGroupName}"
-												target="_blank"></a></td>
+											<td>
+												<a href="javascript:void(0);" th:href="@{/chara-group/{charaGroupId}(charaGroupId=*{charaGroupId})}" th:text="*{charaGroupName}"
+													target="_blank"></a>
+											</td>
+										</tr>
+										<tr>
+											<th>館を建てたプレイヤー</th>
+											<td th:text="${content.createPlayerName}"></td>
 										</tr>
 									</table>
+									<p class="small">館を建てたプレイヤーのみ設定を変更できます。</p>
 								</div>
 								<div class="clearfix small">
-									<a href="javascript:void(0);" class="btn btn-primary pull-right small" data-dismiss="modal">閉じる</a> <input type="button"
-										class="btn btn-default pull-right small disabled" data-dismiss="modal" disabled="true" value="設定変更(未実装)" style="margin-right: 10px;" />
+									<a href="javascript:void(0);" class="btn btn-primary pull-right small" data-dismiss="modal">閉じる</a>
+									<a href="javascript:void(0);" th:href="@{/village/{villageId}/settings(villageId=${content.villageId})}" th:if="${content.isCreatePlayer}" class="btn btn-success pull-right small" style="margin-right: 10px;">設定変更</a>
+									<input type="button" th:unless="${content.isCreatePlayer}" class="btn btn-default pull-right small disabled" data-dismiss="modal" disabled="true" value="設定変更"
+										style="margin-right: 10px;" />
 								</div>
 							</div>
 						</div>

@@ -416,7 +416,7 @@ dl.procedurelist dd.column pre {
 	</tr>
 	<tr>
 		<td class="rownumcell">14</td>
-		<td><a href="#village" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=7, columnCount=11">VILLAGE</a></td>
+		<td><a href="#village" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=7, columnCount=12">VILLAGE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_status" title="FK_VILLAGE_VILLAGE_STATUS">VILLAGE_STATUS</a>, <a href="#camp" title="FK_VILLAGE_CAMP">CAMP</a></td>
 		<td class="relcell"><a href="#village_day" title="FK_VILLAGE_DAY_VILLAGE">VILLAGE_DAY</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE_PLAYER</a>, <a href="#village_settings" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE_SETTINGS</a></td>
@@ -2071,7 +2071,7 @@ SKILL
 		<td class="subcell">Integer</td>
 	</tr>
 </table>
-<h2 id="village" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=7, columnCount=11">
+<h2 id="village" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=7, columnCount=12">
 VILLAGE
 </h2>
 <p class="tablecomment">村</p>
@@ -2134,6 +2134,23 @@ VILLAGE
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td id="village_create_player_name">CREATE_PLAYER_NAME</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 12 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"> 村作成プレイヤー名</td>
+		<td class="subcell">createPlayerName</td>
+		<td class="subcell">String</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">4</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell" title="FK_VILLAGE_VILLAGE_STATUS(VILLAGE_STATUS_CODE)">o</td>
 		<td class="flgcell">*</td>
 		<td id="village_village_status_code">VILLAGE_STATUS_CODE</td>
@@ -2147,7 +2164,7 @@ VILLAGE
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">4</td>
+		<td class="rownumcell">5</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2164,7 +2181,7 @@ VILLAGE
 		<td class="subcell">Integer</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">5</td>
+		<td class="rownumcell">6</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2181,7 +2198,7 @@ VILLAGE
 		<td class="subcell">Integer</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">6</td>
+		<td class="rownumcell">7</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2198,7 +2215,7 @@ VILLAGE
 		<td class="subcell">Integer</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">7</td>
+		<td class="rownumcell">8</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2215,7 +2232,7 @@ VILLAGE
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">8</td>
+		<td class="rownumcell">9</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2232,7 +2249,7 @@ VILLAGE
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">9</td>
+		<td class="rownumcell">10</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2249,7 +2266,7 @@ VILLAGE
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">10</td>
+		<td class="rownumcell">11</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2266,7 +2283,7 @@ VILLAGE
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">11</td>
+		<td class="rownumcell">12</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>

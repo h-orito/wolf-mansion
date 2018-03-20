@@ -337,6 +337,8 @@
             pkPosition="1" primaryKey="true" required="true" size="10" type="INTEGER"/>
         <column comment="村表示名" dbType="VARCHAR" javaType="String"
             name="VILLAGE_DISPLAY_NAME" required="true" size="40" type="VARCHAR"/>
+        <column comment="村作成プレイヤー名" dbType="VARCHAR" javaType="String"
+            name="CREATE_PLAYER_NAME" required="true" size="12" type="VARCHAR"/>
         <column comment="村ステータスコード" dbType="VARCHAR" javaType="String"
             name="VILLAGE_STATUS_CODE" required="true" size="20" type="VARCHAR"/>
         <column comment="部屋サイズ（横）" dbType="INT UNSIGNED"

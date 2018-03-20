@@ -100,6 +100,7 @@ public class VillageAssist {
         setVillageModelBasicInfo(content, village, day, dayList, optVillagePlayer);
         setVillageModelForm(content, villageId, village, userInfo, day, dayList, optVillagePlayer, sayForm, participateForm,
                 changeRequestSkillForm, model);
+        setVillageModelCreateUser(content, village, userInfo);
         model.addAttribute("content", content);
     }
 
@@ -626,6 +627,13 @@ public class VillageAssist {
         content.setVoteTargetList(makeVoteTargetList(village, optVillagePlayer, day, isLatestDay(day, dayList)));
         // 参加情報
         setVillageModelPlayerInfo(content, optVillagePlayer);
+    }
+
+    // 村建て
+    private void setVillageModelCreateUser(VillageResultContent content, Village village, UserInfo userInfo) {
+        String createPlayerName = village.getCreatePlayerName();
+        content.setCreatePlayerName(createPlayerName);
+        content.setIsCreatePlayer(userInfo != null && userInfo.getUsername().equals(createPlayerName));
     }
 
     private VillageChangeRequestSkillForm makeChangeRequestSkillForm(boolean isDispChangeRequestSkillForm,

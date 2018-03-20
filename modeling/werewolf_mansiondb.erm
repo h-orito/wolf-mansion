@@ -1044,6 +1044,13 @@
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
+					<physical_name>create_player_name</physical_name>
+					<logical_name>村作成プレイヤー名</logical_name>
+					<type>varchar(n)</type>
+					<length>12</length>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
 					<physical_name>village_status_code</physical_name>
 					<referred_column>table.village_status.village_status_code</referred_column>
 					<relationship>FK_village_village_status</relationship>

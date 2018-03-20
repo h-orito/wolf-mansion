@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID
  *
  * [column]
- *     VILLAGE_ID, VILLAGE_DISPLAY_NAME, VILLAGE_STATUS_CODE, ROOM_SIZE_WIDTH, ROOM_SIZE_HEIGHT, EPILOGUE_DAY, WIN_CAMP_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, VILLAGE_DISPLAY_NAME, CREATE_PLAYER_NAME, VILLAGE_STATUS_CODE, ROOM_SIZE_WIDTH, ROOM_SIZE_HEIGHT, EPILOGUE_DAY, WIN_CAMP_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -48,6 +48,7 @@ import com.ort.dbflute.exentity.*;
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * Integer villageId = entity.getVillageId();
  * String villageDisplayName = entity.getVillageDisplayName();
+ * String createPlayerName = entity.getCreatePlayerName();
  * String villageStatusCode = entity.getVillageStatusCode();
  * Integer roomSizeWidth = entity.getRoomSizeWidth();
  * Integer roomSizeHeight = entity.getRoomSizeHeight();
@@ -59,6 +60,7 @@ import com.ort.dbflute.exentity.*;
  * String updateTrace = entity.getUpdateTrace();
  * entity.setVillageId(villageId);
  * entity.setVillageDisplayName(villageDisplayName);
+ * entity.setCreatePlayerName(createPlayerName);
  * entity.setVillageStatusCode(villageStatusCode);
  * entity.setRoomSizeWidth(roomSizeWidth);
  * entity.setRoomSizeHeight(roomSizeHeight);
@@ -88,6 +90,9 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
 
     /** VILLAGE_DISPLAY_NAME: {NotNull, VARCHAR(40)} */
     protected String _villageDisplayName;
+
+    /** CREATE_PLAYER_NAME: {NotNull, VARCHAR(12)} */
+    protected String _createPlayerName;
 
     /** VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus} */
     protected String _villageStatusCode;
@@ -519,6 +524,7 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
         StringBuilder sb = new StringBuilder();
         sb.append(dm).append(xfND(_villageId));
         sb.append(dm).append(xfND(_villageDisplayName));
+        sb.append(dm).append(xfND(_createPlayerName));
         sb.append(dm).append(xfND(_villageStatusCode));
         sb.append(dm).append(xfND(_roomSizeWidth));
         sb.append(dm).append(xfND(_roomSizeHeight));
@@ -600,6 +606,26 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     public void setVillageDisplayName(String villageDisplayName) {
         registerModifiedProperty("villageDisplayName");
         _villageDisplayName = villageDisplayName;
+    }
+
+    /**
+     * [get] CREATE_PLAYER_NAME: {NotNull, VARCHAR(12)} <br>
+     * 村作成プレイヤー名
+     * @return The value of the column 'CREATE_PLAYER_NAME'. (basically NotNull if selected: for the constraint)
+     */
+    public String getCreatePlayerName() {
+        checkSpecifiedProperty("createPlayerName");
+        return convertEmptyToNull(_createPlayerName);
+    }
+
+    /**
+     * [set] CREATE_PLAYER_NAME: {NotNull, VARCHAR(12)} <br>
+     * 村作成プレイヤー名
+     * @param createPlayerName The value of the column 'CREATE_PLAYER_NAME'. (basically NotNull if update: for the constraint)
+     */
+    public void setCreatePlayerName(String createPlayerName) {
+        registerModifiedProperty("createPlayerName");
+        _createPlayerName = createPlayerName;
     }
 
     /**

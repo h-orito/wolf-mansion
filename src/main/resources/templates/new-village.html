@@ -14,6 +14,7 @@
 			<div id="wrapper">
 				<div class="col-sm-12 col-xs-12">
 					<h1 class="h4">村作成</h1>
+					<span th:if="${errorMessage}" th:text="${errorMessage}">error</span>
 					<form method="post" action="" th:action="@{/new-village/confirm}" th:object="${villageForm}" class="form-horizontal">
 						<div class="form-group">
 							<label class="col-sm-2 control-label">村名</label>

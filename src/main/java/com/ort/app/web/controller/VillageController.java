@@ -330,6 +330,20 @@ public class VillageController {
         return response;
     }
 
+    // 村設定変更
+    @GetMapping("/village/{villageId}/settings")
+    private String settingsIndex(@PathVariable Integer villageId, Model model) {
+        // ログインしていなかったらNG
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        if (userInfo == null) {
+            // 最新の日付を表示
+            return setIndexModelAndReturnView(villageId, null, null, null, model);
+        }
+        //        alter table VILLAGE add column CREATE_PLAYER_NAME VARCHAR(12) NOT NULL COMMENT '村作成プレイヤー名' after village_display_name;
+        //        update VILLAGE set create_player_name = 'master';
+        return "village-settings";
+    }
+
     // ===================================================================================
     //                                                                          Validation
     //                                                                          ==========

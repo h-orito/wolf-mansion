@@ -99,6 +99,12 @@ public class VillageResultContent implements Serializable {
     /** 死んでいるか */
     private Boolean isDead;
 
+    /** 村建てした人か */
+    private Boolean isCreatePlayer;
+
+    /** 村建てしたプレーヤー名 */
+    private String createPlayerName;
+
     public Integer getVillageId() {
         return villageId;
     }
@@ -321,6 +327,22 @@ public class VillageResultContent implements Serializable {
 
     public void setIsDead(Boolean isDead) {
         this.isDead = isDead;
+    }
+
+    public Boolean getIsCreatePlayer() {
+        return isCreatePlayer;
+    }
+
+    public void setIsCreatePlayer(Boolean isCreatePlayer) {
+        this.isCreatePlayer = isCreatePlayer;
+    }
+
+    public String getCreatePlayerName() {
+        return createPlayerName;
+    }
+
+    public void setCreatePlayerName(String createPlayerName) {
+        this.createPlayerName = createPlayerName;
     }
 
 }

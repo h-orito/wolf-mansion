@@ -455,6 +455,141 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CREATE_PLAYER_NAME: {NotNull, VARCHAR(12)}
+     * @param createPlayerName The value of createPlayerName as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCreatePlayerName_Equal(String createPlayerName) {
+        doSetCreatePlayerName_Equal(fRES(createPlayerName));
+    }
+
+    protected void doSetCreatePlayerName_Equal(String createPlayerName) {
+        regCreatePlayerName(CK_EQ, createPlayerName);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CREATE_PLAYER_NAME: {NotNull, VARCHAR(12)}
+     * @param createPlayerName The value of createPlayerName as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCreatePlayerName_NotEqual(String createPlayerName) {
+        doSetCreatePlayerName_NotEqual(fRES(createPlayerName));
+    }
+
+    protected void doSetCreatePlayerName_NotEqual(String createPlayerName) {
+        regCreatePlayerName(CK_NES, createPlayerName);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CREATE_PLAYER_NAME: {NotNull, VARCHAR(12)}
+     * @param createPlayerName The value of createPlayerName as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCreatePlayerName_GreaterThan(String createPlayerName) {
+        regCreatePlayerName(CK_GT, fRES(createPlayerName));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CREATE_PLAYER_NAME: {NotNull, VARCHAR(12)}
+     * @param createPlayerName The value of createPlayerName as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCreatePlayerName_LessThan(String createPlayerName) {
+        regCreatePlayerName(CK_LT, fRES(createPlayerName));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CREATE_PLAYER_NAME: {NotNull, VARCHAR(12)}
+     * @param createPlayerName The value of createPlayerName as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCreatePlayerName_GreaterEqual(String createPlayerName) {
+        regCreatePlayerName(CK_GE, fRES(createPlayerName));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CREATE_PLAYER_NAME: {NotNull, VARCHAR(12)}
+     * @param createPlayerName The value of createPlayerName as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCreatePlayerName_LessEqual(String createPlayerName) {
+        regCreatePlayerName(CK_LE, fRES(createPlayerName));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * CREATE_PLAYER_NAME: {NotNull, VARCHAR(12)}
+     * @param createPlayerNameList The collection of createPlayerName as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCreatePlayerName_InScope(Collection<String> createPlayerNameList) {
+        doSetCreatePlayerName_InScope(createPlayerNameList);
+    }
+
+    protected void doSetCreatePlayerName_InScope(Collection<String> createPlayerNameList) {
+        regINS(CK_INS, cTL(createPlayerNameList), xgetCValueCreatePlayerName(), "CREATE_PLAYER_NAME");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * CREATE_PLAYER_NAME: {NotNull, VARCHAR(12)}
+     * @param createPlayerNameList The collection of createPlayerName as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCreatePlayerName_NotInScope(Collection<String> createPlayerNameList) {
+        doSetCreatePlayerName_NotInScope(createPlayerNameList);
+    }
+
+    protected void doSetCreatePlayerName_NotInScope(Collection<String> createPlayerNameList) {
+        regINS(CK_NINS, cTL(createPlayerNameList), xgetCValueCreatePlayerName(), "CREATE_PLAYER_NAME");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CREATE_PLAYER_NAME: {NotNull, VARCHAR(12)} <br>
+     * <pre>e.g. setCreatePlayerName_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param createPlayerName The value of createPlayerName as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setCreatePlayerName_LikeSearch(String createPlayerName, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setCreatePlayerName_LikeSearch(createPlayerName, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CREATE_PLAYER_NAME: {NotNull, VARCHAR(12)} <br>
+     * <pre>e.g. setCreatePlayerName_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param createPlayerName The value of createPlayerName as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setCreatePlayerName_LikeSearch(String createPlayerName, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(createPlayerName), xgetCValueCreatePlayerName(), "CREATE_PLAYER_NAME", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CREATE_PLAYER_NAME: {NotNull, VARCHAR(12)}
+     * @param createPlayerName The value of createPlayerName as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setCreatePlayerName_NotLikeSearch(String createPlayerName, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setCreatePlayerName_NotLikeSearch(createPlayerName, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CREATE_PLAYER_NAME: {NotNull, VARCHAR(12)}
+     * @param createPlayerName The value of createPlayerName as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setCreatePlayerName_NotLikeSearch(String createPlayerName, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(createPlayerName), xgetCValueCreatePlayerName(), "CREATE_PLAYER_NAME", likeSearchOption);
+    }
+
+    protected void regCreatePlayerName(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueCreatePlayerName(), "CREATE_PLAYER_NAME"); }
+    protected abstract ConditionValue xgetCValueCreatePlayerName();
+
+    /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
      * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
      * @param villageStatusCode The value of villageStatusCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
