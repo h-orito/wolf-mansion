@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ort.app.web.controller.assist.VillageAssist;
 import com.ort.app.web.controller.assist.VillageListAssist;
 import com.ort.app.web.controller.assist.VillageMessageAssist;
+import com.ort.app.web.controller.assist.VillageSettingsAssist;
 import com.ort.app.web.controller.logic.AbilityLogic;
 import com.ort.app.web.controller.logic.DayChangeLogic;
 import com.ort.app.web.controller.logic.FootstepLogic;
@@ -32,6 +33,7 @@ import com.ort.app.web.form.VillageGetFootstepListForm;
 import com.ort.app.web.form.VillageGetMessageListForm;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.app.web.form.VillageSayForm;
+import com.ort.app.web.form.VillageSettingsForm;
 import com.ort.app.web.form.VillageVoteForm;
 import com.ort.app.web.form.validator.VillageParticipateFormValidator;
 import com.ort.app.web.form.validator.VillageSayFormValidator;
@@ -55,6 +57,9 @@ public class VillageController {
     //                                                                           =========
     @Autowired
     private VillageAssist assist;
+
+    @Autowired
+    private VillageSettingsAssist villageSettingsAssist;
 
     @Autowired
     private VillageMessageAssist villageMessageAssist;
@@ -339,9 +344,38 @@ public class VillageController {
             // 最新の日付を表示
             return setIndexModelAndReturnView(villageId, null, null, null, model);
         }
+        villageSettingsAssist.setVillageSettingsIndexModel(villageId, model);
         //        alter table VILLAGE add column CREATE_PLAYER_NAME VARCHAR(12) NOT NULL COMMENT '村作成プレイヤー名' after village_display_name;
         //        update VILLAGE set create_player_name = 'master';
         return "village-settings";
+    }
+
+    // 村設定変更
+    @PostMapping("/village/{villageId}/settings")
+    private String storeSettings(@PathVariable Integer villageId, @Validated @ModelAttribute("settingsForm") VillageSettingsForm form,
+            BindingResult bindingResult, Model model) {
+        // ログインしていなかったらNG
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        if (userInfo == null) {
+            model.addAttribute("errorMessage", "ログインし直してください。");
+            villageSettingsAssist.setVillageSettingsIndexModel(villageId, model);
+            return "village-settings";
+        }
+        if (bindingResult.hasErrors()) {
+            villageSettingsAssist.setVillageSettingsIndexModel(villageId, model);
+            return "village-settings";
+        }
+        try {
+            villageSettingsAssist.updateVillageSettings(villageId, form, userInfo);
+        } catch (WerewolfMansionBusinessException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            villageSettingsAssist.setVillageSettingsIndexModel(villageId, model);
+            return "village-settings";
+        }
+
+        //        alter table VILLAGE add column CREATE_PLAYER_NAME VARCHAR(12) NOT NULL COMMENT '村作成プレイヤー名' after village_display_name;
+        //        update VILLAGE set create_player_name = 'master';
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // ===================================================================================

@@ -1,5 +1,6 @@
 package com.ort.app.web.controller.assist;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 
 import com.ort.app.web.controller.logic.MessageLogic;
 import com.ort.app.web.controller.logic.VillageParticipateLogic;
+import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageForm;
 import com.ort.app.web.model.common.SelectOptionDto;
 import com.ort.dbflute.allcommon.CDef;
@@ -91,7 +93,7 @@ public class NewVillageAssist {
     }
 
     // 村作成
-    public Village createVillage(NewVillageForm villageForm, String userName) {
+    public Village createVillage(NewVillageForm villageForm, String userName) throws WerewolfMansionBusinessException {
         // 村
         Village village = insertVillage(villageForm, userName);
         // 村設定
@@ -136,15 +138,14 @@ public class NewVillageAssist {
         return village;
     }
 
-    private VillageSettings insertVillageSettings(NewVillageForm villageForm, Village village) {
+    private VillageSettings insertVillageSettings(NewVillageForm villageForm, Village village) throws WerewolfMansionBusinessException {
         VillageSettings settings = new VillageSettings();
         settings.setVillageId(village.getVillageId());
         settings.setStartPersonMinNum(villageForm.getStartPersonMinNum());
         settings.setPersonMaxNum(villageForm.getPersonMaxNum());
         settings.setDayChangeIntervalSeconds(villageForm.getDayChangeIntervalHours() * 3600 + villageForm.getDayChangeIntervalMinutes() * 60
                 + villageForm.getDayChangeIntervalSeconds());
-        settings.setStartDatetime(LocalDateTime.of(villageForm.getStartYear(), villageForm.getStartMonth(), villageForm.getStartDay(),
-                villageForm.getStartHour(), villageForm.getStartMinute()));
+        settings.setStartDatetime(makeStartDateTime(villageForm));
         settings.setIsOpenVote(villageForm.getIsOpenVote());
         settings.setIsPossibleSkillRequest(villageForm.getIsPossibleSkillRequest());
         settings.setCharacterGroupId(villageForm.getCharacterSetId());
@@ -171,5 +172,14 @@ public class NewVillageAssist {
             cb.query().setIsDummy_Equal_True();
         }).getCharaId();
         villageLogic.participate(village.getVillageId(), dummyPlayerId, dummyCharaId, CDef.Skill.村人, villageForm.getDummyJoinMessage());
+    }
+
+    private LocalDateTime makeStartDateTime(NewVillageForm form) throws WerewolfMansionBusinessException {
+        try {
+            return LocalDateTime.of(form.getStartYear(), form.getStartMonth(), form.getStartDay(), form.getStartHour(),
+                    form.getStartMinute());
+        } catch (DateTimeException e) {
+            throw new WerewolfMansionBusinessException("存在しない日付です");
+        }
     }
 }

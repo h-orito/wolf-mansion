@@ -105,6 +105,9 @@ public class VillageResultContent implements Serializable {
     /** 村建てしたプレーヤー名 */
     private String createPlayerName;
 
+    /** 村設定変更可能か */
+    private Boolean isAvailableSettingsUpdate;
+
     public Integer getVillageId() {
         return villageId;
     }
@@ -343,6 +346,14 @@ public class VillageResultContent implements Serializable {
 
     public void setCreatePlayerName(String createPlayerName) {
         this.createPlayerName = createPlayerName;
+    }
+
+    public Boolean getIsAvailableSettingsUpdate() {
+        return isAvailableSettingsUpdate;
+    }
+
+    public void setIsAvailableSettingsUpdate(Boolean isAvailableSettingsUpdate) {
+        this.isAvailableSettingsUpdate = isAvailableSettingsUpdate;
     }
 
 }

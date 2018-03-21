@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.ort.app.web.controller.assist.NewVillageAssist;
+import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageForm;
 import com.ort.app.web.form.validator.NewVillageFormValidator;
 import com.ort.dbflute.exbhv.CharaGroupBhv;
@@ -93,7 +94,14 @@ public class NewVillageController {
             newVillageAssist.setIndexModel(villageForm, model);
             return "new-village";
         }
-        Village village = newVillageAssist.createVillage(villageForm, userInfo.getUsername());
+        Village village = null;
+        try {
+            village = newVillageAssist.createVillage(villageForm, userInfo.getUsername());
+        } catch (WerewolfMansionBusinessException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            newVillageAssist.setIndexModel(villageForm, model);
+            return "new-village";
+        }
         return "redirect:/village/" + village.getVillageId();
     }
 

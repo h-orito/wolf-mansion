@@ -634,6 +634,9 @@ public class VillageAssist {
         String createPlayerName = village.getCreatePlayerName();
         content.setCreatePlayerName(createPlayerName);
         content.setIsCreatePlayer(userInfo != null && userInfo.getUsername().equals(createPlayerName));
+        content.setIsAvailableSettingsUpdate(
+                userInfo != null && (userInfo.getUsername().equals(createPlayerName) || "master".equals(userInfo.getUsername()))
+                        && village.isVillageStatusCode募集中());
     }
 
     private VillageChangeRequestSkillForm makeChangeRequestSkillForm(boolean isDispChangeRequestSkillForm,

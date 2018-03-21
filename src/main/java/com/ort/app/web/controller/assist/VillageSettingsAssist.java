@@ -1,0 +1,182 @@
+package com.ort.app.web.controller.assist;
+
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import org.apache.commons.lang3.BooleanUtils;
+import org.dbflute.cbean.result.ListResultBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
+
+import com.ort.app.web.exception.WerewolfMansionBusinessException;
+import com.ort.app.web.form.VillageSettingsForm;
+import com.ort.app.web.model.VillageSettingsResultContent;
+import com.ort.app.web.model.inner.VillageSettingsDto;
+import com.ort.dbflute.exbhv.VillageDayBhv;
+import com.ort.dbflute.exbhv.VillagePlayerBhv;
+import com.ort.dbflute.exbhv.VillageSettingsBhv;
+import com.ort.dbflute.exentity.VillageDay;
+import com.ort.dbflute.exentity.VillageSettings;
+import com.ort.fw.security.UserInfo;
+import com.ort.fw.util.WerewolfMansionDateUtil;
+
+@Component
+public class VillageSettingsAssist {
+
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
+    @Autowired
+    private VillageSettingsBhv villageSettingsBhv;
+
+    @Autowired
+    private VillageDayBhv villageDayBhv;
+
+    @Autowired
+    private VillagePlayerBhv villagePlayerBhv;
+
+    // ===================================================================================
+    //                                                                             Execute
+    //                                                                             =======
+    // 村設定変更画面作成
+    public void setVillageSettingsIndexModel(Integer villageId, Model model) {
+        VillageSettings settings = selectVillageSettings(villageId);
+        ListResultBean<VillageDay> dayList = selectVillageDayList(villageId);
+        VillageSettingsResultContent content = mappingToSettingsResultContent(settings, dayList);
+        model.addAttribute("content", content);
+        // 現在の年
+        LocalDate now = WerewolfMansionDateUtil.currentLocalDate();
+        model.addAttribute("nowYear", now.getYear());
+        setVillageSettingsForm(null, settings, dayList, model);
+    }
+
+    // 村設定変更
+    public void updateVillageSettings(Integer villageId, VillageSettingsForm form, UserInfo userInfo)
+            throws WerewolfMansionBusinessException {
+        validate(villageId, form, userInfo);
+        updateSettings(villageId, form);
+        updateVillageDay(villageId, form);
+    }
+
+    // ===================================================================================
+    //                                                                          Validation
+    //                                                                          ==========
+    private void validate(Integer villageId, VillageSettingsForm form, UserInfo userInfo) throws WerewolfMansionBusinessException {
+        ListResultBean<VillageDay> dayList = selectVillageDayList(villageId);
+        if (dayList.size() > 1) {
+            // すでに1日目に入っている
+            throw new WerewolfMansionBusinessException("既にプロローグが終了しているため変更できません");
+        }
+        LocalDateTime startDateTime = makeStartDateTime(form);
+        if (startDateTime.isBefore(WerewolfMansionDateUtil.currentLocalDateTime())) {
+            throw new WerewolfMansionBusinessException("開始日時を現在より過去にすることはできません");
+        }
+        int participateCount = villagePlayerBhv.selectCount(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setIsGone_Equal_False();
+        });
+        if (form.getPersonMaxNum() < participateCount) {
+            throw new WerewolfMansionBusinessException("定員は既に入村済みの人数未満にすることはできません");
+        }
+        VillageSettings villageSettings = selectVillageSettings(villageId);
+        if (!"master".equals(userInfo.getUsername())
+                && !userInfo.getUsername().equals(villageSettings.getVillage().get().getCreatePlayerName())) {
+            throw new WerewolfMansionBusinessException("村作成者しか使用できない機能です");
+        }
+    }
+
+    // ===================================================================================
+    //                                                                              Select
+    //                                                                              ======
+    private VillageSettings selectVillageSettings(Integer villageId) {
+        return villageSettingsBhv.selectEntityWithDeletedCheck(cb -> {
+            cb.setupSelect_Village();
+            cb.setupSelect_CharaGroup();
+            cb.query().setVillageId_Equal(villageId);
+        });
+    }
+
+    private ListResultBean<VillageDay> selectVillageDayList(Integer villageId) {
+        return villageDayBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
+    }
+
+    // ===================================================================================
+    //                                                                              Update
+    //                                                                              ======
+    private void updateSettings(Integer villageId, VillageSettingsForm form) throws WerewolfMansionBusinessException {
+        VillageSettings settings = new VillageSettings();
+        settings.setVillageId(villageId);
+        settings.setStartPersonMinNum(form.getStartPersonMinNum());
+        settings.setPersonMaxNum(form.getPersonMaxNum());
+        settings.setDayChangeIntervalSeconds(
+                form.getDayChangeIntervalHours() * 3600 + form.getDayChangeIntervalMinutes() * 60 + form.getDayChangeIntervalSeconds());
+        // この項目は更新しても意味がないが一応更新しておく
+        settings.setStartDatetime(makeStartDateTime(form));
+        villageSettingsBhv.update(settings);
+    }
+
+    private void updateVillageDay(Integer villageId, VillageSettingsForm form) throws WerewolfMansionBusinessException {
+        VillageDay day = new VillageDay();
+        day.setVillageId(villageId);
+        day.setDay(0);
+        day.setDaychangeDatetime(makeStartDateTime(form));
+        villageDayBhv.update(day);
+    }
+
+    // ===================================================================================
+    //                                                                             Mapping
+    //                                                                             =======
+    private VillageSettingsResultContent mappingToSettingsResultContent(VillageSettings settings, ListResultBean<VillageDay> dayList) {
+        VillageSettingsResultContent content = new VillageSettingsResultContent();
+        content.setVillageId(settings.getVillageId());
+        content.setVillageName(settings.getVillage().get().getVillageDisplayName());
+        content.setVillageSettings(convertToSettings(settings, dayList));
+        return content;
+    }
+
+    private VillageSettingsDto convertToSettings(VillageSettings settings, ListResultBean<VillageDay> dayList) {
+        // 変更不可項目はpartへ、変更可能項目はFormへ
+        VillageSettingsDto part = new VillageSettingsDto();
+        part.setCharaGroupId(settings.getCharacterGroupId());
+        part.setCharaGroupName(settings.getCharaGroup().get().getCharaGroupName());
+        part.setSkillRequestType(BooleanUtils.isTrue(settings.getIsPossibleSkillRequest()) ? "有効" : "無効");
+        part.setVoteType(BooleanUtils.isTrue(settings.getIsOpenVote()) ? "記名投票" : "無記名投票");
+        return part;
+    }
+
+    // ===================================================================================
+    //                                                                        Assist Logic
+    //                                                                        ============
+    private void setVillageSettingsForm(VillageSettingsForm form, VillageSettings settings, ListResultBean<VillageDay> dayList,
+            Model model) {
+        if (form != null) {
+            model.addAttribute("settingsForm", form);
+            return;
+        }
+        VillageSettingsForm settingsForm = new VillageSettingsForm();
+        LocalDateTime daychangeDatetime = dayList.get(0).getDaychangeDatetime();
+        settingsForm.setStartYear(daychangeDatetime.getYear());
+        settingsForm.setStartMonth(daychangeDatetime.getMonthValue());
+        settingsForm.setStartDay(daychangeDatetime.getDayOfMonth());
+        settingsForm.setStartHour(daychangeDatetime.getHour());
+        settingsForm.setStartMinute(daychangeDatetime.getMinute());
+        settingsForm.setStartPersonMinNum(settings.getStartPersonMinNum());
+        settingsForm.setPersonMaxNum(settings.getPersonMaxNum());
+        Integer intervalSec = settings.getDayChangeIntervalSeconds();
+        settingsForm.setDayChangeIntervalHours(intervalSec / 3600);
+        settingsForm.setDayChangeIntervalMinutes((intervalSec % 3600) / 60);
+        settingsForm.setDayChangeIntervalSeconds(intervalSec % 60);
+        model.addAttribute("settingsForm", settingsForm);
+    }
+
+    private LocalDateTime makeStartDateTime(VillageSettingsForm form) throws WerewolfMansionBusinessException {
+        try {
+            return LocalDateTime.of(form.getStartYear(), form.getStartMonth(), form.getStartDay(), form.getStartHour(),
+                    form.getStartMinute());
+        } catch (DateTimeException e) {
+            throw new WerewolfMansionBusinessException("存在しない日付です");
+        }
+    }
+}
