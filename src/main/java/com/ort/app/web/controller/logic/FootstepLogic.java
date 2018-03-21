@@ -141,7 +141,7 @@ public class FootstepLogic {
         for (int i = 0; i < footstepArray.length - 1; i++) {
             int nowRoomNum = Integer.parseInt(footstepArray[i]) - 1;
             int nextRoomNum = Integer.parseInt(footstepArray[i + 1]) - 1;
-            if (nowRoomNum < 1 || maxRoomNum < nowRoomNum || nextRoomNum < 1 || maxRoomNum < nextRoomNum) {
+            if (nowRoomNum < 0 || maxRoomNum < nowRoomNum || nextRoomNum < 1 || maxRoomNum < nextRoomNum) {
                 // 変な数字が紛れてたらNG
                 return false;
             }

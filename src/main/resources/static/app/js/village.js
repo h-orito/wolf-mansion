@@ -277,7 +277,7 @@ $(function() {
 		}
 		const footsteps = footstepsStr.split(',');
 		$table.find('[data-footstep-room-number]').each(function(){
-			if ($.inArray($(this).data('footstep-room-number'), footsteps) != -1) {
+			if ($.inArray(String($(this).data('footstep-room-number')), footsteps) != -1) {
 				$(this).addClass('footstep-selected-room');
 			}
 		});
