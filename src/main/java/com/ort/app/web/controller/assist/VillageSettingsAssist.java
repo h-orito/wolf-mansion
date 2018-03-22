@@ -9,6 +9,7 @@ import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageSettingsForm;
@@ -21,6 +22,7 @@ import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillageSettings;
 import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionDateUtil;
+import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 
 @Component
 public class VillageSettingsAssist {
@@ -37,27 +39,45 @@ public class VillageSettingsAssist {
     @Autowired
     private VillagePlayerBhv villagePlayerBhv;
 
+    @Autowired
+    private VillageAssist villageAssist;
+
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
-    // 村設定変更画面作成
-    public void setVillageSettingsIndexModel(Integer villageId, Model model) {
-        VillageSettings settings = selectVillageSettings(villageId);
-        ListResultBean<VillageDay> dayList = selectVillageDayList(villageId);
-        VillageSettingsResultContent content = mappingToSettingsResultContent(settings, dayList);
-        model.addAttribute("content", content);
-        // 現在の年
-        LocalDate now = WerewolfMansionDateUtil.currentLocalDate();
-        model.addAttribute("nowYear", now.getYear());
-        setVillageSettingsForm(null, settings, dayList, model);
+    // 初期表示
+    public String index(Integer villageId, Model model) {
+        // ログインしていなかったらNG
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        if (userInfo == null) {
+            // 最新の日付を表示
+            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
+        }
+        setVillageSettingsIndexModel(villageId, model);
+        return "village-settings";
     }
 
-    // 村設定変更
-    public void updateVillageSettings(Integer villageId, VillageSettingsForm form, UserInfo userInfo)
-            throws WerewolfMansionBusinessException {
-        validate(villageId, form, userInfo);
-        updateSettings(villageId, form);
-        updateVillageDay(villageId, form);
+    // 設定変更
+    public String updateSettings(Integer villageId, VillageSettingsForm form, BindingResult bindingResult, Model model) {
+        // ログインしていなかったらNG
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        if (userInfo == null) {
+            model.addAttribute("errorMessage", "ログインし直してください。");
+            setVillageSettingsIndexModel(villageId, model);
+            return "village-settings";
+        }
+        if (bindingResult.hasErrors()) {
+            setVillageSettingsIndexModel(villageId, model);
+            return "village-settings";
+        }
+        try {
+            updateVillageSettings(villageId, form, userInfo);
+        } catch (WerewolfMansionBusinessException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            setVillageSettingsIndexModel(villageId, model);
+            return "village-settings";
+        }
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // ===================================================================================
@@ -149,6 +169,26 @@ public class VillageSettingsAssist {
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
+    // 村設定変更画面作成
+    private void setVillageSettingsIndexModel(Integer villageId, Model model) {
+        VillageSettings settings = selectVillageSettings(villageId);
+        ListResultBean<VillageDay> dayList = selectVillageDayList(villageId);
+        VillageSettingsResultContent content = mappingToSettingsResultContent(settings, dayList);
+        model.addAttribute("content", content);
+        // 現在の年
+        LocalDate now = WerewolfMansionDateUtil.currentLocalDate();
+        model.addAttribute("nowYear", now.getYear());
+        setVillageSettingsForm(null, settings, dayList, model);
+    }
+
+    // 村設定変更
+    private void updateVillageSettings(Integer villageId, VillageSettingsForm form, UserInfo userInfo)
+            throws WerewolfMansionBusinessException {
+        validate(villageId, form, userInfo);
+        updateSettings(villageId, form);
+        updateVillageDay(villageId, form);
+    }
+
     private void setVillageSettingsForm(VillageSettingsForm form, VillageSettings settings, ListResultBean<VillageDay> dayList,
             Model model) {
         if (form != null) {

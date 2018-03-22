@@ -12,6 +12,7 @@ import org.dbflute.optional.OptionalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindingResult;
 
 import com.ort.app.web.form.VillageGetAnchorMessageForm;
 import com.ort.app.web.form.VillageGetMessageListForm;
@@ -30,6 +31,7 @@ import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillageSettings;
 import com.ort.fw.security.UserInfo;
+import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 
 @Component
 public class VillageMessageAssist {
@@ -67,31 +69,16 @@ public class VillageMessageAssist {
         return content;
     }
 
-    public boolean isViewAllowedMessage(VillageGetAnchorMessageForm form, UserInfo userInfo) {
-        Integer villageId = form.getVillageId();
-        CDef.MessageType messageType = CDef.MessageType.codeOf(form.getMessageType());
-        Village village = selectVillage(villageId);
-        OptionalEntity<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
-        if (messageType == CDef.MessageType.人狼の囁き) {
-            return isViewAllowedWerewolfSay(village, optVillagePlayer);
-        } else if (messageType == CDef.MessageType.通常発言) {
-            return true;
-        } else if (messageType == CDef.MessageType.共鳴発言) {
-            return isViewAllowedMasonSay(village, optVillagePlayer);
-        } else if (messageType == CDef.MessageType.死者の呻き) {
-            return isViewAllowedGraveSay(village, optVillagePlayer);
+    public VillageAnchorMessageResultContent getAnchorMessage(VillageGetAnchorMessageForm form, BindingResult result) {
+        if (result.hasErrors()) {
+            return null;
         }
-        return false;
-    }
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        if (!isViewAllowedMessage(form, userInfo)) {
+            return null;
+        }
 
-    public VillageAnchorMessageResultContent getAnchorMessage(VillageGetAnchorMessageForm form) {
-        Message message = messageBhv.selectEntity(cb -> {
-            cb.setupSelect_VillagePlayer().withPlayer();
-            cb.setupSelect_VillagePlayer().withChara();
-            cb.query().setVillageId_Equal(form.getVillageId());
-            cb.query().setMessageNumber_Equal(form.getMessageNumber());
-            cb.query().setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.codeOf(form.getMessageType()));
-        }).orElse(null);
+        Message message = selectAnchorMessage(form);
         VillageAnchorMessageResultContent content = new VillageAnchorMessageResultContent();
         if (message == null) {
             return content;
@@ -151,6 +138,17 @@ public class VillageMessageAssist {
             cb.specify().columnDay();
             cb.query().setVillageId_Equal(villageId);
         }).get();
+    }
+
+    private Message selectAnchorMessage(VillageGetAnchorMessageForm form) {
+        Message message = messageBhv.selectEntity(cb -> {
+            cb.setupSelect_VillagePlayer().withPlayer();
+            cb.setupSelect_VillagePlayer().withChara();
+            cb.query().setVillageId_Equal(form.getVillageId());
+            cb.query().setMessageNumber_Equal(form.getMessageNumber());
+            cb.query().setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.codeOf(form.getMessageType()));
+        }).orElse(null);
+        return message;
     }
 
     // ===================================================================================
@@ -232,6 +230,23 @@ public class VillageMessageAssist {
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
+    private boolean isViewAllowedMessage(VillageGetAnchorMessageForm form, UserInfo userInfo) {
+        Integer villageId = form.getVillageId();
+        CDef.MessageType messageType = CDef.MessageType.codeOf(form.getMessageType());
+        Village village = selectVillage(villageId);
+        OptionalEntity<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
+        if (messageType == CDef.MessageType.人狼の囁き) {
+            return isViewAllowedWerewolfSay(village, optVillagePlayer);
+        } else if (messageType == CDef.MessageType.通常発言) {
+            return true;
+        } else if (messageType == CDef.MessageType.共鳴発言) {
+            return isViewAllowedMasonSay(village, optVillagePlayer);
+        } else if (messageType == CDef.MessageType.死者の呻き) {
+            return isViewAllowedGraveSay(village, optVillagePlayer);
+        }
+        return false;
+    }
+
     private List<CDef.MessageType> makeMessageTypeList(OptionalEntity<VillagePlayer> optVillagePlayer, Village village) {
         if (optVillagePlayer.isPresent() && "master".equals(optVillagePlayer.get().getPlayer().get().getPlayerName())) {
             // masterは全て見られる

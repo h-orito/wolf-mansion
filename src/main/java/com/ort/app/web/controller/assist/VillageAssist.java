@@ -14,8 +14,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
-import com.ort.app.web.controller.logic.VillageParticipateLogic;
-import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
 import com.ort.app.web.form.VillageLeaveForm;
@@ -83,13 +81,17 @@ public class VillageAssist {
     @Autowired
     private FootstepBhv footstepBhv;
 
-    @Autowired
-    private VillageParticipateLogic villageParticipateLogic;
-
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
-    public void setIndexModel(Integer villageId, int day, VillageSayForm sayForm, VillageParticipateForm participateForm,
+    public String setIndexModelAndReturnView(Integer villageId, VillageSayForm sayForm, VillageParticipateForm participateForm,
+            VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
+        // 最新の日付取得
+        int day = selectLatestDay(villageId);
+        return setIndexModel(villageId, day, sayForm, participateForm, changeRequestSkillForm, model);
+    }
+
+    public String setIndexModel(Integer villageId, int day, VillageSayForm sayForm, VillageParticipateForm participateForm,
             VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
         Village village = selectVillage(villageId);
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo(); // ログインしているか
@@ -102,90 +104,7 @@ public class VillageAssist {
                 changeRequestSkillForm, model);
         setVillageModelCreateUser(content, village, userInfo);
         model.addAttribute("content", content);
-    }
-
-    public void setConfirmModel(Integer villageId, Model model) {
-        Village village = selectVillage(villageId);
-        model.addAttribute("villageName", village.getVillageDisplayName());
-    }
-
-    public void assertParticipate(Integer villageId, VillageParticipateForm participateForm) throws WerewolfMansionBusinessException {
-        Village village = villageBhv.selectEntityWithDeletedCheck(cb -> {
-            cb.setupSelect_VillageSettingsAsOne();
-            cb.query().setVillageId_Equal(villageId);
-        });
-        int participateCount = villagePlayerBhv.selectCount(cb -> {
-            cb.query().setVillageId_Equal(villageId);
-            cb.query().setCharaId_Equal(participateForm.getCharaId());
-            cb.query().setIsGone_Equal_False();
-        });
-        if (participateCount > 0) {
-            throw new WerewolfMansionBusinessException("既に参加されているキャラクターです。別のキャラクターを選択してください。");
-        } else if (participateCount >= village.getVillageSettingsAsOne().get().getPersonMaxNum()) {
-            throw new WerewolfMansionBusinessException("既に上限人数まで参加しているプレイヤーがいるため参加できません。");
-        }
-        // 役職希望無効なのにおまかせ以外
-        if (!CDef.Skill.おまかせ.code().equals(participateForm.getRequestedSkill())
-                && BooleanUtils.isFalse(village.getVillageSettingsAsOne().get().getIsPossibleSkillRequest())) {
-            throw new WerewolfMansionBusinessException("希望役職が不正です。");
-        }
-    }
-
-    // 参戦する
-    public void participate(Integer villageId, VillageParticipateForm participateForm, UserInfo userInfo) {
-        Integer playerId =
-                playerBhv.selectEntityWithDeletedCheck(cb -> cb.query().setPlayerName_Equal(userInfo.getUsername())).getPlayerId();
-        villageParticipateLogic.participate(villageId, playerId, participateForm.getCharaId(),
-                CDef.Skill.codeOf(participateForm.getRequestedSkill()), participateForm.getJoinMessage());
-    }
-
-    // 退村する
-    public void leave(VillagePlayer vPlayer) {
-        Village village = villageBhv.selectEntityWithDeletedCheck(cb -> cb.query().setVillageId_Equal(vPlayer.getVillageId()));
-        if (!village.isVillageStatusCode募集中() && !village.isVillageStatusCode開始待ち()) {
-            return;
-        }
-        villageParticipateLogic.leave(vPlayer);
-    }
-
-    // 役職希望変更
-    public void changeRequestSkill(VillagePlayer vPlayer, String skillCode) {
-        Village village = villageBhv.selectEntityWithDeletedCheck(cb -> cb.query().setVillageId_Equal(vPlayer.getVillageId()));
-        if (!village.isVillageStatusCode募集中() && !village.isVillageStatusCode開始待ち()) {
-            return;
-        }
-        villageParticipateLogic.changeRequestSkill(vPlayer, skillCode);
-    }
-
-    // 発言可能かチェック
-    public boolean isAvailableSay(Integer villageId, UserInfo userInfo, VillageSayForm sayForm) {
-        CDef.MessageType type = CDef.MessageType.codeOf(sayForm.getMessageType());
-        if (type == null) {
-            throw new IllegalArgumentException("発言種別が改ざんされている");
-        }
-        Village village = selectVillage(villageId);
-        VillagePlayer villagePlayer = selectVillagePlayer(villageId, userInfo).orElseThrow(() -> {
-            return new IllegalArgumentException("セッション切れ？");
-        });
-        // 管理者は発言可能
-        if (userInfo.getAuthorities().stream().anyMatch(a -> a.equals(new SimpleGrantedAuthority("ROLE_ADMIN")))) {
-            return true;
-        }
-        switch (type) {
-        case 人狼の囁き:
-            return isAvailableWerewolfSay(village, villagePlayer);
-        case 通常発言:
-            return isAvailableNormalSay(village, villagePlayer);
-        case 共鳴発言:
-            return isAvailableMasonSay(village, villagePlayer);
-        case 死者の呻き:
-            return isAvailableGraveSay(village, villagePlayer);
-        case 独り言:
-            return isAvailableMonologueSay(village);
-        default:
-            throw new IllegalArgumentException("発言種別が改ざんされている type: " + type);
-        }
-
+        return "village";
     }
 
     // ===================================================================================

@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.ort.app.web.controller.assist.VillageAssist;
 import com.ort.app.web.controller.logic.VillageParticipateLogic;
 import com.ort.app.web.form.VillageLeaveForm;
 import com.ort.app.web.form.VillageParticipateForm;
@@ -35,9 +34,6 @@ public class AdminController {
 
     @Autowired
     private VillagePlayerBhv villagePlayerBhv;
-
-    @Autowired
-    private VillageAssist assist;
 
     @Autowired
     private VillageParticipateLogic villageLogic;
@@ -99,7 +95,7 @@ public class AdminController {
             return "redirect:/village/" + villageId;
         }
         // 退村させる
-        assist.leave(optVPlayer.get());
+        villageLogic.leave(optVPlayer.get());
 
         return "redirect:/village/" + villageId;
     }
