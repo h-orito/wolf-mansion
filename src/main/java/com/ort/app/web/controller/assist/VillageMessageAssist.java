@@ -133,7 +133,7 @@ public class VillageMessageAssist {
         });
     }
 
-    public int selectLatestDay(Integer villageId) {
+    private int selectLatestDay(Integer villageId) {
         return villageDayBhv.selectScalar(Integer.class).max(cb -> {
             cb.specify().columnDay();
             cb.query().setVillageId_Equal(villageId);

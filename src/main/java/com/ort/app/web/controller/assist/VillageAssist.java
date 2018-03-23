@@ -14,6 +14,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
+import com.ort.app.web.controller.logic.VillageDispLogic;
 import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
 import com.ort.app.web.form.VillageLeaveForm;
@@ -31,7 +32,6 @@ import com.ort.app.web.model.inner.VillageSkillDto;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.AbilityBhv;
 import com.ort.dbflute.exbhv.FootstepBhv;
-import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exbhv.SkillBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
@@ -67,9 +67,6 @@ public class VillageAssist {
     private VillageDayBhv villageDayBhv;
 
     @Autowired
-    private PlayerBhv playerBhv;
-
-    @Autowired
     private SkillBhv skillBhv;
 
     @Autowired
@@ -80,6 +77,9 @@ public class VillageAssist {
 
     @Autowired
     private FootstepBhv footstepBhv;
+
+    @Autowired
+    private VillageDispLogic villageDispLogic;
 
     // ===================================================================================
     //                                                                             Execute
@@ -159,158 +159,6 @@ public class VillageAssist {
         });
     }
 
-    // 参戦フォームを表示するか
-    private boolean isDispParticipateForm(int day, UserInfo userInfo, Village village) {
-        // ログインしていない場合は表示しない
-        if (userInfo == null) {
-            return false;
-        }
-        // 現在プロローグでない場合表示しない
-        if (!village.isVillageStatusCode募集中() && !village.isVillageStatusCode開始待ち()) {
-            return false;
-        }
-        // 決着のついていない村に参戦している場合表示しない
-        int participateCount = playerBhv.selectCount(cb -> {
-            cb.query().setPlayerName_Equal(userInfo.getUsername());
-            // 募集中、開始待ち、進行中の村に参戦している
-            cb.query().existsVillagePlayer(villagePlayerCB -> {
-                villagePlayerCB.query().queryVillage().setVillageStatusCode_InScope_AsVillageStatus(
-                        Arrays.asList(CDef.VillageStatus.募集中, CDef.VillageStatus.進行中, CDef.VillageStatus.開始待ち));
-                villagePlayerCB.query().setIsGone_Equal_False();
-            });
-        });
-        if (participateCount > 0) {
-            return false;
-        }
-        // 既に最大人数まで参加していたら表示しない
-        Integer maxPersonNum = village.getVillageSettingsAsOne().get().getPersonMaxNum();
-        int participateNum = villagePlayerBhv.selectCount(cb -> {
-            cb.query().setVillageId_Equal(village.getVillageId());
-            cb.query().setIsGone_Equal_False();
-        });
-
-        return participateNum < maxPersonNum;
-    }
-
-    // 希望役職変更フォームを表示するか
-    private boolean isDispChangeRequestSkillForm(int day, OptionalThing<VillagePlayer> optVillagePlayer, Village village) {
-        // 現在プロローグでない場合表示しない
-        if (!village.isVillageStatusCode募集中() && !village.isVillageStatusCode開始待ち()) {
-            return false;
-        }
-        // この村に参戦していない場合は表示しない
-        if (!optVillagePlayer.isPresent()) {
-            return false;
-        }
-        // 役職希望有効出ない場合は表示しない
-        if (!BooleanUtils.isTrue(village.getVillageSettingsAsOne().get().getIsPossibleSkillRequest())) {
-            return false;
-        }
-        return true;
-    }
-
-    // 退村フォームを表示するか
-    private boolean isDispLeaveVillageForm(int day, OptionalThing<VillagePlayer> optVillagePlayer, Village village) {
-        // 現在プロローグでない場合表示しない
-        if (!village.isVillageStatusCode募集中() && !village.isVillageStatusCode開始待ち()) {
-            return false;
-        }
-        // この村に参戦していない場合は表示しない
-        if (!optVillagePlayer.isPresent()) {
-            return false;
-        }
-        return true;
-    }
-
-    // 発言フォームを表示するか
-    private boolean isDispSayForm(Integer villageId, Village village, UserInfo userInfo, OptionalThing<VillagePlayer> optVillagePlayer,
-            int day, ListResultBean<VillageDay> dayList) {
-        // ログインしていない場合は表示しない
-        if (userInfo == null) {
-            return false;
-        }
-        // この村に参戦していない場合は表示しない
-        if (!optVillagePlayer.isPresent()) {
-            return false;
-        }
-        // 最新日以外は表示しない
-        if (!isLatestDay(day, dayList)) {
-            return false;
-        }
-        // 突然死した場合はエピローグ以外表示しない
-        if (optVillagePlayer.get().getDeadReasonCodeAsDeadReason() == CDef.DeadReason.突然 && !village.isVillageStatusCodeエピローグ()) {
-            return false;
-        }
-        return true;
-    }
-
-    // 最新日か
-    private boolean isLatestDay(int day, ListResultBean<VillageDay> dayList) {
-        return dayList.get(dayList.size() - 1).getDay().equals(day);
-    }
-
-    private boolean isAvailableNormalSay(Village village, VillagePlayer villagePlayer) {
-        // エピローグ以外で死亡している場合は不可
-        if (BooleanUtils.isTrue(villagePlayer.getIsDead()) && !village.isVillageStatusCodeエピローグ()) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isAvailableWerewolfSay(Village village, VillagePlayer villagePlayer) {
-        // 狼とC狂以外は不可
-        CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
-        if (skill != CDef.Skill.人狼 && skill != CDef.Skill.C国狂人) {
-            return false;
-        }
-        // 死亡していたら不可
-        if (BooleanUtils.isTrue(villagePlayer.getIsDead())) {
-            return false;
-        }
-        // 進行中以外は不可
-        if (!village.isVillageStatusCode進行中()) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isAvailableMasonSay(Village village, VillagePlayer villagePlayer) {
-        // 共有以外は不可
-        CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
-        if (skill != CDef.Skill.共鳴者) {
-            return false;
-        }
-        // 死亡していたら不可
-        if (BooleanUtils.isTrue(villagePlayer.getIsDead())) {
-            return false;
-        }
-        // 進行中以外は不可
-        if (!village.isVillageStatusCode進行中()) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isAvailableGraveSay(Village village, VillagePlayer villagePlayer) {
-        // 死亡していなかったら不可
-        if (!BooleanUtils.isTrue(villagePlayer.getIsDead())) {
-            return false;
-        }
-        // 進行中以外は不可
-        if (!village.isVillageStatusCode進行中()) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isAvailableMonologueSay(Village village) {
-        // 進行中以外は不可
-        if (!village.isVillageStatusCode進行中()) {
-            return false;
-        }
-        return true;
-    }
-
     // 参戦キャラとして選択可能なキャラを取得
     private List<Chara> selectSelectableCharaList(Integer villageId) {
         // 既に参加しているキャラ
@@ -334,6 +182,20 @@ public class VillageAssist {
         return villageSettings.getCharaGroup().get().getCharaList();
     }
 
+    private OptionalEntity<Ability> selectAbility(Integer villageId, int day, CDef.AbilityType type) {
+        if (type == null) {
+            return OptionalEntity.empty();
+        }
+        return abilityBhv.selectEntity(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_Equal(day);
+            cb.query().setAbilityTypeCode_Equal_AsAbilityType(type);
+        });
+    }
+
+    // ===================================================================================
+    //                                                                        Assist Logic
+    //                                                                        ============
     // デフォルト発言区分
     private void setDefaultMessageTypeIfNeeded(VillageSayForm sayForm, boolean isDispSayForm, boolean isAvailableNormalSay,
             boolean isAvailableWerewolfSay, boolean isAvailableMasonSay, boolean isAvailableGraveSay, boolean isAvailableMonologueSay,
@@ -409,17 +271,6 @@ public class VillageAssist {
         });
     }
 
-    private OptionalEntity<Ability> selectAbility(Integer villageId, int day, CDef.AbilityType type) {
-        if (type == null) {
-            return OptionalEntity.empty();
-        }
-        return abilityBhv.selectEntity(cb -> {
-            cb.query().setVillageId_Equal(villageId);
-            cb.query().setDay_Equal(day);
-            cb.query().setAbilityTypeCode_Equal_AsAbilityType(type);
-        });
-    }
-
     private String getCharacterNameFromCharaId(Village village, Integer charaId) {
         return village.getVillagePlayerList()
                 .stream()
@@ -429,79 +280,6 @@ public class VillageAssist {
                 .getChara()
                 .get()
                 .getCharaName();
-    }
-
-    private List<Chara> makeVoteTargetList(Village village, OptionalThing<VillagePlayer> optVillagePlayer, int day, boolean isLatestDay) {
-        if (!optVillagePlayer.isPresent() || optVillagePlayer.get().isIsDeadTrue() || !isLatestDay || !village.isVillageStatusCode進行中()
-                || day == 1) {
-            return null;
-        }
-        return village.getVillagePlayerList().stream().filter(vp -> vp.isIsDeadFalse()).map(vp -> vp.getChara().get()).collect(
-                Collectors.toList());
-    }
-
-    private List<Chara> makeAbilityTargetList(Village village, OptionalThing<VillagePlayer> optVillagePlayer, int day,
-            boolean isLatestDay) {
-        if (!optVillagePlayer.isPresent() || optVillagePlayer.get().isIsDeadTrue() || !isLatestDay || !village.isVillageStatusCode進行中()) {
-            return null;
-        }
-        VillagePlayer vPlayer = optVillagePlayer.get();
-        CDef.Skill skill = vPlayer.getSkillCodeAsSkill();
-        if (skill == CDef.Skill.人狼) {
-            if (day == 1) {
-                // ダミーキャラ固定
-                return village.getVillagePlayerList()
-                        .stream()
-                        .filter(vp -> vp.getChara().get().isIsDummyTrue())
-                        .map(vp -> vp.getChara().get())
-                        .collect(Collectors.toList());
-            } else {
-                // 狼以外の生存しているプレイヤー全員
-                return village.getVillagePlayerList()
-                        .stream()
-                        .filter(vp -> vp.isIsDeadFalse() && vp.getSkillCodeAsSkill() != CDef.Skill.人狼)
-                        .map(vp -> vp.getChara().get())
-                        .collect(Collectors.toList());
-            }
-        } else if (skill == CDef.Skill.占い師 || (skill == CDef.Skill.狩人 && day > 1)) {
-            // 自分以外の生存しているプレイヤー全員
-            return village.getVillagePlayerList()
-                    .stream()
-                    .filter(vp -> vp.isIsDeadFalse() && !vp.getVillagePlayerId().equals(vPlayer.getVillagePlayerId()))
-                    .map(vp -> vp.getChara().get())
-                    .collect(Collectors.toList());
-        }
-        return null;
-    }
-
-    private List<Chara> makeAttackerList(Village village, OptionalThing<VillagePlayer> optVillagePlayer, int day, boolean isLatestDay) {
-        if (!optVillagePlayer.isPresent() || optVillagePlayer.get().isIsDeadTrue() || !isLatestDay || !village.isVillageStatusCode進行中()) {
-            return null;
-        }
-        VillagePlayer vPlayer = optVillagePlayer.get();
-        CDef.Skill skill = vPlayer.getSkillCodeAsSkill();
-        if (skill != CDef.Skill.人狼) {
-            return null;
-        }
-        // 昨日襲撃した狼
-        Integer yesterdayAttackerId = abilityBhv.selectEntity(cb -> {
-            cb.query().setVillageId_Equal(village.getVillageId());
-            cb.query().setDay_Equal(day - 1);
-            cb.query().setAbilityTypeCode_Equal_襲撃();
-        }).map(ab -> ab.getCharaId()).orElse(null);
-        // 生存している狼リスト
-        List<Chara> liveAttackerList = village.getVillagePlayerList()
-                .stream()
-                .filter(vp -> vp.isIsDeadFalse() && vp.getSkillCodeAsSkill() == CDef.Skill.人狼)
-                .map(vp -> vp.getChara().get())
-                .collect(Collectors.toList());
-        // 生存している狼が1名ではない場合は、昨日襲撃した狼は襲撃できない
-        if (liveAttackerList.size() > 1) {
-            return liveAttackerList.stream().filter(attacker -> !attacker.getCharaId().equals(yesterdayAttackerId)).collect(
-                    Collectors.toList());
-        } else {
-            return liveAttackerList;
-        }
     }
 
     // 基本的な情報、参加有無に関わらない情報
@@ -524,10 +302,10 @@ public class VillageAssist {
             ListResultBean<VillageDay> dayList, OptionalThing<VillagePlayer> optVillagePlayer, VillageSayForm sayForm,
             VillageParticipateForm participateForm, VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
         // 参戦
-        boolean isDispParticipateForm = isDispParticipateForm(day, userInfo, village);
+        boolean isDispParticipateForm = villageDispLogic.isDispParticipateForm(day, userInfo, village);
         setVillageModelParticipateForm(content, villageId, participateForm, model, isDispParticipateForm);
         // 役職希望変更
-        boolean isDispChangeRequestSkillForm = isDispChangeRequestSkillForm(day, optVillagePlayer, village);
+        boolean isDispChangeRequestSkillForm = villageDispLogic.isDispChangeRequestSkillForm(day, optVillagePlayer, village);
         setVillageModekChangeRequestSkillForm(content, villageId, optVillagePlayer, changeRequestSkillForm, model, isDispParticipateForm,
                 isDispChangeRequestSkillForm);
         // 参戦、役職希望変更時に選べる役職
@@ -535,15 +313,16 @@ public class VillageAssist {
                 ? selectSelectableSkillList(villageId).stream().map(skill -> convertToSkillPart(skill)).collect(Collectors.toList())
                 : null);
         // 退村
-        content.setIsDispLeaveVillageForm(isDispLeaveVillageForm(day, optVillagePlayer, village));
+        content.setIsDispLeaveVillageForm(villageDispLogic.isDispLeaveVillageForm(day, optVillagePlayer, village));
         model.addAttribute("villageLeaveForm", new VillageLeaveForm());
         // 発言
         setVillageModelSayForm(content, villageId, village, userInfo, day, dayList, optVillagePlayer, sayForm, model);
         // 能力行使
         setVillageModelAbilityForm(content, villageId, village, day, dayList, optVillagePlayer, model);
         // 投票
-        setVoteTarget(villageId, village, optVillagePlayer, day, isLatestDay(day, dayList), model);
-        content.setVoteTargetList(makeVoteTargetList(village, optVillagePlayer, day, isLatestDay(day, dayList)));
+        setVoteTarget(villageId, village, optVillagePlayer, day, villageDispLogic.isLatestDay(day, dayList), model);
+        content.setVoteTargetList(
+                villageDispLogic.makeVoteTargetList(village, optVillagePlayer, day, villageDispLogic.isLatestDay(day, dayList)));
         // 参加情報
         setVillageModelPlayerInfo(content, optVillagePlayer);
     }
@@ -581,22 +360,24 @@ public class VillageAssist {
 
     private void setVillageModelAbilityForm(VillageResultContent content, Integer villageId, Village village, int day,
             ListResultBean<VillageDay> dayList, OptionalThing<VillagePlayer> optVillagePlayer, Model model) {
-        List<Chara> abilityTargetList = makeAbilityTargetList(village, optVillagePlayer, day, isLatestDay(day, dayList));
+        boolean isLatestDay = villageDispLogic.isLatestDay(day, dayList);
+        List<Chara> abilityTargetList = villageDispLogic.makeAbilityTargetList(village, optVillagePlayer, day, isLatestDay);
         content.setAbilityTargetList(abilityTargetList);
-        content.setAttackerList(makeAttackerList(village, optVillagePlayer, day, isLatestDay(day, dayList)));
-        setAbilityTarget(villageId, village, abilityTargetList, optVillagePlayer, day, isLatestDay(day, dayList), model);
+        content.setAttackerList(villageDispLogic.makeAttackerList(village, optVillagePlayer, day, isLatestDay));
+        setAbilityTarget(villageId, village, abilityTargetList, optVillagePlayer, day, isLatestDay, model);
     }
 
     private void setVillageModelSayForm(VillageResultContent content, Integer villageId, Village village, UserInfo userInfo, int day,
             ListResultBean<VillageDay> dayList, OptionalThing<VillagePlayer> optVillagePlayer, VillageSayForm sayForm, Model model) {
-        boolean isDispSayForm = isDispSayForm(villageId, village, userInfo, optVillagePlayer, day, dayList);
+        boolean isDispSayForm = villageDispLogic.isDispSayForm(villageId, village, userInfo, optVillagePlayer, day, dayList);
         boolean isAllSayAvailable =
                 isDispSayForm && userInfo.getAuthorities().stream().anyMatch(a -> a.equals(new SimpleGrantedAuthority("ROLE_ADMIN")));
-        boolean isAvailableNormalSay = isDispSayForm && isAvailableNormalSay(village, optVillagePlayer.get()); // 通常発言可能か
-        boolean isAvailableWerewolfSay = isDispSayForm && isAvailableWerewolfSay(village, optVillagePlayer.get()); // 囁き可能か
-        boolean isAvailableMasonSay = isDispSayForm && isAvailableMasonSay(village, optVillagePlayer.get()); // 共有者発言可能か
-        boolean isAvailableGraveSay = isDispSayForm && isAvailableGraveSay(village, optVillagePlayer.get()); // 死者の呻きが発言可能か
-        boolean isAvailableMonologueSay = isDispSayForm && isAvailableMonologueSay(village); // 独り言が発言可能か
+        VillagePlayer vPlayer = optVillagePlayer.get();
+        boolean isAvailableNormalSay = isDispSayForm && villageDispLogic.isAvailableNormalSay(village, vPlayer); // 通常発言可能か
+        boolean isAvailableWerewolfSay = isDispSayForm && villageDispLogic.isAvailableWerewolfSay(village, vPlayer); // 囁き可能か
+        boolean isAvailableMasonSay = isDispSayForm && villageDispLogic.isAvailableMasonSay(village, vPlayer); // 共有者発言可能か
+        boolean isAvailableGraveSay = isDispSayForm && villageDispLogic.isAvailableGraveSay(village, vPlayer); // 死者の呻きが発言可能か
+        boolean isAvailableMonologueSay = isDispSayForm && villageDispLogic.isAvailableMonologueSay(village); // 独り言が発言可能か
         content.setIsDispSayForm(isAllSayAvailable || isDispSayForm);
         content.setIsAvailableNormalSay(isAllSayAvailable || isAvailableNormalSay); // 通常発言可能か
         content.setIsAvailableWerewolfSay(isAllSayAvailable || isAvailableWerewolfSay); // 囁き可能か
