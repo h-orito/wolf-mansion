@@ -372,7 +372,7 @@ public class VillageAssist {
         boolean isDispSayForm = villageDispLogic.isDispSayForm(villageId, village, userInfo, optVillagePlayer, day, dayList);
         boolean isAllSayAvailable =
                 isDispSayForm && userInfo.getAuthorities().stream().anyMatch(a -> a.equals(new SimpleGrantedAuthority("ROLE_ADMIN")));
-        VillagePlayer vPlayer = optVillagePlayer.get();
+        VillagePlayer vPlayer = optVillagePlayer.orElse(null);
         boolean isAvailableNormalSay = isDispSayForm && villageDispLogic.isAvailableNormalSay(village, vPlayer); // 通常発言可能か
         boolean isAvailableWerewolfSay = isDispSayForm && villageDispLogic.isAvailableWerewolfSay(village, vPlayer); // 囁き可能か
         boolean isAvailableMasonSay = isDispSayForm && villageDispLogic.isAvailableMasonSay(village, vPlayer); // 共有者発言可能か
