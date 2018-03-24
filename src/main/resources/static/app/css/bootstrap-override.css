@@ -227,16 +227,21 @@ tr.top-menu-selectable:hover a {
 }
 
 .goto-top {
-	bottom: 160px;
+	bottom: 210px;
 	right: 10px;
 }
 
 .filter {
-	bottom: 110px;
+	bottom: 160px;
 	right: 10px;
 }
 
 .refresh {
+	bottom: 110px;
+	right: 10px;
+}
+
+.roomasign {
 	bottom: 60px;
 	right: 10px;
 }

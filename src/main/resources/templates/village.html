@@ -170,6 +170,23 @@
 							</div>
 						</div>
 
+						<div class="col-sm-12 well" style="padding-top: 10px; padding-bottom: 10px;" th:if="${content.roomWidth != null}">
+							<h2 class="h5">部屋割り当て</h2>
+							<table class="table-bordered table-condensed small">
+								<tbody>
+									<tr th:each="row : ${content.roomAssignedRowList}">
+										<td th:each="room: ${row.roomAssignedList}" class="small"
+											th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
+									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
+									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
+											<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+											th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
 						<!--/* 発言欄 */-->
 						<div class="col-sm-12 well" style="padding-top: 10px;" th:if="${content.isDead}">
 							<div class="">
@@ -385,6 +402,8 @@
 						<!--/* 日付リスト */-->
 						<div class="col-sm-12 small">
 							<ul style="padding-left: 0px;">
+								<li style="list-style-type: none; display: inline; margin-right: 10px;"><a href="javascript:void(0);" data-toggle="modal"
+									data-target="#village-info">情報</a></li>
 								<li th:each="day : ${content.dayList}" style="list-style-type: none; display: inline; margin-right: 10px;"><span
 									th:if="${day == content.day && day != 0 && day != content.epilogueDay && day - 1 != content.epilogueDay}" th:text="${day} + '日目'"></span> <span
 									th:if="${day == content.day && day == 0}" th:text="プロローグ"></span> <span th:if="${day == content.day && day == content.epilogueDay}"
@@ -411,10 +430,38 @@
 				<div class="btn btn-primary goto filter" data-filter>
 					<span class="glyphicon glyphicon-filter"></span>
 				</div>
+				<div class="btn btn-primary goto roomasign" data-toggle="modal" data-target="#modal-room">
+					<span class="glyphicon glyphicon-th"></span>
+				</div>
 				<div class="btn btn-primary goto goto-bottom" data-goto-bottom>
 					<span class="glyphicon glyphicon-arrow-down"></span>
 				</div>
 
+				<!--/* 部屋割り当て */-->
+				<div class="modal fade" id="modal-room" th:if="${content.roomWidth != null}" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-body">
+								<h2 class="h5">部屋割り当て</h2>
+								<table class="table-bordered table-condensed small">
+									<tbody>
+										<tr th:each="row : ${content.roomAssignedRowList}">
+											<td th:each="room: ${row.roomAssignedList}" class="small"
+												th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
+									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
+									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
+												<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+												th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!--/* 村情報 */-->
 				<div class="modal fade" id="village-info" tabindex="-1">
 					<div class="modal-dialog">
 						<div class="modal-content">
