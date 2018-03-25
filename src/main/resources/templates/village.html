@@ -39,58 +39,9 @@
 						</ul>
 					</div>
 				</div>
-				<!--/* 入村者 */-->
-				<div class="col-sm-3 small side">
-					<div class="panel-group">
-						<div class="panel panel-default">
-							<div class="panel-heading clearfix">
-								<a href="javascript:void(0);" data-toggle="collapse" data-target="#memberlist" aria-expanded="false">参加者リスト</a>
-							</div>
-							<div class="panel-collapse collapse" id="memberlist">
-								<div class="panel-body">
-									<table class="table table-bordered table-condensed small" th:each="statusDto : ${content.memberList}">
-										<tr>
-											<th th:text="${statusDto.status}">生存</th>
-										</tr>
-										<tr th:each="member : ${statusDto.statusMemberList}">
-											<td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName}"></td>
-										</tr>
-										<tr th:if="${statusDto.statusMemberList.size() == 0}">
-											<td>なし</td>
-										</tr>
-									</table>
-								</div>
-							</div>
-							<div class="panel-heading clearfix" th:if="${content.roomWidth != null}">
-								<a href="javascript:void(0);" data-toggle="collapse" data-target="#roomlist" aria-expanded="false">部屋割り当て</a>
-							</div>
-							<div class="panel-collapse collapse" id="roomlist" th:if="${content.roomWidth != null}">
-								<div class="panel-body table-responsive">
-									<table class="table-bordered table-condensed small">
-										<!-- tableがあるとwidth:100%になるので外す -->
-										<tr>
-											<th th:colspan="${content.roomWidth}">部屋割り当て</th>
-										</tr>
-										<tbody>
-											<tr th:each="row : ${content.roomAssignedRowList}">
-												<td th:each="room: ${row.roomAssignedList}" class="small"
-													th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
-									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
-									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
-													<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-													th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
 
 				<!--/* 村タイトル、日付リンク */-->
-				<div class="col-sm-9">
+				<div class="col-sm-12">
 					<div class="">
 						<!--/* rowを外した */-->
 
@@ -171,20 +122,58 @@
 						</div>
 
 						<div class="col-sm-12 well" style="padding-top: 10px; padding-bottom: 10px;" th:if="${content.roomWidth != null}">
-							<h2 class="h5">部屋割り当て</h2>
-							<table class="table-bordered table-condensed small">
-								<tbody>
-									<tr th:each="row : ${content.roomAssignedRowList}">
-										<td th:each="room: ${row.roomAssignedList}" class="small"
-											th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
+							<ul class="nav nav-tabs">
+								<li class="active"><a data-toggle="tab" href="#room-on-sayform">部屋割り当て</a></li>
+								<li><a data-toggle="tab" href="#tab-memberlist">参加者</a></li>
+							</ul>
+
+							<div class="tab-content row">
+								<div id="room-on-sayform" class="tab-pane fade in active" style="padding-top: 10px; padding-bottom: 10px;">
+									<div class="col-sm-12 col-xs-12">
+										<table class="table-bordered table-condensed small">
+											<tbody>
+												<tr th:each="row : ${content.roomAssignedRowList}">
+													<td th:each="room: ${row.roomAssignedList}" class="small"
+														th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
 									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
-											<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-											th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+														<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+														th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div id="tab-memberlist" class="tab-pane fade" style="padding-top: 10px; padding-bottom: 10px;">
+									<div class="col-sm-6 col-xs-6">
+										<table class="table table-bordered table-condensed small" th:each="statusDto, s : ${content.memberList}" th:if=${s.first}>
+											<tr>
+												<th th:text="${statusDto.status}">生存</th>
+											</tr>
+											<tr th:each="member : ${statusDto.statusMemberList}">
+												<td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName}"></td>
+											</tr>
+											<tr th:if="${statusDto.statusMemberList.size() == 0}">
+												<td>なし</td>
+											</tr>
+										</table>
+									</div>
+									<div class="col-sm-6 col-xs-6">
+										<table class="table table-bordered table-condensed small" th:each="statusDto, s : ${content.memberList}" th:unless=${s.first}>
+											<tr>
+												<th th:text="${statusDto.status}">生存</th>
+											</tr>
+											<tr th:each="member : ${statusDto.statusMemberList}">
+												<td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName}"></td>
+											</tr>
+											<tr th:if="${statusDto.statusMemberList.size() == 0}">
+												<td>なし</td>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</div>
 						</div>
 
 						<!--/* 発言欄 */-->
@@ -442,20 +431,58 @@
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-body">
-								<h2 class="h5">部屋割り当て</h2>
-								<table class="table-bordered table-condensed small">
-									<tbody>
-										<tr th:each="row : ${content.roomAssignedRowList}">
-											<td th:each="room: ${row.roomAssignedList}" class="small"
-												th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
+								<ul class="nav nav-tabs">
+									<li class="active"><a data-toggle="tab" href="#modal-roomlist">部屋割り当て</a></li>
+									<li><a data-toggle="tab" href="#modal-memberlist">参加者</a></li>
+								</ul>
+
+								<div class="tab-content row">
+									<div id="modal-roomlist" class="tab-pane fade in active" style="padding-top: 10px; padding-bottom: 10px;">
+										<div class="col-sm-12 col-xs-12">
+											<table class="table-bordered table-condensed small">
+												<tbody>
+													<tr th:each="row : ${content.roomAssignedRowList}">
+														<td th:each="room: ${row.roomAssignedList}" class="small"
+															th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
 									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
-												<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-												th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
-											</td>
-										</tr>
-									</tbody>
-								</table>
+															<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+															th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div id="modal-memberlist" class="tab-pane fade" style="padding-top: 10px; padding-bottom: 10px;">
+										<div class="col-sm-6 col-xs-6">
+											<table class="table table-bordered table-condensed small" th:each="statusDto, s : ${content.memberList}" th:if=${s.first}>
+												<tr>
+													<th th:text="${statusDto.status}">生存</th>
+												</tr>
+												<tr th:each="member : ${statusDto.statusMemberList}">
+													<td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName}"></td>
+												</tr>
+												<tr th:if="${statusDto.statusMemberList.size() == 0}">
+													<td>なし</td>
+												</tr>
+											</table>
+										</div>
+										<div class="col-sm-6 col-xs-6">
+											<table class="table table-bordered table-condensed small" th:each="statusDto, s : ${content.memberList}" th:unless=${s.first}>
+												<tr>
+													<th th:text="${statusDto.status}">生存</th>
+												</tr>
+												<tr th:each="member : ${statusDto.statusMemberList}">
+													<td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName}"></td>
+												</tr>
+												<tr th:if="${statusDto.statusMemberList.size() == 0}">
+													<td>なし</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
