@@ -301,7 +301,7 @@
 										<div class="col-sm-12">
 											<span th:if="${content.skillName == 'WEREWOLF'}" th:text="襲撃対象"></span> <select class="form-control" th:field="*{targetCharaId}"
 												data-ability-target-select>
-												<option th:if="${content.skillName == 'WEREWOLF' && content.day > 1}" value="">なし</option>
+												<!--/* <option th:if="${content.skillName == 'WEREWOLF' && content.day > 1}" value="">なし</option> ルール的になしにする */-->
 												<option th:each="target : ${content.abilityTargetList}" th:value="${target.charaId}" th:text="${target.charaName}"></option>
 											</select> <span th:if="${content.skillName == 'SEER'}" th:text="を占う"></span> <span th:if="${content.skillName == 'HUNTER'}" th:text="を護衛する"></span>
 										</div>
