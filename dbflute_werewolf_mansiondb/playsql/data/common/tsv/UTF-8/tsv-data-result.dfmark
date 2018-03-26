@@ -13,6 +13,5 @@ data-directory: playsql/data/common/tsv/UTF-8
 05-MESSAGE_TYPE.tsv (9)
 06-DEAD_REASON.tsv (4)
 07-ABILITY_TYPE.tsv (3)
-08-DESIGNER.tsv (1)
-09-CHARA_GROUP.tsv (1)
-10-CHARA.tsv (20)
+08-DESIGNER.tsv (2)
+09-CHARA_GROUP.tsv (2)

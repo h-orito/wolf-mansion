@@ -1,0 +1,54 @@
+chara_id	chara_name	chara_short_name	chara_group_id	chara_img_url	is_dummy
+1	楽天家 ゲルト	楽	1	/werewolf-mansion/app/images/geruto.png	1
+2	村長 ヴァルター	長	1	/werewolf-mansion/app/images/varuta.png	0
+3	老人 モーリッツ	老	1	/werewolf-mansion/app/images/moritu.png	0
+4	神父 ジムゾン	神	1	/werewolf-mansion/app/images/jimuzon.png	0
+5	木こり トーマス	樵	1	/werewolf-mansion/app/images/tomasu.png	0
+6	旅人 ニコラス	旅	1	/werewolf-mansion/app/images/nikorasu.png	0
+7	ならず者 ディーター	者	1	/werewolf-mansion/app/images/dhita.png	0
+8	少年 ペーター	年	1	/werewolf-mansion/app/images/peta.png	0
+9	少女 リーザ	妙	1	/werewolf-mansion/app/images/riza.png	0
+10	行商人 アルビン	商	1	/werewolf-mansion/app/images/arubin.png	0
+11	羊飼い カタリナ	羊	1	/werewolf-mansion/app/images/katarina.png	0
+12	パン屋 オットー	屋	1	/werewolf-mansion/app/images/otto.png	0
+13	青年 ヨアヒム	青	1	/werewolf-mansion/app/images/yoahimu.png	0
+14	村娘 パメラ	娘	1	/werewolf-mansion/app/images/pamera.png	0
+15	農夫 ヤコブ	農	1	/werewolf-mansion/app/images/yakobu.png	0
+16	宿屋の女主人 レジーナ	宿	1	/werewolf-mansion/app/images/rejina.png	0
+17	シスター フリーデル	修	1	/werewolf-mansion/app/images/furideru.png	0
+18	仕立て屋 エルナ	服	1	/werewolf-mansion/app/images/eruna.png	0
+19	司書 クララ	書	1	/werewolf-mansion/app/images/kurara.png	0
+20	負傷兵 シモン	兵	1	/werewolf-mansion/app/images/shimon.png	0
+21	天野つぐみ	天	2	http://ort.0am.jp/wmansion/2/01_5077_A.png	0
+22	市川夢助	市	2	http://ort.0am.jp/wmansion/2/02_5077_A.png	0
+23	稲沢遥介	稲	2	http://ort.0am.jp/wmansion/2/03_5077_A.png	0
+24	井上清春	井	2	http://ort.0am.jp/wmansion/2/04_5077_A.png	0
+25	歌田由佳里	歌	2	http://ort.0am.jp/wmansion/2/05_5077_A.png	0
+26	大木慎之介	大	2	http://ort.0am.jp/wmansion/2/06_5077_A.png	0
+27	越智まどか	越	2	http://ort.0am.jp/wmansion/2/07_5077_A.png	0
+28	鬼束瑠璃	鬼	2	http://ort.0am.jp/wmansion/2/08_5077_A.png	0
+29	櫛田三四子	櫛	2	http://ort.0am.jp/wmansion/2/09_5077_A.png	0
+30	後藤拓真	後	2	http://ort.0am.jp/wmansion/2/10_5077_A.png	0
+31	椎名梨穂	椎	2	http://ort.0am.jp/wmansion/2/11_5077_A.png	0
+32	清水常雅	清	2	http://ort.0am.jp/wmansion/2/12_5077_A.png	0
+33	菅原駆	菅	2	http://ort.0am.jp/wmansion/2/13_5077_A.png	0
+34	高嶺聖子	聖	2	http://ort.0am.jp/wmansion/2/14_5077_A.png	0
+35	千葉郁也	千	2	http://ort.0am.jp/wmansion/2/15_5077_A.png	0
+36	椿屋凜子	椿	2	http://ort.0am.jp/wmansion/2/16_5077_A.png	0
+37	名坂愛子	愛	2	http://ort.0am.jp/wmansion/2/17_5077_A.png	0
+38	名坂雪	雪	2	http://ort.0am.jp/wmansion/2/18_5077_A.png	0
+39	デクスター	デ	2	http://ort.0am.jp/wmansion/2/19_5077_A.png	0
+40	馬場園初音	初	2	http://ort.0am.jp/wmansion/2/20_5077_A.png	0
+41	竹村茜	竹	2	http://ort.0am.jp/wmansion/2/21_5077_A.png	0
+42	春原ジン	春	2	http://ort.0am.jp/wmansion/2/22_5077_A.png	0
+43	ケイティ	ケ	2	http://ort.0am.jp/wmansion/2/23_5077_A.png	0
+44	古川千夏	古	2	http://ort.0am.jp/wmansion/2/24_5077_A.png	0
+45	細美悠斗	細	2	http://ort.0am.jp/wmansion/2/25_5077_A.png	0
+46	堀江豊久	堀	2	http://ort.0am.jp/wmansion/2/26_5077_A.png	0
+47	山中智秋	山	2	http://ort.0am.jp/wmansion/2/27_5077_A.png	0
+48	吉田ミチル	吉	2	http://ort.0am.jp/wmansion/2/28_5077_A.png	0
+49	米津冬馬	米	2	http://ort.0am.jp/wmansion/2/29_5077_A.png	0
+50	岩崎裕三	岩	2	http://ort.0am.jp/wmansion/2/33_5077_A.png	1
+51	静子・ギブソン	静	2	http://ort.0am.jp/wmansion/2/34_5077_A.png	0
+52	南野朱実	南	2	http://ort.0am.jp/wmansion/2/35_5077_A.png	0
+53	小泉義哉	小	2	http://ort.0am.jp/wmansion/2/36_5077_A.png	0
