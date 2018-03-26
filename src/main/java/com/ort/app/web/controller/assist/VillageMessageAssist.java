@@ -341,7 +341,8 @@ public class VillageMessageAssist {
             OptionalEntity<VillagePlayer> optVillagePlayer) {
         // 終了していたら全開放
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
-            dispAllowedMessageTypeList.add(CDef.MessageType.占い結果);
+            dispAllowedMessageTypeList.add(CDef.MessageType.白黒占い結果);
+            dispAllowedMessageTypeList.add(CDef.MessageType.役職占い結果);
             return;
         }
         // 終了していなかったら参加していて死亡しておらず、占い師だったら開放
@@ -349,9 +350,14 @@ public class VillageMessageAssist {
             return;
         }
         VillagePlayer vPlayer = optVillagePlayer.get();
-        if (vPlayer.isIsDeadFalse() && vPlayer.getSkillCodeAsSkill() == CDef.Skill.占い師) {
-            dispAllowedMessageTypeList.add(CDef.MessageType.占い結果);
-            return;
+        if (vPlayer.isIsDeadFalse()) {
+            if (vPlayer.getSkillCodeAsSkill() == CDef.Skill.占い師) {
+                dispAllowedMessageTypeList.add(CDef.MessageType.白黒占い結果);
+                return;
+            } else if (vPlayer.getSkillCodeAsSkill() == CDef.Skill.賢者) {
+                dispAllowedMessageTypeList.add(CDef.MessageType.役職占い結果);
+                return;
+            }
         }
     }
 
@@ -360,7 +366,8 @@ public class VillageMessageAssist {
             OptionalEntity<VillagePlayer> optVillagePlayer) {
         // 終了していたら全開放
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
-            dispAllowedMessageTypeList.add(CDef.MessageType.霊視結果);
+            dispAllowedMessageTypeList.add(CDef.MessageType.白黒霊視結果);
+            dispAllowedMessageTypeList.add(CDef.MessageType.役職霊視結果);
             return;
         }
         // 終了していなかったら参加していて死亡しておらず、霊能者だったら開放
@@ -368,9 +375,14 @@ public class VillageMessageAssist {
             return;
         }
         VillagePlayer vPlayer = optVillagePlayer.get();
-        if (vPlayer.isIsDeadFalse() && vPlayer.getSkillCodeAsSkill() == CDef.Skill.霊能者) {
-            dispAllowedMessageTypeList.add(CDef.MessageType.霊視結果);
-            return;
+        if (vPlayer.isIsDeadFalse()) {
+            if (vPlayer.getSkillCodeAsSkill() == CDef.Skill.霊能者) {
+                dispAllowedMessageTypeList.add(CDef.MessageType.白黒霊視結果);
+                return;
+            } else if (vPlayer.getSkillCodeAsSkill() == CDef.Skill.導師 || vPlayer.getSkillCodeAsSkill() == CDef.Skill.魔神官) {
+                dispAllowedMessageTypeList.add(CDef.MessageType.役職霊視結果);
+                return;
+            }
         }
     }
 

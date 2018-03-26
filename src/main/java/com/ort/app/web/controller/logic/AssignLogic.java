@@ -94,7 +94,7 @@ public class AssignLogic {
             cb.query().addOrderBy_DispOrder_Asc();
         }).stream().forEach(skill -> {
             Skill s = skill.getSkillCodeAsSkill();
-            if (skillPersonNumMap.containsKey(s)) {
+            if (skillPersonNumMap.containsKey(s) && skillPersonNumMap.get(s) > 0) {
                 joiner.add(String.format("%sが%d名", s.alias(), skillPersonNumMap.get(s)));
             }
         });
@@ -120,31 +120,71 @@ public class AssignLogic {
     private Map<Skill, Integer> makeSkillPersonNumMap(int personNum) {
         Map<Skill, Integer> personNumMap = new HashMap<>();
 
+        //        // 狼
+        //        int wolfNum = personNum >= 13 ? 3 : personNum >= 6 ? 2 : 1;
+        //        personNumMap.put(CDef.Skill.人狼, wolfNum);
+        //        // 占
+        //        int seerNum = 1;
+        //        personNumMap.put(CDef.Skill.占い師, seerNum);
+        //        // 霊
+        //        int mediumNum = 1;
+        //        personNumMap.put(CDef.Skill.霊能者, mediumNum);
+        //        // 狩人
+        //        int hunterNum = personNum >= 11 ? 1 : 0;
+        //        personNumMap.put(CDef.Skill.狩人, hunterNum);
+        //        // 狂人
+        //        int madmanNum = personNum >= 11 ? 1 : 0;
+        //        personNumMap.put(CDef.Skill.狂人, madmanNum);
+        //        // 共有
+        //        int masonNum = personNum >= 16 ? 2 : 0;
+        //        personNumMap.put(CDef.Skill.共鳴者, masonNum);
+        //        // 狐
+        //        int foxNum = personNum >= 17 ? 1 : 0;
+        //        personNumMap.put(CDef.Skill.妖狐, foxNum);
+        //        // 村人
+        //        int villagerNum = personNum - wolfNum - seerNum - mediumNum - hunterNum - madmanNum - masonNum - foxNum;
+        //        personNumMap.put(CDef.Skill.村人, villagerNum);
+
+        // 06 ダ＿狼魔＿賢導霊 (3x3, 空3)
+        // 07 ダ＿狼魔＿賢導霊霊 (4x3, 空5)
+        // 08 ダ＿狼狼魔＿賢導狩霊 (4x3, 空4)
+        // 09 ダ＿狼狼魔＿賢導狩霊霊 (4x3, 空3)
+        // 10 ダ＿狼狼魔＿賢導狩霊霊霊 (4x4, 空6)
+        // 11 ダ＿狼狼魔＿賢導狩霊霊霊霊 (4x4, 空5)
+        // 12 ダ＿狼狼魔＿賢導狩霊霊霊霊霊 (4x4, 空4)
+        // 13 ダ＿狼狼狼魔＿賢導狩鳴鳴霊霊霊 (4x4, 空3)
+        // 14 ダ＿狼狼狼魔＿賢導狩鳴鳴霊霊霊霊 (5x4, 空6)
+        // 15 ダ＿狼狼狼魔＿賢導狩鳴鳴霊霊霊霊＿狐 (5x4, 空5)
+        // 16 ダ＿狼狼狼魔＿賢導狩鳴鳴霊霊霊霊霊＿狐 (5x4, 空4)
+        // 17 ダ＿狼狼狼魔＿賢導狩鳴鳴霊霊霊霊霊霊＿狐 (5x4, 空3)
+
         // 狼
-        int wolfNum = personNum >= 13 ? 3 : personNum >= 6 ? 2 : 1;
+        int wolfNum = personNum >= 13 ? 3 : personNum >= 8 ? 2 : 1;
         personNumMap.put(CDef.Skill.人狼, wolfNum);
-        // 占
-        int seerNum = 1;
-        personNumMap.put(CDef.Skill.占い師, seerNum);
-        // 霊
-        int mediumNum = 1;
-        personNumMap.put(CDef.Skill.霊能者, mediumNum);
+        // 魔神官
+        int evilMediumNum = personNum >= 6 ? 1 : 0;
+        personNumMap.put(CDef.Skill.魔神官, evilMediumNum);
+        // 賢者
+        int wiseNum = 1;
+        personNumMap.put(CDef.Skill.賢者, wiseNum);
+        // 導師
+        int guruNum = 1;
+        personNumMap.put(CDef.Skill.導師, guruNum);
         // 狩人
-        int hunterNum = personNum >= 11 ? 1 : 0;
+        int hunterNum = personNum >= 8 ? 1 : 0;
         personNumMap.put(CDef.Skill.狩人, hunterNum);
-        // 狂人
-        int madmanNum = personNum >= 11 ? 1 : 0;
-        personNumMap.put(CDef.Skill.狂人, madmanNum);
         // 共有
-        int masonNum = personNum >= 16 ? 2 : 0;
+        int masonNum = personNum >= 13 ? 2 : 0;
         personNumMap.put(CDef.Skill.共鳴者, masonNum);
         // 狐
-        int foxNum = personNum >= 17 ? 1 : 0;
+        int foxNum = personNum >= 15 ? 1 : 0;
         personNumMap.put(CDef.Skill.妖狐, foxNum);
-        // 村人
-        int villagerNum = personNum - wolfNum - seerNum - mediumNum - hunterNum - madmanNum - masonNum - foxNum;
+        // 村人（ゲルト用）
+        int villagerNum = 1;
         personNumMap.put(CDef.Skill.村人, villagerNum);
-
+        // 霊能
+        int mediumNum = personNum - wolfNum - evilMediumNum - wiseNum - guruNum - hunterNum - masonNum - foxNum - villagerNum;
+        personNumMap.put(CDef.Skill.霊能者, mediumNum);
         return personNumMap;
     }
 

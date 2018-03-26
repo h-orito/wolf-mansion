@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of message_type.
+ * The abstract condition-query of MESSAGE_TYPE.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "message_type";
+        return "MESSAGE_TYPE";
     }
 
     // ===================================================================================
@@ -95,19 +95,27 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
     }
 
     /**
-     * Equal(=). As 霊視結果 (PRIVATE_PSYCHIC). And OnlyOnceRegistered. <br>
-     * 霊視結果
+     * Equal(=). As 役職霊視結果 (PRIVATE_GURU). And OnlyOnceRegistered. <br>
+     * 役職霊視結果
      */
-    public void setMessageTypeCode_Equal_霊視結果() {
-        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.霊視結果);
+    public void setMessageTypeCode_Equal_役職霊視結果() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.役職霊視結果);
     }
 
     /**
-     * Equal(=). As 占い結果 (PRIVATE_SEER). And OnlyOnceRegistered. <br>
-     * 占い結果
+     * Equal(=). As 白黒霊視結果 (PRIVATE_PSYCHIC). And OnlyOnceRegistered. <br>
+     * 白黒霊視結果
      */
-    public void setMessageTypeCode_Equal_占い結果() {
-        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.占い結果);
+    public void setMessageTypeCode_Equal_白黒霊視結果() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.白黒霊視結果);
+    }
+
+    /**
+     * Equal(=). As 白黒占い結果 (PRIVATE_SEER). And OnlyOnceRegistered. <br>
+     * 白黒占い結果
+     */
+    public void setMessageTypeCode_Equal_白黒占い結果() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.白黒占い結果);
     }
 
     /**
@@ -116,6 +124,14 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
      */
     public void setMessageTypeCode_Equal_非公開システムメッセージ() {
         setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.非公開システムメッセージ);
+    }
+
+    /**
+     * Equal(=). As 役職占い結果 (PRIVATE_WISE). And OnlyOnceRegistered. <br>
+     * 役職占い結果
+     */
+    public void setMessageTypeCode_Equal_役職占い結果() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.役職占い結果);
     }
 
     /**
@@ -190,19 +206,27 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
     }
 
     /**
-     * NotEqual(&lt;&gt;). As 霊視結果 (PRIVATE_PSYCHIC). And OnlyOnceRegistered. <br>
-     * 霊視結果
+     * NotEqual(&lt;&gt;). As 役職霊視結果 (PRIVATE_GURU). And OnlyOnceRegistered. <br>
+     * 役職霊視結果
      */
-    public void setMessageTypeCode_NotEqual_霊視結果() {
-        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.霊視結果);
+    public void setMessageTypeCode_NotEqual_役職霊視結果() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.役職霊視結果);
     }
 
     /**
-     * NotEqual(&lt;&gt;). As 占い結果 (PRIVATE_SEER). And OnlyOnceRegistered. <br>
-     * 占い結果
+     * NotEqual(&lt;&gt;). As 白黒霊視結果 (PRIVATE_PSYCHIC). And OnlyOnceRegistered. <br>
+     * 白黒霊視結果
      */
-    public void setMessageTypeCode_NotEqual_占い結果() {
-        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.占い結果);
+    public void setMessageTypeCode_NotEqual_白黒霊視結果() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.白黒霊視結果);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 白黒占い結果 (PRIVATE_SEER). And OnlyOnceRegistered. <br>
+     * 白黒占い結果
+     */
+    public void setMessageTypeCode_NotEqual_白黒占い結果() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.白黒占い結果);
     }
 
     /**
@@ -211,6 +235,14 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
      */
     public void setMessageTypeCode_NotEqual_非公開システムメッセージ() {
         setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.非公開システムメッセージ);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 役職占い結果 (PRIVATE_WISE). And OnlyOnceRegistered. <br>
+     * 役職占い結果
+     */
+    public void setMessageTypeCode_NotEqual_役職占い結果() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.役職占い結果);
     }
 
     /**
@@ -281,8 +313,8 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select MESSAGE_TYPE_CODE from message where ...)} <br>
-     * message by MESSAGE_TYPE_CODE, named 'messageAsOne'.
+     * {exists (select MESSAGE_TYPE_CODE from MESSAGE where ...)} <br>
+     * MESSAGE by MESSAGE_TYPE_CODE, named 'messageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsMessage</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     messageCB.query().set...
@@ -300,8 +332,8 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select MESSAGE_TYPE_CODE from message where ...)} <br>
-     * message by MESSAGE_TYPE_CODE, named 'messageAsOne'.
+     * {not exists (select MESSAGE_TYPE_CODE from MESSAGE where ...)} <br>
+     * MESSAGE by MESSAGE_TYPE_CODE, named 'messageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsMessage</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     messageCB.query().set...
@@ -327,8 +359,8 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from message where ...)} <br>
-     * message by MESSAGE_TYPE_CODE, named 'messageAsOne'.
+     * {FOO &lt;= (select max(BAR) from MESSAGE where ...)} <br>
+     * MESSAGE by MESSAGE_TYPE_CODE, named 'messageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedMessage()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     messageCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>

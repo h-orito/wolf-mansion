@@ -1,5 +1,6 @@
 package com.ort.app.web.controller.assist;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.dbflute.cbean.result.ListResultBean;
@@ -113,8 +114,7 @@ public class VillageAbilityAssist {
     //                                                                          ==========
     private boolean isInvalidAbility(VillagePlayer villagePlayer, VillageAbilityForm abilityForm) {
         CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
-        if (skill != CDef.Skill.人狼 && skill != CDef.Skill.占い師 && skill != CDef.Skill.狩人 && skill != CDef.Skill.狂人
-                && skill != CDef.Skill.妖狐) {
+        if (!isAvailableSetAbilitySkill(skill)) {
             return true;
         }
         Integer charaId = abilityForm.getCharaId();
@@ -123,7 +123,7 @@ public class VillageAbilityAssist {
         if (skill == CDef.Skill.人狼 && targetCharaId != null && (charaId == null || footstep == null)) {
             return true;
         }
-        if (skill == CDef.Skill.占い師 && (targetCharaId == null || footstep == null)) {
+        if ((skill == CDef.Skill.占い師 || skill == CDef.Skill.賢者) && (targetCharaId == null || footstep == null)) {
             return true;
         }
         if (skill == CDef.Skill.狩人 && targetCharaId == null) {
@@ -138,6 +138,12 @@ public class VillageAbilityAssist {
         return false;
     }
 
+    private boolean isAvailableSetAbilitySkill(CDef.Skill skill) {
+        return Arrays.asList(CDef.Skill.人狼, CDef.Skill.占い師, CDef.Skill.狩人, CDef.Skill.狂人, CDef.Skill.妖狐, CDef.Skill.C国狂人, CDef.Skill.賢者)
+                .contains(skill);
+
+    }
+
     private boolean isInvalidVote(Integer villageId, VillagePlayer villagePlayer, VillageVoteForm voteForm) {
         List<VillagePlayer> villagePlayerList = selectVillagePlayerList(villageId);
         return !villagePlayerList.stream().anyMatch(vp -> vp.isIsDeadFalse() && vp.getCharaId().equals(voteForm.getTargetCharaId()));
@@ -145,13 +151,13 @@ public class VillageAbilityAssist {
 
     private boolean isInvalidFootstep(VillagePlayer villagePlayer, VillageGetFootstepListForm form) {
         CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
-        if (skill != CDef.Skill.人狼 && skill != CDef.Skill.占い師 && skill != CDef.Skill.狩人) {
+        if (skill != CDef.Skill.人狼 && skill != CDef.Skill.占い師 && skill != CDef.Skill.賢者 && skill != CDef.Skill.狩人) {
             return true;
         }
         if (skill == CDef.Skill.人狼 && form.getCharaId() == null) {
             return true;
         }
-        if (skill == CDef.Skill.占い師 && form.getTargetCharaId() == null) {
+        if ((skill == CDef.Skill.占い師 || skill == CDef.Skill.賢者) && form.getTargetCharaId() == null) {
             return true;
         }
         if (skill == CDef.Skill.狩人 && form.getTargetCharaId() == null) {

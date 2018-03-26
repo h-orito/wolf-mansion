@@ -86,7 +86,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
     /** PLAYER_PASSWORD: {NotNull, CHAR(60)} */
     protected String _playerPassword;
 
-    /** AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority} */
+    /** AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority} */
     protected String _authorityCode;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
@@ -111,7 +111,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "player";
+        return "PLAYER";
     }
 
     // ===================================================================================
@@ -139,7 +139,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
     //                                                             =======================
     /**
      * Get the value of authorityCode as the classification of Authority. <br>
-     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority} <br>
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority} <br>
      * 権限
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -150,7 +150,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
 
     /**
      * Set the value of authorityCode as the classification of Authority. <br>
-     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority} <br>
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority} <br>
      * 権限
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -412,7 +412,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
     }
 
     /**
-     * [get] AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority} <br>
+     * [get] AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority} <br>
      * 権限コード
      * @return The value of the column 'AUTHORITY_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -422,7 +422,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
     }
 
     /**
-     * [set] AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority} <br>
+     * [set] AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority} <br>
      * 権限コード
      * @param authorityCode The value of the column 'AUTHORITY_CODE'. (basically NotNull if update: for the constraint)
      */

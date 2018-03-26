@@ -553,9 +553,6 @@ public interface CDef extends Classification {
         /** 占い師 */
         占い師("SEER", "占い師", emptyStrings())
         ,
-        /** 聖痕者 */
-        聖痕者("STIGMA", "聖痕者", emptyStrings())
-        ,
         /** 村人 */
         村人("VILLAGER", "村人", emptyStrings())
         ,
@@ -693,14 +690,20 @@ public interface CDef extends Classification {
         /** 通常発言 */
         通常発言("NORMAL_SAY", "通常発言", emptyStrings())
         ,
-        /** 霊視結果 */
-        霊視結果("PRIVATE_PSYCHIC", "霊視結果", emptyStrings())
+        /** 役職霊視結果 */
+        役職霊視結果("PRIVATE_GURU", "役職霊視結果", emptyStrings())
         ,
-        /** 占い結果 */
-        占い結果("PRIVATE_SEER", "占い結果", emptyStrings())
+        /** 白黒霊視結果 */
+        白黒霊視結果("PRIVATE_PSYCHIC", "白黒霊視結果", emptyStrings())
+        ,
+        /** 白黒占い結果 */
+        白黒占い結果("PRIVATE_SEER", "白黒占い結果", emptyStrings())
         ,
         /** 非公開システムメッセージ */
         非公開システムメッセージ("PRIVATE_SYSTEM", "非公開システムメッセージ", emptyStrings())
+        ,
+        /** 役職占い結果 */
+        役職占い結果("PRIVATE_WISE", "役職占い結果", emptyStrings())
         ,
         /** 公開システムメッセージ */
         公開システムメッセージ("PUBLIC_SYSTEM", "公開システムメッセージ", emptyStrings())

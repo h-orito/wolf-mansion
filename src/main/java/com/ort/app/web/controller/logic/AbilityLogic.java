@@ -62,6 +62,7 @@ public class AbilityLogic {
             messageLogic.insertAbilityMessage(villageId, day, charaId, targetCharaId, villagePlayerList, footstep, false);
             break;
         case 占い師:
+        case 賢者:
             if (isInvalidSeerAbility(village, villagePlayer, villagePlayerList, day, villagePlayer.getCharaId(), targetCharaId, footstep)) {
                 return;
             }

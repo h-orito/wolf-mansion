@@ -1,10 +1,11 @@
-[Saved Previous Resources]: 2018/03/20 16:36:50
+[Saved Previous Resources]: 2018/03/27 00:58:59
 playsql/migration/previous/replace-schema-10-basic.sql
 playsql/migration/previous/replace-schema.sql
 playsql/migration/previous/take-finally.sql
 playsql/migration/previous/data/ut/tsv/UTF-8/01-player.tsv
 playsql/migration/previous/data/ut/tsv/UTF-8/defaultValueMap.dataprop
 playsql/migration/previous/data/ut/tsv/UTF-8/tsv-data-result.dfmark
+playsql/migration/previous/data/ut/tsv/UTF-8/02-CHARA.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/06-DEAD_REASON.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/01-AUTHORITY.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/05-MESSAGE_TYPE.tsv
@@ -16,10 +17,10 @@ playsql/migration/previous/data/common/tsv/UTF-8/08-DESIGNER.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/07-ABILITY_TYPE.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/03-VILLAGE_STATUS.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/04-SKILL.tsv
-playsql/migration/previous/data/common/tsv/UTF-8/10-CHARA.tsv
 playsql/migration/previous/data/production/tsv/UTF-8/01-PLAYER.tsv
 playsql/migration/previous/data/production/tsv/UTF-8/defaultValueMap.dataprop
 playsql/migration/previous/data/production/tsv/UTF-8/tsv-data-result.dfmark
-(21 files)
+playsql/migration/previous/data/production/tsv/UTF-8/02-CHARA.tsv
+(22 files)
 
 Look at the log for detail.

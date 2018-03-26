@@ -134,8 +134,8 @@ public class VillageAssist {
 
     private List<Skill> selectSelectableSkillList(Integer villageId) {
         return skillBhv.selectList(cb -> {
-            cb.query().setSkillCode_InScope_AsSkill(Arrays.asList(CDef.Skill.おまかせ, CDef.Skill.人狼, CDef.Skill.共鳴者, CDef.Skill.占い師,
-                    CDef.Skill.妖狐, CDef.Skill.村人, CDef.Skill.狂人, CDef.Skill.狩人, CDef.Skill.霊能者));
+            cb.query().setSkillCode_InScope_AsSkill(Arrays.asList(CDef.Skill.おまかせ, CDef.Skill.人狼, CDef.Skill.共鳴者, CDef.Skill.賢者,
+                    CDef.Skill.妖狐, CDef.Skill.魔神官, CDef.Skill.狩人, CDef.Skill.導師));
             cb.query().addOrderBy_DispOrder_Asc();
         });
     }
@@ -224,14 +224,15 @@ public class VillageAssist {
             return;
         }
         CDef.Skill skill = optVillagePlayer.get().getSkillCodeAsSkill();
-        if (skill != CDef.Skill.人狼 && skill != CDef.Skill.占い師 && skill != CDef.Skill.狩人 && skill != CDef.Skill.狂人
+        if (skill != CDef.Skill.人狼 && skill != CDef.Skill.占い師 && skill != CDef.Skill.賢者 && skill != CDef.Skill.狩人 && skill != CDef.Skill.狂人
                 && skill != CDef.Skill.妖狐) {
             return;
         }
 
         VillageAbilityForm abilityForm = new VillageAbilityForm();
         CDef.AbilityType type = skill == CDef.Skill.人狼 ? CDef.AbilityType.襲撃
-                : skill == CDef.Skill.占い師 ? CDef.AbilityType.占い : skill == CDef.Skill.狩人 ? CDef.AbilityType.護衛 : null;
+                : skill == CDef.Skill.占い師 || skill == CDef.Skill.賢者 ? CDef.AbilityType.占い
+                        : skill == CDef.Skill.狩人 ? CDef.AbilityType.護衛 : null;
         OptionalEntity<Ability> optAbility = selectAbility(villageId, day, type);
         if (optAbility.isPresent()) {
             Ability ab = optAbility.get();
