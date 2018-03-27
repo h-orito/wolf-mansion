@@ -331,7 +331,8 @@ public class VillageMessageAssist {
             return false;
         }
         VillagePlayer vPlayer = optVillagePlayer.get();
-        if (vPlayer.isIsDeadFalse() && vPlayer.getSkillCodeAsSkill() == CDef.Skill.人狼) {
+        if (vPlayer.isIsDeadFalse()
+                && (vPlayer.getSkillCodeAsSkill() == CDef.Skill.人狼 || vPlayer.getSkillCodeAsSkill() == CDef.Skill.C国狂人)) {
             return true;
         }
         return false;

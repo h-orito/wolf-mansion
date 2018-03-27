@@ -150,8 +150,8 @@ public class AssignLogic {
         int wolfNum = personNum >= 13 ? 3 : personNum >= 8 ? 2 : 1;
         personNumMap.put(CDef.Skill.人狼, wolfNum);
         // 魔神官
-        int evilMediumNum = personNum >= 8 ? 1 : 0;
-        personNumMap.put(CDef.Skill.魔神官, evilMediumNum);
+        //        int evilMediumNum = personNum >= 8 ? 1 : 0;
+        //        personNumMap.put(CDef.Skill.魔神官, evilMediumNum);
         // 賢者
         int wiseNum = 1;
         personNumMap.put(CDef.Skill.賢者, wiseNum);
@@ -170,8 +170,11 @@ public class AssignLogic {
         // 村人（ゲルト用）
         int villagerNum = 1;
         personNumMap.put(CDef.Skill.村人, villagerNum);
+        // C国狂人
+        int cmadmanNum = 1;
+        personNumMap.put(CDef.Skill.C国狂人, cmadmanNum);
         // 霊能
-        int mediumNum = personNum - wolfNum - evilMediumNum - wiseNum - guruNum - hunterNum - masonNum - foxNum - villagerNum;
+        int mediumNum = personNum - wolfNum - cmadmanNum - wiseNum - guruNum - hunterNum - masonNum - foxNum - villagerNum;
         personNumMap.put(CDef.Skill.霊能者, mediumNum);
         return personNumMap;
     }

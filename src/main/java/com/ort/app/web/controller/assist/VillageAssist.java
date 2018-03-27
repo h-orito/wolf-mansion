@@ -226,7 +226,7 @@ public class VillageAssist {
         }
         CDef.Skill skill = optVillagePlayer.get().getSkillCodeAsSkill();
         if (skill != CDef.Skill.人狼 && skill != CDef.Skill.占い師 && skill != CDef.Skill.賢者 && skill != CDef.Skill.狩人 && skill != CDef.Skill.狂人
-                && skill != CDef.Skill.妖狐 && skill != CDef.Skill.魔神官) {
+                && skill != CDef.Skill.妖狐 && skill != CDef.Skill.魔神官 && skill != CDef.Skill.C国狂人) {
             return;
         }
 
