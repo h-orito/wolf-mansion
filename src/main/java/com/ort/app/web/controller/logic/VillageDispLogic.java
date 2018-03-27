@@ -10,6 +10,7 @@ import org.dbflute.optional.OptionalThing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.AbilityBhv;
 import com.ort.dbflute.exbhv.PlayerBhv;
@@ -221,7 +222,7 @@ public class VillageDispLogic {
                         .map(vp -> vp.getChara().get())
                         .collect(Collectors.toList());
             }
-        } else if (skill == CDef.Skill.占い師 || (skill == CDef.Skill.狩人 && day > 1)) {
+        } else if (SkillUtil.hasDivineAbility(skill) || (skill == CDef.Skill.狩人 && day > 1)) {
             // 自分以外の生存しているプレイヤー全員
             return village.getVillagePlayerList()
                     .stream()

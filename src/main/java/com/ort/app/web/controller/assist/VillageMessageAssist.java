@@ -19,6 +19,7 @@ import com.ort.app.web.form.VillageGetMessageListForm;
 import com.ort.app.web.model.VillageAnchorMessageResultContent;
 import com.ort.app.web.model.VillageMessageListResultContent;
 import com.ort.app.web.model.inner.VillageMessageDto;
+import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.MessageType;
 import com.ort.dbflute.exbhv.MessageBhv;
@@ -379,7 +380,7 @@ public class VillageMessageAssist {
             if (vPlayer.getSkillCodeAsSkill() == CDef.Skill.霊能者) {
                 dispAllowedMessageTypeList.add(CDef.MessageType.白黒霊視結果);
                 return;
-            } else if (vPlayer.getSkillCodeAsSkill() == CDef.Skill.導師 || vPlayer.getSkillCodeAsSkill() == CDef.Skill.魔神官) {
+            } else if (SkillUtil.hasSkillPsychicAbility(vPlayer.getSkillCodeAsSkill())) {
                 dispAllowedMessageTypeList.add(CDef.MessageType.役職霊視結果);
                 return;
             }

@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Camp;
 import com.ort.dbflute.allcommon.CDef.VillageStatus;
@@ -333,8 +334,9 @@ public class DayChangeLogic {
 
     private void insertDefaultSeer(Integer villageId, int newDay, List<VillagePlayer> villagePlayerList, Village village) {
         // 占う人
-        Optional<VillagePlayer> optSeer =
-                villagePlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.占い師 && vp.isIsDeadFalse()).findFirst();
+        Optional<VillagePlayer> optSeer = villagePlayerList.stream()
+                .filter(vp -> SkillUtil.hasDivineAbility(vp.getSkillCodeAsSkill()) && vp.isIsDeadFalse())
+                .findFirst();
         if (!optSeer.isPresent()) {
             return;
         }
@@ -590,17 +592,25 @@ public class DayChangeLogic {
         if (executedPlayer == null) {
             return;
         }
-        Optional<VillagePlayer> optLivingPsychic = villagePlayerList.stream()
+        villagePlayerList.stream()
                 .filter(vp -> vp.isIsDeadFalse() && !vp.getVillagePlayerId().equals(executedPlayer.getVillagePlayerId())
                         && vp.getSkillCodeAsSkill() == CDef.Skill.霊能者)
-                .findFirst();
-        if (!optLivingPsychic.isPresent()) {
-            return; // 霊能者が既に死亡している場合は何もしない
-        }
-        boolean isTargetWerewolf = executedPlayer.getSkillCodeAsSkill() == CDef.Skill.人狼;
-        String message = String.format("処刑された霊が語りかける...\n%sは%sのようだ。", executedPlayer.getChara().get().getCharaName(),
-                isTargetWerewolf ? "人狼" : "人間");
-        messageLogic.insertMessage(villageId, day, CDef.MessageType.霊視結果, message);
+                .findFirst()
+                .ifPresent(mediumPlayer -> {
+                    boolean isTargetWerewolf = executedPlayer.getSkillCodeAsSkill() == CDef.Skill.人狼;
+                    String message = String.format("処刑された霊が語りかける...\n%sは%sのようだ。", executedPlayer.getChara().get().getCharaName(),
+                            isTargetWerewolf ? "人狼" : "人間");
+                    messageLogic.insertMessage(villageId, day, CDef.MessageType.白黒霊視結果, message);
+                });
+        villagePlayerList.stream()
+                .filter(vp -> vp.isIsDeadFalse() && !vp.getVillagePlayerId().equals(executedPlayer.getVillagePlayerId())
+                        && SkillUtil.hasSkillPsychicAbility(vp.getSkillCodeAsSkill()))
+                .findFirst()
+                .ifPresent(guruPlayer -> {
+                    String message = String.format("処刑された霊が語りかける...\n%sは%sのようだ。", executedPlayer.getChara().get().getCharaName(),
+                            executedPlayer.getSkillCodeAsSkill().alias());
+                    messageLogic.insertMessage(villageId, day, CDef.MessageType.役職霊視結果, message);
+                });
     }
 
     // 呪殺
@@ -627,7 +637,7 @@ public class DayChangeLogic {
             List<Ability> abilityList) {
         Optional<VillagePlayer> optLivingSeer = villagePlayerList.stream()
                 .filter(vp -> vp.isIsDeadFalse() && !vp.getVillagePlayerId().equals(executedPlayerId)
-                        && vp.getSkillCodeAsSkill() == CDef.Skill.占い師)
+                        && SkillUtil.hasDivineAbility(vp.getSkillCodeAsSkill()))
                 .findFirst();
         if (!optLivingSeer.isPresent()) {
             return Optional.empty(); // 占い師が既に死亡している場合は何もしない
@@ -637,14 +647,25 @@ public class DayChangeLogic {
         if (!optSeer.isPresent()) {
             return Optional.empty(); // 能力セットしていない場合は何もしない
         }
+        VillagePlayer seerPlayer = optLivingSeer.get();
         VillagePlayer targetPlayer =
                 villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(optSeer.get().getTargetCharaId())).findFirst().get();
-        boolean isTargetWerewolf = targetPlayer.getSkillCodeAsSkill() == CDef.Skill.人狼;
-        String targetCharaName = targetPlayer.getChara().get().getCharaName();
-        String message = String.format("%sは、%sを占った。\n%sは%sのようだ。", optLivingSeer.get().getChara().get().getCharaName(), targetCharaName,
-                targetCharaName, isTargetWerewolf ? "人狼" : "人間");
-        messageLogic.insertMessage(villageId, day, CDef.MessageType.占い結果, message);
+        String message = makeDivineMessage(seerPlayer, targetPlayer);
+        messageLogic.insertMessage(villageId, day, seerPlayer.isSkillCode占い師() ? CDef.MessageType.白黒占い結果 : CDef.MessageType.役職占い結果,
+                message);
         return Optional.ofNullable(targetPlayer);
+    }
+
+    private String makeDivineMessage(VillagePlayer seerPlayer, VillagePlayer targetPlayer) {
+        String targetCharaName = targetPlayer.getChara().get().getCharaName();
+        if (seerPlayer.isSkillCode占い師()) {
+            boolean isTargetWerewolf = targetPlayer.getSkillCodeAsSkill() == CDef.Skill.人狼;
+            return String.format("%sは、%sを占った。\n%sは%sのようだ。", seerPlayer.getChara().get().getCharaName(), targetCharaName, targetCharaName,
+                    isTargetWerewolf ? "人狼" : "人間");
+        } else {
+            return String.format("%sは、%sを占った。\n%sは%sのようだ。", seerPlayer.getChara().get().getCharaName(), targetCharaName, targetCharaName,
+                    targetPlayer.getSkillCodeAsSkill().alias());
+        }
     }
 
     // 護衛

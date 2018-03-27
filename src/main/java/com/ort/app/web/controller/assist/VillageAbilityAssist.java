@@ -16,6 +16,7 @@ import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageGetFootstepListForm;
 import com.ort.app.web.form.VillageVoteForm;
 import com.ort.app.web.model.VillageGetFootstepListResultContent;
+import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exbhv.VoteBhv;
@@ -123,13 +124,13 @@ public class VillageAbilityAssist {
         if (skill == CDef.Skill.人狼 && targetCharaId != null && (charaId == null || footstep == null)) {
             return true;
         }
-        if ((skill == CDef.Skill.占い師 || skill == CDef.Skill.賢者) && (targetCharaId == null || footstep == null)) {
+        if (SkillUtil.hasDivineAbility(skill) && (targetCharaId == null || footstep == null)) {
             return true;
         }
         if (skill == CDef.Skill.狩人 && targetCharaId == null) {
             return true;
         }
-        if ((skill == CDef.Skill.妖狐 || skill == CDef.Skill.狂人) && footstep == null) {
+        if ((skill == CDef.Skill.妖狐 || SkillUtil.hasMadmanAbility(skill)) && footstep == null) {
             return true;
         }
         if (villagePlayer.isIsDeadTrue()) {
@@ -139,7 +140,9 @@ public class VillageAbilityAssist {
     }
 
     private boolean isAvailableSetAbilitySkill(CDef.Skill skill) {
-        return Arrays.asList(CDef.Skill.人狼, CDef.Skill.占い師, CDef.Skill.狩人, CDef.Skill.狂人, CDef.Skill.妖狐, CDef.Skill.C国狂人, CDef.Skill.賢者)
+        return Arrays
+                .asList(CDef.Skill.人狼, CDef.Skill.占い師, CDef.Skill.狩人, CDef.Skill.狂人, CDef.Skill.妖狐, CDef.Skill.C国狂人, CDef.Skill.賢者,
+                        CDef.Skill.魔神官)
                 .contains(skill);
 
     }
@@ -151,13 +154,13 @@ public class VillageAbilityAssist {
 
     private boolean isInvalidFootstep(VillagePlayer villagePlayer, VillageGetFootstepListForm form) {
         CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
-        if (skill != CDef.Skill.人狼 && skill != CDef.Skill.占い師 && skill != CDef.Skill.賢者 && skill != CDef.Skill.狩人) {
+        if (skill != CDef.Skill.人狼 && !SkillUtil.hasDivineAbility(skill) && skill != CDef.Skill.狩人) {
             return true;
         }
         if (skill == CDef.Skill.人狼 && form.getCharaId() == null) {
             return true;
         }
-        if ((skill == CDef.Skill.占い師 || skill == CDef.Skill.賢者) && form.getTargetCharaId() == null) {
+        if (SkillUtil.hasDivineAbility(skill) && form.getTargetCharaId() == null) {
             return true;
         }
         if (skill == CDef.Skill.狩人 && form.getTargetCharaId() == null) {

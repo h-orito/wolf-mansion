@@ -145,24 +145,12 @@ public class AssignLogic {
         //        int villagerNum = personNum - wolfNum - seerNum - mediumNum - hunterNum - madmanNum - masonNum - foxNum;
         //        personNumMap.put(CDef.Skill.村人, villagerNum);
 
-        // 06 ダ＿狼魔＿賢導霊 (3x3, 空3)
-        // 07 ダ＿狼魔＿賢導霊霊 (4x3, 空5)
-        // 08 ダ＿狼狼魔＿賢導狩霊 (4x3, 空4)
-        // 09 ダ＿狼狼魔＿賢導狩霊霊 (4x3, 空3)
-        // 10 ダ＿狼狼魔＿賢導狩霊霊霊 (4x4, 空6)
-        // 11 ダ＿狼狼魔＿賢導狩霊霊霊霊 (4x4, 空5)
-        // 12 ダ＿狼狼魔＿賢導狩霊霊霊霊霊 (4x4, 空4)
-        // 13 ダ＿狼狼狼魔＿賢導狩鳴鳴霊霊霊 (4x4, 空3)
-        // 14 ダ＿狼狼狼魔＿賢導狩鳴鳴霊霊霊霊 (5x4, 空6)
-        // 15 ダ＿狼狼狼魔＿賢導狩鳴鳴霊霊霊霊＿狐 (5x4, 空5)
-        // 16 ダ＿狼狼狼魔＿賢導狩鳴鳴霊霊霊霊霊＿狐 (5x4, 空4)
-        // 17 ダ＿狼狼狼魔＿賢導狩鳴鳴霊霊霊霊霊霊＿狐 (5x4, 空3)
-
+        // TODO h-orito お試しで、狼狩狂鳴狐賢導魔残り霊にする (2018/03/27)
         // 狼
         int wolfNum = personNum >= 13 ? 3 : personNum >= 8 ? 2 : 1;
         personNumMap.put(CDef.Skill.人狼, wolfNum);
         // 魔神官
-        int evilMediumNum = personNum >= 6 ? 1 : 0;
+        int evilMediumNum = personNum >= 8 ? 1 : 0;
         personNumMap.put(CDef.Skill.魔神官, evilMediumNum);
         // 賢者
         int wiseNum = 1;

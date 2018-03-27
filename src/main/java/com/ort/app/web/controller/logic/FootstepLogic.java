@@ -154,7 +154,7 @@ public class FootstepLogic {
             } else if (nowx == nextx && nexty - nowy == 1) { // down
                 existDownMove = true;
             } else {
-                throw new IllegalArgumentException("右もしくは下に動いていない");
+                return false;
             }
         }
         // 右もしくは下方向にのみ動いていればok

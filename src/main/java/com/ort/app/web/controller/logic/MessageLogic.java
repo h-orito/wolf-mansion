@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
+import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.exbhv.MessageBhv;
@@ -103,7 +104,7 @@ public class MessageLogic {
         if (skill == CDef.Skill.人狼) {
             return messageSource.getMessage("ability.werewolf.message",
                     new String[] { charaName, targetCharaName, footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
-        } else if (skill == CDef.Skill.占い師) {
+        } else if (SkillUtil.hasDivineAbility(skill)) {
             return messageSource.getMessage("ability.seer.message",
                     new String[] { charaName, targetCharaName, footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
         } else if (skill == CDef.Skill.狩人) {
