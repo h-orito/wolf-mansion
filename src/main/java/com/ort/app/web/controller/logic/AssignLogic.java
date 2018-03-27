@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ort.app.web.util.RoomUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.exbhv.SkillBhv;
@@ -30,6 +31,12 @@ public class AssignLogic {
     //                                                                          Definition
     //                                                                          ==========
     private static final Logger logger = LoggerFactory.getLogger(AssignLogic.class);
+
+    private static Map<Integer, Map<Integer, Integer>> roomNumberAssignMap;
+
+    static {
+        roomNumberAssignMap = RoomUtil.createRoomAssignMap();
+    }
 
     // ===================================================================================
     //                                                                           Attribute
@@ -252,19 +259,46 @@ public class AssignLogic {
     //                                                          Assist Logic (assign room)
     //                                                                        ============
     private Village calculateRoomSizeAndUpdate(Integer villageId, int personNum) {
-        for (int width = 3; width <= 5; width++) {
-            for (int height = width - 1; height <= width; height++) {
-                // 最低でも3部屋空くようにする
-                if (width * height >= personNum + 3) {
-                    Village village = new Village();
-                    village.setRoomSizeWidth(width);
-                    village.setRoomSizeHeight(height);
-                    villageBhv.queryUpdate(village, cb -> cb.query().setVillageId_Equal(villageId));
-                    return village;
-                }
-            }
-        }
-        throw new IllegalStateException("村人数が多すぎ？ personNum: " + personNum);
+        // 8-10 4x3 11 5x3 12-13 4x4 14-17 5x4 18-20 6x4
+        // 8    9    10   11   
+        // _xx_ _xx_ xxx_ _xxx_
+        // xxxx xxxx xxxx xxxxx
+        // _xx_ _xxx _xxx _xxx_
+        // 
+        // 12   13   14    15    16    17   
+        // _xx_ _xx_ __xx_ __xx_ _xxx_ _xxx_
+        // xxxx xxxx xxxxx xxxxx xxxxx xxxxx
+        // xxxx xxxx xxxxx xxxxx xxxxx xxxxx
+        // _xx_ _xxx _xx__ _xxx_ _xxx_ _xxxx
+        //
+        // 18     19     20
+        // __xxx_ _xxxx_ _xxxx_
+        // xxxxxx xxxxxx xxxxxx
+        // xxxxxx xxxxxx xxxxxx
+        // _xxx__ _xxx__ _xxxx_
+
+        int width = personNum >= 18 ? 6 : personNum >= 14 ? 5 : personNum >= 12 ? 4 : personNum == 11 ? 5 : 4;
+        int height = personNum >= 12 ? 4 : 3;
+
+        Village village = new Village();
+        village.setRoomSizeWidth(width);
+        village.setRoomSizeHeight(height);
+        villageBhv.queryUpdate(village, cb -> cb.query().setVillageId_Equal(villageId));
+        return village;
+
+        //        for (int width = 3; width <= 5; width++) {
+        //            for (int height = width - 1; height <= width; height++) {
+        //                // 最低でも3部屋空くようにする
+        //                if (width * height >= personNum + 3) {
+        //                    Village village = new Village();
+        //                    village.setRoomSizeWidth(width);
+        //                    village.setRoomSizeHeight(height);
+        //                    villageBhv.queryUpdate(village, cb -> cb.query().setVillageId_Equal(villageId));
+        //                    return village;
+        //                }
+        //            }
+        //        }
+        //        throw new IllegalStateException("村人数が多すぎ？ personNum: " + personNum);
     }
 
     private void insertRoomAssignMessage(Integer villageId) {
@@ -312,13 +346,23 @@ public class AssignLogic {
     }
 
     private void assignRoomAndUpdate(List<VillagePlayer> playerList, List<Integer> roomNumList) {
-        Collections.shuffle(roomNumList);
+        // 空き部屋をランダムにする場合
+        //        Collections.shuffle(roomNumList);
+        //        for (int i = 0; i < playerList.size(); i++) {
+        //            VillagePlayer entity = new VillagePlayer();
+        //            entity.setRoomNumber(roomNumList.get(i));
+        //            VillagePlayer player = playerList.get(i);
+        //            villagePlayerBhv.queryUpdate(entity, cb -> cb.query().setVillagePlayerId_Equal(player.getVillagePlayerId()));
+        //            logger.info("部屋割り当て villagePlayerId: {}, roomNumber:{}", player.getVillagePlayerId(), roomNumList.get(i));
+        //        }
+        List<Integer> roomNumberList = new ArrayList<>(roomNumberAssignMap.get(playerList.size()).values());
+        Collections.shuffle(roomNumberList);
         for (int i = 0; i < playerList.size(); i++) {
             VillagePlayer entity = new VillagePlayer();
-            entity.setRoomNumber(roomNumList.get(i));
+            entity.setRoomNumber(roomNumberList.get(i));
             VillagePlayer player = playerList.get(i);
             villagePlayerBhv.queryUpdate(entity, cb -> cb.query().setVillagePlayerId_Equal(player.getVillagePlayerId()));
-            logger.info("部屋割り当て villagePlayerId: {}, roomNumber:{}", player.getVillagePlayerId(), roomNumList.get(i));
+            logger.info("部屋割り当て villagePlayerId: {}, roomNumber:{}", player.getVillagePlayerId(), roomNumberList.get(i));
         }
     }
 }
