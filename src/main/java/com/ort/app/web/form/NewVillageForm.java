@@ -19,7 +19,7 @@ public class NewVillageForm implements Serializable {
 
     /** 最低開始人数 */
     @NotNull
-    @Min(5)
+    @Min(8)
     private Integer startPersonMinNum;
 
     /** 定員 */

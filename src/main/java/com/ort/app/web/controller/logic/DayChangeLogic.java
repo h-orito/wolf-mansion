@@ -295,24 +295,26 @@ public class DayChangeLogic {
     }
 
     private List<Chara> getAttackableWolfList(Integer villageId, int day, List<VillagePlayer> villagePlayerList) {
+        // 連続襲撃を可能にする
+
         // 昨日襲撃した狼
-        Integer yesterdayAttackerId = abilityBhv.selectEntity(cb -> {
-            cb.query().setVillageId_Equal(villageId);
-            cb.query().setDay_Equal(day - 1);
-            cb.query().setAbilityTypeCode_Equal_襲撃();
-        }).map(ab -> ab.getCharaId()).orElse(null);
+        //        Integer yesterdayAttackerId = abilityBhv.selectEntity(cb -> {
+        //            cb.query().setVillageId_Equal(villageId);
+        //            cb.query().setDay_Equal(day - 1);
+        //            cb.query().setAbilityTypeCode_Equal_襲撃();
+        //        }).map(ab -> ab.getCharaId()).orElse(null);
         // 生存している狼リスト
         List<Chara> liveAttackerList = villagePlayerList.stream()
                 .filter(vp -> vp.isIsDeadFalse() && vp.getSkillCodeAsSkill() == CDef.Skill.人狼)
                 .map(vp -> vp.getChara().get())
                 .collect(Collectors.toList());
         // 生存している狼が1名ではない場合は、昨日襲撃した狼は襲撃できない
-        if (liveAttackerList.size() > 1) {
-            return liveAttackerList.stream().filter(attacker -> !attacker.getCharaId().equals(yesterdayAttackerId)).collect(
-                    Collectors.toList());
-        } else {
-            return liveAttackerList;
-        }
+        //        if (liveAttackerList.size() > 1) {
+        //            return liveAttackerList.stream().filter(attacker -> !attacker.getCharaId().equals(yesterdayAttackerId)).collect(
+        //                    Collectors.toList());
+        //        } else {
+        return liveAttackerList;
+        //        }
     }
 
     private void insertDefaultGuard(Integer villageId, int newDay, List<VillagePlayer> villagePlayerList, Village village) {

@@ -57,7 +57,8 @@
 										<li>生存者のいない部屋は足音が響きません。</li>
 									</ul>
 								</li>
-								<li>人狼は襲撃者を選択することができます。<br>ただし、人狼が複数生存している場合、連続で同じ人狼が襲撃することはできません。
+								<li>人狼は襲撃者を選択することができます。<br>
+								<!--/* ただし、人狼が複数生存している場合、連続で同じ人狼が襲撃することはできません。 */-->
 								</li>
 								<li>狂人、C国狂人、魔神官、妖狐は自分の部屋からに限らず、どの部屋からどの部屋まで徘徊するか自由に選択できます。<br>ただし、曲がることはできません。
 								</li>
@@ -101,12 +102,13 @@
 								<li>いずれのアンカーも自分が見ることのできない発言はクリックしてもアンカー先を表示できません。</li>
 							</ul>
 						</li>
-						<li>役職配分（調整中）
+						<li>役職配分
 							<ul>
-								<li>人狼は6名以上で2名、13名以上で3名になります。</li>
-								<li>11名以上で狩人、狂人が追加されます。</li>
-								<li>16名以上で共鳴者が2名追加されます。</li>
-								<li>17名以上で妖狐が追加されます。</li>
+								<li>08-09人：狼2 賢1導1 村4-5</li>
+								<li>10-12人：狼2狂1 賢1導1狩1 村4-6</li>
+								<li>13-14人：狼3狂1 賢1導1狩1共2 村4-5</li>
+								<li>15-17人：狼3狂1 狐1 賢1導1狩1共2 村5-7</li>
+								<li>18-20人：狼4狂1 狐1 賢1導1狩1共2 村7-9</li>
 							</ul>
 						</li>
 						<li>役職希望
@@ -121,12 +123,6 @@
 							<ul>
 								<li>1発言につき200文字10行まで発言できます。</li>
 								<li>発言数制限は未実装です。</li>
-							</ul>
-						</li>
-						<li>部屋生成ロジック
-							<ul>
-								<li>空き部屋が3部屋以上となる大きさで生成します。9人以下で4×3部屋、13人以下で4×4部屋、17人以下で5×4部屋、22人以下で5×5部屋となります。</li>
-								<li>空き部屋の位置はランダムです。</li>
 							</ul>
 						</li>
 					</ul>
@@ -160,7 +156,8 @@
 						</li>
 						<li>人狼
 							<ul>
-								<li>人狼とC国狂人同士にしか聞こえない会話が可能です。<br>また、毎晩一人を襲撃することができます。<br>ただし、人狼が複数生存している場合、2日連続で同じ人狼が襲撃することはできません。<br>襲撃すると、襲撃者の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。
+								<li>人狼とC国狂人同士にしか聞こえない会話が可能です。<br>また、毎晩一人を襲撃することができます。<br>
+								<!--/* ただし、人狼が複数生存している場合、2日連続で同じ人狼が襲撃することはできません。<br> */-->襲撃すると、襲撃者の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。
 								</li>
 								<li>日付更新時の襲撃者およびセット先はランダムです。</li>
 								<li>襲撃失敗の場合、護衛なのか妖狐なのかは判別できません。</li>
@@ -238,12 +235,16 @@
 							<tbody>
 								<tr>
 									<td class="vertical-middle">村人陣営</td>
-									<td class="vertical-middle">村人<br>占い師<br>賢者<br>狩人<br>霊能者<br>導師<br>共鳴者</td>
+									<td class="vertical-middle">
+										村人<br>占い師<br>賢者<br>狩人<br>霊能者<br>導師<br>共鳴者
+									</td>
 									<td class="vertical-middle">夜明け時点で人狼および妖狐が全て死亡している</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">人狼陣営</td>
-									<td class="vertical-middle">人狼<br>狂人<br>C国狂人<br>魔神官</td>
+									<td class="vertical-middle">
+										人狼<br>狂人<br>C国狂人<br>魔神官
+									</td>
 									<td class="vertical-middle">
 										夜明け時点で生存している人狼の数≧生存している人間（※）の数かつ妖狐が死亡している<br> ※ここでの人間は「人狼と妖狐以外」を表す。狂人は人間に含まれ、妖狐は人間にも人狼にも含まれない。
 									</td>
@@ -258,6 +259,104 @@
 											<li>生存している人狼の数≧生存している人間（※）の数かつ妖狐が生存している</li>
 										</ul>
 										※ここでの人間は「人狼と妖狐以外」を表す。狂人は人間に含まれ、妖狐は人間にも人狼にも含まれない。
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="col-sm-12 col-xs-12">
+					<hr />
+					<h2 class="h4" data-toggle="collapse" data-target="#room">
+						<a href="javascript:void(0);">人数と部屋サイズ</a>
+					</h2>
+					<div id="room" class="table-responsive collapse">
+						<table class="table table-bordered table-condensed small">
+							<thead>
+								<tr>
+									<th class="vertical-middle">人数</th>
+									<th class="vertical-middle">空き部屋の位置<br> (部：部屋 ＿：空き部屋)
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="vertical-middle">8人(4x3)</td>
+									<td class="vertical-middle">
+										＿部部＿<br>部部部部<br>＿部部＿<br>
+									</td>
+								</tr>
+								<tr>
+									<td class="vertical-middle">9人(4x3)</td>
+									<td class="vertical-middle">
+										＿部部＿<br>部部部部<br>＿部部部<br>
+									</td>
+								</tr>
+								<tr>
+									<td class="vertical-middle">10人(4x3)</td>
+									<td class="vertical-middle">
+										部部部＿<br>部部部部<br>＿部部部<br>
+									</td>
+								</tr>
+								<tr>
+									<td class="vertical-middle">11人(5x3)</td>
+									<td class="vertical-middle">
+										＿部部部＿<br>部部部部部<br>＿部部部＿<br>
+									</td>
+								</tr>
+								<tr>
+									<td class="vertical-middle">12人(4x4)</td>
+									<td class="vertical-middle">
+										＿部部＿<br>部部部部<br>部部部部<br>＿部部＿<br>
+									</td>
+								</tr>
+								<tr>
+									<td class="vertical-middle">13人(4x4)</td>
+									<td class="vertical-middle">
+										＿部部＿<br>部部部部<br>部部部部<br>＿部部部<br>
+									</td>
+								</tr>
+								<tr>
+									<td class="vertical-middle">14人(5x4)</td>
+									<td class="vertical-middle">
+										＿＿部部＿<br>部部部部部<br>部部部部部<br>＿部部＿＿<br>
+									</td>
+								</tr>
+								<tr>
+									<td class="vertical-middle">15人(5x4)</td>
+									<td class="vertical-middle">
+										＿＿部部＿<br>部部部部部<br>部部部部部<br>＿部部部＿<br>
+									</td>
+								</tr>
+								<tr>
+									<td class="vertical-middle">16人(5x4)</td>
+									<td class="vertical-middle">
+										＿部部部＿<br>部部部部部<br>部部部部部<br>＿部部部＿<br>
+									</td>
+								</tr>
+								<tr>
+									<td class="vertical-middle">17人(5x4)</td>
+									<td class="vertical-middle">
+										＿部部部＿<br>部部部部部<br>部部部部部<br>＿部部部部<br>
+									</td>
+								</tr>
+								<tr>
+									<td class="vertical-middle">18人(6x4)</td>
+									<td class="vertical-middle">
+										＿＿部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部＿＿<br>
+									</td>
+								</tr>
+								<tr>
+									<td class="vertical-middle">19人(6x4)</td>
+									<td class="vertical-middle">
+										＿部部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部＿＿<br>
+									</td>
+								</tr>
+								<tr>
+									<td class="vertical-middle">20人(6x4)</td>
+									<td class="vertical-middle">
+										＿部部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部部＿<br>
 									</td>
 								</tr>
 							</tbody>

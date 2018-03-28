@@ -32,7 +32,7 @@ public class AssignLogic {
     //                                                                          ==========
     private static final Logger logger = LoggerFactory.getLogger(AssignLogic.class);
 
-    private static Map<Integer, Map<Integer, Integer>> roomNumberAssignMap;
+    private static Map<Integer, List<Integer>> roomNumberAssignMap;
 
     static {
         roomNumberAssignMap = RoomUtil.createRoomAssignMap();
@@ -127,38 +127,9 @@ public class AssignLogic {
     private Map<Skill, Integer> makeSkillPersonNumMap(int personNum) {
         Map<Skill, Integer> personNumMap = new HashMap<>();
 
-        //        // 狼
-        //        int wolfNum = personNum >= 13 ? 3 : personNum >= 6 ? 2 : 1;
-        //        personNumMap.put(CDef.Skill.人狼, wolfNum);
-        //        // 占
-        //        int seerNum = 1;
-        //        personNumMap.put(CDef.Skill.占い師, seerNum);
-        //        // 霊
-        //        int mediumNum = 1;
-        //        personNumMap.put(CDef.Skill.霊能者, mediumNum);
-        //        // 狩人
-        //        int hunterNum = personNum >= 11 ? 1 : 0;
-        //        personNumMap.put(CDef.Skill.狩人, hunterNum);
-        //        // 狂人
-        //        int madmanNum = personNum >= 11 ? 1 : 0;
-        //        personNumMap.put(CDef.Skill.狂人, madmanNum);
-        //        // 共有
-        //        int masonNum = personNum >= 16 ? 2 : 0;
-        //        personNumMap.put(CDef.Skill.共鳴者, masonNum);
-        //        // 狐
-        //        int foxNum = personNum >= 17 ? 1 : 0;
-        //        personNumMap.put(CDef.Skill.妖狐, foxNum);
-        //        // 村人
-        //        int villagerNum = personNum - wolfNum - seerNum - mediumNum - hunterNum - madmanNum - masonNum - foxNum;
-        //        personNumMap.put(CDef.Skill.村人, villagerNum);
-
-        // TODO h-orito お試しで、狼狩狂鳴狐賢導魔残り霊にする (2018/03/27)
         // 狼
-        int wolfNum = personNum >= 13 ? 3 : personNum >= 8 ? 2 : 1;
+        int wolfNum = personNum >= 18 ? 4 : personNum >= 13 ? 3 : 2;
         personNumMap.put(CDef.Skill.人狼, wolfNum);
-        // 魔神官
-        //        int evilMediumNum = personNum >= 8 ? 1 : 0;
-        //        personNumMap.put(CDef.Skill.魔神官, evilMediumNum);
         // 賢者
         int wiseNum = 1;
         personNumMap.put(CDef.Skill.賢者, wiseNum);
@@ -166,7 +137,7 @@ public class AssignLogic {
         int guruNum = 1;
         personNumMap.put(CDef.Skill.導師, guruNum);
         // 狩人
-        int hunterNum = personNum >= 8 ? 1 : 0;
+        int hunterNum = personNum >= 10 ? 1 : 0;
         personNumMap.put(CDef.Skill.狩人, hunterNum);
         // 共有
         int masonNum = personNum >= 13 ? 2 : 0;
@@ -174,15 +145,12 @@ public class AssignLogic {
         // 狐
         int foxNum = personNum >= 15 ? 1 : 0;
         personNumMap.put(CDef.Skill.妖狐, foxNum);
-        // 村人（ゲルト用）
-        int villagerNum = 1;
+        // 狂人
+        int madmanNum = personNum >= 10 ? 1 : 0;
+        personNumMap.put(CDef.Skill.狂人, madmanNum);
+        // 村人
+        int villagerNum = personNum - wolfNum - wiseNum - guruNum - hunterNum - masonNum - foxNum - madmanNum;
         personNumMap.put(CDef.Skill.村人, villagerNum);
-        // C国狂人
-        int cmadmanNum = 1;
-        personNumMap.put(CDef.Skill.C国狂人, cmadmanNum);
-        // 霊能
-        int mediumNum = personNum - wolfNum - cmadmanNum - wiseNum - guruNum - hunterNum - masonNum - foxNum - villagerNum;
-        personNumMap.put(CDef.Skill.霊能者, mediumNum);
         return personNumMap;
     }
 
@@ -355,7 +323,7 @@ public class AssignLogic {
         //            villagePlayerBhv.queryUpdate(entity, cb -> cb.query().setVillagePlayerId_Equal(player.getVillagePlayerId()));
         //            logger.info("部屋割り当て villagePlayerId: {}, roomNumber:{}", player.getVillagePlayerId(), roomNumList.get(i));
         //        }
-        List<Integer> roomNumberList = new ArrayList<>(roomNumberAssignMap.get(playerList.size()).values());
+        List<Integer> roomNumberList = new ArrayList<>(roomNumberAssignMap.get(playerList.size()));
         Collections.shuffle(roomNumberList);
         for (int i = 0; i < playerList.size(); i++) {
             VillagePlayer entity = new VillagePlayer();
