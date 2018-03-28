@@ -121,14 +121,14 @@
 							</div>
 						</div>
 
-						<div class="col-sm-12 well" style="padding-top: 10px; padding-bottom: 10px;" th:if="${content.roomWidth != null}">
+						<div class="col-sm-12 well" style="padding-top: 10px; padding-bottom: 10px;">
 							<ul class="nav nav-tabs">
-								<li class="active"><a data-toggle="tab" href="#room-on-sayform">部屋割り当て</a></li>
-								<li><a data-toggle="tab" href="#tab-memberlist">参加者</a></li>
+								<li th:if="${content.roomWidth != null}" class="active"><a data-toggle="tab" href="#room-on-sayform">部屋割り当て</a></li>
+								<li th:class="${content.roomWidth == null ? 'active' : ''}"><a data-toggle="tab" href="#tab-memberlist">参加者</a></li>
 							</ul>
 
 							<div class="tab-content row">
-								<div id="room-on-sayform" class="tab-pane fade in active" style="padding-top: 10px; padding-bottom: 10px;">
+								<div id="room-on-sayform" th:if="${content.roomWidth != null}" class="tab-pane fade in active" style="padding-top: 10px; padding-bottom: 10px;">
 									<div class="col-sm-12 col-xs-12">
 										<table class="table-bordered table-condensed small">
 											<tbody>
@@ -145,7 +145,7 @@
 										</table>
 									</div>
 								</div>
-								<div id="tab-memberlist" class="tab-pane fade" style="padding-top: 10px; padding-bottom: 10px;">
+								<div id="tab-memberlist" th:class="${content.roomWidth == null ? 'tab-pane fade in active' : 'tab-pane fade'}" style="padding-top: 10px; padding-bottom: 10px;">
 									<div class="col-sm-6 col-xs-6">
 										<table class="table table-bordered table-condensed small" th:each="statusDto, s : ${content.memberList}" th:if=${s.first}>
 											<tr>
@@ -176,7 +176,7 @@
 							</div>
 						</div>
 
-						<!--/* 発言欄 */-->
+						<!--/* 死亡 */-->
 						<div class="col-sm-12 well" style="padding-top: 10px;" th:if="${content.isDead}">
 							<div class="">
 								<p class="small">
@@ -185,6 +185,7 @@
 							</div>
 						</div>
 
+						<!--/* 発言欄 */-->
 						<div class="col-sm-12 well" th:if="${content.isDispSayForm}">
 							<div class="">
 								<!--/* rowを外した */-->
@@ -436,17 +437,17 @@
 				</div>
 
 				<!--/* 部屋割り当て */-->
-				<div class="modal fade" id="modal-room" th:if="${content.roomWidth != null}" tabindex="-1">
+				<div class="modal fade" id="modal-room" tabindex="-1">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-body">
 								<ul class="nav nav-tabs">
-									<li class="active"><a data-toggle="tab" href="#modal-roomlist">部屋割り当て</a></li>
-									<li><a data-toggle="tab" href="#modal-memberlist">参加者</a></li>
+									<li th:if="${content.roomWidth != null}" class="active"><a data-toggle="tab" href="#modal-roomlist">部屋割り当て</a></li>
+									<li th:class="${content.roomWidth == null ? 'active' : ''}" ><a data-toggle="tab" href="#modal-memberlist">参加者</a></li>
 								</ul>
 
 								<div class="tab-content row">
-									<div id="modal-roomlist" class="tab-pane fade in active" style="padding-top: 10px; padding-bottom: 10px;">
+									<div id="modal-roomlist" th:if="${content.roomWidth != null}" class="tab-pane fade in active" style="padding-top: 10px; padding-bottom: 10px;">
 										<div class="col-sm-12 col-xs-12">
 											<table class="table-bordered table-condensed small">
 												<tbody>
@@ -463,7 +464,7 @@
 											</table>
 										</div>
 									</div>
-									<div id="modal-memberlist" class="tab-pane fade" style="padding-top: 10px; padding-bottom: 10px;">
+									<div id="modal-memberlist" th:class="${'tab-pane fade' + content.roomWidth == null ? ' in active' : ''}" style="padding-top: 10px; padding-bottom: 10px;">
 										<div class="col-sm-6 col-xs-6">
 											<table class="table table-bordered table-condensed small" th:each="statusDto, s : ${content.memberList}" th:if=${s.first}>
 												<tr>
