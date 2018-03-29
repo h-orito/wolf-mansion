@@ -121,56 +121,63 @@
 							</div>
 						</div>
 
+						<!--/* 部屋割り当て、参加者リスト */-->
 						<div class="col-sm-12 well" style="padding-top: 10px; padding-bottom: 10px;">
-							<ul class="nav nav-tabs">
-								<li th:if="${content.roomWidth != null}" class="active"><a data-toggle="tab" href="#room-on-sayform">部屋割り当て</a></li>
-								<li th:class="${content.roomWidth == null ? 'active' : ''}"><a data-toggle="tab" href="#tab-memberlist">参加者</a></li>
-							</ul>
+							<a href="javascript:void(0);" data-toggle="collapse" data-target="#room-memberlist-on-sayform" class="h5" aria-expanded="true">︎部屋割り当て、参加者</a>
+							<div id="room-memberlist-on-sayform" style="margin-top: 10px;" aria-expanded="true" class="collapse in">
+								<p class="small">↑クリックで展開/縮小できます。</p>
+								<ul class="nav nav-tabs">
+									<li th:if="${content.roomWidth != null}" class="active"><a data-toggle="tab" href="#room-on-sayform">部屋割り当て</a></li>
+									<li th:class="${content.roomWidth == null ? 'active' : ''}"><a data-toggle="tab" href="#tab-memberlist">参加者</a></li>
+								</ul>
 
-							<div class="tab-content row">
-								<div id="room-on-sayform" th:if="${content.roomWidth != null}" class="tab-pane fade in active" style="padding-top: 10px; padding-bottom: 10px;">
-									<div class="col-sm-12 col-xs-12">
-										<table class="table-bordered table-condensed small">
-											<tbody>
-												<tr th:each="row : ${content.roomAssignedRowList}">
-													<td th:each="room: ${row.roomAssignedList}" class="small"
-														th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
+								<div class="tab-content row">
+									<div id="room-on-sayform" th:if="${content.roomWidth != null}" class="tab-pane fade in active"
+										style="padding-top: 10px; padding-bottom: 10px;">
+										<div class="col-sm-12 col-xs-12">
+											<table class="table-bordered table-condensed small">
+												<tbody>
+													<tr th:each="row : ${content.roomAssignedRowList}">
+														<td th:each="room: ${row.roomAssignedList}" class="small"
+															th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
 									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
-														<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-														th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
-													</td>
+															<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+																th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div id="tab-memberlist" th:class="${content.roomWidth == null ? 'tab-pane fade in active' : 'tab-pane fade'}"
+										style="padding-top: 10px; padding-bottom: 10px;">
+										<div class="col-sm-6 col-xs-6">
+											<table class="table table-bordered table-condensed small" th:each="statusDto, s : ${content.memberList}" th:if=${s.first}>
+												<tr>
+													<th th:text="${statusDto.status}">生存</th>
 												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-								<div id="tab-memberlist" th:class="${content.roomWidth == null ? 'tab-pane fade in active' : 'tab-pane fade'}" style="padding-top: 10px; padding-bottom: 10px;">
-									<div class="col-sm-6 col-xs-6">
-										<table class="table table-bordered table-condensed small" th:each="statusDto, s : ${content.memberList}" th:if=${s.first}>
-											<tr>
-												<th th:text="${statusDto.status}">生存</th>
-											</tr>
-											<tr th:each="member : ${statusDto.statusMemberList}">
-												<td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName}"></td>
-											</tr>
-											<tr th:if="${statusDto.statusMemberList.size() == 0}">
-												<td>なし</td>
-											</tr>
-										</table>
-									</div>
-									<div class="col-sm-6 col-xs-6">
-										<table class="table table-bordered table-condensed small" th:each="statusDto, s : ${content.memberList}" th:unless=${s.first}>
-											<tr>
-												<th th:text="${statusDto.status}">生存</th>
-											</tr>
-											<tr th:each="member : ${statusDto.statusMemberList}">
-												<td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName}"></td>
-											</tr>
-											<tr th:if="${statusDto.statusMemberList.size() == 0}">
-												<td>なし</td>
-											</tr>
-										</table>
+												<tr th:each="member : ${statusDto.statusMemberList}">
+													<td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName}"></td>
+												</tr>
+												<tr th:if="${statusDto.statusMemberList.size() == 0}">
+													<td>なし</td>
+												</tr>
+											</table>
+										</div>
+										<div class="col-sm-6 col-xs-6">
+											<table class="table table-bordered table-condensed small" th:each="statusDto, s : ${content.memberList}" th:unless=${s.first}>
+												<tr>
+													<th th:text="${statusDto.status}">生存</th>
+												</tr>
+												<tr th:each="member : ${statusDto.statusMemberList}">
+													<td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName}"></td>
+												</tr>
+												<tr th:if="${statusDto.statusMemberList.size() == 0}">
+													<td>なし</td>
+												</tr>
+											</table>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -217,8 +224,8 @@
 									</div>
 									<div class="form-group">
 										<div class="col-sm-12">
-											<span class="" style="margin-left: 55px;" data-message-count>文字数: 0/200, 行数: 1/10</span> <input type="submit"
-												class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />
+											<span class="" style="margin-left: 55px;" data-message-count>文字数: 0/200, 行数: 1/10</span>
+											<input type="submit" class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />
 										</div>
 									</div>
 								</form>
@@ -312,9 +319,11 @@
 												data-ability-target-select>
 												<!--/* <option th:if="${content.skillName == 'WEREWOLF' && content.day > 1}" value="">なし</option> ルール的になしにする */-->
 												<option th:each="target : ${content.abilityTargetList}" th:value="${target.charaId}" th:text="${target.charaName}"></option>
-											</select> <span th:if="${content.skillName == 'SEER' || content.skillName == 'WISE'}" th:text="を占う"></span> <span th:if="${content.skillName == 'HUNTER'}" th:text="を護衛する"></span>
+											</select> <span th:if="${content.skillName == 'SEER' || content.skillName == 'WISE'}" th:text="を占う"></span> <span
+												th:if="${content.skillName == 'HUNTER'}" th:text="を護衛する"></span>
 										</div>
-										<div class="col-sm-12" th:if="${content.skillName == 'SEER' || content.skillName == 'WISE' || content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER'}">
+										<div class="col-sm-12"
+											th:if="${content.skillName == 'SEER' || content.skillName == 'WISE' || content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER'}">
 											通過する部屋<select class="form-control" name="footstep" data-footstep-select>
 											</select>
 										</div>
@@ -334,7 +343,8 @@
 										任意の部屋からその直線上の部屋に向かって徘徊し、通過した部屋に足音を響かせることが可能です。部屋を選択してセットしてください。<br>徘徊しない場合は何も選択せずセットしてください。
 									</p>
 									<div class="form-group small">
-										<div class="col-sm-12" th:if="${content.skillName == 'FOX' || content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN'}">
+										<div class="col-sm-12"
+											th:if="${content.skillName == 'FOX' || content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN'}">
 											<table class="table-bordered table-condensed small" data-footstep-select-table>
 												<tbody>
 													<tr th:each="row : ${content.roomAssignedRowList}">
@@ -342,13 +352,15 @@
 															th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
 									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}"
-															th:data-footstep-room-number="${room.roomNumber}"><span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-															th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span></td>
+															th:data-footstep-room-number="${room.roomNumber}">
+															<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+																th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+														</td>
 													</tr>
 												</tbody>
 											</table>
-											通過する部屋 : <span data-footstep-input th:text="*{footstep}">なし</span> <input type="hidden" class="form-control" th:field="*{footstep}"
-												data-footstep-hd-input />
+											通過する部屋 : <span data-footstep-input th:text="*{footstep}">なし</span>
+											<input type="hidden" class="form-control" th:field="*{footstep}" data-footstep-hd-input />
 										</div>
 									</div>
 									<div class="form-group">
@@ -443,11 +455,12 @@
 							<div class="modal-body">
 								<ul class="nav nav-tabs">
 									<li th:if="${content.roomWidth != null}" class="active"><a data-toggle="tab" href="#modal-roomlist">部屋割り当て</a></li>
-									<li th:class="${content.roomWidth == null ? 'active' : ''}" ><a data-toggle="tab" href="#modal-memberlist">参加者</a></li>
+									<li th:class="${content.roomWidth == null ? 'active' : ''}"><a data-toggle="tab" href="#modal-memberlist">参加者</a></li>
 								</ul>
 
 								<div class="tab-content row">
-									<div id="modal-roomlist" th:if="${content.roomWidth != null}" class="tab-pane fade in active" style="padding-top: 10px; padding-bottom: 10px;">
+									<div id="modal-roomlist" th:if="${content.roomWidth != null}" class="tab-pane fade in active"
+										style="padding-top: 10px; padding-bottom: 10px;">
 										<div class="col-sm-12 col-xs-12">
 											<table class="table-bordered table-condensed small">
 												<tbody>
@@ -457,14 +470,15 @@
 									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
 															<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-															th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+																th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
 														</td>
 													</tr>
 												</tbody>
 											</table>
 										</div>
 									</div>
-									<div id="modal-memberlist" th:class="${'tab-pane fade' + content.roomWidth == null ? ' in active' : ''}" style="padding-top: 10px; padding-bottom: 10px;">
+									<div id="modal-memberlist" th:class="${'tab-pane fade' + content.roomWidth == null ? ' in active' : ''}"
+										style="padding-top: 10px; padding-bottom: 10px;">
 										<div class="col-sm-6 col-xs-6">
 											<table class="table table-bordered table-condensed small" th:each="statusDto, s : ${content.memberList}" th:if=${s.first}>
 												<tr>
@@ -531,8 +545,10 @@
 										</tr>
 										<tr>
 											<th>キャラセット</th>
-											<td><a href="javascript:void(0);" th:href="@{/chara-group/{charaGroupId}(charaGroupId=*{charaGroupId})}" th:text="*{charaGroupName}"
-												target="_blank"></a></td>
+											<td>
+												<a href="javascript:void(0);" th:href="@{/chara-group/{charaGroupId}(charaGroupId=*{charaGroupId})}" th:text="*{charaGroupName}"
+													target="_blank"></a>
+											</td>
 										</tr>
 										<tr>
 											<th>館を建てたプレイヤー</th>
@@ -544,9 +560,9 @@
 								<div class="clearfix small">
 									<a href="javascript:void(0);" class="btn btn-primary pull-right small" data-dismiss="modal">閉じる</a> <a href="javascript:void(0);"
 										th:href="@{/village/{villageId}/settings(villageId=${content.villageId})}" th:if="${content.isAvailableSettingsUpdate}"
-										class="btn btn-success pull-right small" style="margin-right: 10px;">設定変更</a> <input type="button"
-										th:unless="${content.isAvailableSettingsUpdate}" class="btn btn-default pull-right small disabled" data-dismiss="modal" disabled="true"
-										value="設定変更" style="margin-right: 10px;" />
+										class="btn btn-success pull-right small" style="margin-right: 10px;">設定変更</a>
+									<input type="button" th:unless="${content.isAvailableSettingsUpdate}" class="btn btn-default pull-right small disabled" data-dismiss="modal"
+										disabled="true" value="設定変更" style="margin-right: 10px;" />
 								</div>
 							</div>
 						</div>
