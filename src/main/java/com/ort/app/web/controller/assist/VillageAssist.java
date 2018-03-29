@@ -290,7 +290,7 @@ public class VillageAssist {
         content.setVillageId(village.getVillageId());
         content.setVillageName(village.getVillageDisplayName());
         content.setMemberList(convertToMemberPart(village.getVillagePlayerList()));
-        content.setRoomAssignedRowList(convertToRoomAssignedPart(village, village.getVillagePlayerList()));
+        content.setRoomAssignedRowList(convertToRoomAssignedPart(village, village.getVillagePlayerList(), day));
         content.setRoomWidth(village.getRoomSizeWidth());
         content.setDay(day);
         content.setDayList(dayList.stream().map(VillageDay::getDay).collect(Collectors.toList()));
@@ -450,7 +450,7 @@ public class VillageAssist {
         return Arrays.asList(aliveMember, executedMember, attackedMember, suddonlyDeathMember);
     }
 
-    private List<VillageRoomAssignedRowDto> convertToRoomAssignedPart(Village village, List<VillagePlayer> villagePlayerList) {
+    private List<VillageRoomAssignedRowDto> convertToRoomAssignedPart(Village village, List<VillagePlayer> villagePlayerList, int day) {
         if (villagePlayerList.stream().anyMatch(vp -> vp.getRoomNumber() == null)) {
             return null; // 部屋がまだ割り当てられていない
         }
@@ -466,7 +466,8 @@ public class VillageAssist {
                 villagePlayerList.stream().filter(vp -> vp.getRoomNumber().equals(roomNum)).findFirst().ifPresent(vp -> {
                     room.setCharaName(vp.getChara().get().getCharaShortName());
                     room.setCharaImgUrl(vp.getChara().get().getCharaImgUrl());
-                    room.setIsDead(BooleanUtils.isTrue(vp.getIsDead()));
+                    //                    room.setIsDead(BooleanUtils.isTrue(vp.getIsDead()));
+                    room.setIsDead(vp.getDeadDay() == null ? false : vp.getDeadDay() <= day);
                 });
                 row.getRoomAssignedList().add(room);
             }
