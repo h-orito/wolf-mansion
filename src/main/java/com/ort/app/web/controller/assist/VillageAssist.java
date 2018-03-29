@@ -136,7 +136,7 @@ public class VillageAssist {
     private List<Skill> selectSelectableSkillList(Integer villageId) {
         return skillBhv.selectList(cb -> {
             cb.query().setSkillCode_InScope_AsSkill(Arrays.asList(CDef.Skill.おまかせ, CDef.Skill.人狼, CDef.Skill.共鳴者, CDef.Skill.賢者,
-                    CDef.Skill.妖狐, CDef.Skill.魔神官, CDef.Skill.狩人, CDef.Skill.導師, CDef.Skill.霊能者));
+                    CDef.Skill.妖狐, CDef.Skill.狂人, CDef.Skill.狩人, CDef.Skill.導師, CDef.Skill.村人));
             cb.query().addOrderBy_DispOrder_Asc();
         });
     }
