@@ -15,7 +15,7 @@ $(function() {
 	const $sayTextarea = $('[data-say-textarea]');
 	const $sayTypeArea = $('[data-say-type]');
 	const $abilityArea = $('[data-ability]');
-
+	
 	init();
 	function init() {
 		loadAndDisplayMessage();
@@ -24,7 +24,7 @@ $(function() {
 		if ($('[data-footstep-select]') != null) {
 			// 選択していた足音をプルダウンから選択する
 			const nowSelectedFootstep = $('[data-selected-footstep]').data('selected-footstep');
-			def.then(function(){
+			def.then(function() {
 				$('[data-footstep-select]').val(nowSelectedFootstep);
 			});
 		}
@@ -242,20 +242,20 @@ $(function() {
 	$('body').on('click', '[data-refresh]', function() {
 		loadAndDisplayMessage();
 	});
-	
+
 	// 足音選択
-	$('body').on('click', '[data-footstep-select-table] td', function(){
+	$('[data-footstep-select-table] td').on('click', function() {
 		const $table = $('[data-footstep-select-table]');
 		const $footstepHdInput = $('[data-footstep-hd-input]');
 		const $footstepInput = $('[data-footstep-input]');
-		
+
 		$(this).toggleClass('footstep-selected-room');
-		
+
 		let footsteps = [];
-		$table.find('.footstep-selected-room').each(function(){
+		$table.find('.footstep-selected-room').each(function() {
 			footsteps.push($(this).data('footstep-room-number'));
 		});
-		
+
 		if (footsteps.length < 1) {
 			$footstepHdInput.val('なし');
 			$footstepInput.text('なし');
@@ -263,7 +263,7 @@ $(function() {
 			footsteps.sort();
 			$footstepHdInput.val(footsteps.join(','));
 			$footstepInput.text(footsteps.join(','));
-		}		
+		}
 	});
 	
 	function selectDefaultFootsteps() {
@@ -276,7 +276,7 @@ $(function() {
 			return;
 		}
 		const footsteps = footstepsStr.split(',');
-		$table.find('[data-footstep-room-number]').each(function(){
+		$table.find('[data-footstep-room-number]').each(function() {
 			if ($.inArray(String($(this).data('footstep-room-number')), footsteps) != -1) {
 				$(this).addClass('footstep-selected-room');
 			}
