@@ -343,4 +343,23 @@ $(function() {
 		});
 		$('#modal-filter').modal('hide');
 	});
+	
+	// コピー
+	function clipboardCopy(text, alertText) {
+		var temp = document.createElement('div');
+		temp.appendChild(document.createElement('pre')).textContent = text;
+		var s = temp.style;
+		s.position = 'fixed';
+		s.left = '-100%';
+		document.body.appendChild(temp);
+		document.getSelection().selectAllChildren(temp);
+		var result = document.execCommand('copy');
+		document.body.removeChild(temp);
+		alert(alertText);
+	}
+	
+	$('body').on('click', '[data-copy-anchor]', function(){
+		const text = $(this).text();
+		clipboardCopy(text, 'コピーしました： ' + text);
+	});
 });
