@@ -267,3 +267,12 @@ tr.top-menu-selectable:hover a {
 .footstep-selected-room {
 	border: 2px solid #0ce3ac !important;
 }
+
+.daychange-alert {
+	display: none; /* ‰Šúó‘Ô‚Í”ñ•\¦ */
+	/* ‰æ–Êã•”‚É•\¦ */
+	position: fixed;
+	top: 0;
+	right: 5px;
+	left: 5px;
+}

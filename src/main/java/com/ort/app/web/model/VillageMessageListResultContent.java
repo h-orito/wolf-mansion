@@ -15,6 +15,9 @@ public class VillageMessageListResultContent implements Serializable {
     /** 村状態メッセージ */
     private String villageStatusMessage;
 
+    /** 最新日付 */
+    private Integer latestDay;
+
     public List<VillageMessageDto> getMessageList() {
         return messageList;
     }
@@ -29,6 +32,14 @@ public class VillageMessageListResultContent implements Serializable {
 
     public void setVillageStatusMessage(String villageStatusMessage) {
         this.villageStatusMessage = villageStatusMessage;
+    }
+
+    public Integer getLatestDay() {
+        return latestDay;
+    }
+
+    public void setLatestDay(Integer latestDay) {
+        this.latestDay = latestDay;
     }
 
 }

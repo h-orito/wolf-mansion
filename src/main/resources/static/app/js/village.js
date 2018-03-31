@@ -15,6 +15,7 @@ $(function() {
 	const $sayTextarea = $('[data-say-textarea]');
 	const $sayTypeArea = $('[data-say-type]');
 	const $abilityArea = $('[data-ability]');
+	let latestDay;
 	
 	init();
 	function init() {
@@ -48,6 +49,12 @@ $(function() {
 			});
 			$("[data-message-area]").html(messageTemplate(response));
 			$("[data-message-area]").removeClass('loading');
+			
+			// 最新の日付が変わったら通知
+			if (latestDay != null && latestDay < response.latestDay) {
+				$('.daychange-alert').css('display', 'block');
+			}
+			latestDay = response.latestDay;
 		});
 	}
 

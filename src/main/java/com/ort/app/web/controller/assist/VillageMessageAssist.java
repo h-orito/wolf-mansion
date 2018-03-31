@@ -60,13 +60,14 @@ public class VillageMessageAssist {
     //                                                                             =======
     public VillageMessageListResultContent getMessageList(VillageGetMessageListForm form, UserInfo userInfo) {
         Integer villageId = form.getVillageId();
-        int day = form.getDay() != null ? form.getDay() : selectLatestDay(villageId);
+        int latestDay = selectLatestDay(villageId);
+        int day = form.getDay() != null ? form.getDay() : latestDay;
         OptionalEntity<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
         Village village = selectVillage(villageId);
         List<CDef.MessageType> messageTypeList = makeMessageTypeList(optVillagePlayer, village);
         ListResultBean<Message> messageList = selectMessageList(form.getVillageId(), day, messageTypeList, optVillagePlayer);
         String villageStatusMessage = makeVillageStatusMessage(village, isLatestDay(villageId, day), optVillagePlayer, day);
-        VillageMessageListResultContent content = mappingToMessageListContent(messageList, villageStatusMessage);
+        VillageMessageListResultContent content = mappingToMessageListContent(messageList, villageStatusMessage, latestDay);
         return content;
     }
 
@@ -155,10 +156,12 @@ public class VillageMessageAssist {
     // ===================================================================================
     //                                                                             Mapping
     //                                                                             =======
-    private VillageMessageListResultContent mappingToMessageListContent(ListResultBean<Message> messageList, String villageStatusMessage) {
+    private VillageMessageListResultContent mappingToMessageListContent(ListResultBean<Message> messageList, String villageStatusMessage,
+            int latestDay) {
         VillageMessageListResultContent content = new VillageMessageListResultContent();
         content.setMessageList(convertToMessageList(messageList));
         content.setVillageStatusMessage(villageStatusMessage);
+        content.setLatestDay(latestDay);
         return content;
     }
 
