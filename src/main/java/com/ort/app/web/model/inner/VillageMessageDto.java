@@ -10,6 +10,9 @@ public class VillageMessageDto {
     /** キャラクター名 */
     private String characterName;
 
+    /** キャラクターID */
+    private Integer characterId;
+
     /** キャラクター画像URL */
     private String characterImageUrl;
 
@@ -39,6 +42,14 @@ public class VillageMessageDto {
 
     public void setCharacterName(String characterName) {
         this.characterName = characterName;
+    }
+
+    public Integer getCharacterId() {
+        return characterId;
+    }
+
+    public void setCharacterId(Integer characterId) {
+        this.characterId = characterId;
     }
 
     public String getCharacterImageUrl() {

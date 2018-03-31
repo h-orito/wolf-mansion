@@ -227,12 +227,11 @@ tr.top-menu-selectable:hover a {
 }
 
 .goto-top {
-	bottom: 160px;
+	bottom: 210px;
 	right: 10px;
 }
 
 .filter {
-	display: none;
 	bottom: 160px;
 	right: 10px;
 }

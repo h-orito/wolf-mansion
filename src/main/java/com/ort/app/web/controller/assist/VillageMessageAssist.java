@@ -216,6 +216,7 @@ public class VillageMessageAssist {
         VillageMessageDto messageDto = new VillageMessageDto();
         messageDto.setCharacterName(
                 message.getVillagePlayer().map(villagePlayer -> villagePlayer.getChara().get().getCharaName()).orElse(null));
+        messageDto.setCharacterId(message.getVillagePlayer().map(villagePlayer -> villagePlayer.getCharaId()).orElse(null));
         messageDto.setCharacterImageUrl(
                 message.getVillagePlayer().map(villagePlayer -> villagePlayer.getChara().get().getCharaImgUrl()).orElse(null));
         // エピ入ってないと表示しちゃだめ

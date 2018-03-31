@@ -3,7 +3,7 @@
 </head>
 <body layout:fragment="message-partial">
 	{{#if (eq messageType 'NORMAL_SAY')}}
-	<div class="col-sm-12 say-n{{messageNumber}}" data-message>
+	<div class="col-sm-12 say-n{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
 		<div class="row">
 			<div class="col-sm-12 small">
 				<span style="margin-left: -15px;">>>{{messageNumber}}. {{characterName}}</span> <span style="margin-left: 10px;">{{timeFormat
@@ -18,7 +18,7 @@
 		</div>
 	</div>
 	{{else if (eq messageType 'WEREWOLF_SAY')}}
-	<div class="col-sm-12 say-w{{messageNumber}}" data-message>
+	<div class="col-sm-12 say-w{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
 		<div class="row">
 			<div class="col-sm-12 small">
 				<span style="margin-left: -15px;">>>*{{messageNumber}}. {{characterName}}</span> <span style="margin-left: 10px;">{{timeFormat
@@ -33,7 +33,7 @@
 		</div>
 	</div>
 	{{else if (eq messageType 'MONOLOGUE_SAY')}}
-	<div class="col-sm-12" data-message>
+	<div class="col-sm-12" data-message="{{messageType}}" data-chara-id="{{characterId}}">
 		<div class="row">
 			<div class="col-sm-12 small">
 				<span style="margin-left: -15px;">{{characterName}}</span> <span style="margin-left: 10px;">{{timeFormat
@@ -48,7 +48,7 @@
 		</div>
 	</div>
 	{{else if (eq messageType 'MASON_SAY')}}
-	<div class="col-sm-12 say-m{{messageNumber}}" data-message>
+	<div class="col-sm-12 say-m{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
 		<div class="row">
 			<div class="col-sm-12 small">
 				<span style="margin-left: -15px;">>>={{messageNumber}}. {{characterName}}</span> <span style="margin-left: 10px;">{{timeFormat
@@ -63,7 +63,7 @@
 		</div>
 	</div>
 	{{else if (eq messageType 'GRAVE_SAY')}}
-	<div class="col-sm-12 say-g{{messageNumber}}" data-message>
+	<div class="col-sm-12 say-g{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
 		<div class="row">
 			<div class="col-sm-12 small">
 				<span style="margin-left: -15px;">>>+{{messageNumber}}. {{characterName}}</span> <span style="margin-left: 10px;">{{timeFormat

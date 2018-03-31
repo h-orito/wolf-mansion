@@ -290,6 +290,7 @@ public class VillageAssist {
         content.setVillageId(village.getVillageId());
         content.setVillageName(village.getVillageDisplayName());
         content.setMemberList(convertToMemberPart(village.getVillagePlayerList()));
+        content.setCharacterList(village.getVillagePlayerList().stream().map(vp -> vp.getChara().get()).collect(Collectors.toList()));
         content.setRoomAssignedRowList(convertToRoomAssignedPart(village, village.getVillagePlayerList(), day));
         content.setRoomWidth(village.getRoomSizeWidth());
         content.setDay(day);

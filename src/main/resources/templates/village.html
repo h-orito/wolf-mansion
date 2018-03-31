@@ -143,7 +143,7 @@
 									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
 															<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-																th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+															th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
 														</td>
 													</tr>
 												</tbody>
@@ -224,8 +224,8 @@
 									</div>
 									<div class="form-group">
 										<div class="col-sm-12">
-											<span class="" style="margin-left: 55px;" data-message-count>文字数: 0/200, 行数: 1/10</span>
-											<input type="submit" class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />
+											<span class="" style="margin-left: 55px;" data-message-count>文字数: 0/200, 行数: 1/10</span> <input type="submit"
+												class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />
 										</div>
 									</div>
 								</form>
@@ -352,15 +352,13 @@
 															th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
 									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}"
-															th:data-footstep-room-number="${room.roomNumber}">
-															<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-																th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
-														</td>
+															th:data-footstep-room-number="${room.roomNumber}"><span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+															th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span></td>
 													</tr>
 												</tbody>
 											</table>
-											通過する部屋 : <span data-footstep-input th:text="*{footstep}">なし</span>
-											<input type="hidden" class="form-control" th:field="*{footstep}" data-footstep-hd-input />
+											通過する部屋 : <span data-footstep-input th:text="*{footstep}">なし</span> <input type="hidden" class="form-control" th:field="*{footstep}"
+												data-footstep-hd-input />
 										</div>
 									</div>
 									<div class="form-group">
@@ -438,7 +436,7 @@
 				<div class="btn btn-primary goto refresh" data-refresh>
 					<span class="glyphicon glyphicon-refresh"></span>
 				</div>
-				<div class="btn btn-primary goto filter" data-filter>
+				<div class="btn btn-primary goto filter" data-toggle="modal" data-target="#modal-filter" data-filter>
 					<span class="glyphicon glyphicon-filter"></span>
 				</div>
 				<div class="btn btn-primary goto roomasign" data-toggle="modal" data-target="#modal-room">
@@ -446,6 +444,57 @@
 				</div>
 				<div class="btn btn-primary goto goto-bottom" data-goto-bottom>
 					<span class="glyphicon glyphicon-arrow-down"></span>
+				</div>
+
+				<!--/* フィルタ */-->
+				<div class="modal fade" id="modal-filter" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-body row">
+								<div class="col-sm-12 col-xs-12">
+									<h4>発言抽出</h4>
+									<div class="col-sm-6 col-xs-6">
+										<strong>キャラクター</strong>
+										<table class="table-bordered table-condensed small" style="margin-top: 5px;">
+											<tbody>
+												<tr th:each="chara : ${content.characterList}">
+													<td class="small bg-info" th:text="${chara.charaName}" th:data-filter-chara-id="${chara.charaId}"></td>
+												</tr>
+											</tbody>
+										</table>
+										<a href="javascript:void(0);" data-filter-chara-allon>全てON</a> / <a href="javascript:void(0);" data-filter-chara-alloff>全てOFF</a>
+									</div>
+									<div class="col-sm-6 col-xs-6">
+										発言種別
+										<table class="table-bordered table-condensed small" style="margin-top: 5px;">
+											<tbody>
+												<tr>
+													<td class="small bg-info" data-filter-message-type="NORMAL_SAY">通常発言</td>
+												</tr>
+												<tr>
+													<td class="small bg-info" data-filter-message-type="WEREWOLF_SAY">狼の囁き</td>
+												</tr>
+												<tr>
+													<td class="small bg-info" data-filter-message-type="MASON_SAY">共鳴発言</td>
+												</tr>
+												<tr>
+													<td class="small bg-info" data-filter-message-type="GRAVE_SAY">墓下発言</td>
+												</tr>
+												<tr>
+													<td class="small bg-info" data-filter-message-type="MONOLOGUE_SAY">独り言</td>
+												</tr>
+											</tbody>
+										</table>
+										<a href="javascript:void(0);" data-filter-type-allon>全てON</a> / <a href="javascript:void(0);" data-filter-type-alloff>全てOFF</a>
+									</div>
+								</div>
+								<div class="clearfix small">
+									<a href="javascript:void(0);" class="btn btn-success pull-right small" data-filter-submit>抽出</a>
+									<a href="javascript:void(0);" class="btn btn-primary pull-right small" data-dismiss="modal" style="margin-right: 10px;">閉じる</a>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 
 				<!--/* 部屋割り当て */-->
@@ -470,7 +519,7 @@
 									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
 															<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-																th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+															th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
 														</td>
 													</tr>
 												</tbody>
@@ -548,10 +597,8 @@
 										</tr>
 										<tr>
 											<th>キャラセット</th>
-											<td>
-												<a href="javascript:void(0);" th:href="@{/chara-group/{charaGroupId}(charaGroupId=*{charaGroupId})}" th:text="*{charaGroupName}"
-													target="_blank"></a>
-											</td>
+											<td><a href="javascript:void(0);" th:href="@{/chara-group/{charaGroupId}(charaGroupId=*{charaGroupId})}" th:text="*{charaGroupName}"
+												target="_blank"></a></td>
 										</tr>
 										<tr>
 											<th>館を建てたプレイヤー</th>
@@ -563,9 +610,9 @@
 								<div class="clearfix small">
 									<a href="javascript:void(0);" class="btn btn-primary pull-right small" data-dismiss="modal">閉じる</a> <a href="javascript:void(0);"
 										th:href="@{/village/{villageId}/settings(villageId=${content.villageId})}" th:if="${content.isAvailableSettingsUpdate}"
-										class="btn btn-success pull-right small" style="margin-right: 10px;">設定変更</a>
-									<input type="button" th:unless="${content.isAvailableSettingsUpdate}" class="btn btn-default pull-right small disabled" data-dismiss="modal"
-										disabled="true" value="設定変更" style="margin-right: 10px;" />
+										class="btn btn-success pull-right small" style="margin-right: 10px;">設定変更</a> <input type="button"
+										th:unless="${content.isAvailableSettingsUpdate}" class="btn btn-default pull-right small disabled" data-dismiss="modal" disabled="true"
+										value="設定変更" style="margin-right: 10px;" />
 								</div>
 							</div>
 						</div>

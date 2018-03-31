@@ -282,4 +282,58 @@ $(function() {
 			}
 		});
 	}
+	
+	$('[data-filter-chara-id],[data-filter-message-type]').on('click', function(){
+		$(this).toggleClass('bg-info');
+	});
+	$('[data-filter-chara-allon]').on('click', function(){
+		$('#modal-filter').find('[data-filter-chara-id]').each(function(){
+			$(this).addClass('bg-info');
+		});
+	});
+	$('[data-filter-chara-alloff]').on('click', function(){
+		$('#modal-filter').find('[data-filter-chara-id]').each(function(){
+			$(this).removeClass('bg-info');
+		});
+	});
+	$('[data-filter-type-allon]').on('click', function(){
+		$('#modal-filter').find('[data-filter-message-type]').each(function(){
+			$(this).addClass('bg-info');
+		});
+	});
+	$('[data-filter-type-alloff]').on('click', function(){
+		$('#modal-filter').find('[data-filter-message-type]').each(function(){
+			$(this).removeClass('bg-info');
+		});
+	});
+	$('[data-filter-submit]').on('click', function(){
+		// data-message-area
+		const charaFilterArr = $('#modal-filter').find('.bg-info[data-filter-chara-id]').map(function(){
+			return String($(this).data('filter-chara-id'));
+		});
+		const typeFilterArr = $('#modal-filter').find('.bg-info[data-filter-message-type]').map(function(){
+			return String($(this).data('filter-message-type'));
+		});
+		
+		$('[data-message-area] [data-message]').each(function(idx, elm){
+			const type = String($(elm).data('message'));
+			if (type == '') {
+				return true;
+			} 
+			let disp = true;
+			if ($.inArray(type, typeFilterArr) == -1) {
+				disp = false;
+			}
+			const charaId = String($(elm).data('chara-id'));
+			if ($.inArray(charaId, charaFilterArr) == -1) {
+				disp = false;
+			}
+			if (disp) {
+				$(elm).removeClass('hidden');
+			} else {
+				$(elm).addClass('hidden');
+			}
+		});
+		$('#modal-filter').modal('hide');
+	});
 });
