@@ -28,6 +28,9 @@ public class VillageSettingsDto {
     /** キャラクターグループID */
     private Integer charaGroupId;
 
+    /** 入村パスワードを必要とするか */
+    private Boolean isRequiredJoinPassword;
+
     public Integer getStartPersonMinNum() {
         return startPersonMinNum;
     }
@@ -90,5 +93,13 @@ public class VillageSettingsDto {
 
     public void setCharaGroupId(Integer charaGroupId) {
         this.charaGroupId = charaGroupId;
+    }
+
+    public Boolean getIsRequiredJoinPassword() {
+        return isRequiredJoinPassword;
+    }
+
+    public void setIsRequiredJoinPassword(Boolean isRequiredJoinPassword) {
+        this.isRequiredJoinPassword = isRequiredJoinPassword;
     }
 }

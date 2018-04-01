@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of ability. (Singleton)
+ * The DB meta of ABILITY. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class AbilityDbm extends AbstractDBMeta {
@@ -81,7 +81,7 @@ public class AbilityDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "ability";
+    protected final String _tableDbName = "ABILITY";
     protected final String _tableDispName = "ABILITY";
     protected final String _tablePropertyName = "ability";
     protected final TableSqlName _tableSqlName = new TableSqlName("ABILITY", _tableDbName);
@@ -105,27 +105,27 @@ public class AbilityDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
     /**
-     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnDay() { return _columnDay; }
     /**
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharaId() { return _columnCharaId; }
     /**
-     * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
+     * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to CHARA}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnTargetCharaId() { return _columnTargetCharaId; }
     /**
-     * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType}
+     * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ABILITY_TYPE, classification=AbilityType}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnAbilityTypeCode() { return _columnAbilityTypeCode; }

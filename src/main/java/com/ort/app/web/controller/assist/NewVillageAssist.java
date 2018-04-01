@@ -149,6 +149,7 @@ public class NewVillageAssist {
         settings.setIsOpenVote(villageForm.getIsOpenVote());
         settings.setIsPossibleSkillRequest(villageForm.getIsPossibleSkillRequest());
         settings.setCharacterGroupId(villageForm.getCharacterSetId());
+        settings.setJoinPassword(villageForm.getJoinPassword());
         villageSettingsBhv.insert(settings);
         return settings;
     }

@@ -22,6 +22,9 @@ public class VillageParticipateForm implements Serializable {
     /** 入村人数(管理者用) */
     private Integer personNumber;
 
+    /** 入村パスワード */
+    private String joinPassword;
+
     public Integer getCharaId() {
         return charaId;
     }
@@ -52,5 +55,13 @@ public class VillageParticipateForm implements Serializable {
 
     public void setPersonNumber(Integer personNumber) {
         this.personNumber = personNumber;
+    }
+
+    public String getJoinPassword() {
+        return joinPassword;
+    }
+
+    public void setJoinPassword(String joinPassword) {
+        this.joinPassword = joinPassword;
     }
 }

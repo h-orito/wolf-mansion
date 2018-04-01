@@ -1429,6 +1429,12 @@
 					<relationship>FK_village_settings_CHARA_group</relationship>
 					<not_null>true</not_null>
 				</normal_column>
+				<normal_column>
+					<physical_name>join_password</physical_name>
+					<logical_name>入村パスワード</logical_name>
+					<type>varchar(n)</type>
+					<length>12</length>
+				</normal_column>
 				<column_group>共通カラム</column_group>
 			</columns>
 			<indexes>

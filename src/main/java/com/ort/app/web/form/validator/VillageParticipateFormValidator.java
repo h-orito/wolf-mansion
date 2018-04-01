@@ -34,11 +34,11 @@ public class VillageParticipateFormValidator implements Validator {
         int lineSeparatorNum = trimedMessage.split("\r\n").length - 1;
         int messageLength = length - lineSeparatorNum;
         if (messageLength <= 0 || 200 < messageLength) {
-            errors.rejectValue("message", "VillageSayForm.validator.message.length");
+            errors.rejectValue("joinMessage", "VillageSayForm.validator.message.length");
         }
         // 行数が11以上
         if (trimedMessage.split("\r\n").length > 10) {
-            errors.rejectValue("message", "VillageSayForm.validator.message.line");
+            errors.rejectValue("joinMessage", "VillageSayForm.validator.message.line");
         }
     }
 

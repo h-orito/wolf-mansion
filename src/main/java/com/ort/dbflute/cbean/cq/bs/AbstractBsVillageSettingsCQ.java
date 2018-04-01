@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of village_settings.
+ * The abstract condition-query of VILLAGE_SETTINGS.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
     }
 
     public String asTableDbName() {
-        return "village_settings";
+        return "VILLAGE_SETTINGS";
     }
 
     // ===================================================================================
@@ -45,7 +45,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
     //                                                                               =====
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_Equal(Integer villageId) {
@@ -58,7 +58,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_NotEqual(Integer villageId) {
@@ -71,7 +71,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterThan(Integer villageId) {
@@ -80,7 +80,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessThan(Integer villageId) {
@@ -89,7 +89,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterEqual(Integer villageId) {
@@ -98,7 +98,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessEqual(Integer villageId) {
@@ -109,7 +109,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -122,7 +122,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -133,7 +133,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageIdList The collection of villageId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_InScope(Collection<Integer> villageIdList) {
@@ -146,7 +146,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageIdList The collection of villageId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_NotInScope(Collection<Integer> villageIdList) {
@@ -159,13 +159,13 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      */
     public void setVillageId_IsNull() { regVillageId(CK_ISN, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      */
     public void setVillageId_IsNotNull() { regVillageId(CK_ISNN, DOBJ); }
 
@@ -720,7 +720,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param characterGroupId The value of characterGroupId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharacterGroupId_Equal(Integer characterGroupId) {
@@ -733,7 +733,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param characterGroupId The value of characterGroupId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharacterGroupId_NotEqual(Integer characterGroupId) {
@@ -746,7 +746,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param characterGroupId The value of characterGroupId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharacterGroupId_GreaterThan(Integer characterGroupId) {
@@ -755,7 +755,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param characterGroupId The value of characterGroupId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharacterGroupId_LessThan(Integer characterGroupId) {
@@ -764,7 +764,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param characterGroupId The value of characterGroupId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharacterGroupId_GreaterEqual(Integer characterGroupId) {
@@ -773,7 +773,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param characterGroupId The value of characterGroupId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharacterGroupId_LessEqual(Integer characterGroupId) {
@@ -784,7 +784,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param minNumber The min number of characterGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of characterGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -797,7 +797,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param minNumber The min number of characterGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of characterGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -808,7 +808,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param characterGroupIdList The collection of characterGroupId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharacterGroupId_InScope(Collection<Integer> characterGroupIdList) {
@@ -821,7 +821,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param characterGroupIdList The collection of characterGroupId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharacterGroupId_NotInScope(Collection<Integer> characterGroupIdList) {
@@ -834,6 +834,159 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     protected void regCharacterGroupId(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueCharacterGroupId(), "CHARACTER_GROUP_ID"); }
     protected abstract ConditionValue xgetCValueCharacterGroupId();
+
+    /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * JOIN_PASSWORD: {VARCHAR(12)}
+     * @param joinPassword The value of joinPassword as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setJoinPassword_Equal(String joinPassword) {
+        doSetJoinPassword_Equal(fRES(joinPassword));
+    }
+
+    protected void doSetJoinPassword_Equal(String joinPassword) {
+        regJoinPassword(CK_EQ, joinPassword);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * JOIN_PASSWORD: {VARCHAR(12)}
+     * @param joinPassword The value of joinPassword as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setJoinPassword_NotEqual(String joinPassword) {
+        doSetJoinPassword_NotEqual(fRES(joinPassword));
+    }
+
+    protected void doSetJoinPassword_NotEqual(String joinPassword) {
+        regJoinPassword(CK_NES, joinPassword);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * JOIN_PASSWORD: {VARCHAR(12)}
+     * @param joinPassword The value of joinPassword as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setJoinPassword_GreaterThan(String joinPassword) {
+        regJoinPassword(CK_GT, fRES(joinPassword));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * JOIN_PASSWORD: {VARCHAR(12)}
+     * @param joinPassword The value of joinPassword as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setJoinPassword_LessThan(String joinPassword) {
+        regJoinPassword(CK_LT, fRES(joinPassword));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * JOIN_PASSWORD: {VARCHAR(12)}
+     * @param joinPassword The value of joinPassword as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setJoinPassword_GreaterEqual(String joinPassword) {
+        regJoinPassword(CK_GE, fRES(joinPassword));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * JOIN_PASSWORD: {VARCHAR(12)}
+     * @param joinPassword The value of joinPassword as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setJoinPassword_LessEqual(String joinPassword) {
+        regJoinPassword(CK_LE, fRES(joinPassword));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * JOIN_PASSWORD: {VARCHAR(12)}
+     * @param joinPasswordList The collection of joinPassword as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setJoinPassword_InScope(Collection<String> joinPasswordList) {
+        doSetJoinPassword_InScope(joinPasswordList);
+    }
+
+    protected void doSetJoinPassword_InScope(Collection<String> joinPasswordList) {
+        regINS(CK_INS, cTL(joinPasswordList), xgetCValueJoinPassword(), "JOIN_PASSWORD");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * JOIN_PASSWORD: {VARCHAR(12)}
+     * @param joinPasswordList The collection of joinPassword as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setJoinPassword_NotInScope(Collection<String> joinPasswordList) {
+        doSetJoinPassword_NotInScope(joinPasswordList);
+    }
+
+    protected void doSetJoinPassword_NotInScope(Collection<String> joinPasswordList) {
+        regINS(CK_NINS, cTL(joinPasswordList), xgetCValueJoinPassword(), "JOIN_PASSWORD");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * JOIN_PASSWORD: {VARCHAR(12)} <br>
+     * <pre>e.g. setJoinPassword_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param joinPassword The value of joinPassword as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setJoinPassword_LikeSearch(String joinPassword, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setJoinPassword_LikeSearch(joinPassword, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * JOIN_PASSWORD: {VARCHAR(12)} <br>
+     * <pre>e.g. setJoinPassword_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param joinPassword The value of joinPassword as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setJoinPassword_LikeSearch(String joinPassword, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(joinPassword), xgetCValueJoinPassword(), "JOIN_PASSWORD", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * JOIN_PASSWORD: {VARCHAR(12)}
+     * @param joinPassword The value of joinPassword as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setJoinPassword_NotLikeSearch(String joinPassword, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setJoinPassword_NotLikeSearch(joinPassword, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * JOIN_PASSWORD: {VARCHAR(12)}
+     * @param joinPassword The value of joinPassword as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setJoinPassword_NotLikeSearch(String joinPassword, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(joinPassword), xgetCValueJoinPassword(), "JOIN_PASSWORD", likeSearchOption);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * JOIN_PASSWORD: {VARCHAR(12)}
+     */
+    public void setJoinPassword_IsNull() { regJoinPassword(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * JOIN_PASSWORD: {VARCHAR(12)}
+     */
+    public void setJoinPassword_IsNullOrEmpty() { regJoinPassword(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * JOIN_PASSWORD: {VARCHAR(12)}
+     */
+    public void setJoinPassword_IsNotNull() { regJoinPassword(CK_ISNN, DOBJ); }
+
+    protected void regJoinPassword(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueJoinPassword(), "JOIN_PASSWORD"); }
+    protected abstract ConditionValue xgetCValueJoinPassword();
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>

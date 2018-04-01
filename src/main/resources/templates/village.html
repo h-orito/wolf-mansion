@@ -88,6 +88,13 @@
 											<span th:if="${#fields.hasErrors('joinMessage')}" th:errors="*{joinMessage}" class="help-block text-danger">error!</span>
 										</div>
 									</div>
+									<div class="form-group" th:if="${content.isRequiredJoinPassword}">
+										<label class="col-sm-2 control-label">入村パスワード</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" th:field="*{joinPassword}" />
+											<span th:if="${#fields.hasErrors('joinPassword')}" th:errors="*{joinPassword}" class="help-block text-danger">error!</span>
+										</div>
+									</div>
 									<div class="form-group">
 										<div class="col-sm-12">
 											<input type="submit" class="btn btn-sm btn-success pull-right" value="入村する" />
@@ -600,6 +607,10 @@
 											<td><a href="javascript:void(0);" th:href="@{/chara-group/{charaGroupId}(charaGroupId=*{charaGroupId})}" th:text="*{charaGroupName}"
 												target="_blank"></a></td>
 										</tr>
+										<tr>
+											<th>入村パスワード</th>
+											<td th:text="*{isRequiredJoinPassword ? 'あり' : 'なし'}"></td>
+										</tr>										
 										<tr>
 											<th>館を建てたプレイヤー</th>
 											<td th:text="${content.createPlayerName}"></td>

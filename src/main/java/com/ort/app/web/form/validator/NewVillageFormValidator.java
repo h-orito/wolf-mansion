@@ -3,6 +3,7 @@ package com.ort.app.web.form.validator;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -76,6 +77,12 @@ public class NewVillageFormValidator implements Validator {
             errors.rejectValue("dummyJoinMessage", "VillageSayForm.validator.message.line");
         }
 
+        // 入村パスワードが入力されているが3文字以上12文字以下でない
+        String joinPassword = form.getJoinPassword();
+        if (StringUtils.isNotEmpty(joinPassword)) {
+            if (joinPassword.length() < 3 || 12 < joinPassword.length()) {
+                errors.rejectValue("joinPassword", "VillageSayForm.validator.joinPassword.length");
+            }
+        }
     }
-
 }

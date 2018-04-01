@@ -134,5 +134,4 @@ public class VillageSettingsForm implements Serializable {
     public void setStartMinute(Integer startMinute) {
         this.startMinute = startMinute;
     }
-
 }

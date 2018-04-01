@@ -111,6 +111,9 @@ public class VillageResultContent implements Serializable {
     /** 村設定変更可能か */
     private Boolean isAvailableSettingsUpdate;
 
+    /** 入村パスワードを必要とするか */
+    private Boolean isRequiredJoinPassword;
+
     public Integer getVillageId() {
         return villageId;
     }
@@ -365,6 +368,14 @@ public class VillageResultContent implements Serializable {
 
     public void setIsAvailableSettingsUpdate(Boolean isAvailableSettingsUpdate) {
         this.isAvailableSettingsUpdate = isAvailableSettingsUpdate;
+    }
+
+    public Boolean getIsRequiredJoinPassword() {
+        return isRequiredJoinPassword;
+    }
+
+    public void setIsRequiredJoinPassword(Boolean isRequiredJoinPassword) {
+        this.isRequiredJoinPassword = isRequiredJoinPassword;
     }
 
 }

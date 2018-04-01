@@ -79,6 +79,9 @@ public class NewVillageForm implements Serializable {
     @Length(min = 1, max = 200)
     private String dummyJoinMessage;
 
+    /** 入村パスワード */
+    private String joinPassword;
+
     public String getVillageName() {
         return villageName;
     }
@@ -197,6 +200,14 @@ public class NewVillageForm implements Serializable {
 
     public void setDummyJoinMessage(String dummyJoinMessage) {
         this.dummyJoinMessage = dummyJoinMessage;
+    }
+
+    public String getJoinPassword() {
+        return joinPassword;
+    }
+
+    public void setJoinPassword(String joinPassword) {
+        this.joinPassword = joinPassword;
     }
 
 }

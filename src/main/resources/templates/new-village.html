@@ -129,6 +129,16 @@
 								<span th:if="${#fields.hasErrors('dummyJoinMessage')}" th:errors="*{dummyJoinMessage}" class="help-block text-danger">error!</span>
 							</div>
 						</div>
+						<hr />
+						以降の項目は任意です
+						<div class="form-group">
+							<label class="col-sm-2 control-label">入村パスワード</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" th:field="*{joinPassword}" placeholder="3文字以上12文字以下" />
+								<span th:if="${#fields.hasErrors('joinPassword')}" th:errors="*{joinPassword}" class="help-block text-danger">error!</span>
+							</div>
+						</div>						
+						<hr />
 						<div class="form-group">
 							<div class="col-sm-12 col-xs-12 pull-right">
 								<input type="submit" class="btn btn-sm btn-success pull-right" value="確認画面へ" />

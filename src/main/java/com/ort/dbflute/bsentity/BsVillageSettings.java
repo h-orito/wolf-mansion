@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID
  *
  * [column]
- *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, CHARACTER_GROUP_ID, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, CHARACTER_GROUP_ID, JOIN_PASSWORD, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -54,6 +54,7 @@ import com.ort.dbflute.exentity.*;
  * Boolean isOpenVote = entity.getIsOpenVote();
  * Boolean isPossibleSkillRequest = entity.getIsPossibleSkillRequest();
  * Integer characterGroupId = entity.getCharacterGroupId();
+ * String joinPassword = entity.getJoinPassword();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -66,6 +67,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setIsOpenVote(isOpenVote);
  * entity.setIsPossibleSkillRequest(isPossibleSkillRequest);
  * entity.setCharacterGroupId(characterGroupId);
+ * entity.setJoinPassword(joinPassword);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -85,7 +87,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
     protected Integer _villageId;
 
     /** START_PERSON_MIN_NUM: {INT UNSIGNED(10)} */
@@ -106,8 +108,11 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     /** IS_POSSIBLE_SKILL_REQUEST: {NotNull, BIT, classification=Flg} */
     protected Boolean _isPossibleSkillRequest;
 
-    /** CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} */
+    /** CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} */
     protected Integer _characterGroupId;
+
+    /** JOIN_PASSWORD: {VARCHAR(12)} */
+    protected String _joinPassword;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -131,7 +136,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "village_settings";
+        return "VILLAGE_SETTINGS";
     }
 
     // ===================================================================================
@@ -389,6 +394,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         sb.append(dm).append(xfND(_isOpenVote));
         sb.append(dm).append(xfND(_isPossibleSkillRequest));
         sb.append(dm).append(xfND(_characterGroupId));
+        sb.append(dm).append(xfND(_joinPassword));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -422,7 +428,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -432,7 +438,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -564,7 +570,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [get] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
+     * [get] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
      * キャラクターグループID
      * @return The value of the column 'CHARACTER_GROUP_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -574,13 +580,33 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
+     * [set] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
      * キャラクターグループID
      * @param characterGroupId The value of the column 'CHARACTER_GROUP_ID'. (basically NotNull if update: for the constraint)
      */
     public void setCharacterGroupId(Integer characterGroupId) {
         registerModifiedProperty("characterGroupId");
         _characterGroupId = characterGroupId;
+    }
+
+    /**
+     * [get] JOIN_PASSWORD: {VARCHAR(12)} <br>
+     * 入村パスワード
+     * @return The value of the column 'JOIN_PASSWORD'. (NullAllowed even if selected: for no constraint)
+     */
+    public String getJoinPassword() {
+        checkSpecifiedProperty("joinPassword");
+        return convertEmptyToNull(_joinPassword);
+    }
+
+    /**
+     * [set] JOIN_PASSWORD: {VARCHAR(12)} <br>
+     * 入村パスワード
+     * @param joinPassword The value of the column 'JOIN_PASSWORD'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setJoinPassword(String joinPassword) {
+        registerModifiedProperty("joinPassword");
+        _joinPassword = joinPassword;
     }
 
     /**

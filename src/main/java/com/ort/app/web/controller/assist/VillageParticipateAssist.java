@@ -1,6 +1,7 @@
 package com.ort.app.web.controller.assist;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
@@ -14,8 +15,10 @@ import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
+import com.ort.dbflute.exbhv.VillageSettingsBhv;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
+import com.ort.dbflute.exentity.VillageSettings;
 import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 
@@ -27,6 +30,9 @@ public class VillageParticipateAssist {
     //                                                                           =========
     @Autowired
     private VillageBhv villageBhv;
+
+    @Autowired
+    private VillageSettingsBhv villageSettingsBhv;
 
     @Autowired
     private VillagePlayerBhv villagePlayerBhv;
@@ -47,6 +53,12 @@ public class VillageParticipateAssist {
     public String participate(Integer villageId, VillageParticipateForm participateForm, BindingResult result, Model model) {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (isInvalidForParticipate(villageId, participateForm, result, userInfo, model)) {
+            return villageAssist.setIndexModelAndReturnView(villageId, null, participateForm, null, model);
+        }
+        VillageSettings settings = villageSettingsBhv.selectByPK(villageId).get();
+        if (StringUtils.isNotEmpty(settings.getJoinPassword())
+                && !StringUtils.equals(settings.getJoinPassword(), participateForm.getJoinPassword())) {
+            model.addAttribute("participateErrorMessage", "入村パスワードが誤っています");
             return villageAssist.setIndexModelAndReturnView(villageId, null, participateForm, null, model);
         }
 

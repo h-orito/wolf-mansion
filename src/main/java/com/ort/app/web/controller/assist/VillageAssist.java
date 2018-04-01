@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dbflute.cbean.result.ListResultBean;
 import org.dbflute.optional.OptionalEntity;
 import org.dbflute.optional.OptionalThing;
@@ -315,6 +316,8 @@ public class VillageAssist {
         content.setSelectableSkillList(isDispParticipateForm || isDispChangeRequestSkillForm
                 ? selectSelectableSkillList(villageId).stream().map(skill -> convertToSkillPart(skill)).collect(Collectors.toList())
                 : null);
+        // 入村パスワードを必要とするか
+        content.setIsRequiredJoinPassword(StringUtils.isNotEmpty(village.getVillageSettingsAsOne().get().getJoinPassword()));
         // 退村
         content.setIsDispLeaveVillageForm(villageDispLogic.isDispLeaveVillageForm(day, optVillagePlayer, village));
         model.addAttribute("villageLeaveForm", new VillageLeaveForm());
@@ -509,6 +512,7 @@ public class VillageAssist {
         part.setDayChangeInterval(makeDayChangeIntervalStr(settings.getDayChangeIntervalSeconds()));
         part.setSkillRequestType(BooleanUtils.isTrue(settings.getIsPossibleSkillRequest()) ? "有効" : "無効");
         part.setVoteType(BooleanUtils.isTrue(settings.getIsOpenVote()) ? "記名投票" : "無記名投票");
+        part.setIsRequiredJoinPassword(StringUtils.isNotEmpty(settings.getJoinPassword()));
         return part;
     }
 
