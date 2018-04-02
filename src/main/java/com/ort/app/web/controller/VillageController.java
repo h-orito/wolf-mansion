@@ -41,6 +41,14 @@ import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 @Controller
 public class VillageController {
 
+    //    alter table VILLAGE_SETTINGS add column IS_AVAILABLE_SPECTATE BOOLEAN NOT NULL COMMENT '見学可能か' after is_possible_skill_request;
+    //    update VILLAGE_SETTINGS set IS_AVAILABLE_SPECTATE = '0';
+    //
+    //
+    //    alter table VILLAGE_PLAYER add column IS_SPECTATOR BOOLEAN NOT NULL COMMENT '見学者か' after is_dead;
+    //    update VILLAGE_PLAYER set is_spectator = '0';
+    //
+    //    insert into MESSAGE_TYPE values ('SPECTATE_SAY', '見学発言');
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
