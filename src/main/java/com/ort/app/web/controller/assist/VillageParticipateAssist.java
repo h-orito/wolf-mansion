@@ -2,6 +2,7 @@ package com.ort.app.web.controller.assist;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.dbflute.allcommon.CDef;
+import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
@@ -41,6 +43,9 @@ public class VillageParticipateAssist {
     private PlayerBhv playerBhv;
 
     @Autowired
+    private CharaBhv charaBhv;
+
+    @Autowired
     private VillageAssist villageAssist;
 
     @Autowired
@@ -66,7 +71,8 @@ public class VillageParticipateAssist {
                 playerBhv.selectEntityWithDeletedCheck(cb -> cb.query().setPlayerName_Equal(userInfo.getUsername())).getPlayerId();
         // 参戦
         villageParticipateLogic.participate(villageId, playerId, participateForm.getCharaId(),
-                CDef.Skill.codeOf(participateForm.getRequestedSkill()), participateForm.getJoinMessage());
+                CDef.Skill.codeOf(participateForm.getRequestedSkill()), participateForm.getJoinMessage(),
+                BooleanUtils.isTrue(participateForm.getIsSpectator()));
         // 最新の日へ
         return "redirect:/village/" + villageId + "#bottom";
     }
@@ -79,7 +85,7 @@ public class VillageParticipateAssist {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
         }
-        VillagePlayer vPlayer = villageAssist.selectVillagePlayer(villageId, userInfo).orElseThrow(() -> {
+        VillagePlayer vPlayer = villageAssist.selectVillagePlayer(villageId, userInfo, true).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
         Village village = villageBhv.selectEntityWithDeletedCheck(cb -> cb.query().setVillageId_Equal(vPlayer.getVillageId()));
@@ -100,7 +106,7 @@ public class VillageParticipateAssist {
         if (isInvalidForChangeRequestSkill(villageId, changeRequestSkillForm, result, userInfo, model)) {
             return villageAssist.setIndexModelAndReturnView(villageId, null, null, changeRequestSkillForm, model);
         }
-        VillagePlayer vPlayer = villageAssist.selectVillagePlayer(villageId, userInfo).orElseThrow(() -> {
+        VillagePlayer vPlayer = villageAssist.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
 
@@ -136,20 +142,35 @@ public class VillageParticipateAssist {
             cb.setupSelect_VillageSettingsAsOne();
             cb.query().setVillageId_Equal(villageId);
         });
-        int participateCount = villagePlayerBhv.selectCount(cb -> {
+        ListResultBean<VillagePlayer> vPlayerList = villagePlayerBhv.selectList(cb -> {
             cb.query().setVillageId_Equal(villageId);
-            cb.query().setCharaId_Equal(participateForm.getCharaId());
             cb.query().setIsGone_Equal_False();
         });
-        if (participateCount > 0) {
+
+        boolean isAlreadyParticipateCharacter = vPlayerList.stream().anyMatch(vp -> vp.getCharaId().equals(participateForm.getCharaId()));
+        if (isAlreadyParticipateCharacter) {
             throw new WerewolfMansionBusinessException("既に参加されているキャラクターです。別のキャラクターを選択してください。");
-        } else if (participateCount >= village.getVillageSettingsAsOne().get().getPersonMaxNum()) {
-            throw new WerewolfMansionBusinessException("既に上限人数まで参加しているプレイヤーがいるため参加できません。");
         }
-        // 役職希望無効なのにおまかせ以外
-        if (!CDef.Skill.おまかせ.code().equals(participateForm.getRequestedSkill())
-                && BooleanUtils.isFalse(village.getVillageSettingsAsOne().get().getIsPossibleSkillRequest())) {
-            throw new WerewolfMansionBusinessException("希望役職が不正です。");
+        if (BooleanUtils.isTrue(participateForm.getIsSpectator())) {
+            // 見学
+            // [キャラチップの人数 - 定員]人を超えて見学はできない
+            int charaNum = charaBhv
+                    .selectCount(cb -> cb.query().setCharaGroupId_Equal(village.getVillageSettingsAsOne().get().getCharacterGroupId()));
+            int capacity = village.getVillageSettingsAsOne().get().getPersonMaxNum();
+            long spectatorNum = vPlayerList.stream().filter(vp -> vp.isIsSpectatorTrue()).count();
+            if (charaNum - capacity <= spectatorNum) {
+                throw new WerewolfMansionBusinessException("既に上限人数まで見学者がいるため見学者として参加できません。");
+            }
+        } else {
+            long participateNum = vPlayerList.stream().filter(vp -> vp.isIsSpectatorFalse()).count();
+            if (village.getVillageSettingsAsOne().get().getPersonMaxNum() <= participateNum) {
+                throw new WerewolfMansionBusinessException("既に上限人数まで参加しているプレイヤーがいるため参加できません。");
+            }
+            // 役職希望無効なのにおまかせ以外
+            if (!CDef.Skill.おまかせ.code().equals(participateForm.getRequestedSkill())
+                    && BooleanUtils.isFalse(village.getVillageSettingsAsOne().get().getIsPossibleSkillRequest())) {
+                throw new WerewolfMansionBusinessException("希望役職が不正です。");
+            }
         }
     }
 

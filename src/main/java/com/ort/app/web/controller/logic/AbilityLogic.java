@@ -105,6 +105,7 @@ public class AbilityLogic {
             cb.setupSelect_Chara();
             cb.setupSelect_SkillBySkillCode();
             cb.query().setIsGone_Equal_False();
+            cb.query().setIsSpectator_Equal_False();
             cb.query().setVillageId_Equal(villageId);
         });
     }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.AbilityBhv;
+import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exentity.Chara;
@@ -35,6 +36,9 @@ public class VillageDispLogic {
 
     @Autowired
     private VillagePlayerBhv villagePlayerBhv;
+
+    @Autowired
+    private CharaBhv charaBhv;
 
     @Autowired
     private AbilityBhv abilityBhv;
@@ -65,14 +69,15 @@ public class VillageDispLogic {
         if (participateCount > 0) {
             return false;
         }
+
         // 既に最大人数まで参加していたら表示しない
-        Integer maxPersonNum = village.getVillageSettingsAsOne().get().getPersonMaxNum();
+        int maxCharaNum =
+                charaBhv.selectCount(cb -> cb.query().setCharaGroupId_Equal(village.getVillageSettingsAsOne().get().getCharacterGroupId()));
         int participateNum = villagePlayerBhv.selectCount(cb -> {
             cb.query().setVillageId_Equal(village.getVillageId());
             cb.query().setIsGone_Equal_False();
         });
-
-        return participateNum < maxPersonNum;
+        return participateNum < maxCharaNum;
     }
 
     // 希望役職変更フォームを表示するか
@@ -82,7 +87,7 @@ public class VillageDispLogic {
             return false;
         }
         // この村に参戦していない場合は表示しない
-        if (!optVillagePlayer.isPresent()) {
+        if (!optVillagePlayer.isPresent() || optVillagePlayer.get().isIsSpectatorTrue()) {
             return false;
         }
         // 役職希望有効出ない場合は表示しない
@@ -138,6 +143,10 @@ public class VillageDispLogic {
         if (BooleanUtils.isTrue(villagePlayer.getIsDead()) && !village.isVillageStatusCodeエピローグ()) {
             return false;
         }
+        // 見学は不可
+        if (villagePlayer.isIsSpectatorTrue()) {
+            return false;
+        }
         return true;
     }
 
@@ -190,6 +199,14 @@ public class VillageDispLogic {
         return true;
     }
 
+    // 見学発言可能か
+    public boolean isAvailableSpectateSay(Village village, VillagePlayer villagePlayer) {
+        if (BooleanUtils.isTrue(villagePlayer.isIsSpectatorFalse())) {
+            return false;
+        }
+        return true;
+    }
+
     // 独り言可能か
     public boolean isAvailableMonologueSay(Village village) {
         // 進行中以外は不可
@@ -201,7 +218,8 @@ public class VillageDispLogic {
 
     // 役職と状況に応じて能力行使対象を抽出
     public List<Chara> makeAbilityTargetList(Village village, OptionalThing<VillagePlayer> optVillagePlayer, int day, boolean isLatestDay) {
-        if (!optVillagePlayer.isPresent() || optVillagePlayer.get().isIsDeadTrue() || !isLatestDay || !village.isVillageStatusCode進行中()) {
+        if (!optVillagePlayer.isPresent() || optVillagePlayer.get().isIsDeadTrue() || !isLatestDay || !village.isVillageStatusCode進行中()
+                || optVillagePlayer.get().isIsSpectatorTrue()) {
             return null;
         }
         VillagePlayer vPlayer = optVillagePlayer.get();
@@ -218,7 +236,7 @@ public class VillageDispLogic {
                 // 狼以外の生存しているプレイヤー全員
                 return village.getVillagePlayerList()
                         .stream()
-                        .filter(vp -> vp.isIsDeadFalse() && vp.getSkillCodeAsSkill() != CDef.Skill.人狼)
+                        .filter(vp -> vp.isIsDeadFalse() && vp.isIsSpectatorFalse() && vp.getSkillCodeAsSkill() != CDef.Skill.人狼)
                         .map(vp -> vp.getChara().get())
                         .collect(Collectors.toList());
             }
@@ -226,7 +244,8 @@ public class VillageDispLogic {
             // 自分以外の生存しているプレイヤー全員
             return village.getVillagePlayerList()
                     .stream()
-                    .filter(vp -> vp.isIsDeadFalse() && !vp.getVillagePlayerId().equals(vPlayer.getVillagePlayerId()))
+                    .filter(vp -> vp.isIsDeadFalse() && vp.isIsSpectatorFalse()
+                            && !vp.getVillagePlayerId().equals(vPlayer.getVillagePlayerId()))
                     .map(vp -> vp.getChara().get())
                     .collect(Collectors.toList());
         }
@@ -267,8 +286,8 @@ public class VillageDispLogic {
 
     // 投票対象リスト作成
     public List<Chara> makeVoteTargetList(Village village, OptionalThing<VillagePlayer> optVillagePlayer, int day, boolean isLatestDay) {
-        if (!optVillagePlayer.isPresent() || optVillagePlayer.get().isIsDeadTrue() || !isLatestDay || !village.isVillageStatusCode進行中()
-                || day == 1) {
+        if (!optVillagePlayer.isPresent() || optVillagePlayer.get().isIsDeadTrue() || optVillagePlayer.get().isIsSpectatorTrue()
+                || !isLatestDay || !village.isVillageStatusCode進行中() || day == 1) {
             return null;
         }
         return village.getVillagePlayerList().stream().filter(vp -> vp.isIsDeadFalse()).map(vp -> vp.getChara().get()).collect(

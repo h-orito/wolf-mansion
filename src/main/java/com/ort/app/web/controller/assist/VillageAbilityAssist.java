@@ -56,7 +56,7 @@ public class VillageAbilityAssist {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
         }
-        VillagePlayer villagePlayer = villageAssist.selectVillagePlayer(villageId, userInfo).orElseThrow(() -> {
+        VillagePlayer villagePlayer = villageAssist.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
         if (isInvalidAbility(villagePlayer, abilityForm)) {
@@ -76,7 +76,7 @@ public class VillageAbilityAssist {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
         }
-        VillagePlayer villagePlayer = villageAssist.selectVillagePlayer(villageId, userInfo).orElseThrow(() -> {
+        VillagePlayer villagePlayer = villageAssist.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
         if (isInvalidVote(villageId, villagePlayer, voteForm)) {
@@ -94,7 +94,7 @@ public class VillageAbilityAssist {
         if (result.hasErrors() || userInfo == null) {
             return null;
         }
-        OptionalThing<VillagePlayer> optVillagePlayer = villageAssist.selectVillagePlayer(form.getVillageId(), userInfo);
+        OptionalThing<VillagePlayer> optVillagePlayer = villageAssist.selectVillagePlayer(form.getVillageId(), userInfo, false);
         if (!optVillagePlayer.isPresent()) {
             return null;
         }

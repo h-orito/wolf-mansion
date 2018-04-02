@@ -31,6 +31,9 @@ public class VillageSettingsDto {
     /** 入村パスワードを必要とするか */
     private Boolean isRequiredJoinPassword;
 
+    /** 見学が可能か */
+    private Boolean isAvailableSpectate;
+
     public Integer getStartPersonMinNum() {
         return startPersonMinNum;
     }
@@ -101,5 +104,13 @@ public class VillageSettingsDto {
 
     public void setIsRequiredJoinPassword(Boolean isRequiredJoinPassword) {
         this.isRequiredJoinPassword = isRequiredJoinPassword;
+    }
+
+    public Boolean getIsAvailableSpectate() {
+        return isAvailableSpectate;
+    }
+
+    public void setIsAvailableSpectate(Boolean isAvailableSpectate) {
+        this.isAvailableSpectate = isAvailableSpectate;
     }
 }

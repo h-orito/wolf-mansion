@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID
  *
  * [column]
- *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, CHARACTER_GROUP_ID, JOIN_PASSWORD, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, CHARACTER_GROUP_ID, JOIN_PASSWORD, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -53,6 +53,7 @@ import com.ort.dbflute.exentity.*;
  * Integer dayChangeIntervalSeconds = entity.getDayChangeIntervalSeconds();
  * Boolean isOpenVote = entity.getIsOpenVote();
  * Boolean isPossibleSkillRequest = entity.getIsPossibleSkillRequest();
+ * Boolean isAvailableSpectate = entity.getIsAvailableSpectate();
  * Integer characterGroupId = entity.getCharacterGroupId();
  * String joinPassword = entity.getJoinPassword();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
@@ -66,6 +67,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setDayChangeIntervalSeconds(dayChangeIntervalSeconds);
  * entity.setIsOpenVote(isOpenVote);
  * entity.setIsPossibleSkillRequest(isPossibleSkillRequest);
+ * entity.setIsAvailableSpectate(isAvailableSpectate);
  * entity.setCharacterGroupId(characterGroupId);
  * entity.setJoinPassword(joinPassword);
  * entity.setRegisterDatetime(registerDatetime);
@@ -87,7 +89,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} */
     protected Integer _villageId;
 
     /** START_PERSON_MIN_NUM: {INT UNSIGNED(10)} */
@@ -108,7 +110,10 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     /** IS_POSSIBLE_SKILL_REQUEST: {NotNull, BIT, classification=Flg} */
     protected Boolean _isPossibleSkillRequest;
 
-    /** CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} */
+    /** IS_AVAILABLE_SPECTATE: {NotNull, BIT, classification=Flg} */
+    protected Boolean _isAvailableSpectate;
+
+    /** CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} */
     protected Integer _characterGroupId;
 
     /** JOIN_PASSWORD: {VARCHAR(12)} */
@@ -136,7 +141,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "VILLAGE_SETTINGS";
+        return "village_settings";
     }
 
     // ===================================================================================
@@ -193,6 +198,27 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         setIsPossibleSkillRequest(cdef != null ? toBoolean(cdef.code()) : null);
     }
 
+    /**
+     * Get the value of isAvailableSpectate as the classification of Flg. <br>
+     * IS_AVAILABLE_SPECTATE: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Flg getIsAvailableSpectateAsFlg() {
+        return CDef.Flg.codeOf(getIsAvailableSpectate());
+    }
+
+    /**
+     * Set the value of isAvailableSpectate as the classification of Flg. <br>
+     * IS_AVAILABLE_SPECTATE: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setIsAvailableSpectateAsFlg(CDef.Flg cdef) {
+        setIsAvailableSpectate(cdef != null ? toBoolean(cdef.code()) : null);
+    }
+
     // ===================================================================================
     //                                                              Classification Setting
     //                                                              ======================
@@ -226,6 +252,22 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      */
     public void setIsPossibleSkillRequest_False() {
         setIsPossibleSkillRequestAsFlg(CDef.Flg.False);
+    }
+
+    /**
+     * Set the value of isAvailableSpectate as True (true). <br>
+     * はい: 有効を示す
+     */
+    public void setIsAvailableSpectate_True() {
+        setIsAvailableSpectateAsFlg(CDef.Flg.True);
+    }
+
+    /**
+     * Set the value of isAvailableSpectate as False (false). <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsAvailableSpectate_False() {
+        setIsAvailableSpectateAsFlg(CDef.Flg.False);
     }
 
     // ===================================================================================
@@ -275,6 +317,28 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         return cdef != null ? cdef.equals(CDef.Flg.False) : false;
     }
 
+    /**
+     * Is the value of isAvailableSpectate True? <br>
+     * はい: 有効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsAvailableSpectateTrue() {
+        CDef.Flg cdef = getIsAvailableSpectateAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
+    }
+
+    /**
+     * Is the value of isAvailableSpectate False? <br>
+     * いいえ: 無効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsAvailableSpectateFalse() {
+        CDef.Flg cdef = getIsAvailableSpectateAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
     // ===================================================================================
     //                                                           Classification Name/Alias
     //                                                           =========================
@@ -293,6 +357,15 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      */
     public String getIsPossibleSkillRequestAlias() {
         CDef.Flg cdef = getIsPossibleSkillRequestAsFlg();
+        return cdef != null ? cdef.alias() : null;
+    }
+
+    /**
+     * Get the value of the column 'isAvailableSpectate' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     */
+    public String getIsAvailableSpectateAlias() {
+        CDef.Flg cdef = getIsAvailableSpectateAsFlg();
         return cdef != null ? cdef.alias() : null;
     }
 
@@ -393,6 +466,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         sb.append(dm).append(xfND(_dayChangeIntervalSeconds));
         sb.append(dm).append(xfND(_isOpenVote));
         sb.append(dm).append(xfND(_isPossibleSkillRequest));
+        sb.append(dm).append(xfND(_isAvailableSpectate));
         sb.append(dm).append(xfND(_characterGroupId));
         sb.append(dm).append(xfND(_joinPassword));
         sb.append(dm).append(xfND(_registerDatetime));
@@ -428,7 +502,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -438,7 +512,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -570,7 +644,28 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [get] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
+     * [get] IS_AVAILABLE_SPECTATE: {NotNull, BIT, classification=Flg} <br>
+     * 見学可能か
+     * @return The value of the column 'IS_AVAILABLE_SPECTATE'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getIsAvailableSpectate() {
+        checkSpecifiedProperty("isAvailableSpectate");
+        return _isAvailableSpectate;
+    }
+
+    /**
+     * [set] IS_AVAILABLE_SPECTATE: {NotNull, BIT, classification=Flg} <br>
+     * 見学可能か
+     * @param isAvailableSpectate The value of the column 'IS_AVAILABLE_SPECTATE'. (basically NotNull if update: for the constraint)
+     */
+    public void setIsAvailableSpectate(Boolean isAvailableSpectate) {
+        checkClassificationCode("IS_AVAILABLE_SPECTATE", CDef.DefMeta.Flg, isAvailableSpectate);
+        registerModifiedProperty("isAvailableSpectate");
+        _isAvailableSpectate = isAvailableSpectate;
+    }
+
+    /**
+     * [get] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
      * キャラクターグループID
      * @return The value of the column 'CHARACTER_GROUP_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -580,7 +675,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
+     * [set] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
      * キャラクターグループID
      * @param characterGroupId The value of the column 'CHARACTER_GROUP_ID'. (basically NotNull if update: for the constraint)
      */

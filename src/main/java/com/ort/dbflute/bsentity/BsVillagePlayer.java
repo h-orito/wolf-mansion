@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_PLAYER_ID
  *
  * [column]
- *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, DEAD_REASON_CODE, DEAD_DAY, IS_GONE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, IS_SPECTATOR, DEAD_REASON_CODE, DEAD_DAY, IS_GONE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -54,6 +54,7 @@ import com.ort.dbflute.exentity.*;
  * String requestSkillCode = entity.getRequestSkillCode();
  * Integer roomNumber = entity.getRoomNumber();
  * Boolean isDead = entity.getIsDead();
+ * Boolean isSpectator = entity.getIsSpectator();
  * String deadReasonCode = entity.getDeadReasonCode();
  * Integer deadDay = entity.getDeadDay();
  * Boolean isGone = entity.getIsGone();
@@ -69,6 +70,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setRequestSkillCode(requestSkillCode);
  * entity.setRoomNumber(roomNumber);
  * entity.setIsDead(isDead);
+ * entity.setIsSpectator(isSpectator);
  * entity.setDeadReasonCode(deadReasonCode);
  * entity.setDeadDay(deadDay);
  * entity.setIsGone(isGone);
@@ -94,19 +96,19 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     /** VILLAGE_PLAYER_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
     protected Integer _villagePlayerId;
 
-    /** VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
+    /** VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village} */
     protected Integer _villageId;
 
-    /** PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER} */
+    /** PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player} */
     protected Integer _playerId;
 
-    /** CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA} */
+    /** CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara} */
     protected Integer _charaId;
 
-    /** SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} */
+    /** SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} */
     protected String _skillCode;
 
-    /** REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} */
+    /** REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} */
     protected String _requestSkillCode;
 
     /** ROOM_NUMBER: {INT UNSIGNED(10)} */
@@ -115,7 +117,10 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     /** IS_DEAD: {NotNull, BIT, classification=Flg} */
     protected Boolean _isDead;
 
-    /** DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason} */
+    /** IS_SPECTATOR: {NotNull, BIT, classification=Flg} */
+    protected Boolean _isSpectator;
+
+    /** DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} */
     protected String _deadReasonCode;
 
     /** DEAD_DAY: {INT UNSIGNED(10)} */
@@ -146,7 +151,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "VILLAGE_PLAYER";
+        return "village_player";
     }
 
     // ===================================================================================
@@ -163,7 +168,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     //                                                             =======================
     /**
      * Get the value of skillCode as the classification of Skill. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -174,7 +179,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * Set the value of skillCode as the classification of Skill. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -184,7 +189,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * Get the value of requestSkillCode as the classification of Skill. <br>
-     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -195,7 +200,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * Set the value of requestSkillCode as the classification of Skill. <br>
-     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -225,8 +230,29 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Get the value of isSpectator as the classification of Flg. <br>
+     * IS_SPECTATOR: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Flg getIsSpectatorAsFlg() {
+        return CDef.Flg.codeOf(getIsSpectator());
+    }
+
+    /**
+     * Set the value of isSpectator as the classification of Flg. <br>
+     * IS_SPECTATOR: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setIsSpectatorAsFlg(CDef.Flg cdef) {
+        setIsSpectator(cdef != null ? toBoolean(cdef.code()) : null);
+    }
+
+    /**
      * Get the value of deadReasonCode as the classification of DeadReason. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason} <br>
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
      * 死亡理由
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -237,7 +263,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * Set the value of deadReasonCode as the classification of DeadReason. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason} <br>
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
      * 死亡理由
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -491,6 +517,22 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setIsDead_False() {
         setIsDeadAsFlg(CDef.Flg.False);
+    }
+
+    /**
+     * Set the value of isSpectator as True (true). <br>
+     * はい: 有効を示す
+     */
+    public void setIsSpectator_True() {
+        setIsSpectatorAsFlg(CDef.Flg.True);
+    }
+
+    /**
+     * Set the value of isSpectator as False (false). <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsSpectator_False() {
+        setIsSpectatorAsFlg(CDef.Flg.False);
     }
 
     /**
@@ -853,6 +895,28 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of isSpectator True? <br>
+     * はい: 有効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsSpectatorTrue() {
+        CDef.Flg cdef = getIsSpectatorAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
+    }
+
+    /**
+     * Is the value of isSpectator False? <br>
+     * いいえ: 無効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsSpectatorFalse() {
+        CDef.Flg cdef = getIsSpectatorAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
+    /**
      * Is the value of deadReasonCode 襲撃? <br>
      * 襲撃
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -927,6 +991,15 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public String getIsDeadAlias() {
         CDef.Flg cdef = getIsDeadAsFlg();
+        return cdef != null ? cdef.alias() : null;
+    }
+
+    /**
+     * Get the value of the column 'isSpectator' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     */
+    public String getIsSpectatorAlias() {
+        CDef.Flg cdef = getIsSpectatorAsFlg();
         return cdef != null ? cdef.alias() : null;
     }
 
@@ -1151,6 +1224,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         sb.append(dm).append(xfND(_requestSkillCode));
         sb.append(dm).append(xfND(_roomNumber));
         sb.append(dm).append(xfND(_isDead));
+        sb.append(dm).append(xfND(_isSpectator));
         sb.append(dm).append(xfND(_deadReasonCode));
         sb.append(dm).append(xfND(_deadDay));
         sb.append(dm).append(xfND(_isGone));
@@ -1217,7 +1291,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [get] VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -1227,7 +1301,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [set] VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -1237,7 +1311,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER} <br>
+     * [get] PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player} <br>
      * プレイヤーID
      * @return The value of the column 'PLAYER_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -1247,7 +1321,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER} <br>
+     * [set] PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player} <br>
      * プレイヤーID
      * @param playerId The value of the column 'PLAYER_ID'. (basically NotNull if update: for the constraint)
      */
@@ -1257,7 +1331,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA} <br>
+     * [get] CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
      * キャラクターID
      * @return The value of the column 'CHARA_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -1267,7 +1341,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA} <br>
+     * [set] CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
      * キャラクターID
      * @param charaId The value of the column 'CHARA_ID'. (basically NotNull if update: for the constraint)
      */
@@ -1277,7 +1351,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * [get] SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職コード
      * @return The value of the column 'SKILL_CODE'. (NullAllowed even if selected: for no constraint)
      */
@@ -1287,7 +1361,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * [set] SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職コード
      * @param skillCode The value of the column 'SKILL_CODE'. (NullAllowed: null update allowed for no constraint)
      */
@@ -1298,7 +1372,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * [get] REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 希望役職コード
      * @return The value of the column 'REQUEST_SKILL_CODE'. (NullAllowed even if selected: for no constraint)
      */
@@ -1308,7 +1382,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * [set] REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 希望役職コード
      * @param requestSkillCode The value of the column 'REQUEST_SKILL_CODE'. (NullAllowed: null update allowed for no constraint)
      */
@@ -1360,7 +1434,28 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason} <br>
+     * [get] IS_SPECTATOR: {NotNull, BIT, classification=Flg} <br>
+     * 見学者か
+     * @return The value of the column 'IS_SPECTATOR'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getIsSpectator() {
+        checkSpecifiedProperty("isSpectator");
+        return _isSpectator;
+    }
+
+    /**
+     * [set] IS_SPECTATOR: {NotNull, BIT, classification=Flg} <br>
+     * 見学者か
+     * @param isSpectator The value of the column 'IS_SPECTATOR'. (basically NotNull if update: for the constraint)
+     */
+    public void setIsSpectator(Boolean isSpectator) {
+        checkClassificationCode("IS_SPECTATOR", CDef.DefMeta.Flg, isSpectator);
+        registerModifiedProperty("isSpectator");
+        _isSpectator = isSpectator;
+    }
+
+    /**
+     * [get] DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
      * 死亡理由コード
      * @return The value of the column 'DEAD_REASON_CODE'. (NullAllowed even if selected: for no constraint)
      */
@@ -1370,7 +1465,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason} <br>
+     * [set] DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
      * 死亡理由コード
      * @param deadReasonCode The value of the column 'DEAD_REASON_CODE'. (NullAllowed: null update allowed for no constraint)
      */

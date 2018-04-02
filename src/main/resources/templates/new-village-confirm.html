@@ -46,6 +46,10 @@
 									<td th:text="*{isPossibleSkillRequest} ? '有効' : '無効'"></td>
 								</tr>
 								<tr>
+									<th>見学入村</th>
+									<td th:text="*{isAvailableSpectate} ? '可能' : '不可'"></td>
+								</tr>
+								<tr>
 									<th>キャラクターセット</th>
 									<td th:text="${characterSetName}"></td>
 								</tr>
@@ -84,6 +88,7 @@
 							<input type="hidden" th:field="*{startMinute}" />
 							<input type="hidden" th:field="*{isOpenVote}" />
 							<input type="hidden" th:field="*{isPossibleSkillRequest}" />
+							<input type="hidden" th:field="*{isAvailableSpectate}" />
 							<input type="hidden" th:field="*{characterSetId}" />
 							<input type="hidden" th:field="*{dummyJoinMessage}" />
 							<input type="hidden" th:field="*{joinPassword}" />

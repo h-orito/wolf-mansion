@@ -82,6 +82,10 @@ public class NewVillageForm implements Serializable {
     /** 入村パスワード */
     private String joinPassword;
 
+    /** 観戦を可能にする */
+    @NotNull
+    private Boolean isAvailableSpectate;
+
     public String getVillageName() {
         return villageName;
     }
@@ -208,6 +212,14 @@ public class NewVillageForm implements Serializable {
 
     public void setJoinPassword(String joinPassword) {
         this.joinPassword = joinPassword;
+    }
+
+    public Boolean getIsAvailableSpectate() {
+        return isAvailableSpectate;
+    }
+
+    public void setIsAvailableSpectate(Boolean isAvailableSpectate) {
+        this.isAvailableSpectate = isAvailableSpectate;
     }
 
 }

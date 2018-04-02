@@ -32,21 +32,39 @@ public class VillageParticipateLogic {
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
-    public void participate(Integer villageId, Integer playerId, Integer charaId, CDef.Skill requestSkill, String joinMessage) {
+    public void participate(Integer villageId, Integer playerId, Integer charaId, CDef.Skill requestSkill, String joinMessage,
+            boolean isSpectator) {
         // 村参加
-        Integer villagePlayerId = insertVillagePlayer(villageId, playerId, charaId, requestSkill, joinMessage);
-        // 参加メッセージ
-        int participateNum = villagePlayerBhv.selectCount(cb -> {
-            cb.query().setVillageId_Equal(villageId);
-            cb.query().setIsGone_Equal_False();
-        });
-        String charaName = charaBhv.selectEntityWithDeletedCheck(cb -> cb.query().setCharaId_Equal(charaId)).getCharaName();
-        messageLogic.insertMessage(villageId, 0, CDef.MessageType.公開システムメッセージ, String.format("%d人目、%s。", participateNum, charaName));
-        // 参加発言
-        messageLogic.insertMessage(villageId, 0, CDef.MessageType.通常発言, joinMessage, villagePlayerId);
-        // 希望役職メッセージ
-        String message = messageSource.getMessage("requestskill.message", new String[] { charaName, requestSkill.alias() }, Locale.JAPAN);
-        messageLogic.insertMessage(villageId, 0, CDef.MessageType.非公開システムメッセージ, message);
+        Integer villagePlayerId = insertVillagePlayer(villageId, playerId, charaId, requestSkill, joinMessage, isSpectator);
+        if (!isSpectator) {
+            // 参加メッセージ
+            int participateNum = villagePlayerBhv.selectCount(cb -> {
+                cb.query().setVillageId_Equal(villageId);
+                cb.query().setIsGone_Equal_False();
+                cb.query().setIsSpectator_Equal_False();
+            });
+            String charaName = charaBhv.selectEntityWithDeletedCheck(cb -> cb.query().setCharaId_Equal(charaId)).getCharaName();
+            messageLogic.insertMessage(villageId, 0, CDef.MessageType.公開システムメッセージ, String.format("%d人目、%s。", participateNum, charaName));
+            // 参加発言
+            messageLogic.insertMessage(villageId, 0, CDef.MessageType.通常発言, joinMessage, villagePlayerId);
+            // 希望役職メッセージ
+            String message =
+                    messageSource.getMessage("requestskill.message", new String[] { charaName, requestSkill.alias() }, Locale.JAPAN);
+            messageLogic.insertMessage(villageId, 0, CDef.MessageType.非公開システムメッセージ, message);
+        } else {
+            // 見学者
+            // 参加メッセージ
+            int participateNum = villagePlayerBhv.selectCount(cb -> {
+                cb.query().setVillageId_Equal(villageId);
+                cb.query().setIsGone_Equal_False();
+                cb.query().setIsSpectator_Equal_True();
+            });
+            String charaName = charaBhv.selectEntityWithDeletedCheck(cb -> cb.query().setCharaId_Equal(charaId)).getCharaName();
+            messageLogic.insertMessage(villageId, 0, CDef.MessageType.公開システムメッセージ,
+                    String.format("(見学) %d人目、%s。", participateNum, charaName));
+            // 参加発言
+            messageLogic.insertMessage(villageId, 0, CDef.MessageType.見学発言, joinMessage, villagePlayerId);
+        }
     }
 
     public void leave(VillagePlayer villagePlayer) {
@@ -83,12 +101,14 @@ public class VillageParticipateLogic {
     // ===================================================================================
     //                                                                              Update
     //                                                                              ======
-    private Integer insertVillagePlayer(Integer villageId, Integer playerId, Integer charaId, CDef.Skill requestSkill, String joinMessage) {
+    private Integer insertVillagePlayer(Integer villageId, Integer playerId, Integer charaId, CDef.Skill requestSkill, String joinMessage,
+            boolean isSpectator) {
         VillagePlayer villagePlayer = new VillagePlayer();
         villagePlayer.setVillageId(villageId);
         villagePlayer.setPlayerId(playerId);
         villagePlayer.setCharaId(charaId);
         villagePlayer.setIsDead_False();
+        villagePlayer.setIsSpectator(isSpectator);
         villagePlayer.setIsGone_False();
         villagePlayer.setRequestSkillCodeAsSkill(requestSkill);
         villagePlayerBhv.insert(villagePlayer);

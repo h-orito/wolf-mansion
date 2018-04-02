@@ -81,6 +81,9 @@ public class VillageResultContent implements Serializable {
     /** 墓下発言可能か */
     private Boolean isAvailableGraveSay;
 
+    /** 見学発言可能か */
+    private Boolean isAvailableSpectateSay;
+
     /** 独り言可能か */
     private Boolean isAvailableMonologueSay;
 
@@ -101,6 +104,9 @@ public class VillageResultContent implements Serializable {
 
     /** 死んでいるか */
     private Boolean isDead;
+
+    /** 見学者か */
+    private Boolean isSpectator;
 
     /** 村建てした人か */
     private Boolean isCreatePlayer;
@@ -290,6 +296,14 @@ public class VillageResultContent implements Serializable {
         this.isAvailableGraveSay = isAvailableGraveSay;
     }
 
+    public Boolean getIsAvailableSpectateSay() {
+        return isAvailableSpectateSay;
+    }
+
+    public void setIsAvailableSpectateSay(Boolean isAvailableSpectateSay) {
+        this.isAvailableSpectateSay = isAvailableSpectateSay;
+    }
+
     public Boolean getIsAvailableMonologueSay() {
         return isAvailableMonologueSay;
     }
@@ -344,6 +358,14 @@ public class VillageResultContent implements Serializable {
 
     public void setIsDead(Boolean isDead) {
         this.isDead = isDead;
+    }
+
+    public Boolean getIsSpectator() {
+        return isSpectator;
+    }
+
+    public void setIsSpectator(Boolean isSpectator) {
+        this.isSpectator = isSpectator;
     }
 
     public Boolean getIsCreatePlayer() {

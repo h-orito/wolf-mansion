@@ -69,7 +69,7 @@ public class VillageSayAssist {
         }
 
         int day = villageAssist.selectLatestDay(villageId);
-        VillagePlayer villagePlayer = villageAssist.selectVillagePlayer(villageId, userInfo).orElseThrow(() -> {
+        VillagePlayer villagePlayer = villageAssist.selectVillagePlayer(villageId, userInfo, true).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
         MessageType type = CDef.MessageType.codeOf(sayForm.getMessageType());
@@ -110,7 +110,7 @@ public class VillageSayAssist {
             throw new IllegalArgumentException("発言種別が改ざんされている");
         }
         Village village = selectVillage(villageId);
-        VillagePlayer villagePlayer = villageAssist.selectVillagePlayer(villageId, userInfo).orElseThrow(() -> {
+        VillagePlayer villagePlayer = villageAssist.selectVillagePlayer(villageId, userInfo, true).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
         // 管理者は発言可能
@@ -126,6 +126,8 @@ public class VillageSayAssist {
             return isAvailableMasonSay(village, villagePlayer);
         case 死者の呻き:
             return isAvailableGraveSay(village, villagePlayer);
+        case 見学発言:
+            return isAvailableSpectateSay(village, villagePlayer);
         case 独り言:
             return isAvailableMonologueSay(village);
         default:
@@ -182,6 +184,14 @@ public class VillageSayAssist {
         }
         // 進行中以外は不可
         if (!village.isVillageStatusCode進行中()) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isAvailableSpectateSay(Village village, VillagePlayer villagePlayer) {
+        // 見学していなかったら不可
+        if (!BooleanUtils.isTrue(villagePlayer.getIsSpectator())) {
             return false;
         }
         return true;

@@ -28,7 +28,7 @@ import com.ort.dbflute.cbean.*;
  *     VILLAGE_ID
  *
  * [column]
- *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, CHARACTER_GROUP_ID, JOIN_PASSWORD, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, CHARACTER_GROUP_ID, JOIN_PASSWORD, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -67,7 +67,7 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
     /** {@inheritDoc} */
     public VillageSettingsDbm asDBMeta() { return VillageSettingsDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "VILLAGE_SETTINGS"; }
+    public String asTableDbName() { return "village_settings"; }
 
     // ===================================================================================
     //                                                                        New Instance
@@ -159,7 +159,7 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
 
     /**
      * Select the entity by the primary-key value.
-     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
+     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.

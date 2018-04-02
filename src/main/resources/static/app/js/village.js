@@ -16,7 +16,7 @@ $(function() {
 	const $sayTypeArea = $('[data-say-type]');
 	const $abilityArea = $('[data-ability]');
 	let latestDay;
-	
+
 	init();
 	function init() {
 		loadAndDisplayMessage();
@@ -49,7 +49,7 @@ $(function() {
 			});
 			$("[data-message-area]").html(messageTemplate(response));
 			$("[data-message-area]").removeClass('loading');
-			
+
 			// 最新の日付が変わったら通知
 			if (latestDay != null && latestDay < response.latestDay) {
 				$('.daychange-alert').css('display', 'block');
@@ -64,6 +64,7 @@ $(function() {
 			item = item.replace(/&gt;&gt;(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-anchor=\"$1\">&gt;&gt;$1<\/a>'); // 次にアンカーをaタグにする
 			item = item.replace(/&gt;&gt;\+(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-grave-anchor=\"$1\">&gt;&gt;\+$1<\/a>');
 			item = item.replace(/&gt;&gt;=(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-mason-anchor=\"$1\">&gt;&gt;=$1<\/a>');
+			item = item.replace(/&gt;&gt;@(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-spectate-anchor=\"$1\">&gt;&gt;@$1<\/a>');
 			return item.replace(/&gt;&gt;\*(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-whisper-anchor=\"$1\">&gt;&gt;\*$1<\/a>');
 		}).join('<br>');
 	}
@@ -80,6 +81,10 @@ $(function() {
 	$('body').on('click', '[data-message-mason-anchor]', function() {
 		const messageNumber = $(this).data('message-mason-anchor');
 		handlingNumberAnchor($(this), 'MASON_SAY', messageNumber);
+	});
+	$('body').on('click', '[data-message-spectate-anchor]', function() {
+		const messageNumber = $(this).data('message-spectate-anchor');
+		handlingNumberAnchor($(this), 'SPECTATE_SAY', messageNumber);
 	});
 	$('body').on('click', '[data-message-whisper-anchor]', function() {
 		const messageNumber = $(this).data('message-whisper-anchor');
@@ -163,6 +168,9 @@ $(function() {
 					break;
 				case 'GRAVE_SAY':
 					$sayTextarea.addClass('message-grave');
+					break;
+				case 'SPECTATE_SAY':
+					$sayTextarea.addClass('message-spectate');
 					break;
 				default:
 					break;
@@ -272,7 +280,7 @@ $(function() {
 			$footstepInput.text(footsteps.join(','));
 		}
 	});
-	
+
 	function selectDefaultFootsteps() {
 		const $table = $('[data-footstep-select-table]');
 		if ($table.length < 1) {
@@ -289,44 +297,44 @@ $(function() {
 			}
 		});
 	}
-	
-	$('[data-filter-chara-id],[data-filter-message-type]').on('click', function(){
+
+	$('[data-filter-chara-id],[data-filter-message-type]').on('click', function() {
 		$(this).toggleClass('bg-info');
 	});
-	$('[data-filter-chara-allon]').on('click', function(){
-		$('#modal-filter').find('[data-filter-chara-id]').each(function(){
+	$('[data-filter-chara-allon]').on('click', function() {
+		$('#modal-filter').find('[data-filter-chara-id]').each(function() {
 			$(this).addClass('bg-info');
 		});
 	});
-	$('[data-filter-chara-alloff]').on('click', function(){
-		$('#modal-filter').find('[data-filter-chara-id]').each(function(){
+	$('[data-filter-chara-alloff]').on('click', function() {
+		$('#modal-filter').find('[data-filter-chara-id]').each(function() {
 			$(this).removeClass('bg-info');
 		});
 	});
-	$('[data-filter-type-allon]').on('click', function(){
-		$('#modal-filter').find('[data-filter-message-type]').each(function(){
+	$('[data-filter-type-allon]').on('click', function() {
+		$('#modal-filter').find('[data-filter-message-type]').each(function() {
 			$(this).addClass('bg-info');
 		});
 	});
-	$('[data-filter-type-alloff]').on('click', function(){
-		$('#modal-filter').find('[data-filter-message-type]').each(function(){
+	$('[data-filter-type-alloff]').on('click', function() {
+		$('#modal-filter').find('[data-filter-message-type]').each(function() {
 			$(this).removeClass('bg-info');
 		});
 	});
-	$('[data-filter-submit]').on('click', function(){
+	$('[data-filter-submit]').on('click', function() {
 		// data-message-area
-		const charaFilterArr = $('#modal-filter').find('.bg-info[data-filter-chara-id]').map(function(){
+		const charaFilterArr = $('#modal-filter').find('.bg-info[data-filter-chara-id]').map(function() {
 			return String($(this).data('filter-chara-id'));
 		});
-		const typeFilterArr = $('#modal-filter').find('.bg-info[data-filter-message-type]').map(function(){
+		const typeFilterArr = $('#modal-filter').find('.bg-info[data-filter-message-type]').map(function() {
 			return String($(this).data('filter-message-type'));
 		});
-		
-		$('[data-message-area] [data-message]').each(function(idx, elm){
+
+		$('[data-message-area] [data-message]').each(function(idx, elm) {
 			const type = String($(elm).data('message'));
 			if (type == '') {
 				return true;
-			} 
+			}
 			let disp = true;
 			if ($.inArray(type, typeFilterArr) == -1) {
 				disp = false;
@@ -343,7 +351,7 @@ $(function() {
 		});
 		$('#modal-filter').modal('hide');
 	});
-	
+
 	// コピー
 	function clipboardCopy(text, alertText) {
 		var temp = document.createElement('div');
@@ -357,8 +365,8 @@ $(function() {
 		document.body.removeChild(temp);
 		alert(alertText);
 	}
-	
-	$('body').on('click', '[data-copy-anchor]', function(){
+
+	$('body').on('click', '[data-copy-anchor]', function() {
 		const text = $(this).text();
 		clipboardCopy(text, 'コピーしました： ' + text);
 	});

@@ -708,6 +708,9 @@ public interface CDef extends Classification {
         /** 公開システムメッセージ */
         公開システムメッセージ("PUBLIC_SYSTEM", "公開システムメッセージ", emptyStrings())
         ,
+        /** 見学発言 */
+        見学発言("SPECTATE_SAY", "見学発言", emptyStrings())
+        ,
         /** 人狼の囁き */
         人狼の囁き("WEREWOLF_SAY", "人狼の囁き", emptyStrings())
         ;

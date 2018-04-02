@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of VILLAGE_PLAYER. (Singleton)
+ * The DB meta of village_player. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillagePlayerDbm extends AbstractDBMeta {
@@ -67,6 +67,9 @@ public class VillagePlayerDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getIsDead(), (et, vl) -> {
             ((VillagePlayer)et).setIsDead((Boolean)vl);
         }, "isDead");
+        setupEpg(_epgMap, et -> ((VillagePlayer)et).getIsSpectator(), (et, vl) -> {
+            ((VillagePlayer)et).setIsSpectator((Boolean)vl);
+        }, "isSpectator");
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getDeadReasonCode(), (et, vl) -> {
             CDef.DeadReason cls = (CDef.DeadReason)gcls(et, columnDeadReasonCode(), vl);
             if (cls != null) {
@@ -107,7 +110,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "VILLAGE_PLAYER";
+    protected final String _tableDbName = "village_player";
     protected final String _tableDispName = "VILLAGE_PLAYER";
     protected final String _tablePropertyName = "villagePlayer";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_PLAYER", _tableDbName);
@@ -128,6 +131,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnRequestSkillCode = cci("REQUEST_SKILL_CODE", "REQUEST_SKILL_CODE", null, null, String.class, "requestSkillCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, "skillByRequestSkillCode", null, CDef.DefMeta.Skill, false);
     protected final ColumnInfo _columnRoomNumber = cci("ROOM_NUMBER", "ROOM_NUMBER", null, null, Integer.class, "roomNumber", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnIsDead = cci("IS_DEAD", "IS_DEAD", null, null, Boolean.class, "isDead", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
+    protected final ColumnInfo _columnIsSpectator = cci("IS_SPECTATOR", "IS_SPECTATOR", null, null, Boolean.class, "isSpectator", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnDeadReasonCode = cci("DEAD_REASON_CODE", "DEAD_REASON_CODE", null, null, String.class, "deadReasonCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, "deadReason", null, CDef.DefMeta.DeadReason, false);
     protected final ColumnInfo _columnDeadDay = cci("DEAD_DAY", "DEAD_DAY", null, null, Integer.class, "deadDay", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnIsGone = cci("IS_GONE", "IS_GONE", null, null, Boolean.class, "isGone", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
@@ -142,27 +146,27 @@ public class VillagePlayerDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnVillagePlayerId() { return _columnVillagePlayerId; }
     /**
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
     /**
-     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnPlayerId() { return _columnPlayerId; }
     /**
-     * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA}
+     * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharaId() { return _columnCharaId; }
     /**
-     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill}
+     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnSkillCode() { return _columnSkillCode; }
     /**
-     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill}
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnRequestSkillCode() { return _columnRequestSkillCode; }
@@ -177,7 +181,12 @@ public class VillagePlayerDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnIsDead() { return _columnIsDead; }
     /**
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason}
+     * IS_SPECTATOR: {NotNull, BIT, classification=Flg}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnIsSpectator() { return _columnIsSpectator; }
+    /**
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnDeadReasonCode() { return _columnDeadReasonCode; }
@@ -222,6 +231,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
         ls.add(columnRequestSkillCode());
         ls.add(columnRoomNumber());
         ls.add(columnIsDead());
+        ls.add(columnIsSpectator());
         ls.add(columnDeadReasonCode());
         ls.add(columnDeadDay());
         ls.add(columnIsGone());

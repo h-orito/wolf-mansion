@@ -25,6 +25,9 @@ public class VillageParticipateForm implements Serializable {
     /** 入村パスワード */
     private String joinPassword;
 
+    /** 見学か */
+    private Boolean isSpectator;
+
     public Integer getCharaId() {
         return charaId;
     }
@@ -63,5 +66,13 @@ public class VillageParticipateForm implements Serializable {
 
     public void setJoinPassword(String joinPassword) {
         this.joinPassword = joinPassword;
+    }
+
+    public Boolean getIsSpectator() {
+        return isSpectator;
+    }
+
+    public void setIsSpectator(Boolean isSpectator) {
+        this.isSpectator = isSpectator;
     }
 }

@@ -1309,6 +1309,12 @@
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
+					<physical_name>is_spectator</physical_name>
+					<logical_name>見学者か</logical_name>
+					<type>boolean</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
 					<physical_name>dead_reason_code</physical_name>
 					<referred_column>table.dead_reason.dead_reason_code</referred_column>
 					<relationship>FK_village_player_dead_reason</relationship>
@@ -1420,6 +1426,12 @@
 				<normal_column>
 					<physical_name>is_possible_skill_request</physical_name>
 					<logical_name>役職希望有効か</logical_name>
+					<type>boolean</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>is_available_spectate</physical_name>
+					<logical_name>見学可能か</logical_name>
 					<type>boolean</type>
 					<not_null>true</not_null>
 				</normal_column>

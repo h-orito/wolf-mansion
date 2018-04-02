@@ -203,6 +203,7 @@ public class FootstepLogic {
         return villagePlayerBhv.selectList(cb -> {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setIsGone_Equal_False();
+            cb.query().setIsSpectator_Equal_False();
         });
     }
 

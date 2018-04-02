@@ -64,7 +64,7 @@ public class VillageMessageAssist {
         int day = form.getDay() != null ? form.getDay() : latestDay;
         OptionalEntity<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
         Village village = selectVillage(villageId);
-        List<CDef.MessageType> messageTypeList = makeMessageTypeList(optVillagePlayer, village);
+        List<CDef.MessageType> messageTypeList = makeMessageTypeList(optVillagePlayer, village, day);
         ListResultBean<Message> messageList = selectMessageList(form.getVillageId(), day, messageTypeList, optVillagePlayer);
         String villageStatusMessage = makeVillageStatusMessage(village, isLatestDay(villageId, day), optVillagePlayer, day);
         VillageMessageListResultContent content = mappingToMessageListContent(messageList, villageStatusMessage, latestDay);
@@ -248,11 +248,13 @@ public class VillageMessageAssist {
             return isViewAllowedMasonSay(village, optVillagePlayer);
         } else if (messageType == CDef.MessageType.死者の呻き) {
             return isViewAllowedGraveSay(village, optVillagePlayer);
+        } else if (messageType == CDef.MessageType.見学発言) {
+            return isViewAllowedSpectateSay(village, optVillagePlayer, 1);
         }
         return false;
     }
 
-    private List<CDef.MessageType> makeMessageTypeList(OptionalEntity<VillagePlayer> optVillagePlayer, Village village) {
+    private List<CDef.MessageType> makeMessageTypeList(OptionalEntity<VillagePlayer> optVillagePlayer, Village village, int day) {
         if (optVillagePlayer.isPresent() && "master".equals(optVillagePlayer.get().getPlayer().get().getPlayerName())) {
             // masterは全て見られる
             return CDef.MessageType.listAll();
@@ -260,6 +262,7 @@ public class VillageMessageAssist {
         List<CDef.MessageType> dispAllowedMessageTypeList =
                 new ArrayList<>(Arrays.asList(CDef.MessageType.公開システムメッセージ, CDef.MessageType.通常発言));
         addGraveSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
+        addSpectateSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer, day);
         addMasonSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addWerewolfSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addMonologueSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
@@ -287,7 +290,36 @@ public class VillageMessageAssist {
             return false;
         }
         VillagePlayer vPlayer = optVillagePlayer.get();
-        if (vPlayer.isIsDeadTrue() && !vPlayer.isDeadReasonCode突然()) {
+        if ((vPlayer.isIsDeadTrue() && !vPlayer.isDeadReasonCode突然()) || vPlayer.isIsSpectatorTrue()) {
+            return true;
+        }
+        return false;
+    }
+
+    // 見学発言
+    private void addSpectateSayIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
+            OptionalEntity<VillagePlayer> optVillagePlayer, int day) {
+        if (isViewAllowedSpectateSay(village, optVillagePlayer, day)) {
+            dispAllowedMessageTypeList.add(CDef.MessageType.見学発言);
+        }
+    }
+
+    private boolean isViewAllowedSpectateSay(Village village, OptionalEntity<VillagePlayer> optVillagePlayer, int day) {
+        // 進行中以外は全開放
+        if (village.isVillageStatusCode募集中() || village.isVillageStatusCode開始待ち() || village.isVillageStatusCodeエピローグ()
+                || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
+            return true;
+        }
+        // 進行中は0日目の発言は開放
+        if (village.isVillageStatusCode進行中() && day == 0) {
+            return true;
+        }
+        // 終了していなかったら参加していて突然死以外で死亡している場合、もしくは見学の場合のみ開放
+        if (!optVillagePlayer.isPresent()) {
+            return false;
+        }
+        VillagePlayer vPlayer = optVillagePlayer.get();
+        if ((vPlayer.isIsDeadTrue() && !vPlayer.isDeadReasonCode突然()) || vPlayer.isIsSpectatorTrue()) {
             return true;
         }
         return false;

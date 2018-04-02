@@ -98,10 +98,10 @@ public class VillageAssist {
         Village village = selectVillage(villageId);
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo(); // ログインしているか
         ListResultBean<VillageDay> dayList = villageDayBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
-        OptionalThing<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
+        OptionalThing<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo, true);
 
         VillageResultContent content = new VillageResultContent();
-        setVillageModelBasicInfo(content, village, day, dayList, optVillagePlayer);
+        setVillageModelBasicInfo(content, village, day, dayList);
         setVillageModelForm(content, villageId, village, userInfo, day, dayList, optVillagePlayer, sayForm, participateForm,
                 changeRequestSkillForm, model);
         setVillageModelCreateUser(content, village, userInfo);
@@ -142,7 +142,7 @@ public class VillageAssist {
         });
     }
 
-    public OptionalThing<VillagePlayer> selectVillagePlayer(Integer villageId, UserInfo userInfo) {
+    public OptionalThing<VillagePlayer> selectVillagePlayer(Integer villageId, UserInfo userInfo, boolean isContainSpectator) {
         if (userInfo == null) {
             return OptionalThing.empty();
         }
@@ -201,7 +201,7 @@ public class VillageAssist {
     // デフォルト発言区分
     private void setDefaultMessageTypeIfNeeded(VillageSayForm sayForm, boolean isDispSayForm, boolean isAvailableNormalSay,
             boolean isAvailableWerewolfSay, boolean isAvailableMasonSay, boolean isAvailableGraveSay, boolean isAvailableMonologueSay,
-            Model model) {
+            boolean isAvailableSpectateSay, Model model) {
         if (sayForm != null || !isDispSayForm) {
             return;
         }
@@ -214,6 +214,8 @@ public class VillageAssist {
             form.setMessageType(CDef.MessageType.通常発言.code());
         } else if (isAvailableGraveSay) {
             form.setMessageType(CDef.MessageType.死者の呻き.code());
+        } else if (isAvailableSpectateSay) {
+            form.setMessageType(CDef.MessageType.見学発言.code());
         } else {
             form.setMessageType(CDef.MessageType.独り言.code());
         }
@@ -222,7 +224,8 @@ public class VillageAssist {
 
     private void setAbilityTarget(Integer villageId, Village village, List<Chara> abilityTargetList,
             OptionalThing<VillagePlayer> optVillagePlayer, int day, boolean isLatestDay, Model model) {
-        if (!optVillagePlayer.isPresent() || optVillagePlayer.get().isIsDeadTrue() || !isLatestDay || !village.isVillageStatusCode進行中()) {
+        if (!optVillagePlayer.isPresent() || optVillagePlayer.get().isIsDeadTrue() || optVillagePlayer.get().isIsSpectatorTrue()
+                || !isLatestDay || !village.isVillageStatusCode進行中()) {
             return;
         }
         CDef.Skill skill = optVillagePlayer.get().getSkillCodeAsSkill();
@@ -258,7 +261,8 @@ public class VillageAssist {
 
     private void setVoteTarget(Integer villageId, Village village, OptionalThing<VillagePlayer> optVillagePlayer, int day,
             boolean isLatestDay, Model model) {
-        if (!optVillagePlayer.isPresent() || optVillagePlayer.get().isIsDeadTrue() || !isLatestDay || !village.isVillageStatusCode進行中()) {
+        if (!optVillagePlayer.isPresent() || optVillagePlayer.get().isIsDeadTrue() || optVillagePlayer.get().isIsSpectatorTrue()
+                || !isLatestDay || !village.isVillageStatusCode進行中()) {
             return;
         }
         voteBhv.selectEntity(cb -> {
@@ -286,8 +290,7 @@ public class VillageAssist {
     }
 
     // 基本的な情報、参加有無に関わらない情報
-    private void setVillageModelBasicInfo(VillageResultContent content, Village village, int day, ListResultBean<VillageDay> dayList,
-            OptionalThing<VillagePlayer> optVillagePlayer) {
+    private void setVillageModelBasicInfo(VillageResultContent content, Village village, int day, ListResultBean<VillageDay> dayList) {
         content.setVillageId(village.getVillageId());
         content.setVillageName(village.getVillageDisplayName());
         content.setMemberList(convertToMemberPart(village.getVillagePlayerList()));
@@ -361,6 +364,7 @@ public class VillageAssist {
     private void setVillageModelPlayerInfo(VillageResultContent content, OptionalThing<VillagePlayer> optVillagePlayer) {
         content.setCharaImageUrl(optVillagePlayer.map(vp -> vp.getChara().get().getCharaImgUrl()).orElse(null));
         content.setIsDead(optVillagePlayer.map(VillagePlayer::isIsDeadTrue).orElse(null));
+        content.setIsSpectator(optVillagePlayer.map(VillagePlayer::isIsSpectatorTrue).orElse(null));
         content.setSkillName(optVillagePlayer.map(vp -> vp.getSkillCode()).orElse(null));
     }
 
@@ -383,15 +387,17 @@ public class VillageAssist {
         boolean isAvailableWerewolfSay = isDispSayForm && villageDispLogic.isAvailableWerewolfSay(village, vPlayer); // 囁き可能か
         boolean isAvailableMasonSay = isDispSayForm && villageDispLogic.isAvailableMasonSay(village, vPlayer); // 共有者発言可能か
         boolean isAvailableGraveSay = isDispSayForm && villageDispLogic.isAvailableGraveSay(village, vPlayer); // 死者の呻きが発言可能か
+        boolean isAvailableSpectateSay = isDispSayForm && villageDispLogic.isAvailableSpectateSay(village, vPlayer); // 見学発言が発言可能か
         boolean isAvailableMonologueSay = isDispSayForm && villageDispLogic.isAvailableMonologueSay(village); // 独り言が発言可能か
         content.setIsDispSayForm(isAllSayAvailable || isDispSayForm);
         content.setIsAvailableNormalSay(isAllSayAvailable || isAvailableNormalSay); // 通常発言可能か
         content.setIsAvailableWerewolfSay(isAllSayAvailable || isAvailableWerewolfSay); // 囁き可能か
         content.setIsAvailableMasonSay(isAllSayAvailable || isAvailableMasonSay); // 共有者発言可能か
         content.setIsAvailableGraveSay(isAllSayAvailable || isAvailableGraveSay); // 死者の呻きが発言可能か
+        content.setIsAvailableSpectateSay(isAllSayAvailable || isAvailableSpectateSay); // 見学発言が発言可能か
         content.setIsAvailableMonologueSay(isAllSayAvailable || isAvailableMonologueSay); // 独り言が発言可能か
         setDefaultMessageTypeIfNeeded(sayForm, isDispSayForm, isAvailableNormalSay, isAvailableWerewolfSay, isAvailableMasonSay,
-                isAvailableGraveSay, isAvailableMonologueSay, model); // デフォルト発言区分
+                isAvailableGraveSay, isAvailableMonologueSay, isAvailableSpectateSay, model); // デフォルト発言区分
     }
 
     private void setVillageModekChangeRequestSkillForm(VillageResultContent content, Integer villageId,
@@ -451,11 +457,19 @@ public class VillageAssist {
         suddonlyDeathMember.setStatus("突然死");
         suddonlyDeathMember.setStatusMemberList(
                 suddonlyDeathMemberList.stream().map(mem -> convertToMemberDetailPart(mem)).collect(Collectors.toList()));
-        return Arrays.asList(aliveMember, executedMember, attackedMember, suddonlyDeathMember);
+        // 見学
+        VillageMemberDto spectateMember = new VillageMemberDto();
+        List<VillagePlayer> spectateMemberList =
+                villagePlayerList.stream().filter(villagePlayer -> villagePlayer.isIsSpectatorTrue()).collect(Collectors.toList());
+        spectateMember.setStatus("見学");
+        spectateMember
+                .setStatusMemberList(spectateMemberList.stream().map(mem -> convertToMemberDetailPart(mem)).collect(Collectors.toList()));
+
+        return Arrays.asList(aliveMember, executedMember, attackedMember, suddonlyDeathMember, spectateMember);
     }
 
     private List<VillageRoomAssignedRowDto> convertToRoomAssignedPart(Village village, List<VillagePlayer> villagePlayerList, int day) {
-        if (villagePlayerList.stream().anyMatch(vp -> vp.getRoomNumber() == null)) {
+        if (villagePlayerList.stream().anyMatch(vp -> vp.isIsSpectatorFalse() && vp.getRoomNumber() == null)) {
             return null; // 部屋がまだ割り当てられていない
         }
         Integer width = village.getRoomSizeWidth();
@@ -467,12 +481,15 @@ public class VillageAssist {
                 VillageRoomAssignedDto room = new VillageRoomAssignedDto();
                 final int roomNum = i * width + j;
                 room.setRoomNumber(String.format("%02d", roomNum));
-                villagePlayerList.stream().filter(vp -> vp.getRoomNumber().equals(roomNum)).findFirst().ifPresent(vp -> {
-                    room.setCharaName(vp.getChara().get().getCharaShortName());
-                    room.setCharaImgUrl(vp.getChara().get().getCharaImgUrl());
-                    //                    room.setIsDead(BooleanUtils.isTrue(vp.getIsDead()));
-                    room.setIsDead(vp.getDeadDay() == null ? false : vp.getDeadDay() <= day);
-                });
+                villagePlayerList.stream()
+                        .filter(vp -> vp.isIsSpectatorFalse() && vp.getRoomNumber().equals(roomNum))
+                        .findFirst()
+                        .ifPresent(vp -> {
+                            room.setCharaName(vp.getChara().get().getCharaShortName());
+                            room.setCharaImgUrl(vp.getChara().get().getCharaImgUrl());
+                            //                    room.setIsDead(BooleanUtils.isTrue(vp.getIsDead()));
+                            room.setIsDead(vp.getDeadDay() == null ? false : vp.getDeadDay() <= day);
+                        });
                 row.getRoomAssignedList().add(room);
             }
             roomAssignedRowList.add(row);
@@ -513,6 +530,7 @@ public class VillageAssist {
         part.setSkillRequestType(BooleanUtils.isTrue(settings.getIsPossibleSkillRequest()) ? "有効" : "無効");
         part.setVoteType(BooleanUtils.isTrue(settings.getIsOpenVote()) ? "記名投票" : "無記名投票");
         part.setIsRequiredJoinPassword(StringUtils.isNotEmpty(settings.getJoinPassword()));
+        part.setIsAvailableSpectate(settings.getIsAvailableSpectate());
         return part;
     }
 

@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of VILLAGE_PLAYER.
+ * The condition-query for in-line of village_player.
  * @author DBFlute(AutoGenerator)
  */
 public class VillagePlayerCIQ extends AbstractBsVillagePlayerCQ {
@@ -79,6 +79,7 @@ public class VillagePlayerCIQ extends AbstractBsVillagePlayerCQ {
     protected ConditionValue xgetCValueRequestSkillCode() { return _myCQ.xdfgetRequestSkillCode(); }
     protected ConditionValue xgetCValueRoomNumber() { return _myCQ.xdfgetRoomNumber(); }
     protected ConditionValue xgetCValueIsDead() { return _myCQ.xdfgetIsDead(); }
+    protected ConditionValue xgetCValueIsSpectator() { return _myCQ.xdfgetIsSpectator(); }
     protected ConditionValue xgetCValueDeadReasonCode() { return _myCQ.xdfgetDeadReasonCode(); }
     protected ConditionValue xgetCValueDeadDay() { return _myCQ.xdfgetDeadDay(); }
     protected ConditionValue xgetCValueIsGone() { return _myCQ.xdfgetIsGone(); }

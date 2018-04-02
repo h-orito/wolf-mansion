@@ -140,6 +140,7 @@ public class DayChangeLogic {
                 cb.setupSelect_Player();
                 cb.setupSelect_SkillBySkillCode();
                 cb.query().setIsGone_Equal_False();
+                cb.query().setIsSpectator_Equal_False();
             });
         });
         return villageDay;
@@ -151,6 +152,7 @@ public class DayChangeLogic {
             cb.setupSelect_Player();
             cb.setupSelect_SkillBySkillCode();
             cb.query().setIsGone_Equal_False();
+            cb.query().setIsSpectator_Equal_False();
             cb.query().setVillageId_Equal(villageId);
         });
     }
@@ -452,6 +454,7 @@ public class DayChangeLogic {
             cb.setupSelect_Chara();
             cb.setupSelect_SkillBySkillCode();
             cb.query().setIsGone_Equal_False();
+            cb.query().setIsSpectator_Equal_False();
             cb.query().setVillageId_Equal(villageId);
         });
 

@@ -69,6 +69,9 @@ public class NewVillageAssist {
         if (form.getIsPossibleSkillRequest() == null) {
             form.setIsPossibleSkillRequest(true);
         }
+        if (form.getIsAvailableSpectate() == null) {
+            form.setIsAvailableSpectate(false);
+        }
         if (form.getDayChangeIntervalHours() == null) {
             form.setDayChangeIntervalHours(24);
         }
@@ -148,6 +151,7 @@ public class NewVillageAssist {
         settings.setStartDatetime(makeStartDateTime(villageForm));
         settings.setIsOpenVote(villageForm.getIsOpenVote());
         settings.setIsPossibleSkillRequest(villageForm.getIsPossibleSkillRequest());
+        settings.setIsAvailableSpectate(villageForm.getIsAvailableSpectate());
         settings.setCharacterGroupId(villageForm.getCharacterSetId());
         settings.setJoinPassword(villageForm.getJoinPassword());
         villageSettingsBhv.insert(settings);
@@ -172,7 +176,8 @@ public class NewVillageAssist {
             cb.query().setCharaGroupId_Equal(villageForm.getCharacterSetId());
             cb.query().setIsDummy_Equal_True();
         }).getCharaId();
-        villageLogic.participate(village.getVillageId(), dummyPlayerId, dummyCharaId, CDef.Skill.村人, villageForm.getDummyJoinMessage());
+        villageLogic.participate(village.getVillageId(), dummyPlayerId, dummyCharaId, CDef.Skill.村人, villageForm.getDummyJoinMessage(),
+                false);
     }
 
     private LocalDateTime makeStartDateTime(NewVillageForm form) throws WerewolfMansionBusinessException {

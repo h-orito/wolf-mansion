@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of VILLAGE_PLAYER.
+ * The base condition-bean of village_player.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillagePlayerCB extends AbstractConditionBean {
@@ -73,7 +73,7 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "VILLAGE_PLAYER";
+        return "village_player";
     }
 
     // ===================================================================================
@@ -460,27 +460,27 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnVillagePlayerId() { return doColumn("VILLAGE_PLAYER_ID"); }
         /**
-         * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+         * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageId() { return doColumn("VILLAGE_ID"); }
         /**
-         * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
+         * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnPlayerId() { return doColumn("PLAYER_ID"); }
         /**
-         * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA}
+         * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCharaId() { return doColumn("CHARA_ID"); }
         /**
-         * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill}
+         * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnSkillCode() { return doColumn("SKILL_CODE"); }
         /**
-         * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill}
+         * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnRequestSkillCode() { return doColumn("REQUEST_SKILL_CODE"); }
@@ -495,7 +495,12 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnIsDead() { return doColumn("IS_DEAD"); }
         /**
-         * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason}
+         * IS_SPECTATOR: {NotNull, BIT, classification=Flg}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnIsSpectator() { return doColumn("IS_SPECTATOR"); }
+        /**
+         * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnDeadReasonCode() { return doColumn("DEAD_REASON_CODE"); }
@@ -560,7 +565,7 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "VILLAGE_PLAYER"; }
+        protected String getTableDbName() { return "village_player"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * CHARA by my CHARA_ID, named 'chara'.
@@ -683,7 +688,7 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from MESSAGE where ...) as FOO_MAX} <br>
+         * {select max(FOO) from message where ...) as FOO_MAX} <br>
          * MESSAGE by VILLAGE_PLAYER_ID, named 'messageList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
