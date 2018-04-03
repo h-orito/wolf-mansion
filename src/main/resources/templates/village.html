@@ -133,14 +133,16 @@
 							</div>
 						</div>
 
-						<!--/* 部屋割り当て、参加者リスト */-->
+						<!--/* 状況 */-->
 						<div class="col-sm-12 well" style="padding-top: 10px; padding-bottom: 10px;">
-							<a href="javascript:void(0);" data-toggle="collapse" data-target="#room-memberlist-on-sayform" class="h5" aria-expanded="true">部屋割り当て、参加者</a>
+							<a href="javascript:void(0);" data-toggle="collapse" data-target="#room-memberlist-on-sayform" class="h5" aria-expanded="true">状況</a>
 							<div id="room-memberlist-on-sayform" style="margin-top: 10px;" aria-expanded="true" class="collapse in">
 								<p class="small">↑クリックで展開/縮小できます。</p>
 								<ul class="nav nav-tabs">
 									<li th:if="${content.roomWidth != null}" class="active"><a data-toggle="tab" href="#room-on-sayform">部屋割り当て</a></li>
 									<li th:class="${content.roomWidth == null ? 'active' : ''}"><a data-toggle="tab" href="#tab-memberlist">参加者</a></li>
+									<li th:if="${content.vote != null}"><a data-toggle="tab" href="#tab-votelist">投票</a></li>
+									<li th:if="${content.villageFootstepList != null}"><a data-toggle="tab" href="#tab-footsteplist">足音</a></li>
 								</ul>
 
 								<div class="tab-content row">
@@ -188,6 +190,44 @@
 												<tr th:if="${statusDto.statusMemberList.size() == 0}">
 													<td>なし</td>
 												</tr>
+											</table>
+										</div>
+									</div>
+									<div id="tab-votelist" th:if="${content.vote != null}" class="tab-pane fade" style="padding-top: 10px; padding-bottom: 10px;">
+										<div class="col-sm-12 col-xs-12">
+											<table class="table-bordered table-condensed small text-center">
+												<thead>
+													<tr>
+														<th>投票者</th>
+														<th th:each="i : ${#numbers.sequence(2, content.vote.maxVoteCount+1)}" th:value="${i}" th:text="${i + 'd'}"></th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="member : ${content.vote.voteList}">
+														<td th:text="${member.charaName}"></td>
+														<td th:each="target: ${member.voteTargetList}" class="small" th:text="${target}"></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div id="tab-footsteplist" th:if="${content.villageFootstepList != null}" class="tab-pane fade"
+										style="padding-top: 10px; padding-bottom: 10px;">
+										<div class="col-sm-12 col-xs-12">
+											<table class="table-bordered table-condensed small">
+												<tbody>
+													<tr th:each="day : ${content.villageFootstepList}">
+														<td class="text-center" th:text="${day.day + 'd'}"></td>
+														<td class="small">
+															<th:block th:if="${day.footstep}">
+																<th:block th:each="str, stat : ${day.footstep.split('\r\n|\r|\n', -1)}">
+																	<th:block th:text="${str}" />
+																	<br th:if="${!stat.last}" />
+																</th:block>
+															</th:block>
+														</td>
+													</tr>
+												</tbody>
 											</table>
 										</div>
 									</div>

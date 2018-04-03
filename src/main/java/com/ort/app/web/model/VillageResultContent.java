@@ -120,6 +120,12 @@ public class VillageResultContent implements Serializable {
     /** 入村パスワードを必要とするか */
     private Boolean isRequiredJoinPassword;
 
+    /** 投票一覧 */
+    private VillageVoteDto vote;
+
+    /** 足音一覧 */
+    private List<VillageFootstepDto> villageFootstepList;
+
     public Integer getVillageId() {
         return villageId;
     }
@@ -400,4 +406,19 @@ public class VillageResultContent implements Serializable {
         this.isRequiredJoinPassword = isRequiredJoinPassword;
     }
 
+    public VillageVoteDto getVote() {
+        return vote;
+    }
+
+    public void setVote(VillageVoteDto vote) {
+        this.vote = vote;
+    }
+
+    public List<VillageFootstepDto> getVillageFootstepList() {
+        return villageFootstepList;
+    }
+
+    public void setVillageFootstepList(List<VillageFootstepDto> villageFootstepList) {
+        this.villageFootstepList = villageFootstepList;
+    }
 }

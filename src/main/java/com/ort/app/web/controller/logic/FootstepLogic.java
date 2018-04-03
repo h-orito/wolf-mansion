@@ -162,6 +162,13 @@ public class FootstepLogic {
     }
 
     public String getFootstepMessage(Integer villageId, int day, List<Integer> livingRoomNumList) {
+        StringJoiner joiner = new StringJoiner("\n", "館の大広間に集まった村人達は、昨晩聞こえた足音について確認した。\n\n", "");
+        joiner.add(makeFootstepMessageWithoutHeader(villageId, day, livingRoomNumList));
+        return joiner.toString();
+    }
+
+    public String makeFootstepMessageWithoutHeader(Integer villageId, int day, List<Integer> livingRoomNumList) {
+        StringJoiner joiner = new StringJoiner("\n");
         List<Footstep> footStepList = footStepBhv.selectList(cb -> {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setDay_Equal(day);
@@ -169,16 +176,15 @@ public class FootstepLogic {
         // 無音を除去
         footStepList = footStepList.stream().filter(fs -> !NO_FOOTSTEP.equals(fs.getFootstepRoomNumbers())).collect(Collectors.toList());
 
-        StringJoiner joiner = new StringJoiner("\n", "館の大広間に集まった村人達は、昨晩聞こえた足音について確認した。\n\n", "");
         if (CollectionUtils.isEmpty(footStepList)) {
             joiner.add("足音を聞いたものはいなかった...。");
             return joiner.toString();
         }
         // 生存者のいない部屋の音を除去
-        List<String> livingRoomFootstepList = footStepList.stream().map(fs -> {
-            String[] footsteps = fs.getFootstepRoomNumbers().split(",");
-            StringJoiner fsJoiner = new StringJoiner(",");
-            for (String fsRoomNum : footsteps) {
+        final List<String> livingRoomFootstepList = footStepList.stream().map(fs -> {
+            final String[] footsteps = fs.getFootstepRoomNumbers().split(",");
+            final StringJoiner fsJoiner = new StringJoiner(",");
+            for (final String fsRoomNum : footsteps) {
                 if (livingRoomNumList.stream().anyMatch(num -> num.equals(Integer.parseInt(fsRoomNum)))) {
                     fsJoiner.add(String.format("部屋%02d", Integer.parseInt(fsRoomNum)));
                 }

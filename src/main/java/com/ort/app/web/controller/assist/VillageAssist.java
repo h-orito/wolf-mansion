@@ -15,6 +15,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
+import com.ort.app.web.controller.logic.FootstepLogic;
 import com.ort.app.web.controller.logic.VillageDispLogic;
 import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
@@ -22,7 +23,10 @@ import com.ort.app.web.form.VillageLeaveForm;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.app.web.form.VillageSayForm;
 import com.ort.app.web.form.VillageVoteForm;
+import com.ort.app.web.model.VillageFootstepDto;
+import com.ort.app.web.model.VillageMemberVoteDto;
 import com.ort.app.web.model.VillageResultContent;
+import com.ort.app.web.model.VillageVoteDto;
 import com.ort.app.web.model.inner.VillageCharaDto;
 import com.ort.app.web.model.inner.VillageMemberDetailDto;
 import com.ort.app.web.model.inner.VillageMemberDto;
@@ -47,6 +51,7 @@ import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillageSettings;
+import com.ort.dbflute.exentity.Vote;
 import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 
@@ -82,6 +87,9 @@ public class VillageAssist {
 
     @Autowired
     private VillageDispLogic villageDispLogic;
+
+    @Autowired
+    private FootstepLogic footstepLogic;
 
     // ===================================================================================
     //                                                                             Execute
@@ -302,6 +310,12 @@ public class VillageAssist {
         content.setEpilogueDay(village.getEpilogueDay());
         content.setVillageSettings(convertToSettings(village.getVillageSettingsAsOne().get(), dayList));
         content.setIsSkillRequestAvailable(village.getVillageSettingsAsOne().get().getIsPossibleSkillRequest());
+        if (dayList.size() > 3) {
+            content.setVote(makeMemberVote(village.getVillageId(), village.getVillagePlayerList(), dayList));
+        }
+        if (dayList.size() > 2) {
+            content.setVillageFootstepList(makeFootstepList(village.getVillageId(), village.getVillagePlayerList(), dayList));
+        }
     }
 
     // 参加している場合に使う情報
@@ -539,5 +553,51 @@ public class VillageAssist {
         String minute = interval >= 60 ? String.format("%02d分", (interval % 3600) / 60) : "";
         String second = String.format("%02d秒", interval % 60);
         return hour + minute + second;
+    }
+
+    private VillageVoteDto makeMemberVote(Integer villageId, List<VillagePlayer> vPlayerList, ListResultBean<VillageDay> dayList) {
+        ListResultBean<Vote> voteList = voteBhv.selectList(cb -> {
+            cb.setupSelect_CharaByVoteCharaId();
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_LessThan(dayList.size() - 1);
+            cb.query().addOrderBy_Day_Asc();
+        });
+        List<VillageMemberVoteDto> memberVoteDtoList =
+                vPlayerList.stream().filter(vp -> vp.isIsSpectatorFalse() && vp.getChara().get().isIsDummyFalse()).map(vp -> {
+                    VillageMemberVoteDto voteDto = new VillageMemberVoteDto();
+                    voteDto.setCharaName(vp.getChara().get().getCharaShortName());
+                    List<String> voteTargetList = voteList.stream()
+                            .filter(v -> v.getCharaId().equals(vp.getCharaId()))
+                            .map(v -> v.getCharaByVoteCharaId().get().getCharaShortName())
+                            .collect(Collectors.toList());
+                    voteDto.setVoteTargetList(voteTargetList);
+                    return voteDto;
+                }).collect(Collectors.toList());
+        // 投票した回数が多い順
+        memberVoteDtoList =
+                memberVoteDtoList.stream().sorted((m1, m2) -> m2.getVoteTargetList().size() - m1.getVoteTargetList().size()).collect(
+                        Collectors.toList());
+        VillageVoteDto voteDto = new VillageVoteDto();
+        voteDto.setVoteList(memberVoteDtoList);
+        voteDto.setMaxVoteCount(memberVoteDtoList.stream().map(v -> v.getVoteTargetList().size()).max(Integer::max).get());
+        return voteDto;
+    }
+
+    private List<VillageFootstepDto> makeFootstepList(Integer villageId, List<VillagePlayer> vPlayerList,
+            ListResultBean<VillageDay> dayList) {
+        List<VillageFootstepDto> footstepList = new ArrayList<>();
+        for (int i = 2; i < dayList.size(); i++) {
+            int day = i;
+            List<Integer> livingPlayerRoomNumList = vPlayerList.stream()
+                    .filter(vp -> vp.isIsDeadFalse() || day < vp.getDeadDay())
+                    .map(VillagePlayer::getRoomNumber)
+                    .collect(Collectors.toList());
+            String message = footstepLogic.makeFootstepMessageWithoutHeader(villageId, day - 1, livingPlayerRoomNumList);
+            VillageFootstepDto footstep = new VillageFootstepDto();
+            footstep.setDay(day);
+            footstep.setFootstep(message);
+            footstepList.add(footstep);
+        }
+        return footstepList;
     }
 }
