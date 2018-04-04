@@ -30,6 +30,7 @@ $(function() {
 			});
 		}
 		selectDefaultFootsteps(); // 狐と狂人だったら選択していた足音の部屋を選択状態にする
+		restoreDisplaySetting();
 	}
 
 	// メッセージ取得
@@ -369,5 +370,60 @@ $(function() {
 	$('body').on('click', '[data-copy-anchor]', function() {
 		const text = $(this).text();
 		clipboardCopy(text, 'コピーしました： ' + text);
+	});
+
+	// ----------------------------------------------
+	// 表示設定
+	// ----------------------------------------------
+	function saveDisplaySetting(key, value) {
+		let displaySetting = $.cookie('village_display_setting');
+		if (displaySetting == null) {
+			displaySetting = {};
+		}
+		displaySetting[key] = value;
+		$.cookie('village_display_setting', displaySetting);
+	}
+
+	function getDisplaySetting(key) {
+		let displaySetting = $.cookie('village_display_setting');
+		if (displaySetting == null) {
+			displaySetting = {
+				'is_open_situation_tab' : true
+			};
+			saveDisplaySetting(displaySetting);
+			return;
+		}
+		return displaySetting[key];
+	}
+
+	function restoreDisplaySetting() {
+		// 状況タブ(デフォルトオープン)
+		!getDisplaySetting('is_open_situation_tab') && $('[data-situation-tab]').click();
+		// 発言タブ(デフォルトオープン)
+		!getDisplaySetting('is_open_say_tab') && $('[data-say-tab]').click();
+		// 投票タブ(デフォルトオープン)
+		!getDisplaySetting('is_open_vote_tab') && $('[data-vote-tab]').click();
+		// 能力行使タブ(デフォルトオープン)
+		!getDisplaySetting('is_open_skill_tab') && $('[data-skill-tab]').click();
+	}
+
+	$('[data-situation-tab]').on('click', function() {
+		const isOpen = $($(this).data('target')).hasClass('in');
+		saveDisplaySetting('is_open_situation_tab', isOpen ? false : true);
+	});
+
+	$('[data-say-tab]').on('click', function() {
+		const isOpen = $($(this).data('target')).hasClass('in');
+		saveDisplaySetting('is_open_say_tab', isOpen ? false : true);
+	});
+	
+	$('[data-vote-tab]').on('click', function() {
+		const isOpen = $($(this).data('target')).hasClass('in');
+		saveDisplaySetting('is_open_vote_tab', isOpen ? false : true);
+	});
+	
+	$('[data-skill-tab]').on('click', function() {
+		const isOpen = $($(this).data('target')).hasClass('in');
+		saveDisplaySetting('is_open_skill_tab', isOpen ? false : true);
 	});
 });

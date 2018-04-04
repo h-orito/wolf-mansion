@@ -135,9 +135,9 @@
 
 						<!--/* 状況 */-->
 						<div class="col-sm-12 well" style="padding-top: 10px; padding-bottom: 10px;">
-							<a href="javascript:void(0);" data-toggle="collapse" data-target="#room-memberlist-on-sayform" class="h5" aria-expanded="true">状況</a>
+							<a href="javascript:void(0);" data-toggle="collapse" data-target="#room-memberlist-on-sayform" class="h5" aria-expanded="true"
+								data-situation-tab>状況</a>
 							<div id="room-memberlist-on-sayform" style="margin-top: 10px;" aria-expanded="true" class="collapse in">
-								<p class="small">↑クリックで展開/縮小できます。</p>
 								<ul class="nav nav-tabs">
 									<li th:if="${content.roomWidth != null}" class="active"><a data-toggle="tab" href="#room-on-sayform">部屋割り当て</a></li>
 									<li th:class="${content.roomWidth == null ? 'active' : ''}"><a data-toggle="tab" href="#tab-memberlist">参加者</a></li>
@@ -245,13 +245,13 @@
 						</div>
 
 						<!--/* 発言欄 */-->
-						<div class="col-sm-12 well" th:if="${content.isDispSayForm}">
+						<div class="col-sm-12 well" th:if="${content.isDispSayForm}" style="padding-top: 10px; padding-bottom: 10px;">
 							<div class="">
 								<!--/* rowを外した */-->
-								<h2 class="h5">発言する</h2>
-								<span th:if="${sayErrorMessage != null}" class="text-danger" th:test="${sayErrorMessage}">error</span>
-								<form method="post" action="" th:action="@{/village/{villageId}/confirm(villageId=${content.villageId})}" th:object="${sayForm}"
-									class="form-horizontal">
+								<a href="javascript:void(0);" data-toggle="collapse" data-target="#sayform" class="h5" aria-expanded="true" data-say-tab>発言する</a> <span
+									th:if="${sayErrorMessage != null}" class="text-danger" th:test="${sayErrorMessage}">error</span>
+								<form method="post" id="sayform" action="" th:action="@{/village/{villageId}/confirm(villageId=${content.villageId})}" th:object="${sayForm}"
+									class="form-horizontal collapse in" aria-expanded="true" style="margin-top: 10px;">
 									<span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="help-block text-danger">error!</span>
 									<div class="form-group">
 										<div class="col-sm-12 btn-group" data-toggle="buttons" data-say-type>
@@ -301,14 +301,15 @@
 						</div>
 
 						<!--/* 投票欄 */-->
-						<div class="col-sm-12 well" style="padding-top: 10px;" th:if="${content.voteTargetList != null && content.voteTargetList.size() > 0}">
+						<div class="col-sm-12 well" th:if="${content.voteTargetList != null && content.voteTargetList.size() > 0}"
+							style="padding-top: 10px; padding-bottom: 10px;">
 							<div class="">
-								<h2 class="h5">投票する</h2>
-								<p class="small">一番票を集めた人物が処刑されます。同数の場合はランダムで決定されます。</p>
-								<p class="small" th:text="'現在の投票先: ' + ${voteTarget}"></p>
-								<hr />
+								<a href="javascript:void(0);" data-toggle="collapse" data-target="#voteform" class="h5" aria-expanded="true" data-vote-tab>投票する</a>
+								<p class="small" th:text="'現在の投票先: ' + ${voteTarget}" style="margin-top: 10px;"></p>
 								<form method="post" action="" th:action="@{/village/{villageId}/setVote(villageId=${content.villageId})}" th:object="${voteForm}"
-									class="form-horizontal">
+									id="voteform" class="form-horizontal collapse in" aria-expanded="true">
+									<hr />
+									<p class="small">一番票を集めた人物が処刑されます。同数の場合はランダムで決定されます。</p>
 									<div class="form-group small">
 										<div class="col-sm-12">
 											<select class="form-control" th:field="*{targetCharaId}">
@@ -326,7 +327,7 @@
 						</div>
 
 						<!--/* 能力行使欄 */-->
-						<div class="col-sm-12 well" style="padding-top: 10px;" th:if="${content.skillName != null && content.isDispSayForm}" data-ability>
+						<div class="col-sm-12 well" th:if="${content.skillName != null && content.isDispSayForm}" style="padding-top: 10px;" data-ability>
 							<div class="">
 								<!--/* 役職説明 */-->
 								<p class="small" th:if="${content.skillName == 'SEER'}" th:utext="#{skill.seer.description}"></p>
@@ -344,85 +345,89 @@
 								<!--/* 能力行使内容 */-->
 								<div
 									th:if="${abilityForm != null && (content.skillName == 'SEER' || content.skillName == 'WISE' 
-										|| content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER' || content.skillName == 'FOX' 
-										|| content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN') }">
+										|| content.skillName == 'WEREWOLF' || (content.skillName == 'HUNTER' && content.day > 1) || content.skillName == 'FOX' 
+										|| content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN') }"
+									style="padding-bottom: 10px;">
 									<hr />
-									<p class="small" th:if="${content.skillName == 'SEER' || content.skillName == 'WISE'}" th:text="'現在の選択: ' + ${targetCharaName} + ' を占う'"></p>
-									<p class="small" th:if="${content.skillName == 'WEREWOLF'}" th:text="'現在の選択: ' + ${charaName} + ' が ' + ${targetCharaName} + ' を襲う'"></p>
-									<p class="small" th:if="${content.skillName == 'HUNTER' && content.day > 1}" th:text="'現在の選択: ' + ${targetCharaName} + ' を護衛する'"></p>
-									<p class="small"
-										th:if="${content.skillName == 'SEER' || content.skillName == 'WISE' 
+									<a href="javascript:void(0);" data-toggle="collapse" data-target="#skill-tab-area" class="h5" aria-expanded="true" data-skill-tab>能力をセットする</a>
+									<!--/* 能力行使フォーム */-->
+									<div class="collapse in" aria-expanded="true" style="margin-top: 10px;" id="skill-tab-area">
+										<p class="small" th:if="${content.skillName == 'SEER' || content.skillName == 'WISE'}" th:text="'現在の選択: ' + ${targetCharaName} + ' を占う'"></p>
+										<p class="small" th:if="${content.skillName == 'WEREWOLF'}" th:text="'現在の選択: ' + ${charaName} + ' が ' + ${targetCharaName} + ' を襲う'"></p>
+										<p class="small" th:if="${content.skillName == 'HUNTER' && content.day > 1}" th:text="'現在の選択: ' + ${targetCharaName} + ' を護衛する'"></p>
+										<p class="small"
+											th:if="${content.skillName == 'SEER' || content.skillName == 'WISE' 
 											|| content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER' || content.skillName == 'FOX'
 											|| content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN'}"
-										th:text="'通過する部屋: ' + ${footstep == '' || footstep == null ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"
-										th:data-selected-footstep="${footstep == '' || footstep == null ? 'なし': footstep}"></p>
-									<hr />
-								</div>
-								<!--/* 人狼、占い師、狩人用能力セット */-->
-								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
-									th:if="${content.abilityTargetList != null && content.abilityTargetList.size() > 0}" th:object="${abilityForm}" class="form-horizontal">
-									<h2 class="h5">能力をセットする</h2>
-									<div class="form-group small">
-										<div class="col-sm-12" th:if="${content.skillName == 'WEREWOLF'}">
-											襲撃者 <select class="form-control" th:field="*{charaId}" data-attacker-select>
-												<option th:each="chara : ${content.attackerList}" th:value="${chara.charaId}" th:text="${chara.charaName}"></option>
-											</select>
-										</div>
-										<div class="col-sm-12">
-											<span th:if="${content.skillName == 'WEREWOLF'}" th:text="襲撃対象"></span> <select class="form-control" th:field="*{targetCharaId}"
-												data-ability-target-select>
-												<!--/* <option th:if="${content.skillName == 'WEREWOLF' && content.day > 1}" value="">なし</option> ルール的になしにする */-->
-												<option th:each="target : ${content.abilityTargetList}" th:value="${target.charaId}" th:text="${target.charaName}"></option>
-											</select> <span th:if="${content.skillName == 'SEER' || content.skillName == 'WISE'}" th:text="を占う"></span> <span
-												th:if="${content.skillName == 'HUNTER'}" th:text="を護衛する"></span>
-										</div>
-										<div class="col-sm-12"
-											th:if="${content.skillName == 'SEER' || content.skillName == 'WISE' || content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER'}">
-											通過する部屋<select class="form-control" name="footstep" data-footstep-select>
-											</select>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-sm-12">
-											<input type="submit" class="btn btn-sm btn-success pull-right" value="セット" />
-										</div>
-									</div>
-								</form>
-								<!--/* 狂人、妖狐用能力セット */-->
-								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
-									th:if="${content.abilityTargetList == null && abilityForm != null && (content.skillName == 'FOX' || content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN')}"
-									th:object="${abilityForm}" class="form-horizontal">
-									<h2 class="h5">能力をセットする</h2>
-									<p class="small">
-										任意の部屋からその直線上の部屋に向かって徘徊し、通過した部屋に足音を響かせることが可能です。部屋を選択してセットしてください。<br>徘徊しない場合は何も選択せずセットしてください。
-									</p>
-									<div class="form-group small">
-										<div class="col-sm-12"
-											th:if="${content.skillName == 'FOX' || content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN'}">
-											<table class="table-bordered table-condensed small" data-footstep-select-table>
-												<tbody>
-													<tr th:each="row : ${content.roomAssignedRowList}">
-														<td th:each="room: ${row.roomAssignedList}" class="small"
-															th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
+											th:text="'通過する部屋: ' + ${footstep == '' || footstep == null ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"
+											th:data-selected-footstep="${footstep == '' || footstep == null ? 'なし': footstep}"></p>
+										<hr />
+
+										<!--/* 人狼、占い師、狩人用能力セット */-->
+										<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
+											th:if="${content.abilityTargetList != null && content.abilityTargetList.size() > 0}" th:object="${abilityForm}" class="form-horizontal">
+											<div class="form-group small">
+												<div class="col-sm-12" th:if="${content.skillName == 'WEREWOLF'}">
+													襲撃者 <select class="form-control" th:field="*{charaId}" data-attacker-select>
+														<option th:each="chara : ${content.attackerList}" th:value="${chara.charaId}" th:text="${chara.charaName}"></option>
+													</select>
+												</div>
+												<div class="col-sm-12">
+													<span th:if="${content.skillName == 'WEREWOLF'}" th:text="襲撃対象"></span> <select class="form-control" th:field="*{targetCharaId}"
+														data-ability-target-select>
+														<!--/* <option th:if="${content.skillName == 'WEREWOLF' && content.day > 1}" value="">なし</option> ルール的になしにする */-->
+														<option th:each="target : ${content.abilityTargetList}" th:value="${target.charaId}" th:text="${target.charaName}"></option>
+													</select> <span th:if="${content.skillName == 'SEER' || content.skillName == 'WISE'}" th:text="を占う"></span> <span
+														th:if="${content.skillName == 'HUNTER'}" th:text="を護衛する"></span>
+												</div>
+												<div class="col-sm-12"
+													th:if="${content.skillName == 'SEER' || content.skillName == 'WISE' || content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER'}">
+													通過する部屋<select class="form-control" name="footstep" data-footstep-select>
+													</select>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-12">
+													<input type="submit" class="btn btn-sm btn-success pull-right" value="セット" />
+												</div>
+											</div>
+										</form>
+										<!--/* 狂人、妖狐用能力セット */-->
+										<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
+											th:if="${content.abilityTargetList == null && abilityForm != null && (content.skillName == 'FOX' || content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN')}"
+											th:object="${abilityForm}" class="form-horizontal">
+											<p class="small">
+												任意の部屋からその直線上の部屋に向かって徘徊し、通過した部屋に足音を響かせることが可能です。部屋を選択してセットしてください。<br>徘徊しない場合は何も選択せずセットしてください。
+											</p>
+											<div class="form-group small">
+												<div class="col-sm-12"
+													th:if="${content.skillName == 'FOX' || content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN'}">
+													<table class="table-bordered table-condensed small" data-footstep-select-table>
+														<tbody>
+															<tr th:each="row : ${content.roomAssignedRowList}">
+																<td th:each="room: ${row.roomAssignedList}" class="small"
+																	th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
 									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}"
-															th:data-footstep-room-number="${room.roomNumber}">
-															<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-																th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
-														</td>
-													</tr>
-												</tbody>
-											</table>
-											通過する部屋 : <span data-footstep-input th:text="*{footstep}">なし</span>
-											<input type="hidden" class="form-control" th:field="*{footstep}" data-footstep-hd-input />
-										</div>
+																	th:data-footstep-room-number="${room.roomNumber}">
+																	<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+																		th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+													通過する部屋 : <span data-footstep-input th:text="*{footstep}">なし</span>
+													<input type="hidden" class="form-control" th:field="*{footstep}" data-footstep-hd-input />
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-12">
+													<input type="submit" class="btn btn-sm btn-success pull-right" value="セット" />
+												</div>
+											</div>
+										</form>
 									</div>
-									<div class="form-group">
-										<div class="col-sm-12">
-											<input type="submit" class="btn btn-sm btn-success pull-right" value="セット" />
-										</div>
-									</div>
-								</form>
+								</div>
 							</div>
 						</div>
 
@@ -564,6 +569,8 @@
 								<ul class="nav nav-tabs">
 									<li th:if="${content.roomWidth != null}" class="active"><a data-toggle="tab" href="#modal-roomlist">部屋割り当て</a></li>
 									<li th:class="${content.roomWidth == null ? 'active' : ''}"><a data-toggle="tab" href="#modal-memberlist">参加者</a></li>
+									<li th:if="${content.vote != null}"><a data-toggle="tab" href="#modal-tab-votelist">投票</a></li>
+									<li th:if="${content.villageFootstepList != null}"><a data-toggle="tab" href="#modal-tab-footsteplist">足音</a></li>
 								</ul>
 
 								<div class="tab-content row">
@@ -611,6 +618,44 @@
 												<tr th:if="${statusDto.statusMemberList.size() == 0}">
 													<td>なし</td>
 												</tr>
+											</table>
+										</div>
+									</div>
+									<div id="modal-tab-votelist" th:if="${content.vote != null}" class="tab-pane fade" style="padding-top: 10px; padding-bottom: 10px;">
+										<div class="col-sm-12 col-xs-12">
+											<table class="table-bordered table-condensed small text-center">
+												<thead>
+													<tr>
+														<th>投票者</th>
+														<th th:each="i : ${#numbers.sequence(2, content.vote.maxVoteCount+1)}" th:value="${i}" th:text="${i + 'd'}"></th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="member : ${content.vote.voteList}">
+														<td th:text="${member.charaName}"></td>
+														<td th:each="target: ${member.voteTargetList}" class="small" th:text="${target}"></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div id="modal-tab-footsteplist" th:if="${content.villageFootstepList != null}" class="tab-pane fade"
+										style="padding-top: 10px; padding-bottom: 10px;">
+										<div class="col-sm-12 col-xs-12">
+											<table class="table-bordered table-condensed small">
+												<tbody>
+													<tr th:each="day : ${content.villageFootstepList}">
+														<td class="text-center" th:text="${day.day + 'd'}"></td>
+														<td class="small">
+															<th:block th:if="${day.footstep}">
+																<th:block th:each="str, stat : ${day.footstep.split('\r\n|\r|\n', -1)}">
+																	<th:block th:text="${str}" />
+																	<br th:if="${!stat.last}" />
+																</th:block>
+															</th:block>
+														</td>
+													</tr>
+												</tbody>
 											</table>
 										</div>
 									</div>

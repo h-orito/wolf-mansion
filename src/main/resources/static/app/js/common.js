@@ -9,6 +9,9 @@ $(function() {
 	$('body').on('click', '[data-goto]', function() {
 		location.href = contextPath + $(this).data('goto');
 	});
+	
+	// jquery cookieでjson化
+	$.cookie.json = true;
 });
 
 // 二重サブミット防止
