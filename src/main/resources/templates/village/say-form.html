@@ -1,0 +1,61 @@
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>フッター</title>
+<link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}" />
+<link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" />
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="../../static/lib/bootstrap/js/bootstrap.min.js" th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+<script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js" th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
+<script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
+</head>
+<body>
+	<div class="col-sm-12 well" th:if="${content.isDispSayForm}" style="padding-top: 10px; padding-bottom: 10px;" layout:fragment="say-form">
+		<div class="">
+			<!--/* rowを外した */-->
+			<a href="javascript:void(0);" data-toggle="collapse" data-target="#sayform" class="h5" aria-expanded="true" data-say-tab>発言する</a> <span
+				th:if="${sayErrorMessage != null}" class="text-danger" th:test="${sayErrorMessage}">error</span>
+			<form method="post" id="sayform" action="" th:action="@{/village/{villageId}/confirm(villageId=${content.villageId})}" th:object="${sayForm}"
+				class="form-horizontal collapse in" aria-expanded="true" style="margin-top: 10px;">
+				<span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="help-block text-danger">error!</span>
+				<div class="form-group">
+					<div class="col-sm-12 btn-group" data-toggle="buttons" data-say-type>
+						<label th:if="${content.isAvailableWerewolfSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'WEREWOLF_SAY' ? 'active' : ''}">
+							<input type="radio" class="" th:field="*{messageType}" value="WEREWOLF_SAY" autocomplete="off" />囁き
+						</label> <label th:if="${content.isAvailableNormalSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'NORMAL_SAY' ? 'active' : ''}"> <input
+							type="radio" class="" th:field="*{messageType}" value="NORMAL_SAY" autocomplete="off" />通常
+						</label> <label th:if="${content.isAvailableMasonSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'MASON_SAY' ? 'active' : ''}"> <input
+							type="radio" class="" th:field="*{messageType}" value="MASON_SAY" autocomplete="off" />共鳴
+						</label> <label th:if="${content.isAvailableGraveSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'GRAVE_SAY' ? 'active' : ''}"> <input
+							type="radio" class="" th:field="*{messageType}" value="GRAVE_SAY" autocomplete="off" />呻き
+						</label> <label th:if="${content.isAvailableSpectateSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'SPECTATE_SAY' ? 'active' : ''}">
+							<input type="radio" class="" th:field="*{messageType}" value="SPECTATE_SAY" autocomplete="off" />見学
+						</label> <label th:if="${content.isAvailableMonologueSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'MONOLOGUE_SAY' ? 'active' : ''}">
+							<input type="radio" class="" th:field="*{messageType}" value="MONOLOGUE_SAY" autocomplete="off" />独り言
+						</label>
+					</div>
+					<div class="col-sm-12" style="display: flex;">
+						<div th:style="'width: 50px; height: 77px; background: url(\'' + ${content.charaImageUrl} + '\'); background-repeat: no-repeat;'"></div>
+						<div style="flex: 1; margin-left: 5px; min-height: 77px;">
+							<textarea class="form-control small" th:field="*{message}" style="min-height: 77px;" data-say-textarea></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-12">
+						<span class="" style="margin-left: 55px;" data-message-count>文字数: 0/200, 行数: 1/10</span> <input type="submit"
+							class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

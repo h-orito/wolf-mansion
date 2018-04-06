@@ -1,0 +1,59 @@
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>フッター</title>
+<link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}" />
+<link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" />
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="../../static/lib/bootstrap/js/bootstrap.min.js" th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+<script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js" th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
+<script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
+</head>
+<body>
+	<div class="col-sm-12 well" sec:authorize="hasRole('ROLE_ADMIN')" layout:fragment="admin-form">
+		<h2 class="h5">管理者メニュー</h2>
+		<form method="post" th:if="${content.day == 0}" action="" th:action="@{/admin/village/{villageId}/allparticipate(villageId=${content.villageId})}"
+			class="form-horizontal">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">入村させる</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" th:value="16" th:name="personNumber" />
+				</div>
+				<div class="col-sm-2">
+					<input type="submit" class="btn btn-sm btn-success pull-right" value="人数分入村させる" />
+				</div>
+			</div>
+		</form>
+		<form method="post" action="" th:action="@{/admin/village/{villageId}/dayChange(villageId=${content.villageId})}" class="form-horizontal">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">日付を進める</label>
+				<div class="col-sm-8"></div>
+				<div class="col-sm-2">
+					<input type="submit" class="btn btn-sm btn-success pull-right" value="日付を進める" />
+				</div>
+			</div>
+		</form>
+		<form method="post" action="" th:action="@{/admin/village/{villageId}/leave(villageId=${content.villageId})}"
+			th:if="${content.isDispLeaveVillageForm}" class="form-horizontal">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">強制退村</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" value="" name="villagePlayerId" placeholder="village_player_id" />
+				</div>
+				<div class="col-sm-2">
+					<input type="submit" class="btn btn-sm btn-success pull-right" value="退村" />
+				</div>
+			</div>
+		</form>
+	</div>
+
+</body>
+</html>
