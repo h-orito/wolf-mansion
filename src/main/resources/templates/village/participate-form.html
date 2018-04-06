@@ -1,0 +1,73 @@
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>フッター</title>
+<link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}" />
+<link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" />
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+	crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+	integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="../../static/lib/bootstrap/js/bootstrap.min.js" th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+<script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js" th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
+<script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
+</head>
+<body>
+	<div class="col-sm-12 well" th:if="${content.isDispParticipateForm}" layout:fragment="participate-form">
+		<div class="">
+			<h2 class="h5">入村する</h2>
+			<form method="post" action="" th:action="@{/village/{villageId}/participate(villageId=${content.villageId})}" th:object="${participateForm}"
+				class="form-horizontal">
+				<span th:if="${participateErrorMessage != null}" class="text-danger" th:text="${participateErrorMessage}">error</span>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" th:if="${content.villageSettings.isAvailableSpectate}">見学</label>
+					<div class="col-sm-10 form-check" th:if="${content.villageSettings.isAvailableSpectate}" style="margin-bottom: 10px;">
+						<input type="checkbox" id="is-spectator" class="form-check-input" th:field="*{isSpectator}">
+						<label class="form-check-label" for="is-spectator">見学者として入村</label>
+					</div>
+					<label class="col-sm-2 control-label">キャラクター</label>
+					<div class="col-sm-4">
+						<select class="form-control" th:field="*{charaId}">
+							<option th:each="chara : ${content.selectableCharaList}" th:value="${chara.id}" th:text="${chara.name}" th:data-chara-img-url="${chara.url}"></option>
+						</select> <span th:if="${#fields.hasErrors('charaId')}" th:errors="*{charaId}" class="help-block text-danger">error!</span>
+					</div>
+					<label class="col-sm-2 control-label" th:if="${content.isSkillRequestAvailable}">役職希望</label>
+					<div class="col-sm-4" th:if="${content.isSkillRequestAvailable}">
+						<select class="form-control" th:field="*{requestedSkill}">
+							<option th:each="skill : ${content.selectableSkillList}" th:value="${skill.code}" th:text="${skill.name}"></option>
+						</select> <span th:if="${#fields.hasErrors('requestedSkill')}" th:errors="*{requestedSkill}" class="help-block text-danger">error!</span>
+					</div>
+					<div class="col-sm-4" th:if="${!content.isSkillRequestAvailable}">
+						<input type="hidden" name="requestedSkill" value="LEFTOVER" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">発言</label>
+					<div class="col-sm-10">
+						<textarea class="form-control" th:field="*{joinMessage}" placeholder="人狼なんているわけないじゃん。みんな大げさだなあ" style="height: 10em;"></textarea>
+						<span th:if="${#fields.hasErrors('joinMessage')}" th:errors="*{joinMessage}" class="help-block text-danger">error!</span>
+					</div>
+				</div>
+				<div class="form-group" th:if="${content.isRequiredJoinPassword}">
+					<label class="col-sm-2 control-label">入村パスワード</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" th:field="*{joinPassword}" />
+						<span th:if="${#fields.hasErrors('joinPassword')}" th:errors="*{joinPassword}" class="help-block text-danger">error!</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-12">
+						<input type="submit" class="btn btn-sm btn-success pull-right" value="入村する" />
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
