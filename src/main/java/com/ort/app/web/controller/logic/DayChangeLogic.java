@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.dbflute.cbean.result.ListResultBean;
+import org.dbflute.optional.OptionalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -504,6 +505,18 @@ public class DayChangeLogic {
         messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, message);
         // 参加者一覧メッセージ登録
         insertPlayerListMessage(villageId, day, villagePlayerList);
+        // エピは固定で48時間追加
+        updateVillageDay(villageId, day);
+    }
+
+    private void updateVillageDay(Integer villageId, int day) {
+        // 48時間追加
+        OptionalEntity<VillageDay> vd = villageDayBhv.selectByPK(villageId, day);
+        VillageDay entity = new VillageDay();
+        entity.setVillageId(villageId);
+        entity.setDay(day);
+        entity.setDaychangeDatetime(vd.get().getDaychangeDatetime().plusDays(2));
+        villageDayBhv.update(entity);
     }
 
     // 参加者一覧メッセージ登録
