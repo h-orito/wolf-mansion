@@ -222,7 +222,7 @@ tr.top-menu-selectable:hover a {
 	opacity: 0.6;
 }
 
-.goto {
+.fab {
 	z-index: 100;
 	position: fixed;
 	width: 40px;
@@ -232,33 +232,46 @@ tr.top-menu-selectable:hover a {
 	line-height: 19px;
 }
 
-.goto-top {
-	bottom: 210px;
-	right: 10px;
-}
-
-.filter {
-	bottom: 160px;
-	right: 10px;
-}
-
-.refresh {
-	bottom: 110px;
-	right: 10px;
-}
-
-.roomasign {
-	bottom: 60px;
-	right: 10px;
-}
-
-.goto-bottom {
-	bottom: 10px;
-	right: 10px;
-}
-
-.goto span {
+.fab span {
 	right: 5px;
+}
+
+.fab-menu {
+	bottom: 10px;
+	right: 5px;
+}
+
+.fab-group {
+	position: fixed;
+    display: none;
+    bottom: 10px;
+    right: 5px;
+	transition: all 0.3s ease;
+    -webkit-transition: all 0.3 ease;
+}
+
+.fab-group.selected {
+	display: block;
+}
+
+.fab-group.selected.fab-bottom {	
+	bottom: 60px;
+}
+
+.fab-group.selected.fab-roomasign {	
+	bottom: 110px;
+}
+
+.fab-group.selected.fab-filter {	
+	bottom: 160px;
+}
+
+.fab-group.selected.fab-refresh {	
+	bottom: 210px;
+}
+
+.fab-group.selected.fab-top {	
+	bottom: 260px;
 }
 
 .side .panel-body {
