@@ -173,7 +173,10 @@ public class AssignLogic {
                 count++;
             }
             for (VillagePlayer requestedPlayer : requestPlayerList) {
-                if (count >= capacity || requestedPlayer.getPlayerId().equals(1)) {
+                if (requestedPlayer.getChara().get().isIsDummyTrue()) {
+                    continue;
+                }
+                if (count >= capacity) {
                     break;
                 }
                 updatePlayerList.add(makeUpdateVillagePlayerBean(requestedPlayer.getVillagePlayerId(), skill));
