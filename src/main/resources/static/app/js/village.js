@@ -276,7 +276,7 @@ $(function() {
 	// 画面右下メニューをスクロール中は非表示にする
 	$(window).on("scroll touchmove", function() {
 		$(".fab").stop(); // アニメーションしている場合、アニメーションを強制停止
-		$(".fab").css('display', 'none').delay(1).fadeIn('fast');
+		$(".fab").css('display', 'none').delay(100).fadeIn('fast');
 	});
 
 	// 更新
