@@ -497,6 +497,9 @@ public class VillageAssist {
                             room.setCharaName(vp.getChara().get().getCharaShortName());
                             room.setCharaImgUrl(vp.getChara().get().getCharaImgUrl());
                             room.setIsDead(vp.getDeadDay() == null ? false : vp.getDeadDay() <= villageInfo.day);
+                            if (villageInfo.village.isVillageStatusCodeエピローグ() || villageInfo.village.isVillageStatusCode終了()) {
+                                room.setSkillName(vp.getSkillCodeAsSkill().alias());
+                            }
                         });
                 row.getRoomAssignedList().add(room);
             }

@@ -14,6 +14,9 @@ public class VillageRoomAssignedDto {
     /** 死亡しているか */
     private Boolean isDead;
 
+    /** 役職名 */
+    private String skillName;
+
     public String getRoomNumber() {
         return roomNumber;
     }
@@ -44,5 +47,13 @@ public class VillageRoomAssignedDto {
 
     public void setIsDead(Boolean isDead) {
         this.isDead = isDead;
+    }
+
+    public String getSkillName() {
+        return skillName;
+    }
+
+    public void setSkillName(String skillName) {
+        this.skillName = skillName;
     }
 }

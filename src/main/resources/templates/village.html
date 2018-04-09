@@ -58,71 +58,8 @@
 				<!--/* 村情報 */-->
 				<div layout:replace="~{village/modal-village-info::modal-village-info}"></div>
 
-				<div class="" id="footer-menu"
-					th:if="${content.isDispParticipateForm || content.isDispChangeRequestSkillForm || 
-							content.isDispLeaveVillageForm || content.isDispSayForm ||
-							(content.voteTargetList != null && content.voteTargetList.size() > 0) ||
-							(content.skillName != null && content.isDispSayForm)}">
-					<ul class="nav nav-tabs">
-						<li class="nav-item" th:if="${content.isDispParticipateForm || content.isDispChangeRequestSkillForm || content.isDispLeaveVillageForm}"><a
-							href="#tab-participate" class="nav-link navbar-inverse" data-toggle="tab">参戦</a></li>
-						<li class="nav-item" th:if="${content.isDispSayForm}"><a href="#tab-say" class="nav-link navbar-inverse" data-toggle="tab">発言</a></li>
-						<li class="nav-item" th:if="${content.voteTargetList != null && content.voteTargetList.size() > 0}"><a href="#tab-vote"
-							class="nav-link navbar-inverse" data-toggle="tab">投票</a></li>
-						<li class="nav-item" th:if="${content.skillName != null && content.isDispSayForm}"><a href="#tab-skill" class="nav-link navbar-inverse"
-							data-toggle="tab">能力</a></li>
-						<li class="nav-item active"><a href="#tab-close" class="nav-link navbar-inverse" data-toggle="tab">閉じる</a></li>
-					</ul>
-					<!--タブの中身-->
-					<div class="tab-content">
-						<div id="tab-participate" th:if="${content.isDispParticipateForm || content.isDispChangeRequestSkillForm || content.isDispLeaveVillageForm}"
-							class="tab-pane">
-							<!--/* 参戦欄 */-->
-							<div layout:replace="~{village/participate-form::participate-form}"></div>
-							<!--/* 役職希望変更欄 */-->
-							<div layout:replace="~{village/change-skill-form::change-skill-form}"></div>
-							<!--/* 退村欄 */-->
-							<div layout:replace="~{village/leave-form::leave-form}"></div>
-						</div>
-						<div id="tab-say" class="tab-pane">
-							<!--/* 死亡 */-->
-							<div class="col-sm-12 well" style="padding-top: 10px;" th:if="${content.isDead}">
-								<div class="">
-									<p class="small">
-										あなたは死亡しました。現世の思い出を語り合いましょう。<br> 墓下では推理発言やCOを行っても問題ありません。
-									</p>
-								</div>
-							</div>
-							<!--/* 発言欄 */-->
-							<div layout:replace="~{village/say-form::say-form}"></div>
-						</div>
-						<div id="tab-vote" class="tab-pane">
-							<!--/* 死亡 */-->
-							<div class="col-sm-12 well" style="padding-top: 10px;" th:if="${content.isDead}">
-								<div class="">
-									<p class="small">
-										あなたは死亡しました。現世の思い出を語り合いましょう。<br> 墓下では推理発言やCOを行っても問題ありません。
-									</p>
-								</div>
-							</div>
-							<!--/* 投票欄 */-->
-							<div layout:replace="~{village/vote-form::vote-form}"></div>
-						</div>
-						<div id="tab-skill" class="tab-pane">
-							<!--/* 死亡 */-->
-							<div class="col-sm-12 well" style="padding-top: 10px;" th:if="${content.isDead}">
-								<div class="">
-									<p class="small">
-										あなたは死亡しました。現世の思い出を語り合いましょう。<br> 墓下では推理発言やCOを行っても問題ありません。
-									</p>
-								</div>
-							</div>
-							<div layout:replace="~{village/skill-area::skill-area}"></div>
-						</div>
-						<div id="tab-close" class="tab-pane active">
-						</div>
-					</div>
-				</div>
+				<!--/* フッターメニュー */-->
+				<div layout:replace="~{village/footer-menu::footer-menu}"></div>
 			</div>
 
 			<div class="daychange-alert alert alert-success">日付が更新されました。ページを再読み込みしてください。</div>

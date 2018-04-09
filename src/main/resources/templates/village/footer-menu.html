@@ -1,0 +1,84 @@
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>フッター</title>
+<link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}" />
+<link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" />
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="../../static/lib/bootstrap/js/bootstrap.min.js" th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+<script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js" th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
+<script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
+</head>
+<body>
+	<div class="" id="footer-menu" layout:fragment="footer-menu"
+		th:if="${content.isDispParticipateForm || content.isDispChangeRequestSkillForm || 
+							content.isDispLeaveVillageForm || content.isDispSayForm ||
+							(content.voteTargetList != null && content.voteTargetList.size() > 0) ||
+							(content.skillName != null && content.isDispSayForm)}">
+		<ul class="nav nav-tabs">
+			<li class="nav-item" th:if="${content.isDispParticipateForm || content.isDispChangeRequestSkillForm || content.isDispLeaveVillageForm}"><a
+				href="#tab-participate" class="nav-link navbar-inverse" data-toggle="tab">参戦</a></li>
+			<li class="nav-item" th:if="${content.isDispSayForm}"><a href="#tab-say" class="nav-link navbar-inverse" data-toggle="tab">発言</a></li>
+			<li class="nav-item" th:if="${content.voteTargetList != null && content.voteTargetList.size() > 0}"><a href="#tab-vote"
+				class="nav-link navbar-inverse" data-toggle="tab">投票</a></li>
+			<li class="nav-item" th:if="${content.skillName != null && content.isDispSayForm}"><a href="#tab-skill" class="nav-link navbar-inverse"
+				data-toggle="tab">能力</a></li>
+			<li class="nav-item active"><a href="#tab-close" class="nav-link navbar-inverse" data-toggle="tab">閉じる</a></li>
+		</ul>
+		<div class="tab-content">
+			<div id="tab-participate" th:if="${content.isDispParticipateForm || content.isDispChangeRequestSkillForm || content.isDispLeaveVillageForm}"
+				class="tab-pane">
+				<!--/* 参戦欄 */-->
+				<div layout:replace="~{village/participate-form::participate-form}"></div>
+				<!--/* 役職希望変更欄 */-->
+				<div layout:replace="~{village/change-skill-form::change-skill-form}"></div>
+				<!--/* 退村欄 */-->
+				<div layout:replace="~{village/leave-form::leave-form}"></div>
+			</div>
+			<div id="tab-say" class="tab-pane">
+				<!--/* 死亡 */-->
+				<div class="col-sm-12 well" style="padding-top: 10px;" th:if="${content.isDead}">
+					<div class="">
+						<p class="small">
+							あなたは死亡しました。現世の思い出を語り合いましょう。<br> 墓下では推理発言やCOを行っても問題ありません。
+						</p>
+					</div>
+				</div>
+				<!--/* 発言欄 */-->
+				<div layout:replace="~{village/say-form::say-form}"></div>
+			</div>
+			<div id="tab-vote" class="tab-pane">
+				<!--/* 死亡 */-->
+				<div class="col-sm-12 well" style="padding-top: 10px;" th:if="${content.isDead}">
+					<div class="">
+						<p class="small">
+							あなたは死亡しました。現世の思い出を語り合いましょう。<br> 墓下では推理発言やCOを行っても問題ありません。
+						</p>
+					</div>
+				</div>
+				<!--/* 投票欄 */-->
+				<div layout:replace="~{village/vote-form::vote-form}"></div>
+			</div>
+			<div id="tab-skill" class="tab-pane">
+				<!--/* 死亡 */-->
+				<div class="col-sm-12 well" style="padding-top: 10px;" th:if="${content.isDead}">
+					<div class="">
+						<p class="small">
+							あなたは死亡しました。現世の思い出を語り合いましょう。<br> 墓下では推理発言やCOを行っても問題ありません。
+						</p>
+					</div>
+				</div>
+				<div layout:replace="~{village/skill-area::skill-area}"></div>
+			</div>
+			<div id="tab-close" class="tab-pane active"></div>
+		</div>
+	</div>
+</body>
+</html>
