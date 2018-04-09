@@ -425,11 +425,11 @@ $(function() {
 		// 状況タブ(デフォルトオープン)
 		!getDisplaySetting('is_open_situation_tab') && $('[data-situation-tab]').click();
 		// 発言タブ(デフォルトオープン)
-		!getDisplaySetting('is_open_say_tab') && $('[data-say-tab]').click();
+		// !getDisplaySetting('is_open_say_tab') && $('[data-say-tab]').click();
 		// 投票タブ(デフォルトオープン)
-		!getDisplaySetting('is_open_vote_tab') && $('[data-vote-tab]').click();
+		// !getDisplaySetting('is_open_vote_tab') && $('[data-vote-tab]').click();
 		// 能力行使タブ(デフォルトオープン)
-		!getDisplaySetting('is_open_skill_tab') && $('[data-skill-tab]').click();
+		// !getDisplaySetting('is_open_skill_tab') && $('[data-skill-tab]').click();
 	}
 
 	$('[data-situation-tab]').on('click', function() {
