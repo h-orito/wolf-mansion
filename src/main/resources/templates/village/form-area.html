@@ -18,9 +18,14 @@
 </head>
 <body>
 	<div id="form-area" layout:fragment="form-area">
-		 
-		<!--/* 状況 */-->
-		<div layout:replace="~{village/situation::situation}"></div>
+		<!--/* 参戦欄 */-->
+		<div layout:replace="~{village/participate-form::participate-form}"></div>
+		
+		<!--/* 役職希望変更欄 */-->
+		<div layout:replace="~{village/change-skill-form::change-skill-form}"></div>
+		
+		<!--/* 退村欄 */-->
+		<div layout:replace="~{village/leave-form::leave-form}"></div>
 
 		<!--/* 管理者メニュー */-->
 		<div layout:replace="~{village/admin-form::admin-form}"></div>
