@@ -433,7 +433,7 @@ public class VillageAssist {
         // 生存
         VillageMemberDto aliveMember = new VillageMemberDto();
         List<VillagePlayer> aliveMemberList =
-                villagePlayerList.stream().filter(villagePlayer -> villagePlayer.getDeadDay() == null).collect(Collectors.toList());
+                villagePlayerList.stream().filter(vp -> vp.getDeadDay() == null && vp.isIsSpectatorFalse()).collect(Collectors.toList());
         aliveMember.setStatus("生存");
         aliveMember.setStatusMemberList(aliveMemberList.stream().map(mem -> convertToMemberDetailPart(mem)).collect(Collectors.toList()));
         // 吊り
@@ -447,11 +447,11 @@ public class VillageAssist {
                 .setStatusMemberList(executedMemberList.stream().map(mem -> convertToMemberDetailPart(mem)).collect(Collectors.toList()));
         // 襲撃・呪殺
         VillageMemberDto attackedMember = new VillageMemberDto();
-        List<VillagePlayer> attackedMemberList = villagePlayerList.stream().filter(villagePlayer -> {
-            if (!villagePlayer.getDeadReason().isPresent()) {
+        List<VillagePlayer> attackedMemberList = villagePlayerList.stream().filter(vp -> {
+            if (!vp.getDeadReason().isPresent()) {
                 return false;
             }
-            CDef.DeadReason reason = CDef.DeadReason.codeOf(villagePlayer.getDeadReason().get().getDeadReasonCode());
+            CDef.DeadReason reason = CDef.DeadReason.codeOf(vp.getDeadReason().get().getDeadReasonCode());
             return reason == CDef.DeadReason.襲撃 || reason == CDef.DeadReason.呪殺;
         }).collect(Collectors.toList());
         attackedMember.setStatus("襲撃死・呪殺");
@@ -460,8 +460,8 @@ public class VillageAssist {
         // 突然死
         VillageMemberDto suddonlyDeathMember = new VillageMemberDto();
         List<VillagePlayer> suddonlyDeathMemberList = villagePlayerList.stream()
-                .filter(villagePlayer -> villagePlayer.getDeadReason().isPresent()
-                        && CDef.DeadReason.突然 == CDef.DeadReason.codeOf(villagePlayer.getDeadReason().get().getDeadReasonCode()))
+                .filter(vp -> vp.getDeadReason().isPresent()
+                        && CDef.DeadReason.突然 == CDef.DeadReason.codeOf(vp.getDeadReason().get().getDeadReasonCode()))
                 .collect(Collectors.toList());
         suddonlyDeathMember.setStatus("突然死");
         suddonlyDeathMember.setStatusMemberList(
@@ -469,7 +469,7 @@ public class VillageAssist {
         // 見学
         VillageMemberDto spectateMember = new VillageMemberDto();
         List<VillagePlayer> spectateMemberList =
-                villagePlayerList.stream().filter(villagePlayer -> villagePlayer.isIsSpectatorTrue()).collect(Collectors.toList());
+                villagePlayerList.stream().filter(vp -> vp.isIsSpectatorTrue()).collect(Collectors.toList());
         spectateMember.setStatus("見学");
         spectateMember
                 .setStatusMemberList(spectateMemberList.stream().map(mem -> convertToMemberDetailPart(mem)).collect(Collectors.toList()));
