@@ -25,7 +25,7 @@
 				class="nav-link navbar-inverse" data-toggle="tab">投票</a></li>
 			<li class="nav-item" th:if="${content.skillName != null && content.isDispSayForm}"><a href="#tab-skill" class="nav-link navbar-inverse"
 				data-toggle="tab">能力</a></li>
-			<li class="nav-item active"><a href="#tab-close" class="nav-link navbar-inverse" data-toggle="tab">便利</a></li>
+			<li class="nav-item active"><a href="#tab-useful" class="nav-link navbar-inverse" data-toggle="tab">便利</a></li>
 			<li class="nav-item"><a href="#tab-close" class="nav-link navbar-inverse" data-toggle="tab">閉じる</a></li>
 		</ul>
 		<div class="tab-content">
@@ -68,29 +68,23 @@
 				</div>
 				<div layout:replace="~{village/skill-area::skill-area}"></div>
 			</div>
-			<div id="tab-useful active" class="tab-pane">
-				<div class="btn btn-info fab fab-group fab-top" data-floating-group data-goto-top>
-					<span class="glyphicon glyphicon-arrow-up"></span>
-				</div>
+			<div id="tab-useful" class="tab-pane active">
+				<div class="well" style="padding-top: 10px; padding-bottom: 10px;">
+					<div class="btn btn-info fab" data-floating-group data-goto-top>
+						<span class="glyphicon glyphicon-arrow-up"></span>
+					</div>
 
-				<div class="btn btn-info fab fab-group fab-refresh" data-floating-group data-refresh>
-					<span class="glyphicon glyphicon-refresh"></span>
-				</div>
+					<div class="btn btn-info fab" data-floating-group data-goto-bottom>
+						<span class="glyphicon glyphicon-arrow-down"></span>
+					</div>
 
-				<div class="btn btn-info fab fab-group fab-filter" data-floating-group data-toggle="modal" data-target="#modal-filter">
-					<span class="glyphicon glyphicon-filter"></span>
-				</div>
+					<div class="btn btn-info fab" data-floating-group data-refresh>
+						<span class="glyphicon glyphicon-refresh"></span>
+					</div>
 
-				<div class="btn btn-info fab fab-group fab-roomasign" data-floating-group data-toggle="modal" data-target="#modal-room">
-					<span class="glyphicon glyphicon-th"></span>
-				</div>
-
-				<div class="btn btn-info fab fab-group fab-bottom" data-floating-group data-goto-bottom>
-					<span class="glyphicon glyphicon-arrow-down"></span>
-				</div>
-
-				<div class="btn btn-info fab fab-menu" data-floating-menu="false">
-					<span class="glyphicon glyphicon-menu-hamburger"></span>
+					<div class="btn btn-info fab" data-floating-group data-toggle="modal" data-target="#modal-filter">
+						<span class="glyphicon glyphicon-filter"></span>
+					</div>
 				</div>
 			</div>
 			<div id="tab-close" class="tab-pane"></div>

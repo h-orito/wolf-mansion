@@ -254,31 +254,6 @@ $(function() {
 		return false;
 	});
 
-	// 画面右下ハンバーガーメニュー
-	$('[data-floating-menu]').on('click', function() {
-		if ($(this).data('floating-menu')) { // オープン済み
-			$('[data-floating-group]').each(function() {
-				$(this).removeClass('selected');
-			});
-			$('[data-floating-menu]').data('floating-menu', false);
-			$('[data-floating-menu] span').removeClass('glyphicon-remove');
-			$('[data-floating-menu] span').addClass('glyphicon-menu-hamburger');
-		} else { // 閉じている状態
-			$('[data-floating-group]').each(function() {
-				$(this).addClass('selected');
-			});
-			$('[data-floating-menu]').data('floating-menu', true);
-			$('[data-floating-menu] span').removeClass('glyphicon-menu-hamburger');
-			$('[data-floating-menu] span').addClass('glyphicon-remove');
-		}
-	});
-
-	// 画面右下メニューをスクロール中は非表示にする
-	$(window).on("scroll touchmove", function() {
-		$(".fab").stop(); // アニメーションしている場合、アニメーションを強制停止
-		$(".fab").css('display', 'none').delay(100).fadeIn('fast');
-	});
-
 	// 更新
 	$('body').on('click', '[data-refresh]', function() {
 		loadAndDisplayMessage();
@@ -424,31 +399,10 @@ $(function() {
 	function restoreDisplaySetting() {
 		// 状況タブ(デフォルトオープン)
 		!getDisplaySetting('is_open_situation_tab') && $('[data-situation-tab]').click();
-		// 発言タブ(デフォルトオープン)
-		// !getDisplaySetting('is_open_say_tab') && $('[data-say-tab]').click();
-		// 投票タブ(デフォルトオープン)
-		// !getDisplaySetting('is_open_vote_tab') && $('[data-vote-tab]').click();
-		// 能力行使タブ(デフォルトオープン)
-		// !getDisplaySetting('is_open_skill_tab') && $('[data-skill-tab]').click();
 	}
 
 	$('[data-situation-tab]').on('click', function() {
 		const isOpen = $($(this).data('target')).hasClass('in');
 		saveDisplaySetting('is_open_situation_tab', isOpen ? false : true);
-	});
-
-	$('[data-say-tab]').on('click', function() {
-		const isOpen = $($(this).data('target')).hasClass('in');
-		saveDisplaySetting('is_open_say_tab', isOpen ? false : true);
-	});
-
-	$('[data-vote-tab]').on('click', function() {
-		const isOpen = $($(this).data('target')).hasClass('in');
-		saveDisplaySetting('is_open_vote_tab', isOpen ? false : true);
-	});
-
-	$('[data-skill-tab]').on('click', function() {
-		const isOpen = $($(this).data('target')).hasClass('in');
-		saveDisplaySetting('is_open_skill_tab', isOpen ? false : true);
 	});
 });
