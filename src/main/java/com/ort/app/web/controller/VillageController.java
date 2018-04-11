@@ -96,8 +96,6 @@ public class VillageController {
     // 村最新日付初期表示
     @GetMapping("/village/{villageId}")
     private String villageIndex(@PathVariable Integer villageId, Model model) {
-        // 更新時間が過ぎていたら日付更新
-        dayChangeLogic.dayChangeIfNeeded(villageId);
         // 最新の日付を表示
         return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
     }
