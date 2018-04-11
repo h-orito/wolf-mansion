@@ -381,7 +381,9 @@ $(function() {
 			displaySetting = {};
 		}
 		displaySetting[key] = value;
-		$.cookie('village_display_setting', displaySetting);
+		$.cookie('village_display_setting', displaySetting, {
+			expires : 365
+		});
 	}
 
 	function getDisplaySetting(key) {
@@ -404,23 +406,23 @@ $(function() {
 		if (!getDisplaySetting('has_confirm_footer-tab-announce')) {
 			$('#tab-announce').attr('data-toggle', 'popover');
 			$('[data-toggle="popover"]').popover();
-			$('#tab-announce').popover('show');	
+			$('#tab-announce').popover('show');
 		}
 	}
-	
-	$('[data-transparent]').on('change', function(){
+
+	$('[data-transparent]').on('change', function() {
 		const isCheck = $(this).prop('checked');
 		saveDisplaySetting('is_sayform_transparent', isCheck ? true : false);
 		if (isCheck) {
 			$(this).closest('.well').addClass('transparent-well');
-		} else {			
+		} else {
 			$(this).closest('.well').removeClass('transparent-well');
 		}
 	});
 
-	$('[data-footer-tab-announce-delete]').on('click', function(){
+	$('[data-footer-tab-announce-delete]').on('click', function() {
 		saveDisplaySetting('has_confirm_footer-tab-announce', true);
 		$('#tab-announce').popover('hide');
 	});
-	
+
 });
