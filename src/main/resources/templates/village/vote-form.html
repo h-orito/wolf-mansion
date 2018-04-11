@@ -20,7 +20,7 @@
 	<div class="col-sm-12 well" th:if="${content.voteTargetList != null && content.voteTargetList.size() > 0}"
 		style="padding-top: 10px; padding-bottom: 10px;" layout:fragment="vote-form">
 		<div class="">
-			<a href="javascript:void(0);" data-toggle="collapse" data-target="#voteform" class="h5" aria-expanded="true" data-vote-tab>投票する</a>
+			<a href="javascript:void(0);" data-toggle="collapse" data-target="#voteform" class="h5 hidden" aria-expanded="true" data-vote-tab>投票する</a>
 			<p class="small" th:text="'現在の投票先: ' + ${voteTarget}" style="margin-top: 10px;"></p>
 			<form method="post" action="" th:action="@{/village/{villageId}/setVote(villageId=${content.villageId})}" th:object="${voteForm}" id="voteform"
 				class="form-horizontal collapse in" aria-expanded="true">

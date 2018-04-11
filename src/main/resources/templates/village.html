@@ -40,6 +40,9 @@
 						<!--/* フォームエリア */-->
 						<div layout:replace="~{village/form-area::form-area}"></div>
 
+						<!--/* フッターメニュー */-->
+						<div layout:replace="~{village/footer-menu::footer-menu}"></div>
+						
 						<!--/* 日付リスト */-->
 						<div layout:replace="~{village/village-day-list::village-day-list}"></div>
 						<a href="javascript:void(0);" th:href="@{/}" class="btn btn-default btn-sm small">サイトトップへ</a>
@@ -51,9 +54,6 @@
 
 				<!--/* 村情報 */-->
 				<div layout:replace="~{village/modal-village-info::modal-village-info}"></div>
-
-				<!--/* フッターメニュー */-->
-				<div layout:replace="~{village/footer-menu::footer-menu}"></div>
 			</div>
 
 			<div class="daychange-alert alert alert-success">日付が更新されました。ページを再読み込みしてください。</div>

@@ -261,7 +261,7 @@ tr.top-menu-selectable:hover a {
 	padding-bottom: 20vh;
 }
 
-#footer-menu {
+#footer-menu.footer-menu-bottom {
 	position: fixed;
 	bottom: 0px;
 	z-index: 20;
@@ -271,17 +271,32 @@ tr.top-menu-selectable:hover a {
 
 #footer-menu .tab-content {
 	overflow-y: scroll;
-	max-height: 40vh;
+	max-height: 90vh;
 }
 
 #footer-menu .well {
 	margin-bottom: 0px;
 }
 
+#footer-menu hr {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#footer-menu .nav>li>a {
+	padding: 5px 10px;
+}
+
+#footer-menu .btn-sm {
+	padding: 5px 9px;
+}
+
 .transparent-well {
-	opacity: 0.9;
+	opacity: 0.8;
 }
 
 .transparent-well button {
 	opacity: 1;
 }
+
+

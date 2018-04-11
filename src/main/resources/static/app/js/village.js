@@ -397,12 +397,20 @@ $(function() {
 	}
 
 	function restoreDisplaySetting() {
-		// 状況タブ(デフォルトオープン)
-		!getDisplaySetting('is_open_situation_tab') && $('[data-situation-tab]').click();
+		if (getDisplaySetting('is_sayform_transparent')) {
+			$('[data-transparent]').prop('checked', true);
+			$('[data-transparent]').closest('.well').addClass('transparent-well');
+		} 
+		
 	}
-
-	$('[data-situation-tab]').on('click', function() {
-		const isOpen = $($(this).data('target')).hasClass('in');
-		saveDisplaySetting('is_open_situation_tab', isOpen ? false : true);
+	
+	$('[data-transparent]').on('change', function(){
+		const isCheck = $(this).prop('checked');
+		saveDisplaySetting('is_sayform_transparent', isCheck ? true : false);
+		if (isCheck) {
+			$(this).closest('.well').addClass('transparent-well');
+		} else {			
+			$(this).closest('.well').removeClass('transparent-well');
+		}
 	});
 });

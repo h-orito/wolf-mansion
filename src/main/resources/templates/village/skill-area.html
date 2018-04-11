@@ -40,7 +40,7 @@
 										|| content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN') }"
 				style="padding-bottom: 10px;">
 				<hr />
-				<a href="javascript:void(0);" data-toggle="collapse" data-target="#skill-tab-area" class="h5" aria-expanded="true" data-skill-tab>能力をセットする</a>
+				<a href="javascript:void(0);" data-toggle="collapse" data-target="#skill-tab-area" class="h5 hidden" aria-expanded="true" data-skill-tab>能力をセットする</a>
 				<!--/* 能力行使フォーム */-->
 				<div class="collapse in" aria-expanded="true" style="margin-top: 10px;" id="skill-tab-area">
 					<p class="small" th:if="${content.skillName == 'SEER' || content.skillName == 'WISE'}" th:text="'現在の選択: ' + ${targetCharaName} + ' を占う'"></p>
