@@ -20,20 +20,23 @@
 								<!--// 通常発言 //-->
 								<div class="col-sm-12">
 									<div class="row" style="display: flex;">
-										<div
-											th:class="'message ' + *{messageType == 'NORMAL_SAY' ? 'message-normal' : 
+										<div class="col-sm-12" style="display: flex;">
+											<div th:style="'width: 50px; height: 77px; background: url(\'' + ${characterImgUrl} + '\'); background-repeat: no-repeat;'"></div>
+											<div
+												th:class="'message ' + *{messageType == 'NORMAL_SAY' ? 'message-normal' : 
 														messageType == 'WEREWOLF_SAY' ? 'message-werewolf' : 
 														messageType == 'MASON_SAY' ? 'message-mason' : 
 														messageType == 'MONOLOGUE_SAY' ? 'message-monologue' : 
 														messageType == 'GRAVE_SAY' ? 'message-grave' :
 														messageType == 'SPECTATE_SAY' ? 'message-spectate' : ''}"
-											style="flex: 1; margin-left: 5px;">
-											<th:block th:if="*{message}">
-												<th:block th:each="str, stat : *{message.split('\r\n|\r|\n', -1)}">
-													<th:block th:text="${str}" />
-													<br th:if="${!stat.last}" />
+												style="flex: 1; margin-left: 5px;">
+												<th:block th:if="*{message}">
+													<th:block th:each="str, stat : *{message.split('\r\n|\r|\n', -1)}">
+														<th:block th:text="${str}" />
+														<br th:if="${!stat.last}" />
+													</th:block>
 												</th:block>
-											</th:block>
+											</div>
 										</div>
 									</div>
 								</div>

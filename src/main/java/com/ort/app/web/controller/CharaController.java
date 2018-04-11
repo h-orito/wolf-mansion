@@ -51,14 +51,6 @@ public class CharaController {
         return "chara";
     }
 
-    @GetMapping("/getCharaImgUrl/{charaId}")
-    @ResponseBody
-    private String getCharaImgUrl(@PathVariable Integer charaId) {
-        return charaBhv.selectEntityWithDeletedCheck(cb -> {
-            cb.query().setCharaId_Equal(charaId);
-        }).getCharaImgUrl();
-    }
-
     @GetMapping("/getDummyCharaImgUrl/{charaGroupId}")
     @ResponseBody
     private DummyCharaDto getDummyCharaImgUrl(@PathVariable Integer charaGroupId) {

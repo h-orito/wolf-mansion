@@ -17,7 +17,9 @@ import com.ort.app.web.controller.assist.NewVillageAssist;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageForm;
 import com.ort.app.web.form.validator.NewVillageFormValidator;
+import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.CharaGroupBhv;
+import com.ort.dbflute.exentity.CharaGroup;
 import com.ort.dbflute.exentity.Village;
 import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionUserInfoUtil;
@@ -30,6 +32,9 @@ public class NewVillageController {
     //                                                                           =========
     @Autowired
     private CharaGroupBhv charaGroupBhv;
+
+    @Autowired
+    private CharaBhv charaBhv;
 
     @Autowired
     private NewVillageFormValidator newVillageFormValidator;
@@ -68,10 +73,16 @@ public class NewVillageController {
             return "new-village";
         }
         // キャラセット名を取得
-        String charaGroupName =
-                charaGroupBhv.selectEntityWithDeletedCheck(cb -> cb.query().setCharaGroupId_Equal(villageForm.getCharacterSetId()))
-                        .getCharaGroupName();
+        CharaGroup charaGroup =
+                charaGroupBhv.selectEntityWithDeletedCheck(cb -> cb.query().setCharaGroupId_Equal(villageForm.getCharacterSetId()));
+        String charaGroupName = charaGroup.getCharaGroupName();
         model.addAttribute("characterSetName", charaGroupName);
+        // キャラ画像URL
+        String imgUrl = charaBhv.selectEntityWithDeletedCheck(cb -> {
+            cb.query().setIsDummy_Equal_True();
+            cb.query().setCharaGroupId_Equal(charaGroup.getCharaGroupId());
+        }).getCharaImgUrl();
+        model.addAttribute("characterImgUrl", imgUrl);
         // 時間と日時の表示
         model.addAttribute("startDateTime", makeStartDateTime(villageForm));
         model.addAttribute("interval", makeInterval(villageForm));

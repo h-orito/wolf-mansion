@@ -47,6 +47,10 @@ public class VillageSayAssist {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, sayForm, null, null, model);
         }
+        VillagePlayer villagePlayer = villageAssist.selectVillagePlayer(villageId, userInfo, true).orElseThrow(() -> {
+            return new IllegalArgumentException("セッション切れ？");
+        });
+        model.addAttribute("characterImgUrl", villagePlayer.getChara().get().getCharaImgUrl());
 
         model.addAttribute("villageId", villageId);
         Village village = selectVillage(villageId);
