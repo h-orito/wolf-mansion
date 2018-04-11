@@ -96,6 +96,8 @@
             name="CHARA_IMG_URL" required="true" size="100" type="VARCHAR"/>
         <column comment="ダミーか" dbType="BIT" javaType="Boolean"
             name="IS_DUMMY" required="true" type="BIT"/>
+        <column comment="入村時デフォルト発言" dbType="VARCHAR" javaType="String"
+            name="DEFAULT_JOIN_MESSAGE" size="200" type="VARCHAR"/>
         <column comment="登録日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>

@@ -139,7 +139,15 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label">ダミーキャラの入村発言</label>
 							<div class="col-sm-10">
-								<textarea class="form-control" th:field="*{dummyJoinMessage}" placeholder="人狼なんているわけないじゃん。みんな大げさだなあ"></textarea>
+								<div class="row">
+									<div class="col-sm-12" style="display: flex;">
+										<div id="dummy-chara-img" th:style="'width: 50px; height: 77px; background-repeat: no-repeat;'"></div>
+										<div style="flex: 1; margin-left: 5px; min-height: 77px;">
+											<textarea id="dummy-chara-join-message" class="form-control" th:field="*{dummyJoinMessage}" placeholder="人狼なんているわけないじゃん。みんな大げさだなあ" style="min-height: 77px;"></textarea>
+										</div>
+									</div>
+								</div>
+								
 								<span th:if="${#fields.hasErrors('dummyJoinMessage')}" th:errors="*{dummyJoinMessage}" class="help-block text-danger">error!</span>
 							</div>
 						</div>

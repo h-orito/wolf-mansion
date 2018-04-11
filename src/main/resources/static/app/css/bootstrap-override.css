@@ -283,6 +283,12 @@ tr.top-menu-selectable:hover a {
 	margin-bottom: 10px;
 }
 
+#footer-menu .popover-content {
+	background-color: #375a7f;
+	font-size: 12px;
+}
+
+
 #footer-menu .nav>li>a {
 	padding: 5px 10px;
 }

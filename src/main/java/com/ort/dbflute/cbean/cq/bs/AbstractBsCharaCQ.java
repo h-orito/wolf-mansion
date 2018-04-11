@@ -1175,6 +1175,159 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
     protected abstract ConditionValue xgetCValueIsDummy();
 
     /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
+     * @param defaultJoinMessage The value of defaultJoinMessage as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDefaultJoinMessage_Equal(String defaultJoinMessage) {
+        doSetDefaultJoinMessage_Equal(fRES(defaultJoinMessage));
+    }
+
+    protected void doSetDefaultJoinMessage_Equal(String defaultJoinMessage) {
+        regDefaultJoinMessage(CK_EQ, defaultJoinMessage);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
+     * @param defaultJoinMessage The value of defaultJoinMessage as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDefaultJoinMessage_NotEqual(String defaultJoinMessage) {
+        doSetDefaultJoinMessage_NotEqual(fRES(defaultJoinMessage));
+    }
+
+    protected void doSetDefaultJoinMessage_NotEqual(String defaultJoinMessage) {
+        regDefaultJoinMessage(CK_NES, defaultJoinMessage);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
+     * @param defaultJoinMessage The value of defaultJoinMessage as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDefaultJoinMessage_GreaterThan(String defaultJoinMessage) {
+        regDefaultJoinMessage(CK_GT, fRES(defaultJoinMessage));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
+     * @param defaultJoinMessage The value of defaultJoinMessage as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDefaultJoinMessage_LessThan(String defaultJoinMessage) {
+        regDefaultJoinMessage(CK_LT, fRES(defaultJoinMessage));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
+     * @param defaultJoinMessage The value of defaultJoinMessage as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDefaultJoinMessage_GreaterEqual(String defaultJoinMessage) {
+        regDefaultJoinMessage(CK_GE, fRES(defaultJoinMessage));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
+     * @param defaultJoinMessage The value of defaultJoinMessage as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDefaultJoinMessage_LessEqual(String defaultJoinMessage) {
+        regDefaultJoinMessage(CK_LE, fRES(defaultJoinMessage));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
+     * @param defaultJoinMessageList The collection of defaultJoinMessage as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDefaultJoinMessage_InScope(Collection<String> defaultJoinMessageList) {
+        doSetDefaultJoinMessage_InScope(defaultJoinMessageList);
+    }
+
+    protected void doSetDefaultJoinMessage_InScope(Collection<String> defaultJoinMessageList) {
+        regINS(CK_INS, cTL(defaultJoinMessageList), xgetCValueDefaultJoinMessage(), "DEFAULT_JOIN_MESSAGE");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
+     * @param defaultJoinMessageList The collection of defaultJoinMessage as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDefaultJoinMessage_NotInScope(Collection<String> defaultJoinMessageList) {
+        doSetDefaultJoinMessage_NotInScope(defaultJoinMessageList);
+    }
+
+    protected void doSetDefaultJoinMessage_NotInScope(Collection<String> defaultJoinMessageList) {
+        regINS(CK_NINS, cTL(defaultJoinMessageList), xgetCValueDefaultJoinMessage(), "DEFAULT_JOIN_MESSAGE");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)} <br>
+     * <pre>e.g. setDefaultJoinMessage_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param defaultJoinMessage The value of defaultJoinMessage as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setDefaultJoinMessage_LikeSearch(String defaultJoinMessage, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setDefaultJoinMessage_LikeSearch(defaultJoinMessage, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)} <br>
+     * <pre>e.g. setDefaultJoinMessage_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param defaultJoinMessage The value of defaultJoinMessage as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setDefaultJoinMessage_LikeSearch(String defaultJoinMessage, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(defaultJoinMessage), xgetCValueDefaultJoinMessage(), "DEFAULT_JOIN_MESSAGE", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
+     * @param defaultJoinMessage The value of defaultJoinMessage as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setDefaultJoinMessage_NotLikeSearch(String defaultJoinMessage, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setDefaultJoinMessage_NotLikeSearch(defaultJoinMessage, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
+     * @param defaultJoinMessage The value of defaultJoinMessage as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setDefaultJoinMessage_NotLikeSearch(String defaultJoinMessage, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(defaultJoinMessage), xgetCValueDefaultJoinMessage(), "DEFAULT_JOIN_MESSAGE", likeSearchOption);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
+     */
+    public void setDefaultJoinMessage_IsNull() { regDefaultJoinMessage(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
+     */
+    public void setDefaultJoinMessage_IsNullOrEmpty() { regDefaultJoinMessage(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
+     */
+    public void setDefaultJoinMessage_IsNotNull() { regDefaultJoinMessage(CK_ISNN, DOBJ); }
+
+    protected void regDefaultJoinMessage(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueDefaultJoinMessage(), "DEFAULT_JOIN_MESSAGE"); }
+    protected abstract ConditionValue xgetCValueDefaultJoinMessage();
+
+    /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @param registerDatetime The value of registerDatetime as equal. (basically NotNull: error as default, or no condition as option)

@@ -335,7 +335,7 @@ dl.procedurelist dd.column pre {
 	</tr>
 	<tr>
 		<td class="rownumcell">5</td>
-		<td><a href="#chara" title="type=TABLE, primaryKey={CHARA_ID}, nameLength=5, columnCount=10">CHARA</a></td>
+		<td><a href="#chara" title="type=TABLE, primaryKey={CHARA_ID}, nameLength=5, columnCount=11">CHARA</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara_group" title="FK_CHARA_CHARA_GROUP">CHARA_GROUP</a></td>
 		<td class="relcell"><a href="#ability" title="FK_ABILITY_CHARA">ABILITY</a>, <a href="#ability" title="FK_ABILITY_CHARA_TARGET">ABILITY</a>, <a href="#footstep" title="FK_FOOTSTEP_CHARA">FOOTSTEP</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_CHARA">VILLAGE_PLAYER</a>, <a href="#vote" title="FK_VOTE_CHARA">VOTE</a>, <a href="#vote" title="FK_VOTE_CHARA_TO">VOTE</a></td>
@@ -826,7 +826,7 @@ CAMP
 		<td class="subcell">String</td>
 	</tr>
 </table>
-<h2 id="chara" title="type=TABLE, primaryKey={CHARA_ID}, nameLength=5, columnCount=10">
+<h2 id="chara" title="type=TABLE, primaryKey={CHARA_ID}, nameLength=5, columnCount=11">
 CHARA
 </h2>
 <p class="tablecomment">キャラクター</p>
@@ -958,6 +958,23 @@ CHARA
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td id="chara_default_join_message">DEFAULT_JOIN_MESSAGE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 200 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"> 入村時デフォルト発言</td>
+		<td class="subcell">defaultJoinMessage</td>
+		<td class="subcell">String</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">8</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">*</td>
 		<td class="comcolcell" id="chara_register_datetime">REGISTER_DATETIME</td>
 		<td class="typecell">DATETIME</td>
@@ -970,7 +987,7 @@ CHARA
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">8</td>
+		<td class="rownumcell">9</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -987,7 +1004,7 @@ CHARA
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">9</td>
+		<td class="rownumcell">10</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1004,7 +1021,7 @@ CHARA
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">10</td>
+		<td class="rownumcell">11</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>

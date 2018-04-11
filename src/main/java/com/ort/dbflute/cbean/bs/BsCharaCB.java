@@ -344,6 +344,11 @@ public class BsCharaCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnIsDummy() { return doColumn("IS_DUMMY"); }
         /**
+         * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnDefaultJoinMessage() { return doColumn("DEFAULT_JOIN_MESSAGE"); }
+        /**
          * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
          */

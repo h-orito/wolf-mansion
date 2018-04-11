@@ -277,6 +277,26 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
      */
     public BsCharaCQ addOrderBy_IsDummy_Desc() { regOBD("IS_DUMMY"); return this; }
 
+    protected ConditionValue _defaultJoinMessage;
+    public ConditionValue xdfgetDefaultJoinMessage()
+    { if (_defaultJoinMessage == null) { _defaultJoinMessage = nCV(); }
+      return _defaultJoinMessage; }
+    protected ConditionValue xgetCValueDefaultJoinMessage() { return xdfgetDefaultJoinMessage(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_DefaultJoinMessage_Asc() { regOBA("DEFAULT_JOIN_MESSAGE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_DefaultJoinMessage_Desc() { regOBD("DEFAULT_JOIN_MESSAGE"); return this; }
+
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
     { if (_registerDatetime == null) { _registerDatetime = nCV(); }

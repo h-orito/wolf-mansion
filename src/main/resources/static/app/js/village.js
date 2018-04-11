@@ -400,8 +400,12 @@ $(function() {
 		if (getDisplaySetting('is_sayform_transparent')) {
 			$('[data-transparent]').prop('checked', true);
 			$('[data-transparent]').closest('.well').addClass('transparent-well');
-		} 
-		
+		}
+		if (!getDisplaySetting('has_confirm_footer-tab-announce')) {
+			$('#tab-announce').attr('data-toggle', 'popover');
+			$('[data-toggle="popover"]').popover();
+			$('#tab-announce').popover('show');	
+		}
 	}
 	
 	$('[data-transparent]').on('change', function(){
@@ -413,4 +417,10 @@ $(function() {
 			$(this).closest('.well').removeClass('transparent-well');
 		}
 	});
+
+	$('[data-footer-tab-announce-delete]').on('click', function(){
+		saveDisplaySetting('has_confirm_footer-tab-announce', true);
+		$('#tab-announce').popover('hide');
+	});
+	
 });

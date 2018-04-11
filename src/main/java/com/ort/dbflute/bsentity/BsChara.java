@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     CHARA_ID
  *
  * [column]
- *     CHARA_ID, CHARA_NAME, CHARA_SHORT_NAME, CHARA_GROUP_ID, CHARA_IMG_URL, IS_DUMMY, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     CHARA_ID, CHARA_NAME, CHARA_SHORT_NAME, CHARA_GROUP_ID, CHARA_IMG_URL, IS_DUMMY, DEFAULT_JOIN_MESSAGE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -52,6 +52,7 @@ import com.ort.dbflute.exentity.*;
  * Integer charaGroupId = entity.getCharaGroupId();
  * String charaImgUrl = entity.getCharaImgUrl();
  * Boolean isDummy = entity.getIsDummy();
+ * String defaultJoinMessage = entity.getDefaultJoinMessage();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -62,6 +63,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setCharaGroupId(charaGroupId);
  * entity.setCharaImgUrl(charaImgUrl);
  * entity.setIsDummy(isDummy);
+ * entity.setDefaultJoinMessage(defaultJoinMessage);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -98,6 +100,9 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
 
     /** IS_DUMMY: {NotNull, BIT, classification=Flg} */
     protected Boolean _isDummy;
+
+    /** DEFAULT_JOIN_MESSAGE: {VARCHAR(200)} */
+    protected String _defaultJoinMessage;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -418,6 +423,7 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
         sb.append(dm).append(xfND(_charaGroupId));
         sb.append(dm).append(xfND(_charaImgUrl));
         sb.append(dm).append(xfND(_isDummy));
+        sb.append(dm).append(xfND(_defaultJoinMessage));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -579,6 +585,26 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
         checkClassificationCode("IS_DUMMY", CDef.DefMeta.Flg, isDummy);
         registerModifiedProperty("isDummy");
         _isDummy = isDummy;
+    }
+
+    /**
+     * [get] DEFAULT_JOIN_MESSAGE: {VARCHAR(200)} <br>
+     * 入村時デフォルト発言
+     * @return The value of the column 'DEFAULT_JOIN_MESSAGE'. (NullAllowed even if selected: for no constraint)
+     */
+    public String getDefaultJoinMessage() {
+        checkSpecifiedProperty("defaultJoinMessage");
+        return convertEmptyToNull(_defaultJoinMessage);
+    }
+
+    /**
+     * [set] DEFAULT_JOIN_MESSAGE: {VARCHAR(200)} <br>
+     * 入村時デフォルト発言
+     * @param defaultJoinMessage The value of the column 'DEFAULT_JOIN_MESSAGE'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setDefaultJoinMessage(String defaultJoinMessage) {
+        registerModifiedProperty("defaultJoinMessage");
+        _defaultJoinMessage = defaultJoinMessage;
     }
 
     /**

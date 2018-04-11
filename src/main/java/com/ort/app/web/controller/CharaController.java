@@ -8,11 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ort.app.web.model.CharaGroupListResultContent;
 import com.ort.app.web.model.CharaGroupResultContent;
+import com.ort.app.web.model.DummyCharaDto;
 import com.ort.app.web.model.inner.CharaGroupCharaDto;
 import com.ort.app.web.model.inner.CharaGroupListCharaGroupDto;
+import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.CharaGroupBhv;
 import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.CharaGroup;
@@ -25,6 +28,9 @@ public class CharaController {
     //                                                                           =========
     @Autowired
     private CharaGroupBhv charaGroupBhv;
+
+    @Autowired
+    private CharaBhv charaBhv;
 
     // ===================================================================================
     //                                                                             Execute
@@ -43,6 +49,27 @@ public class CharaController {
         CharaGroupResultContent content = mappingToDetailContent(charaGroup);
         model.addAttribute("content", content);
         return "chara";
+    }
+
+    @GetMapping("/getCharaImgUrl/{charaId}")
+    @ResponseBody
+    private String getCharaImgUrl(@PathVariable Integer charaId) {
+        return charaBhv.selectEntityWithDeletedCheck(cb -> {
+            cb.query().setCharaId_Equal(charaId);
+        }).getCharaImgUrl();
+    }
+
+    @GetMapping("/getDummyCharaImgUrl/{charaGroupId}")
+    @ResponseBody
+    private DummyCharaDto getDummyCharaImgUrl(@PathVariable Integer charaGroupId) {
+        Chara chara = charaBhv.selectEntityWithDeletedCheck(cb -> {
+            cb.query().setCharaGroupId_Equal(charaGroupId);
+            cb.query().setIsDummy_Equal_True();
+        });
+        DummyCharaDto content = new DummyCharaDto();
+        content.setCharaImgUrl(chara.getCharaImgUrl());
+        content.setJoinMessage(chara.getDefaultJoinMessage());
+        return content;
     }
 
     // ===================================================================================

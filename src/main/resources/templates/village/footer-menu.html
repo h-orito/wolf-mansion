@@ -20,7 +20,10 @@
 	<div class="footer-menu-bottom" id="footer-menu" layout:fragment="footer-menu">
 		<ul class="nav nav-tabs">
 			<li class="nav-item"><a href="#tab-situation" class="nav-link navbar-inverse" data-toggle="tab">状況</a></li>
-			<li class="nav-item" th:if="${content.isDispSayForm}"><a href="#tab-say" class="nav-link navbar-inverse" data-toggle="tab">発言</a></li>
+			<li class="nav-item" th:if="${content.isDispSayForm}"
+				data-content="発言や能力セットは画面下部のタブから行えます。<br><a href='javascript:void(0);' data-footer-tab-announce-delete>次回以降表示しない</a>"
+				data-html="true" data-placement="top" id="tab-announce"><a href="#tab-say" class="nav-link navbar-inverse"
+				data-toggle="tab">発言</a></li>
 			<li class="nav-item" th:if="${content.voteTargetList != null && content.voteTargetList.size() > 0}"><a href="#tab-vote"
 				class="nav-link navbar-inverse" data-toggle="tab">投票</a></li>
 			<li class="nav-item" th:if="${content.skillName != null && content.isDispSayForm}"><a href="#tab-skill" class="nav-link navbar-inverse"
