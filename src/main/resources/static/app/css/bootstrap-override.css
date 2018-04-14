@@ -275,7 +275,6 @@ tr.top-menu-selectable:hover a {
 	font-size: 12px;
 }
 
-
 #footer-menu .nav>li>a {
 	padding: 5px 10px;
 }
@@ -300,8 +299,14 @@ tr.top-menu-selectable:hover a {
 	opacity: 0.8;
 }
 
+.alert-warning-say {
+	border: 1px solid #f39c12;
+	color: #f39c12;
+	padding: 5px;
+	margin-bottom: 10px;
+	border-radius: 4px;
+}
+
 .transparent-well button {
 	opacity: 1;
 }
-
-
