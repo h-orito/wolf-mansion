@@ -371,6 +371,11 @@ $(function() {
 		const text = $(this).text();
 		clipboardCopy(text, 'コピーしました： ' + text);
 	});
+	
+	// 退村時は確認フォーム表示
+	$('#leave-form').on('submit', function(){
+		return confirm('本当に退村してよろしいですか？');
+	});
 
 	// ----------------------------------------------
 	// 表示設定

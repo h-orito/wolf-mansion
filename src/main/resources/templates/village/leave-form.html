@@ -20,7 +20,7 @@
 	<div class="col-sm-12 well" th:if="${content.isDispLeaveVillageForm}" layout:fragment="leave-form">
 		<div class="">
 			<h2 class="h5">退村する</h2>
-			<form method="post" action="" th:action="@{/village/{villageId}/leave(villageId=${content.villageId})}" class="form-horizontal">
+			<form method="post" action="" id="leave-form" th:action="@{/village/{villageId}/leave(villageId=${content.villageId})}" class="form-horizontal">
 				<div class="form-group">
 					<div class="col-sm-12">
 						<input type="submit" class="btn btn-sm btn-success pull-right" value="村を出る" />
