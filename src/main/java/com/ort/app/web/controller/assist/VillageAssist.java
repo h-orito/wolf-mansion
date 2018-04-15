@@ -584,7 +584,7 @@ public class VillageAssist {
         for (int i = 2; i < villageInfo.dayList.size(); i++) {
             int day = i;
             List<Integer> livingPlayerRoomNumList = villageInfo.vPlayerList.stream()
-                    .filter(vp -> vp.isIsDeadFalse() || day < vp.getDeadDay())
+                    .filter(vp -> vp.isIsSpectatorFalse() && (vp.isIsDeadFalse() || day < vp.getDeadDay()))
                     .map(VillagePlayer::getRoomNumber)
                     .collect(Collectors.toList());
             String message = footstepLogic.makeFootstepMessageWithoutHeader(villageInfo.villageId, day - 1, livingPlayerRoomNumList);
