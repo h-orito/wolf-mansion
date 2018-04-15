@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of village_settings.
+ * The base condition-query of VILLAGE_SETTINGS.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
@@ -35,7 +35,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from village_settings) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from VILLAGE_SETTINGS) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join village_settings on ... and FOO = [value] ...}
+     * {select ... from ... left outer join VILLAGE_SETTINGS on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -81,14 +81,14 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @return this. (NotNull)
      */
     public BsVillageSettingsCQ addOrderBy_VillageId_Asc() { regOBA("VILLAGE_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @return this. (NotNull)
      */
     public BsVillageSettingsCQ addOrderBy_VillageId_Desc() { regOBD("VILLAGE_ID"); return this; }
@@ -233,6 +233,86 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
      */
     public BsVillageSettingsCQ addOrderBy_IsAvailableSpectate_Desc() { regOBD("IS_AVAILABLE_SPECTATE"); return this; }
 
+    protected ConditionValue _isAvailableSameWolfAttack;
+    public ConditionValue xdfgetIsAvailableSameWolfAttack()
+    { if (_isAvailableSameWolfAttack == null) { _isAvailableSameWolfAttack = nCV(); }
+      return _isAvailableSameWolfAttack; }
+    protected ConditionValue xgetCValueIsAvailableSameWolfAttack() { return xdfgetIsAvailableSameWolfAttack(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * IS_AVAILABLE_SAME_WOLF_ATTACK: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_IsAvailableSameWolfAttack_Asc() { regOBA("IS_AVAILABLE_SAME_WOLF_ATTACK"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * IS_AVAILABLE_SAME_WOLF_ATTACK: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_IsAvailableSameWolfAttack_Desc() { regOBD("IS_AVAILABLE_SAME_WOLF_ATTACK"); return this; }
+
+    protected ConditionValue _isOpenSkillInGrave;
+    public ConditionValue xdfgetIsOpenSkillInGrave()
+    { if (_isOpenSkillInGrave == null) { _isOpenSkillInGrave = nCV(); }
+      return _isOpenSkillInGrave; }
+    protected ConditionValue xgetCValueIsOpenSkillInGrave() { return xdfgetIsOpenSkillInGrave(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * IS_OPEN_SKILL_IN_GRAVE: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_IsOpenSkillInGrave_Asc() { regOBA("IS_OPEN_SKILL_IN_GRAVE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * IS_OPEN_SKILL_IN_GRAVE: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_IsOpenSkillInGrave_Desc() { regOBD("IS_OPEN_SKILL_IN_GRAVE"); return this; }
+
+    protected ConditionValue _isVisibleGraveSpectateMessage;
+    public ConditionValue xdfgetIsVisibleGraveSpectateMessage()
+    { if (_isVisibleGraveSpectateMessage == null) { _isVisibleGraveSpectateMessage = nCV(); }
+      return _isVisibleGraveSpectateMessage; }
+    protected ConditionValue xgetCValueIsVisibleGraveSpectateMessage() { return xdfgetIsVisibleGraveSpectateMessage(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * IS_VISIBLE_GRAVE_SPECTATE_MESSAGE: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_IsVisibleGraveSpectateMessage_Asc() { regOBA("IS_VISIBLE_GRAVE_SPECTATE_MESSAGE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * IS_VISIBLE_GRAVE_SPECTATE_MESSAGE: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_IsVisibleGraveSpectateMessage_Desc() { regOBD("IS_VISIBLE_GRAVE_SPECTATE_MESSAGE"); return this; }
+
+    protected ConditionValue _isAvailableMessageFunction;
+    public ConditionValue xdfgetIsAvailableMessageFunction()
+    { if (_isAvailableMessageFunction == null) { _isAvailableMessageFunction = nCV(); }
+      return _isAvailableMessageFunction; }
+    protected ConditionValue xgetCValueIsAvailableMessageFunction() { return xdfgetIsAvailableMessageFunction(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_IsAvailableMessageFunction_Asc() { regOBA("IS_AVAILABLE_MESSAGE_FUNCTION"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_IsAvailableMessageFunction_Desc() { regOBD("IS_AVAILABLE_MESSAGE_FUNCTION"); return this; }
+
     protected ConditionValue _characterGroupId;
     public ConditionValue xdfgetCharacterGroupId()
     { if (_characterGroupId == null) { _characterGroupId = nCV(); }
@@ -241,14 +321,14 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @return this. (NotNull)
      */
     public BsVillageSettingsCQ addOrderBy_CharacterGroupId_Asc() { regOBA("CHARACTER_GROUP_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @return this. (NotNull)
      */
     public BsVillageSettingsCQ addOrderBy_CharacterGroupId_Desc() { regOBD("CHARACTER_GROUP_ID"); return this; }
@@ -272,6 +352,26 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
      * @return this. (NotNull)
      */
     public BsVillageSettingsCQ addOrderBy_JoinPassword_Desc() { regOBD("JOIN_PASSWORD"); return this; }
+
+    protected ConditionValue _organize;
+    public ConditionValue xdfgetOrganize()
+    { if (_organize == null) { _organize = nCV(); }
+      return _organize; }
+    protected ConditionValue xgetCValueOrganize() { return xdfgetOrganize(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_Organize_Asc() { regOBA("ORGANIZE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_Organize_Desc() { regOBD("ORGANIZE"); return this; }
 
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
@@ -419,7 +519,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
         return xgetQueRlMap(prop);
     }
     protected CharaGroupCQ xcreateQueryCharaGroup() {
-        String nrp = xresolveNRP("village_settings", "charaGroup"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("VILLAGE_SETTINGS", "charaGroup"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new CharaGroupCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "charaGroup", nrp);
     }
     protected void xsetupOuterJoinCharaGroup() { xregOutJo("charaGroup"); }
@@ -439,7 +539,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
         return xgetQueRlMap(prop);
     }
     protected VillageCQ xcreateQueryVillage() {
-        String nrp = xresolveNRP("village_settings", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("VILLAGE_SETTINGS", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillageCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "village", nrp);
     }
     protected void xsetupOuterJoinVillage() { xregOutJo("village"); }

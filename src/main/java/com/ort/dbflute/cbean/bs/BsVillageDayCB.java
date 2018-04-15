@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of village_day.
+ * The base condition-bean of VILLAGE_DAY.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillageDayCB extends AbstractConditionBean {
@@ -73,7 +73,7 @@ public class BsVillageDayCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "village_day";
+        return "VILLAGE_DAY";
     }
 
     // ===================================================================================
@@ -81,7 +81,7 @@ public class BsVillageDayCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
+     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
      * @param day : PK, NotNull, INT UNSIGNED(10). (NotNull)
      * @return this. (NotNull)
      */
@@ -314,7 +314,7 @@ public class BsVillageDayCB extends AbstractConditionBean {
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageId() { return doColumn("VILLAGE_ID"); }
@@ -356,7 +356,7 @@ public class BsVillageDayCB extends AbstractConditionBean {
             columnDay(); // PK
         }
         @Override
-        protected String getTableDbName() { return "village_day"; }
+        protected String getTableDbName() { return "VILLAGE_DAY"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * VILLAGE by my VILLAGE_ID, named 'village'.
@@ -379,7 +379,7 @@ public class BsVillageDayCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from ability where ...) as FOO_MAX} <br>
+         * {select max(FOO) from ABILITY where ...) as FOO_MAX} <br>
          * ABILITY by VILLAGE_ID, DAY, named 'abilityList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -396,7 +396,7 @@ public class BsVillageDayCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from footstep where ...) as FOO_MAX} <br>
+         * {select max(FOO) from FOOTSTEP where ...) as FOO_MAX} <br>
          * FOOTSTEP by VILLAGE_ID, DAY, named 'footstepList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(footstepCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -413,7 +413,7 @@ public class BsVillageDayCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from message where ...) as FOO_MAX} <br>
+         * {select max(FOO) from MESSAGE where ...) as FOO_MAX} <br>
          * MESSAGE by VILLAGE_ID, DAY, named 'messageList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -430,7 +430,7 @@ public class BsVillageDayCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from vote where ...) as FOO_MAX} <br>
+         * {select max(FOO) from VOTE where ...) as FOO_MAX} <br>
          * VOTE by VILLAGE_ID, DAY, named 'voteList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(voteCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {

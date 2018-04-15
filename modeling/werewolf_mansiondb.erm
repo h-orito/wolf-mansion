@@ -199,8 +199,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>370</x>
-			<y>1190</y>
+			<x>374</x>
+			<y>1214</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -544,7 +544,7 @@
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
 			<x>404</x>
-			<y>1346</y>
+			<y>1359</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -1352,8 +1352,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>977</x>
-			<y>1027</y>
+			<x>952</x>
+			<y>1070</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -1442,6 +1442,30 @@
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
+					<physical_name>is_available_same_wolf_attack</physical_name>
+					<logical_name>連続襲撃可能か</logical_name>
+					<type>boolean</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>is_open_skill_in_grave</physical_name>
+					<logical_name>墓下役職公開ありか</logical_name>
+					<type>boolean</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>is_visible_grave_spectate_message</physical_name>
+					<logical_name>墓下見学発言を生存者が見られるか</logical_name>
+					<type>boolean</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>is_available_message_function</physical_name>
+					<logical_name>特殊発言機能が使用可能か</logical_name>
+					<type>boolean</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
 					<physical_name>character_group_id</physical_name>
 					<referred_column>table.CHARA_group.chara_group_id</referred_column>
 					<relationship>FK_village_settings_CHARA_group</relationship>
@@ -1452,6 +1476,13 @@
 					<logical_name>入村パスワード</logical_name>
 					<type>varchar(n)</type>
 					<length>12</length>
+				</normal_column>
+				<normal_column>
+					<physical_name>organize</physical_name>
+					<logical_name>構成</logical_name>
+					<type>varchar(n)</type>
+					<length>400</length>
+					<not_null>true</not_null>
 				</normal_column>
 				<column_group>共通カラム</column_group>
 			</columns>

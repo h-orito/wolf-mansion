@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of village_settings.
+ * The abstract condition-query of VILLAGE_SETTINGS.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
     }
 
     public String asTableDbName() {
-        return "village_settings";
+        return "VILLAGE_SETTINGS";
     }
 
     // ===================================================================================
@@ -45,7 +45,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
     //                                                                               =====
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_Equal(Integer villageId) {
@@ -58,7 +58,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_NotEqual(Integer villageId) {
@@ -71,7 +71,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterThan(Integer villageId) {
@@ -80,7 +80,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessThan(Integer villageId) {
@@ -89,7 +89,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterEqual(Integer villageId) {
@@ -98,7 +98,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessEqual(Integer villageId) {
@@ -109,7 +109,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -122,7 +122,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -133,7 +133,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageIdList The collection of villageId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_InScope(Collection<Integer> villageIdList) {
@@ -146,7 +146,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageIdList The collection of villageId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_NotInScope(Collection<Integer> villageIdList) {
@@ -159,13 +159,13 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      */
     public void setVillageId_IsNull() { regVillageId(CK_ISN, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      */
     public void setVillageId_IsNotNull() { regVillageId(CK_ISNN, DOBJ); }
 
@@ -762,7 +762,175 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * IS_AVAILABLE_SAME_WOLF_ATTACK: {NotNull, BIT, classification=Flg}
+     * @param isAvailableSameWolfAttack The value of isAvailableSameWolfAttack as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsAvailableSameWolfAttack_Equal(Boolean isAvailableSameWolfAttack) {
+        regIsAvailableSameWolfAttack(CK_EQ, isAvailableSameWolfAttack);
+    }
+
+    /**
+     * Equal(=). As Flg. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * IS_AVAILABLE_SAME_WOLF_ATTACK: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsAvailableSameWolfAttack_Equal_AsFlg(CDef.Flg cdef) {
+        doSetIsAvailableSameWolfAttack_Equal(cdef != null ? Boolean.valueOf(cdef.code()) : null);
+    }
+
+    /**
+     * Equal(=). As True. And OnlyOnceRegistered. <br>
+     * はい: 有効を示す
+     */
+    public void setIsAvailableSameWolfAttack_Equal_True() {
+        doSetIsAvailableSameWolfAttack_Equal(Boolean.valueOf(CDef.Flg.True.code()));
+    }
+
+    /**
+     * Equal(=). As False. And OnlyOnceRegistered. <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsAvailableSameWolfAttack_Equal_False() {
+        doSetIsAvailableSameWolfAttack_Equal(Boolean.valueOf(CDef.Flg.False.code()));
+    }
+
+    protected void doSetIsAvailableSameWolfAttack_Equal(Boolean isAvailableSameWolfAttack) {
+        regIsAvailableSameWolfAttack(CK_EQ, isAvailableSameWolfAttack);
+    }
+
+    protected void regIsAvailableSameWolfAttack(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueIsAvailableSameWolfAttack(), "IS_AVAILABLE_SAME_WOLF_ATTACK"); }
+    protected abstract ConditionValue xgetCValueIsAvailableSameWolfAttack();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * IS_OPEN_SKILL_IN_GRAVE: {NotNull, BIT, classification=Flg}
+     * @param isOpenSkillInGrave The value of isOpenSkillInGrave as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsOpenSkillInGrave_Equal(Boolean isOpenSkillInGrave) {
+        regIsOpenSkillInGrave(CK_EQ, isOpenSkillInGrave);
+    }
+
+    /**
+     * Equal(=). As Flg. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * IS_OPEN_SKILL_IN_GRAVE: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsOpenSkillInGrave_Equal_AsFlg(CDef.Flg cdef) {
+        doSetIsOpenSkillInGrave_Equal(cdef != null ? Boolean.valueOf(cdef.code()) : null);
+    }
+
+    /**
+     * Equal(=). As True. And OnlyOnceRegistered. <br>
+     * はい: 有効を示す
+     */
+    public void setIsOpenSkillInGrave_Equal_True() {
+        doSetIsOpenSkillInGrave_Equal(Boolean.valueOf(CDef.Flg.True.code()));
+    }
+
+    /**
+     * Equal(=). As False. And OnlyOnceRegistered. <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsOpenSkillInGrave_Equal_False() {
+        doSetIsOpenSkillInGrave_Equal(Boolean.valueOf(CDef.Flg.False.code()));
+    }
+
+    protected void doSetIsOpenSkillInGrave_Equal(Boolean isOpenSkillInGrave) {
+        regIsOpenSkillInGrave(CK_EQ, isOpenSkillInGrave);
+    }
+
+    protected void regIsOpenSkillInGrave(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueIsOpenSkillInGrave(), "IS_OPEN_SKILL_IN_GRAVE"); }
+    protected abstract ConditionValue xgetCValueIsOpenSkillInGrave();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * IS_VISIBLE_GRAVE_SPECTATE_MESSAGE: {NotNull, BIT, classification=Flg}
+     * @param isVisibleGraveSpectateMessage The value of isVisibleGraveSpectateMessage as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsVisibleGraveSpectateMessage_Equal(Boolean isVisibleGraveSpectateMessage) {
+        regIsVisibleGraveSpectateMessage(CK_EQ, isVisibleGraveSpectateMessage);
+    }
+
+    /**
+     * Equal(=). As Flg. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * IS_VISIBLE_GRAVE_SPECTATE_MESSAGE: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsVisibleGraveSpectateMessage_Equal_AsFlg(CDef.Flg cdef) {
+        doSetIsVisibleGraveSpectateMessage_Equal(cdef != null ? Boolean.valueOf(cdef.code()) : null);
+    }
+
+    /**
+     * Equal(=). As True. And OnlyOnceRegistered. <br>
+     * はい: 有効を示す
+     */
+    public void setIsVisibleGraveSpectateMessage_Equal_True() {
+        doSetIsVisibleGraveSpectateMessage_Equal(Boolean.valueOf(CDef.Flg.True.code()));
+    }
+
+    /**
+     * Equal(=). As False. And OnlyOnceRegistered. <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsVisibleGraveSpectateMessage_Equal_False() {
+        doSetIsVisibleGraveSpectateMessage_Equal(Boolean.valueOf(CDef.Flg.False.code()));
+    }
+
+    protected void doSetIsVisibleGraveSpectateMessage_Equal(Boolean isVisibleGraveSpectateMessage) {
+        regIsVisibleGraveSpectateMessage(CK_EQ, isVisibleGraveSpectateMessage);
+    }
+
+    protected void regIsVisibleGraveSpectateMessage(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueIsVisibleGraveSpectateMessage(), "IS_VISIBLE_GRAVE_SPECTATE_MESSAGE"); }
+    protected abstract ConditionValue xgetCValueIsVisibleGraveSpectateMessage();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg}
+     * @param isAvailableMessageFunction The value of isAvailableMessageFunction as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsAvailableMessageFunction_Equal(Boolean isAvailableMessageFunction) {
+        regIsAvailableMessageFunction(CK_EQ, isAvailableMessageFunction);
+    }
+
+    /**
+     * Equal(=). As Flg. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsAvailableMessageFunction_Equal_AsFlg(CDef.Flg cdef) {
+        doSetIsAvailableMessageFunction_Equal(cdef != null ? Boolean.valueOf(cdef.code()) : null);
+    }
+
+    /**
+     * Equal(=). As True. And OnlyOnceRegistered. <br>
+     * はい: 有効を示す
+     */
+    public void setIsAvailableMessageFunction_Equal_True() {
+        doSetIsAvailableMessageFunction_Equal(Boolean.valueOf(CDef.Flg.True.code()));
+    }
+
+    /**
+     * Equal(=). As False. And OnlyOnceRegistered. <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsAvailableMessageFunction_Equal_False() {
+        doSetIsAvailableMessageFunction_Equal(Boolean.valueOf(CDef.Flg.False.code()));
+    }
+
+    protected void doSetIsAvailableMessageFunction_Equal(Boolean isAvailableMessageFunction) {
+        regIsAvailableMessageFunction(CK_EQ, isAvailableMessageFunction);
+    }
+
+    protected void regIsAvailableMessageFunction(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueIsAvailableMessageFunction(), "IS_AVAILABLE_MESSAGE_FUNCTION"); }
+    protected abstract ConditionValue xgetCValueIsAvailableMessageFunction();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param characterGroupId The value of characterGroupId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharacterGroupId_Equal(Integer characterGroupId) {
@@ -775,7 +943,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param characterGroupId The value of characterGroupId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharacterGroupId_NotEqual(Integer characterGroupId) {
@@ -788,7 +956,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param characterGroupId The value of characterGroupId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharacterGroupId_GreaterThan(Integer characterGroupId) {
@@ -797,7 +965,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param characterGroupId The value of characterGroupId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharacterGroupId_LessThan(Integer characterGroupId) {
@@ -806,7 +974,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param characterGroupId The value of characterGroupId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharacterGroupId_GreaterEqual(Integer characterGroupId) {
@@ -815,7 +983,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param characterGroupId The value of characterGroupId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharacterGroupId_LessEqual(Integer characterGroupId) {
@@ -826,7 +994,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param minNumber The min number of characterGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of characterGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -839,7 +1007,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param minNumber The min number of characterGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of characterGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -850,7 +1018,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param characterGroupIdList The collection of characterGroupId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharacterGroupId_InScope(Collection<Integer> characterGroupIdList) {
@@ -863,7 +1031,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param characterGroupIdList The collection of characterGroupId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharacterGroupId_NotInScope(Collection<Integer> characterGroupIdList) {
@@ -1029,6 +1197,141 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     protected void regJoinPassword(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueJoinPassword(), "JOIN_PASSWORD"); }
     protected abstract ConditionValue xgetCValueJoinPassword();
+
+    /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * @param organize The value of organize as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setOrganize_Equal(String organize) {
+        doSetOrganize_Equal(fRES(organize));
+    }
+
+    protected void doSetOrganize_Equal(String organize) {
+        regOrganize(CK_EQ, organize);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * @param organize The value of organize as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setOrganize_NotEqual(String organize) {
+        doSetOrganize_NotEqual(fRES(organize));
+    }
+
+    protected void doSetOrganize_NotEqual(String organize) {
+        regOrganize(CK_NES, organize);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * @param organize The value of organize as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setOrganize_GreaterThan(String organize) {
+        regOrganize(CK_GT, fRES(organize));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * @param organize The value of organize as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setOrganize_LessThan(String organize) {
+        regOrganize(CK_LT, fRES(organize));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * @param organize The value of organize as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setOrganize_GreaterEqual(String organize) {
+        regOrganize(CK_GE, fRES(organize));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * @param organize The value of organize as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setOrganize_LessEqual(String organize) {
+        regOrganize(CK_LE, fRES(organize));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * @param organizeList The collection of organize as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setOrganize_InScope(Collection<String> organizeList) {
+        doSetOrganize_InScope(organizeList);
+    }
+
+    protected void doSetOrganize_InScope(Collection<String> organizeList) {
+        regINS(CK_INS, cTL(organizeList), xgetCValueOrganize(), "ORGANIZE");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * @param organizeList The collection of organize as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setOrganize_NotInScope(Collection<String> organizeList) {
+        doSetOrganize_NotInScope(organizeList);
+    }
+
+    protected void doSetOrganize_NotInScope(Collection<String> organizeList) {
+        regINS(CK_NINS, cTL(organizeList), xgetCValueOrganize(), "ORGANIZE");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * ORGANIZE: {NotNull, VARCHAR(400)} <br>
+     * <pre>e.g. setOrganize_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param organize The value of organize as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setOrganize_LikeSearch(String organize, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setOrganize_LikeSearch(organize, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * ORGANIZE: {NotNull, VARCHAR(400)} <br>
+     * <pre>e.g. setOrganize_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param organize The value of organize as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setOrganize_LikeSearch(String organize, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(organize), xgetCValueOrganize(), "ORGANIZE", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * @param organize The value of organize as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setOrganize_NotLikeSearch(String organize, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setOrganize_NotLikeSearch(organize, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * @param organize The value of organize as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setOrganize_NotLikeSearch(String organize, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(organize), xgetCValueOrganize(), "ORGANIZE", likeSearchOption);
+    }
+
+    protected void regOrganize(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueOrganize(), "ORGANIZE"); }
+    protected abstract ConditionValue xgetCValueOrganize();
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>

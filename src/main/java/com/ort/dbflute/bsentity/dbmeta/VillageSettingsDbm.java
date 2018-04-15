@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of village_settings. (Singleton)
+ * The DB meta of VILLAGE_SETTINGS. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillageSettingsDbm extends AbstractDBMeta {
@@ -57,8 +57,21 @@ public class VillageSettingsDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((VillageSettings)et).getIsAvailableSpectate(), (et, vl) -> {
             ((VillageSettings)et).setIsAvailableSpectate((Boolean)vl);
         }, "isAvailableSpectate");
+        setupEpg(_epgMap, et -> ((VillageSettings)et).getIsAvailableSameWolfAttack(), (et, vl) -> {
+            ((VillageSettings)et).setIsAvailableSameWolfAttack((Boolean)vl);
+        }, "isAvailableSameWolfAttack");
+        setupEpg(_epgMap, et -> ((VillageSettings)et).getIsOpenSkillInGrave(), (et, vl) -> {
+            ((VillageSettings)et).setIsOpenSkillInGrave((Boolean)vl);
+        }, "isOpenSkillInGrave");
+        setupEpg(_epgMap, et -> ((VillageSettings)et).getIsVisibleGraveSpectateMessage(), (et, vl) -> {
+            ((VillageSettings)et).setIsVisibleGraveSpectateMessage((Boolean)vl);
+        }, "isVisibleGraveSpectateMessage");
+        setupEpg(_epgMap, et -> ((VillageSettings)et).getIsAvailableMessageFunction(), (et, vl) -> {
+            ((VillageSettings)et).setIsAvailableMessageFunction((Boolean)vl);
+        }, "isAvailableMessageFunction");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getCharacterGroupId(), (et, vl) -> ((VillageSettings)et).setCharacterGroupId(cti(vl)), "characterGroupId");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getJoinPassword(), (et, vl) -> ((VillageSettings)et).setJoinPassword((String)vl), "joinPassword");
+        setupEpg(_epgMap, et -> ((VillageSettings)et).getOrganize(), (et, vl) -> ((VillageSettings)et).setOrganize((String)vl), "organize");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getRegisterDatetime(), (et, vl) -> ((VillageSettings)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getRegisterTrace(), (et, vl) -> ((VillageSettings)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getUpdateDatetime(), (et, vl) -> ((VillageSettings)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -83,7 +96,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "village_settings";
+    protected final String _tableDbName = "VILLAGE_SETTINGS";
     protected final String _tableDispName = "VILLAGE_SETTINGS";
     protected final String _tablePropertyName = "villageSettings";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_SETTINGS", _tableDbName);
@@ -104,15 +117,20 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnIsOpenVote = cci("IS_OPEN_VOTE", "IS_OPEN_VOTE", null, null, Boolean.class, "isOpenVote", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnIsPossibleSkillRequest = cci("IS_POSSIBLE_SKILL_REQUEST", "IS_POSSIBLE_SKILL_REQUEST", null, null, Boolean.class, "isPossibleSkillRequest", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnIsAvailableSpectate = cci("IS_AVAILABLE_SPECTATE", "IS_AVAILABLE_SPECTATE", null, null, Boolean.class, "isAvailableSpectate", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
+    protected final ColumnInfo _columnIsAvailableSameWolfAttack = cci("IS_AVAILABLE_SAME_WOLF_ATTACK", "IS_AVAILABLE_SAME_WOLF_ATTACK", null, null, Boolean.class, "isAvailableSameWolfAttack", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
+    protected final ColumnInfo _columnIsOpenSkillInGrave = cci("IS_OPEN_SKILL_IN_GRAVE", "IS_OPEN_SKILL_IN_GRAVE", null, null, Boolean.class, "isOpenSkillInGrave", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
+    protected final ColumnInfo _columnIsVisibleGraveSpectateMessage = cci("IS_VISIBLE_GRAVE_SPECTATE_MESSAGE", "IS_VISIBLE_GRAVE_SPECTATE_MESSAGE", null, null, Boolean.class, "isVisibleGraveSpectateMessage", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
+    protected final ColumnInfo _columnIsAvailableMessageFunction = cci("IS_AVAILABLE_MESSAGE_FUNCTION", "IS_AVAILABLE_MESSAGE_FUNCTION", null, null, Boolean.class, "isAvailableMessageFunction", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnCharacterGroupId = cci("CHARACTER_GROUP_ID", "CHARACTER_GROUP_ID", null, null, Integer.class, "characterGroupId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "charaGroup", null, null, false);
     protected final ColumnInfo _columnJoinPassword = cci("JOIN_PASSWORD", "JOIN_PASSWORD", null, null, String.class, "joinPassword", null, false, false, false, "VARCHAR", 12, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnOrganize = cci("ORGANIZE", "ORGANIZE", null, null, String.class, "organize", null, false, false, true, "VARCHAR", 400, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
@@ -152,7 +170,27 @@ public class VillageSettingsDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnIsAvailableSpectate() { return _columnIsAvailableSpectate; }
     /**
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * IS_AVAILABLE_SAME_WOLF_ATTACK: {NotNull, BIT, classification=Flg}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnIsAvailableSameWolfAttack() { return _columnIsAvailableSameWolfAttack; }
+    /**
+     * IS_OPEN_SKILL_IN_GRAVE: {NotNull, BIT, classification=Flg}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnIsOpenSkillInGrave() { return _columnIsOpenSkillInGrave; }
+    /**
+     * IS_VISIBLE_GRAVE_SPECTATE_MESSAGE: {NotNull, BIT, classification=Flg}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnIsVisibleGraveSpectateMessage() { return _columnIsVisibleGraveSpectateMessage; }
+    /**
+     * IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnIsAvailableMessageFunction() { return _columnIsAvailableMessageFunction; }
+    /**
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharacterGroupId() { return _columnCharacterGroupId; }
@@ -161,6 +199,11 @@ public class VillageSettingsDbm extends AbstractDBMeta {
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnJoinPassword() { return _columnJoinPassword; }
+    /**
+     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnOrganize() { return _columnOrganize; }
     /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
@@ -192,8 +235,13 @@ public class VillageSettingsDbm extends AbstractDBMeta {
         ls.add(columnIsOpenVote());
         ls.add(columnIsPossibleSkillRequest());
         ls.add(columnIsAvailableSpectate());
+        ls.add(columnIsAvailableSameWolfAttack());
+        ls.add(columnIsOpenSkillInGrave());
+        ls.add(columnIsVisibleGraveSpectateMessage());
+        ls.add(columnIsAvailableMessageFunction());
         ls.add(columnCharacterGroupId());
         ls.add(columnJoinPassword());
+        ls.add(columnOrganize());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());

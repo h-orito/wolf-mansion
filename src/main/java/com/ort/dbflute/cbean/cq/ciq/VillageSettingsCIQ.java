@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of village_settings.
+ * The condition-query for in-line of VILLAGE_SETTINGS.
  * @author DBFlute(AutoGenerator)
  */
 public class VillageSettingsCIQ extends AbstractBsVillageSettingsCQ {
@@ -69,8 +69,13 @@ public class VillageSettingsCIQ extends AbstractBsVillageSettingsCQ {
     protected ConditionValue xgetCValueIsOpenVote() { return _myCQ.xdfgetIsOpenVote(); }
     protected ConditionValue xgetCValueIsPossibleSkillRequest() { return _myCQ.xdfgetIsPossibleSkillRequest(); }
     protected ConditionValue xgetCValueIsAvailableSpectate() { return _myCQ.xdfgetIsAvailableSpectate(); }
+    protected ConditionValue xgetCValueIsAvailableSameWolfAttack() { return _myCQ.xdfgetIsAvailableSameWolfAttack(); }
+    protected ConditionValue xgetCValueIsOpenSkillInGrave() { return _myCQ.xdfgetIsOpenSkillInGrave(); }
+    protected ConditionValue xgetCValueIsVisibleGraveSpectateMessage() { return _myCQ.xdfgetIsVisibleGraveSpectateMessage(); }
+    protected ConditionValue xgetCValueIsAvailableMessageFunction() { return _myCQ.xdfgetIsAvailableMessageFunction(); }
     protected ConditionValue xgetCValueCharacterGroupId() { return _myCQ.xdfgetCharacterGroupId(); }
     protected ConditionValue xgetCValueJoinPassword() { return _myCQ.xdfgetJoinPassword(); }
+    protected ConditionValue xgetCValueOrganize() { return _myCQ.xdfgetOrganize(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
     protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }
     protected ConditionValue xgetCValueUpdateDatetime() { return _myCQ.xdfgetUpdateDatetime(); }

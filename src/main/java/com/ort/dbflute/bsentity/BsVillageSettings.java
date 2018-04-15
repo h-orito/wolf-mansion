@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID
  *
  * [column]
- *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, CHARACTER_GROUP_ID, JOIN_PASSWORD, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_MESSAGE_FUNCTION, CHARACTER_GROUP_ID, JOIN_PASSWORD, ORGANIZE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -54,8 +54,13 @@ import com.ort.dbflute.exentity.*;
  * Boolean isOpenVote = entity.getIsOpenVote();
  * Boolean isPossibleSkillRequest = entity.getIsPossibleSkillRequest();
  * Boolean isAvailableSpectate = entity.getIsAvailableSpectate();
+ * Boolean isAvailableSameWolfAttack = entity.getIsAvailableSameWolfAttack();
+ * Boolean isOpenSkillInGrave = entity.getIsOpenSkillInGrave();
+ * Boolean isVisibleGraveSpectateMessage = entity.getIsVisibleGraveSpectateMessage();
+ * Boolean isAvailableMessageFunction = entity.getIsAvailableMessageFunction();
  * Integer characterGroupId = entity.getCharacterGroupId();
  * String joinPassword = entity.getJoinPassword();
+ * String organize = entity.getOrganize();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -68,8 +73,13 @@ import com.ort.dbflute.exentity.*;
  * entity.setIsOpenVote(isOpenVote);
  * entity.setIsPossibleSkillRequest(isPossibleSkillRequest);
  * entity.setIsAvailableSpectate(isAvailableSpectate);
+ * entity.setIsAvailableSameWolfAttack(isAvailableSameWolfAttack);
+ * entity.setIsOpenSkillInGrave(isOpenSkillInGrave);
+ * entity.setIsVisibleGraveSpectateMessage(isVisibleGraveSpectateMessage);
+ * entity.setIsAvailableMessageFunction(isAvailableMessageFunction);
  * entity.setCharacterGroupId(characterGroupId);
  * entity.setJoinPassword(joinPassword);
+ * entity.setOrganize(organize);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -89,7 +99,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
     protected Integer _villageId;
 
     /** START_PERSON_MIN_NUM: {INT UNSIGNED(10)} */
@@ -113,11 +123,26 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     /** IS_AVAILABLE_SPECTATE: {NotNull, BIT, classification=Flg} */
     protected Boolean _isAvailableSpectate;
 
-    /** CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} */
+    /** IS_AVAILABLE_SAME_WOLF_ATTACK: {NotNull, BIT, classification=Flg} */
+    protected Boolean _isAvailableSameWolfAttack;
+
+    /** IS_OPEN_SKILL_IN_GRAVE: {NotNull, BIT, classification=Flg} */
+    protected Boolean _isOpenSkillInGrave;
+
+    /** IS_VISIBLE_GRAVE_SPECTATE_MESSAGE: {NotNull, BIT, classification=Flg} */
+    protected Boolean _isVisibleGraveSpectateMessage;
+
+    /** IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg} */
+    protected Boolean _isAvailableMessageFunction;
+
+    /** CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} */
     protected Integer _characterGroupId;
 
     /** JOIN_PASSWORD: {VARCHAR(12)} */
     protected String _joinPassword;
+
+    /** ORGANIZE: {NotNull, VARCHAR(400)} */
+    protected String _organize;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -141,7 +166,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "village_settings";
+        return "VILLAGE_SETTINGS";
     }
 
     // ===================================================================================
@@ -219,6 +244,90 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         setIsAvailableSpectate(cdef != null ? toBoolean(cdef.code()) : null);
     }
 
+    /**
+     * Get the value of isAvailableSameWolfAttack as the classification of Flg. <br>
+     * IS_AVAILABLE_SAME_WOLF_ATTACK: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Flg getIsAvailableSameWolfAttackAsFlg() {
+        return CDef.Flg.codeOf(getIsAvailableSameWolfAttack());
+    }
+
+    /**
+     * Set the value of isAvailableSameWolfAttack as the classification of Flg. <br>
+     * IS_AVAILABLE_SAME_WOLF_ATTACK: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setIsAvailableSameWolfAttackAsFlg(CDef.Flg cdef) {
+        setIsAvailableSameWolfAttack(cdef != null ? toBoolean(cdef.code()) : null);
+    }
+
+    /**
+     * Get the value of isOpenSkillInGrave as the classification of Flg. <br>
+     * IS_OPEN_SKILL_IN_GRAVE: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Flg getIsOpenSkillInGraveAsFlg() {
+        return CDef.Flg.codeOf(getIsOpenSkillInGrave());
+    }
+
+    /**
+     * Set the value of isOpenSkillInGrave as the classification of Flg. <br>
+     * IS_OPEN_SKILL_IN_GRAVE: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setIsOpenSkillInGraveAsFlg(CDef.Flg cdef) {
+        setIsOpenSkillInGrave(cdef != null ? toBoolean(cdef.code()) : null);
+    }
+
+    /**
+     * Get the value of isVisibleGraveSpectateMessage as the classification of Flg. <br>
+     * IS_VISIBLE_GRAVE_SPECTATE_MESSAGE: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Flg getIsVisibleGraveSpectateMessageAsFlg() {
+        return CDef.Flg.codeOf(getIsVisibleGraveSpectateMessage());
+    }
+
+    /**
+     * Set the value of isVisibleGraveSpectateMessage as the classification of Flg. <br>
+     * IS_VISIBLE_GRAVE_SPECTATE_MESSAGE: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setIsVisibleGraveSpectateMessageAsFlg(CDef.Flg cdef) {
+        setIsVisibleGraveSpectateMessage(cdef != null ? toBoolean(cdef.code()) : null);
+    }
+
+    /**
+     * Get the value of isAvailableMessageFunction as the classification of Flg. <br>
+     * IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Flg getIsAvailableMessageFunctionAsFlg() {
+        return CDef.Flg.codeOf(getIsAvailableMessageFunction());
+    }
+
+    /**
+     * Set the value of isAvailableMessageFunction as the classification of Flg. <br>
+     * IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setIsAvailableMessageFunctionAsFlg(CDef.Flg cdef) {
+        setIsAvailableMessageFunction(cdef != null ? toBoolean(cdef.code()) : null);
+    }
+
     // ===================================================================================
     //                                                              Classification Setting
     //                                                              ======================
@@ -268,6 +377,70 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      */
     public void setIsAvailableSpectate_False() {
         setIsAvailableSpectateAsFlg(CDef.Flg.False);
+    }
+
+    /**
+     * Set the value of isAvailableSameWolfAttack as True (true). <br>
+     * はい: 有効を示す
+     */
+    public void setIsAvailableSameWolfAttack_True() {
+        setIsAvailableSameWolfAttackAsFlg(CDef.Flg.True);
+    }
+
+    /**
+     * Set the value of isAvailableSameWolfAttack as False (false). <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsAvailableSameWolfAttack_False() {
+        setIsAvailableSameWolfAttackAsFlg(CDef.Flg.False);
+    }
+
+    /**
+     * Set the value of isOpenSkillInGrave as True (true). <br>
+     * はい: 有効を示す
+     */
+    public void setIsOpenSkillInGrave_True() {
+        setIsOpenSkillInGraveAsFlg(CDef.Flg.True);
+    }
+
+    /**
+     * Set the value of isOpenSkillInGrave as False (false). <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsOpenSkillInGrave_False() {
+        setIsOpenSkillInGraveAsFlg(CDef.Flg.False);
+    }
+
+    /**
+     * Set the value of isVisibleGraveSpectateMessage as True (true). <br>
+     * はい: 有効を示す
+     */
+    public void setIsVisibleGraveSpectateMessage_True() {
+        setIsVisibleGraveSpectateMessageAsFlg(CDef.Flg.True);
+    }
+
+    /**
+     * Set the value of isVisibleGraveSpectateMessage as False (false). <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsVisibleGraveSpectateMessage_False() {
+        setIsVisibleGraveSpectateMessageAsFlg(CDef.Flg.False);
+    }
+
+    /**
+     * Set the value of isAvailableMessageFunction as True (true). <br>
+     * はい: 有効を示す
+     */
+    public void setIsAvailableMessageFunction_True() {
+        setIsAvailableMessageFunctionAsFlg(CDef.Flg.True);
+    }
+
+    /**
+     * Set the value of isAvailableMessageFunction as False (false). <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsAvailableMessageFunction_False() {
+        setIsAvailableMessageFunctionAsFlg(CDef.Flg.False);
     }
 
     // ===================================================================================
@@ -339,6 +512,94 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         return cdef != null ? cdef.equals(CDef.Flg.False) : false;
     }
 
+    /**
+     * Is the value of isAvailableSameWolfAttack True? <br>
+     * はい: 有効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsAvailableSameWolfAttackTrue() {
+        CDef.Flg cdef = getIsAvailableSameWolfAttackAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
+    }
+
+    /**
+     * Is the value of isAvailableSameWolfAttack False? <br>
+     * いいえ: 無効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsAvailableSameWolfAttackFalse() {
+        CDef.Flg cdef = getIsAvailableSameWolfAttackAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
+    /**
+     * Is the value of isOpenSkillInGrave True? <br>
+     * はい: 有効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsOpenSkillInGraveTrue() {
+        CDef.Flg cdef = getIsOpenSkillInGraveAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
+    }
+
+    /**
+     * Is the value of isOpenSkillInGrave False? <br>
+     * いいえ: 無効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsOpenSkillInGraveFalse() {
+        CDef.Flg cdef = getIsOpenSkillInGraveAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
+    /**
+     * Is the value of isVisibleGraveSpectateMessage True? <br>
+     * はい: 有効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsVisibleGraveSpectateMessageTrue() {
+        CDef.Flg cdef = getIsVisibleGraveSpectateMessageAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
+    }
+
+    /**
+     * Is the value of isVisibleGraveSpectateMessage False? <br>
+     * いいえ: 無効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsVisibleGraveSpectateMessageFalse() {
+        CDef.Flg cdef = getIsVisibleGraveSpectateMessageAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
+    /**
+     * Is the value of isAvailableMessageFunction True? <br>
+     * はい: 有効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsAvailableMessageFunctionTrue() {
+        CDef.Flg cdef = getIsAvailableMessageFunctionAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
+    }
+
+    /**
+     * Is the value of isAvailableMessageFunction False? <br>
+     * いいえ: 無効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsAvailableMessageFunctionFalse() {
+        CDef.Flg cdef = getIsAvailableMessageFunctionAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
     // ===================================================================================
     //                                                           Classification Name/Alias
     //                                                           =========================
@@ -366,6 +627,42 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      */
     public String getIsAvailableSpectateAlias() {
         CDef.Flg cdef = getIsAvailableSpectateAsFlg();
+        return cdef != null ? cdef.alias() : null;
+    }
+
+    /**
+     * Get the value of the column 'isAvailableSameWolfAttack' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     */
+    public String getIsAvailableSameWolfAttackAlias() {
+        CDef.Flg cdef = getIsAvailableSameWolfAttackAsFlg();
+        return cdef != null ? cdef.alias() : null;
+    }
+
+    /**
+     * Get the value of the column 'isOpenSkillInGrave' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     */
+    public String getIsOpenSkillInGraveAlias() {
+        CDef.Flg cdef = getIsOpenSkillInGraveAsFlg();
+        return cdef != null ? cdef.alias() : null;
+    }
+
+    /**
+     * Get the value of the column 'isVisibleGraveSpectateMessage' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     */
+    public String getIsVisibleGraveSpectateMessageAlias() {
+        CDef.Flg cdef = getIsVisibleGraveSpectateMessageAsFlg();
+        return cdef != null ? cdef.alias() : null;
+    }
+
+    /**
+     * Get the value of the column 'isAvailableMessageFunction' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     */
+    public String getIsAvailableMessageFunctionAlias() {
+        CDef.Flg cdef = getIsAvailableMessageFunctionAsFlg();
         return cdef != null ? cdef.alias() : null;
     }
 
@@ -467,8 +764,13 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         sb.append(dm).append(xfND(_isOpenVote));
         sb.append(dm).append(xfND(_isPossibleSkillRequest));
         sb.append(dm).append(xfND(_isAvailableSpectate));
+        sb.append(dm).append(xfND(_isAvailableSameWolfAttack));
+        sb.append(dm).append(xfND(_isOpenSkillInGrave));
+        sb.append(dm).append(xfND(_isVisibleGraveSpectateMessage));
+        sb.append(dm).append(xfND(_isAvailableMessageFunction));
         sb.append(dm).append(xfND(_characterGroupId));
         sb.append(dm).append(xfND(_joinPassword));
+        sb.append(dm).append(xfND(_organize));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -502,7 +804,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -512,7 +814,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -665,7 +967,91 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [get] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
+     * [get] IS_AVAILABLE_SAME_WOLF_ATTACK: {NotNull, BIT, classification=Flg} <br>
+     * 連続襲撃可能か
+     * @return The value of the column 'IS_AVAILABLE_SAME_WOLF_ATTACK'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getIsAvailableSameWolfAttack() {
+        checkSpecifiedProperty("isAvailableSameWolfAttack");
+        return _isAvailableSameWolfAttack;
+    }
+
+    /**
+     * [set] IS_AVAILABLE_SAME_WOLF_ATTACK: {NotNull, BIT, classification=Flg} <br>
+     * 連続襲撃可能か
+     * @param isAvailableSameWolfAttack The value of the column 'IS_AVAILABLE_SAME_WOLF_ATTACK'. (basically NotNull if update: for the constraint)
+     */
+    public void setIsAvailableSameWolfAttack(Boolean isAvailableSameWolfAttack) {
+        checkClassificationCode("IS_AVAILABLE_SAME_WOLF_ATTACK", CDef.DefMeta.Flg, isAvailableSameWolfAttack);
+        registerModifiedProperty("isAvailableSameWolfAttack");
+        _isAvailableSameWolfAttack = isAvailableSameWolfAttack;
+    }
+
+    /**
+     * [get] IS_OPEN_SKILL_IN_GRAVE: {NotNull, BIT, classification=Flg} <br>
+     * 墓下役職公開ありか
+     * @return The value of the column 'IS_OPEN_SKILL_IN_GRAVE'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getIsOpenSkillInGrave() {
+        checkSpecifiedProperty("isOpenSkillInGrave");
+        return _isOpenSkillInGrave;
+    }
+
+    /**
+     * [set] IS_OPEN_SKILL_IN_GRAVE: {NotNull, BIT, classification=Flg} <br>
+     * 墓下役職公開ありか
+     * @param isOpenSkillInGrave The value of the column 'IS_OPEN_SKILL_IN_GRAVE'. (basically NotNull if update: for the constraint)
+     */
+    public void setIsOpenSkillInGrave(Boolean isOpenSkillInGrave) {
+        checkClassificationCode("IS_OPEN_SKILL_IN_GRAVE", CDef.DefMeta.Flg, isOpenSkillInGrave);
+        registerModifiedProperty("isOpenSkillInGrave");
+        _isOpenSkillInGrave = isOpenSkillInGrave;
+    }
+
+    /**
+     * [get] IS_VISIBLE_GRAVE_SPECTATE_MESSAGE: {NotNull, BIT, classification=Flg} <br>
+     * 墓下見学発言を生存者が見られるか
+     * @return The value of the column 'IS_VISIBLE_GRAVE_SPECTATE_MESSAGE'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getIsVisibleGraveSpectateMessage() {
+        checkSpecifiedProperty("isVisibleGraveSpectateMessage");
+        return _isVisibleGraveSpectateMessage;
+    }
+
+    /**
+     * [set] IS_VISIBLE_GRAVE_SPECTATE_MESSAGE: {NotNull, BIT, classification=Flg} <br>
+     * 墓下見学発言を生存者が見られるか
+     * @param isVisibleGraveSpectateMessage The value of the column 'IS_VISIBLE_GRAVE_SPECTATE_MESSAGE'. (basically NotNull if update: for the constraint)
+     */
+    public void setIsVisibleGraveSpectateMessage(Boolean isVisibleGraveSpectateMessage) {
+        checkClassificationCode("IS_VISIBLE_GRAVE_SPECTATE_MESSAGE", CDef.DefMeta.Flg, isVisibleGraveSpectateMessage);
+        registerModifiedProperty("isVisibleGraveSpectateMessage");
+        _isVisibleGraveSpectateMessage = isVisibleGraveSpectateMessage;
+    }
+
+    /**
+     * [get] IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg} <br>
+     * 特殊発言機能が使用可能か
+     * @return The value of the column 'IS_AVAILABLE_MESSAGE_FUNCTION'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getIsAvailableMessageFunction() {
+        checkSpecifiedProperty("isAvailableMessageFunction");
+        return _isAvailableMessageFunction;
+    }
+
+    /**
+     * [set] IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg} <br>
+     * 特殊発言機能が使用可能か
+     * @param isAvailableMessageFunction The value of the column 'IS_AVAILABLE_MESSAGE_FUNCTION'. (basically NotNull if update: for the constraint)
+     */
+    public void setIsAvailableMessageFunction(Boolean isAvailableMessageFunction) {
+        checkClassificationCode("IS_AVAILABLE_MESSAGE_FUNCTION", CDef.DefMeta.Flg, isAvailableMessageFunction);
+        registerModifiedProperty("isAvailableMessageFunction");
+        _isAvailableMessageFunction = isAvailableMessageFunction;
+    }
+
+    /**
+     * [get] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
      * キャラクターグループID
      * @return The value of the column 'CHARACTER_GROUP_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -675,7 +1061,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
+     * [set] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
      * キャラクターグループID
      * @param characterGroupId The value of the column 'CHARACTER_GROUP_ID'. (basically NotNull if update: for the constraint)
      */
@@ -702,6 +1088,26 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     public void setJoinPassword(String joinPassword) {
         registerModifiedProperty("joinPassword");
         _joinPassword = joinPassword;
+    }
+
+    /**
+     * [get] ORGANIZE: {NotNull, VARCHAR(400)} <br>
+     * 構成
+     * @return The value of the column 'ORGANIZE'. (basically NotNull if selected: for the constraint)
+     */
+    public String getOrganize() {
+        checkSpecifiedProperty("organize");
+        return convertEmptyToNull(_organize);
+    }
+
+    /**
+     * [set] ORGANIZE: {NotNull, VARCHAR(400)} <br>
+     * 構成
+     * @param organize The value of the column 'ORGANIZE'. (basically NotNull if update: for the constraint)
+     */
+    public void setOrganize(String organize) {
+        registerModifiedProperty("organize");
+        _organize = organize;
     }
 
     /**
