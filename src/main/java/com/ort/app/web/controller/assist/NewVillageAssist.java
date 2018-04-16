@@ -33,6 +33,16 @@ import com.ort.fw.util.WerewolfMansionDateUtil;
 public class NewVillageAssist {
 
     // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
+    private static final String DEFAULT_ORGANIZE = // 
+            "狼狼賢導村村村村\n狼狼賢導村村村村村\n狼狼狂賢導狩村村村村\n狼狼狂賢導狩村村村村村\n" // 
+                    + "狼狼狂賢導狩村村村村共共\n狼狼狼狂賢導狩村村村村共共\n狼狼狼狂狐賢導狩村村村村共共\n" // 
+                    + "狼狼狼狂狐賢導狩村村村村村共共\n狼狼狼狂狐賢導狩村村村村村村共共\n" //
+                    + "狼狼狼狂狐賢導狩村村村村村村村共共\n狼狼狼狼狂狐賢導狩村村村村村村村共共\n" //
+                    + "狼狼狼狼狂狐賢導狩村村村村村村村村共共\n狼狼狼狼狂狐賢導狩村村村村村村村村村共共";
+
+    // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
     @Autowired
@@ -154,6 +164,11 @@ public class NewVillageAssist {
         settings.setIsAvailableSpectate(villageForm.getIsAvailableSpectate());
         settings.setCharacterGroupId(villageForm.getCharacterSetId());
         settings.setJoinPassword(villageForm.getJoinPassword());
+        settings.setIsAvailableSameWolfAttack(true);
+        settings.setIsOpenSkillInGrave(false);
+        settings.setIsVisibleGraveSpectateMessage(false);
+        settings.setIsAvailableMessageFunction(false);
+        settings.setOrganize(DEFAULT_ORGANIZE);
         villageSettingsBhv.insert(settings);
         return settings;
     }
