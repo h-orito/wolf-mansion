@@ -888,48 +888,6 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg}
-     * @param isAvailableMessageFunction The value of isAvailableMessageFunction as equal. (basically NotNull: error as default, or no condition as option)
-     */
-    public void setIsAvailableMessageFunction_Equal(Boolean isAvailableMessageFunction) {
-        regIsAvailableMessageFunction(CK_EQ, isAvailableMessageFunction);
-    }
-
-    /**
-     * Equal(=). As Flg. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg} <br>
-     * フラグを示す
-     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
-     */
-    public void setIsAvailableMessageFunction_Equal_AsFlg(CDef.Flg cdef) {
-        doSetIsAvailableMessageFunction_Equal(cdef != null ? Boolean.valueOf(cdef.code()) : null);
-    }
-
-    /**
-     * Equal(=). As True. And OnlyOnceRegistered. <br>
-     * はい: 有効を示す
-     */
-    public void setIsAvailableMessageFunction_Equal_True() {
-        doSetIsAvailableMessageFunction_Equal(Boolean.valueOf(CDef.Flg.True.code()));
-    }
-
-    /**
-     * Equal(=). As False. And OnlyOnceRegistered. <br>
-     * いいえ: 無効を示す
-     */
-    public void setIsAvailableMessageFunction_Equal_False() {
-        doSetIsAvailableMessageFunction_Equal(Boolean.valueOf(CDef.Flg.False.code()));
-    }
-
-    protected void doSetIsAvailableMessageFunction_Equal(Boolean isAvailableMessageFunction) {
-        regIsAvailableMessageFunction(CK_EQ, isAvailableMessageFunction);
-    }
-
-    protected void regIsAvailableMessageFunction(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueIsAvailableMessageFunction(), "IS_AVAILABLE_MESSAGE_FUNCTION"); }
-    protected abstract ConditionValue xgetCValueIsAvailableMessageFunction();
-
-    /**
-     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param characterGroupId The value of characterGroupId as equal. (basically NotNull: error as default, or no condition as option)
      */

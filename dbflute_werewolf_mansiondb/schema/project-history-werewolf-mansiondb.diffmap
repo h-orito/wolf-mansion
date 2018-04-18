@@ -1,4 +1,19 @@
 map:{
+    ; 2018/04/18 23:55:43 = map:{
+        ; diffDate = 2018/04/18 23:55:43
+        ; tableDiff = map:{
+            ; VILLAGE_SETTINGS = map:{
+                ; tableName = VILLAGE_SETTINGS
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; IS_AVAILABLE_MESSAGE_FUNCTION = map:{
+                        ; columnName = IS_AVAILABLE_MESSAGE_FUNCTION
+                        ; diffType = DELETE
+                    }
+                }
+            }
+        }
+    }
     ; 2018/04/16 01:50:30 = map:{
         ; diffDate = 2018/04/16 01:50:30
         ; tableDiff = map:{

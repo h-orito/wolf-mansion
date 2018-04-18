@@ -396,11 +396,6 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnIsVisibleGraveSpectateMessage() { return doColumn("IS_VISIBLE_GRAVE_SPECTATE_MESSAGE"); }
         /**
-         * IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg}
-         * @return The information object of specified column. (NotNull)
-         */
-        public SpecifiedColumn columnIsAvailableMessageFunction() { return doColumn("IS_AVAILABLE_MESSAGE_FUNCTION"); }
-        /**
          * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
          * @return The information object of specified column. (NotNull)
          */

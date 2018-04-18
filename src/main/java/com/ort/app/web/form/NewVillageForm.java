@@ -70,6 +70,18 @@ public class NewVillageForm implements Serializable {
     @NotNull
     private Boolean isPossibleSkillRequest;
 
+    /** 連続襲撃ありか */
+    @NotNull
+    private Boolean isAvailableSameWolfAttack;
+
+    /** 墓下役職公開ありか */
+    @NotNull
+    private Boolean isOpenSkillInGrave;
+
+    /** 墓下見学発言を地上から見られるか */
+    @NotNull
+    private Boolean isVisibleGraveSpectateMessage;
+
     /** キャラセットID */
     @NotNull
     private Integer characterSetId;
@@ -220,6 +232,30 @@ public class NewVillageForm implements Serializable {
 
     public void setIsAvailableSpectate(Boolean isAvailableSpectate) {
         this.isAvailableSpectate = isAvailableSpectate;
+    }
+
+    public Boolean getIsAvailableSameWolfAttack() {
+        return isAvailableSameWolfAttack;
+    }
+
+    public void setIsAvailableSameWolfAttack(Boolean isAvailableSameWolfAttack) {
+        this.isAvailableSameWolfAttack = isAvailableSameWolfAttack;
+    }
+
+    public Boolean getIsOpenSkillInGrave() {
+        return isOpenSkillInGrave;
+    }
+
+    public void setIsOpenSkillInGrave(Boolean isOpenSkillInGrave) {
+        this.isOpenSkillInGrave = isOpenSkillInGrave;
+    }
+
+    public Boolean getIsVisibleGraveSpectateMessage() {
+        return isVisibleGraveSpectateMessage;
+    }
+
+    public void setIsVisibleGraveSpectateMessage(Boolean isVisibleGraveSpectateMessage) {
+        this.isVisibleGraveSpectateMessage = isVisibleGraveSpectateMessage;
     }
 
 }

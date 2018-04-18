@@ -512,8 +512,6 @@
         <column comment="墓下見学発言を生存者が見られるか" dbType="BIT"
             javaType="Boolean" name="IS_VISIBLE_GRAVE_SPECTATE_MESSAGE"
             required="true" type="BIT"/>
-        <column comment="特殊発言機能が使用可能か" dbType="BIT" javaType="Boolean"
-            name="IS_AVAILABLE_MESSAGE_FUNCTION" required="true" type="BIT"/>
         <column comment="キャラクターグループID" dbType="INT UNSIGNED"
             javaType="Integer" name="CHARACTER_GROUP_ID" required="true"
             size="10" type="INTEGER"/>

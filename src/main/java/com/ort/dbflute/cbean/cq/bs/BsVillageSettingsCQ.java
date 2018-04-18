@@ -293,26 +293,6 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
      */
     public BsVillageSettingsCQ addOrderBy_IsVisibleGraveSpectateMessage_Desc() { regOBD("IS_VISIBLE_GRAVE_SPECTATE_MESSAGE"); return this; }
 
-    protected ConditionValue _isAvailableMessageFunction;
-    public ConditionValue xdfgetIsAvailableMessageFunction()
-    { if (_isAvailableMessageFunction == null) { _isAvailableMessageFunction = nCV(); }
-      return _isAvailableMessageFunction; }
-    protected ConditionValue xgetCValueIsAvailableMessageFunction() { return xdfgetIsAvailableMessageFunction(); }
-
-    /** 
-     * Add order-by as ascend. <br>
-     * IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg}
-     * @return this. (NotNull)
-     */
-    public BsVillageSettingsCQ addOrderBy_IsAvailableMessageFunction_Asc() { regOBA("IS_AVAILABLE_MESSAGE_FUNCTION"); return this; }
-
-    /**
-     * Add order-by as descend. <br>
-     * IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg}
-     * @return this. (NotNull)
-     */
-    public BsVillageSettingsCQ addOrderBy_IsAvailableMessageFunction_Desc() { regOBD("IS_AVAILABLE_MESSAGE_FUNCTION"); return this; }
-
     protected ConditionValue _characterGroupId;
     public ConditionValue xdfgetCharacterGroupId()
     { if (_characterGroupId == null) { _characterGroupId = nCV(); }

@@ -82,6 +82,15 @@ public class NewVillageAssist {
         if (form.getIsAvailableSpectate() == null) {
             form.setIsAvailableSpectate(false);
         }
+        if (form.getIsAvailableSameWolfAttack() == null) {
+            form.setIsAvailableSameWolfAttack(true);
+        }
+        if (form.getIsOpenSkillInGrave() == null) {
+            form.setIsOpenSkillInGrave(false);
+        }
+        if (form.getIsVisibleGraveSpectateMessage() == null) {
+            form.setIsVisibleGraveSpectateMessage(false);
+        }
         if (form.getDayChangeIntervalHours() == null) {
             form.setDayChangeIntervalHours(24);
         }
@@ -167,7 +176,6 @@ public class NewVillageAssist {
         settings.setIsAvailableSameWolfAttack(true);
         settings.setIsOpenSkillInGrave(false);
         settings.setIsVisibleGraveSpectateMessage(false);
-        settings.setIsAvailableMessageFunction(false);
         settings.setOrganize(DEFAULT_ORGANIZE);
         villageSettingsBhv.insert(settings);
         return settings;

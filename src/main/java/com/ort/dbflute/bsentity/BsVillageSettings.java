@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID
  *
  * [column]
- *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_MESSAGE_FUNCTION, CHARACTER_GROUP_ID, JOIN_PASSWORD, ORGANIZE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, CHARACTER_GROUP_ID, JOIN_PASSWORD, ORGANIZE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -57,7 +57,6 @@ import com.ort.dbflute.exentity.*;
  * Boolean isAvailableSameWolfAttack = entity.getIsAvailableSameWolfAttack();
  * Boolean isOpenSkillInGrave = entity.getIsOpenSkillInGrave();
  * Boolean isVisibleGraveSpectateMessage = entity.getIsVisibleGraveSpectateMessage();
- * Boolean isAvailableMessageFunction = entity.getIsAvailableMessageFunction();
  * Integer characterGroupId = entity.getCharacterGroupId();
  * String joinPassword = entity.getJoinPassword();
  * String organize = entity.getOrganize();
@@ -76,7 +75,6 @@ import com.ort.dbflute.exentity.*;
  * entity.setIsAvailableSameWolfAttack(isAvailableSameWolfAttack);
  * entity.setIsOpenSkillInGrave(isOpenSkillInGrave);
  * entity.setIsVisibleGraveSpectateMessage(isVisibleGraveSpectateMessage);
- * entity.setIsAvailableMessageFunction(isAvailableMessageFunction);
  * entity.setCharacterGroupId(characterGroupId);
  * entity.setJoinPassword(joinPassword);
  * entity.setOrganize(organize);
@@ -131,9 +129,6 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /** IS_VISIBLE_GRAVE_SPECTATE_MESSAGE: {NotNull, BIT, classification=Flg} */
     protected Boolean _isVisibleGraveSpectateMessage;
-
-    /** IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg} */
-    protected Boolean _isAvailableMessageFunction;
 
     /** CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} */
     protected Integer _characterGroupId;
@@ -307,27 +302,6 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         setIsVisibleGraveSpectateMessage(cdef != null ? toBoolean(cdef.code()) : null);
     }
 
-    /**
-     * Get the value of isAvailableMessageFunction as the classification of Flg. <br>
-     * IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg} <br>
-     * フラグを示す
-     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
-     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
-     */
-    public CDef.Flg getIsAvailableMessageFunctionAsFlg() {
-        return CDef.Flg.codeOf(getIsAvailableMessageFunction());
-    }
-
-    /**
-     * Set the value of isAvailableMessageFunction as the classification of Flg. <br>
-     * IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg} <br>
-     * フラグを示す
-     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
-     */
-    public void setIsAvailableMessageFunctionAsFlg(CDef.Flg cdef) {
-        setIsAvailableMessageFunction(cdef != null ? toBoolean(cdef.code()) : null);
-    }
-
     // ===================================================================================
     //                                                              Classification Setting
     //                                                              ======================
@@ -425,22 +399,6 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      */
     public void setIsVisibleGraveSpectateMessage_False() {
         setIsVisibleGraveSpectateMessageAsFlg(CDef.Flg.False);
-    }
-
-    /**
-     * Set the value of isAvailableMessageFunction as True (true). <br>
-     * はい: 有効を示す
-     */
-    public void setIsAvailableMessageFunction_True() {
-        setIsAvailableMessageFunctionAsFlg(CDef.Flg.True);
-    }
-
-    /**
-     * Set the value of isAvailableMessageFunction as False (false). <br>
-     * いいえ: 無効を示す
-     */
-    public void setIsAvailableMessageFunction_False() {
-        setIsAvailableMessageFunctionAsFlg(CDef.Flg.False);
     }
 
     // ===================================================================================
@@ -578,28 +536,6 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         return cdef != null ? cdef.equals(CDef.Flg.False) : false;
     }
 
-    /**
-     * Is the value of isAvailableMessageFunction True? <br>
-     * はい: 有効を示す
-     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
-     * @return The determination, true or false.
-     */
-    public boolean isIsAvailableMessageFunctionTrue() {
-        CDef.Flg cdef = getIsAvailableMessageFunctionAsFlg();
-        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
-    }
-
-    /**
-     * Is the value of isAvailableMessageFunction False? <br>
-     * いいえ: 無効を示す
-     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
-     * @return The determination, true or false.
-     */
-    public boolean isIsAvailableMessageFunctionFalse() {
-        CDef.Flg cdef = getIsAvailableMessageFunctionAsFlg();
-        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
-    }
-
     // ===================================================================================
     //                                                           Classification Name/Alias
     //                                                           =========================
@@ -654,15 +590,6 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      */
     public String getIsVisibleGraveSpectateMessageAlias() {
         CDef.Flg cdef = getIsVisibleGraveSpectateMessageAsFlg();
-        return cdef != null ? cdef.alias() : null;
-    }
-
-    /**
-     * Get the value of the column 'isAvailableMessageFunction' as classification alias.
-     * @return The string of classification alias. (NullAllowed: when the column value is null)
-     */
-    public String getIsAvailableMessageFunctionAlias() {
-        CDef.Flg cdef = getIsAvailableMessageFunctionAsFlg();
         return cdef != null ? cdef.alias() : null;
     }
 
@@ -767,7 +694,6 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         sb.append(dm).append(xfND(_isAvailableSameWolfAttack));
         sb.append(dm).append(xfND(_isOpenSkillInGrave));
         sb.append(dm).append(xfND(_isVisibleGraveSpectateMessage));
-        sb.append(dm).append(xfND(_isAvailableMessageFunction));
         sb.append(dm).append(xfND(_characterGroupId));
         sb.append(dm).append(xfND(_joinPassword));
         sb.append(dm).append(xfND(_organize));
@@ -1027,27 +953,6 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         checkClassificationCode("IS_VISIBLE_GRAVE_SPECTATE_MESSAGE", CDef.DefMeta.Flg, isVisibleGraveSpectateMessage);
         registerModifiedProperty("isVisibleGraveSpectateMessage");
         _isVisibleGraveSpectateMessage = isVisibleGraveSpectateMessage;
-    }
-
-    /**
-     * [get] IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg} <br>
-     * 特殊発言機能が使用可能か
-     * @return The value of the column 'IS_AVAILABLE_MESSAGE_FUNCTION'. (basically NotNull if selected: for the constraint)
-     */
-    public Boolean getIsAvailableMessageFunction() {
-        checkSpecifiedProperty("isAvailableMessageFunction");
-        return _isAvailableMessageFunction;
-    }
-
-    /**
-     * [set] IS_AVAILABLE_MESSAGE_FUNCTION: {NotNull, BIT, classification=Flg} <br>
-     * 特殊発言機能が使用可能か
-     * @param isAvailableMessageFunction The value of the column 'IS_AVAILABLE_MESSAGE_FUNCTION'. (basically NotNull if update: for the constraint)
-     */
-    public void setIsAvailableMessageFunction(Boolean isAvailableMessageFunction) {
-        checkClassificationCode("IS_AVAILABLE_MESSAGE_FUNCTION", CDef.DefMeta.Flg, isAvailableMessageFunction);
-        registerModifiedProperty("isAvailableMessageFunction");
-        _isAvailableMessageFunction = isAvailableMessageFunction;
     }
 
     /**
