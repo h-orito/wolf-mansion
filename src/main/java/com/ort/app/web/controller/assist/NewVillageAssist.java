@@ -103,6 +103,9 @@ public class NewVillageAssist {
             form.setStartHour(0);
             form.setStartMinute(0);
         }
+        if (form.getOrganization() == null) {
+            form.setOrganization(DEFAULT_ORGANIZE);
+        }
         model.addAttribute("villageForm", form);
 
         // 現在の年

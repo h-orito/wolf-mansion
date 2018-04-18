@@ -98,6 +98,10 @@ public class NewVillageForm implements Serializable {
     @NotNull
     private Boolean isAvailableSpectate;
 
+    /** 構成 */
+    @NotNull
+    private String organization;
+
     public String getVillageName() {
         return villageName;
     }
@@ -256,6 +260,14 @@ public class NewVillageForm implements Serializable {
 
     public void setIsVisibleGraveSpectateMessage(Boolean isVisibleGraveSpectateMessage) {
         this.isVisibleGraveSpectateMessage = isVisibleGraveSpectateMessage;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
     }
 
 }
