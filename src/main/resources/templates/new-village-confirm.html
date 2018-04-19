@@ -50,6 +50,18 @@
 									<td th:text="*{isAvailableSpectate} ? '可能' : '不可'"></td>
 								</tr>
 								<tr>
+									<th>同一人狼による連続襲撃</th>
+									<td th:text="*{isAvailableSameWolfAttack} ? '可能' : '不可'"></td>
+								</tr>
+								<tr>
+									<th>墓下見学役職公開</th>
+									<td th:text="*{isOpenSkillInGrave} ? '公開' : '非公開'"></td>
+								</tr>
+								<tr>
+									<th>墓下見学会話公開</th>
+									<td th:text="*{isVisibleGraveSpectateMessage} ? '公開' : '非公開'"></td>
+								</tr>
+								<tr>
 									<th>キャラクターセット</th>
 									<td th:text="${characterSetName}"></td>
 								</tr>
@@ -77,6 +89,18 @@
 									<th>入村パスワード</th>
 									<td th:text="*{joinPassword}"></td>
 								</tr>
+								<tr>
+									<th>構成</th>
+									<td>
+										<th:block th:if="*{organization}">
+											<th:block th:each="str, stat : *{organization.split('\r\n|\r|\n', -1)}">
+												<th:block th:text="${str}" />
+												<br th:if="${!stat.last}" />
+											</th:block>
+										</th:block>
+
+									</td>
+								</tr>
 							</table>
 							<input type="hidden" th:field="*{villageName}" />
 							<input type="hidden" th:field="*{startPersonMinNum}" />
@@ -92,9 +116,13 @@
 							<input type="hidden" th:field="*{isOpenVote}" />
 							<input type="hidden" th:field="*{isPossibleSkillRequest}" />
 							<input type="hidden" th:field="*{isAvailableSpectate}" />
+							<input type="hidden" th:field="*{isAvailableSameWolfAttack}" />
+							<input type="hidden" th:field="*{isOpenSkillInGrave}" />
+							<input type="hidden" th:field="*{isVisibleGraveSpectateMessage}" />
 							<input type="hidden" th:field="*{characterSetId}" />
 							<input type="hidden" th:field="*{dummyJoinMessage}" />
 							<input type="hidden" th:field="*{joinPassword}" />
+							<input type="hidden" th:field="*{organization}" />
 						</div>
 						<div class="form-group">
 							<div class="col-sm-12 pull-right">
