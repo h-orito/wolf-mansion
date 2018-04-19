@@ -176,10 +176,10 @@ public class NewVillageAssist {
         settings.setIsAvailableSpectate(villageForm.getIsAvailableSpectate());
         settings.setCharacterGroupId(villageForm.getCharacterSetId());
         settings.setJoinPassword(villageForm.getJoinPassword());
-        settings.setIsAvailableSameWolfAttack(true);
-        settings.setIsOpenSkillInGrave(false);
-        settings.setIsVisibleGraveSpectateMessage(false);
-        settings.setOrganize(DEFAULT_ORGANIZE);
+        settings.setIsAvailableSameWolfAttack(villageForm.getIsAvailableSameWolfAttack());
+        settings.setIsOpenSkillInGrave(villageForm.getIsOpenSkillInGrave());
+        settings.setIsVisibleGraveSpectateMessage(villageForm.getIsVisibleGraveSpectateMessage());
+        settings.setOrganize(villageForm.getOrganization().replace("\r\n", "\n"));
         villageSettingsBhv.insert(settings);
         return settings;
     }
