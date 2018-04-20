@@ -488,25 +488,38 @@ public class VillageAssist {
         for (int i = 0; i < height; i++) {
             VillageRoomAssignedRowDto row = new VillageRoomAssignedRowDto();
             for (int j = 1; j <= width; j++) {
-                VillageRoomAssignedDto room = new VillageRoomAssignedDto();
                 final int roomNum = i * width + j;
-                room.setRoomNumber(String.format("%02d", roomNum));
-                villageInfo.vPlayerList.stream()
-                        .filter(vp -> vp.isIsSpectatorFalse() && vp.getRoomNumber().equals(roomNum))
-                        .findFirst()
-                        .ifPresent(vp -> {
-                            room.setCharaName(vp.getChara().get().getCharaShortName());
-                            room.setCharaImgUrl(vp.getChara().get().getCharaImgUrl());
-                            room.setIsDead(vp.getDeadDay() == null ? false : vp.getDeadDay() <= villageInfo.day);
-                            if (villageInfo.village.isVillageStatusCodeエピローグ() || villageInfo.village.isVillageStatusCode終了()) {
-                                room.setSkillName(vp.getSkillCodeAsSkill().alias());
-                            }
-                        });
-                row.getRoomAssignedList().add(room);
+                row.getRoomAssignedList().add(createRoomInfo(villageInfo, width, roomNum));
             }
             roomAssignedRowList.add(row);
         }
         return roomAssignedRowList;
+    }
+
+    private VillageRoomAssignedDto createRoomInfo(VillageInfo villageInfo, Integer width, int roomNum) {
+        VillageRoomAssignedDto room = new VillageRoomAssignedDto();
+        room.setRoomNumber(String.format("%02d", roomNum));
+        villageInfo.vPlayerList.stream().filter(vp -> vp.isIsSpectatorFalse() && vp.getRoomNumber().equals(roomNum)).findFirst().ifPresent(
+                vp -> {
+                    room.setCharaName(vp.getChara().get().getCharaShortName());
+                    room.setCharaImgUrl(vp.getChara().get().getCharaImgUrl());
+                    room.setIsDead(vp.getDeadDay() == null ? false : vp.getDeadDay() <= villageInfo.day);
+                    if (isAvailableSeeMemberSkill(villageInfo)) {
+                        room.setSkillName(vp.getSkillCodeAsSkill().alias());
+                    }
+                });
+        return room;
+    }
+
+    private boolean isAvailableSeeMemberSkill(VillageInfo villageInfo) {
+        if (villageInfo.village.isVillageStatusCodeエピローグ() || villageInfo.village.isVillageStatusCode終了()) {
+            return true;
+        }
+        if (villageInfo.settings.getIsOpenSkillInGrave() && (villageInfo.isDead() || villageInfo.isSpectator())) {
+            // 墓下役職公開ありで、墓下か見学である
+            return true;
+        }
+        return false;
     }
 
     private VillageMemberDetailDto convertToMemberDetailPart(VillagePlayer mem) {

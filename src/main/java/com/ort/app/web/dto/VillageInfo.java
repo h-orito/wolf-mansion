@@ -77,16 +77,16 @@ public class VillageInfo {
 
     // 管理者か
     public boolean isAdmin() {
-        return user.getAuthorities().stream().anyMatch(a -> a.equals(new SimpleGrantedAuthority("ROLE_ADMIN")));
+        return user != null && user.getAuthorities().stream().anyMatch(a -> a.equals(new SimpleGrantedAuthority("ROLE_ADMIN")));
     }
 
     // 死亡しているか
     public boolean isDead() {
-        return optVillagePlayer.get().isIsDeadTrue();
+        return optVillagePlayer.isPresent() && optVillagePlayer.get().isIsDeadTrue();
     }
 
     // 観戦者か
     public boolean isSpectator() {
-        return optVillagePlayer.get().isIsSpectatorTrue();
+        return optVillagePlayer.isPresent() && optVillagePlayer.get().isIsSpectatorTrue();
     }
 }
