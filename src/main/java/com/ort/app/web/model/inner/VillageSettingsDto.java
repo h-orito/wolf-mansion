@@ -34,6 +34,18 @@ public class VillageSettingsDto {
     /** 見学が可能か */
     private Boolean isAvailableSpectate;
 
+    /** 連続襲撃ありか */
+    private Boolean isAvailableSameWolfAttack;
+
+    /** 墓下役職公開ありか */
+    private Boolean isOpenSkillInGrave;
+
+    /** 墓下見学発言を地上から見られるか */
+    private Boolean isVisibleGraveSpectateMessage;
+
+    /** 構成 */
+    private String organization;
+
     public Integer getStartPersonMinNum() {
         return startPersonMinNum;
     }
@@ -112,5 +124,37 @@ public class VillageSettingsDto {
 
     public void setIsAvailableSpectate(Boolean isAvailableSpectate) {
         this.isAvailableSpectate = isAvailableSpectate;
+    }
+
+    public Boolean getIsAvailableSameWolfAttack() {
+        return isAvailableSameWolfAttack;
+    }
+
+    public void setIsAvailableSameWolfAttack(Boolean isAvailableSameWolfAttack) {
+        this.isAvailableSameWolfAttack = isAvailableSameWolfAttack;
+    }
+
+    public Boolean getIsOpenSkillInGrave() {
+        return isOpenSkillInGrave;
+    }
+
+    public void setIsOpenSkillInGrave(Boolean isOpenSkillInGrave) {
+        this.isOpenSkillInGrave = isOpenSkillInGrave;
+    }
+
+    public Boolean getIsVisibleGraveSpectateMessage() {
+        return isVisibleGraveSpectateMessage;
+    }
+
+    public void setIsVisibleGraveSpectateMessage(Boolean isVisibleGraveSpectateMessage) {
+        this.isVisibleGraveSpectateMessage = isVisibleGraveSpectateMessage;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
     }
 }

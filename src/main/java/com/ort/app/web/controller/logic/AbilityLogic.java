@@ -178,12 +178,13 @@ public class AbilityLogic {
     //                                                                        ============
     private boolean isInvalidWolfAbility(Village village, VillagePlayer villagePlayer, List<VillagePlayer> villagePlayerList, int day,
             Integer charaId, Integer targetCharaId, String footstep) {
-        // 連続襲撃OKにする
-        // 複数人狼が生存していて昨日襲撃した人狼と今日襲撃する人狼が同じならNG
-        //        List<Chara> attackableWolfList = getAttackableWolfList(village.getVillageId(), day, villagePlayerList);
-        //        if (!attackableWolfList.stream().anyMatch(chara -> chara.getCharaId().equals(charaId))) {
-        //            return true;
-        //        }
+        if (village.getVillageSettingsAsOne().get().isIsAvailableSameWolfAttackFalse()) { // 連続襲撃不可
+            // 複数人狼が生存していて昨日襲撃した人狼と今日襲撃する人狼が同じならNG
+            List<Chara> attackableWolfList = getAttackableWolfList(village.getVillageId(), day, villagePlayerList);
+            if (!attackableWolfList.stream().anyMatch(chara -> chara.getCharaId().equals(charaId))) {
+                return true;
+            }
+        }
         // 襲撃先が人狼、もしくは死亡済みならNG
         if (isAttackTargetWerewolfOrDead(villagePlayerList, targetCharaId)) {
             return true;

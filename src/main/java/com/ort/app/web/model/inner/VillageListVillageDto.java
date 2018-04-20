@@ -5,6 +5,9 @@ public class VillageListVillageDto {
     /** 村ID */
     private Integer villageId;
 
+    /** 村表示用番号 */
+    private String villageNumber;
+
     /** 村名 */
     private String villageName;
 
@@ -20,6 +23,14 @@ public class VillageListVillageDto {
 
     public void setVillageId(Integer villageId) {
         this.villageId = villageId;
+    }
+
+    public String getVillageNumber() {
+        return villageNumber;
+    }
+
+    public void setVillageNumber(String villageNumber) {
+        this.villageNumber = villageNumber;
     }
 
     public String getVillageName() {

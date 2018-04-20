@@ -24,7 +24,7 @@
 							</thead>
 							<tbody>
 								<tr th:each="village : ${content.villageList}">
-									<td th:text="${village.villageId}"></td>
+									<td th:text="${village.villageNumber}"></td>
 									<td>
 										<a href="javascript:void(0);" th:href="@{/village/{villageId}(villageId=${village.villageId})}" th:text="${village.villageName}"></a>
 									</td>

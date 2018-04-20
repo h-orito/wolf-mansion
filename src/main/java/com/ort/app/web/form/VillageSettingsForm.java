@@ -55,6 +55,33 @@ public class VillageSettingsForm implements Serializable {
     @Max(59)
     private Integer startMinute;
 
+    /** 記名投票か */
+    @NotNull
+    private Boolean isOpenVote;
+
+    /** 連続襲撃ありか */
+    @NotNull
+    private Boolean isAvailableSameWolfAttack;
+
+    /** 墓下役職公開ありか */
+    @NotNull
+    private Boolean isOpenSkillInGrave;
+
+    /** 墓下見学発言を地上から見られるか */
+    @NotNull
+    private Boolean isVisibleGraveSpectateMessage;
+
+    /** 観戦を可能にする */
+    @NotNull
+    private Boolean isAvailableSpectate;
+
+    /** 構成 */
+    @NotNull
+    private String organization;
+
+    /** 入村パスワード */
+    private String joinPassword;
+
     public Integer getStartPersonMinNum() {
         return startPersonMinNum;
     }
@@ -133,5 +160,61 @@ public class VillageSettingsForm implements Serializable {
 
     public void setStartMinute(Integer startMinute) {
         this.startMinute = startMinute;
+    }
+
+    public Boolean getIsOpenVote() {
+        return isOpenVote;
+    }
+
+    public void setIsOpenVote(Boolean isOpenVote) {
+        this.isOpenVote = isOpenVote;
+    }
+
+    public Boolean getIsAvailableSameWolfAttack() {
+        return isAvailableSameWolfAttack;
+    }
+
+    public void setIsAvailableSameWolfAttack(Boolean isAvailableSameWolfAttack) {
+        this.isAvailableSameWolfAttack = isAvailableSameWolfAttack;
+    }
+
+    public Boolean getIsOpenSkillInGrave() {
+        return isOpenSkillInGrave;
+    }
+
+    public void setIsOpenSkillInGrave(Boolean isOpenSkillInGrave) {
+        this.isOpenSkillInGrave = isOpenSkillInGrave;
+    }
+
+    public Boolean getIsVisibleGraveSpectateMessage() {
+        return isVisibleGraveSpectateMessage;
+    }
+
+    public void setIsVisibleGraveSpectateMessage(Boolean isVisibleGraveSpectateMessage) {
+        this.isVisibleGraveSpectateMessage = isVisibleGraveSpectateMessage;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
+    public String getJoinPassword() {
+        return joinPassword;
+    }
+
+    public void setJoinPassword(String joinPassword) {
+        this.joinPassword = joinPassword;
+    }
+
+    public Boolean getIsAvailableSpectate() {
+        return isAvailableSpectate;
+    }
+
+    public void setIsAvailableSpectate(Boolean isAvailableSpectate) {
+        this.isAvailableSpectate = isAvailableSpectate;
     }
 }

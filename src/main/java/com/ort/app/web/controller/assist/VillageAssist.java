@@ -299,6 +299,7 @@ public class VillageAssist {
     // 基本的な情報、参加有無に関わらない情報
     private void setVillageModelBasicInfo(VillageResultContent content, VillageInfo villageInfo) {
         content.setVillageId(villageInfo.village.getVillageId());
+        content.setVillageNumber(String.format("%04d", villageInfo.village.getVillageId()));
         content.setVillageName(villageInfo.village.getVillageDisplayName());
         content.setMemberList(convertToMemberPart(villageInfo.vPlayerList));
         content.setCharacterList(villageInfo.vPlayerList.stream().map(vp -> vp.getChara().get()).collect(Collectors.toList()));
@@ -542,6 +543,10 @@ public class VillageAssist {
         part.setVoteType(BooleanUtils.isTrue(settings.getIsOpenVote()) ? "記名投票" : "無記名投票");
         part.setIsRequiredJoinPassword(StringUtils.isNotEmpty(settings.getJoinPassword()));
         part.setIsAvailableSpectate(settings.getIsAvailableSpectate());
+        part.setIsAvailableSameWolfAttack(settings.getIsAvailableSameWolfAttack());
+        part.setIsOpenSkillInGrave(settings.getIsOpenSkillInGrave());
+        part.setIsVisibleGraveSpectateMessage(settings.getIsVisibleGraveSpectateMessage());
+        part.setOrganization(settings.getOrganize());
         return part;
     }
 

@@ -32,6 +32,7 @@ import com.ort.app.web.form.VillageSettingsForm;
 import com.ort.app.web.form.VillageVoteForm;
 import com.ort.app.web.form.validator.VillageParticipateFormValidator;
 import com.ort.app.web.form.validator.VillageSayFormValidator;
+import com.ort.app.web.form.validator.VillageSettingsFormValidator;
 import com.ort.app.web.model.VillageAnchorMessageResultContent;
 import com.ort.app.web.model.VillageGetFootstepListResultContent;
 import com.ort.app.web.model.VillageMessageListResultContent;
@@ -74,6 +75,9 @@ public class VillageController {
     @Autowired
     private VillageParticipateFormValidator villageParticipateFormValidator;
 
+    @Autowired
+    private VillageSettingsFormValidator villageSettingsFormValidator;
+
     @InitBinder("sayForm")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(villageSayFormValidator);
@@ -82,6 +86,11 @@ public class VillageController {
     @InitBinder("participateForm")
     public void initBinderParticipate(WebDataBinder binder) {
         binder.addValidators(villageParticipateFormValidator);
+    }
+
+    @InitBinder("settingsForm")
+    public void initBinderChangeSettings(WebDataBinder binder) {
+        binder.addValidators(villageSettingsFormValidator);
     }
 
     // ===================================================================================

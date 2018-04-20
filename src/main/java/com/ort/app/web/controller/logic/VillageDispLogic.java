@@ -260,26 +260,30 @@ public class VillageDispLogic {
         if (skill != CDef.Skill.人狼) {
             return null;
         }
-        // 連続襲撃を可能にする
-        //        // 昨日襲撃した狼
-        //        Integer yesterdayAttackerId = abilityBhv.selectEntity(cb -> {
-        //            cb.query().setVillageId_Equal(village.getVillageId());
-        //            cb.query().setDay_Equal(day - 1);
-        //            cb.query().setAbilityTypeCode_Equal_襲撃();
-        //        }).map(ab -> ab.getCharaId()).orElse(null);
         // 生存している狼リスト
         List<Chara> liveAttackerList = villageInfo.getVPList(true, true, false)
                 .stream()
                 .filter(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.人狼)
                 .map(vp -> vp.getChara().get())
                 .collect(Collectors.toList());
+        if (BooleanUtils.isTrue(villageInfo.settings.getIsAvailableSameWolfAttack())) {
+            // 連続襲撃可能
+            return liveAttackerList;
+        }
+        // 連続襲撃不可
+        // 昨日襲撃した狼
+        Integer yesterdayAttackerId = abilityBhv.selectEntity(cb -> {
+            cb.query().setVillageId_Equal(villageInfo.villageId);
+            cb.query().setDay_Equal(villageInfo.day - 1);
+            cb.query().setAbilityTypeCode_Equal_襲撃();
+        }).map(ab -> ab.getCharaId()).orElse(null);
         // 生存している狼が1名ではない場合は、昨日襲撃した狼は襲撃できない
-        //        if (liveAttackerList.size() > 1) {
-        //            return liveAttackerList.stream().filter(attacker -> !attacker.getCharaId().equals(yesterdayAttackerId)).collect(
-        //                    Collectors.toList());
-        //        } else {
-        return liveAttackerList;
-        //        }
+        if (liveAttackerList.size() > 1) {
+            return liveAttackerList.stream().filter(attacker -> !attacker.getCharaId().equals(yesterdayAttackerId)).collect(
+                    Collectors.toList());
+        } else {
+            return liveAttackerList;
+        }
     }
 
     // 投票対象リスト作成

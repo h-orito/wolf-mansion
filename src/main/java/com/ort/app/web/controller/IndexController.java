@@ -45,7 +45,11 @@ public class IndexController {
     private IndexVillageDto convertToIndexVillage(Village village) {
         IndexVillageDto villageDto = new IndexVillageDto();
         villageDto.setVillageId(village.getVillageId());
+        villageDto.setVillageNumber(String.format("%04d", village.getVillageId()));
         villageDto.setVillageName(village.getVillageDisplayName());
+        int participateNum = village.getVillagePlayerList().size();
+        Integer maxNum = village.getVillageSettingsAsOne().get().getPersonMaxNum();
+        villageDto.setParticipateNum(String.format("%d人/%d人", participateNum, maxNum));
         villageDto.setStatus(village.getVillageStatus().get().getVillageStatusName());
         return villageDto;
     }
@@ -61,6 +65,10 @@ public class IndexController {
             cb.query().setVillageStatusCode_InScope_AsVillageStatus(
                     Arrays.asList(CDef.VillageStatus.エピローグ, CDef.VillageStatus.募集中, CDef.VillageStatus.進行中, CDef.VillageStatus.開始待ち));
             cb.query().addOrderBy_VillageId_Asc();
+        });
+        villageBhv.loadVillagePlayer(villageList, cb -> {
+            cb.query().setIsGone_Equal_False();
+            cb.query().setIsSpectator_Equal_False();
         });
         IndexResultContent content = mappingToContent(villageList);
         model.addAttribute("content", content);

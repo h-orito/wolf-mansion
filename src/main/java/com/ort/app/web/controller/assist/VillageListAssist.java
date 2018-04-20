@@ -44,6 +44,7 @@ public class VillageListAssist {
     private VillageListVillageDto convertToVillageDto(Village village) {
         VillageListVillageDto part = new VillageListVillageDto();
         part.setVillageId(village.getVillageId());
+        part.setVillageNumber(String.format("%04d", village.getVillageId()));
         part.setVillageName(village.getVillageDisplayName());
         int participateNum = village.getVillagePlayerList().size();
         Integer maxNum = village.getVillageSettingsAsOne().get().getPersonMaxNum();
@@ -62,7 +63,10 @@ public class VillageListAssist {
             cb.setupSelect_VillageStatus();
             cb.query().addOrderBy_VillageId_Desc();
         });
-        villageBhv.loadVillagePlayer(villageList, cb -> cb.query().setIsGone_Equal_False());
+        villageBhv.loadVillagePlayer(villageList, cb -> {
+            cb.query().setIsGone_Equal_False();
+            cb.query().setIsSpectator_Equal_False();
+        });
         return villageList;
     }
 }

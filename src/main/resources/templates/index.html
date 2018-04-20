@@ -92,7 +92,9 @@
 										<table class="table table-bordered table-condensed" style="margin-bottom: 0px; border-collapse: collapse;">
 											<tbody>
 												<tr th:each="village : ${content.villageList}" class="top-menu-selectable" data-goto-village>
+													<td th:text="${village.villageNumber}"></td>
 													<td th:data-village-url="@{/village/{villageId}(villageId=${village.villageId})}" th:text="${village.villageName}"></td>
+													<td th:text="${village.participateNum}"></td>
 													<td th:text="${village.status}"></td>
 												</tr>
 											</tbody>

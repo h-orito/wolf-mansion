@@ -19,6 +19,7 @@ import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exbhv.VillageSettingsBhv;
 import com.ort.dbflute.exentity.VillageDay;
+import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillageSettings;
 import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionDateUtil;
@@ -53,7 +54,7 @@ public class VillageSettingsAssist {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
         }
-        setVillageSettingsIndexModel(villageId, model);
+        setVillageSettingsIndexModel(villageId, null, model);
         return "village-settings";
     }
 
@@ -63,18 +64,18 @@ public class VillageSettingsAssist {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (userInfo == null) {
             model.addAttribute("errorMessage", "ログインし直してください。");
-            setVillageSettingsIndexModel(villageId, model);
+            setVillageSettingsIndexModel(villageId, form, model);
             return "village-settings";
         }
         if (bindingResult.hasErrors()) {
-            setVillageSettingsIndexModel(villageId, model);
+            setVillageSettingsIndexModel(villageId, form, model);
             return "village-settings";
         }
         try {
             updateVillageSettings(villageId, form, userInfo);
         } catch (WerewolfMansionBusinessException e) {
             model.addAttribute("errorMessage", e.getMessage());
-            setVillageSettingsIndexModel(villageId, model);
+            setVillageSettingsIndexModel(villageId, form, model);
             return "village-settings";
         }
         return "redirect:/village/" + villageId + "#bottom";
@@ -93,13 +94,19 @@ public class VillageSettingsAssist {
         if (startDateTime.isBefore(WerewolfMansionDateUtil.currentLocalDateTime())) {
             throw new WerewolfMansionBusinessException("開始日時を現在より過去にすることはできません");
         }
-        int participateCount = villagePlayerBhv.selectCount(cb -> {
+        ListResultBean<VillagePlayer> vPlayerList = villagePlayerBhv.selectList(cb -> {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setIsGone_Equal_False();
         });
+        long participateCount = vPlayerList.stream().filter(vp -> vp.isIsSpectatorFalse()).count();
         if (form.getPersonMaxNum() < participateCount) {
             throw new WerewolfMansionBusinessException("定員は既に入村済みの人数未満にすることはできません");
         }
+        boolean existsSpectator = vPlayerList.stream().anyMatch(vp -> vp.isIsSpectatorTrue());
+        if (existsSpectator && BooleanUtils.isFalse(form.getIsAvailableSpectate())) {
+            throw new WerewolfMansionBusinessException("見学者が既にいるため、見学入村を不可にすることはできません");
+        }
+
         VillageSettings villageSettings = selectVillageSettings(villageId);
         if (!"master".equals(userInfo.getUsername())
                 && !userInfo.getUsername().equals(villageSettings.getVillage().get().getCreatePlayerName())) {
@@ -132,8 +139,13 @@ public class VillageSettingsAssist {
         settings.setPersonMaxNum(form.getPersonMaxNum());
         settings.setDayChangeIntervalSeconds(
                 form.getDayChangeIntervalHours() * 3600 + form.getDayChangeIntervalMinutes() * 60 + form.getDayChangeIntervalSeconds());
-        // この項目は更新しても意味がないが一応更新しておく
-        settings.setStartDatetime(makeStartDateTime(form));
+        settings.setStartDatetime(makeStartDateTime(form)); // この項目は更新しても意味がないが一応更新しておく
+        settings.setIsOpenVote(form.getIsOpenVote());
+        settings.setIsAvailableSameWolfAttack(form.getIsAvailableSameWolfAttack());
+        settings.setIsOpenSkillInGrave(form.getIsOpenSkillInGrave());
+        settings.setIsVisibleGraveSpectateMessage(form.getIsVisibleGraveSpectateMessage());
+        settings.setIsAvailableSpectate(form.getIsAvailableSpectate());
+        settings.setOrganize(form.getOrganization());
         villageSettingsBhv.update(settings);
     }
 
@@ -162,7 +174,7 @@ public class VillageSettingsAssist {
         part.setCharaGroupId(settings.getCharacterGroupId());
         part.setCharaGroupName(settings.getCharaGroup().get().getCharaGroupName());
         part.setSkillRequestType(BooleanUtils.isTrue(settings.getIsPossibleSkillRequest()) ? "有効" : "無効");
-        part.setVoteType(BooleanUtils.isTrue(settings.getIsOpenVote()) ? "記名投票" : "無記名投票");
+        part.setIsAvailableSpectate(settings.getIsAvailableSpectate());
         return part;
     }
 
@@ -170,7 +182,7 @@ public class VillageSettingsAssist {
     //                                                                        Assist Logic
     //                                                                        ============
     // 村設定変更画面作成
-    private void setVillageSettingsIndexModel(Integer villageId, Model model) {
+    private void setVillageSettingsIndexModel(Integer villageId, VillageSettingsForm form, Model model) {
         VillageSettings settings = selectVillageSettings(villageId);
         ListResultBean<VillageDay> dayList = selectVillageDayList(villageId);
         VillageSettingsResultContent content = mappingToSettingsResultContent(settings, dayList);
@@ -178,7 +190,7 @@ public class VillageSettingsAssist {
         // 現在の年
         LocalDate now = WerewolfMansionDateUtil.currentLocalDate();
         model.addAttribute("nowYear", now.getYear());
-        setVillageSettingsForm(null, settings, dayList, model);
+        setVillageSettingsForm(form, settings, dayList, model);
     }
 
     // 村設定変更
@@ -208,6 +220,12 @@ public class VillageSettingsAssist {
         settingsForm.setDayChangeIntervalHours(intervalSec / 3600);
         settingsForm.setDayChangeIntervalMinutes((intervalSec % 3600) / 60);
         settingsForm.setDayChangeIntervalSeconds(intervalSec % 60);
+        settingsForm.setIsOpenVote(settings.getIsOpenVote());
+        settingsForm.setIsAvailableSameWolfAttack(settings.getIsAvailableSameWolfAttack());
+        settingsForm.setIsOpenSkillInGrave(settings.getIsOpenSkillInGrave());
+        settingsForm.setIsVisibleGraveSpectateMessage(settings.getIsVisibleGraveSpectateMessage());
+        settingsForm.setIsAvailableSpectate(settings.getIsAvailableSpectate());
+        settingsForm.setOrganization(settings.getOrganize());
         model.addAttribute("settingsForm", settingsForm);
     }
 
