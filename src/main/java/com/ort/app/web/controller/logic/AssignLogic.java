@@ -2,12 +2,12 @@ package com.ort.app.web.controller.logic;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.dbflute.cbean.result.ListResultBean;
 import org.slf4j.Logger;
@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ort.app.web.util.RoomUtil;
+import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.exbhv.SkillBhv;
@@ -59,7 +60,7 @@ public class AssignLogic {
     // 役職を割り当てる
     public void assignSkill(Integer villageId, List<VillagePlayer> vPlayerList) {
         // 村人数に応じた役職人数Map（key: 役職, value: 役職人数）
-        Map<CDef.Skill, Integer> skillPersonNumMap = makeSkillPersonNumMap(vPlayerList.size());
+        Map<CDef.Skill, Integer> skillPersonNumMap = makeSkillPersonNumMap(villageId, vPlayerList.size());
         // 更新用プレイヤーリスト
         List<VillagePlayer> updatePlayerList = new ArrayList<>();
         // 役職希望した人について、役職ごとの最大人数まで割り当てて更新用リストに追加
@@ -125,34 +126,15 @@ public class AssignLogic {
     //                                                         Assist Logic (assign skill)
     //                                                                        ============
     // 村人数に応じた役職人数
-    private Map<Skill, Integer> makeSkillPersonNumMap(int personNum) {
-        Map<Skill, Integer> personNumMap = new HashMap<>();
+    private Map<Skill, Integer> makeSkillPersonNumMap(Integer villageId, int personNum) {
+        Village village = villageBhv.selectEntityWithDeletedCheck(cb -> {
+            cb.setupSelect_VillageSettingsAsOne();
+            cb.query().setVillageId_Equal(villageId);
+        });
+        String organize = village.getVillageSettingsAsOne().get().getOrganize();
+        String personNumOrg = Stream.of(organize.split("\n")).filter(org -> org.length() == personNum).findFirst().get();
 
-        // 狼
-        int wolfNum = personNum >= 18 ? 4 : personNum >= 13 ? 3 : 2;
-        personNumMap.put(CDef.Skill.人狼, wolfNum);
-        // 賢者
-        int wiseNum = 1;
-        personNumMap.put(CDef.Skill.賢者, wiseNum);
-        // 導師
-        int guruNum = 1;
-        personNumMap.put(CDef.Skill.導師, guruNum);
-        // 狩人
-        int hunterNum = personNum >= 10 ? 1 : 0;
-        personNumMap.put(CDef.Skill.狩人, hunterNum);
-        // 共有
-        int masonNum = personNum >= 13 ? 2 : 0;
-        personNumMap.put(CDef.Skill.共鳴者, masonNum);
-        // 狐
-        int foxNum = personNum >= 15 ? 1 : 0;
-        personNumMap.put(CDef.Skill.妖狐, foxNum);
-        // 狂人
-        int madmanNum = personNum >= 10 ? 1 : 0;
-        personNumMap.put(CDef.Skill.狂人, madmanNum);
-        // 村人
-        int villagerNum = personNum - wolfNum - wiseNum - guruNum - hunterNum - masonNum - foxNum - madmanNum;
-        personNumMap.put(CDef.Skill.村人, villagerNum);
-        return personNumMap;
+        return SkillUtil.createSkillPersonNum(personNumOrg);
     }
 
     private void addRequestToUpdatePlayerList(List<VillagePlayer> vPlayerList, Map<CDef.Skill, Integer> skillPersonNumMap,

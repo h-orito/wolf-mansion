@@ -2,7 +2,6 @@ package com.ort.app.web.form.validator;
 
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -13,7 +12,6 @@ import org.springframework.validation.Validator;
 import com.ort.app.web.form.NewVillageForm;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
-import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.fw.util.WerewolfMansionDateUtil;
 
 @Component
@@ -140,7 +138,7 @@ public class NewVillageFormValidator implements Validator {
     }
 
     private boolean isInvalidOrganizationSkillPersonNum(Errors errors, String org, int lineNum) {
-        Map<CDef.Skill, Integer> skillPersonNumMap = createSkillPersonNum(org);
+        Map<CDef.Skill, Integer> skillPersonNumMap = SkillUtil.createSkillPersonNum(org);
         // 占い師と賢者は1名まで
         if (skillPersonNumMap.get(CDef.Skill.占い師) + skillPersonNumMap.get(CDef.Skill.賢者) > 1) {
             errors.rejectValue("organization", "VillageSayForm.validator.organization.maxperson", new Object[] { "占い師と賢者", 1, lineNum },
@@ -180,19 +178,5 @@ public class NewVillageFormValidator implements Validator {
         }
 
         return false;
-    }
-
-    private Map<Skill, Integer> createSkillPersonNum(String org) {
-        Map<CDef.Skill, Integer> skillPersonNumMap = new HashMap<>();
-        for (CDef.Skill skill : CDef.Skill.values()) {
-            skillPersonNumMap.put(skill, 0);
-        }
-        for (String character : org.split("")) {
-            CDef.Skill skill = SkillUtil.SKILL_SHORTNAME_MAP.get(character);
-            Integer skillPersonNum = skillPersonNumMap.get(skill);
-            skillPersonNum++;
-            skillPersonNumMap.put(skill, skillPersonNum);
-        }
-        return skillPersonNumMap;
     }
 }

@@ -307,6 +307,14 @@ tr.top-menu-selectable:hover a {
 	border-radius: 4px;
 }
 
+.alert-dead {
+	border: 1px solid #3498db;
+	color: #3498db;
+	padding: 5px;
+	margin-bottom: 10px;
+	border-radius: 4px;
+}
+
 .transparent-well button {
 	opacity: 1;
 }
