@@ -285,6 +285,10 @@ public class VillageMessageAssist {
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             return true;
         }
+        // 墓下との会話ができる設定なら開放
+        if (village.getVillageSettingsAsOne().get().isIsVisibleGraveSpectateMessageTrue()) {
+            return true;
+        }
         // 終了していなかったら参加していて突然死以外で死亡している場合のみ開放
         if (!optVillagePlayer.isPresent()) {
             return false;
@@ -308,6 +312,10 @@ public class VillageMessageAssist {
         // 進行中以外は全開放
         if (village.isVillageStatusCode募集中() || village.isVillageStatusCode開始待ち() || village.isVillageStatusCodeエピローグ()
                 || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
+            return true;
+        }
+        // 見学との会話ができる設定なら開放
+        if (village.getVillageSettingsAsOne().get().isIsVisibleGraveSpectateMessageTrue()) {
             return true;
         }
         // 進行中は0日目の発言は開放
