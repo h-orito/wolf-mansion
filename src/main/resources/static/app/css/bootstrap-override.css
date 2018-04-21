@@ -318,3 +318,7 @@ tr.top-menu-selectable:hover a {
 .transparent-well button {
 	opacity: 1;
 }
+
+ul.announce > li {
+	margin-bottom: 10px;
+}

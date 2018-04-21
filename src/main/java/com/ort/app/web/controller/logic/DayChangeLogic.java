@@ -13,6 +13,7 @@ import java.util.StringJoiner;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.dbflute.cbean.result.ListResultBean;
 import org.dbflute.optional.OptionalEntity;
@@ -20,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
@@ -528,6 +528,19 @@ public class DayChangeLogic {
             joiner.add(String.format("%s (%s)、%s。%sだった。", player.getChara().get().getCharaName(), player.getPlayer().get().getPlayerName(),
                     player.isIsDeadTrue() ? "死亡" : "生存", player.getSkillBySkillCode().get().getSkillName()));
         });
+        ListResultBean<VillagePlayer> spectatorList = villagePlayerBhv.selectList(cb -> {
+            cb.setupSelect_Chara();
+            cb.setupSelect_Player();
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setIsGone_Equal_False();
+            cb.query().setIsSpectator_Equal_True();
+        });
+        if (CollectionUtils.isNotEmpty(spectatorList)) {
+            spectatorList.stream().forEach(player -> {
+                joiner.add(String.format("%s (%s)、見学参加だった。", player.getChara().get().getCharaName(),
+                        player.getPlayer().get().getPlayerName()));
+            });
+        }
         messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
     }
 

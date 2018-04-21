@@ -23,7 +23,7 @@
 					<h2 class="h4" data-toggle="collapse" data-target="#mansion">
 						<a href="javascript:void(0);">人狼館の事件簿村ルール</a>
 					</h2>
-					<ul id="mansion" class="collapse">
+					<ul id="mansion" class="collapse announce">
 						<li class="text-danger"><strong>白ログでの推理発言、まとめ行為、CO禁止です。（グレラン村）</strong>
 							<ul>
 								<li>役職持ち、騙り含め全てのCOおよび結果報告が禁止となります。</li>
@@ -74,7 +74,7 @@
 					<h2 class="h4" data-toggle="collapse" data-target="#detail">
 						<a href="javascript:void(0);">詳細ルール</a>
 					</h2>
-					<ul id="detail" class="collapse">
+					<ul id="detail" class="collapse announce">
 						<li>基本的な心構え
 							<ul>
 								<li>他国と大きく変わりありませんし、あえて長々と記載しません。他者への礼節を欠くような行為は避けてください。</li>
@@ -135,6 +135,35 @@
 								<li>発言数制限は未実装です。</li>
 							</ul>
 						</li>
+						<li>流れ
+							<ul>
+								<li>プロローグ
+									<ul>
+										<li>更新時間までに最低開始人数が揃っていた場合、更新時間に1日目に遷移します。</li>
+									</ul>
+								</li>
+								<li>1日目
+									<ul>
+										<li>部屋および役職が各個に割り当てられます。</li>
+										<li>見学者が墓下へ移動し、生存者と会話できなくなります。（オプションで変更可能です）</li>
+										<li>投票および処刑はありません。</li>
+										<li>人狼の襲撃対象はダミーキャラ固定になります。襲撃担当者および経路は選択できます。</li>
+										<li>占い師、賢者は占い対象を選択できます。</li>
+										<li>狂人、魔神官、C国狂人、妖狐は徘徊する部屋を選択できます。</li>
+										<li>狩人は能力行使できません。</li>
+									</ul>
+								</li>
+								<li>2日目以降
+									<ul>
+										<li>能力行使した内容に応じて部屋に足音が響きます。</li>
+										<li>処刑するための投票先を選択できるようにます。</li>
+										<li>人狼が襲撃対象を選択できるようになります。</li>
+										<li>狩人が護衛対象を選択できるようになります。</li>
+										<li>日付更新時、勝利条件に当てはまった場合はエピローグに遷移します。</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
 					</ul>
 				</div>
 
@@ -143,7 +172,7 @@
 					<h2 class="h4" data-toggle="collapse" data-target="#skill">
 						<a href="javascript:void(0);">役職説明</a>
 					</h2>
-					<ul id="skill" class="collapse">
+					<ul id="skill" class="collapse announce">
 						<li>村人
 							<ul>
 								<li>特別な能力はありません。</li>
@@ -170,6 +199,7 @@
 								</li>
 								<li>設定で同一人狼による連続襲撃不可となっている村では、人狼が複数生存している場合、2日連続で同じ人狼が襲撃することはできません。</li>
 								<li>日付更新時の襲撃者およびセット先はランダムです。</li>
+								<li>「襲撃なし」はありません。必ず襲撃対象を選択することになります。</li>
 								<li>襲撃失敗の場合、護衛なのか妖狐なのかは判別できません。</li>
 								<li>襲撃セット時の襲撃者と「●●！今日がお前の命日だ！」の発言者が異なることがありますが、仕様です。（襲撃者が死亡していることがあるため連動させていません）</li>
 							</ul>
@@ -247,30 +277,25 @@
 							<tbody>
 								<tr>
 									<td class="vertical-middle">村人陣営</td>
-									<td class="vertical-middle">
-										村人<br>占い師<br>賢者<br>狩人<br>霊能者<br>導師<br>共鳴者
+									<td class="vertical-middle">村人<br>占い師<br>賢者<br>狩人<br>霊能者<br>導師<br>共鳴者
 									</td>
 									<td class="vertical-middle">夜明け時点で人狼および妖狐が全て死亡している</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">人狼陣営</td>
-									<td class="vertical-middle">
-										人狼<br>狂人<br>C国狂人<br>魔神官
+									<td class="vertical-middle">人狼<br>狂人<br>C国狂人<br>魔神官
 									</td>
-									<td class="vertical-middle">
-										夜明け時点で生存している人狼の数≧生存している人間（※）の数かつ妖狐が死亡している<br> ※ここでの人間は「人狼と妖狐以外」を表す。狂人は人間に含まれ、妖狐は人間にも人狼にも含まれない。
+									<td class="vertical-middle">夜明け時点で生存している人狼の数≧生存している人間（※）の数かつ妖狐が死亡している<br> ※ここでの人間は「人狼と妖狐以外」を表す。狂人は人間に含まれ、妖狐は人間にも人狼にも含まれない。
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">妖狐陣営</td>
 									<td class="vertical-middle">妖狐</td>
-									<td class="vertical-middle">
-										夜明け時点で以下のいずれかを満たす
+									<td class="vertical-middle">夜明け時点で以下のいずれかを満たす
 										<ul>
 											<li>人狼が全て死亡かつ妖狐が生存している</li>
 											<li>生存している人狼の数≧生存している人間（※）の数かつ妖狐が生存している</li>
-										</ul>
-										※ここでの人間は「人狼と妖狐以外」を表す。狂人は人間に含まれ、妖狐は人間にも人狼にも含まれない。
+										</ul> ※ここでの人間は「人狼と妖狐以外」を表す。狂人は人間に含まれ、妖狐は人間にも人狼にも含まれない。
 									</td>
 								</tr>
 							</tbody>
@@ -288,87 +313,74 @@
 							<thead>
 								<tr>
 									<th class="vertical-middle">人数</th>
-									<th class="vertical-middle">空き部屋の位置<br> (部：部屋　　＿：空き部屋)
+									<th class="vertical-middle">空き部屋の位置<br> (部：部屋 ＿：空き部屋)
 									</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
 									<td class="vertical-middle">8人(4x3)</td>
-									<td class="vertical-middle">
-										＿部部＿<br>部部部部<br>＿部部＿<br>
+									<td class="vertical-middle">＿部部＿<br>部部部部<br>＿部部＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">9人(4x3)</td>
-									<td class="vertical-middle">
-										＿部部＿<br>部部部部<br>＿部部部<br>
+									<td class="vertical-middle">＿部部＿<br>部部部部<br>＿部部部<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">10人(4x3)</td>
-									<td class="vertical-middle">
-										部部部＿<br>部部部部<br>＿部部部<br>
+									<td class="vertical-middle">部部部＿<br>部部部部<br>＿部部部<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">11人(5x3)</td>
-									<td class="vertical-middle">
-										＿部部部＿<br>部部部部部<br>＿部部部＿<br>
+									<td class="vertical-middle">＿部部部＿<br>部部部部部<br>＿部部部＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">12人(4x4)</td>
-									<td class="vertical-middle">
-										＿部部＿<br>部部部部<br>部部部部<br>＿部部＿<br>
+									<td class="vertical-middle">＿部部＿<br>部部部部<br>部部部部<br>＿部部＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">13人(4x4)</td>
-									<td class="vertical-middle">
-										＿部部＿<br>部部部部<br>部部部部<br>＿部部部<br>
+									<td class="vertical-middle">＿部部＿<br>部部部部<br>部部部部<br>＿部部部<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">14人(5x4)</td>
-									<td class="vertical-middle">
-										＿＿部部＿<br>部部部部部<br>部部部部部<br>＿部部＿＿<br>
+									<td class="vertical-middle">＿＿部部＿<br>部部部部部<br>部部部部部<br>＿部部＿＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">15人(5x4)</td>
-									<td class="vertical-middle">
-										＿＿部部＿<br>部部部部部<br>部部部部部<br>＿部部部＿<br>
+									<td class="vertical-middle">＿＿部部＿<br>部部部部部<br>部部部部部<br>＿部部部＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">16人(5x4)</td>
-									<td class="vertical-middle">
-										＿部部部＿<br>部部部部部<br>部部部部部<br>＿部部部＿<br>
+									<td class="vertical-middle">＿部部部＿<br>部部部部部<br>部部部部部<br>＿部部部＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">17人(5x4)</td>
-									<td class="vertical-middle">
-										＿部部部＿<br>部部部部部<br>部部部部部<br>＿部部部部<br>
+									<td class="vertical-middle">＿部部部＿<br>部部部部部<br>部部部部部<br>＿部部部部<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">18人(6x4)</td>
-									<td class="vertical-middle">
-										＿＿部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部＿＿<br>
+									<td class="vertical-middle">＿＿部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部＿＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">19人(6x4)</td>
-									<td class="vertical-middle">
-										＿部部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部＿＿<br>
+									<td class="vertical-middle">＿部部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部＿＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">20人(6x4)</td>
-									<td class="vertical-middle">
-										＿部部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部部＿<br>
+									<td class="vertical-middle">＿部部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部部＿<br>
 									</td>
 								</tr>
 							</tbody>
