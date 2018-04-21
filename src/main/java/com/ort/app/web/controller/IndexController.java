@@ -49,7 +49,7 @@ public class IndexController {
         villageDto.setVillageName(village.getVillageDisplayName());
         int participateNum = village.getVillagePlayerList().size();
         Integer maxNum = village.getVillageSettingsAsOne().get().getPersonMaxNum();
-        villageDto.setParticipateNum(String.format("%d人/%d人", participateNum, maxNum));
+        villageDto.setParticipateNum(String.format("%d/%d人", participateNum, maxNum));
         villageDto.setStatus(village.getVillageStatus().get().getVillageStatusName());
         return villageDto;
     }

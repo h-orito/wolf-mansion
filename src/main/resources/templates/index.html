@@ -92,10 +92,10 @@
 										<table class="table table-bordered table-condensed" style="margin-bottom: 0px; border-collapse: collapse;">
 											<tbody>
 												<tr th:each="village : ${content.villageList}" class="top-menu-selectable" data-goto-village>
-													<td th:text="${village.villageNumber}"></td>
-													<td th:data-village-url="@{/village/{villageId}(villageId=${village.villageId})}" th:text="${village.villageName}"></td>
-													<td th:text="${village.participateNum}"></td>
-													<td th:text="${village.status}"></td>
+													<td class="col-sm-1 col-xs-1" th:text="${village.villageNumber}"></td>
+													<td class="text-left" th:data-village-url="@{/village/{villageId}(villageId=${village.villageId})}" th:text="${village.villageName}"></td>
+													<td class="col-sm-2 col-xs-2" th:text="${village.participateNum}"></td>
+													<td class="col-sm-2 col-xs-2" th:text="${village.status}"></td>
 												</tr>
 											</tbody>
 										</table>
