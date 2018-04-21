@@ -66,6 +66,7 @@ $(function() {
 			item = item.replace(/&gt;&gt;\+(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-grave-anchor=\"$1\">&gt;&gt;\+$1<\/a>');
 			item = item.replace(/&gt;&gt;=(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-mason-anchor=\"$1\">&gt;&gt;=$1<\/a>');
 			item = item.replace(/&gt;&gt;@(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-spectate-anchor=\"$1\">&gt;&gt;@$1<\/a>');
+			item = item.replace(/&gt;&gt;\-(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-monologue-anchor=\"$1\">&gt;&gt;\-$1<\/a>');
 			return item.replace(/&gt;&gt;\*(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-whisper-anchor=\"$1\">&gt;&gt;\*$1<\/a>');
 		}).join('<br>');
 	}
@@ -86,6 +87,10 @@ $(function() {
 	$('body').on('click', '[data-message-spectate-anchor]', function() {
 		const messageNumber = $(this).data('message-spectate-anchor');
 		handlingNumberAnchor($(this), 'SPECTATE_SAY', messageNumber);
+	});
+	$('body').on('click', '[data-message-monologue-anchor]', function() {
+		const messageNumber = $(this).data('message-monologue-anchor');
+		handlingNumberAnchor($(this), 'MONOLOGUE_SAY', messageNumber);
 	});
 	$('body').on('click', '[data-message-whisper-anchor]', function() {
 		const messageNumber = $(this).data('message-whisper-anchor');

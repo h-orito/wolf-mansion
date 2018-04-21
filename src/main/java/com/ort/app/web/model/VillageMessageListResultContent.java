@@ -41,5 +41,4 @@ public class VillageMessageListResultContent implements Serializable {
     public void setLatestDay(Integer latestDay) {
         this.latestDay = latestDay;
     }
-
 }

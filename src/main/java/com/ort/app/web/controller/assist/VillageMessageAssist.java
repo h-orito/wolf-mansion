@@ -67,7 +67,7 @@ public class VillageMessageAssist {
         List<CDef.MessageType> messageTypeList = makeMessageTypeList(optVillagePlayer, village, day);
         ListResultBean<Message> messageList = selectMessageList(form.getVillageId(), day, messageTypeList, optVillagePlayer);
         String villageStatusMessage = makeVillageStatusMessage(village, isLatestDay(villageId, day), optVillagePlayer, day);
-        VillageMessageListResultContent content = mappingToMessageListContent(messageList, villageStatusMessage, latestDay);
+        VillageMessageListResultContent content = mappingToMessageListContent(village, messageList, villageStatusMessage, latestDay);
         return content;
     }
 
@@ -76,16 +76,16 @@ public class VillageMessageAssist {
             return null;
         }
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
-        if (!isViewAllowedMessage(form, userInfo)) {
+        Village village = selectVillage(form.getVillageId());
+        if (!isViewAllowedMessage(form, village, userInfo)) {
             return null;
         }
-
         Message message = selectAnchorMessage(form);
         VillageAnchorMessageResultContent content = new VillageAnchorMessageResultContent();
         if (message == null) {
             return content;
         }
-        content.setMessage(convertToMessage(message));
+        content.setMessage(convertToMessage(village, message));
         return content;
     }
 
@@ -156,10 +156,10 @@ public class VillageMessageAssist {
     // ===================================================================================
     //                                                                             Mapping
     //                                                                             =======
-    private VillageMessageListResultContent mappingToMessageListContent(ListResultBean<Message> messageList, String villageStatusMessage,
-            int latestDay) {
+    private VillageMessageListResultContent mappingToMessageListContent(Village village, ListResultBean<Message> messageList,
+            String villageStatusMessage, int latestDay) {
         VillageMessageListResultContent content = new VillageMessageListResultContent();
-        content.setMessageList(convertToMessageList(messageList));
+        content.setMessageList(convertToMessageList(village, messageList));
         content.setVillageStatusMessage(villageStatusMessage);
         content.setLatestDay(latestDay);
         return content;
@@ -211,23 +211,26 @@ public class VillageMessageAssist {
         return maxVillageDay;
     }
 
-    private List<VillageMessageDto> convertToMessageList(List<Message> messageList) {
-        return messageList.stream().map(message -> convertToMessage(message)).collect(Collectors.toList());
+    private List<VillageMessageDto> convertToMessageList(Village village, List<Message> messageList) {
+        return messageList.stream().map(message -> convertToMessage(village, message)).collect(Collectors.toList());
     }
 
-    private VillageMessageDto convertToMessage(Message message) {
+    private VillageMessageDto convertToMessage(Village village, Message message) {
         VillageMessageDto messageDto = new VillageMessageDto();
         messageDto.setCharacterName(
                 message.getVillagePlayer().map(villagePlayer -> villagePlayer.getChara().get().getCharaName()).orElse(null));
         messageDto.setCharacterId(message.getVillagePlayer().map(villagePlayer -> villagePlayer.getCharaId()).orElse(null));
         messageDto.setCharacterImageUrl(
                 message.getVillagePlayer().map(villagePlayer -> villagePlayer.getChara().get().getCharaImgUrl()).orElse(null));
-        // エピ入ってないと表示しちゃだめ
-        // messageDto.setPlayerName(
-        //         message.getVillagePlayer().map(villagePlayer -> villagePlayer.getPlayer().get().getPlayerName()).orElse(null));
+        if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode終了()) {
+            messageDto.setPlayerName(
+                    message.getVillagePlayer().map(villagePlayer -> villagePlayer.getPlayer().get().getPlayerName()).orElse(null));
+        }
         messageDto.setMessageContent(message.getMessageContent());
         messageDto.setMessageDatetime(message.getMessageDatetime());
-        messageDto.setMessageNumber(message.getMessageNumber());
+        if (!message.isMessageTypeCode独り言() || (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode終了())) {
+            messageDto.setMessageNumber(message.getMessageNumber());
+        }
         messageDto.setMessageType(message.getMessageTypeCodeAsMessageType().code());
         return messageDto;
     }
@@ -235,10 +238,9 @@ public class VillageMessageAssist {
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
-    private boolean isViewAllowedMessage(VillageGetAnchorMessageForm form, UserInfo userInfo) {
+    private boolean isViewAllowedMessage(VillageGetAnchorMessageForm form, Village village, UserInfo userInfo) {
         Integer villageId = form.getVillageId();
         CDef.MessageType messageType = CDef.MessageType.codeOf(form.getMessageType());
-        Village village = selectVillage(villageId);
         OptionalEntity<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
         if (messageType == CDef.MessageType.人狼の囁き) {
             return isViewAllowedWerewolfSay(village, optVillagePlayer);
@@ -250,6 +252,8 @@ public class VillageMessageAssist {
             return isViewAllowedGraveSay(village, optVillagePlayer);
         } else if (messageType == CDef.MessageType.見学発言) {
             return isViewAllowedSpectateSay(village, optVillagePlayer, 1);
+        } else if (messageType == CDef.MessageType.独り言) {
+            return isViewAllowedMonologueSay(village, optVillagePlayer);
         }
         return false;
     }
@@ -328,6 +332,15 @@ public class VillageMessageAssist {
         }
         VillagePlayer vPlayer = optVillagePlayer.get();
         if ((vPlayer.isIsDeadTrue() && !vPlayer.isDeadReasonCode突然()) || vPlayer.isIsSpectatorTrue()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isViewAllowedMonologueSay(Village village, OptionalEntity<VillagePlayer> optVillagePlayer) {
+        // 進行中以外は全開放
+        if (village.isVillageStatusCode募集中() || village.isVillageStatusCode開始待ち() || village.isVillageStatusCodeエピローグ()
+                || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             return true;
         }
         return false;
