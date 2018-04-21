@@ -14,7 +14,7 @@ public class PlayerCreateForm implements Serializable {
     /** ユーザID */
     @NotNull
     @Length(min = 3, max = 12)
-    @Pattern(regexp = "[a-zA-Z0-9]*")
+    @Pattern(regexp = "[a-zA-Z][a-zA-Z0-9\\-\\_]*")
     private String userId;
 
     /** パスワード */

@@ -14,7 +14,7 @@
 			<div id="wrapper">
 				<div class="col-sm-12 col-xs-12">
 					<h1 class="h4">ID作成</h1>
-					<p>使用したいIDパスワードを入力してください。ともに3文字以上12文字以下で、英数のみ使用可能です。</p>
+					<p>使用したいIDパスワードを入力してください。<br />ともに3文字以上12文字以下で、IDは英数とハイフン、アンダーバーのみ使用可能です。<br />また、1文字目は英字である必要があります。</p>
 					<span class="text-danger" th:if="${errorMessage != null}" th:text="${errorMessage}">エラーメッセージ</span>
 					<form method="post" action="" th:action="@{/new-player}" th:object="${form}" class="form-horizontal">
 						<div class="form-group">
