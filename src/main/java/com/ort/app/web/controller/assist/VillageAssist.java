@@ -218,14 +218,14 @@ public class VillageAssist {
             form.setMessageType(CDef.MessageType.人狼の囁き.code());
         } else if (isAvailableMasonSay) {
             form.setMessageType(CDef.MessageType.共鳴発言.code());
+        } else if (isAvailableMonologueSay) {
+            form.setMessageType(CDef.MessageType.独り言.code());
         } else if (isAvailableNormalSay) {
             form.setMessageType(CDef.MessageType.通常発言.code());
         } else if (isAvailableGraveSay) {
             form.setMessageType(CDef.MessageType.死者の呻き.code());
         } else if (isAvailableSpectateSay) {
             form.setMessageType(CDef.MessageType.見学発言.code());
-        } else {
-            form.setMessageType(CDef.MessageType.独り言.code());
         }
         model.addAttribute("sayForm", form);
     }
