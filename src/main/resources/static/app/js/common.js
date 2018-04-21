@@ -12,15 +12,15 @@ $(function() {
 	
 	// jquery cookieでjson化
 	$.cookie.json = true;
-});
-
-// 二重サブミット防止
-$('body').on('submit', 'form', function() {
-	var self = this;
-	$(":submit", self).prop("disabled", true);
-	setTimeout(function() {
-		$(":submit", self).prop("disabled", false);
-	}, 10000);
+	
+	// 二重サブミット防止
+	$('body').on('submit', 'form', function() {
+		var self = $(this);
+		self.find(':submit').prop("disabled", true);
+		setTimeout(function() {
+			self.find(':submit').prop("disabled", false);
+		}, 10000);
+	});
 });
 
 // ---------------------------------------------------
