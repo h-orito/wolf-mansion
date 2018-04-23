@@ -1,5 +1,14 @@
 package com.ort.app.web.controller.assist;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -81,7 +90,10 @@ public class VillageSayAssist {
             throw new IllegalArgumentException("発言種別改ざん");
         }
 
-        messageLogic.insertMessage(villageId, day, type, sayForm.getMessage(), villagePlayer.getVillagePlayerId());
+        // ランダム機能などメッセージ関数を置換
+        String message = replaceMessage(sayForm.getMessage());
+
+        messageLogic.insertMessage(villageId, day, type, message, villagePlayer.getVillagePlayerId());
         // 最新の日付を表示
         return "redirect:/village/" + villageId + "#bottom";
     }
@@ -207,5 +219,71 @@ public class VillageSayAssist {
             return false;
         }
         return true;
+    }
+
+    private String replaceMessage(String message) {
+        return String.join("\n", Stream.of(message.replace("\r\n", "\n").split("\n")).map(mes -> {
+            String replacedMessage = mes;
+            replacedMessage = replaceDiceMessage(mes);
+            replacedMessage = replaceFortuneMessage(replacedMessage);
+            replacedMessage = replaceOrMessage(replacedMessage);
+            return replacedMessage;
+        }).collect(Collectors.toList()));
+    }
+
+    // [[2d6]]の変換
+    private String replaceDiceMessage(String mes) {
+        String replacedMessage = mes;
+        // while (true) {
+        Matcher diceMatcher = dicePattern.matcher(replacedMessage);
+        if (diceMatcher.find()) {
+            //Randomクラスのインスタンス化
+            Random rnd = new Random();
+            int hoge = diceMatcher.groupCount();
+            int diceNum = Integer.parseInt(diceMatcher.group(1));
+            int diceSize = Integer.parseInt(diceMatcher.group(2));
+            String diceStr = "";
+            for (int i = 0; i < diceNum; i++) {
+                int num = diceSize <= 0 ? 0 : rnd.nextInt(diceSize) + 1;
+                diceStr += "(" + num + ")";
+            }
+            replacedMessage = mes.replaceFirst(diceRegex, diceStr + String.format("[[%dd%d]]", diceNum, diceSize));
+        } else {
+            //          break;
+        }
+        //  }
+        return replacedMessage;
+    }
+
+    private static final String diceRegex = "\\[\\[(\\d{1})d(\\d{1,5})\\]\\]";
+    private static final Pattern dicePattern = Pattern.compile(diceRegex);
+    private static final String fortuneRegex = "\\[\\[fortune\\]\\]";
+    private static final Pattern fortunePattern = Pattern.compile(fortuneRegex);
+    private static final String orRegex = "(?!\\[\\[fortune\\]\\])\\[\\[([^\\]]*or.*?)\\]\\]";
+    private static final Pattern orPattern = Pattern.compile(orRegex);
+
+    // [[fortune]]の変換
+    private String replaceFortuneMessage(String mes) {
+        String replacedMessage = mes;
+        Matcher fortuneMatcher = fortunePattern.matcher(mes);
+        if (fortuneMatcher.find()) {
+            //Randomクラスのインスタンス化
+            Random rnd = new Random();
+            replacedMessage = mes.replaceAll(fortuneRegex, rnd.nextInt(101) + "[[fortune]]");
+        }
+        return replacedMessage;
+    }
+
+    // [[AorBorC]]の変換
+    private String replaceOrMessage(String mes) {
+        String replacedMessage = mes;
+        Matcher orMatcher = orPattern.matcher(mes);
+        if (orMatcher.find()) {
+            String matchString = orMatcher.group(1);
+            List<String> choiceList = Arrays.asList(matchString.split("or"));
+            Collections.shuffle(choiceList);
+            replacedMessage = mes.replaceAll(orRegex, choiceList.get(0) + orMatcher.group(0));
+        }
+        return replacedMessage;
     }
 }

@@ -322,3 +322,8 @@ tr.top-menu-selectable:hover a {
 ul.announce > li {
 	margin-bottom: 10px;
 }
+
+.extra-small {
+	font-size: 6px;
+	font-weight: bold;
+}

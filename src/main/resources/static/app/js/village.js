@@ -15,6 +15,12 @@ $(function() {
 	const $sayTextarea = $('[data-say-textarea]');
 	const $sayTypeArea = $('[data-say-type]');
 	const $abilityArea = $('[data-ability]');
+	// メッセージ変換機能
+	const diceRegex = /(\[\[\d{1}d\d{1,5}\]\]?)/g;
+	const fortuneRegex = /(\[\[fortune\]\])/g;
+	const orRegex = /(?!\[\[fortune\]\])(\[\[[^\]]*or.*?\]\])/g; // [[fortune]]でなく、さらに]を含まない[[(.*)or(.*?)]]
+	const whoRegex = /(?!\[\[allwho\]\])(\[\[who\]\])/g;
+	const allWhoRegex = /(\[\[allwho\]\])/g;
 	let latestDay;
 
 	init();
@@ -62,12 +68,20 @@ $(function() {
 	function escapeAndSetAnchor(message) {
 		return message.replace(/(\r\n|\n|\r)/gm, '<br>').split('<br>').map(function(item) { // 先に改行を分割
 			item = item.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); // htmlエスケープ
+			// アンカー
 			item = item.replace(/&gt;&gt;(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-anchor=\"$1\">&gt;&gt;$1<\/a>'); // 次にアンカーをaタグにする
 			item = item.replace(/&gt;&gt;\+(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-grave-anchor=\"$1\">&gt;&gt;\+$1<\/a>');
 			item = item.replace(/&gt;&gt;=(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-mason-anchor=\"$1\">&gt;&gt;=$1<\/a>');
 			item = item.replace(/&gt;&gt;@(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-spectate-anchor=\"$1\">&gt;&gt;@$1<\/a>');
 			item = item.replace(/&gt;&gt;\-(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-monologue-anchor=\"$1\">&gt;&gt;\-$1<\/a>');
-			return item.replace(/&gt;&gt;\*(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-whisper-anchor=\"$1\">&gt;&gt;\*$1<\/a>');
+			item = item.replace(/&gt;&gt;\*(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-whisper-anchor=\"$1\">&gt;&gt;\*$1<\/a>');
+			// 変換機能
+			item = item.replace(diceRegex, '<span class="extra-small">$1</span>');
+			item = item.replace(fortuneRegex, '<span class="extra-small">$1</span>');
+			item = item.replace(orRegex, '<span class="extra-small">$1</span>');
+			item = item.replace(whoRegex, '<span class="extra-small">$1</span>');
+			item = item.replace(allWhoRegex, '<span class="extra-small">$1</span>');
+			return item;
 		}).join('<br>');
 	}
 
