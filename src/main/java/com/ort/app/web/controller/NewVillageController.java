@@ -27,20 +27,6 @@ import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 @Controller
 public class NewVillageController {
 
-    //    alter table VILLAGE_SETTINGS add column IS_AVAILABLE_SAME_WOLF_ATTACK BOOLEAN NOT NULL COMMENT '連続襲撃可能か' after IS_AVAILABLE_SPECTATE;
-    //    alter table VILLAGE_SETTINGS add column IS_OPEN_SKILL_IN_GRAVE BOOLEAN NOT NULL COMMENT '墓下役職公開ありか' after IS_AVAILABLE_SAME_WOLF_ATTACK;
-    //    alter table VILLAGE_SETTINGS add column IS_VISIBLE_GRAVE_SPECTATE_MESSAGE BOOLEAN NOT NULL COMMENT '墓下見学発言を生存者が見られるか' after IS_OPEN_SKILL_IN_GRAVE;
-    //    alter table VILLAGE_SETTINGS add column IS_AVAILABLE_MESSAGE_FUNCTION BOOLEAN NOT NULL COMMENT '特殊発言機能が使用可能か' after IS_VISIBLE_GRAVE_SPECTATE_MESSAGE;
-    //    alter table VILLAGE_SETTINGS add column ORGANIZE VARCHAR(400) NOT NULL COMMENT '構成' after JOIN_PASSWORD;
-    //
-    //    update VILLAGE_SETTINGS set 
-    //        IS_AVAILABLE_SAME_WOLF_ATTACK = 1,
-    //        IS_OPEN_SKILL_IN_GRAVE = 0,
-    //        IS_VISIBLE_GRAVE_SPECTATE_MESSAGE = 0,
-    //        IS_AVAILABLE_MESSAGE_FUNCTION = 0,
-    //        ORGANIZE = '狼狼賢導村村村村\n狼狼賢導村村村村村\n狼狼狂賢導狩村村村村\n狼狼狂賢導狩村村村村村\n狼狼狂賢導狩村村村村共共\n狼狼狼狂賢導狩村村村村共共\n狼狼狼狂狐賢導狩村村村村共共\n狼狼狼狂狐賢導狩村村村村村共共\n狼狼狼狂狐賢導狩村村村村村村共共\n狼狼狼狂狐賢導狩村村村村村村村共共\n狼狼狼狼狂狐賢導狩村村村村村村村共共\n狼狼狼狼狂狐賢導狩村村村村村村村村共共\n狼狼狼狼狂狐賢導狩村村村村村村村村村共共'
-    //    ;
-    //    
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
