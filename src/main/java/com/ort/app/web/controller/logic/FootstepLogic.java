@@ -163,11 +163,12 @@ public class FootstepLogic {
 
     public String getFootstepMessage(Integer villageId, int day, List<Integer> livingRoomNumList) {
         StringJoiner joiner = new StringJoiner("\n", "館の大広間に集まった村人達は、昨晩聞こえた足音について確認した。\n\n", "");
-        joiner.add(makeFootstepMessageWithoutHeader(villageId, day, livingRoomNumList));
+        joiner.add(makeFootstepMessageWithoutHeader(villageId, day, livingRoomNumList, false, null));
         return joiner.toString();
     }
 
-    public String makeFootstepMessageWithoutHeader(Integer villageId, int day, List<Integer> livingRoomNumList) {
+    public String makeFootstepMessageWithoutHeader(Integer villageId, int day, List<Integer> livingRoomNumList,
+            boolean isDispSkillNameInFootstep, List<VillagePlayer> vPlayerList) {
         StringJoiner joiner = new StringJoiner("\n");
         List<Footstep> footStepList = footStepBhv.selectList(cb -> {
             cb.query().setVillageId_Equal(villageId);
@@ -189,7 +190,9 @@ public class FootstepLogic {
                     fsJoiner.add(String.format("部屋%02d", Integer.parseInt(fsRoomNum)));
                 }
             }
-            return fsJoiner.toString();
+            String footstepStr = fsJoiner.toString();
+            footstepStr = addSkillNameIfEpilogue(isDispSkillNameInFootstep, vPlayerList, fs, footstepStr);
+            return footstepStr;
         }).filter(fs -> StringUtils.isNotEmpty(fs)).collect(Collectors.toList());
         if (CollectionUtils.isEmpty(livingRoomFootstepList)) {
             joiner.add("足音を聞いたものはいなかった...。");
@@ -309,6 +312,21 @@ public class FootstepLogic {
         footstepSet.add(this.makeClockwiseFootStep(village, charaId, targetCharaId, villagePlayerList));
         footstepSet.add(this.makeCounterclockwiseFootStep(village, charaId, targetCharaId, villagePlayerList));
         return new ArrayList<>(footstepSet);
+    }
+
+    // エピっていたら足音表記に役職名をつける
+    private String addSkillNameIfEpilogue(boolean isDispSkillNameInFootstep, List<VillagePlayer> vPlayerList, Footstep fs,
+            String footstepStr) {
+        if (StringUtils.isNotEmpty(footstepStr) && isDispSkillNameInFootstep) {
+            String skillName = vPlayerList.stream()
+                    .filter(vp -> vp.getCharaId().equals(fs.getCharaId()))
+                    .findFirst()
+                    .get()
+                    .getSkillCodeAsSkill()
+                    .alias();
+            footstepStr = String.format("[%s] %s", skillName, footstepStr);
+        }
+        return footstepStr;
     }
 
     // ===================================================================================

@@ -605,12 +605,27 @@ public class VillageAssist {
                     .filter(vp -> vp.isIsSpectatorFalse() && (vp.isIsDeadFalse() || day < vp.getDeadDay()))
                     .map(VillagePlayer::getRoomNumber)
                     .collect(Collectors.toList());
-            String message = footstepLogic.makeFootstepMessageWithoutHeader(villageInfo.villageId, day - 1, livingPlayerRoomNumList);
+            String message = footstepLogic.makeFootstepMessageWithoutHeader(villageInfo.villageId, day - 1, livingPlayerRoomNumList,
+                    isDispSkillNameInFootstep(villageInfo), villageInfo.getVPList(false, true, true));
             VillageFootstepDto footstep = new VillageFootstepDto();
             footstep.setDay(day);
             footstep.setFootstep(message);
             footstepList.add(footstep);
         }
         return footstepList;
+    }
+
+    // 足音に役職名を表示するか
+    private boolean isDispSkillNameInFootstep(VillageInfo villageInfo) {
+        // エピっていたら表示
+        if (villageInfo.village.isVillageStatusCodeエピローグ() || villageInfo.village.isVillageStatusCode終了()) {
+            return true;
+        }
+        // 墓下役職公開で墓下か見物だったら表示
+        if (villageInfo.settings.isIsOpenSkillInGraveTrue() && (villageInfo.isDead() || villageInfo.isSpectator())) {
+            return true;
+        }
+
+        return false;
     }
 }
