@@ -605,8 +605,13 @@ public class VillageAssist {
                     .filter(vp -> vp.isIsSpectatorFalse() && (vp.isIsDeadFalse() || day < vp.getDeadDay()))
                     .map(VillagePlayer::getRoomNumber)
                     .collect(Collectors.toList());
-            String message = footstepLogic.makeFootstepMessageWithoutHeader(villageInfo.villageId, day - 1, livingPlayerRoomNumList,
-                    isDispSkillNameInFootstep(villageInfo), villageInfo.getVPList(false, true, true));
+            String message;
+            if (isDispSkillNameInFootstep(villageInfo)) {
+                message = footstepLogic.makeFootstepMessageOpenSkill(villageInfo.villageId, day - 1, livingPlayerRoomNumList,
+                        villageInfo.getVPList(false, true, true));
+            } else {
+                message = footstepLogic.makeFootstepMessageWithoutHeader(villageInfo.villageId, day - 1, livingPlayerRoomNumList);
+            }
             VillageFootstepDto footstep = new VillageFootstepDto();
             footstep.setDay(day);
             footstep.setFootstep(message);
