@@ -3,7 +3,7 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorate="~{layout/layout}">
 <head>
 <!--/* 個別ページのタイトル */-->
-<title th:text="${content.villageName} + '村'">テスト村</title>
+<title th:text="${content.villageName}">テスト村</title>
 <!--/* 個別ページのjs */-->
 <script src="../static/app/js/village.js" th:src="@{/app/js/village.js}"></script>
 </head>
