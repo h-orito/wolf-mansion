@@ -1,14 +1,5 @@
 package com.ort.app.web.controller.assist;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,20 +19,6 @@ import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 
 @Component
 public class VillageSayAssist {
-
-    // ===================================================================================
-    //                                                                          Definition
-    //                                                                          ==========
-    private static final String diceRegex = "\\[\\[(\\d{1})d(\\d{1,5})$";
-    private static final Pattern dicePattern = Pattern.compile(diceRegex);
-    private static final String fortuneRegex = "\\[\\[fortune$";
-    private static final Pattern fortunePattern = Pattern.compile(fortuneRegex);
-    private static final String orRegex = "(?!\\[\\[fortune)\\[\\[([^\\]]*or.*?)$";
-    private static final Pattern orPattern = Pattern.compile(orRegex);
-    private static final String whoRegex = "(?!\\[\\[allwho)(\\[\\[who)$";
-    private static final Pattern whoPattern = Pattern.compile(whoRegex);
-    private static final String allwhoRegex = "\\[\\[allwho$";
-    private static final Pattern allwhoPattern = Pattern.compile(allwhoRegex);
 
     // ===================================================================================
     //                                                                           Attribute
@@ -104,11 +81,7 @@ public class VillageSayAssist {
             throw new IllegalArgumentException("発言種別改ざん");
         }
 
-        // ランダム機能などメッセージ関数を置換
-        Village village = selectVillage(villageId);
-        String message = replaceMessage(sayForm.getMessage(), village);
-
-        messageLogic.insertMessage(villageId, day, type, message, villagePlayer.getVillagePlayerId());
+        messageLogic.insertMessage(villageId, day, type, sayForm.getMessage(), villagePlayer.getVillagePlayerId());
         // 最新の日付を表示
         return "redirect:/village/" + villageId + "#bottom";
     }
@@ -236,90 +209,4 @@ public class VillageSayAssist {
         return true;
     }
 
-    private String replaceMessage(String message, Village village) {
-        List<VillagePlayer> livingPlayerList =
-                village.getVillagePlayerList().stream().filter(vp -> vp.isIsSpectatorFalse() && vp.isIsDeadFalse()).collect(
-                        Collectors.toList());
-        return String.join("\n", Stream.of(message.replace("\r\n", "\n").split("\n")).map(mes -> {
-            String replacedMessage = String.join("]]", Stream.of(mes.split("\\]\\]")).map(m -> {
-                String rm = replaceDiceMessage(m);
-                rm = replaceFortuneMessage(rm);
-                rm = replaceOrMessage(rm);
-                rm = replaceWhoMessage(rm, livingPlayerList);
-                rm = replaceAllwhoMessage(rm, village.getVillagePlayerList());
-                return rm;
-            }).collect(Collectors.toList()));
-            if (mes.endsWith("]]")) {
-                return replacedMessage + "]]";
-            } else {
-                return replacedMessage;
-            }
-        }).collect(Collectors.toList()));
-    }
-
-    // [[2d6]]の変換
-    private String replaceDiceMessage(String mes) {
-        String replacedMessage = mes;
-        Matcher diceMatcher = dicePattern.matcher(replacedMessage);
-        if (diceMatcher.find()) {
-            //Randomクラスのインスタンス化
-            Random rnd = new Random();
-            int diceNum = Integer.parseInt(diceMatcher.group(1));
-            int diceSize = Integer.parseInt(diceMatcher.group(2));
-            String diceStr = "";
-            for (int i = 0; i < diceNum; i++) {
-                int num = diceSize <= 0 ? 0 : rnd.nextInt(diceSize) + 1;
-                diceStr += "(" + num + ")";
-            }
-            replacedMessage = mes.replaceFirst(diceRegex, diceStr + diceMatcher.group(0));
-        }
-        return replacedMessage;
-    }
-
-    // [[fortune]]の変換
-    private String replaceFortuneMessage(String mes) {
-        String replacedMessage = mes;
-        Matcher fortuneMatcher = fortunePattern.matcher(mes);
-        if (fortuneMatcher.find()) {
-            //Randomクラスのインスタンス化
-            Random rnd = new Random();
-            replacedMessage = mes.replaceAll(fortuneRegex, rnd.nextInt(101) + fortuneMatcher.group(0));
-        }
-        return replacedMessage;
-    }
-
-    // [[AorBorC]]の変換
-    private String replaceOrMessage(String mes) {
-        String replacedMessage = mes;
-        Matcher orMatcher = orPattern.matcher(mes);
-        if (orMatcher.find()) {
-            String matchString = orMatcher.group(1);
-            List<String> choiceList = Arrays.asList(matchString.split("or"));
-            Collections.shuffle(choiceList);
-            replacedMessage = mes.replaceAll(orRegex, choiceList.get(0) + orMatcher.group(0));
-        }
-        return replacedMessage;
-    }
-
-    // [[who]]の変換
-    private String replaceWhoMessage(String mes, List<VillagePlayer> vPlayerList) {
-        String replacedMessage = mes;
-        Matcher whoMatcher = whoPattern.matcher(mes);
-        if (whoMatcher.find()) {
-            Collections.shuffle(vPlayerList);
-            replacedMessage = mes.replaceAll(whoRegex, vPlayerList.get(0).getChara().get().getCharaName() + whoMatcher.group(0));
-        }
-        return replacedMessage;
-    }
-
-    // [[allwho]]の変換
-    private String replaceAllwhoMessage(String mes, List<VillagePlayer> vPlayerList) {
-        String replacedMessage = mes;
-        Matcher allwhoMatcher = allwhoPattern.matcher(mes);
-        if (allwhoMatcher.find()) {
-            Collections.shuffle(vPlayerList);
-            replacedMessage = mes.replaceAll(allwhoRegex, vPlayerList.get(0).getChara().get().getCharaName() + allwhoMatcher.group(0));
-        }
-        return replacedMessage;
-    }
 }

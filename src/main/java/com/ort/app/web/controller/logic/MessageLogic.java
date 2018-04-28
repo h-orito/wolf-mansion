@@ -1,8 +1,16 @@
 package com.ort.app.web.controller.logic;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -11,6 +19,7 @@ import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.exbhv.MessageBhv;
+import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exentity.Message;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.fw.util.WerewolfMansionDateUtil;
@@ -19,10 +28,27 @@ import com.ort.fw.util.WerewolfMansionDateUtil;
 public class MessageLogic {
 
     // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
+    private static final String diceRegex = "\\[\\[(\\d{1})d(\\d{1,5})$";
+    private static final Pattern dicePattern = Pattern.compile(diceRegex);
+    private static final String fortuneRegex = "\\[\\[fortune$";
+    private static final Pattern fortunePattern = Pattern.compile(fortuneRegex);
+    private static final String orRegex = "(?!\\[\\[fortune)\\[\\[([^\\]]*or.*?)$";
+    private static final Pattern orPattern = Pattern.compile(orRegex);
+    private static final String whoRegex = "(?!\\[\\[allwho)(\\[\\[who)$";
+    private static final Pattern whoPattern = Pattern.compile(whoRegex);
+    private static final String allwhoRegex = "\\[\\[allwho$";
+    private static final Pattern allwhoPattern = Pattern.compile(allwhoRegex);
+
+    // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
     @Autowired
     private MessageBhv messageBhv;
+
+    @Autowired
+    private VillagePlayerBhv villagePlayerBhv;
 
     @Autowired
     private MessageSource messageSource;
@@ -45,7 +71,10 @@ public class MessageLogic {
     }
 
     public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId) {
-        insertMessage(villageId, day, messageType, content, villagePlayerId, null);
+        // ランダム機能などメッセージ関数を置換して登録
+        ListResultBean<VillagePlayer> vPlayerList = selectVPlayerList(villageId);
+        String message = replaceMessage(content, vPlayerList);
+        insertMessage(villageId, day, messageType, message, villagePlayerId, null);
     }
 
     public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content) {
@@ -80,6 +109,21 @@ public class MessageLogic {
             boolean isDefault) {
         String message = makeFootstepSetMessage(charaId, villagePlayerList, footstep, isDefault);
         insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
+    }
+
+    // ===================================================================================
+    //                                                                              Select
+    //                                                                              ======
+    private ListResultBean<VillagePlayer> selectVPlayerList(Integer villageId) {
+        ListResultBean<VillagePlayer> vPlayerList = villagePlayerBhv.selectList(cb -> {
+            cb.setupSelect_Chara();
+            cb.setupSelect_SkillBySkillCode();
+            cb.setupSelect_DeadReason();
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setIsGone_Equal_False();
+            cb.query().addOrderBy_DeadDay_Asc();
+        });
+        return vPlayerList;
     }
 
     // ===================================================================================
@@ -120,5 +164,91 @@ public class MessageLogic {
                 villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(charaId)).findFirst().get().getChara().get().getCharaName();
         return messageSource.getMessage("ability.foxmadman.message", new String[] { charaName, footstep, isDefault ? "（自動設定）" : "" },
                 Locale.JAPAN);
+    }
+
+    private String replaceMessage(String message, List<VillagePlayer> vPlayerList) {
+        List<VillagePlayer> livingPlayerList =
+                vPlayerList.stream().filter(vp -> vp.isIsSpectatorFalse() && vp.isIsDeadFalse()).collect(Collectors.toList());
+        return String.join("\n", Stream.of(message.replace("\r\n", "\n").split("\n")).map(mes -> {
+            String replacedMessage = String.join("]]", Stream.of(mes.split("\\]\\]")).map(m -> {
+                String rm = replaceDiceMessage(m);
+                rm = replaceFortuneMessage(rm);
+                rm = replaceOrMessage(rm);
+                rm = replaceWhoMessage(rm, livingPlayerList);
+                rm = replaceAllwhoMessage(rm, vPlayerList);
+                return rm;
+            }).collect(Collectors.toList()));
+            if (mes.endsWith("]]")) {
+                return replacedMessage + "]]";
+            } else {
+                return replacedMessage;
+            }
+        }).collect(Collectors.toList()));
+    }
+
+    // [[2d6]]の変換
+    private String replaceDiceMessage(String mes) {
+        String replacedMessage = mes;
+        Matcher diceMatcher = dicePattern.matcher(replacedMessage);
+        if (diceMatcher.find()) {
+            //Randomクラスのインスタンス化
+            Random rnd = new Random();
+            int diceNum = Integer.parseInt(diceMatcher.group(1));
+            int diceSize = Integer.parseInt(diceMatcher.group(2));
+            String diceStr = "";
+            for (int i = 0; i < diceNum; i++) {
+                int num = diceSize <= 0 ? 0 : rnd.nextInt(diceSize) + 1;
+                diceStr += "(" + num + ")";
+            }
+            replacedMessage = mes.replaceFirst(diceRegex, diceStr + diceMatcher.group(0));
+        }
+        return replacedMessage;
+    }
+
+    // [[fortune]]の変換
+    private String replaceFortuneMessage(String mes) {
+        String replacedMessage = mes;
+        Matcher fortuneMatcher = fortunePattern.matcher(mes);
+        if (fortuneMatcher.find()) {
+            //Randomクラスのインスタンス化
+            Random rnd = new Random();
+            replacedMessage = mes.replaceAll(fortuneRegex, rnd.nextInt(101) + fortuneMatcher.group(0));
+        }
+        return replacedMessage;
+    }
+
+    // [[AorBorC]]の変換
+    private String replaceOrMessage(String mes) {
+        String replacedMessage = mes;
+        Matcher orMatcher = orPattern.matcher(mes);
+        if (orMatcher.find()) {
+            String matchString = orMatcher.group(1);
+            List<String> choiceList = Arrays.asList(matchString.split("or"));
+            Collections.shuffle(choiceList);
+            replacedMessage = mes.replaceAll(orRegex, choiceList.get(0) + orMatcher.group(0));
+        }
+        return replacedMessage;
+    }
+
+    // [[who]]の変換
+    private String replaceWhoMessage(String mes, List<VillagePlayer> vPlayerList) {
+        String replacedMessage = mes;
+        Matcher whoMatcher = whoPattern.matcher(mes);
+        if (whoMatcher.find()) {
+            Collections.shuffle(vPlayerList);
+            replacedMessage = mes.replaceAll(whoRegex, vPlayerList.get(0).getChara().get().getCharaName() + whoMatcher.group(0));
+        }
+        return replacedMessage;
+    }
+
+    // [[allwho]]の変換
+    private String replaceAllwhoMessage(String mes, List<VillagePlayer> vPlayerList) {
+        String replacedMessage = mes;
+        Matcher allwhoMatcher = allwhoPattern.matcher(mes);
+        if (allwhoMatcher.find()) {
+            Collections.shuffle(vPlayerList);
+            replacedMessage = mes.replaceAll(allwhoRegex, vPlayerList.get(0).getChara().get().getCharaName() + allwhoMatcher.group(0));
+        }
+        return replacedMessage;
     }
 }
