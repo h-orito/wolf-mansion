@@ -2,8 +2,11 @@ package com.ort.app.web.controller.assist;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -142,10 +145,16 @@ public class VillageAssist {
         return village;
     }
 
-    private List<Skill> selectSelectableSkillList(Integer villageId) {
+    private List<Skill> selectSelectableSkillList(VillageInfo villageInfo) {
+        String organize = villageInfo.settings.getOrganize();
+        Set<CDef.Skill> skillSet = new HashSet<>();
+        Stream.of(organize.replaceAll("\r\n", "\n").split("\n")).forEach(org -> {
+            Stream.of(org.split("")).forEach(skillStr -> {
+                skillSet.add(SkillUtil.SKILL_SHORTNAME_MAP.get(skillStr));
+            });
+        });
         return skillBhv.selectList(cb -> {
-            cb.query().setSkillCode_InScope_AsSkill(Arrays.asList(CDef.Skill.おまかせ, CDef.Skill.人狼, CDef.Skill.共鳴者, CDef.Skill.賢者,
-                    CDef.Skill.妖狐, CDef.Skill.狂人, CDef.Skill.狩人, CDef.Skill.導師, CDef.Skill.村人));
+            cb.query().setSkillCode_InScope_AsSkill(skillSet);
             cb.query().addOrderBy_DispOrder_Asc();
         });
     }
@@ -329,11 +338,9 @@ public class VillageAssist {
         setVillageModekChangeRequestSkillForm(content, villageInfo.optVillagePlayer, changeRequestSkillForm, model, isDispParticipateForm,
                 isDispChangeRequestSkillForm);
         // 参戦、役職希望変更時に選べる役職
-        content.setSelectableSkillList(
-                isDispParticipateForm || isDispChangeRequestSkillForm
-                        ? selectSelectableSkillList(villageInfo.villageId).stream().map(skill -> convertToSkillPart(skill)).collect(
-                                Collectors.toList())
-                        : null);
+        content.setSelectableSkillList(isDispParticipateForm || isDispChangeRequestSkillForm
+                ? selectSelectableSkillList(villageInfo).stream().map(skill -> convertToSkillPart(skill)).collect(Collectors.toList())
+                : null);
         // 入村パスワードを必要とするか
         content.setIsRequiredJoinPassword(StringUtils.isNotEmpty(villageInfo.settings.getJoinPassword()));
         // 退村
