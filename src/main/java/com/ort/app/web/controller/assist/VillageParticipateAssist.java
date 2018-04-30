@@ -54,6 +54,26 @@ public class VillageParticipateAssist {
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
+    // 確認画面へ
+    public String setConfirmModel(Integer villageId, VillageParticipateForm participateForm, BindingResult result, Model model) {
+        // ログインしていなかったらNG
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        if (result.hasErrors() || userInfo == null) {
+            // 最新の日付を表示
+            return villageAssist.setIndexModelAndReturnView(villageId, null, participateForm, null, model);
+        }
+
+        String charaImgUrl = charaBhv.selectByPK(participateForm.getCharaId()).map(chara -> chara.getCharaImgUrl()).orElseThrow(() -> {
+            return new IllegalArgumentException("改ざん？");
+        });
+        model.addAttribute("characterImgUrl", charaImgUrl);
+        model.addAttribute("villageId", villageId);
+        Village village = selectVillage(villageId);
+        model.addAttribute("villageName", village.getVillageDisplayName());
+        // 発言確認画面へ
+        return "participate-confirm";
+    }
+
     // 参戦する
     public String participate(Integer villageId, VillageParticipateForm participateForm, BindingResult result, Model model) {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
@@ -180,5 +200,14 @@ public class VillageParticipateAssist {
             return true;
         }
         return false;
+    }
+
+    // ===================================================================================
+    //                                                                              Select
+    //                                                                              ======
+    private Village selectVillage(Integer villageId) {
+        return villageBhv.selectEntityWithDeletedCheck(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+        });
     }
 }

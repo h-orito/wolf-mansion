@@ -132,7 +132,14 @@ public class VillageController {
         return villageMessageAssist.getAnchorMessage(form, result);
     }
 
-    // 参戦
+    // 入村確認画面へ
+    @PostMapping("/village/{villageId}/confirm-participate")
+    private String confirmParticipate(@PathVariable Integer villageId,
+            @Validated @ModelAttribute("participateForm") VillageParticipateForm participateForm, BindingResult result, Model model) {
+        return villageParticipateAssist.setConfirmModel(villageId, participateForm, result, model);
+    }
+
+    // 入村
     @PostMapping("/village/{villageId}/participate")
     private String participate(@PathVariable Integer villageId,
             @Validated @ModelAttribute("participateForm") VillageParticipateForm participateForm, BindingResult result, Model model) {

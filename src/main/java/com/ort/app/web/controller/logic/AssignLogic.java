@@ -132,7 +132,8 @@ public class AssignLogic {
             cb.query().setVillageId_Equal(villageId);
         });
         String organize = village.getVillageSettingsAsOne().get().getOrganize();
-        String personNumOrg = Stream.of(organize.split("\n")).filter(org -> org.length() == personNum).findFirst().get();
+        String personNumOrg =
+                Stream.of(organize.replaceAll("\r\n", "\n").split("\n")).filter(org -> org.length() == personNum).findFirst().get();
 
         return SkillUtil.createSkillPersonNum(personNumOrg);
     }

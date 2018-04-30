@@ -49,10 +49,12 @@ public class SkillUtil {
             skillPersonNumMap.put(skill, 0);
         }
         for (String character : org.split("")) {
-            CDef.Skill skill = SKILL_SHORTNAME_MAP.get(character);
-            Integer skillPersonNum = skillPersonNumMap.get(skill);
-            skillPersonNum++;
-            skillPersonNumMap.put(skill, skillPersonNum);
+            if (SKILL_SHORTNAME_MAP.containsKey(character)) {
+                CDef.Skill skill = SKILL_SHORTNAME_MAP.get(character);
+                Integer skillPersonNum = skillPersonNumMap.get(skill);
+                skillPersonNum++;
+                skillPersonNumMap.put(skill, skillPersonNum);
+            }
         }
         return skillPersonNumMap;
     }

@@ -37,4 +37,15 @@ $(function() {
 			return item;
 		}).join('<br>');
 	}
+	
+	// 入村時
+	$('#agree-rule, #agree-mind').on('change', function() {
+		if ($('#agree-rule').prop('checked') && $('#agree-mind').prop('checked')) {
+			$('#participate-submit').removeClass('disabled');
+			$('#participate-submit').prop('disabled', false);
+		} else {
+			$('#participate-submit').addClass('disabled');
+			$('#participate-submit').prop('disabled', true);
+		}
+	});
 });

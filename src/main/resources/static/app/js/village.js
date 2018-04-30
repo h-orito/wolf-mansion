@@ -449,4 +449,10 @@ $(function() {
 		$('#tab-announce').popover('hide');
 	});
 
+	// 参戦でキャラを画像選択
+	$('[data-select-participate-chara]').on('click', function(){
+		const charaId = $(this).data('select-participate-chara');
+		$('#participate-chara-select').val(charaId);
+		$('#modal-select-participate-chara').modal('hide');
+	});
 });
