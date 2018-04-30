@@ -153,6 +153,7 @@ public class VillageAssist {
                 skillSet.add(SkillUtil.SKILL_SHORTNAME_MAP.get(skillStr));
             });
         });
+        skillSet.add(CDef.Skill.おまかせ);
         return skillBhv.selectList(cb -> {
             cb.query().setSkillCode_InScope_AsSkill(skillSet);
             cb.query().addOrderBy_DispOrder_Asc();
