@@ -327,3 +327,8 @@ ul.announce > li {
 	font-size: 6px;
 	font-weight: bold;
 }
+
+.pagination-sm>li>a, .pagination-sm>li>span {
+	padding: 2px 7px;
+	font-size: 12px;
+}

@@ -18,6 +18,21 @@ public class VillageMessageListResultContent implements Serializable {
     /** 最新日付 */
     private Integer latestDay;
 
+    /** 総ページ数 */
+    private Integer allPageCount;
+
+    /** 前のページがあるか */
+    private Boolean isExistPrePage;
+
+    /** 次のページがあるか */
+    private Boolean isExistNextPage;
+
+    /** 現在のページ番号 */
+    private Integer currentPageNum;
+
+    /** 表示するページ番号リスト */
+    private List<Integer> pageNumList;
+
     public List<VillageMessageDto> getMessageList() {
         return messageList;
     }
@@ -40,5 +55,45 @@ public class VillageMessageListResultContent implements Serializable {
 
     public void setLatestDay(Integer latestDay) {
         this.latestDay = latestDay;
+    }
+
+    public Integer getAllPageCount() {
+        return allPageCount;
+    }
+
+    public void setAllPageCount(Integer allPageCount) {
+        this.allPageCount = allPageCount;
+    }
+
+    public Boolean getIsExistPrePage() {
+        return isExistPrePage;
+    }
+
+    public void setIsExistPrePage(Boolean isExistPrePage) {
+        this.isExistPrePage = isExistPrePage;
+    }
+
+    public Boolean getIsExistNextPage() {
+        return isExistNextPage;
+    }
+
+    public void setIsExistNextPage(Boolean isExistNextPage) {
+        this.isExistNextPage = isExistNextPage;
+    }
+
+    public Integer getCurrentPageNum() {
+        return currentPageNum;
+    }
+
+    public void setCurrentPageNum(Integer currentPageNum) {
+        this.currentPageNum = currentPageNum;
+    }
+
+    public List<Integer> getPageNumList() {
+        return pageNumList;
+    }
+
+    public void setPageNumList(List<Integer> pageNumList) {
+        this.pageNumList = pageNumList;
     }
 }

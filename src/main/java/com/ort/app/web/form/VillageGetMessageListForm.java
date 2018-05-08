@@ -15,6 +15,12 @@ public class VillageGetMessageListForm implements Serializable {
     /** 何日目か */
     private Integer day;
 
+    /** 1ページあたりの表示発言数 */
+    private Integer pageSize;
+
+    /** 何ページ目か */
+    private Integer pageNum;
+
     public Integer getVillageId() {
         return villageId;
     }
@@ -29,5 +35,21 @@ public class VillageGetMessageListForm implements Serializable {
 
     public void setDay(Integer day) {
         this.day = day;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public Integer getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(Integer pageNum) {
+        this.pageNum = pageNum;
     }
 }

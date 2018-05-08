@@ -2,10 +2,38 @@
 <head>
 </head>
 <body layout:fragment="message">
-	{{#each messageList}} {{> messagePartial}} {{/each}} {{#if villageStatusMessage}}
+	{{#if (neq allPageCount 1) }}
+	<div class="col-sm-12">
+		<div class="row">
+			<ul class="pagination pagination-sm pull-right" style="margin-top: 10px; margin-bottom: 10px;">
+				<li class="{{#unless isExistPrePage}}disabled{{/unless}}"><a href="javascript:void(0);" data-pagenum="1">&lt;&lt;</a></li>
+				<li class="{{#unless isExistPrePage}}disabled{{/unless}}"><a href="javascript:void(0);" data-prev-page="{{currentPageNum}}">&lt;</a></li>
+				{{#each pageNumList}}
+				<li class="{{#if (eq ../currentPageNum this)}}active{{/if}}"><a href="javascript:void(0);" data-pagenum="{{this}}">{{this}}</a></li>
+				{{/each}}
+				<li class="{{#unless isExistNextPage}}disabled{{/unless}}"><a href="javascript:void(0);" data-next-page="{{currentPageNum}}">&gt;</a></li>
+				<li class="{{#unless isExistNextPage}}disabled{{/unless}}"><a href="javascript:void(0);" data-pagenum="{{allPageCount}}">&gt;&gt;</a></li>
+			</ul>
+		</div>
+	</div>
+	{{/if}} {{#each messageList}} {{> messagePartial}} {{/each}} {{#if villageStatusMessage}}
 	<div class="col-sm-12">
 		<div class="row">
 			<div class="message col-sm-12 message-announce">{{{escapeHtmlWithoutBr villageStatusMessage}}}</div>
+		</div>
+	</div>
+	{{/if}} {{#if (neq allPageCount 1) }}
+	<div class="col-sm-12">
+		<div class="row">
+			<ul class="pagination pagination-sm pull-right" style="margin-top: 10px; margin-bottom: 10px;">
+				<li class="{{#unless isExistPrePage}}disabled{{/unless}}"><a href="javascript:void(0);" data-pagenum="1">&lt;&lt;</a></li>
+				<li class="{{#unless isExistPrePage}}disabled{{/unless}}"><a href="javascript:void(0);" data-prev-page="{{currentPageNum}}">&lt;</a></li>
+				{{#each pageNumList}}
+				<li class="{{#if (eq ../currentPageNum this)}}active{{/if}}"><a href="javascript:void(0);" data-pagenum="{{this}}">{{this}}</a></li>
+				{{/each}}
+				<li class="{{#unless isExistNextPage}}disabled{{/unless}}"><a href="javascript:void(0);" data-next-page="{{currentPageNum}}">&gt;</a></li>
+				<li class="{{#unless isExistNextPage}}disabled{{/unless}}"><a href="javascript:void(0);" data-pagenum="{{allPageCount}}">&gt;&gt;</a></li>
+			</ul>
 		</div>
 	</div>
 	{{/if}}
