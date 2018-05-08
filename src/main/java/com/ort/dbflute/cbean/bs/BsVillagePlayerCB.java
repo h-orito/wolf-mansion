@@ -515,6 +515,11 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnIsGone() { return doColumn("IS_GONE"); }
         /**
+         * LAST_ACCESS_DATETIME: {DATETIME(19)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnLastAccessDatetime() { return doColumn("LAST_ACCESS_DATETIME"); }
+        /**
          * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
          */

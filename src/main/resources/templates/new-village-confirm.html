@@ -62,6 +62,10 @@
 									<td th:text="*{isVisibleGraveSpectateMessage} ? '公開' : '非公開'"></td>
 								</tr>
 								<tr>
+									<th>突然死</th>
+									<td th:text="*{isAvailableSuddonlyDeath} ? 'あり' : 'なし'"></td>
+								</tr>
+								<tr>
 									<th>キャラクターセット</th>
 									<td th:text="${characterSetName}"></td>
 								</tr>
@@ -118,6 +122,7 @@
 							<input type="hidden" th:field="*{isAvailableSameWolfAttack}" />
 							<input type="hidden" th:field="*{isOpenSkillInGrave}" />
 							<input type="hidden" th:field="*{isVisibleGraveSpectateMessage}" />
+							<input type="hidden" th:field="*{isAvailableSuddonlyDeath}" />
 							<input type="hidden" th:field="*{characterSetId}" />
 							<input type="hidden" th:field="*{dummyJoinMessage}" />
 							<input type="hidden" th:field="*{joinPassword}" />

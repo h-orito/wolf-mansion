@@ -72,6 +72,7 @@ public class VillageSettingsCIQ extends AbstractBsVillageSettingsCQ {
     protected ConditionValue xgetCValueIsAvailableSameWolfAttack() { return _myCQ.xdfgetIsAvailableSameWolfAttack(); }
     protected ConditionValue xgetCValueIsOpenSkillInGrave() { return _myCQ.xdfgetIsOpenSkillInGrave(); }
     protected ConditionValue xgetCValueIsVisibleGraveSpectateMessage() { return _myCQ.xdfgetIsVisibleGraveSpectateMessage(); }
+    protected ConditionValue xgetCValueIsAvailableSuddonlyDeath() { return _myCQ.xdfgetIsAvailableSuddonlyDeath(); }
     protected ConditionValue xgetCValueCharacterGroupId() { return _myCQ.xdfgetCharacterGroupId(); }
     protected ConditionValue xgetCValueJoinPassword() { return _myCQ.xdfgetJoinPassword(); }
     protected ConditionValue xgetCValueOrganize() { return _myCQ.xdfgetOrganize(); }

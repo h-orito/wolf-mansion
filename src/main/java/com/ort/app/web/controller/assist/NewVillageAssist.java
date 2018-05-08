@@ -91,6 +91,9 @@ public class NewVillageAssist {
         if (form.getIsVisibleGraveSpectateMessage() == null) {
             form.setIsVisibleGraveSpectateMessage(false);
         }
+        if (form.getIsAvailableSuddonlyDeath() == null) {
+            form.setIsAvailableSuddonlyDeath(false);
+        }
         if (form.getDayChangeIntervalHours() == null) {
             form.setDayChangeIntervalHours(24);
         }
@@ -179,6 +182,7 @@ public class NewVillageAssist {
         settings.setIsAvailableSameWolfAttack(villageForm.getIsAvailableSameWolfAttack());
         settings.setIsOpenSkillInGrave(villageForm.getIsOpenSkillInGrave());
         settings.setIsVisibleGraveSpectateMessage(villageForm.getIsVisibleGraveSpectateMessage());
+        settings.setIsAvailableSuddonlyDeath(villageForm.getIsAvailableSuddonlyDeath());
         settings.setOrganize(villageForm.getOrganization().replace("\r\n", "\n"));
         villageSettingsBhv.insert(settings);
         return settings;

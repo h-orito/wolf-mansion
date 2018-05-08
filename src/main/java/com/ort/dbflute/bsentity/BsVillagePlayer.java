@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_PLAYER_ID
  *
  * [column]
- *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, IS_SPECTATOR, DEAD_REASON_CODE, DEAD_DAY, IS_GONE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, IS_SPECTATOR, DEAD_REASON_CODE, DEAD_DAY, IS_GONE, LAST_ACCESS_DATETIME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -58,6 +58,7 @@ import com.ort.dbflute.exentity.*;
  * String deadReasonCode = entity.getDeadReasonCode();
  * Integer deadDay = entity.getDeadDay();
  * Boolean isGone = entity.getIsGone();
+ * java.time.LocalDateTime lastAccessDatetime = entity.getLastAccessDatetime();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -74,6 +75,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setDeadReasonCode(deadReasonCode);
  * entity.setDeadDay(deadDay);
  * entity.setIsGone(isGone);
+ * entity.setLastAccessDatetime(lastAccessDatetime);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -128,6 +130,9 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /** IS_GONE: {NotNull, BIT, classification=Flg} */
     protected Boolean _isGone;
+
+    /** LAST_ACCESS_DATETIME: {DATETIME(19)} */
+    protected java.time.LocalDateTime _lastAccessDatetime;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -1228,6 +1233,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         sb.append(dm).append(xfND(_deadReasonCode));
         sb.append(dm).append(xfND(_deadDay));
         sb.append(dm).append(xfND(_isGone));
+        sb.append(dm).append(xfND(_lastAccessDatetime));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -1514,6 +1520,26 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         checkClassificationCode("IS_GONE", CDef.DefMeta.Flg, isGone);
         registerModifiedProperty("isGone");
         _isGone = isGone;
+    }
+
+    /**
+     * [get] LAST_ACCESS_DATETIME: {DATETIME(19)} <br>
+     * 最終接続日時
+     * @return The value of the column 'LAST_ACCESS_DATETIME'. (NullAllowed even if selected: for no constraint)
+     */
+    public java.time.LocalDateTime getLastAccessDatetime() {
+        checkSpecifiedProperty("lastAccessDatetime");
+        return _lastAccessDatetime;
+    }
+
+    /**
+     * [set] LAST_ACCESS_DATETIME: {DATETIME(19)} <br>
+     * 最終接続日時
+     * @param lastAccessDatetime The value of the column 'LAST_ACCESS_DATETIME'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setLastAccessDatetime(java.time.LocalDateTime lastAccessDatetime) {
+        registerModifiedProperty("lastAccessDatetime");
+        _lastAccessDatetime = lastAccessDatetime;
     }
 
     /**

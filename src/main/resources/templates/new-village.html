@@ -176,6 +176,20 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label class="col-sm-3 col-xs-12 control-label">突然死</label>
+							<div class="col-sm-9 btn-group" data-toggle="buttons">
+								<label th:class="'btn btn-sm btn-warning ' + *{isAvailableSuddonlyDeath ? 'active' : ''}"> <input type="radio" class=""
+									th:field="*{isAvailableSuddonlyDeath}" value="true" autocomplete="off" checked="checked" />あり
+								</label> <label th:class="'btn btn-sm btn-warning ' + *{isAvailableSuddonlyDeath ? '' : 'active'}"> <input type="radio" class=""
+									th:field="*{isAvailableSuddonlyDeath}" value="false" autocomplete="off" />なし
+								</label>
+							</div>
+							<div class="col-sm-3"></div>
+							<div class="col-xs-12 col-sm-9">
+								<p class="">ありにした場合、前日更新以降一度も村にアクセスしなかった参加者が日付更新時に突然死します。</p>
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="col-sm-3 control-label">キャラセット</label>
 							<div class="col-sm-9 col-xs-12 btn-group" data-toggle="buttons">
 								<select class="form-control" th:field="*{characterSetId}">
@@ -211,7 +225,7 @@
 							<label class="col-sm-3 col-xs-12 control-label">構成</label>
 							<div class="col-sm-9">
 								<textarea class="form-control" th:field="*{organization}" style="min-height: 250px;"></textarea>
-								<p>村：村人　狼：人狼　狂：狂人　C：C国狂人　魔：魔神官　占：占い師　賢：賢者　霊：霊能者　導：導師　狐：妖狐　共：共鳴者　狩：狩人</p>
+								<p>村：村人 狼：人狼 狂：狂人 C：C国狂人 魔：魔神官 占：占い師 賢：賢者 霊：霊能者 導：導師 狐：妖狐 共：共鳴者 狩：狩人</p>
 								<p>ダミーは必ず村人となるため、村を1名以上入れてください。</p>
 								<span th:if="${#fields.hasErrors('organization')}" th:errors="*{organization}" class="help-block text-danger">error!</span>
 							</div>

@@ -1801,6 +1801,93 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * LAST_ACCESS_DATETIME: {DATETIME(19)}
+     * @param lastAccessDatetime The value of lastAccessDatetime as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setLastAccessDatetime_Equal(java.time.LocalDateTime lastAccessDatetime) {
+        regLastAccessDatetime(CK_EQ,  lastAccessDatetime);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * LAST_ACCESS_DATETIME: {DATETIME(19)}
+     * @param lastAccessDatetime The value of lastAccessDatetime as greaterThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setLastAccessDatetime_GreaterThan(java.time.LocalDateTime lastAccessDatetime) {
+        regLastAccessDatetime(CK_GT,  lastAccessDatetime);
+    }
+
+    /**
+     * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * LAST_ACCESS_DATETIME: {DATETIME(19)}
+     * @param lastAccessDatetime The value of lastAccessDatetime as lessThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setLastAccessDatetime_LessThan(java.time.LocalDateTime lastAccessDatetime) {
+        regLastAccessDatetime(CK_LT,  lastAccessDatetime);
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * LAST_ACCESS_DATETIME: {DATETIME(19)}
+     * @param lastAccessDatetime The value of lastAccessDatetime as greaterEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setLastAccessDatetime_GreaterEqual(java.time.LocalDateTime lastAccessDatetime) {
+        regLastAccessDatetime(CK_GE,  lastAccessDatetime);
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * LAST_ACCESS_DATETIME: {DATETIME(19)}
+     * @param lastAccessDatetime The value of lastAccessDatetime as lessEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setLastAccessDatetime_LessEqual(java.time.LocalDateTime lastAccessDatetime) {
+        regLastAccessDatetime(CK_LE, lastAccessDatetime);
+    }
+
+    /**
+     * FromTo with various options. (versatile) {(default) fromDatetime &lt;= column &lt;= toDatetime} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * LAST_ACCESS_DATETIME: {DATETIME(19)}
+     * <pre>e.g. setLastAccessDatetime_FromTo(fromDate, toDate, op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">compareAsDate()</span>);</pre>
+     * @param fromDatetime The from-datetime(yyyy/MM/dd HH:mm:ss.SSS) of lastAccessDatetime. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of lastAccessDatetime. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param opLambda The callback for option of from-to. (NotNull)
+     */
+    public void setLastAccessDatetime_FromTo(java.time.LocalDateTime fromDatetime, java.time.LocalDateTime toDatetime, ConditionOptionCall<FromToOption> opLambda) {
+        setLastAccessDatetime_FromTo(fromDatetime, toDatetime, xcFTOP(opLambda));
+    }
+
+    /**
+     * FromTo with various options. (versatile) {(default) fromDatetime &lt;= column &lt;= toDatetime} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * LAST_ACCESS_DATETIME: {DATETIME(19)}
+     * <pre>e.g. setLastAccessDatetime_FromTo(fromDate, toDate, new <span style="color: #CC4747">FromToOption</span>().compareAsDate());</pre>
+     * @param fromDatetime The from-datetime(yyyy/MM/dd HH:mm:ss.SSS) of lastAccessDatetime. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of lastAccessDatetime. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param fromToOption The option of from-to. (NotNull)
+     */
+    protected void setLastAccessDatetime_FromTo(java.time.LocalDateTime fromDatetime, java.time.LocalDateTime toDatetime, FromToOption fromToOption) {
+        String nm = "LAST_ACCESS_DATETIME"; FromToOption op = fromToOption;
+        regFTQ(xfFTHD(fromDatetime, nm, op), xfFTHD(toDatetime, nm, op), xgetCValueLastAccessDatetime(), nm, op);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * LAST_ACCESS_DATETIME: {DATETIME(19)}
+     */
+    public void setLastAccessDatetime_IsNull() { regLastAccessDatetime(CK_ISN, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * LAST_ACCESS_DATETIME: {DATETIME(19)}
+     */
+    public void setLastAccessDatetime_IsNotNull() { regLastAccessDatetime(CK_ISNN, DOBJ); }
+
+    protected void regLastAccessDatetime(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueLastAccessDatetime(), "LAST_ACCESS_DATETIME"); }
+    protected abstract ConditionValue xgetCValueLastAccessDatetime();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @param registerDatetime The value of registerDatetime as equal. (basically NotNull: error as default, or no condition as option)
      */

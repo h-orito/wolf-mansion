@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID
  *
  * [column]
- *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, CHARACTER_GROUP_ID, JOIN_PASSWORD, ORGANIZE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, CHARACTER_GROUP_ID, JOIN_PASSWORD, ORGANIZE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -57,6 +57,7 @@ import com.ort.dbflute.exentity.*;
  * Boolean isAvailableSameWolfAttack = entity.getIsAvailableSameWolfAttack();
  * Boolean isOpenSkillInGrave = entity.getIsOpenSkillInGrave();
  * Boolean isVisibleGraveSpectateMessage = entity.getIsVisibleGraveSpectateMessage();
+ * Boolean isAvailableSuddonlyDeath = entity.getIsAvailableSuddonlyDeath();
  * Integer characterGroupId = entity.getCharacterGroupId();
  * String joinPassword = entity.getJoinPassword();
  * String organize = entity.getOrganize();
@@ -75,6 +76,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setIsAvailableSameWolfAttack(isAvailableSameWolfAttack);
  * entity.setIsOpenSkillInGrave(isOpenSkillInGrave);
  * entity.setIsVisibleGraveSpectateMessage(isVisibleGraveSpectateMessage);
+ * entity.setIsAvailableSuddonlyDeath(isAvailableSuddonlyDeath);
  * entity.setCharacterGroupId(characterGroupId);
  * entity.setJoinPassword(joinPassword);
  * entity.setOrganize(organize);
@@ -129,6 +131,9 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /** IS_VISIBLE_GRAVE_SPECTATE_MESSAGE: {NotNull, BIT, classification=Flg} */
     protected Boolean _isVisibleGraveSpectateMessage;
+
+    /** IS_AVAILABLE_SUDDONLY_DEATH: {NotNull, BIT, classification=Flg} */
+    protected Boolean _isAvailableSuddonlyDeath;
 
     /** CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} */
     protected Integer _characterGroupId;
@@ -302,6 +307,27 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         setIsVisibleGraveSpectateMessage(cdef != null ? toBoolean(cdef.code()) : null);
     }
 
+    /**
+     * Get the value of isAvailableSuddonlyDeath as the classification of Flg. <br>
+     * IS_AVAILABLE_SUDDONLY_DEATH: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Flg getIsAvailableSuddonlyDeathAsFlg() {
+        return CDef.Flg.codeOf(getIsAvailableSuddonlyDeath());
+    }
+
+    /**
+     * Set the value of isAvailableSuddonlyDeath as the classification of Flg. <br>
+     * IS_AVAILABLE_SUDDONLY_DEATH: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setIsAvailableSuddonlyDeathAsFlg(CDef.Flg cdef) {
+        setIsAvailableSuddonlyDeath(cdef != null ? toBoolean(cdef.code()) : null);
+    }
+
     // ===================================================================================
     //                                                              Classification Setting
     //                                                              ======================
@@ -399,6 +425,22 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      */
     public void setIsVisibleGraveSpectateMessage_False() {
         setIsVisibleGraveSpectateMessageAsFlg(CDef.Flg.False);
+    }
+
+    /**
+     * Set the value of isAvailableSuddonlyDeath as True (true). <br>
+     * はい: 有効を示す
+     */
+    public void setIsAvailableSuddonlyDeath_True() {
+        setIsAvailableSuddonlyDeathAsFlg(CDef.Flg.True);
+    }
+
+    /**
+     * Set the value of isAvailableSuddonlyDeath as False (false). <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsAvailableSuddonlyDeath_False() {
+        setIsAvailableSuddonlyDeathAsFlg(CDef.Flg.False);
     }
 
     // ===================================================================================
@@ -536,6 +578,28 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         return cdef != null ? cdef.equals(CDef.Flg.False) : false;
     }
 
+    /**
+     * Is the value of isAvailableSuddonlyDeath True? <br>
+     * はい: 有効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsAvailableSuddonlyDeathTrue() {
+        CDef.Flg cdef = getIsAvailableSuddonlyDeathAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
+    }
+
+    /**
+     * Is the value of isAvailableSuddonlyDeath False? <br>
+     * いいえ: 無効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsAvailableSuddonlyDeathFalse() {
+        CDef.Flg cdef = getIsAvailableSuddonlyDeathAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
     // ===================================================================================
     //                                                           Classification Name/Alias
     //                                                           =========================
@@ -590,6 +654,15 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      */
     public String getIsVisibleGraveSpectateMessageAlias() {
         CDef.Flg cdef = getIsVisibleGraveSpectateMessageAsFlg();
+        return cdef != null ? cdef.alias() : null;
+    }
+
+    /**
+     * Get the value of the column 'isAvailableSuddonlyDeath' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     */
+    public String getIsAvailableSuddonlyDeathAlias() {
+        CDef.Flg cdef = getIsAvailableSuddonlyDeathAsFlg();
         return cdef != null ? cdef.alias() : null;
     }
 
@@ -694,6 +767,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         sb.append(dm).append(xfND(_isAvailableSameWolfAttack));
         sb.append(dm).append(xfND(_isOpenSkillInGrave));
         sb.append(dm).append(xfND(_isVisibleGraveSpectateMessage));
+        sb.append(dm).append(xfND(_isAvailableSuddonlyDeath));
         sb.append(dm).append(xfND(_characterGroupId));
         sb.append(dm).append(xfND(_joinPassword));
         sb.append(dm).append(xfND(_organize));
@@ -953,6 +1027,27 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         checkClassificationCode("IS_VISIBLE_GRAVE_SPECTATE_MESSAGE", CDef.DefMeta.Flg, isVisibleGraveSpectateMessage);
         registerModifiedProperty("isVisibleGraveSpectateMessage");
         _isVisibleGraveSpectateMessage = isVisibleGraveSpectateMessage;
+    }
+
+    /**
+     * [get] IS_AVAILABLE_SUDDONLY_DEATH: {NotNull, BIT, classification=Flg} <br>
+     * 突然死ありか
+     * @return The value of the column 'IS_AVAILABLE_SUDDONLY_DEATH'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getIsAvailableSuddonlyDeath() {
+        checkSpecifiedProperty("isAvailableSuddonlyDeath");
+        return _isAvailableSuddonlyDeath;
+    }
+
+    /**
+     * [set] IS_AVAILABLE_SUDDONLY_DEATH: {NotNull, BIT, classification=Flg} <br>
+     * 突然死ありか
+     * @param isAvailableSuddonlyDeath The value of the column 'IS_AVAILABLE_SUDDONLY_DEATH'. (basically NotNull if update: for the constraint)
+     */
+    public void setIsAvailableSuddonlyDeath(Boolean isAvailableSuddonlyDeath) {
+        checkClassificationCode("IS_AVAILABLE_SUDDONLY_DEATH", CDef.DefMeta.Flg, isAvailableSuddonlyDeath);
+        registerModifiedProperty("isAvailableSuddonlyDeath");
+        _isAvailableSuddonlyDeath = isAvailableSuddonlyDeath;
     }
 
     /**

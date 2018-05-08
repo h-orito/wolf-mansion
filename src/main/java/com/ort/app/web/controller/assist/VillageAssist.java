@@ -567,6 +567,7 @@ public class VillageAssist {
         part.setIsAvailableSameWolfAttack(settings.getIsAvailableSameWolfAttack());
         part.setIsOpenSkillInGrave(settings.getIsOpenSkillInGrave());
         part.setIsVisibleGraveSpectateMessage(settings.getIsVisibleGraveSpectateMessage());
+        part.setIsAvailableSuddonlyDeath(settings.getIsAvailableSuddonlyDeath());
         part.setOrganization(settings.getOrganize());
         return part;
     }

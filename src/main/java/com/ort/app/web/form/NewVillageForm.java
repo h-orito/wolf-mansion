@@ -94,9 +94,13 @@ public class NewVillageForm implements Serializable {
     /** 入村パスワード */
     private String joinPassword;
 
-    /** 観戦を可能にする */
+    /** 観戦を可能にするか */
     @NotNull
     private Boolean isAvailableSpectate;
+
+    /** 突然死ありか */
+    @NotNull
+    private Boolean isAvailableSuddonlyDeath;
 
     /** 構成 */
     @NotNull
@@ -260,6 +264,14 @@ public class NewVillageForm implements Serializable {
 
     public void setIsVisibleGraveSpectateMessage(Boolean isVisibleGraveSpectateMessage) {
         this.isVisibleGraveSpectateMessage = isVisibleGraveSpectateMessage;
+    }
+
+    public Boolean getIsAvailableSuddonlyDeath() {
+        return isAvailableSuddonlyDeath;
+    }
+
+    public void setIsAvailableSuddonlyDeath(Boolean isAvailableSuddonlyDeath) {
+        this.isAvailableSuddonlyDeath = isAvailableSuddonlyDeath;
     }
 
     public String getOrganization() {

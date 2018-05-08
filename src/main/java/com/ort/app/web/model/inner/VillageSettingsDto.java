@@ -43,6 +43,9 @@ public class VillageSettingsDto {
     /** 墓下見学発言を地上から見られるか */
     private Boolean isVisibleGraveSpectateMessage;
 
+    /** 突然死ありか */
+    private Boolean isAvailableSuddonlyDeath;
+
     /** 構成 */
     private String organization;
 
@@ -148,6 +151,14 @@ public class VillageSettingsDto {
 
     public void setIsVisibleGraveSpectateMessage(Boolean isVisibleGraveSpectateMessage) {
         this.isVisibleGraveSpectateMessage = isVisibleGraveSpectateMessage;
+    }
+
+    public Boolean getIsAvailableSuddonlyDeath() {
+        return isAvailableSuddonlyDeath;
+    }
+
+    public void setIsAvailableSuddonlyDeath(Boolean isAvailableSuddonlyDeath) {
+        this.isAvailableSuddonlyDeath = isAvailableSuddonlyDeath;
     }
 
     public String getOrganization() {

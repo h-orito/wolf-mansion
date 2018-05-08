@@ -1,5 +1,6 @@
 package com.ort.app.web.controller.assist;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +33,7 @@ import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillageSettings;
 import com.ort.fw.security.UserInfo;
+import com.ort.fw.util.WerewolfMansionDateUtil;
 import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 
 @Component
@@ -66,8 +68,10 @@ public class VillageMessageAssist {
         Village village = selectVillage(villageId);
         List<CDef.MessageType> messageTypeList = makeMessageTypeList(optVillagePlayer, village, day);
         ListResultBean<Message> messageList = selectMessageList(form.getVillageId(), day, messageTypeList, optVillagePlayer);
+        String suddonlyDeathMessage = makeSuddonlyDeathMessage(village, isLatestDay(villageId, day), day);
         String villageStatusMessage = makeVillageStatusMessage(village, isLatestDay(villageId, day), optVillagePlayer, day);
-        VillageMessageListResultContent content = mappingToMessageListContent(village, messageList, villageStatusMessage, latestDay);
+        VillageMessageListResultContent content =
+                mappingToMessageListContent(village, messageList, villageStatusMessage, suddonlyDeathMessage, latestDay);
         return content;
     }
 
@@ -87,6 +91,18 @@ public class VillageMessageAssist {
         }
         content.setMessage(convertToMessage(village, message));
         return content;
+    }
+
+    public void updateLastAccessDatetime(Integer villageId) {
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        OptionalEntity<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
+        if (!optVillagePlayer.isPresent()) {
+            return;
+        }
+        VillagePlayer vp = new VillagePlayer();
+        vp.setLastAccessDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
+        vp.setVillagePlayerId(optVillagePlayer.get().getVillagePlayerId());
+        villagePlayerBhv.update(vp);
     }
 
     // ===================================================================================
@@ -157,10 +173,11 @@ public class VillageMessageAssist {
     //                                                                             Mapping
     //                                                                             =======
     private VillageMessageListResultContent mappingToMessageListContent(Village village, ListResultBean<Message> messageList,
-            String villageStatusMessage, int latestDay) {
+            String villageStatusMessage, String suddonlyDeathMessage, int latestDay) {
         VillageMessageListResultContent content = new VillageMessageListResultContent();
         content.setMessageList(convertToMessageList(village, messageList));
         content.setVillageStatusMessage(villageStatusMessage);
+        content.setSuddonlyDeathMessage(suddonlyDeathMessage);
         content.setLatestDay(latestDay);
         return content;
     }
@@ -470,5 +487,43 @@ public class VillageMessageAssist {
     private boolean isLatestDay(Integer villageId, int day) {
         ListResultBean<VillageDay> dayList = villageDayBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
         return dayList.get(dayList.size() - 1).getDay().equals(day);
+    }
+
+    // 突然死ありの場合に接続していない人を表示する
+    private String makeSuddonlyDeathMessage(Village village, boolean isLatestDay, int day) {
+        if (!isLatestDay || village.getVillageSettingsAsOne().get().isIsAvailableSuddonlyDeathFalse()) {
+            return null;
+        }
+        // 前日更新日時
+        LocalDateTime lastUpdate = getLastUpdate(village, day);
+        // 接続していない人
+        List<String> noAccessCharaList = villagePlayerBhv.selectList(cb -> {
+            cb.setupSelect_Chara();
+            cb.query().setVillageId_Equal(village.getVillageId());
+            cb.orScopeQuery(orCB -> {
+                orCB.query().setLastAccessDatetime_IsNull();
+                orCB.query().setLastAccessDatetime_LessThan(lastUpdate);
+            });
+            cb.query().queryChara().setIsDummy_Equal_False();
+            cb.query().setIsGone_Equal_False();
+            cb.query().setIsSpectator_Equal_False();
+            cb.query().setIsDead_Equal_False();
+        }).stream().map(vp -> vp.getChara().get().getCharaName()).collect(Collectors.toList());
+        if (noAccessCharaList.size() == 0) {
+            return null;
+        }
+        return String.format("本日まだ部屋から出てきていない者は、%s。", String.join("、", noAccessCharaList));
+    }
+
+    private LocalDateTime getLastUpdate(Village village, int day) {
+        ListResultBean<VillageDay> dayList = villageDayBhv.selectList(cb -> {
+            cb.query().setVillageId_Equal(village.getVillageId());
+            cb.query().addOrderBy_Day_Asc();
+        });
+        if (day == 0) {
+            VillageDay latestDay = dayList.get(0);
+            return latestDay.getUpdateDatetime();
+        }
+        return dayList.get(dayList.size() - 2).getDaychangeDatetime();
     }
 }

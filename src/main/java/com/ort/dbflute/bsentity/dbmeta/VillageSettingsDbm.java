@@ -66,6 +66,9 @@ public class VillageSettingsDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((VillageSettings)et).getIsVisibleGraveSpectateMessage(), (et, vl) -> {
             ((VillageSettings)et).setIsVisibleGraveSpectateMessage((Boolean)vl);
         }, "isVisibleGraveSpectateMessage");
+        setupEpg(_epgMap, et -> ((VillageSettings)et).getIsAvailableSuddonlyDeath(), (et, vl) -> {
+            ((VillageSettings)et).setIsAvailableSuddonlyDeath((Boolean)vl);
+        }, "isAvailableSuddonlyDeath");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getCharacterGroupId(), (et, vl) -> ((VillageSettings)et).setCharacterGroupId(cti(vl)), "characterGroupId");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getJoinPassword(), (et, vl) -> ((VillageSettings)et).setJoinPassword((String)vl), "joinPassword");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getOrganize(), (et, vl) -> ((VillageSettings)et).setOrganize((String)vl), "organize");
@@ -117,6 +120,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnIsAvailableSameWolfAttack = cci("IS_AVAILABLE_SAME_WOLF_ATTACK", "IS_AVAILABLE_SAME_WOLF_ATTACK", null, null, Boolean.class, "isAvailableSameWolfAttack", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnIsOpenSkillInGrave = cci("IS_OPEN_SKILL_IN_GRAVE", "IS_OPEN_SKILL_IN_GRAVE", null, null, Boolean.class, "isOpenSkillInGrave", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnIsVisibleGraveSpectateMessage = cci("IS_VISIBLE_GRAVE_SPECTATE_MESSAGE", "IS_VISIBLE_GRAVE_SPECTATE_MESSAGE", null, null, Boolean.class, "isVisibleGraveSpectateMessage", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
+    protected final ColumnInfo _columnIsAvailableSuddonlyDeath = cci("IS_AVAILABLE_SUDDONLY_DEATH", "IS_AVAILABLE_SUDDONLY_DEATH", null, null, Boolean.class, "isAvailableSuddonlyDeath", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnCharacterGroupId = cci("CHARACTER_GROUP_ID", "CHARACTER_GROUP_ID", null, null, Integer.class, "characterGroupId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "charaGroup", null, null, false);
     protected final ColumnInfo _columnJoinPassword = cci("JOIN_PASSWORD", "JOIN_PASSWORD", null, null, String.class, "joinPassword", null, false, false, false, "VARCHAR", 12, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnOrganize = cci("ORGANIZE", "ORGANIZE", null, null, String.class, "organize", null, false, false, true, "VARCHAR", 400, 0, null, null, false, null, null, null, null, null, false);
@@ -181,6 +185,11 @@ public class VillageSettingsDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnIsVisibleGraveSpectateMessage() { return _columnIsVisibleGraveSpectateMessage; }
     /**
+     * IS_AVAILABLE_SUDDONLY_DEATH: {NotNull, BIT, classification=Flg}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnIsAvailableSuddonlyDeath() { return _columnIsAvailableSuddonlyDeath; }
+    /**
      * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @return The information object of specified column. (NotNull)
      */
@@ -229,6 +238,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
         ls.add(columnIsAvailableSameWolfAttack());
         ls.add(columnIsOpenSkillInGrave());
         ls.add(columnIsVisibleGraveSpectateMessage());
+        ls.add(columnIsAvailableSuddonlyDeath());
         ls.add(columnCharacterGroupId());
         ls.add(columnJoinPassword());
         ls.add(columnOrganize());

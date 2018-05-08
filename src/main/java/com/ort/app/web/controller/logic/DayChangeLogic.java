@@ -71,6 +71,9 @@ public class DayChangeLogic {
     private MessageLogic messageLogic;
 
     @Autowired
+    private VillageParticipateLogic villageParticipateLogic;
+
+    @Autowired
     private MessageSource messageSource;
 
     // ===================================================================================
@@ -85,6 +88,9 @@ public class DayChangeLogic {
         VillageSettings settings = village.getVillageSettingsAsOne().get();
         Integer intervalSeconds = settings.getDayChangeIntervalSeconds();
         LocalDateTime nextDaychangeDatetime = daychangeDatetime.plusSeconds(intervalSeconds);
+
+        // プロローグで接続していない人を退村させる
+        leaveVillageIfNeeded(day, villageId);
 
         // 日付更新の必要がなければ終了
         if (!shouldChangeDay(village, daychangeDatetime)) {
@@ -407,6 +413,7 @@ public class DayChangeLogic {
     // 初日、2日目以外の日付更新処理
     private void dayChange(Integer villageId, int day, List<VillagePlayer> vPlayerList, VillageSettings settings) {
         // 突然死
+        // List<VillagePlayer> suddonlyDeathVPlayerList = killNoAccessPlayer(villageId, day, vPlayerList, settings);
         // TODO h-orito あとで実装する (2018/01/09)
 
         // 処刑
@@ -801,5 +808,31 @@ public class DayChangeLogic {
     // 参加者数が不足している
     private boolean isInsufficientVillagerNum(Village village, VillageSettings settings) {
         return village.getVillagePlayerList().size() < settings.getStartPersonMinNum();
+    }
+
+    // プロローグで長時間接続していない人がいたら退村させる
+    //    alter table VILLAGE_PLAYER add column LAST_ACCESS_DATETIME DATETIME COMMENT '最終接続日時' after IS_GONE;
+    //    alter table VILLAGE_SETTINGS add column IS_AVAILABLE_SUDDONLY_DEATH BOOLEAN NOT NULL COMMENT '突然死ありか' after IS_VISIBLE_GRAVE_SPECTATE_MESSAGE;
+    //
+    //    update VILLAGE_SETTINGS set IS_AVAILABLE_SUDDONLY_DEATH = 0;
+    private void leaveVillageIfNeeded(Integer day, Integer villageId) {
+        if (day != 0) {
+            return;
+        }
+        // 24時間アクセスしていなかったら村を出る
+        LocalDateTime yesterday = WerewolfMansionDateUtil.currentLocalDateTime().minusDays(1L);
+
+        villagePlayerBhv.selectList(cb -> {
+            cb.setupSelect_Chara();
+            cb.query().setVillageId_Equal(villageId);
+            cb.orScopeQuery(orCB -> {
+                orCB.query().setLastAccessDatetime_IsNull();
+                orCB.query().setLastAccessDatetime_LessThan(yesterday);
+            });
+            cb.query().queryChara().setIsDummy_Equal_False();
+            cb.query().setIsGone_Equal_False();
+        }).stream().forEach(vp -> {
+            villageParticipateLogic.leave(vp);
+        });
     }
 }

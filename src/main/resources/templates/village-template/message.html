@@ -2,7 +2,13 @@
 <head>
 </head>
 <body layout:fragment="message">
-	{{#each messageList}} {{> messagePartial}} {{/each}} {{#if villageStatusMessage}}
+	{{#each messageList}} {{> messagePartial}} {{/each}} {{#if suddonlyDeathMessage}}
+	<div class="col-sm-12">
+		<div class="row">
+			<div class="message col-sm-12 message-announce">{{{escapeHtmlWithoutBr suddonlyDeathMessage}}}</div>
+		</div>
+	</div>
+	{{/if}} {{#if villageStatusMessage}}
 	<div class="col-sm-12">
 		<div class="row">
 			<div class="message col-sm-12 message-announce">{{{escapeHtmlWithoutBr villageStatusMessage}}}</div>

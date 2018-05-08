@@ -145,6 +145,7 @@ public class VillageSettingsAssist {
         settings.setIsOpenSkillInGrave(form.getIsOpenSkillInGrave());
         settings.setIsVisibleGraveSpectateMessage(form.getIsVisibleGraveSpectateMessage());
         settings.setIsAvailableSpectate(form.getIsAvailableSpectate());
+        settings.setIsAvailableSuddonlyDeath(form.getIsAvailableSuddonlyDeath());
         settings.setOrganize(form.getOrganization());
         villageSettingsBhv.update(settings);
     }
@@ -224,6 +225,7 @@ public class VillageSettingsAssist {
         settingsForm.setIsAvailableSameWolfAttack(settings.getIsAvailableSameWolfAttack());
         settingsForm.setIsOpenSkillInGrave(settings.getIsOpenSkillInGrave());
         settingsForm.setIsVisibleGraveSpectateMessage(settings.getIsVisibleGraveSpectateMessage());
+        settingsForm.setIsAvailableSuddonlyDeath(settings.getIsAvailableSuddonlyDeath());
         settingsForm.setIsAvailableSpectate(settings.getIsAvailableSpectate());
         settingsForm.setOrganization(settings.getOrganize());
         model.addAttribute("settingsForm", settingsForm);

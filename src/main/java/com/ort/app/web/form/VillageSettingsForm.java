@@ -75,6 +75,10 @@ public class VillageSettingsForm implements Serializable {
     @NotNull
     private Boolean isAvailableSpectate;
 
+    /** 突然死ありか */
+    @NotNull
+    private Boolean isAvailableSuddonlyDeath;
+
     /** 構成 */
     @NotNull
     private String organization;
@@ -192,6 +196,14 @@ public class VillageSettingsForm implements Serializable {
 
     public void setIsVisibleGraveSpectateMessage(Boolean isVisibleGraveSpectateMessage) {
         this.isVisibleGraveSpectateMessage = isVisibleGraveSpectateMessage;
+    }
+
+    public Boolean getIsAvailableSuddonlyDeath() {
+        return isAvailableSuddonlyDeath;
+    }
+
+    public void setIsAvailableSuddonlyDeath(Boolean isAvailableSuddonlyDeath) {
+        this.isAvailableSuddonlyDeath = isAvailableSuddonlyDeath;
     }
 
     public String getOrganization() {

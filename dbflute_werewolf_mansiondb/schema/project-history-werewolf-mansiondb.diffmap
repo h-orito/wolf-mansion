@@ -1,4 +1,34 @@
 map:{
+    ; 2018/05/03 01:00:59 = map:{
+        ; diffDate = 2018/05/03 01:00:59
+        ; tableDiff = map:{
+            ; VILLAGE_SETTINGS = map:{
+                ; tableName = VILLAGE_SETTINGS
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; IS_AVAILABLE_SUDDONLY_DEATH = map:{
+                        ; columnName = IS_AVAILABLE_SUDDONLY_DEATH
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
+    ; 2018/05/01 15:51:24 = map:{
+        ; diffDate = 2018/05/01 15:51:24
+        ; tableDiff = map:{
+            ; VILLAGE_PLAYER = map:{
+                ; tableName = VILLAGE_PLAYER
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; LAST_ACCESS_DATETIME = map:{
+                        ; columnName = LAST_ACCESS_DATETIME
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2018/04/18 23:55:43 = map:{
         ; diffDate = 2018/04/18 23:55:43
         ; tableDiff = map:{

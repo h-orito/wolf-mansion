@@ -327,6 +327,26 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
      */
     public BsVillagePlayerCQ addOrderBy_IsGone_Desc() { regOBD("IS_GONE"); return this; }
 
+    protected ConditionValue _lastAccessDatetime;
+    public ConditionValue xdfgetLastAccessDatetime()
+    { if (_lastAccessDatetime == null) { _lastAccessDatetime = nCV(); }
+      return _lastAccessDatetime; }
+    protected ConditionValue xgetCValueLastAccessDatetime() { return xdfgetLastAccessDatetime(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * LAST_ACCESS_DATETIME: {DATETIME(19)}
+     * @return this. (NotNull)
+     */
+    public BsVillagePlayerCQ addOrderBy_LastAccessDatetime_Asc() { regOBA("LAST_ACCESS_DATETIME"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * LAST_ACCESS_DATETIME: {DATETIME(19)}
+     * @return this. (NotNull)
+     */
+    public BsVillagePlayerCQ addOrderBy_LastAccessDatetime_Desc() { regOBD("LAST_ACCESS_DATETIME"); return this; }
+
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
     { if (_registerDatetime == null) { _registerDatetime = nCV(); }

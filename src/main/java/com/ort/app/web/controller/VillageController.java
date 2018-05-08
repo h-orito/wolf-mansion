@@ -119,6 +119,8 @@ public class VillageController {
     @GetMapping("/village/getMessageList")
     @ResponseBody
     private VillageMessageListResultContent getDayMessageList(VillageGetMessageListForm form) {
+        // 最終アクセス日時を更新
+        villageMessageAssist.updateLastAccessDatetime(form.getVillageId());
         // 更新時間が過ぎていたら日付更新
         dayChangeLogic.dayChangeIfNeeded(form.getVillageId());
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();

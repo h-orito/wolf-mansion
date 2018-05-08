@@ -10,6 +10,7 @@ import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exentity.VillagePlayer;
+import com.ort.fw.util.WerewolfMansionDateUtil;
 
 @Component
 public class VillageParticipateLogic {
@@ -111,6 +112,7 @@ public class VillageParticipateLogic {
         villagePlayer.setIsSpectator(isSpectator);
         villagePlayer.setIsGone_False();
         villagePlayer.setRequestSkillCodeAsSkill(requestSkill);
+        villagePlayer.setLastAccessDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
         villagePlayerBhv.insert(villagePlayer);
         return villagePlayer.getVillagePlayerId();
     }

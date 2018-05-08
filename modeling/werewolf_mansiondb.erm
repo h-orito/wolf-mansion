@@ -1337,6 +1337,11 @@
 					<type>boolean</type>
 					<not_null>true</not_null>
 				</normal_column>
+				<normal_column>
+					<physical_name>last_access_datetime</physical_name>
+					<logical_name>最終接続日時</logical_name>
+					<type>datetime</type>
+				</normal_column>
 				<column_group>共通カラム</column_group>
 			</columns>
 			<indexes>
@@ -1456,6 +1461,12 @@
 				<normal_column>
 					<physical_name>is_visible_grave_spectate_message</physical_name>
 					<logical_name>墓下見学発言を生存者が見られるか</logical_name>
+					<type>boolean</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>is_available_suddonly_death</physical_name>
+					<logical_name>突然死ありか</logical_name>
 					<type>boolean</type>
 					<not_null>true</not_null>
 				</normal_column>
