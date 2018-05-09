@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of VOTE.
+ * The base condition-bean of vote.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVoteCB extends AbstractConditionBean {
@@ -73,7 +73,7 @@ public class BsVoteCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "VOTE";
+        return "vote";
     }
 
     // ===================================================================================
@@ -81,9 +81,9 @@ public class BsVoteCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY. (NotNull)
-     * @param day : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY. (NotNull)
-     * @param charaId : PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA. (NotNull)
+     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
+     * @param day : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
+     * @param charaId : PK, IX, NotNull, INT UNSIGNED(10), FK to chara. (NotNull)
      * @return this. (NotNull)
      */
     public VoteCB acceptPK(Integer villageId, Integer day, Integer charaId) {
@@ -374,22 +374,22 @@ public class BsVoteCB extends AbstractConditionBean {
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageId() { return doColumn("VILLAGE_ID"); }
         /**
-         * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+         * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnDay() { return doColumn("DAY"); }
         /**
-         * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
+         * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCharaId() { return doColumn("CHARA_ID"); }
         /**
-         * VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA}
+         * VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVoteCharaId() { return doColumn("VOTE_CHARA_ID"); }
@@ -426,7 +426,7 @@ public class BsVoteCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "VOTE"; }
+        protected String getTableDbName() { return "vote"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * CHARA by my CHARA_ID, named 'charaByCharaId'.

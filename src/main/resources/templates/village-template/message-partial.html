@@ -99,6 +99,12 @@
 			<div class="message col-sm-12 col-xs-12 message-public-system">{{{messageContent}}}</div>
 		</div>
 	</div>
+	{{else if (eq messageType 'CREATOR_SAY')}}
+	<div class="col-sm-12" data-message>
+		<div class="row">
+			<div class="message col-sm-12 col-xs-12 message-creator">{{{messageContent}}}</div>
+		</div>
+	</div>
 	{{else if (or (eq messageType 'PRIVATE_SYSTEM') (eq messageType 'PRIVATE_SEER') (eq messageType 'PRIVATE_PSYCHIC'))}}
 	<div class="col-sm-12" data-message>
 		<div class="row">

@@ -192,6 +192,12 @@ tr.top-menu-selectable:hover a {
 	min-height: 0px;
 }
 
+.message-creator {
+	color: #00bc8c;
+	border: 1px solid #00bc8c;
+	min-height: 0px;
+}
+
 .message-announce {
 	color: #ff2222;
 	border: 1px solid #ff2222;
@@ -329,6 +335,6 @@ ul.announce > li {
 }
 
 .pagination-sm>li>a, .pagination-sm>li>span {
-	padding: 2px 7px;
+	padding: 2px 10px;
 	font-size: 12px;
 }

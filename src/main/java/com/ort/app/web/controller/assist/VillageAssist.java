@@ -22,6 +22,7 @@ import com.ort.app.web.controller.logic.VillageDispLogic;
 import com.ort.app.web.dto.VillageInfo;
 import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
+import com.ort.app.web.form.VillageKickForm;
 import com.ort.app.web.form.VillageLeaveForm;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.app.web.form.VillageSayForm;
@@ -115,7 +116,7 @@ public class VillageAssist {
         VillageResultContent content = new VillageResultContent();
         setVillageModelBasicInfo(content, villageInfo);
         setVillageModelForm(content, villageInfo, sayForm, participateForm, changeRequestSkillForm, model);
-        setVillageModelCreateUser(content, village, userInfo);
+        setVillageModelCreateUser(content, village, userInfo, model);
         model.addAttribute("content", content);
         return "village";
     }
@@ -359,13 +360,18 @@ public class VillageAssist {
     }
 
     // 村建て
-    private void setVillageModelCreateUser(VillageResultContent content, Village village, UserInfo userInfo) {
+    private void setVillageModelCreateUser(VillageResultContent content, Village village, UserInfo userInfo, Model model) {
         String createPlayerName = village.getCreatePlayerName();
         content.setCreatePlayerName(createPlayerName);
-        content.setIsCreatePlayer(userInfo != null && userInfo.getUsername().equals(createPlayerName));
+        boolean isCreator = userInfo != null && userInfo.getUsername().equals(createPlayerName);
+        content.setIsCreatePlayer(isCreator);
         content.setIsAvailableSettingsUpdate(
                 userInfo != null && (userInfo.getUsername().equals(createPlayerName) || "master".equals(userInfo.getUsername()))
                         && village.isVillageStatusCode募集中());
+        if (isCreator) {
+            model.addAttribute("kickForm", new VillageKickForm());
+            model.addAttribute("creatorSayForm", new VillageSayForm());
+        }
     }
 
     private VillageChangeRequestSkillForm makeChangeRequestSkillForm(boolean isDispChangeRequestSkillForm,

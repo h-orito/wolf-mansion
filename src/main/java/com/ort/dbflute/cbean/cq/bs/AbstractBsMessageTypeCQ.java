@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of MESSAGE_TYPE.
+ * The abstract condition-query of message_type.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "MESSAGE_TYPE";
+        return "message_type";
     }
 
     // ===================================================================================
@@ -60,6 +60,14 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
      */
     public void setMessageTypeCode_Equal_AsMessageType(CDef.MessageType cdef) {
         doSetMessageTypeCode_Equal(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * Equal(=). As 村建て発言 (CREATOR_SAY). And OnlyOnceRegistered. <br>
+     * 村建て発言
+     */
+    public void setMessageTypeCode_Equal_村建て発言() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.村建て発言);
     }
 
     /**
@@ -179,6 +187,14 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
      */
     public void setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType cdef) {
         doSetMessageTypeCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 村建て発言 (CREATOR_SAY). And OnlyOnceRegistered. <br>
+     * 村建て発言
+     */
+    public void setMessageTypeCode_NotEqual_村建て発言() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.村建て発言);
     }
 
     /**
@@ -329,8 +345,8 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select MESSAGE_TYPE_CODE from MESSAGE where ...)} <br>
-     * MESSAGE by MESSAGE_TYPE_CODE, named 'messageAsOne'.
+     * {exists (select MESSAGE_TYPE_CODE from message where ...)} <br>
+     * message by MESSAGE_TYPE_CODE, named 'messageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsMessage</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     messageCB.query().set...
@@ -348,8 +364,8 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select MESSAGE_TYPE_CODE from MESSAGE where ...)} <br>
-     * MESSAGE by MESSAGE_TYPE_CODE, named 'messageAsOne'.
+     * {not exists (select MESSAGE_TYPE_CODE from message where ...)} <br>
+     * message by MESSAGE_TYPE_CODE, named 'messageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsMessage</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     messageCB.query().set...
@@ -375,8 +391,8 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from MESSAGE where ...)} <br>
-     * MESSAGE by MESSAGE_TYPE_CODE, named 'messageAsOne'.
+     * {FOO &lt;= (select max(BAR) from message where ...)} <br>
+     * message by MESSAGE_TYPE_CODE, named 'messageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedMessage()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     messageCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>

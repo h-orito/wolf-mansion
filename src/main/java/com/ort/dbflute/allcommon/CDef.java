@@ -678,6 +678,9 @@ public interface CDef extends Classification {
      * メッセージ種別
      */
     public enum MessageType implements CDef {
+        /** 村建て発言 */
+        村建て発言("CREATOR_SAY", "村建て発言", emptyStrings())
+        ,
         /** 死者の呻き */
         死者の呻き("GRAVE_SAY", "死者の呻き", emptyStrings())
         ,

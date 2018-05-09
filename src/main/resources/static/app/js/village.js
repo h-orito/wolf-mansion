@@ -12,7 +12,7 @@ $(function() {
 	const messageTemplate = Handlebars.compile($("#message-template").html());
 	const messagePartialTemplate = Handlebars.compile($("#message-partial-template").html());
 	Handlebars.registerPartial('messagePartial', messagePartialTemplate);
-	const $sayTextarea = $('[data-say-textarea]');
+	const $sayTextarea = $('#sayform [data-say-textarea]');
 	const $sayTypeArea = $('[data-say-type]');
 	const $abilityArea = $('[data-ability]');
 	// メッセージ変換機能
@@ -410,6 +410,9 @@ $(function() {
 	// 退村時は確認フォーム表示
 	$('#leave-form').on('submit', function(){
 		return confirm('本当に退村してよろしいですか？');
+	});
+	$('#kick-form').on('submit', function(){
+		return confirm('本当に退村させてよろしいですか？');
 	});
 
 	// ----------------------------------------------

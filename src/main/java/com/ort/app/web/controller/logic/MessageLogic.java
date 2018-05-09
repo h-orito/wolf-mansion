@@ -78,7 +78,7 @@ public class MessageLogic {
     }
 
     public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content) {
-        insertMessage(villageId, day, messageType, content, null, null);
+        insertMessage(villageId, day, messageType, content, null);
     }
 
     /**

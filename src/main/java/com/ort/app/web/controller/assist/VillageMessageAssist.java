@@ -301,7 +301,7 @@ public class VillageMessageAssist {
             return CDef.MessageType.listAll();
         }
         List<CDef.MessageType> dispAllowedMessageTypeList =
-                new ArrayList<>(Arrays.asList(CDef.MessageType.公開システムメッセージ, CDef.MessageType.通常発言));
+                new ArrayList<>(Arrays.asList(CDef.MessageType.公開システムメッセージ, CDef.MessageType.通常発言, CDef.MessageType.村建て発言));
         addGraveSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addSpectateSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer, day);
         addMasonSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
