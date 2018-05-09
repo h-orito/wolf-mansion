@@ -15,10 +15,10 @@ public class VillageGetMessageListForm implements Serializable {
     /** 何日目か */
     private Integer day;
 
-    /** ページサイズ */
+    /** 1ページあたりの表示発言数 */
     private Integer pageSize;
 
-    /** ページ番号 */
+    /** 何ページ目か */
     private Integer pageNum;
 
     public Integer getVillageId() {

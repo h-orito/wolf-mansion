@@ -30,7 +30,7 @@
 					<li th:if="${content.villageSettings.isVisibleGraveSpectateMessage}">この村は、墓下や見学発言を生存者が参照できます。</li>
 					<li th:if="${content.villageSettings.isVisibleGraveSpectateMessage}">進行中は、推理、まとめ、および推理に繋がる内容は生存者全員が見られる発言種別で発言しないでください。</li>
 					<li th:if="${!content.villageSettings.isVisibleGraveSpectateMessage}">進行中は、推理、まとめ、および推理に繋がる内容は通常発言で発言しないでください。</li>
-					<li>COおよび能力行使結果の発表は導師のみ行うことができます。騙りCOも禁止です。</li>
+					<li>COおよび能力行使結果の発表は生存中の導師のみ行うことができます。騙りCOも禁止です。</li>
 				</ul>
 			</div>
 			<a href="javascript:void(0);" data-toggle="collapse" data-target="#sayform" class="h5 hidden" aria-expanded="true" data-say-tab>発言する</a> <span

@@ -176,6 +176,14 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     //                                                              Classification Setting
     //                                                              ======================
     /**
+     * Set the value of messageTypeCode as 村建て発言 (CREATOR_SAY). <br>
+     * 村建て発言
+     */
+    public void setMessageTypeCode_村建て発言() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.村建て発言);
+    }
+
+    /**
      * Set the value of messageTypeCode as 死者の呻き (GRAVE_SAY). <br>
      * 死者の呻き
      */
@@ -274,6 +282,17 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
+    /**
+     * Is the value of messageTypeCode 村建て発言? <br>
+     * 村建て発言
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode村建て発言() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.村建て発言) : false;
+    }
+
     /**
      * Is the value of messageTypeCode 死者の呻き? <br>
      * 死者の呻き

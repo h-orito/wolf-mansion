@@ -27,6 +27,7 @@
 				class="nav-link navbar-inverse" data-toggle="tab">投票</a></li>
 			<li class="nav-item" th:if="${content.skillName != null && content.isDispSayForm}"><a href="#tab-skill" class="nav-link navbar-inverse"
 				data-toggle="tab">能力</a></li>
+			<li class="nav-item"><a href="#tab-display-settings" class="nav-link navbar-inverse" data-toggle="tab">表示設定</a></li>
 			<li class="nav-item"><a href="#tab-close" class="nav-link navbar-inverse" data-toggle="tab">閉じる</a></li>
 		</ul>
 		<div class="tab-content">
@@ -44,6 +45,9 @@
 			</div>
 			<div id="tab-skill" class="tab-pane">
 				<div layout:replace="~{village/skill-area::skill-area}"></div>
+			</div>
+			<div id="tab-display-settings" class="tab-pane">
+				<div layout:replace="~{village/display-settings::display-settings}"></div>
 			</div>
 			<div id="tab-close" class="tab-pane active"></div>
 		</div>

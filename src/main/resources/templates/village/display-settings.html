@@ -17,21 +17,18 @@
 <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<div id="form-area" layout:fragment="form-area">
-		<!--/* 参戦欄 */-->
-		<div layout:replace="~{village/participate-form::participate-form}"></div>
-		
-		<!--/* 役職希望変更欄 */-->
-		<div layout:replace="~{village/change-skill-form::change-skill-form}"></div>
-		
-		<!--/* 退村欄 */-->
-		<div layout:replace="~{village/leave-form::leave-form}"></div>
-
-		<!--/* 村建てメニュー */-->
-		<div layout:replace="~{village/creator-form::creator-form}"></div>
-		
-		<!--/* 管理者メニュー */-->
-		<div layout:replace="~{village/admin-form::admin-form}"></div>
+	<div class="col-sm-12 well" style="padding-top: 10px;" layout:fragment="display-settings">
+		<div class="">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<div class="col-sm-4 col-xs-12 form-check">
+						<input type="checkbox" class="form-check-input" name="dsetting-nopaging-check" data-dsetting-nopaging>
+						<label class="form-check-label" for="dsetting-nopaging-check">ページ分割しない</label>
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
+
 </body>
 </html>

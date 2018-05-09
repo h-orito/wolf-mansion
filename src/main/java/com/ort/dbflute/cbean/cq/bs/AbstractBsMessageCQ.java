@@ -684,6 +684,14 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 村建て発言 (CREATOR_SAY). And OnlyOnceRegistered. <br>
+     * 村建て発言
+     */
+    public void setMessageTypeCode_Equal_村建て発言() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.村建て発言);
+    }
+
+    /**
      * Equal(=). As 死者の呻き (GRAVE_SAY). And OnlyOnceRegistered. <br>
      * 死者の呻き
      */
@@ -800,6 +808,14 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
      */
     public void setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType cdef) {
         doSetMessageTypeCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 村建て発言 (CREATOR_SAY). And OnlyOnceRegistered. <br>
+     * 村建て発言
+     */
+    public void setMessageTypeCode_NotEqual_村建て発言() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.村建て発言);
     }
 
     /**

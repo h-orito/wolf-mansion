@@ -12,7 +12,7 @@ $(function() {
 	const messageTemplate = Handlebars.compile($("#message-template").html());
 	const messagePartialTemplate = Handlebars.compile($("#message-partial-template").html());
 	Handlebars.registerPartial('messagePartial', messagePartialTemplate);
-	const $sayTextarea = $('[data-say-textarea]');
+	const $sayTextarea = $('#sayform [data-say-textarea]');
 	const $sayTypeArea = $('[data-say-type]');
 	const $abilityArea = $('[data-ability]');
 	// メッセージ変換機能
@@ -38,16 +38,32 @@ $(function() {
 		selectDefaultFootsteps(); // 狐と狂人だったら選択していた足音の部屋を選択状態にする
 		restoreDisplaySetting();
 	}
+	
+	// ページング
+	$('body').on('click', '[data-prev-page]', function(){
+		const currentPage = parseInt($(this).data('prev-page'));
+		loadAndDisplayMessage(currentPage - 1);
+	});
+	$('body').on('click', '[data-next-page]', function(){
+		const currentPage = parseInt($(this).data('next-page'));
+		loadAndDisplayMessage(currentPage + 1);
+	});
+	$('body').on('click', '[data-pagenum]', function(){
+		loadAndDisplayMessage(parseInt($(this).data('pagenum')));
+	});
 
 	// メッセージ取得
-	function loadAndDisplayMessage() {
+	function loadAndDisplayMessage(pageNum) {
 		$("[data-message-area]").addClass('loading');
+		const isNoPaging = getDisplaySetting('is_no_paging');
 		return $.ajax({
 			type : 'GET',
 			url : GET_MESSAGE_URL,
 			data : {
 				'villageId' : villageId,
-				'day' : day
+				'day' : day,
+				'pageSize': isNoPaging ? null : 30,
+				'pageNum': isNoPaging ? null : pageNum
 			}
 		}).then(function(response) {
 			// htmlエスケープと、アンカーの変換を行う
@@ -395,6 +411,9 @@ $(function() {
 	$('#leave-form').on('submit', function(){
 		return confirm('本当に退村してよろしいですか？');
 	});
+	$('#kick-form').on('submit', function(){
+		return confirm('本当に退村させてよろしいですか？');
+	});
 
 	// ----------------------------------------------
 	// 表示設定
@@ -414,7 +433,9 @@ $(function() {
 		let displaySetting = $.cookie('village_display_setting');
 		if (displaySetting == null) {
 			displaySetting = {
-				'is_open_situation_tab' : true
+				'is_open_situation_tab' : true,
+				'is_sayform_transparent': false,
+				'is_no_paging': false
 			};
 			saveDisplaySetting(displaySetting);
 			return;
@@ -442,6 +463,12 @@ $(function() {
 		} else {
 			$(this).closest('.well').removeClass('transparent-well');
 		}
+	});
+
+	$('[data-dsetting-nopaging]').on('change', function() {
+		const isCheck = $(this).prop('checked');
+		saveDisplaySetting('is_no_paging', isCheck ? true : false);
+		loadAndDisplayMessage();
 	});
 
 	$('[data-footer-tab-announce-delete]').on('click', function() {

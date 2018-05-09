@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.dbflute.cbean.result.ListResultBean;
+import org.dbflute.cbean.result.PagingResultBean;
 import org.dbflute.optional.OptionalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -67,7 +68,8 @@ public class VillageMessageAssist {
         OptionalEntity<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
         Village village = selectVillage(villageId);
         List<CDef.MessageType> messageTypeList = makeMessageTypeList(optVillagePlayer, village, day);
-        ListResultBean<Message> messageList = selectMessageList(form.getVillageId(), day, messageTypeList, optVillagePlayer);
+        PagingResultBean<Message> messageList =
+                selectMessageList(form.getVillageId(), day, messageTypeList, optVillagePlayer, form.getPageNum(), form.getPageSize());
         String suddonlyDeathMessage = makeSuddonlyDeathMessage(village, isLatestDay(villageId, day), day);
         String villageStatusMessage = makeVillageStatusMessage(village, isLatestDay(villageId, day), optVillagePlayer, day);
         VillageMessageListResultContent content =
@@ -108,9 +110,16 @@ public class VillageMessageAssist {
     // ===================================================================================
     //                                                                              Select
     //                                                                              ======
-    private ListResultBean<Message> selectMessageList(Integer villageId, Integer day, List<CDef.MessageType> messageTypeList,
-            OptionalEntity<VillagePlayer> optVillagePlayer) {
-        return messageBhv.selectList(cb -> {
+    private PagingResultBean<Message> selectMessageList(Integer villageId, Integer day, List<CDef.MessageType> messageTypeList,
+            OptionalEntity<VillagePlayer> optVillagePlayer, Integer pageNum, Integer pageSize) {
+        return messageBhv.selectPage(cb -> {
+            if (pageNum != null && pageSize != null) {
+                cb.paging(pageSize, pageNum);
+            } else if (pageSize != null) {
+                cb.paging(pageSize, 10000); // 存在しないページを検索して最新を取得させる
+            } else {
+                cb.paging(100000, 1);
+            }
             cb.setupSelect_VillagePlayer().withPlayer();
             cb.setupSelect_VillagePlayer().withChara();
             cb.query().setVillageId_Equal(villageId);
@@ -172,14 +181,42 @@ public class VillageMessageAssist {
     // ===================================================================================
     //                                                                             Mapping
     //                                                                             =======
-    private VillageMessageListResultContent mappingToMessageListContent(Village village, ListResultBean<Message> messageList,
+    private VillageMessageListResultContent mappingToMessageListContent(Village village, PagingResultBean<Message> messageList,
             String villageStatusMessage, String suddonlyDeathMessage, int latestDay) {
         VillageMessageListResultContent content = new VillageMessageListResultContent();
         content.setMessageList(convertToMessageList(village, messageList));
         content.setVillageStatusMessage(villageStatusMessage);
         content.setSuddonlyDeathMessage(suddonlyDeathMessage);
         content.setLatestDay(latestDay);
+        content.setAllPageCount(messageList.getAllPageCount());
+        content.setIsExistPrePage(messageList.existsPreviousPage());
+        content.setIsExistNextPage(messageList.existsNextPage());
+        content.setCurrentPageNum(messageList.getCurrentPageNumber());
+        content.setPageNumList(createPageNumList(messageList));
         return content;
+    }
+
+    private List<Integer> createPageNumList(PagingResultBean<Message> messageList) {
+        int allPageCount = messageList.getAllPageCount();
+        int currentPageNumber = messageList.getCurrentPageNumber();
+        int startPage = currentPageNumber - 2;
+        int endPage = currentPageNumber + 2;
+        if (startPage < 1) {
+            startPage = 1;
+            endPage = 5;
+        }
+        if (endPage > allPageCount) {
+            endPage = allPageCount;
+            startPage = allPageCount - 4;
+            if (startPage < 1) {
+                startPage = 1;
+            }
+        }
+        List<Integer> pageNumList = new ArrayList<>();
+        for (int i = startPage; i <= endPage; i++) {
+            pageNumList.add(i);
+        }
+        return pageNumList;
     }
 
     private String makeVillageStatusMessage(Village village, boolean isLatestDay, OptionalEntity<VillagePlayer> optVillagePlayer, int day) {
@@ -281,7 +318,7 @@ public class VillageMessageAssist {
             return CDef.MessageType.listAll();
         }
         List<CDef.MessageType> dispAllowedMessageTypeList =
-                new ArrayList<>(Arrays.asList(CDef.MessageType.公開システムメッセージ, CDef.MessageType.通常発言));
+                new ArrayList<>(Arrays.asList(CDef.MessageType.公開システムメッセージ, CDef.MessageType.通常発言, CDef.MessageType.村建て発言));
         addGraveSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addSpectateSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer, day);
         addMasonSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
