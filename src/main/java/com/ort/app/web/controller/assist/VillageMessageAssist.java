@@ -528,7 +528,8 @@ public class VillageMessageAssist {
 
     // 突然死ありの場合に接続していない人を表示する
     private String makeSuddonlyDeathMessage(Village village, boolean isLatestDay, int day) {
-        if (!isLatestDay || village.getVillageSettingsAsOne().get().isIsAvailableSuddonlyDeathFalse()) {
+        if (!isLatestDay || village.getVillageSettingsAsOne().get().isIsAvailableSuddonlyDeathFalse()
+                || !village.isVillageStatusCode進行中()) {
             return null;
         }
         // 前日更新日時

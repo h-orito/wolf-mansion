@@ -76,7 +76,7 @@ public class AdminController {
             cb.fetchFirst(1);
         }).get();
         VillageDay villageDay = new VillageDay();
-        villageDay.setDaychangeDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
+        villageDay.setDaychangeDatetime(WerewolfMansionDateUtil.currentLocalDateTime().minusSeconds(1L));
         villageDayBhv.queryUpdate(villageDay, cb -> {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setDay_Equal(latestDay.getDay());
@@ -98,6 +98,17 @@ public class AdminController {
         // 退村させる
         villageLogic.leave(optVPlayer.get());
 
+        return "redirect:/village/" + villageId;
+    }
+
+    // 管理者機能：全員アクセス
+    @PostMapping("/admin/village/{villageId}/access")
+    private String leave(@PathVariable Integer villageId) {
+        VillagePlayer vp = new VillagePlayer();
+        vp.setLastAccessDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
+        villagePlayerBhv.queryUpdate(vp, cb -> {
+            cb.query().setVillageId_Equal(villageId);
+        });
         return "redirect:/village/" + villageId;
     }
 }

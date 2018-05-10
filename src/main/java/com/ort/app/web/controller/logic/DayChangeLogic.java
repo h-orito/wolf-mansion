@@ -164,10 +164,15 @@ public class DayChangeLogic {
         });
     }
 
-    private ListResultBean<Vote> selectVoteList(Integer villageId, int day) {
+    private ListResultBean<Vote> selectVoteList(Integer villageId, int day, List<VillagePlayer> suddonlyDeathVPlayerList) {
         ListResultBean<Vote> voteList = voteBhv.selectList(cb -> {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setDay_Equal(day);
+            // 突然死した人は投票無効
+            if (CollectionUtils.isNotEmpty(suddonlyDeathVPlayerList)) {
+                cb.query().setCharaId_NotInScope(
+                        suddonlyDeathVPlayerList.stream().map(VillagePlayer::getCharaId).collect(Collectors.toList()));
+            }
         });
         return voteList;
     }
@@ -413,35 +418,38 @@ public class DayChangeLogic {
     // 初日、2日目以外の日付更新処理
     private void dayChange(Integer villageId, int day, List<VillagePlayer> vPlayerList, VillageSettings settings) {
         // 突然死
-        // List<VillagePlayer> suddonlyDeathVPlayerList = killNoAccessPlayer(villageId, day, vPlayerList, settings);
-        // TODO h-orito あとで実装する (2018/01/09)
+        List<VillagePlayer> suddonlyDeathVPlayerList = killNoAccessPlayer(villageId, day, vPlayerList, settings);
 
         // 処刑
-        VillagePlayer executedPlayer = execute(villageId, day, vPlayerList, settings);
+        VillagePlayer executedPlayer = execute(villageId, day, vPlayerList, settings, suddonlyDeathVPlayerList);
         Integer executedPlayerId = executedPlayer == null ? null : executedPlayer.getVillagePlayerId();
 
         // 能力行使内容取得
         List<Ability> abilityList = selectAbilityList(villageId, day);
 
         // 護衛
-        Optional<VillagePlayer> optGuardedPlayer = guard(villageId, day, vPlayerList, executedPlayerId, abilityList);
+        Optional<VillagePlayer> optGuardedPlayer =
+                guard(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, abilityList);
 
         // 占い
-        Optional<VillagePlayer> optDivinedPlayer = divine(villageId, day, vPlayerList, executedPlayerId, abilityList);
+        Optional<VillagePlayer> optDivinedPlayer =
+                divine(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, abilityList);
 
         // 呪殺
-        Optional<VillagePlayer> optDivineKilledPlayer = divineKill(villageId, day, vPlayerList, executedPlayerId, optDivinedPlayer);
+        Optional<VillagePlayer> optDivineKilledPlayer =
+                divineKill(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, optDivinedPlayer);
 
         // 霊能
-        psychic(villageId, day, vPlayerList, executedPlayer);
+        psychic(villageId, day, vPlayerList, executedPlayer, suddonlyDeathVPlayerList);
 
         // 襲撃
-        Optional<VillagePlayer> optAttackedPlayer = attack(villageId, day, vPlayerList, executedPlayerId, optGuardedPlayer, abilityList);
+        Optional<VillagePlayer> optAttackedPlayer =
+                attack(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, optGuardedPlayer, abilityList);
 
         // 無惨メッセージ
         insertAttackedMessage(villageId, day, optDivineKilledPlayer, optAttackedPlayer);
 
-        if (day == 2) {
+        if (day == 2 && optAttackedPlayer.isPresent()) {
             messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ,
                     messageSource.getMessage("village.start.message.day2", null, Locale.JAPAN));
         }
@@ -584,10 +592,12 @@ public class DayChangeLogic {
 
     // 襲撃
     private Optional<VillagePlayer> attack(Integer villageId, int day, List<VillagePlayer> villagePlayerList, Integer executedPlayerId,
-            Optional<VillagePlayer> optGuardedPlayer, List<Ability> abilityList) {
+            List<VillagePlayer> suddonlyDeathVPlayerList, Optional<VillagePlayer> optGuardedPlayer, List<Ability> abilityList) {
         Optional<VillagePlayer> optLivingWerewolf = villagePlayerList.stream()
-                .filter(vp -> vp.isIsDeadFalse() && !vp.getVillagePlayerId().equals(executedPlayerId)
-                        && vp.getSkillCodeAsSkill() == CDef.Skill.人狼)
+                .filter(vp -> vp.isIsDeadFalse() // 死亡していない
+                        && suddonlyDeathVPlayerList.stream().noneMatch(sdvp -> sdvp.getVillagePlayerId().equals(vp.getVillagePlayerId())) // 突然死していない
+                        && !vp.getVillagePlayerId().equals(executedPlayerId) // 処刑されていない
+                        && vp.getSkillCodeAsSkill() == CDef.Skill.人狼) // 人狼である
                 .findAny();
         if (!optLivingWerewolf.isPresent()) {
             return Optional.empty(); // 人狼がいない場合は何もしない
@@ -606,7 +616,7 @@ public class DayChangeLogic {
         }
 
         // 襲撃成功したか
-        if (isAttackSuccess(targetPlayer, executedPlayerId, optGuardedPlayer)) {
+        if (isAttackSuccess(targetPlayer, executedPlayerId, suddonlyDeathVPlayerList, optGuardedPlayer)) {
             updateVillagePlayerDead(day, targetPlayer, CDef.DeadReason.襲撃); // 死亡処理
             return Optional.ofNullable(targetPlayer);
         }
@@ -614,9 +624,13 @@ public class DayChangeLogic {
     }
 
     // 襲撃成功したか
-    private boolean isAttackSuccess(VillagePlayer attackedPlayer, Integer executedPlayerId, Optional<VillagePlayer> optGuardedPlayer) {
+    private boolean isAttackSuccess(VillagePlayer attackedPlayer, Integer executedPlayerId, List<VillagePlayer> suddonlyDeathVPlayerList,
+            Optional<VillagePlayer> optGuardedPlayer) {
         if (attackedPlayer.getVillagePlayerId().equals(executedPlayerId)) {
             return false; // 処刑されていた
+        }
+        if (suddonlyDeathVPlayerList.stream().anyMatch(sdvp -> sdvp.getVillagePlayerId().equals(attackedPlayer.getVillagePlayerId()))) {
+            return false; // 突然死した
         }
         if (optGuardedPlayer.isPresent() && optGuardedPlayer.get().getVillagePlayerId().equals(attackedPlayer.getVillagePlayerId())) {
             return false; // 護衛されていた
@@ -628,41 +642,59 @@ public class DayChangeLogic {
     }
 
     // 霊視
-    private void psychic(Integer villageId, int day, List<VillagePlayer> villagePlayerList, VillagePlayer executedPlayer) {
-        if (executedPlayer == null) {
+    private void psychic(Integer villageId, int day, List<VillagePlayer> villagePlayerList, VillagePlayer executedPlayer,
+            List<VillagePlayer> suddonlyDeathVPlayerList) {
+        List<VillagePlayer> deadPlayerList = new ArrayList<>();
+        if (executedPlayer != null) {
+            deadPlayerList.add(executedPlayer);
+        }
+        if (CollectionUtils.isNotEmpty(suddonlyDeathVPlayerList)) {
+            deadPlayerList.addAll(suddonlyDeathVPlayerList);
+        }
+        if (CollectionUtils.isEmpty(deadPlayerList)) {
             return;
         }
-        villagePlayerList.stream()
-                .filter(vp -> vp.isIsDeadFalse() && !vp.getVillagePlayerId().equals(executedPlayer.getVillagePlayerId())
-                        && vp.getSkillCodeAsSkill() == CDef.Skill.霊能者)
-                .findFirst()
-                .ifPresent(mediumPlayer -> {
-                    boolean isTargetWerewolf = executedPlayer.getSkillCodeAsSkill() == CDef.Skill.人狼;
-                    String message = String.format("処刑された霊が語りかける...\n%sは%sのようだ。", executedPlayer.getChara().get().getCharaName(),
-                            isTargetWerewolf ? "人狼" : "人間");
-                    messageLogic.insertMessage(villageId, day, CDef.MessageType.白黒霊視結果, message);
-                });
-        villagePlayerList.stream()
-                .filter(vp -> vp.isIsDeadFalse() && !vp.getVillagePlayerId().equals(executedPlayer.getVillagePlayerId())
-                        && SkillUtil.hasSkillPsychicAbility(vp.getSkillCodeAsSkill()))
-                .findFirst()
-                .ifPresent(guruPlayer -> {
-                    String message = String.format("処刑された霊が語りかける...\n%sは%sのようだ。", executedPlayer.getChara().get().getCharaName(),
-                            executedPlayer.getSkillCodeAsSkill().alias());
-                    messageLogic.insertMessage(villageId, day, CDef.MessageType.役職霊視結果, message);
-                });
+        // 霊能者
+        if (villagePlayerList.stream().anyMatch(vp -> vp.isIsDeadFalse() // 死亡していない
+                && (executedPlayer == null || !vp.getVillagePlayerId().equals(executedPlayer.getVillagePlayerId())) // 処刑されていない
+                && suddonlyDeathVPlayerList.stream().noneMatch(sdvp -> sdvp.getVillagePlayerId().equals(vp.getVillagePlayerId())) // 突然死していない
+                && vp.getSkillCodeAsSkill() == CDef.Skill.霊能者) // 霊能者である
+        ) {
+            StringJoiner joiner = new StringJoiner("\n");
+            deadPlayerList.forEach(deadPlayer -> {
+                boolean isTargetWerewolf = deadPlayer.getSkillCodeAsSkill() == CDef.Skill.人狼;
+                joiner.add(String.format("%sは%sのようだ。", deadPlayer.getChara().get().getCharaName(), isTargetWerewolf ? "人狼" : "人間"));
+            });
+            messageLogic.insertMessage(villageId, day, CDef.MessageType.白黒霊視結果, joiner.toString());
+        }
+
+        // 導師
+        if (villagePlayerList.stream().anyMatch(vp -> vp.isIsDeadFalse() // 死亡していない
+                && (executedPlayer == null || !vp.getVillagePlayerId().equals(executedPlayer.getVillagePlayerId())) // 処刑されていない
+                && suddonlyDeathVPlayerList.stream().noneMatch(sdvp -> sdvp.getVillagePlayerId().equals(vp.getVillagePlayerId())) // 突然死していない
+                && SkillUtil.hasSkillPsychicAbility(vp.getSkillCodeAsSkill())) // 導師または魔神官
+        ) {
+            StringJoiner joiner = new StringJoiner("\n");
+            deadPlayerList.forEach(deadPlayer -> {
+                joiner.add(
+                        String.format("%sは%sのようだ。", deadPlayer.getChara().get().getCharaName(), deadPlayer.getSkillCodeAsSkill().alias()));
+            });
+            messageLogic.insertMessage(villageId, day, CDef.MessageType.役職霊視結果, joiner.toString());
+        }
     }
 
     // 呪殺
     private Optional<VillagePlayer> divineKill(Integer villageId, int day, List<VillagePlayer> villagePlayerList, Integer executedPlayerId,
-            Optional<VillagePlayer> optDivinedPlayer) {
+            List<VillagePlayer> suddonlyDeathVPlayerList, Optional<VillagePlayer> optDivinedPlayer) {
         if (!optDivinedPlayer.isPresent()) {
             return Optional.empty();
         }
         Optional<VillagePlayer> optDivineKilledPlayer = villagePlayerList.stream()
-                .filter(vp -> vp.isIsDeadFalse() && !vp.getVillagePlayerId().equals(executedPlayerId)
-                        && vp.getSkillCodeAsSkill() == CDef.Skill.妖狐
-                        && vp.getVillagePlayerId().equals(optDivinedPlayer.get().getVillagePlayerId()))
+                .filter(vp -> vp.isIsDeadFalse() // 死亡していない 
+                        && !vp.getVillagePlayerId().equals(executedPlayerId) // 処刑されていない
+                        && suddonlyDeathVPlayerList.stream().noneMatch(sdvp -> sdvp.getVillagePlayerId().equals(vp.getVillagePlayerId())) // 突然死していない
+                        && vp.getSkillCodeAsSkill() == CDef.Skill.妖狐 // 妖狐である
+                        && vp.getVillagePlayerId().equals(optDivinedPlayer.get().getVillagePlayerId())) // 占われた
                 .findFirst();
         if (!optDivineKilledPlayer.isPresent()) {
             return Optional.empty();
@@ -674,10 +706,12 @@ public class DayChangeLogic {
 
     // 占い
     private Optional<VillagePlayer> divine(Integer villageId, int day, List<VillagePlayer> villagePlayerList, Integer executedPlayerId,
-            List<Ability> abilityList) {
+            List<VillagePlayer> suddonlyDeathVPlayerList, List<Ability> abilityList) {
         Optional<VillagePlayer> optLivingSeer = villagePlayerList.stream()
-                .filter(vp -> vp.isIsDeadFalse() && !vp.getVillagePlayerId().equals(executedPlayerId)
-                        && SkillUtil.hasDivineAbility(vp.getSkillCodeAsSkill()))
+                .filter(vp -> vp.isIsDeadFalse() // 死亡していない
+                        && !vp.getVillagePlayerId().equals(executedPlayerId) // 処刑されていない
+                        && suddonlyDeathVPlayerList.stream().noneMatch(sdvp -> sdvp.getVillagePlayerId().equals(vp.getVillagePlayerId())) // 突然死していない
+                        && SkillUtil.hasDivineAbility(vp.getSkillCodeAsSkill())) // 占い能力がある 
                 .findFirst();
         if (!optLivingSeer.isPresent()) {
             return Optional.empty(); // 占い師が既に死亡している場合は何もしない
@@ -710,13 +744,15 @@ public class DayChangeLogic {
 
     // 護衛
     private Optional<VillagePlayer> guard(Integer villageId, int day, List<VillagePlayer> villagePlayerList, Integer executedPlayerId,
-            List<Ability> abilityList) {
+            List<VillagePlayer> suddonlyDeathVPlayerList, List<Ability> abilityList) {
         if (day == 2) {
             return Optional.empty();
         }
         Optional<VillagePlayer> optLivingHunter = villagePlayerList.stream()
-                .filter(vp -> vp.isIsDeadFalse() && !vp.getVillagePlayerId().equals(executedPlayerId)
-                        && vp.getSkillCodeAsSkill() == CDef.Skill.狩人)
+                .filter(vp -> vp.isIsDeadFalse() // 死亡していない
+                        && !vp.getVillagePlayerId().equals(executedPlayerId) // 処刑されていない
+                        && suddonlyDeathVPlayerList.stream().noneMatch(sdvp -> sdvp.getVillagePlayerId().equals(vp.getVillagePlayerId())) // 突然死していない
+                        && vp.getSkillCodeAsSkill() == CDef.Skill.狩人) //　狩人である
                 .findFirst();
         if (!optLivingHunter.isPresent()) {
             return Optional.empty(); // 狩人が既に死亡している場合は何もしない
@@ -734,12 +770,44 @@ public class DayChangeLogic {
         return Optional.ofNullable(targetPlayer);
     }
 
+    // 突然死
+    private List<VillagePlayer> killNoAccessPlayer(Integer villageId, int day, List<VillagePlayer> vPlayerList, VillageSettings settings) {
+        if (settings.isIsAvailableSuddonlyDeathFalse()) {
+            return new ArrayList<>();
+        }
+        // 前日の更新日時以降接続していない人が対象
+        ListResultBean<VillageDay> dayList = villageDayBhv.selectList(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().addOrderBy_Day_Asc();
+        });
+        LocalDateTime dayStartDatetime = dayList.get(dayList.size() - 3).getDaychangeDatetime(); // 必ず2日目以降である
+        List<VillagePlayer> noAccessPlayerList = vPlayerList.stream().filter(vp -> {
+            if (vp.getChara().get().isIsDummyTrue() || vp.isIsSpectatorTrue() || vp.isIsDeadTrue()) {
+                return false; // ダミーと見学と既に死亡している人は対象外
+            }
+            if (vp.getLastAccessDatetime() == null || vp.getLastAccessDatetime().isBefore(dayStartDatetime)) {
+                return true;
+            }
+            return false;
+        }).collect(Collectors.toList());
+        noAccessPlayerList.forEach(vp -> {
+            updateVillagePlayerDead(day, vp, CDef.DeadReason.突然); // 死亡処理
+            String message = String.format("%sは突然死した。", vp.getChara().get().getCharaName());
+            messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, message);
+        });
+        return noAccessPlayerList;
+    }
+
     // 処刑
-    private VillagePlayer execute(Integer villageId, int day, List<VillagePlayer> vPlayerList, VillageSettings settings) {
+    private VillagePlayer execute(Integer villageId, int day, List<VillagePlayer> vPlayerList, VillageSettings settings,
+            List<VillagePlayer> suddonlyDeathVPlayerList) {
         if (day == 2) {
             return null; // 1→2日目は処刑なし
         }
-        ListResultBean<Vote> voteList = selectVoteList(villageId, day - 1); // 前日の投票を使う
+        ListResultBean<Vote> voteList = selectVoteList(villageId, day - 1, suddonlyDeathVPlayerList); // 前日の投票を使う
+        if (CollectionUtils.isEmpty(voteList)) {
+            return null; // 全員突然死した場合
+        }
         Map<Integer, Integer> voteNumMap = new HashMap<>();
         // 得票数トップのプレイヤーを取得（複数いる可能性があるのでリスト）
         List<Integer> executedCharaIdList = makeExecutedCandidateList(voteList, voteNumMap);
@@ -747,7 +815,9 @@ public class DayChangeLogic {
         VillagePlayer executedPlayer =
                 vPlayerList.stream().filter(vp -> vp.getCharaId().equals(executedCharaIdList.get(0))).findFirst().get();
         // 処刑
-        updateVillagePlayerDead(day, executedPlayer, CDef.DeadReason.処刑); // 死亡処理
+        if (suddonlyDeathVPlayerList.stream().noneMatch(vp -> vp.getVillagePlayerId().equals(executedPlayer.getVillagePlayerId()))) {
+            updateVillagePlayerDead(day, executedPlayer, CDef.DeadReason.処刑); // 死亡処理            
+        }
         // 個別投票メッセージ登録
         insertEachVoteMessage(villageId, day, vPlayerList, voteList, settings);
         // 集計メッセージ登録
@@ -819,6 +889,7 @@ public class DayChangeLogic {
         if (day != 0) {
             return;
         }
+
         // 24時間アクセスしていなかったら村を出る
         LocalDateTime yesterday = WerewolfMansionDateUtil.currentLocalDateTime().minusDays(1L);
 

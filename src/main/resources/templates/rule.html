@@ -64,7 +64,7 @@
 								</li>
 								<li>狂人、C国狂人、魔神官、妖狐は「徘徊しない」こともできます。</li>
 								<li>翌日足音が報告される順番はランダムで、部屋番号は若い順です。</li>
-								<li>能力者、襲撃担当者が処刑、襲撃、呪殺されてもセットした通りに足音が響きます。</li>
+								<li>翌日に能力者、襲撃担当者が死亡していてもセットした通りに足音が響きます。</li>
 							</ul>
 						</li>
 					</ul>
@@ -79,12 +79,28 @@
 						<li>基本的な心構え
 							<ul>
 								<li>他国と大きく変わりありませんし、あえて長々と記載しません。他者への礼節を欠くような行為は避けてください。</li>
-								<li>途中放棄、突然死が嫌いなので、他国よりも厳しい対処とする可能性があります。</li>
+								<li>途中放棄、突然死については、他国よりも厳しい対処とする可能性があります。</li>
 							</ul>
 						</li>
 						<li>突然死
 							<ul>
-								<li>未実装です。</li>
+								<li>村の設定で突然死を無しにしている場合、突然死しません。</li>
+								<li>突然死ありの場合、進行中の日付更新のタイミングで、前日に一度もログインしての村へのアクセスがなかった生存者が突然死します。
+									<ul>
+										<li>発言する必要はありません。</li>
+									</ul>
+								</li>
+								<li>突然死の対象となる参加者は、「本日まだ部屋から出てきていない者は・・・」という表現でログの最後に表示されます。</li>
+								<li>突然死者の投票は無効票となります。</li>
+								<li>占い師や賢者が突然死した場合、占いは行われません。（したがって、呪殺も起きません。）</li>
+								<li>狩人が突然死した場合、護衛は行われません。</li>
+								<li>人狼が突然死した場合、他に人狼が生存していればセットした通りに襲撃が実施されます。</li>
+								<li>突然死者のセットしていた足音については、セットした通りに響きます。
+									<ul>
+										<li>占い師、賢者、狩人は能力行使先の初期設定がランダムであるため、響く可能性があります。狂人、C国狂人、魔神官、妖狐は初期設定が「なし」のため響きません。</li>
+									</ul>
+								</li>
+								<li>突然死者はエピローグ含め一切の発言ができなくなります。</li>
 							</ul>
 						</li>
 						<li>投票
@@ -135,6 +151,7 @@
 							<ul>
 								<li>1発言につき200文字10行まで発言できます。</li>
 								<li>発言数制限は未実装です。</li>
+								<li>ランダム機能については、その他 - ランダム機能を参照してください。</li>
 							</ul>
 						</li>
 						<li>流れ
@@ -142,6 +159,7 @@
 								<li>プロローグ
 									<ul>
 										<li>更新時間までに最低開始人数が揃っていた場合、更新時間に1日目に遷移します。</li>
+										<li>24時間ログイン状態でのアクセスがない参加者は自動で村を去ります。</li>
 									</ul>
 								</li>
 								<li>1日目
@@ -282,7 +300,7 @@
 									<td class="vertical-middle">
 										村人<br>占い師<br>賢者<br>狩人<br>霊能者<br>導師<br>共鳴者
 									</td>
-									<td class="vertical-middle">夜明け時点で人狼および妖狐が全て死亡している</td>
+									<td class="vertical-middle">夜明け時点で人狼および妖狐が全て死亡し、人間（※）が1人以上生存している</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">人狼陣営</td>
@@ -290,7 +308,7 @@
 										人狼<br>狂人<br>C国狂人<br>魔神官
 									</td>
 									<td class="vertical-middle">
-										夜明け時点で生存している人狼の数≧生存している人間（※）の数かつ妖狐が死亡している<br> ※ここでの人間は「人狼と妖狐以外」を表す。狂人は人間に含まれ、妖狐は人間にも人狼にも含まれない。
+										夜明け時点で生存している人狼の数≧生存している人間（※）の数かつ妖狐が死亡している<br>
 									</td>
 								</tr>
 								<tr>
@@ -302,11 +320,11 @@
 											<li>人狼が全て死亡かつ妖狐が生存している</li>
 											<li>生存している人狼の数≧生存している人間（※）の数かつ妖狐が生存している</li>
 										</ul>
-										※ここでの人間は「人狼と妖狐以外」を表す。狂人は人間に含まれ、妖狐は人間にも人狼にも含まれない。
 									</td>
 								</tr>
 							</tbody>
 						</table>
+						※ここでの「人間」は「人狼と妖狐以外」を表す。狂人は人間に含まれ、妖狐は人間にも人狼にも含まれない。
 					</div>
 				</div>
 
@@ -443,6 +461,83 @@
 									</ul>
 								</li>
 							</ul>
+						</li>
+						<li>発言種別
+							<div class="col-sm-12 say-n1">
+								<div class="row">
+									<div class="col-sm-12 col-xs-12">
+										<div class="row" style="display: flex;">
+											<div style="width: 50px; height: 77px; background: url('/werewolf-mansion/app/images/geruto.png'); background-repeat: no-repeat;"></div>
+											<div class="message message-normal" style="flex: 1; margin-left: 5px;">通常発言です。全ての人が参照できます。</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 say-n1">
+								<div class="row">
+									<div class="col-sm-12 col-xs-12">
+										<div class="row" style="display: flex;">
+											<div style="width: 50px; height: 77px; background: url('/werewolf-mansion/app/images/geruto.png'); background-repeat: no-repeat;"></div>
+											<div class="message message-werewolf" style="flex: 1; margin-left: 5px;">囁き発言です。進行中は人狼とC国狂人だけが参照できます。</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 say-n1">
+								<div class="row">
+									<div class="col-sm-12 col-xs-12">
+										<div class="row" style="display: flex;">
+											<div style="width: 50px; height: 77px; background: url('/werewolf-mansion/app/images/geruto.png'); background-repeat: no-repeat;"></div>
+											<div class="message message-monologue" style="flex: 1; margin-left: 5px;">独り言です。進行中は自分だけが参照できます。</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 say-n1">
+								<div class="row">
+									<div class="col-sm-12 col-xs-12">
+										<div class="row" style="display: flex;">
+											<div style="width: 50px; height: 77px; background: url('/werewolf-mansion/app/images/geruto.png'); background-repeat: no-repeat;"></div>
+											<div class="message message-mason" style="flex: 1; margin-left: 5px;">共鳴発言です。進行中は共鳴者だけが参照できます。</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 say-n1">
+								<div class="row">
+									<div class="col-sm-12 col-xs-12">
+										<div class="row" style="display: flex;">
+											<div style="width: 50px; height: 77px; background: url('/werewolf-mansion/app/images/geruto.png'); background-repeat: no-repeat;"></div>
+											<div class="message message-grave" style="flex: 1; margin-left: 5px;">墓下発言です。進行中は死亡者と見学者だけが参照できます。（村の設定によっては、生存者も参照できます。）</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 say-n1">
+								<div class="row">
+									<div class="col-sm-12 col-xs-12">
+										<div class="row" style="display: flex;">
+											<div style="width: 50px; height: 77px; background: url('/werewolf-mansion/app/images/geruto.png'); background-repeat: no-repeat;"></div>
+											<div class="message message-spectate" style="flex: 1; margin-left: 5px;">見学発言です。進行中は死亡者と見学者だけが参照できます。（村の設定によっては、生存者も参照できます。）</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<div class="row">
+									<div class="message col-sm-12 col-xs-12 message-public-system">システムメッセージです。全ての人が参照できます。</div>
+								</div>
+							</div>
+							<div class="col-sm-12" data-message>
+								<div class="row">
+									<div class="message col-sm-12 col-xs-12 message-private-system">システムメッセージです。進行中は参照できません。（占い結果や霊能結果など、一部役職のみ確認可能なものもあります。）</div>
+								</div>
+							</div>
+							<div class="col-sm-12" data-message>
+								<div class="row">
+									<div class="message col-sm-12 col-xs-12 message-creator">村建て発言です。全ての人が参照できます。</div>
+								</div>
+							</div>
 						</li>
 					</ul>
 				</div>
