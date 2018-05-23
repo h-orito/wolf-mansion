@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -25,11 +26,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Camp;
+import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.allcommon.CDef.VillageStatus;
 import com.ort.dbflute.exbhv.AbilityBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
+import com.ort.dbflute.exbhv.VillageSettingsBhv;
 import com.ort.dbflute.exbhv.VoteBhv;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Chara;
@@ -48,6 +51,9 @@ public class DayChangeLogic {
     //                                                                           =========
     @Autowired
     private VillageBhv villageBhv;
+
+    @Autowired
+    private VillageSettingsBhv villageSettingsBhv;
 
     @Autowired
     private VillageDayBhv villageDayBhv;
@@ -115,6 +121,7 @@ public class DayChangeLogic {
             assignLogic.assignRoom(villageId, vPlayerList); // 部屋割り当て
             updateVillageStatus(villageId, CDef.VillageStatus.進行中); // 村ステータス更新
             setDefaultVoteAndAbility(villageId, newDay); // 投票、能力行使のデフォルト設定
+            updateVillageSettingsIfNeeded(villageId, vPlayerList, settings); // 特殊ルール変更
         } else if (village.getVillageStatusCodeAsVillageStatus() == CDef.VillageStatus.エピローグ) {
             updateVillageStatus(villageId, CDef.VillageStatus.終了); // 終了
             // messageLogic.insertMessage(villageId, newDay, CDef.MessageType.公開システムメッセージ, "終了しました。"); // 赤字で出すので登録必要なし
@@ -905,5 +912,27 @@ public class DayChangeLogic {
         }).stream().forEach(vp -> {
             villageParticipateLogic.leave(vp);
         });
+    }
+
+    // 特殊ルール変更
+    private void updateVillageSettingsIfNeeded(Integer villageId, List<VillagePlayer> vPlayerList, VillageSettings settings) {
+        // 狼人数が3より少ない場合、同一人狼による連続襲撃可能にする
+        if (settings.isIsAvailableSameWolfAttackTrue()) {
+            return;
+        }
+        String organize = settings.getOrganize();
+        String personNumOrg = Stream.of(organize.replaceAll("\r\n", "\n").split("\n"))
+                .filter(org -> org.length() == vPlayerList.size())
+                .findFirst()
+                .get();
+        Map<Skill, Integer> skillPersonNum = SkillUtil.createSkillPersonNum(personNumOrg);
+        Integer wolfNum = skillPersonNum.get(CDef.Skill.人狼);
+        if (wolfNum < 3) {
+            VillageSettings vs = new VillageSettings();
+            vs.setVillageId(villageId);
+            vs.setIsAvailableSameWolfAttack_True();
+            villageSettingsBhv.update(vs);
+            messageLogic.insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ, "人狼の人数が3名より少ないため、同一人狼による連続襲撃を「可能」に変更します。");
+        }
     }
 }
