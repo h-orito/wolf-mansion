@@ -108,6 +108,7 @@ public class CharaController {
     private ListResultBean<CharaGroup> selectCharaGroupList() {
         ListResultBean<CharaGroup> charaGroupList = charaGroupBhv.selectList(cb -> {
             cb.setupSelect_Designer();
+            cb.query().addOrderBy_CharaGroupId_Asc();
         });
         charaGroupBhv.loadChara(charaGroupList, cb -> {});
         return charaGroupList;
