@@ -78,6 +78,9 @@ $(function() {
 				$('.daychange-alert').css('display', 'block');
 			}
 			latestDay = response.latestDay;
+			
+			// フィルタ適用
+			filterMessage();
 		});
 	}
 
@@ -358,6 +361,11 @@ $(function() {
 		});
 	});
 	$('[data-filter-submit]').on('click', function() {
+		filterMessage();
+		$('#modal-filter').modal('hide');
+	});
+	
+	function filterMessage() {
 		// data-message-area
 		const charaFilterArr = $('#modal-filter').find('.bg-info[data-filter-chara-id]').map(function() {
 			return String($(this).data('filter-chara-id'));
@@ -385,8 +393,7 @@ $(function() {
 				$(elm).addClass('hidden');
 			}
 		});
-		$('#modal-filter').modal('hide');
-	});
+	}
 
 	// コピー
 	function clipboardCopy(text, alertText) {
