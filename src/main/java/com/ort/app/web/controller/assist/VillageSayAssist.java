@@ -80,8 +80,9 @@ public class VillageSayAssist {
         if (type == null) {
             throw new IllegalArgumentException("発言種別改ざん");
         }
-
+        // 登録
         messageLogic.insertMessage(villageId, day, type, sayForm.getMessage(), villagePlayer.getVillagePlayerId());
+
         // 最新の日付を表示
         return "redirect:/village/" + villageId + "#bottom";
     }

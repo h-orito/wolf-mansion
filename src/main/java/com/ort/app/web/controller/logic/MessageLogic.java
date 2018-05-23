@@ -11,9 +11,16 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.dbflute.cbean.result.ListResultBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
@@ -40,6 +47,8 @@ public class MessageLogic {
     private static final Pattern whoPattern = Pattern.compile(whoRegex);
     private static final String allwhoRegex = "\\[\\[allwho$";
     private static final Pattern allwhoPattern = Pattern.compile(allwhoRegex);
+    private static final String SLACK_URL = "https://hooks.slack.com/services/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";
+    private static final Logger logger = LoggerFactory.getLogger(MessageLogic.class);
 
     // ===================================================================================
     //                                                                           Attribute
@@ -75,6 +84,8 @@ public class MessageLogic {
         ListResultBean<VillagePlayer> vPlayerList = selectVPlayerList(villageId);
         String message = replaceMessage(content, vPlayerList);
         insertMessage(villageId, day, messageType, message, villagePlayerId, null);
+        // 特定の文字列が含まれていたらslack投稿
+        postToSlackIfNeeded(villageId, day, message);
     }
 
     public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content) {
@@ -250,5 +261,22 @@ public class MessageLogic {
             replacedMessage = mes.replaceAll(allwhoRegex, vPlayerList.get(0).getChara().get().getCharaName() + allwhoMatcher.group(0));
         }
         return replacedMessage;
+    }
+
+    // 特定の文字列が含まれていたらslack投稿
+    private void postToSlackIfNeeded(Integer villageId, int day, String message) {
+        if (message.contains("@国主") || message.contains("＠国主")) {
+            try {
+                RestTemplate restTemplate = new RestTemplate();
+                // TODO json変換ちゃんとやる
+                String request = "{\"text\": \"" + "<@U8Z40QDUM> " + String.format("vid: %d, message: \n%s", villageId, message) + "\"}";
+                HttpHeaders formHeaders = new HttpHeaders();
+                formHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+                HttpEntity<String> formEntity = new HttpEntity<String>(request, formHeaders);
+                restTemplate.exchange(SLACK_URL, HttpMethod.POST, formEntity, String.class);
+            } catch (Exception e) {
+                logger.error("slack投稿に失敗しました", e);
+            }
+        }
     }
 }
