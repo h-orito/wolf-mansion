@@ -38,17 +38,17 @@ $(function() {
 		selectDefaultFootsteps(); // 狐と狂人だったら選択していた足音の部屋を選択状態にする
 		restoreDisplaySetting();
 	}
-	
+
 	// ページング
-	$('body').on('click', '[data-prev-page]', function(){
+	$('body').on('click', '[data-prev-page]', function() {
 		const currentPage = parseInt($(this).data('prev-page'));
 		loadAndDisplayMessage(currentPage - 1);
 	});
-	$('body').on('click', '[data-next-page]', function(){
+	$('body').on('click', '[data-next-page]', function() {
 		const currentPage = parseInt($(this).data('next-page'));
 		loadAndDisplayMessage(currentPage + 1);
 	});
-	$('body').on('click', '[data-pagenum]', function(){
+	$('body').on('click', '[data-pagenum]', function() {
 		loadAndDisplayMessage(parseInt($(this).data('pagenum')));
 	});
 
@@ -62,8 +62,8 @@ $(function() {
 			data : {
 				'villageId' : villageId,
 				'day' : day,
-				'pageSize': isNoPaging ? null : 30,
-				'pageNum': isNoPaging ? null : pageNum
+				'pageSize' : isNoPaging ? null : 30,
+				'pageNum' : isNoPaging ? null : pageNum
 			}
 		}).then(function(response) {
 			// htmlエスケープと、アンカーの変換を行う
@@ -78,7 +78,7 @@ $(function() {
 				$('.daychange-alert').css('display', 'block');
 			}
 			latestDay = response.latestDay;
-			
+
 			// フィルタ適用
 			filterMessage();
 		});
@@ -360,11 +360,14 @@ $(function() {
 			$(this).removeClass('bg-info');
 		});
 	});
+	$('[data-filter-message-clear]').on('click', function() {
+		$('#modal-filter [data-filter-message-keyword]').val('');
+	});
 	$('[data-filter-submit]').on('click', function() {
 		filterMessage();
 		$('#modal-filter').modal('hide');
 	});
-	
+
 	function filterMessage() {
 		// data-message-area
 		const charaFilterArr = $('#modal-filter').find('.bg-info[data-filter-chara-id]').map(function() {
@@ -373,10 +376,12 @@ $(function() {
 		const typeFilterArr = $('#modal-filter').find('.bg-info[data-filter-message-type]').map(function() {
 			return String($(this).data('filter-message-type'));
 		});
+		const keywordFilterArr = $('#modal-filter [data-filter-message-keyword]').val().replace(/　/g, ' ').split(' ');
 
 		$('[data-message-area] [data-message]').each(function(idx, elm) {
 			const type = String($(elm).data('message'));
 			if (type == '') {
+				$(elm).removeClass('hidden');
 				return true;
 			}
 			let disp = true;
@@ -387,6 +392,19 @@ $(function() {
 			if ($.inArray(charaId, charaFilterArr) == -1) {
 				disp = false;
 			}
+			if (keywordFilterArr.length > 0) {
+				const message = String($(elm).find('.message').text());
+				let match = false;
+				$.each(keywordFilterArr, function(idx, keyword) {
+					if (message.indexOf(keyword) != -1) {
+						match = true;
+					}
+				});
+				if (!match) {
+					disp = false;
+				}
+			}
+
 			if (disp) {
 				$(elm).removeClass('hidden');
 			} else {
@@ -413,12 +431,12 @@ $(function() {
 		const text = $(this).text();
 		clipboardCopy(text, 'コピーしました： ' + text);
 	});
-	
+
 	// 退村時は確認フォーム表示
-	$('#leave-form').on('submit', function(){
+	$('#leave-form').on('submit', function() {
 		return confirm('本当に退村してよろしいですか？');
 	});
-	$('#kick-form').on('submit', function(){
+	$('#kick-form').on('submit', function() {
 		return confirm('本当に退村させてよろしいですか？');
 	});
 
@@ -441,8 +459,8 @@ $(function() {
 		if (displaySetting == null) {
 			displaySetting = {
 				'is_open_situation_tab' : true,
-				'is_sayform_transparent': false,
-				'is_no_paging': false
+				'is_sayform_transparent' : false,
+				'is_no_paging' : false
 			};
 			saveDisplaySetting(displaySetting);
 			return;
@@ -484,7 +502,7 @@ $(function() {
 	});
 
 	// 参戦でキャラを画像選択
-	$('[data-select-participate-chara]').on('click', function(){
+	$('[data-select-participate-chara]').on('click', function() {
 		const charaId = $(this).data('select-participate-chara');
 		$('#participate-chara-select').val(charaId);
 		$('#modal-select-participate-chara').modal('hide');

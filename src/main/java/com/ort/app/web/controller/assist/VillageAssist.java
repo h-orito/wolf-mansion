@@ -357,6 +357,8 @@ public class VillageAssist {
         content.setVoteTargetList(villageDispLogic.makeVoteTargetList(villageInfo));
         // 参加情報
         setVillageModelPlayerInfo(content, villageInfo.optVillagePlayer);
+        // 自分のキャラID
+        content.setCharaId(villageInfo.isParticipate() ? villageInfo.optVillagePlayer.get().getCharaId() : null);
     }
 
     // 村建て
@@ -574,8 +576,15 @@ public class VillageAssist {
         part.setIsOpenSkillInGrave(settings.getIsOpenSkillInGrave());
         part.setIsVisibleGraveSpectateMessage(settings.getIsVisibleGraveSpectateMessage());
         part.setIsAvailableSuddonlyDeath(settings.getIsAvailableSuddonlyDeath());
-        part.setOrganization(settings.getOrganize());
+        part.setOrganization(makeDisplayOrganization(settings.getOrganize()));
         return part;
+    }
+
+    // 人数：構成の表示にする
+    private String makeDisplayOrganization(String organize) {
+        return String.join("\n", Stream.of(organize.replaceAll("\r\n", "\n").split("\n")).map(org -> {
+            return String.format("%02d人: %s", org.length(), org);
+        }).collect(Collectors.toList()));
     }
 
     private String makeDayChangeIntervalStr(Integer interval) {
