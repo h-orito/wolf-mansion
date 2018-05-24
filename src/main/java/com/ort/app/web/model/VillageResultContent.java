@@ -129,6 +129,9 @@ public class VillageResultContent implements Serializable {
     /** 足音一覧 */
     private List<VillageFootstepDto> villageFootstepList;
 
+    /** キャラID */
+    private Integer charaId;
+
     public Integer getVillageId() {
         return villageId;
     }
@@ -431,5 +434,13 @@ public class VillageResultContent implements Serializable {
 
     public void setVillageFootstepList(List<VillageFootstepDto> villageFootstepList) {
         this.villageFootstepList = villageFootstepList;
+    }
+
+    public Integer getCharaId() {
+        return charaId;
+    }
+
+    public void setCharaId(Integer charaId) {
+        this.charaId = charaId;
     }
 }
