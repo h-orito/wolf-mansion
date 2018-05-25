@@ -207,10 +207,7 @@ public class VillageDispLogic {
 
     // 独り言可能か
     public boolean isAvailableMonologueSay(Village village) {
-        // 進行中以外は不可
-        if (!village.isVillageStatusCode進行中()) {
-            return false;
-        }
+        // いつでも可能
         return true;
     }
 
