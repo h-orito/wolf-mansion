@@ -6,7 +6,7 @@
 	<div class="col-sm-12 say-n{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
 		<div class="row">
 			<div class="col-sm-12 small">
-				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>{{messageNumber}}</a>. {{characterName}}{{#if
+				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>{{messageNumber}}</a>. [{{characterShortName}}] {{characterName}}{{#if
 					playerName}} [{{playerName}}]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
 			</div>
 			<div class="col-sm-12 col-xs-12">
@@ -21,7 +21,7 @@
 	<div class="col-sm-12 say-w{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
 		<div class="row">
 			<div class="col-sm-12 small">
-				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>*{{messageNumber}}</a>. {{characterName}}{{#if
+				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>*{{messageNumber}}</a>. [{{characterShortName}}] {{characterName}}{{#if
 					playerName}} [{{playerName}}]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
 			</div>
 			<div class="col-sm-12 col-xs-12">
@@ -37,7 +37,7 @@
 		<div class="row">
 			<div class="col-sm-12 small">
 				<span style="margin-left: -15px;">{{#if messageNumber}}<a href="javascript:void(0);" data-copy-anchor>>>-{{messageNumber}}</a>.
-					{{/if}}{{characterName}}{{#if playerName}} [{{playerName}}]{{/if}}
+					{{/if}}[{{characterShortName}}] {{characterName}}{{#if playerName}} [{{playerName}}]{{/if}}
 				</span> <span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
 			</div>
 			<div class="col-sm-12 col-xs-12">
@@ -52,7 +52,7 @@
 	<div class="col-sm-12 say-m{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
 		<div class="row">
 			<div class="col-sm-12 small">
-				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>={{messageNumber}}</a>. {{characterName}}{{#if
+				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>={{messageNumber}}</a>. [{{characterShortName}}] {{characterName}}{{#if
 					playerName}} [{{playerName}}]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
 			</div>
 			<div class="col-sm-12 col-xs-12">
@@ -67,7 +67,7 @@
 	<div class="col-sm-12 say-g{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
 		<div class="row">
 			<div class="col-sm-12 small">
-				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>+{{messageNumber}}</a>. {{characterName}}{{#if
+				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>+{{messageNumber}}</a>. [{{characterShortName}}] {{characterName}}{{#if
 					playerName}} [{{playerName}}]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
 			</div>
 			<div class="col-sm-12 col-xs-12">
@@ -82,7 +82,7 @@
 	<div class="col-sm-12 say-s{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
 		<div class="row">
 			<div class="col-sm-12 small">
-				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>@{{messageNumber}}</a>. {{characterName}}{{#if
+				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>@{{messageNumber}}</a>. [{{characterShortName}}] {{characterName}}{{#if
 					playerName}} [{{playerName}}]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
 			</div>
 			<div class="col-sm-12 col-xs-12">

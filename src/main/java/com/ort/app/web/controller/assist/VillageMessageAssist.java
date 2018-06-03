@@ -28,6 +28,7 @@ import com.ort.dbflute.exbhv.MessageBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
+import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.Message;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
@@ -271,11 +272,13 @@ public class VillageMessageAssist {
 
     private VillageMessageDto convertToMessage(Village village, Message message) {
         VillageMessageDto messageDto = new VillageMessageDto();
-        messageDto.setCharacterName(
-                message.getVillagePlayer().map(villagePlayer -> villagePlayer.getChara().get().getCharaName()).orElse(null));
-        messageDto.setCharacterId(message.getVillagePlayer().map(villagePlayer -> villagePlayer.getCharaId()).orElse(null));
-        messageDto.setCharacterImageUrl(
-                message.getVillagePlayer().map(villagePlayer -> villagePlayer.getChara().get().getCharaImgUrl()).orElse(null));
+        message.getVillagePlayer().ifPresent(vp -> {
+            Chara chara = vp.getChara().get();
+            messageDto.setCharacterName(chara.getCharaName());
+            messageDto.setCharacterShortName(chara.getCharaShortName());
+            messageDto.setCharacterId(chara.getCharaId());
+            messageDto.setCharacterImageUrl(chara.getCharaImgUrl());
+        });
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode終了()) {
             messageDto.setPlayerName(
                     message.getVillagePlayer().map(villagePlayer -> villagePlayer.getPlayer().get().getPlayerName()).orElse(null));

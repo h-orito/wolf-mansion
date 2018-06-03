@@ -10,6 +10,9 @@ public class VillageMessageDto {
     /** キャラクター名 */
     private String characterName;
 
+    /** キャラクター名略称 */
+    private String characterShortName;
+
     /** キャラクターID */
     private Integer characterId;
 
@@ -90,6 +93,14 @@ public class VillageMessageDto {
 
     public void setMessageDatetime(LocalDateTime messageDatetime) {
         this.messageDatetime = messageDatetime;
+    }
+
+    public String getCharacterShortName() {
+        return characterShortName;
+    }
+
+    public void setCharacterShortName(String characterShortName) {
+        this.characterShortName = characterShortName;
     }
 
 }
