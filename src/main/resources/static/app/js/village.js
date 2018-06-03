@@ -47,14 +47,20 @@ $(function() {
 	// ページング
 	$('body').on('click', '[data-prev-page]', function() {
 		const currentPage = parseInt($(this).data('prev-page'));
-		loadAndDisplayMessage(currentPage - 1);
+		loadAndDisplayMessage(currentPage - 1).then(function() {
+			gotoHead();
+		});
 	});
 	$('body').on('click', '[data-next-page]', function() {
 		const currentPage = parseInt($(this).data('next-page'));
-		loadAndDisplayMessage(currentPage + 1);
+		loadAndDisplayMessage(currentPage + 1).then(function(){
+			gotoHead();
+		});
 	});
 	$('body').on('click', '[data-pagenum]', function() {
-		loadAndDisplayMessage(parseInt($(this).data('pagenum')));
+		loadAndDisplayMessage(parseInt($(this).data('pagenum'))).then(function(){
+			gotoHead();
+		});
 	});
 
 	// メッセージ取得
@@ -90,7 +96,7 @@ $(function() {
 	}
 
 	function escapeAndSetAnchor(message) {
-		return message.replace(/(\r\n|\n|\r)/gm, '<br>').split('<br>').map(function(item) { // 先に改行を分割
+		let mes = message.replace(/(\r\n|\n|\r)/gm, '<br>').split('<br>').map(function(item) { // 先に改行を分割
 			item = item.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); // htmlエスケープ
 			// 変換機能
 			item = item.replace(diceRegex, '<span class="extra-small">$1</span>');
@@ -98,11 +104,6 @@ $(function() {
 			item = item.replace(orRegex, '<span class="extra-small">$1</span>');
 			item = item.replace(whoRegex, '<span class="extra-small">$1</span>');
 			item = item.replace(allWhoRegex, '<span class="extra-small">$1</span>');
-			// 文字装飾
-			item = item.replace(colorRegex, '<span style="color: $1">$2</span>');
-			item = item.replace(boldRegex, '<b>$1</b>');
-			item = item.replace(largeRegex, '<span style="font-size: 16px;">$1</span>');
-			item = item.replace(smallRegex, '<span style="font-size: 10px;">$1</span>');
 			// アンカー
 			item = item.replace(/&gt;&gt;(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-anchor=\"$1\">&gt;&gt;$1<\/a>'); // 次にアンカーをaタグにする
 			item = item.replace(/&gt;&gt;\+(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-grave-anchor=\"$1\">&gt;&gt;\+$1<\/a>');
@@ -112,6 +113,11 @@ $(function() {
 			item = item.replace(/&gt;&gt;\*(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-whisper-anchor=\"$1\">&gt;&gt;\*$1<\/a>');
 			return item;
 		}).join('<br>');
+		// 文字装飾
+		mes = mes.replace(colorRegex, '<span style="color: $1">$2</span>');
+		mes = mes.replace(boldRegex, '<b>$1</b>');
+		mes = mes.replace(largeRegex, '<span style="font-size: 16px;">$1</span>');
+		return mes.replace(smallRegex, '<span style="font-size: 10px;">$1</span>');
 	}
 
 	// アンカー
@@ -288,11 +294,14 @@ $(function() {
 
 	// 画面上部遷移
 	$('body').on('click', '[data-goto-top]', function() {
+		gotoHead();
+		return false;
+	});
+	function gotoHead() {
 		$('html, body').animate({
 			scrollTop : 0
 		}, 200);
-		return false;
-	});
+	}
 
 	// 画面下部遷移
 	$('body').on('click', '[data-goto-bottom]', function() {
