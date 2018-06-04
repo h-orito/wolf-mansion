@@ -416,12 +416,12 @@ public class VillageMessageAssist {
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             return true;
         }
-        // 終了していなかったら参加していて死亡しておらず、共鳴者だったら開放
+        // 終了していなかったら参加していて共鳴者だったら開放
         if (!optVillagePlayer.isPresent()) {
             return false;
         }
         VillagePlayer vPlayer = optVillagePlayer.get();
-        if (vPlayer.isIsDeadFalse() && vPlayer.getSkillCodeAsSkill() == CDef.Skill.共鳴者) {
+        if (vPlayer.getSkillCodeAsSkill() == CDef.Skill.共鳴者) {
             return true;
         }
         return false;
@@ -440,13 +440,12 @@ public class VillageMessageAssist {
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             return true;
         }
-        // 終了していなかったら参加していて死亡しておらず、人狼だったら開放
+        // 終了していなかったら参加していて人狼だったら開放
         if (!optVillagePlayer.isPresent()) {
             return false;
         }
         VillagePlayer vPlayer = optVillagePlayer.get();
-        if (vPlayer.isIsDeadFalse()
-                && (vPlayer.getSkillCodeAsSkill() == CDef.Skill.人狼 || vPlayer.getSkillCodeAsSkill() == CDef.Skill.C国狂人)) {
+        if (vPlayer.getSkillCodeAsSkill() == CDef.Skill.人狼 || vPlayer.getSkillCodeAsSkill() == CDef.Skill.C国狂人) {
             return true;
         }
         return false;
