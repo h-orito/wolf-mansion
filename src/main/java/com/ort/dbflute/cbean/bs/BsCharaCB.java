@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of CHARA.
+ * The base condition-bean of chara.
  * @author DBFlute(AutoGenerator)
  */
 public class BsCharaCB extends AbstractConditionBean {
@@ -73,7 +73,7 @@ public class BsCharaCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "CHARA";
+        return "chara";
     }
 
     // ===================================================================================
@@ -329,7 +329,7 @@ public class BsCharaCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnCharaShortName() { return doColumn("CHARA_SHORT_NAME"); }
         /**
-         * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+         * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCharaGroupId() { return doColumn("CHARA_GROUP_ID"); }
@@ -379,7 +379,7 @@ public class BsCharaCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "CHARA"; }
+        protected String getTableDbName() { return "chara"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * CHARA_GROUP by my CHARA_GROUP_ID, named 'charaGroup'.
@@ -402,7 +402,7 @@ public class BsCharaCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from ABILITY where ...) as FOO_MAX} <br>
+         * {select max(FOO) from ability where ...) as FOO_MAX} <br>
          * ABILITY by CHARA_ID, named 'abilityByCharaIdList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -419,7 +419,7 @@ public class BsCharaCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from ABILITY where ...) as FOO_MAX} <br>
+         * {select max(FOO) from ability where ...) as FOO_MAX} <br>
          * ABILITY by TARGET_CHARA_ID, named 'abilityByTargetCharaIdList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -436,7 +436,7 @@ public class BsCharaCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from FOOTSTEP where ...) as FOO_MAX} <br>
+         * {select max(FOO) from footstep where ...) as FOO_MAX} <br>
          * FOOTSTEP by CHARA_ID, named 'footstepList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(footstepCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -453,7 +453,7 @@ public class BsCharaCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from VILLAGE_PLAYER where ...) as FOO_MAX} <br>
+         * {select max(FOO) from village_player where ...) as FOO_MAX} <br>
          * VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -470,7 +470,7 @@ public class BsCharaCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from VOTE where ...) as FOO_MAX} <br>
+         * {select max(FOO) from vote where ...) as FOO_MAX} <br>
          * VOTE by CHARA_ID, named 'voteByCharaIdList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(voteCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -487,7 +487,7 @@ public class BsCharaCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from VOTE where ...) as FOO_MAX} <br>
+         * {select max(FOO) from vote where ...) as FOO_MAX} <br>
          * VOTE by VOTE_CHARA_ID, named 'voteByVoteCharaIdList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(voteCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {

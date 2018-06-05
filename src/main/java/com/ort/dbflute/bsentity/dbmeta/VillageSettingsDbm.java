@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of VILLAGE_SETTINGS. (Singleton)
+ * The DB meta of village_settings. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillageSettingsDbm extends AbstractDBMeta {
@@ -96,7 +96,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "VILLAGE_SETTINGS";
+    protected final String _tableDbName = "village_settings";
     protected final String _tableDispName = "VILLAGE_SETTINGS";
     protected final String _tablePropertyName = "villageSettings";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_SETTINGS", _tableDbName);
@@ -130,7 +130,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
@@ -190,7 +190,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnIsAvailableSuddonlyDeath() { return _columnIsAvailableSuddonlyDeath; }
     /**
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharacterGroupId() { return _columnCharacterGroupId; }

@@ -793,7 +793,7 @@
 					<physical_name>message_content</physical_name>
 					<logical_name>メッセージ内容</logical_name>
 					<type>varchar(n)</type>
-					<length>1000</length>
+					<length>10000</length>
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>

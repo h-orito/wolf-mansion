@@ -282,8 +282,22 @@ $(function() {
 		var line = $(this).val().split('\n').length;
 		const $countspan = $(this).closest('form').find('[data-message-count]');
 		const $submitbtn = $(this).closest('form').find('[data-message-submit-btn]');
-		$countspan.text('文字数: ' + len + '/200, 行数: ' + line + '/10');
-		if (len > 200 || line > 10) {
+		$countspan.text('文字数: ' + len + '/400, 行数: ' + line + '/20');
+		if (len > 400 || line > 20) {
+			$countspan.addClass('text-danger');
+			$submitbtn.prop('disabled', true);
+		} else {
+			$countspan.removeClass('text-danger');
+			$submitbtn.prop('disabled', false);
+		}
+	});
+	$('body').on('keyup', '[data-creator-say-textarea]', function() {
+		var len = $(this).val().length;
+		var line = $(this).val().split('\n').length;
+		const $countspan = $(this).closest('form').find('[data-message-count]');
+		const $submitbtn = $(this).closest('form').find('[data-message-submit-btn]');
+		$countspan.text('文字数: ' + len + '/1000, 行数: ' + line + '/40');
+		if (len > 1000 || line > 40) {
 			$countspan.addClass('text-danger');
 			$submitbtn.prop('disabled', true);
 		} else {

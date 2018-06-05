@@ -99,7 +99,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} */
     protected Integer _villageId;
 
     /** START_PERSON_MIN_NUM: {INT UNSIGNED(10)} */
@@ -135,7 +135,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     /** IS_AVAILABLE_SUDDONLY_DEATH: {NotNull, BIT, classification=Flg} */
     protected Boolean _isAvailableSuddonlyDeath;
 
-    /** CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} */
+    /** CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} */
     protected Integer _characterGroupId;
 
     /** JOIN_PASSWORD: {VARCHAR(12)} */
@@ -166,7 +166,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "VILLAGE_SETTINGS";
+        return "village_settings";
     }
 
     // ===================================================================================
@@ -804,7 +804,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -814,7 +814,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -1051,7 +1051,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [get] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
+     * [get] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
      * キャラクターグループID
      * @return The value of the column 'CHARACTER_GROUP_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -1061,7 +1061,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
+     * [set] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
      * キャラクターグループID
      * @param characterGroupId The value of the column 'CHARACTER_GROUP_ID'. (basically NotNull if update: for the constraint)
      */

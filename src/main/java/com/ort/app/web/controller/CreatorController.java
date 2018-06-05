@@ -17,7 +17,7 @@ import com.ort.app.web.controller.logic.MessageLogic;
 import com.ort.app.web.controller.logic.VillageParticipateLogic;
 import com.ort.app.web.form.VillageKickForm;
 import com.ort.app.web.form.VillageSayForm;
-import com.ort.app.web.form.validator.VillageSayFormValidator;
+import com.ort.app.web.form.validator.CreatorSayFormValidator;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
@@ -39,7 +39,7 @@ public class CreatorController {
     @Autowired
     private VillageParticipateLogic villageParticipateLogic;
     @Autowired
-    private VillageSayFormValidator villageSayFormValidator;
+    private CreatorSayFormValidator villageSayFormValidator;
     @Autowired
     private VillageAssist villageAssist;
     @Autowired

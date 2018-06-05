@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of MESSAGE. (Singleton)
+ * The DB meta of message. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class MessageDbm extends AbstractDBMeta {
@@ -85,7 +85,7 @@ public class MessageDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "MESSAGE";
+    protected final String _tableDbName = "message";
     protected final String _tableDispName = "MESSAGE";
     protected final String _tablePropertyName = "message";
     protected final TableSqlName _tableSqlName = new TableSqlName("MESSAGE", _tableDbName);
@@ -105,7 +105,7 @@ public class MessageDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnDay = cci("DAY", "DAY", null, null, Integer.class, "day", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villageDay", null, null, false);
     protected final ColumnInfo _columnMessageTypeCode = cci("MESSAGE_TYPE_CODE", "MESSAGE_TYPE_CODE", null, null, String.class, "messageTypeCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "messageType", null, CDef.DefMeta.MessageType, false);
     protected final ColumnInfo _columnMessageNumber = cci("MESSAGE_NUMBER", "MESSAGE_NUMBER", null, null, Integer.class, "messageNumber", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnMessageContent = cci("MESSAGE_CONTENT", "MESSAGE_CONTENT", null, null, String.class, "messageContent", null, false, false, true, "VARCHAR", 1000, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnMessageContent = cci("MESSAGE_CONTENT", "MESSAGE_CONTENT", null, null, String.class, "messageContent", null, false, false, true, "VARCHAR", 10000, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnMessageDatetime = cci("MESSAGE_DATETIME", "MESSAGE_DATETIME", null, null, java.time.LocalDateTime.class, "messageDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
@@ -118,27 +118,27 @@ public class MessageDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnMessageId() { return _columnMessageId; }
     /**
-     * VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+     * VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
     /**
-     * VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillagePlayerId() { return _columnVillagePlayerId; }
     /**
-     * PLAYER_ID: {IX, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {IX, INT UNSIGNED(10), FK to player}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnPlayerId() { return _columnPlayerId; }
     /**
-     * DAY: {NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+     * DAY: {NotNull, INT UNSIGNED(10), FK to village_day}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnDay() { return _columnDay; }
     /**
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnMessageTypeCode() { return _columnMessageTypeCode; }
@@ -148,7 +148,7 @@ public class MessageDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnMessageNumber() { return _columnMessageNumber; }
     /**
-     * MESSAGE_CONTENT: {NotNull, VARCHAR(1000)}
+     * MESSAGE_CONTENT: {NotNull, VARCHAR(10000)}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnMessageContent() { return _columnMessageContent; }

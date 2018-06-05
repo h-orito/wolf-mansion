@@ -7,7 +7,7 @@ import org.springframework.validation.Validator;
 import com.ort.app.web.form.VillageSayForm;
 
 @Component
-public class VillageSayFormValidator implements Validator {
+public class CreatorSayFormValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> paramClass) {
@@ -29,16 +29,16 @@ public class VillageSayFormValidator implements Validator {
         }
         // 末尾に改行文字列が含まれているとsplit時に削られるので削除してチェック
         String trimedMessage = message.trim();
-        // 改行数＋それ以外の文字が400文字以上
+        // 改行数＋それ以外の文字が1000文字以上
         int length = trimedMessage.length();
         int lineSeparatorNum = trimedMessage.split("\r\n").length - 1;
         int messageLength = length - lineSeparatorNum;
-        if (messageLength <= 0 || 400 < messageLength) {
-            errors.rejectValue("message", "VillageSayForm.validator.message.length");
+        if (messageLength <= 0 || 1000 < messageLength) {
+            errors.rejectValue("message", "VillageSayForm.validator.creator.message.length");
         }
-        // 行数が21以上
-        if (trimedMessage.split("\r\n").length > 20) {
-            errors.rejectValue("message", "VillageSayForm.validator.message.line");
+        // 行数が41以上
+        if (trimedMessage.split("\r\n").length > 40) {
+            errors.rejectValue("message", "VillageSayForm.validator.creator.message.line");
         }
     }
 

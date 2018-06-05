@@ -88,7 +88,7 @@ public class NewVillageForm implements Serializable {
 
     /** ダミーキャラ入村発言 */
     @NotNull
-    @Length(min = 1, max = 200)
+    @Length(min = 1, max = 400)
     private String dummyJoinMessage;
 
     /** 入村パスワード */
