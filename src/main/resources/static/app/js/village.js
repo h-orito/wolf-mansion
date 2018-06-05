@@ -67,13 +67,14 @@ $(function() {
 	function loadAndDisplayMessage(pageNum) {
 		$("[data-message-area]").addClass('loading');
 		const isNoPaging = getDisplaySetting('is_no_paging');
+		const pageSize = getDisplaySetting('page_size');
 		return $.ajax({
 			type : 'GET',
 			url : GET_MESSAGE_URL,
 			data : {
 				'villageId' : villageId,
 				'day' : day,
-				'pageSize' : isNoPaging ? null : 30,
+				'pageSize' : isNoPaging ? null : pageSize != null ? pageSize : 30,
 				'pageNum' : isNoPaging ? null : pageNum
 			}
 		}).then(function(response) {
@@ -489,14 +490,32 @@ $(function() {
 
 	function getDisplaySetting(key) {
 		let displaySetting = $.cookie('village_display_setting');
-		if (displaySetting == null) {
+		// なかったら作成
+		if (displaySetting == null || Object.keys(displaySetting).length === 0) {
 			displaySetting = {
 				'is_open_situation_tab' : true,
 				'is_sayform_transparent' : false,
-				'is_no_paging' : false
+				'is_no_paging' : false,
+				'page_size' : 30
 			};
 			saveDisplaySetting(displaySetting);
-			return;
+		}
+		// 各項目なかったら作成
+		if (displaySetting[key] == null) {
+			switch(key) {
+			case 'is_open_situation_tab' : 
+				saveDisplaySetting('is_open_situation_tab', true);
+				break;
+			case 'is_sayform_transparent' : 
+				saveDisplaySetting('is_sayform_transparent', false);
+				break;
+			case 'is_no_paging' : 
+				saveDisplaySetting('is_no_paging', false);
+				break;
+			case 'page_size' : 
+				saveDisplaySetting('page_size', 30);
+				break;
+			}
 		}
 		return displaySetting[key];
 	}
@@ -510,6 +529,12 @@ $(function() {
 			$('#tab-announce').attr('data-toggle', 'popover');
 			$('[data-toggle="popover"]').popover();
 			$('#tab-announce').popover('show');
+		}
+		if (getDisplaySetting('is_no_paging')) {
+			$('[data-dsetting-nopaging]').prop('checked', true);
+		}
+		if (getDisplaySetting('page_size')) {
+			$('[data-dsetting-pagesize]').val(getDisplaySetting('page_size'));
 		}
 	}
 
@@ -526,6 +551,12 @@ $(function() {
 	$('[data-dsetting-nopaging]').on('change', function() {
 		const isCheck = $(this).prop('checked');
 		saveDisplaySetting('is_no_paging', isCheck ? true : false);
+		loadAndDisplayMessage();
+	});
+	
+	$('[data-dsetting-pagesize]').on('change', function() {
+		const pageSize = $(this).val();
+		saveDisplaySetting('page_size', pageSize);
 		loadAndDisplayMessage();
 	});
 
