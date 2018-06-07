@@ -118,7 +118,7 @@ public class MessageDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnMessageId() { return _columnMessageId; }
     /**
-     * VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
@@ -138,12 +138,12 @@ public class MessageDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnDay() { return _columnDay; }
     /**
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnMessageTypeCode() { return _columnMessageTypeCode; }
     /**
-     * MESSAGE_NUMBER: {INT UNSIGNED(10)}
+     * MESSAGE_NUMBER: {+UQ, INT UNSIGNED(10)}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnMessageNumber() { return _columnMessageNumber; }
@@ -207,6 +207,17 @@ public class MessageDbm extends AbstractDBMeta {
     protected UniqueInfo cpui() { return hpcpui(columnMessageId()); }
     public boolean hasPrimaryKey() { return true; }
     public boolean hasCompoundPrimaryKey() { return false; }
+
+    // -----------------------------------------------------
+    //                                        Unique Element
+    //                                        --------------
+    public UniqueInfo uniqueOf() {
+        List<ColumnInfo> ls = newArrayListSized(4);
+        ls.add(columnVillageId());
+        ls.add(columnMessageTypeCode());
+        ls.add(columnMessageNumber());
+        return hpcui(ls);
+    }
 
     // ===================================================================================
     //                                                                       Relation Info

@@ -15,6 +15,7 @@ import org.dbflute.exception.*;
 import org.dbflute.hook.CommonColumnAutoSetupper;
 import org.dbflute.optional.OptionalEntity;
 import org.dbflute.outsidesql.executor.*;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.bsbhv.loader.*;
 import com.ort.dbflute.exentity.*;
@@ -184,6 +185,33 @@ public abstract class BsMessageBhv extends AbstractBehaviorWritable<Message, Mes
     protected MessageCB xprepareCBAsPK(Integer messageId) {
         assertObjectNotNull("messageId", messageId);
         return newConditionBean().acceptPK(messageId);
+    }
+
+    /**
+     * Select the entity by the unique-key value.
+     * @param villageId : UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
+     * @param messageTypeCode : +UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType. (NotNull)
+     * @param messageNumber : +UQ, INT UNSIGNED(10). (NotNull)
+     * @return The optional entity selected by the unique key. (NotNull: if no data, empty entity)
+     * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
+     * @throws EntityDuplicatedException When the entity has been duplicated.
+     * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
+     */
+    public OptionalEntity<Message> selectByUniqueOf(Integer villageId, CDef.MessageType messageTypeCode, Integer messageNumber) {
+        return facadeSelectByUniqueOf(villageId, messageTypeCode, messageNumber);
+    }
+
+    protected OptionalEntity<Message> facadeSelectByUniqueOf(Integer villageId, CDef.MessageType messageTypeCode, Integer messageNumber) {
+        return doSelectByUniqueOf(villageId, messageTypeCode, messageNumber, typeOfSelectedEntity());
+    }
+
+    protected <ENTITY extends Message> OptionalEntity<ENTITY> doSelectByUniqueOf(Integer villageId, CDef.MessageType messageTypeCode, Integer messageNumber, Class<? extends ENTITY> tp) {
+        return createOptionalEntity(doSelectEntity(xprepareCBAsUniqueOf(villageId, messageTypeCode, messageNumber), tp), villageId, messageTypeCode, messageNumber);
+    }
+
+    protected MessageCB xprepareCBAsUniqueOf(Integer villageId, CDef.MessageType messageTypeCode, Integer messageNumber) {
+        assertObjectNotNull("villageId", villageId);assertObjectNotNull("messageTypeCode", messageTypeCode);assertObjectNotNull("messageNumber", messageNumber);
+        return newConditionBean().acceptUniqueOf(villageId, messageTypeCode, messageNumber);
     }
 
     // ===================================================================================

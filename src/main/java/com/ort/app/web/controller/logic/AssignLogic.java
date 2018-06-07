@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.util.RoomUtil;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
@@ -106,7 +107,11 @@ public class AssignLogic {
                 joiner.add(String.format("%sが%d名", s.alias(), skillPersonNumMap.get(s)));
             }
         });
-        messageLogic.insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ, joiner.toString());
+        try {
+            messageLogic.insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ, joiner.toString());
+        } catch (WerewolfMansionBusinessException e) {
+            // ここでは何回も被らないので何もしない
+        }
     }
 
     private void insertAssignedMessage(Integer villageId) {
@@ -119,7 +124,11 @@ public class AssignLogic {
             cb.query().setVillageId_Equal(villageId);
         });
         String message = makeAssignedMessage(playerList);
-        messageLogic.insertMessage(villageId, 1, CDef.MessageType.非公開システムメッセージ, message);
+        try {
+            messageLogic.insertMessage(villageId, 1, CDef.MessageType.非公開システムメッセージ, message);
+        } catch (WerewolfMansionBusinessException e) {
+            // ここでは何回も被らないので何もしない
+        }
     }
 
     // ===================================================================================
@@ -240,20 +249,6 @@ public class AssignLogic {
         village.setRoomSizeHeight(height);
         villageBhv.queryUpdate(village, cb -> cb.query().setVillageId_Equal(villageId));
         return village;
-
-        //        for (int width = 3; width <= 5; width++) {
-        //            for (int height = width - 1; height <= width; height++) {
-        //                // 最低でも3部屋空くようにする
-        //                if (width * height >= personNum + 3) {
-        //                    Village village = new Village();
-        //                    village.setRoomSizeWidth(width);
-        //                    village.setRoomSizeHeight(height);
-        //                    villageBhv.queryUpdate(village, cb -> cb.query().setVillageId_Equal(villageId));
-        //                    return village;
-        //                }
-        //            }
-        //        }
-        //        throw new IllegalStateException("村人数が多すぎ？ personNum: " + personNum);
     }
 
     private void insertRoomAssignMessage(Integer villageId) {
@@ -264,7 +259,11 @@ public class AssignLogic {
             cb.query().setVillageId_Equal(villageId);
         });
         String message = makeRoomAssignedMessage(playerList);
-        messageLogic.insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ, message);
+        try {
+            messageLogic.insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ, message);
+        } catch (WerewolfMansionBusinessException e) {
+            // ここでは何回も被らないので何もしない
+        }
     }
 
     private String makeRoomAssignedMessage(ListResultBean<VillagePlayer> playerList) {
@@ -303,15 +302,6 @@ public class AssignLogic {
     }
 
     private void assignRoomAndUpdate(List<VillagePlayer> playerList, List<Integer> roomNumList) {
-        // 空き部屋をランダムにする場合
-        //        Collections.shuffle(roomNumList);
-        //        for (int i = 0; i < playerList.size(); i++) {
-        //            VillagePlayer entity = new VillagePlayer();
-        //            entity.setRoomNumber(roomNumList.get(i));
-        //            VillagePlayer player = playerList.get(i);
-        //            villagePlayerBhv.queryUpdate(entity, cb -> cb.query().setVillagePlayerId_Equal(player.getVillagePlayerId()));
-        //            logger.info("部屋割り当て villagePlayerId: {}, roomNumber:{}", player.getVillagePlayerId(), roomNumList.get(i));
-        //        }
         List<Integer> roomNumberList = new ArrayList<>(roomNumberAssignMap.get(playerList.size()));
         Collections.shuffle(roomNumberList);
         for (int i = 0; i < playerList.size(); i++) {

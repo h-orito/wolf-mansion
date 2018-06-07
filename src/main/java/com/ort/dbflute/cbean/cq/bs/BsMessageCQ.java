@@ -101,14 +101,14 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_VillageId_Asc() { regOBA("VILLAGE_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_VillageId_Desc() { regOBD("VILLAGE_ID"); return this; }
@@ -181,14 +181,14 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_MessageTypeCode_Asc() { regOBA("MESSAGE_TYPE_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_MessageTypeCode_Desc() { regOBD("MESSAGE_TYPE_CODE"); return this; }
@@ -201,14 +201,14 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * MESSAGE_NUMBER: {INT UNSIGNED(10)}
+     * MESSAGE_NUMBER: {+UQ, INT UNSIGNED(10)}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_MessageNumber_Asc() { regOBA("MESSAGE_NUMBER"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * MESSAGE_NUMBER: {INT UNSIGNED(10)}
+     * MESSAGE_NUMBER: {+UQ, INT UNSIGNED(10)}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_MessageNumber_Desc() { regOBD("MESSAGE_NUMBER"); return this; }

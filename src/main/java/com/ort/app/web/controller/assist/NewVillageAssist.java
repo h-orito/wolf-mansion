@@ -158,11 +158,15 @@ public class NewVillageAssist {
 
     // 村建て初期メッセージ登録
     private void insertInitialMessage(NewVillageForm villageForm, Village village) {
-        messageLogic.insertMessage( // 
-                village.getVillageId(), // 村ID
-                0, // day
-                CDef.MessageType.公開システムメッセージ, // 発言種別
-                messageSource.getMessage("newvillage.initial.message", null, Locale.JAPAN)); // メッセージ内容
+        try {
+            messageLogic.insertMessage( // 
+                    village.getVillageId(), // 村ID
+                    0, // day
+                    CDef.MessageType.公開システムメッセージ, // 発言種別
+                    messageSource.getMessage("newvillage.initial.message", null, Locale.JAPAN)); // メッセージ内容
+        } catch (WerewolfMansionBusinessException e) {
+            // 被ることは100％ないため何もしない
+        }
     }
 
     private Village insertVillage(NewVillageForm villageForm, String userName) {

@@ -22,6 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
@@ -66,20 +67,31 @@ public class MessageLogic {
     //                                                                             Execute
     //                                                                             =======
     public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId,
-            Integer playerId) {
+            Integer playerId) throws WerewolfMansionBusinessException {
         Message message = new Message();
         message.setVillageId(villageId);
         message.setDay(day);
         message.setVillagePlayerId(villagePlayerId);
         message.setPlayerId(playerId);
         message.setMessageTypeCodeAsMessageType(messageType);
-        message.setMessageNumber(selectNextMessageNumber(villageId, messageType));
         message.setMessageContent(content);
         message.setMessageDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
-        messageBhv.insert(message);
+        for (int i = 0; i < 3; i++) {
+            try {
+                // 採番で被ることがあるため、insert失敗しても合計3回までやりなおす
+                message.setMessageNumber(selectNextMessageNumber(villageId, messageType));
+                messageBhv.insert(message);
+                return;
+            } catch (Exception e) {
+                // 何もせずやり直す
+            }
+        }
+        // ここにきたら発言失敗している
+        throw new WerewolfMansionBusinessException("混み合っているため発言に失敗しました。再度発言してください。");
     }
 
-    public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId) {
+    public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId)
+            throws WerewolfMansionBusinessException {
         // ランダム機能などメッセージ関数を置換して登録
         ListResultBean<VillagePlayer> vPlayerList = selectVPlayerList(villageId);
         String message = replaceMessage(content, vPlayerList);
@@ -88,22 +100,17 @@ public class MessageLogic {
         postToSlackIfNeeded(villageId, day, message);
     }
 
-    public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content) {
+    public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content)
+            throws WerewolfMansionBusinessException {
         insertMessage(villageId, day, messageType, content, null);
     }
 
-    /**
-     * 表ロックを取りつつ次の番号を返す
-     * @param villageId
-     * @param messageType
-     * @return
-     */
-    public int selectNextMessageNumber(Integer villageId, CDef.MessageType messageType) {
+    // 次の発言番号を返す
+    private int selectNextMessageNumber(Integer villageId, CDef.MessageType messageType) {
         Integer maxNessageNumber = messageBhv.selectScalar(Integer.class).max(cb -> {
             cb.specify().columnMessageNumber();
             cb.query().setVillageId_Equal(villageId);
             cb.query().setMessageTypeCode_Equal_AsMessageType(messageType);
-            cb.lockForUpdate();
         }).orElse(0);
         return maxNessageNumber + 1;
     }
@@ -112,14 +119,22 @@ public class MessageLogic {
     public void insertAbilityMessage(Integer villageId, int day, Integer charaId, Integer targetCharaId,
             List<VillagePlayer> villagePlayerList, String footstep, boolean isDefault) {
         String message = makeAbilitySetMessage(charaId, targetCharaId, villagePlayerList, footstep, isDefault);
-        insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
+        try {
+            insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
+        } catch (WerewolfMansionBusinessException e) {
+            // ここでは被らないはずなので何もしない
+        }
     }
 
     // 足音セットメッセージ登録
     public void insertFootstepMessage(Integer villageId, int day, Integer charaId, List<VillagePlayer> villagePlayerList, String footstep,
             boolean isDefault) {
         String message = makeFootstepSetMessage(charaId, villagePlayerList, footstep, isDefault);
-        insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
+        try {
+            insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
+        } catch (WerewolfMansionBusinessException e) {
+            // ここでは被らないはずなので何もしない
+        }
     }
 
     // ===================================================================================

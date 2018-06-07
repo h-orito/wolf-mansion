@@ -12,6 +12,7 @@ import org.dbflute.cbean.scoping.*;
 import org.dbflute.dbmeta.DBMetaProvider;
 import org.dbflute.twowaysql.factory.SqlAnalyzerFactory;
 import org.dbflute.twowaysql.style.BoundDateDisplayTimeZoneProvider;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.DBFluteConfig;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.allcommon.ImplementedInvokerAssistant;
@@ -88,6 +89,20 @@ public class BsMessageCB extends AbstractConditionBean {
         assertObjectNotNull("messageId", messageId);
         BsMessageCB cb = this;
         cb.query().setMessageId_Equal(messageId);
+        return (MessageCB)this;
+    }
+
+    /**
+     * Accept the query condition of unique key as equal.
+     * @param villageId : UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
+     * @param messageTypeCode : +UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType. (NotNull)
+     * @param messageNumber : +UQ, INT UNSIGNED(10). (NotNull)
+     * @return this. (NotNull)
+     */
+    public MessageCB acceptUniqueOf(Integer villageId, CDef.MessageType messageTypeCode, Integer messageNumber) {
+        assertObjectNotNull("villageId", villageId);assertObjectNotNull("messageTypeCode", messageTypeCode);assertObjectNotNull("messageNumber", messageNumber);
+        BsMessageCB cb = this;
+        cb.query().setVillageId_Equal(villageId);cb.query().setMessageTypeCode_Equal_AsMessageType(messageTypeCode);cb.query().setMessageNumber_Equal(messageNumber);
         return (MessageCB)this;
     }
 
@@ -401,7 +416,7 @@ public class BsMessageCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnMessageId() { return doColumn("MESSAGE_ID"); }
         /**
-         * VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to village_day}
+         * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageId() { return doColumn("VILLAGE_ID"); }
@@ -421,12 +436,12 @@ public class BsMessageCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnDay() { return doColumn("DAY"); }
         /**
-         * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+         * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnMessageTypeCode() { return doColumn("MESSAGE_TYPE_CODE"); }
         /**
-         * MESSAGE_NUMBER: {INT UNSIGNED(10)}
+         * MESSAGE_NUMBER: {+UQ, INT UNSIGNED(10)}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnMessageNumber() { return doColumn("MESSAGE_NUMBER"); }

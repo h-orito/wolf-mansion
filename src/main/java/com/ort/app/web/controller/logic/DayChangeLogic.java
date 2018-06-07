@@ -23,6 +23,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Camp;
@@ -106,7 +107,7 @@ public class DayChangeLogic {
         // 最低開始人数を満たしていない
         if (isInsufficientVillagerNum(village, settings)) {
             updateVillageDayTransactional(villageId, day, nextDaychangeDatetime); // 村日付を1日延長
-            messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, "まだ村人たちは揃っていないようだ。"); // 延長メッセージ登録
+            insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, "まだ村人たちは揃っていないようだ。"); // 延長メッセージ登録
             return;
         }
 
@@ -115,7 +116,7 @@ public class DayChangeLogic {
         insertVillageDayTransactional(villageId, newDay, nextDaychangeDatetime); // 村日付を追加
 
         if (day == 0) { // プロ→1日目
-            messageLogic.insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ,
+            insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ,
                     messageSource.getMessage("village.start.message.day1", null, Locale.JAPAN));
             assignLogic.assignSkill(villageId, vPlayerList); // 役職割り当て
             assignLogic.assignRoom(villageId, vPlayerList); // 部屋割り当て
@@ -409,7 +410,7 @@ public class DayChangeLogic {
         vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).forEach(player -> {
             joiner.add(player.getChara().get().getCharaName());
         });
-        messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
+        insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
     }
 
     private void insertFootstepMessage(Integer villageId, int newDay, List<VillagePlayer> vPlayerList) {
@@ -419,7 +420,7 @@ public class DayChangeLogic {
         List<Integer> livingPlayerRoomNumList =
                 vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).map(VillagePlayer::getRoomNumber).collect(Collectors.toList());
         String message = footstepLogic.getFootstepMessage(villageId, newDay - 1, livingPlayerRoomNumList);
-        messageLogic.insertMessage(villageId, newDay, CDef.MessageType.公開システムメッセージ, message);
+        insertMessage(villageId, newDay, CDef.MessageType.公開システムメッセージ, message);
     }
 
     // 初日、2日目以外の日付更新処理
@@ -457,7 +458,7 @@ public class DayChangeLogic {
         insertAttackedMessage(villageId, day, optDivineKilledPlayer, optAttackedPlayer);
 
         if (day == 2 && optAttackedPlayer.isPresent()) {
-            messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ,
+            insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ,
                     messageSource.getMessage("village.start.message.day2", null, Locale.JAPAN));
         }
 
@@ -526,7 +527,7 @@ public class DayChangeLogic {
         villageBhv.queryUpdate(village, cb -> cb.query().setVillageId_Equal(villageId));
         // エピローグ遷移メッセージ登録
         String message = getEpilogueMessage(winCamp, werewolfCount);
-        messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, message);
+        insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, message);
         // 参加者一覧メッセージ登録
         insertPlayerListMessage(villageId, day, villagePlayerList);
         // エピは固定で48時間追加
@@ -563,7 +564,7 @@ public class DayChangeLogic {
                         player.getPlayer().get().getPlayerName()));
             });
         }
-        messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
+        insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
     }
 
     // エピローグ遷移メッセージ
@@ -586,14 +587,14 @@ public class DayChangeLogic {
         optDivineKilledPlayer.ifPresent(player -> attackedPlayerList.add(player));
         optAttackedPlayer.ifPresent(player -> attackedPlayerList.add(player));
         if (CollectionUtils.isEmpty(attackedPlayerList)) {
-            messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, "今日は犠牲者がいないようだ。人狼は襲撃に失敗したのだろうか。");
+            insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, "今日は犠牲者がいないようだ。人狼は襲撃に失敗したのだろうか。");
         } else {
             Collections.shuffle(attackedPlayerList);
             StringJoiner joiner = new StringJoiner("と", "次の日の朝、", "が無惨な姿で発見された。");
             attackedPlayerList.stream().forEach(player -> {
                 joiner.add(player.getChara().get().getCharaName());
             });
-            messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
+            insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
         }
     }
 
@@ -619,7 +620,12 @@ public class DayChangeLogic {
         // 襲撃メッセージ
         if (day != 2) {
             String attackMessage = String.format("%s！今日がお前の命日だ！", targetPlayer.getChara().get().getCharaName());
-            messageLogic.insertMessage(villageId, day, CDef.MessageType.人狼の囁き, attackMessage, optLivingWerewolf.get().getVillagePlayerId());
+            try {
+                messageLogic.insertMessage(villageId, day, CDef.MessageType.人狼の囁き, attackMessage,
+                        optLivingWerewolf.get().getVillagePlayerId());
+            } catch (WerewolfMansionBusinessException e) {
+                // ここでは被らないはずなので何もしない
+            }
         }
 
         // 襲撃成功したか
@@ -672,7 +678,7 @@ public class DayChangeLogic {
                 boolean isTargetWerewolf = deadPlayer.getSkillCodeAsSkill() == CDef.Skill.人狼;
                 joiner.add(String.format("%sは%sのようだ。", deadPlayer.getChara().get().getCharaName(), isTargetWerewolf ? "人狼" : "人間"));
             });
-            messageLogic.insertMessage(villageId, day, CDef.MessageType.白黒霊視結果, joiner.toString());
+            insertMessage(villageId, day, CDef.MessageType.白黒霊視結果, joiner.toString());
         }
 
         // 導師
@@ -686,7 +692,7 @@ public class DayChangeLogic {
                 joiner.add(
                         String.format("%sは%sのようだ。", deadPlayer.getChara().get().getCharaName(), deadPlayer.getSkillCodeAsSkill().alias()));
             });
-            messageLogic.insertMessage(villageId, day, CDef.MessageType.役職霊視結果, joiner.toString());
+            insertMessage(villageId, day, CDef.MessageType.役職霊視結果, joiner.toString());
         }
     }
 
@@ -732,8 +738,7 @@ public class DayChangeLogic {
         VillagePlayer targetPlayer =
                 villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(optSeer.get().getTargetCharaId())).findFirst().get();
         String message = makeDivineMessage(seerPlayer, targetPlayer);
-        messageLogic.insertMessage(villageId, day, seerPlayer.isSkillCode占い師() ? CDef.MessageType.白黒占い結果 : CDef.MessageType.役職占い結果,
-                message);
+        insertMessage(villageId, day, seerPlayer.isSkillCode占い師() ? CDef.MessageType.白黒占い結果 : CDef.MessageType.役職占い結果, message);
         return Optional.ofNullable(targetPlayer);
     }
 
@@ -773,7 +778,7 @@ public class DayChangeLogic {
                 villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(optGuard.get().getTargetCharaId())).findFirst().get();
         String message = String.format("%sは、%sを護衛している。", optLivingHunter.get().getChara().get().getCharaName(),
                 targetPlayer.getChara().get().getCharaName());
-        messageLogic.insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
+        insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
         return Optional.ofNullable(targetPlayer);
     }
 
@@ -800,7 +805,7 @@ public class DayChangeLogic {
         noAccessPlayerList.forEach(vp -> {
             updateVillagePlayerDead(day, vp, CDef.DeadReason.突然); // 死亡処理
             String message = String.format("%sは突然死した。", vp.getChara().get().getCharaName());
-            messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, message);
+            insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, message);
         });
         return noAccessPlayerList;
     }
@@ -865,8 +870,8 @@ public class DayChangeLogic {
             VillagePlayer targetPlayer = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(targetCharaId)).findFirst().get();
             joiner.add(String.format("%sは、%sに投票した。", player.getChara().get().getCharaName(), targetPlayer.getChara().get().getCharaName()));
         }
-        messageLogic.insertMessage(villageId, day,
-                settings.isIsOpenVoteTrue() ? CDef.MessageType.公開システムメッセージ : CDef.MessageType.非公開システムメッセージ, joiner.toString());
+        insertMessage(villageId, day, settings.isIsOpenVoteTrue() ? CDef.MessageType.公開システムメッセージ : CDef.MessageType.非公開システムメッセージ,
+                joiner.toString());
     }
 
     private void insertExecuteResultMessage(Integer villageId, int day, List<VillagePlayer> villagePlayerList,
@@ -879,7 +884,7 @@ public class DayChangeLogic {
             joiner.add(String.format("%s、%d票", targetPlayer.getChara().get().getCharaName(), voteCount));
         }
         joiner.add(String.format("\n%sは村人達の手により処刑された。", executedPlayer.getChara().get().getCharaName()));
-        messageLogic.insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
+        insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
     }
 
     // 参加者数が不足している
@@ -888,10 +893,6 @@ public class DayChangeLogic {
     }
 
     // プロローグで長時間接続していない人がいたら退村させる
-    //    alter table VILLAGE_PLAYER add column LAST_ACCESS_DATETIME DATETIME COMMENT '最終接続日時' after IS_GONE;
-    //    alter table VILLAGE_SETTINGS add column IS_AVAILABLE_SUDDONLY_DEATH BOOLEAN NOT NULL COMMENT '突然死ありか' after IS_VISIBLE_GRAVE_SPECTATE_MESSAGE;
-    //
-    //    update VILLAGE_SETTINGS set IS_AVAILABLE_SUDDONLY_DEATH = 0;
     private void leaveVillageIfNeeded(Integer day, Integer villageId) {
         if (day != 0) {
             return;
@@ -932,7 +933,15 @@ public class DayChangeLogic {
             vs.setVillageId(villageId);
             vs.setIsAvailableSameWolfAttack_True();
             villageSettingsBhv.update(vs);
-            messageLogic.insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ, "人狼の人数が3名より少ないため、同一人狼による連続襲撃を「可能」に変更します。");
+            insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ, "人狼の人数が3名より少ないため、同一人狼による連続襲撃を「可能」に変更します。");
+        }
+    }
+
+    private void insertMessage(Integer villageId, int day, CDef.MessageType type, String message) {
+        try {
+            messageLogic.insertMessage(villageId, day, type, message);
+        } catch (WerewolfMansionBusinessException e) {
+            // ここでは被らないので何もしない
         }
     }
 }

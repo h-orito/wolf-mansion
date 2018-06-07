@@ -174,7 +174,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
      * @param villageId The value of villageId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_Equal(Integer villageId) {
@@ -187,7 +187,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
      * @param villageId The value of villageId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_NotEqual(Integer villageId) {
@@ -200,7 +200,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
      * @param villageId The value of villageId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterThan(Integer villageId) {
@@ -209,7 +209,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
      * @param villageId The value of villageId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessThan(Integer villageId) {
@@ -218,7 +218,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
      * @param villageId The value of villageId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterEqual(Integer villageId) {
@@ -227,7 +227,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
      * @param villageId The value of villageId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessEqual(Integer villageId) {
@@ -238,7 +238,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -251,7 +251,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -262,7 +262,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
      * @param villageIdList The collection of villageId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_InScope(Collection<Integer> villageIdList) {
@@ -275,7 +275,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {IX+, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
      * @param villageIdList The collection of villageId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_NotInScope(Collection<Integer> villageIdList) {
@@ -666,7 +666,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
      * @param messageTypeCode The value of messageTypeCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setMessageTypeCode_Equal(String messageTypeCode) {
@@ -675,7 +675,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). As MessageType. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
      * メッセージ種別
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -793,7 +793,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
      * @param messageTypeCode The value of messageTypeCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setMessageTypeCode_NotEqual(String messageTypeCode) {
@@ -802,7 +802,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). As MessageType. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
      * メッセージ種別
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -920,7 +920,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
      * @param messageTypeCodeList The collection of messageTypeCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setMessageTypeCode_InScope(Collection<String> messageTypeCodeList) {
@@ -929,7 +929,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. As MessageType. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
      * メッセージ種別
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -943,7 +943,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
      * @param messageTypeCodeList The collection of messageTypeCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setMessageTypeCode_NotInScope(Collection<String> messageTypeCodeList) {
@@ -952,7 +952,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. As MessageType. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * MESSAGE_TYPE_CODE: {IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
      * メッセージ種別
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -969,7 +969,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_NUMBER: {INT UNSIGNED(10)}
+     * MESSAGE_NUMBER: {+UQ, INT UNSIGNED(10)}
      * @param messageNumber The value of messageNumber as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setMessageNumber_Equal(Integer messageNumber) {
@@ -982,7 +982,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_NUMBER: {INT UNSIGNED(10)}
+     * MESSAGE_NUMBER: {+UQ, INT UNSIGNED(10)}
      * @param messageNumber The value of messageNumber as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setMessageNumber_NotEqual(Integer messageNumber) {
@@ -995,7 +995,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_NUMBER: {INT UNSIGNED(10)}
+     * MESSAGE_NUMBER: {+UQ, INT UNSIGNED(10)}
      * @param messageNumber The value of messageNumber as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setMessageNumber_GreaterThan(Integer messageNumber) {
@@ -1004,7 +1004,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_NUMBER: {INT UNSIGNED(10)}
+     * MESSAGE_NUMBER: {+UQ, INT UNSIGNED(10)}
      * @param messageNumber The value of messageNumber as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setMessageNumber_LessThan(Integer messageNumber) {
@@ -1013,7 +1013,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_NUMBER: {INT UNSIGNED(10)}
+     * MESSAGE_NUMBER: {+UQ, INT UNSIGNED(10)}
      * @param messageNumber The value of messageNumber as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setMessageNumber_GreaterEqual(Integer messageNumber) {
@@ -1022,7 +1022,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_NUMBER: {INT UNSIGNED(10)}
+     * MESSAGE_NUMBER: {+UQ, INT UNSIGNED(10)}
      * @param messageNumber The value of messageNumber as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setMessageNumber_LessEqual(Integer messageNumber) {
@@ -1033,7 +1033,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_NUMBER: {INT UNSIGNED(10)}
+     * MESSAGE_NUMBER: {+UQ, INT UNSIGNED(10)}
      * @param minNumber The min number of messageNumber. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of messageNumber. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -1046,7 +1046,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_NUMBER: {INT UNSIGNED(10)}
+     * MESSAGE_NUMBER: {+UQ, INT UNSIGNED(10)}
      * @param minNumber The min number of messageNumber. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of messageNumber. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -1057,7 +1057,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * MESSAGE_NUMBER: {INT UNSIGNED(10)}
+     * MESSAGE_NUMBER: {+UQ, INT UNSIGNED(10)}
      * @param messageNumberList The collection of messageNumber as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setMessageNumber_InScope(Collection<Integer> messageNumberList) {
@@ -1070,7 +1070,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * MESSAGE_NUMBER: {INT UNSIGNED(10)}
+     * MESSAGE_NUMBER: {+UQ, INT UNSIGNED(10)}
      * @param messageNumberList The collection of messageNumber as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setMessageNumber_NotInScope(Collection<Integer> messageNumberList) {
@@ -1083,13 +1083,13 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * MESSAGE_NUMBER: {INT UNSIGNED(10)}
+     * MESSAGE_NUMBER: {+UQ, INT UNSIGNED(10)}
      */
     public void setMessageNumber_IsNull() { regMessageNumber(CK_ISN, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * MESSAGE_NUMBER: {INT UNSIGNED(10)}
+     * MESSAGE_NUMBER: {+UQ, INT UNSIGNED(10)}
      */
     public void setMessageNumber_IsNotNull() { regMessageNumber(CK_ISNN, DOBJ); }
 

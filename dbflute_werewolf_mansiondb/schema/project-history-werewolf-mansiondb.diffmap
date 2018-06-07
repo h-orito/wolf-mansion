@@ -1,4 +1,19 @@
 map:{
+    ; 2018/06/07 12:44:04 = map:{
+        ; diffDate = 2018/06/07 12:44:04
+        ; tableDiff = map:{
+            ; message = map:{
+                ; tableName = message
+                ; diffType = CHANGE
+                ; uniqueKeyDiff = map:{
+                    ; UQ_message_number = map:{
+                        ; constraintName = UQ_message_number
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2018/06/05 19:50:52 = map:{
         ; diffDate = 2018/06/05 19:50:52
         ; tableDiff = map:{

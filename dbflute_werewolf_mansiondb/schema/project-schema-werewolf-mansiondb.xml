@@ -258,6 +258,11 @@
             foreignTable="village_player" name="FK_MESSAGE_VILLAGE_PLAYER">
             <reference foreign="VILLAGE_PLAYER_ID" local="VILLAGE_PLAYER_ID"/>
         </foreign-key>
+        <unique name="UQ_message_number">
+            <unique-column name="VILLAGE_ID" position="1"/>
+            <unique-column name="MESSAGE_TYPE_CODE" position="2"/>
+            <unique-column name="MESSAGE_NUMBER" position="3"/>
+        </unique>
         <index name="FK_MESSAGE_MESSAGE_TYPE">
             <index-column name="MESSAGE_TYPE_CODE" position="1"/>
         </index>

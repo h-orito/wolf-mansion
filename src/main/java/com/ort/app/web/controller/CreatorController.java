@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.ort.app.web.controller.assist.VillageAssist;
 import com.ort.app.web.controller.logic.MessageLogic;
 import com.ort.app.web.controller.logic.VillageParticipateLogic;
+import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageKickForm;
 import com.ort.app.web.form.VillageSayForm;
 import com.ort.app.web.form.validator.CreatorSayFormValidator;
@@ -113,7 +114,11 @@ public class CreatorController {
             return "redirect:/village/" + villageId;
         }
         int day = villageAssist.selectLatestDay(villageId);
-        messageLogic.insertMessage(villageId, day, CDef.MessageType.村建て発言, creatorSayForm.getMessage());
+        try {
+            messageLogic.insertMessage(villageId, day, CDef.MessageType.村建て発言, creatorSayForm.getMessage());
+        } catch (WerewolfMansionBusinessException e) {
+            // ここでは何回も被らないので何もしない
+        }
 
         return "redirect:/village/" + villageId + "#bottom";
     }

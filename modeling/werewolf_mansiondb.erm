@@ -807,6 +807,20 @@
 			<indexes>
 			</indexes>
 			<compound_unique_key_list>
+				<compound_unique_key>
+					<name>UQ_message_number</name>
+					<columns>
+						<column>
+							<column_id>table.message.village_id</column_id>
+						</column>
+						<column>
+							<column_id>table.message.message_type_code</column_id>
+						</column>
+						<column>
+							<column_id>table.message.message_number</column_id>
+						</column>
+					</columns>
+				</compound_unique_key>
 			</compound_unique_key_list>
 			<table_properties>
 			</table_properties>

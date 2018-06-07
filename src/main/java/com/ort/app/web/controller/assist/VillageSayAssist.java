@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import com.ort.app.web.controller.logic.MessageLogic;
+import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageSayForm;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.MessageType;
@@ -81,7 +82,11 @@ public class VillageSayAssist {
             throw new IllegalArgumentException("発言種別改ざん");
         }
         // 登録
-        messageLogic.insertMessage(villageId, day, type, sayForm.getMessage(), villagePlayer.getVillagePlayerId());
+        try {
+            messageLogic.insertMessage(villageId, day, type, sayForm.getMessage(), villagePlayer.getVillagePlayerId());
+        } catch (WerewolfMansionBusinessException e) {
+            model.addAttribute("sayErrorMessage", e.getMessage());
+        }
 
         // 最新の日付を表示
         return "redirect:/village/" + villageId + "#bottom";
