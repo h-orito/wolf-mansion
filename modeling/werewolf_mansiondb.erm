@@ -256,6 +256,89 @@
 			</table_properties>
 		</table>
 		<table>
+			<physical_name>COMMIT</physical_name>
+			<logical_name>コミット</logical_name>
+			<description></description>
+			<height>107</height>
+			<width>247</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>952</x>
+			<y>779</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+				<relationship>
+					<name>FK_COMMIT_village_day</name>
+					<source>table.village_day</source>
+					<target>table.COMMIT</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>village_id</fk_column_name>
+						</fk_column>
+						<fk_column>
+							<fk_column_name>day</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+				<relationship>
+					<name>FK_COMMIT_village_player</name>
+					<source>table.village_player</source>
+					<target>table.COMMIT</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>village_player_id</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+					<target_xp>100</target_xp>
+					<target_yp>30</target_yp>
+				</relationship>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>village_id</physical_name>
+					<referred_column>table.village_day.village_id</referred_column>
+					<relationship>FK_COMMIT_village_day</relationship>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>day</physical_name>
+					<referred_column>table.village_day.day</referred_column>
+					<relationship>FK_COMMIT_village_day</relationship>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>village_player_id</physical_name>
+					<referred_column>table.village_player.village_player_id</referred_column>
+					<relationship>FK_COMMIT_village_player</relationship>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+				</normal_column>
+				<column_group>共通カラム</column_group>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
 			<physical_name>ability</physical_name>
 			<logical_name>能力行使</logical_name>
 			<description></description>
@@ -426,8 +509,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>963</x>
-			<y>167</y>
+			<x>1298</x>
+			<y>111</y>
 			<color>
 				<r>254</r>
 				<g>251</g>
@@ -465,8 +548,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1477</x>
-			<y>997</y>
+			<x>1656</x>
+			<y>953</y>
 			<color>
 				<r>254</r>
 				<g>251</g>
@@ -504,8 +587,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1481</x>
-			<y>728</y>
+			<x>1670</x>
+			<y>620</y>
 			<color>
 				<r>254</r>
 				<g>251</g>
@@ -870,8 +953,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>982</x>
-			<y>293</y>
+			<x>1298</x>
+			<y>271</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -940,8 +1023,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1478</x>
-			<y>864</y>
+			<x>1655</x>
+			<y>781</y>
 			<color>
 				<r>254</r>
 				<g>251</g>
@@ -1007,8 +1090,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>989</x>
-			<y>815</y>
+			<x>1289</x>
+			<y>824</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -1176,7 +1259,7 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>981</x>
+			<x>1290</x>
 			<y>487</y>
 			<color>
 				<r>128</r>
@@ -1371,8 +1454,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>952</x>
-			<y>1070</y>
+			<x>1212</x>
+			<y>1102</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -1518,8 +1601,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1472</x>
-			<y>1126</y>
+			<x>1654</x>
+			<y>1070</y>
 			<color>
 				<r>254</r>
 				<g>251</g>

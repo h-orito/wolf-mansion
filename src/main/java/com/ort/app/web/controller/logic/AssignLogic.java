@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.dbflute.cbean.result.ListResultBean;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,8 +30,6 @@ public class AssignLogic {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final Logger logger = LoggerFactory.getLogger(AssignLogic.class);
-
     private static Map<Integer, List<Integer>> roomNumberAssignMap;
 
     static {
@@ -70,7 +66,6 @@ public class AssignLogic {
         addNotRequestToUpdatePlayerList(vPlayerList, skillPersonNumMap, updatePlayerList);
         // update
         updatePlayerList.stream().forEach(player -> {
-            logger.info("village_player_id: " + player.getVillagePlayerId() + " skill: " + player.getSkillCode());
             villagePlayerBhv.update(player);
         });
         // 役職割り当てについてメッセージ追加
@@ -88,8 +83,6 @@ public class AssignLogic {
         }
         // 部屋を割り当てて登録
         assignRoomAndUpdate(vPlayerList, roomNumList);
-        // デバッグ用
-        printAssign(villageId, village);
         // 部屋割り当てメッセージ登録
         insertRoomAssignMessage(villageId);
     }
@@ -275,32 +268,6 @@ public class AssignLogic {
         return joiner.toString();
     }
 
-    private void printAssign(Integer villageId, Village village) {
-        if (logger.isInfoEnabled()) {
-            ListResultBean<VillagePlayer> vpList = villagePlayerBhv.selectList(cb -> {
-                cb.setupSelect_Chara();
-                cb.query().setVillageId_Equal(villageId);
-                cb.query().setIsGone_Equal_False();
-                cb.query().setIsSpectator_Equal_False();
-                cb.query().addOrderBy_RoomNumber_Asc();
-            });
-            for (int i = 0; i < village.getRoomSizeHeight(); i++) {
-                StringJoiner joiner = new StringJoiner(" ");
-
-                for (int j = 0; j < village.getRoomSizeWidth(); j++) {
-                    int num = village.getRoomSizeWidth() * i + j + 1;
-                    String playerName = vpList.stream()
-                            .filter(vplayer -> vplayer.getRoomNumber().equals(num))
-                            .findFirst()
-                            .map(vplayer -> vplayer.getChara().get().getCharaShortName())
-                            .orElse("＿");
-                    joiner.add(playerName);
-                }
-                logger.info(joiner.toString());
-            }
-        }
-    }
-
     private void assignRoomAndUpdate(List<VillagePlayer> playerList, List<Integer> roomNumList) {
         List<Integer> roomNumberList = new ArrayList<>(roomNumberAssignMap.get(playerList.size()));
         Collections.shuffle(roomNumberList);
@@ -309,7 +276,6 @@ public class AssignLogic {
             entity.setRoomNumber(roomNumberList.get(i));
             VillagePlayer player = playerList.get(i);
             villagePlayerBhv.queryUpdate(entity, cb -> cb.query().setVillagePlayerId_Equal(player.getVillagePlayerId()));
-            logger.info("部屋割り当て villagePlayerId: {}, roomNumber:{}", player.getVillagePlayerId(), roomNumberList.get(i));
         }
     }
 }

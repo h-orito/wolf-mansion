@@ -1,4 +1,17 @@
 map:{
+    ; 2018/06/07 17:35:36 = map:{
+        ; diffDate = 2018/06/07 17:35:36
+        ; tableCount = map:{
+            ; next = 20
+            ; previous = 19
+        }
+        ; tableDiff = map:{
+            ; commit = map:{
+                ; tableName = commit
+                ; diffType = ADD
+            }
+        }
+    }
     ; 2018/06/07 12:44:04 = map:{
         ; diffDate = 2018/06/07 12:44:04
         ; tableDiff = map:{

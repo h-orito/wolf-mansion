@@ -693,6 +693,23 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
+         * {select max(FOO) from commit where ...) as FOO_MAX} <br>
+         * COMMIT by VILLAGE_PLAYER_ID, named 'commitList'.
+         * <pre>
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(commitCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     commitCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     commitCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, Commit.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        public HpSDRFunction<CommitCB, VillagePlayerCQ> derivedCommit() {
+            assertDerived("commitList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<CommitCB> sq, VillagePlayerCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveCommitList(fn, sq, al, op), _dbmetaProvider);
+        }
+        /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
          * {select max(FOO) from message where ...) as FOO_MAX} <br>
          * MESSAGE by VILLAGE_PLAYER_ID, named 'messageList'.
          * <pre>

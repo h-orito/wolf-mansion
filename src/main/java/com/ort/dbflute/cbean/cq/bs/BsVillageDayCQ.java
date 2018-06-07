@@ -313,6 +313,21 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
 
     /**
      * Set up ExistsReferrer (correlated sub-query by compound key). <br>
+     * {exists (select ... from commit where ...)}
+     * @param subQuery The sub-query of CommitList for 'exists'. (NotNull)
+     */
+    public void existsCommit(SubQuery<CommitCB> subQuery) {
+        assertObjectNotNull("subQuery<CommitCB>", subQuery);
+        CommitCB cb = new CommitCB(); cb.xsetupForExistsReferrer(this);
+        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        String pp = keepTwoOrMorePk_ExistsReferrer_CommitList(cb.query());
+        registerExistsReferrer(cb.query(), "VILLAGE_ID, DAY", "VILLAGE_ID, DAY", pp, "commitList");
+    }
+    public Map<String, CommitCQ> xdfgetTwoOrMorePk_ExistsReferrer_CommitList() { return xgetSQueMap("twoOrMorePk_ExistsReferrer_CommitList"); }
+    public String keepTwoOrMorePk_ExistsReferrer_CommitList(CommitCQ sq) { return xkeepSQue("twoOrMorePk_ExistsReferrer_CommitList", sq); }
+
+    /**
+     * Set up ExistsReferrer (correlated sub-query by compound key). <br>
      * {exists (select ... from footstep where ...)}
      * @param subQuery The sub-query of FootstepList for 'exists'. (NotNull)
      */
@@ -373,6 +388,21 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query by compound key). <br>
+     * {not exists (select ... from commit where ...)}
+     * @param subQuery The sub-query of CommitList for 'not exists'. (NotNull)
+     */
+    public void notExistsCommit(SubQuery<CommitCB> subQuery) {
+        assertObjectNotNull("subQuery<CommitCB>", subQuery);
+        CommitCB cb = new CommitCB(); cb.xsetupForExistsReferrer(this);
+        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        String pp = keepTwoOrMorePk_NotExistsReferrer_CommitList(cb.query());
+        registerNotExistsReferrer(cb.query(), "VILLAGE_ID, DAY", "VILLAGE_ID, DAY", pp, "commitList");
+    }
+    public Map<String, CommitCQ> xdfgetTwoOrMorePk_NotExistsReferrer_CommitList() { return xgetSQueMap("twoOrMorePk_NotExistsReferrer_CommitList"); }
+    public String keepTwoOrMorePk_NotExistsReferrer_CommitList(CommitCQ sq) { return xkeepSQue("twoOrMorePk_NotExistsReferrer_CommitList", sq); }
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query by compound key). <br>
      * {not exists (select ... from footstep where ...)}
      * @param subQuery The sub-query of FootstepList for 'not exists'. (NotNull)
      */
@@ -428,6 +458,16 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
     }
     public Map<String, AbilityCQ> xdfgetTwoOrMorePk_SpecifyDerivedReferrer_AbilityList() { return xgetSQueMap("twoOrMorePk_SpecifyDerivedReferrer_AbilityList"); }
     public String keepTwoOrMorePk_SpecifyDerivedReferrer_AbilityList(AbilityCQ sq) { return xkeepSQue("twoOrMorePk_SpecifyDerivedReferrer_AbilityList", sq); }
+
+    public void xsderiveCommitList(String fn, SubQuery<CommitCB> sq, String al, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        CommitCB cb = new CommitCB(); cb.xsetupForDerivedReferrer(this);
+        try { lock(); sq.query(cb); } finally { unlock(); }
+        String pp = keepTwoOrMorePk_SpecifyDerivedReferrer_CommitList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "VILLAGE_ID, DAY", "VILLAGE_ID, DAY", pp, "commitList", al, op);
+    }
+    public Map<String, CommitCQ> xdfgetTwoOrMorePk_SpecifyDerivedReferrer_CommitList() { return xgetSQueMap("twoOrMorePk_SpecifyDerivedReferrer_CommitList"); }
+    public String keepTwoOrMorePk_SpecifyDerivedReferrer_CommitList(CommitCQ sq) { return xkeepSQue("twoOrMorePk_SpecifyDerivedReferrer_CommitList", sq); }
 
     public void xsderiveFootstepList(String fn, SubQuery<FootstepCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
@@ -497,6 +537,42 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
     public String keepTwoOrMorePk_QueryDerivedReferrer_AbilityList(AbilityCQ sq) { return xkeepSQue("twoOrMorePk_QueryDerivedReferrer_AbilityList", sq); }
     public Map<String, Object> xdfgetTwoOrMorePk_QueryDerivedReferrer_AbilityListParameter() { return xgetSQuePmMap("twoOrMorePk_QueryDerivedReferrer_AbilityList"); }
     public String keepTwoOrMorePk_QueryDerivedReferrer_AbilityListParameter(Object pm) { return xkeepSQuePm("twoOrMorePk_QueryDerivedReferrer_AbilityList", pm); }
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
+     * {FOO &lt;= (select max(BAR) from commit where ...)} <br>
+     * commit by VILLAGE_ID, DAY, named 'commitAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">derivedCommit()</span>.<span style="color: #CC4747">max</span>(new SubQuery&lt;CommitCB&gt;() {
+     *     public void query(CommitCB subCB) {
+     *         subCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *         subCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     *     }
+     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    public HpQDRFunction<CommitCB> derivedCommit() {
+        return xcreateQDRFunctionCommitList();
+    }
+    protected HpQDRFunction<CommitCB> xcreateQDRFunctionCommitList() {
+        return xcQDRFunc(new HpQDRSetupper<CommitCB>() {
+            public void setup(String fn, SubQuery<CommitCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+                xqderiveCommitList(fn, sq, rd, vl, op);
+            }
+        });
+    }
+    public void xqderiveCommitList(String fn, SubQuery<CommitCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        CommitCB cb = new CommitCB(); cb.xsetupForDerivedReferrer(this);
+        try { lock(); sq.query(cb); } finally { unlock(); }
+        String sqpp = keepTwoOrMorePk_QueryDerivedReferrer_CommitList(cb.query()); String prpp = keepTwoOrMorePk_QueryDerivedReferrer_CommitListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "VILLAGE_ID, DAY", "VILLAGE_ID, DAY", sqpp, "commitList", rd, vl, prpp, op);
+    }
+    public Map<String, CommitCQ> xdfgetTwoOrMorePk_QueryDerivedReferrer_CommitList() { return xgetSQueMap("twoOrMorePk_QueryDerivedReferrer_CommitList"); }
+    public String keepTwoOrMorePk_QueryDerivedReferrer_CommitList(CommitCQ sq) { return xkeepSQue("twoOrMorePk_QueryDerivedReferrer_CommitList", sq); }
+    public Map<String, Object> xdfgetTwoOrMorePk_QueryDerivedReferrer_CommitListParameter() { return xgetSQuePmMap("twoOrMorePk_QueryDerivedReferrer_CommitList"); }
+    public String keepTwoOrMorePk_QueryDerivedReferrer_CommitListParameter(Object pm) { return xkeepSQuePm("twoOrMorePk_QueryDerivedReferrer_CommitList", pm); }
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>

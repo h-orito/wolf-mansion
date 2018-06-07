@@ -159,6 +159,25 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
+     * {exists (select VILLAGE_PLAYER_ID from commit where ...)} <br>
+     * commit by VILLAGE_PLAYER_ID, named 'commitAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">existsCommit</span>(commitCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     commitCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of CommitList for 'exists'. (NotNull)
+     */
+    public void existsCommit(SubQuery<CommitCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        CommitCB cb = new CommitCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepVillagePlayerId_ExistsReferrer_CommitList(cb.query());
+        registerExistsReferrer(cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", pp, "commitList");
+    }
+    public abstract String keepVillagePlayerId_ExistsReferrer_CommitList(CommitCQ sq);
+
+    /**
+     * Set up ExistsReferrer (correlated sub-query). <br>
      * {exists (select VILLAGE_PLAYER_ID from message where ...)} <br>
      * message by VILLAGE_PLAYER_ID, named 'messageAsOne'.
      * <pre>
@@ -175,6 +194,25 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
         registerExistsReferrer(cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", pp, "messageList");
     }
     public abstract String keepVillagePlayerId_ExistsReferrer_MessageList(MessageCQ sq);
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br>
+     * {not exists (select VILLAGE_PLAYER_ID from commit where ...)} <br>
+     * commit by VILLAGE_PLAYER_ID, named 'commitAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">notExistsCommit</span>(commitCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     commitCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of VillagePlayerId_NotExistsReferrer_CommitList for 'not exists'. (NotNull)
+     */
+    public void notExistsCommit(SubQuery<CommitCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        CommitCB cb = new CommitCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepVillagePlayerId_NotExistsReferrer_CommitList(cb.query());
+        registerNotExistsReferrer(cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", pp, "commitList");
+    }
+    public abstract String keepVillagePlayerId_NotExistsReferrer_CommitList(CommitCQ sq);
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
@@ -195,6 +233,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
     public abstract String keepVillagePlayerId_NotExistsReferrer_MessageList(MessageCQ sq);
 
+    public void xsderiveCommitList(String fn, SubQuery<CommitCB> sq, String al, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        CommitCB cb = new CommitCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepVillagePlayerId_SpecifyDerivedReferrer_CommitList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", pp, "commitList", al, op);
+    }
+    public abstract String keepVillagePlayerId_SpecifyDerivedReferrer_CommitList(CommitCQ sq);
+
     public void xsderiveMessageList(String fn, SubQuery<MessageCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
         MessageCB cb = new MessageCB(); cb.xsetupForDerivedReferrer(this);
@@ -202,6 +248,33 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
         registerSpecifyDerivedReferrer(fn, cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", pp, "messageList", al, op);
     }
     public abstract String keepVillagePlayerId_SpecifyDerivedReferrer_MessageList(MessageCQ sq);
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
+     * {FOO &lt;= (select max(BAR) from commit where ...)} <br>
+     * commit by VILLAGE_PLAYER_ID, named 'commitAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">derivedCommit()</span>.<span style="color: #CC4747">max</span>(commitCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     commitCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     commitCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    public HpQDRFunction<CommitCB> derivedCommit() {
+        return xcreateQDRFunctionCommitList();
+    }
+    protected HpQDRFunction<CommitCB> xcreateQDRFunctionCommitList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveCommitList(fn, sq, rd, vl, op));
+    }
+    public void xqderiveCommitList(String fn, SubQuery<CommitCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        CommitCB cb = new CommitCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepVillagePlayerId_QueryDerivedReferrer_CommitList(cb.query()); String prpp = keepVillagePlayerId_QueryDerivedReferrer_CommitListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", sqpp, "commitList", rd, vl, prpp, op);
+    }
+    public abstract String keepVillagePlayerId_QueryDerivedReferrer_CommitList(CommitCQ sq);
+    public abstract String keepVillagePlayerId_QueryDerivedReferrer_CommitListParameter(Object vl);
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>

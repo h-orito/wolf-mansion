@@ -36,13 +36,13 @@ import com.ort.dbflute.exentity.*;
  *     CHARA, DEAD_REASON, PLAYER, SKILL, VILLAGE
  *
  * [referrer table]
- *     MESSAGE
+ *     COMMIT, MESSAGE
  *
  * [foreign property]
  *     chara, deadReason, player, skillByRequestSkillCode, skillBySkillCode, village
  *
  * [referrer property]
- *     messageList
+ *     commitList, messageList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -1149,6 +1149,26 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
+    /** COMMIT by VILLAGE_PLAYER_ID, named 'commitList'. */
+    protected List<Commit> _commitList;
+
+    /**
+     * [get] COMMIT by VILLAGE_PLAYER_ID, named 'commitList'.
+     * @return The entity list of referrer property 'commitList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<Commit> getCommitList() {
+        if (_commitList == null) { _commitList = newReferrerList(); }
+        return _commitList;
+    }
+
+    /**
+     * [set] COMMIT by VILLAGE_PLAYER_ID, named 'commitList'.
+     * @param commitList The entity list of referrer property 'commitList'. (NullAllowed)
+     */
+    public void setCommitList(List<Commit> commitList) {
+        _commitList = commitList;
+    }
+
     /** MESSAGE by VILLAGE_PLAYER_ID, named 'messageList'. */
     protected List<Message> _messageList;
 
@@ -1210,6 +1230,8 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         { sb.append(li).append(xbRDS(_skillBySkillCode, "skillBySkillCode")); }
         if (_village != null && _village.isPresent())
         { sb.append(li).append(xbRDS(_village, "village")); }
+        if (_commitList != null) { for (Commit et : _commitList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "commitList")); } } }
         if (_messageList != null) { for (Message et : _messageList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "messageList")); } } }
         return sb.toString();
@@ -1260,6 +1282,8 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         { sb.append(dm).append("skillBySkillCode"); }
         if (_village != null && _village.isPresent())
         { sb.append(dm).append("village"); }
+        if (_commitList != null && !_commitList.isEmpty())
+        { sb.append(dm).append("commitList"); }
         if (_messageList != null && !_messageList.isEmpty())
         { sb.append(dm).append("messageList"); }
         if (sb.length() > dm.length()) {

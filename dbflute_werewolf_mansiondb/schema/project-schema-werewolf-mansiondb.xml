@@ -145,6 +145,40 @@
             <index-column name="DESIGNER_ID" position="1"/>
         </index>
     </table>
+    <table comment="コミット" name="commit"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column comment="村ID" dbType="INT UNSIGNED" javaType="Integer"
+            name="VILLAGE_ID" pkName="PRIMARY" pkPosition="1"
+            primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="何日目か" dbType="INT UNSIGNED" javaType="Integer"
+            name="DAY" pkName="PRIMARY" pkPosition="2" primaryKey="true"
+            required="true" size="10" type="INTEGER"/>
+        <column comment="村参加者ID" dbType="INT UNSIGNED"
+            javaType="Integer" name="VILLAGE_PLAYER_ID" pkName="PRIMARY"
+            pkPosition="3" primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="登録日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="登録トレース" dbType="VARCHAR" javaType="String"
+            name="REGISTER_TRACE" required="true" size="64" type="VARCHAR"/>
+        <column comment="更新日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="UPDATE_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="更新トレース" dbType="VARCHAR" javaType="String"
+            name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="village_day" name="FK_COMMIT_VILLAGE_DAY">
+            <reference foreign="VILLAGE_ID" local="VILLAGE_ID"/>
+            <reference foreign="DAY" local="DAY"/>
+        </foreign-key>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="village_player" name="FK_COMMIT_VILLAGE_PLAYER">
+            <reference foreign="VILLAGE_PLAYER_ID" local="VILLAGE_PLAYER_ID"/>
+        </foreign-key>
+        <index name="FK_COMMIT_VILLAGE_PLAYER">
+            <index-column name="VILLAGE_PLAYER_ID" position="1"/>
+        </index>
+    </table>
     <table comment="死亡理由" name="dead_reason"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
         <column comment="死亡理由コード" dbType="VARCHAR" javaType="String"

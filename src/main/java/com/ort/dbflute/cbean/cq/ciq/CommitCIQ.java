@@ -12,21 +12,21 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of village_player.
+ * The condition-query for in-line of commit.
  * @author DBFlute(AutoGenerator)
  */
-public class VillagePlayerCIQ extends AbstractBsVillagePlayerCQ {
+public class CommitCIQ extends AbstractBsCommitCQ {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected BsVillagePlayerCQ _myCQ;
+    protected BsCommitCQ _myCQ;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public VillagePlayerCIQ(ConditionQuery referrerQuery, SqlClause sqlClause
-                        , String aliasName, int nestLevel, BsVillagePlayerCQ myCQ) {
+    public CommitCIQ(ConditionQuery referrerQuery, SqlClause sqlClause
+                        , String aliasName, int nestLevel, BsCommitCQ myCQ) {
         super(referrerQuery, sqlClause, aliasName, nestLevel);
         _myCQ = myCQ;
         _foreignPropertyName = _myCQ.xgetForeignPropertyName(); // accept foreign property name
@@ -61,54 +61,16 @@ public class VillagePlayerCIQ extends AbstractBsVillagePlayerCQ {
     // ===================================================================================
     //                                                                Override about Query
     //                                                                ====================
-    protected ConditionValue xgetCValueVillagePlayerId() { return _myCQ.xdfgetVillagePlayerId(); }
-    public String keepVillagePlayerId_ExistsReferrer_CommitList(CommitCQ sq)
-    { throwIICBOE("ExistsReferrer"); return null; }
-    public String keepVillagePlayerId_ExistsReferrer_MessageList(MessageCQ sq)
-    { throwIICBOE("ExistsReferrer"); return null; }
-    public String keepVillagePlayerId_NotExistsReferrer_CommitList(CommitCQ sq)
-    { throwIICBOE("NotExistsReferrer"); return null; }
-    public String keepVillagePlayerId_NotExistsReferrer_MessageList(MessageCQ sq)
-    { throwIICBOE("NotExistsReferrer"); return null; }
-    public String keepVillagePlayerId_SpecifyDerivedReferrer_CommitList(CommitCQ sq)
-    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
-    public String keepVillagePlayerId_SpecifyDerivedReferrer_MessageList(MessageCQ sq)
-    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
-    public String keepVillagePlayerId_QueryDerivedReferrer_CommitList(CommitCQ sq)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepVillagePlayerId_QueryDerivedReferrer_CommitListParameter(Object vl)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepVillagePlayerId_QueryDerivedReferrer_MessageList(MessageCQ sq)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepVillagePlayerId_QueryDerivedReferrer_MessageListParameter(Object vl)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
     protected ConditionValue xgetCValueVillageId() { return _myCQ.xdfgetVillageId(); }
-    protected ConditionValue xgetCValuePlayerId() { return _myCQ.xdfgetPlayerId(); }
-    protected ConditionValue xgetCValueCharaId() { return _myCQ.xdfgetCharaId(); }
-    protected ConditionValue xgetCValueSkillCode() { return _myCQ.xdfgetSkillCode(); }
-    protected ConditionValue xgetCValueRequestSkillCode() { return _myCQ.xdfgetRequestSkillCode(); }
-    protected ConditionValue xgetCValueRoomNumber() { return _myCQ.xdfgetRoomNumber(); }
-    protected ConditionValue xgetCValueIsDead() { return _myCQ.xdfgetIsDead(); }
-    protected ConditionValue xgetCValueIsSpectator() { return _myCQ.xdfgetIsSpectator(); }
-    protected ConditionValue xgetCValueDeadReasonCode() { return _myCQ.xdfgetDeadReasonCode(); }
-    protected ConditionValue xgetCValueDeadDay() { return _myCQ.xdfgetDeadDay(); }
-    protected ConditionValue xgetCValueIsGone() { return _myCQ.xdfgetIsGone(); }
-    protected ConditionValue xgetCValueLastAccessDatetime() { return _myCQ.xdfgetLastAccessDatetime(); }
+    protected ConditionValue xgetCValueDay() { return _myCQ.xdfgetDay(); }
+    protected ConditionValue xgetCValueVillagePlayerId() { return _myCQ.xdfgetVillagePlayerId(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
     protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }
     protected ConditionValue xgetCValueUpdateDatetime() { return _myCQ.xdfgetUpdateDatetime(); }
     protected ConditionValue xgetCValueUpdateTrace() { return _myCQ.xdfgetUpdateTrace(); }
     protected Map<String, Object> xfindFixedConditionDynamicParameterMap(String pp) { return null; }
-    public String keepScalarCondition(VillagePlayerCQ sq)
+    public String keepScalarCondition(CommitCQ sq)
     { throwIICBOE("ScalarCondition"); return null; }
-    public String keepSpecifyMyselfDerived(VillagePlayerCQ sq)
-    { throwIICBOE("(Specify)MyselfDerived"); return null;}
-    public String keepQueryMyselfDerived(VillagePlayerCQ sq)
-    { throwIICBOE("(Query)MyselfDerived"); return null;}
-    public String keepQueryMyselfDerivedParameter(Object vl)
-    { throwIICBOE("(Query)MyselfDerived"); return null;}
-    public String keepMyselfExists(VillagePlayerCQ sq)
-    { throwIICBOE("MyselfExists"); return null;}
 
     protected void throwIICBOE(String name)
     { throw new IllegalConditionBeanOperationException(name + " at InlineView is unsupported."); }
@@ -117,6 +79,6 @@ public class VillagePlayerCIQ extends AbstractBsVillagePlayerCQ {
     //                                                                       Very Internal
     //                                                                       =============
     // very internal (for suppressing warn about 'Not Use Import')
-    protected String xinCB() { return VillagePlayerCB.class.getName(); }
-    protected String xinCQ() { return VillagePlayerCQ.class.getName(); }
+    protected String xinCB() { return CommitCB.class.getName(); }
+    protected String xinCQ() { return CommitCQ.class.getName(); }
 }

@@ -30,13 +30,13 @@ import com.ort.dbflute.cbean.*;
  *     CHARA, DEAD_REASON, PLAYER, SKILL, VILLAGE
  *
  * [referrer table]
- *     MESSAGE
+ *     COMMIT, MESSAGE
  *
  * [foreign property]
  *     chara, deadReason, player, skillByRequestSkillCode, skillBySkillCode, village
  *
  * [referrer property]
- *     messageList
+ *     commitList, messageList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -61,6 +61,40 @@ public class LoaderOfVillagePlayer {
     // ===================================================================================
     //                                                                       Load Referrer
     //                                                                       =============
+    protected List<Commit> _referrerCommit;
+
+    /**
+     * Load referrer of commitList by the set-upper of referrer. <br>
+     * COMMIT by VILLAGE_PLAYER_ID, named 'commitList'.
+     * <pre>
+     * <span style="color: #0000C0">villagePlayerBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">villagePlayerList</span>, <span style="color: #553000">playerLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">playerLoader</span>.<span style="color: #CC4747">loadCommit</span>(<span style="color: #553000">commitCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *         <span style="color: #553000">commitCB</span>.setupSelect...
+     *         <span style="color: #553000">commitCB</span>.query().set...
+     *         <span style="color: #553000">commitCB</span>.query().addOrderBy...
+     *     }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     *     <span style="color: #3F7E5E">//}).withNestedReferrer(<span style="color: #553000">commitLoader</span> -&gt; {</span>
+     *     <span style="color: #3F7E5E">//    commitLoader.load...</span>
+     *     <span style="color: #3F7E5E">//});</span>
+     * });
+     * for (VillagePlayer villagePlayer : <span style="color: #553000">villagePlayerList</span>) {
+     *     ... = villagePlayer.<span style="color: #CC4747">getCommitList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setVillagePlayerId_InScope(pkList);
+     * cb.query().addOrderBy_VillagePlayerId_Asc();
+     * </pre>
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerLoaderGateway<LoaderOfCommit> loadCommit(ReferrerConditionSetupper<CommitCB> refCBLambda) {
+        myBhv().loadCommit(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerCommit = refLs);
+        return hd -> hd.handle(new LoaderOfCommit().ready(_referrerCommit, _selector));
+    }
+
     protected List<Message> _referrerMessage;
 
     /**
