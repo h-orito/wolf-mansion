@@ -53,7 +53,7 @@ $(function() {
 		
 		// 文字装飾
 		mes = mes.replace(colorRegex, '<span style="color: $1">$2</span>');
-		mes = mes.replace(boldRegex, '<b>$1</b>');
+		mes = mes.replace(boldRegex, '<strong>$1</strong>');
 		mes = mes.replace(largeRegex, '<span style="font-size: 16px;">$1</span>');
 		return mes.replace(smallRegex, '<span style="font-size: 10px;">$1</span>');
 	}

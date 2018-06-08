@@ -1568,6 +1568,18 @@
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
+					<physical_name>is_available_commit</physical_name>
+					<logical_name>コミット可能か</logical_name>
+					<type>boolean</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>is_available_guard_same_target</physical_name>
+					<logical_name>連続護衛可能か</logical_name>
+					<type>boolean</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
 					<physical_name>character_group_id</physical_name>
 					<referred_column>table.CHARA_group.chara_group_id</referred_column>
 					<relationship>FK_village_settings_CHARA_group</relationship>
