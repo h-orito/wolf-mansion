@@ -24,6 +24,7 @@ $(function() {
 	// 文字装飾
 	const colorRegex = /\[\[(#[0-9a-fA-F]{6})\]\](.*?)\[\[\/#\]\]/g;
 	const boldRegex = /\[\[b\]\](.*?)\[\[\/b\]\]/g;
+	const strikeRegex = /\[\[s\]\](.*?)\[\[\/s\]\]/g;
 	const largeRegex = /\[\[large\]\](.*?)\[\[\/large\]\]/g;
 	const smallRegex = /\[\[small\]\](.*?)\[\[\/small\]\]/g;
 	let latestDay;
@@ -117,6 +118,7 @@ $(function() {
 		// 文字装飾
 		mes = mes.replace(colorRegex, '<span style="color: $1">$2</span>');
 		mes = mes.replace(boldRegex, '<strong>$1</strong>');
+		mes = mes.replace(strikeRegex, '<span style="text-decoration: line-through;">$1</span>');
 		mes = mes.replace(largeRegex, '<span style="font-size: 16px;">$1</span>');
 		return mes.replace(smallRegex, '<span style="font-size: 10px;">$1</span>');
 	}
