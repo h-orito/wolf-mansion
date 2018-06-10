@@ -24,6 +24,7 @@ import com.ort.app.web.model.inner.VillageMessageDto;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.MessageType;
+import com.ort.dbflute.exbhv.CommitBhv;
 import com.ort.dbflute.exbhv.MessageBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
@@ -57,6 +58,9 @@ public class VillageMessageAssist {
     private MessageBhv messageBhv;
 
     @Autowired
+    private CommitBhv commitBhv;
+
+    @Autowired
     private MessageSource messageSource;
 
     // ===================================================================================
@@ -71,10 +75,12 @@ public class VillageMessageAssist {
         List<CDef.MessageType> messageTypeList = makeMessageTypeList(optVillagePlayer, village, day);
         PagingResultBean<Message> messageList =
                 selectMessageList(form.getVillageId(), day, messageTypeList, optVillagePlayer, form.getPageNum(), form.getPageSize());
-        String suddonlyDeathMessage = makeSuddonlyDeathMessage(village, isLatestDay(villageId, day), day);
-        String villageStatusMessage = makeVillageStatusMessage(village, isLatestDay(villageId, day), optVillagePlayer, day);
-        VillageMessageListResultContent content =
-                mappingToMessageListContent(village, messageList, villageStatusMessage, suddonlyDeathMessage, latestDay);
+        boolean isLatestDay = isLatestDay(villageId, day);
+        String suddonlyDeathMessage = makeSuddonlyDeathMessage(village, isLatestDay, day);
+        String villageStatusMessage = makeVillageStatusMessage(village, isLatestDay, optVillagePlayer, day);
+        String commitStatusMessage = makeCommitStatusMessage(village, isLatestDay, day);
+        VillageMessageListResultContent content = mappingToMessageListContent(village, messageList, villageStatusMessage,
+                suddonlyDeathMessage, commitStatusMessage, latestDay);
         return content;
     }
 
@@ -183,11 +189,12 @@ public class VillageMessageAssist {
     //                                                                             Mapping
     //                                                                             =======
     private VillageMessageListResultContent mappingToMessageListContent(Village village, PagingResultBean<Message> messageList,
-            String villageStatusMessage, String suddonlyDeathMessage, int latestDay) {
+            String villageStatusMessage, String suddonlyDeathMessage, String commitStatusMessage, int latestDay) {
         VillageMessageListResultContent content = new VillageMessageListResultContent();
         content.setMessageList(convertToMessageList(village, messageList));
         content.setVillageStatusMessage(villageStatusMessage);
         content.setSuddonlyDeathMessage(suddonlyDeathMessage);
+        content.setCommitStatusMessage(commitStatusMessage);
         content.setLatestDay(latestDay);
         content.setAllPageCount(messageList.getAllPageCount());
         content.setIsExistPrePage(messageList.existsPreviousPage());
@@ -226,7 +233,7 @@ public class VillageMessageAssist {
         }
         VillageSettings vSettings = village.getVillageSettingsAsOne().get();
         VillageDay maxVillageDay = selectMaxVillageDay(village);
-        String startDateTime = maxVillageDay.getDaychangeDatetime().format(DateTimeFormatter.ofPattern("MM/dd HH:mm"));
+        String startDateTime = maxVillageDay.getDaychangeDatetime().format(DateTimeFormatter.ofPattern("MM/dd HH:mm:ss"));
         if (village.isVillageStatusCode募集中()) {
             Integer minPersonNum = vSettings.getStartPersonMinNum();
             Integer maxPersonNum = vSettings.getPersonMaxNum();
@@ -565,5 +572,24 @@ public class VillageMessageAssist {
             return latestDay.getUpdateDatetime();
         }
         return dayList.get(dayList.size() - 2).getDaychangeDatetime();
+    }
+
+    // コミット状況のメッセージ
+    private String makeCommitStatusMessage(Village village, boolean isLatestDay, int day) {
+        if (village.getVillageSettingsAsOne().get().isIsAvailableCommitFalse() || !village.isVillageStatusCode進行中() || !isLatestDay) {
+            return null;
+        }
+        int commitCount = commitBhv.selectCount(cb -> {
+            cb.query().setVillageId_Equal(village.getVillageId());
+            cb.query().setDay_Equal(day);
+        });
+        int livingPersonNum = villagePlayerBhv.selectCount(cb -> {
+            cb.query().setVillageId_Equal(village.getVillageId());
+            cb.query().setIsGone_Equal_False();
+            cb.query().setIsSpectator_Equal_False();
+            cb.query().setIsDead_Equal_False();
+            cb.query().queryChara().setIsDummy_Equal_False();
+        });
+        return String.format("生存者全員がコミットすると日付が更新されます。\n\n現在 %d/%d人 がコミットしています。", commitCount, livingPersonNum);
     }
 }

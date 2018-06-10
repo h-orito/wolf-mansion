@@ -1,6 +1,7 @@
 package com.ort.app.web.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.ort.app.web.model.inner.VillageCharaDto;
@@ -62,6 +63,9 @@ public class VillageResultContent implements Serializable {
 
     /** 退村フォームを表示するか */
     private Boolean isDispLeaveVillageForm;
+
+    /** コミットフォームを表示するか */
+    private Boolean isDispCommitForm;
 
     /** 参戦フォームで選択するキャラクターリスト */
     private List<VillageCharaDto> selectableCharaList;
@@ -131,6 +135,9 @@ public class VillageResultContent implements Serializable {
 
     /** キャラID */
     private Integer charaId;
+
+    /** 次回更新日時 */
+    private LocalDateTime dayChangeDatetime;
 
     public Integer getVillageId() {
         return villageId;
@@ -442,5 +449,21 @@ public class VillageResultContent implements Serializable {
 
     public void setCharaId(Integer charaId) {
         this.charaId = charaId;
+    }
+
+    public Boolean getIsDispCommitForm() {
+        return isDispCommitForm;
+    }
+
+    public void setIsDispCommitForm(Boolean isDispCommitForm) {
+        this.isDispCommitForm = isDispCommitForm;
+    }
+
+    public LocalDateTime getDayChangeDatetime() {
+        return dayChangeDatetime;
+    }
+
+    public void setDayChangeDatetime(LocalDateTime dayChangeDatetime) {
+        this.dayChangeDatetime = dayChangeDatetime;
     }
 }

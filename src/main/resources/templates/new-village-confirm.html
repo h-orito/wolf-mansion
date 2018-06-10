@@ -54,6 +54,10 @@
 									<td th:text="*{isAvailableSameWolfAttack} ? '可能' : '不可'"></td>
 								</tr>
 								<tr>
+									<th>狩人による連続護衛</th>
+									<td th:text="*{isAvailableGuardSameTarget} ? '可能' : '不可'"></td>
+								</tr>
+								<tr>
 									<th>墓下見学役職公開</th>
 									<td th:text="*{isOpenSkillInGrave} ? '公開' : '非公開'"></td>
 								</tr>
@@ -64,6 +68,10 @@
 								<tr>
 									<th>突然死</th>
 									<td th:text="*{isAvailableSuddonlyDeath} ? 'あり' : 'なし'"></td>
+								</tr>
+								<tr>
+									<th>コミット</th>
+									<td th:text="*{isAvailableCommit} ? 'あり' : 'なし'"></td>
 								</tr>
 								<tr>
 									<th>キャラクターセット</th>
@@ -120,9 +128,11 @@
 							<input type="hidden" th:field="*{isPossibleSkillRequest}" />
 							<input type="hidden" th:field="*{isAvailableSpectate}" />
 							<input type="hidden" th:field="*{isAvailableSameWolfAttack}" />
+							<input type="hidden" th:field="*{isAvailableGuardSameTarget}" />
 							<input type="hidden" th:field="*{isOpenSkillInGrave}" />
 							<input type="hidden" th:field="*{isVisibleGraveSpectateMessage}" />
 							<input type="hidden" th:field="*{isAvailableSuddonlyDeath}" />
+							<input type="hidden" th:field="*{isAvailableCommit}" />
 							<input type="hidden" th:field="*{characterSetId}" />
 							<input type="hidden" th:field="*{dummyJoinMessage}" />
 							<input type="hidden" th:field="*{joinPassword}" />

@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of village_settings. (Singleton)
+ * The DB meta of VILLAGE_SETTINGS. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillageSettingsDbm extends AbstractDBMeta {
@@ -69,6 +69,12 @@ public class VillageSettingsDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((VillageSettings)et).getIsAvailableSuddonlyDeath(), (et, vl) -> {
             ((VillageSettings)et).setIsAvailableSuddonlyDeath((Boolean)vl);
         }, "isAvailableSuddonlyDeath");
+        setupEpg(_epgMap, et -> ((VillageSettings)et).getIsAvailableCommit(), (et, vl) -> {
+            ((VillageSettings)et).setIsAvailableCommit((Boolean)vl);
+        }, "isAvailableCommit");
+        setupEpg(_epgMap, et -> ((VillageSettings)et).getIsAvailableGuardSameTarget(), (et, vl) -> {
+            ((VillageSettings)et).setIsAvailableGuardSameTarget((Boolean)vl);
+        }, "isAvailableGuardSameTarget");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getCharacterGroupId(), (et, vl) -> ((VillageSettings)et).setCharacterGroupId(cti(vl)), "characterGroupId");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getJoinPassword(), (et, vl) -> ((VillageSettings)et).setJoinPassword((String)vl), "joinPassword");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getOrganize(), (et, vl) -> ((VillageSettings)et).setOrganize((String)vl), "organize");
@@ -96,7 +102,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "village_settings";
+    protected final String _tableDbName = "VILLAGE_SETTINGS";
     protected final String _tableDispName = "VILLAGE_SETTINGS";
     protected final String _tablePropertyName = "villageSettings";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_SETTINGS", _tableDbName);
@@ -121,6 +127,8 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnIsOpenSkillInGrave = cci("IS_OPEN_SKILL_IN_GRAVE", "IS_OPEN_SKILL_IN_GRAVE", null, null, Boolean.class, "isOpenSkillInGrave", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnIsVisibleGraveSpectateMessage = cci("IS_VISIBLE_GRAVE_SPECTATE_MESSAGE", "IS_VISIBLE_GRAVE_SPECTATE_MESSAGE", null, null, Boolean.class, "isVisibleGraveSpectateMessage", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnIsAvailableSuddonlyDeath = cci("IS_AVAILABLE_SUDDONLY_DEATH", "IS_AVAILABLE_SUDDONLY_DEATH", null, null, Boolean.class, "isAvailableSuddonlyDeath", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
+    protected final ColumnInfo _columnIsAvailableCommit = cci("IS_AVAILABLE_COMMIT", "IS_AVAILABLE_COMMIT", null, null, Boolean.class, "isAvailableCommit", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
+    protected final ColumnInfo _columnIsAvailableGuardSameTarget = cci("IS_AVAILABLE_GUARD_SAME_TARGET", "IS_AVAILABLE_GUARD_SAME_TARGET", null, null, Boolean.class, "isAvailableGuardSameTarget", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnCharacterGroupId = cci("CHARACTER_GROUP_ID", "CHARACTER_GROUP_ID", null, null, Integer.class, "characterGroupId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "charaGroup", null, null, false);
     protected final ColumnInfo _columnJoinPassword = cci("JOIN_PASSWORD", "JOIN_PASSWORD", null, null, String.class, "joinPassword", null, false, false, false, "VARCHAR", 12, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnOrganize = cci("ORGANIZE", "ORGANIZE", null, null, String.class, "organize", null, false, false, true, "VARCHAR", 400, 0, null, null, false, null, null, null, null, null, false);
@@ -130,7 +138,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
@@ -190,7 +198,17 @@ public class VillageSettingsDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnIsAvailableSuddonlyDeath() { return _columnIsAvailableSuddonlyDeath; }
     /**
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * IS_AVAILABLE_COMMIT: {NotNull, BIT, classification=Flg}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnIsAvailableCommit() { return _columnIsAvailableCommit; }
+    /**
+     * IS_AVAILABLE_GUARD_SAME_TARGET: {NotNull, BIT, classification=Flg}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnIsAvailableGuardSameTarget() { return _columnIsAvailableGuardSameTarget; }
+    /**
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharacterGroupId() { return _columnCharacterGroupId; }
@@ -239,6 +257,8 @@ public class VillageSettingsDbm extends AbstractDBMeta {
         ls.add(columnIsOpenSkillInGrave());
         ls.add(columnIsVisibleGraveSpectateMessage());
         ls.add(columnIsAvailableSuddonlyDeath());
+        ls.add(columnIsAvailableCommit());
+        ls.add(columnIsAvailableGuardSameTarget());
         ls.add(columnCharacterGroupId());
         ls.add(columnJoinPassword());
         ls.add(columnOrganize());

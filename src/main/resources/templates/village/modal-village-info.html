@@ -56,6 +56,10 @@
 								<td th:text="*{isAvailableSameWolfAttack ? '可能' : '不可(狼2以下編成の場合は可能に変更されます)'}"></td>
 							</tr>
 							<tr>
+								<th>狩人による連続護衛</th>
+								<td th:text="*{isAvailableGuardSameTarget ? '可能' : '不可'}"></td>
+							</tr>
+							<tr>
 								<th>墓下見学役職公開</th>
 								<td th:text="*{isOpenSkillInGrave ? '公開' : '非公開'}"></td>
 							</tr>
@@ -66,6 +70,10 @@
 							<tr>
 								<th>突然死</th>
 								<td th:text="*{isAvailableSuddonlyDeath ? 'あり' : 'なし'}"></td>
+							</tr>
+							<tr>
+								<th>コミット</th>
+								<td th:text="*{isAvailableCommit ? 'あり' : 'なし'}"></td>
 							</tr>
 							<tr>
 								<th>キャラセット</th>

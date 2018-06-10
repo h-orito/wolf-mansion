@@ -1,5 +1,6 @@
 package com.ort.app.web.controller.assist;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -22,6 +23,7 @@ import com.ort.app.web.controller.logic.VillageDispLogic;
 import com.ort.app.web.dto.VillageInfo;
 import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
+import com.ort.app.web.form.VillageCommitForm;
 import com.ort.app.web.form.VillageKickForm;
 import com.ort.app.web.form.VillageLeaveForm;
 import com.ort.app.web.form.VillageParticipateForm;
@@ -41,6 +43,7 @@ import com.ort.app.web.model.inner.VillageSkillDto;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.AbilityBhv;
+import com.ort.dbflute.exbhv.CommitBhv;
 import com.ort.dbflute.exbhv.FootstepBhv;
 import com.ort.dbflute.exbhv.SkillBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
@@ -50,6 +53,7 @@ import com.ort.dbflute.exbhv.VillageSettingsBhv;
 import com.ort.dbflute.exbhv.VoteBhv;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Chara;
+import com.ort.dbflute.exentity.Commit;
 import com.ort.dbflute.exentity.Skill;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
@@ -88,6 +92,9 @@ public class VillageAssist {
 
     @Autowired
     private FootstepBhv footstepBhv;
+
+    @Autowired
+    private CommitBhv commitBhv;
 
     @Autowired
     private VillageDispLogic villageDispLogic;
@@ -321,12 +328,21 @@ public class VillageAssist {
         content.setEpilogueDay(villageInfo.village.getEpilogueDay());
         content.setVillageSettings(convertToSettings(villageInfo.settings, villageInfo.dayList));
         content.setIsSkillRequestAvailable(villageInfo.settings.getIsPossibleSkillRequest());
+        content.setDayChangeDatetime(makeDayChangeDatetime(villageInfo));
         if (villageInfo.isStartedVote()) {
             content.setVote(makeMemberVote(villageInfo));
         }
         if (villageInfo.isStartedFootstepSet()) {
             content.setVillageFootstepList(makeFootstepList(villageInfo));
         }
+    }
+
+    // 更新時刻
+    private LocalDateTime makeDayChangeDatetime(VillageInfo villageInfo) {
+        if (villageInfo.village.isVillageStatusCode廃村() || villageInfo.village.isVillageStatusCode終了()) {
+            return null;
+        }
+        return villageInfo.dayList.get(villageInfo.dayList.size() - 1).getDaychangeDatetime();
     }
 
     // 参加している場合に使う情報
@@ -348,6 +364,8 @@ public class VillageAssist {
         // 退村
         content.setIsDispLeaveVillageForm(villageDispLogic.isDispLeaveVillageForm(villageInfo));
         model.addAttribute("villageLeaveForm", new VillageLeaveForm());
+        // コミット
+        setCommitForm(content, villageInfo, model);
         // 発言
         setVillageModelSayForm(content, villageInfo, sayForm, model);
         // 能力行使
@@ -359,6 +377,23 @@ public class VillageAssist {
         setVillageModelPlayerInfo(content, villageInfo.optVillagePlayer);
         // 自分のキャラID
         content.setCharaId(villageInfo.isParticipate() ? villageInfo.optVillagePlayer.get().getCharaId() : null);
+    }
+
+    // コミット
+    private void setCommitForm(VillageResultContent content, VillageInfo villageInfo, Model model) {
+        Boolean isDispCommitForm = villageDispLogic.isDispCommitForm(villageInfo);
+        content.setIsDispCommitForm(isDispCommitForm);
+        if (!isDispCommitForm) {
+            return;
+        }
+        VillageCommitForm form = new VillageCommitForm();
+        OptionalEntity<Commit> optCommit = commitBhv.selectEntity(cb -> {
+            cb.query().setVillageId_Equal(villageInfo.villageId);
+            cb.query().setDay_Equal(villageInfo.day);
+            cb.query().setVillagePlayerId_Equal(villageInfo.optVillagePlayer.get().getVillagePlayerId());
+        });
+        form.setCommit(!optCommit.isPresent()); // すでに存在する＝取り消すを表示、存在しない＝コミットするを表示
+        model.addAttribute("commitForm", form);
     }
 
     // 村建て
@@ -573,9 +608,11 @@ public class VillageAssist {
         part.setIsRequiredJoinPassword(StringUtils.isNotEmpty(settings.getJoinPassword()));
         part.setIsAvailableSpectate(settings.getIsAvailableSpectate());
         part.setIsAvailableSameWolfAttack(settings.getIsAvailableSameWolfAttack());
+        part.setIsAvailableGuardSameTarget(settings.getIsAvailableGuardSameTarget());
         part.setIsOpenSkillInGrave(settings.getIsOpenSkillInGrave());
         part.setIsVisibleGraveSpectateMessage(settings.getIsVisibleGraveSpectateMessage());
         part.setIsAvailableSuddonlyDeath(settings.getIsAvailableSuddonlyDeath());
+        part.setIsAvailableCommit(settings.getIsAvailableCommit());
         part.setOrganization(makeDisplayOrganization(settings.getOrganize()));
         return part;
     }

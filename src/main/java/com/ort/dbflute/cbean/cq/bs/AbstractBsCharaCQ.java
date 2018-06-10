@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of chara.
+ * The abstract condition-query of CHARA.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "chara";
+        return "CHARA";
     }
 
     // ===================================================================================
@@ -159,8 +159,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select CHARA_ID from ability where ...)} <br>
-     * ability by CHARA_ID, named 'abilityByCharaIdAsOne'.
+     * {exists (select CHARA_ID from ABILITY where ...)} <br>
+     * ABILITY by CHARA_ID, named 'abilityByCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsAbilityByCharaId</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     abilityCB.query().set...
@@ -178,8 +178,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select TARGET_CHARA_ID from ability where ...)} <br>
-     * ability by TARGET_CHARA_ID, named 'abilityByTargetCharaIdAsOne'.
+     * {exists (select TARGET_CHARA_ID from ABILITY where ...)} <br>
+     * ABILITY by TARGET_CHARA_ID, named 'abilityByTargetCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsAbilityByTargetCharaId</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     abilityCB.query().set...
@@ -197,8 +197,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select CHARA_ID from footstep where ...)} <br>
-     * footstep by CHARA_ID, named 'footstepAsOne'.
+     * {exists (select CHARA_ID from FOOTSTEP where ...)} <br>
+     * FOOTSTEP by CHARA_ID, named 'footstepAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsFootstep</span>(footstepCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     footstepCB.query().set...
@@ -216,8 +216,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select CHARA_ID from village_player where ...)} <br>
-     * village_player by CHARA_ID, named 'villagePlayerAsOne'.
+     * {exists (select CHARA_ID from VILLAGE_PLAYER where ...)} <br>
+     * VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsVillagePlayer</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
@@ -235,8 +235,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select CHARA_ID from vote where ...)} <br>
-     * vote by CHARA_ID, named 'voteByCharaIdAsOne'.
+     * {exists (select CHARA_ID from VOTE where ...)} <br>
+     * VOTE by CHARA_ID, named 'voteByCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsVoteByCharaId</span>(voteCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     voteCB.query().set...
@@ -254,8 +254,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select VOTE_CHARA_ID from vote where ...)} <br>
-     * vote by VOTE_CHARA_ID, named 'voteByVoteCharaIdAsOne'.
+     * {exists (select VOTE_CHARA_ID from VOTE where ...)} <br>
+     * VOTE by VOTE_CHARA_ID, named 'voteByVoteCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsVoteByVoteCharaId</span>(voteCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     voteCB.query().set...
@@ -273,8 +273,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select CHARA_ID from ability where ...)} <br>
-     * ability by CHARA_ID, named 'abilityByCharaIdAsOne'.
+     * {not exists (select CHARA_ID from ABILITY where ...)} <br>
+     * ABILITY by CHARA_ID, named 'abilityByCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsAbilityByCharaId</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     abilityCB.query().set...
@@ -292,8 +292,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select TARGET_CHARA_ID from ability where ...)} <br>
-     * ability by TARGET_CHARA_ID, named 'abilityByTargetCharaIdAsOne'.
+     * {not exists (select TARGET_CHARA_ID from ABILITY where ...)} <br>
+     * ABILITY by TARGET_CHARA_ID, named 'abilityByTargetCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsAbilityByTargetCharaId</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     abilityCB.query().set...
@@ -311,8 +311,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select CHARA_ID from footstep where ...)} <br>
-     * footstep by CHARA_ID, named 'footstepAsOne'.
+     * {not exists (select CHARA_ID from FOOTSTEP where ...)} <br>
+     * FOOTSTEP by CHARA_ID, named 'footstepAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsFootstep</span>(footstepCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     footstepCB.query().set...
@@ -330,8 +330,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select CHARA_ID from village_player where ...)} <br>
-     * village_player by CHARA_ID, named 'villagePlayerAsOne'.
+     * {not exists (select CHARA_ID from VILLAGE_PLAYER where ...)} <br>
+     * VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsVillagePlayer</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
@@ -349,8 +349,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select CHARA_ID from vote where ...)} <br>
-     * vote by CHARA_ID, named 'voteByCharaIdAsOne'.
+     * {not exists (select CHARA_ID from VOTE where ...)} <br>
+     * VOTE by CHARA_ID, named 'voteByCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsVoteByCharaId</span>(voteCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     voteCB.query().set...
@@ -368,8 +368,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select VOTE_CHARA_ID from vote where ...)} <br>
-     * vote by VOTE_CHARA_ID, named 'voteByVoteCharaIdAsOne'.
+     * {not exists (select VOTE_CHARA_ID from VOTE where ...)} <br>
+     * VOTE by VOTE_CHARA_ID, named 'voteByVoteCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsVoteByVoteCharaId</span>(voteCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     voteCB.query().set...
@@ -435,8 +435,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from ability where ...)} <br>
-     * ability by CHARA_ID, named 'abilityByCharaIdAsOne'.
+     * {FOO &lt;= (select max(BAR) from ABILITY where ...)} <br>
+     * ABILITY by CHARA_ID, named 'abilityByCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedAbilityByCharaId()</span>.<span style="color: #CC4747">max</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     abilityCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -462,8 +462,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from ability where ...)} <br>
-     * ability by TARGET_CHARA_ID, named 'abilityByTargetCharaIdAsOne'.
+     * {FOO &lt;= (select max(BAR) from ABILITY where ...)} <br>
+     * ABILITY by TARGET_CHARA_ID, named 'abilityByTargetCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedAbilityByTargetCharaId()</span>.<span style="color: #CC4747">max</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     abilityCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -489,8 +489,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from footstep where ...)} <br>
-     * footstep by CHARA_ID, named 'footstepAsOne'.
+     * {FOO &lt;= (select max(BAR) from FOOTSTEP where ...)} <br>
+     * FOOTSTEP by CHARA_ID, named 'footstepAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedFootstep()</span>.<span style="color: #CC4747">max</span>(footstepCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     footstepCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -516,8 +516,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from village_player where ...)} <br>
-     * village_player by CHARA_ID, named 'villagePlayerAsOne'.
+     * {FOO &lt;= (select max(BAR) from VILLAGE_PLAYER where ...)} <br>
+     * VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVillagePlayer()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -543,8 +543,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from vote where ...)} <br>
-     * vote by CHARA_ID, named 'voteByCharaIdAsOne'.
+     * {FOO &lt;= (select max(BAR) from VOTE where ...)} <br>
+     * VOTE by CHARA_ID, named 'voteByCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVoteByCharaId()</span>.<span style="color: #CC4747">max</span>(voteCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     voteCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -570,8 +570,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from vote where ...)} <br>
-     * vote by VOTE_CHARA_ID, named 'voteByVoteCharaIdAsOne'.
+     * {FOO &lt;= (select max(BAR) from VOTE where ...)} <br>
+     * VOTE by VOTE_CHARA_ID, named 'voteByVoteCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVoteByVoteCharaId()</span>.<span style="color: #CC4747">max</span>(voteCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     voteCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -882,7 +882,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param charaGroupId The value of charaGroupId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaGroupId_Equal(Integer charaGroupId) {
@@ -895,7 +895,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param charaGroupId The value of charaGroupId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaGroupId_NotEqual(Integer charaGroupId) {
@@ -908,7 +908,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param charaGroupId The value of charaGroupId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaGroupId_GreaterThan(Integer charaGroupId) {
@@ -917,7 +917,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param charaGroupId The value of charaGroupId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaGroupId_LessThan(Integer charaGroupId) {
@@ -926,7 +926,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param charaGroupId The value of charaGroupId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaGroupId_GreaterEqual(Integer charaGroupId) {
@@ -935,7 +935,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param charaGroupId The value of charaGroupId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaGroupId_LessEqual(Integer charaGroupId) {
@@ -946,7 +946,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param minNumber The min number of charaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of charaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -959,7 +959,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param minNumber The min number of charaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of charaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -970,7 +970,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param charaGroupIdList The collection of charaGroupId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharaGroupId_InScope(Collection<Integer> charaGroupIdList) {
@@ -983,7 +983,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param charaGroupIdList The collection of charaGroupId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharaGroupId_NotInScope(Collection<Integer> charaGroupIdList) {

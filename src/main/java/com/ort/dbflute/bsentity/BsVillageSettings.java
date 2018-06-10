@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID
  *
  * [column]
- *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, CHARACTER_GROUP_ID, JOIN_PASSWORD, ORGANIZE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, CHARACTER_GROUP_ID, JOIN_PASSWORD, ORGANIZE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -58,6 +58,8 @@ import com.ort.dbflute.exentity.*;
  * Boolean isOpenSkillInGrave = entity.getIsOpenSkillInGrave();
  * Boolean isVisibleGraveSpectateMessage = entity.getIsVisibleGraveSpectateMessage();
  * Boolean isAvailableSuddonlyDeath = entity.getIsAvailableSuddonlyDeath();
+ * Boolean isAvailableCommit = entity.getIsAvailableCommit();
+ * Boolean isAvailableGuardSameTarget = entity.getIsAvailableGuardSameTarget();
  * Integer characterGroupId = entity.getCharacterGroupId();
  * String joinPassword = entity.getJoinPassword();
  * String organize = entity.getOrganize();
@@ -77,6 +79,8 @@ import com.ort.dbflute.exentity.*;
  * entity.setIsOpenSkillInGrave(isOpenSkillInGrave);
  * entity.setIsVisibleGraveSpectateMessage(isVisibleGraveSpectateMessage);
  * entity.setIsAvailableSuddonlyDeath(isAvailableSuddonlyDeath);
+ * entity.setIsAvailableCommit(isAvailableCommit);
+ * entity.setIsAvailableGuardSameTarget(isAvailableGuardSameTarget);
  * entity.setCharacterGroupId(characterGroupId);
  * entity.setJoinPassword(joinPassword);
  * entity.setOrganize(organize);
@@ -99,7 +103,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
     protected Integer _villageId;
 
     /** START_PERSON_MIN_NUM: {INT UNSIGNED(10)} */
@@ -135,7 +139,13 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     /** IS_AVAILABLE_SUDDONLY_DEATH: {NotNull, BIT, classification=Flg} */
     protected Boolean _isAvailableSuddonlyDeath;
 
-    /** CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} */
+    /** IS_AVAILABLE_COMMIT: {NotNull, BIT, classification=Flg} */
+    protected Boolean _isAvailableCommit;
+
+    /** IS_AVAILABLE_GUARD_SAME_TARGET: {NotNull, BIT, classification=Flg} */
+    protected Boolean _isAvailableGuardSameTarget;
+
+    /** CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} */
     protected Integer _characterGroupId;
 
     /** JOIN_PASSWORD: {VARCHAR(12)} */
@@ -166,7 +176,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "village_settings";
+        return "VILLAGE_SETTINGS";
     }
 
     // ===================================================================================
@@ -328,6 +338,48 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         setIsAvailableSuddonlyDeath(cdef != null ? toBoolean(cdef.code()) : null);
     }
 
+    /**
+     * Get the value of isAvailableCommit as the classification of Flg. <br>
+     * IS_AVAILABLE_COMMIT: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Flg getIsAvailableCommitAsFlg() {
+        return CDef.Flg.codeOf(getIsAvailableCommit());
+    }
+
+    /**
+     * Set the value of isAvailableCommit as the classification of Flg. <br>
+     * IS_AVAILABLE_COMMIT: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setIsAvailableCommitAsFlg(CDef.Flg cdef) {
+        setIsAvailableCommit(cdef != null ? toBoolean(cdef.code()) : null);
+    }
+
+    /**
+     * Get the value of isAvailableGuardSameTarget as the classification of Flg. <br>
+     * IS_AVAILABLE_GUARD_SAME_TARGET: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Flg getIsAvailableGuardSameTargetAsFlg() {
+        return CDef.Flg.codeOf(getIsAvailableGuardSameTarget());
+    }
+
+    /**
+     * Set the value of isAvailableGuardSameTarget as the classification of Flg. <br>
+     * IS_AVAILABLE_GUARD_SAME_TARGET: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setIsAvailableGuardSameTargetAsFlg(CDef.Flg cdef) {
+        setIsAvailableGuardSameTarget(cdef != null ? toBoolean(cdef.code()) : null);
+    }
+
     // ===================================================================================
     //                                                              Classification Setting
     //                                                              ======================
@@ -441,6 +493,38 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      */
     public void setIsAvailableSuddonlyDeath_False() {
         setIsAvailableSuddonlyDeathAsFlg(CDef.Flg.False);
+    }
+
+    /**
+     * Set the value of isAvailableCommit as True (true). <br>
+     * はい: 有効を示す
+     */
+    public void setIsAvailableCommit_True() {
+        setIsAvailableCommitAsFlg(CDef.Flg.True);
+    }
+
+    /**
+     * Set the value of isAvailableCommit as False (false). <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsAvailableCommit_False() {
+        setIsAvailableCommitAsFlg(CDef.Flg.False);
+    }
+
+    /**
+     * Set the value of isAvailableGuardSameTarget as True (true). <br>
+     * はい: 有効を示す
+     */
+    public void setIsAvailableGuardSameTarget_True() {
+        setIsAvailableGuardSameTargetAsFlg(CDef.Flg.True);
+    }
+
+    /**
+     * Set the value of isAvailableGuardSameTarget as False (false). <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsAvailableGuardSameTarget_False() {
+        setIsAvailableGuardSameTargetAsFlg(CDef.Flg.False);
     }
 
     // ===================================================================================
@@ -600,6 +684,50 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         return cdef != null ? cdef.equals(CDef.Flg.False) : false;
     }
 
+    /**
+     * Is the value of isAvailableCommit True? <br>
+     * はい: 有効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsAvailableCommitTrue() {
+        CDef.Flg cdef = getIsAvailableCommitAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
+    }
+
+    /**
+     * Is the value of isAvailableCommit False? <br>
+     * いいえ: 無効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsAvailableCommitFalse() {
+        CDef.Flg cdef = getIsAvailableCommitAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
+    /**
+     * Is the value of isAvailableGuardSameTarget True? <br>
+     * はい: 有効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsAvailableGuardSameTargetTrue() {
+        CDef.Flg cdef = getIsAvailableGuardSameTargetAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
+    }
+
+    /**
+     * Is the value of isAvailableGuardSameTarget False? <br>
+     * いいえ: 無効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsAvailableGuardSameTargetFalse() {
+        CDef.Flg cdef = getIsAvailableGuardSameTargetAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
     // ===================================================================================
     //                                                           Classification Name/Alias
     //                                                           =========================
@@ -663,6 +791,24 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      */
     public String getIsAvailableSuddonlyDeathAlias() {
         CDef.Flg cdef = getIsAvailableSuddonlyDeathAsFlg();
+        return cdef != null ? cdef.alias() : null;
+    }
+
+    /**
+     * Get the value of the column 'isAvailableCommit' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     */
+    public String getIsAvailableCommitAlias() {
+        CDef.Flg cdef = getIsAvailableCommitAsFlg();
+        return cdef != null ? cdef.alias() : null;
+    }
+
+    /**
+     * Get the value of the column 'isAvailableGuardSameTarget' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     */
+    public String getIsAvailableGuardSameTargetAlias() {
+        CDef.Flg cdef = getIsAvailableGuardSameTargetAsFlg();
         return cdef != null ? cdef.alias() : null;
     }
 
@@ -768,6 +914,8 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         sb.append(dm).append(xfND(_isOpenSkillInGrave));
         sb.append(dm).append(xfND(_isVisibleGraveSpectateMessage));
         sb.append(dm).append(xfND(_isAvailableSuddonlyDeath));
+        sb.append(dm).append(xfND(_isAvailableCommit));
+        sb.append(dm).append(xfND(_isAvailableGuardSameTarget));
         sb.append(dm).append(xfND(_characterGroupId));
         sb.append(dm).append(xfND(_joinPassword));
         sb.append(dm).append(xfND(_organize));
@@ -804,7 +952,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -814,7 +962,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -1051,7 +1199,49 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [get] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
+     * [get] IS_AVAILABLE_COMMIT: {NotNull, BIT, classification=Flg} <br>
+     * コミット可能か
+     * @return The value of the column 'IS_AVAILABLE_COMMIT'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getIsAvailableCommit() {
+        checkSpecifiedProperty("isAvailableCommit");
+        return _isAvailableCommit;
+    }
+
+    /**
+     * [set] IS_AVAILABLE_COMMIT: {NotNull, BIT, classification=Flg} <br>
+     * コミット可能か
+     * @param isAvailableCommit The value of the column 'IS_AVAILABLE_COMMIT'. (basically NotNull if update: for the constraint)
+     */
+    public void setIsAvailableCommit(Boolean isAvailableCommit) {
+        checkClassificationCode("IS_AVAILABLE_COMMIT", CDef.DefMeta.Flg, isAvailableCommit);
+        registerModifiedProperty("isAvailableCommit");
+        _isAvailableCommit = isAvailableCommit;
+    }
+
+    /**
+     * [get] IS_AVAILABLE_GUARD_SAME_TARGET: {NotNull, BIT, classification=Flg} <br>
+     * 連続護衛可能か
+     * @return The value of the column 'IS_AVAILABLE_GUARD_SAME_TARGET'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getIsAvailableGuardSameTarget() {
+        checkSpecifiedProperty("isAvailableGuardSameTarget");
+        return _isAvailableGuardSameTarget;
+    }
+
+    /**
+     * [set] IS_AVAILABLE_GUARD_SAME_TARGET: {NotNull, BIT, classification=Flg} <br>
+     * 連続護衛可能か
+     * @param isAvailableGuardSameTarget The value of the column 'IS_AVAILABLE_GUARD_SAME_TARGET'. (basically NotNull if update: for the constraint)
+     */
+    public void setIsAvailableGuardSameTarget(Boolean isAvailableGuardSameTarget) {
+        checkClassificationCode("IS_AVAILABLE_GUARD_SAME_TARGET", CDef.DefMeta.Flg, isAvailableGuardSameTarget);
+        registerModifiedProperty("isAvailableGuardSameTarget");
+        _isAvailableGuardSameTarget = isAvailableGuardSameTarget;
+    }
+
+    /**
+     * [get] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
      * キャラクターグループID
      * @return The value of the column 'CHARACTER_GROUP_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -1061,7 +1251,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
+     * [set] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
      * キャラクターグループID
      * @param characterGroupId The value of the column 'CHARACTER_GROUP_ID'. (basically NotNull if update: for the constraint)
      */

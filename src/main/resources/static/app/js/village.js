@@ -53,12 +53,12 @@ $(function() {
 	});
 	$('body').on('click', '[data-next-page]', function() {
 		const currentPage = parseInt($(this).data('next-page'));
-		loadAndDisplayMessage(currentPage + 1).then(function(){
+		loadAndDisplayMessage(currentPage + 1).then(function() {
 			gotoHead();
 		});
 	});
 	$('body').on('click', '[data-pagenum]', function() {
-		loadAndDisplayMessage(parseInt($(this).data('pagenum'))).then(function(){
+		loadAndDisplayMessage(parseInt($(this).data('pagenum'))).then(function() {
 			gotoHead();
 		});
 	});
@@ -502,17 +502,17 @@ $(function() {
 		}
 		// 各項目なかったら作成
 		if (displaySetting[key] == null) {
-			switch(key) {
-			case 'is_open_situation_tab' : 
+			switch (key) {
+			case 'is_open_situation_tab':
 				saveDisplaySetting('is_open_situation_tab', true);
 				break;
-			case 'is_sayform_transparent' : 
+			case 'is_sayform_transparent':
 				saveDisplaySetting('is_sayform_transparent', false);
 				break;
-			case 'is_no_paging' : 
+			case 'is_no_paging':
 				saveDisplaySetting('is_no_paging', false);
 				break;
-			case 'page_size' : 
+			case 'page_size':
 				saveDisplaySetting('page_size', 30);
 				break;
 			}
@@ -553,7 +553,7 @@ $(function() {
 		saveDisplaySetting('is_no_paging', isCheck ? true : false);
 		loadAndDisplayMessage();
 	});
-	
+
 	$('[data-dsetting-pagesize]').on('change', function() {
 		const pageSize = $(this).val();
 		saveDisplaySetting('page_size', pageSize);
@@ -571,4 +571,31 @@ $(function() {
 		$('#participate-chara-select').val(charaId);
 		$('#modal-select-participate-chara').modal('hide');
 	});
+
+	// 残り時間
+	let timeIntervalMilliSecond = 500;
+	setInterval(function() {
+		if ($('#daychange-datetime').length) {
+			displayLeftTime();
+			$('#time-alert').removeClass('hidden');
+		} else {
+			timeIntervalMilliSecond = 24 * 60 * 60;
+		}
+	}, timeIntervalMilliSecond);
+
+	function displayLeftTime() {
+		const dayChangeDatetime = new Date($('#daychange-datetime').text());
+		const nowDatetime = new Date();
+		let diff = dayChangeDatetime.getTime() - nowDatetime.getTime();
+		if (diff < 0) {
+			diff = 0; // 過ぎてたら00:00:00表示
+		}
+		let diffHours = Math.floor(diff / (1000 * 60 * 60));
+		diffHours = ('0' + diffHours).slice(-2);
+		let diffMinutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+		diffMinutes = ('0' + diffMinutes).slice(-2);
+		let diffSeconds = Math.floor((diff % (1000 * 60)) / 1000);
+		diffSeconds = ('0' + diffSeconds).slice(-2);
+		$('#left-time').text(diffHours + ':' + diffMinutes + ':' + diffSeconds);
+	}
 });

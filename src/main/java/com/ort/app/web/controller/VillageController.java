@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ort.app.web.controller.assist.VillageAbilityAssist;
 import com.ort.app.web.controller.assist.VillageAssist;
+import com.ort.app.web.controller.assist.VillageCommitAssist;
 import com.ort.app.web.controller.assist.VillageListAssist;
 import com.ort.app.web.controller.assist.VillageMessageAssist;
 import com.ort.app.web.controller.assist.VillageParticipateAssist;
@@ -23,6 +24,7 @@ import com.ort.app.web.controller.assist.VillageSettingsAssist;
 import com.ort.app.web.controller.logic.DayChangeLogic;
 import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
+import com.ort.app.web.form.VillageCommitForm;
 import com.ort.app.web.form.VillageGetAnchorMessageForm;
 import com.ort.app.web.form.VillageGetFootstepListForm;
 import com.ort.app.web.form.VillageGetMessageListForm;
@@ -56,6 +58,9 @@ public class VillageController {
 
     @Autowired
     private VillageAbilityAssist villageAbilityAssist;
+
+    @Autowired
+    private VillageCommitAssist villageCommitAssist;
 
     @Autowired
     private VillageSettingsAssist villageSettingsAssist;
@@ -181,7 +186,6 @@ public class VillageController {
     private String setAbility(@PathVariable Integer villageId, @Validated @ModelAttribute("abilityForm") VillageAbilityForm abilityForm,
             BindingResult result, Model model) {
         return villageAbilityAssist.setAbility(villageId, abilityForm, result, model);
-
     }
 
     // 投票セットする
@@ -189,6 +193,13 @@ public class VillageController {
     private String setVote(@PathVariable Integer villageId, @Validated @ModelAttribute("voteForm") VillageVoteForm voteForm,
             BindingResult result, Model model) {
         return villageAbilityAssist.setVote(villageId, voteForm, result, model);
+    }
+
+    // コミットする
+    @PostMapping("/village/{villageId}/commit")
+    private String setCommit(@PathVariable Integer villageId, @Validated @ModelAttribute("commitForm") VillageCommitForm commitForm,
+            BindingResult result, Model model) {
+        return villageCommitAssist.setCommit(villageId, commitForm, result, model);
     }
 
     // 足音候補取得

@@ -15,6 +15,9 @@ public class VillageMessageListResultContent implements Serializable {
     /** 村状態メッセージ */
     private String villageStatusMessage;
 
+    /** コミット状態メッセージ */
+    private String commitStatusMessage;
+
     /** 突然死候補メッセージ */
     private String suddonlyDeathMessage;
 
@@ -50,6 +53,14 @@ public class VillageMessageListResultContent implements Serializable {
 
     public void setVillageStatusMessage(String villageStatusMessage) {
         this.villageStatusMessage = villageStatusMessage;
+    }
+
+    public String getCommitStatusMessage() {
+        return commitStatusMessage;
+    }
+
+    public void setCommitStatusMessage(String commitStatusMessage) {
+        this.commitStatusMessage = commitStatusMessage;
     }
 
     public String getSuddonlyDeathMessage() {

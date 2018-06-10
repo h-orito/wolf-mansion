@@ -248,6 +248,7 @@ tr.top-menu-selectable:hover a {
 	top: 0;
 	right: 5px;
 	left: 5px;
+	z-index: 105;
 }
 
 .container {
@@ -341,4 +342,14 @@ ul.announce > li {
 	font-size: 12px;
 	border-left:1px solid #009c6c;
 	margin-bottom: 2px;
+}
+
+/* Žc‚èŽžŠÔ•\Ž¦ */
+.time-alert {
+	position: fixed;
+	top: 5px;
+	right: 5px;
+	padding: 5px;
+	margin-bottom: 0px;
+	z-index: 100;
 }

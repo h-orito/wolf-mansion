@@ -102,6 +102,12 @@ public class NewVillageAssist {
         if (form.getIsAvailableSuddonlyDeath() == null) {
             form.setIsAvailableSuddonlyDeath(false);
         }
+        if (form.getIsAvailableCommit() == null) {
+            form.setIsAvailableCommit(false);
+        }
+        if (form.getIsAvailableGuardSameTarget() == null) {
+            form.setIsAvailableGuardSameTarget(true);
+        }
         if (form.getDayChangeIntervalHours() == null) {
             form.setDayChangeIntervalHours(24);
         }
@@ -192,9 +198,11 @@ public class NewVillageAssist {
         settings.setCharacterGroupId(villageForm.getCharacterSetId());
         settings.setJoinPassword(villageForm.getJoinPassword());
         settings.setIsAvailableSameWolfAttack(villageForm.getIsAvailableSameWolfAttack());
+        settings.setIsAvailableGuardSameTarget(villageForm.getIsAvailableGuardSameTarget());
         settings.setIsOpenSkillInGrave(villageForm.getIsOpenSkillInGrave());
         settings.setIsVisibleGraveSpectateMessage(villageForm.getIsVisibleGraveSpectateMessage());
         settings.setIsAvailableSuddonlyDeath(villageForm.getIsAvailableSuddonlyDeath());
+        settings.setIsAvailableCommit(villageForm.getIsAvailableCommit());
         settings.setOrganize(villageForm.getOrganization().replace("\r\n", "\n"));
         villageSettingsBhv.insert(settings);
         return settings;

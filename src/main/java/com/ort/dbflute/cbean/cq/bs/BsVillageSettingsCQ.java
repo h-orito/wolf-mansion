@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of village_settings.
+ * The base condition-query of VILLAGE_SETTINGS.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
@@ -35,7 +35,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from village_settings) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from VILLAGE_SETTINGS) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join village_settings on ... and FOO = [value] ...}
+     * {select ... from ... left outer join VILLAGE_SETTINGS on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -81,14 +81,14 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @return this. (NotNull)
      */
     public BsVillageSettingsCQ addOrderBy_VillageId_Asc() { regOBA("VILLAGE_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @return this. (NotNull)
      */
     public BsVillageSettingsCQ addOrderBy_VillageId_Desc() { regOBD("VILLAGE_ID"); return this; }
@@ -313,6 +313,46 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
      */
     public BsVillageSettingsCQ addOrderBy_IsAvailableSuddonlyDeath_Desc() { regOBD("IS_AVAILABLE_SUDDONLY_DEATH"); return this; }
 
+    protected ConditionValue _isAvailableCommit;
+    public ConditionValue xdfgetIsAvailableCommit()
+    { if (_isAvailableCommit == null) { _isAvailableCommit = nCV(); }
+      return _isAvailableCommit; }
+    protected ConditionValue xgetCValueIsAvailableCommit() { return xdfgetIsAvailableCommit(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * IS_AVAILABLE_COMMIT: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_IsAvailableCommit_Asc() { regOBA("IS_AVAILABLE_COMMIT"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * IS_AVAILABLE_COMMIT: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_IsAvailableCommit_Desc() { regOBD("IS_AVAILABLE_COMMIT"); return this; }
+
+    protected ConditionValue _isAvailableGuardSameTarget;
+    public ConditionValue xdfgetIsAvailableGuardSameTarget()
+    { if (_isAvailableGuardSameTarget == null) { _isAvailableGuardSameTarget = nCV(); }
+      return _isAvailableGuardSameTarget; }
+    protected ConditionValue xgetCValueIsAvailableGuardSameTarget() { return xdfgetIsAvailableGuardSameTarget(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * IS_AVAILABLE_GUARD_SAME_TARGET: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_IsAvailableGuardSameTarget_Asc() { regOBA("IS_AVAILABLE_GUARD_SAME_TARGET"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * IS_AVAILABLE_GUARD_SAME_TARGET: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_IsAvailableGuardSameTarget_Desc() { regOBD("IS_AVAILABLE_GUARD_SAME_TARGET"); return this; }
+
     protected ConditionValue _characterGroupId;
     public ConditionValue xdfgetCharacterGroupId()
     { if (_characterGroupId == null) { _characterGroupId = nCV(); }
@@ -321,14 +361,14 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @return this. (NotNull)
      */
     public BsVillageSettingsCQ addOrderBy_CharacterGroupId_Asc() { regOBA("CHARACTER_GROUP_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @return this. (NotNull)
      */
     public BsVillageSettingsCQ addOrderBy_CharacterGroupId_Desc() { regOBD("CHARACTER_GROUP_ID"); return this; }
@@ -519,7 +559,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
         return xgetQueRlMap(prop);
     }
     protected CharaGroupCQ xcreateQueryCharaGroup() {
-        String nrp = xresolveNRP("village_settings", "charaGroup"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("VILLAGE_SETTINGS", "charaGroup"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new CharaGroupCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "charaGroup", nrp);
     }
     protected void xsetupOuterJoinCharaGroup() { xregOutJo("charaGroup"); }
@@ -539,7 +579,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
         return xgetQueRlMap(prop);
     }
     protected VillageCQ xcreateQueryVillage() {
-        String nrp = xresolveNRP("village_settings", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("VILLAGE_SETTINGS", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillageCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "village", nrp);
     }
     protected void xsetupOuterJoinVillage() { xregOutJo("village"); }

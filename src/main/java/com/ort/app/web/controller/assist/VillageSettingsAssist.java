@@ -223,11 +223,14 @@ public class VillageSettingsAssist {
         settingsForm.setDayChangeIntervalSeconds(intervalSec % 60);
         settingsForm.setIsOpenVote(settings.getIsOpenVote());
         settingsForm.setIsAvailableSameWolfAttack(settings.getIsAvailableSameWolfAttack());
+        settingsForm.setIsAvailableGuardSameTarget(settings.getIsAvailableGuardSameTarget());
         settingsForm.setIsOpenSkillInGrave(settings.getIsOpenSkillInGrave());
         settingsForm.setIsVisibleGraveSpectateMessage(settings.getIsVisibleGraveSpectateMessage());
         settingsForm.setIsAvailableSuddonlyDeath(settings.getIsAvailableSuddonlyDeath());
+        settingsForm.setIsAvailableCommit(settings.getIsAvailableCommit());
         settingsForm.setIsAvailableSpectate(settings.getIsAvailableSpectate());
         settingsForm.setOrganization(settings.getOrganize());
+        settingsForm.setJoinPassword(settings.getJoinPassword());
         model.addAttribute("settingsForm", settingsForm);
     }
 

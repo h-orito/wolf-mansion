@@ -108,6 +108,23 @@ public class VillageDispLogic {
         return true;
     }
 
+    // コミット可能か
+    public Boolean isDispCommitForm(VillageInfo villageInfo) {
+        // コミットできない設定の場合は表示しない
+        if (villageInfo.settings.isIsAvailableCommitFalse()) {
+            return false;
+        }
+        // 参加していなかったり生存していない場合は表示しない
+        if (!villageInfo.isParticipate() || villageInfo.isSpectator() || villageInfo.isDead()) {
+            return false;
+        }
+        // 進行中以外は表示しない
+        if (!villageInfo.village.isVillageStatusCode進行中()) {
+            return false;
+        }
+        return true;
+    }
+
     // 発言フォームを表示するか
     public boolean isDispSayForm(VillageInfo villageInfo) {
         // ログインしていない場合は表示しない
@@ -234,7 +251,7 @@ public class VillageDispLogic {
                         .map(vp -> vp.getChara().get())
                         .collect(Collectors.toList());
             }
-        } else if (SkillUtil.hasDivineAbility(skill) || (skill == CDef.Skill.狩人 && villageInfo.day > 1)) {
+        } else if (SkillUtil.hasDivineAbility(skill)) {
             // 自分以外の生存しているプレイヤー全員
             return villageInfo.getVPList(true, true, false)
                     .stream()
@@ -242,6 +259,27 @@ public class VillageDispLogic {
                             && !vp.getVillagePlayerId().equals(vPlayer.getVillagePlayerId()))
                     .map(vp -> vp.getChara().get())
                     .collect(Collectors.toList());
+        } else if (skill == CDef.Skill.狩人 && villageInfo.day > 1) {
+            // 自分以外の生存しているプレイヤー全員
+            List<Chara> livingCharaList = villageInfo.getVPList(true, true, false)
+                    .stream()
+                    .filter(vp -> vp.isIsDeadFalse() && vp.isIsSpectatorFalse()
+                            && !vp.getVillagePlayerId().equals(vPlayer.getVillagePlayerId()))
+                    .map(vp -> vp.getChara().get())
+                    .collect(Collectors.toList());
+            if (BooleanUtils.isTrue(villageInfo.settings.getIsAvailableGuardSameTarget())) {
+                // 連ガ可
+                return livingCharaList;
+            } else { // 連ガ不可
+                // 昨日の護衛先
+                Integer yesterdayGuardTargetId = abilityBhv.selectEntity(cb -> {
+                    cb.query().setVillageId_Equal(villageInfo.villageId);
+                    cb.query().setDay_Equal(villageInfo.day - 1);
+                    cb.query().setAbilityTypeCode_Equal_護衛();
+                }).map(ab -> ab.getTargetCharaId()).orElse(null);
+                // 生存者のうち、自分と昨日の護衛先を除いた人
+                return livingCharaList.stream().filter(c -> !c.getCharaId().equals(yesterdayGuardTargetId)).collect(Collectors.toList());
+            }
         }
         return null;
     }

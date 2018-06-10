@@ -79,6 +79,14 @@ public class VillageSettingsForm implements Serializable {
     @NotNull
     private Boolean isAvailableSuddonlyDeath;
 
+    /** コミット可能か */
+    @NotNull
+    private Boolean isAvailableCommit;
+
+    /** 連続ガードありか */
+    @NotNull
+    private Boolean isAvailableGuardSameTarget;
+
     /** 構成 */
     @NotNull
     private String organization;
@@ -228,5 +236,21 @@ public class VillageSettingsForm implements Serializable {
 
     public void setIsAvailableSpectate(Boolean isAvailableSpectate) {
         this.isAvailableSpectate = isAvailableSpectate;
+    }
+
+    public Boolean getIsAvailableCommit() {
+        return isAvailableCommit;
+    }
+
+    public void setIsAvailableCommit(Boolean isAvailableCommit) {
+        this.isAvailableCommit = isAvailableCommit;
+    }
+
+    public Boolean getIsAvailableGuardSameTarget() {
+        return isAvailableGuardSameTarget;
+    }
+
+    public void setIsAvailableGuardSameTarget(Boolean isAvailableGuardSameTarget) {
+        this.isAvailableGuardSameTarget = isAvailableGuardSameTarget;
     }
 }

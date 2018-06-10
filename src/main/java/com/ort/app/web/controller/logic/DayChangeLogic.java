@@ -30,6 +30,7 @@ import com.ort.dbflute.allcommon.CDef.Camp;
 import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.allcommon.CDef.VillageStatus;
 import com.ort.dbflute.exbhv.AbilityBhv;
+import com.ort.dbflute.exbhv.CommitBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
@@ -69,6 +70,9 @@ public class DayChangeLogic {
     private VoteBhv voteBhv;
 
     @Autowired
+    private CommitBhv commitBhv;
+
+    @Autowired
     private AssignLogic assignLogic;
 
     @Autowired
@@ -100,7 +104,7 @@ public class DayChangeLogic {
         leaveVillageIfNeeded(day, villageId);
 
         // 日付更新の必要がなければ終了
-        if (!shouldChangeDay(village, daychangeDatetime)) {
+        if (!shouldChangeDay(village, daychangeDatetime, settings, day, vPlayerList)) {
             return;
         }
 
@@ -250,18 +254,41 @@ public class DayChangeLogic {
     //                                                                        Assist Logic
     //                                                                        ============
     // 日付更新の必要があるか
-    private boolean shouldChangeDay(Village village, LocalDateTime nextDayChangeDatetime) {
+    private boolean shouldChangeDay(Village village, LocalDateTime nextDayChangeDatetime, VillageSettings settings, int day,
+            List<VillagePlayer> vPlayerList) {
         // 村が終了していたら必要なし
         VillageStatus villageStatus = village.getVillageStatusCodeAsVillageStatus();
         if (villageStatus == CDef.VillageStatus.廃村 || villageStatus == CDef.VillageStatus.終了) {
             return false;
         }
+        // 全員コミットしている
+        if (allLivingPlayerCommited(village, settings, day, vPlayerList)) {
+            return true;
+        }
         // 最新の村日付の更新時間を過ぎていない
         if (WerewolfMansionDateUtil.currentLocalDateTime().isBefore(nextDayChangeDatetime)) {
             return false;
         }
-
         return true;
+    }
+
+    // 全員コミットしている
+    private boolean allLivingPlayerCommited(Village village, VillageSettings settings, int day, List<VillagePlayer> vPlayerList) {
+        if (settings.isIsAvailableCommitFalse()) { // コミットなし設定
+            return false;
+        }
+        if (!village.isVillageStatusCode進行中()) { // 進行中じゃなかったら対象外
+            return false;
+        }
+        // 全員コミットしているか
+        int commitNum = commitBhv.selectCount(cb -> {
+            cb.query().setVillageId_Equal(village.getVillageId());
+            cb.query().setDay_Equal(day);
+        });
+        long livingPersonNum = vPlayerList.stream()
+                .filter(vp -> vp.isIsDeadFalse() && vp.isIsSpectatorFalse() && vp.getChara().get().isIsDummyFalse())
+                .count();
+        return commitNum == livingPersonNum;
     }
 
     // 投票、能力行使のデフォルト設定、生存者メッセージ登録

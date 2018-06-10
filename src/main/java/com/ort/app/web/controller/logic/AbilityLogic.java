@@ -3,6 +3,7 @@ package com.ort.app.web.controller.logic;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -276,7 +277,18 @@ public class AbilityLogic {
         if (!footstepCandidateList.contains(footstep)) {
             return true;
         }
-
+        // 連続護衛不可なのに昨日と同じ護衛対象だったらNG
+        if (!BooleanUtils.isTrue(village.getVillageSettingsAsOne().get().getIsAvailableGuardSameTarget())) {
+            // 昨日の護衛先
+            Integer yesterdayGuardTargetId = abilityBhv.selectEntity(cb -> {
+                cb.query().setVillageId_Equal(village.getVillageId());
+                cb.query().setDay_Equal(day - 1);
+                cb.query().setAbilityTypeCode_Equal_護衛();
+            }).map(ab -> ab.getTargetCharaId()).orElse(null);
+            if (targetCharaId.equals(yesterdayGuardTargetId)) {
+                return true;
+            }
+        }
         return false;
     }
 

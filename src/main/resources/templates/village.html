@@ -42,7 +42,7 @@
 
 						<!--/* フッターメニュー */-->
 						<div layout:replace="~{village/footer-menu::footer-menu}"></div>
-						
+
 						<!--/* 日付リスト */-->
 						<div layout:replace="~{village/village-day-list::village-day-list}"></div>
 						<a href="javascript:void(0);" th:href="@{/}" class="btn btn-default btn-sm small">サイトトップへ</a>
@@ -57,6 +57,10 @@
 			</div>
 
 			<div class="daychange-alert alert alert-success">日付が更新されました。ページを再読み込みしてください。</div>
+			<div class="hidden" id="daychange-datetime" th:if="${content.dayChangeDatetime}" th:text="${#temporals.format(content.dayChangeDatetime, 'yyyy/MM/dd HH:mm:ss')}"></div>
+			<div id="time-alert" class="hidden time-alert alert alert-info">
+				更新まで <span id="left-time">00:00:00</span>
+			</div>
 			<script id="message-template" type="text/x-handlebars-template" layout:include="~{village-template/message::message}"></script>
 			<script id="message-partial-template" type="text/x-handlebars-template" layout:include="~{village-template/message-partial::message-partial}"></script>
 		</div>

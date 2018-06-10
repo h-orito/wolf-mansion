@@ -37,6 +37,9 @@ public class VillageSettingsDto {
     /** 連続襲撃ありか */
     private Boolean isAvailableSameWolfAttack;
 
+    /** 連続護衛可能か */
+    private Boolean isAvailableGuardSameTarget;
+
     /** 墓下役職公開ありか */
     private Boolean isOpenSkillInGrave;
 
@@ -45,6 +48,9 @@ public class VillageSettingsDto {
 
     /** 突然死ありか */
     private Boolean isAvailableSuddonlyDeath;
+
+    /** コミットありか */
+    private Boolean isAvailableCommit;
 
     /** 構成 */
     private String organization;
@@ -167,5 +173,21 @@ public class VillageSettingsDto {
 
     public void setOrganization(String organization) {
         this.organization = organization;
+    }
+
+    public Boolean getIsAvailableGuardSameTarget() {
+        return isAvailableGuardSameTarget;
+    }
+
+    public void setIsAvailableGuardSameTarget(Boolean isAvailableGuardSameTarget) {
+        this.isAvailableGuardSameTarget = isAvailableGuardSameTarget;
+    }
+
+    public Boolean getIsAvailableCommit() {
+        return isAvailableCommit;
+    }
+
+    public void setIsAvailableCommit(Boolean isAvailableCommit) {
+        this.isAvailableCommit = isAvailableCommit;
     }
 }
