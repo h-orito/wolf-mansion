@@ -1,5 +1,7 @@
 package com.ort.app.web.controller;
 
+import java.time.LocalDateTime;
+
 import org.dbflute.optional.OptionalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,8 +23,10 @@ import com.ort.app.web.form.VillageSayForm;
 import com.ort.app.web.form.validator.CreatorSayFormValidator;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.VillageBhv;
+import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exentity.Village;
+import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionUserInfoUtil;
@@ -37,6 +41,8 @@ public class CreatorController {
     private VillageBhv villageBhv;
     @Autowired
     private VillagePlayerBhv villagePlayerBhv;
+    @Autowired
+    private VillageDayBhv villageDayBhv;
     @Autowired
     private VillageParticipateLogic villageParticipateLogic;
     @Autowired
@@ -123,6 +129,42 @@ public class CreatorController {
         return "redirect:/village/" + villageId + "#bottom";
     }
 
+    // 村建て機能：廃村
+    @PostMapping("/village/{villageId}/cancel")
+    private String cancel(@PathVariable Integer villageId, Model model) {
+        // 村建てでなければNG
+        if (!isCreator(villageId)) {
+            return "redirect:/village/" + villageId;
+        }
+        // プロローグでなければNG
+        Village village = selectVillage(villageId);
+        if (!village.isVillageStatusCode募集中() && !village.isVillageStatusCode開始待ち()) {
+            return "redirect:/village/" + villageId;
+        }
+        // 廃村にする
+        updateVillageCancel(villageId);
+
+        return "redirect:/village/" + villageId + "#bottom";
+    }
+
+    // 村建て機能：エピローグ延長
+    @PostMapping("/village/{villageId}/extend-epilogue")
+    private String extend(@PathVariable Integer villageId, Model model) {
+        // 村建てでなければNG
+        if (!isCreator(villageId)) {
+            return "redirect:/village/" + villageId;
+        }
+        // エピローグでなければNG
+        Village village = selectVillage(villageId);
+        if (!village.isVillageStatusCodeエピローグ()) {
+            return "redirect:/village/" + villageId;
+        }
+        // エピローグを1日延長する
+        extendEpilogue(villageId);
+
+        return "redirect:/village/" + villageId + "#bottom";
+    }
+
     // ===================================================================================
     //                                                                              Select
     //                                                                              ======
@@ -132,6 +174,24 @@ public class CreatorController {
             cb.query().setVillageId_Equal(villageId);
         });
         return village;
+    }
+
+    // ===================================================================================
+    //                                                                              Update
+    //                                                                              ======
+    private void updateVillageCancel(Integer villageId) {
+        Village entity = new Village();
+        entity.setVillageId(villageId);
+        entity.setVillageStatusCode_廃村();
+        villageBhv.update(entity);
+    }
+
+    private void updateVillageDayExtend(Integer villageId, int day, LocalDateTime dayChangeDatetime) {
+        VillageDay entity = new VillageDay();
+        entity.setVillageId(villageId);
+        entity.setDay(day);
+        entity.setDaychangeDatetime(dayChangeDatetime);
+        villageDayBhv.update(entity);
     }
 
     // ===================================================================================
@@ -151,5 +211,16 @@ public class CreatorController {
             return false;
         }
         return true;
+    }
+
+    private void extendEpilogue(Integer villageId) {
+        // 最新の村日付を取得
+        VillageDay villageDay = villageDayBhv.selectList(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().addOrderBy_Day_Desc();
+            cb.fetchFirst(1);
+        }).get(0);
+        // 最新＝エピローグの日付更新時間を1日延長
+        updateVillageDayExtend(villageId, villageDay.getDay(), villageDay.getDaychangeDatetime().plusDays(1L));
     }
 }

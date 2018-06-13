@@ -110,7 +110,7 @@ public class DayChangeLogic {
 
         // 最低開始人数を満たしていない
         if (isInsufficientVillagerNum(village, settings)) {
-            updateVillageDayTransactional(villageId, day, nextDaychangeDatetime); // 村日付を1日延長
+            updateVillageDayTransactional(villageId, day, daychangeDatetime); // 村日付を1日延長
             insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, "まだ村人たちは揃っていないようだ。"); // 延長メッセージ登録
             return;
         }
@@ -205,11 +205,11 @@ public class DayChangeLogic {
         villageBhv.queryUpdate(village, cb -> cb.query().setVillageId_Equal(villageId));
     }
 
-    private void updateVillageDayTransactional(Integer villageId, int day, LocalDateTime nextDaychangeDatetime) {
+    private void updateVillageDayTransactional(Integer villageId, int day, LocalDateTime daychangeDatetime) {
         VillageDay villageDay = new VillageDay();
         villageDay.setVillageId(villageId);
         villageDay.setDay(day);
-        villageDay.setDaychangeDatetime(nextDaychangeDatetime);
+        villageDay.setDaychangeDatetime(daychangeDatetime.plusDays(1L)); // 1日延長
         villageDayBhv.update(villageDay);
     }
 

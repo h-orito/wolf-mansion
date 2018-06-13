@@ -475,6 +475,9 @@ $(function() {
 	$('#kick-form').on('submit', function() {
 		return confirm('本当に退村させてよろしいですか？');
 	});
+	$('#cancel-form').on('submit', function() {
+		return confirm('本当に廃村にしてよろしいですか？');
+	});
 
 	// ----------------------------------------------
 	// 表示設定
