@@ -14,7 +14,7 @@ public class NewVillageForm implements Serializable {
 
     /** 村表示名 */
     @NotNull
-    @Length(min = 5, max = 20)
+    @Length(min = 5, max = 40)
     private String villageName;
 
     /** 最低開始人数 */
