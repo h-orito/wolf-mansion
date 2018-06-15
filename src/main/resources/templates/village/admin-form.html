@@ -18,50 +18,61 @@
 <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<div class="col-sm-12 well" sec:authorize="hasRole('ROLE_ADMIN')" layout:fragment="admin-form">
-		<h2 class="h5">管理者メニュー</h2>
-		<form method="post" th:if="${content.day == 0}" action="" th:action="@{/admin/village/{villageId}/allparticipate(villageId=${content.villageId})}"
-			class="form-horizontal">
-			<div class="form-group">
-				<label class="col-sm-2 control-label">入村させる</label>
-				<div class="col-sm-8">
-					<input class="form-control" type="text" th:value="16" th:name="personNumber" />
+	<div class="col-sm-12 col-xs-12" sec:authorize="hasRole('ROLE_ADMIN')" layout:fragment="admin-form">
+		<div class="panel-group" id="adminform-panel">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<a data-toggle="collapse" data-parent="#adminform-panel" href="#adminform-content">管理者メニュー</a>
+					</h3>
 				</div>
-				<div class="col-sm-2">
-					<input type="submit" class="btn btn-sm btn-success pull-right" value="人数分入村させる" />
+				<div id="adminform-content" class="panel-collapse collapse in">
+					<div class="panel-body">
+						<form method="post" th:if="${content.day == 0}" action=""
+							th:action="@{/admin/village/{villageId}/allparticipate(villageId=${content.villageId})}" class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">入村させる</label>
+								<div class="col-sm-8">
+									<input class="form-control" type="text" th:value="16" th:name="personNumber" />
+								</div>
+								<div class="col-sm-2">
+									<input type="submit" class="btn btn-sm btn-success pull-right" value="人数分入村させる" />
+								</div>
+							</div>
+						</form>
+						<form method="post" action="" th:action="@{/admin/village/{villageId}/access(villageId=${content.villageId})}" class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">全員アクセス</label>
+								<div class="col-sm-10">
+									<input type="submit" class="btn btn-sm btn-success pull-right" value="更新" />
+								</div>
+							</div>
+						</form>
+						<form method="post" action="" th:action="@{/admin/village/{villageId}/dayChange(villageId=${content.villageId})}" class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">日付を進める</label>
+								<div class="col-sm-8"></div>
+								<div class="col-sm-2">
+									<input type="submit" class="btn btn-sm btn-success pull-right" value="日付を進める" />
+								</div>
+							</div>
+						</form>
+						<form method="post" action="" th:action="@{/admin/village/{villageId}/leave(villageId=${content.villageId})}"
+							th:if="${content.isDispLeaveVillageForm}" class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">強制退村</label>
+								<div class="col-sm-8">
+									<input class="form-control" type="text" value="" name="villagePlayerId" placeholder="village_player_id" />
+								</div>
+								<div class="col-sm-2">
+									<input type="submit" class="btn btn-sm btn-success pull-right" value="退村" />
+								</div>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
-		</form>
-		<form method="post" action="" th:action="@{/admin/village/{villageId}/access(villageId=${content.villageId})}" class="form-horizontal">
-			<div class="form-group">
-				<label class="col-sm-2 control-label">全員アクセス</label>
-				<div class="col-sm-10">
-					<input type="submit" class="btn btn-sm btn-success pull-right" value="更新" />
-				</div>
-			</div>
-		</form>
-		<form method="post" action="" th:action="@{/admin/village/{villageId}/dayChange(villageId=${content.villageId})}" class="form-horizontal">
-			<div class="form-group">
-				<label class="col-sm-2 control-label">日付を進める</label>
-				<div class="col-sm-8"></div>
-				<div class="col-sm-2">
-					<input type="submit" class="btn btn-sm btn-success pull-right" value="日付を進める" />
-				</div>
-			</div>
-		</form>
-		<form method="post" action="" th:action="@{/admin/village/{villageId}/leave(villageId=${content.villageId})}"
-			th:if="${content.isDispLeaveVillageForm}" class="form-horizontal">
-			<div class="form-group">
-				<label class="col-sm-2 control-label">強制退村</label>
-				<div class="col-sm-8">
-					<input class="form-control" type="text" value="" name="villagePlayerId" placeholder="village_player_id" />
-				</div>
-				<div class="col-sm-2">
-					<input type="submit" class="btn btn-sm btn-success pull-right" value="退村" />
-				</div>
-			</div>
-		</form>
+		</div>
 	</div>
-
 </body>
 </html>

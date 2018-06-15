@@ -12,7 +12,7 @@
 		<nav layout:replace="~{layout/header::header}"></nav>
 		<div layout:fragment="content">
 			<div id="wrapper">
-				<div class="col-sm-12">
+				<div class="col-sm-12 col-xs-12">
 					<h1 class="h4">村作成確認</h1>
 					<form method="post" action="" th:action="@{/new-village}" th:object="${villageForm}" class="form-horizontal">
 						<div class="table-responsive clearfix">
@@ -80,9 +80,9 @@
 								<tr>
 									<th>ダミーキャラ入村発言</th>
 									<td>
-										<div class="col-sm-12">
+										<div class="col-sm-12 col-xs-12">
 											<div class="row" style="display: flex;">
-												<div class="col-sm-12" style="display: flex;">
+												<div class="col-sm-12 col-xs-12" style="display: flex;">
 													<div th:style="'width: 50px; height: 77px; background: url(\'' + ${characterImgUrl} + '\'); background-repeat: no-repeat;'"></div>
 													<div class="message message-normal" style="flex: 1; margin-left: 5px; min-height: 77px;">
 														<th:block th:if="*{dummyJoinMessage}">
@@ -139,7 +139,7 @@
 							<input type="hidden" th:field="*{organization}" />
 						</div>
 						<div class="form-group">
-							<div class="col-sm-12 pull-right">
+							<div class="col-sm-12 col-xs-12 pull-right">
 								<input type="submit" class="btn btn-sm btn-success pull-right" value="作成" />
 							</div>
 						</div>

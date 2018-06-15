@@ -12,15 +12,10 @@ $(function() {
 			type : 'GET',
 			url : GET_DUMMY_CHARA_INFO_URL + charaGroupId
 		}).then(function(response) {
-			console.log(response);
-			console.log('url(\'' + response.charaImgUrl + '\');');
 			$('#dummy-chara-img').css('background', 'url(\'' + response.charaImgUrl + '\')');
 			$('#dummy-chara-join-message').attr('placeholder', response.joinMessage);
 		});
 	}
 	
 	replaceDummyCharaInfo($('#characterSetId').val());
-	
-	// background: url(\'' + ${content.charaImageUrl} + '\');
-	
 });

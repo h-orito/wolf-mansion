@@ -13,14 +13,14 @@
 		<nav layout:replace="~{layout/header::header}"></nav>
 		<div layout:fragment="content">
 			<div id="wrapper">
-				<div class="col-sm-12">
+				<div class="col-sm-12 col-xs-12">
 					<form method="post" action="" th:action="@{/village/{villageId}/creator-say(villageId=${villageId})}" th:object="${creatorSayForm}"
 						class="form-horizontal">
-						<div class="col-sm-12">
+						<div class="col-sm-12 col-xs-12">
 							<div class="row">
-								<div class="col-sm-12">
+								<div class="col-sm-12 col-xs-12">
 									<div class="row">
-										<div class="col-sm-12">
+										<div class="col-sm-12 col-xs-12">
 											<div id="message-area" class="message message-creator" th:text="*{message}"></div>
 										</div>
 									</div>

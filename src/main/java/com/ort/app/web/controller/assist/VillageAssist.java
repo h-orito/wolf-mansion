@@ -575,8 +575,9 @@ public class VillageAssist {
 
     private VillageMemberDetailDto convertToMemberDetailPart(VillagePlayer mem) {
         VillageMemberDetailDto detail = new VillageMemberDetailDto();
-        detail.setCharaName(mem.getChara().get().getCharaName());
-        detail.setDeadDay(mem.getDeadDay() != null ? mem.getDeadDay() + "日目" : null);
+        Chara chara = mem.getChara().get();
+        detail.setCharaName(String.format("[%s] %s", chara.getCharaShortName(), chara.getCharaName()));
+        detail.setDeadDay(mem.getDeadDay() != null ? mem.getDeadDay() + "d" : null);
         return detail;
     }
 

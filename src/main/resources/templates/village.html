@@ -16,7 +16,7 @@
 				<div class="hidden" th:data-village-id="${content.villageId}" th:data-day="${content.day}"></div>
 
 				<!--/* 村タイトル、日付リンク */-->
-				<div class="col-sm-12">
+				<div class="col-sm-12 col-xs-12">
 					<h1 class="h5" th:text="${content.villageNumber} + '. ' + ${content.villageName}"></h1>
 					<hr style="margin-top: 5px; margin-bottom: 10px;" />
 
@@ -24,18 +24,18 @@
 					<div layout:replace="~{village/village-day-list::village-day-list}"></div>
 				</div>
 
-				<div class="col-sm-12">
+				<div class="col-sm-12 col-xs-12">
 					<div class="">
 						<!--/* ログ部分 */-->
-						<div class="col-sm-12">
+						<div class="col-sm-12 col-xs-12">
 							<div class="row" data-message-area>
-								<div class="message col-sm-12 text-muted">読み込み中...</div>
+								<div class="message col-sm-12 col-xs-12 text-muted">読み込み中...</div>
 							</div>
 							<hr style="margin-top: 5px; margin-bottom: 10px; margin-left: -15px;" />
 						</div>
 
 						<!--/* 画面下部への移動時や発言後ここに遷移させる。ネガティブマージンを指定することでここが下端にしている。 */-->
-						<div id="bottom" class="col-sm-12" style="margin-top: -100vh; padding-top: 100vh; z-index: -1;"></div>
+						<div id="bottom" class="col-sm-12 col-xs-12" style="margin-top: -100vh; padding-top: 100vh; z-index: -1;"></div>
 
 						<!--/* フォームエリア */-->
 						<div layout:replace="~{village/form-area::form-area}"></div>

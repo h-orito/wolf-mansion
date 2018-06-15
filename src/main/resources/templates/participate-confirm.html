@@ -13,20 +13,20 @@
 		<nav layout:replace="~{layout/header::header}"></nav>
 		<div layout:fragment="content">
 			<div id="wrapper">
-				<div class="col-sm-12">
+				<div class="col-sm-12 col-xs-12">
 					<form method="post" action="" th:action="@{/village/{villageId}/participate(villageId=${villageId})}" th:object="${participateForm}"
 						class="form-horizontal">
-						<div class="col-sm-12">
+						<div class="col-sm-12 col-xs-12">
 							<div class="row">
-								<div class="col-sm-12">
+								<div class="col-sm-12 col-xs-12">
 									<div class="row">
-										<div class="col-sm-12" style="display: flex;">
+										<div class="col-sm-12 col-xs-12" style="display: flex;">
 											<div th:style="'width: 50px; height: 77px; background: url(\'' + ${characterImgUrl} + '\'); background-repeat: no-repeat;'"></div>
 											<div id="message-area" class="message message-normal" style="flex: 1; margin-left: 5px;" th:text="*{joinMessage}"></div>
 										</div>
 									</div>
 								</div>
-								<div class="col-sm-12 form-check" style="padding-top: 10px; padding-bottom: 10px;">
+								<div class="col-sm-12 col-xs-12 form-check" style="padding-top: 10px; padding-bottom: 10px;">
 									<input type="checkbox" id="agree-rule" class="form-check-input" value="1"> <label class="form-check-label" for="agree-rule">
 										<a th:href="@{/rule}">ルール</a>を確認し、人狼館の事件簿村ルール特有の禁止事項について理解しました。
 									</label> <br /> <input type="checkbox" id="agree-mind" class="form-check-input" value="1"> <label class="form-check-label" for="agree-mind">

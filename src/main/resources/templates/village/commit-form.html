@@ -17,18 +17,28 @@
 <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<div class="col-sm-12 well" th:if="${content.isDispCommitForm}" layout:fragment="commit-form">
-		<div class="">
-			<h2 class="h5">コミットする</h2>
-			<form method="post" action="" id="commit-form" th:action="@{/village/{villageId}/commit(villageId=${content.villageId})}" class="form-horizontal"
-				th:object="${commitForm}">
-				<div class="form-group">
-					<div class="col-sm-12">
-						<input type="hidden" th:field="*{commit}" />
-						<input type="submit" class="btn btn-sm btn-success pull-right" th:value="*{commit ? 'コミットする' : 'コミットを取り消す'}" />
+	<div class="col-sm-12 col-xs-12" th:if="${content.isDispCommitForm}" layout:fragment="commit-form">
+		<div class="panel-group" id="commitform-panel">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<a data-toggle="collapse" data-parent="#commitform-panel" href="#commitform-content">コミット</a>
+					</h3>
+				</div>
+				<div id="commitform-content" class="panel-collapse collapse in">
+					<div class="panel-body">
+						<form method="post" action="" id="commit-form" th:action="@{/village/{villageId}/commit(villageId=${content.villageId})}"
+							class="form-horizontal" th:object="${commitForm}">
+							<div class="form-group">
+								<div class="col-sm-12 col-xs-12">
+									<input type="hidden" th:field="*{commit}" />
+									<input type="submit" class="btn btn-sm btn-success pull-right" th:value="*{commit ? 'コミットする' : 'コミットを取り消す'}" />
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
-			</form>
+			</div>
 		</div>
 	</div>
 </body>

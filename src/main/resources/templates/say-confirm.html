@@ -13,14 +13,14 @@
 		<nav layout:replace="~{layout/header::header}"></nav>
 		<div layout:fragment="content">
 			<div id="wrapper">
-				<div class="col-sm-12">
+				<div class="col-sm-12 col-xs-12">
 					<form method="post" action="" th:action="@{/village/{villageId}/say(villageId=${villageId})}" th:object="${sayForm}" class="form-horizontal">
-						<div class="col-sm-12">
+						<div class="col-sm-12 col-xs-12">
 							<div class="row">
 								<!--// 通常発言 //-->
-								<div class="col-sm-12">
+								<div class="col-sm-12 col-xs-12">
 									<div class="row">
-										<div class="col-sm-12" style="display: flex;">
+										<div class="col-sm-12 col-xs-12" style="display: flex;">
 											<div th:style="'width: 50px; height: 77px; background: url(\'' + ${characterImgUrl} + '\'); background-repeat: no-repeat;'"></div>
 											<div id="message-area"
 												th:class="'message ' + *{messageType == 'NORMAL_SAY' ? 'message-normal' : 

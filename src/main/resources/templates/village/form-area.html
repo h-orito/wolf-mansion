@@ -17,22 +17,34 @@
 <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<div id="form-area" layout:fragment="form-area">
+	<div id="form-area" layout:fragment="form-area" class="row">
+		<!--/* 状況 */-->
+		<div layout:replace="~{village/situation::situation}"></div>
+
+		<!--/* 発言欄 */-->
+		<div layout:replace="~{village/say-form::say-form}"></div>
+
+		<!--/* 能力行使欄 */-->
+		<div layout:replace="~{village/skill-area::skill-area}"></div>
+
+		<!--/* 投票欄 */-->
+		<div layout:replace="~{village/vote-form::vote-form}"></div>
+
 		<!--/* 参戦欄 */-->
 		<div layout:replace="~{village/participate-form::participate-form}"></div>
-		
+
 		<!--/* 役職希望変更欄 */-->
 		<div layout:replace="~{village/change-skill-form::change-skill-form}"></div>
-		
+
 		<!--/* 退村欄 */-->
 		<div layout:replace="~{village/leave-form::leave-form}"></div>
-		
+
 		<!--/* コミット欄 */-->
 		<div layout:replace="~{village/commit-form::commit-form}"></div>
 
 		<!--/* 村建てメニュー */-->
 		<div layout:replace="~{village/creator-form::creator-form}"></div>
-		
+
 		<!--/* 管理者メニュー */-->
 		<div layout:replace="~{village/admin-form::admin-form}"></div>
 	</div>

@@ -17,59 +17,70 @@
 <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<div class="col-sm-12 well" layout:fragment="creator-form" th:if="${content.isCreatePlayer}">
-		<h2 class="h5">村建てメニュー</h2>
-		<form method="post" id="kick-form" th:if="${content.day == 0}" action="" th:action="@{/village/{villageId}/kick(villageId=${content.villageId})}"
-			class="form-horizontal" th:object="${kickForm}">
-			<div class="form-group">
-				<label class="col-sm-2 control-label">強制退村</label>
-				<div class="col-sm-10">
-					<select class="form-control" th:field="*{charaId}">
-						<option th:each="target : ${content.characterList}" th:value="${target.charaId}" th:text="${target.charaName}"></option>
-					</select>
-					<input type="submit" class="btn btn-sm btn-danger pull-right" value="退村させる" />
+	<div class="col-sm-12 col-xs-12" layout:fragment="creator-form" th:if="${content.isCreatePlayer}">
+		<div class="panel-group" id="creatorform-panel">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<a data-toggle="collapse" data-parent="#creatorform-panel" href="#creatorform-content">村建てメニュー</a>
+					</h3>
 				</div>
-			</div>
-		</form>
-		<form method="post" id="cancel-form" th:if="${content.day == 0}" action=""
-			th:action="@{/village/{villageId}/cancel(villageId=${content.villageId})}" class="form-horizontal">
-			<div class="form-group">
-				<label class="col-sm-2 control-label">廃村</label>
-				<div class="col-sm-10">
-					<input type="submit" class="btn btn-sm btn-danger pull-right" value="廃村にする" />
-				</div>
-			</div>
-		</form>
-		<form method="post" action="" th:action="@{/village/{villageId}/creator-say-confirm(villageId=${content.villageId})}" th:object="${creatorSayForm}"
-			class="form-horizontal" style="margin-top: 10px;">
-			<span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="help-block text-danger">error!</span>
-			<div class="form-group">
-				<label class="col-sm-2 control-label">村建て発言</label>
-				<div class="col-sm-10">
-					<div style="min-height: 77px;">
-						<textarea class="form-control small" th:field="*{message}" style="min-height: 77px;" data-creator-say-textarea></textarea>
+				<div id="creatorform-content" class="panel-collapse collapse in">
+					<div class="panel-body">
+						<form method="post" id="kick-form" th:if="${content.day == 0}" action=""
+							th:action="@{/village/{villageId}/kick(villageId=${content.villageId})}" class="form-horizontal" th:object="${kickForm}">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">強制退村</label>
+								<div class="col-sm-10">
+									<select class="form-control" th:field="*{charaId}">
+										<option th:each="target : ${content.characterList}" th:value="${target.charaId}" th:text="${target.charaName}"></option>
+									</select>
+									<input type="submit" class="btn btn-sm btn-danger pull-right" value="退村させる" />
+								</div>
+							</div>
+						</form>
+						<form method="post" id="cancel-form" th:if="${content.day == 0}" action=""
+							th:action="@{/village/{villageId}/cancel(villageId=${content.villageId})}" class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">廃村</label>
+								<div class="col-sm-10">
+									<input type="submit" class="btn btn-sm btn-danger pull-right" value="廃村にする" />
+								</div>
+							</div>
+						</form>
+						<form method="post" action="" th:action="@{/village/{villageId}/creator-say-confirm(villageId=${content.villageId})}"
+							th:object="${creatorSayForm}" class="form-horizontal" style="margin-top: 10px;">
+							<span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="help-block text-danger">error!</span>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">村建て発言</label>
+								<div class="col-sm-10">
+									<div style="min-height: 77px;">
+										<textarea class="form-control small" th:field="*{message}" style="min-height: 77px;" data-creator-say-textarea></textarea>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-2"></div>
+								<div class="col-sm-10">
+									<span class="" data-message-count>文字数: 0/1000, 行数: 1/40</span>
+									<input type="hidden" class="" name="messageType" value="CREATOR_SAY" />
+									<input type="submit" class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />
+								</div>
+							</div>
+						</form>
+						<form method="post" id="extend-form" th:if="${content.day == content.epilogueDay}" action=""
+							th:action="@{/village/{villageId}/extend-epilogue(villageId=${content.villageId})}" class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">エピローグ延長</label>
+								<div class="col-sm-10">
+									<input type="submit" class="btn btn-sm btn-success pull-right" value="1日延長する" />
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
-			<div class="form-group">
-				<div class="col-sm-2"></div>
-				<div class="col-sm-10">
-					<span class="" data-message-count>文字数: 0/1000, 行数: 1/40</span>
-					<input type="hidden" class="" name="messageType" value="CREATOR_SAY" />
-					<input type="submit" class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />
-				</div>
-			</div>
-		</form>
-		<form method="post" id="extend-form" th:if="${content.day == content.epilogueDay}" action=""
-			th:action="@{/village/{villageId}/extend-epilogue(villageId=${content.villageId})}" class="form-horizontal">
-			<div class="form-group">
-				<label class="col-sm-2 control-label">エピローグ延長</label>
-				<div class="col-sm-10">
-					<input type="submit" class="btn btn-sm btn-success pull-right" value="1日延長する" />
-				</div>
-			</div>
-		</form>
+		</div>
 	</div>
-
 </body>
 </html>

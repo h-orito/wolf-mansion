@@ -17,30 +17,39 @@
 <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<div class="col-sm-12 well" th:if="${content.voteTargetList != null && content.voteTargetList.size() > 0}"
-		style="padding-top: 10px; padding-bottom: 10px;" layout:fragment="vote-form">
-		<div class="">
-			<a href="javascript:void(0);" data-toggle="collapse" data-target="#voteform" class="h5 hidden" aria-expanded="true" data-vote-tab>投票する</a>
-			<p class="small" th:text="'現在の投票先: ' + ${voteTarget}" style="margin-top: 10px;"></p>
-			<form method="post" action="" th:action="@{/village/{villageId}/setVote(villageId=${content.villageId})}" th:object="${voteForm}" id="voteform"
-				class="form-horizontal collapse in" aria-expanded="true">
-				<hr />
-				<p class="small">一番票を集めた人物が処刑されます。同数の場合はランダムで決定されます。</p>
-				<div class="form-group small">
-					<div class="col-sm-12">
-						<select class="form-control" th:field="*{targetCharaId}">
-							<option th:each="target : ${content.voteTargetList}" th:value="${target.charaId}" th:text="${target.charaName}"></option>
-						</select> に投票する
+	<div class="col-sm-12 col-xs-12" th:if="${content.voteTargetList != null && content.voteTargetList.size() > 0}" layout:fragment="vote-form">
+		<div class="panel-group" id="voteform-panel">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<a data-toggle="collapse" data-parent="#voteform-panel" href="#voteform-content">投票</a>
+					</h3>
+				</div>
+				<div id="voteform-content" class="panel-collapse collapse in">
+					<div class="panel-body">
+						<a href="javascript:void(0);" data-toggle="collapse" data-target="#voteform" class="h5 hidden" aria-expanded="true" data-vote-tab>投票する</a>
+						<p class="small" th:text="'現在の投票先: ' + ${voteTarget}" style="margin-top: 10px;"></p>
+						<form method="post" action="" th:action="@{/village/{villageId}/setVote(villageId=${content.villageId})}" th:object="${voteForm}" id="voteform"
+							class="form-horizontal collapse in" aria-expanded="true">
+							<hr />
+							<p class="small">一番票を集めた人物が処刑されます。同数の場合はランダムで決定されます。</p>
+							<div class="form-group small">
+								<div class="col-sm-12 col-xs-12">
+									<select class="form-control" th:field="*{targetCharaId}">
+										<option th:each="target : ${content.voteTargetList}" th:value="${target.charaId}" th:text="${target.charaName}"></option>
+									</select> に投票する
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-12 col-xs-12">
+									<input type="submit" class="btn btn-sm btn-success pull-right" value="セット" />
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
-				<div class="form-group">
-					<div class="col-sm-12">
-						<input type="submit" class="btn btn-sm btn-success pull-right" value="セット" />
-					</div>
-				</div>
-			</form>
+			</div>
 		</div>
 	</div>
-
 </body>
 </html>

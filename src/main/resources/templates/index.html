@@ -12,7 +12,7 @@
 		<div layout:fragment="content">
 			<div id="wrapper">
 				<!--/* トップ画像 */-->
-				<div class="col-sm-12 top-image" data-goto="">
+				<div class="col-sm-12 col-xs-12 top-image" data-goto="">
 					<img src="" th:src="@{/app/images/top.jpg}" style="width: 100%;"> <span
 						style="color: #fff; position: absolute; bottom: 5%; left: 7%; font-size: 30px;">人狼館</span> <span th:if="${user != null}"
 						style="color: #fff; position: absolute; bottom: 5px; right: 2%;" th:text="'ユーザID: ' + ${user.username}">ユーザID: hoge</span>
@@ -21,10 +21,10 @@
 				<div class="col-sm-6 col-xs-12 top-menu">
 					<div class="top-menu-inner h200px" style="display: block; text-align: center;">
 						<div class="row">
-							<div class="col-sm-12 top-menu-inner-row h100px">
+							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
 								<h2 class="h5">人狼館について</h2>
 							</div>
-							<div class="col-sm-12 top-menu-inner-row h100px">
+							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
 								<a href="javascript:void(0);" th:href="@{/about}" class="col-sm-4 col-xs-4 top-menu-selectable h100px"> <span
 									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-info-sign"></span> <span class="h6" style="display: block;">本サイトは</span>
 										About
@@ -46,10 +46,10 @@
 				<div class="col-sm-6 col-xs-12 top-menu">
 					<div class="top-menu-inner h200px" style="display: block; text-align: center;">
 						<div class="row">
-							<div class="col-sm-12 top-menu-inner-row h100px">
+							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
 								<h2 class="h5">登録/ログイン</h2>
 							</div>
-							<div class="col-sm-12 top-menu-inner-row h100px">
+							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
 								<a href="javascript:void(0);" th:href="@{/new-player}" th:if="${user == null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
 									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-pencil"></span> <span class="h6" style="display: block;">ID登録</span>
 										Register
@@ -83,10 +83,10 @@
 				<div class="col-sm-12 col-xs-12 top-menu">
 					<div class="top-menu-inner" style="display: block; text-align: center;">
 						<div class="row">
-							<div class="col-sm-12 top-menu-inner-row h100px">
+							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
 								<h2 class="h5">開催中の村</h2>
 							</div>
-							<div class="col-sm-12 top-menu-inner-row">
+							<div class="col-sm-12 col-xs-12 top-menu-inner-row">
 								<div class="col-sm-12 col-xs-12 top-menu-selectable-area">
 									<div class="table-responsive clearfix">
 										<table class="table table-bordered table-condensed" style="margin-bottom: 0px; border-collapse: collapse;">
@@ -109,10 +109,10 @@
 				<div class="col-sm-6 col-xs-12 top-menu">
 					<div class="top-menu-inner h200px" style="display: block; text-align: center;">
 						<div class="row">
-							<div class="col-sm-12 top-menu-inner-row h100px">
+							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
 								<h2 class="h5">村一覧/村作成</h2>
 							</div>
-							<div class="col-sm-12 top-menu-inner-row h100px">
+							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
 								<a href="javascript:void(0);" th:href="@{/village}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"
 									th:class="${user == null ? 'col-sm-12 col-xs-12' : 'col-sm-6 col-xs-6'} + ' top-menu-selectable h100px'"> <span
 									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-list-alt"></span> <span class="h6" style="display: block;">村一覧</span>
@@ -131,10 +131,10 @@
 				<div class="col-sm-6 col-xs-12 top-menu">
 					<div class="top-menu-inner h200px" style="display: block; text-align: center;">
 						<div class="row">
-							<div class="col-sm-12 top-menu-inner-row h100px">
+							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
 								<h2 class="h5">キャラチップ</h2>
 							</div>
-							<div class="col-sm-12 top-menu-inner-row h100px">
+							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
 								<a href="javascript:void(0);" th:href="@{/chara-group}" class="col-sm-12 col-xs-12 top-menu-selectable h100px"
 									th:class="${user == null ? 'col-sm-12 col-xs-12' : 'col-sm-12 col-xs-12'} + ' top-menu-selectable h100px'"> <span
 									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-list-alt"></span> <span class="h6" style="display: block;">一覧</span>

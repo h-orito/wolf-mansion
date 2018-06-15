@@ -263,6 +263,19 @@ tr.top-menu-selectable:hover a {
 	left: 0px;
 }
 
+.popupform {
+	position: fixed;
+	bottom: 37px;
+	left: 0;
+	z-index: 20;
+	width: 100vw;
+	padding-left: 0;
+	padding-right: 0;
+	overflow-y: scroll;
+	max-height: 50vh;
+	margin-bottom: 0;
+}
+
 #footer-menu .tab-content {
 	overflow-y: scroll;
 	max-height: 90vh;
@@ -270,20 +283,6 @@ tr.top-menu-selectable:hover a {
 
 #footer-menu .well {
 	margin-bottom: 0px;
-}
-
-#footer-menu hr {
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
-#footer-menu .popover-content {
-	background-color: #375a7f;
-	font-size: 12px;
-}
-
-#footer-menu .nav>li>a {
-	padding: 7px 10px;
 }
 
 #footer-menu .btn-footermenu {
@@ -300,14 +299,7 @@ tr.top-menu-selectable:hover a {
 	border: 1px solid #00bc8c;
 }
 
-#footer-menu .btn-sm {
-	padding: 5px 9px;
-}
-
-.transparent-well {
-	opacity: 0.8;
-}
-
+/* warningアラートの枠だけ版 */
 .alert-warning-say {
 	border: 1px solid #f39c12;
 	color: #f39c12;
@@ -316,6 +308,7 @@ tr.top-menu-selectable:hover a {
 	border-radius: 4px;
 }
 
+/* 死亡しましたのアラート（アラートの枠だけ版） */
 .alert-dead {
 	border: 1px solid #3498db;
 	color: #3498db;
@@ -324,19 +317,28 @@ tr.top-menu-selectable:hover a {
 	border-radius: 4px;
 }
 
+/* 発言欄透明化 */
+.transparent-well {
+	opacity: 0.8;
+}
+
+/* 発言欄透明化の際、ボタンだけは透明にしない */
 .transparent-well button {
 	opacity: 1;
 }
 
+/* 箇条書きで下に空白を入れたいときに使う */
 ul.announce > li {
 	margin-bottom: 10px;
 }
 
+/* ランダム機能 */
 .extra-small {
 	font-size: 6px;
 	font-weight: bold;
 }
 
+/* ページング */
 .pagination-sm>li>a, .pagination-sm>li>span {
 	padding: 2px 14px;
 	font-size: 12px;
