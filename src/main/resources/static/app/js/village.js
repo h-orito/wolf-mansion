@@ -493,65 +493,68 @@ $(function() {
 		});
 	}
 
+	function makeDisplaySettingObject() {
+		return {
+			'is_open_situation_tab' : true,
+			'is_open_sayform_tab' : true,
+			'is_open_skillform_tab' : true,
+			'is_open_voteform_tab' : true,
+			'is_open_creatorform_tab' : true,
+			'bottom_fix_tab' : 'no-fix',
+			'is_no_paging' : false,
+			'page_size' : 30
+		};
+	}
+
 	function getDisplaySetting(key) {
 		let displaySetting = $.cookie('village_display_setting');
 		// なかったら作成
 		if (displaySetting == null || Object.keys(displaySetting).length === 0) {
-			displaySetting = {
-				'is_open_situation_tab' : true,
-				'is_sayform_transparent' : false,
-				'is_no_paging' : false,
-				'page_size' : 30
-			};
-			saveDisplaySetting(displaySetting);
+			displaySetting = makeDisplaySettingObject();
+			$.cookie('village_display_setting', displaySetting, {
+				expires : 365
+			});
 		}
 		// 各項目なかったら作成
 		if (displaySetting[key] == null) {
-			switch (key) {
-			case 'is_open_situation_tab':
-				saveDisplaySetting('is_open_situation_tab', true);
-				break;
-			case 'is_sayform_transparent':
-				saveDisplaySetting('is_sayform_transparent', false);
-				break;
-			case 'is_no_paging':
-				saveDisplaySetting('is_no_paging', false);
-				break;
-			case 'page_size':
-				saveDisplaySetting('page_size', 30);
-				break;
-			}
+			const tmplDisplaySetting = makeDisplaySettingObject();
+			saveDisplaySetting(key, tmplDisplaySetting[key]);
 		}
 		return displaySetting[key];
 	}
 
 	function restoreDisplaySetting() {
-		if (getDisplaySetting('is_sayform_transparent')) {
-			$('[data-transparent]').prop('checked', true);
-			$('[data-transparent]').closest('.well').addClass('transparent-well');
-		}
-		if (!getDisplaySetting('has_confirm_footer-tab-announce')) {
-			$('#tab-announce').attr('data-toggle', 'popover');
-			$('[data-toggle="popover"]').popover();
-			$('#tab-announce').popover('show');
-		}
 		if (getDisplaySetting('is_no_paging')) {
 			$('[data-dsetting-nopaging]').prop('checked', true);
 		}
 		if (getDisplaySetting('page_size')) {
 			$('[data-dsetting-pagesize]').val(getDisplaySetting('page_size'));
 		}
-	}
-
-	$('[data-transparent]').on('change', function() {
-		const isCheck = $(this).prop('checked');
-		saveDisplaySetting('is_sayform_transparent', isCheck ? true : false);
-		if (isCheck) {
-			$(this).closest('.well').addClass('transparent-well');
-		} else {
-			$(this).closest('.well').removeClass('transparent-well');
+		if (!getDisplaySetting('is_open_situation_tab')) {
+			$('[data-situation-tab-open]').click();
 		}
-	});
+		if (!getDisplaySetting('is_open_sayform_tab')) {
+			$('[data-sayform-tab-open]').click();
+		}
+		if (!getDisplaySetting('is_open_skillform_tab')) {
+			$('[data-skillform-tab-open]').click();
+		}
+		if (!getDisplaySetting('is_open_voteform_tab')) {
+			$('[data-voteform-tab-open]').click();
+		}
+		if (!getDisplaySetting('is_open_creatorform_tab')) {
+			$('[data-creatorform-tab-open]').click();
+		}
+		const bottomFixTab = getDisplaySetting('bottom_fix_tab');
+		if (bottomFixTab != null && bottomFixTab != '' && $('#' + bottomFixTab).length != 0) {
+			$bottomFixTab = $('#' + bottomFixTab);
+			$bottomFixTab.addClass('popupform');
+			$bottomFixTab.find('[data-bottom-fix]').text('固定解除');
+			$('.container').css('padding-bottom', $bottomFixTab.height() + 40);
+		} else {
+			$('.container').css('padding-bottom', 40);
+		}
+	}
 
 	$('[data-dsetting-nopaging]').on('change', function() {
 		const isCheck = $(this).prop('checked');
@@ -565,11 +568,59 @@ $(function() {
 		loadAndDisplayMessage();
 	});
 
+	$('[data-situation-tab-open]').on('click', function() {
+		const isOpen = $($(this).attr('href')).hasClass('in');
+		saveDisplaySetting('is_open_situation_tab', !isOpen); // クリック後は逆になるので、逆を保存
+	});
+
+	$('[data-sayform-tab-open]').on('click', function() {
+		const isOpen = $($(this).attr('href')).hasClass('in');
+		saveDisplaySetting('is_open_sayform_tab', !isOpen); // クリック後は逆になるので、逆を保存
+	});
+
+	$('[data-skillform-tab-open]').on('click', function() {
+		const isOpen = $($(this).attr('href')).hasClass('in');
+		saveDisplaySetting('is_open_skillform_tab', !isOpen); // クリック後は逆になるので、逆を保存
+	});
+
+	$('[data-voteform-tab-open]').on('click', function() {
+		const isOpen = $($(this).attr('href')).hasClass('in');
+		saveDisplaySetting('is_open_voteform_tab', !isOpen); // クリック後は逆になるので、逆を保存
+	});
+
+	$('[data-creatorform-tab-open]').on('click', function() {
+		const isOpen = $($(this).attr('href')).hasClass('in');
+		saveDisplaySetting('is_open_creatorform_tab', !isOpen); // クリック後は逆になるので、逆を保存
+	});
+
 	$('[data-footer-tab-announce-delete]').on('click', function() {
 		saveDisplaySetting('has_confirm_footer-tab-announce', true);
 		$('#tab-announce').popover('hide');
 	});
 
+	$('[data-bottom-fix]').on('click', function() {
+		const $this = $(this);
+		const $panelGroup = $this.closest('.panel-group');
+		if ($panelGroup.hasClass('popupform')) {
+			$panelGroup.removeClass('popupform');
+			$this.text('固定');
+			saveDisplaySetting('bottom_fix_tab', '');
+			$('.container').css('padding-bottom', 40);
+		} else {
+			$('[data-bottom-fix]').each(function(){
+				$(this).closest('.panel-group').removeClass('popupform');
+				$(this).text('固定');
+			});
+			$panelGroup.addClass('popupform');
+			$this.text('固定解除');
+			saveDisplaySetting('bottom_fix_tab', $panelGroup.attr('id'));
+			$('.container').css('padding-bottom', $panelGroup.height() + 40);
+		}
+	});
+
+	// ----------------------------------------------
+	// 参戦
+	// ----------------------------------------------
 	// 参戦でキャラを画像選択
 	$('[data-select-participate-chara]').on('click', function() {
 		const charaId = $(this).data('select-participate-chara');
@@ -577,7 +628,9 @@ $(function() {
 		$('#modal-select-participate-chara').modal('hide');
 	});
 
+	// ----------------------------------------------
 	// 残り時間
+	// ----------------------------------------------
 	let timeIntervalMilliSecond = 500;
 	setInterval(function() {
 		if ($('#daychange-datetime').length) {

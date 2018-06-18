@@ -251,10 +251,6 @@ tr.top-menu-selectable:hover a {
 	z-index: 105;
 }
 
-.container {
-	padding-bottom: 20vh;
-}
-
 #footer-menu.footer-menu-bottom {
 	position: fixed;
 	bottom: 0px;

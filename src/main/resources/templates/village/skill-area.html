@@ -18,12 +18,11 @@
 </head>
 <body>
 	<div class="col-sm-12 col-xs-12" th:if="${content.skillName != null && content.isDispSayForm}" data-ability layout:fragment="skill-area">
-		<div class="panel-group popupform" id="skillform-panel">
+		<div class="panel-group" id="skillform-panel">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">
-						<a data-toggle="collapse" data-parent="#skillform-panel" href="#skillform-content">役職</a>
-					</h3>
+					<a class="h5" data-toggle="collapse" data-parent="#skillform-panel" href="#skillform-content" data-skillform-tab-open>役職</a>
+					<a href="javascript:void(0);" class="pull-right" data-bottom-fix>固定</a>
 				</div>
 				<div id="skillform-content" class="panel-collapse collapse in">
 					<div class="panel-body">
@@ -115,15 +114,13 @@
 															th:style="'vertical-align: bottom; text-align: center; width: 50px; height: 77px; '
 									 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}"
-															th:data-footstep-room-number="${room.roomNumber}">
-															<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-																th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
-														</td>
+															th:data-footstep-room-number="${room.roomNumber}"><span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+															th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span></td>
 													</tr>
 												</tbody>
 											</table>
-											通過する部屋 : <span data-footstep-input th:text="*{footstep}">なし</span>
-											<input type="hidden" class="form-control" th:field="*{footstep}" data-footstep-hd-input />
+											通過する部屋 : <span data-footstep-input th:text="*{footstep}">なし</span> <input type="hidden" class="form-control" th:field="*{footstep}"
+												data-footstep-hd-input />
 										</div>
 									</div>
 									<div class="form-group">
