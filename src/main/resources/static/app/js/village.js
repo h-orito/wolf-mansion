@@ -545,6 +545,15 @@ $(function() {
 		if (!getDisplaySetting('is_open_creatorform_tab')) {
 			$('[data-creatorform-tab-open]').click();
 		}
+		if (!getDisplaySetting('is_open_participateform_tab')) {
+			$('[data-participateform-tab-open]').click();
+		}
+		if (!getDisplaySetting('is_open_changeskillform_tab')) {
+			$('[data-changeskillform-tab-open]').click();
+		}
+		if (!getDisplaySetting('is_open_leaveform_tab')) {
+			$('[data-leaveform-tab-open]').click();
+		}
 		const bottomFixTab = getDisplaySetting('bottom_fix_tab');
 		if (bottomFixTab != null && bottomFixTab != '' && $('#' + bottomFixTab).length != 0) {
 			$bottomFixTab = $('#' + bottomFixTab);
@@ -593,9 +602,19 @@ $(function() {
 		saveDisplaySetting('is_open_creatorform_tab', !isOpen); // クリック後は逆になるので、逆を保存
 	});
 
-	$('[data-footer-tab-announce-delete]').on('click', function() {
-		saveDisplaySetting('has_confirm_footer-tab-announce', true);
-		$('#tab-announce').popover('hide');
+	$('[data-participateform-tab-open]').on('click', function() {
+		const isOpen = $($(this).attr('href')).hasClass('in');
+		saveDisplaySetting('is_open_participateform_tab', !isOpen); // クリック後は逆になるので、逆を保存
+	});
+
+	$('[data-changeskillform-tab-open]').on('click', function() {
+		const isOpen = $($(this).attr('href')).hasClass('in');
+		saveDisplaySetting('is_open_changeskillform_tab', !isOpen); // クリック後は逆になるので、逆を保存
+	});
+
+	$('[data-leaveform-tab-open]').on('click', function() {
+		const isOpen = $($(this).attr('href')).hasClass('in');
+		saveDisplaySetting('is_open_leaveform_tab', !isOpen); // クリック後は逆になるので、逆を保存
 	});
 
 	$('[data-bottom-fix]').on('click', function() {
@@ -607,7 +626,7 @@ $(function() {
 			saveDisplaySetting('bottom_fix_tab', '');
 			$('.container').css('padding-bottom', 40);
 		} else {
-			$('[data-bottom-fix]').each(function(){
+			$('[data-bottom-fix]').each(function() {
 				$(this).closest('.panel-group').removeClass('popupform');
 				$(this).text('固定');
 			});

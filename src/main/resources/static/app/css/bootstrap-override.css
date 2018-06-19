@@ -221,7 +221,7 @@ tr.top-menu-selectable:hover a {
 }
 
 .loading {
-	background: url("../images/loading.gif"), #eeeeee;
+	background: url("../images/loading.gif"), #222222;
 	background-size: 90px 90px;
 	background-repeat: no-repeat;
 	background-position: center;

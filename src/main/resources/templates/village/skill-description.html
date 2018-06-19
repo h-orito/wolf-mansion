@@ -1,0 +1,39 @@
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>フッター</title>
+<link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}" />
+<link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" />
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="../../static/lib/bootstrap/js/bootstrap.min.js" th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+<script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js" th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
+<script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
+</head>
+<body>
+	<div layout:fragment="skill-description">
+		<!--/* 役職説明 */-->
+		<p class="small" th:if="${content.skillName == 'SEER'}" th:utext="#{skill.seer.description}"></p>
+		<p class="small" th:if="${content.skillName == 'WEREWOLF' && content.villageSettings.isAvailableSameWolfAttack}"
+			th:utext="#{skill.werewolf.description}"></p>
+		<p class="small" th:if="${content.skillName == 'WEREWOLF' && !content.villageSettings.isAvailableSameWolfAttack}"
+			th:utext="#{skill.werewolf.sameng.description}"></p>
+		<p class="small" th:if="${content.skillName == 'HUNTER'}" th:utext="#{skill.hunter.description}"></p>
+		<p class="small" th:if="${content.skillName == 'MEDIUM'}" th:utext="#{skill.medium.description}"></p>
+		<p class="small" th:if="${content.skillName == 'MADMAN'}" th:utext="#{skill.madman.description}"></p>
+		<p class="small" th:if="${content.skillName == 'CMADMAN'}" th:utext="#{skill.cmadman.description}"></p>
+		<p class="small" th:if="${content.skillName == 'MASON'}" th:utext="#{skill.mason.description}"></p>
+		<p class="small" th:if="${content.skillName == 'FOX'}" th:utext="#{skill.fox.description}"></p>
+		<p class="small" th:if="${content.skillName == 'VILLAGER'}" th:utext="#{skill.villager.description}"></p>
+		<p class="small" th:if="${content.skillName == 'WISE'}" th:utext="#{skill.wise.description}"></p>
+		<p class="small" th:if="${content.skillName == 'GURU'}" th:utext="#{skill.guru.description}"></p>
+		<p class="small" th:if="${content.skillName == 'EVILMEDIUM'}" th:utext="#{skill.evilmedium.description}"></p>
+	</div>
+</body>
+</html>
