@@ -1,0 +1,144 @@
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>フッター</title>
+<link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}" />
+<link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" />
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="../../static/lib/bootstrap/js/bootstrap.min.js" th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+<script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js" th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
+<script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
+</head>
+<body>
+	<div class="col-sm-12 col-xs-12" th:if="${isDebugMode}" layout:fragment="debug-form">
+		<div class="panel-group" id="debugform-panel">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<a class="h5" data-toggle="collapse" data-parent="#debugform-panel" href="#debugform-content">デバッグメニュー</a>
+				</div>
+				<div id="debugform-content" class="panel-collapse collapse in">
+					<div class="panel-body">
+						<input type="button" class="col-sm-6 col-xs-6 btn btn-xs btn-warning" value="ログアウト" data-logout />
+						<input type="button" class="col-sm-6 col-xs-6 btn btn-xs btn-success" value="master" data-dummy-login="master" />
+						<div class="clearfix" style="margin-bottom: 10px;"></div>
+						<input type="button" class="col-sm-2 col-xs-2 btn btn-xs btn-success" value="長" data-dummy-login="testuser01" />
+						<input type="button" class="col-sm-2 col-xs-2 btn btn-xs btn-success" value="老" data-dummy-login="testuser02" />
+						<input type="button" class="col-sm-2 col-xs-2 btn btn-xs btn-success" value="神" data-dummy-login="testuser03" />
+						<input type="button" class="col-sm-2 col-xs-2 btn btn-xs btn-success" value="樵" data-dummy-login="testuser04" />
+						<input type="button" class="col-sm-2 col-xs-2 btn btn-xs btn-success" value="旅" data-dummy-login="testuser05" />
+						<input type="button" class="col-sm-2 col-xs-2 btn btn-xs btn-success" value="者" data-dummy-login="testuser06" />
+						<div class="clearfix" style="margin-bottom: 10px;"></div>
+						<input type="button" class="col-sm-2 col-xs-2 btn btn-xs btn-success" value="年" data-dummy-login="testuser07" />
+						<input type="button" class="col-sm-2 col-xs-2 btn btn-xs btn-success" value="妙" data-dummy-login="testuser08" />
+						<input type="button" class="col-sm-2 col-xs-2 btn btn-xs btn-success" value="商" data-dummy-login="testuser09" />
+						<input type="button" class="col-sm-2 col-xs-2 btn btn-xs btn-success" value="羊" data-dummy-login="testuser10" />
+						<input type="button" class="col-sm-2 col-xs-2 btn btn-xs btn-success" value="屋" data-dummy-login="testuser11" />
+						<input type="button" class="col-sm-2 col-xs-2 btn btn-xs btn-success" value="青" data-dummy-login="testuser12" />
+						<div class="clearfix" style="margin-bottom: 10px;"></div>
+						<input type="button" class="col-sm-2 col-xs-2 btn btn-xs btn-success" value="娘" data-dummy-login="testuser13" />
+						<input type="button" class="col-sm-2 col-xs-2 btn btn-xs btn-success" value="農" data-dummy-login="testuser14" />
+						<input type="button" class="col-sm-2 col-xs-2 btn btn-xs btn-success" value="宿" data-dummy-login="testuser15" />
+						<input type="button" class="col-sm-2 col-xs-2 btn btn-xs btn-success" value="修" data-dummy-login="testuser16" />
+
+						<form id="logout-form" method="post" action="" th:action="@{/logout}"></form>
+						<form id="login-form" method="post" action="" th:action="@{/login}">
+							<input type="hidden" name="userId" value="u" />
+							<input type="hidden" name="password" value="testuser" />
+						</form>
+						<script type="text/javascript">
+							$(function() {
+								'use stricts'
+
+								const villageId = $("[data-village-id]").data('village-id');
+								const day = $("[data-day]").data('day');
+								const LOGOUT_URL = contextPath + 'logout';
+								const LOGIN_URL = contextPath + 'login';
+								const logoutToken = $('#logout-form').find('[name=_csrf]').val();
+								const loginToken = $('#login-form').find('[name=_csrf]').val();
+
+								$('[data-logout]').on('click', function() {
+									$.ajax({
+										type : 'POST',
+										url : LOGOUT_URL,
+										data : {
+											'_csrf' : logoutToken
+										}
+									}).then(function() {
+										location.reload();
+									});
+								});
+								$('[data-dummy-login]').on('click', function() {
+									const userId = $(this).data('dummy-login');
+									$.ajax({
+										type : 'POST',
+										url : LOGIN_URL,
+										data : {
+											'userId' : userId,
+											'password' : 'testuser',
+											'_csrf' : loginToken
+										}
+									}).then(function(re) {
+										location.reload();
+									});
+									$('#login-form').find('[name=userId]').val(userId);
+									$('#login-form').submit();
+								});
+							});
+						</script>
+						<!--/*  
+						<form method="post" th:if="${content.day == 0}" action=""
+							th:action="@{/admin/village/{villageId}/allparticipate(villageId=${content.villageId})}" class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">入村させる</label>
+								<div class="col-sm-8">
+									<input class="form-control" type="text" th:value="16" th:name="personNumber" />
+								</div>
+								<div class="col-sm-2">
+									<input type="submit" class="btn btn-sm btn-success pull-right" value="人数分入村させる" />
+								</div>
+							</div>
+						</form>
+						<form method="post" action="" th:action="@{/admin/village/{villageId}/access(villageId=${content.villageId})}" class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">全員アクセス</label>
+								<div class="col-sm-10">
+									<input type="submit" class="btn btn-sm btn-success pull-right" value="更新" />
+								</div>
+							</div>
+						</form>
+						<form method="post" action="" th:action="@{/admin/village/{villageId}/dayChange(villageId=${content.villageId})}" class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">日付を進める</label>
+								<div class="col-sm-8"></div>
+								<div class="col-sm-2">
+									<input type="submit" class="btn btn-sm btn-success pull-right" value="日付を進める" />
+								</div>
+							</div>
+						</form>
+						<form method="post" action="" th:action="@{/admin/village/{villageId}/leave(villageId=${content.villageId})}"
+							th:if="${content.isDispLeaveVillageForm}" class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">強制退村</label>
+								<div class="col-sm-8">
+									<input class="form-control" type="text" value="" name="villagePlayerId" placeholder="village_player_id" />
+								</div>
+								<div class="col-sm-2">
+									<input type="submit" class="btn btn-sm btn-success pull-right" value="退村" />
+								</div>
+							</div>
+						</form>
+						*/-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

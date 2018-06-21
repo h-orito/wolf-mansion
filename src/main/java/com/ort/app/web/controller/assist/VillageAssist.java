@@ -15,6 +15,7 @@ import org.dbflute.cbean.result.ListResultBean;
 import org.dbflute.optional.OptionalEntity;
 import org.dbflute.optional.OptionalThing;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
@@ -102,6 +103,9 @@ public class VillageAssist {
     @Autowired
     private FootstepLogic footstepLogic;
 
+    @Value("${isDebugMode}")
+    private Boolean debug;
+
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
@@ -124,6 +128,7 @@ public class VillageAssist {
         setVillageModelBasicInfo(content, villageInfo);
         setVillageModelForm(content, villageInfo, sayForm, participateForm, changeRequestSkillForm, model);
         setVillageModelCreateUser(content, village, userInfo, model);
+        setDebugInfo(debug, model);
         model.addAttribute("content", content);
         return "village";
     }
@@ -694,5 +699,10 @@ public class VillageAssist {
         }
 
         return false;
+    }
+
+    // 開発用機能
+    private void setDebugInfo(Boolean debug, Model model) {
+        model.addAttribute("isDebugMode", debug);
     }
 }
