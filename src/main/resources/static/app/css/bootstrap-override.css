@@ -23,6 +23,11 @@ ul {
 	}
 }
 
+/* 追加フォント */
+.font-railway {
+	font-family: 'Raleway', sans-serif;
+}
+
 /* トップ */
 .top-image {
 	cursor: pointer;
@@ -324,7 +329,7 @@ tr.top-menu-selectable:hover a {
 }
 
 /* 箇条書きで下に空白を入れたいときに使う */
-ul.announce > li {
+ul.announce>li {
 	margin-bottom: 10px;
 }
 
@@ -338,7 +343,7 @@ ul.announce > li {
 .pagination-sm>li>a, .pagination-sm>li>span {
 	padding: 2px 14px;
 	font-size: 12px;
-	border-left:1px solid #009c6c;
+	border-left: 1px solid #009c6c;
 	margin-bottom: 2px;
 }
 

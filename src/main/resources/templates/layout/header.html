@@ -20,10 +20,10 @@
 </head>
 <body>
 	<div class="col-sm-12 col-xs-12 top-image" data-goto="" layout:fragment="header">
-		<img src="" th:src="@{/app/images/top-small.jpg}" style="width: 100%;"> <span
-			style="color: #000; position: absolute; bottom: 5.5%; left: 7.4%; font-size: x-large;"><b>人狼館</b></span> <span
-			style="color: #fff; position: absolute; bottom: 5%; left: 7%; font-size: x-large;">人狼館</span> <span th:if="${user != null}"
-			style="color: #fff; position: absolute; bottom: 5px; right: 15px;" th:text="'ユーザID: ' + ${user.username}">ユーザID: hoge</span>
+		<img src="" th:src="@{/app/images/top-small.jpg}" style="width: 100%;"> <span class="font-railway"
+			style="color: #fff; position: absolute; bottom: 0; left: 20px; font-size: 16px;"><b><span style="color: #ff0000;">W</span>OLF <span
+				style="color: #ff0000;">M</span>ANSION</b></span> <span th:if="${user != null}" style="color: #fff; position: absolute; bottom: 0; right: 20px;"
+			th:text="'ユーザID: ' + ${user.username}">ユーザID: hoge</span>
 	</div>
 </body>
 </html>
