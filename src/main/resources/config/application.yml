@@ -12,7 +12,7 @@ spring:
     cache-seconds: -1
     encoding: UTF-8
 server:
-  contextPath: /werewolf-mansion
+  contextPath: /wolf-mansion
   port: 8089
   session:
     timeout: 86400
