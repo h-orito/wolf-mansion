@@ -535,7 +535,8 @@ public class VillageAssist {
     }
 
     private List<VillageRoomAssignedRowDto> convertToRoomAssignedPart(VillageInfo villageInfo) {
-        if (villageInfo.vPlayerList.stream().anyMatch(vp -> vp.isIsSpectatorFalse() && vp.getRoomNumber() == null)) {
+        if (villageInfo.vPlayerList.size() == 0
+                || villageInfo.vPlayerList.stream().anyMatch(vp -> vp.isIsSpectatorFalse() && vp.getRoomNumber() == null)) {
             return null; // 部屋がまだ割り当てられていない
         }
         Integer width = villageInfo.village.getRoomSizeWidth();

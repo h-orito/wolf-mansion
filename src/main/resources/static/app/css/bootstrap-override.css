@@ -118,6 +118,10 @@ tr.top-menu-selectable:hover a {
 	height: 200px;
 }
 
+.h300px {
+	height: 300px;
+}
+
 .vertical-middle {
 	vertical-align: middle !important;
 }
