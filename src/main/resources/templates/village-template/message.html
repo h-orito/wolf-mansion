@@ -28,13 +28,13 @@
 		</div>
 	</div>
 	{{/if}} {{#if commitStatusMessage}}
-	<div class="col-sm-12">
+	<div class="col-sm-12 col-xs-12">
 		<div class="row">
 			<div class="message col-sm-12 col-xs-12 message-announce">{{{escapeHtmlWithoutBr commitStatusMessage}}}</div>
 		</div>
 	</div>
 	{{/if}} {{#if (neq allPageCount 1) }}
-	<div class="col-sm-12">
+	<div class="col-sm-12 col-xs-12">
 		<div class="row">
 			<ul class="pagination pagination-sm pull-right" style="margin-top: 10px; margin-bottom: 10px;">
 				<li class="{{#unless isExistPrePage}}disabled{{/unless}}"><a href="javascript:void(0);" data-pagenum="1">&lt;&lt;</a></li>
