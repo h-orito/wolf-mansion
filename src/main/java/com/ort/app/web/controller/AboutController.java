@@ -24,4 +24,9 @@ public class AboutController {
     private String rule(Model model) {
         return "rule";
     }
+
+    @GetMapping("/intro")
+    private String intro(Model model) {
+        return "intro";
+    }
 }

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<head>
+<!--/* 個別ページのタイトル */-->
+<title>人狼館の事件簿村ルール</title>
+<!--/* 個別ページのjs */-->
+<script src="../static/app/js/index.js" th:src="@{/app/js/index.js}"></script>
+</head>
+
+<body>
+	<div class="container">
+		<div layout:fragment="content">
+			<div id="wrapper">
+
+				<div class="col-sm-12 col-xs-12">
+					<h1 class="h4">このページは</h1>
+					<ul>
+						<li>本サイトで楽しむことができる「人狼館の事件簿村」ルールについて紹介します。</li>
+						<li>本サイトでのルールについての紹介となりますので、各地で開催されている同名のルールと異なる場合があります。</li>
+						<li>詳細なルールは<a href="" th:href="@{/rule}">ルール</a>に記載しています。
+						</li>
+					</ul>
+				</div>
+
+
+				<div class="col-sm-12 col-xs-12">
+					<hr />
+					<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'はい、それでは紹介していきますよ', 'jimuzon', false)}"></div>
+					<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'よろしくおねがいしま〜す', 'riza', true)}"></div>
+				</div>
+
+				<div class="col-sm-12 col-xs-12">
+					<hr />
+					<h2 class="h5">白発言での推理発言やCO禁止</h2>
+					<div
+						layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'まず大事な禁止事項から。<br>人狼館の事件簿村ルールでは、<br /><strong>通常発言での推理発言やCOは禁止</strong>となります。', 'jimuzon', false)}"></div>
+					<div
+						layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '<strong>神父さんは狼だと思うから【▼神】にするね</strong><br>とか、<br /><strong>【占CO】</strong><br>とかしちゃだめってことなのね', 'riza', true)}"></div>
+					<div
+						layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'そうです。ただし、<br><strong>導師（役職までわかる霊能者）だけはCOや結果発表してもOK</strong>です。<br>結果騙りもして大丈夫ですよ。', 'jimuzon', false)}"></div>
+					<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'そうなのね！じゃあ人外になったら導師騙りするのー！', 'riza', true)}"></div>
+					<div
+						layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '<strong>騙りCOも禁止</strong>なので注意してくださいね。', 'jimuzon', false)}"></div>
+					<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '残念なのー', 'riza', true)}"></div>
+					<div
+						layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'あ、あとは<strong>独り言や囁きや共鳴会話では推理発言してもOK</strong>ですからね。<br>生存者全員に見られる発言でなければOKです。', 'jimuzon', false)}"></div>
+					<div layout:replace="~{fragments/flagment-message::fragment_message('message-werewolf', 'わーい！<br>神父 ジムゾン、今日がお前の命日なのー', 'riza', true)}"></div>
+				</div>
+
+				<div class="col-sm-12 col-xs-12">
+					<hr />
+					<h2 class="h5">足音の基本ルール</h2>
+					<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '足音で推理するって聞いたけど、足音ってなんなの？', 'riza', true)}"></div>
+					<div
+						layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '一つ一つ説明していきますね。まず、1日目になると皆さんに役職と部屋が割り当てられます。', 'jimuzon', false)}"></div>
+					<div class="col-sm-12 col-xs-12">
+						<img th:src="@{/app/images/intro/intro01.png}" width="200" />
+					</div>
+					<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'それじゃあリーザさん、07の部屋にいるゲルトさんを襲撃してみてください。', 'jimuzon', false)}"></div>
+					<div layout:replace="~{fragments/flagment-message::fragment_message('message-werewolf', 'わかったなの<br>楽天家 ゲルト、今日がお前の命日なのー！', 'riza', true)}"></div>
+					<div class="col-sm-12 col-xs-12">
+						<div class="row">
+							<div class="message col-sm-12 col-xs-12 message-public-system">次の日の朝、楽天家 ゲルトが無残な姿で発見された。</div>
+						</div>
+					</div>
+					<div class="col-sm-12 col-xs-12">
+						<div class="row">
+							<div class="message col-sm-12 col-xs-12 message-public-system">
+								館の大広間に集まった村人達は、昨晩聞こえた足音について確認した。<br>
+								<br>部屋12、部屋17、部屋18で足音が聞こえた...。
+							</div>
+						</div>
+					</div>
+					<div
+						layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'おお、足音が鳴ったなの', 'riza', true)}"></div>
+					<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'こんな具合で、<br>人狼や占い師、狩人が能力を行使すると、<br>次の日の朝に、通過した部屋に足音が響きます。', 'jimuzon', false)}"></div>
+					<div
+						layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '19→18→17→12→07を通ったってことなのね<br>あれ？でも鳴ってる順番は12、17、18になってるの', 'riza', true)}"></div>
+					<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'よく気がつきましたね。その通りで、<br><strong>通った順でなく、部屋番号の若い順</strong>になるのでミスリードに気をつけてくださいね。', 'jimuzon', false)}"></div>
+					<div
+						layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'なるほどなの<br>これ、どの人狼が襲撃するかとか、通る道はランダムになるなの？', 'riza', true)}"></div>
+					<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'いえ、「どの人狼が襲撃するか」「どの経路を通るか」は人狼がセットすることができます。<br>もちろん占い師や狩人も、「どの経路を通るか」を選ぶことができますよ。', 'jimuzon', false)}"></div>
+					<div
+						layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'よかったなの！<br>じゃあ、たくさん回り道すればバレないのー', 'riza', true)}"></div>
+					<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '残念ですが、経路は「最短経路で」「最大で1回しか曲がれない」ルールがあります。<br>さきほどのリーザさんがゲルトを襲撃した例でいうと、<br>19→18→17→12→07か、19→14→09→08→07の2通りから選ぶことになりますね。', 'jimuzon', false)}"></div>
+				</div>
+
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		<footer layout:replace="~{layout/footer::footer}"></footer>
+	</div>
+</body>
+</html>

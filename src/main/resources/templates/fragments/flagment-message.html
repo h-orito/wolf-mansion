@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
+<div class="col-sm-12 col-xs-12 say-n1" layout:fragment="fragment_message(message_type, message, chara, isLeft)">
+	<div class="row">
+		<div class="col-sm-12 col-xs-12">
+			<div class="row" style="display: flex;">
+				
+				<div th:if="${isLeft}" th:style="'width: 50px; height: 77px; background: url(\'/wolf-mansion/app/images/' + ${chara} + '.png\'); background-repeat: no-repeat;'"></div>
+				<div th:class="'message ' + ${message_type}" style="flex: 1; margin-left: 5px;" th:utext="${message}">通常発言です。全ての人が参照できます。</div>
+				<div th:unless="${isLeft}" th:style="'width: 50px; height: 77px; background: url(\'/wolf-mansion/app/images/' + ${chara} + '.png\'); background-repeat: no-repeat;'"></div>
+			</div>
+		</div>
+	</div>
+</div>
+</html>
