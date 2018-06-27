@@ -29,4 +29,9 @@ public class AboutController {
     private String intro(Model model) {
         return "intro";
     }
+
+    @GetMapping("/practice")
+    private String practice(Model model) {
+        return "practice";
+    }
 }

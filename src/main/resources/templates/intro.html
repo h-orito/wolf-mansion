@@ -282,9 +282,10 @@
 							<hr />
 							<h2 class="h5">おわり</h2>
 							<div
-								layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '以上です！これらのルールをふまえて、<br>投票と足音で自陣営を勝利に導くのが人狼館の事件簿村ルールの遊び方です。<br>あとは実際の村のログを見て雰囲気を掴んだり、<br>初心者村に参加してみたほうが理解が進むかもしれませんね。<br><br>あと、後日ここに練習問題を追加するかもしれません。', 'jimuzon', false)}"></div>
-							<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '最後まで読んでくれてありがとうなの！', 'riza', true)}"></div>
+								layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '以上です！これらのルールをふまえて、<br>投票と足音で自陣営を勝利に導くのが人狼館の事件簿村ルールの遊び方です。<br><br>練習問題も用意してあるので、ぜひやってみてください。', 'jimuzon', false)}"></div>
+							<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'わーい！やってみるのー！', 'riza', true)}"></div>
 							<a href="javascript:void(0);" th:href="@{/}" class="btn btn-default btn-sm small">サイトトップへ</a>
+							<a href="javascript:void(0);" th:href="@{/practice}" class="btn btn-success btn-sm small pull-right">練習問題へ</a>
 						</div>
 					</div>
 				</div>

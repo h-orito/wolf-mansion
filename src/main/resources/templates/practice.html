@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<head>
+<!--/* 個別ページのタイトル */-->
+<title>人狼館の事件簿村ルール 練習問題</title>
+<!--/* 個別ページのjs */-->
+<script src="../static/app/js/index.js" th:src="@{/app/js/index.js}"></script>
+</head>
+
+<body>
+	<div class="container">
+		<div layout:fragment="content">
+			<div id="wrapper">
+				<div class="col-sm-6 col-xs-12">
+					<div class="row">
+
+						<div class="col-sm-12 col-xs-12">
+							<a href="javascript:void(0);" th:href="@{/intro}" class="btn btn-default btn-sm small">ルール紹介へ戻る</a>
+						</div>
+
+						<div class="col-sm-12 col-xs-12">
+							<hr />
+							<div
+								layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'では練習問題をやってみましょう。<br>ちょっと難しめにしていますよ。', 'jimuzon', false)}"></div>
+							<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'がんばるなのー！', 'riza', true)}"></div>
+						</div>
+						
+						<div class="col-sm-12 col-xs-12">
+							<hr />
+							<div class="col-sm-12 col-xs-12" data-message>
+								<div class="row">
+									<div class="message col-sm-12 col-xs-12 message-creator">
+										第1問<br>
+										<br>リーザさんは導師です。次のうち、リーザさんがしてはいけない発言は次のうちどれでしょう。
+									</div>
+								</div>
+							</div>
+							<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '1<br>おはよー！なのー！', 'riza', true)}"></div>
+							<div layout:replace="~{fragments/flagment-message::fragment_message('message-monologue', '2<br>足音は03,04だったの...<br>たぶん05が人狼だから05に投票するの！', 'riza', true)}"></div>
+							<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '3<br>導師COなの！【年は人狼】だったの！', 'riza', true)}"></div>
+							<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '4<br>導師COなの！【年は人間】だったの！<br>今日は▼屋に票集めてほしいの！', 'riza', true)}"></div>
+							<a href="javascript:void(0);" class="btn btn-success btn-sm small" data-toggle="collapse" data-target="#q1">答えを開く</a>
+							<div class="col-sm-12 col-xs-12 collapse" id="q1">
+								<div class="row">
+									<div class="message col-sm-12 col-xs-12 message-creator">
+										答え：4<br>
+										・導師でも結果発表以外の推理発言はしてはいけません。
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-12 col-xs-12">
+							<hr />
+							<div class="col-sm-12 col-xs-12" data-message>
+								<div class="row">
+									<div class="message col-sm-12 col-xs-12 message-creator">
+										第2問<br>
+										<br>現在2日目、以下の部屋配置と足音でした。<br>ゲルトを襲撃した人狼の候補となる部屋番号と、占い師の候補となる部屋番号を挙げてください。<br>ただし、<strong>この村には狩人、狂人、妖狐はいません</strong>。
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 col-xs-12">
+								<img th:src="@{/app/images/intro/intro02.png}" width="200" />
+							</div>
+							<div class="col-sm-12 col-xs-12">
+								<div class="row">
+									<div class="message col-sm-12 col-xs-12 message-public-system">次の日の朝、楽天家 ゲルトが無残な姿で発見された。</div>
+								</div>
+							</div>
+							<div class="col-sm-12 col-xs-12">
+								<div class="row">
+									<div class="message col-sm-12 col-xs-12 message-public-system">
+										館の大広間に集まった村人達は、昨晩聞こえた足音について確認した。<br> <br>部屋13、部屋14で足音が聞こえた...。<br>部屋04、部屋10で足音が聞こえた...。
+									</div>
+								</div>
+							</div>
+							<a href="javascript:void(0);" class="btn btn-success btn-sm small" data-toggle="collapse" data-target="#q2">答えを開く</a>
+							<div class="col-sm-12 col-xs-12 collapse" id="q2">
+								<div class="row">
+									<div class="message col-sm-12 col-xs-12 message-creator">
+										答え<br> ・人狼の候補：部屋09,15,19<br> ・占い師の候補：部屋03,15<br>
+										<br> 解説<br>・狩人狂人妖狐がいないため、足音を出せるのは<br> 人狼と占い師のみ<br>
+										<br> ・ゲルトが襲撃されたが、ゲルトに向かう足音は<br> 13,14のみ＝13,14が人狼の足音<br> 13,14の足音を出してゲルトを襲撃できるのは、<br> 部屋09,15,19。よって人狼候補は部屋09,15,19。<br>
+										<br> ・消去法で04,10が占い師の足音となる。<br> この足音は03→04→05→10→15か<br> 15→10→05→04→03のいずれか。<br> （05は無人なので鳴らない）<br>
+										よって占い師候補は部屋03,15。<br> （逆に、占われたのは部屋15,03のいずれか）
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-12 col-xs-12">
+							<hr />
+							<div class="col-sm-12 col-xs-12" data-message>
+								<div class="row">
+									<div class="message col-sm-12 col-xs-12 message-creator">
+										第3問<br>
+										<br>現在2日目、以下の部屋配置と足音でした。<br>ゲルトを襲撃した人狼の候補となる部屋番号と、占い師の候補となる部屋番号を挙げてください。<br> ただし、<strong>この村には妖狐はいません</strong>。(<strong>狩人、狂人はいます</strong>)
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 col-xs-12">
+								<img th:src="@{/app/images/intro/intro02.png}" width="200" />
+							</div>
+							<div class="col-sm-12 col-xs-12">
+								<div class="row">
+									<div class="message col-sm-12 col-xs-12 message-public-system">次の日の朝、楽天家 ゲルトが無残な姿で発見された。</div>
+								</div>
+							</div>
+							<div class="col-sm-12 col-xs-12">
+								<div class="row">
+									<div class="message col-sm-12 col-xs-12 message-public-system">
+										館の大広間に集まった村人達は、昨晩聞こえた足音について確認した。<br> <br>部屋13、部屋14で足音が聞こえた...。<br>部屋04、部屋10で足音が聞こえた...。
+									</div>
+								</div>
+							</div>
+							<a href="javascript:void(0);" class="btn btn-success btn-sm small" data-toggle="collapse" data-target="#q3">答えを開く</a>
+							<div class="col-sm-12 col-xs-12 collapse" id="q3">
+								<div class="row">
+									<div class="message col-sm-12 col-xs-12 message-creator">
+										答え<br> ・人狼の候補：部屋07,09,11,13,15,17,19<br> ・占い師の候補：部屋03,15<br>
+										<br> 解説<br> ・狩人は2日目は護衛できないため足音はなし。<br> つまり足音を出せるのは占い師、狂人、人狼で、<br> 足音は2種類しか鳴っていないため、<br> 「足音なし」が1つ含まれている。<br>
+										<br> ・04,10の足音は、<br> 狂人は曲がる足音を出せないのと<br> ゲルトに向かう足音になっていないため<br> 占い師の足音で確定。<br> <br> ・消去法で、「足音なし」と「13,14」が<br>
+										狂人もしくは人狼のものとなる。<br> これ以上は特定できないため、<br> 「足音なし」＝ゲルトに隣接した部屋が候補、<br> 「13,14」＝2問目と同じ<br> 部屋07,11,13,17 + 部屋09,15,19<br>
+										が人狼の足音候補となる。
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-12 col-xs-12">
+							<hr />
+							<h2 class="h5">おわり</h2>
+							<div
+								layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '3問だけですが以上です。<br>会話していないのに人狼の位置がある程度掴めたり、<br>COできないのに占い師がCOしたり<br>なかなか面白いでしょう？', 'jimuzon', false)}"></div>
+							<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'おもしろいのー！早く実戦やってみたいの！', 'riza', true)}"></div>
+							<div
+								layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '実際の村のログを見て雰囲気を掴んだり、初心者村に参加してみるとより理解が進むかもしれませんね。<br>誰でも村を建てられますので、自分で集めてももちろんOKです！', 'jimuzon', false)}"></div>
+							<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '最後まで読んでくれてありがとうなの！', 'riza', true)}"></div>
+							<a href="javascript:void(0);" th:href="@{/}" class="btn btn-default btn-sm small">サイトトップへ</a>
+						</div>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		<footer layout:replace="~{layout/footer::footer}"></footer>
+	</div>
+</body>
+</html>
