@@ -60,12 +60,16 @@
 						<div class="col-sm-12 col-xs-12">
 							<hr />
 							<h2 class="h5">足音の基本ルール</h2>
-							<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '足音で推理するって聞いたけど、足音ってなんなの？', 'riza', true)}"></div>
+							<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '推理発言禁止でどうやって狼を探すなの？<br>村側辛すぎるの', 'riza', true)}"></div>
+							<div
+								layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '大丈夫です。<br>人狼館の事件簿村ルール特有の要素があり、<br>それを頼りに狼を探すことができます。', 'jimuzon', false)}"></div>
+							<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'そういえば「足音」で推理するって書いてたの！<br>足音ってなんなの？', 'riza', true)}"></div>
 							<div
 								layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '一つ一つ説明していきますね。まず、1日目になると皆さんに役職と部屋が割り当てられます。', 'jimuzon', false)}"></div>
 							<div class="col-sm-12 col-xs-12">
 								<img th:src="@{/app/images/intro/intro01.png}" width="200" />
 							</div>
+							<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '変わった構造の館なの<br>四方に他の人の部屋があるなの', 'riza', true)}"></div>
 							<div
 								layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'それじゃあ人狼リーザさん、07の部屋にいるゲルトさんを襲撃してみてください。', 'jimuzon', false)}"></div>
 							<div layout:replace="~{fragments/flagment-message::fragment_message('message-werewolf', 'わかったなの<br>楽天家 ゲルト、今日がお前の命日なのー！', 'riza', true)}"></div>
@@ -250,9 +254,10 @@
 						<div class="col-sm-12 col-xs-12">
 							<hr />
 							<h2 class="h5">狂人（C国狂人、魔神官含む）、妖狐も足音を鳴らせる</h2>
+							<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', '思ったことがあるの<br>襲撃された人に向かう足音は限られるから、<br>すぐに人狼の位置がわかっちゃうと思うの<br>人外不利じゃないなの？', 'riza', true)}"></div>
 							<div
-								layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'ついにラストです。狂人と妖狐は通常能力を持ちませんが、このルールでは足音を鳴らすことができます。', 'jimuzon', false)}"></div>
-							<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'ええー！ややこしいなの！', 'riza', true)}"></div>
+								layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'その通りです。<br>なので、人狼館の事件簿村ルールでは<br>通常能力を持たない狂人や妖狐が<br>「好きな場所で足音を鳴らす」ことができます。', 'jimuzon', false)}"></div>
+							<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'それで人狼を守ったり<br>自分の身を守ったりできるってことなのね！<br>でもややこしいなの！', 'riza', true)}"></div>
 							<div
 								layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'このややこしさが面白いのですよ。続けます。<br>人狼や占い師、狩人とは鳴らせる足音が違うので気をつけてください。<br><br>・任意の場所を起点・終点として、直線の足音を鳴らすことができます。<br>・曲がる足音は鳴らすことができません。<br>・何も鳴らさないこともできます。', 'jimuzon', false)}"></div>
 							<div layout:replace="~{fragments/flagment-message::fragment_message('message-normal', 'ややこしいなの・・・', 'riza', true)}"></div>
