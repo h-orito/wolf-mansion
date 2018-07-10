@@ -405,7 +405,9 @@ $(function() {
 	});
 
 	function filterMessage() {
-		// data-message-area
+		const wholeCharaArr = $('#modal-filter').find('[data-filter-chara-id]').map(function() {
+			return String($(this).data('filter-chara-id'));
+		});
 		const charaFilterArr = $('#modal-filter').find('.bg-info[data-filter-chara-id]').map(function() {
 			return String($(this).data('filter-chara-id'));
 		});
@@ -425,7 +427,8 @@ $(function() {
 				disp = false;
 			}
 			const charaId = String($(elm).data('chara-id'));
-			if ($.inArray(charaId, charaFilterArr) == -1) {
+			// 全員表示の場合は退村した人も表示する
+			if (wholeCharaArr.length != charaFilterArr.length && $.inArray(charaId, charaFilterArr) == -1) {
 				disp = false;
 			}
 			if (keywordFilterArr.length > 0) {
