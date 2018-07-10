@@ -68,14 +68,21 @@ public class VillageDispLogic {
         if (participateCount > 0) {
             return false;
         }
-
         // 既に最大人数まで参加していたら表示しない
         int maxCharaNum = charaBhv.selectCount(cb -> cb.query().setCharaGroupId_Equal(villageInfo.settings.getCharacterGroupId()));
         int participateNum = villagePlayerBhv.selectCount(cb -> {
             cb.query().setVillageId_Equal(villageInfo.villageId);
             cb.query().setIsGone_Equal_False();
         });
-        return participateNum < maxCharaNum;
+        if (participateNum >= maxCharaNum) {
+            return false;
+        }
+        // 突然死したことがある人は表示しない
+        int suddonlyDeathCount = selectSuddonlyDeathCount(villageInfo.user.getUsername());
+        if (suddonlyDeathCount > 0) {
+            return false;
+        }
+        return true;
     }
 
     // 希望役職変更フォームを表示するか
@@ -328,5 +335,12 @@ public class VillageDispLogic {
             return null;
         }
         return villageInfo.getVPList(true, true, false).stream().map(vp -> vp.getChara().get()).collect(Collectors.toList());
+    }
+
+    private int selectSuddonlyDeathCount(String playerName) {
+        return villagePlayerBhv.selectCount(cb -> {
+            cb.query().queryPlayer().setPlayerName_Equal(playerName);
+            cb.query().setDeadReasonCode_Equal_突然();
+        });
     }
 }
