@@ -38,7 +38,12 @@
 							<input type="hidden" th:field="*{message}" />
 							<input type="hidden" th:field="*{messageType}" />
 							<input type="button" class="btn btn-sm btn-default" value="戻る(発言内容は消去されます)" th:data-back="${villageId}" />
-							<input type="submit" class="btn btn-sm btn-success pull-right" value="発言する" />
+							<input type="submit" class="btn btn-sm btn-success pull-right" th:value="*{messageType == 'NORMAL_SAY' ? '発言する' : 
+														messageType == 'WEREWOLF_SAY' ? '囁く' : 
+														messageType == 'MASON_SAY' ? '発言する（共鳴）' : 
+														messageType == 'MONOLOGUE_SAY' ? '発言する（独り言）' : 
+														messageType == 'GRAVE_SAY' ? '呻く' :
+														messageType == 'SPECTATE_SAY' ? '発言する' : '発言する'}" />
 						</div>
 					</form>
 				</div>

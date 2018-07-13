@@ -46,7 +46,7 @@
 							class="form-horizontal collapse in" aria-expanded="true" style="margin-top: 10px;">
 							<span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="help-block text-danger">error!</span>
 							<div class="form-group">
-								<div class="col-sm-12 btn-group" data-toggle="buttons" data-say-type>
+								<div class="col-sm-12 btn-group btn-saytypes" data-toggle="buttons" data-say-type>
 									<label th:if="${content.isAvailableWerewolfSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'WEREWOLF_SAY' ? 'active' : ''}">
 										<input type="radio" class="" th:field="*{messageType}" value="WEREWOLF_SAY" autocomplete="off" />囁き
 									</label> <label th:if="${content.isAvailableNormalSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'NORMAL_SAY' ? 'active' : ''}">

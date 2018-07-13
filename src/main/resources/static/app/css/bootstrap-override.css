@@ -174,7 +174,7 @@ tr.top-menu-selectable:hover a {
 
 .message-monologue {
 	color: #333333;
-	background-color: #b5b5b5;
+	background-color: #aaa;
 	border: 1px solid #b5b5b5;
 }
 
@@ -299,6 +299,25 @@ tr.top-menu-selectable:hover a {
 }
 
 #footer-menu .btn-footermenu:hover {
+	background-color: #00bc8c;
+	color: #ffffff;
+	border: 1px solid #00bc8c;
+}
+
+#sayform .btn-saytypes {
+	margin-left: 55px;
+	margin-bottom: 5px;	
+}
+
+#sayform .btn-saytypes .btn-success {
+	background-color: #222222;
+	color: #00bc8c;
+	border: 1px solid #00bc8c;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+#sayform .btn-saytypes .btn-success.active {
 	background-color: #00bc8c;
 	color: #ffffff;
 	border: 1px solid #00bc8c;
