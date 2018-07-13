@@ -3,6 +3,7 @@ package com.ort.app.web.controller.assist;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -325,7 +326,7 @@ public class VillageAssist {
         content.setVillageNumber(String.format("%04d", villageInfo.village.getVillageId()));
         content.setVillageName(villageInfo.village.getVillageDisplayName());
         content.setMemberList(convertToMemberPart(villageInfo.vPlayerList));
-        content.setCharacterList(villageInfo.vPlayerList.stream().map(vp -> vp.getChara().get()).collect(Collectors.toList()));
+        content.setCharacterList(extractAndSortCharacterList(villageInfo));
         content.setRoomAssignedRowList(convertToRoomAssignedPart(villageInfo));
         content.setRoomWidth(villageInfo.village.getRoomSizeWidth());
         content.setDay(villageInfo.day);
@@ -340,6 +341,19 @@ public class VillageAssist {
         if (villageInfo.isStartedFootstepSet()) {
             content.setVillageFootstepList(makeFootstepList(villageInfo));
         }
+    }
+
+    private List<Chara> extractAndSortCharacterList(VillageInfo villageInfo) {
+        return villageInfo.vPlayerList.stream().sorted((vp1, vp2) -> {
+            // 参加→見学 それぞれの中ではキャラID順
+            if (vp1.isIsSpectatorTrue() && vp2.isIsSpectatorFalse()) {
+                return 1;
+            } else if (vp1.isIsSpectatorFalse() && vp2.isIsSpectatorTrue()) {
+                return -1;
+            } else {
+                return vp1.getCharaId() - vp2.getCharaId();
+            }
+        }).map(vp -> vp.getChara().get()).collect(Collectors.toList());
     }
 
     // 更新時刻
@@ -492,7 +506,9 @@ public class VillageAssist {
         List<VillagePlayer> aliveMemberList =
                 villagePlayerList.stream().filter(vp -> vp.getDeadDay() == null && vp.isIsSpectatorFalse()).collect(Collectors.toList());
         aliveMember.setStatus("生存");
-        aliveMember.setStatusMemberList(aliveMemberList.stream().map(mem -> convertToMemberDetailPart(mem)).collect(Collectors.toList()));
+        aliveMember.setStatusMemberList(
+                aliveMemberList.stream().sorted(compareForMemberList()).map(mem -> convertToMemberDetailPart(mem)).collect(
+                        Collectors.toList()));
         // 吊り
         VillageMemberDto executedMember = new VillageMemberDto();
         List<VillagePlayer> executedMemberList = villagePlayerList.stream()
@@ -500,8 +516,9 @@ public class VillageAssist {
                         && CDef.DeadReason.処刑 == CDef.DeadReason.codeOf(villagePlayer.getDeadReason().get().getDeadReasonCode()))
                 .collect(Collectors.toList());
         executedMember.setStatus("処刑死");
-        executedMember
-                .setStatusMemberList(executedMemberList.stream().map(mem -> convertToMemberDetailPart(mem)).collect(Collectors.toList()));
+        executedMember.setStatusMemberList(
+                executedMemberList.stream().sorted(compareForMemberList()).map(mem -> convertToMemberDetailPart(mem)).collect(
+                        Collectors.toList()));
         // 襲撃・呪殺
         VillageMemberDto attackedMember = new VillageMemberDto();
         List<VillagePlayer> attackedMemberList = villagePlayerList.stream().filter(vp -> {
@@ -512,8 +529,9 @@ public class VillageAssist {
             return reason == CDef.DeadReason.襲撃 || reason == CDef.DeadReason.呪殺;
         }).collect(Collectors.toList());
         attackedMember.setStatus("襲撃死・呪殺");
-        attackedMember
-                .setStatusMemberList(attackedMemberList.stream().map(mem -> convertToMemberDetailPart(mem)).collect(Collectors.toList()));
+        attackedMember.setStatusMemberList(
+                attackedMemberList.stream().sorted(compareForMemberList()).map(mem -> convertToMemberDetailPart(mem)).collect(
+                        Collectors.toList()));
         // 突然死
         VillageMemberDto suddonlyDeathMember = new VillageMemberDto();
         List<VillagePlayer> suddonlyDeathMemberList = villagePlayerList.stream()
@@ -522,16 +540,34 @@ public class VillageAssist {
                 .collect(Collectors.toList());
         suddonlyDeathMember.setStatus("突然死");
         suddonlyDeathMember.setStatusMemberList(
-                suddonlyDeathMemberList.stream().map(mem -> convertToMemberDetailPart(mem)).collect(Collectors.toList()));
+                suddonlyDeathMemberList.stream().sorted(compareForMemberList()).map(mem -> convertToMemberDetailPart(mem)).collect(
+                        Collectors.toList()));
         // 見学
         VillageMemberDto spectateMember = new VillageMemberDto();
         List<VillagePlayer> spectateMemberList =
                 villagePlayerList.stream().filter(vp -> vp.isIsSpectatorTrue()).collect(Collectors.toList());
         spectateMember.setStatus("見学");
-        spectateMember
-                .setStatusMemberList(spectateMemberList.stream().map(mem -> convertToMemberDetailPart(mem)).collect(Collectors.toList()));
+        spectateMember.setStatusMemberList(
+                spectateMemberList.stream().sorted(compareForMemberList()).map(mem -> convertToMemberDetailPart(mem)).collect(
+                        Collectors.toList()));
 
         return Arrays.asList(aliveMember, executedMember, attackedMember, suddonlyDeathMember, spectateMember);
+    }
+
+    // 死亡日時の若い順→キャラIDの若い順
+    private Comparator<? super VillagePlayer> compareForMemberList() {
+        return (vp1, vp2) -> {
+            Integer vp1deadDay = vp1.getDeadDay();
+            Integer vp2deadDay = vp2.getDeadDay();
+            if (vp1deadDay != null && vp2deadDay != null) {
+                if (vp1deadDay == vp2deadDay) {
+                    return vp1.getCharaId() - vp2.getCharaId();
+                } else {
+                    return vp1deadDay - vp2deadDay;
+                }
+            }
+            return vp1.getCharaId() - vp2.getCharaId();
+        };
     }
 
     private List<VillageRoomAssignedRowDto> convertToRoomAssignedPart(VillageInfo villageInfo) {
