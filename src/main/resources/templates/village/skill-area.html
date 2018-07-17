@@ -117,6 +117,13 @@
 								</form>
 							</div>
 						</div>
+						<!--/* 能力行使履歴 */-->
+						<div th:if="${content.skillHistoryList != null && content.skillHistoryList.size() > 0}">
+							<hr />
+							<p class="">前日までの能力セット履歴</p>
+							<p class="small" th:each="historyStr : ${content.skillHistoryList}" th:text="${historyStr}"></p>
+						</div>
+						
 					</div>
 				</div>
 			</div>

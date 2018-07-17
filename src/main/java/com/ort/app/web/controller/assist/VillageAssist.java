@@ -456,6 +456,7 @@ public class VillageAssist {
         List<Chara> abilityTargetList = villageDispLogic.makeAbilityTargetList(villageInfo);
         content.setAbilityTargetList(abilityTargetList);
         content.setAttackerList(villageDispLogic.makeAttackerList(villageInfo));
+        content.setSkillHistoryList(villageDispLogic.makeSkillHistoryList(villageInfo));
         setAbilityTarget(villageInfo, abilityTargetList, model);
     }
 

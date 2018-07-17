@@ -72,7 +72,11 @@ public class VillageInfo {
 
     // 最新日か
     public boolean isLatestDay() {
-        return day == this.getDayList().get(this.getDayList().size() - 1).intValue();
+        return day == this.getLatestDay();
+    }
+
+    public int getLatestDay() {
+        return this.getDayList().get(this.getDayList().size() - 1).intValue();
     }
 
     // 管理者か

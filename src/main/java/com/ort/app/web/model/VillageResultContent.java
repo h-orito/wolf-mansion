@@ -103,6 +103,9 @@ public class VillageResultContent implements Serializable {
     /** 襲撃担当者リスト */
     private List<Chara> attackerList;
 
+    /** 能力行使履歴 */
+    private List<String> skillHistoryList;
+
     /** 投票対象リスト */
     private List<Chara> voteTargetList;
 
@@ -465,5 +468,13 @@ public class VillageResultContent implements Serializable {
 
     public void setDayChangeDatetime(LocalDateTime dayChangeDatetime) {
         this.dayChangeDatetime = dayChangeDatetime;
+    }
+
+    public List<String> getSkillHistoryList() {
+        return skillHistoryList;
+    }
+
+    public void setSkillHistoryList(List<String> skillHistoryList) {
+        this.skillHistoryList = skillHistoryList;
     }
 }

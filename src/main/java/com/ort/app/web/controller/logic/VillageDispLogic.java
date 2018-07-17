@@ -2,9 +2,11 @@ package com.ort.app.web.controller.logic;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,9 +16,12 @@ import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.AbilityBhv;
 import com.ort.dbflute.exbhv.CharaBhv;
+import com.ort.dbflute.exbhv.FootstepBhv;
 import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
+import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Chara;
+import com.ort.dbflute.exentity.Footstep;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
@@ -41,6 +46,9 @@ public class VillageDispLogic {
 
     @Autowired
     private AbilityBhv abilityBhv;
+
+    @Autowired
+    private FootstepBhv footstepBhv;
 
     // ===================================================================================
     //                                                                             Execute
@@ -335,6 +343,82 @@ public class VillageDispLogic {
             return null;
         }
         return villageInfo.getVPList(true, true, false).stream().map(vp -> vp.getChara().get()).collect(Collectors.toList());
+    }
+
+    // 能力行使履歴リスト作成
+    public List<String> makeSkillHistoryList(VillageInfo villageInfo) {
+        if (!villageInfo.isParticipate() || villageInfo.isDead() || !villageInfo.isLatestDay()
+                || !villageInfo.village.isVillageStatusCode進行中() || villageInfo.isSpectator()) {
+            return null;
+        }
+        VillagePlayer vPlayer = villageInfo.optVillagePlayer.get();
+        CDef.Skill skill = vPlayer.getSkillCodeAsSkill();
+
+        if (skill == CDef.Skill.人狼) {
+            ListResultBean<Ability> abilityList = selectAbilityList(villageInfo, CDef.AbilityType.襲撃);
+            List<Integer> wolfCharaIdList = villageInfo.getVPList(false, true, true)
+                    .stream()
+                    .filter(vp -> vp.isSkillCode人狼())
+                    .map(VillagePlayer::getCharaId)
+                    .collect(Collectors.toList());
+            ListResultBean<Footstep> footstepList = selectFootstepList(villageInfo, wolfCharaIdList);
+            return abilityList.stream().map(ability -> {
+                int day = ability.getDay();
+                Optional<Footstep> optFootstep = footstepList.stream().filter(f -> f.getDay().intValue() == day).findFirst();
+                return String.format("%d日目 %sが%sを襲撃する（%s）", day, ability.getCharaByCharaId().get().getCharaName(),
+                        ability.getCharaByTargetCharaId().get().getCharaName(),
+                        optFootstep.map(fs -> fs.getFootstepRoomNumbers()).orElse("なし"));
+            }).collect(Collectors.toList());
+        } else if (SkillUtil.hasDivineAbility(skill)) {
+            ListResultBean<Ability> abilityList = selectAbilityList(villageInfo, CDef.AbilityType.占い);
+            ListResultBean<Footstep> footstepList = selectFootstepList(villageInfo, Arrays.asList(vPlayer.getCharaId()));
+            return abilityList.stream().map(ability -> {
+                int day = ability.getDay();
+                Optional<Footstep> optFootstep = footstepList.stream().filter(f -> f.getDay().intValue() == day).findFirst();
+                return String.format("%d日目 %sを占う（%s）", day, ability.getCharaByTargetCharaId().get().getCharaName(),
+                        optFootstep.map(fs -> fs.getFootstepRoomNumbers()).orElse("なし"));
+            }).collect(Collectors.toList());
+        } else if (skill == CDef.Skill.狩人) {
+            ListResultBean<Ability> abilityList = selectAbilityList(villageInfo, CDef.AbilityType.護衛);
+            ListResultBean<Footstep> footstepList = selectFootstepList(villageInfo, Arrays.asList(vPlayer.getCharaId()));
+            return abilityList.stream().map(ability -> {
+                int day = ability.getDay();
+                Optional<Footstep> optFootstep = footstepList.stream().filter(f -> f.getDay().intValue() == day).findFirst();
+                return String.format("%d日目 %sを護衛する（%s）", day, ability.getCharaByTargetCharaId().get().getCharaName(),
+                        optFootstep.map(fs -> fs.getFootstepRoomNumbers()).orElse("なし"));
+            }).collect(Collectors.toList());
+        } else if (SkillUtil.hasMadmanAbility(skill) || skill == CDef.Skill.妖狐) {
+            ListResultBean<Footstep> footstepList = selectFootstepList(villageInfo, Arrays.asList(vPlayer.getCharaId()));
+            return footstepList.stream().map(f -> {
+                String footstep = f.getFootstepRoomNumbers();
+                return String.format("%d日目 %s", f.getDay(),
+                        StringUtils.isEmpty(footstep) || "なし".equals(footstep) ? "徘徊しない" : footstep + "を徘徊する");
+            }).collect(Collectors.toList());
+        }
+        return null;
+    }
+
+    // ===================================================================================
+    //                                                                              Select
+    //                                                                              ======
+    private ListResultBean<Ability> selectAbilityList(VillageInfo villageInfo, CDef.AbilityType abilityType) {
+        return abilityBhv.selectList(cb -> {
+            cb.setupSelect_CharaByCharaId();
+            cb.setupSelect_CharaByTargetCharaId();
+            cb.query().setVillageId_Equal(villageInfo.villageId);
+            cb.query().setDay_LessThan(villageInfo.getLatestDay());
+            cb.query().setAbilityTypeCode_Equal_AsAbilityType(abilityType);
+            cb.query().addOrderBy_Day_Asc();
+        });
+    }
+
+    private ListResultBean<Footstep> selectFootstepList(VillageInfo villageInfo, List<Integer> charaIdList) {
+        ListResultBean<Footstep> footstepList = footstepBhv.selectList(cb -> {
+            cb.query().setVillageId_Equal(villageInfo.villageId);
+            cb.query().setDay_LessThan(villageInfo.getLatestDay());
+            cb.query().setCharaId_InScope(charaIdList);
+        });
+        return footstepList;
     }
 
     private int selectSuddonlyDeathCount(String playerName) {
