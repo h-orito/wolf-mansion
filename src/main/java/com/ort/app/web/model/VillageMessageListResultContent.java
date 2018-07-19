@@ -39,6 +39,9 @@ public class VillageMessageListResultContent implements Serializable {
     /** 表示するページ番号リスト */
     private List<Integer> pageNumList;
 
+    /** 最新発言の文字列型日時uuuuMMddHHMiss */
+    private String latestMessageDatetime;
+
     public List<VillageMessageDto> getMessageList() {
         return messageList;
     }
@@ -117,5 +120,13 @@ public class VillageMessageListResultContent implements Serializable {
 
     public void setPageNumList(List<Integer> pageNumList) {
         this.pageNumList = pageNumList;
+    }
+
+    public String getLatestMessageDatetime() {
+        return latestMessageDatetime;
+    }
+
+    public void setLatestMessageDatetime(String latestMessageDatetime) {
+        this.latestMessageDatetime = latestMessageDatetime;
     }
 }

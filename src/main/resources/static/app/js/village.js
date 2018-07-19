@@ -7,6 +7,7 @@ $(function() {
 	const villageId = $("[data-village-id]").data('village-id');
 	const day = $("[data-day]").data('day');
 	const GET_MESSAGE_URL = contextPath + 'village/getMessageList';
+	const GET_LATEST_MESSAGE_DATETIME_URL = contextPath + 'village/getLatestMessageDatetime';
 	const GET_ANCHOR_MESSAGE_URL = contextPath + 'village/getAnchorMessage';
 	const GET_FOOTSTEP_URL = contextPath + 'village/getFootstepList';
 	const messageTemplate = Handlebars.compile($("#message-template").html());
@@ -94,6 +95,9 @@ $(function() {
 
 			// フィルタ適用
 			filterMessage();
+
+			// 更新通知のために最新メッセージ日時を埋め込む
+			storeLatestMessageDatetime(response, day);
 		});
 	}
 
@@ -121,6 +125,27 @@ $(function() {
 		mes = mes.replace(strikeRegex, '<span style="text-decoration: line-through;">$1</span>');
 		mes = mes.replace(largeRegex, '<span style="font-size: 16px;">$1</span>');
 		return mes.replace(smallRegex, '<span style="font-size: 10px;">$1</span>');
+	}
+
+	function storeLatestMessageDatetime(response, day) {
+		if (!isInLatestPage(day)) {
+			return;
+		}
+		$('#latest-message-datetime').text(response.latestMessageDatetime);
+		$('.glyphicon-refresh').removeClass('flash');
+	}
+
+	function isInLatestPage(day) {
+		if (latestDay != day) {
+			return false;
+		}
+		if ($('[data-next-page]').length == 0) { // ページングなし
+			return true;
+		}
+		if ($('[data-next-page]').closest('li').hasClass('disabled')) {
+			return true; // ページングがあり、次のページに遷移不可能
+		}
+		return false;
 	}
 
 	// アンカー
@@ -401,6 +426,18 @@ $(function() {
 	});
 	$('[data-filter-submit]').on('click', function() {
 		filterMessage();
+		// 日付を跨いでも維持できるように一時的にcookieに入れておく
+		const charaFilterArr = $('#modal-filter').find('.bg-info[data-filter-chara-id]').map(function() {
+			return String($(this).data('filter-chara-id'));
+		});
+		const typeFilterArr = $('#modal-filter').find('.bg-info[data-filter-message-type]').map(function() {
+			return String($(this).data('filter-message-type'));
+		});
+		const keywordFilterArr = $('#modal-filter [data-filter-message-keyword]').val().replace(/　/g, ' ').split(' ');
+		saveDisplaySetting('filter_village_id', villageId);
+		saveDisplaySetting('filter_chara', charaFilterArr.length == 0 ? [] : $(charaFilterArr).get().join(','));
+		saveDisplaySetting('filter_type', typeFilterArr.length == 0 ? [] : $(typeFilterArr).get().join(','));
+		saveDisplaySetting('filter_keyword', keywordFilterArr.length == 0 ? [] : $(keywordFilterArr).get().join(' '));
 		$('#modal-filter').modal('hide');
 	});
 
@@ -452,6 +489,34 @@ $(function() {
 		});
 	}
 
+	// フィルタを引き継ぐ
+	function restoreFilter() {
+		const filterVillageId = getDisplaySetting('filter_village_id');
+		if (filterVillageId == null || filterVillageId != villageId) {
+			saveDisplaySetting('filter_village_id', 0);
+			return;
+		}
+		const filterChara = getDisplaySetting('filter_chara');
+		const charaFilterArr = filterChara == null || filterChara.length == 0 ? [] : filterChara.split(',');
+		const filterType = getDisplaySetting('filter_type');
+		const typeFilterArr = filterType == null || filterType.length == 0 ? [] : filterType.split(',');
+		// 復元
+		$('#modal-filter').find('[data-filter-chara-id]').each(function(idx, elm) {
+			const charaId = String($(elm).data('filter-chara-id'));
+			if ($.inArray(charaId, charaFilterArr) == -1) {
+				$(elm).removeClass('bg-info');
+			}
+		});
+		$('#modal-filter').find('.bg-info[data-filter-message-type]').each(function(idx, elm) {
+			const type = String($(elm).data('filter-message-type'));
+			if ($.inArray(type, typeFilterArr) == -1) {
+				$(elm).removeClass('bg-info');
+			}
+		});
+		$('#modal-filter [data-filter-message-keyword]').val(getDisplaySetting('filter_keyword'));
+		filterMessage();
+	}
+
 	// コピー
 	function clipboardCopy(text, alertText) {
 		var temp = document.createElement('div');
@@ -492,7 +557,8 @@ $(function() {
 		}
 		displaySetting[key] = value;
 		$.cookie('village_display_setting', displaySetting, {
-			expires : 365
+			expires : 365,
+			path : '/'
 		});
 	}
 
@@ -505,7 +571,8 @@ $(function() {
 			'is_open_creatorform_tab' : true,
 			'bottom_fix_tab' : 'no-fix',
 			'is_no_paging' : false,
-			'page_size' : 30
+			'page_size' : 30,
+			'auto_refresh' : false
 		};
 	}
 
@@ -515,7 +582,8 @@ $(function() {
 		if (displaySetting == null || Object.keys(displaySetting).length === 0) {
 			displaySetting = makeDisplaySettingObject();
 			$.cookie('village_display_setting', displaySetting, {
-				expires : 365
+				expires : 365,
+				path : '/'
 			});
 		}
 		// 各項目なかったら作成
@@ -529,6 +597,9 @@ $(function() {
 	function restoreDisplaySetting() {
 		if (getDisplaySetting('is_no_paging')) {
 			$('[data-dsetting-nopaging]').prop('checked', true);
+		}
+		if (getDisplaySetting('auto_refresh')) {
+			$('[data-dsetting-autorefresh]').prop('checked', true);
 		}
 		if (getDisplaySetting('page_size')) {
 			$('[data-dsetting-pagesize]').val(getDisplaySetting('page_size'));
@@ -566,12 +637,18 @@ $(function() {
 		} else {
 			$('.container').css('padding-bottom', 40);
 		}
+		restoreFilter(); // フィルタを引き継ぐ
 	}
 
 	$('[data-dsetting-nopaging]').on('change', function() {
 		const isCheck = $(this).prop('checked');
 		saveDisplaySetting('is_no_paging', isCheck ? true : false);
 		loadAndDisplayMessage();
+	});
+
+	$('[data-dsetting-autorefresh]').on('change', function() {
+		const isCheck = $(this).prop('checked');
+		saveDisplaySetting('auto_refresh', isCheck ? true : false);
 	});
 
 	$('[data-dsetting-pagesize]').on('change', function() {
@@ -678,4 +755,41 @@ $(function() {
 		diffSeconds = ('0' + diffSeconds).slice(-2);
 		$('#left-time').text(diffHours + ':' + diffMinutes + ':' + diffSeconds);
 	}
+
+	// ----------------------------------------------
+	// 更新通知
+	// ----------------------------------------------
+	let timeIntervalMilliSecondToRefresh = 30000;
+	setInterval(function() {
+		if ($('#daychange-datetime').length) {
+			$.ajax({
+				type : 'GET',
+				url : GET_LATEST_MESSAGE_DATETIME_URL,
+				data : {
+					'villageId' : villageId,
+					'day' : day
+				}
+			}).then(function(response) {
+				const $latestMessageDatetime = $('#latest-message-datetime');
+				const beforeLatestMessageDatetime = $latestMessageDatetime.text();
+				if (beforeLatestMessageDatetime == null || !$.isNumeric(beforeLatestMessageDatetime) || beforeLatestMessageDatetime == '0') {
+					$latestMessageDatetime.text(response.latestMessageDatetime);
+					return;
+				}
+				const beforeLatestMessageDatetimeNum = Number(beforeLatestMessageDatetime);
+				const afterLatestMessageDatetimeNum = Number(response.latestMessageDatetime);
+				if (beforeLatestMessageDatetimeNum < afterLatestMessageDatetimeNum) {
+					$('.glyphicon-refresh').addClass('flash');
+					if (isInLatestPage(day) && getDisplaySetting('auto_refresh')) {
+						loadAndDisplayMessage().then(function() {
+							$('#autorefresh-alert').show();
+							$('#autorefresh-alert').fadeIn(1000).delay(2000).fadeOut(2000);
+						});
+					}
+				}
+			});
+		} else {
+			timeIntervalMilliSecond = 24 * 60 * 60 * 1000;
+		}
+	}, timeIntervalMilliSecondToRefresh);
 });

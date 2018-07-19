@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.dbflute.cbean.result.ListResultBean;
 import org.dbflute.cbean.result.PagingResultBean;
 import org.dbflute.optional.OptionalEntity;
+import org.dbflute.optional.OptionalScalar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import com.ort.app.web.form.VillageGetAnchorMessageForm;
 import com.ort.app.web.form.VillageGetMessageListForm;
 import com.ort.app.web.model.VillageAnchorMessageResultContent;
+import com.ort.app.web.model.VillageLatestMessageDatetimeResultContent;
 import com.ort.app.web.model.VillageMessageListResultContent;
 import com.ort.app.web.model.inner.VillageMessageDto;
 import com.ort.app.web.util.SkillUtil;
@@ -114,6 +116,22 @@ public class VillageMessageAssist {
         villagePlayerBhv.update(vp);
     }
 
+    public VillageLatestMessageDatetimeResultContent getLatestMessageDatetime(VillageGetMessageListForm form, UserInfo userInfo) {
+        Integer villageId = form.getVillageId();
+        int latestDay = selectLatestDay(villageId);
+        int day = form.getDay() != null ? form.getDay() : latestDay;
+        OptionalEntity<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
+        Village village = selectVillage(villageId);
+        List<CDef.MessageType> messageTypeList = makeMessageTypeList(optVillagePlayer, village, day);
+        OptionalScalar<LocalDateTime> optLatestMessageDatetime =
+                selectLatestMessageDatetime(form.getVillageId(), latestDay, messageTypeList, optVillagePlayer);
+        VillageLatestMessageDatetimeResultContent content = new VillageLatestMessageDatetimeResultContent();
+        String latestMessageDatetime =
+                optLatestMessageDatetime.map(ldt -> ldt.format(DateTimeFormatter.ofPattern("uuuuMMddHHmmss"))).orElse("0");
+        content.setLatestMessageDatetime(latestMessageDatetime);
+        return content;
+    }
+
     // ===================================================================================
     //                                                                              Select
     //                                                                              ======
@@ -144,6 +162,26 @@ public class VillageMessageAssist {
             }
             cb.query().addOrderBy_MessageDatetime_Asc();
             cb.query().addOrderBy_MessageId_Asc();
+        });
+    }
+
+    private OptionalScalar<LocalDateTime> selectLatestMessageDatetime(Integer villageId, Integer latestDay,
+            List<CDef.MessageType> messageTypeList, OptionalEntity<VillagePlayer> optVillagePlayer) {
+        return messageBhv.selectScalar(LocalDateTime.class).max(cb -> {
+            cb.specify().columnMessageDatetime();
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_Equal(latestDay);
+            if (optVillagePlayer.isPresent()) {
+                cb.orScopeQuery(orCB -> {
+                    orCB.query().setMessageTypeCode_InScope_AsMessageType(messageTypeList);
+                    orCB.orScopeQueryAndPart(andCB -> {
+                        andCB.query().setMessageTypeCode_Equal_独り言();
+                        andCB.query().setVillagePlayerId_Equal(optVillagePlayer.get().getVillagePlayerId());
+                    });
+                });
+            } else {
+                cb.query().setMessageTypeCode_InScope_AsMessageType(messageTypeList);
+            }
         });
     }
 
@@ -201,6 +239,12 @@ public class VillageMessageAssist {
         content.setIsExistNextPage(messageList.existsNextPage());
         content.setCurrentPageNum(messageList.getCurrentPageNumber());
         content.setPageNumList(createPageNumList(messageList));
+        String latestMessageDatetime = "0";
+        if (messageList.size() != 0) {
+            latestMessageDatetime =
+                    messageList.get(messageList.size() - 1).getMessageDatetime().format(DateTimeFormatter.ofPattern("uuuuMMddHHmmss"));
+        }
+        content.setLatestMessageDatetime(latestMessageDatetime);
         return content;
     }
 

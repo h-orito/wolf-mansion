@@ -260,6 +260,16 @@ tr.top-menu-selectable:hover a {
 	z-index: 105;
 }
 
+.autorefresh-alert {
+	display: none; /* 初期状態は非表示 */
+	/* 画面上部に表示 */
+	position: fixed;
+	top: 0;
+	right: 5px;
+	left: 5px;
+	z-index: 105;
+}
+
 #footer-menu.footer-menu-bottom {
 	position: fixed;
 	bottom: 0px;
@@ -306,7 +316,7 @@ tr.top-menu-selectable:hover a {
 
 #sayform .btn-saytypes {
 	margin-left: 55px;
-	margin-bottom: 5px;	
+	margin-bottom: 5px;
 }
 
 #sayform .btn-saytypes .btn-success {
@@ -378,4 +388,15 @@ ul.announce>li {
 	padding: 5px;
 	margin-bottom: 0px;
 	z-index: 100;
+}
+
+/* 点滅 */
+.flash {
+	animation: Flash 1s infinite;
+}
+
+/* アニメーション */
+@keyframes Flash { 50%{
+	opacity: 0;
+}
 }

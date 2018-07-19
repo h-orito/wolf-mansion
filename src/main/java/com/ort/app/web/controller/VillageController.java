@@ -37,6 +37,7 @@ import com.ort.app.web.form.validator.VillageSayFormValidator;
 import com.ort.app.web.form.validator.VillageSettingsFormValidator;
 import com.ort.app.web.model.VillageAnchorMessageResultContent;
 import com.ort.app.web.model.VillageGetFootstepListResultContent;
+import com.ort.app.web.model.VillageLatestMessageDatetimeResultContent;
 import com.ort.app.web.model.VillageMessageListResultContent;
 import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionUserInfoUtil;
@@ -130,6 +131,14 @@ public class VillageController {
         dayChangeLogic.dayChangeIfNeeded(form.getVillageId());
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         return villageMessageAssist.getMessageList(form, userInfo);
+    }
+
+    // 最終発言時間取得
+    @GetMapping("/village/getLatestMessageDatetime")
+    @ResponseBody
+    private VillageLatestMessageDatetimeResultContent getLatestMessageDatetime(VillageGetMessageListForm form) {
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        return villageMessageAssist.getLatestMessageDatetime(form, userInfo);
     }
 
     // アンカー発言取得

@@ -60,7 +60,9 @@
 			</div>
 
 			<div class="daychange-alert alert alert-success">日付が更新されました。ページを再読み込みしてください。</div>
+			<div id="autorefresh-alert" class="autorefresh-alert alert alert-success">最新発言を読み込みました</div>
 			<div class="hidden" id="daychange-datetime" th:if="${content.dayChangeDatetime}" th:text="${#temporals.format(content.dayChangeDatetime, 'yyyy/MM/dd HH:mm:ss')}"></div>
+			<div class="hidden" id="latest-message-datetime">0</div>
 			<div id="time-alert" class="hidden time-alert alert alert-info">
 				更新まで <span id="left-time">00:00:00</span>
 			</div>
