@@ -349,6 +349,16 @@ public class BsCharaCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnDefaultJoinMessage() { return doColumn("DEFAULT_JOIN_MESSAGE"); }
         /**
+         * DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnDisplayWidth() { return doColumn("DISPLAY_WIDTH"); }
+        /**
+         * DISPLAY_HEIGHT: {NotNull, INT UNSIGNED(10)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnDisplayHeight() { return doColumn("DISPLAY_HEIGHT"); }
+        /**
          * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
          */

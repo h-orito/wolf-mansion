@@ -18,6 +18,7 @@ import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exbhv.VillageSettingsBhv;
+import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillageSettings;
@@ -63,10 +64,12 @@ public class VillageParticipateAssist {
             return villageAssist.setIndexModelAndReturnView(villageId, null, participateForm, null, model);
         }
 
-        String charaImgUrl = charaBhv.selectByPK(participateForm.getCharaId()).map(chara -> chara.getCharaImgUrl()).orElseThrow(() -> {
+        Chara chara = charaBhv.selectByPK(participateForm.getCharaId()).orElseThrow(() -> {
             return new IllegalArgumentException("改ざん？");
         });
-        model.addAttribute("characterImgUrl", charaImgUrl);
+        model.addAttribute("characterImgUrl", chara.getCharaImgUrl());
+        model.addAttribute("characterImgWidth", chara.getDisplayWidth());
+        model.addAttribute("characterImgHeight", chara.getDisplayHeight());
         model.addAttribute("villageId", villageId);
         Village village = selectVillage(villageId);
         model.addAttribute("villageName", village.getVillageDisplayName());

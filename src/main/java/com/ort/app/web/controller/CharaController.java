@@ -81,6 +81,8 @@ public class CharaController {
         part.setDesignerName(charaGroup.getDesigner().get().getDesignerName());
         part.setCharaNum(charaGroup.getCharaList().size());
         part.setDummyImgUrl(charaGroup.getCharaList().stream().filter(c -> c.isIsDummyTrue()).findFirst().get().getCharaImgUrl());
+        part.setDummyImgWidth(charaGroup.getCharaList().stream().filter(c -> c.isIsDummyTrue()).findFirst().get().getDisplayWidth());
+        part.setDummyImgHeight(charaGroup.getCharaList().stream().filter(c -> c.isIsDummyTrue()).findFirst().get().getDisplayHeight());
         return part;
     }
 
@@ -99,6 +101,8 @@ public class CharaController {
         part.setCharaName(chara.getCharaName());
         part.setCharaShortName(chara.getCharaShortName());
         part.setCharaImgUrl(chara.getCharaImgUrl());
+        part.setCharaImgWidth(chara.getDisplayWidth());
+        part.setCharaImgHeight(chara.getDisplayHeight());
         return part;
     }
 

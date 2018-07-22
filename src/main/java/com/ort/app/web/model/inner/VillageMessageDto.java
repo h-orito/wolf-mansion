@@ -31,6 +31,12 @@ public class VillageMessageDto {
     /** メッセージ日時 */
     private LocalDateTime messageDatetime;
 
+    /** メッセージ表示横幅px */
+    private Integer width;
+
+    /** メッセージ表示縦幅px */
+    private Integer height;
+
     public String getPlayerName() {
         return playerName;
     }
@@ -101,6 +107,27 @@ public class VillageMessageDto {
 
     public void setCharacterShortName(String characterShortName) {
         this.characterShortName = characterShortName;
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
+    /** css指定用 */
+    public String getMinHeightCss() {
+        return "min-height: " + height + "px;";
     }
 
 }

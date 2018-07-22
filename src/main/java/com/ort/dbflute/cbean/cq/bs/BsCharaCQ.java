@@ -297,6 +297,46 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
      */
     public BsCharaCQ addOrderBy_DefaultJoinMessage_Desc() { regOBD("DEFAULT_JOIN_MESSAGE"); return this; }
 
+    protected ConditionValue _displayWidth;
+    public ConditionValue xdfgetDisplayWidth()
+    { if (_displayWidth == null) { _displayWidth = nCV(); }
+      return _displayWidth; }
+    protected ConditionValue xgetCValueDisplayWidth() { return xdfgetDisplayWidth(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_DisplayWidth_Asc() { regOBA("DISPLAY_WIDTH"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_DisplayWidth_Desc() { regOBD("DISPLAY_WIDTH"); return this; }
+
+    protected ConditionValue _displayHeight;
+    public ConditionValue xdfgetDisplayHeight()
+    { if (_displayHeight == null) { _displayHeight = nCV(); }
+      return _displayHeight; }
+    protected ConditionValue xgetCValueDisplayHeight() { return xdfgetDisplayHeight(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * DISPLAY_HEIGHT: {NotNull, INT UNSIGNED(10)}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_DisplayHeight_Asc() { regOBA("DISPLAY_HEIGHT"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * DISPLAY_HEIGHT: {NotNull, INT UNSIGNED(10)}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_DisplayHeight_Desc() { regOBD("DISPLAY_HEIGHT"); return this; }
+
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
     { if (_registerDatetime == null) { _registerDatetime = nCV(); }

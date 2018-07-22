@@ -14,6 +14,12 @@ public class CharaGroupCharaDto {
     /** キャラ画像URL */
     private String charaImgUrl;
 
+    /** キャラ画像横幅 */
+    private Integer charaImgWidth;
+
+    /** キャラ画像縦幅 */
+    private Integer charaImgHeight;
+
     public Integer getCharaId() {
         return charaId;
     }
@@ -44,5 +50,21 @@ public class CharaGroupCharaDto {
 
     public void setCharaImgUrl(String charaImgUrl) {
         this.charaImgUrl = charaImgUrl;
+    }
+
+    public Integer getCharaImgWidth() {
+        return charaImgWidth;
+    }
+
+    public void setCharaImgWidth(Integer charaImgWidth) {
+        this.charaImgWidth = charaImgWidth;
+    }
+
+    public Integer getCharaImgHeight() {
+        return charaImgHeight;
+    }
+
+    public void setCharaImgHeight(Integer charaImgHeight) {
+        this.charaImgHeight = charaImgHeight;
     }
 }

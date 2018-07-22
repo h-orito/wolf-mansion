@@ -1,4 +1,23 @@
 map:{
+    ; 2018/07/22 00:57:04 = map:{
+        ; diffDate = 2018/07/22 00:57:04
+        ; tableDiff = map:{
+            ; CHARA = map:{
+                ; tableName = CHARA
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; DISPLAY_WIDTH = map:{
+                        ; columnName = DISPLAY_WIDTH
+                        ; diffType = ADD
+                    }
+                    ; DISPLAY_HEIGHT = map:{
+                        ; columnName = DISPLAY_HEIGHT
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2018/06/09 23:46:18 = map:{
         ; diffDate = 2018/06/09 23:46:18
         ; tableDiff = map:{

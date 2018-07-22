@@ -21,7 +21,9 @@
 								<div class="col-sm-12 col-xs-12">
 									<div class="row">
 										<div class="col-sm-12 col-xs-12" style="display: flex;">
-											<div th:style="'width: 50px; height: 77px; background: url(\'' + ${characterImgUrl} + '\'); background-repeat: no-repeat;'"></div>
+											<div>
+												<img th:src="${characterImgUrl}" th:width="${characterImgWidth}" th:height="${characterImgHeight}">
+											</div>
 											<div id="message-area"
 												th:class="'message ' + *{messageType == 'NORMAL_SAY' ? 'message-normal' : 
 														messageType == 'WEREWOLF_SAY' ? 'message-werewolf' : 
@@ -29,16 +31,15 @@
 														messageType == 'MONOLOGUE_SAY' ? 'message-monologue' : 
 														messageType == 'GRAVE_SAY' ? 'message-grave' :
 														messageType == 'SPECTATE_SAY' ? 'message-spectate' : ''}"
-												style="flex: 1; margin-left: 5px;" th:text="*{message}">
-											</div>
+												th:style="'flex: 1; margin-left: 5px; min-height: ' + ${characterImgHeight} + 'px;'" th:text="*{message}"></div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<input type="hidden" th:field="*{message}" />
-							<input type="hidden" th:field="*{messageType}" />
-							<input type="button" class="btn btn-sm btn-default" value="戻る(発言内容は消去されます)" th:data-back="${villageId}" />
-							<input type="submit" class="btn btn-sm btn-success pull-right" th:value="*{messageType == 'NORMAL_SAY' ? '発言する' : 
+							<input type="hidden" th:field="*{message}" /> <input type="hidden" th:field="*{messageType}" /> <input type="button"
+								class="btn btn-sm btn-default" value="戻る(発言内容は消去されます)" th:data-back="${villageId}" /> <input type="submit"
+								class="btn btn-sm btn-success pull-right"
+								th:value="*{messageType == 'NORMAL_SAY' ? '発言する' : 
 														messageType == 'WEREWOLF_SAY' ? '囁く' : 
 														messageType == 'MASON_SAY' ? '発言する（共鳴）' : 
 														messageType == 'MONOLOGUE_SAY' ? '発言する（独り言）' : 

@@ -32,7 +32,7 @@
 									<td class="vertical-middle" th:text="${charaGroup.designerName}"></td>
 									<td class="vertical-middle" th:text="${charaGroup.charaNum + '人'}"></td>
 									<td class="vertical-middle">
-										<img src="" th:src="${charaGroup.dummyImgUrl}" style="width: 50px; height: 77px;" />
+										<img src="" th:src="${charaGroup.dummyImgUrl}" th:width="${charaGroup.dummyImgWidth}" th:height="${charaGroup.dummyImgHeight}" />
 									</td>
 								</tr>
 							</tbody>

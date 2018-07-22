@@ -150,7 +150,6 @@ tr.top-menu-selectable:hover a {
 	margin-bottom: 20px;
 	border: 1px solid #e3e3e3;
 	font-size: 12px;
-	min-height: 77px;
 	word-break: break-word;
 	padding: 9px;
 }
@@ -315,7 +314,6 @@ tr.top-menu-selectable:hover a {
 }
 
 #sayform .btn-saytypes {
-	margin-left: 55px;
 	margin-bottom: 5px;
 }
 
@@ -396,7 +394,8 @@ ul.announce>li {
 }
 
 /* アニメーション */
-@keyframes Flash { 50%{
+@
+keyframes Flash { 50%{
 	opacity: 0;
 }
 }

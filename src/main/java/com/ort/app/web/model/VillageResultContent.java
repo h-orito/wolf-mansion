@@ -97,6 +97,12 @@ public class VillageResultContent implements Serializable {
     /** 参戦しているキャラの画像 */
     private String charaImageUrl;
 
+    /** 参戦しているキャラの画像の横幅 */
+    private Integer charaImageWidth;
+
+    /** 参戦しているキャラの画像の縦幅 */
+    private Integer charaImageHeight;
+
     /** 能力行使対象リスト */
     private List<Chara> abilityTargetList;
 
@@ -476,5 +482,21 @@ public class VillageResultContent implements Serializable {
 
     public void setSkillHistoryList(List<String> skillHistoryList) {
         this.skillHistoryList = skillHistoryList;
+    }
+
+    public Integer getCharaImageWidth() {
+        return charaImageWidth;
+    }
+
+    public void setCharaImageWidth(Integer charaImageWidth) {
+        this.charaImageWidth = charaImageWidth;
+    }
+
+    public Integer getCharaImageHeight() {
+        return charaImageHeight;
+    }
+
+    public void setCharaImageHeight(Integer charaImageHeight) {
+        this.charaImageHeight = charaImageHeight;
     }
 }

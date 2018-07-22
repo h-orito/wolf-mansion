@@ -83,8 +83,10 @@
 										<div class="col-sm-12 col-xs-12">
 											<div class="row" style="display: flex;">
 												<div class="col-sm-12 col-xs-12" style="display: flex;">
-													<div th:style="'width: 50px; height: 77px; background: url(\'' + ${characterImgUrl} + '\'); background-repeat: no-repeat;'"></div>
-													<div class="message message-normal" style="flex: 1; margin-left: 5px; min-height: 77px;">
+													<div>
+														<img th:src="${characterImgUrl}" th:width="${characterImgWidth}" th:height="${characterImgHeight}">
+													</div>
+													<div class="message message-normal" th:style="'flex: 1; margin-left: 5px; min-height: ' + ${characterImgHeight} + 'px;'">
 														<th:block th:if="*{dummyJoinMessage}">
 															<th:block th:each="str, stat : *{dummyJoinMessage.split('\r\n|\r|\n', -1)}">
 																<th:block th:text="${str}" />

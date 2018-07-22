@@ -128,6 +128,8 @@ public class CharaCIQ extends AbstractBsCharaCQ {
     protected ConditionValue xgetCValueCharaImgUrl() { return _myCQ.xdfgetCharaImgUrl(); }
     protected ConditionValue xgetCValueIsDummy() { return _myCQ.xdfgetIsDummy(); }
     protected ConditionValue xgetCValueDefaultJoinMessage() { return _myCQ.xdfgetDefaultJoinMessage(); }
+    protected ConditionValue xgetCValueDisplayWidth() { return _myCQ.xdfgetDisplayWidth(); }
+    protected ConditionValue xgetCValueDisplayHeight() { return _myCQ.xdfgetDisplayHeight(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
     protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }
     protected ConditionValue xgetCValueUpdateDatetime() { return _myCQ.xdfgetUpdateDatetime(); }

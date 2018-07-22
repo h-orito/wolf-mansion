@@ -19,6 +19,7 @@ import com.ort.app.web.form.NewVillageForm;
 import com.ort.app.web.form.validator.NewVillageFormValidator;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.CharaGroupBhv;
+import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.CharaGroup;
 import com.ort.dbflute.exentity.Village;
 import com.ort.fw.security.UserInfo;
@@ -78,11 +79,14 @@ public class NewVillageController {
         String charaGroupName = charaGroup.getCharaGroupName();
         model.addAttribute("characterSetName", charaGroupName);
         // キャラ画像URL
-        String imgUrl = charaBhv.selectEntityWithDeletedCheck(cb -> {
+        Chara chara = charaBhv.selectEntityWithDeletedCheck(cb -> {
             cb.query().setIsDummy_Equal_True();
             cb.query().setCharaGroupId_Equal(charaGroup.getCharaGroupId());
-        }).getCharaImgUrl();
-        model.addAttribute("characterImgUrl", imgUrl);
+        });
+        model.addAttribute("characterImgUrl", chara.getCharaImgUrl());
+        model.addAttribute("characterImgWidth", chara.getDisplayWidth());
+        model.addAttribute("characterImgHeight", chara.getDisplayHeight());
+
         // 時間と日時の表示
         model.addAttribute("startDateTime", makeStartDateTime(villageForm));
         model.addAttribute("interval", makeInterval(villageForm));

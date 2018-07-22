@@ -111,8 +111,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>378</x>
-			<y>1003</y>
+			<x>370</x>
+			<y>977</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -183,6 +183,20 @@
 					<logical_name>入村時デフォルト発言</logical_name>
 					<type>varchar(n)</type>
 					<length>200</length>
+				</normal_column>
+				<normal_column>
+					<physical_name>display_width</physical_name>
+					<logical_name>表示時横幅</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>display_height</physical_name>
+					<logical_name>表示時縦幅</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
 				</normal_column>
 				<column_group>共通カラム</column_group>
 			</columns>

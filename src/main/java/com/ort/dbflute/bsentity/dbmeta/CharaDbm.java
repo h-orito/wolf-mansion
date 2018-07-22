@@ -52,6 +52,8 @@ public class CharaDbm extends AbstractDBMeta {
             ((Chara)et).setIsDummy((Boolean)vl);
         }, "isDummy");
         setupEpg(_epgMap, et -> ((Chara)et).getDefaultJoinMessage(), (et, vl) -> ((Chara)et).setDefaultJoinMessage((String)vl), "defaultJoinMessage");
+        setupEpg(_epgMap, et -> ((Chara)et).getDisplayWidth(), (et, vl) -> ((Chara)et).setDisplayWidth(cti(vl)), "displayWidth");
+        setupEpg(_epgMap, et -> ((Chara)et).getDisplayHeight(), (et, vl) -> ((Chara)et).setDisplayHeight(cti(vl)), "displayHeight");
         setupEpg(_epgMap, et -> ((Chara)et).getRegisterDatetime(), (et, vl) -> ((Chara)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((Chara)et).getRegisterTrace(), (et, vl) -> ((Chara)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((Chara)et).getUpdateDatetime(), (et, vl) -> ((Chara)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -95,6 +97,8 @@ public class CharaDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnCharaImgUrl = cci("CHARA_IMG_URL", "CHARA_IMG_URL", null, null, String.class, "charaImgUrl", null, false, false, true, "VARCHAR", 100, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnIsDummy = cci("IS_DUMMY", "IS_DUMMY", null, null, Boolean.class, "isDummy", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnDefaultJoinMessage = cci("DEFAULT_JOIN_MESSAGE", "DEFAULT_JOIN_MESSAGE", null, null, String.class, "defaultJoinMessage", null, false, false, false, "VARCHAR", 200, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnDisplayWidth = cci("DISPLAY_WIDTH", "DISPLAY_WIDTH", null, null, Integer.class, "displayWidth", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnDisplayHeight = cci("DISPLAY_HEIGHT", "DISPLAY_HEIGHT", null, null, Integer.class, "displayHeight", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -136,6 +140,16 @@ public class CharaDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnDefaultJoinMessage() { return _columnDefaultJoinMessage; }
     /**
+     * DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnDisplayWidth() { return _columnDisplayWidth; }
+    /**
+     * DISPLAY_HEIGHT: {NotNull, INT UNSIGNED(10)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnDisplayHeight() { return _columnDisplayHeight; }
+    /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
      */
@@ -165,6 +179,8 @@ public class CharaDbm extends AbstractDBMeta {
         ls.add(columnCharaImgUrl());
         ls.add(columnIsDummy());
         ls.add(columnDefaultJoinMessage());
+        ls.add(columnDisplayWidth());
+        ls.add(columnDisplayHeight());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());

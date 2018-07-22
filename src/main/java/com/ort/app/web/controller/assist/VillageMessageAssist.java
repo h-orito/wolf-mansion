@@ -329,6 +329,8 @@ public class VillageMessageAssist {
             messageDto.setCharacterShortName(chara.getCharaShortName());
             messageDto.setCharacterId(chara.getCharaId());
             messageDto.setCharacterImageUrl(chara.getCharaImgUrl());
+            messageDto.setWidth(chara.getDisplayWidth());
+            messageDto.setHeight(chara.getDisplayHeight());
         });
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode終了()) {
             messageDto.setPlayerName(

@@ -15,7 +15,7 @@
 					<p th:text="${'作者: ' + content.designerName + '様'}"></p>
 					<div class="col-sm-3 col-xs-6" style="border: 1px solid #464545;" th:if="${content.charaList != null && content.charaList.size() > 0}"
 						th:each="chara : ${content.charaList}">
-						<span style="display: block; text-align: center;"><img src="" th:src="${chara.charaImgUrl}" style="width: 50px; height: 77px;" /></span> <span
+						<span style="display: block; text-align: center;"><img src="" th:src="${chara.charaImgUrl}" th:width="${chara.charaImgWidth}" th:height="${chara.charaImgHeight}" /></span> <span
 							style="display: block; text-align: center;" th:text="${'[' + chara.charaShortName + '] ' + chara.charaName}"></span>
 					</div>
 				</div>

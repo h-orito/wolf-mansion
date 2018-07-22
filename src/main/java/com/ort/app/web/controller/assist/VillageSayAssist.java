@@ -52,6 +52,8 @@ public class VillageSayAssist {
             return new IllegalArgumentException("セッション切れ？");
         });
         model.addAttribute("characterImgUrl", villagePlayer.getChara().get().getCharaImgUrl());
+        model.addAttribute("characterImgWidth", villagePlayer.getChara().get().getDisplayWidth());
+        model.addAttribute("characterImgHeight", villagePlayer.getChara().get().getDisplayHeight());
 
         model.addAttribute("villageId", villageId);
         Village village = selectVillage(villageId);

@@ -98,6 +98,10 @@
             name="IS_DUMMY" required="true" type="BIT"/>
         <column comment="入村時デフォルト発言" dbType="VARCHAR" javaType="String"
             name="DEFAULT_JOIN_MESSAGE" size="200" type="VARCHAR"/>
+        <column comment="表示時横幅" dbType="INT UNSIGNED" javaType="Integer"
+            name="DISPLAY_WIDTH" required="true" size="10" type="INTEGER"/>
+        <column comment="表示時縦幅" dbType="INT UNSIGNED" javaType="Integer"
+            name="DISPLAY_HEIGHT" required="true" size="10" type="INTEGER"/>
         <column comment="登録日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>

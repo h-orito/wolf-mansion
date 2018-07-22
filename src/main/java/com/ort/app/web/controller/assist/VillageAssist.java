@@ -447,6 +447,8 @@ public class VillageAssist {
 
     private void setVillageModelPlayerInfo(VillageResultContent content, OptionalThing<VillagePlayer> optVillagePlayer) {
         content.setCharaImageUrl(optVillagePlayer.map(vp -> vp.getChara().get().getCharaImgUrl()).orElse(null));
+        content.setCharaImageWidth(optVillagePlayer.map(vp -> vp.getChara().get().getDisplayWidth()).orElse(null));
+        content.setCharaImageHeight(optVillagePlayer.map(vp -> vp.getChara().get().getDisplayHeight()).orElse(null));
         content.setIsDead(optVillagePlayer.map(VillagePlayer::isIsDeadTrue).orElse(null));
         content.setIsSpectator(optVillagePlayer.map(VillagePlayer::isIsSpectatorTrue).orElse(null));
         content.setSkillName(optVillagePlayer.map(vp -> vp.getSkillCode()).orElse(null));
@@ -595,8 +597,11 @@ public class VillageAssist {
         room.setRoomNumber(String.format("%02d", roomNum));
         villageInfo.vPlayerList.stream().filter(vp -> vp.isIsSpectatorFalse() && vp.getRoomNumber().equals(roomNum)).findFirst().ifPresent(
                 vp -> {
-                    room.setCharaName(vp.getChara().get().getCharaShortName());
-                    room.setCharaImgUrl(vp.getChara().get().getCharaImgUrl());
+                    Chara chara = vp.getChara().get();
+                    room.setCharaName(chara.getCharaShortName());
+                    room.setCharaImgUrl(chara.getCharaImgUrl());
+                    room.setCharaImgWidth(chara.getDisplayWidth());
+                    room.setCharaImgHeight(chara.getDisplayHeight());
                     room.setIsDead(vp.getDeadDay() == null ? false : vp.getDeadDay() <= villageInfo.day);
                     if (isAvailableSeeMemberSkill(villageInfo)) {
                         room.setSkillName(vp.getSkillCodeAsSkill().alias());
@@ -636,6 +641,8 @@ public class VillageAssist {
         part.setId(chara.getCharaId());
         part.setName(chara.getCharaName());
         part.setUrl(chara.getCharaImgUrl());
+        part.setWidth(chara.getDisplayWidth());
+        part.setHeight(chara.getDisplayHeight());
         return part;
     }
 

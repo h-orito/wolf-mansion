@@ -6,13 +6,15 @@
 	<div class="col-sm-12 col-xs-12 say-n{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
 		<div class="row">
 			<div class="col-sm-12 col-xs-12 small">
-				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>{{messageNumber}}</a>. [{{characterShortName}}] {{characterName}}{{#if
-					playerName}} [{{playerName}}]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
+				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>{{messageNumber}}</a>. [{{characterShortName}}]
+					{{characterName}}{{#if playerName}} [{{playerName}}]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
 			</div>
 			<div class="col-sm-12 col-xs-12">
 				<div class="row" style="display: flex;">
-					<div style="width: 50px; height: 77px; background: url('{{characterImageUrl}}'); background-repeat: no-repeat;"></div>
-					<div class="message message-normal" style="flex: 1; margin-left: 5px;">{{{messageContent}}}</div>
+					<div>
+						<img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
+					</div>
+					<div class="message message-normal" style="flex: 1; margin-left: 5px; {{minHeightCss}}">{{{messageContent}}}</div>
 				</div>
 			</div>
 		</div>
@@ -21,13 +23,15 @@
 	<div class="col-sm-12 col-xs-12 say-w{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
 		<div class="row">
 			<div class="col-sm-12 col-xs-12 small">
-				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>*{{messageNumber}}</a>. [{{characterShortName}}] {{characterName}}{{#if
-					playerName}} [{{playerName}}]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
+				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>*{{messageNumber}}</a>. [{{characterShortName}}]
+					{{characterName}}{{#if playerName}} [{{playerName}}]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
 			</div>
 			<div class="col-sm-12 col-xs-12">
 				<div class="row" style="display: flex;">
-					<div style="width: 50px; height: 77px; background: url('{{characterImageUrl}}'); background-repeat: no-repeat;"></div>
-					<div class="message message-werewolf" style="flex: 1; margin-left: 5px;">{{{messageContent}}}</div>
+					<div>
+						<img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
+					</div>
+					<div class="message message-werewolf" style="flex: 1; margin-left: 5px; {{minHeightCss}}">{{{messageContent}}}</div>
 				</div>
 			</div>
 		</div>
@@ -42,8 +46,10 @@
 			</div>
 			<div class="col-sm-12 col-xs-12">
 				<div class="row" style="display: flex;">
-					<div style="width: 50px; height: 77px; background: url('{{characterImageUrl}}'); background-repeat: no-repeat;"></div>
-					<div class="message message-monologue" style="flex: 1; margin-left: 5px;">{{{messageContent}}}</div>
+					<div>
+						<img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
+					</div>
+					<div class="message message-monologue" style="flex: 1; margin-left: 5px; {{minHeightCss}}">{{{messageContent}}}</div>
 				</div>
 			</div>
 		</div>
@@ -52,13 +58,15 @@
 	<div class="col-sm-12 col-xs-12 say-m{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
 		<div class="row">
 			<div class="col-sm-12 col-xs-12 small">
-				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>={{messageNumber}}</a>. [{{characterShortName}}] {{characterName}}{{#if
-					playerName}} [{{playerName}}]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
+				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>={{messageNumber}}</a>. [{{characterShortName}}]
+					{{characterName}}{{#if playerName}} [{{playerName}}]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
 			</div>
 			<div class="col-sm-12 col-xs-12">
 				<div class="row" style="display: flex;">
-					<div style="width: 50px; height: 77px; background: url('{{characterImageUrl}}'); background-repeat: no-repeat;"></div>
-					<div class="message message-mason" style="flex: 1; margin-left: 5px;">{{{messageContent}}}</div>
+					<div>
+						<img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
+					</div>
+					<div class="message message-mason" style="flex: 1; margin-left: 5px; {{minHeightCss}}">{{{messageContent}}}</div>
 				</div>
 			</div>
 		</div>
@@ -67,13 +75,15 @@
 	<div class="col-sm-12 col-xs-12 say-g{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
 		<div class="row">
 			<div class="col-sm-12 col-xs-12 small">
-				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>+{{messageNumber}}</a>. [{{characterShortName}}] {{characterName}}{{#if
-					playerName}} [{{playerName}}]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
+				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>+{{messageNumber}}</a>. [{{characterShortName}}]
+					{{characterName}}{{#if playerName}} [{{playerName}}]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
 			</div>
 			<div class="col-sm-12 col-xs-12">
 				<div class="row" style="display: flex;">
-					<div style="width: 50px; height: 77px; background: url('{{characterImageUrl}}'); background-repeat: no-repeat;"></div>
-					<div class="message message-grave" style="flex: 1; margin-left: 5px;">{{{messageContent}}}</div>
+					<div>
+						<img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
+					</div>
+					<div class="message message-grave" style="flex: 1; margin-left: 5px; {{minHeightCss}}">{{{messageContent}}}</div>
 				</div>
 			</div>
 		</div>
@@ -82,13 +92,15 @@
 	<div class="col-sm-12 col-xs-12 say-s{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
 		<div class="row">
 			<div class="col-sm-12 col-xs-12 small">
-				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>@{{messageNumber}}</a>. [{{characterShortName}}] {{characterName}}{{#if
-					playerName}} [{{playerName}}]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
+				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>@{{messageNumber}}</a>. [{{characterShortName}}]
+					{{characterName}}{{#if playerName}} [{{playerName}}]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
 			</div>
 			<div class="col-sm-12 col-xs-12">
 				<div class="row" style="display: flex;">
-					<div style="width: 50px; height: 77px; background: url('{{characterImageUrl}}'); background-repeat: no-repeat;"></div>
-					<div class="message message-spectate" style="flex: 1; margin-left: 5px;">{{{messageContent}}}</div>
+					<div>
+						<img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
+					</div>
+					<div class="message message-spectate" style="flex: 1; margin-left: 5px; {{minHeightCss}}">{{{messageContent}}}</div>
 				</div>
 			</div>
 		</div>

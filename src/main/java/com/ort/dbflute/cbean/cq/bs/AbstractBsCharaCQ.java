@@ -1329,6 +1329,240 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)}
+     * @param displayWidth The value of displayWidth as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setDisplayWidth_Equal(Integer displayWidth) {
+        doSetDisplayWidth_Equal(displayWidth);
+    }
+
+    protected void doSetDisplayWidth_Equal(Integer displayWidth) {
+        regDisplayWidth(CK_EQ, displayWidth);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)}
+     * @param displayWidth The value of displayWidth as notEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setDisplayWidth_NotEqual(Integer displayWidth) {
+        doSetDisplayWidth_NotEqual(displayWidth);
+    }
+
+    protected void doSetDisplayWidth_NotEqual(Integer displayWidth) {
+        regDisplayWidth(CK_NES, displayWidth);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)}
+     * @param displayWidth The value of displayWidth as greaterThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setDisplayWidth_GreaterThan(Integer displayWidth) {
+        regDisplayWidth(CK_GT, displayWidth);
+    }
+
+    /**
+     * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)}
+     * @param displayWidth The value of displayWidth as lessThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setDisplayWidth_LessThan(Integer displayWidth) {
+        regDisplayWidth(CK_LT, displayWidth);
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)}
+     * @param displayWidth The value of displayWidth as greaterEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setDisplayWidth_GreaterEqual(Integer displayWidth) {
+        regDisplayWidth(CK_GE, displayWidth);
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)}
+     * @param displayWidth The value of displayWidth as lessEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setDisplayWidth_LessEqual(Integer displayWidth) {
+        regDisplayWidth(CK_LE, displayWidth);
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)}
+     * @param minNumber The min number of displayWidth. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of displayWidth. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param opLambda The callback for option of range-of. (NotNull)
+     */
+    public void setDisplayWidth_RangeOf(Integer minNumber, Integer maxNumber, ConditionOptionCall<RangeOfOption> opLambda) {
+        setDisplayWidth_RangeOf(minNumber, maxNumber, xcROOP(opLambda));
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)}
+     * @param minNumber The min number of displayWidth. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of displayWidth. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param rangeOfOption The option of range-of. (NotNull)
+     */
+    protected void setDisplayWidth_RangeOf(Integer minNumber, Integer maxNumber, RangeOfOption rangeOfOption) {
+        regROO(minNumber, maxNumber, xgetCValueDisplayWidth(), "DISPLAY_WIDTH", rangeOfOption);
+    }
+
+    /**
+     * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)}
+     * @param displayWidthList The collection of displayWidth as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDisplayWidth_InScope(Collection<Integer> displayWidthList) {
+        doSetDisplayWidth_InScope(displayWidthList);
+    }
+
+    protected void doSetDisplayWidth_InScope(Collection<Integer> displayWidthList) {
+        regINS(CK_INS, cTL(displayWidthList), xgetCValueDisplayWidth(), "DISPLAY_WIDTH");
+    }
+
+    /**
+     * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)}
+     * @param displayWidthList The collection of displayWidth as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDisplayWidth_NotInScope(Collection<Integer> displayWidthList) {
+        doSetDisplayWidth_NotInScope(displayWidthList);
+    }
+
+    protected void doSetDisplayWidth_NotInScope(Collection<Integer> displayWidthList) {
+        regINS(CK_NINS, cTL(displayWidthList), xgetCValueDisplayWidth(), "DISPLAY_WIDTH");
+    }
+
+    protected void regDisplayWidth(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueDisplayWidth(), "DISPLAY_WIDTH"); }
+    protected abstract ConditionValue xgetCValueDisplayWidth();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * DISPLAY_HEIGHT: {NotNull, INT UNSIGNED(10)}
+     * @param displayHeight The value of displayHeight as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setDisplayHeight_Equal(Integer displayHeight) {
+        doSetDisplayHeight_Equal(displayHeight);
+    }
+
+    protected void doSetDisplayHeight_Equal(Integer displayHeight) {
+        regDisplayHeight(CK_EQ, displayHeight);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * DISPLAY_HEIGHT: {NotNull, INT UNSIGNED(10)}
+     * @param displayHeight The value of displayHeight as notEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setDisplayHeight_NotEqual(Integer displayHeight) {
+        doSetDisplayHeight_NotEqual(displayHeight);
+    }
+
+    protected void doSetDisplayHeight_NotEqual(Integer displayHeight) {
+        regDisplayHeight(CK_NES, displayHeight);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * DISPLAY_HEIGHT: {NotNull, INT UNSIGNED(10)}
+     * @param displayHeight The value of displayHeight as greaterThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setDisplayHeight_GreaterThan(Integer displayHeight) {
+        regDisplayHeight(CK_GT, displayHeight);
+    }
+
+    /**
+     * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * DISPLAY_HEIGHT: {NotNull, INT UNSIGNED(10)}
+     * @param displayHeight The value of displayHeight as lessThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setDisplayHeight_LessThan(Integer displayHeight) {
+        regDisplayHeight(CK_LT, displayHeight);
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * DISPLAY_HEIGHT: {NotNull, INT UNSIGNED(10)}
+     * @param displayHeight The value of displayHeight as greaterEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setDisplayHeight_GreaterEqual(Integer displayHeight) {
+        regDisplayHeight(CK_GE, displayHeight);
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * DISPLAY_HEIGHT: {NotNull, INT UNSIGNED(10)}
+     * @param displayHeight The value of displayHeight as lessEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setDisplayHeight_LessEqual(Integer displayHeight) {
+        regDisplayHeight(CK_LE, displayHeight);
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * DISPLAY_HEIGHT: {NotNull, INT UNSIGNED(10)}
+     * @param minNumber The min number of displayHeight. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of displayHeight. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param opLambda The callback for option of range-of. (NotNull)
+     */
+    public void setDisplayHeight_RangeOf(Integer minNumber, Integer maxNumber, ConditionOptionCall<RangeOfOption> opLambda) {
+        setDisplayHeight_RangeOf(minNumber, maxNumber, xcROOP(opLambda));
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * DISPLAY_HEIGHT: {NotNull, INT UNSIGNED(10)}
+     * @param minNumber The min number of displayHeight. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of displayHeight. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param rangeOfOption The option of range-of. (NotNull)
+     */
+    protected void setDisplayHeight_RangeOf(Integer minNumber, Integer maxNumber, RangeOfOption rangeOfOption) {
+        regROO(minNumber, maxNumber, xgetCValueDisplayHeight(), "DISPLAY_HEIGHT", rangeOfOption);
+    }
+
+    /**
+     * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * DISPLAY_HEIGHT: {NotNull, INT UNSIGNED(10)}
+     * @param displayHeightList The collection of displayHeight as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDisplayHeight_InScope(Collection<Integer> displayHeightList) {
+        doSetDisplayHeight_InScope(displayHeightList);
+    }
+
+    protected void doSetDisplayHeight_InScope(Collection<Integer> displayHeightList) {
+        regINS(CK_INS, cTL(displayHeightList), xgetCValueDisplayHeight(), "DISPLAY_HEIGHT");
+    }
+
+    /**
+     * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * DISPLAY_HEIGHT: {NotNull, INT UNSIGNED(10)}
+     * @param displayHeightList The collection of displayHeight as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDisplayHeight_NotInScope(Collection<Integer> displayHeightList) {
+        doSetDisplayHeight_NotInScope(displayHeightList);
+    }
+
+    protected void doSetDisplayHeight_NotInScope(Collection<Integer> displayHeightList) {
+        regINS(CK_NINS, cTL(displayHeightList), xgetCValueDisplayHeight(), "DISPLAY_HEIGHT");
+    }
+
+    protected void regDisplayHeight(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueDisplayHeight(), "DISPLAY_HEIGHT"); }
+    protected abstract ConditionValue xgetCValueDisplayHeight();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @param registerDatetime The value of registerDatetime as equal. (basically NotNull: error as default, or no condition as option)
      */

@@ -21,8 +21,11 @@
 								<div class="col-sm-12 col-xs-12">
 									<div class="row">
 										<div class="col-sm-12 col-xs-12" style="display: flex;">
-											<div th:style="'width: 50px; height: 77px; background: url(\'' + ${characterImgUrl} + '\'); background-repeat: no-repeat;'"></div>
-											<div id="message-area" class="message message-normal" style="flex: 1; margin-left: 5px;" th:text="*{joinMessage}"></div>
+											<div>
+												<img th:src="${characterImgUrl}" th:width="${characterImgWidth}" th:height="${characterImgHeight}">
+											</div>
+											<div id="message-area" class="message message-normal" th:style="'flex: 1; margin-left: 5px; min-height: ' + ${characterImgHeight} + 'px;'"
+												th:text="*{joinMessage}"></div>
 										</div>
 									</div>
 								</div>
@@ -33,9 +36,10 @@
 										他者への礼節を欠いたり、正常な運営を妨げるような行為を行なった場合、管理人の裁量により処罰される可能性があることについて理解しました。 </label>
 								</div>
 							</div>
-							<input type="hidden" th:field="*{isSpectator}" /> <input type="hidden" th:field="*{joinMessage}" /> <input type="hidden" th:field="*{requestedSkill}" /> <input type="hidden"
-								th:field="*{charaId}" /> <input type="hidden" th:field="*{joinPassword}" /> <input type="button" class="btn btn-sm btn-default" value="戻る(内容は消去されます)" th:data-back="${villageId}" /> <input
-								type="submit" id="participate-submit" class="btn btn-sm btn-success pull-right disabled" value="入村する" disabled />
+							<input type="hidden" th:field="*{isSpectator}" /> <input type="hidden" th:field="*{joinMessage}" /> <input type="hidden"
+								th:field="*{requestedSkill}" /> <input type="hidden" th:field="*{charaId}" /> <input type="hidden" th:field="*{joinPassword}" /> <input
+								type="button" class="btn btn-sm btn-default" value="戻る(内容は消去されます)" th:data-back="${villageId}" /> <input type="submit"
+								id="participate-submit" class="btn btn-sm btn-success pull-right disabled" value="入村する" disabled />
 						</div>
 					</form>
 				</div>

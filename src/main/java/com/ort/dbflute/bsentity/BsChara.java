@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     CHARA_ID
  *
  * [column]
- *     CHARA_ID, CHARA_NAME, CHARA_SHORT_NAME, CHARA_GROUP_ID, CHARA_IMG_URL, IS_DUMMY, DEFAULT_JOIN_MESSAGE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     CHARA_ID, CHARA_NAME, CHARA_SHORT_NAME, CHARA_GROUP_ID, CHARA_IMG_URL, IS_DUMMY, DEFAULT_JOIN_MESSAGE, DISPLAY_WIDTH, DISPLAY_HEIGHT, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -53,6 +53,8 @@ import com.ort.dbflute.exentity.*;
  * String charaImgUrl = entity.getCharaImgUrl();
  * Boolean isDummy = entity.getIsDummy();
  * String defaultJoinMessage = entity.getDefaultJoinMessage();
+ * Integer displayWidth = entity.getDisplayWidth();
+ * Integer displayHeight = entity.getDisplayHeight();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -64,6 +66,8 @@ import com.ort.dbflute.exentity.*;
  * entity.setCharaImgUrl(charaImgUrl);
  * entity.setIsDummy(isDummy);
  * entity.setDefaultJoinMessage(defaultJoinMessage);
+ * entity.setDisplayWidth(displayWidth);
+ * entity.setDisplayHeight(displayHeight);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -103,6 +107,12 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
 
     /** DEFAULT_JOIN_MESSAGE: {VARCHAR(200)} */
     protected String _defaultJoinMessage;
+
+    /** DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)} */
+    protected Integer _displayWidth;
+
+    /** DISPLAY_HEIGHT: {NotNull, INT UNSIGNED(10)} */
+    protected Integer _displayHeight;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -424,6 +434,8 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
         sb.append(dm).append(xfND(_charaImgUrl));
         sb.append(dm).append(xfND(_isDummy));
         sb.append(dm).append(xfND(_defaultJoinMessage));
+        sb.append(dm).append(xfND(_displayWidth));
+        sb.append(dm).append(xfND(_displayHeight));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -605,6 +617,46 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
     public void setDefaultJoinMessage(String defaultJoinMessage) {
         registerModifiedProperty("defaultJoinMessage");
         _defaultJoinMessage = defaultJoinMessage;
+    }
+
+    /**
+     * [get] DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)} <br>
+     * 表示時横幅
+     * @return The value of the column 'DISPLAY_WIDTH'. (basically NotNull if selected: for the constraint)
+     */
+    public Integer getDisplayWidth() {
+        checkSpecifiedProperty("displayWidth");
+        return _displayWidth;
+    }
+
+    /**
+     * [set] DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)} <br>
+     * 表示時横幅
+     * @param displayWidth The value of the column 'DISPLAY_WIDTH'. (basically NotNull if update: for the constraint)
+     */
+    public void setDisplayWidth(Integer displayWidth) {
+        registerModifiedProperty("displayWidth");
+        _displayWidth = displayWidth;
+    }
+
+    /**
+     * [get] DISPLAY_HEIGHT: {NotNull, INT UNSIGNED(10)} <br>
+     * 表示時縦幅
+     * @return The value of the column 'DISPLAY_HEIGHT'. (basically NotNull if selected: for the constraint)
+     */
+    public Integer getDisplayHeight() {
+        checkSpecifiedProperty("displayHeight");
+        return _displayHeight;
+    }
+
+    /**
+     * [set] DISPLAY_HEIGHT: {NotNull, INT UNSIGNED(10)} <br>
+     * 表示時縦幅
+     * @param displayHeight The value of the column 'DISPLAY_HEIGHT'. (basically NotNull if update: for the constraint)
+     */
+    public void setDisplayHeight(Integer displayHeight) {
+        registerModifiedProperty("displayHeight");
+        _displayHeight = displayHeight;
     }
 
     /**

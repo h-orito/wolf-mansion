@@ -17,6 +17,12 @@ public class VillageRoomAssignedDto {
     /** 役職名 */
     private String skillName;
 
+    /** キャラ画像横幅 */
+    private Integer charaImgWidth;
+
+    /** キャラ画像縦幅 */
+    private Integer charaImgHeight;
+
     public String getRoomNumber() {
         return roomNumber;
     }
@@ -55,5 +61,21 @@ public class VillageRoomAssignedDto {
 
     public void setSkillName(String skillName) {
         this.skillName = skillName;
+    }
+
+    public Integer getCharaImgWidth() {
+        return charaImgWidth;
+    }
+
+    public void setCharaImgWidth(Integer charaImgWidth) {
+        this.charaImgWidth = charaImgWidth;
+    }
+
+    public Integer getCharaImgHeight() {
+        return charaImgHeight;
+    }
+
+    public void setCharaImgHeight(Integer charaImgHeight) {
+        this.charaImgHeight = charaImgHeight;
     }
 }

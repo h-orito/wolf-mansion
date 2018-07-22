@@ -17,6 +17,12 @@ public class CharaGroupListCharaGroupDto {
     /** ダミーキャラ画像URL */
     private String dummyImgUrl;
 
+    /** ダミーキャラ画像横幅 */
+    private Integer dummyImgWidth;
+
+    /** ダミーキャラ画像縦幅 */
+    private Integer dummyImgHeight;
+
     public Integer getCharaGroupId() {
         return charaGroupId;
     }
@@ -55,5 +61,21 @@ public class CharaGroupListCharaGroupDto {
 
     public void setDummyImgUrl(String dummyImgUrl) {
         this.dummyImgUrl = dummyImgUrl;
+    }
+
+    public Integer getDummyImgWidth() {
+        return dummyImgWidth;
+    }
+
+    public void setDummyImgWidth(Integer dummyImgWidth) {
+        this.dummyImgWidth = dummyImgWidth;
+    }
+
+    public Integer getDummyImgHeight() {
+        return dummyImgHeight;
+    }
+
+    public void setDummyImgHeight(Integer dummyImgHeight) {
+        this.dummyImgHeight = dummyImgHeight;
     }
 }
