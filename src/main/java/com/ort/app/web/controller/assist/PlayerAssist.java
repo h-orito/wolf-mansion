@@ -173,8 +173,8 @@ public class PlayerAssist {
             participateVillageDto.setVillageName(village.getVillageDisplayName());
             participateVillageDto.setCharacterName(chara.getCharaName());
             participateVillageDto.setCharacterImgUrl(chara.getCharaImgUrl());
-            participateVillageDto.setCharacterImgWidth(50); // TODO h-orito width (2018/07/24)
-            participateVillageDto.setCharacterImgHeight(77); // TODO h-orito height (2018/07/24)
+            participateVillageDto.setCharacterImgWidth(chara.getDisplayWidth());
+            participateVillageDto.setCharacterImgHeight(chara.getDisplayHeight());
             participateVillageDto.setSkillName(skill.alias());
             participateVillageDto.setLiveStatus(createLiveStatusMessage(vp));
             participateVillageDto.setWinStatus(vp.isDeadReasonCode突然() ? "-" : myCampCode.equals(winCampCode) ? "勝利" : "敗北");
@@ -193,8 +193,8 @@ public class PlayerAssist {
             participateVillageDto.setVillageName(village.getVillageDisplayName());
             participateVillageDto.setCharacterName(chara.getCharaName());
             participateVillageDto.setCharacterImgUrl(chara.getCharaImgUrl());
-            participateVillageDto.setCharacterImgWidth(50); // TODO h-orito width (2018/07/24)
-            participateVillageDto.setCharacterImgHeight(77); // TODO h-orito height (2018/07/24)
+            participateVillageDto.setCharacterImgWidth(chara.getDisplayWidth());
+            participateVillageDto.setCharacterImgHeight(chara.getDisplayHeight());
             return participateVillageDto;
         }).collect(Collectors.toList());
     }
