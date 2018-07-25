@@ -792,4 +792,12 @@ $(function() {
 			timeIntervalMilliSecond = 24 * 60 * 60 * 1000;
 		}
 	}, timeIntervalMilliSecondToRefresh);
+
+	// ----------------------------------------------
+	// ユーザページリンク
+	// ----------------------------------------------
+	$('body').on('click', '[data-user-page]', function() {
+		const userName = $(this).text();
+		window.open(contextPath + 'user/' + userName);
+	});
 });

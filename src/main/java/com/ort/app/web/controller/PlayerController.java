@@ -12,8 +12,10 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.ort.app.web.controller.assist.PlayerAssist;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.LoginForm;
 import com.ort.app.web.form.PlayerChangePasswordForm;
@@ -32,6 +34,9 @@ public class PlayerController {
     //                                                                           =========
     @Autowired
     private PlayerBhv playerBhv;
+
+    @Autowired
+    private PlayerAssist playerAssist;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -106,6 +111,13 @@ public class PlayerController {
         }
         updatePlayerPassword(form, userInfo);
         return "redirect:/";
+    }
+
+    // ユーザ情報
+    @GetMapping("/user/{userName}")
+    private String user(@PathVariable String userName, Model model) {
+        playerAssist.setPlayerIndexModel(userName, model);
+        return "user";
     }
 
     // ===================================================================================
