@@ -93,6 +93,23 @@ public class VillageDispLogic {
         return true;
     }
 
+    // 希望役職不可メッセージを表示するか
+    public boolean isDispChangeRequestSkillNgMessage(VillageInfo villageInfo) {
+        // 現在プロローグでない場合表示しない
+        if (!villageInfo.village.isVillageStatusCode募集中() && !villageInfo.village.isVillageStatusCode開始待ち()) {
+            return false;
+        }
+        // この村に参戦していない場合は表示しない
+        if (!villageInfo.isParticipate() || villageInfo.isSpectator()) {
+            return false;
+        }
+        // 役職希望有効でない場合に表示する
+        if (!BooleanUtils.isTrue(villageInfo.settings.getIsPossibleSkillRequest())) {
+            return true;
+        }
+        return false;
+    }
+
     // 希望役職変更フォームを表示するか
     public boolean isDispChangeRequestSkillForm(VillageInfo villageInfo) {
         // 現在プロローグでない場合表示しない

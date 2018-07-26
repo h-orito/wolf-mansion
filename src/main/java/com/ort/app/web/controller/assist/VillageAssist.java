@@ -371,6 +371,7 @@ public class VillageAssist {
         boolean isDispParticipateForm = villageDispLogic.isDispParticipateForm(villageInfo);
         setVillageModelParticipateForm(content, villageInfo.villageId, participateForm, model, isDispParticipateForm);
         // 役職希望変更
+        content.setIsDispChangeRequestNgMessage(villageDispLogic.isDispChangeRequestSkillNgMessage(villageInfo));
         boolean isDispChangeRequestSkillForm = villageDispLogic.isDispChangeRequestSkillForm(villageInfo);
         setVillageModekChangeRequestSkillForm(content, villageInfo.optVillagePlayer, changeRequestSkillForm, model, isDispParticipateForm,
                 isDispChangeRequestSkillForm);

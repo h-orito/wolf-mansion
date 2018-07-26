@@ -17,7 +17,7 @@
 <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<div class="col-sm-12 col-xs-12" th:if="${content.isDispChangeRequestSkillForm}" layout:fragment="change-skill-form">
+	<div class="col-sm-12 col-xs-12" th:if="${content.isDispChangeRequestSkillForm || content.isDispChangeRequestNgMessage}" layout:fragment="change-skill-form">
 		<div class="panel-group" id="changeskillform-panel">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -26,7 +26,8 @@
 				<div id="changeskillform-content" class="panel-collapse collapse in">
 					<div class="panel-body">
 						<form method="post" action="" th:action="@{/village/{villageId}/change-skill(villageId=${content.villageId})}"
-							th:object="${changeRequestSkillForm}" class="form-horizontal">
+							th:object="${changeRequestSkillForm}" class="form-horizontal"
+							th:if="${content.isDispChangeRequestSkillForm}">
 							<p class="small" th:text="'あなたは ' + ${requestSkillName} +' を希望しています。'"></p>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">役職希望</label>
@@ -42,6 +43,7 @@
 								</div>
 							</div>
 						</form>
+						<p class="small" th:if="${content.isDispChangeRequestNgMessage}">この村は役職希望不可です。</p>
 					</div>
 				</div>
 			</div>

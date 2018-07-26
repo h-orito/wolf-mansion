@@ -61,6 +61,9 @@ public class VillageResultContent implements Serializable {
     /** 希望役職変更フォームを表示するか */
     private Boolean isDispChangeRequestSkillForm;
 
+    /** 役職希望無効のメッセージを表示するか */
+    private Boolean isDispChangeRequestNgMessage;
+
     /** 退村フォームを表示するか */
     private Boolean isDispLeaveVillageForm;
 
@@ -498,5 +501,13 @@ public class VillageResultContent implements Serializable {
 
     public void setCharaImageHeight(Integer charaImageHeight) {
         this.charaImageHeight = charaImageHeight;
+    }
+
+    public Boolean getIsDispChangeRequestNgMessage() {
+        return isDispChangeRequestNgMessage;
+    }
+
+    public void setIsDispChangeRequestNgMessage(Boolean isDispChangeRequestNgMessage) {
+        this.isDispChangeRequestNgMessage = isDispChangeRequestNgMessage;
     }
 }
