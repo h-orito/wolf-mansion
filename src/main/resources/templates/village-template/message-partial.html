@@ -21,7 +21,7 @@
 		</div>
 	</div>
 	{{else if (eq messageType 'WEREWOLF_SAY')}}
-	<div class="col-sm-12 col-xs-12 say-w{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
+	<div class="col-sm-12 col-xs-12 say-w{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}" data-spoiled-content>
 		<div class="row">
 			<div class="col-sm-12 col-xs-12 small">
 				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>*{{messageNumber}}</a>. [{{characterShortName}}]
@@ -39,7 +39,7 @@
 		</div>
 	</div>
 	{{else if (eq messageType 'MONOLOGUE_SAY')}}
-	<div class="col-sm-12 col-xs-12 {{#if messageNumber}}say-h{{messageNumber}}{{/if}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
+	<div class="col-sm-12 col-xs-12 {{#if messageNumber}}say-h{{messageNumber}}{{/if}}" data-message="{{messageType}}" data-chara-id="{{characterId}}" data-spoiled-content>
 		<div class="row">
 			<div class="col-sm-12 col-xs-12 small">
 				<span style="margin-left: -15px;">{{#if messageNumber}}<a href="javascript:void(0);" data-copy-anchor>>>-{{messageNumber}}</a>.
@@ -57,7 +57,7 @@
 		</div>
 	</div>
 	{{else if (eq messageType 'MASON_SAY')}}
-	<div class="col-sm-12 col-xs-12 say-m{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
+	<div class="col-sm-12 col-xs-12 say-m{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}" data-spoiled-content>
 		<div class="row">
 			<div class="col-sm-12 col-xs-12 small">
 				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>={{messageNumber}}</a>. [{{characterShortName}}]
@@ -75,7 +75,7 @@
 		</div>
 	</div>
 	{{else if (eq messageType 'GRAVE_SAY')}}
-	<div class="col-sm-12 col-xs-12 say-g{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
+	<div class="col-sm-12 col-xs-12 say-g{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}" data-spoiled-content>
 		<div class="row">
 			<div class="col-sm-12 col-xs-12 small">
 				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>+{{messageNumber}}</a>. [{{characterShortName}}]
@@ -93,7 +93,7 @@
 		</div>
 	</div>
 	{{else if (eq messageType 'SPECTATE_SAY')}}
-	<div class="col-sm-12 col-xs-12 say-s{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
+	<div class="col-sm-12 col-xs-12 say-s{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}" data-spoiled-content>
 		<div class="row">
 			<div class="col-sm-12 col-xs-12 small">
 				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>@{{messageNumber}}</a>. [{{characterShortName}}]
@@ -123,7 +123,7 @@
 		</div>
 	</div>
 	{{else if (or (eq messageType 'PRIVATE_SYSTEM') (eq messageType 'PRIVATE_SEER') (eq messageType 'PRIVATE_PSYCHIC'))}}
-	<div class="col-sm-12 col-xs-12" data-message>
+	<div class="col-sm-12 col-xs-12" data-spoiled-content>
 		<div class="row">
 			<div class="message col-sm-12 col-xs-12 message-private-system">{{{messageContent}}}</div>
 		</div>

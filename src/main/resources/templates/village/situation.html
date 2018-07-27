@@ -46,9 +46,9 @@
 									 					+ ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 					+ ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
 													<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-													th:utext="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}
-											        + ${room.skillName != null ? '<br />' + room.skillName : ''}">01.
-														楽</span>
+														th:utext="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span> <span
+														style="background-color: #222222; opacity: 0.8; white-space: nowrap;" th:if="${room.skillName != null}"
+														th:utext="'<br />' + ${room.skillName}" data-spoiled-content>人狼</span>
 												</td>
 											</tr>
 										</tbody>
@@ -108,7 +108,8 @@
 									<table class="table-bordered table-condensed small">
 										<tbody>
 											<tr th:if="${content.roomAssignedRowList}">
-												<td colspan="2"><th:block th:each="row, s : ${content.roomAssignedRowList}">
+												<td colspan="2">
+													<th:block th:each="row, s : ${content.roomAssignedRowList}">
 														<th:block th:each="room, st: ${row.roomAssignedList}">
 															<span
 																th:text="${room.isDead == null || room.isDead ? room.roomNumber + '＿' : room.charaName != null ? room.roomNumber + room.charaName : room.roomNumber + '＿'}"></span>
@@ -116,16 +117,23 @@
 														</th:block>
 														<br />
 														<br th:if="${!s.last}" />
-													</th:block></td>
+													</th:block>
+												</td>
 											</tr>
 											<tr th:each="day : ${content.villageFootstepList}">
 												<td class="text-center" th:text="${day.day + 'd'}"></td>
-												<td class="small"><th:block th:if="${day.footstep}">
-														<th:block th:each="str, stat : ${day.footstep.split('\r\n|\r|\n', -1)}">
-															<th:block th:text="${str}" />
-															<br th:if="${!stat.last}" />
+												<td class="small">
+													<span data-spoiled-content> <th:block th:if="${day.footstep}">
+															<th:block th:each="str, stat : ${day.footstep.split('\r\n|\r|\n', -1)}">
+																<th:block th:text="${str}" />
+																<br th:if="${!stat.last}" />
+															</th:block>
 														</th:block>
-													</th:block></td>
+													</span>
+													<span class="hidden" data-spoiled-alternative-content>
+														ネタバレ防止のため非表示にしています。<br>
+													</span>
+												</td>
 											</tr>
 										</tbody>
 									</table>

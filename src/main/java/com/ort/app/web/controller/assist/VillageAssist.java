@@ -335,6 +335,7 @@ public class VillageAssist {
         content.setVillageSettings(convertToSettings(villageInfo.settings, villageInfo.dayList));
         content.setIsSkillRequestAvailable(villageInfo.settings.getIsPossibleSkillRequest());
         content.setDayChangeDatetime(makeDayChangeDatetime(villageInfo));
+        content.setIsDispUnspoiler(villageInfo.village.isVillageStatusCodeエピローグ() || villageInfo.village.isVillageStatusCode終了());
         if (villageInfo.isStartedVote()) {
             content.setVote(makeMemberVote(villageInfo));
         }

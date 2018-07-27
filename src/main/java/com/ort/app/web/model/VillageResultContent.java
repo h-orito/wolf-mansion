@@ -151,6 +151,9 @@ public class VillageResultContent implements Serializable {
     /** 次回更新日時 */
     private LocalDateTime dayChangeDatetime;
 
+    /** ネタバレ防止切り替えを表示するか */
+    private Boolean isDispUnspoiler;
+
     public Integer getVillageId() {
         return villageId;
     }
@@ -509,5 +512,13 @@ public class VillageResultContent implements Serializable {
 
     public void setIsDispChangeRequestNgMessage(Boolean isDispChangeRequestNgMessage) {
         this.isDispChangeRequestNgMessage = isDispChangeRequestNgMessage;
+    }
+
+    public Boolean getIsDispUnspoiler() {
+        return isDispUnspoiler;
+    }
+
+    public void setIsDispUnspoiler(Boolean isDispUnspoiler) {
+        this.isDispUnspoiler = isDispUnspoiler;
     }
 }

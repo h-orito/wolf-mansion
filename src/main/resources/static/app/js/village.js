@@ -32,7 +32,9 @@ $(function() {
 
 	init();
 	function init() {
-		loadAndDisplayMessage();
+		loadAndDisplayMessage().then(function(){
+			restoreDisplaySetting();
+		});
 		changeSayTextAreaBackgroundColor(); // 画面表示時にも切り替える
 		let def = replaceFootstepList(); // 画面表示時にも取得して切り替える
 		if ($('[data-footstep-select]') != null) {
@@ -43,7 +45,6 @@ $(function() {
 			});
 		}
 		selectDefaultFootsteps(); // 狐と狂人だったら選択していた足音の部屋を選択状態にする
-		restoreDisplaySetting();
 	}
 
 	// ページング
@@ -95,6 +96,7 @@ $(function() {
 
 			// フィルタ適用
 			filterMessage();
+			filterSpoiledContent();
 
 			// 更新通知のために最新メッセージ日時を埋め込む
 			storeLatestMessageDatetime(response, day);
@@ -425,7 +427,10 @@ $(function() {
 		$('#modal-filter [data-filter-message-keyword]').val('');
 	});
 	$('[data-filter-submit]').on('click', function() {
+		// 発言抽出
 		filterMessage();
+		// ネタバレ防止モード
+		filterSpoiledContent();
 		// 日付を跨いでも維持できるように一時的にcookieに入れておく
 		const charaFilterArr = $('#modal-filter').find('.bg-info[data-filter-chara-id]').map(function() {
 			return String($(this).data('filter-chara-id'));
@@ -438,6 +443,7 @@ $(function() {
 		saveDisplaySetting('filter_chara', charaFilterArr.length == 0 ? [] : $(charaFilterArr).get().join(','));
 		saveDisplaySetting('filter_type', typeFilterArr.length == 0 ? [] : $(typeFilterArr).get().join(','));
 		saveDisplaySetting('filter_keyword', keywordFilterArr.length == 0 ? [] : $(keywordFilterArr).get().join(' '));
+		saveDisplaySetting('filter_spoiled_content', $('[data-dsetting-unspoiled]').length != 0 && $('[data-dsetting-unspoiled]').prop('checked'));
 		$('#modal-filter').modal('hide');
 	});
 
@@ -489,6 +495,24 @@ $(function() {
 		});
 	}
 
+	function filterSpoiledContent() {
+		const $spoilCheck = $('[data-dsetting-unspoiled]');
+		if ($spoilCheck.length == 0 || !$spoilCheck.prop('checked')) {
+			$('[data-spoiled-content]').each(function(idx, elm) {
+				$(elm).removeClass('hidden');
+			});
+			$('[data-spoiled-alternative-content]').addClass('hidden');
+		} else {
+			// ネタバレ防止する
+			// 発言と部屋割り
+			$('[data-spoiled-content]').each(function(idx, elm) {
+				$(elm).addClass('hidden');
+			});
+			// 足音
+			$('[data-spoiled-alternative-content]').removeClass('hidden');
+		}
+	}
+
 	// フィルタを引き継ぐ
 	function restoreFilter() {
 		const filterVillageId = getDisplaySetting('filter_village_id');
@@ -514,7 +538,11 @@ $(function() {
 			}
 		});
 		$('#modal-filter [data-filter-message-keyword]').val(getDisplaySetting('filter_keyword'));
+		if (getDisplaySetting('filter_spoiled_content') && $('[data-dsetting-unspoiled]').length != 0) {
+			$('[data-dsetting-unspoiled]').prop('checked', true);
+		}
 		filterMessage();
+		filterSpoiledContent();
 	}
 
 	// コピー
