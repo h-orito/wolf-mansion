@@ -46,7 +46,7 @@
 									 					+ ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 					+ ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
 													<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-														th:utext="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span> <span
+														th:utext="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span> <span class="hidden"
 														style="background-color: #222222; opacity: 0.8; white-space: nowrap;" th:if="${room.skillName != null}"
 														th:utext="'<br />' + ${room.skillName}" data-spoiled-content>人狼</span>
 												</td>
@@ -129,9 +129,7 @@
 																<br th:if="${!stat.last}" />
 															</th:block>
 														</th:block>
-													</span>
-													<span class="hidden" data-spoiled-alternative-content>
-														ネタバレ防止のため非表示にしています。<br>
+													</span> <span class="hidden" data-spoiled-alternative-content> ネタバレ防止のため非表示にしています。<br>
 													</span>
 												</td>
 											</tr>
