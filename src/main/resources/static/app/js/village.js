@@ -96,7 +96,6 @@ $(function() {
 
 			// フィルタ適用
 			filterMessage();
-			filterSpoiledContent();
 
 			// 更新通知のために最新メッセージ日時を埋め込む
 			storeLatestMessageDatetime(response, day);
@@ -429,8 +428,6 @@ $(function() {
 	$('[data-filter-submit]').on('click', function() {
 		// 発言抽出
 		filterMessage();
-		// ネタバレ防止モード
-		filterSpoiledContent();
 		// 日付を跨いでも維持できるように一時的にcookieに入れておく
 		const charaFilterArr = $('#modal-filter').find('.bg-info[data-filter-chara-id]').map(function() {
 			return String($(this).data('filter-chara-id'));
@@ -459,6 +456,7 @@ $(function() {
 		});
 		const keywordFilterArr = $('#modal-filter [data-filter-message-keyword]').val().replace(/　/g, ' ').split(' ');
 
+		const doFilterSpiledContent = filterSpoiledContent();
 		$('[data-message-area] [data-message]').each(function(idx, elm) {
 			const type = String($(elm).data('message'));
 			if (type == '') {
@@ -486,6 +484,9 @@ $(function() {
 					disp = false;
 				}
 			}
+			if (doFilterSpiledContent && $(elm).attr('data-spoiled-content') != undefined) {
+				disp = false;
+			}
 
 			if (disp) {
 				$(elm).removeClass('hidden');
@@ -502,6 +503,7 @@ $(function() {
 				$(elm).removeClass('hidden');
 			});
 			$('[data-spoiled-alternative-content]').addClass('hidden');
+			return false;
 		} else {
 			// ネタバレ防止する
 			// 発言と部屋割り
@@ -510,6 +512,7 @@ $(function() {
 			});
 			// 足音
 			$('[data-spoiled-alternative-content]').removeClass('hidden');
+			return true;
 		}
 	}
 
@@ -542,7 +545,6 @@ $(function() {
 			$('[data-dsetting-unspoiled]').prop('checked', true);
 		}
 		filterMessage();
-		filterSpoiledContent();
 	}
 
 	// コピー
