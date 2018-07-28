@@ -186,11 +186,20 @@ public class VillageAbilityAssist {
     //                                                                              Update
     //                                                                              ======
     private void setVote(Integer villageId, VillagePlayer villagePlayer, int day, Integer charaId, Integer targetCharaId) {
-        Vote vote = new Vote();
-        vote.setVillageId(villageId);
-        vote.setDay(day);
-        vote.setCharaId(charaId);
-        vote.setVoteCharaId(targetCharaId);
-        voteBhv.update(vote);
+        voteBhv.selectEntity(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_Equal(day);
+            cb.query().setCharaId_Equal(charaId);
+        }).ifPresent(vote -> {
+            vote.setVoteCharaId(targetCharaId);
+            voteBhv.update(vote);
+        }).orElse(() -> {
+            Vote vote = new Vote();
+            vote.setVillageId(villageId);
+            vote.setDay(day);
+            vote.setCharaId(charaId);
+            vote.setVoteCharaId(targetCharaId);
+            voteBhv.insert(vote);
+        });
     }
 }

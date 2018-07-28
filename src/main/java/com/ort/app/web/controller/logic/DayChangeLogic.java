@@ -125,7 +125,7 @@ public class DayChangeLogic {
             assignLogic.assignSkill(villageId, vPlayerList); // 役職割り当て
             assignLogic.assignRoom(villageId, vPlayerList); // 部屋割り当て
             updateVillageStatus(villageId, CDef.VillageStatus.進行中); // 村ステータス更新
-            setDefaultVoteAndAbility(villageId, newDay); // 投票、能力行使のデフォルト設定
+            setDefaultVoteAndAbility(villageId, newDay, settings); // 投票、能力行使のデフォルト設定
             updateVillageSettingsIfNeeded(villageId, vPlayerList, settings); // 特殊ルール変更
         } else if (village.getVillageStatusCodeAsVillageStatus() == CDef.VillageStatus.エピローグ) {
             updateVillageStatus(villageId, CDef.VillageStatus.終了); // 終了
@@ -292,7 +292,7 @@ public class DayChangeLogic {
     }
 
     // 投票、能力行使のデフォルト設定、生存者メッセージ登録
-    private void setDefaultVoteAndAbility(Integer villageId, int newDay) {
+    private void setDefaultVoteAndAbility(Integer villageId, int newDay, VillageSettings settings) {
         Village village = selectVillage(villageId);
         List<VillagePlayer> vPlayerList = selectVillagePlayerList(villageId);
         // 噛み
@@ -307,9 +307,11 @@ public class DayChangeLogic {
         // 護衛
         insertDefaultGuard(villageId, newDay, vPlayerList, village);
         // 投票
-        vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).forEach(vp -> {
-            insertVote(villageId, newDay, vp.getCharaId(), vp.getCharaId());
-        });
+        if (settings.isIsAvailableSuddonlyDeathFalse()) { // 突然死ありの場合はデフォ投票はなし
+            vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).forEach(vp -> {
+                insertVote(villageId, newDay, vp.getCharaId(), vp.getCharaId());
+            });
+        }
         // 生存者メッセージ登録
         insertLivingPlayerMessage(villageId, newDay, vPlayerList);
 
@@ -453,7 +455,7 @@ public class DayChangeLogic {
     // 初日、2日目以外の日付更新処理
     private void dayChange(Integer villageId, int day, List<VillagePlayer> vPlayerList, VillageSettings settings) {
         // 突然死
-        List<VillagePlayer> suddonlyDeathVPlayerList = killNoAccessPlayer(villageId, day, vPlayerList, settings);
+        List<VillagePlayer> suddonlyDeathVPlayerList = killNoVotePlayer(villageId, day, vPlayerList, settings);
 
         // 処刑
         VillagePlayer executedPlayer = execute(villageId, day, vPlayerList, settings, suddonlyDeathVPlayerList);
@@ -497,7 +499,7 @@ public class DayChangeLogic {
         }
 
         // 投票、能力行使のデフォルト設定
-        setDefaultVoteAndAbility(villageId, day);
+        setDefaultVoteAndAbility(villageId, day, settings);
     }
 
     // 勝敗判定、エピローグ処理
@@ -810,31 +812,31 @@ public class DayChangeLogic {
     }
 
     // 突然死
-    private List<VillagePlayer> killNoAccessPlayer(Integer villageId, int day, List<VillagePlayer> vPlayerList, VillageSettings settings) {
-        if (settings.isIsAvailableSuddonlyDeathFalse()) {
+    private List<VillagePlayer> killNoVotePlayer(Integer villageId, int day, List<VillagePlayer> vPlayerList, VillageSettings settings) {
+        if (settings.isIsAvailableSuddonlyDeathFalse() || day < 3) {
             return new ArrayList<>();
         }
-        // 前日の更新日時以降接続していない人が対象
-        ListResultBean<VillageDay> dayList = villageDayBhv.selectList(cb -> {
+        // 前日に投票していない人が対象
+        // 投票した人
+        List<Integer> voteCharaIdList = voteBhv.selectList(cb -> {
             cb.query().setVillageId_Equal(villageId);
-            cb.query().addOrderBy_Day_Asc();
-        });
-        LocalDateTime dayStartDatetime = dayList.get(dayList.size() - 3).getDaychangeDatetime(); // 必ず2日目以降である
-        List<VillagePlayer> noAccessPlayerList = vPlayerList.stream().filter(vp -> {
+            cb.query().setDay_Equal(day - 1);
+        }).stream().map(vote -> vote.getCharaId()).collect(Collectors.toList());
+        // 投票していない人
+        List<VillagePlayer> noVotePlayerList = vPlayerList.stream().filter(vp -> {
             if (vp.getChara().get().isIsDummyTrue() || vp.isIsSpectatorTrue() || vp.isIsDeadTrue()) {
                 return false; // ダミーと見学と既に死亡している人は対象外
             }
-            if (vp.getLastAccessDatetime() == null || vp.getLastAccessDatetime().isBefore(dayStartDatetime)) {
-                return true;
-            }
-            return false;
+            // 投票していない人
+            return !voteCharaIdList.contains(vp.getCharaId());
         }).collect(Collectors.toList());
-        noAccessPlayerList.forEach(vp -> {
+
+        noVotePlayerList.forEach(vp -> {
             updateVillagePlayerDead(day, vp, CDef.DeadReason.突然); // 死亡処理
             String message = String.format("%sは突然死した。", vp.getChara().get().getCharaName());
             insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, message);
         });
-        return noAccessPlayerList;
+        return noVotePlayerList;
     }
 
     // 処刑

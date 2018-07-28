@@ -20,14 +20,14 @@
 	<div class="col-sm-12 col-xs-12" th:if="${content.voteTargetList != null && content.voteTargetList.size() > 0}" layout:fragment="vote-form">
 		<div class="panel-group" id="voteform-panel">
 			<div class="panel panel-default">
-				<div class="panel-heading">
-					<a class="h5" data-toggle="collapse" data-parent="#voteform-panel" href="#voteform-content" data-voteform-tab-open>投票</a> <a href="javascript:void(0);"
-						class="pull-right" data-bottom-fix>固定</a>
+				<div class="panel-heading" th:style="${voteTarget == null ? 'background-color: #ff0000' : ''}">
+					<a class="h5" data-toggle="collapse" data-parent="#voteform-panel" href="#voteform-content" data-voteform-tab-open>投票</a> <span
+						th:if="${voteTarget == null}">(未セットのままだと突然死します)</span> <a href="javascript:void(0);" class="pull-right" data-bottom-fix>固定</a>
 				</div>
 				<div id="voteform-content" class="panel-collapse collapse in">
 					<div class="panel-body">
 						<a href="javascript:void(0);" data-toggle="collapse" data-target="#voteform" class="h5 hidden" aria-expanded="true" data-vote-tab>投票する</a>
-						<p class="small" th:text="'現在の投票先: ' + ${voteTarget}" style="margin-top: 10px;"></p>
+						<p class="small" th:text="'現在の投票先: ' + ${voteTarget == null ? 'なし' : voteTarget}" style="margin-top: 10px;"></p>
 						<form method="post" action="" th:action="@{/village/{villageId}/setVote(villageId=${content.villageId})}" th:object="${voteForm}" id="voteform"
 							class="form-horizontal collapse in" aria-expanded="true">
 							<hr />

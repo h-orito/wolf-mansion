@@ -293,20 +293,21 @@ public class VillageAssist {
 
     private void setVoteTarget(VillageInfo villageInfo, Model model) {
         if (!villageInfo.isParticipate() || villageInfo.isDead() || villageInfo.isSpectator() || !villageInfo.isLatestDay()
-                || !villageInfo.village.isVillageStatusCode進行中()) {
+                || !villageInfo.village.isVillageStatusCode進行中() || villageInfo.day < 2) {
             return;
         }
-        voteBhv.selectEntity(cb -> {
+        OptionalEntity<Vote> optVote = voteBhv.selectEntity(cb -> {
             cb.setupSelect_CharaByVoteCharaId();
             cb.query().setVillageId_Equal(villageInfo.villageId);
             cb.query().setCharaId_Equal(villageInfo.optVillagePlayer.get().getCharaId());
             cb.query().setDay_Equal(villageInfo.day);
-        }).ifPresent(vote -> {
-            VillageVoteForm form = new VillageVoteForm();
-            form.setTargetCharaId(vote.getVoteCharaId());
-            model.addAttribute("voteForm", form);
-            model.addAttribute("voteTarget", vote.getCharaByVoteCharaId().get().getCharaName());
         });
+
+        VillageVoteForm form = new VillageVoteForm();
+        form.setTargetCharaId(optVote.map(vote -> vote.getVoteCharaId()).orElse(null));
+        model.addAttribute("voteForm", form);
+        model.addAttribute("voteTarget", optVote.map(vote -> vote.getCharaByVoteCharaId().get().getCharaName()).orElse(null));
+
     }
 
     private String getCharacterNameFromCharaId(Village village, Integer charaId) {

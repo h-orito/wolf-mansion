@@ -46,6 +46,14 @@
 								</div>
 							</div>
 						</form>
+						<form method="post" action="" th:action="@{/admin/village/{villageId}/vote(villageId=${content.villageId})}" class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">全員投票</label>
+								<div class="col-sm-10">
+									<input type="submit" class="btn btn-sm btn-success pull-right" value="全員投票" />
+								</div>
+							</div>
+						</form>
 						<form method="post" action="" th:action="@{/admin/village/{villageId}/dayChange(villageId=${content.villageId})}" class="form-horizontal">
 							<div class="form-group">
 								<label class="col-sm-2 control-label">日付を進める</label>

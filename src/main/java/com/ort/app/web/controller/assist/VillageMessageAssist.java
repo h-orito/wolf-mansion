@@ -31,6 +31,7 @@ import com.ort.dbflute.exbhv.MessageBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
+import com.ort.dbflute.exbhv.VoteBhv;
 import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.Message;
 import com.ort.dbflute.exentity.Village;
@@ -61,6 +62,9 @@ public class VillageMessageAssist {
 
     @Autowired
     private CommitBhv commitBhv;
+
+    @Autowired
+    private VoteBhv voteBhv;
 
     @Autowired
     private MessageSource messageSource;
@@ -581,43 +585,35 @@ public class VillageMessageAssist {
         return dayList.get(dayList.size() - 1).getDay().equals(day);
     }
 
-    // 突然死ありの場合に接続していない人を表示する
+    // 突然死ありの場合に投票していない人を表示する
     private String makeSuddonlyDeathMessage(Village village, boolean isLatestDay, int day) {
-        if (!isLatestDay || village.getVillageSettingsAsOne().get().isIsAvailableSuddonlyDeathFalse()
-                || !village.isVillageStatusCode進行中()) {
+        if (!isLatestDay || village.getVillageSettingsAsOne().get().isIsAvailableSuddonlyDeathFalse() || !village.isVillageStatusCode進行中()
+                || day < 2) {
             return null;
         }
-        // 前日更新日時
-        LocalDateTime lastUpdate = getLastUpdate(village, day);
-        // 接続していない人
-        List<String> noAccessCharaList = villagePlayerBhv.selectList(cb -> {
+        Integer villageId = village.getVillageId();
+        // 対象候補
+        ListResultBean<VillagePlayer> villagePlayerList = villagePlayerBhv.selectList(cb -> {
             cb.setupSelect_Chara();
-            cb.query().setVillageId_Equal(village.getVillageId());
-            cb.orScopeQuery(orCB -> {
-                orCB.query().setLastAccessDatetime_IsNull();
-                orCB.query().setLastAccessDatetime_LessThan(lastUpdate);
-            });
-            cb.query().queryChara().setIsDummy_Equal_False();
-            cb.query().setIsGone_Equal_False();
-            cb.query().setIsSpectator_Equal_False();
+            cb.query().setVillageId_Equal(villageId);
             cb.query().setIsDead_Equal_False();
-        }).stream().map(vp -> vp.getChara().get().getCharaName()).collect(Collectors.toList());
-        if (noAccessCharaList.size() == 0) {
+            cb.query().setIsSpectator_Equal_False();
+            cb.query().setIsGone_Equal_False();
+        });
+        // 投票した人
+        List<Integer> voteCharaIdList = voteBhv.selectList(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_Equal(day);
+        }).stream().map(vote -> vote.getCharaId()).collect(Collectors.toList());
+        // 投票していない人
+        List<String> noVoteCharaNameList = villagePlayerList.stream()
+                .filter(vp -> !voteCharaIdList.contains(vp.getCharaId()))
+                .map(vp -> vp.getChara().get().getCharaName())
+                .collect(Collectors.toList());
+        if (noVoteCharaNameList.size() == 0) {
             return null;
         }
-        return String.format("本日まだ部屋から出てきていない者は、%s。", String.join("、", noAccessCharaList));
-    }
-
-    private LocalDateTime getLastUpdate(Village village, int day) {
-        ListResultBean<VillageDay> dayList = villageDayBhv.selectList(cb -> {
-            cb.query().setVillageId_Equal(village.getVillageId());
-            cb.query().addOrderBy_Day_Asc();
-        });
-        if (day == 0) {
-            VillageDay latestDay = dayList.get(0);
-            return latestDay.getUpdateDatetime();
-        }
-        return dayList.get(dayList.size() - 2).getDaychangeDatetime();
+        return String.format("本日まだ投票していない者は、%s。\n\n※未投票で更新時刻を迎えると突然死します。", String.join("、", noVoteCharaNameList));
     }
 
     // コミット状況のメッセージ

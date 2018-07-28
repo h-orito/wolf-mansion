@@ -1,5 +1,8 @@
 package com.ort.app.web.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.dbflute.cbean.result.ListResultBean;
 import org.dbflute.optional.OptionalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +18,11 @@ import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
+import com.ort.dbflute.exbhv.VoteBhv;
 import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
+import com.ort.dbflute.exentity.Vote;
 import com.ort.fw.util.WerewolfMansionDateUtil;
 
 @Controller
@@ -34,6 +39,9 @@ public class AdminController {
 
     @Autowired
     private VillagePlayerBhv villagePlayerBhv;
+
+    @Autowired
+    private VoteBhv voteBhv;
 
     @Autowired
     private VillageParticipateLogic villageLogic;
@@ -108,6 +116,35 @@ public class AdminController {
         vp.setLastAccessDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
         villagePlayerBhv.queryUpdate(vp, cb -> {
             cb.query().setVillageId_Equal(villageId);
+        });
+        return "redirect:/village/" + villageId;
+    }
+
+    // 管理者機能：全員自分投票
+    @PostMapping("/admin/village/{villageId}/vote")
+    private String vote(@PathVariable Integer villageId) {
+        Integer latestDay = villageDayBhv.selectEntity(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().addOrderBy_Day_Desc();
+            cb.fetchFirst(1);
+        }).get().getDay();
+        List<Integer> voteCharaIdList = voteBhv.selectList(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_Equal(latestDay);
+        }).stream().map(Vote::getCharaId).collect(Collectors.toList());
+        villagePlayerBhv.selectList(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setIsGone_Equal_False();
+            cb.query().setIsSpectator_Equal_False();
+            cb.query().setIsDead_Equal_False();
+            cb.query().setCharaId_NotInScope(voteCharaIdList);
+        }).forEach(vp -> {
+            Vote vote = new Vote();
+            vote.setVillageId(villageId);
+            vote.setDay(latestDay);
+            vote.setCharaId(vp.getCharaId());
+            vote.setVoteCharaId(vp.getCharaId());
+            voteBhv.insert(vote);
         });
         return "redirect:/village/" + villageId;
     }
