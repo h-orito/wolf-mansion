@@ -154,6 +154,9 @@ public class VillageResultContent implements Serializable {
     /** ネタバレ防止切り替えを表示するか */
     private Boolean isDispUnspoiler;
 
+    /** ランダムキーワード（カンマ区切り） */
+    private String randomKeywords;
+
     public Integer getVillageId() {
         return villageId;
     }
@@ -520,5 +523,13 @@ public class VillageResultContent implements Serializable {
 
     public void setIsDispUnspoiler(Boolean isDispUnspoiler) {
         this.isDispUnspoiler = isDispUnspoiler;
+    }
+
+    public String getRandomKeywords() {
+        return randomKeywords;
+    }
+
+    public void setRandomKeywords(String randomKeywords) {
+        this.randomKeywords = randomKeywords;
     }
 }

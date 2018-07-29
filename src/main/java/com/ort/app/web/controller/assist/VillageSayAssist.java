@@ -1,5 +1,7 @@
 package com.ort.app.web.controller.assist;
 
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,7 +14,9 @@ import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageSayForm;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.MessageType;
+import com.ort.dbflute.exbhv.RandomKeywordBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
+import com.ort.dbflute.exentity.RandomKeyword;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.fw.security.UserInfo;
@@ -29,6 +33,9 @@ public class VillageSayAssist {
 
     @Autowired
     private VillageAssist villageAssist;
+
+    @Autowired
+    private RandomKeywordBhv randomKeywordBhv;
 
     @Autowired
     private MessageLogic messageLogic;
@@ -54,6 +61,8 @@ public class VillageSayAssist {
         model.addAttribute("characterImgUrl", villagePlayer.getChara().get().getCharaImgUrl());
         model.addAttribute("characterImgWidth", villagePlayer.getChara().get().getDisplayWidth());
         model.addAttribute("characterImgHeight", villagePlayer.getChara().get().getDisplayHeight());
+        model.addAttribute("randomKeywords", String.join(",",
+                randomKeywordBhv.selectList(cb -> {}).stream().map(RandomKeyword::getKeyword).collect(Collectors.toList())));
 
         model.addAttribute("villageId", villageId);
         Village village = selectVillage(villageId);

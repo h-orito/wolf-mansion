@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<head>
+<!--/* 個別ページのタイトル */-->
+<title>ランダムメッセージ一覧</title>
+<!--/* 個別ページのjs */-->
+</head>
+
+<body>
+	<div class="container">
+		<div layout:fragment="content">
+			<div id="wrapper">
+				<div class="col-sm-12 col-xs-12">
+					<h1 class="h4">ランダムメッセージ一覧</h1>
+					<div class="table-responsive">
+						<table class="table table-bordered table-condensed small">
+							<thead>
+								<tr>
+									<th>キーワード</th>
+									<th>変換後</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:if="${content.randomKeywordList == null || content.randomKeywordList.size() == 0}">
+									<td colspan="2">登録されているキーワードがありません。</td>
+								</tr>
+								<tr th:if="${content.randomKeywordList != null && content.randomKeywordList.size() > 0}"
+									th:each="randomKeyword : ${content.randomKeywordList}">
+									<td class="vertical-middle" th:text="'[[' + ${randomKeyword.keyword} + ']]'"></td>
+									<td><th:block>
+											<th:block th:each="str, stat : *{randomKeyword.contentExample.split('\r\n|\r|\n', -1)}">
+												<th:block th:text="${str}" />
+												<br th:if="${!stat.last}" />
+											</th:block>
+										</th:block></td>
+									<td><a th:href="@{/random-keyword/{randomKeywordId}(randomKeywordId=${randomKeyword.keywordId})}" class="btn btn-sm btn-success">編集</a></td>
+								</tr>
+							</tbody>
+
+						</table>
+					</div>
+					<a th:href="@{/new-random-keyword}" class="btn btn-success btn-sm">新規追加</a>
+				</div>
+
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		<footer layout:replace="~{layout/footer::footer}"></footer>
+	</div>
+</body>
+</html>

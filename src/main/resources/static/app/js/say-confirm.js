@@ -40,7 +40,13 @@ $(function() {
 			item = item.replace(orRegex, '<strong>$1</strong>');
 			item = item.replace(whoRegex, '<strong>$1</strong>');
 			item = item.replace(allWhoRegex, '<strong>$1</strong>');
-			
+			const userRandomKeywords = $('#random-keywords').text();
+			if (userRandomKeywords != null) {
+				$.each(userRandomKeywords.split(','), function(idx, elm) {
+					const regex = new RegExp('(\\[\\[' + elm + '\\]\\])', 'g');
+					item = item.replace(regex, '<strong>$1</strong>');
+				});
+			}
 			// アンカー
 			item = item.replace(/&gt;&gt;(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-anchor=\"$1\">&gt;&gt;$1<\/a>'); // 次にアンカーをaタグにする
 			item = item.replace(/&gt;&gt;\+(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-grave-anchor=\"$1\">&gt;&gt;\+$1<\/a>');

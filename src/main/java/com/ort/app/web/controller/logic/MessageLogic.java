@@ -27,8 +27,11 @@ import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.exbhv.MessageBhv;
+import com.ort.dbflute.exbhv.RandomKeywordBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exentity.Message;
+import com.ort.dbflute.exentity.RandomContent;
+import com.ort.dbflute.exentity.RandomKeyword;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.fw.util.WerewolfMansionDateUtil;
 
@@ -62,6 +65,9 @@ public class MessageLogic {
 
     @Autowired
     private MessageSource messageSource;
+
+    @Autowired
+    private RandomKeywordBhv randomKeywordBhv;
 
     // ===================================================================================
     //                                                                             Execute
@@ -195,6 +201,9 @@ public class MessageLogic {
     private String replaceMessage(String message, List<VillagePlayer> vPlayerList) {
         List<VillagePlayer> livingPlayerList =
                 vPlayerList.stream().filter(vp -> vp.isIsSpectatorFalse() && vp.isIsDeadFalse()).collect(Collectors.toList());
+        ListResultBean<RandomKeyword> randomKeywordList = randomKeywordBhv.selectList(cb -> {});
+        randomKeywordBhv.loadRandomContent(randomKeywordList, contentCB -> {});
+
         return String.join("\n", Stream.of(message.replace("\r\n", "\n").split("\n")).map(mes -> {
             String replacedMessage = String.join("]]", Stream.of(mes.split("\\]\\]")).map(m -> {
                 String rm = replaceDiceMessage(m);
@@ -202,6 +211,10 @@ public class MessageLogic {
                 rm = replaceOrMessage(rm);
                 rm = replaceWhoMessage(rm, livingPlayerList);
                 rm = replaceAllwhoMessage(rm, vPlayerList);
+                for (int i = 0; i < randomKeywordList.size(); i++) {
+                    RandomKeyword keyword = randomKeywordList.get(i);
+                    rm = replaceUserDefinedRandomMessage(rm, keyword);
+                }
                 return rm;
             }).collect(Collectors.toList()));
             if (mes.endsWith("]]")) {
@@ -227,6 +240,20 @@ public class MessageLogic {
                 diceStr += "(" + num + ")";
             }
             replacedMessage = mes.replaceFirst(diceRegex, diceStr + diceMatcher.group(0));
+        }
+        return replacedMessage;
+    }
+
+    // ユーザ定義キーワードの変換
+    private String replaceUserDefinedRandomMessage(String mes, RandomKeyword keyword) {
+        String replacedMessage = mes;
+        String regex = "\\[\\[" + keyword.getKeyword() + "$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(mes);
+        if (matcher.find()) {
+            List<RandomContent> contentList = keyword.getRandomContentList();
+            Collections.shuffle(contentList);
+            replacedMessage = mes.replaceAll(regex, contentList.get(0).getRandomMessage() + matcher.group(0));
         }
         return replacedMessage;
     }

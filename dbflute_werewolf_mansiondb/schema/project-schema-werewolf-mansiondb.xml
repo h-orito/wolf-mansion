@@ -356,6 +356,40 @@
             <index-column name="AUTHORITY_CODE" position="1"/>
         </index>
     </table>
+    <table comment="ランダム変換内容" name="RANDOM_CONTENT"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column autoIncrement="true" comment="ランダム変換内容ID"
+            dbType="INT UNSIGNED" javaType="Integer"
+            name="RANDOM_CONTENT_ID" pkName="PRIMARY" pkPosition="1"
+            primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="ランダムキーワードID" dbType="INT UNSIGNED"
+            javaType="Integer" name="RANDOM_KEYWORD_ID" required="true"
+            size="10" type="INTEGER"/>
+        <column comment="ランダム変換内容文字列" dbType="VARCHAR" javaType="String"
+            name="RANDOM_MESSAGE" required="true" size="20" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="RANDOM_KEYWORD" name="FK_RANDOM_CONTENT_RANDOM_KEYWORD">
+            <reference foreign="RANDOM_KEYWORD_ID" local="RANDOM_KEYWORD_ID"/>
+        </foreign-key>
+        <unique name="RANDOM_MESSAGE">
+            <unique-column name="RANDOM_MESSAGE" position="1"/>
+        </unique>
+        <index name="FK_RANDOM_CONTENT_RANDOM_KEYWORD">
+            <index-column name="RANDOM_KEYWORD_ID" position="1"/>
+        </index>
+    </table>
+    <table comment="ランダムキーワード" name="RANDOM_KEYWORD"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column autoIncrement="true" comment="ランダムキーワードID"
+            dbType="INT UNSIGNED" javaType="Integer"
+            name="RANDOM_KEYWORD_ID" pkName="PRIMARY" pkPosition="1"
+            primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="キーワード" dbType="VARCHAR" javaType="String"
+            name="KEYWORD" required="true" size="10" type="VARCHAR"/>
+        <unique name="KEYWORD">
+            <unique-column name="KEYWORD" position="1"/>
+        </unique>
+    </table>
     <table comment="役職" name="SKILL"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
         <column comment="役職コード" dbType="VARCHAR" javaType="String"

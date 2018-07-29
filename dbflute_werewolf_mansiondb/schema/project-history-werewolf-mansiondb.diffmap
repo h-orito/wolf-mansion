@@ -1,4 +1,21 @@
 map:{
+    ; 2018/07/28 23:34:01 = map:{
+        ; diffDate = 2018/07/28 23:34:01
+        ; tableCount = map:{
+            ; next = 22
+            ; previous = 20
+        }
+        ; tableDiff = map:{
+            ; RANDOM_CONTENT = map:{
+                ; tableName = RANDOM_CONTENT
+                ; diffType = ADD
+            }
+            ; RANDOM_KEYWORD = map:{
+                ; tableName = RANDOM_KEYWORD
+                ; diffType = ADD
+            }
+        }
+    }
     ; 2018/07/22 00:57:04 = map:{
         ; diffDate = 2018/07/22 00:57:04
         ; tableDiff = map:{

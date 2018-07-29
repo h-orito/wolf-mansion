@@ -47,6 +47,7 @@ import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.AbilityBhv;
 import com.ort.dbflute.exbhv.CommitBhv;
 import com.ort.dbflute.exbhv.FootstepBhv;
+import com.ort.dbflute.exbhv.RandomKeywordBhv;
 import com.ort.dbflute.exbhv.SkillBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
@@ -56,6 +57,7 @@ import com.ort.dbflute.exbhv.VoteBhv;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.Commit;
+import com.ort.dbflute.exentity.RandomKeyword;
 import com.ort.dbflute.exentity.Skill;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
@@ -97,6 +99,9 @@ public class VillageAssist {
 
     @Autowired
     private CommitBhv commitBhv;
+
+    @Autowired
+    private RandomKeywordBhv randomKeywordBhv;
 
     @Autowired
     private VillageDispLogic villageDispLogic;
@@ -227,6 +232,10 @@ public class VillageAssist {
         });
     }
 
+    private String selectRandomKeywords() {
+        return String.join(",", randomKeywordBhv.selectList(cb -> {}).stream().map(RandomKeyword::getKeyword).collect(Collectors.toList()));
+    }
+
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
@@ -337,6 +346,7 @@ public class VillageAssist {
         content.setIsSkillRequestAvailable(villageInfo.settings.getIsPossibleSkillRequest());
         content.setDayChangeDatetime(makeDayChangeDatetime(villageInfo));
         content.setIsDispUnspoiler(villageInfo.village.isVillageStatusCodeエピローグ() || villageInfo.village.isVillageStatusCode終了());
+        content.setRandomKeywords(selectRandomKeywords());
         if (villageInfo.isStartedVote()) {
             content.setVote(makeMemberVote(villageInfo));
         }

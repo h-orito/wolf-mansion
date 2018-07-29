@@ -1,6 +1,7 @@
 package com.ort.app.web.controller;
 
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 import org.dbflute.optional.OptionalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,11 @@ import com.ort.app.web.form.VillageKickForm;
 import com.ort.app.web.form.VillageSayForm;
 import com.ort.app.web.form.validator.CreatorSayFormValidator;
 import com.ort.dbflute.allcommon.CDef;
+import com.ort.dbflute.exbhv.RandomKeywordBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
+import com.ort.dbflute.exentity.RandomKeyword;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
@@ -43,6 +46,8 @@ public class CreatorController {
     private VillagePlayerBhv villagePlayerBhv;
     @Autowired
     private VillageDayBhv villageDayBhv;
+    @Autowired
+    private RandomKeywordBhv randomKeywordBhv;
     @Autowired
     private VillageParticipateLogic villageParticipateLogic;
     @Autowired
@@ -102,6 +107,8 @@ public class CreatorController {
         model.addAttribute("villageId", villageId);
         Village village = selectVillage(villageId);
         model.addAttribute("villageName", village.getVillageDisplayName());
+        model.addAttribute("randomKeywords", String.join(",",
+                randomKeywordBhv.selectList(cb -> {}).stream().map(RandomKeyword::getKeyword).collect(Collectors.toList())));
 
         return "creator-say-confirm";
     }

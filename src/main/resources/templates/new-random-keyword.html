@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<head>
+<!--/* 個別ページのタイトル */-->
+<title>ランダムメッセージ作成</title>
+<!--/* 個別ページのjs */-->
+</head>
+
+<body>
+	<div class="container">
+		<div layout:fragment="content">
+			<div id="wrapper">
+				<div class="col-sm-12 col-xs-12">
+					<h1 class="h4">ランダムメッセージ作成</h1>
+					<ul class="announce">
+						<li>キーワードは半角英語のみで、orとwhoを含むことはできません。</li>
+						<li>キーワードは3文字以上10文字以内、変換後文字列はそれぞれ20文字以内で入力してください。</li>
+						<li>&#091;&#091;キーワード&#093;&#093;→変換後文字列 になります</li>
+					</ul>
+					<form method="post" action="" th:action="@{/new-random-keyword}" th:object="${randomKeywordForm}" class="form-horizontal">
+						<span class="text-danger" th:if="${errorMessage}" th:text="${errorMessage}">error</span>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">キーワード</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" th:field="*{keyword}" placeholder="" /> <span th:if="${#fields.hasErrors('keyword')}"
+									th:errors="*{keyword}" class="help-block text-danger">error!</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">変換後文字列（改行区切り）</label>
+							<div class="col-sm-9">
+								<textarea class="form-control" rows="10" th:field="*{message}" placeholder=""></textarea>
+								<span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="help-block text-danger">error!</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-12 col-xs-12 pull-right">
+								<input type="submit" class="btn btn-sm btn-success pull-right" value="登録" />
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		<footer layout:replace="~{layout/footer::footer}"></footer>
+	</div>
+</body>
+</html>

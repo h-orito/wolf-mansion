@@ -32,7 +32,7 @@ $(function() {
 
 	init();
 	function init() {
-		loadAndDisplayMessage().then(function(){
+		loadAndDisplayMessage().then(function() {
 			restoreDisplaySetting();
 		});
 		changeSayTextAreaBackgroundColor(); // 画面表示時にも切り替える
@@ -111,6 +111,13 @@ $(function() {
 			item = item.replace(orRegex, '<span class="extra-small">$1</span>');
 			item = item.replace(whoRegex, '<span class="extra-small">$1</span>');
 			item = item.replace(allWhoRegex, '<span class="extra-small">$1</span>');
+			const userRandomKeywords = $('#random-keywords').text();
+			if (userRandomKeywords != null) {
+				$.each(userRandomKeywords.split(','), function(idx, elm) {
+					const regex = new RegExp('(\\[\\[' + elm + '\\]\\])', 'g');
+					item = item.replace(regex, '<span class="extra-small">$1</span>');
+				});
+			}
 			// アンカー
 			item = item.replace(/&gt;&gt;(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-anchor=\"$1\">&gt;&gt;$1<\/a>'); // 次にアンカーをaタグにする
 			item = item.replace(/&gt;&gt;\+(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-grave-anchor=\"$1\">&gt;&gt;\+$1<\/a>');
