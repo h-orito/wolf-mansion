@@ -13,7 +13,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID
  *
  * [column]
- *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, CHARACTER_GROUP_ID, JOIN_PASSWORD, ORGANIZE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, CHARACTER_GROUP_ID, JOIN_PASSWORD, ORGANIZE, ALLOWED_SECRET_SAY_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -25,13 +25,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     CHARA_GROUP, VILLAGE
+ *     ALLOWED_SECRET_SAY, CHARA_GROUP, VILLAGE
  *
  * [referrer table]
  *     
  *
  * [foreign property]
- *     charaGroup, village
+ *     allowedSecretSay, charaGroup, village
  *
  * [referrer property]
  *     
@@ -59,6 +59,13 @@ public class LoaderOfVillageSettings {
     // ===================================================================================
     //                                                                    Pull out Foreign
     //                                                                    ================
+    protected LoaderOfAllowedSecretSay _foreignAllowedSecretSayLoader;
+    public LoaderOfAllowedSecretSay pulloutAllowedSecretSay() {
+        if (_foreignAllowedSecretSayLoader == null)
+        { _foreignAllowedSecretSayLoader = new LoaderOfAllowedSecretSay().ready(myBhv().pulloutAllowedSecretSay(_selectedList), _selector); }
+        return _foreignAllowedSecretSayLoader;
+    }
+
     protected LoaderOfCharaGroup _foreignCharaGroupLoader;
     public LoaderOfCharaGroup pulloutCharaGroup() {
         if (_foreignCharaGroupLoader == null)

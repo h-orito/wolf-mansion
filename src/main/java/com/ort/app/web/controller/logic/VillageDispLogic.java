@@ -415,6 +415,22 @@ public class VillageDispLogic {
         return null;
     }
 
+    public List<Chara> makeSecretSayTargetList(VillageInfo villageInfo) {
+        CDef.AllowedSecretSay allowedSecretSay = villageInfo.settings.getAllowedSecretSayCodeAsAllowedSecretSay();
+        if (!villageInfo.isParticipate() || !villageInfo.isLatestDay() || !villageInfo.village.isVillageStatusCode進行中()
+                || allowedSecretSay == CDef.AllowedSecretSay.なし) {
+            return null;
+        }
+        if (allowedSecretSay == CDef.AllowedSecretSay.全員) {
+            // 自分以外
+            return villageInfo.vPlayerList.stream()
+                    .filter(vp -> !vp.getVillagePlayerId().equals(villageInfo.optVillagePlayer.get().getVillagePlayerId()))
+                    .map(vp -> vp.getChara().get())
+                    .collect(Collectors.toList());
+        }
+        return null;
+    }
+
     // ===================================================================================
     //                                                                              Select
     //                                                                              ======

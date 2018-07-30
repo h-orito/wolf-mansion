@@ -13,7 +13,7 @@ import com.ort.dbflute.exentity.*;
  *     MESSAGE_ID
  *
  * [column]
- *     MESSAGE_ID, VILLAGE_ID, VILLAGE_PLAYER_ID, PLAYER_ID, DAY, MESSAGE_TYPE_CODE, MESSAGE_NUMBER, MESSAGE_CONTENT, MESSAGE_DATETIME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     MESSAGE_ID, VILLAGE_ID, VILLAGE_PLAYER_ID, TO_VILLAGE_PLAYER_ID, PLAYER_ID, DAY, MESSAGE_TYPE_CODE, MESSAGE_NUMBER, MESSAGE_CONTENT, MESSAGE_DATETIME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -25,13 +25,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     MESSAGE_TYPE, PLAYER, VILLAGE_DAY, VILLAGE_PLAYER
+ *     MESSAGE_TYPE, PLAYER, VILLAGE_PLAYER, VILLAGE_DAY
  *
  * [referrer table]
  *     
  *
  * [foreign property]
- *     messageType, player, villageDay, villagePlayer
+ *     messageType, player, villagePlayerByToVillagePlayerId, villageDay, villagePlayerByVillagePlayerId
  *
  * [referrer property]
  *     
@@ -73,6 +73,13 @@ public class LoaderOfMessage {
         return _foreignPlayerLoader;
     }
 
+    protected LoaderOfVillagePlayer _foreignVillagePlayerByToVillagePlayerIdLoader;
+    public LoaderOfVillagePlayer pulloutVillagePlayerByToVillagePlayerId() {
+        if (_foreignVillagePlayerByToVillagePlayerIdLoader == null)
+        { _foreignVillagePlayerByToVillagePlayerIdLoader = new LoaderOfVillagePlayer().ready(myBhv().pulloutVillagePlayerByToVillagePlayerId(_selectedList), _selector); }
+        return _foreignVillagePlayerByToVillagePlayerIdLoader;
+    }
+
     protected LoaderOfVillageDay _foreignVillageDayLoader;
     public LoaderOfVillageDay pulloutVillageDay() {
         if (_foreignVillageDayLoader == null)
@@ -80,11 +87,11 @@ public class LoaderOfMessage {
         return _foreignVillageDayLoader;
     }
 
-    protected LoaderOfVillagePlayer _foreignVillagePlayerLoader;
-    public LoaderOfVillagePlayer pulloutVillagePlayer() {
-        if (_foreignVillagePlayerLoader == null)
-        { _foreignVillagePlayerLoader = new LoaderOfVillagePlayer().ready(myBhv().pulloutVillagePlayer(_selectedList), _selector); }
-        return _foreignVillagePlayerLoader;
+    protected LoaderOfVillagePlayer _foreignVillagePlayerByVillagePlayerIdLoader;
+    public LoaderOfVillagePlayer pulloutVillagePlayerByVillagePlayerId() {
+        if (_foreignVillagePlayerByVillagePlayerIdLoader == null)
+        { _foreignVillagePlayerByVillagePlayerIdLoader = new LoaderOfVillagePlayer().ready(myBhv().pulloutVillagePlayerByVillagePlayerId(_selectedList), _selector); }
+        return _foreignVillagePlayerByVillagePlayerIdLoader;
     }
 
     // ===================================================================================

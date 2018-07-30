@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID
  *
  * [column]
- *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, CHARACTER_GROUP_ID, JOIN_PASSWORD, ORGANIZE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, CHARACTER_GROUP_ID, JOIN_PASSWORD, ORGANIZE, ALLOWED_SECRET_SAY_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -33,13 +33,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     CHARA_GROUP, VILLAGE
+ *     ALLOWED_SECRET_SAY, CHARA_GROUP, VILLAGE
  *
  * [referrer table]
  *     
  *
  * [foreign property]
- *     charaGroup, village
+ *     allowedSecretSay, charaGroup, village
  *
  * [referrer property]
  *     
@@ -63,6 +63,7 @@ import com.ort.dbflute.exentity.*;
  * Integer characterGroupId = entity.getCharacterGroupId();
  * String joinPassword = entity.getJoinPassword();
  * String organize = entity.getOrganize();
+ * String allowedSecretSayCode = entity.getAllowedSecretSayCode();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -84,6 +85,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setCharacterGroupId(characterGroupId);
  * entity.setJoinPassword(joinPassword);
  * entity.setOrganize(organize);
+ * entity.setAllowedSecretSayCode(allowedSecretSayCode);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -103,7 +105,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} */
     protected Integer _villageId;
 
     /** START_PERSON_MIN_NUM: {INT UNSIGNED(10)} */
@@ -145,7 +147,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     /** IS_AVAILABLE_GUARD_SAME_TARGET: {NotNull, BIT, classification=Flg} */
     protected Boolean _isAvailableGuardSameTarget;
 
-    /** CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} */
+    /** CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} */
     protected Integer _characterGroupId;
 
     /** JOIN_PASSWORD: {VARCHAR(12)} */
@@ -153,6 +155,9 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /** ORGANIZE: {NotNull, VARCHAR(400)} */
     protected String _organize;
+
+    /** ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} */
+    protected String _allowedSecretSayCode;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -176,7 +181,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "VILLAGE_SETTINGS";
+        return "village_settings";
     }
 
     // ===================================================================================
@@ -380,6 +385,27 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         setIsAvailableGuardSameTarget(cdef != null ? toBoolean(cdef.code()) : null);
     }
 
+    /**
+     * Get the value of allowedSecretSayCode as the classification of AllowedSecretSay. <br>
+     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} <br>
+     * 秘話可能範囲
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.AllowedSecretSay getAllowedSecretSayCodeAsAllowedSecretSay() {
+        return CDef.AllowedSecretSay.codeOf(getAllowedSecretSayCode());
+    }
+
+    /**
+     * Set the value of allowedSecretSayCode as the classification of AllowedSecretSay. <br>
+     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} <br>
+     * 秘話可能範囲
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setAllowedSecretSayCodeAsAllowedSecretSay(CDef.AllowedSecretSay cdef) {
+        setAllowedSecretSayCode(cdef != null ? cdef.code() : null);
+    }
+
     // ===================================================================================
     //                                                              Classification Setting
     //                                                              ======================
@@ -525,6 +551,30 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      */
     public void setIsAvailableGuardSameTarget_False() {
         setIsAvailableGuardSameTargetAsFlg(CDef.Flg.False);
+    }
+
+    /**
+     * Set the value of allowedSecretSayCode as 全員 (EVERYTHING). <br>
+     * 全員
+     */
+    public void setAllowedSecretSayCode_全員() {
+        setAllowedSecretSayCodeAsAllowedSecretSay(CDef.AllowedSecretSay.全員);
+    }
+
+    /**
+     * Set the value of allowedSecretSayCode as なし (NOTHING). <br>
+     * なし
+     */
+    public void setAllowedSecretSayCode_なし() {
+        setAllowedSecretSayCodeAsAllowedSecretSay(CDef.AllowedSecretSay.なし);
+    }
+
+    /**
+     * Set the value of allowedSecretSayCode as 村建てとのみ (ONLY_CREATOR). <br>
+     * 村建てとのみ
+     */
+    public void setAllowedSecretSayCode_村建てとのみ() {
+        setAllowedSecretSayCodeAsAllowedSecretSay(CDef.AllowedSecretSay.村建てとのみ);
     }
 
     // ===================================================================================
@@ -728,6 +778,39 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         return cdef != null ? cdef.equals(CDef.Flg.False) : false;
     }
 
+    /**
+     * Is the value of allowedSecretSayCode 全員? <br>
+     * 全員
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAllowedSecretSayCode全員() {
+        CDef.AllowedSecretSay cdef = getAllowedSecretSayCodeAsAllowedSecretSay();
+        return cdef != null ? cdef.equals(CDef.AllowedSecretSay.全員) : false;
+    }
+
+    /**
+     * Is the value of allowedSecretSayCode なし? <br>
+     * なし
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAllowedSecretSayCodeなし() {
+        CDef.AllowedSecretSay cdef = getAllowedSecretSayCodeAsAllowedSecretSay();
+        return cdef != null ? cdef.equals(CDef.AllowedSecretSay.なし) : false;
+    }
+
+    /**
+     * Is the value of allowedSecretSayCode 村建てとのみ? <br>
+     * 村建てとのみ
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAllowedSecretSayCode村建てとのみ() {
+        CDef.AllowedSecretSay cdef = getAllowedSecretSayCodeAsAllowedSecretSay();
+        return cdef != null ? cdef.equals(CDef.AllowedSecretSay.村建てとのみ) : false;
+    }
+
     // ===================================================================================
     //                                                           Classification Name/Alias
     //                                                           =========================
@@ -815,6 +898,27 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
+    /** ALLOWED_SECRET_SAY by my ALLOWED_SECRET_SAY_CODE, named 'allowedSecretSay'. */
+    protected OptionalEntity<AllowedSecretSay> _allowedSecretSay;
+
+    /**
+     * [get] ALLOWED_SECRET_SAY by my ALLOWED_SECRET_SAY_CODE, named 'allowedSecretSay'. <br>
+     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
+     * @return The entity of foreign property 'allowedSecretSay'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
+     */
+    public OptionalEntity<AllowedSecretSay> getAllowedSecretSay() {
+        if (_allowedSecretSay == null) { _allowedSecretSay = OptionalEntity.relationEmpty(this, "allowedSecretSay"); }
+        return _allowedSecretSay;
+    }
+
+    /**
+     * [set] ALLOWED_SECRET_SAY by my ALLOWED_SECRET_SAY_CODE, named 'allowedSecretSay'.
+     * @param allowedSecretSay The entity of foreign property 'allowedSecretSay'. (NullAllowed)
+     */
+    public void setAllowedSecretSay(OptionalEntity<AllowedSecretSay> allowedSecretSay) {
+        _allowedSecretSay = allowedSecretSay;
+    }
+
     /** CHARA_GROUP by my CHARACTER_GROUP_ID, named 'charaGroup'. */
     protected OptionalEntity<CharaGroup> _charaGroup;
 
@@ -889,6 +993,8 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     @Override
     protected String doBuildStringWithRelation(String li) {
         StringBuilder sb = new StringBuilder();
+        if (_allowedSecretSay != null && _allowedSecretSay.isPresent())
+        { sb.append(li).append(xbRDS(_allowedSecretSay, "allowedSecretSay")); }
         if (_charaGroup != null && _charaGroup.isPresent())
         { sb.append(li).append(xbRDS(_charaGroup, "charaGroup")); }
         if (_village != null && _village.isPresent())
@@ -919,6 +1025,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         sb.append(dm).append(xfND(_characterGroupId));
         sb.append(dm).append(xfND(_joinPassword));
         sb.append(dm).append(xfND(_organize));
+        sb.append(dm).append(xfND(_allowedSecretSayCode));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -933,6 +1040,8 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     @Override
     protected String doBuildRelationString(String dm) {
         StringBuilder sb = new StringBuilder();
+        if (_allowedSecretSay != null && _allowedSecretSay.isPresent())
+        { sb.append(dm).append("allowedSecretSay"); }
         if (_charaGroup != null && _charaGroup.isPresent())
         { sb.append(dm).append("charaGroup"); }
         if (_village != null && _village.isPresent())
@@ -952,7 +1061,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -962,7 +1071,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -1241,7 +1350,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [get] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
+     * [get] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
      * キャラクターグループID
      * @return The value of the column 'CHARACTER_GROUP_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -1251,7 +1360,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
+     * [set] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
      * キャラクターグループID
      * @param characterGroupId The value of the column 'CHARACTER_GROUP_ID'. (basically NotNull if update: for the constraint)
      */
@@ -1298,6 +1407,27 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     public void setOrganize(String organize) {
         registerModifiedProperty("organize");
         _organize = organize;
+    }
+
+    /**
+     * [get] ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} <br>
+     * 秘話可能な範囲コード
+     * @return The value of the column 'ALLOWED_SECRET_SAY_CODE'. (basically NotNull if selected: for the constraint)
+     */
+    public String getAllowedSecretSayCode() {
+        checkSpecifiedProperty("allowedSecretSayCode");
+        return convertEmptyToNull(_allowedSecretSayCode);
+    }
+
+    /**
+     * [set] ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} <br>
+     * 秘話可能な範囲コード
+     * @param allowedSecretSayCode The value of the column 'ALLOWED_SECRET_SAY_CODE'. (basically NotNull if update: for the constraint)
+     */
+    protected void setAllowedSecretSayCode(String allowedSecretSayCode) {
+        checkClassificationCode("ALLOWED_SECRET_SAY_CODE", CDef.DefMeta.AllowedSecretSay, allowedSecretSayCode);
+        registerModifiedProperty("allowedSecretSayCode");
+        _allowedSecretSayCode = allowedSecretSayCode;
     }
 
     /**
@@ -1378,5 +1508,13 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     public void setUpdateTrace(String updateTrace) {
         registerModifiedProperty("updateTrace");
         _updateTrace = updateTrace;
+    }
+
+    /**
+     * For framework so basically DON'T use this method.
+     * @param allowedSecretSayCode The value of the column 'ALLOWED_SECRET_SAY_CODE'. (basically NotNull if update: for the constraint)
+     */
+    public void mynativeMappingAllowedSecretSayCode(String allowedSecretSayCode) {
+        setAllowedSecretSayCode(allowedSecretSayCode);
     }
 }

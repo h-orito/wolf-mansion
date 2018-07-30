@@ -81,6 +81,12 @@ public class NewVillageAssist {
     //                                                                             Execute
     //                                                                             =======
     public void setIndexModel(NewVillageForm form, Model model) {
+        if (form.getStartPersonMinNum() == null) {
+            form.setStartPersonMinNum(8);
+        }
+        if (form.getPersonMaxNum() == null) {
+            form.setPersonMaxNum(20);
+        }
         if (form.getIsOpenVote() == null) {
             form.setIsOpenVote(true);
         }
@@ -122,6 +128,9 @@ public class NewVillageAssist {
         }
         if (form.getOrganization() == null) {
             form.setOrganization(DEFAULT_ORGANIZE);
+        }
+        if (form.getAllowedSecretSayCode() == null) {
+            form.setAllowedSecretSayCode(CDef.AllowedSecretSay.なし.code());
         }
         model.addAttribute("villageForm", form);
 
@@ -204,6 +213,7 @@ public class NewVillageAssist {
         settings.setIsAvailableSuddonlyDeath(villageForm.getIsAvailableSuddonlyDeath());
         settings.setIsAvailableCommit(villageForm.getIsAvailableCommit());
         settings.setOrganize(villageForm.getOrganization().replace("\r\n", "\n"));
+        settings.setAllowedSecretSayCodeAsAllowedSecretSay(CDef.AllowedSecretSay.codeOf(villageForm.getAllowedSecretSayCode()));
         villageSettingsBhv.insert(settings);
         return settings;
     }

@@ -68,10 +68,10 @@ public abstract class BsRandomContent extends AbstractEntity implements DomainEn
     /** RANDOM_CONTENT_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
     protected Integer _randomContentId;
 
-    /** RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD} */
+    /** RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword} */
     protected Integer _randomKeywordId;
 
-    /** RANDOM_MESSAGE: {UQ, NotNull, VARCHAR(20)} */
+    /** RANDOM_MESSAGE: {NotNull, VARCHAR(20)} */
     protected String _randomMessage;
 
     // ===================================================================================
@@ -84,7 +84,7 @@ public abstract class BsRandomContent extends AbstractEntity implements DomainEn
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "RANDOM_CONTENT";
+        return "random_content";
     }
 
     // ===================================================================================
@@ -94,17 +94,6 @@ public abstract class BsRandomContent extends AbstractEntity implements DomainEn
     public boolean hasPrimaryKeyValue() {
         if (_randomContentId == null) { return false; }
         return true;
-    }
-
-    /**
-     * To be unique by the unique column. <br>
-     * You can update the entity by the key when entity update (NOT batch update).
-     * @param randomMessage : UQ, NotNull, VARCHAR(20). (NotNull)
-     */
-    public void uniqueBy(String randomMessage) {
-        __uniqueDrivenProperties.clear();
-        __uniqueDrivenProperties.addPropertyName("randomMessage");
-        setRandomMessage(randomMessage);
     }
 
     // ===================================================================================
@@ -224,7 +213,7 @@ public abstract class BsRandomContent extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD} <br>
+     * [get] RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword} <br>
      * ランダムキーワードID
      * @return The value of the column 'RANDOM_KEYWORD_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -234,7 +223,7 @@ public abstract class BsRandomContent extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD} <br>
+     * [set] RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword} <br>
      * ランダムキーワードID
      * @param randomKeywordId The value of the column 'RANDOM_KEYWORD_ID'. (basically NotNull if update: for the constraint)
      */
@@ -244,7 +233,7 @@ public abstract class BsRandomContent extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] RANDOM_MESSAGE: {UQ, NotNull, VARCHAR(20)} <br>
+     * [get] RANDOM_MESSAGE: {NotNull, VARCHAR(20)} <br>
      * ランダム変換内容文字列
      * @return The value of the column 'RANDOM_MESSAGE'. (basically NotNull if selected: for the constraint)
      */
@@ -254,7 +243,7 @@ public abstract class BsRandomContent extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] RANDOM_MESSAGE: {UQ, NotNull, VARCHAR(20)} <br>
+     * [set] RANDOM_MESSAGE: {NotNull, VARCHAR(20)} <br>
      * ランダム変換内容文字列
      * @param randomMessage The value of the column 'RANDOM_MESSAGE'. (basically NotNull if update: for the constraint)
      */

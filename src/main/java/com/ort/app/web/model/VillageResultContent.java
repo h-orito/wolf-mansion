@@ -157,6 +157,9 @@ public class VillageResultContent implements Serializable {
     /** ランダムキーワード（カンマ区切り） */
     private String randomKeywords;
 
+    /** 秘話相手 */
+    private List<Chara> secretSayTargetList;
+
     public Integer getVillageId() {
         return villageId;
     }
@@ -531,5 +534,13 @@ public class VillageResultContent implements Serializable {
 
     public void setRandomKeywords(String randomKeywords) {
         this.randomKeywords = randomKeywords;
+    }
+
+    public List<Chara> getSecretSayTargetList() {
+        return secretSayTargetList;
+    }
+
+    public void setSecretSayTargetList(List<Chara> secretSayTargetList) {
+        this.secretSayTargetList = secretSayTargetList;
     }
 }

@@ -46,6 +46,9 @@ public class VillageSettingsDto {
     /** 墓下見学発言を地上から見られるか */
     private Boolean isVisibleGraveSpectateMessage;
 
+    /** 秘話可能範囲 */
+    private String allowedSecretSayCode;
+
     /** 突然死ありか */
     private Boolean isAvailableSuddonlyDeath;
 
@@ -189,5 +192,13 @@ public class VillageSettingsDto {
 
     public void setIsAvailableCommit(Boolean isAvailableCommit) {
         this.isAvailableCommit = isAvailableCommit;
+    }
+
+    public String getAllowedSecretSayCode() {
+        return allowedSecretSayCode;
+    }
+
+    public void setAllowedSecretSayCode(String allowedSecretSayCode) {
+        this.allowedSecretSayCode = allowedSecretSayCode;
     }
 }

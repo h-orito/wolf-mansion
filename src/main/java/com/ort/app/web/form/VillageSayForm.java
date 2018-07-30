@@ -16,6 +16,9 @@ public class VillageSayForm implements Serializable {
     @NotNull
     private String messageType;
 
+    /** 秘話相手 */
+    private Integer secretSayTargetCharaId;
+
     public String getMessage() {
         return message;
     }
@@ -30,5 +33,13 @@ public class VillageSayForm implements Serializable {
 
     public void setMessageType(String messageType) {
         this.messageType = messageType;
+    }
+
+    public Integer getSecretSayTargetCharaId() {
+        return secretSayTargetCharaId;
+    }
+
+    public void setSecretSayTargetCharaId(Integer secretSayTargetCharaId) {
+        this.secretSayTargetCharaId = secretSayTargetCharaId;
     }
 }

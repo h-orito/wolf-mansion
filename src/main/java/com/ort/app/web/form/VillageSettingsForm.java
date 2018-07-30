@@ -71,6 +71,10 @@ public class VillageSettingsForm implements Serializable {
     @NotNull
     private Boolean isVisibleGraveSpectateMessage;
 
+    /** 秘話可能範囲 */
+    @NotNull
+    private String allowedSecretSayCode;
+
     /** 観戦を可能にする */
     @NotNull
     private Boolean isAvailableSpectate;
@@ -252,5 +256,13 @@ public class VillageSettingsForm implements Serializable {
 
     public void setIsAvailableGuardSameTarget(Boolean isAvailableGuardSameTarget) {
         this.isAvailableGuardSameTarget = isAvailableGuardSameTarget;
+    }
+
+    public String getAllowedSecretSayCode() {
+        return allowedSecretSayCode;
+    }
+
+    public void setAllowedSecretSayCode(String allowedSecretSayCode) {
+        this.allowedSecretSayCode = allowedSecretSayCode;
     }
 }

@@ -1,4 +1,4 @@
-[Saved Previous Resources]: 2018/07/29 02:29:51
+[Saved Previous Resources]: 2018/07/30 10:38:50
 playsql/migration/previous/replace-schema-10-basic.sql
 playsql/migration/previous/replace-schema.sql
 playsql/migration/previous/take-finally.sql
@@ -16,6 +16,7 @@ playsql/migration/previous/data/ut/tsv/UTF-8/09-MESSAGE.tsv
 playsql/migration/previous/data/ut/tsv/UTF-8/04-CHARA.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/06-DEAD_REASON.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/01-AUTHORITY.tsv
+playsql/migration/previous/data/common/tsv/UTF-8/10-ALLOWED_SECRET_SAY.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/05-MESSAGE_TYPE.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/defaultValueMap.dataprop
 playsql/migration/previous/data/common/tsv/UTF-8/09-CHARA_GROUP.tsv
@@ -33,6 +34,6 @@ playsql/migration/previous/data/production/tsv/UTF-8/01-PLAYER.tsv
 playsql/migration/previous/data/production/tsv/UTF-8/defaultValueMap.dataprop
 playsql/migration/previous/data/production/tsv/UTF-8/tsv-data-result.dfmark
 playsql/migration/previous/data/production/tsv/UTF-8/02-CHARA.tsv
-(34 files)
+(35 files)
 
 Look at the log for detail.

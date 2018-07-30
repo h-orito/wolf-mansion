@@ -15,6 +15,7 @@ import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageSettingsForm;
 import com.ort.app.web.model.VillageSettingsResultContent;
 import com.ort.app.web.model.inner.VillageSettingsDto;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exbhv.VillageSettingsBhv;
@@ -147,6 +148,7 @@ public class VillageSettingsAssist {
         settings.setIsAvailableSpectate(form.getIsAvailableSpectate());
         settings.setIsAvailableSuddonlyDeath(form.getIsAvailableSuddonlyDeath());
         settings.setOrganize(form.getOrganization());
+        settings.setAllowedSecretSayCodeAsAllowedSecretSay(CDef.AllowedSecretSay.codeOf(form.getAllowedSecretSayCode()));
         villageSettingsBhv.update(settings);
     }
 
@@ -231,6 +233,7 @@ public class VillageSettingsAssist {
         settingsForm.setIsAvailableSpectate(settings.getIsAvailableSpectate());
         settingsForm.setOrganization(settings.getOrganize());
         settingsForm.setJoinPassword(settings.getJoinPassword());
+        settingsForm.setAllowedSecretSayCode(settings.getAllowedSecretSayCode());
         model.addAttribute("settingsForm", settingsForm);
     }
 

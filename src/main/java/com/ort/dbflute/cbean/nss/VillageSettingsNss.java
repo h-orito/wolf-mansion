@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.VillageSettingsCQ;
 
 /**
- * The nest select set-upper of VILLAGE_SETTINGS.
+ * The nest select set-upper of village_settings.
  * @author DBFlute(AutoGenerator)
  */
 public class VillageSettingsNss {
@@ -18,6 +18,13 @@ public class VillageSettingsNss {
     // ===================================================================================
     //                                                                     Nested Relation
     //                                                                     ===============
+    /**
+     * With nested relation columns to select clause. <br>
+     * ALLOWED_SECRET_SAY by my ALLOWED_SECRET_SAY_CODE, named 'allowedSecretSay'.
+     */
+    public void withAllowedSecretSay() {
+        _query.xdoNss(() -> _query.queryAllowedSecretSay());
+    }
     /**
      * With nested relation columns to select clause. <br>
      * CHARA_GROUP by my CHARACTER_GROUP_ID, named 'charaGroup'.

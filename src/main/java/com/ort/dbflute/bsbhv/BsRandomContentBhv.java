@@ -67,7 +67,7 @@ public abstract class BsRandomContentBhv extends AbstractBehaviorWritable<Random
     /** {@inheritDoc} */
     public RandomContentDbm asDBMeta() { return RandomContentDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "RANDOM_CONTENT"; }
+    public String asTableDbName() { return "random_content"; }
 
     // ===================================================================================
     //                                                                        New Instance
@@ -184,31 +184,6 @@ public abstract class BsRandomContentBhv extends AbstractBehaviorWritable<Random
     protected RandomContentCB xprepareCBAsPK(Integer randomContentId) {
         assertObjectNotNull("randomContentId", randomContentId);
         return newConditionBean().acceptPK(randomContentId);
-    }
-
-    /**
-     * Select the entity by the unique-key value.
-     * @param randomMessage : UQ, NotNull, VARCHAR(20). (NotNull)
-     * @return The optional entity selected by the unique key. (NotNull: if no data, empty entity)
-     * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
-     * @throws EntityDuplicatedException When the entity has been duplicated.
-     * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
-     */
-    public OptionalEntity<RandomContent> selectByUniqueOf(String randomMessage) {
-        return facadeSelectByUniqueOf(randomMessage);
-    }
-
-    protected OptionalEntity<RandomContent> facadeSelectByUniqueOf(String randomMessage) {
-        return doSelectByUniqueOf(randomMessage, typeOfSelectedEntity());
-    }
-
-    protected <ENTITY extends RandomContent> OptionalEntity<ENTITY> doSelectByUniqueOf(String randomMessage, Class<? extends ENTITY> tp) {
-        return createOptionalEntity(doSelectEntity(xprepareCBAsUniqueOf(randomMessage), tp), randomMessage);
-    }
-
-    protected RandomContentCB xprepareCBAsUniqueOf(String randomMessage) {
-        assertObjectNotNull("randomMessage", randomMessage);
-        return newConditionBean().acceptUniqueOf(randomMessage);
     }
 
     // ===================================================================================
@@ -407,14 +382,6 @@ public abstract class BsRandomContentBhv extends AbstractBehaviorWritable<Random
      */
     public List<Integer> extractRandomContentIdList(List<RandomContent> randomContentList)
     { return helpExtractListInternally(randomContentList, "randomContentId"); }
-
-    /**
-     * Extract the value list of (single) unique key randomMessage.
-     * @param randomContentList The list of randomContent. (NotNull, EmptyAllowed)
-     * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
-     */
-    public List<String> extractRandomMessageList(List<RandomContent> randomContentList)
-    { return helpExtractListInternally(randomContentList, "randomMessage"); }
 
     // ===================================================================================
     //                                                                       Entity Update

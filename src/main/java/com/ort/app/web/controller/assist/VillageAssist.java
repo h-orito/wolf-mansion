@@ -405,6 +405,8 @@ public class VillageAssist {
         // 投票
         setVoteTarget(villageInfo, model);
         content.setVoteTargetList(villageDispLogic.makeVoteTargetList(villageInfo));
+        // 秘話
+        content.setSecretSayTargetList(villageDispLogic.makeSecretSayTargetList(villageInfo));
         // 参加情報
         setVillageModelPlayerInfo(content, villageInfo.optVillagePlayer);
         // 自分のキャラID
@@ -678,6 +680,7 @@ public class VillageAssist {
         part.setIsAvailableSuddonlyDeath(settings.getIsAvailableSuddonlyDeath());
         part.setIsAvailableCommit(settings.getIsAvailableCommit());
         part.setOrganization(makeDisplayOrganization(settings.getOrganize()));
+        part.setAllowedSecretSayCode(settings.getAllowedSecretSayCode());
         return part;
     }
 

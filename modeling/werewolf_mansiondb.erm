@@ -624,6 +624,45 @@
 			</table_properties>
 		</table>
 		<table>
+			<physical_name>allowed_secret_say</physical_name>
+			<logical_name>秘話可能な範囲</logical_name>
+			<description></description>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>1655</x>
+			<y>1233</y>
+			<color>
+				<r>254</r>
+				<g>251</g>
+				<b>0</b>
+			</color>
+			<connections>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>allowed_secret_say_code</physical_name>
+					<logical_name>秘話可能な範囲コード</logical_name>
+					<type>varchar(n)</type>
+					<length>20</length>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>allowed_secret_say_name</physical_name>
+					<logical_name>秘話可能範囲</logical_name>
+					<type>varchar(n)</type>
+					<length>20</length>
+					<not_null>true</not_null>
+				</normal_column>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
 			<physical_name>authority</physical_name>
 			<logical_name>権限</logical_name>
 			<description></description>
@@ -947,6 +986,21 @@
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
 				</relationship>
+				<relationship>
+					<name>FK_message_village_player_to</name>
+					<source>table.village_player</source>
+					<target>table.message</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>to_village_player_id</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
 			</connections>
 			<columns>
 				<normal_column>
@@ -968,6 +1022,12 @@
 					<physical_name>village_player_id</physical_name>
 					<referred_column>table.village_player.village_player_id</referred_column>
 					<relationship>FK_message_village_player</relationship>
+				</normal_column>
+				<normal_column>
+					<physical_name>to_village_player_id</physical_name>
+					<logical_name>秘話相手の村参加者ID</logical_name>
+					<referred_column>table.village_player.village_player_id</referred_column>
+					<relationship>FK_message_village_player_to</relationship>
 				</normal_column>
 				<normal_column>
 					<physical_name>player_id</physical_name>
@@ -1612,6 +1672,21 @@
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
 				</relationship>
+				<relationship>
+					<name>FK_village_settings_allowed_secret_say</name>
+					<source>table.allowed_secret_say</source>
+					<target>table.village_settings</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>allowed_secret_say_code</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
 			</connections>
 			<columns>
 				<normal_column>
@@ -1716,6 +1791,12 @@
 					<logical_name>構成</logical_name>
 					<type>varchar(n)</type>
 					<length>400</length>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>allowed_secret_say_code</physical_name>
+					<referred_column>table.allowed_secret_say.allowed_secret_say_code</referred_column>
+					<relationship>FK_village_settings_allowed_secret_say</relationship>
 					<not_null>true</not_null>
 				</normal_column>
 				<column_group>共通カラム</column_group>

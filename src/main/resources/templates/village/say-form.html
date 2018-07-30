@@ -60,7 +60,17 @@
 										<input type="radio" class="" th:field="*{messageType}" value="SPECTATE_SAY" autocomplete="off" />見学
 									</label> <label th:if="${content.isAvailableMonologueSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'MONOLOGUE_SAY' ? 'active' : ''}">
 										<input type="radio" class="" th:field="*{messageType}" value="MONOLOGUE_SAY" autocomplete="off" />独り言
+									</label> <label
+										th:if="${content.villageSettings.allowedSecretSayCode != 'NOTHING' && content.secretSayTargetList != null && content.secretSayTargetList.size() > 0}"
+										class="btn btn-sm btn-success"> <input type="radio" class="" th:field="*{messageType}" value="SECRET_SAY" autocomplete="off"
+											data-secret-say />秘話
 									</label>
+								</div>
+								<div class="col-sm-12 col-xs-12 hidden" style="margin-top: 10px; margin-bottom: 10px;" data-secret-say-target>
+									秘話相手： <select class="form-control" th:field="*{secretSayTargetCharaId}"
+										th:if="${content.secretSayTargetList != null && content.secretSayTargetList.size() > 0}">
+										<option th:each="chara : ${content.secretSayTargetList}" th:value="${chara.charaId}" th:text="${chara.charaName}"></option>
+									</select>
 								</div>
 								<div class="col-sm-12 col-xs-12" style="display: flex;">
 									<div>
@@ -73,8 +83,8 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-12 col-xs-12">
-									<span class="" style="margin-left: 55px;" data-message-count>文字数: 0/400, 行数: 1/20</span> <input type="submit"
-										class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />
+									<span class="" style="margin-left: 55px;" data-message-count>文字数: 0/400, 行数: 1/20</span>
+									<input type="submit" class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />
 								</div>
 							</div>
 						</form>

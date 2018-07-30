@@ -317,6 +317,15 @@ dl.procedurelist dd.column pre {
 	</tr>
 	<tr>
 		<td class="rownumcell">3</td>
+		<td><a href="#allowed_secret_say" title="type=TABLE, primaryKey={ALLOWED_SECRET_SAY_CODE}, nameLength=18, columnCount=2">ALLOWED_SECRET_SAY</a></td>
+		<td class="typecell">TABLE</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#village_settings" title="FK_VILLAGE_SETTINGS_ALLOWED_SECRET_SAY">VILLAGE_SETTINGS</a></td>
+		<td class="commentcell"> 秘話可能な範囲</td>
+		<td class="subcell">AllowedSecretSay</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">4</td>
 		<td><a href="#authority" title="type=TABLE, primaryKey={AUTHORITY_CODE}, nameLength=9, columnCount=2">AUTHORITY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -325,7 +334,7 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">Authority</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">4</td>
+		<td class="rownumcell">5</td>
 		<td><a href="#camp" title="type=TABLE, primaryKey={CAMP_CODE}, nameLength=4, columnCount=2">CAMP</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -334,7 +343,7 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">Camp</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">5</td>
+		<td class="rownumcell">6</td>
 		<td><a href="#chara" title="type=TABLE, primaryKey={CHARA_ID}, nameLength=5, columnCount=13">CHARA</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara_group" title="FK_CHARA_CHARA_GROUP">CHARA_GROUP</a></td>
@@ -343,7 +352,7 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">Chara</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">6</td>
+		<td class="rownumcell">7</td>
 		<td><a href="#chara_group" title="type=TABLE, primaryKey={CHARA_GROUP_ID}, nameLength=11, columnCount=7">CHARA_GROUP</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#designer" title="FK_CHARA_GROUP_DESIGNER">DESIGNER</a></td>
@@ -352,7 +361,7 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">CharaGroup</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">7</td>
+		<td class="rownumcell">8</td>
 		<td><a href="#commit" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, VILLAGE_PLAYER_ID}, nameLength=6, columnCount=7">COMMIT</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_day" title="FK_COMMIT_VILLAGE_DAY">VILLAGE_DAY</a>, <a href="#village_player" title="FK_COMMIT_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
@@ -361,7 +370,7 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">Commit</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">8</td>
+		<td class="rownumcell">9</td>
 		<td><a href="#dead_reason" title="type=TABLE, primaryKey={DEAD_REASON_CODE}, nameLength=11, columnCount=2">DEAD_REASON</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -370,7 +379,7 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">DeadReason</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">9</td>
+		<td class="rownumcell">10</td>
 		<td><a href="#designer" title="type=TABLE, primaryKey={DESIGNER_ID}, nameLength=8, columnCount=6">DESIGNER</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -379,7 +388,7 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">Designer</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">10</td>
+		<td class="rownumcell">11</td>
 		<td><a href="#footstep" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID}, nameLength=8, columnCount=8">FOOTSTEP</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara" title="FK_FOOTSTEP_CHARA">CHARA</a>, <a href="#village_day" title="FK_FOOTSTEP_VILLAGE_DAY">VILLAGE_DAY</a></td>
@@ -388,16 +397,16 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">Footstep</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">11</td>
-		<td><a href="#message" title="type=TABLE, primaryKey={MESSAGE_ID}, nameLength=7, columnCount=13">MESSAGE</a></td>
+		<td class="rownumcell">12</td>
+		<td><a href="#message" title="type=TABLE, primaryKey={MESSAGE_ID}, nameLength=7, columnCount=14">MESSAGE</a></td>
 		<td class="typecell">TABLE</td>
-		<td class="relcell"><a href="#message_type" title="FK_MESSAGE_MESSAGE_TYPE">MESSAGE_TYPE</a>, <a href="#player" title="FK_MESSAGE_PLAYER">PLAYER</a>, <a href="#village_day" title="FK_MESSAGE_VILLAGE_DAY">VILLAGE_DAY</a>, <a href="#village_player" title="FK_MESSAGE_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
+		<td class="relcell"><a href="#message_type" title="FK_MESSAGE_MESSAGE_TYPE">MESSAGE_TYPE</a>, <a href="#player" title="FK_MESSAGE_PLAYER">PLAYER</a>, <a href="#village_player" title="FK_MESSAGE_VILLAGE_PLAYER_TO">VILLAGE_PLAYER</a>, <a href="#village_day" title="FK_MESSAGE_VILLAGE_DAY">VILLAGE_DAY</a>, <a href="#village_player" title="FK_MESSAGE_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
 		<td class="relcell">&nbsp;</td>
 		<td class="commentcell"> メッセージ</td>
 		<td class="subcell">Message</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">12</td>
+		<td class="rownumcell">13</td>
 		<td><a href="#message_type" title="type=TABLE, primaryKey={MESSAGE_TYPE_CODE}, nameLength=12, columnCount=2">MESSAGE_TYPE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -406,7 +415,7 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">MessageType</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">13</td>
+		<td class="rownumcell">14</td>
 		<td><a href="#player" title="type=TABLE, primaryKey={PLAYER_ID}, nameLength=6, columnCount=8">PLAYER</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#authority" title="FK_PLAYER_AUTHORITY">AUTHORITY</a></td>
@@ -415,7 +424,7 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">Player</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">14</td>
+		<td class="rownumcell">15</td>
 		<td><a href="#random_content" title="type=TABLE, primaryKey={RANDOM_CONTENT_ID}, nameLength=14, columnCount=3">RANDOM_CONTENT</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#random_keyword" title="FK_RANDOM_CONTENT_RANDOM_KEYWORD">RANDOM_KEYWORD</a></td>
@@ -424,7 +433,7 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">RandomContent</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">15</td>
+		<td class="rownumcell">16</td>
 		<td><a href="#random_keyword" title="type=TABLE, primaryKey={RANDOM_KEYWORD_ID}, nameLength=14, columnCount=2">RANDOM_KEYWORD</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -433,7 +442,7 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">RandomKeyword</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">16</td>
+		<td class="rownumcell">17</td>
 		<td><a href="#skill" title="type=TABLE, primaryKey={SKILL_CODE}, nameLength=5, columnCount=4">SKILL</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#camp" title="FK_SKILL_CAMP">CAMP</a></td>
@@ -442,7 +451,7 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">Skill</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">17</td>
+		<td class="rownumcell">18</td>
 		<td><a href="#village" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=7, columnCount=12">VILLAGE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_status" title="FK_VILLAGE_VILLAGE_STATUS">VILLAGE_STATUS</a>, <a href="#camp" title="FK_VILLAGE_CAMP">CAMP</a></td>
@@ -451,7 +460,7 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">Village</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">18</td>
+		<td class="rownumcell">19</td>
 		<td><a href="#village_day" title="type=TABLE, primaryKey={VILLAGE_ID, DAY}, nameLength=11, columnCount=7">VILLAGE_DAY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village" title="FK_VILLAGE_DAY_VILLAGE">VILLAGE</a></td>
@@ -460,25 +469,25 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">VillageDay</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">19</td>
+		<td class="rownumcell">20</td>
 		<td><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=17">VILLAGE_PLAYER</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara" title="FK_VILLAGE_PLAYER_CHARA">CHARA</a>, <a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_REASON">DEAD_REASON</a>, <a href="#player" title="FK_VILLAGE_PLAYER_PLAYER">PLAYER</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL">SKILL</a>, <a href="#village" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE</a></td>
-		<td class="relcell"><a href="#commit" title="FK_COMMIT_VILLAGE_PLAYER">COMMIT</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER">MESSAGE</a></td>
+		<td class="relcell"><a href="#commit" title="FK_COMMIT_VILLAGE_PLAYER">COMMIT</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER_TO">MESSAGE</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER">MESSAGE</a></td>
 		<td class="commentcell"> 村参加者</td>
 		<td class="subcell">VillagePlayer</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">20</td>
-		<td><a href="#village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=21">VILLAGE_SETTINGS</a></td>
+		<td class="rownumcell">21</td>
+		<td><a href="#village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=22">VILLAGE_SETTINGS</a></td>
 		<td class="typecell">TABLE</td>
-		<td class="relcell"><a href="#chara_group" title="FK_VILLAGE_SETTINGS_CHARA_GROUP">CHARA_GROUP</a>, <a href="#village" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE</a></td>
+		<td class="relcell"><a href="#allowed_secret_say" title="FK_VILLAGE_SETTINGS_ALLOWED_SECRET_SAY">ALLOWED_SECRET_SAY</a>, <a href="#chara_group" title="FK_VILLAGE_SETTINGS_CHARA_GROUP">CHARA_GROUP</a>, <a href="#village" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE</a></td>
 		<td class="relcell">&nbsp;</td>
 		<td class="commentcell"> 村設定</td>
 		<td class="subcell">VillageSettings</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">21</td>
+		<td class="rownumcell">22</td>
 		<td><a href="#village_status" title="type=TABLE, primaryKey={VILLAGE_STATUS_CODE}, nameLength=14, columnCount=2">VILLAGE_STATUS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -487,7 +496,7 @@ dl.procedurelist dd.column pre {
 		<td class="subcell">VillageStatus</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">22</td>
+		<td class="rownumcell">23</td>
 		<td><a href="#vote" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID}, nameLength=4, columnCount=8">VOTE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara" title="FK_VOTE_CHARA">CHARA</a>, <a href="#village_day" title="FK_VOTE_VILLAGE_DAY">VILLAGE_DAY</a>, <a href="#chara" title="FK_VOTE_CHARA_TO">CHARA</a></td>
@@ -732,6 +741,65 @@ ABILITY_TYPE
 		<td class="relcell"> &nbsp;</td>
 		<td class="commentcell"> 能力種別</td>
 		<td class="subcell">abilityTypeName</td>
+		<td class="subcell">String</td>
+	</tr>
+</table>
+<h2 id="allowed_secret_say" title="type=TABLE, primaryKey={ALLOWED_SECRET_SAY_CODE}, nameLength=18, columnCount=2">
+ALLOWED_SECRET_SAY
+</h2>
+<p class="tablecomment">秘話可能な範囲</p>
+<table>
+	<thead>
+	<tr>
+		<th class="rownumhead">No.</th>
+		<th>PK</th>
+		<th>ID</th>
+		<th>UQ</th>
+		<th>IX</th>
+		<th>Not<br />Null</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Size</th>
+		<th>ForeignTable</th>
+		<th>ReferrerTable</th>
+		<th>Classification</th>
+		<th>ColumnComment</th>
+		<th>PropertyName</th>
+		<th>JavaType</th>
+	</tr>
+	</thead>
+	<tr>
+		<td class="rownumcell">1</td>
+		<td class="flgcell" title="PRIMARY">o</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td id="allowed_secret_say_allowed_secret_say_code">ALLOWED_SECRET_SAY_CODE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell"><a href="#village_settings" title="FK_VILLAGE_SETTINGS_ALLOWED_SECRET_SAY">VILLAGE_SETTINGS</a>&nbsp;</td>
+		<td class="relcell"><a href="#AllowedSecretSayCls">AllowedSecretSay</a></td>
+		<td class="commentcell"> 秘話可能な範囲コード</td>
+		<td class="subcell">allowedSecretSayCode</td>
+		<td class="subcell">String</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td id="allowed_secret_say_allowed_secret_say_name">ALLOWED_SECRET_SAY_NAME</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"> 秘話可能範囲</td>
+		<td class="subcell">allowedSecretSayName</td>
 		<td class="subcell">String</td>
 	</tr>
 </table>
@@ -1734,7 +1802,7 @@ FOOTSTEP
 		<td class="subcell">String</td>
 	</tr>
 </table>
-<h2 id="message" title="type=TABLE, primaryKey={MESSAGE_ID}, nameLength=7, columnCount=13">
+<h2 id="message" title="type=TABLE, primaryKey={MESSAGE_ID}, nameLength=7, columnCount=14">
 MESSAGE
 </h2>
 <p class="tablecomment">メッセージ</p>
@@ -1814,6 +1882,23 @@ MESSAGE
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_MESSAGE_VILLAGE_PLAYER_TO(TO_VILLAGE_PLAYER_ID)">o</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td id="message_to_village_player_id">TO_VILLAGE_PLAYER_ID</td>
+		<td class="typecell">INT UNSIGNED</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell"><a href="#village_player" title="FK_MESSAGE_VILLAGE_PLAYER_TO">VILLAGE_PLAYER</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"> 秘話相手の村参加者ID</td>
+		<td class="subcell">toVillagePlayerId</td>
+		<td class="subcell">Integer</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">5</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell" title="FK_MESSAGE_PLAYER(PLAYER_ID)">o</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td id="message_player_id">PLAYER_ID</td>
@@ -1827,7 +1912,7 @@ MESSAGE
 		<td class="subcell">Integer</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">5</td>
+		<td class="rownumcell">6</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1844,7 +1929,7 @@ MESSAGE
 		<td class="subcell">Integer</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">6</td>
+		<td class="rownumcell">7</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell" title="UQ_message_number(VILLAGE_ID, MESSAGE_TYPE_CODE, MESSAGE_NUMBER)"><span class="flgplus">+</span>o</td>
@@ -1861,7 +1946,7 @@ MESSAGE
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">7</td>
+		<td class="rownumcell">8</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell" title="UQ_message_number(VILLAGE_ID, MESSAGE_TYPE_CODE, MESSAGE_NUMBER)"><span class="flgplus">+</span>o</td>
@@ -1878,7 +1963,7 @@ MESSAGE
 		<td class="subcell">Integer</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">8</td>
+		<td class="rownumcell">9</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1895,7 +1980,7 @@ MESSAGE
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">9</td>
+		<td class="rownumcell">10</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1912,7 +1997,7 @@ MESSAGE
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">10</td>
+		<td class="rownumcell">11</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1929,7 +2014,7 @@ MESSAGE
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">11</td>
+		<td class="rownumcell">12</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1946,7 +2031,7 @@ MESSAGE
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">12</td>
+		<td class="rownumcell">13</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1963,7 +2048,7 @@ MESSAGE
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">13</td>
+		<td class="rownumcell">14</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2262,7 +2347,7 @@ RANDOM_CONTENT
 		<td class="rownumcell">3</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
-		<td class="flgcell" title="RANDOM_MESSAGE(RANDOM_MESSAGE)">o</td>
+		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">*</td>
 		<td id="random_content_random_message">RANDOM_MESSAGE</td>
@@ -2836,7 +2921,7 @@ VILLAGE_PLAYER
 		<td class="typecell">INT UNSIGNED</td>
 		<td class="sizecell"> 10 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell"><a href="#commit" title="FK_COMMIT_VILLAGE_PLAYER">COMMIT</a>,<br><a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER">MESSAGE</a>&nbsp;</td>
+		<td class="relcell"><a href="#commit" title="FK_COMMIT_VILLAGE_PLAYER">COMMIT</a>,<br><a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER_TO">MESSAGE</a>,<br><a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER">MESSAGE</a>&nbsp;</td>
 		<td class="relcell"> &nbsp;</td>
 		<td class="commentcell"> 村参加者ID</td>
 		<td class="subcell">villagePlayerId</td>
@@ -3115,7 +3200,7 @@ VILLAGE_PLAYER
 		<td class="subcell">String</td>
 	</tr>
 </table>
-<h2 id="village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=21">
+<h2 id="village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=22">
 VILLAGE_SETTINGS
 </h2>
 <p class="tablecomment">村設定</p>
@@ -3433,6 +3518,23 @@ VILLAGE_SETTINGS
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_VILLAGE_SETTINGS_ALLOWED_SECRET_SAY(ALLOWED_SECRET_SAY_CODE)">o</td>
+		<td class="flgcell">*</td>
+		<td id="village_settings_allowed_secret_say_code">ALLOWED_SECRET_SAY_CODE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell"><a href="#allowed_secret_say" title="FK_VILLAGE_SETTINGS_ALLOWED_SECRET_SAY">ALLOWED_SECRET_SAY</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#AllowedSecretSayCls">AllowedSecretSay</a></td>
+		<td class="commentcell"> 秘話可能な範囲コード</td>
+		<td class="subcell">allowedSecretSayCode</td>
+		<td class="subcell">String</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">19</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">*</td>
 		<td class="comcolcell" id="village_settings_register_datetime">REGISTER_DATETIME</td>
@@ -3446,7 +3548,7 @@ VILLAGE_SETTINGS
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">19</td>
+		<td class="rownumcell">20</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -3463,7 +3565,7 @@ VILLAGE_SETTINGS
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">20</td>
+		<td class="rownumcell">21</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -3480,7 +3582,7 @@ VILLAGE_SETTINGS
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">21</td>
+		<td class="rownumcell">22</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -3999,6 +4101,11 @@ VOTE
 				<td class="commentcell"> &nbsp;</td>
 			</tr>
 			<tr>
+				<td>SECRET_SAY</td>
+				<td>秘話</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
 				<td>SPECTATE_SAY</td>
 				<td>見学発言</td>
 				<td class="commentcell"> &nbsp;</td>
@@ -4069,6 +4176,35 @@ VOTE
 			<tr>
 				<td>GUARD</td>
 				<td>護衛</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>AllowedSecretSay</td>
+		<td class="clstypecell">table</td>
+		<td>秘話可能範囲</td>
+		<td>
+			<table class="child">
+			<tr>
+				<th id="AllowedSecretSayCls">Code</th>
+				<th>Name</th>
+				<th>Comment</th>
+			</tr>
+			<tr>
+				<td>EVERYTHING</td>
+				<td>全員</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>NOTHING</td>
+				<td>なし</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>ONLY_CREATOR</td>
+				<td>村建てとのみ</td>
 				<td class="commentcell"> &nbsp;</td>
 			</tr>
 			</table>

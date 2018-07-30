@@ -29,7 +29,7 @@ import com.ort.dbflute.cbean.*;
  *     MESSAGE_ID
  *
  * [column]
- *     MESSAGE_ID, VILLAGE_ID, VILLAGE_PLAYER_ID, PLAYER_ID, DAY, MESSAGE_TYPE_CODE, MESSAGE_NUMBER, MESSAGE_CONTENT, MESSAGE_DATETIME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     MESSAGE_ID, VILLAGE_ID, VILLAGE_PLAYER_ID, TO_VILLAGE_PLAYER_ID, PLAYER_ID, DAY, MESSAGE_TYPE_CODE, MESSAGE_NUMBER, MESSAGE_CONTENT, MESSAGE_DATETIME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -41,13 +41,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [foreign table]
- *     MESSAGE_TYPE, PLAYER, VILLAGE_DAY, VILLAGE_PLAYER
+ *     MESSAGE_TYPE, PLAYER, VILLAGE_PLAYER, VILLAGE_DAY
  *
  * [referrer table]
  *     
  *
  * [foreign property]
- *     messageType, player, villageDay, villagePlayer
+ *     messageType, player, villagePlayerByToVillagePlayerId, villageDay, villagePlayerByVillagePlayerId
  *
  * [referrer property]
  *     
@@ -68,7 +68,7 @@ public abstract class BsMessageBhv extends AbstractBehaviorWritable<Message, Mes
     /** {@inheritDoc} */
     public MessageDbm asDBMeta() { return MessageDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "MESSAGE"; }
+    public String asTableDbName() { return "message"; }
 
     // ===================================================================================
     //                                                                        New Instance
@@ -189,8 +189,8 @@ public abstract class BsMessageBhv extends AbstractBehaviorWritable<Message, Mes
 
     /**
      * Select the entity by the unique-key value.
-     * @param villageId : UQ+, IX+, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY. (NotNull)
-     * @param messageTypeCode : +UQ, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType. (NotNull)
+     * @param villageId : UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
+     * @param messageTypeCode : +UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType. (NotNull)
      * @param messageNumber : +UQ, INT UNSIGNED(10). (NotNull)
      * @return The optional entity selected by the unique key. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
@@ -409,6 +409,14 @@ public abstract class BsMessageBhv extends AbstractBehaviorWritable<Message, Mes
     { return helpPulloutInternally(messageList, "player"); }
 
     /**
+     * Pull out the list of foreign table 'VillagePlayer'.
+     * @param messageList The list of message. (NotNull, EmptyAllowed)
+     * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
+     */
+    public List<VillagePlayer> pulloutVillagePlayerByToVillagePlayerId(List<Message> messageList)
+    { return helpPulloutInternally(messageList, "villagePlayerByToVillagePlayerId"); }
+
+    /**
      * Pull out the list of foreign table 'VillageDay'.
      * @param messageList The list of message. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
@@ -421,8 +429,8 @@ public abstract class BsMessageBhv extends AbstractBehaviorWritable<Message, Mes
      * @param messageList The list of message. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    public List<VillagePlayer> pulloutVillagePlayer(List<Message> messageList)
-    { return helpPulloutInternally(messageList, "villagePlayer"); }
+    public List<VillagePlayer> pulloutVillagePlayerByVillagePlayerId(List<Message> messageList)
+    { return helpPulloutInternally(messageList, "villagePlayerByVillagePlayerId"); }
 
     // ===================================================================================
     //                                                                      Extract Column

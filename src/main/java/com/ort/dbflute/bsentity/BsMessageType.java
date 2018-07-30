@@ -78,7 +78,7 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "MESSAGE_TYPE";
+        return "message_type";
     }
 
     // ===================================================================================
@@ -203,6 +203,14 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
      */
     public void setMessageTypeCode_公開システムメッセージ() {
         setMessageTypeCodeAsMessageType(CDef.MessageType.公開システムメッセージ);
+    }
+
+    /**
+     * Set the value of messageTypeCode as 秘話 (SECRET_SAY). <br>
+     * 秘話
+     */
+    public void setMessageTypeCode_秘話() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.秘話);
     }
 
     /**
@@ -343,6 +351,17 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
     public boolean isMessageTypeCode公開システムメッセージ() {
         CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
         return cdef != null ? cdef.equals(CDef.MessageType.公開システムメッセージ) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 秘話? <br>
+     * 秘話
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode秘話() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.秘話) : false;
     }
 
     /**

@@ -110,5 +110,12 @@ map:{
             ; code=ABILITY_TYPE_CODE; name=ABILITY_TYPE_NAME
         }
     }
+    ; AllowedSecretSay = list:{
+        ; map:{topComment=秘話可能範囲; codeType=String}
+        ; map:{
+            ; table=ALLOWED_SECRET_SAY
+            ; code=ALLOWED_SECRET_SAY_CODE; name=ALLOWED_SECRET_SAY_NAME
+        }
+    }
 }
 # ----------------/

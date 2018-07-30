@@ -17,9 +17,11 @@
 					<form method="post" action="" th:action="@{/village/{villageId}/say(villageId=${villageId})}" th:object="${sayForm}" class="form-horizontal">
 						<div class="col-sm-12 col-xs-12">
 							<div class="row">
-								<!--// 通常発言 //-->
 								<div class="col-sm-12 col-xs-12">
 									<div class="row">
+										<div class="col-sm-12 col-xs-12" th:if="${secretSayTargetCharaName}">
+											<p th:text="'秘話相手： ' + ${secretSayTargetCharaName}"></p>
+										</div>
 										<div class="col-sm-12 col-xs-12" style="display: flex;">
 											<div>
 												<img th:src="${characterImgUrl}" th:width="${characterImgWidth}" th:height="${characterImgHeight}">
@@ -29,6 +31,7 @@
 														messageType == 'WEREWOLF_SAY' ? 'message-werewolf' : 
 														messageType == 'MASON_SAY' ? 'message-mason' : 
 														messageType == 'MONOLOGUE_SAY' ? 'message-monologue' : 
+														messageType == 'SECRET_SAY' ? 'message-monologue' : 
 														messageType == 'GRAVE_SAY' ? 'message-grave' :
 														messageType == 'SPECTATE_SAY' ? 'message-spectate' : ''}"
 												th:style="'flex: 1; margin-left: 5px; min-height: ' + ${characterImgHeight} + 'px;'" th:text="*{message}"></div>
@@ -36,13 +39,16 @@
 									</div>
 								</div>
 							</div>
-							<input type="hidden" th:field="*{message}" /> <input type="hidden" th:field="*{messageType}" /> <input type="button"
-								class="btn btn-sm btn-default" value="戻る(発言内容は消去されます)" th:data-back="${villageId}" /> <input type="submit"
-								class="btn btn-sm btn-success pull-right"
+							<input type="hidden" th:field="*{message}" />
+							<input type="hidden" th:field="*{messageType}" />
+							<input type="hidden" th:field="*{secretSayTargetCharaId}" />
+							<input type="button" class="btn btn-sm btn-default" value="戻る(内容は消去されます)" th:data-back="${villageId}" />
+							<input type="submit" class="btn btn-sm btn-success pull-right"
 								th:value="*{messageType == 'NORMAL_SAY' ? '発言する' : 
 														messageType == 'WEREWOLF_SAY' ? '囁く' : 
 														messageType == 'MASON_SAY' ? '発言する（共鳴）' : 
 														messageType == 'MONOLOGUE_SAY' ? '発言する（独り言）' : 
+														messageType == 'SECRET_SAY' ? '発言する（秘話）' : 
 														messageType == 'GRAVE_SAY' ? '呻く' :
 														messageType == 'SPECTATE_SAY' ? '発言する' : '発言する'}" />
 						</div>

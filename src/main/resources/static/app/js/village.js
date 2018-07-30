@@ -247,6 +247,7 @@ $(function() {
 			if ($(this).hasClass('active')) {
 				var sayType = $(this).find('input').val();
 				$sayTextarea.removeClass().addClass('form-control');
+				$('[data-secret-say-target]').addClass('hidden');
 				switch (sayType) {
 				case 'WEREWOLF_SAY':
 					$sayTextarea.addClass('message-werewolf');
@@ -256,6 +257,10 @@ $(function() {
 					break;
 				case 'MONOLOGUE_SAY':
 					$sayTextarea.addClass('message-monologue');
+					break;
+				case 'SECRET_SAY':
+					$sayTextarea.addClass('message-monologue');
+					$('[data-secret-say-target]').removeClass('hidden');
 					break;
 				case 'GRAVE_SAY':
 					$sayTextarea.addClass('message-grave');

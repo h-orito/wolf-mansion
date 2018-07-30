@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of RANDOM_CONTENT.
+ * The abstract condition-query of random_content.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "RANDOM_CONTENT";
+        return "random_content";
     }
 
     // ===================================================================================
@@ -174,7 +174,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD}
+     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword}
      * @param randomKeywordId The value of randomKeywordId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setRandomKeywordId_Equal(Integer randomKeywordId) {
@@ -187,7 +187,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD}
+     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword}
      * @param randomKeywordId The value of randomKeywordId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setRandomKeywordId_NotEqual(Integer randomKeywordId) {
@@ -200,7 +200,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD}
+     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword}
      * @param randomKeywordId The value of randomKeywordId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setRandomKeywordId_GreaterThan(Integer randomKeywordId) {
@@ -209,7 +209,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD}
+     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword}
      * @param randomKeywordId The value of randomKeywordId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setRandomKeywordId_LessThan(Integer randomKeywordId) {
@@ -218,7 +218,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD}
+     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword}
      * @param randomKeywordId The value of randomKeywordId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setRandomKeywordId_GreaterEqual(Integer randomKeywordId) {
@@ -227,7 +227,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD}
+     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword}
      * @param randomKeywordId The value of randomKeywordId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setRandomKeywordId_LessEqual(Integer randomKeywordId) {
@@ -238,7 +238,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD}
+     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword}
      * @param minNumber The min number of randomKeywordId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of randomKeywordId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -251,7 +251,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD}
+     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword}
      * @param minNumber The min number of randomKeywordId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of randomKeywordId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -262,7 +262,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD}
+     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword}
      * @param randomKeywordIdList The collection of randomKeywordId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setRandomKeywordId_InScope(Collection<Integer> randomKeywordIdList) {
@@ -275,7 +275,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD}
+     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword}
      * @param randomKeywordIdList The collection of randomKeywordId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setRandomKeywordId_NotInScope(Collection<Integer> randomKeywordIdList) {
@@ -291,7 +291,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * RANDOM_MESSAGE: {UQ, NotNull, VARCHAR(20)}
+     * RANDOM_MESSAGE: {NotNull, VARCHAR(20)}
      * @param randomMessage The value of randomMessage as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setRandomMessage_Equal(String randomMessage) {
@@ -304,7 +304,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * RANDOM_MESSAGE: {UQ, NotNull, VARCHAR(20)}
+     * RANDOM_MESSAGE: {NotNull, VARCHAR(20)}
      * @param randomMessage The value of randomMessage as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setRandomMessage_NotEqual(String randomMessage) {
@@ -317,7 +317,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * RANDOM_MESSAGE: {UQ, NotNull, VARCHAR(20)}
+     * RANDOM_MESSAGE: {NotNull, VARCHAR(20)}
      * @param randomMessage The value of randomMessage as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setRandomMessage_GreaterThan(String randomMessage) {
@@ -326,7 +326,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * RANDOM_MESSAGE: {UQ, NotNull, VARCHAR(20)}
+     * RANDOM_MESSAGE: {NotNull, VARCHAR(20)}
      * @param randomMessage The value of randomMessage as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setRandomMessage_LessThan(String randomMessage) {
@@ -335,7 +335,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * RANDOM_MESSAGE: {UQ, NotNull, VARCHAR(20)}
+     * RANDOM_MESSAGE: {NotNull, VARCHAR(20)}
      * @param randomMessage The value of randomMessage as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setRandomMessage_GreaterEqual(String randomMessage) {
@@ -344,7 +344,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * RANDOM_MESSAGE: {UQ, NotNull, VARCHAR(20)}
+     * RANDOM_MESSAGE: {NotNull, VARCHAR(20)}
      * @param randomMessage The value of randomMessage as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setRandomMessage_LessEqual(String randomMessage) {
@@ -353,7 +353,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * RANDOM_MESSAGE: {UQ, NotNull, VARCHAR(20)}
+     * RANDOM_MESSAGE: {NotNull, VARCHAR(20)}
      * @param randomMessageList The collection of randomMessage as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setRandomMessage_InScope(Collection<String> randomMessageList) {
@@ -366,7 +366,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * RANDOM_MESSAGE: {UQ, NotNull, VARCHAR(20)}
+     * RANDOM_MESSAGE: {NotNull, VARCHAR(20)}
      * @param randomMessageList The collection of randomMessage as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setRandomMessage_NotInScope(Collection<String> randomMessageList) {
@@ -379,7 +379,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
 
     /**
      * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * RANDOM_MESSAGE: {UQ, NotNull, VARCHAR(20)} <br>
+     * RANDOM_MESSAGE: {NotNull, VARCHAR(20)} <br>
      * <pre>e.g. setRandomMessage_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
      * @param randomMessage The value of randomMessage as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param opLambda The callback for option of like-search. (NotNull)
@@ -390,7 +390,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
 
     /**
      * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * RANDOM_MESSAGE: {UQ, NotNull, VARCHAR(20)} <br>
+     * RANDOM_MESSAGE: {NotNull, VARCHAR(20)} <br>
      * <pre>e.g. setRandomMessage_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
      * @param randomMessage The value of randomMessage as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param likeSearchOption The option of like-search. (NotNull)
@@ -402,7 +402,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
     /**
      * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
      * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * RANDOM_MESSAGE: {UQ, NotNull, VARCHAR(20)}
+     * RANDOM_MESSAGE: {NotNull, VARCHAR(20)}
      * @param randomMessage The value of randomMessage as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param opLambda The callback for option of like-search. (NotNull)
      */
@@ -413,7 +413,7 @@ public abstract class AbstractBsRandomContentCQ extends AbstractConditionQuery {
     /**
      * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
      * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * RANDOM_MESSAGE: {UQ, NotNull, VARCHAR(20)}
+     * RANDOM_MESSAGE: {NotNull, VARCHAR(20)}
      * @param randomMessage The value of randomMessage as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param likeSearchOption The option of not-like-search. (NotNull)
      */

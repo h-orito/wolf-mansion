@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.MessageCQ;
 
 /**
- * The nest select set-upper of MESSAGE.
+ * The nest select set-upper of message.
  * @author DBFlute(AutoGenerator)
  */
 public class MessageNss {
@@ -36,6 +36,15 @@ public class MessageNss {
     }
     /**
      * With nested relation columns to select clause. <br>
+     * VILLAGE_PLAYER by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'.
+     * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
+     */
+    public VillagePlayerNss withVillagePlayerByToVillagePlayerId() {
+        _query.xdoNss(() -> _query.queryVillagePlayerByToVillagePlayerId());
+        return new VillagePlayerNss(_query.queryVillagePlayerByToVillagePlayerId());
+    }
+    /**
+     * With nested relation columns to select clause. <br>
      * VILLAGE_DAY by my VILLAGE_ID, DAY, named 'villageDay'.
      * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
      */
@@ -45,11 +54,11 @@ public class MessageNss {
     }
     /**
      * With nested relation columns to select clause. <br>
-     * VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayer'.
+     * VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'.
      * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
      */
-    public VillagePlayerNss withVillagePlayer() {
-        _query.xdoNss(() -> _query.queryVillagePlayer());
-        return new VillagePlayerNss(_query.queryVillagePlayer());
+    public VillagePlayerNss withVillagePlayerByVillagePlayerId() {
+        _query.xdoNss(() -> _query.queryVillagePlayerByVillagePlayerId());
+        return new VillagePlayerNss(_query.queryVillagePlayerByVillagePlayerId());
     }
 }

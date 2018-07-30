@@ -20,7 +20,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-bean of RANDOM_KEYWORD.
+ * The base condition-bean of random_keyword.
  * @author DBFlute(AutoGenerator)
  */
 public class BsRandomKeywordCB extends AbstractConditionBean {
@@ -72,7 +72,7 @@ public class BsRandomKeywordCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "RANDOM_KEYWORD";
+        return "random_keyword";
     }
 
     // ===================================================================================
@@ -311,10 +311,10 @@ public class BsRandomKeywordCB extends AbstractConditionBean {
             columnRandomKeywordId(); // PK
         }
         @Override
-        protected String getTableDbName() { return "RANDOM_KEYWORD"; }
+        protected String getTableDbName() { return "random_keyword"; }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from RANDOM_CONTENT where ...) as FOO_MAX} <br>
+         * {select max(FOO) from random_content where ...) as FOO_MAX} <br>
          * RANDOM_CONTENT by RANDOM_KEYWORD_ID, named 'randomContentList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(contentCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {

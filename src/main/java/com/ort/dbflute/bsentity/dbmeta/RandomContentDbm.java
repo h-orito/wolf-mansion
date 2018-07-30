@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of RANDOM_CONTENT. (Singleton)
+ * The DB meta of random_content. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class RandomContentDbm extends AbstractDBMeta {
@@ -65,7 +65,7 @@ public class RandomContentDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "RANDOM_CONTENT";
+    protected final String _tableDbName = "random_content";
     protected final String _tableDispName = "RANDOM_CONTENT";
     protected final String _tablePropertyName = "randomContent";
     protected final TableSqlName _tableSqlName = new TableSqlName("RANDOM_CONTENT", _tableDbName);
@@ -88,12 +88,12 @@ public class RandomContentDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnRandomContentId() { return _columnRandomContentId; }
     /**
-     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD}
+     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnRandomKeywordId() { return _columnRandomKeywordId; }
     /**
-     * RANDOM_MESSAGE: {UQ, NotNull, VARCHAR(20)}
+     * RANDOM_MESSAGE: {NotNull, VARCHAR(20)}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnRandomMessage() { return _columnRandomMessage; }
@@ -117,11 +117,6 @@ public class RandomContentDbm extends AbstractDBMeta {
     protected UniqueInfo cpui() { return hpcpui(columnRandomContentId()); }
     public boolean hasPrimaryKey() { return true; }
     public boolean hasCompoundPrimaryKey() { return false; }
-
-    // -----------------------------------------------------
-    //                                        Unique Element
-    //                                        --------------
-    public UniqueInfo uniqueOf() { return hpcui(columnRandomMessage()); }
 
     // ===================================================================================
     //                                                                       Relation Info

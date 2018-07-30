@@ -68,6 +68,10 @@
 								<td th:text="*{isVisibleGraveSpectateMessage ? '可能' : '不可'}"></td>
 							</tr>
 							<tr>
+								<th>秘話</th>
+								<td th:text="*{allowedSecretSayCode == 'NOTHING' ? 'なし' : allowedSecretSayCode == 'ONLY_CREATOR' ? '村建てとのみ可能' : '全員可能'}"></td>
+							</tr>
+							<tr>
 								<th>突然死</th>
 								<td th:text="*{isAvailableSuddonlyDeath ? 'あり' : 'なし'}"></td>
 							</tr>
@@ -108,8 +112,8 @@
 						<a href="javascript:void(0);" class="btn btn-primary btn-sm pull-right small" data-dismiss="modal">閉じる</a> <a href="javascript:void(0);"
 							th:href="@{/village/{villageId}/settings(villageId=${content.villageId})}" th:if="${content.isAvailableSettingsUpdate}"
 							class="btn btn-success btn-sm pull-right small" style="margin-right: 10px;">設定変更</a>
-						<input type="button" th:unless="${content.isAvailableSettingsUpdate}" class="btn btn-default btn-sm pull-right small disabled" data-dismiss="modal"
-							disabled value="設定変更" style="margin-right: 10px;" />
+						<input type="button" th:unless="${content.isAvailableSettingsUpdate}" class="btn btn-default btn-sm pull-right small disabled"
+							data-dismiss="modal" disabled value="設定変更" style="margin-right: 10px;" />
 					</div>
 				</div>
 			</div>

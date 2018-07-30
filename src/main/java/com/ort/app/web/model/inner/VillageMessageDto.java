@@ -37,6 +37,9 @@ public class VillageMessageDto {
     /** メッセージ表示縦幅px */
     private Integer height;
 
+    /** 秘話相手キャラクター名 */
+    private String targetCharacterName;
+
     public String getPlayerName() {
         return playerName;
     }
@@ -128,6 +131,14 @@ public class VillageMessageDto {
     /** css指定用 */
     public String getMinHeightCss() {
         return "min-height: " + height + "px;";
+    }
+
+    public String getTargetCharacterName() {
+        return targetCharacterName;
+    }
+
+    public void setTargetCharacterName(String targetCharacterName) {
+        this.targetCharacterName = targetCharacterName;
     }
 
 }

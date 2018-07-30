@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of VILLAGE_SETTINGS. (Singleton)
+ * The DB meta of village_settings. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillageSettingsDbm extends AbstractDBMeta {
@@ -78,6 +78,14 @@ public class VillageSettingsDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((VillageSettings)et).getCharacterGroupId(), (et, vl) -> ((VillageSettings)et).setCharacterGroupId(cti(vl)), "characterGroupId");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getJoinPassword(), (et, vl) -> ((VillageSettings)et).setJoinPassword((String)vl), "joinPassword");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getOrganize(), (et, vl) -> ((VillageSettings)et).setOrganize((String)vl), "organize");
+        setupEpg(_epgMap, et -> ((VillageSettings)et).getAllowedSecretSayCode(), (et, vl) -> {
+            CDef.AllowedSecretSay cls = (CDef.AllowedSecretSay)gcls(et, columnAllowedSecretSayCode(), vl);
+            if (cls != null) {
+                ((VillageSettings)et).setAllowedSecretSayCodeAsAllowedSecretSay(cls);
+            } else {
+                ((VillageSettings)et).mynativeMappingAllowedSecretSayCode((String)vl);
+            }
+        }, "allowedSecretSayCode");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getRegisterDatetime(), (et, vl) -> ((VillageSettings)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getRegisterTrace(), (et, vl) -> ((VillageSettings)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getUpdateDatetime(), (et, vl) -> ((VillageSettings)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -93,6 +101,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     { xsetupEfpg(); }
     @SuppressWarnings("unchecked")
     protected void xsetupEfpg() {
+        setupEfpg(_efpgMap, et -> ((VillageSettings)et).getAllowedSecretSay(), (et, vl) -> ((VillageSettings)et).setAllowedSecretSay((OptionalEntity<AllowedSecretSay>)vl), "allowedSecretSay");
         setupEfpg(_efpgMap, et -> ((VillageSettings)et).getCharaGroup(), (et, vl) -> ((VillageSettings)et).setCharaGroup((OptionalEntity<CharaGroup>)vl), "charaGroup");
         setupEfpg(_efpgMap, et -> ((VillageSettings)et).getVillage(), (et, vl) -> ((VillageSettings)et).setVillage((OptionalEntity<Village>)vl), "village");
     }
@@ -102,7 +111,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "VILLAGE_SETTINGS";
+    protected final String _tableDbName = "village_settings";
     protected final String _tableDispName = "VILLAGE_SETTINGS";
     protected final String _tablePropertyName = "villageSettings";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_SETTINGS", _tableDbName);
@@ -132,13 +141,14 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnCharacterGroupId = cci("CHARACTER_GROUP_ID", "CHARACTER_GROUP_ID", null, null, Integer.class, "characterGroupId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "charaGroup", null, null, false);
     protected final ColumnInfo _columnJoinPassword = cci("JOIN_PASSWORD", "JOIN_PASSWORD", null, null, String.class, "joinPassword", null, false, false, false, "VARCHAR", 12, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnOrganize = cci("ORGANIZE", "ORGANIZE", null, null, String.class, "organize", null, false, false, true, "VARCHAR", 400, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnAllowedSecretSayCode = cci("ALLOWED_SECRET_SAY_CODE", "ALLOWED_SECRET_SAY_CODE", null, null, String.class, "allowedSecretSayCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "allowedSecretSay", null, CDef.DefMeta.AllowedSecretSay, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
@@ -208,7 +218,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnIsAvailableGuardSameTarget() { return _columnIsAvailableGuardSameTarget; }
     /**
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharacterGroupId() { return _columnCharacterGroupId; }
@@ -222,6 +232,11 @@ public class VillageSettingsDbm extends AbstractDBMeta {
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnOrganize() { return _columnOrganize; }
+    /**
+     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnAllowedSecretSayCode() { return _columnAllowedSecretSayCode; }
     /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
@@ -262,6 +277,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
         ls.add(columnCharacterGroupId());
         ls.add(columnJoinPassword());
         ls.add(columnOrganize());
+        ls.add(columnAllowedSecretSayCode());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());
@@ -290,12 +306,20 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     //                                      Foreign Property
     //                                      ----------------
     /**
+     * ALLOWED_SECRET_SAY by my ALLOWED_SECRET_SAY_CODE, named 'allowedSecretSay'.
+     * @return The information object of foreign property. (NotNull)
+     */
+    public ForeignInfo foreignAllowedSecretSay() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnAllowedSecretSayCode(), AllowedSecretSayDbm.getInstance().columnAllowedSecretSayCode());
+        return cfi("FK_VILLAGE_SETTINGS_ALLOWED_SECRET_SAY", "allowedSecretSay", this, AllowedSecretSayDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villageSettingsList", false);
+    }
+    /**
      * CHARA_GROUP by my CHARACTER_GROUP_ID, named 'charaGroup'.
      * @return The information object of foreign property. (NotNull)
      */
     public ForeignInfo foreignCharaGroup() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharacterGroupId(), CharaGroupDbm.getInstance().columnCharaGroupId());
-        return cfi("FK_VILLAGE_SETTINGS_CHARA_GROUP", "charaGroup", this, CharaGroupDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villageSettingsList", false);
+        return cfi("FK_VILLAGE_SETTINGS_CHARA_GROUP", "charaGroup", this, CharaGroupDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villageSettingsList", false);
     }
     /**
      * VILLAGE by my VILLAGE_ID, named 'village'.
@@ -303,7 +327,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
      */
     public ForeignInfo foreignVillage() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillageId(), VillageDbm.getInstance().columnVillageId());
-        return cfi("FK_VILLAGE_SETTINGS_VILLAGE", "village", this, VillageDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, true, false, false, false, null, null, false, "villageSettingsAsOne", false);
+        return cfi("FK_VILLAGE_SETTINGS_VILLAGE", "village", this, VillageDbm.getInstance(), mp, 2, org.dbflute.optional.OptionalEntity.class, true, false, false, false, null, null, false, "villageSettingsAsOne", false);
     }
 
     // -----------------------------------------------------

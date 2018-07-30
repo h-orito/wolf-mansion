@@ -3,6 +3,7 @@ package com.ort.app.web.controller.assist;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.dbflute.optional.OptionalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.MessageType;
 import com.ort.dbflute.exbhv.RandomKeywordBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
+import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exentity.RandomKeyword;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
@@ -30,6 +32,9 @@ public class VillageSayAssist {
     //                                                                           =========
     @Autowired
     private VillageBhv villageBhv;
+
+    @Autowired
+    private VillagePlayerBhv villagePlayerBhv;
 
     @Autowired
     private VillageAssist villageAssist;
@@ -63,6 +68,7 @@ public class VillageSayAssist {
         model.addAttribute("characterImgHeight", villagePlayer.getChara().get().getDisplayHeight());
         model.addAttribute("randomKeywords", String.join(",",
                 randomKeywordBhv.selectList(cb -> {}).stream().map(RandomKeyword::getKeyword).collect(Collectors.toList())));
+        model.addAttribute("secretSayTargetCharaName", createSecretSayTargetCharaName(villageId, sayForm));
 
         model.addAttribute("villageId", villageId);
         Village village = selectVillage(villageId);
@@ -89,12 +95,16 @@ public class VillageSayAssist {
             return new IllegalArgumentException("セッション切れ？");
         });
         MessageType type = CDef.MessageType.codeOf(sayForm.getMessageType());
+        Integer targetVillagePlayerId = sayForm.getMessageType().equals(CDef.MessageType.秘話.code())
+                ? selectTargetVillagePlayer(villageId, sayForm).getVillagePlayerId()
+                : null;
         if (type == null) {
             throw new IllegalArgumentException("発言種別改ざん");
         }
         // 登録
         try {
-            messageLogic.insertMessage(villageId, day, type, sayForm.getMessage(), villagePlayer.getVillagePlayerId());
+            messageLogic.insertMessage(villageId, day, type, sayForm.getMessage(), villagePlayer.getVillagePlayerId(),
+                    targetVillagePlayerId);
         } catch (WerewolfMansionBusinessException e) {
             model.addAttribute("sayErrorMessage", e.getMessage());
         }
@@ -119,6 +129,15 @@ public class VillageSayAssist {
             villagePlayerCB.query().addOrderBy_DeadDay_Asc();
         });
         return village;
+    }
+
+    private VillagePlayer selectTargetVillagePlayer(Integer villageId, VillageSayForm sayForm) {
+        return villagePlayerBhv.selectEntityWithDeletedCheck(cb -> {
+            cb.setupSelect_Chara();
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setIsGone_Equal_False();
+            cb.query().setCharaId_Equal(sayForm.getSecretSayTargetCharaId());
+        });
     }
 
     // ===================================================================================
@@ -151,6 +170,8 @@ public class VillageSayAssist {
             return isAvailableSpectateSay(village, villagePlayer);
         case 独り言:
             return isAvailableMonologueSay(village);
+        case 秘話:
+            return isAvailableSecretSay(village, villagePlayer, sayForm.getSecretSayTargetCharaId());
         default:
             throw new IllegalArgumentException("発言種別が改ざんされている type: " + type);
         }
@@ -223,4 +244,34 @@ public class VillageSayAssist {
         return true;
     }
 
+    private boolean isAvailableSecretSay(Village village, VillagePlayer villagePlayer, Integer targetCharaId) {
+        // 進行中以外は不可
+        if (!village.isVillageStatusCode進行中()) {
+            return false;
+        }
+        // 秘話不可設定の場合は不可
+        if (village.getVillageSettingsAsOne().get().getAllowedSecretSayCodeAsAllowedSecretSay() == CDef.AllowedSecretSay.なし) {
+            return false;
+        }
+        // 相手がこの村に参加していなかったら不可
+        if (targetCharaId == null) {
+            return false;
+        }
+        OptionalEntity<VillagePlayer> optTarget = villagePlayerBhv.selectEntity(cb -> {
+            cb.query().setVillageId_Equal(village.getVillageId());
+            cb.query().setIsGone_Equal_False();
+            cb.query().setCharaId_Equal(targetCharaId);
+        });
+        if (!optTarget.isPresent()) {
+            return false;
+        }
+        return true;
+    }
+
+    private String createSecretSayTargetCharaName(Integer villageId, VillageSayForm sayForm) {
+        if (!sayForm.getMessageType().equals(CDef.MessageType.秘話.code())) {
+            return null;
+        }
+        return selectTargetVillagePlayer(villageId, sayForm).getChara().get().getCharaName();
+    }
 }

@@ -73,11 +73,12 @@ public class MessageLogic {
     //                                                                             Execute
     //                                                                             =======
     public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId,
-            Integer playerId) throws WerewolfMansionBusinessException {
+            Integer targetVillagePlayerId, Integer playerId) throws WerewolfMansionBusinessException {
         Message message = new Message();
         message.setVillageId(villageId);
         message.setDay(day);
         message.setVillagePlayerId(villagePlayerId);
+        message.setToVillagePlayerId(targetVillagePlayerId);
         message.setPlayerId(playerId);
         message.setMessageTypeCodeAsMessageType(messageType);
         message.setMessageContent(content);
@@ -96,14 +97,19 @@ public class MessageLogic {
         throw new WerewolfMansionBusinessException("混み合っているため発言に失敗しました。再度発言してください。");
     }
 
-    public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId)
-            throws WerewolfMansionBusinessException {
+    public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId,
+            Integer targetVillagePlayerId) throws WerewolfMansionBusinessException {
         // ランダム機能などメッセージ関数を置換して登録
         ListResultBean<VillagePlayer> vPlayerList = selectVPlayerList(villageId);
         String message = replaceMessage(content, vPlayerList);
-        insertMessage(villageId, day, messageType, message, villagePlayerId, null);
+        insertMessage(villageId, day, messageType, message, villagePlayerId, targetVillagePlayerId, null);
         // 特定の文字列が含まれていたらslack投稿
         postToSlackIfNeeded(villageId, day, message);
+    }
+
+    public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId)
+            throws WerewolfMansionBusinessException {
+        insertMessage(villageId, day, messageType, content, villagePlayerId, null);
     }
 
     public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content)

@@ -114,6 +114,10 @@ public class NewVillageForm implements Serializable {
     @NotNull
     private String organization;
 
+    /** 秘話可能範囲 */
+    @NotNull
+    private String allowedSecretSayCode;
+
     public String getVillageName() {
         return villageName;
     }
@@ -304,6 +308,14 @@ public class NewVillageForm implements Serializable {
 
     public void setIsAvailableGuardSameTarget(Boolean isAvailableGuardSameTarget) {
         this.isAvailableGuardSameTarget = isAvailableGuardSameTarget;
+    }
+
+    public String getAllowedSecretSayCode() {
+        return allowedSecretSayCode;
+    }
+
+    public void setAllowedSecretSayCode(String allowedSecretSayCode) {
+        this.allowedSecretSayCode = allowedSecretSayCode;
     }
 
 }

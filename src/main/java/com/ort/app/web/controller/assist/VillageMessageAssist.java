@@ -149,16 +149,26 @@ public class VillageMessageAssist {
             } else {
                 cb.paging(100000, 1);
             }
-            cb.setupSelect_VillagePlayer().withPlayer();
-            cb.setupSelect_VillagePlayer().withChara();
+            cb.setupSelect_VillagePlayerByVillagePlayerId().withPlayer();
+            cb.setupSelect_VillagePlayerByVillagePlayerId().withChara();
+            cb.setupSelect_VillagePlayerByToVillagePlayerId().withChara();
             cb.query().setVillageId_Equal(villageId);
             cb.query().setDay_Equal(day);
             if (optVillagePlayer.isPresent()) {
+                Integer villagePlayerId = optVillagePlayer.get().getVillagePlayerId();
                 cb.orScopeQuery(orCB -> {
                     orCB.query().setMessageTypeCode_InScope_AsMessageType(messageTypeList);
                     orCB.orScopeQueryAndPart(andCB -> {
                         andCB.query().setMessageTypeCode_Equal_独り言();
-                        andCB.query().setVillagePlayerId_Equal(optVillagePlayer.get().getVillagePlayerId());
+                        andCB.query().setVillagePlayerId_Equal(villagePlayerId);
+                    });
+                    orCB.orScopeQueryAndPart(andCB -> {
+                        andCB.query().setMessageTypeCode_Equal_秘話();
+                        andCB.query().setVillagePlayerId_Equal(villagePlayerId);
+                    });
+                    orCB.orScopeQueryAndPart(andCB -> {
+                        andCB.query().setMessageTypeCode_Equal_秘話();
+                        andCB.query().setToVillagePlayerId_Equal(villagePlayerId);
                     });
                 });
             } else {
@@ -176,11 +186,20 @@ public class VillageMessageAssist {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setDay_Equal(latestDay);
             if (optVillagePlayer.isPresent()) {
+                Integer villagePlayerId = optVillagePlayer.get().getVillagePlayerId();
                 cb.orScopeQuery(orCB -> {
                     orCB.query().setMessageTypeCode_InScope_AsMessageType(messageTypeList);
                     orCB.orScopeQueryAndPart(andCB -> {
                         andCB.query().setMessageTypeCode_Equal_独り言();
-                        andCB.query().setVillagePlayerId_Equal(optVillagePlayer.get().getVillagePlayerId());
+                        andCB.query().setVillagePlayerId_Equal(villagePlayerId);
+                    });
+                    orCB.orScopeQueryAndPart(andCB -> {
+                        andCB.query().setMessageTypeCode_Equal_秘話();
+                        andCB.query().setVillagePlayerId_Equal(villagePlayerId);
+                    });
+                    orCB.orScopeQueryAndPart(andCB -> {
+                        andCB.query().setMessageTypeCode_Equal_秘話();
+                        andCB.query().setToVillagePlayerId_Equal(villagePlayerId);
                     });
                 });
             } else {
@@ -218,8 +237,8 @@ public class VillageMessageAssist {
 
     private Message selectAnchorMessage(VillageGetAnchorMessageForm form) {
         Message message = messageBhv.selectEntity(cb -> {
-            cb.setupSelect_VillagePlayer().withPlayer();
-            cb.setupSelect_VillagePlayer().withChara();
+            cb.setupSelect_VillagePlayerByVillagePlayerId().withPlayer();
+            cb.setupSelect_VillagePlayerByVillagePlayerId().withChara();
             cb.query().setVillageId_Equal(form.getVillageId());
             cb.query().setMessageNumber_Equal(form.getMessageNumber());
             cb.query().setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.codeOf(form.getMessageType()));
@@ -327,7 +346,7 @@ public class VillageMessageAssist {
 
     private VillageMessageDto convertToMessage(Village village, Message message) {
         VillageMessageDto messageDto = new VillageMessageDto();
-        message.getVillagePlayer().ifPresent(vp -> {
+        message.getVillagePlayerByVillagePlayerId().ifPresent(vp -> {
             Chara chara = vp.getChara().get();
             messageDto.setCharacterName(chara.getCharaName());
             messageDto.setCharacterShortName(chara.getCharaShortName());
@@ -336,9 +355,13 @@ public class VillageMessageAssist {
             messageDto.setWidth(chara.getDisplayWidth());
             messageDto.setHeight(chara.getDisplayHeight());
         });
+        message.getVillagePlayerByToVillagePlayerId().ifPresent(vp -> {
+            messageDto.setTargetCharacterName(vp.getChara().get().getCharaName());
+        });
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode終了()) {
-            messageDto.setPlayerName(
-                    message.getVillagePlayer().map(villagePlayer -> villagePlayer.getPlayer().get().getPlayerName()).orElse(null));
+            messageDto.setPlayerName(message.getVillagePlayerByVillagePlayerId()
+                    .map(villagePlayer -> villagePlayer.getPlayer().get().getPlayerName())
+                    .orElse(null));
         }
         messageDto.setMessageContent(message.getMessageContent());
         messageDto.setMessageDatetime(message.getMessageDatetime());
@@ -384,6 +407,7 @@ public class VillageMessageAssist {
         addMasonSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addWerewolfSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addMonologueSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
+        addSecretSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addSeerMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addPsychicMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addSystemMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
@@ -577,6 +601,17 @@ public class VillageMessageAssist {
             return;
         }
         // 終了していなかったら自分自身のだけ表示なので、ここでは追加しない
+    }
+
+    // 秘話
+    private void addSecretSayIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
+            OptionalEntity<VillagePlayer> optVillagePlayer) {
+        // 終了していたら全開放
+        if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
+            dispAllowedMessageTypeList.add(CDef.MessageType.秘話);
+            return;
+        }
+        // 終了していなかったら自分発信と自分向けのみ表示なので、ここでは追加しない
     }
 
     // 最新日か

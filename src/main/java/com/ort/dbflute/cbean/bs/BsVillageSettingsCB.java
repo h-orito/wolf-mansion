@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of VILLAGE_SETTINGS.
+ * The base condition-bean of village_settings.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillageSettingsCB extends AbstractConditionBean {
@@ -73,7 +73,7 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "VILLAGE_SETTINGS";
+        return "village_settings";
     }
 
     // ===================================================================================
@@ -81,7 +81,7 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
+     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
      * @return this. (NotNull)
      */
     public VillageSettingsCB acceptPK(Integer villageId) {
@@ -238,6 +238,26 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
     // ===================================================================================
     //                                                                         SetupSelect
     //                                                                         ===========
+    /**
+     * Set up relation columns to select clause. <br>
+     * ALLOWED_SECRET_SAY by my ALLOWED_SECRET_SAY_CODE, named 'allowedSecretSay'.
+     * <pre>
+     * <span style="color: #0000C0">villageSettingsBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_AllowedSecretSay()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     *     <span style="color: #553000">cb</span>.query().set...
+     * }).alwaysPresent(<span style="color: #553000">villageSettings</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     ... = <span style="color: #553000">villageSettings</span>.<span style="color: #CC4747">getAllowedSecretSay()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
+     * });
+     * </pre>
+     */
+    public void setupSelect_AllowedSecretSay() {
+        assertSetupSelectPurpose("allowedSecretSay");
+        if (hasSpecifiedLocalColumn()) {
+            specify().columnAllowedSecretSayCode();
+        }
+        doSetupSelect(() -> query().queryAllowedSecretSay());
+    }
+
     protected CharaGroupNss _nssCharaGroup;
     public CharaGroupNss xdfgetNssCharaGroup() {
         if (_nssCharaGroup == null) { _nssCharaGroup = new CharaGroupNss(null); }
@@ -334,6 +354,7 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
     }
 
     public static class HpSpecification extends HpAbstractSpecification<VillageSettingsCQ> {
+        protected AllowedSecretSayCB.HpSpecification _allowedSecretSay;
         protected CharaGroupCB.HpSpecification _charaGroup;
         protected VillageCB.HpSpecification _village;
         public HpSpecification(ConditionBean baseCB, HpSpQyCall<VillageSettingsCQ> qyCall
@@ -341,7 +362,7 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageId() { return doColumn("VILLAGE_ID"); }
@@ -411,7 +432,7 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnIsAvailableGuardSameTarget() { return doColumn("IS_AVAILABLE_GUARD_SAME_TARGET"); }
         /**
-         * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+         * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCharacterGroupId() { return doColumn("CHARACTER_GROUP_ID"); }
@@ -425,6 +446,11 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnOrganize() { return doColumn("ORGANIZE"); }
+        /**
+         * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnAllowedSecretSayCode() { return doColumn("ALLOWED_SECRET_SAY_CODE"); }
         /**
          * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
@@ -450,13 +476,37 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
         @Override
         protected void doSpecifyRequiredColumn() {
             columnVillageId(); // PK
+            if (qyCall().qy().hasConditionQueryAllowedSecretSay()
+                    || qyCall().qy().xgetReferrerQuery() instanceof AllowedSecretSayCQ) {
+                columnAllowedSecretSayCode(); // FK or one-to-one referrer
+            }
             if (qyCall().qy().hasConditionQueryCharaGroup()
                     || qyCall().qy().xgetReferrerQuery() instanceof CharaGroupCQ) {
                 columnCharacterGroupId(); // FK or one-to-one referrer
             }
         }
         @Override
-        protected String getTableDbName() { return "VILLAGE_SETTINGS"; }
+        protected String getTableDbName() { return "village_settings"; }
+        /**
+         * Prepare to specify functions about relation table. <br>
+         * ALLOWED_SECRET_SAY by my ALLOWED_SECRET_SAY_CODE, named 'allowedSecretSay'.
+         * @return The instance for specification for relation table to specify. (NotNull)
+         */
+        public AllowedSecretSayCB.HpSpecification specifyAllowedSecretSay() {
+            assertRelation("allowedSecretSay");
+            if (_allowedSecretSay == null) {
+                _allowedSecretSay = new AllowedSecretSayCB.HpSpecification(_baseCB
+                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryAllowedSecretSay()
+                                    , () -> _qyCall.qy().queryAllowedSecretSay())
+                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
+                if (xhasSyncQyCall()) { // inherits it
+                    _allowedSecretSay.xsetSyncQyCall(xcreateSpQyCall(
+                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryAllowedSecretSay()
+                      , () -> xsyncQyCall().qy().queryAllowedSecretSay()));
+                }
+            }
+            return _allowedSecretSay;
+        }
         /**
          * Prepare to specify functions about relation table. <br>
          * CHARA_GROUP by my CHARACTER_GROUP_ID, named 'charaGroup'.

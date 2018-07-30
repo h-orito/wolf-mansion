@@ -186,6 +186,16 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label class="col-sm-2 col-xs-12 control-label">秘話（1:1の会話）</label>
+							<div class="col-sm-10 btn-group" data-toggle="buttons">
+								<select class="form-control" th:field="*{allowedSecretSayCode}">
+									<option value="NOTHING">なし</option>
+									<option value="ONLY_CREATOR">村建てとのみ可能</option>
+									<option value="EVERYTHING">誰とでも可能</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="col-sm-2 col-xs-12 control-label">突然死</label>
 							<div class="col-sm-10 btn-group" data-toggle="buttons">
 								<label th:class="'btn btn-sm btn-warning ' + *{isAvailableSuddonlyDeath ? 'active' : ''}"> <input type="radio" class=""
