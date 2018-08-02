@@ -559,17 +559,17 @@ public class DayChangeLogic {
         insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, message);
         // 参加者一覧メッセージ登録
         insertPlayerListMessage(villageId, day, villagePlayerList);
-        // エピは固定で48時間追加
+        // エピは固定で24時間
         updateVillageDay(villageId, day);
     }
 
     private void updateVillageDay(Integer villageId, int day) {
-        // 48時間追加
-        OptionalEntity<VillageDay> vd = villageDayBhv.selectByPK(villageId, day);
+        // 登録済みなので、1日前の更新時間＋24時間にupdate
+        OptionalEntity<VillageDay> vd = villageDayBhv.selectByPK(villageId, day - 1);
         VillageDay entity = new VillageDay();
         entity.setVillageId(villageId);
         entity.setDay(day);
-        entity.setDaychangeDatetime(vd.get().getDaychangeDatetime().plusDays(2));
+        entity.setDaychangeDatetime(vd.get().getDaychangeDatetime().plusDays(1));
         villageDayBhv.update(entity);
     }
 
