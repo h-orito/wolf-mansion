@@ -630,13 +630,14 @@ public class DayChangeLogic {
     // 襲撃
     private Optional<VillagePlayer> attack(Integer villageId, int day, List<VillagePlayer> villagePlayerList, Integer executedPlayerId,
             List<VillagePlayer> suddonlyDeathVPlayerList, Optional<VillagePlayer> optGuardedPlayer, List<Ability> abilityList) {
-        Optional<VillagePlayer> optLivingWerewolf = villagePlayerList.stream()
+
+        List<VillagePlayer> livingWolfList = villagePlayerList.stream()
                 .filter(vp -> vp.isIsDeadFalse() // 死亡していない
                         && suddonlyDeathVPlayerList.stream().noneMatch(sdvp -> sdvp.getVillagePlayerId().equals(vp.getVillagePlayerId())) // 突然死していない
                         && !vp.getVillagePlayerId().equals(executedPlayerId) // 処刑されていない
                         && vp.getSkillCodeAsSkill() == CDef.Skill.人狼) // 人狼である
-                .findAny();
-        if (!optLivingWerewolf.isPresent()) {
+                .collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(livingWolfList)) {
             return Optional.empty(); // 人狼がいない場合は何もしない
         }
         Optional<Ability> optAttack =
@@ -648,10 +649,11 @@ public class DayChangeLogic {
                 villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(optAttack.get().getTargetCharaId())).findFirst().get();
         // 襲撃メッセージ
         if (day != 2) {
+            Collections.shuffle(livingWolfList);
             String attackMessage = String.format("%s！今日がお前の命日だ！", targetPlayer.getChara().get().getCharaName());
             try {
                 messageLogic.insertMessage(villageId, day, CDef.MessageType.人狼の囁き, attackMessage,
-                        optLivingWerewolf.get().getVillagePlayerId());
+                        livingWolfList.get(0).getVillagePlayerId());
             } catch (WerewolfMansionBusinessException e) {
                 // ここでは被らないはずなので何もしない
             }
