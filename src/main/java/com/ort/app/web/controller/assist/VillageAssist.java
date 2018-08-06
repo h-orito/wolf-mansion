@@ -319,6 +319,19 @@ public class VillageAssist {
 
     }
 
+    private void setSecretSayTarget(VillageResultContent content, VillageInfo villageInfo) {
+        if (!villageInfo.isParticipate() || !villageInfo.isLatestDay() || !villageInfo.village.isVillageStatusCode進行中()) {
+            return;
+        }
+        CDef.AllowedSecretSay allowedSecretSay = villageInfo.settings.getAllowedSecretSayCodeAsAllowedSecretSay();
+        if (villageInfo.isAdmin() || allowedSecretSay == CDef.AllowedSecretSay.全員) {
+            content.setIsAvailableSecretSay(true);
+            content.setSecretSayTargetList(villageDispLogic.makeSecretSayTargetList(villageInfo));
+        } else {
+            content.setIsAvailableSecretSay(false);
+        }
+    }
+
     private String getCharacterNameFromCharaId(Village village, Integer charaId) {
         return village.getVillagePlayerList()
                 .stream()
@@ -406,7 +419,7 @@ public class VillageAssist {
         setVoteTarget(villageInfo, model);
         content.setVoteTargetList(villageDispLogic.makeVoteTargetList(villageInfo));
         // 秘話
-        content.setSecretSayTargetList(villageDispLogic.makeSecretSayTargetList(villageInfo));
+        setSecretSayTarget(content, villageInfo);
         // 参加情報
         setVillageModelPlayerInfo(content, villageInfo.optVillagePlayer);
         // 自分のキャラID

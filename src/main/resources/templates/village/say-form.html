@@ -60,15 +60,12 @@
 										<input type="radio" class="" th:field="*{messageType}" value="SPECTATE_SAY" autocomplete="off" />見学
 									</label> <label th:if="${content.isAvailableMonologueSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'MONOLOGUE_SAY' ? 'active' : ''}">
 										<input type="radio" class="" th:field="*{messageType}" value="MONOLOGUE_SAY" autocomplete="off" />独り言
-									</label> <label
-										th:if="${content.villageSettings.allowedSecretSayCode != 'NOTHING' && content.secretSayTargetList != null && content.secretSayTargetList.size() > 0}"
-										class="btn btn-sm btn-success"> <input type="radio" class="" th:field="*{messageType}" value="SECRET_SAY" autocomplete="off"
-											data-secret-say />秘話
+									</label> <label th:if="${content.isAvailableSecretSay}" class="btn btn-sm btn-success"> <input type="radio" class=""
+											th:field="*{messageType}" value="SECRET_SAY" autocomplete="off" data-secret-say />秘話
 									</label>
 								</div>
 								<div class="col-sm-12 col-xs-12 hidden" style="margin-top: 10px; margin-bottom: 10px;" data-secret-say-target>
-									秘話相手： <select class="form-control" th:field="*{secretSayTargetCharaId}"
-										th:if="${content.secretSayTargetList != null && content.secretSayTargetList.size() > 0}">
+									秘話相手： <select class="form-control" th:field="*{secretSayTargetCharaId}" th:if="${content.isAvailableSecretSay}">
 										<option th:each="chara : ${content.secretSayTargetList}" th:value="${chara.charaId}" th:text="${chara.charaName}"></option>
 									</select>
 								</div>

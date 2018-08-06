@@ -97,6 +97,9 @@ public class VillageResultContent implements Serializable {
     /** 独り言可能か */
     private Boolean isAvailableMonologueSay;
 
+    /** 秘話可能か */
+    private Boolean isAvailableSecretSay;
+
     /** 参戦しているキャラの画像 */
     private String charaImageUrl;
 
@@ -542,5 +545,13 @@ public class VillageResultContent implements Serializable {
 
     public void setSecretSayTargetList(List<Chara> secretSayTargetList) {
         this.secretSayTargetList = secretSayTargetList;
+    }
+
+    public Boolean getIsAvailableSecretSay() {
+        return isAvailableSecretSay;
+    }
+
+    public void setIsAvailableSecretSay(Boolean isAvailableSecretSay) {
+        this.isAvailableSecretSay = isAvailableSecretSay;
     }
 }
