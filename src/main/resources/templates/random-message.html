@@ -4,6 +4,7 @@
 <!--/* 個別ページのタイトル */-->
 <title>ランダムメッセージ一覧</title>
 <!--/* 個別ページのjs */-->
+<script src="../static/app/js/random-message.js" th:src="@{/app/js/random-message.js}"></script>
 </head>
 
 <body>
@@ -28,13 +29,20 @@
 								<tr th:if="${content.randomKeywordList != null && content.randomKeywordList.size() > 0}"
 									th:each="randomKeyword : ${content.randomKeywordList}">
 									<td class="vertical-middle" th:text="'[[' + ${randomKeyword.keyword} + ']]'"></td>
-									<td><th:block>
+									<td>
+										<th:block>
 											<th:block th:each="str, stat : *{randomKeyword.contentExample.split('\r\n|\r|\n', -1)}">
-												<th:block th:text="${str}" />
-												<br th:if="${!stat.last}" />
+												<span class="hidden" th:if="${stat.index >= 5}"> <th:block th:text="${str}" /> <br th:if="${!stat.last}" />
+												</span>
+												<th:block th:text="${str}" th:if="${stat.index < 5}" />
+												<br th:if="${!stat.last && stat.index < 5}" />
+												<a href="javascript:void(0);" data-all-view th:if="${stat.index == 5}">全て表示</a>
 											</th:block>
-										</th:block></td>
-									<td><a th:href="@{/random-keyword/{randomKeywordId}(randomKeywordId=${randomKeyword.keywordId})}" class="btn btn-sm btn-success">編集</a></td>
+										</th:block>
+									</td>
+									<td>
+										<a th:href="@{/random-keyword/{randomKeywordId}(randomKeywordId=${randomKeyword.keywordId})}" class="btn btn-sm btn-success">編集</a>
+									</td>
 								</tr>
 							</tbody>
 
