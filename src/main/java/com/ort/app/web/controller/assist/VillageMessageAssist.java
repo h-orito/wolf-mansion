@@ -358,7 +358,7 @@ public class VillageMessageAssist {
         message.getVillagePlayerByToVillagePlayerId().ifPresent(vp -> {
             messageDto.setTargetCharacterName(vp.getChara().get().getCharaName());
         });
-        if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode終了()) {
+        if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode終了() || village.isVillageStatusCode廃村()) {
             messageDto.setPlayerName(message.getVillagePlayerByVillagePlayerId()
                     .map(villagePlayer -> villagePlayer.getPlayer().get().getPlayerName())
                     .orElse(null));
