@@ -189,10 +189,10 @@ public class VillageAssist {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setIsGone_Equal_False();
             cb.query().queryPlayer().setPlayerName_Equal(userInfo.getUsername());
-            cb.orScopeQuery(orCB -> {
-                orCB.query().setDeadReasonCode_IsNull();
-                orCB.query().setDeadReasonCode_NotEqual_突然();
-            });
+            //            cb.orScopeQuery(orCB -> {
+            //                orCB.query().setDeadReasonCode_IsNull();
+            //                orCB.query().setDeadReasonCode_NotEqual_突然();
+            //            });
             cb.query().queryVillage().setVillageStatusCode_NotInScope_AsVillageStatus(
                     Arrays.asList(CDef.VillageStatus.廃村, CDef.VillageStatus.終了));
         });
