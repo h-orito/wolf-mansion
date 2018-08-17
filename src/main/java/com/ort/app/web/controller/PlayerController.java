@@ -139,6 +139,7 @@ public class PlayerController {
         String hashedPassword = BCrypt.hashpw(form.getPassword(), BCrypt.gensalt());
         player.setPlayerPassword(hashedPassword);
         player.setAuthorityCode_プレイヤー();
+        player.setIsRestrictedParticipation_False();
         playerBhv.insert(player);
     }
 

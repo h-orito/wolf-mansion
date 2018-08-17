@@ -352,6 +352,8 @@
             name="PLAYER_PASSWORD" required="true" size="60" type="CHAR"/>
         <column comment="権限コード" dbType="VARCHAR" javaType="String"
             name="AUTHORITY_CODE" required="true" size="20" type="VARCHAR"/>
+        <column comment="入村制限されているか" dbType="BIT" javaType="Boolean"
+            name="IS_RESTRICTED_PARTICIPATION" required="true" type="BIT"/>
         <column comment="登録日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>

@@ -31,6 +31,7 @@ import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.allcommon.CDef.VillageStatus;
 import com.ort.dbflute.exbhv.AbilityBhv;
 import com.ort.dbflute.exbhv.CommitBhv;
+import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
@@ -38,6 +39,7 @@ import com.ort.dbflute.exbhv.VillageSettingsBhv;
 import com.ort.dbflute.exbhv.VoteBhv;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Chara;
+import com.ort.dbflute.exentity.Player;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
@@ -71,6 +73,9 @@ public class DayChangeLogic {
 
     @Autowired
     private CommitBhv commitBhv;
+
+    @Autowired
+    private PlayerBhv playerBhv;
 
     @Autowired
     private AssignLogic assignLogic;
@@ -248,6 +253,13 @@ public class DayChangeLogic {
         vPlayer.setIsDead_True();
         vPlayer.setDeadDay(day);
         villagePlayerBhv.queryUpdate(vPlayer, cb -> cb.query().setVillagePlayerId_Equal(targetPlayer.getVillagePlayerId()));
+    }
+
+    private void updatePlayerRestrict(Integer playerId) {
+        Player player = new Player();
+        player.setPlayerId(playerId);
+        player.setIsRestrictedParticipation_True();
+        playerBhv.update(player);
     }
 
     // ===================================================================================
@@ -835,6 +847,7 @@ public class DayChangeLogic {
 
         noVotePlayerList.forEach(vp -> {
             updateVillagePlayerDead(day, vp, CDef.DeadReason.突然); // 死亡処理
+            updatePlayerRestrict(vp.getPlayerId()); // 入村制限
             String message = String.format("%sは突然死した。", vp.getChara().get().getCharaName());
             insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, message);
         });

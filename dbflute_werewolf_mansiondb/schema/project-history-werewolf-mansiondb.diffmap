@@ -1,4 +1,19 @@
 map:{
+    ; 2018/08/17 11:45:39 = map:{
+        ; diffDate = 2018/08/17 11:45:39
+        ; tableDiff = map:{
+            ; player = map:{
+                ; tableName = player
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; IS_RESTRICTED_PARTICIPATION = map:{
+                        ; columnName = IS_RESTRICTED_PARTICIPATION
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2018/07/30 10:49:08 = map:{
         ; diffDate = 2018/07/30 10:49:08
         ; tableCount = map:{

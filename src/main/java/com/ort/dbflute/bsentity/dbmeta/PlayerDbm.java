@@ -54,6 +54,9 @@ public class PlayerDbm extends AbstractDBMeta {
                 ((Player)et).mynativeMappingAuthorityCode((String)vl);
             }
         }, "authorityCode");
+        setupEpg(_epgMap, et -> ((Player)et).getIsRestrictedParticipation(), (et, vl) -> {
+            ((Player)et).setIsRestrictedParticipation((Boolean)vl);
+        }, "isRestrictedParticipation");
         setupEpg(_epgMap, et -> ((Player)et).getRegisterDatetime(), (et, vl) -> ((Player)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((Player)et).getRegisterTrace(), (et, vl) -> ((Player)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((Player)et).getUpdateDatetime(), (et, vl) -> ((Player)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -94,6 +97,7 @@ public class PlayerDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnPlayerName = cci("PLAYER_NAME", "PLAYER_NAME", null, null, String.class, "playerName", null, false, false, true, "VARCHAR", 12, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnPlayerPassword = cci("PLAYER_PASSWORD", "PLAYER_PASSWORD", null, null, String.class, "playerPassword", null, false, false, true, "CHAR", 60, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnAuthorityCode = cci("AUTHORITY_CODE", "AUTHORITY_CODE", null, null, String.class, "authorityCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "authority", null, CDef.DefMeta.Authority, false);
+    protected final ColumnInfo _columnIsRestrictedParticipation = cci("IS_RESTRICTED_PARTICIPATION", "IS_RESTRICTED_PARTICIPATION", null, null, Boolean.class, "isRestrictedParticipation", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -119,6 +123,11 @@ public class PlayerDbm extends AbstractDBMeta {
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnAuthorityCode() { return _columnAuthorityCode; }
+    /**
+     * IS_RESTRICTED_PARTICIPATION: {NotNull, BIT, classification=Flg}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnIsRestrictedParticipation() { return _columnIsRestrictedParticipation; }
     /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
@@ -146,6 +155,7 @@ public class PlayerDbm extends AbstractDBMeta {
         ls.add(columnPlayerName());
         ls.add(columnPlayerPassword());
         ls.add(columnAuthorityCode());
+        ls.add(columnIsRestrictedParticipation());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());

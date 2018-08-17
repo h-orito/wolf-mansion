@@ -181,6 +181,26 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
      */
     public BsPlayerCQ addOrderBy_AuthorityCode_Desc() { regOBD("AUTHORITY_CODE"); return this; }
 
+    protected ConditionValue _isRestrictedParticipation;
+    public ConditionValue xdfgetIsRestrictedParticipation()
+    { if (_isRestrictedParticipation == null) { _isRestrictedParticipation = nCV(); }
+      return _isRestrictedParticipation; }
+    protected ConditionValue xgetCValueIsRestrictedParticipation() { return xdfgetIsRestrictedParticipation(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * IS_RESTRICTED_PARTICIPATION: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsPlayerCQ addOrderBy_IsRestrictedParticipation_Asc() { regOBA("IS_RESTRICTED_PARTICIPATION"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * IS_RESTRICTED_PARTICIPATION: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsPlayerCQ addOrderBy_IsRestrictedParticipation_Desc() { regOBD("IS_RESTRICTED_PARTICIPATION"); return this; }
+
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
     { if (_registerDatetime == null) { _registerDatetime = nCV(); }

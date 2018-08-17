@@ -336,6 +336,11 @@ public class BsPlayerCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnAuthorityCode() { return doColumn("AUTHORITY_CODE"); }
         /**
+         * IS_RESTRICTED_PARTICIPATION: {NotNull, BIT, classification=Flg}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnIsRestrictedParticipation() { return doColumn("IS_RESTRICTED_PARTICIPATION"); }
+        /**
          * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
          */

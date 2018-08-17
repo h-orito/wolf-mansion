@@ -1188,6 +1188,12 @@
 					<relationship>FK_player_authority</relationship>
 					<not_null>true</not_null>
 				</normal_column>
+				<normal_column>
+					<physical_name>is_restricted_participation</physical_name>
+					<logical_name>入村制限されているか</logical_name>
+					<type>boolean</type>
+					<not_null>true</not_null>
+				</normal_column>
 				<column_group>共通カラム</column_group>
 			</columns>
 			<indexes>

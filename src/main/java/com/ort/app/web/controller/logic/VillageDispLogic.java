@@ -85,9 +85,8 @@ public class VillageDispLogic {
         if (participateNum >= maxCharaNum) {
             return false;
         }
-        // 突然死したことがある人は表示しない
-        int suddonlyDeathCount = selectSuddonlyDeathCount(villageInfo.user.getUsername());
-        if (suddonlyDeathCount > 0) {
+        // 突然死により入村制限がかかっている人は表示しない
+        if (selectIsRestrictedParticipation(villageInfo.user.getUsername())) {
             return false;
         }
         return true;
@@ -446,10 +445,10 @@ public class VillageDispLogic {
         return footstepList;
     }
 
-    private int selectSuddonlyDeathCount(String playerName) {
-        return villagePlayerBhv.selectCount(cb -> {
-            cb.query().queryPlayer().setPlayerName_Equal(playerName);
-            cb.query().setDeadReasonCode_Equal_突然();
-        });
+    private boolean selectIsRestrictedParticipation(String playerName) {
+        return playerBhv.selectEntity(cb -> {
+            cb.query().setPlayerName_Equal(playerName);
+            cb.query().setIsRestrictedParticipation_Equal_True();
+        }).isPresent();
     }
 }

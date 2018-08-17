@@ -85,6 +85,7 @@ public class PlayerCIQ extends AbstractBsPlayerCQ {
     protected ConditionValue xgetCValuePlayerName() { return _myCQ.xdfgetPlayerName(); }
     protected ConditionValue xgetCValuePlayerPassword() { return _myCQ.xdfgetPlayerPassword(); }
     protected ConditionValue xgetCValueAuthorityCode() { return _myCQ.xdfgetAuthorityCode(); }
+    protected ConditionValue xgetCValueIsRestrictedParticipation() { return _myCQ.xdfgetIsRestrictedParticipation(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
     protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }
     protected ConditionValue xgetCValueUpdateDatetime() { return _myCQ.xdfgetUpdateDatetime(); }

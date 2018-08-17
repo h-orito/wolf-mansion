@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     PLAYER_ID
  *
  * [column]
- *     PLAYER_ID, PLAYER_NAME, PLAYER_PASSWORD, AUTHORITY_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     PLAYER_ID, PLAYER_NAME, PLAYER_PASSWORD, AUTHORITY_CODE, IS_RESTRICTED_PARTICIPATION, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -50,6 +50,7 @@ import com.ort.dbflute.exentity.*;
  * String playerName = entity.getPlayerName();
  * String playerPassword = entity.getPlayerPassword();
  * String authorityCode = entity.getAuthorityCode();
+ * Boolean isRestrictedParticipation = entity.getIsRestrictedParticipation();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -58,6 +59,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setPlayerName(playerName);
  * entity.setPlayerPassword(playerPassword);
  * entity.setAuthorityCode(authorityCode);
+ * entity.setIsRestrictedParticipation(isRestrictedParticipation);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -88,6 +90,9 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
 
     /** AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority} */
     protected String _authorityCode;
+
+    /** IS_RESTRICTED_PARTICIPATION: {NotNull, BIT, classification=Flg} */
+    protected Boolean _isRestrictedParticipation;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -158,6 +163,27 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
         setAuthorityCode(cdef != null ? cdef.code() : null);
     }
 
+    /**
+     * Get the value of isRestrictedParticipation as the classification of Flg. <br>
+     * IS_RESTRICTED_PARTICIPATION: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Flg getIsRestrictedParticipationAsFlg() {
+        return CDef.Flg.codeOf(getIsRestrictedParticipation());
+    }
+
+    /**
+     * Set the value of isRestrictedParticipation as the classification of Flg. <br>
+     * IS_RESTRICTED_PARTICIPATION: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setIsRestrictedParticipationAsFlg(CDef.Flg cdef) {
+        setIsRestrictedParticipation(cdef != null ? toBoolean(cdef.code()) : null);
+    }
+
     // ===================================================================================
     //                                                              Classification Setting
     //                                                              ======================
@@ -175,6 +201,22 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
      */
     public void setAuthorityCode_プレイヤー() {
         setAuthorityCodeAsAuthority(CDef.Authority.プレイヤー);
+    }
+
+    /**
+     * Set the value of isRestrictedParticipation as True (true). <br>
+     * はい: 有効を示す
+     */
+    public void setIsRestrictedParticipation_True() {
+        setIsRestrictedParticipationAsFlg(CDef.Flg.True);
+    }
+
+    /**
+     * Set the value of isRestrictedParticipation as False (false). <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsRestrictedParticipation_False() {
+        setIsRestrictedParticipationAsFlg(CDef.Flg.False);
     }
 
     // ===================================================================================
@@ -200,6 +242,40 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
     public boolean isAuthorityCodeプレイヤー() {
         CDef.Authority cdef = getAuthorityCodeAsAuthority();
         return cdef != null ? cdef.equals(CDef.Authority.プレイヤー) : false;
+    }
+
+    /**
+     * Is the value of isRestrictedParticipation True? <br>
+     * はい: 有効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsRestrictedParticipationTrue() {
+        CDef.Flg cdef = getIsRestrictedParticipationAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
+    }
+
+    /**
+     * Is the value of isRestrictedParticipation False? <br>
+     * いいえ: 無効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsRestrictedParticipationFalse() {
+        CDef.Flg cdef = getIsRestrictedParticipationAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
+    // ===================================================================================
+    //                                                           Classification Name/Alias
+    //                                                           =========================
+    /**
+     * Get the value of the column 'isRestrictedParticipation' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     */
+    public String getIsRestrictedParticipationAlias() {
+        CDef.Flg cdef = getIsRestrictedParticipationAsFlg();
+        return cdef != null ? cdef.alias() : null;
     }
 
     // ===================================================================================
@@ -317,6 +393,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
         sb.append(dm).append(xfND(_playerName));
         sb.append(dm).append(xfND(_playerPassword));
         sb.append(dm).append(xfND(_authorityCode));
+        sb.append(dm).append(xfND(_isRestrictedParticipation));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -430,6 +507,27 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
         checkClassificationCode("AUTHORITY_CODE", CDef.DefMeta.Authority, authorityCode);
         registerModifiedProperty("authorityCode");
         _authorityCode = authorityCode;
+    }
+
+    /**
+     * [get] IS_RESTRICTED_PARTICIPATION: {NotNull, BIT, classification=Flg} <br>
+     * 入村制限されているか
+     * @return The value of the column 'IS_RESTRICTED_PARTICIPATION'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getIsRestrictedParticipation() {
+        checkSpecifiedProperty("isRestrictedParticipation");
+        return _isRestrictedParticipation;
+    }
+
+    /**
+     * [set] IS_RESTRICTED_PARTICIPATION: {NotNull, BIT, classification=Flg} <br>
+     * 入村制限されているか
+     * @param isRestrictedParticipation The value of the column 'IS_RESTRICTED_PARTICIPATION'. (basically NotNull if update: for the constraint)
+     */
+    public void setIsRestrictedParticipation(Boolean isRestrictedParticipation) {
+        checkClassificationCode("IS_RESTRICTED_PARTICIPATION", CDef.DefMeta.Flg, isRestrictedParticipation);
+        registerModifiedProperty("isRestrictedParticipation");
+        _isRestrictedParticipation = isRestrictedParticipation;
     }
 
     /**

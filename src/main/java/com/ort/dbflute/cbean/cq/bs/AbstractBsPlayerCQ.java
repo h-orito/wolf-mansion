@@ -717,6 +717,48 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * IS_RESTRICTED_PARTICIPATION: {NotNull, BIT, classification=Flg}
+     * @param isRestrictedParticipation The value of isRestrictedParticipation as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsRestrictedParticipation_Equal(Boolean isRestrictedParticipation) {
+        regIsRestrictedParticipation(CK_EQ, isRestrictedParticipation);
+    }
+
+    /**
+     * Equal(=). As Flg. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * IS_RESTRICTED_PARTICIPATION: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsRestrictedParticipation_Equal_AsFlg(CDef.Flg cdef) {
+        doSetIsRestrictedParticipation_Equal(cdef != null ? Boolean.valueOf(cdef.code()) : null);
+    }
+
+    /**
+     * Equal(=). As True. And OnlyOnceRegistered. <br>
+     * はい: 有効を示す
+     */
+    public void setIsRestrictedParticipation_Equal_True() {
+        doSetIsRestrictedParticipation_Equal(Boolean.valueOf(CDef.Flg.True.code()));
+    }
+
+    /**
+     * Equal(=). As False. And OnlyOnceRegistered. <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsRestrictedParticipation_Equal_False() {
+        doSetIsRestrictedParticipation_Equal(Boolean.valueOf(CDef.Flg.False.code()));
+    }
+
+    protected void doSetIsRestrictedParticipation_Equal(Boolean isRestrictedParticipation) {
+        regIsRestrictedParticipation(CK_EQ, isRestrictedParticipation);
+    }
+
+    protected void regIsRestrictedParticipation(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueIsRestrictedParticipation(), "IS_RESTRICTED_PARTICIPATION"); }
+    protected abstract ConditionValue xgetCValueIsRestrictedParticipation();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @param registerDatetime The value of registerDatetime as equal. (basically NotNull: error as default, or no condition as option)
      */
