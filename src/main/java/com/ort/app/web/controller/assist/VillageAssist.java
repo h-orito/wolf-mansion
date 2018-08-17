@@ -242,12 +242,14 @@ public class VillageAssist {
     // デフォルト発言区分
     private void setDefaultMessageTypeIfNeeded(VillageSayForm sayForm, boolean isDispSayForm, boolean isAvailableNormalSay,
             boolean isAvailableWerewolfSay, boolean isAvailableMasonSay, boolean isAvailableGraveSay, boolean isAvailableMonologueSay,
-            boolean isAvailableSpectateSay, Model model) {
+            boolean isAvailableSpectateSay, VillageInfo villageInfo, Model model) {
         if (sayForm != null || !isDispSayForm) {
             return;
         }
         VillageSayForm form = new VillageSayForm();
-        if (isAvailableWerewolfSay) {
+        if (villageInfo.village.isVillageStatusCodeエピローグ()) {
+            form.setMessageType(CDef.MessageType.通常発言.code());
+        } else if (isAvailableWerewolfSay) {
             form.setMessageType(CDef.MessageType.人狼の囁き.code());
         } else if (isAvailableMasonSay) {
             form.setMessageType(CDef.MessageType.共鳴発言.code());
@@ -508,7 +510,7 @@ public class VillageAssist {
         content.setIsAvailableSpectateSay(isAllSayAvailable || isAvailableSpectateSay); // 見学発言が発言可能か
         content.setIsAvailableMonologueSay(isAllSayAvailable || isAvailableMonologueSay); // 独り言が発言可能か
         setDefaultMessageTypeIfNeeded(sayForm, isDispSayForm, isAvailableNormalSay, isAvailableWerewolfSay, isAvailableMasonSay,
-                isAvailableGraveSay, isAvailableMonologueSay, isAvailableSpectateSay, model); // デフォルト発言区分
+                isAvailableGraveSay, isAvailableMonologueSay, isAvailableSpectateSay, villageInfo, model); // デフォルト発言区分
     }
 
     private void setVillageModekChangeRequestSkillForm(VillageResultContent content, OptionalThing<VillagePlayer> optVillagePlayer,
