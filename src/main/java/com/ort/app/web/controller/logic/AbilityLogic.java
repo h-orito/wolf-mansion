@@ -81,7 +81,9 @@ public class AbilityLogic {
             updateAbility(villageId, day, villagePlayer.getCharaId(), CDef.AbilityType.護衛, targetCharaId);
             deleteFootstep(villageId, day, villagePlayer.getCharaId(), footstep);
             insertFootstep(villageId, day, villagePlayer.getCharaId(), footstep);
-            messageLogic.insertAbilityMessage(villageId, day, villagePlayer.getCharaId(), targetCharaId, villagePlayerList, null, false);
+            messageLogic.insertAbilityMessage(villageId, day, villagePlayer.getCharaId(), targetCharaId, villagePlayerList, footstep,
+                    false);
+            break;
         case 妖狐:
         case 狂人:
         case 魔神官:

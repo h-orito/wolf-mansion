@@ -191,7 +191,7 @@ public class MessageLogic {
                     new String[] { charaName, targetCharaName, footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
         } else if (skill == CDef.Skill.狩人) {
             return messageSource.getMessage("ability.hunter.message",
-                    new String[] { charaName, targetCharaName, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
+                    new String[] { charaName, targetCharaName, footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
         }
         return null;
     }
