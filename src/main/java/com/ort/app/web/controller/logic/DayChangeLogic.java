@@ -55,42 +55,32 @@ public class DayChangeLogic {
     //                                                                           =========
     @Autowired
     private VillageBhv villageBhv;
-
     @Autowired
     private VillageSettingsBhv villageSettingsBhv;
-
     @Autowired
     private VillageDayBhv villageDayBhv;
-
     @Autowired
     private VillagePlayerBhv villagePlayerBhv;
-
     @Autowired
     private AbilityBhv abilityBhv;
-
     @Autowired
     private VoteBhv voteBhv;
-
     @Autowired
     private CommitBhv commitBhv;
-
     @Autowired
     private PlayerBhv playerBhv;
-
     @Autowired
     private AssignLogic assignLogic;
-
     @Autowired
     private FootstepLogic footstepLogic;
-
     @Autowired
     private MessageLogic messageLogic;
-
     @Autowired
     private VillageParticipateLogic villageParticipateLogic;
-
     @Autowired
     private MessageSource messageSource;
+    @Autowired
+    private TwitterLogic twitterLogic;
 
     // ===================================================================================
     //                                                                             Execute
@@ -132,9 +122,9 @@ public class DayChangeLogic {
             updateVillageStatus(villageId, CDef.VillageStatus.進行中); // 村ステータス更新
             setDefaultVoteAndAbility(villageId, newDay, settings); // 投票、能力行使のデフォルト設定
             updateVillageSettingsIfNeeded(villageId, vPlayerList, settings); // 特殊ルール変更
+            twitterLogic.tweet(String.format("%sが開始されました。", village.getVillageDisplayName()), villageId);
         } else if (village.getVillageStatusCodeAsVillageStatus() == CDef.VillageStatus.エピローグ) {
             updateVillageStatus(villageId, CDef.VillageStatus.終了); // 終了
-            // messageLogic.insertMessage(villageId, newDay, CDef.MessageType.公開システムメッセージ, "終了しました。"); // 赤字で出すので登録必要なし
         } else {
             // 1日目以外
             dayChange(villageId, newDay, vPlayerList, settings);
@@ -573,6 +563,9 @@ public class DayChangeLogic {
         insertPlayerListMessage(villageId, day, villagePlayerList);
         // エピは固定で24時間
         updateVillageDay(villageId, day);
+        // tweet
+        Village vil = villageBhv.selectEntityWithDeletedCheck(cb -> cb.query().setVillageId_Equal(villageId));
+        twitterLogic.tweet(String.format("%sがエピローグを迎えました。", vil.getVillageDisplayName()), villageId);
     }
 
     private void updateVillageDay(Integer villageId, int day) {

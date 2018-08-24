@@ -3,6 +3,7 @@ package com.ort.app.web.controller.assist;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
 import com.ort.app.web.controller.logic.MessageLogic;
+import com.ort.app.web.controller.logic.TwitterLogic;
 import com.ort.app.web.controller.logic.VillageParticipateLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageForm;
@@ -49,6 +51,7 @@ public class NewVillageAssist {
                     + "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊共共\n" // 18
                     + "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊霊共共\n" // 19
                     + "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊霊霊共共"; // 20
+    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm");
 
     // ===================================================================================
     //                                                                           Attribute
@@ -76,6 +79,9 @@ public class NewVillageAssist {
 
     @Autowired
     private VillageParticipateLogic villageLogic;
+
+    @Autowired
+    private TwitterLogic twitterLogic;
 
     // ===================================================================================
     //                                                                             Execute
@@ -155,8 +161,21 @@ public class NewVillageAssist {
         insertInitialMessage(villageForm, village);
         // ダミーキャラを参加させる
         joinDummyChara(villageForm, village);
+        // tweet
+        tweetNewVillage(villageForm, village.getVillageId());
 
         return village;
+    }
+
+    private void tweetNewVillage(NewVillageForm villageForm, Integer villageId) {
+        String villageName = villageForm.getVillageName();
+        String startDatetime =
+                LocalDateTime
+                        .of(villageForm.getStartYear(), villageForm.getStartMonth(), villageForm.getStartDay(), villageForm.getStartHour(),
+                                villageForm.getStartMinute(), 0)
+                        .format(TIME_FORMAT);
+        twitterLogic.tweet(String.format("新しい村が作成されました。\r\n村名：%s\r\n開始予定：%s", villageName, startDatetime), villageId);
+
     }
 
     // ===================================================================================

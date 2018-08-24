@@ -1,5 +1,6 @@
 package com.ort.app.web.controller.logic;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +10,20 @@ import org.springframework.stereotype.Component;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.CharaBhv;
+import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
+import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
+import com.ort.dbflute.exentity.VillageSettings;
 import com.ort.fw.util.WerewolfMansionDateUtil;
 
 @Component
 public class VillageParticipateLogic {
+
+    // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
+    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm");
 
     // ===================================================================================
     //                                                                           Attribute
@@ -23,7 +32,13 @@ public class VillageParticipateLogic {
     private VillagePlayerBhv villagePlayerBhv;
 
     @Autowired
+    private VillageBhv villageBhv;
+
+    @Autowired
     private MessageLogic messageLogic;
+
+    @Autowired
+    private TwitterLogic twitterLogic;
 
     @Autowired
     private CharaBhv charaBhv;
@@ -58,6 +73,8 @@ public class VillageParticipateLogic {
             } catch (WerewolfMansionBusinessException e) {
                 // ここでは何回も被らないので何もしない
             }
+            // ちょうど開始人数だったらTweet
+            tweetIfNeeded(participateNum, villageId);
         } else {
             // 見学者
             // 参加メッセージ
@@ -134,5 +151,22 @@ public class VillageParticipateLogic {
         villagePlayer.setLastAccessDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
         villagePlayerBhv.insert(villagePlayer);
         return villagePlayer.getVillagePlayerId();
+    }
+
+    // ===================================================================================
+    //                                                                        Assist Logic
+    //                                                                        ============
+    private void tweetIfNeeded(int participateNum, Integer villageId) {
+        Village village = villageBhv.selectEntityWithDeletedCheck(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.setupSelect_VillageSettingsAsOne();
+        });
+        VillageSettings settings = village.getVillageSettingsAsOne().get();
+        String villageName = village.getVillageDisplayName();
+        String startDatetime = settings.getStartDatetime().format(TIME_FORMAT);
+
+        if (settings.getStartPersonMinNum().intValue() == participateNum) {
+            twitterLogic.tweet(String.format("人数が揃いました。次回更新時に村が開始されます。\r\n村名：%s\r\n開始予定：%s", villageName, startDatetime), villageId);
+        }
     }
 }

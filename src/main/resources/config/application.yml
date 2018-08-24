@@ -22,3 +22,4 @@ logging:
     root: INFO
     org.seasar.dbflute: ERROR
   file: /var/log/werewolf-mansion/tomcat.log
+  
