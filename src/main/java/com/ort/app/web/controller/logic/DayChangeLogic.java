@@ -105,8 +105,7 @@ public class DayChangeLogic {
 
         // 最低開始人数を満たしていない
         if (isInsufficientVillagerNum(village, settings)) {
-            updateVillageDayTransactional(villageId, day, daychangeDatetime); // 村日付を1日延長
-            insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, "まだ村人たちは揃っていないようだ。"); // 延長メッセージ登録
+            extendOrCancelVillage(village, villageId, day, daychangeDatetime);
             return;
         }
 
@@ -252,6 +251,13 @@ public class DayChangeLogic {
         playerBhv.update(player);
     }
 
+    private void updateVillageCancel(Integer villageId) {
+        Village entity = new Village();
+        entity.setVillageId(villageId);
+        entity.setVillageStatusCode_廃村();
+        villageBhv.update(entity);
+    }
+
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
@@ -386,7 +392,7 @@ public class DayChangeLogic {
         // 時計回りの足音セット
         String footStep = footstepLogic.makeClockwiseFootStep(village, hunterCharaId, targetCharaId, villagePlayerList);
         footstepLogic.insertFootStep(villageId, newDay, hunterCharaId, footStep);
-        messageLogic.insertAbilityMessage(villageId, newDay, hunterCharaId, targetCharaId, villagePlayerList, null, true);
+        messageLogic.insertAbilityMessage(villageId, newDay, hunterCharaId, targetCharaId, villagePlayerList, footStep, true);
     }
 
     private void insertDefaultSeer(Integer villageId, int newDay, List<VillagePlayer> villagePlayerList, Village village) {
@@ -979,6 +985,17 @@ public class DayChangeLogic {
             messageLogic.insertMessage(villageId, day, type, message);
         } catch (WerewolfMansionBusinessException e) {
             // ここでは被らないので何もしない
+        }
+    }
+
+    private void extendOrCancelVillage(Village village, Integer villageId, Integer day, LocalDateTime daychangeDatetime) {
+        if (village.getVillagePlayerList().size() > 1) {
+            // 一人でも参加していたら延長
+            updateVillageDayTransactional(villageId, day, daychangeDatetime); // 村日付を1日延長
+            insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, "まだ村人たちは揃っていないようだ。"); // 延長メッセージ登録
+        } else {
+            // 一人も参加していなかったら廃村
+            updateVillageCancel(villageId);
         }
     }
 }
