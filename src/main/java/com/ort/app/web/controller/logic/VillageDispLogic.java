@@ -422,6 +422,20 @@ public class VillageDispLogic {
                 .collect(Collectors.toList());
     }
 
+    public String makeWerewolfCharaNameList(VillageInfo villageInfo) {
+        if (!villageInfo.isParticipate() || villageInfo.isDead() || !villageInfo.isLatestDay()
+                || !villageInfo.village.isVillageStatusCode進行中()
+                || !villageInfo.optVillagePlayer.get().getSkillBySkillCode().get().isSkillCode狂信者()) {
+            return null;
+        }
+        return String.join("、",
+                villageInfo.getVPList(false, true, true)
+                        .stream()
+                        .filter(vp -> vp.getSkillBySkillCode().get().isSkillCode人狼())
+                        .map(vp -> vp.getChara().get().getCharaName())
+                        .collect(Collectors.toList()));
+    }
+
     // ===================================================================================
     //                                                                              Select
     //                                                                              ======

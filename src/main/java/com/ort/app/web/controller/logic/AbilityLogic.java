@@ -88,6 +88,7 @@ public class AbilityLogic {
         case 狂人:
         case 魔神官:
         case C国狂人:
+        case 狂信者:
             if (isInvalidFoxMadmanAbility(village, footstep)) {
                 return;
             }

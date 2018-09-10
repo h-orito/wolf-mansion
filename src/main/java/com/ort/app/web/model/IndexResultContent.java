@@ -12,12 +12,23 @@ public class IndexResultContent implements Serializable {
     /** 村リスト */
     private List<IndexVillageDto> villageList;
 
+    /** どこかの村に参加中か */
+    private Boolean isParticipate;
+
     public List<IndexVillageDto> getVillageList() {
         return villageList;
     }
 
     public void setVillageList(List<IndexVillageDto> villageList) {
         this.villageList = villageList;
+    }
+
+    public Boolean getIsParticipate() {
+        return isParticipate;
+    }
+
+    public void setIsParticipate(Boolean isParticipate) {
+        this.isParticipate = isParticipate;
     }
 
 }

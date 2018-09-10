@@ -778,6 +778,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 狂信者 (FANATIC). And OnlyOnceRegistered. <br>
+     * 狂信者
+     */
+    public void setSkillCode_Equal_狂信者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.狂信者);
+    }
+
+    /**
      * Equal(=). As 妖狐 (FOX). And OnlyOnceRegistered. <br>
      * 妖狐
      */
@@ -902,6 +910,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_魔神官() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.魔神官);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 狂信者 (FANATIC). And OnlyOnceRegistered. <br>
+     * 狂信者
+     */
+    public void setSkillCode_NotEqual_狂信者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.狂信者);
     }
 
     /**
@@ -1099,6 +1115,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 狂信者 (FANATIC). And OnlyOnceRegistered. <br>
+     * 狂信者
+     */
+    public void setRequestSkillCode_Equal_狂信者() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.狂信者);
+    }
+
+    /**
      * Equal(=). As 妖狐 (FOX). And OnlyOnceRegistered. <br>
      * 妖狐
      */
@@ -1223,6 +1247,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_魔神官() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.魔神官);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 狂信者 (FANATIC). And OnlyOnceRegistered. <br>
+     * 狂信者
+     */
+    public void setRequestSkillCode_NotEqual_狂信者() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.狂信者);
     }
 
     /**

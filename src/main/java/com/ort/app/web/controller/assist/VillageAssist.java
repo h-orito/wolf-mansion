@@ -71,6 +71,12 @@ import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 public class VillageAssist {
 
     // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
+    private static final List<CDef.Skill> SET_AVAILABLE_SKILLS = Arrays.asList(CDef.Skill.人狼, CDef.Skill.占い師, CDef.Skill.賢者, CDef.Skill.狩人,
+            CDef.Skill.狂人, CDef.Skill.妖狐, CDef.Skill.魔神官, CDef.Skill.C国狂人, CDef.Skill.狂信者);
+
+    // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
     @Autowired
@@ -271,8 +277,7 @@ public class VillageAssist {
             return;
         }
         CDef.Skill skill = villageInfo.optVillagePlayer.get().getSkillCodeAsSkill();
-        if (skill != CDef.Skill.人狼 && skill != CDef.Skill.占い師 && skill != CDef.Skill.賢者 && skill != CDef.Skill.狩人 && skill != CDef.Skill.狂人
-                && skill != CDef.Skill.妖狐 && skill != CDef.Skill.魔神官 && skill != CDef.Skill.C国狂人) {
+        if (!SET_AVAILABLE_SKILLS.contains(skill)) {
             return;
         }
 
@@ -489,6 +494,7 @@ public class VillageAssist {
         content.setAbilityTargetList(abilityTargetList);
         content.setAttackerList(villageDispLogic.makeAttackerList(villageInfo));
         content.setSkillHistoryList(villageDispLogic.makeSkillHistoryList(villageInfo));
+        content.setWerewolfCharaNameList(villageDispLogic.makeWerewolfCharaNameList(villageInfo));
         setAbilityTarget(villageInfo, abilityTargetList, model);
     }
 

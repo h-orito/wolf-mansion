@@ -18,6 +18,7 @@ public class SkillUtil {
         map.put("狂", CDef.Skill.狂人);
         map.put("C", CDef.Skill.C国狂人);
         map.put("魔", CDef.Skill.魔神官);
+        map.put("信", CDef.Skill.狂信者);
         map.put("占", CDef.Skill.占い師);
         map.put("賢", CDef.Skill.賢者);
         map.put("霊", CDef.Skill.霊能者);
@@ -40,7 +41,7 @@ public class SkillUtil {
     }
 
     public static boolean hasMadmanAbility(CDef.Skill skill) {
-        return skill == CDef.Skill.C国狂人 || skill == CDef.Skill.狂人 || skill == CDef.Skill.魔神官;
+        return skill == CDef.Skill.C国狂人 || skill == CDef.Skill.狂人 || skill == CDef.Skill.魔神官 || skill == CDef.Skill.狂信者;
     }
 
     public static Map<Skill, Integer> createSkillPersonNum(String org) {

@@ -145,10 +145,11 @@ public class NewVillageFormValidator implements Validator {
                     null);
             return true;
         }
-        // 狂人と魔神官とC国狂人は最大1名まで
-        if (skillPersonNumMap.get(CDef.Skill.狂人) + skillPersonNumMap.get(CDef.Skill.魔神官) + skillPersonNumMap.get(CDef.Skill.C国狂人) > 1) {
+        // 狂人系役職は最大1名まで
+        if (skillPersonNumMap.get(CDef.Skill.狂人) + skillPersonNumMap.get(CDef.Skill.魔神官) + skillPersonNumMap.get(CDef.Skill.C国狂人)
+                + skillPersonNumMap.get(CDef.Skill.狂信者) > 1) {
             errors.rejectValue("organization", "VillageSayForm.validator.organization.maxperson",
-                    new Object[] { "狂人と魔神官とC国狂人", 1, lineNum }, null);
+                    new Object[] { "狂人、魔神官、C国狂人、狂信者", 1, lineNum }, null);
             return true;
         }
         // 狩人は最大1名まで

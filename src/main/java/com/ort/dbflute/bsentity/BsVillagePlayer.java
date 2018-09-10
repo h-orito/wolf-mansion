@@ -317,6 +317,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 狂信者 (FANATIC). <br>
+     * 狂信者
+     */
+    public void setSkillCode_狂信者() {
+        setSkillCodeAsSkill(CDef.Skill.狂信者);
+    }
+
+    /**
      * Set the value of skillCode as 妖狐 (FOX). <br>
      * 妖狐
      */
@@ -418,6 +426,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setRequestSkillCode_魔神官() {
         setRequestSkillCodeAsSkill(CDef.Skill.魔神官);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 狂信者 (FANATIC). <br>
+     * 狂信者
+     */
+    public void setRequestSkillCode_狂信者() {
+        setRequestSkillCodeAsSkill(CDef.Skill.狂信者);
     }
 
     /**
@@ -614,6 +630,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of skillCode 狂信者? <br>
+     * 狂信者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode狂信者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.狂信者) : false;
+    }
+
+    /**
      * Is the value of skillCode 妖狐? <br>
      * 妖狐
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -754,6 +781,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isRequestSkillCode魔神官() {
         CDef.Skill cdef = getRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.魔神官) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 狂信者? <br>
+     * 狂信者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode狂信者() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.狂信者) : false;
     }
 
     /**

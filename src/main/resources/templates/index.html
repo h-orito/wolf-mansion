@@ -127,11 +127,11 @@
 							</div>
 							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
 								<a href="javascript:void(0);" th:href="@{/village}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"
-									th:class="${user == null ? 'col-sm-12 col-xs-12' : 'col-sm-6 col-xs-6'} + ' top-menu-selectable h100px'"> <span
+									th:class="${user == null || content.isParticipate ? 'col-sm-12 col-xs-12' : 'col-sm-6 col-xs-6'} + ' top-menu-selectable h100px'"> <span
 									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-list-alt"></span> <span class="h6" style="display: block;">村一覧</span>
 										Village list
 								</span>
-								</a> <a href="javascript:void(0);" th:href="@{/new-village}" th:if="${user != null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
+								</a> <a href="javascript:void(0);" th:href="@{/new-village}" th:if="${user != null && !content.isParticipate}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
 									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-plus"></span> <span class="h6" style="display: block;">村を建てる</span>
 										Create Village
 								</span>

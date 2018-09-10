@@ -163,6 +163,9 @@ public class VillageResultContent implements Serializable {
     /** 秘話相手 */
     private List<Chara> secretSayTargetList;
 
+    /** 人狼のキャラ名（狂信者向け） */
+    private String werewolfCharaNameList;
+
     public Integer getVillageId() {
         return villageId;
     }
@@ -553,5 +556,13 @@ public class VillageResultContent implements Serializable {
 
     public void setIsAvailableSecretSay(Boolean isAvailableSecretSay) {
         this.isAvailableSecretSay = isAvailableSecretSay;
+    }
+
+    public String getWerewolfCharaNameList() {
+        return werewolfCharaNameList;
+    }
+
+    public void setWerewolfCharaNameList(String werewolfCharaNameList) {
+        this.werewolfCharaNameList = werewolfCharaNameList;
     }
 }

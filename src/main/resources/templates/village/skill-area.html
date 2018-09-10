@@ -21,8 +21,8 @@
 		<div class="panel-group" id="skillform-panel">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<a class="h5" data-toggle="collapse" data-parent="#skillform-panel" href="#skillform-content" data-skillform-tab-open>役職</a>
-					<a href="javascript:void(0);" class="pull-right" data-bottom-fix>固定</a>
+					<a class="h5" data-toggle="collapse" data-parent="#skillform-panel" href="#skillform-content" data-skillform-tab-open>役職</a> <a
+						href="javascript:void(0);" class="pull-right" data-bottom-fix>固定</a>
 				</div>
 				<div id="skillform-content" class="panel-collapse collapse in">
 					<div class="panel-body">
@@ -37,7 +37,8 @@
 						<div
 							th:if="${abilityForm != null && (content.skillName == 'SEER' || content.skillName == 'WISE' 
 										|| content.skillName == 'WEREWOLF' || (content.skillName == 'HUNTER' && content.day > 1) || content.skillName == 'FOX' 
-										|| content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN') }"
+										|| content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN'
+										|| content.skillName == 'FANATIC') }"
 							style="padding-bottom: 10px;">
 							<hr />
 							<a href="javascript:void(0);" data-toggle="collapse" data-target="#skill-tab-area" class="h5 hidden" aria-expanded="true" data-skill-tab>能力をセットする</a>
@@ -49,7 +50,8 @@
 								<p class="small"
 									th:if="${content.skillName == 'SEER' || content.skillName == 'WISE' 
 											|| content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER' || content.skillName == 'FOX'
-											|| content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN'}"
+											|| content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN'
+											|| content.skillName == 'FANATIC'}"
 									th:text="'通過する部屋: ' + ${footstep == '' || footstep == null ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"
 									th:data-selected-footstep="${footstep == '' || footstep == null ? 'なし': footstep}"></p>
 								<hr />
@@ -85,14 +87,16 @@
 								</form>
 								<!--/* 狂人、妖狐用能力セット */-->
 								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
-									th:if="${content.abilityTargetList == null && abilityForm != null && (content.skillName == 'FOX' || content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN')}"
+									th:if="${content.abilityTargetList == null && abilityForm != null && (content.skillName == 'FOX' || content.skillName == 'MADMAN' 
+										|| content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN' || content.skillName == 'FANATIC')}"
 									th:object="${abilityForm}" class="form-horizontal">
 									<p class="small">
 										任意の部屋からその直線上の部屋に向かって徘徊し、通過した部屋に足音を響かせることが可能です。部屋を選択してセットしてください。<br>徘徊しない場合は何も選択せずセットしてください。
 									</p>
 									<div class="form-group small">
 										<div class="col-sm-12 col-xs-12"
-											th:if="${content.skillName == 'FOX' || content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN'}">
+											th:if="${content.skillName == 'FOX' || content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' 
+												|| content.skillName == 'CMADMAN' || content.skillName == 'FANATIC'}">
 											<table class="table-bordered table-condensed small" data-footstep-select-table>
 												<tbody>
 													<tr th:each="row : ${content.roomAssignedRowList}">
@@ -102,13 +106,15 @@
 														+ ${room.charaImgHeight != null ? room.charaImgHeight : '77'} + 'px; '
 														 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 														 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}"
-															th:data-footstep-room-number="${room.roomNumber}"><span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-															th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span></td>
+															th:data-footstep-room-number="${room.roomNumber}">
+															<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+																th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+														</td>
 													</tr>
 												</tbody>
 											</table>
-											通過する部屋 : <span data-footstep-input th:text="*{footstep}">なし</span> <input type="hidden" class="form-control" th:field="*{footstep}"
-												data-footstep-hd-input />
+											通過する部屋 : <span data-footstep-input th:text="*{footstep}">なし</span>
+											<input type="hidden" class="form-control" th:field="*{footstep}" data-footstep-hd-input />
 										</div>
 									</div>
 									<div class="form-group">
@@ -119,13 +125,17 @@
 								</form>
 							</div>
 						</div>
+						<!--/* 狂信者用メッセージ */-->
+						<div th:if="${content.werewolfCharaNameList}">
+							<hr />
+							<p class="small" th:text="${'この村の人狼は、 ' + content.werewolfCharaNameList + ' です。'}"></p>
+						</div>
 						<!--/* 能力行使履歴 */-->
 						<div th:if="${content.skillHistoryList != null && content.skillHistoryList.size() > 0}">
 							<hr />
 							<p class="">前日までの能力セット履歴</p>
 							<p class="small" th:each="historyStr : ${content.skillHistoryList}" th:text="${historyStr}"></p>
 						</div>
-						
 					</div>
 				</div>
 			</div>

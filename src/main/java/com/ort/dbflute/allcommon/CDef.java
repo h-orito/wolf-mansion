@@ -529,6 +529,9 @@ public interface CDef extends Classification {
         /** 魔神官 */
         魔神官("EVILMEDIUM", "魔神官", emptyStrings())
         ,
+        /** 狂信者 */
+        狂信者("FANATIC", "狂信者", emptyStrings())
+        ,
         /** 妖狐 */
         妖狐("FOX", "妖狐", emptyStrings())
         ,
