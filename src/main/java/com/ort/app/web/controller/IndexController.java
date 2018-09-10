@@ -2,6 +2,8 @@ package com.ort.app.web.controller;
 
 import java.util.Arrays;
 
+import javax.annotation.Resource;
+
 import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,8 +14,11 @@ import com.ort.app.web.form.LoginForm;
 import com.ort.app.web.model.IndexResultContent;
 import com.ort.app.web.model.inner.IndexVillageDto;
 import com.ort.dbflute.allcommon.CDef;
+import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exentity.Village;
+import com.ort.fw.security.UserInfo;
+import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 
 @Controller
 public class IndexController {
@@ -23,6 +28,9 @@ public class IndexController {
     //                                                                           =========
     @Autowired
     private VillageBhv villageBhv;
+
+    @Resource
+    private PlayerBhv playerBhv;
 
     // ===================================================================================
     //                                                                             Execute
@@ -39,6 +47,7 @@ public class IndexController {
     private IndexResultContent mappingToContent(ListResultBean<Village> villageList) {
         IndexResultContent content = new IndexResultContent();
         content.setVillageList(villageList.mappingList(village -> convertToIndexVillage(village)));
+        content.setIsParticipate(isParticipate());
         return content;
     }
 
@@ -72,6 +81,26 @@ public class IndexController {
         });
         IndexResultContent content = mappingToContent(villageList);
         model.addAttribute("content", content);
+    }
+
+    private boolean isParticipate() {
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        if (userInfo == null) {
+            return false;
+        }
+        if ("master".equals(userInfo.getUsername())) {
+            return false; // masterは参加してない扱い
+        }
+        int participateCount = playerBhv.selectCount(cb -> {
+            cb.query().setPlayerName_Equal(userInfo.getUsername());
+            // 募集中、開始待ち、進行中の村に参戦している
+            cb.query().existsVillagePlayer(villagePlayerCB -> {
+                villagePlayerCB.query().queryVillage().setVillageStatusCode_InScope_AsVillageStatus(
+                        Arrays.asList(CDef.VillageStatus.募集中, CDef.VillageStatus.進行中, CDef.VillageStatus.開始待ち));
+                villagePlayerCB.query().setIsGone_Equal_False();
+            });
+        });
+        return participateCount > 0;
     }
 
 }
