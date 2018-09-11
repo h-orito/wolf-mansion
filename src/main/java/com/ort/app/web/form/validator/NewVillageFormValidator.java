@@ -57,6 +57,10 @@ public class NewVillageFormValidator implements Validator {
             if (startDateTime.isBefore(WerewolfMansionDateUtil.currentLocalDateTime())) {
                 errors.rejectValue("startYear", "NewVillageForm.validator.startYear");
             }
+            // 二週間先までしか指定できない
+            if (startDateTime.isAfter(WerewolfMansionDateUtil.currentLocalDateTime().plusDays(14L))) {
+                errors.rejectValue("startYear", "NewVillageForm.validator.startYear");
+            }
         } catch (DateTimeException e) {
             errors.rejectValue("startYear", "NewVillageForm.validator.startYear");
         }

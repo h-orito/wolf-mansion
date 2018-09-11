@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.ort.app.web.controller.assist.NewVillageAssist;
+import com.ort.app.web.controller.logic.VillageParticipateLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageForm;
 import com.ort.app.web.form.validator.NewVillageFormValidator;
@@ -43,6 +44,9 @@ public class NewVillageController {
     @Autowired
     private NewVillageAssist newVillageAssist;
 
+    @Autowired
+    private VillageParticipateLogic participateLogic;
+
     @InitBinder("villageForm")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(newVillageFormValidator);
@@ -70,6 +74,12 @@ public class NewVillageController {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (userInfo == null) {
             model.addAttribute("errorMessage", "ログインし直してください。");
+            newVillageAssist.setIndexModel(villageForm, model);
+            return "new-village";
+        }
+        // 決着のついていない参加していたり建てた村が終了していなかったらNG
+        if (participateLogic.isParticipatingOrCreatingVillage()) {
+            model.addAttribute("errorMessage", "参加/村建てした村の決着がつくまでは村を建てられません。");
             newVillageAssist.setIndexModel(villageForm, model);
             return "new-village";
         }
@@ -106,6 +116,12 @@ public class NewVillageController {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (userInfo == null) {
             model.addAttribute("errorMessage", "ログインし直してください。");
+            newVillageAssist.setIndexModel(villageForm, model);
+            return "new-village";
+        }
+        // 決着のついていない参加していたり建てた村が終了していなかったらNG
+        if (participateLogic.isParticipatingOrCreatingVillage()) {
+            model.addAttribute("errorMessage", "参加/村建てした村の決着がつくまでは村を建てられません。");
             newVillageAssist.setIndexModel(villageForm, model);
             return "new-village";
         }

@@ -1,5 +1,8 @@
 package com.ort.app.web.controller;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -9,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,6 +32,13 @@ import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 
 @Controller
 public class PlayerController {
+
+    // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
+    private static final String COOKIE_NAME_ID_REGISTER = "id_register";
+    private static final int MAX_AGE_ID_REGISTER = 60 * 30; // 30分
+    private static final String PATH_ID_REGISTER = "/wolf-mansion/";
 
     // ===================================================================================
     //                                                                           Attribute
@@ -73,9 +84,17 @@ public class PlayerController {
 
     // プレイヤー新規登録
     @PostMapping("/new-player")
-    private String createPlayer(@Validated @ModelAttribute("form") PlayerCreateForm form, BindingResult result, Model model) {
+    private String createPlayer(@Validated @ModelAttribute("form") PlayerCreateForm form, BindingResult result,
+            @CookieValue(name = COOKIE_NAME_ID_REGISTER, required = false) Boolean isRecentRegistered, //
+            HttpServletResponse response, Model model) {
         if (result.hasErrors()) {
             setIndexModel(form, model);
+            return "new-player";
+        }
+
+        if (BooleanUtils.isTrue(isRecentRegistered)) {
+            setIndexModel(form, model);
+            model.addAttribute("errorMessage", "連続して複数のIDを取得することはできません。時間をおいてから再度取得してください。");
             return "new-player";
         }
 
@@ -87,6 +106,7 @@ public class PlayerController {
             return "new-player";
         }
         insertPlayer(form);
+        registerCookie(response);
         return "redirect:/";
     }
 
@@ -169,5 +189,12 @@ public class PlayerController {
         String encodedPassword = passwordEncoder.encode(form.getPassword());
         updatePassword(encodedPassword, userInfo);
         userInfo.setPassword(encodedPassword);
+    }
+
+    private void registerCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie(COOKIE_NAME_ID_REGISTER, "true");
+        cookie.setMaxAge(MAX_AGE_ID_REGISTER);
+        cookie.setPath(PATH_ID_REGISTER);
+        response.addCookie(cookie);
     }
 }

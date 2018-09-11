@@ -92,8 +92,12 @@ public class VillageSettingsAssist {
             throw new WerewolfMansionBusinessException("既にプロローグが終了しているため変更できません");
         }
         LocalDateTime startDateTime = makeStartDateTime(form);
+        VillageSettings villageSettings = selectVillageSettings(villageId);
         if (startDateTime.isBefore(WerewolfMansionDateUtil.currentLocalDateTime())) {
             throw new WerewolfMansionBusinessException("開始日時を現在より過去にすることはできません");
+        }
+        if (startDateTime.isAfter(villageSettings.getRegisterDatetime().plusDays(14L))) {
+            throw new WerewolfMansionBusinessException("開始日時は最初に建てた日時の14日後以降にはできません");
         }
         ListResultBean<VillagePlayer> vPlayerList = villagePlayerBhv.selectList(cb -> {
             cb.query().setVillageId_Equal(villageId);
@@ -108,7 +112,6 @@ public class VillageSettingsAssist {
             throw new WerewolfMansionBusinessException("見学者が既にいるため、見学入村を不可にすることはできません");
         }
 
-        VillageSettings villageSettings = selectVillageSettings(villageId);
         if (!"master".equals(userInfo.getUsername())
                 && !userInfo.getUsername().equals(villageSettings.getVillage().get().getCreatePlayerName())) {
             throw new WerewolfMansionBusinessException("村作成者しか使用できない機能です");

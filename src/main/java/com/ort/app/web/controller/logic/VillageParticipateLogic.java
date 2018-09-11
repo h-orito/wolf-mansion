@@ -1,6 +1,7 @@
 package com.ort.app.web.controller.logic;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,15 @@ import org.springframework.stereotype.Component;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.CharaBhv;
+import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillageSettings;
+import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionDateUtil;
+import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 
 @Component
 public class VillageParticipateLogic {
@@ -42,6 +46,9 @@ public class VillageParticipateLogic {
 
     @Autowired
     private CharaBhv charaBhv;
+
+    @Autowired
+    private PlayerBhv playerBhv;
 
     @Autowired
     private MessageSource messageSource;
@@ -133,6 +140,38 @@ public class VillageParticipateLogic {
         } catch (WerewolfMansionBusinessException e) {
             // ここでは何回も被らないので何もしない
         }
+    }
+
+    public boolean isParticipatingOrCreatingVillage() {
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        if (userInfo == null) {
+            return false;
+        }
+        if ("master".equals(userInfo.getUsername())) {
+            return false; // masterは参加してない扱い
+        }
+        // 終了していない村に参加しているか
+        String username = userInfo.getUsername();
+        int participateCount = playerBhv.selectCount(cb -> {
+            cb.query().setPlayerName_Equal(username);
+            // 募集中、開始待ち、進行中の村に参戦している
+            cb.query().existsVillagePlayer(villagePlayerCB -> {
+                villagePlayerCB.query().queryVillage().setVillageStatusCode_InScope_AsVillageStatus(
+                        Arrays.asList(CDef.VillageStatus.募集中, CDef.VillageStatus.進行中, CDef.VillageStatus.開始待ち));
+                villagePlayerCB.query().setIsGone_Equal_False();
+            });
+        });
+        if (participateCount > 0) {
+            return true;
+        }
+        // 自分が建てた村が終了していない
+        int progressVillageCount = villageBhv.selectCount(cb -> {
+            cb.query().setCreatePlayerName_Equal(username);
+            cb.query().setVillageStatusCode_InScope_AsVillageStatus(
+                    Arrays.asList(CDef.VillageStatus.募集中, CDef.VillageStatus.進行中, CDef.VillageStatus.開始待ち));
+        });
+
+        return progressVillageCount > 0;
     }
 
     // ===================================================================================
