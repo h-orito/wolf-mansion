@@ -18,6 +18,9 @@ public class CharaGroupResultContent implements Serializable {
     /** 作者名 */
     private String designerName;
 
+    /** キャラチップURL */
+    private String descriptionUrl;
+
     /** キャラリスト */
     private List<CharaGroupCharaDto> charaList;
 
@@ -51,5 +54,13 @@ public class CharaGroupResultContent implements Serializable {
 
     public void setCharaList(List<CharaGroupCharaDto> charaList) {
         this.charaList = charaList;
+    }
+
+    public String getDescriptionUrl() {
+        return descriptionUrl;
+    }
+
+    public void setDescriptionUrl(String descriptionUrl) {
+        this.descriptionUrl = descriptionUrl;
     }
 }

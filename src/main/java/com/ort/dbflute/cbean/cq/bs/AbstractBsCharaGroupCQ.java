@@ -571,6 +571,159 @@ public abstract class AbstractBsCharaGroupCQ extends AbstractConditionQuery {
     protected abstract ConditionValue xgetCValueDesignerId();
 
     /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DESCRIPTION_URL: {TEXT(65535)}
+     * @param descriptionUrl The value of descriptionUrl as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDescriptionUrl_Equal(String descriptionUrl) {
+        doSetDescriptionUrl_Equal(fRES(descriptionUrl));
+    }
+
+    protected void doSetDescriptionUrl_Equal(String descriptionUrl) {
+        regDescriptionUrl(CK_EQ, descriptionUrl);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DESCRIPTION_URL: {TEXT(65535)}
+     * @param descriptionUrl The value of descriptionUrl as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDescriptionUrl_NotEqual(String descriptionUrl) {
+        doSetDescriptionUrl_NotEqual(fRES(descriptionUrl));
+    }
+
+    protected void doSetDescriptionUrl_NotEqual(String descriptionUrl) {
+        regDescriptionUrl(CK_NES, descriptionUrl);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DESCRIPTION_URL: {TEXT(65535)}
+     * @param descriptionUrl The value of descriptionUrl as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDescriptionUrl_GreaterThan(String descriptionUrl) {
+        regDescriptionUrl(CK_GT, fRES(descriptionUrl));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DESCRIPTION_URL: {TEXT(65535)}
+     * @param descriptionUrl The value of descriptionUrl as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDescriptionUrl_LessThan(String descriptionUrl) {
+        regDescriptionUrl(CK_LT, fRES(descriptionUrl));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DESCRIPTION_URL: {TEXT(65535)}
+     * @param descriptionUrl The value of descriptionUrl as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDescriptionUrl_GreaterEqual(String descriptionUrl) {
+        regDescriptionUrl(CK_GE, fRES(descriptionUrl));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DESCRIPTION_URL: {TEXT(65535)}
+     * @param descriptionUrl The value of descriptionUrl as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDescriptionUrl_LessEqual(String descriptionUrl) {
+        regDescriptionUrl(CK_LE, fRES(descriptionUrl));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * DESCRIPTION_URL: {TEXT(65535)}
+     * @param descriptionUrlList The collection of descriptionUrl as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDescriptionUrl_InScope(Collection<String> descriptionUrlList) {
+        doSetDescriptionUrl_InScope(descriptionUrlList);
+    }
+
+    protected void doSetDescriptionUrl_InScope(Collection<String> descriptionUrlList) {
+        regINS(CK_INS, cTL(descriptionUrlList), xgetCValueDescriptionUrl(), "DESCRIPTION_URL");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * DESCRIPTION_URL: {TEXT(65535)}
+     * @param descriptionUrlList The collection of descriptionUrl as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDescriptionUrl_NotInScope(Collection<String> descriptionUrlList) {
+        doSetDescriptionUrl_NotInScope(descriptionUrlList);
+    }
+
+    protected void doSetDescriptionUrl_NotInScope(Collection<String> descriptionUrlList) {
+        regINS(CK_NINS, cTL(descriptionUrlList), xgetCValueDescriptionUrl(), "DESCRIPTION_URL");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * DESCRIPTION_URL: {TEXT(65535)} <br>
+     * <pre>e.g. setDescriptionUrl_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param descriptionUrl The value of descriptionUrl as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setDescriptionUrl_LikeSearch(String descriptionUrl, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setDescriptionUrl_LikeSearch(descriptionUrl, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * DESCRIPTION_URL: {TEXT(65535)} <br>
+     * <pre>e.g. setDescriptionUrl_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param descriptionUrl The value of descriptionUrl as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setDescriptionUrl_LikeSearch(String descriptionUrl, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(descriptionUrl), xgetCValueDescriptionUrl(), "DESCRIPTION_URL", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * DESCRIPTION_URL: {TEXT(65535)}
+     * @param descriptionUrl The value of descriptionUrl as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setDescriptionUrl_NotLikeSearch(String descriptionUrl, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setDescriptionUrl_NotLikeSearch(descriptionUrl, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * DESCRIPTION_URL: {TEXT(65535)}
+     * @param descriptionUrl The value of descriptionUrl as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setDescriptionUrl_NotLikeSearch(String descriptionUrl, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(descriptionUrl), xgetCValueDescriptionUrl(), "DESCRIPTION_URL", likeSearchOption);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * DESCRIPTION_URL: {TEXT(65535)}
+     */
+    public void setDescriptionUrl_IsNull() { regDescriptionUrl(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * DESCRIPTION_URL: {TEXT(65535)}
+     */
+    public void setDescriptionUrl_IsNullOrEmpty() { regDescriptionUrl(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * DESCRIPTION_URL: {TEXT(65535)}
+     */
+    public void setDescriptionUrl_IsNotNull() { regDescriptionUrl(CK_ISNN, DOBJ); }
+
+    protected void regDescriptionUrl(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueDescriptionUrl(), "DESCRIPTION_URL"); }
+    protected abstract ConditionValue xgetCValueDescriptionUrl();
+
+    /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @param registerDatetime The value of registerDatetime as equal. (basically NotNull: error as default, or no condition as option)

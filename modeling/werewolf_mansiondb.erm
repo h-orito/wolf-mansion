@@ -260,6 +260,12 @@
 					<relationship>FK_CHARA_group_designer</relationship>
 					<not_null>true</not_null>
 				</normal_column>
+				<normal_column>
+					<physical_name>description_url</physical_name>
+					<logical_name>キャラチップURL</logical_name>
+					<type>text</type>
+					<description>キャラチップの利用規約や配布サイトのURL</description>
+				</normal_column>
 				<column_group>共通カラム</column_group>
 			</columns>
 			<indexes>

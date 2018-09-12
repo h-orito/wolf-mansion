@@ -46,6 +46,7 @@ public class CharaGroupDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((CharaGroup)et).getCharaGroupId(), (et, vl) -> ((CharaGroup)et).setCharaGroupId(cti(vl)), "charaGroupId");
         setupEpg(_epgMap, et -> ((CharaGroup)et).getCharaGroupName(), (et, vl) -> ((CharaGroup)et).setCharaGroupName((String)vl), "charaGroupName");
         setupEpg(_epgMap, et -> ((CharaGroup)et).getDesignerId(), (et, vl) -> ((CharaGroup)et).setDesignerId(cti(vl)), "designerId");
+        setupEpg(_epgMap, et -> ((CharaGroup)et).getDescriptionUrl(), (et, vl) -> ((CharaGroup)et).setDescriptionUrl((String)vl), "descriptionUrl");
         setupEpg(_epgMap, et -> ((CharaGroup)et).getRegisterDatetime(), (et, vl) -> ((CharaGroup)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((CharaGroup)et).getRegisterTrace(), (et, vl) -> ((CharaGroup)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((CharaGroup)et).getUpdateDatetime(), (et, vl) -> ((CharaGroup)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -85,6 +86,7 @@ public class CharaGroupDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnCharaGroupId = cci("CHARA_GROUP_ID", "CHARA_GROUP_ID", null, null, Integer.class, "charaGroupId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "charaList,villageSettingsList", null, false);
     protected final ColumnInfo _columnCharaGroupName = cci("CHARA_GROUP_NAME", "CHARA_GROUP_NAME", null, null, String.class, "charaGroupName", null, false, false, true, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnDesignerId = cci("DESIGNER_ID", "DESIGNER_ID", null, null, Integer.class, "designerId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "designer", null, null, false);
+    protected final ColumnInfo _columnDescriptionUrl = cci("DESCRIPTION_URL", "DESCRIPTION_URL", null, null, String.class, "descriptionUrl", null, false, false, false, "TEXT", 65535, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -105,6 +107,11 @@ public class CharaGroupDbm extends AbstractDBMeta {
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnDesignerId() { return _columnDesignerId; }
+    /**
+     * DESCRIPTION_URL: {TEXT(65535)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnDescriptionUrl() { return _columnDescriptionUrl; }
     /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
@@ -131,6 +138,7 @@ public class CharaGroupDbm extends AbstractDBMeta {
         ls.add(columnCharaGroupId());
         ls.add(columnCharaGroupName());
         ls.add(columnDesignerId());
+        ls.add(columnDescriptionUrl());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());

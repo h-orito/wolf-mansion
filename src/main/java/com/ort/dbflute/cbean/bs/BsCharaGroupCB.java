@@ -319,6 +319,11 @@ public class BsCharaGroupCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnDesignerId() { return doColumn("DESIGNER_ID"); }
         /**
+         * DESCRIPTION_URL: {TEXT(65535)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnDescriptionUrl() { return doColumn("DESCRIPTION_URL"); }
+        /**
          * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
          */

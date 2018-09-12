@@ -91,6 +91,7 @@ public class CharaController {
         content.setCharaGroupId(charaGroup.getCharaGroupId());
         content.setCharaGroupName(charaGroup.getCharaGroupName());
         content.setDesignerName(charaGroup.getDesigner().get().getDesignerName());
+        content.setDescriptionUrl(charaGroup.getDescriptionUrl());
         content.setCharaList(charaGroup.getCharaList().stream().map(chara -> convertToCharaDto(chara)).collect(Collectors.toList()));
         return content;
     }

@@ -20,7 +20,7 @@ import com.ort.dbflute.exentity.*;
  *     CHARA_GROUP_ID
  *
  * [column]
- *     CHARA_GROUP_ID, CHARA_GROUP_NAME, DESIGNER_ID, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     CHARA_GROUP_ID, CHARA_GROUP_NAME, DESIGNER_ID, DESCRIPTION_URL, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -48,6 +48,7 @@ import com.ort.dbflute.exentity.*;
  * Integer charaGroupId = entity.getCharaGroupId();
  * String charaGroupName = entity.getCharaGroupName();
  * Integer designerId = entity.getDesignerId();
+ * String descriptionUrl = entity.getDescriptionUrl();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -55,6 +56,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setCharaGroupId(charaGroupId);
  * entity.setCharaGroupName(charaGroupName);
  * entity.setDesignerId(designerId);
+ * entity.setDescriptionUrl(descriptionUrl);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -82,6 +84,9 @@ public abstract class BsCharaGroup extends AbstractEntity implements DomainEntit
 
     /** DESIGNER_ID: {IX, NotNull, INT UNSIGNED(10), FK to designer} */
     protected Integer _designerId;
+
+    /** DESCRIPTION_URL: {TEXT(65535)} */
+    protected String _descriptionUrl;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -231,6 +236,7 @@ public abstract class BsCharaGroup extends AbstractEntity implements DomainEntit
         sb.append(dm).append(xfND(_charaGroupId));
         sb.append(dm).append(xfND(_charaGroupName));
         sb.append(dm).append(xfND(_designerId));
+        sb.append(dm).append(xfND(_descriptionUrl));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -323,6 +329,26 @@ public abstract class BsCharaGroup extends AbstractEntity implements DomainEntit
     public void setDesignerId(Integer designerId) {
         registerModifiedProperty("designerId");
         _designerId = designerId;
+    }
+
+    /**
+     * [get] DESCRIPTION_URL: {TEXT(65535)} <br>
+     * キャラチップURL : キャラチップの利用規約や配布サイトのURL
+     * @return The value of the column 'DESCRIPTION_URL'. (NullAllowed even if selected: for no constraint)
+     */
+    public String getDescriptionUrl() {
+        checkSpecifiedProperty("descriptionUrl");
+        return convertEmptyToNull(_descriptionUrl);
+    }
+
+    /**
+     * [set] DESCRIPTION_URL: {TEXT(65535)} <br>
+     * キャラチップURL : キャラチップの利用規約や配布サイトのURL
+     * @param descriptionUrl The value of the column 'DESCRIPTION_URL'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setDescriptionUrl(String descriptionUrl) {
+        registerModifiedProperty("descriptionUrl");
+        _descriptionUrl = descriptionUrl;
     }
 
     /**

@@ -161,6 +161,26 @@ public class BsCharaGroupCQ extends AbstractBsCharaGroupCQ {
      */
     public BsCharaGroupCQ addOrderBy_DesignerId_Desc() { regOBD("DESIGNER_ID"); return this; }
 
+    protected ConditionValue _descriptionUrl;
+    public ConditionValue xdfgetDescriptionUrl()
+    { if (_descriptionUrl == null) { _descriptionUrl = nCV(); }
+      return _descriptionUrl; }
+    protected ConditionValue xgetCValueDescriptionUrl() { return xdfgetDescriptionUrl(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * DESCRIPTION_URL: {TEXT(65535)}
+     * @return this. (NotNull)
+     */
+    public BsCharaGroupCQ addOrderBy_DescriptionUrl_Asc() { regOBA("DESCRIPTION_URL"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * DESCRIPTION_URL: {TEXT(65535)}
+     * @return this. (NotNull)
+     */
+    public BsCharaGroupCQ addOrderBy_DescriptionUrl_Desc() { regOBD("DESCRIPTION_URL"); return this; }
+
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
     { if (_registerDatetime == null) { _registerDatetime = nCV(); }
