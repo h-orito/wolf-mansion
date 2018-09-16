@@ -363,8 +363,8 @@ public class VillageDispLogic {
 
     // 能力行使履歴リスト作成
     public List<String> makeSkillHistoryList(VillageInfo villageInfo) {
-        if (!villageInfo.isParticipate() || villageInfo.isDead() || !villageInfo.isLatestDay()
-                || !villageInfo.village.isVillageStatusCode進行中() || villageInfo.isSpectator()) {
+        if (!villageInfo.isParticipate() || !villageInfo.isLatestDay() || !villageInfo.village.isVillageStatusCode進行中()
+                || villageInfo.isSpectator()) {
             return null;
         }
         VillagePlayer vPlayer = villageInfo.optVillagePlayer.get();
