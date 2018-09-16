@@ -4,6 +4,10 @@ public class DummyCharaDto {
 
     private String charaImgUrl;
 
+    private Integer charaImgWidth;
+
+    private Integer charaImgHeight;
+
     private String joinMessage;
 
     public String getCharaImgUrl() {
@@ -20,5 +24,21 @@ public class DummyCharaDto {
 
     public void setJoinMessage(String joinMessage) {
         this.joinMessage = joinMessage;
+    }
+
+    public Integer getCharaImgWidth() {
+        return charaImgWidth;
+    }
+
+    public void setCharaImgWidth(Integer charaImgWidth) {
+        this.charaImgWidth = charaImgWidth;
+    }
+
+    public Integer getCharaImgHeight() {
+        return charaImgHeight;
+    }
+
+    public void setCharaImgHeight(Integer charaImgHeight) {
+        this.charaImgHeight = charaImgHeight;
     }
 }

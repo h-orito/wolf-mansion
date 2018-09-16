@@ -12,7 +12,11 @@ $(function() {
 			type : 'GET',
 			url : GET_DUMMY_CHARA_INFO_URL + charaGroupId
 		}).then(function(response) {
-			$('#dummy-chara-img').css('background', 'url(\'' + response.charaImgUrl + '\')');
+			$('#dummy-chara-img').html($('<img />', {
+				src : response.charaImgUrl,
+				width : response.charaImgWidth,
+				height: response.charaImgHeight
+			}));
 			$('#dummy-chara-join-message').attr('placeholder', response.joinMessage);
 		});
 	}

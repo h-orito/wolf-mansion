@@ -60,6 +60,8 @@ public class CharaController {
         });
         DummyCharaDto content = new DummyCharaDto();
         content.setCharaImgUrl(chara.getCharaImgUrl());
+        content.setCharaImgWidth(chara.getDisplayWidth());
+        content.setCharaImgHeight(chara.getDisplayHeight());
         content.setJoinMessage(chara.getDefaultJoinMessage());
         return content;
     }
