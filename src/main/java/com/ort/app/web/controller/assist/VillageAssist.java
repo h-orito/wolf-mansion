@@ -42,6 +42,7 @@ import com.ort.app.web.model.inner.VillageRoomAssignedDto;
 import com.ort.app.web.model.inner.VillageRoomAssignedRowDto;
 import com.ort.app.web.model.inner.VillageSettingsDto;
 import com.ort.app.web.model.inner.VillageSkillDto;
+import com.ort.app.web.util.CharaUtil;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.AbilityBhv;
@@ -271,7 +272,7 @@ public class VillageAssist {
         model.addAttribute("sayForm", form);
     }
 
-    private void setAbilityTarget(VillageInfo villageInfo, List<Chara> abilityTargetList, Model model) {
+    private void setAbilityTarget(VillageInfo villageInfo, Model model) {
         if (!villageInfo.isParticipate() || villageInfo.isDead() || villageInfo.isSpectator() || !villageInfo.isLatestDay()
                 || !villageInfo.village.isVillageStatusCode進行中()) {
             return;
@@ -289,9 +290,9 @@ public class VillageAssist {
         if (optAbility.isPresent()) {
             Ability ab = optAbility.get();
             abilityForm.setCharaId(ab.getCharaId());
-            model.addAttribute("charaName", getCharacterNameFromCharaId(villageInfo.village, ab.getCharaId()));
+            model.addAttribute("charaName", CharaUtil.makeCharaName(extractVillagePlayerBy(villageInfo, ab.getCharaId())));
             abilityForm.setTargetCharaId(ab.getTargetCharaId());
-            model.addAttribute("targetCharaName", getCharacterNameFromCharaId(villageInfo.village, ab.getTargetCharaId()));
+            model.addAttribute("targetCharaName", CharaUtil.makeCharaName(extractVillagePlayerBy(villageInfo, ab.getTargetCharaId())));
         }
 
         footstepBhv.selectEntity(cb -> {
@@ -490,12 +491,11 @@ public class VillageAssist {
     }
 
     private void setVillageModelAbilityForm(VillageResultContent content, VillageInfo villageInfo, Model model) {
-        List<Chara> abilityTargetList = villageDispLogic.makeAbilityTargetList(villageInfo);
-        content.setAbilityTargetList(abilityTargetList);
+        content.setAbilityTargetList(villageDispLogic.makeAbilityTargetList(villageInfo));
         content.setAttackerList(villageDispLogic.makeAttackerList(villageInfo));
         content.setSkillHistoryList(villageDispLogic.makeSkillHistoryList(villageInfo));
         content.setWerewolfCharaNameList(villageDispLogic.makeWerewolfCharaNameList(villageInfo));
-        setAbilityTarget(villageInfo, abilityTargetList, model);
+        setAbilityTarget(villageInfo, model);
     }
 
     private void setVillageModelSayForm(VillageResultContent content, VillageInfo villageInfo, VillageSayForm sayForm, Model model) {
@@ -659,8 +659,7 @@ public class VillageAssist {
 
     private VillageMemberDetailDto convertToMemberDetailPart(VillagePlayer mem) {
         VillageMemberDetailDto detail = new VillageMemberDetailDto();
-        Chara chara = mem.getChara().get();
-        detail.setCharaName(String.format("[%s] %s", chara.getCharaShortName(), chara.getCharaName()));
+        detail.setCharaName(CharaUtil.makeCharaName(mem));
         detail.setDeadDay(mem.getDeadDay() != null ? mem.getDeadDay() + "d" : null);
         return detail;
     }
@@ -729,10 +728,10 @@ public class VillageAssist {
         List<VillageMemberVoteDto> memberVoteDtoList = villageInfo.getVPList(false, true, true).stream().map(vp -> {
             VillageMemberVoteDto voteDto = new VillageMemberVoteDto();
             voteDto.setCharaName(vp.getChara().get().getCharaShortName());
-            List<String> voteTargetList = voteList.stream()
-                    .filter(v -> v.getCharaId().equals(vp.getCharaId()))
-                    .map(v -> v.getCharaByVoteCharaId().get().getCharaShortName())
-                    .collect(Collectors.toList());
+            List<String> voteTargetList = voteList.stream().filter(v -> v.getCharaId().equals(vp.getCharaId())).map(v -> {
+                VillagePlayer vPlayer = extractVillagePlayerBy(villageInfo, v.getVoteCharaId());
+                return String.format("%02d%s", vPlayer.getRoomNumber(), v.getCharaByVoteCharaId().get().getCharaShortName());
+            }).collect(Collectors.toList());
             voteDto.setVoteTargetList(voteTargetList);
             return voteDto;
         }).collect(Collectors.toList());
@@ -744,6 +743,10 @@ public class VillageAssist {
         voteDto.setVoteList(memberVoteDtoList);
         voteDto.setMaxVoteCount(memberVoteDtoList.stream().map(v -> v.getVoteTargetList().size()).max(Integer::max).get());
         return voteDto;
+    }
+
+    private VillagePlayer extractVillagePlayerBy(VillageInfo villageInfo, Integer charaId) {
+        return villageInfo.getVPList(false, false, false).stream().filter(vp -> vp.getCharaId().equals(charaId)).findFirst().orElse(null);
     }
 
     private List<VillageFootstepDto> makeFootstepList(VillageInfo villageInfo) {

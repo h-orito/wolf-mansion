@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
+import com.ort.app.web.util.CharaUtil;
 import com.ort.app.web.util.RoomUtil;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
@@ -206,7 +207,7 @@ public class AssignLogic {
     private String makeAssignedMessage(ListResultBean<VillagePlayer> playerList) {
         StringJoiner joiner = new StringJoiner("\n");
         for (VillagePlayer player : playerList) {
-            joiner.add(String.format("%sの役職は%sになりました。（希望役職：%s）", player.getChara().get().getCharaName(),
+            joiner.add(String.format("%sの役職は%sになりました。（希望役職：%s）", CharaUtil.makeCharaName(player),
                     player.getSkillBySkillCode().get().getSkillName(), player.getSkillByRequestSkillCode().get().getSkillName()));
         }
         return joiner.toString();

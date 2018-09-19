@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
+import com.ort.app.web.util.CharaUtil;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
@@ -171,36 +172,29 @@ public class MessageLogic {
             boolean isDefault) {
         // 自分
         VillagePlayer myself = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(charaId)).findFirst().get();
-        // 自分の役職
         Skill skill = myself.getSkillCodeAsSkill();
-        // キャラ名
-        String charaName = myself.getChara().get().getCharaName();
-        // 対象キャラ名
-        String targetCharaName = villagePlayerList.stream()
-                .filter(vp -> vp.getCharaId().equals(targetCharaId))
-                .findFirst()
-                .get()
-                .getChara()
-                .get()
-                .getCharaName();
+        String myChara = CharaUtil.makeCharaName(myself);
+        // 対象
+        VillagePlayer target = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(targetCharaId)).findFirst().get();
+        String targetChara = CharaUtil.makeCharaName(target);
         if (skill == CDef.Skill.人狼) {
             return messageSource.getMessage("ability.werewolf.message",
-                    new String[] { charaName, targetCharaName, footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
+                    new String[] { myChara, targetChara, footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
         } else if (SkillUtil.hasDivineAbility(skill)) {
             return messageSource.getMessage("ability.seer.message",
-                    new String[] { charaName, targetCharaName, footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
+                    new String[] { myChara, targetChara, footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
         } else if (skill == CDef.Skill.狩人) {
             return messageSource.getMessage("ability.hunter.message",
-                    new String[] { charaName, targetCharaName, footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
+                    new String[] { myChara, targetChara, footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
         }
         return null;
     }
 
     private String makeFootstepSetMessage(Integer charaId, List<VillagePlayer> villagePlayerList, String footstep, boolean isDefault) {
         // キャラ名
-        String charaName =
-                villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(charaId)).findFirst().get().getChara().get().getCharaName();
-        return messageSource.getMessage("ability.foxmadman.message", new String[] { charaName, footstep, isDefault ? "（自動設定）" : "" },
+        VillagePlayer myself = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(charaId)).findFirst().get();
+        String myChara = CharaUtil.makeCharaName(myself);
+        return messageSource.getMessage("ability.foxmadman.message", new String[] { myChara, footstep, isDefault ? "（自動設定）" : "" },
                 Locale.JAPAN);
     }
 

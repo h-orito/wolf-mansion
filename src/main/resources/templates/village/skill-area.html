@@ -62,14 +62,14 @@
 									<div class="form-group small">
 										<div class="col-sm-12 col-xs-12" th:if="${content.skillName == 'WEREWOLF'}">
 											襲撃者 <select class="form-control" th:field="*{charaId}" data-attacker-select>
-												<option th:each="chara : ${content.attackerList}" th:value="${chara.charaId}" th:text="${chara.charaName}"></option>
+												<option th:each="chara : ${content.attackerList}" th:value="${chara.value}" th:text="${chara.name}"></option>
 											</select>
 										</div>
 										<div class="col-sm-12 col-xs-12">
 											<span th:if="${content.skillName == 'WEREWOLF'}" th:text="襲撃対象"></span> <select class="form-control" th:field="*{targetCharaId}"
 												data-ability-target-select>
 												<!--/* <option th:if="${content.skillName == 'WEREWOLF' && content.day > 1}" value="">なし</option> ルール的になしにする */-->
-												<option th:each="target : ${content.abilityTargetList}" th:value="${target.charaId}" th:text="${target.charaName}"></option>
+												<option th:each="target : ${content.abilityTargetList}" th:value="${target.value}" th:text="${target.name}"></option>
 											</select> <span th:if="${content.skillName == 'SEER' || content.skillName == 'WISE'}" th:text="を占う"></span> <span
 												th:if="${content.skillName == 'HUNTER'}" th:text="を護衛する"></span>
 										</div>

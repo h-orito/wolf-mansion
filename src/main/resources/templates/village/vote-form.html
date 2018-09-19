@@ -35,7 +35,7 @@
 							<div class="form-group small">
 								<div class="col-sm-12 col-xs-12">
 									<select class="form-control" th:field="*{targetCharaId}">
-										<option th:each="target : ${content.voteTargetList}" th:value="${target.charaId}" th:text="${target.charaName}"></option>
+										<option th:each="target : ${content.voteTargetList}" th:value="${target.value}" th:text="${target.name}"></option>
 									</select> に投票する
 								</div>
 							</div>

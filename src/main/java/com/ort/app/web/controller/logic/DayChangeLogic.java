@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
+import com.ort.app.web.util.CharaUtil;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Camp;
@@ -445,7 +446,7 @@ public class DayChangeLogic {
         long livePersonNum = vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).count();
         StringJoiner joiner = new StringJoiner("、", "現在の生存者は、以下の" + livePersonNum + "名。\n", "");
         vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).forEach(player -> {
-            joiner.add(player.getChara().get().getCharaName());
+            joiner.add(CharaUtil.makeCharaName(player));
         });
         insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
     }
@@ -588,7 +589,7 @@ public class DayChangeLogic {
     private void insertPlayerListMessage(Integer villageId, int day, ListResultBean<VillagePlayer> villagePlayerList) {
         StringJoiner joiner = new StringJoiner("\n");
         villagePlayerList.stream().forEach(player -> {
-            joiner.add(String.format("%s (%s)、%s。%sだった。", player.getChara().get().getCharaName(), player.getPlayer().get().getPlayerName(),
+            joiner.add(String.format("%s (%s)、%s。%sだった。", CharaUtil.makeCharaName(player), player.getPlayer().get().getPlayerName(),
                     player.isIsDeadTrue() ? "死亡" : "生存", player.getSkillBySkillCode().get().getSkillName()));
         });
         ListResultBean<VillagePlayer> spectatorList = villagePlayerBhv.selectList(cb -> {
@@ -600,8 +601,7 @@ public class DayChangeLogic {
         });
         if (CollectionUtils.isNotEmpty(spectatorList)) {
             spectatorList.stream().forEach(player -> {
-                joiner.add(String.format("%s (%s)、見学参加だった。", player.getChara().get().getCharaName(),
-                        player.getPlayer().get().getPlayerName()));
+                joiner.add(String.format("%s (%s)、見学参加だった。", CharaUtil.makeCharaName(player), player.getPlayer().get().getPlayerName()));
             });
         }
         insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
@@ -632,7 +632,7 @@ public class DayChangeLogic {
             Collections.shuffle(attackedPlayerList);
             StringJoiner joiner = new StringJoiner("と", "次の日の朝、", "が無惨な姿で発見された。");
             attackedPlayerList.stream().forEach(player -> {
-                joiner.add(player.getChara().get().getCharaName());
+                joiner.add(CharaUtil.makeCharaName(player));
             });
             insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
         }
@@ -718,7 +718,7 @@ public class DayChangeLogic {
             StringJoiner joiner = new StringJoiner("\n");
             deadPlayerList.forEach(deadPlayer -> {
                 boolean isTargetWerewolf = deadPlayer.getSkillCodeAsSkill() == CDef.Skill.人狼;
-                joiner.add(String.format("%sは%sのようだ。", deadPlayer.getChara().get().getCharaName(), isTargetWerewolf ? "人狼" : "人間"));
+                joiner.add(String.format("%sは%sのようだ。", CharaUtil.makeCharaName(deadPlayer), isTargetWerewolf ? "人狼" : "人間"));
             });
             insertMessage(villageId, day, CDef.MessageType.白黒霊視結果, joiner.toString());
         }
@@ -731,8 +731,7 @@ public class DayChangeLogic {
         ) {
             StringJoiner joiner = new StringJoiner("\n");
             deadPlayerList.forEach(deadPlayer -> {
-                joiner.add(
-                        String.format("%sは%sのようだ。", deadPlayer.getChara().get().getCharaName(), deadPlayer.getSkillCodeAsSkill().alias()));
+                joiner.add(String.format("%sは%sのようだ。", CharaUtil.makeCharaName(deadPlayer), deadPlayer.getSkillCodeAsSkill().alias()));
             });
             insertMessage(villageId, day, CDef.MessageType.役職霊視結果, joiner.toString());
         }
@@ -785,10 +784,10 @@ public class DayChangeLogic {
     }
 
     private String makeDivineMessage(VillagePlayer seerPlayer, VillagePlayer targetPlayer) {
-        String targetCharaName = targetPlayer.getChara().get().getCharaName();
+        String targetCharaName = CharaUtil.makeCharaName(targetPlayer);
         if (seerPlayer.isSkillCode占い師()) {
             boolean isTargetWerewolf = targetPlayer.getSkillCodeAsSkill() == CDef.Skill.人狼;
-            return String.format("%sは、%sを占った。\n%sは%sのようだ。", seerPlayer.getChara().get().getCharaName(), targetCharaName, targetCharaName,
+            return String.format("%sは、%sを占った。\n%sは%sのようだ。", CharaUtil.makeCharaName(seerPlayer), targetCharaName, targetCharaName,
                     isTargetWerewolf ? "人狼" : "人間");
         } else {
             return String.format("%sは、%sを占った。\n%sは%sのようだ。", seerPlayer.getChara().get().getCharaName(), targetCharaName, targetCharaName,
@@ -818,8 +817,8 @@ public class DayChangeLogic {
         }
         VillagePlayer targetPlayer =
                 villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(optGuard.get().getTargetCharaId())).findFirst().get();
-        String message = String.format("%sは、%sを護衛している。", optLivingHunter.get().getChara().get().getCharaName(),
-                targetPlayer.getChara().get().getCharaName());
+        String message =
+                String.format("%sは、%sを護衛している。", CharaUtil.makeCharaName(optLivingHunter.get()), CharaUtil.makeCharaName(targetPlayer));
         insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
         return Optional.ofNullable(targetPlayer);
     }
@@ -847,7 +846,7 @@ public class DayChangeLogic {
         noVotePlayerList.forEach(vp -> {
             updateVillagePlayerDead(day, vp, CDef.DeadReason.突然); // 死亡処理
             updatePlayerRestrict(vp.getPlayerId()); // 入村制限
-            String message = String.format("%sは突然死した。", vp.getChara().get().getCharaName());
+            String message = String.format("%sは突然死した。", CharaUtil.makeCharaName(vp));
             insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, message);
         });
         return noVotePlayerList;
@@ -911,7 +910,7 @@ public class DayChangeLogic {
             VillagePlayer player = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(charaId)).findFirst().get();
             Integer targetCharaId = vote.getVoteCharaId();
             VillagePlayer targetPlayer = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(targetCharaId)).findFirst().get();
-            joiner.add(String.format("%sは、%sに投票した。", player.getChara().get().getCharaName(), targetPlayer.getChara().get().getCharaName()));
+            joiner.add(String.format("%sは、%sに投票した。", CharaUtil.makeCharaName(player), CharaUtil.makeCharaName(targetPlayer)));
         }
         insertMessage(villageId, day, settings.isIsOpenVoteTrue() ? CDef.MessageType.公開システムメッセージ : CDef.MessageType.非公開システムメッセージ,
                 joiner.toString());
@@ -924,9 +923,9 @@ public class DayChangeLogic {
             Integer targetCharaId = entry.getKey();
             Integer voteCount = entry.getValue();
             VillagePlayer targetPlayer = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(targetCharaId)).findFirst().get();
-            joiner.add(String.format("%s、%d票", targetPlayer.getChara().get().getCharaName(), voteCount));
+            joiner.add(String.format("%s、%d票", CharaUtil.makeCharaName(targetPlayer), voteCount));
         }
-        joiner.add(String.format("\n%sは村人達の手により処刑された。", executedPlayer.getChara().get().getCharaName()));
+        joiner.add(String.format("\n%sは村人達の手により処刑された。", CharaUtil.makeCharaName(executedPlayer)));
         insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
     }
 

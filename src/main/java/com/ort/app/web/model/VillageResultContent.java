@@ -110,16 +110,16 @@ public class VillageResultContent implements Serializable {
     private Integer charaImageHeight;
 
     /** 能力行使対象リスト */
-    private List<Chara> abilityTargetList;
+    private List<OptionDto> abilityTargetList;
 
     /** 襲撃担当者リスト */
-    private List<Chara> attackerList;
+    private List<OptionDto> attackerList;
 
     /** 能力行使履歴 */
     private List<String> skillHistoryList;
 
     /** 投票対象リスト */
-    private List<Chara> voteTargetList;
+    private List<OptionDto> voteTargetList;
 
     /** 役職 */
     private String skillName;
@@ -374,27 +374,27 @@ public class VillageResultContent implements Serializable {
         this.charaImageUrl = charaImageUrl;
     }
 
-    public List<Chara> getAbilityTargetList() {
+    public List<OptionDto> getAbilityTargetList() {
         return abilityTargetList;
     }
 
-    public void setAbilityTargetList(List<Chara> abilityTargetList) {
+    public void setAbilityTargetList(List<OptionDto> abilityTargetList) {
         this.abilityTargetList = abilityTargetList;
     }
 
-    public List<Chara> getAttackerList() {
+    public List<OptionDto> getAttackerList() {
         return attackerList;
     }
 
-    public void setAttackerList(List<Chara> attackerList) {
+    public void setAttackerList(List<OptionDto> attackerList) {
         this.attackerList = attackerList;
     }
 
-    public List<Chara> getVoteTargetList() {
+    public List<OptionDto> getVoteTargetList() {
         return voteTargetList;
     }
 
-    public void setVoteTargetList(List<Chara> voteTargetList) {
+    public void setVoteTargetList(List<OptionDto> voteTargetList) {
         this.voteTargetList = voteTargetList;
     }
 

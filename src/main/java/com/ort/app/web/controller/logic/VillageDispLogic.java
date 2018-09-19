@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ort.app.web.dto.VillageInfo;
+import com.ort.app.web.model.OptionDto;
+import com.ort.app.web.util.CharaUtil;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.AbilityBhv;
@@ -260,7 +262,7 @@ public class VillageDispLogic {
     }
 
     // 役職と状況に応じて能力行使対象を抽出
-    public List<Chara> makeAbilityTargetList(VillageInfo villageInfo) {
+    public List<OptionDto> makeAbilityTargetList(VillageInfo villageInfo) {
         if (!villageInfo.isParticipate() || villageInfo.isDead() || !villageInfo.isLatestDay()
                 || !villageInfo.village.isVillageStatusCode進行中() || villageInfo.isSpectator()) {
             return null;
@@ -272,14 +274,14 @@ public class VillageDispLogic {
                 // ダミーキャラ固定
                 return villageInfo.vPlayerList.stream()
                         .filter(vp -> vp.getChara().get().isIsDummyTrue())
-                        .map(vp -> vp.getChara().get())
+                        .map(vp -> new OptionDto(vp))
                         .collect(Collectors.toList());
             } else {
                 // 狼以外の生存しているプレイヤー全員
                 return villageInfo.getVPList(true, true, false)
                         .stream()
                         .filter(vp -> vp.getSkillCodeAsSkill() != CDef.Skill.人狼)
-                        .map(vp -> vp.getChara().get())
+                        .map(vp -> new OptionDto(vp))
                         .collect(Collectors.toList());
             }
         } else if (SkillUtil.hasDivineAbility(skill)) {
@@ -288,35 +290,34 @@ public class VillageDispLogic {
                     .stream()
                     .filter(vp -> vp.isIsDeadFalse() && vp.isIsSpectatorFalse()
                             && !vp.getVillagePlayerId().equals(vPlayer.getVillagePlayerId()))
-                    .map(vp -> vp.getChara().get())
+                    .map(vp -> new OptionDto(vp))
                     .collect(Collectors.toList());
         } else if (skill == CDef.Skill.狩人 && villageInfo.day > 1) {
             // 自分以外の生存しているプレイヤー全員
-            List<Chara> livingCharaList = villageInfo.getVPList(true, true, false)
+            List<OptionDto> livingCharaList = villageInfo.getVPList(true, true, false)
                     .stream()
-                    .filter(vp -> vp.isIsDeadFalse() && vp.isIsSpectatorFalse()
-                            && !vp.getVillagePlayerId().equals(vPlayer.getVillagePlayerId()))
-                    .map(vp -> vp.getChara().get())
+                    .filter(vp -> !vp.getVillagePlayerId().equals(vPlayer.getVillagePlayerId()))
+                    .map(vp -> new OptionDto(vp))
                     .collect(Collectors.toList());
             if (BooleanUtils.isTrue(villageInfo.settings.getIsAvailableGuardSameTarget())) {
                 // 連ガ可
                 return livingCharaList;
             } else { // 連ガ不可
                 // 昨日の護衛先
-                Integer yesterdayGuardTargetId = abilityBhv.selectEntity(cb -> {
+                String yesterdayGuardTargetId = abilityBhv.selectEntity(cb -> {
                     cb.query().setVillageId_Equal(villageInfo.villageId);
                     cb.query().setDay_Equal(villageInfo.day - 1);
                     cb.query().setAbilityTypeCode_Equal_護衛();
-                }).map(ab -> ab.getTargetCharaId()).orElse(null);
+                }).map(ab -> ab.getTargetCharaId().toString()).orElse(null);
                 // 生存者のうち、自分と昨日の護衛先を除いた人
-                return livingCharaList.stream().filter(c -> !c.getCharaId().equals(yesterdayGuardTargetId)).collect(Collectors.toList());
+                return livingCharaList.stream().filter(c -> !c.getValue().equals(yesterdayGuardTargetId)).collect(Collectors.toList());
             }
         }
         return null;
     }
 
     // 襲撃担当の狼リストを作成
-    public List<Chara> makeAttackerList(VillageInfo villageInfo) {
+    public List<OptionDto> makeAttackerList(VillageInfo villageInfo) {
         if (!villageInfo.isParticipate() || villageInfo.isDead() || !villageInfo.isLatestDay()
                 || !villageInfo.village.isVillageStatusCode進行中()) {
             return null;
@@ -327,10 +328,10 @@ public class VillageDispLogic {
             return null;
         }
         // 生存している狼リスト
-        List<Chara> liveAttackerList = villageInfo.getVPList(true, true, false)
+        List<OptionDto> liveAttackerList = villageInfo.getVPList(true, true, false)
                 .stream()
                 .filter(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.人狼)
-                .map(vp -> vp.getChara().get())
+                .map(vp -> new OptionDto(vp))
                 .collect(Collectors.toList());
         if (BooleanUtils.isTrue(villageInfo.settings.getIsAvailableSameWolfAttack())) {
             // 連続襲撃可能
@@ -338,14 +339,14 @@ public class VillageDispLogic {
         }
         // 連続襲撃不可
         // 昨日襲撃した狼
-        Integer yesterdayAttackerId = abilityBhv.selectEntity(cb -> {
+        String yesterdayAttackerId = abilityBhv.selectEntity(cb -> {
             cb.query().setVillageId_Equal(villageInfo.villageId);
             cb.query().setDay_Equal(villageInfo.day - 1);
             cb.query().setAbilityTypeCode_Equal_襲撃();
-        }).map(ab -> ab.getCharaId()).orElse(null);
+        }).map(ab -> ab.getCharaId().toString()).orElse(null);
         // 生存している狼が1名ではない場合は、昨日襲撃した狼は襲撃できない
         if (liveAttackerList.size() > 1) {
-            return liveAttackerList.stream().filter(attacker -> !attacker.getCharaId().equals(yesterdayAttackerId)).collect(
+            return liveAttackerList.stream().filter(attacker -> !attacker.getValue().equals(yesterdayAttackerId)).collect(
                     Collectors.toList());
         } else {
             return liveAttackerList;
@@ -353,12 +354,12 @@ public class VillageDispLogic {
     }
 
     // 投票対象リスト作成
-    public List<Chara> makeVoteTargetList(VillageInfo villageInfo) {
+    public List<OptionDto> makeVoteTargetList(VillageInfo villageInfo) {
         if (!villageInfo.isParticipate() || villageInfo.isDead() || villageInfo.isSpectator() || !villageInfo.isLatestDay()
                 || !villageInfo.village.isVillageStatusCode進行中() || villageInfo.day == 1) {
             return null;
         }
-        return villageInfo.getVPList(true, true, false).stream().map(vp -> vp.getChara().get()).collect(Collectors.toList());
+        return villageInfo.getVPList(true, true, false).stream().map(vp -> new OptionDto(vp)).collect(Collectors.toList());
     }
 
     // 能力行使履歴リスト作成
@@ -381,8 +382,9 @@ public class VillageDispLogic {
             return abilityList.stream().map(ability -> {
                 int day = ability.getDay();
                 Optional<Footstep> optFootstep = footstepList.stream().filter(f -> f.getDay().intValue() == day).findFirst();
-                return String.format("%d日目 %sが%sを襲撃する（%s）", day, ability.getCharaByCharaId().get().getCharaName(),
-                        ability.getCharaByTargetCharaId().get().getCharaName(),
+                VillagePlayer myself = extractVillagePlayerBy(villageInfo, ability.getCharaId());
+                VillagePlayer target = extractVillagePlayerBy(villageInfo, ability.getTargetCharaId());
+                return String.format("%d日目 %s が %s を襲撃する（%s）", day, CharaUtil.makeCharaName(myself), CharaUtil.makeCharaName(target),
                         optFootstep.map(fs -> fs.getFootstepRoomNumbers()).orElse("なし"));
             }).collect(Collectors.toList());
         } else if (SkillUtil.hasDivineAbility(skill)) {
@@ -391,7 +393,8 @@ public class VillageDispLogic {
             return abilityList.stream().map(ability -> {
                 int day = ability.getDay();
                 Optional<Footstep> optFootstep = footstepList.stream().filter(f -> f.getDay().intValue() == day).findFirst();
-                return String.format("%d日目 %sを占う（%s）", day, ability.getCharaByTargetCharaId().get().getCharaName(),
+                VillagePlayer target = extractVillagePlayerBy(villageInfo, ability.getTargetCharaId());
+                return String.format("%d日目 %s を占う（%s）", day, CharaUtil.makeCharaName(target),
                         optFootstep.map(fs -> fs.getFootstepRoomNumbers()).orElse("なし"));
             }).collect(Collectors.toList());
         } else if (skill == CDef.Skill.狩人) {
@@ -400,7 +403,8 @@ public class VillageDispLogic {
             return abilityList.stream().map(ability -> {
                 int day = ability.getDay();
                 Optional<Footstep> optFootstep = footstepList.stream().filter(f -> f.getDay().intValue() == day).findFirst();
-                return String.format("%d日目 %sを護衛する（%s）", day, ability.getCharaByTargetCharaId().get().getCharaName(),
+                VillagePlayer target = extractVillagePlayerBy(villageInfo, ability.getTargetCharaId());
+                return String.format("%d日目 %s を護衛する（%s）", day, CharaUtil.makeCharaName(target),
                         optFootstep.map(fs -> fs.getFootstepRoomNumbers()).orElse("なし"));
             }).collect(Collectors.toList());
         } else if (SkillUtil.hasMadmanAbility(skill) || skill == CDef.Skill.妖狐) {
@@ -412,6 +416,10 @@ public class VillageDispLogic {
             }).collect(Collectors.toList());
         }
         return null;
+    }
+
+    private VillagePlayer extractVillagePlayerBy(VillageInfo villageInfo, Integer charaId) {
+        return villageInfo.getVPList(false, false, false).stream().filter(vp -> vp.getCharaId().equals(charaId)).findFirst().orElse(null);
     }
 
     public List<Chara> makeSecretSayTargetList(VillageInfo villageInfo) {
@@ -432,7 +440,7 @@ public class VillageDispLogic {
                 villageInfo.getVPList(false, true, true)
                         .stream()
                         .filter(vp -> vp.getSkillBySkillCode().get().isSkillCode人狼())
-                        .map(vp -> vp.getChara().get().getCharaName())
+                        .map(vp -> CharaUtil.makeCharaName(vp))
                         .collect(Collectors.toList()));
     }
 

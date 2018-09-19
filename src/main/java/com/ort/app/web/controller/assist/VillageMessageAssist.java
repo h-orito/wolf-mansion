@@ -23,6 +23,7 @@ import com.ort.app.web.model.VillageAnchorMessageResultContent;
 import com.ort.app.web.model.VillageLatestMessageDatetimeResultContent;
 import com.ort.app.web.model.VillageMessageListResultContent;
 import com.ort.app.web.model.inner.VillageMessageDto;
+import com.ort.app.web.util.CharaUtil;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.MessageType;
@@ -643,7 +644,7 @@ public class VillageMessageAssist {
         // 投票していない人
         List<String> noVoteCharaNameList = villagePlayerList.stream()
                 .filter(vp -> !voteCharaIdList.contains(vp.getCharaId()))
-                .map(vp -> vp.getChara().get().getCharaName())
+                .map(vp -> CharaUtil.makeCharaName(vp))
                 .collect(Collectors.toList());
         if (noVoteCharaNameList.size() == 0) {
             return null;
