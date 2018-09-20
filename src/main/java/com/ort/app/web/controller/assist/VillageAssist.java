@@ -727,7 +727,7 @@ public class VillageAssist {
         });
         List<VillageMemberVoteDto> memberVoteDtoList = villageInfo.getVPList(false, true, true).stream().map(vp -> {
             VillageMemberVoteDto voteDto = new VillageMemberVoteDto();
-            voteDto.setCharaName(vp.getChara().get().getCharaShortName());
+            voteDto.setCharaName(String.format("%02d%s", vp.getRoomNumber(), vp.getChara().get().getCharaShortName()));
             List<String> voteTargetList = voteList.stream().filter(v -> v.getCharaId().equals(vp.getCharaId())).map(v -> {
                 VillagePlayer vPlayer = extractVillagePlayerBy(villageInfo, v.getVoteCharaId());
                 return String.format("%02d%s", vPlayer.getRoomNumber(), v.getCharaByVoteCharaId().get().getCharaShortName());

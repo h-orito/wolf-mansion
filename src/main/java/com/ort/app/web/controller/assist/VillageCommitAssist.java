@@ -75,7 +75,7 @@ public class VillageCommitAssist {
                 insertCommit(villageId, vPlayerId, day);
                 try {
                     messageLogic.insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ,
-                            String.format("%sがコミットしました。", villagePlayer.getChara().get().getCharaName()));
+                            String.format("%sがコミットしました。", villagePlayer.getChara().get().getCharaName()), true);
                 } catch (WerewolfMansionBusinessException e) {
                     // 最悪登録されなくても良いので放置
                 }
@@ -86,7 +86,7 @@ public class VillageCommitAssist {
                 deleteCommit(villageId, vPlayerId, day);
                 try {
                     messageLogic.insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ,
-                            String.format("%sがコミットを取り消しました。", villagePlayer.getChara().get().getCharaName()));
+                            String.format("%sがコミットを取り消しました。", villagePlayer.getChara().get().getCharaName()), true);
                 } catch (WerewolfMansionBusinessException e) {
                     // 最悪登録されなくても良いので放置
                 }

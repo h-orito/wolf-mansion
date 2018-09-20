@@ -57,7 +57,7 @@ public class VillageParticipateLogic {
     //                                                                             Execute
     //                                                                             =======
     public void participate(Integer villageId, Integer playerId, Integer charaId, CDef.Skill requestSkill, String joinMessage,
-            boolean isSpectator) {
+            boolean isSpectator, boolean isConvertDisable) {
         // 村参加
         Integer villagePlayerId = insertVillagePlayer(villageId, playerId, charaId, requestSkill, joinMessage, isSpectator);
         if (!isSpectator) {
@@ -69,14 +69,14 @@ public class VillageParticipateLogic {
             });
             String charaName = charaBhv.selectEntityWithDeletedCheck(cb -> cb.query().setCharaId_Equal(charaId)).getCharaName();
             try {
-                messageLogic.insertMessage(villageId, 0, CDef.MessageType.公開システムメッセージ,
-                        String.format("%d人目、%s。", participateNum, charaName));
+                messageLogic.insertMessage(villageId, 0, CDef.MessageType.公開システムメッセージ, String.format("%d人目、%s。", participateNum, charaName),
+                        true);
                 // 参加発言
-                messageLogic.insertMessage(villageId, 0, CDef.MessageType.通常発言, joinMessage, villagePlayerId);
+                messageLogic.insertMessage(villageId, 0, CDef.MessageType.通常発言, joinMessage, villagePlayerId, isConvertDisable);
                 // 希望役職メッセージ
                 String message =
                         messageSource.getMessage("requestskill.message", new String[] { charaName, requestSkill.alias() }, Locale.JAPAN);
-                messageLogic.insertMessage(villageId, 0, CDef.MessageType.非公開システムメッセージ, message);
+                messageLogic.insertMessage(villageId, 0, CDef.MessageType.非公開システムメッセージ, message, true);
             } catch (WerewolfMansionBusinessException e) {
                 // ここでは何回も被らないので何もしない
             }
@@ -93,9 +93,9 @@ public class VillageParticipateLogic {
             String charaName = charaBhv.selectEntityWithDeletedCheck(cb -> cb.query().setCharaId_Equal(charaId)).getCharaName();
             try {
                 messageLogic.insertMessage(villageId, 0, CDef.MessageType.公開システムメッセージ,
-                        String.format("(見学) %d人目、%s。", participateNum, charaName));
+                        String.format("(見学) %d人目、%s。", participateNum, charaName), true);
                 // 参加発言
-                messageLogic.insertMessage(villageId, 0, CDef.MessageType.見学発言, joinMessage, villagePlayerId);
+                messageLogic.insertMessage(villageId, 0, CDef.MessageType.見学発言, joinMessage, villagePlayerId, isConvertDisable);
             } catch (WerewolfMansionBusinessException e) {
                 // ここでは何回も被らないので何もしない
             }
@@ -113,8 +113,8 @@ public class VillageParticipateLogic {
         String charaName =
                 charaBhv.selectEntityWithDeletedCheck(cb -> cb.query().setCharaId_Equal(villagePlayer.getCharaId())).getCharaName();
         try {
-            messageLogic.insertMessage(villagePlayer.getVillageId(), 0, CDef.MessageType.公開システムメッセージ,
-                    String.format("%sは村を去った。", charaName));
+            messageLogic.insertMessage(villagePlayer.getVillageId(), 0, CDef.MessageType.公開システムメッセージ, String.format("%sは村を去った。", charaName),
+                    true);
         } catch (WerewolfMansionBusinessException e) {
             // ここでは何回も被らないので何もしない
         }
@@ -136,7 +136,7 @@ public class VillageParticipateLogic {
                 charaBhv.selectEntityWithDeletedCheck(cb -> cb.query().setCharaId_Equal(villagePlayer.getCharaId())).getCharaName();
         String message = messageSource.getMessage("requestskill.message", new String[] { charaName, requestSkill.alias() }, Locale.JAPAN);
         try {
-            messageLogic.insertMessage(villagePlayer.getVillageId(), 0, CDef.MessageType.非公開システムメッセージ, message);
+            messageLogic.insertMessage(villagePlayer.getVillageId(), 0, CDef.MessageType.非公開システムメッセージ, message, true);
         } catch (WerewolfMansionBusinessException e) {
             // ここでは何回も被らないので何もしない
         }

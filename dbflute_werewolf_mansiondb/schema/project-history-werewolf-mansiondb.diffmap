@@ -1,4 +1,19 @@
 map:{
+    ; 2018/09/20 16:12:27 = map:{
+        ; diffDate = 2018/09/20 16:12:27
+        ; tableDiff = map:{
+            ; message = map:{
+                ; tableName = message
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; IS_CONVERT_DISABLE = map:{
+                        ; columnName = IS_CONVERT_DISABLE
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2018/09/12 11:08:10 = map:{
         ; diffDate = 2018/09/12 11:08:10
         ; tableDiff = map:{

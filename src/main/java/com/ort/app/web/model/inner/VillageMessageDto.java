@@ -40,6 +40,9 @@ public class VillageMessageDto {
     /** 秘話相手キャラクター名 */
     private String targetCharacterName;
 
+    /** 変換無効か */
+    private Boolean isConvertDisable;
+
     public String getPlayerName() {
         return playerName;
     }
@@ -139,6 +142,14 @@ public class VillageMessageDto {
 
     public void setTargetCharacterName(String targetCharacterName) {
         this.targetCharacterName = targetCharacterName;
+    }
+
+    public Boolean getIsConvertDisable() {
+        return isConvertDisable;
+    }
+
+    public void setIsConvertDisable(Boolean isConvertDisable) {
+        this.isConvertDisable = isConvertDisable;
     }
 
 }

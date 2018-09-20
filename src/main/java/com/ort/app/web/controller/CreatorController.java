@@ -3,6 +3,7 @@ package com.ort.app.web.controller;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.dbflute.optional.OptionalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -128,7 +129,8 @@ public class CreatorController {
         }
         int day = villageAssist.selectLatestDay(villageId);
         try {
-            messageLogic.insertMessage(villageId, day, CDef.MessageType.村建て発言, creatorSayForm.getMessage());
+            messageLogic.insertMessage(villageId, day, CDef.MessageType.村建て発言, creatorSayForm.getMessage(),
+                    BooleanUtils.isTrue(creatorSayForm.getIsConvertDisable()));
         } catch (WerewolfMansionBusinessException e) {
             // ここでは何回も被らないので何もしない
         }

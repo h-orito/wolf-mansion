@@ -83,7 +83,7 @@ $(function() {
 		}).then(function(response) {
 			// htmlエスケープと、アンカーの変換を行う
 			$.each(response.messageList, function() {
-				this.messageContent = escapeAndSetAnchor(this.messageContent);
+				this.messageContent = escapeAndSetAnchor(this.messageContent, this.isConvertDisable);
 			});
 			$("[data-message-area]").html(messageTemplate(response));
 			$("[data-message-area]").removeClass('loading');
@@ -102,21 +102,23 @@ $(function() {
 		});
 	}
 
-	function escapeAndSetAnchor(message) {
+	function escapeAndSetAnchor(message, isConvertDisable) {
 		let mes = message.replace(/(\r\n|\n|\r)/gm, '<br>').split('<br>').map(function(item) { // 先に改行を分割
 			item = item.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); // htmlエスケープ
 			// 変換機能
-			item = item.replace(diceRegex, '<span class="extra-small">$1</span>');
-			item = item.replace(fortuneRegex, '<span class="extra-small">$1</span>');
-			item = item.replace(orRegex, '<span class="extra-small">$1</span>');
-			item = item.replace(whoRegex, '<span class="extra-small">$1</span>');
-			item = item.replace(allWhoRegex, '<span class="extra-small">$1</span>');
-			const userRandomKeywords = $('#random-keywords').text();
-			if (userRandomKeywords != null) {
-				$.each(userRandomKeywords.split(','), function(idx, elm) {
-					const regex = new RegExp('(\\[\\[' + elm + '\\]\\])', 'g');
-					item = item.replace(regex, '<span class="extra-small">$1</span>');
-				});
+			if (!isConvertDisable) {
+				item = item.replace(diceRegex, '<span class="extra-small">$1</span>');
+				item = item.replace(fortuneRegex, '<span class="extra-small">$1</span>');
+				item = item.replace(orRegex, '<span class="extra-small">$1</span>');
+				item = item.replace(whoRegex, '<span class="extra-small">$1</span>');
+				item = item.replace(allWhoRegex, '<span class="extra-small">$1</span>');
+				const userRandomKeywords = $('#random-keywords').text();
+				if (userRandomKeywords != null) {
+					$.each(userRandomKeywords.split(','), function(idx, elm) {
+						const regex = new RegExp('(\\[\\[' + elm + '\\]\\])', 'g');
+						item = item.replace(regex, '<span class="extra-small">$1</span>');
+					});
+				}
 			}
 			// アンカー
 			item = item.replace(/&gt;&gt;(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-anchor=\"$1\">&gt;&gt;$1<\/a>'); // 次にアンカーをaタグにする
@@ -128,11 +130,14 @@ $(function() {
 			return item;
 		}).join('<br>');
 		// 文字装飾
-		mes = mes.replace(colorRegex, '<span style="color: $1">$2</span>');
-		mes = mes.replace(boldRegex, '<strong>$1</strong>');
-		mes = mes.replace(strikeRegex, '<span style="text-decoration: line-through;">$1</span>');
-		mes = mes.replace(largeRegex, '<span style="font-size: 16px;">$1</span>');
-		return mes.replace(smallRegex, '<span style="font-size: 10px;">$1</span>');
+		if (!isConvertDisable) {
+			mes = mes.replace(colorRegex, '<span style="color: $1">$2</span>');
+			mes = mes.replace(boldRegex, '<strong>$1</strong>');
+			mes = mes.replace(strikeRegex, '<span style="text-decoration: line-through;">$1</span>');
+			mes = mes.replace(largeRegex, '<span style="font-size: 16px;">$1</span>');
+			mes = mes.replace(smallRegex, '<span style="font-size: 10px;">$1</span>');
+		}
+		return mes;
 	}
 
 	function storeLatestMessageDatetime(response, day) {

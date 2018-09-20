@@ -74,7 +74,7 @@ public class MessageLogic {
     //                                                                             Execute
     //                                                                             =======
     public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId,
-            Integer targetVillagePlayerId, Integer playerId) throws WerewolfMansionBusinessException {
+            Integer targetVillagePlayerId, Integer playerId, boolean isConvertDisable) throws WerewolfMansionBusinessException {
         Message message = new Message();
         message.setVillageId(villageId);
         message.setDay(day);
@@ -84,6 +84,7 @@ public class MessageLogic {
         message.setMessageTypeCodeAsMessageType(messageType);
         message.setMessageContent(content);
         message.setMessageDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
+        message.setIsConvertDisable(isConvertDisable);
         for (int i = 0; i < 3; i++) {
             try {
                 // 採番で被ることがあるため、insert失敗しても合計3回までやりなおす
@@ -99,23 +100,26 @@ public class MessageLogic {
     }
 
     public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId,
-            Integer targetVillagePlayerId) throws WerewolfMansionBusinessException {
+            Integer targetVillagePlayerId, boolean isConvertDisable) throws WerewolfMansionBusinessException {
         // ランダム機能などメッセージ関数を置換して登録
-        ListResultBean<VillagePlayer> vPlayerList = selectVPlayerList(villageId);
-        String message = replaceMessage(content, vPlayerList);
-        insertMessage(villageId, day, messageType, message, villagePlayerId, targetVillagePlayerId, null);
+        String message = content;
+        if (!isConvertDisable) {
+            ListResultBean<VillagePlayer> vPlayerList = selectVPlayerList(villageId);
+            message = replaceMessage(content, vPlayerList);
+        }
+        insertMessage(villageId, day, messageType, message, villagePlayerId, targetVillagePlayerId, null, isConvertDisable);
         // 特定の文字列が含まれていたらslack投稿
         postToSlackIfNeeded(villageId, day, message);
     }
 
-    public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId)
-            throws WerewolfMansionBusinessException {
-        insertMessage(villageId, day, messageType, content, villagePlayerId, null);
+    public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId,
+            boolean isConvertDisable) throws WerewolfMansionBusinessException {
+        insertMessage(villageId, day, messageType, content, villagePlayerId, null, isConvertDisable);
     }
 
-    public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content)
+    public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, boolean isConvertDisable)
             throws WerewolfMansionBusinessException {
-        insertMessage(villageId, day, messageType, content, null);
+        insertMessage(villageId, day, messageType, content, null, isConvertDisable);
     }
 
     // 次の発言番号を返す
@@ -133,7 +137,7 @@ public class MessageLogic {
             List<VillagePlayer> villagePlayerList, String footstep, boolean isDefault) {
         String message = makeAbilitySetMessage(charaId, targetCharaId, villagePlayerList, footstep, isDefault);
         try {
-            insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
+            insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ, message, true);
         } catch (WerewolfMansionBusinessException e) {
             // ここでは被らないはずなので何もしない
         }
@@ -144,7 +148,7 @@ public class MessageLogic {
             boolean isDefault) {
         String message = makeFootstepSetMessage(charaId, villagePlayerList, footstep, isDefault);
         try {
-            insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
+            insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ, message, true);
         } catch (WerewolfMansionBusinessException e) {
             // ここでは被らないはずなので何もしない
         }

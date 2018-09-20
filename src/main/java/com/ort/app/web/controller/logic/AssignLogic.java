@@ -102,7 +102,7 @@ public class AssignLogic {
             }
         });
         try {
-            messageLogic.insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ, joiner.toString());
+            messageLogic.insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ, joiner.toString(), true);
         } catch (WerewolfMansionBusinessException e) {
             // ここでは何回も被らないので何もしない
         }
@@ -119,7 +119,7 @@ public class AssignLogic {
         });
         String message = makeAssignedMessage(playerList);
         try {
-            messageLogic.insertMessage(villageId, 1, CDef.MessageType.非公開システムメッセージ, message);
+            messageLogic.insertMessage(villageId, 1, CDef.MessageType.非公開システムメッセージ, message, true);
         } catch (WerewolfMansionBusinessException e) {
             // ここでは何回も被らないので何もしない
         }
@@ -254,7 +254,7 @@ public class AssignLogic {
         });
         String message = makeRoomAssignedMessage(playerList);
         try {
-            messageLogic.insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ, message);
+            messageLogic.insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ, message, true);
         } catch (WerewolfMansionBusinessException e) {
             // ここでは何回も被らないので何もしない
         }

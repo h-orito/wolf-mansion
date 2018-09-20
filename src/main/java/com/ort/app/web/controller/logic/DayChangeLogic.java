@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dbflute.cbean.result.ListResultBean;
 import org.dbflute.optional.OptionalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -664,7 +665,7 @@ public class DayChangeLogic {
             String attackMessage = String.format("%s！今日がお前の命日だ！", targetPlayer.getChara().get().getCharaName());
             try {
                 messageLogic.insertMessage(villageId, day, CDef.MessageType.人狼の囁き, attackMessage,
-                        livingWolfList.get(0).getVillagePlayerId());
+                        livingWolfList.get(0).getVillagePlayerId(), true);
             } catch (WerewolfMansionBusinessException e) {
                 // ここでは被らないはずなので何もしない
             }
@@ -905,15 +906,43 @@ public class DayChangeLogic {
     private void insertEachVoteMessage(Integer villageId, int day, List<VillagePlayer> villagePlayerList, ListResultBean<Vote> voteList,
             VillageSettings settings) {
         StringJoiner joiner = new StringJoiner("\n");
+        joiner.add("投票結果は以下の通り。");
+        int playerMaxLength = getMaxPlayerNameLength(voteList, villagePlayerList);
+        int targetMaxLength = getMaxTargetNameLength(voteList, villagePlayerList);
         for (Vote vote : voteList) {
             Integer charaId = vote.getCharaId();
             VillagePlayer player = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(charaId)).findFirst().get();
             Integer targetCharaId = vote.getVoteCharaId();
             VillagePlayer targetPlayer = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(targetCharaId)).findFirst().get();
-            joiner.add(String.format("%sは、%sに投票した。", CharaUtil.makeCharaName(player), CharaUtil.makeCharaName(targetPlayer)));
+            joiner.add(String.format("%s → %s", StringUtils.rightPad(CharaUtil.makeCharaName(player), playerMaxLength, "　"), // 
+                    StringUtils.rightPad(CharaUtil.makeCharaName(targetPlayer), targetMaxLength, "　")));
         }
         insertMessage(villageId, day, settings.isIsOpenVoteTrue() ? CDef.MessageType.公開システムメッセージ : CDef.MessageType.非公開システムメッセージ,
                 joiner.toString());
+    }
+
+    private int getMaxPlayerNameLength(List<Vote> voteList, List<VillagePlayer> vPlayerList) {
+        int playerMaxLength = 0;
+        for (Vote vote : voteList) {
+            Integer charaId = vote.getCharaId();
+            VillagePlayer player = vPlayerList.stream().filter(vp -> vp.getCharaId().equals(charaId)).findFirst().get();
+            if (CharaUtil.makeCharaName(player).length() > playerMaxLength) {
+                playerMaxLength = CharaUtil.makeCharaName(player).length();
+            }
+        }
+        return playerMaxLength;
+    }
+
+    private int getMaxTargetNameLength(List<Vote> voteList, List<VillagePlayer> vPlayerList) {
+        int targetMaxLength = 0;
+        for (Vote vote : voteList) {
+            Integer targetCharaId = vote.getVoteCharaId();
+            VillagePlayer targetPlayer = vPlayerList.stream().filter(vp -> vp.getCharaId().equals(targetCharaId)).findFirst().get();
+            if (CharaUtil.makeCharaName(targetPlayer).length() > targetMaxLength) {
+                targetMaxLength = CharaUtil.makeCharaName(targetPlayer).length();
+            }
+        }
+        return targetMaxLength;
     }
 
     private void insertExecuteResultMessage(Integer villageId, int day, List<VillagePlayer> villagePlayerList,
@@ -981,7 +1010,7 @@ public class DayChangeLogic {
 
     private void insertMessage(Integer villageId, int day, CDef.MessageType type, String message) {
         try {
-            messageLogic.insertMessage(villageId, day, type, message);
+            messageLogic.insertMessage(villageId, day, type, message, true);
         } catch (WerewolfMansionBusinessException e) {
             // ここでは被らないので何もしない
         }

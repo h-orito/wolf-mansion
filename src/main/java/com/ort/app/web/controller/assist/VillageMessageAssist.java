@@ -366,6 +366,7 @@ public class VillageMessageAssist {
         }
         messageDto.setMessageContent(message.getMessageContent());
         messageDto.setMessageDatetime(message.getMessageDatetime());
+        messageDto.setIsConvertDisable(message.getIsConvertDisable());
         if (!message.isMessageTypeCode独り言() || (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode終了())) {
             messageDto.setMessageNumber(message.getMessageNumber());
         }

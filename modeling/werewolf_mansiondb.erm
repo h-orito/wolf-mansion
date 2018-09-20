@@ -1071,6 +1071,12 @@
 					<type>datetime</type>
 					<not_null>true</not_null>
 				</normal_column>
+				<normal_column>
+					<physical_name>is_convert_disable</physical_name>
+					<logical_name>変換無効か</logical_name>
+					<type>boolean</type>
+					<not_null>true</not_null>
+				</normal_column>
 				<column_group>共通カラム</column_group>
 			</columns>
 			<indexes>

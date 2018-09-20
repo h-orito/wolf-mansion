@@ -19,6 +19,9 @@ public class VillageSayForm implements Serializable {
     /** 秘話相手 */
     private Integer secretSayTargetCharaId;
 
+    /** 変換無効にするか */
+    private Boolean isConvertDisable;
+
     public String getMessage() {
         return message;
     }
@@ -41,5 +44,13 @@ public class VillageSayForm implements Serializable {
 
     public void setSecretSayTargetCharaId(Integer secretSayTargetCharaId) {
         this.secretSayTargetCharaId = secretSayTargetCharaId;
+    }
+
+    public Boolean getIsConvertDisable() {
+        return isConvertDisable;
+    }
+
+    public void setIsConvertDisable(Boolean isConvertDisable) {
+        this.isConvertDisable = isConvertDisable;
     }
 }

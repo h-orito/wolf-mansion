@@ -104,7 +104,7 @@ public class VillageSayAssist {
         // 登録
         try {
             messageLogic.insertMessage(villageId, day, type, sayForm.getMessage(), villagePlayer.getVillagePlayerId(),
-                    targetVillagePlayerId);
+                    targetVillagePlayerId, BooleanUtils.isTrue(sayForm.getIsConvertDisable()));
         } catch (WerewolfMansionBusinessException e) {
             model.addAttribute("sayErrorMessage", e.getMessage());
         }

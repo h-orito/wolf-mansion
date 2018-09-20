@@ -11,7 +11,7 @@ public class CharaUtil {
         if (roomNumber == null) {
             return String.format("[%s] %s", shortName, name);
         }
-        return String.format("[%02d][%s] %s", roomNumber, shortName, name);
+        return String.format("[%02d%s] %s", roomNumber, shortName, name);
     }
 
     public static String makeCharaName(VillagePlayer vp) {

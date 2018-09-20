@@ -1453,6 +1453,48 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * IS_CONVERT_DISABLE: {NotNull, BIT, classification=Flg}
+     * @param isConvertDisable The value of isConvertDisable as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsConvertDisable_Equal(Boolean isConvertDisable) {
+        regIsConvertDisable(CK_EQ, isConvertDisable);
+    }
+
+    /**
+     * Equal(=). As Flg. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * IS_CONVERT_DISABLE: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsConvertDisable_Equal_AsFlg(CDef.Flg cdef) {
+        doSetIsConvertDisable_Equal(cdef != null ? Boolean.valueOf(cdef.code()) : null);
+    }
+
+    /**
+     * Equal(=). As True. And OnlyOnceRegistered. <br>
+     * はい: 有効を示す
+     */
+    public void setIsConvertDisable_Equal_True() {
+        doSetIsConvertDisable_Equal(Boolean.valueOf(CDef.Flg.True.code()));
+    }
+
+    /**
+     * Equal(=). As False. And OnlyOnceRegistered. <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsConvertDisable_Equal_False() {
+        doSetIsConvertDisable_Equal(Boolean.valueOf(CDef.Flg.False.code()));
+    }
+
+    protected void doSetIsConvertDisable_Equal(Boolean isConvertDisable) {
+        regIsConvertDisable(CK_EQ, isConvertDisable);
+    }
+
+    protected void regIsConvertDisable(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueIsConvertDisable(), "IS_CONVERT_DISABLE"); }
+    protected abstract ConditionValue xgetCValueIsConvertDisable();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @param registerDatetime The value of registerDatetime as equal. (basically NotNull: error as default, or no condition as option)
      */

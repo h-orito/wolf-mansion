@@ -286,7 +286,7 @@ tr.top-menu-selectable:hover a {
 	padding-left: 0;
 	padding-right: 0;
 	overflow-y: scroll;
-	max-height: 50vh;
+	max-height: 30vh;
 	margin-bottom: 0;
 }
 

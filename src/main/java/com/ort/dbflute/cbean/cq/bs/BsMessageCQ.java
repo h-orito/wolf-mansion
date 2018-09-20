@@ -273,6 +273,26 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
      */
     public BsMessageCQ addOrderBy_MessageDatetime_Desc() { regOBD("MESSAGE_DATETIME"); return this; }
 
+    protected ConditionValue _isConvertDisable;
+    public ConditionValue xdfgetIsConvertDisable()
+    { if (_isConvertDisable == null) { _isConvertDisable = nCV(); }
+      return _isConvertDisable; }
+    protected ConditionValue xgetCValueIsConvertDisable() { return xdfgetIsConvertDisable(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * IS_CONVERT_DISABLE: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsMessageCQ addOrderBy_IsConvertDisable_Asc() { regOBA("IS_CONVERT_DISABLE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * IS_CONVERT_DISABLE: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsMessageCQ addOrderBy_IsConvertDisable_Desc() { regOBD("IS_CONVERT_DISABLE"); return this; }
+
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
     { if (_registerDatetime == null) { _registerDatetime = nCV(); }

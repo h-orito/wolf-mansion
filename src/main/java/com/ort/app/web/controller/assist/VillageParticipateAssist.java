@@ -95,7 +95,7 @@ public class VillageParticipateAssist {
         // 参戦
         villageParticipateLogic.participate(villageId, playerId, participateForm.getCharaId(),
                 CDef.Skill.codeOf(participateForm.getRequestedSkill()), participateForm.getJoinMessage(),
-                BooleanUtils.isTrue(participateForm.getIsSpectator()));
+                BooleanUtils.isTrue(participateForm.getIsSpectator()), false);
         // 最新の日へ
         return "redirect:/village/" + villageId + "#bottom";
     }

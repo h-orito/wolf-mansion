@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     MESSAGE_ID
  *
  * [column]
- *     MESSAGE_ID, VILLAGE_ID, VILLAGE_PLAYER_ID, TO_VILLAGE_PLAYER_ID, PLAYER_ID, DAY, MESSAGE_TYPE_CODE, MESSAGE_NUMBER, MESSAGE_CONTENT, MESSAGE_DATETIME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     MESSAGE_ID, VILLAGE_ID, VILLAGE_PLAYER_ID, TO_VILLAGE_PLAYER_ID, PLAYER_ID, DAY, MESSAGE_TYPE_CODE, MESSAGE_NUMBER, MESSAGE_CONTENT, MESSAGE_DATETIME, IS_CONVERT_DISABLE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -56,6 +56,7 @@ import com.ort.dbflute.exentity.*;
  * Integer messageNumber = entity.getMessageNumber();
  * String messageContent = entity.getMessageContent();
  * java.time.LocalDateTime messageDatetime = entity.getMessageDatetime();
+ * Boolean isConvertDisable = entity.getIsConvertDisable();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -70,6 +71,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setMessageNumber(messageNumber);
  * entity.setMessageContent(messageContent);
  * entity.setMessageDatetime(messageDatetime);
+ * entity.setIsConvertDisable(isConvertDisable);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -118,6 +120,9 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
 
     /** MESSAGE_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _messageDatetime;
+
+    /** IS_CONVERT_DISABLE: {NotNull, BIT, classification=Flg} */
+    protected Boolean _isConvertDisable;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -190,6 +195,27 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
      */
     public void setMessageTypeCodeAsMessageType(CDef.MessageType cdef) {
         setMessageTypeCode(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * Get the value of isConvertDisable as the classification of Flg. <br>
+     * IS_CONVERT_DISABLE: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Flg getIsConvertDisableAsFlg() {
+        return CDef.Flg.codeOf(getIsConvertDisable());
+    }
+
+    /**
+     * Set the value of isConvertDisable as the classification of Flg. <br>
+     * IS_CONVERT_DISABLE: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setIsConvertDisableAsFlg(CDef.Flg cdef) {
+        setIsConvertDisable(cdef != null ? toBoolean(cdef.code()) : null);
     }
 
     // ===================================================================================
@@ -305,6 +331,22 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
      */
     public void setMessageTypeCode_人狼の囁き() {
         setMessageTypeCodeAsMessageType(CDef.MessageType.人狼の囁き);
+    }
+
+    /**
+     * Set the value of isConvertDisable as True (true). <br>
+     * はい: 有効を示す
+     */
+    public void setIsConvertDisable_True() {
+        setIsConvertDisableAsFlg(CDef.Flg.True);
+    }
+
+    /**
+     * Set the value of isConvertDisable as False (false). <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsConvertDisable_False() {
+        setIsConvertDisableAsFlg(CDef.Flg.False);
     }
 
     // ===================================================================================
@@ -462,6 +504,40 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     public boolean isMessageTypeCode人狼の囁き() {
         CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
         return cdef != null ? cdef.equals(CDef.MessageType.人狼の囁き) : false;
+    }
+
+    /**
+     * Is the value of isConvertDisable True? <br>
+     * はい: 有効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsConvertDisableTrue() {
+        CDef.Flg cdef = getIsConvertDisableAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
+    }
+
+    /**
+     * Is the value of isConvertDisable False? <br>
+     * いいえ: 無効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsConvertDisableFalse() {
+        CDef.Flg cdef = getIsConvertDisableAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
+    // ===================================================================================
+    //                                                           Classification Name/Alias
+    //                                                           =========================
+    /**
+     * Get the value of the column 'isConvertDisable' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     */
+    public String getIsConvertDisableAlias() {
+        CDef.Flg cdef = getIsConvertDisableAsFlg();
+        return cdef != null ? cdef.alias() : null;
     }
 
     // ===================================================================================
@@ -633,6 +709,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
         sb.append(dm).append(xfND(_messageNumber));
         sb.append(dm).append(xfND(_messageContent));
         sb.append(dm).append(xfND(_messageDatetime));
+        sb.append(dm).append(xfND(_isConvertDisable));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -870,6 +947,27 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     public void setMessageDatetime(java.time.LocalDateTime messageDatetime) {
         registerModifiedProperty("messageDatetime");
         _messageDatetime = messageDatetime;
+    }
+
+    /**
+     * [get] IS_CONVERT_DISABLE: {NotNull, BIT, classification=Flg} <br>
+     * 変換無効か
+     * @return The value of the column 'IS_CONVERT_DISABLE'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getIsConvertDisable() {
+        checkSpecifiedProperty("isConvertDisable");
+        return _isConvertDisable;
+    }
+
+    /**
+     * [set] IS_CONVERT_DISABLE: {NotNull, BIT, classification=Flg} <br>
+     * 変換無効か
+     * @param isConvertDisable The value of the column 'IS_CONVERT_DISABLE'. (basically NotNull if update: for the constraint)
+     */
+    public void setIsConvertDisable(Boolean isConvertDisable) {
+        checkClassificationCode("IS_CONVERT_DISABLE", CDef.DefMeta.Flg, isConvertDisable);
+        registerModifiedProperty("isConvertDisable");
+        _isConvertDisable = isConvertDisable;
     }
 
     /**

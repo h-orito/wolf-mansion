@@ -197,7 +197,8 @@ public class NewVillageAssist {
                     village.getVillageId(), // 村ID
                     0, // day
                     CDef.MessageType.公開システムメッセージ, // 発言種別
-                    messageSource.getMessage("newvillage.initial.message", null, Locale.JAPAN)); // メッセージ内容
+                    messageSource.getMessage("newvillage.initial.message", null, Locale.JAPAN), // メッセージ内容
+                    false); // 変換有効 
         } catch (WerewolfMansionBusinessException e) {
             // 被ることは100％ないため何もしない
         }
@@ -256,7 +257,7 @@ public class NewVillageAssist {
             cb.query().setIsDummy_Equal_True();
         }).getCharaId();
         villageLogic.participate(village.getVillageId(), dummyPlayerId, dummyCharaId, CDef.Skill.村人, villageForm.getDummyJoinMessage(),
-                false);
+                false, false);
     }
 
     private LocalDateTime makeStartDateTime(NewVillageForm form) throws WerewolfMansionBusinessException {

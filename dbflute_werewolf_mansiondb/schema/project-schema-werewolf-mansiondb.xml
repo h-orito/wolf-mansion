@@ -282,6 +282,8 @@
         <column comment="メッセージ日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="MESSAGE_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>
+        <column comment="変換無効か" dbType="BIT" javaType="Boolean"
+            name="IS_CONVERT_DISABLE" required="true" type="BIT"/>
         <column comment="登録日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>
