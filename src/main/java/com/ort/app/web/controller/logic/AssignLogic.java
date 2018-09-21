@@ -59,12 +59,14 @@ public class AssignLogic {
     public void assignSkill(Integer villageId, List<VillagePlayer> vPlayerList) {
         // 村人数に応じた役職人数Map（key: 役職, value: 役職人数）
         Map<CDef.Skill, Integer> skillPersonNumMap = makeSkillPersonNumMap(villageId, vPlayerList.size());
+        // 人数により役職構成が切り替わった場合に役職希望を自動で変更する
+        List<VillagePlayer> vpList = updateSkillRequestByOrganization(villageId, vPlayerList, skillPersonNumMap);
         // 更新用プレイヤーリスト
         List<VillagePlayer> updatePlayerList = new ArrayList<>();
         // 役職希望した人について、役職ごとの最大人数まで割り当てて更新用リストに追加
-        addRequestToUpdatePlayerList(vPlayerList, skillPersonNumMap, updatePlayerList);
+        addRequestToUpdatePlayerList(vpList, skillPersonNumMap, updatePlayerList);
         // 希望していないもしくはまだ割り当てられていないプレイヤーを更新用リストに追加
-        addNotRequestToUpdatePlayerList(vPlayerList, skillPersonNumMap, updatePlayerList);
+        addNotRequestToUpdatePlayerList(vpList, skillPersonNumMap, updatePlayerList);
         // update
         updatePlayerList.stream().forEach(player -> {
             villagePlayerBhv.update(player);
@@ -86,6 +88,20 @@ public class AssignLogic {
         assignRoomAndUpdate(vPlayerList, roomNumList);
         // 部屋割り当てメッセージ登録
         insertRoomAssignMessage(villageId);
+    }
+
+    // ===================================================================================
+    //                                                                              Select
+    //                                                                              ======
+    private ListResultBean<VillagePlayer> selectVillagePlayerList(Integer villageId) {
+        return villagePlayerBhv.selectList(cb -> {
+            cb.setupSelect_Chara();
+            cb.setupSelect_Player();
+            cb.setupSelect_SkillBySkillCode();
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setIsGone_Equal_False();
+            cb.query().setIsSpectator_Equal_False();
+        });
     }
 
     // ===================================================================================
@@ -123,6 +139,13 @@ public class AssignLogic {
         } catch (WerewolfMansionBusinessException e) {
             // ここでは何回も被らないので何もしない
         }
+    }
+
+    private void updateSkillRequest(Integer villagePlayerId, Skill toSkill) {
+        VillagePlayer vp = new VillagePlayer();
+        vp.setVillagePlayerId(villagePlayerId);
+        vp.setRequestSkillCodeAsSkill(toSkill);
+        villagePlayerBhv.update(vp);
     }
 
     // ===================================================================================
@@ -211,6 +234,50 @@ public class AssignLogic {
                     player.getSkillBySkillCode().get().getSkillName(), player.getSkillByRequestSkillCode().get().getSkillName()));
         }
         return joiner.toString();
+    }
+
+    private List<VillagePlayer> updateSkillRequestByOrganization(Integer villageId, List<VillagePlayer> vPlayerList,
+            Map<Skill, Integer> skillPersonNumMap) {
+        if (skillPersonNumMap.get(CDef.Skill.村人) == 1 && skillPersonNumMap.get(CDef.Skill.霊能者) > 0) {
+            // 村人→霊能者
+            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.村人, CDef.Skill.霊能者);
+        } else if (skillPersonNumMap.get(CDef.Skill.村人) > 1 && skillPersonNumMap.get(CDef.Skill.霊能者) == 0) {
+            // 霊能者→村人
+            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.霊能者, CDef.Skill.村人);
+        }
+        if (skillPersonNumMap.get(CDef.Skill.狂人) > 0) {
+            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.C国狂人, CDef.Skill.狂人);
+            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.魔神官, CDef.Skill.狂人);
+            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.狂信者, CDef.Skill.狂人);
+        } else if (skillPersonNumMap.get(CDef.Skill.C国狂人) > 0) {
+            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.狂人, CDef.Skill.C国狂人);
+            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.魔神官, CDef.Skill.C国狂人);
+            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.狂信者, CDef.Skill.C国狂人);
+        } else if (skillPersonNumMap.get(CDef.Skill.魔神官) > 0) {
+            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.狂人, CDef.Skill.魔神官);
+            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.C国狂人, CDef.Skill.魔神官);
+            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.狂信者, CDef.Skill.魔神官);
+        } else if (skillPersonNumMap.get(CDef.Skill.狂信者) > 0) {
+            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.狂人, CDef.Skill.狂信者);
+            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.魔神官, CDef.Skill.狂信者);
+            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.C国狂人, CDef.Skill.狂信者);
+        }
+
+        return selectVillagePlayerList(villageId);
+    }
+
+    private void updateSkillRequestFromTo(Integer villageId, List<VillagePlayer> vPlayerList, Skill fromSkill, Skill toSkill) {
+        vPlayerList.stream().filter(vp -> vp.getRequestSkillCodeAsSkill() == fromSkill && vp.getChara().get().isIsDummyFalse()).forEach(
+                vp -> {
+                    updateSkillRequest(vp.getVillagePlayerId(), toSkill);
+                    String message =
+                            String.format("%sの役職希望を%sから%sに自動変更しました。", CharaUtil.makeCharaName(vp), fromSkill.alias(), toSkill.alias());
+                    try {
+                        messageLogic.insertMessage(villageId, 1, CDef.MessageType.非公開システムメッセージ, message, true);
+                    } catch (WerewolfMansionBusinessException e) {
+                        // ここでは何回も被らないので何もしない
+                    }
+                });
     }
 
     // ===================================================================================
