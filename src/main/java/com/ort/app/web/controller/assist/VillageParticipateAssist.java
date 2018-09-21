@@ -94,8 +94,8 @@ public class VillageParticipateAssist {
                 playerBhv.selectEntityWithDeletedCheck(cb -> cb.query().setPlayerName_Equal(userInfo.getUsername())).getPlayerId();
         // 参戦
         villageParticipateLogic.participate(villageId, playerId, participateForm.getCharaId(),
-                CDef.Skill.codeOf(participateForm.getRequestedSkill()), participateForm.getJoinMessage(),
-                BooleanUtils.isTrue(participateForm.getIsSpectator()), false);
+                CDef.Skill.codeOf(participateForm.getRequestedSkill()), CDef.Skill.codeOf(participateForm.getSecondRequestedSkill()),
+                participateForm.getJoinMessage(), BooleanUtils.isTrue(participateForm.getIsSpectator()), false);
         // 最新の日へ
         return "redirect:/village/" + villageId + "#bottom";
     }
@@ -138,7 +138,8 @@ public class VillageParticipateAssist {
             return "redirect:/village/" + villageId + "#bottom";
         }
         // 役職希望変更
-        villageParticipateLogic.changeRequestSkill(vPlayer, changeRequestSkillForm.getRequestedSkill());
+        villageParticipateLogic.changeRequestSkill(vPlayer, changeRequestSkillForm.getRequestedSkill(),
+                changeRequestSkillForm.getSecondRequestedSkill());
         // 最新の日へ
         return "redirect:/village/" + villageId + "#bottom";
     }
@@ -190,7 +191,8 @@ public class VillageParticipateAssist {
                 throw new WerewolfMansionBusinessException("既に上限人数まで参加しているプレイヤーがいるため参加できません。");
             }
             // 役職希望無効なのにおまかせ以外
-            if (!CDef.Skill.おまかせ.code().equals(participateForm.getRequestedSkill())
+            if ((!CDef.Skill.おまかせ.code().equals(participateForm.getRequestedSkill())
+                    || !CDef.Skill.おまかせ.code().equals(participateForm.getSecondRequestedSkill()))
                     && BooleanUtils.isFalse(village.getVillageSettingsAsOne().get().getIsPossibleSkillRequest())) {
                 throw new WerewolfMansionBusinessException("希望役職が不正です。");
             }

@@ -1,4 +1,31 @@
 map:{
+    ; 2018/09/21 18:25:33 = map:{
+        ; diffDate = 2018/09/21 18:25:33
+        ; tableDiff = map:{
+            ; village_player = map:{
+                ; tableName = village_player
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; SECOND_REQUEST_SKILL_CODE = map:{
+                        ; columnName = SECOND_REQUEST_SKILL_CODE
+                        ; diffType = ADD
+                    }
+                }
+                ; foreignKeyDiff = map:{
+                    ; FK_VILLAGE_PLAYER_SECOND_SKILL_REQ = map:{
+                        ; constraintName = FK_VILLAGE_PLAYER_SECOND_SKILL_REQ
+                        ; diffType = ADD
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_VILLAGE_PLAYER_SECOND_SKILL_REQ = map:{
+                        ; constraintName = FK_VILLAGE_PLAYER_SECOND_SKILL_REQ
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2018/09/20 16:12:27 = map:{
         ; diffDate = 2018/09/20 16:12:27
         ; tableDiff = map:{

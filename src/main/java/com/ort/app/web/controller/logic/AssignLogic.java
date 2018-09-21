@@ -141,10 +141,11 @@ public class AssignLogic {
         }
     }
 
-    private void updateSkillRequest(Integer villagePlayerId, Skill toSkill) {
+    private void updateSkillRequest(Integer villagePlayerId, Skill first, Skill second) {
         VillagePlayer vp = new VillagePlayer();
         vp.setVillagePlayerId(villagePlayerId);
-        vp.setRequestSkillCodeAsSkill(toSkill);
+        vp.setRequestSkillCodeAsSkill(first);
+        vp.setSecondRequestSkillCodeAsSkill(second);
         villagePlayerBhv.update(vp);
     }
 
@@ -236,48 +237,126 @@ public class AssignLogic {
         return joiner.toString();
     }
 
+    /**
+     * 構成に応じて役職希望を自動変更する。
+     * 1. 村-霊、占-賢、狂-C-信-魔について、存在する役職に自動変更
+     * 2. 第一希望が構成上存在しない役職で第二希望が存在する役職の場合、第二→第一に繰り上げ。第二はおまかせにする
+     * 　　第一も第二も存在しない役職の場合、どちらもおまかせにする
+     * 
+     * @param villageId
+     * @param vPlayerList 
+     * @param skillPersonNumMap
+     * @return
+     */
     private List<VillagePlayer> updateSkillRequestByOrganization(Integer villageId, List<VillagePlayer> vPlayerList,
             Map<Skill, Integer> skillPersonNumMap) {
-        if (skillPersonNumMap.get(CDef.Skill.村人) == 1 && skillPersonNumMap.get(CDef.Skill.霊能者) > 0) {
-            // 村人→霊能者
-            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.村人, CDef.Skill.霊能者);
-        } else if (skillPersonNumMap.get(CDef.Skill.村人) > 1 && skillPersonNumMap.get(CDef.Skill.霊能者) == 0) {
-            // 霊能者→村人
-            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.霊能者, CDef.Skill.村人);
-        }
-        if (skillPersonNumMap.get(CDef.Skill.狂人) > 0) {
-            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.C国狂人, CDef.Skill.狂人);
-            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.魔神官, CDef.Skill.狂人);
-            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.狂信者, CDef.Skill.狂人);
-        } else if (skillPersonNumMap.get(CDef.Skill.C国狂人) > 0) {
-            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.狂人, CDef.Skill.C国狂人);
-            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.魔神官, CDef.Skill.C国狂人);
-            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.狂信者, CDef.Skill.C国狂人);
-        } else if (skillPersonNumMap.get(CDef.Skill.魔神官) > 0) {
-            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.狂人, CDef.Skill.魔神官);
-            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.C国狂人, CDef.Skill.魔神官);
-            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.狂信者, CDef.Skill.魔神官);
-        } else if (skillPersonNumMap.get(CDef.Skill.狂信者) > 0) {
-            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.狂人, CDef.Skill.狂信者);
-            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.魔神官, CDef.Skill.狂信者);
-            updateSkillRequestFromTo(villageId, vPlayerList, CDef.Skill.C国狂人, CDef.Skill.狂信者);
-        }
+        vPlayerList.stream().filter(vp -> vp.getChara().get().isIsDummyFalse()).forEach(vp -> {
+            SkillRequest before = new SkillRequest(vp.getRequestSkillCodeAsSkill(), vp.getSecondRequestSkillCodeAsSkill());
+            SkillRequest after = new SkillRequest(vp.getRequestSkillCodeAsSkill(), vp.getSecondRequestSkillCodeAsSkill());
+            // 存在する役職に変更
+            convertToExistsSkill(after, skillPersonNumMap);
+            // 第一への繰り上げ、存在しない場合おまかせに変更
+            upgradeToFirstRequest(after, skillPersonNumMap);
+            // 変更があれば更新
+            if (before.isChanged(after)) {
+                updateSkillRequestFromTo(villageId, vp, before, after);
+            }
+        });
 
         return selectVillagePlayerList(villageId);
     }
 
-    private void updateSkillRequestFromTo(Integer villageId, List<VillagePlayer> vPlayerList, Skill fromSkill, Skill toSkill) {
-        vPlayerList.stream().filter(vp -> vp.getRequestSkillCodeAsSkill() == fromSkill && vp.getChara().get().isIsDummyFalse()).forEach(
-                vp -> {
-                    updateSkillRequest(vp.getVillagePlayerId(), toSkill);
-                    String message =
-                            String.format("%sの役職希望を%sから%sに自動変更しました。", CharaUtil.makeCharaName(vp), fromSkill.alias(), toSkill.alias());
-                    try {
-                        messageLogic.insertMessage(villageId, 1, CDef.MessageType.非公開システムメッセージ, message, true);
-                    } catch (WerewolfMansionBusinessException e) {
-                        // ここでは何回も被らないので何もしない
-                    }
-                });
+    private void convertToExistsSkill(SkillRequest after, Map<Skill, Integer> orgMap) {
+        if (!existSkillInOrg(CDef.Skill.村人, orgMap) && existSkillInOrg(CDef.Skill.霊能者, orgMap)) {
+            convertSkillRequestIfNeeded(after, CDef.Skill.村人, CDef.Skill.霊能者);
+        } else if (existSkillInOrg(CDef.Skill.村人, orgMap) && !existSkillInOrg(CDef.Skill.霊能者, orgMap)) {
+            convertSkillRequestIfNeeded(after, CDef.Skill.霊能者, CDef.Skill.村人);
+        }
+        if (existSkillInOrg(CDef.Skill.狂人, orgMap)) {
+            convertSkillRequestIfNeeded(after, CDef.Skill.C国狂人, CDef.Skill.狂人);
+            convertSkillRequestIfNeeded(after, CDef.Skill.魔神官, CDef.Skill.狂人);
+            convertSkillRequestIfNeeded(after, CDef.Skill.狂信者, CDef.Skill.狂人);
+        } else if (existSkillInOrg(CDef.Skill.C国狂人, orgMap)) {
+            convertSkillRequestIfNeeded(after, CDef.Skill.狂人, CDef.Skill.C国狂人);
+            convertSkillRequestIfNeeded(after, CDef.Skill.魔神官, CDef.Skill.C国狂人);
+            convertSkillRequestIfNeeded(after, CDef.Skill.狂信者, CDef.Skill.C国狂人);
+        } else if (existSkillInOrg(CDef.Skill.魔神官, orgMap)) {
+            convertSkillRequestIfNeeded(after, CDef.Skill.狂人, CDef.Skill.魔神官);
+            convertSkillRequestIfNeeded(after, CDef.Skill.C国狂人, CDef.Skill.魔神官);
+            convertSkillRequestIfNeeded(after, CDef.Skill.狂信者, CDef.Skill.魔神官);
+        } else if (existSkillInOrg(CDef.Skill.狂信者, orgMap)) {
+            convertSkillRequestIfNeeded(after, CDef.Skill.狂人, CDef.Skill.狂信者);
+            convertSkillRequestIfNeeded(after, CDef.Skill.魔神官, CDef.Skill.狂信者);
+            convertSkillRequestIfNeeded(after, CDef.Skill.C国狂人, CDef.Skill.狂信者);
+        }
+        if (existSkillInOrg(CDef.Skill.占い師, orgMap)) {
+            convertSkillRequestIfNeeded(after, CDef.Skill.賢者, CDef.Skill.占い師);
+        } else if (existSkillInOrg(CDef.Skill.賢者, orgMap)) {
+            convertSkillRequestIfNeeded(after, CDef.Skill.占い師, CDef.Skill.賢者);
+        }
+    }
+
+    private void convertSkillRequestIfNeeded(SkillRequest request, Skill before, Skill after) {
+        if (request.first == before) {
+            request.first = after;
+        }
+        if (request.second == before) {
+            request.second = after;
+        }
+    }
+
+    private void upgradeToFirstRequest(SkillRequest after, Map<Skill, Integer> orgMap) {
+        if (!existSkillInOrg(after.first, orgMap) && !existSkillInOrg(after.second, orgMap)) {
+            // どちらも存在しない
+            after.first = CDef.Skill.おまかせ;
+            after.second = CDef.Skill.おまかせ;
+            return;
+        } else if (!existSkillInOrg(after.first, orgMap) && existSkillInOrg(after.second, orgMap)) {
+            // 第二は存在
+            after.first = after.second;
+            after.second = CDef.Skill.おまかせ;
+            return;
+        } else if (existSkillInOrg(after.first, orgMap) && !existSkillInOrg(after.second, orgMap)) {
+            // 第一は存在
+            after.second = CDef.Skill.おまかせ;
+            return;
+        }
+    }
+
+    private boolean existSkillInOrg(Skill skill, Map<Skill, Integer> skillPersonNumMap) {
+        if (skill == CDef.Skill.おまかせ) {
+            return true;
+        }
+        if (skill == CDef.Skill.村人) {
+            return skillPersonNumMap.get(skill) > 1;
+        } else {
+            return skillPersonNumMap.get(skill) > 0;
+        }
+    }
+
+    private void updateSkillRequestFromTo(Integer villageId, VillagePlayer vp, SkillRequest before, SkillRequest after) {
+        updateSkillRequest(vp.getVillagePlayerId(), after.first, after.second);
+        String message = String.format("%sの役職希望を自動変更しました。\n%s/%s → %s/%s", CharaUtil.makeCharaName(vp), before.first.alias(),
+                before.second.alias(), after.first.alias(), after.second.alias());
+        try {
+            messageLogic.insertMessage(villageId, 1, CDef.MessageType.非公開システムメッセージ, message, true);
+        } catch (WerewolfMansionBusinessException e) {
+            // ここでは何回も被らないので何もしない
+        }
+    }
+
+    private static class SkillRequest {
+        private Skill first;
+        private Skill second;
+
+        private SkillRequest(Skill first, Skill second) {
+            this.first = first;
+            this.second = second;
+        }
+
+        private boolean isChanged(SkillRequest after) {
+            return this.first != after.first || this.second != after.second;
+        }
     }
 
     // ===================================================================================

@@ -54,6 +54,15 @@ public class VillagePlayerNss {
     }
     /**
      * With nested relation columns to select clause. <br>
+     * SKILL by my SECOND_REQUEST_SKILL_CODE, named 'skillBySecondRequestSkillCode'.
+     * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
+     */
+    public SkillNss withSkillBySecondRequestSkillCode() {
+        _query.xdoNss(() -> _query.querySkillBySecondRequestSkillCode());
+        return new SkillNss(_query.querySkillBySecondRequestSkillCode());
+    }
+    /**
+     * With nested relation columns to select clause. <br>
      * SKILL by my SKILL_CODE, named 'skillBySkillCode'.
      * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
      */

@@ -17,7 +17,8 @@
 <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<div class="col-sm-12 col-xs-12" th:if="${content.isDispChangeRequestSkillForm || content.isDispChangeRequestNgMessage}" layout:fragment="change-skill-form">
+	<div class="col-sm-12 col-xs-12" th:if="${content.isDispChangeRequestSkillForm || content.isDispChangeRequestNgMessage}"
+		layout:fragment="change-skill-form">
 		<div class="panel-group" id="changeskillform-panel">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -26,15 +27,28 @@
 				<div id="changeskillform-content" class="panel-collapse collapse in">
 					<div class="panel-body">
 						<form method="post" action="" th:action="@{/village/{villageId}/change-skill(villageId=${content.villageId})}"
-							th:object="${changeRequestSkillForm}" class="form-horizontal"
-							th:if="${content.isDispChangeRequestSkillForm}">
-							<p class="small" th:text="'あなたは ' + ${requestSkillName} +' を希望しています。'"></p>
+							th:object="${changeRequestSkillForm}" class="form-horizontal" th:if="${content.isDispChangeRequestSkillForm}">
+							<p class="small" th:text="'現在の役職希望: ' + ${requestSkillName} + '/' + ${secondRequestSkillName}"></p>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">役職希望</label>
-								<div class="col-sm-4">
-									<select class="form-control" th:field="*{requestedSkill}">
-										<option th:each="skill : ${content.selectableSkillList}" th:value="${skill.code}" th:text="${skill.name}"></option>
-									</select> <span th:if="${#fields.hasErrors('requestedSkill')}" th:errors="*{requestedSkill}" class="help-block text-danger">error!</span>
+								<div class="col-sm-12 col-xs-12">
+									<div class="row">
+										<label class="col-sm-2 control-label">第一役職希望</label>
+										<div class="col-sm-4">
+											<select class="form-control" th:field="*{requestedSkill}">
+												<option th:each="skill : ${content.selectableSkillList}" th:value="${skill.code}" th:text="${skill.name}"></option>
+											</select> <span th:if="${#fields.hasErrors('requestedSkill')}" th:errors="*{requestedSkill}" class="help-block text-danger">error!</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-12 col-xs-12">
+									<div class="row">
+										<label class="col-sm-2 control-label">第二役職希望</label>
+										<div class="col-sm-4">
+											<select class="form-control" th:field="*{secondRequestedSkill}">
+												<option th:each="skill : ${content.selectableSkillList}" th:value="${skill.code}" th:text="${skill.name}"></option>
+											</select> <span th:if="${#fields.hasErrors('secondRequestedSkill')}" th:errors="*{secondRequestedSkill}" class="help-block text-danger">error!</span>
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">

@@ -380,6 +380,25 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
+     * {exists (select SECOND_REQUEST_SKILL_CODE from village_player where ...)} <br>
+     * village_player by SECOND_REQUEST_SKILL_CODE, named 'villagePlayerBySecondRequestSkillCodeAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">existsVillagePlayerBySecondRequestSkillCode</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     playerCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of VillagePlayerBySecondRequestSkillCodeList for 'exists'. (NotNull)
+     */
+    public void existsVillagePlayerBySecondRequestSkillCode(SubQuery<VillagePlayerCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        VillagePlayerCB cb = new VillagePlayerCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepSkillCode_ExistsReferrer_VillagePlayerBySecondRequestSkillCodeList(cb.query());
+        registerExistsReferrer(cb.query(), "SKILL_CODE", "SECOND_REQUEST_SKILL_CODE", pp, "villagePlayerBySecondRequestSkillCodeList");
+    }
+    public abstract String keepSkillCode_ExistsReferrer_VillagePlayerBySecondRequestSkillCodeList(VillagePlayerCQ sq);
+
+    /**
+     * Set up ExistsReferrer (correlated sub-query). <br>
      * {exists (select SKILL_CODE from village_player where ...)} <br>
      * village_player by SKILL_CODE, named 'villagePlayerBySkillCodeAsOne'.
      * <pre>
@@ -418,6 +437,25 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
+     * {not exists (select SECOND_REQUEST_SKILL_CODE from village_player where ...)} <br>
+     * village_player by SECOND_REQUEST_SKILL_CODE, named 'villagePlayerBySecondRequestSkillCodeAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">notExistsVillagePlayerBySecondRequestSkillCode</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     playerCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of SkillCode_NotExistsReferrer_VillagePlayerBySecondRequestSkillCodeList for 'not exists'. (NotNull)
+     */
+    public void notExistsVillagePlayerBySecondRequestSkillCode(SubQuery<VillagePlayerCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        VillagePlayerCB cb = new VillagePlayerCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepSkillCode_NotExistsReferrer_VillagePlayerBySecondRequestSkillCodeList(cb.query());
+        registerNotExistsReferrer(cb.query(), "SKILL_CODE", "SECOND_REQUEST_SKILL_CODE", pp, "villagePlayerBySecondRequestSkillCodeList");
+    }
+    public abstract String keepSkillCode_NotExistsReferrer_VillagePlayerBySecondRequestSkillCodeList(VillagePlayerCQ sq);
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br>
      * {not exists (select SKILL_CODE from village_player where ...)} <br>
      * village_player by SKILL_CODE, named 'villagePlayerBySkillCodeAsOne'.
      * <pre>
@@ -442,6 +480,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
         registerSpecifyDerivedReferrer(fn, cb.query(), "SKILL_CODE", "REQUEST_SKILL_CODE", pp, "villagePlayerByRequestSkillCodeList", al, op);
     }
     public abstract String keepSkillCode_SpecifyDerivedReferrer_VillagePlayerByRequestSkillCodeList(VillagePlayerCQ sq);
+
+    public void xsderiveVillagePlayerBySecondRequestSkillCodeList(String fn, SubQuery<VillagePlayerCB> sq, String al, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        VillagePlayerCB cb = new VillagePlayerCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepSkillCode_SpecifyDerivedReferrer_VillagePlayerBySecondRequestSkillCodeList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "SKILL_CODE", "SECOND_REQUEST_SKILL_CODE", pp, "villagePlayerBySecondRequestSkillCodeList", al, op);
+    }
+    public abstract String keepSkillCode_SpecifyDerivedReferrer_VillagePlayerBySecondRequestSkillCodeList(VillagePlayerCQ sq);
 
     public void xsderiveVillagePlayerBySkillCodeList(String fn, SubQuery<VillagePlayerCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
@@ -477,6 +523,33 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
     public abstract String keepSkillCode_QueryDerivedReferrer_VillagePlayerByRequestSkillCodeList(VillagePlayerCQ sq);
     public abstract String keepSkillCode_QueryDerivedReferrer_VillagePlayerByRequestSkillCodeListParameter(Object vl);
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
+     * {FOO &lt;= (select max(BAR) from village_player where ...)} <br>
+     * village_player by SECOND_REQUEST_SKILL_CODE, named 'villagePlayerBySecondRequestSkillCodeAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">derivedVillagePlayerBySecondRequestSkillCode()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     playerCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     playerCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    public HpQDRFunction<VillagePlayerCB> derivedVillagePlayerBySecondRequestSkillCode() {
+        return xcreateQDRFunctionVillagePlayerBySecondRequestSkillCodeList();
+    }
+    protected HpQDRFunction<VillagePlayerCB> xcreateQDRFunctionVillagePlayerBySecondRequestSkillCodeList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveVillagePlayerBySecondRequestSkillCodeList(fn, sq, rd, vl, op));
+    }
+    public void xqderiveVillagePlayerBySecondRequestSkillCodeList(String fn, SubQuery<VillagePlayerCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        VillagePlayerCB cb = new VillagePlayerCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepSkillCode_QueryDerivedReferrer_VillagePlayerBySecondRequestSkillCodeList(cb.query()); String prpp = keepSkillCode_QueryDerivedReferrer_VillagePlayerBySecondRequestSkillCodeListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "SKILL_CODE", "SECOND_REQUEST_SKILL_CODE", sqpp, "villagePlayerBySecondRequestSkillCodeList", rd, vl, prpp, op);
+    }
+    public abstract String keepSkillCode_QueryDerivedReferrer_VillagePlayerBySecondRequestSkillCodeList(VillagePlayerCQ sq);
+    public abstract String keepSkillCode_QueryDerivedReferrer_VillagePlayerBySecondRequestSkillCodeListParameter(Object vl);
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>

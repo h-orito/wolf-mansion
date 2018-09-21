@@ -473,11 +473,14 @@ public class VillageAssist {
         }
         if (changeRequestSkillForm != null) {
             model.addAttribute("requestSkillName", CDef.Skill.codeOf(changeRequestSkillForm.getRequestedSkill()).alias());
+            model.addAttribute("secondRequestSkillName", CDef.Skill.codeOf(changeRequestSkillForm.getSecondRequestedSkill()).alias());
             return changeRequestSkillForm;
         }
         VillageChangeRequestSkillForm form = new VillageChangeRequestSkillForm();
         form.setRequestedSkill(optVillagePlayer.get().getRequestSkillCode());
+        form.setSecondRequestedSkill(optVillagePlayer.get().getSecondRequestSkillCode());
         model.addAttribute("requestSkillName", CDef.Skill.codeOf(optVillagePlayer.get().getRequestSkillCode()).alias());
+        model.addAttribute("secondRequestSkillName", CDef.Skill.codeOf(optVillagePlayer.get().getSecondRequestSkillCode()).alias());
         return form;
     }
 

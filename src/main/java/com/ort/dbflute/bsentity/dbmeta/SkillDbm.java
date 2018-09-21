@@ -93,7 +93,7 @@ public class SkillDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnSkillCode = cci("SKILL_CODE", "SKILL_CODE", null, null, String.class, "skillCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "villagePlayerByRequestSkillCodeList,villagePlayerBySkillCodeList", CDef.DefMeta.Skill, false);
+    protected final ColumnInfo _columnSkillCode = cci("SKILL_CODE", "SKILL_CODE", null, null, String.class, "skillCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "villagePlayerByRequestSkillCodeList,villagePlayerBySecondRequestSkillCodeList,villagePlayerBySkillCodeList", CDef.DefMeta.Skill, false);
     protected final ColumnInfo _columnSkillName = cci("SKILL_NAME", "SKILL_NAME", null, null, String.class, "skillName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnCampCode = cci("CAMP_CODE", "CAMP_CODE", null, null, String.class, "campCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "camp", null, CDef.DefMeta.Camp, false);
     protected final ColumnInfo _columnDispOrder = cci("DISP_ORDER", "DISP_ORDER", null, null, Integer.class, "dispOrder", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
@@ -167,6 +167,14 @@ public class SkillDbm extends AbstractDBMeta {
     public ReferrerInfo referrerVillagePlayerByRequestSkillCodeList() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnSkillCode(), VillagePlayerDbm.getInstance().columnRequestSkillCode());
         return cri("FK_VILLAGE_PLAYER_SKILL_REQUEST", "villagePlayerByRequestSkillCodeList", this, VillagePlayerDbm.getInstance(), mp, false, "skillByRequestSkillCode");
+    }
+    /**
+     * VILLAGE_PLAYER by SECOND_REQUEST_SKILL_CODE, named 'villagePlayerBySecondRequestSkillCodeList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerVillagePlayerBySecondRequestSkillCodeList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnSkillCode(), VillagePlayerDbm.getInstance().columnSecondRequestSkillCode());
+        return cri("FK_VILLAGE_PLAYER_SECOND_SKILL_REQ", "villagePlayerBySecondRequestSkillCodeList", this, VillagePlayerDbm.getInstance(), mp, false, "skillBySecondRequestSkillCode");
     }
     /**
      * VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerBySkillCodeList'.

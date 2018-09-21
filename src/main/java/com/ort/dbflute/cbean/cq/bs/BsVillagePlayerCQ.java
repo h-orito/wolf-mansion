@@ -235,6 +235,26 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
      */
     public BsVillagePlayerCQ addOrderBy_RequestSkillCode_Desc() { regOBD("REQUEST_SKILL_CODE"); return this; }
 
+    protected ConditionValue _secondRequestSkillCode;
+    public ConditionValue xdfgetSecondRequestSkillCode()
+    { if (_secondRequestSkillCode == null) { _secondRequestSkillCode = nCV(); }
+      return _secondRequestSkillCode; }
+    protected ConditionValue xgetCValueSecondRequestSkillCode() { return xdfgetSecondRequestSkillCode(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
+     * @return this. (NotNull)
+     */
+    public BsVillagePlayerCQ addOrderBy_SecondRequestSkillCode_Asc() { regOBA("SECOND_REQUEST_SKILL_CODE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
+     * @return this. (NotNull)
+     */
+    public BsVillagePlayerCQ addOrderBy_SecondRequestSkillCode_Desc() { regOBD("SECOND_REQUEST_SKILL_CODE"); return this; }
+
     protected ConditionValue _roomNumber;
     public ConditionValue xdfgetRoomNumber()
     { if (_roomNumber == null) { _roomNumber = nCV(); }
@@ -508,6 +528,9 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
         if (bq.hasConditionQuerySkillByRequestSkillCode()) {
             uq.querySkillByRequestSkillCode().reflectRelationOnUnionQuery(bq.querySkillByRequestSkillCode(), uq.querySkillByRequestSkillCode());
         }
+        if (bq.hasConditionQuerySkillBySecondRequestSkillCode()) {
+            uq.querySkillBySecondRequestSkillCode().reflectRelationOnUnionQuery(bq.querySkillBySecondRequestSkillCode(), uq.querySkillBySecondRequestSkillCode());
+        }
         if (bq.hasConditionQuerySkillBySkillCode()) {
             uq.querySkillBySkillCode().reflectRelationOnUnionQuery(bq.querySkillBySkillCode(), uq.querySkillBySkillCode());
         }
@@ -598,6 +621,26 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
     }
     protected void xsetupOuterJoinSkillByRequestSkillCode() { xregOutJo("skillByRequestSkillCode"); }
     public boolean hasConditionQuerySkillByRequestSkillCode() { return xhasQueRlMap("skillByRequestSkillCode"); }
+
+    /**
+     * Get the condition-query for relation table. <br>
+     * SKILL by my SECOND_REQUEST_SKILL_CODE, named 'skillBySecondRequestSkillCode'.
+     * @return The instance of condition-query. (NotNull)
+     */
+    public SkillCQ querySkillBySecondRequestSkillCode() {
+        return xdfgetConditionQuerySkillBySecondRequestSkillCode();
+    }
+    public SkillCQ xdfgetConditionQuerySkillBySecondRequestSkillCode() {
+        String prop = "skillBySecondRequestSkillCode";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQuerySkillBySecondRequestSkillCode()); xsetupOuterJoinSkillBySecondRequestSkillCode(); }
+        return xgetQueRlMap(prop);
+    }
+    protected SkillCQ xcreateQuerySkillBySecondRequestSkillCode() {
+        String nrp = xresolveNRP("village_player", "skillBySecondRequestSkillCode"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        return xinitRelCQ(new SkillCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "skillBySecondRequestSkillCode", nrp);
+    }
+    protected void xsetupOuterJoinSkillBySecondRequestSkillCode() { xregOutJo("skillBySecondRequestSkillCode"); }
+    public boolean hasConditionQuerySkillBySecondRequestSkillCode() { return xhasQueRlMap("skillBySecondRequestSkillCode"); }
 
     /**
      * Get the condition-query for relation table. <br>

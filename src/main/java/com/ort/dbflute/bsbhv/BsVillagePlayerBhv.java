@@ -28,7 +28,7 @@ import com.ort.dbflute.cbean.*;
  *     VILLAGE_PLAYER_ID
  *
  * [column]
- *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, IS_SPECTATOR, DEAD_REASON_CODE, DEAD_DAY, IS_GONE, LAST_ACCESS_DATETIME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, SECOND_REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, IS_SPECTATOR, DEAD_REASON_CODE, DEAD_DAY, IS_GONE, LAST_ACCESS_DATETIME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -46,7 +46,7 @@ import com.ort.dbflute.cbean.*;
  *     COMMIT, MESSAGE
  *
  * [foreign property]
- *     chara, deadReason, player, skillByRequestSkillCode, skillBySkillCode, village
+ *     chara, deadReason, player, skillByRequestSkillCode, skillBySecondRequestSkillCode, skillBySkillCode, village
  *
  * [referrer property]
  *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList
@@ -587,6 +587,14 @@ public abstract class BsVillagePlayerBhv extends AbstractBehaviorWritable<Villag
      */
     public List<Skill> pulloutSkillByRequestSkillCode(List<VillagePlayer> villagePlayerList)
     { return helpPulloutInternally(villagePlayerList, "skillByRequestSkillCode"); }
+
+    /**
+     * Pull out the list of foreign table 'Skill'.
+     * @param villagePlayerList The list of villagePlayer. (NotNull, EmptyAllowed)
+     * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
+     */
+    public List<Skill> pulloutSkillBySecondRequestSkillCode(List<VillagePlayer> villagePlayerList)
+    { return helpPulloutInternally(villagePlayerList, "skillBySecondRequestSkillCode"); }
 
     /**
      * Pull out the list of foreign table 'Skill'.

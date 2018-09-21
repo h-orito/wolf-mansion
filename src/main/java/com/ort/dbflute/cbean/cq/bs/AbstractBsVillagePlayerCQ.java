@@ -1417,6 +1417,343 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     protected abstract ConditionValue xgetCValueRequestSkillCode();
 
     /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
+     * @param secondRequestSkillCode The value of secondRequestSkillCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    protected void setSecondRequestSkillCode_Equal(String secondRequestSkillCode) {
+        doSetSecondRequestSkillCode_Equal(fRES(secondRequestSkillCode));
+    }
+
+    /**
+     * Equal(=). As Skill. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * 役職
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill cdef) {
+        doSetSecondRequestSkillCode_Equal(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * Equal(=). As C国狂人 (CMADMAN). And OnlyOnceRegistered. <br>
+     * C国狂人
+     */
+    public void setSecondRequestSkillCode_Equal_C国狂人() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * Equal(=). As 魔神官 (EVILMEDIUM). And OnlyOnceRegistered. <br>
+     * 魔神官
+     */
+    public void setSecondRequestSkillCode_Equal_魔神官() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.魔神官);
+    }
+
+    /**
+     * Equal(=). As 狂信者 (FANATIC). And OnlyOnceRegistered. <br>
+     * 狂信者
+     */
+    public void setSecondRequestSkillCode_Equal_狂信者() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.狂信者);
+    }
+
+    /**
+     * Equal(=). As 妖狐 (FOX). And OnlyOnceRegistered. <br>
+     * 妖狐
+     */
+    public void setSecondRequestSkillCode_Equal_妖狐() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.妖狐);
+    }
+
+    /**
+     * Equal(=). As 導師 (GURU). And OnlyOnceRegistered. <br>
+     * 導師
+     */
+    public void setSecondRequestSkillCode_Equal_導師() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.導師);
+    }
+
+    /**
+     * Equal(=). As 狩人 (HUNTER). And OnlyOnceRegistered. <br>
+     * 狩人
+     */
+    public void setSecondRequestSkillCode_Equal_狩人() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.狩人);
+    }
+
+    /**
+     * Equal(=). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
+     * おまかせ
+     */
+    public void setSecondRequestSkillCode_Equal_おまかせ() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * Equal(=). As 狂人 (MADMAN). And OnlyOnceRegistered. <br>
+     * 狂人
+     */
+    public void setSecondRequestSkillCode_Equal_狂人() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.狂人);
+    }
+
+    /**
+     * Equal(=). As 共鳴者 (MASON). And OnlyOnceRegistered. <br>
+     * 共鳴者
+     */
+    public void setSecondRequestSkillCode_Equal_共鳴者() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.共鳴者);
+    }
+
+    /**
+     * Equal(=). As 霊能者 (MEDIUM). And OnlyOnceRegistered. <br>
+     * 霊能者
+     */
+    public void setSecondRequestSkillCode_Equal_霊能者() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.霊能者);
+    }
+
+    /**
+     * Equal(=). As 占い師 (SEER). And OnlyOnceRegistered. <br>
+     * 占い師
+     */
+    public void setSecondRequestSkillCode_Equal_占い師() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.占い師);
+    }
+
+    /**
+     * Equal(=). As 村人 (VILLAGER). And OnlyOnceRegistered. <br>
+     * 村人
+     */
+    public void setSecondRequestSkillCode_Equal_村人() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.村人);
+    }
+
+    /**
+     * Equal(=). As 人狼 (WEREWOLF). And OnlyOnceRegistered. <br>
+     * 人狼
+     */
+    public void setSecondRequestSkillCode_Equal_人狼() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.人狼);
+    }
+
+    /**
+     * Equal(=). As 賢者 (WISE). And OnlyOnceRegistered. <br>
+     * 賢者
+     */
+    public void setSecondRequestSkillCode_Equal_賢者() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.賢者);
+    }
+
+    protected void doSetSecondRequestSkillCode_Equal(String secondRequestSkillCode) {
+        regSecondRequestSkillCode(CK_EQ, secondRequestSkillCode);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
+     * @param secondRequestSkillCode The value of secondRequestSkillCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    protected void setSecondRequestSkillCode_NotEqual(String secondRequestSkillCode) {
+        doSetSecondRequestSkillCode_NotEqual(fRES(secondRequestSkillCode));
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As Skill. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * 役職
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill cdef) {
+        doSetSecondRequestSkillCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As C国狂人 (CMADMAN). And OnlyOnceRegistered. <br>
+     * C国狂人
+     */
+    public void setSecondRequestSkillCode_NotEqual_C国狂人() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 魔神官 (EVILMEDIUM). And OnlyOnceRegistered. <br>
+     * 魔神官
+     */
+    public void setSecondRequestSkillCode_NotEqual_魔神官() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.魔神官);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 狂信者 (FANATIC). And OnlyOnceRegistered. <br>
+     * 狂信者
+     */
+    public void setSecondRequestSkillCode_NotEqual_狂信者() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.狂信者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 妖狐 (FOX). And OnlyOnceRegistered. <br>
+     * 妖狐
+     */
+    public void setSecondRequestSkillCode_NotEqual_妖狐() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.妖狐);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 導師 (GURU). And OnlyOnceRegistered. <br>
+     * 導師
+     */
+    public void setSecondRequestSkillCode_NotEqual_導師() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.導師);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 狩人 (HUNTER). And OnlyOnceRegistered. <br>
+     * 狩人
+     */
+    public void setSecondRequestSkillCode_NotEqual_狩人() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.狩人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
+     * おまかせ
+     */
+    public void setSecondRequestSkillCode_NotEqual_おまかせ() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 狂人 (MADMAN). And OnlyOnceRegistered. <br>
+     * 狂人
+     */
+    public void setSecondRequestSkillCode_NotEqual_狂人() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.狂人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 共鳴者 (MASON). And OnlyOnceRegistered. <br>
+     * 共鳴者
+     */
+    public void setSecondRequestSkillCode_NotEqual_共鳴者() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.共鳴者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 霊能者 (MEDIUM). And OnlyOnceRegistered. <br>
+     * 霊能者
+     */
+    public void setSecondRequestSkillCode_NotEqual_霊能者() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.霊能者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 占い師 (SEER). And OnlyOnceRegistered. <br>
+     * 占い師
+     */
+    public void setSecondRequestSkillCode_NotEqual_占い師() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.占い師);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 村人 (VILLAGER). And OnlyOnceRegistered. <br>
+     * 村人
+     */
+    public void setSecondRequestSkillCode_NotEqual_村人() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.村人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 人狼 (WEREWOLF). And OnlyOnceRegistered. <br>
+     * 人狼
+     */
+    public void setSecondRequestSkillCode_NotEqual_人狼() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.人狼);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 賢者 (WISE). And OnlyOnceRegistered. <br>
+     * 賢者
+     */
+    public void setSecondRequestSkillCode_NotEqual_賢者() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.賢者);
+    }
+
+    protected void doSetSecondRequestSkillCode_NotEqual(String secondRequestSkillCode) {
+        regSecondRequestSkillCode(CK_NES, secondRequestSkillCode);
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
+     * @param secondRequestSkillCodeList The collection of secondRequestSkillCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    protected void setSecondRequestSkillCode_InScope(Collection<String> secondRequestSkillCodeList) {
+        doSetSecondRequestSkillCode_InScope(secondRequestSkillCodeList);
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * 役職
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setSecondRequestSkillCode_InScope_AsSkill(Collection<CDef.Skill> cdefList) {
+        doSetSecondRequestSkillCode_InScope(cTStrL(cdefList));
+    }
+
+    protected void doSetSecondRequestSkillCode_InScope(Collection<String> secondRequestSkillCodeList) {
+        regINS(CK_INS, cTL(secondRequestSkillCodeList), xgetCValueSecondRequestSkillCode(), "SECOND_REQUEST_SKILL_CODE");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
+     * @param secondRequestSkillCodeList The collection of secondRequestSkillCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    protected void setSecondRequestSkillCode_NotInScope(Collection<String> secondRequestSkillCodeList) {
+        doSetSecondRequestSkillCode_NotInScope(secondRequestSkillCodeList);
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * 役職
+     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setSecondRequestSkillCode_NotInScope_AsSkill(Collection<CDef.Skill> cdefList) {
+        doSetSecondRequestSkillCode_NotInScope(cTStrL(cdefList));
+    }
+
+    protected void doSetSecondRequestSkillCode_NotInScope(Collection<String> secondRequestSkillCodeList) {
+        regINS(CK_NINS, cTL(secondRequestSkillCodeList), xgetCValueSecondRequestSkillCode(), "SECOND_REQUEST_SKILL_CODE");
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
+     */
+    public void setSecondRequestSkillCode_IsNull() { regSecondRequestSkillCode(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
+     */
+    public void setSecondRequestSkillCode_IsNullOrEmpty() { regSecondRequestSkillCode(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
+     */
+    public void setSecondRequestSkillCode_IsNotNull() { regSecondRequestSkillCode(CK_ISNN, DOBJ); }
+
+    protected void regSecondRequestSkillCode(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueSecondRequestSkillCode(), "SECOND_REQUEST_SKILL_CODE"); }
+    protected abstract ConditionValue xgetCValueSecondRequestSkillCode();
+
+    /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * ROOM_NUMBER: {INT UNSIGNED(10)}
      * @param roomNumber The value of roomNumber as equal. (basically NotNull: error as default, or no condition as option)

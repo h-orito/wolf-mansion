@@ -50,7 +50,7 @@ import com.ort.dbflute.cbean.*;
  *     camp
  *
  * [referrer property]
- *     villagePlayerByRequestSkillCodeList, villagePlayerBySkillCodeList
+ *     villagePlayerByRequestSkillCodeList, villagePlayerBySecondRequestSkillCodeList, villagePlayerBySkillCodeList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -424,6 +424,70 @@ public abstract class BsSkillBhv extends AbstractBehaviorWritable<Skill, SkillCB
 
     protected NestedReferrerListGateway<VillagePlayer> doLoadVillagePlayerByRequestSkillCode(List<Skill> skillList, LoadReferrerOption<VillagePlayerCB, VillagePlayer> option) {
         return helpLoadReferrerInternally(skillList, option, "villagePlayerByRequestSkillCodeList");
+    }
+
+    /**
+     * Load referrer of villagePlayerBySecondRequestSkillCodeList by the set-upper of referrer. <br>
+     * VILLAGE_PLAYER by SECOND_REQUEST_SKILL_CODE, named 'villagePlayerBySecondRequestSkillCodeList'.
+     * <pre>
+     * <span style="color: #0000C0">skillBhv</span>.<span style="color: #CC4747">loadVillagePlayerBySecondRequestSkillCode</span>(<span style="color: #553000">skillList</span>, <span style="color: #553000">playerCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">playerCB</span>.setupSelect...
+     *     <span style="color: #553000">playerCB</span>.query().set...
+     *     <span style="color: #553000">playerCB</span>.query().addOrderBy...
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * <span style="color: #70226C">for</span> (Skill skill : <span style="color: #553000">skillList</span>) {
+     *     ... = skill.<span style="color: #CC4747">getVillagePlayerBySecondRequestSkillCodeList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setSecondRequestSkillCode_InScope(pkList);
+     * cb.query().addOrderBy_SecondRequestSkillCode_Asc();
+     * </pre>
+     * @param skillList The entity list of skill. (NotNull)
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerListGateway<VillagePlayer> loadVillagePlayerBySecondRequestSkillCode(List<Skill> skillList, ReferrerConditionSetupper<VillagePlayerCB> refCBLambda) {
+        xassLRArg(skillList, refCBLambda);
+        return doLoadVillagePlayerBySecondRequestSkillCode(skillList, new LoadReferrerOption<VillagePlayerCB, VillagePlayer>().xinit(refCBLambda));
+    }
+
+    /**
+     * Load referrer of villagePlayerBySecondRequestSkillCodeList by the set-upper of referrer. <br>
+     * VILLAGE_PLAYER by SECOND_REQUEST_SKILL_CODE, named 'villagePlayerBySecondRequestSkillCodeList'.
+     * <pre>
+     * <span style="color: #0000C0">skillBhv</span>.<span style="color: #CC4747">loadVillagePlayerBySecondRequestSkillCode</span>(<span style="color: #553000">skill</span>, <span style="color: #553000">playerCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">playerCB</span>.setupSelect...
+     *     <span style="color: #553000">playerCB</span>.query().set...
+     *     <span style="color: #553000">playerCB</span>.query().addOrderBy...
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * ... = <span style="color: #553000">skill</span>.<span style="color: #CC4747">getVillagePlayerBySecondRequestSkillCodeList()</span>;
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setSecondRequestSkillCode_InScope(pkList);
+     * cb.query().addOrderBy_SecondRequestSkillCode_Asc();
+     * </pre>
+     * @param skill The entity of skill. (NotNull)
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerListGateway<VillagePlayer> loadVillagePlayerBySecondRequestSkillCode(Skill skill, ReferrerConditionSetupper<VillagePlayerCB> refCBLambda) {
+        xassLRArg(skill, refCBLambda);
+        return doLoadVillagePlayerBySecondRequestSkillCode(xnewLRLs(skill), new LoadReferrerOption<VillagePlayerCB, VillagePlayer>().xinit(refCBLambda));
+    }
+
+    protected NestedReferrerListGateway<VillagePlayer> doLoadVillagePlayerBySecondRequestSkillCode(List<Skill> skillList, LoadReferrerOption<VillagePlayerCB, VillagePlayer> option) {
+        return helpLoadReferrerInternally(skillList, option, "villagePlayerBySecondRequestSkillCodeList");
     }
 
     /**

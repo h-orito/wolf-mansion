@@ -256,8 +256,8 @@ public class NewVillageAssist {
             cb.query().setCharaGroupId_Equal(villageForm.getCharacterSetId());
             cb.query().setIsDummy_Equal_True();
         }).getCharaId();
-        villageLogic.participate(village.getVillageId(), dummyPlayerId, dummyCharaId, CDef.Skill.村人, villageForm.getDummyJoinMessage(),
-                false, false);
+        villageLogic.participate(village.getVillageId(), dummyPlayerId, dummyCharaId, CDef.Skill.村人, CDef.Skill.村人,
+                villageForm.getDummyJoinMessage(), false, false);
     }
 
     private LocalDateTime makeStartDateTime(NewVillageForm form) throws WerewolfMansionBusinessException {

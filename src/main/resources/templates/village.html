@@ -39,7 +39,7 @@
 
 						<!--/* フォームエリア */-->
 						<div layout:replace="~{village/form-area::form-area}"></div>
-						
+
 						<!--/* フッターメニュー */-->
 						<div layout:replace="~{village/footer-menu::footer-menu}"></div>
 
@@ -54,14 +54,15 @@
 
 				<!--/* 村情報 */-->
 				<div layout:replace="~{village/modal-village-info::modal-village-info}"></div>
-				
+
 				<!--/* 表示設定 */-->
 				<div layout:replace="~{village/display-settings::display-settings}"></div>
 			</div>
 
 			<div class="daychange-alert alert alert-success">日付が更新されました。ページを再読み込みしてください。</div>
 			<div id="autorefresh-alert" class="autorefresh-alert alert alert-success">最新発言を読み込みました</div>
-			<div class="hidden" id="daychange-datetime" th:if="${content.dayChangeDatetime}" th:text="${#temporals.format(content.dayChangeDatetime, 'yyyy/MM/dd HH:mm:ss')}"></div>
+			<div class="hidden" id="daychange-datetime" th:if="${content.dayChangeDatetime}"
+				th:text="${#temporals.format(content.dayChangeDatetime, 'yyyy/MM/dd HH:mm:ss')}"></div>
 			<div class="hidden" id="latest-message-datetime">0</div>
 			<div class="hidden" id="random-keywords" th:text="${content.randomKeywords}"></div>
 			<div id="time-alert" class="hidden time-alert alert alert-info">

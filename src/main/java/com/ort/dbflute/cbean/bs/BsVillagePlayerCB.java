@@ -345,6 +345,35 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
         return _nssSkillByRequestSkillCode;
     }
 
+    protected SkillNss _nssSkillBySecondRequestSkillCode;
+    public SkillNss xdfgetNssSkillBySecondRequestSkillCode() {
+        if (_nssSkillBySecondRequestSkillCode == null) { _nssSkillBySecondRequestSkillCode = new SkillNss(null); }
+        return _nssSkillBySecondRequestSkillCode;
+    }
+    /**
+     * Set up relation columns to select clause. <br>
+     * SKILL by my SECOND_REQUEST_SKILL_CODE, named 'skillBySecondRequestSkillCode'.
+     * <pre>
+     * <span style="color: #0000C0">villagePlayerBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_SkillBySecondRequestSkillCode()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     *     <span style="color: #553000">cb</span>.query().set...
+     * }).alwaysPresent(<span style="color: #553000">villagePlayer</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     ... = <span style="color: #553000">villagePlayer</span>.<span style="color: #CC4747">getSkillBySecondRequestSkillCode()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
+     * });
+     * </pre>
+     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
+     */
+    public SkillNss setupSelect_SkillBySecondRequestSkillCode() {
+        assertSetupSelectPurpose("skillBySecondRequestSkillCode");
+        if (hasSpecifiedLocalColumn()) {
+            specify().columnSecondRequestSkillCode();
+        }
+        doSetupSelect(() -> query().querySkillBySecondRequestSkillCode());
+        if (_nssSkillBySecondRequestSkillCode == null || !_nssSkillBySecondRequestSkillCode.hasConditionQuery())
+        { _nssSkillBySecondRequestSkillCode = new SkillNss(query().querySkillBySecondRequestSkillCode()); }
+        return _nssSkillBySecondRequestSkillCode;
+    }
+
     protected SkillNss _nssSkillBySkillCode;
     public SkillNss xdfgetNssSkillBySkillCode() {
         if (_nssSkillBySkillCode == null) { _nssSkillBySkillCode = new SkillNss(null); }
@@ -448,6 +477,7 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
         protected DeadReasonCB.HpSpecification _deadReason;
         protected PlayerCB.HpSpecification _player;
         protected SkillCB.HpSpecification _skillByRequestSkillCode;
+        protected SkillCB.HpSpecification _skillBySecondRequestSkillCode;
         protected SkillCB.HpSpecification _skillBySkillCode;
         protected VillageCB.HpSpecification _village;
         public HpSpecification(ConditionBean baseCB, HpSpQyCall<VillagePlayerCQ> qyCall
@@ -484,6 +514,11 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnRequestSkillCode() { return doColumn("REQUEST_SKILL_CODE"); }
+        /**
+         * SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnSecondRequestSkillCode() { return doColumn("SECOND_REQUEST_SKILL_CODE"); }
         /**
          * ROOM_NUMBER: {INT UNSIGNED(10)}
          * @return The information object of specified column. (NotNull)
@@ -559,6 +594,10 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
             if (qyCall().qy().hasConditionQuerySkillByRequestSkillCode()
                     || qyCall().qy().xgetReferrerQuery() instanceof SkillCQ) {
                 columnRequestSkillCode(); // FK or one-to-one referrer
+            }
+            if (qyCall().qy().hasConditionQuerySkillBySecondRequestSkillCode()
+                    || qyCall().qy().xgetReferrerQuery() instanceof SkillCQ) {
+                columnSecondRequestSkillCode(); // FK or one-to-one referrer
             }
             if (qyCall().qy().hasConditionQuerySkillBySkillCode()
                     || qyCall().qy().xgetReferrerQuery() instanceof SkillCQ) {
@@ -650,6 +689,26 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
                 }
             }
             return _skillByRequestSkillCode;
+        }
+        /**
+         * Prepare to specify functions about relation table. <br>
+         * SKILL by my SECOND_REQUEST_SKILL_CODE, named 'skillBySecondRequestSkillCode'.
+         * @return The instance for specification for relation table to specify. (NotNull)
+         */
+        public SkillCB.HpSpecification specifySkillBySecondRequestSkillCode() {
+            assertRelation("skillBySecondRequestSkillCode");
+            if (_skillBySecondRequestSkillCode == null) {
+                _skillBySecondRequestSkillCode = new SkillCB.HpSpecification(_baseCB
+                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQuerySkillBySecondRequestSkillCode()
+                                    , () -> _qyCall.qy().querySkillBySecondRequestSkillCode())
+                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
+                if (xhasSyncQyCall()) { // inherits it
+                    _skillBySecondRequestSkillCode.xsetSyncQyCall(xcreateSpQyCall(
+                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQuerySkillBySecondRequestSkillCode()
+                      , () -> xsyncQyCall().qy().querySkillBySecondRequestSkillCode()));
+                }
+            }
+            return _skillBySecondRequestSkillCode;
         }
         /**
          * Prepare to specify functions about relation table. <br>

@@ -15,7 +15,7 @@ import com.ort.dbflute.cbean.*;
  *     VILLAGE_PLAYER_ID
  *
  * [column]
- *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, IS_SPECTATOR, DEAD_REASON_CODE, DEAD_DAY, IS_GONE, LAST_ACCESS_DATETIME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, SECOND_REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, IS_SPECTATOR, DEAD_REASON_CODE, DEAD_DAY, IS_GONE, LAST_ACCESS_DATETIME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -33,7 +33,7 @@ import com.ort.dbflute.cbean.*;
  *     COMMIT, MESSAGE
  *
  * [foreign property]
- *     chara, deadReason, player, skillByRequestSkillCode, skillBySkillCode, village
+ *     chara, deadReason, player, skillByRequestSkillCode, skillBySecondRequestSkillCode, skillBySkillCode, village
  *
  * [referrer property]
  *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList
@@ -192,6 +192,13 @@ public class LoaderOfVillagePlayer {
         if (_foreignSkillByRequestSkillCodeLoader == null)
         { _foreignSkillByRequestSkillCodeLoader = new LoaderOfSkill().ready(myBhv().pulloutSkillByRequestSkillCode(_selectedList), _selector); }
         return _foreignSkillByRequestSkillCodeLoader;
+    }
+
+    protected LoaderOfSkill _foreignSkillBySecondRequestSkillCodeLoader;
+    public LoaderOfSkill pulloutSkillBySecondRequestSkillCode() {
+        if (_foreignSkillBySecondRequestSkillCodeLoader == null)
+        { _foreignSkillBySecondRequestSkillCodeLoader = new LoaderOfSkill().ready(myBhv().pulloutSkillBySecondRequestSkillCode(_selectedList), _selector); }
+        return _foreignSkillBySecondRequestSkillCodeLoader;
     }
 
     protected LoaderOfSkill _foreignSkillBySkillCodeLoader;

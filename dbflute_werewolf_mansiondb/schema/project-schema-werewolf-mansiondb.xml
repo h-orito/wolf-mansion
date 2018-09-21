@@ -517,6 +517,8 @@
             name="SKILL_CODE" size="20" type="VARCHAR"/>
         <column comment="希望役職コード" dbType="VARCHAR" javaType="String"
             name="REQUEST_SKILL_CODE" size="20" type="VARCHAR"/>
+        <column comment="第二希望役職コード" dbType="VARCHAR" javaType="String"
+            name="SECOND_REQUEST_SKILL_CODE" size="20" type="VARCHAR"/>
         <column comment="部屋番号" dbType="INT UNSIGNED" javaType="Integer"
             name="ROOM_NUMBER" size="10" type="INTEGER"/>
         <column comment="死亡しているか" dbType="BIT" javaType="Boolean"
@@ -559,6 +561,10 @@
             <reference foreign="SKILL_CODE" local="REQUEST_SKILL_CODE"/>
         </foreign-key>
         <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="skill" name="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">
+            <reference foreign="SKILL_CODE" local="SECOND_REQUEST_SKILL_CODE"/>
+        </foreign-key>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
             foreignTable="skill" name="FK_VILLAGE_PLAYER_SKILL">
             <reference foreign="SKILL_CODE" local="SKILL_CODE"/>
         </foreign-key>
@@ -574,6 +580,9 @@
         </index>
         <index name="FK_VILLAGE_PLAYER_PLAYER">
             <index-column name="PLAYER_ID" position="1"/>
+        </index>
+        <index name="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">
+            <index-column name="SECOND_REQUEST_SKILL_CODE" position="1"/>
         </index>
         <index name="FK_VILLAGE_PLAYER_SKILL">
             <index-column name="SKILL_CODE" position="1"/>

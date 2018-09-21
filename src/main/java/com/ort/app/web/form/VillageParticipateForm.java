@@ -15,6 +15,9 @@ public class VillageParticipateForm implements Serializable {
     /** 希望役職 */
     private String requestedSkill;
 
+    /** 第二希望役職 */
+    private String secondRequestedSkill;
+
     /** 入村発言 */
     @NotNull
     private String joinMessage;
@@ -74,5 +77,13 @@ public class VillageParticipateForm implements Serializable {
 
     public void setIsSpectator(Boolean isSpectator) {
         this.isSpectator = isSpectator;
+    }
+
+    public String getSecondRequestedSkill() {
+        return secondRequestedSkill;
+    }
+
+    public void setSecondRequestedSkill(String secondRequestedSkill) {
+        this.secondRequestedSkill = secondRequestedSkill;
     }
 }

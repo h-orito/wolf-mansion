@@ -446,7 +446,7 @@ dl.procedurelist dd.column pre {
 		<td><a href="#skill" title="type=TABLE, primaryKey={SKILL_CODE}, nameLength=5, columnCount=4">SKILL</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#camp" title="FK_SKILL_CAMP">CAMP</a></td>
-		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">VILLAGE_PLAYER</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL">VILLAGE_PLAYER</a></td>
+		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">VILLAGE_PLAYER</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">VILLAGE_PLAYER</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL">VILLAGE_PLAYER</a></td>
 		<td class="commentcell"> 役職</td>
 		<td class="subcell">Skill</td>
 	</tr>
@@ -470,9 +470,9 @@ dl.procedurelist dd.column pre {
 	</tr>
 	<tr>
 		<td class="rownumcell">20</td>
-		<td><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=17">VILLAGE_PLAYER</a></td>
+		<td><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=18">VILLAGE_PLAYER</a></td>
 		<td class="typecell">TABLE</td>
-		<td class="relcell"><a href="#chara" title="FK_VILLAGE_PLAYER_CHARA">CHARA</a>, <a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_REASON">DEAD_REASON</a>, <a href="#player" title="FK_VILLAGE_PLAYER_PLAYER">PLAYER</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL">SKILL</a>, <a href="#village" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE</a></td>
+		<td class="relcell"><a href="#chara" title="FK_VILLAGE_PLAYER_CHARA">CHARA</a>, <a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_REASON">DEAD_REASON</a>, <a href="#player" title="FK_VILLAGE_PLAYER_PLAYER">PLAYER</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL">SKILL</a>, <a href="#village" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE</a></td>
 		<td class="relcell"><a href="#commit" title="FK_COMMIT_VILLAGE_PLAYER">COMMIT</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER_TO">MESSAGE</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER">MESSAGE</a></td>
 		<td class="commentcell"> 村参加者</td>
 		<td class="subcell">VillagePlayer</td>
@@ -2506,7 +2506,7 @@ SKILL
 		<td class="typecell">VARCHAR</td>
 		<td class="sizecell"> 20 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">VILLAGE_PLAYER</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL">VILLAGE_PLAYER</a>&nbsp;</td>
+		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">VILLAGE_PLAYER</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">VILLAGE_PLAYER</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL">VILLAGE_PLAYER</a>&nbsp;</td>
 		<td class="relcell"><a href="#SkillCls">Skill</a></td>
 		<td class="commentcell"> 役職コード</td>
 		<td class="subcell">skillCode</td>
@@ -2937,7 +2937,7 @@ VILLAGE_DAY
 		<td class="subcell">String</td>
 	</tr>
 </table>
-<h2 id="village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=17">
+<h2 id="village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=18">
 VILLAGE_PLAYER
 </h2>
 <p class="tablecomment">村参加者</p>
@@ -3068,6 +3068,23 @@ VILLAGE_PLAYER
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ(SECOND_REQUEST_SKILL_CODE)">o</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td id="village_player_second_request_skill_code">SECOND_REQUEST_SKILL_CODE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell"><a href="#skill" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">SKILL</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#SkillCls">Skill</a></td>
+		<td class="commentcell"> 第二希望役職コード</td>
+		<td class="subcell">secondRequestSkillCode</td>
+		<td class="subcell">String</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">8</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td id="village_player_room_number">ROOM_NUMBER</td>
@@ -3081,7 +3098,7 @@ VILLAGE_PLAYER
 		<td class="subcell">Integer</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">8</td>
+		<td class="rownumcell">9</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -3098,7 +3115,7 @@ VILLAGE_PLAYER
 		<td class="subcell">Boolean</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">9</td>
+		<td class="rownumcell">10</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -3115,7 +3132,7 @@ VILLAGE_PLAYER
 		<td class="subcell">Boolean</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">10</td>
+		<td class="rownumcell">11</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -3132,7 +3149,7 @@ VILLAGE_PLAYER
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">11</td>
+		<td class="rownumcell">12</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -3149,7 +3166,7 @@ VILLAGE_PLAYER
 		<td class="subcell">Integer</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">12</td>
+		<td class="rownumcell">13</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -3166,7 +3183,7 @@ VILLAGE_PLAYER
 		<td class="subcell">Boolean</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">13</td>
+		<td class="rownumcell">14</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -3183,7 +3200,7 @@ VILLAGE_PLAYER
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">14</td>
+		<td class="rownumcell">15</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -3200,7 +3217,7 @@ VILLAGE_PLAYER
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">15</td>
+		<td class="rownumcell">16</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -3217,7 +3234,7 @@ VILLAGE_PLAYER
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">16</td>
+		<td class="rownumcell">17</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -3234,7 +3251,7 @@ VILLAGE_PLAYER
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">17</td>
+		<td class="rownumcell">18</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>

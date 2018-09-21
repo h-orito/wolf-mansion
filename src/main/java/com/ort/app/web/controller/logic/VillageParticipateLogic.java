@@ -9,6 +9,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
+import com.ort.app.web.util.CharaUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.PlayerBhv;
@@ -56,10 +57,11 @@ public class VillageParticipateLogic {
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
-    public void participate(Integer villageId, Integer playerId, Integer charaId, CDef.Skill requestSkill, String joinMessage,
-            boolean isSpectator, boolean isConvertDisable) {
+    public void participate(Integer villageId, Integer playerId, Integer charaId, CDef.Skill requestSkill, CDef.Skill secondRequestSkill,
+            String joinMessage, boolean isSpectator, boolean isConvertDisable) {
         // 村参加
-        Integer villagePlayerId = insertVillagePlayer(villageId, playerId, charaId, requestSkill, joinMessage, isSpectator);
+        Integer villagePlayerId =
+                insertVillagePlayer(villageId, playerId, charaId, requestSkill, secondRequestSkill, joinMessage, isSpectator);
         if (!isSpectator) {
             // 参加メッセージ
             int participateNum = villagePlayerBhv.selectCount(cb -> {
@@ -74,8 +76,8 @@ public class VillageParticipateLogic {
                 // 参加発言
                 messageLogic.insertMessage(villageId, 0, CDef.MessageType.通常発言, joinMessage, villagePlayerId, isConvertDisable);
                 // 希望役職メッセージ
-                String message =
-                        messageSource.getMessage("requestskill.message", new String[] { charaName, requestSkill.alias() }, Locale.JAPAN);
+                String message = messageSource.getMessage("requestskill.message",
+                        new String[] { charaName, requestSkill.alias(), secondRequestSkill.alias() }, Locale.JAPAN);
                 messageLogic.insertMessage(villageId, 0, CDef.MessageType.非公開システムメッセージ, message, true);
             } catch (WerewolfMansionBusinessException e) {
                 // ここでは何回も被らないので何もしない
@@ -120,21 +122,23 @@ public class VillageParticipateLogic {
         }
     }
 
-    public void changeRequestSkill(VillagePlayer villagePlayer, String skillCode) {
+    public void changeRequestSkill(VillagePlayer villagePlayer, String skillCode, String secondSkillCode) {
         CDef.Skill requestSkill = CDef.Skill.codeOf(skillCode);
-        if (requestSkill == null) {
+        CDef.Skill secondRequestSkill = CDef.Skill.codeOf(secondSkillCode);
+        if (requestSkill == null || secondRequestSkill == null) {
             throw new IllegalArgumentException("不正な役職コード");
         }
         VillagePlayer entity = new VillagePlayer();
         entity.setRequestSkillCodeAsSkill(requestSkill);
+        entity.setSecondRequestSkillCodeAsSkill(secondRequestSkill);
         // 希望役職変更
         villagePlayerBhv.queryUpdate(entity, cb -> {
             cb.query().setVillagePlayerId_Equal(villagePlayer.getVillagePlayerId());
         });
         // 変更メッセージ
-        String charaName =
-                charaBhv.selectEntityWithDeletedCheck(cb -> cb.query().setCharaId_Equal(villagePlayer.getCharaId())).getCharaName();
-        String message = messageSource.getMessage("requestskill.message", new String[] { charaName, requestSkill.alias() }, Locale.JAPAN);
+        String charaName = CharaUtil.makeCharaName(villagePlayer);
+        String message = messageSource.getMessage("requestskill.message",
+                new String[] { charaName, requestSkill.alias(), secondRequestSkill.alias() }, Locale.JAPAN);
         try {
             messageLogic.insertMessage(villagePlayer.getVillageId(), 0, CDef.MessageType.非公開システムメッセージ, message, true);
         } catch (WerewolfMansionBusinessException e) {
@@ -177,8 +181,8 @@ public class VillageParticipateLogic {
     // ===================================================================================
     //                                                                              Update
     //                                                                              ======
-    private Integer insertVillagePlayer(Integer villageId, Integer playerId, Integer charaId, CDef.Skill requestSkill, String joinMessage,
-            boolean isSpectator) {
+    private Integer insertVillagePlayer(Integer villageId, Integer playerId, Integer charaId, CDef.Skill requestSkill,
+            CDef.Skill secondRequestSkill, String joinMessage, boolean isSpectator) {
         VillagePlayer villagePlayer = new VillagePlayer();
         villagePlayer.setVillageId(villageId);
         villagePlayer.setPlayerId(playerId);
@@ -187,6 +191,7 @@ public class VillageParticipateLogic {
         villagePlayer.setIsSpectator(isSpectator);
         villagePlayer.setIsGone_False();
         villagePlayer.setRequestSkillCodeAsSkill(requestSkill);
+        villagePlayer.setSecondRequestSkillCodeAsSkill(secondRequestSkill);
         villagePlayer.setLastAccessDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
         villagePlayerBhv.insert(villagePlayer);
         return villagePlayer.getVillagePlayerId();
