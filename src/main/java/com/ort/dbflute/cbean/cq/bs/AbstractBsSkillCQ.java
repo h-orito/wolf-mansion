@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of skill.
+ * The abstract condition-query of SKILL.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "skill";
+        return "SKILL";
     }
 
     // ===================================================================================
@@ -87,11 +87,27 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As おまかせ足音職 (FOOTSTEPS). And OnlyOnceRegistered. <br>
+     * おまかせ（足音職）
+     */
+    public void setSkillCode_Equal_おまかせ足音職() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ足音職);
+    }
+
+    /**
      * Equal(=). As 妖狐 (FOX). And OnlyOnceRegistered. <br>
      * 妖狐
      */
     public void setSkillCode_Equal_妖狐() {
         setSkillCode_Equal_AsSkill(CDef.Skill.妖狐);
+    }
+
+    /**
+     * Equal(=). As おまかせ役職窓あり (FRIENDS). And OnlyOnceRegistered. <br>
+     * おまかせ（役職窓あり）
+     */
+    public void setSkillCode_Equal_おまかせ役職窓あり() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ役職窓あり);
     }
 
     /**
@@ -143,6 +159,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As おまかせ人外 (NOVILLAGERS). And OnlyOnceRegistered. <br>
+     * おまかせ（人外）
+     */
+    public void setSkillCode_Equal_おまかせ人外() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ人外);
+    }
+
+    /**
      * Equal(=). As 占い師 (SEER). And OnlyOnceRegistered. <br>
      * 占い師
      */
@@ -159,11 +183,27 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As おまかせ村人陣営 (VILLAGERS). And OnlyOnceRegistered. <br>
+     * おまかせ（村人陣営）
+     */
+    public void setSkillCode_Equal_おまかせ村人陣営() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ村人陣営);
+    }
+
+    /**
      * Equal(=). As 人狼 (WEREWOLF). And OnlyOnceRegistered. <br>
      * 人狼
      */
     public void setSkillCode_Equal_人狼() {
         setSkillCode_Equal_AsSkill(CDef.Skill.人狼);
+    }
+
+    /**
+     * Equal(=). As おまかせ人狼陣営 (WEREWOLFS). And OnlyOnceRegistered. <br>
+     * おまかせ（人狼陣営）
+     */
+    public void setSkillCode_Equal_おまかせ人狼陣営() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ人狼陣営);
     }
 
     /**
@@ -222,11 +262,27 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As おまかせ足音職 (FOOTSTEPS). And OnlyOnceRegistered. <br>
+     * おまかせ（足音職）
+     */
+    public void setSkillCode_NotEqual_おまかせ足音職() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ足音職);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 妖狐 (FOX). And OnlyOnceRegistered. <br>
      * 妖狐
      */
     public void setSkillCode_NotEqual_妖狐() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.妖狐);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As おまかせ役職窓あり (FRIENDS). And OnlyOnceRegistered. <br>
+     * おまかせ（役職窓あり）
+     */
+    public void setSkillCode_NotEqual_おまかせ役職窓あり() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ役職窓あり);
     }
 
     /**
@@ -278,6 +334,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As おまかせ人外 (NOVILLAGERS). And OnlyOnceRegistered. <br>
+     * おまかせ（人外）
+     */
+    public void setSkillCode_NotEqual_おまかせ人外() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ人外);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 占い師 (SEER). And OnlyOnceRegistered. <br>
      * 占い師
      */
@@ -294,11 +358,27 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As おまかせ村人陣営 (VILLAGERS). And OnlyOnceRegistered. <br>
+     * おまかせ（村人陣営）
+     */
+    public void setSkillCode_NotEqual_おまかせ村人陣営() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ村人陣営);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 人狼 (WEREWOLF). And OnlyOnceRegistered. <br>
      * 人狼
      */
     public void setSkillCode_NotEqual_人狼() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.人狼);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As おまかせ人狼陣営 (WEREWOLFS). And OnlyOnceRegistered. <br>
+     * おまかせ（人狼陣営）
+     */
+    public void setSkillCode_NotEqual_おまかせ人狼陣営() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ人狼陣営);
     }
 
     /**
@@ -361,8 +441,8 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select REQUEST_SKILL_CODE from village_player where ...)} <br>
-     * village_player by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeAsOne'.
+     * {exists (select REQUEST_SKILL_CODE from VILLAGE_PLAYER where ...)} <br>
+     * VILLAGE_PLAYER by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsVillagePlayerByRequestSkillCode</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
@@ -380,8 +460,8 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select SECOND_REQUEST_SKILL_CODE from village_player where ...)} <br>
-     * village_player by SECOND_REQUEST_SKILL_CODE, named 'villagePlayerBySecondRequestSkillCodeAsOne'.
+     * {exists (select SECOND_REQUEST_SKILL_CODE from VILLAGE_PLAYER where ...)} <br>
+     * VILLAGE_PLAYER by SECOND_REQUEST_SKILL_CODE, named 'villagePlayerBySecondRequestSkillCodeAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsVillagePlayerBySecondRequestSkillCode</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
@@ -399,8 +479,8 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select SKILL_CODE from village_player where ...)} <br>
-     * village_player by SKILL_CODE, named 'villagePlayerBySkillCodeAsOne'.
+     * {exists (select SKILL_CODE from VILLAGE_PLAYER where ...)} <br>
+     * VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerBySkillCodeAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsVillagePlayerBySkillCode</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
@@ -418,8 +498,8 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select REQUEST_SKILL_CODE from village_player where ...)} <br>
-     * village_player by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeAsOne'.
+     * {not exists (select REQUEST_SKILL_CODE from VILLAGE_PLAYER where ...)} <br>
+     * VILLAGE_PLAYER by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsVillagePlayerByRequestSkillCode</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
@@ -437,8 +517,8 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select SECOND_REQUEST_SKILL_CODE from village_player where ...)} <br>
-     * village_player by SECOND_REQUEST_SKILL_CODE, named 'villagePlayerBySecondRequestSkillCodeAsOne'.
+     * {not exists (select SECOND_REQUEST_SKILL_CODE from VILLAGE_PLAYER where ...)} <br>
+     * VILLAGE_PLAYER by SECOND_REQUEST_SKILL_CODE, named 'villagePlayerBySecondRequestSkillCodeAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsVillagePlayerBySecondRequestSkillCode</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
@@ -456,8 +536,8 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select SKILL_CODE from village_player where ...)} <br>
-     * village_player by SKILL_CODE, named 'villagePlayerBySkillCodeAsOne'.
+     * {not exists (select SKILL_CODE from VILLAGE_PLAYER where ...)} <br>
+     * VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerBySkillCodeAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsVillagePlayerBySkillCode</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
@@ -499,8 +579,8 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from village_player where ...)} <br>
-     * village_player by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeAsOne'.
+     * {FOO &lt;= (select max(BAR) from VILLAGE_PLAYER where ...)} <br>
+     * VILLAGE_PLAYER by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVillagePlayerByRequestSkillCode()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -526,8 +606,8 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from village_player where ...)} <br>
-     * village_player by SECOND_REQUEST_SKILL_CODE, named 'villagePlayerBySecondRequestSkillCodeAsOne'.
+     * {FOO &lt;= (select max(BAR) from VILLAGE_PLAYER where ...)} <br>
+     * VILLAGE_PLAYER by SECOND_REQUEST_SKILL_CODE, named 'villagePlayerBySecondRequestSkillCodeAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVillagePlayerBySecondRequestSkillCode()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -553,8 +633,8 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from village_player where ...)} <br>
-     * village_player by SKILL_CODE, named 'villagePlayerBySkillCodeAsOne'.
+     * {FOO &lt;= (select max(BAR) from VILLAGE_PLAYER where ...)} <br>
+     * VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerBySkillCodeAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVillagePlayerBySkillCode()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -730,7 +810,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
      * @param campCode The value of campCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setCampCode_Equal(String campCode) {
@@ -739,7 +819,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). As Camp. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
      * 陣営
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -777,7 +857,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
      * @param campCode The value of campCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setCampCode_NotEqual(String campCode) {
@@ -786,7 +866,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). As Camp. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
      * 陣営
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -824,7 +904,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
      * @param campCodeList The collection of campCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setCampCode_InScope(Collection<String> campCodeList) {
@@ -833,7 +913,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. As Camp. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
      * 陣営
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -847,7 +927,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
      * @param campCodeList The collection of campCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setCampCode_NotInScope(Collection<String> campCodeList) {
@@ -856,7 +936,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. As Camp. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
      * 陣営
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */

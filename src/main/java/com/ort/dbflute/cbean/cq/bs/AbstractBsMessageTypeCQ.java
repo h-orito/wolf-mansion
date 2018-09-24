@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of message_type.
+ * The abstract condition-query of MESSAGE_TYPE.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "message_type";
+        return "MESSAGE_TYPE";
     }
 
     // ===================================================================================
@@ -361,8 +361,8 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select MESSAGE_TYPE_CODE from message where ...)} <br>
-     * message by MESSAGE_TYPE_CODE, named 'messageAsOne'.
+     * {exists (select MESSAGE_TYPE_CODE from MESSAGE where ...)} <br>
+     * MESSAGE by MESSAGE_TYPE_CODE, named 'messageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsMessage</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     messageCB.query().set...
@@ -380,8 +380,8 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select MESSAGE_TYPE_CODE from message where ...)} <br>
-     * message by MESSAGE_TYPE_CODE, named 'messageAsOne'.
+     * {not exists (select MESSAGE_TYPE_CODE from MESSAGE where ...)} <br>
+     * MESSAGE by MESSAGE_TYPE_CODE, named 'messageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsMessage</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     messageCB.query().set...
@@ -407,8 +407,8 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from message where ...)} <br>
-     * message by MESSAGE_TYPE_CODE, named 'messageAsOne'.
+     * {FOO &lt;= (select max(BAR) from MESSAGE where ...)} <br>
+     * MESSAGE by MESSAGE_TYPE_CODE, named 'messageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedMessage()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     messageCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>

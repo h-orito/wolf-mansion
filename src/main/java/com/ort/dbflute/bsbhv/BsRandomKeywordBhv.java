@@ -67,7 +67,7 @@ public abstract class BsRandomKeywordBhv extends AbstractBehaviorWritable<Random
     /** {@inheritDoc} */
     public RandomKeywordDbm asDBMeta() { return RandomKeywordDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "random_keyword"; }
+    public String asTableDbName() { return "RANDOM_KEYWORD"; }
 
     // ===================================================================================
     //                                                                        New Instance

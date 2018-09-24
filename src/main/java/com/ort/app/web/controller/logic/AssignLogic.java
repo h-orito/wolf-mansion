@@ -1,7 +1,9 @@
 package com.ort.app.web.controller.logic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -32,9 +34,20 @@ public class AssignLogic {
     //                                                                          Definition
     //                                                                          ==========
     private static Map<Integer, List<Integer>> roomNumberAssignMap;
+    private static final List<Skill> rangeSkillList =
+            Arrays.asList(Skill.おまかせ人外, Skill.おまかせ人狼陣営, Skill.おまかせ役職窓あり, Skill.おまかせ村人陣営, Skill.おまかせ足音職);
+    private static final Map<Skill, List<Skill>> rangeSkillMap;
 
     static {
         roomNumberAssignMap = RoomUtil.createRoomAssignMap();
+
+        rangeSkillMap = new HashMap<Skill, List<Skill>>();
+        rangeSkillMap.put(Skill.おまかせ人外, Arrays.asList(Skill.C国狂人, Skill.人狼, Skill.妖狐, Skill.狂人, Skill.狂信者, Skill.魔神官));
+        rangeSkillMap.put(Skill.おまかせ人狼陣営, Arrays.asList(Skill.C国狂人, Skill.人狼, Skill.狂人, Skill.狂信者, Skill.魔神官));
+        rangeSkillMap.put(Skill.おまかせ役職窓あり, Arrays.asList(Skill.人狼, Skill.共鳴者));
+        rangeSkillMap.put(Skill.おまかせ村人陣営, Arrays.asList(Skill.共鳴者, Skill.占い師, Skill.導師, Skill.村人, Skill.狩人, Skill.賢者, Skill.霊能者));
+        rangeSkillMap.put(Skill.おまかせ足音職,
+                Arrays.asList(Skill.C国狂人, Skill.人狼, Skill.占い師, Skill.妖狐, Skill.狂人, Skill.狂信者, Skill.狩人, Skill.賢者, Skill.魔神官));
     }
 
     // ===================================================================================
@@ -61,16 +74,20 @@ public class AssignLogic {
         Map<CDef.Skill, Integer> skillPersonNumMap = makeSkillPersonNumMap(villageId, vPlayerList.size());
         // 人数により役職構成が切り替わった場合に役職希望を自動で変更する
         List<VillagePlayer> vpList = updateSkillRequestByOrganization(villageId, vPlayerList, skillPersonNumMap);
-        // 更新用プレイヤーリスト
-        List<VillagePlayer> updatePlayerList = new ArrayList<>();
-        // 役職希望した人について、役職ごとの最大人数まで割り当てて更新用リストに追加
-        addRequestToUpdatePlayerList(vpList, skillPersonNumMap, updatePlayerList);
-        // 希望していないもしくはまだ割り当てられていないプレイヤーを更新用リストに追加
-        addNotRequestToUpdatePlayerList(vpList, skillPersonNumMap, updatePlayerList);
+        // 管理用オブジェクトへの詰め替え、ダミー配役
+        List<SkillAssign> skillAssignList = createSkillAssignList(vpList);
+        // 第1希望で役職指定で希望した人に割り当て
+        assignSpecifySkillRequest(skillAssignList, skillPersonNumMap, true);
+        // 第1希望で範囲指定で希望した人に割り当て
+        assignRangeSkillRequest(skillAssignList, skillPersonNumMap, true);
+        // 第2希望で役職指定で希望した人に割り当て
+        assignSpecifySkillRequest(skillAssignList, skillPersonNumMap, false);
+        // 第2希望で範囲指定で希望した人に割り当て
+        assignRangeSkillRequest(skillAssignList, skillPersonNumMap, false);
+        // ここまでで割当たらなかった人に割り当て
+        assignOther(skillAssignList, skillPersonNumMap);
         // update
-        updatePlayerList.stream().forEach(player -> {
-            villagePlayerBhv.update(player);
-        });
+        updateVillagePlayer(skillAssignList);
         // 役職割り当てについてメッセージ追加
         insertOrganizationMessage(villageId, skillPersonNumMap);
         insertAssignedMessage(villageId);
@@ -128,6 +145,7 @@ public class AssignLogic {
         ListResultBean<VillagePlayer> playerList = villagePlayerBhv.selectList(cb -> {
             cb.setupSelect_Chara();
             cb.setupSelect_SkillByRequestSkillCode();
+            cb.setupSelect_SkillBySecondRequestSkillCode();
             cb.setupSelect_SkillBySkillCode();
             cb.query().setIsGone_Equal_False();
             cb.query().setIsSpectator_Equal_False();
@@ -165,74 +183,23 @@ public class AssignLogic {
         return SkillUtil.createSkillPersonNum(personNumOrg);
     }
 
-    private void addRequestToUpdatePlayerList(List<VillagePlayer> vPlayerList, Map<CDef.Skill, Integer> skillPersonNumMap,
-            List<VillagePlayer> updatePlayerList) {
+    private void assignNotPopularSkill(SkillAssign assign, Map<Skill, Integer> skillPersonNumMap, List<SkillAssign> skillAssignList) {
         for (Entry<CDef.Skill, Integer> entry : skillPersonNumMap.entrySet()) {
             CDef.Skill skill = entry.getKey();
             int capacity = entry.getValue();
-            // この役職を希望している人
-            List<VillagePlayer> requestPlayerList =
-                    vPlayerList.stream().filter(player -> skill == player.getRequestSkillCodeAsSkill()).collect(Collectors.toList());
-            Collections.shuffle(requestPlayerList); // シャッフル
-            int count = 0;
-            if (skill == CDef.Skill.村人) {
-                // ダミーは強制村人
-                Integer dummyVillagePlayerId =
-                        vPlayerList.stream().filter(p -> p.getChara().get().isIsDummyTrue()).findFirst().get().getVillagePlayerId();
-                updatePlayerList.add(makeUpdateVillagePlayerBean(dummyVillagePlayerId, CDef.Skill.村人));
-                count++;
-            }
-            for (VillagePlayer requestedPlayer : requestPlayerList) {
-                if (requestedPlayer.getChara().get().isIsDummyTrue()) {
-                    continue;
-                }
-                if (count >= capacity) {
-                    break;
-                }
-                updatePlayerList.add(makeUpdateVillagePlayerBean(requestedPlayer.getVillagePlayerId(), skill));
-                count++;
-            }
-        }
-    }
-
-    private void addNotRequestToUpdatePlayerList(List<VillagePlayer> playerList, Map<CDef.Skill, Integer> skillPersonNumMap,
-            List<VillagePlayer> updatePlayerList) {
-        List<VillagePlayer> noAssignedPlayer = playerList.stream()
-                .filter(player -> updatePlayerList.stream()
-                        .noneMatch(updPlayer -> updPlayer.getVillagePlayerId().equals(player.getVillagePlayerId())))
-                .collect(Collectors.toList());
-        Collections.shuffle(noAssignedPlayer); // シャッフル
-        noAssignedPlayer.forEach(player -> {
-            // 枠が余っている役職を探す
-            CDef.Skill skill = findNotPopularSkill(skillPersonNumMap, updatePlayerList);
-            updatePlayerList.add(makeUpdateVillagePlayerBean(player.getVillagePlayerId(), skill));
-        });
-    }
-
-    private Skill findNotPopularSkill(Map<Skill, Integer> skillPersonNumMap, List<VillagePlayer> updatePlayerList) {
-        for (Entry<CDef.Skill, Integer> entry : skillPersonNumMap.entrySet()) {
-            CDef.Skill skill = entry.getKey();
-            int capacity = entry.getValue();
-            long assignedPlayerNum = updatePlayerList.stream().filter(player -> player.getSkillCodeAsSkill() == skill).count();
+            long assignedPlayerNum = skillAssignList.stream().filter(sa -> sa.assignedSkill == skill).count();
             if (assignedPlayerNum < capacity) {
-                return skill;
+                assign.assignedSkill = skill;
             }
         }
-        return null;
-    }
-
-    private VillagePlayer makeUpdateVillagePlayerBean(Integer villagePlayerId, CDef.Skill skill) {
-        VillagePlayer villagePlayer = new VillagePlayer();
-        villagePlayer.setVillagePlayerId(villagePlayerId);
-        villagePlayer.setSkillCodeAsSkill(skill);
-        return villagePlayer;
     }
 
     private String makeAssignedMessage(ListResultBean<VillagePlayer> playerList) {
         StringJoiner joiner = new StringJoiner("\n");
         for (VillagePlayer player : playerList) {
-            joiner.add(String.format("%sの役職は%sになりました。（希望役職：%s）", CharaUtil.makeCharaName(player),
-                    player.getSkillBySkillCode().get().getSkillName(), player.getSkillByRequestSkillCode().get().getSkillName()));
+            joiner.add(String.format("%sの役職は%sになりました。（希望役職：%s/%s）", CharaUtil.makeCharaName(player),
+                    player.getSkillBySkillCode().get().getSkillName(), player.getSkillByRequestSkillCode().get().getSkillName(),
+                    player.getSkillBySecondRequestSkillCode().get().getSkillName()));
         }
         return joiner.toString();
     }
@@ -324,7 +291,7 @@ public class AssignLogic {
     }
 
     private boolean existSkillInOrg(Skill skill, Map<Skill, Integer> skillPersonNumMap) {
-        if (skill == CDef.Skill.おまかせ) {
+        if (skill == CDef.Skill.おまかせ || rangeSkillList.contains(skill)) {
             return true;
         }
         if (skill == CDef.Skill.村人) {
@@ -345,6 +312,99 @@ public class AssignLogic {
         }
     }
 
+    private List<SkillAssign> createSkillAssignList(List<VillagePlayer> vPlayerList) {
+        List<SkillAssign> skillAssignList = vPlayerList.stream().filter(vp -> vp.getChara().get().isIsDummyFalse()).map(vp -> {
+            return new SkillAssign(vp.getVillagePlayerId(), vp.getRequestSkillCodeAsSkill(), vp.getSecondRequestSkillCodeAsSkill());
+        }).collect(Collectors.toList());
+        VillagePlayer dummy = vPlayerList.stream().filter(vp -> vp.getChara().get().isIsDummyTrue()).findFirst().get();
+        SkillAssign assign =
+                new SkillAssign(dummy.getVillagePlayerId(), dummy.getRequestSkillCodeAsSkill(), dummy.getSecondRequestSkillCodeAsSkill());
+        assign.assignedSkill = CDef.Skill.村人; // 村人固定
+        skillAssignList.add(assign);
+        return skillAssignList;
+    }
+
+    private void updateVillagePlayer(List<SkillAssign> skillAssignList) {
+        skillAssignList.forEach(assign -> {
+            VillagePlayer vp = new VillagePlayer();
+            vp.setVillagePlayerId(assign.villagePlayerId);
+            vp.setSkillCodeAsSkill(assign.assignedSkill);
+            villagePlayerBhv.update(vp);
+        });
+    }
+
+    private void assignSpecifySkillRequest(List<SkillAssign> skillAssignList, Map<Skill, Integer> skillPersonNumMap, boolean isFirst) {
+        for (Entry<CDef.Skill, Integer> entry : skillPersonNumMap.entrySet()) {
+            CDef.Skill skill = entry.getKey();
+            int capacity = entry.getValue();
+            // この役職を希望していて、まだ役職が割り当たっていない人
+            List<SkillAssign> requestPlayerList =
+                    skillAssignList.stream().filter(sa -> sa.getRequest(isFirst) == skill && !sa.alreadyAssigned()).collect(
+                            Collectors.toList());
+            if (requestPlayerList.size() == 0) {
+                continue;
+            }
+            // この役職について空いている枠数
+            int left = capacity - (int) skillAssignList.stream().filter(sa -> sa.assignedSkill == skill).count();
+            if (left <= 0) {
+                continue;
+            }
+            // 空いている人数まで割り当てる
+            Collections.shuffle(requestPlayerList); // シャッフル
+            int count = 0;
+            for (SkillAssign requestedPlayer : requestPlayerList) {
+                if (count >= left) {
+                    break;
+                }
+                requestedPlayer.assignedSkill = skill;
+                count++;
+            }
+        }
+    }
+
+    private void assignRangeSkillRequest(List<SkillAssign> skillAssignList, Map<Skill, Integer> skillPersonNumMap, boolean isFirst) {
+        // 範囲指定している人単位でランダム順に割り当てていく
+        List<SkillAssign> rangeRequestPlayerList =
+                skillAssignList.stream().filter(sa -> rangeSkillList.contains(sa.getRequest(isFirst)) && !sa.alreadyAssigned()).collect(
+                        Collectors.toList());
+        if (rangeRequestPlayerList.size() == 0) {
+            return;
+        }
+        Collections.shuffle(rangeRequestPlayerList);
+        rangeRequestPlayerList.forEach(assign -> {
+            // 範囲指定の中でまだ枠がある役職をランダムに取得して割り当て（割当たらないこともある）
+            extractAvailableSkill(assign, skillAssignList, skillPersonNumMap, isFirst);
+        });
+    }
+
+    private void extractAvailableSkill(SkillAssign assign, List<SkillAssign> skillAssignList, Map<Skill, Integer> skillPersonNumMap,
+            boolean isFirst) {
+        List<Skill> candidateSkillList = rangeSkillMap.get(assign.getRequest(isFirst));
+        Collections.shuffle(candidateSkillList);
+        for (Skill skill : candidateSkillList) {
+            // まだ空きがあったら割り当てる
+            int capacity = skillPersonNumMap.get(skill);
+            int left = capacity - (int) skillAssignList.stream().filter(sa -> sa.assignedSkill == skill).count();
+            if (left <= 0) {
+                continue;
+            }
+            assign.assignedSkill = skill;
+            return;
+        }
+    }
+
+    private void assignOther(List<SkillAssign> skillAssignList, Map<Skill, Integer> skillPersonNumMap) {
+        List<SkillAssign> noAssignedPlayer = skillAssignList.stream().filter(sa -> !sa.alreadyAssigned()).collect(Collectors.toList());
+        Collections.shuffle(noAssignedPlayer); // シャッフル
+        noAssignedPlayer.forEach(sa -> {
+            // 枠が余っている役職を割り当てる
+            assignNotPopularSkill(sa, skillPersonNumMap, skillAssignList);
+        });
+    }
+
+    // ===================================================================================
+    //                                                                         inner class
+    //                                                                             =======
     private static class SkillRequest {
         private Skill first;
         private Skill second;
@@ -356,6 +416,27 @@ public class AssignLogic {
 
         private boolean isChanged(SkillRequest after) {
             return this.first != after.first || this.second != after.second;
+        }
+    }
+
+    private static class SkillAssign {
+        private Integer villagePlayerId;
+        private Skill firstRequestSkill;
+        private Skill secondRequestSkill;
+        private Skill assignedSkill;
+
+        private SkillAssign(Integer vpId, Skill firstRequestSkill, Skill secondRequestSkill) {
+            this.villagePlayerId = vpId;
+            this.firstRequestSkill = firstRequestSkill;
+            this.secondRequestSkill = secondRequestSkill;
+        }
+
+        private boolean alreadyAssigned() {
+            return assignedSkill != null;
+        }
+
+        private Skill getRequest(boolean isFirst) {
+            return isFirst ? firstRequestSkill : secondRequestSkill;
         }
     }
 

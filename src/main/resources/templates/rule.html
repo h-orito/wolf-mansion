@@ -30,11 +30,10 @@
 							</ul></li>
 						<li><strong class="text-danger">ただし、導師のみCOおよび霊能結果を白ログで報告することができます。（結果騙りもOKとします。）</strong>
 							<ul>
-								<li>ルール次第ではCOできる役職を導師以外にする場合があります。その場合は開始直後にルールの説明がなされるはずです。</li>
-								<li>特に記載なき場合、COできる役職は導師とします。</li>
-								<li>COできる役職も白ログでの推理やまとめ行為は禁止です。</li>
+								<li>導師も白ログでの推理やまとめ行為は禁止です。</li>
 								<li>当然ながら、役職者騙りも禁止です。</li>
 								<li>墓下と地上で会話ができる村設定の場合は、死亡後の導師CO及び結果の報告は禁止です。</li>
+								<li>これらの禁止行為は通常村でのルールとなります。村ごとに定めたルールがある場合はそちらが優先されます。</li>
 							</ul></li>
 						<li>1日目になると、各参加者に碁盤の目のように並んだ部屋のいずれかが割り振られます。
 							<ul>
@@ -143,10 +142,34 @@
 						</li>
 						<li id="skill-request">役職希望
 							<ul>
-								<li>構成上存在しない役職を希望していた場合、おまかせ扱いになります。</li>
-								<li>村建て時に役職希望を無効にした場合、全員がおまかせ扱いになります。</li>
-								<li>おまかせは、役職を希望していた人よりも後に役職が割り振られます。（つまり、おまかせは誰かに希望されている役職を奪うことはありません。）</li>
 								<li>ダミーキャラ（2日目に人狼に襲撃される人）は必ず村人となります。</li>
+								<li>村建て時に役職希望を無効にした場合、全員がおまかせ扱いになります。</li>
+								<li>役職希望ありの場合、第1希望、第2希望それぞれ役職や陣営などを指定することができます。</li>
+								<li>おまかせ系の希望は、役職指定での希望よりも後で役職が割り振られます。</li>
+								<li>おまかせ（村人陣営、人狼陣営）は、<a href="#camp">陣営</a>に属する役職の希望となります。
+								</li>
+								<li>おまかせ（人外）は、村人陣営以外の役職の希望となります。</li>
+								<li>おまかせ（足音職）は、人狼、狂人系、占い師系、狩人、妖狐の希望となります。</li>
+								<li>おまかせ（役職窓あり）は、人狼、共鳴者の希望となります。</li>
+								<li>1日目に移行する際、以下の処理で配役が決定されます。
+									<ul>
+										<li>1. 人数に応じて構成が変化するため、以下のように自動で希望が変更されます。
+											<ul>
+												<li>ダミーを除いて村人が0名で、霊能者が1名以上存在する場合は、村人→霊能者に変更</li>
+												<li>霊能者が0名で、村人がダミーを除いて1名以上存在する場合は、霊能者→村人に変更</li>
+												<li>占い師と賢者は、存在する側に変更</li>
+												<li>狂人とC国狂人と狂信者と魔神官は、存在する側に変更</li>
+												<li>上記以外で構成上存在しない役職を希望していた場合はおまかせに変更</li>
+											</ul>
+										</li>
+										<li>2. 上記自動変更後、第1希望がおまかせ、第2希望がおまかせ以外の場合は、第1希望と第2希望を入れ替え</li>
+										<li>3. 第1希望のうち、役職指定で希望した人を割り振り</li>
+										<li>4. 第1希望のうち、おまかせ系で希望した人を割り振り</li>
+										<li>5. 第2希望のうち、役職指定で希望した人を割り振り</li>
+										<li>6. 第2希望のうち、おまかせ系で希望した人を割り振り</li>
+										<li>7. ここまでで割り振られなかった人（おまかせもしくは希望が叶わなかった人）を割り振り</li>
+									</ul>
+								</li>
 								<li>G国にあった「初参加者は強制村人希望」「30%の確率でおまかせになる」仕様はありません。</li>
 							</ul>
 						</li>
@@ -331,25 +354,21 @@
 							<tbody>
 								<tr>
 									<td class="vertical-middle">村人陣営</td>
-									<td class="vertical-middle">
-										村人<br>占い師<br>賢者<br>狩人<br>霊能者<br>導師<br>共鳴者
+									<td class="vertical-middle">村人<br>占い師<br>賢者<br>狩人<br>霊能者<br>導師<br>共鳴者
 									</td>
 									<td class="vertical-middle">夜明け時点で人狼および妖狐が全て死亡し、人間（※）が1人以上生存している</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">人狼陣営</td>
-									<td class="vertical-middle">
-										人狼<br>狂人<br>C国狂人<br>魔神官<br>狂信者
+									<td class="vertical-middle">人狼<br>狂人<br>C国狂人<br>魔神官<br>狂信者
 									</td>
-									<td class="vertical-middle">
-										夜明け時点で生存している人狼の数≧生存している人間（※）の数かつ妖狐が死亡している<br>
+									<td class="vertical-middle">夜明け時点で生存している人狼の数≧生存している人間（※）の数かつ妖狐が死亡している<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">妖狐陣営</td>
 									<td class="vertical-middle">妖狐</td>
-									<td class="vertical-middle">
-										夜明け時点で以下のいずれかを満たす
+									<td class="vertical-middle">夜明け時点で以下のいずれかを満たす
 										<ul>
 											<li>人狼が全て死亡かつ妖狐が生存している</li>
 											<li>生存している人狼の数≧生存している人間（※）の数かつ妖狐が生存している</li>
@@ -379,80 +398,67 @@
 							<tbody>
 								<tr>
 									<td class="vertical-middle">8人(4x3)</td>
-									<td class="vertical-middle">
-										＿部部＿<br>部部部部<br>＿部部＿<br>
+									<td class="vertical-middle">＿部部＿<br>部部部部<br>＿部部＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">9人(4x3)</td>
-									<td class="vertical-middle">
-										＿部部＿<br>部部部部<br>＿部部部<br>
+									<td class="vertical-middle">＿部部＿<br>部部部部<br>＿部部部<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">10人(4x3)</td>
-									<td class="vertical-middle">
-										部部部＿<br>部部部部<br>＿部部部<br>
+									<td class="vertical-middle">部部部＿<br>部部部部<br>＿部部部<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">11人(5x3)</td>
-									<td class="vertical-middle">
-										＿部部部＿<br>部部部部部<br>＿部部部＿<br>
+									<td class="vertical-middle">＿部部部＿<br>部部部部部<br>＿部部部＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">12人(4x4)</td>
-									<td class="vertical-middle">
-										＿部部＿<br>部部部部<br>部部部部<br>＿部部＿<br>
+									<td class="vertical-middle">＿部部＿<br>部部部部<br>部部部部<br>＿部部＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">13人(4x4)</td>
-									<td class="vertical-middle">
-										＿部部＿<br>部部部部<br>部部部部<br>＿部部部<br>
+									<td class="vertical-middle">＿部部＿<br>部部部部<br>部部部部<br>＿部部部<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">14人(5x4)</td>
-									<td class="vertical-middle">
-										＿＿部部＿<br>部部部部部<br>部部部部部<br>＿部部＿＿<br>
+									<td class="vertical-middle">＿＿部部＿<br>部部部部部<br>部部部部部<br>＿部部＿＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">15人(5x4)</td>
-									<td class="vertical-middle">
-										＿＿部部＿<br>部部部部部<br>部部部部部<br>＿部部部＿<br>
+									<td class="vertical-middle">＿＿部部＿<br>部部部部部<br>部部部部部<br>＿部部部＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">16人(5x4)</td>
-									<td class="vertical-middle">
-										＿部部部＿<br>部部部部部<br>部部部部部<br>＿部部部＿<br>
+									<td class="vertical-middle">＿部部部＿<br>部部部部部<br>部部部部部<br>＿部部部＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">17人(5x4)</td>
-									<td class="vertical-middle">
-										＿部部部＿<br>部部部部部<br>部部部部部<br>＿部部部部<br>
+									<td class="vertical-middle">＿部部部＿<br>部部部部部<br>部部部部部<br>＿部部部部<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">18人(6x4)</td>
-									<td class="vertical-middle">
-										＿＿部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部＿＿<br>
+									<td class="vertical-middle">＿＿部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部＿＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">19人(6x4)</td>
-									<td class="vertical-middle">
-										＿部部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部＿＿<br>
+									<td class="vertical-middle">＿部部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部＿＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">20人(6x4)</td>
-									<td class="vertical-middle">
-										＿部部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部部＿<br>
+									<td class="vertical-middle">＿部部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部部＿<br>
 									</td>
 								</tr>
 							</tbody>

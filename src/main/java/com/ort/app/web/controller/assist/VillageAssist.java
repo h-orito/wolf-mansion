@@ -180,6 +180,11 @@ public class VillageAssist {
             });
         });
         skillSet.add(CDef.Skill.おまかせ);
+        skillSet.add(CDef.Skill.おまかせ村人陣営);
+        skillSet.add(CDef.Skill.おまかせ人狼陣営);
+        skillSet.add(CDef.Skill.おまかせ足音職);
+        skillSet.add(CDef.Skill.おまかせ役職窓あり);
+        skillSet.add(CDef.Skill.おまかせ人外);
         return skillBhv.selectList(cb -> {
             cb.query().setSkillCode_InScope_AsSkill(skillSet);
             cb.query().addOrderBy_DispOrder_Asc();
@@ -196,10 +201,6 @@ public class VillageAssist {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setIsGone_Equal_False();
             cb.query().queryPlayer().setPlayerName_Equal(userInfo.getUsername());
-            //            cb.orScopeQuery(orCB -> {
-            //                orCB.query().setDeadReasonCode_IsNull();
-            //                orCB.query().setDeadReasonCode_NotEqual_突然();
-            //            });
             cb.query().queryVillage().setVillageStatusCode_NotInScope_AsVillageStatus(
                     Arrays.asList(CDef.VillageStatus.廃村, CDef.VillageStatus.終了));
         });

@@ -66,8 +66,9 @@ public class AdminController {
             int playerId = i + 8; // テストアカウントは8~
             // 希望役職をランダムに取得
             CDef.Skill randomSkill = CDef.Skill.values()[(int) (Math.random() * CDef.Skill.values().length - 1)];
+            CDef.Skill randomSkill2 = CDef.Skill.values()[(int) (Math.random() * CDef.Skill.values().length - 1)];
             // 入村
-            villageLogic.participate(villageId, playerId, charaList.get(i).getCharaId(), randomSkill, CDef.Skill.おまかせ,
+            villageLogic.participate(villageId, playerId, charaList.get(i).getCharaId(), randomSkill, randomSkill2,
                     "テストアカウント入村です。playerId：" + playerId, false, true);
         }
 

@@ -68,7 +68,7 @@ public abstract class BsMessageBhv extends AbstractBehaviorWritable<Message, Mes
     /** {@inheritDoc} */
     public MessageDbm asDBMeta() { return MessageDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "message"; }
+    public String asTableDbName() { return "MESSAGE"; }
 
     // ===================================================================================
     //                                                                        New Instance
@@ -189,8 +189,8 @@ public abstract class BsMessageBhv extends AbstractBehaviorWritable<Message, Mes
 
     /**
      * Select the entity by the unique-key value.
-     * @param villageId : UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
-     * @param messageTypeCode : +UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType. (NotNull)
+     * @param villageId : UQ+, IX+, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY. (NotNull)
+     * @param messageTypeCode : +UQ, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType. (NotNull)
      * @param messageNumber : +UQ, INT UNSIGNED(10). (NotNull)
      * @return The optional entity selected by the unique key. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).

@@ -532,8 +532,14 @@ public interface CDef extends Classification {
         /** 狂信者 */
         狂信者("FANATIC", "狂信者", emptyStrings())
         ,
+        /** おまかせ（足音職） */
+        おまかせ足音職("FOOTSTEPS", "おまかせ（足音職）", emptyStrings())
+        ,
         /** 妖狐 */
         妖狐("FOX", "妖狐", emptyStrings())
+        ,
+        /** おまかせ（役職窓あり） */
+        おまかせ役職窓あり("FRIENDS", "おまかせ（役職窓あり）", emptyStrings())
         ,
         /** 導師 */
         導師("GURU", "導師", emptyStrings())
@@ -553,14 +559,23 @@ public interface CDef extends Classification {
         /** 霊能者 */
         霊能者("MEDIUM", "霊能者", emptyStrings())
         ,
+        /** おまかせ（人外） */
+        おまかせ人外("NOVILLAGERS", "おまかせ（人外）", emptyStrings())
+        ,
         /** 占い師 */
         占い師("SEER", "占い師", emptyStrings())
         ,
         /** 村人 */
         村人("VILLAGER", "村人", emptyStrings())
         ,
+        /** おまかせ（村人陣営） */
+        おまかせ村人陣営("VILLAGERS", "おまかせ（村人陣営）", emptyStrings())
+        ,
         /** 人狼 */
         人狼("WEREWOLF", "人狼", emptyStrings())
+        ,
+        /** おまかせ（人狼陣営） */
+        おまかせ人狼陣営("WEREWOLFS", "おまかせ（人狼陣営）", emptyStrings())
         ,
         /** 賢者 */
         賢者("WISE", "賢者", emptyStrings())
