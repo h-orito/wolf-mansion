@@ -431,7 +431,7 @@ public class VillageDispLogic {
     }
 
     public String makeWerewolfCharaNameList(VillageInfo villageInfo) {
-        if (!villageInfo.isParticipate() || villageInfo.isDead() || !villageInfo.isLatestDay()
+        if (!villageInfo.isParticipate() || villageInfo.isSpectator() || villageInfo.isDead() || !villageInfo.isLatestDay()
                 || !villageInfo.village.isVillageStatusCode進行中()
                 || !villageInfo.optVillagePlayer.get().getSkillBySkillCode().get().isSkillCode狂信者()) {
             return null;
