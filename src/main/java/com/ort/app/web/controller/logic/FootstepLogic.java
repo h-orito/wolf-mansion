@@ -221,19 +221,19 @@ public class FootstepLogic {
             // 出そうとした音
             String setFootstep = NO_FOOTSTEP.equals(fs.getFootstepRoomNumbers()) ? "なし"
                     : String.join(",", Stream.of(fs.getFootstepRoomNumbers().split(",")).map(room -> {
-                        return String.format("部屋%02d", Integer.parseInt(room));
+                        return String.format("%02d", Integer.parseInt(room));
                     }).collect(Collectors.toList()));
             // 出た音
             String actualFootstep = NO_FOOTSTEP.equals(fs.getFootstepRoomNumbers()) ? "なし"
                     : String.join(",", Stream.of(fs.getFootstepRoomNumbers().split(",")).map(room -> {
                         if (livingRoomNumList.stream().anyMatch(num -> num.equals(Integer.parseInt(room)))) {
-                            return String.format("部屋%02d", Integer.parseInt(room));
+                            return String.format("%02d", Integer.parseInt(room));
                         } else {
                             return null;
                         }
                     }).filter(str -> StringUtils.isNotEmpty(str)).collect(Collectors.toList()));
             actualFootstep = StringUtils.isEmpty(actualFootstep) ? "なし" : actualFootstep;
-            return String.format("[%s] セット：%s → 結果：%s", skillName, setFootstep, actualFootstep);
+            return String.format("[%s] %s → %s", skillName, setFootstep, actualFootstep);
         }).collect(Collectors.toList());
 
         return String.join("\n", dispFootstepList);

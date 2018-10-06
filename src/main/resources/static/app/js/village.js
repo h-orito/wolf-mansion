@@ -594,6 +594,69 @@ $(function() {
 		return confirm('本当に廃村にしてよろしいですか？');
 	});
 
+	// 投票欄
+	$('[data-vote-day]').on('click', function() {
+		const sortIndex = $(this).data('vote-day');
+		const $table = $('#tab-votelist table');
+		let voteList = makeVoteList();
+		voteList.sort(function(a, b) {
+			// クリックした日の昇順→投票した回数の降順→部屋番号順
+			let a_vote_target = a.votes.length < sortIndex + 1 ? 99 : parseInt(a.votes[sortIndex].substr(0, 2));
+			let b_vote_target = b.votes.length < sortIndex + 1 ? 99 : parseInt(b.votes[sortIndex].substr(0, 2));
+			if (a_vote_target < b_vote_target) {
+				return -1;
+			} else if (a_vote_target > b_vote_target) {
+				return 1;
+			}
+			return parseInt(a.votes[0].substr(0, 2)) - parseInt(b.votes[0].substr(0, 2));
+		});
+		const $tbody = $table.find('tbody');
+		$tbody.empty();
+		$.each(voteList, function() {
+			let $tr = $('<tr></tr>');
+			$.each(this.votes, function(){
+				$tr.append($('<td></td>', {
+					text: this
+				}));
+			});
+			$tbody.append($tr);
+		});
+	});
+	
+	$('body').on('click', '#tab-votelist table tbody td', function(){
+		const target = $(this).text();
+		// すでに色がついているところだったら消して終了
+		if ($(this).hasClass('bg-info')) {
+			$('#tab-votelist table td').each(function(){
+				$(this).removeClass('bg-info');
+			});
+			return;
+		}
+		$('#tab-votelist table td').each(function(){
+			if ($(this).text() === target){
+				$(this).addClass('bg-info');
+			} else {
+				$(this).removeClass('bg-info');				
+			}
+		});
+	});
+
+	function makeVoteList() {
+		let voteList = [];
+		const $table = $('#tab-votelist table');
+		$table.find('tbody').find('tr').each(function() {
+			const $tr = $(this);
+			let vote = {
+				votes : []
+			};
+			$tr.find('td').each(function(idx, elm) {
+				vote.votes.push($(elm).text());
+			});
+			voteList.push(vote);
+		});
+		return voteList;
+	}
+
 	// ----------------------------------------------
 	// 表示設定
 	// ----------------------------------------------
