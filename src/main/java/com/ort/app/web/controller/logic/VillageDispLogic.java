@@ -529,7 +529,7 @@ public class VillageDispLogic {
         Optional<Ability> optAttack = abilityList.stream().filter(a -> a.isAbilityTypeCode襲撃()).findFirst();
         if (optAttack.isPresent()) {
             Integer attackCharaId = optAttack.get().getCharaId();
-            logger.info(attackCharaId);
+            logger.info(attackCharaId.toString());
             String attacker =
                     CharaUtil.makeCharaShortName(vpList.stream().filter(vp -> vp.getCharaId() == attackCharaId).findFirst().get());
             Integer attackedCharaId = optAttack.get().getTargetCharaId();
