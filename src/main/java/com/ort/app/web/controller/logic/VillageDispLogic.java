@@ -509,7 +509,7 @@ public class VillageDispLogic {
     }
 
     private void setSituationDetail(VillageInfo villageInfo, List<VillagePlayer> vpList, final int day, VillageSituationDto situation) {
-        List<Ability> abilityList = villageInfo.abilityList.stream().filter(a -> a.getDay() == day).collect(Collectors.toList());
+        List<Ability> abilityList = villageInfo.abilityList.stream().filter(a -> a.getDay() == day - 1).collect(Collectors.toList());
         Integer divinedCharaId =
                 abilityList.stream().filter(a -> a.isAbilityTypeCode占い()).findFirst().map(a -> a.getTargetCharaId()).orElse(null);
         if (divinedCharaId != null) {
