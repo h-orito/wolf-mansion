@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dbflute.cbean.result.ListResultBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -39,6 +41,8 @@ import com.ort.dbflute.exentity.VillagePlayer;
  */
 @Component
 public class VillageDispLogic {
+
+    private static final Logger logger = LoggerFactory.getLogger(VillageDispLogic.class);
 
     // ===================================================================================
     //                                                                           Attribute
@@ -525,6 +529,7 @@ public class VillageDispLogic {
         Optional<Ability> optAttack = abilityList.stream().filter(a -> a.isAbilityTypeCode襲撃()).findFirst();
         if (optAttack.isPresent()) {
             Integer attackCharaId = optAttack.get().getCharaId();
+            logger.info(attackCharaId);
             String attacker =
                     CharaUtil.makeCharaShortName(vpList.stream().filter(vp -> vp.getCharaId() == attackCharaId).findFirst().get());
             Integer attackedCharaId = optAttack.get().getTargetCharaId();
