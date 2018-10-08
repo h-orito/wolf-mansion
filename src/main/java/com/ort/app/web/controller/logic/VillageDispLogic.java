@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dbflute.cbean.result.ListResultBean;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -41,8 +39,6 @@ import com.ort.dbflute.exentity.VillagePlayer;
  */
 @Component
 public class VillageDispLogic {
-
-    private static final Logger logger = LoggerFactory.getLogger(VillageDispLogic.class);
 
     // ===================================================================================
     //                                                                           Attribute
@@ -517,24 +513,23 @@ public class VillageDispLogic {
         Integer divinedCharaId =
                 abilityList.stream().filter(a -> a.isAbilityTypeCode占い()).findFirst().map(a -> a.getTargetCharaId()).orElse(null);
         if (divinedCharaId != null) {
-            List<String> divinedPlayer = filterAndMakeCharaName(vpList, vp -> vp.getCharaId() == divinedCharaId);
+            List<String> divinedPlayer = filterAndMakeCharaName(vpList, vp -> vp.getCharaId().equals(divinedCharaId));
             situation.setDivinedChara(shuffleAndJoin(divinedPlayer));
         }
         Integer guardedCharaId =
                 abilityList.stream().filter(a -> a.isAbilityTypeCode護衛()).findFirst().map(a -> a.getTargetCharaId()).orElse(null);
         if (guardedCharaId != null) {
-            List<String> guardedPlayer = filterAndMakeCharaName(vpList, vp -> vp.getCharaId() == guardedCharaId);
+            List<String> guardedPlayer = filterAndMakeCharaName(vpList, vp -> vp.getCharaId().equals(guardedCharaId));
             situation.setGuardedChara(shuffleAndJoin(guardedPlayer));
         }
         Optional<Ability> optAttack = abilityList.stream().filter(a -> a.isAbilityTypeCode襲撃()).findFirst();
         if (optAttack.isPresent()) {
             Integer attackCharaId = optAttack.get().getCharaId();
-            logger.info(attackCharaId.toString());
             String attacker =
-                    CharaUtil.makeCharaShortName(vpList.stream().filter(vp -> vp.getCharaId() == attackCharaId).findFirst().get());
+                    CharaUtil.makeCharaShortName(vpList.stream().filter(vp -> vp.getCharaId().equals(attackCharaId)).findFirst().get());
             Integer attackedCharaId = optAttack.get().getTargetCharaId();
             String attacked =
-                    CharaUtil.makeCharaShortName(vpList.stream().filter(vp -> vp.getCharaId() == attackedCharaId).findFirst().get());
+                    CharaUtil.makeCharaShortName(vpList.stream().filter(vp -> vp.getCharaId().equals(attackedCharaId)).findFirst().get());
             situation.setAttack(attacker + " → " + attacked);
         }
     }
