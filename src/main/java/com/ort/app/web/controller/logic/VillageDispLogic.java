@@ -1,8 +1,11 @@
 package com.ort.app.web.controller.logic;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
@@ -10,9 +13,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.ort.app.web.dto.VillageInfo;
 import com.ort.app.web.model.OptionDto;
+import com.ort.app.web.model.VillageFootstepDto;
+import com.ort.app.web.model.VillageSituationDto;
 import com.ort.app.web.util.CharaUtil;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
@@ -51,6 +57,9 @@ public class VillageDispLogic {
 
     @Autowired
     private FootstepBhv footstepBhv;
+
+    @Autowired
+    private FootstepLogic footstepLogic;
 
     // ===================================================================================
     //                                                                             Execute
@@ -442,6 +451,113 @@ public class VillageDispLogic {
                         .filter(vp -> vp.getSkillBySkillCode().get().isSkillCode人狼())
                         .map(vp -> CharaUtil.makeCharaName(vp))
                         .collect(Collectors.toList()));
+    }
+
+    public List<VillageFootstepDto> makeFootstepList(VillageInfo villageInfo) {
+        List<VillageFootstepDto> footstepList = new ArrayList<>();
+        for (int i = 2; i < villageInfo.dayList.size(); i++) {
+            int day = i;
+            List<Integer> livingPlayerRoomNumList = villageInfo.vPlayerList.stream()
+                    .filter(vp -> vp.isIsSpectatorFalse() && (vp.isIsDeadFalse() || day < vp.getDeadDay()))
+                    .map(VillagePlayer::getRoomNumber)
+                    .collect(Collectors.toList());
+            String message;
+            List<Footstep> dayFootstepList =
+                    villageInfo.footstepList.stream().filter(f -> f.getDay() == day - 1).collect(Collectors.toList());
+            if (isDispSpoilerContent(villageInfo)) {
+                message = footstepLogic.makeFootstepMessageOpenSkill(livingPlayerRoomNumList, villageInfo.getVPList(false, true, true),
+                        dayFootstepList);
+            } else {
+                message = footstepLogic.makeFootstepMessageWithoutHeader(livingPlayerRoomNumList, dayFootstepList);
+            }
+            VillageFootstepDto footstep = new VillageFootstepDto();
+            footstep.setDay(day);
+            footstep.setFootstep(message);
+            footstepList.add(footstep);
+        }
+        return footstepList;
+    }
+
+    // ネタバレ要素を表示するか
+    public boolean isDispSpoilerContent(VillageInfo villageInfo) {
+        // エピっていたら表示
+        if (villageInfo.village.isVillageStatusCodeエピローグ() || villageInfo.village.isVillageStatusCode終了()) {
+            return true;
+        }
+        // 墓下役職公開で墓下か見物だったら表示
+        if (villageInfo.settings.isIsOpenSkillInGraveTrue() && (villageInfo.isDead() || villageInfo.isSpectator())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public List<VillageSituationDto> makeSituationList(VillageInfo villageInfo) {
+        // 2dから現在の日付まで表示する
+        List<VillageSituationDto> situationList = new ArrayList<>();
+        List<VillagePlayer> vpList = villageInfo.getVPList(false, true, false);
+        for (int i = 2; i <= villageInfo.day; i++) {
+            final int day = i;
+            VillageSituationDto situation = makeSituation(vpList, day);
+            // エピったり墓下公開状態の場合は追加表示
+            if (isDispSpoilerContent(villageInfo)) {
+                setSituationDetail(villageInfo, vpList, day, situation);
+            }
+            situationList.add(situation);
+        }
+        return situationList;
+    }
+
+    private void setSituationDetail(VillageInfo villageInfo, List<VillagePlayer> vpList, final int day, VillageSituationDto situation) {
+        List<Ability> abilityList = villageInfo.abilityList.stream().filter(a -> a.getDay() == day).collect(Collectors.toList());
+        Integer divinedCharaId =
+                abilityList.stream().filter(a -> a.isAbilityTypeCode占い()).findFirst().map(a -> a.getTargetCharaId()).orElse(null);
+        if (divinedCharaId != null) {
+            List<String> divinedPlayer = filterAndMakeCharaName(vpList, vp -> vp.getCharaId() == divinedCharaId);
+            situation.setDivinedChara(shuffleAndJoin(divinedPlayer));
+        }
+        Integer guardedCharaId =
+                abilityList.stream().filter(a -> a.isAbilityTypeCode護衛()).findFirst().map(a -> a.getTargetCharaId()).orElse(null);
+        if (guardedCharaId != null) {
+            List<String> guardedPlayer = filterAndMakeCharaName(vpList, vp -> vp.getCharaId() == guardedCharaId);
+            situation.setGuardedChara(shuffleAndJoin(guardedPlayer));
+        }
+        Optional<Ability> optAttack = abilityList.stream().filter(a -> a.isAbilityTypeCode襲撃()).findFirst();
+        if (optAttack.isPresent()) {
+            Integer attackCharaId = optAttack.get().getCharaId();
+            String attacker =
+                    CharaUtil.makeCharaShortName(vpList.stream().filter(vp -> vp.getCharaId() == attackCharaId).findFirst().get());
+            Integer attackedCharaId = optAttack.get().getTargetCharaId();
+            String attacked =
+                    CharaUtil.makeCharaShortName(vpList.stream().filter(vp -> vp.getCharaId() == attackedCharaId).findFirst().get());
+            situation.setAttack(attacker + " → " + attacked);
+        }
+    }
+
+    private VillageSituationDto makeSituation(List<VillagePlayer> vpList, final int day) {
+        VillageSituationDto situation = new VillageSituationDto();
+        situation.setDay(day);
+        List<VillagePlayer> deadPlayer =
+                vpList.stream().filter(vp -> vp.getDeadDay() != null && vp.getDeadDay() == day).collect(Collectors.toList());
+        List<String> suddonlyDeathPlayer = filterAndMakeCharaName(deadPlayer, vp -> vp.isDeadReasonCode突然());
+        situation.setSuddonlyDeathChara(shuffleAndJoin(suddonlyDeathPlayer));
+        List<String> attackedPlayer = filterAndMakeCharaName(deadPlayer, vp -> vp.isDeadReasonCode呪殺() || vp.isDeadReasonCode襲撃());
+        situation.setAttackedChara(shuffleAndJoin(attackedPlayer));
+        List<String> executedPlayer = filterAndMakeCharaName(deadPlayer, vp -> vp.isDeadReasonCode処刑());
+        situation.setExecutedChara(shuffleAndJoin(executedPlayer));
+        return situation;
+    }
+
+    private List<String> filterAndMakeCharaName(List<VillagePlayer> vpList, Predicate<? super VillagePlayer> predicate) {
+        return vpList.stream().filter(predicate).map(vp -> CharaUtil.makeCharaShortName(vp)).collect(Collectors.toList());
+    }
+
+    private String shuffleAndJoin(List<String> charaList) {
+        if (CollectionUtils.isEmpty(charaList)) {
+            return "なし";
+        }
+        Collections.shuffle(charaList);
+        return String.join("、", charaList);
     }
 
     // ===================================================================================

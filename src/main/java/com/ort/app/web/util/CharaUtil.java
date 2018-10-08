@@ -14,10 +14,23 @@ public class CharaUtil {
         return String.format("[%02d%s] %s", roomNumber, shortName, name);
     }
 
+    public static String makeCharaShortName(Integer roomNumber, String shortName) {
+        if (roomNumber == null) {
+            return shortName;
+        }
+        return String.format("%02d%s", roomNumber, shortName);
+    }
+
     public static String makeCharaName(VillagePlayer vp) {
         Integer roomNumber = vp.getRoomNumber();
         String shortName = vp.getChara().get().getCharaShortName();
         String name = vp.getChara().get().getCharaName();
         return makeCharaName(roomNumber, shortName, name);
+    }
+
+    public static String makeCharaShortName(VillagePlayer vp) {
+        Integer roomNumber = vp.getRoomNumber();
+        String shortName = vp.getChara().get().getCharaShortName();
+        return makeCharaShortName(roomNumber, shortName);
     }
 }

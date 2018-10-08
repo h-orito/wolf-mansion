@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
-import com.ort.app.web.controller.logic.FootstepLogic;
 import com.ort.app.web.controller.logic.VillageDispLogic;
 import com.ort.app.web.dto.VillageInfo;
 import com.ort.app.web.form.VillageAbilityForm;
@@ -31,7 +30,6 @@ import com.ort.app.web.form.VillageLeaveForm;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.app.web.form.VillageSayForm;
 import com.ort.app.web.form.VillageVoteForm;
-import com.ort.app.web.model.VillageFootstepDto;
 import com.ort.app.web.model.VillageMemberVoteDto;
 import com.ort.app.web.model.VillageResultContent;
 import com.ort.app.web.model.VillageVoteDto;
@@ -58,6 +56,7 @@ import com.ort.dbflute.exbhv.VoteBhv;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.Commit;
+import com.ort.dbflute.exentity.Footstep;
 import com.ort.dbflute.exentity.RandomKeyword;
 import com.ort.dbflute.exentity.Skill;
 import com.ort.dbflute.exentity.Village;
@@ -113,9 +112,6 @@ public class VillageAssist {
     @Autowired
     private VillageDispLogic villageDispLogic;
 
-    @Autowired
-    private FootstepLogic footstepLogic;
-
     @Value("${isDebugMode}")
     private Boolean debug;
 
@@ -135,7 +131,10 @@ public class VillageAssist {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo(); // ログインしているか
         ListResultBean<VillageDay> dayList = villageDayBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
         OptionalThing<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo, true);
-        VillageInfo villageInfo = new VillageInfo(village, userInfo, dayList, optVillagePlayer, day);
+        ListResultBean<Vote> voteList = selectVoteList(villageId);
+        List<Footstep> footStepList = selectFootstepList(villageId);
+        List<Ability> abilityList = selectAbilityList(villageId);
+        VillageInfo villageInfo = new VillageInfo(village, userInfo, dayList, optVillagePlayer, day, voteList, footStepList, abilityList);
 
         VillageResultContent content = new VillageResultContent();
         setVillageModelBasicInfo(content, villageInfo);
@@ -244,6 +243,24 @@ public class VillageAssist {
         return String.join(",", randomKeywordBhv.selectList(cb -> {}).stream().map(RandomKeyword::getKeyword).collect(Collectors.toList()));
     }
 
+    private ListResultBean<Footstep> selectFootstepList(Integer villageId) {
+        return footstepBhv.selectList(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+        });
+    }
+
+    private ListResultBean<Vote> selectVoteList(Integer villageId) {
+        return voteBhv.selectList(cb -> {
+            cb.setupSelect_CharaByVoteCharaId();
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().addOrderBy_Day_Asc();
+        });
+    }
+
+    private List<Ability> selectAbilityList(Integer villageId) {
+        return abilityBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
+    }
+
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
@@ -341,17 +358,6 @@ public class VillageAssist {
         }
     }
 
-    private String getCharacterNameFromCharaId(Village village, Integer charaId) {
-        return village.getVillagePlayerList()
-                .stream()
-                .filter(vp -> vp.getCharaId().equals(charaId))
-                .findFirst()
-                .get()
-                .getChara()
-                .get()
-                .getCharaName();
-    }
-
     // 基本的な情報、参加有無に関わらない情報
     private void setVillageModelBasicInfo(VillageResultContent content, VillageInfo villageInfo) {
         content.setVillageId(villageInfo.village.getVillageId());
@@ -373,7 +379,9 @@ public class VillageAssist {
             content.setVote(makeMemberVote(villageInfo));
         }
         if (villageInfo.isStartedFootstepSet()) {
-            content.setVillageFootstepList(makeFootstepList(villageInfo));
+            content.setVillageFootstepList(villageDispLogic.makeFootstepList(villageInfo));
+            content.setSituationList(villageDispLogic.makeSituationList(villageInfo));
+            content.setIsDispSpoilerContent(villageDispLogic.isDispSpoilerContent(villageInfo));
         }
     }
 
@@ -723,12 +731,7 @@ public class VillageAssist {
     }
 
     private VillageVoteDto makeMemberVote(VillageInfo villageInfo) {
-        ListResultBean<Vote> voteList = voteBhv.selectList(cb -> {
-            cb.setupSelect_CharaByVoteCharaId();
-            cb.query().setVillageId_Equal(villageInfo.villageId);
-            cb.query().setDay_LessThan(villageInfo.dayList.size() - 1);
-            cb.query().addOrderBy_Day_Asc();
-        });
+        List<Vote> voteList = villageInfo.voteList;
         List<VillageMemberVoteDto> memberVoteDtoList = villageInfo.getVPList(false, true, true).stream().map(vp -> {
             VillageMemberVoteDto voteDto = new VillageMemberVoteDto();
             voteDto.setCharaName(String.format("%02d%s", vp.getRoomNumber(), vp.getChara().get().getCharaShortName()));
@@ -751,43 +754,6 @@ public class VillageAssist {
 
     private VillagePlayer extractVillagePlayerBy(VillageInfo villageInfo, Integer charaId) {
         return villageInfo.getVPList(false, false, false).stream().filter(vp -> vp.getCharaId().equals(charaId)).findFirst().orElse(null);
-    }
-
-    private List<VillageFootstepDto> makeFootstepList(VillageInfo villageInfo) {
-        List<VillageFootstepDto> footstepList = new ArrayList<>();
-        for (int i = 2; i < villageInfo.dayList.size(); i++) {
-            int day = i;
-            List<Integer> livingPlayerRoomNumList = villageInfo.vPlayerList.stream()
-                    .filter(vp -> vp.isIsSpectatorFalse() && (vp.isIsDeadFalse() || day < vp.getDeadDay()))
-                    .map(VillagePlayer::getRoomNumber)
-                    .collect(Collectors.toList());
-            String message;
-            if (isDispSkillNameInFootstep(villageInfo)) {
-                message = footstepLogic.makeFootstepMessageOpenSkill(villageInfo.villageId, day - 1, livingPlayerRoomNumList,
-                        villageInfo.getVPList(false, true, true));
-            } else {
-                message = footstepLogic.makeFootstepMessageWithoutHeader(villageInfo.villageId, day - 1, livingPlayerRoomNumList);
-            }
-            VillageFootstepDto footstep = new VillageFootstepDto();
-            footstep.setDay(day);
-            footstep.setFootstep(message);
-            footstepList.add(footstep);
-        }
-        return footstepList;
-    }
-
-    // 足音に役職名を表示するか
-    private boolean isDispSkillNameInFootstep(VillageInfo villageInfo) {
-        // エピっていたら表示
-        if (villageInfo.village.isVillageStatusCodeエピローグ() || villageInfo.village.isVillageStatusCode終了()) {
-            return true;
-        }
-        // 墓下役職公開で墓下か見物だったら表示
-        if (villageInfo.settings.isIsOpenSkillInGraveTrue() && (villageInfo.isDead() || villageInfo.isSpectator())) {
-            return true;
-        }
-
-        return false;
     }
 
     // 開発用機能

@@ -8,10 +8,13 @@ import org.dbflute.cbean.result.ListResultBean;
 import org.dbflute.optional.OptionalThing;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import com.ort.dbflute.exentity.Ability;
+import com.ort.dbflute.exentity.Footstep;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillageSettings;
+import com.ort.dbflute.exentity.Vote;
 import com.ort.fw.security.UserInfo;
 
 public class VillageInfo {
@@ -24,9 +27,13 @@ public class VillageInfo {
     public OptionalThing<VillagePlayer> optVillagePlayer;
     public List<VillageDay> dayList;
     public int day;
+    public List<Vote> voteList;
+    public List<Footstep> footstepList;
+    public List<Ability> abilityList;
 
     public VillageInfo(Village village, UserInfo userInfo, ListResultBean<VillageDay> dayList,
-            OptionalThing<VillagePlayer> optVillagePlayer, int day) {
+            OptionalThing<VillagePlayer> optVillagePlayer, int day, List<Vote> voteList, List<Footstep> footstepList,
+            List<Ability> abilityList) {
         this.villageId = village.getVillageId();
         this.village = village;
         this.vPlayerList = village.getVillagePlayerList();
@@ -35,6 +42,9 @@ public class VillageInfo {
         this.optVillagePlayer = optVillagePlayer;
         this.dayList = dayList;
         this.day = day;
+        this.voteList = voteList;
+        this.footstepList = footstepList;
+        this.abilityList = abilityList;
     }
 
     public List<Integer> getDayList() {

@@ -164,18 +164,20 @@ public class FootstepLogic {
 
     public String getFootstepMessage(Integer villageId, int day, List<Integer> livingRoomNumList) {
         StringJoiner joiner = new StringJoiner("\n", "館の大広間に集まった村人達は、昨晩聞こえた足音について確認した。\n\n", "");
-        joiner.add(makeFootstepMessageWithoutHeader(villageId, day, livingRoomNumList));
+        List<Footstep> footStepList = footStepBhv.selectList(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_Equal(day - 1);
+        });
+        joiner.add(makeFootstepMessageWithoutHeader(livingRoomNumList, footStepList));
         return joiner.toString();
     }
 
-    public String makeFootstepMessageWithoutHeader(Integer villageId, int day, List<Integer> livingRoomNumList) {
+    public String makeFootstepMessageWithoutHeader(List<Integer> livingRoomNumList, List<Footstep> footstepList) {
         StringJoiner joiner = new StringJoiner("\n");
-        List<Footstep> footStepList = footStepBhv.selectList(cb -> {
-            cb.query().setVillageId_Equal(villageId);
-            cb.query().setDay_Equal(day);
-        });
+
         // 無音を除去
-        footStepList = footStepList.stream().filter(fs -> !NO_FOOTSTEP.equals(fs.getFootstepRoomNumbers())).collect(Collectors.toList());
+        List<Footstep> footStepList =
+                footstepList.stream().filter(fs -> !NO_FOOTSTEP.equals(fs.getFootstepRoomNumbers())).collect(Collectors.toList());
 
         if (CollectionUtils.isEmpty(footStepList)) {
             joiner.add("足音を聞いたものはいなかった...。");
@@ -203,13 +205,8 @@ public class FootstepLogic {
         return joiner.toString();
     }
 
-    public String makeFootstepMessageOpenSkill(Integer villageId, int day, List<Integer> livingRoomNumList,
-            List<VillagePlayer> vPlayerList) {
-        List<Footstep> footStepList = footStepBhv.selectList(cb -> {
-            cb.query().setVillageId_Equal(villageId);
-            cb.query().setDay_Equal(day);
-        });
-
+    public String makeFootstepMessageOpenSkill(List<Integer> livingRoomNumList, List<VillagePlayer> vPlayerList,
+            List<Footstep> footStepList) {
         List<String> dispFootstepList = footStepList.stream().map(fs -> {
             // どの役職が出した足音か
             String skillName = vPlayerList.stream()

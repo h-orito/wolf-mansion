@@ -166,6 +166,12 @@ public class VillageResultContent implements Serializable {
     /** 人狼のキャラ名（狂信者向け） */
     private String werewolfCharaNameList;
 
+    /** 全体状況リスト */
+    private List<VillageSituationDto> situationList;
+
+    /** ネタバレ表示（エピと墓下公開用） */
+    private Boolean isDispSpoilerContent;
+
     public Integer getVillageId() {
         return villageId;
     }
@@ -564,5 +570,21 @@ public class VillageResultContent implements Serializable {
 
     public void setWerewolfCharaNameList(String werewolfCharaNameList) {
         this.werewolfCharaNameList = werewolfCharaNameList;
+    }
+
+    public List<VillageSituationDto> getSituationList() {
+        return situationList;
+    }
+
+    public void setSituationList(List<VillageSituationDto> situationList) {
+        this.situationList = situationList;
+    }
+
+    public Boolean getIsDispSpoilerContent() {
+        return isDispSpoilerContent;
+    }
+
+    public void setIsDispSpoilerContent(Boolean isDispSpoilerContent) {
+        this.isDispSpoilerContent = isDispSpoilerContent;
     }
 }
