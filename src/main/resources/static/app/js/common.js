@@ -9,10 +9,10 @@ $(function() {
 	$('body').on('click', '[data-goto]', function() {
 		location.href = contextPath + $(this).data('goto');
 	});
-	
+
 	// jquery cookieでjson化
 	$.cookie.json = true;
-	
+
 	// 二重サブミット防止
 	$('body').on('submit', 'form', function() {
 		var self = $(this);
@@ -20,6 +20,14 @@ $(function() {
 		setTimeout(function() {
 			self.find(':submit').prop("disabled", false);
 		}, 10000);
+	});
+
+	$(document).ajaxSuccess(function(event, xhr, settings) {
+		if (settings.url.indexOf('getLatestMessageDatetime') == -1 && settings.url.indexOf('getFootstepList') == -1) {
+			gtag('event', 'page_view', {
+				'send_to' : 'UA-116569504-1'
+			});
+		}
 	});
 });
 
