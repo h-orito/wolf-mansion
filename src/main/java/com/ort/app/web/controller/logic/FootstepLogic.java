@@ -166,7 +166,7 @@ public class FootstepLogic {
         StringJoiner joiner = new StringJoiner("\n", "館の大広間に集まった村人達は、昨晩聞こえた足音について確認した。\n\n", "");
         List<Footstep> footStepList = footStepBhv.selectList(cb -> {
             cb.query().setVillageId_Equal(villageId);
-            cb.query().setDay_Equal(day - 1);
+            cb.query().setDay_Equal(day);
         });
         joiner.add(makeFootstepMessageWithoutHeader(livingRoomNumList, footStepList));
         return joiner.toString();
