@@ -41,8 +41,8 @@
 											<tr th:each="row : ${content.roomAssignedRowList}">
 												<td th:each="room: ${row.roomAssignedList}" class="small"
 													th:style="'vertical-align: bottom; text-align: center; width: ' 
-														+ ${room.charaImgWidth != null ? room.charaImgWidth : '50'} + 'px; height: '
-														+ ${room.charaImgHeight != null ? room.charaImgHeight : '77'} + 'px; '
+														+ ${room.charaImgWidth != null ? room.charaImgWidth : '10'} + 'px; height: '
+														+ ${room.charaImgHeight != null ? room.charaImgHeight : '10'} + 'px; '
 									 					+ ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 					+ ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
 													<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
