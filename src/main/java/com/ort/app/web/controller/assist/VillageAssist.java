@@ -131,7 +131,7 @@ public class VillageAssist {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo(); // ログインしているか
         ListResultBean<VillageDay> dayList = villageDayBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
         OptionalThing<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo, true);
-        ListResultBean<Vote> voteList = selectVoteList(villageId);
+        ListResultBean<Vote> voteList = selectVoteList(villageId, day);
         List<Footstep> footStepList = selectFootstepList(villageId);
         List<Ability> abilityList = selectAbilityList(villageId);
         VillageInfo villageInfo = new VillageInfo(village, userInfo, dayList, optVillagePlayer, day, voteList, footStepList, abilityList);
@@ -249,10 +249,11 @@ public class VillageAssist {
         });
     }
 
-    private ListResultBean<Vote> selectVoteList(Integer villageId) {
+    private ListResultBean<Vote> selectVoteList(Integer villageId, int day) {
         return voteBhv.selectList(cb -> {
             cb.setupSelect_CharaByVoteCharaId();
             cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_LessThan(day);
             cb.query().addOrderBy_Day_Asc();
         });
     }
