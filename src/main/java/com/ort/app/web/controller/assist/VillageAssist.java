@@ -651,7 +651,13 @@ public class VillageAssist {
                     room.setCharaImgUrl(chara.getCharaImgUrl());
                     room.setCharaImgWidth(chara.getDisplayWidth());
                     room.setCharaImgHeight(chara.getDisplayHeight());
-                    room.setIsDead(vp.getDeadDay() == null ? false : vp.getDeadDay() <= villageInfo.day);
+                    if (vp.getDeadDay() != null && vp.getDeadDay() <= villageInfo.day) {
+                        room.setIsDead(true);
+                        room.setDeadDay(vp.getDeadDay());
+                        room.setDeadReason(vp.getDeadReasonCode());
+                    } else {
+                        room.setIsDead(false);
+                    }
                     if (isAvailableSeeMemberSkill(villageInfo)) {
                         room.setSkillName(vp.getSkillCodeAsSkill().alias());
                     }

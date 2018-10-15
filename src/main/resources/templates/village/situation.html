@@ -40,15 +40,18 @@
 										<tbody>
 											<tr th:each="row : ${content.roomAssignedRowList}">
 												<td th:each="room: ${row.roomAssignedList}" class="small"
-													th:style="'vertical-align: bottom; text-align: center; width: ' 
-														+ ${room.charaImgWidth != null ? room.charaImgWidth : '10'} + 'px; height: '
-														+ ${room.charaImgHeight != null ? room.charaImgHeight : '10'} + 'px; '
+													th:style="'vertical-align: bottom; text-align: center;' 
+														+ 'width: ' + ${room.charaImgWidth != null ? room.charaImgWidth : '10'} + 'px;' 
+														+ 'height: '+ ${room.charaImgHeight != null ? room.charaImgHeight : '10'} + 'px; '
 									 					+ ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 					+ ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
 													<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-													th:utext="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span> <span class="hidden"
-													style="background-color: #222222; opacity: 0.8; white-space: nowrap;" th:if="${room.skillName != null}"
-													th:utext="'<br />' + ${room.skillName}" data-spoiled-content>人狼</span>
+														th:utext="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span>
+													<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;" th:if="${room.isDead != null && room.isDead && room.charaName != null}"
+														th:text="${room.deadDay} + 'd ' + ${room.deadReason == 'ATTACK' || room.deadReason == 'DIVINED' ? '▲' : room.deadReason == 'EXECUTE' ? '▼' : '凸'}">2d ▲</span>
+													<span class="hidden"
+														style="background-color: #222222; opacity: 0.8; white-space: nowrap;" th:if="${room.skillName != null}"
+														th:utext="'<br />' + ${room.skillName}" data-spoiled-content>人狼</span>
 												</td>
 											</tr>
 										</tbody>
@@ -115,16 +118,19 @@
 									<table class="table-bordered table-condensed small">
 										<thead>
 											<tr th:if="${content.roomAssignedRowList}">
-												<td th:colspan="${content.vote.maxVoteCount+1}"><th:block th:each="row, s : ${content.roomAssignedRowList}">
+												<td th:colspan="${content.vote.maxVoteCount+1}">
+													<th:block th:each="row, s : ${content.roomAssignedRowList}">
 														<th:block th:each="room, st: ${row.roomAssignedList}">
 															<span th:if="${room.isDead == null || room.charaName == null}" th:text="${room.roomNumber + '＿'}"></span>
-															<span th:if="${room.isDead}" style="color: #ff0000;" th:text="${room.roomNumber + room.charaName}"></span>
+															<span th:if="${room.isDead != null && room.isDead && (room.deadReason == 'ATTACK' || room.deadReason == 'DIVINED')}" style="color: #ff0000;" th:text="${room.roomNumber + room.charaName}"></span>
+															<span th:if="${room.isDead != null && room.isDead && (room.deadReason == 'EXECUTE' || room.deadReason == 'SUDDON')}" style="color: #3498db;" th:text="${room.roomNumber + room.charaName}"></span>
 															<span th:if="${room.isDead != null && !room.isDead}" th:text="${room.roomNumber + room.charaName}"></span>
 															<span th:if="${!st.last}" th:text="'　'"></span>
 														</th:block>
 														<br />
 														<br th:if="${!s.last}" />
-													</th:block></td>
+													</th:block>
+												</td>
 											</tr>
 											<tr>
 												<th><a href="javascript:void(0);" data-vote-day="0">投票者</a></th>
@@ -147,27 +153,32 @@
 									<table class="table-bordered table-condensed small">
 										<tbody>
 											<tr th:if="${content.roomAssignedRowList}">
-												<td colspan="2"><th:block th:each="row, s : ${content.roomAssignedRowList}">
+												<td colspan="2">
+													<th:block th:each="row, s : ${content.roomAssignedRowList}">
 														<th:block th:each="room, st: ${row.roomAssignedList}">
 															<span th:if="${room.isDead == null || room.charaName == null}" th:text="${room.roomNumber + '＿'}"></span>
-															<span th:if="${room.isDead}" style="color: #ff0000;" th:text="${room.roomNumber + room.charaName}"></span>
+															<span th:if="${room.isDead != null && room.isDead && (room.deadReason == 'ATTACK' || room.deadReason == 'DIVINED')}" style="color: #ff0000;" th:text="${room.roomNumber + room.charaName}"></span>
+															<span th:if="${room.isDead != null && room.isDead && (room.deadReason == 'EXECUTE' || room.deadReason == 'SUDDON')}" style="color: #3498db;" th:text="${room.roomNumber + room.charaName}"></span>
 															<span th:if="${room.isDead != null && !room.isDead}" th:text="${room.roomNumber + room.charaName}"></span>
 															<span th:if="${!st.last}" th:text="'　'"></span>
 														</th:block>
 														<br />
 														<br th:if="${!s.last}" />
-													</th:block></td>
+													</th:block>
+												</td>
 											</tr>
 											<tr th:each="day : ${content.villageFootstepList}">
 												<td class="text-center" th:text="${day.day + 'd'}"></td>
-												<td class="small"><span data-spoiled-content> <th:block th:if="${day.footstep}">
+												<td class="small">
+													<span data-spoiled-content> <th:block th:if="${day.footstep}">
 															<th:block th:each="str, stat : ${day.footstep.split('\r\n|\r|\n', -1)}">
 																<th:block th:text="${str}" />
 																<br th:if="${!stat.last}" />
 															</th:block>
 														</th:block>
-												</span> <span class="hidden" data-spoiled-alternative-content> ネタバレ防止のため非表示にしています。<br>
-												</span></td>
+													</span> <span class="hidden" data-spoiled-alternative-content> ネタバレ防止のため非表示にしています。<br>
+													</span>
+												</td>
 											</tr>
 										</tbody>
 									</table>

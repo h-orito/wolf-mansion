@@ -14,6 +14,12 @@ public class VillageRoomAssignedDto {
     /** 死亡しているか */
     private Boolean isDead;
 
+    /** 死亡日時 */
+    private Integer deadDay;
+
+    /** 死亡理由 */
+    private String deadReason;
+
     /** 役職名 */
     private String skillName;
 
@@ -77,5 +83,21 @@ public class VillageRoomAssignedDto {
 
     public void setCharaImgHeight(Integer charaImgHeight) {
         this.charaImgHeight = charaImgHeight;
+    }
+
+    public Integer getDeadDay() {
+        return deadDay;
+    }
+
+    public void setDeadDay(Integer deadDay) {
+        this.deadDay = deadDay;
+    }
+
+    public String getDeadReason() {
+        return deadReason;
+    }
+
+    public void setDeadReason(String deadReson) {
+        this.deadReason = deadReson;
     }
 }
