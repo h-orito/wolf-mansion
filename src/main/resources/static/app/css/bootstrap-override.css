@@ -216,6 +216,10 @@ tr.top-menu-selectable:hover a {
 	color: #f00000;
 }
 
+.message.message-public-system a {
+	color: #0ce3ac;
+}
+
 .bg-whitegray {
 	background-color: #e0e0e0;
 }

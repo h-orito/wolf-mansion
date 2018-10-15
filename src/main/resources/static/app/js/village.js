@@ -84,6 +84,7 @@ $(function() {
 			// htmlエスケープと、アンカーの変換を行う
 			$.each(response.messageList, function() {
 				this.messageContent = escapeAndSetAnchor(this.messageContent, this.isConvertDisable);
+				this.messageContent = replaceIdLink(this);
 			});
 			$("[data-message-area]").html(messageTemplate(response));
 			$("[data-message-area]").removeClass('loading');
@@ -138,6 +139,13 @@ $(function() {
 			mes = mes.replace(smallRegex, '<span style="font-size: 10px;">$1</span>');
 		}
 		return mes;
+	}
+
+	function replaceIdLink(message) {
+		if (message.messageType === 'PUBLIC_SYSTEM' && message.messageContent.indexOf('楽天家 ゲルト (master)、死亡。') != -1) {
+			return message.messageContent.replace(/\((.*?)\)/g, '(<a href="javascript:void(0);" data-user-page="$1">$1</a>)');
+		}
+		return message.messageContent;
 	}
 
 	function storeLatestMessageDatetime(response, day) {
@@ -614,29 +622,29 @@ $(function() {
 		$tbody.empty();
 		$.each(voteList, function() {
 			let $tr = $('<tr></tr>');
-			$.each(this.votes, function(){
+			$.each(this.votes, function() {
 				$tr.append($('<td></td>', {
-					text: this
+					text : this
 				}));
 			});
 			$tbody.append($tr);
 		});
 	});
-	
-	$('body').on('click', '#tab-votelist table tbody td', function(){
+
+	$('body').on('click', '#tab-votelist table tbody td', function() {
 		const target = $(this).text();
 		// すでに色がついているところだったら消して終了
 		if ($(this).hasClass('bg-info')) {
-			$('#tab-votelist table td').each(function(){
+			$('#tab-votelist table td').each(function() {
 				$(this).removeClass('bg-info');
 			});
 			return;
 		}
-		$('#tab-votelist table td').each(function(){
-			if ($(this).text() === target){
+		$('#tab-votelist table td').each(function() {
+			if ($(this).text() === target) {
 				$(this).addClass('bg-info');
 			} else {
-				$(this).removeClass('bg-info');				
+				$(this).removeClass('bg-info');
 			}
 		});
 	});
