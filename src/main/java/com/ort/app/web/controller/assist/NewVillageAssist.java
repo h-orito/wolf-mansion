@@ -4,22 +4,29 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 
 import com.ort.app.web.controller.logic.MessageLogic;
 import com.ort.app.web.controller.logic.TwitterLogic;
 import com.ort.app.web.controller.logic.VillageParticipateLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageForm;
+import com.ort.app.web.form.NewVillageSayRestrictDetailDto;
+import com.ort.app.web.form.NewVillageSayRestrictDto;
 import com.ort.app.web.model.common.SelectOptionDto;
 import com.ort.dbflute.allcommon.CDef;
+import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.CharaGroupBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
@@ -52,34 +59,30 @@ public class NewVillageAssist {
                     + "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊霊共共\n" // 19
                     + "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊霊霊共共"; // 20
     private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm");
+    private static final List<CDef.Skill> SET_AVAILABLE_SKILLS = Arrays.asList(CDef.Skill.村人, CDef.Skill.霊能者, CDef.Skill.人狼,
+            CDef.Skill.C国狂人, CDef.Skill.占い師, CDef.Skill.賢者, CDef.Skill.狩人, CDef.Skill.狂人, CDef.Skill.魔神官, CDef.Skill.狂信者, CDef.Skill.妖狐);
+    private static final int DEFAULT_SAY_MAX_COUNT = 20;
+    private static final int DEFAULT_SAY_MAX_LENGTH = 400;
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
     @Autowired
     private VillageBhv villageBhv;
-
     @Autowired
     private VillageSettingsBhv villageSettingsBhv;
-
     @Autowired
     private VillageDayBhv villageDayBhv;
-
     @Autowired
     private CharaBhv charaBhv;
-
     @Autowired
     private CharaGroupBhv charaGroupBhv;
-
     @Autowired
     private MessageSource messageSource;
-
     @Autowired
     private MessageLogic messageLogic;
-
     @Autowired
     private VillageParticipateLogic villageLogic;
-
     @Autowired
     private TwitterLogic twitterLogic;
 
@@ -138,6 +141,10 @@ public class NewVillageAssist {
         if (form.getAllowedSecretSayCode() == null) {
             form.setAllowedSecretSayCode(CDef.AllowedSecretSay.なし.code());
         }
+        if (CollectionUtils.isEmpty(form.getSayRestrictList())) {
+            form.setSayRestrictList(createRestrictList());
+        }
+
         model.addAttribute("villageForm", form);
 
         // 現在の年
@@ -268,4 +275,35 @@ public class NewVillageAssist {
             throw new WerewolfMansionBusinessException("存在しない日付です");
         }
     }
+
+    private List<NewVillageSayRestrictDto> createRestrictList() {
+        return SET_AVAILABLE_SKILLS.stream().map(skill -> {
+            NewVillageSayRestrictDto restrict = new NewVillageSayRestrictDto();
+            restrict.setSkillName(skill.name());
+            restrict.setSkillCode(skill.code());
+            restrict.setDetailList(createDetailList(skill));
+            return restrict;
+        }).collect(Collectors.toList());
+    }
+
+    private List<NewVillageSayRestrictDetailDto> createDetailList(Skill skill) {
+        List<NewVillageSayRestrictDetailDto> detailList = new ArrayList<>();
+        detailList.add(createDetail("通常発言", CDef.MessageType.通常発言.code()));
+        if (skill == CDef.Skill.人狼 || skill == CDef.Skill.C国狂人) {
+            detailList.add(createDetail("囁き", CDef.MessageType.人狼の囁き.code()));
+        } else if (skill == CDef.Skill.共鳴者) {
+            detailList.add(createDetail("共鳴発言", CDef.MessageType.共鳴発言.code()));
+        }
+        return detailList;
+    }
+
+    private NewVillageSayRestrictDetailDto createDetail(String messageTypeName, String messageTypeCode) {
+        NewVillageSayRestrictDetailDto detail = new NewVillageSayRestrictDetailDto();
+        detail.setMessageTypeName(messageTypeName);
+        detail.setMessageTypeCode(messageTypeCode);
+        detail.setCount(DEFAULT_SAY_MAX_COUNT);
+        detail.setLength(DEFAULT_SAY_MAX_LENGTH);
+        return detail;
+    }
+
 }

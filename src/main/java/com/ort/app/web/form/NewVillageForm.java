@@ -1,6 +1,7 @@
 package com.ort.app.web.form;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -117,6 +118,10 @@ public class NewVillageForm implements Serializable {
     /** 秘話可能範囲 */
     @NotNull
     private String allowedSecretSayCode;
+
+    /** 発言制限 */
+    @NotNull
+    private List<NewVillageSayRestrictDto> sayRestrictList;
 
     public String getVillageName() {
         return villageName;
@@ -316,6 +321,14 @@ public class NewVillageForm implements Serializable {
 
     public void setAllowedSecretSayCode(String allowedSecretSayCode) {
         this.allowedSecretSayCode = allowedSecretSayCode;
+    }
+
+    public List<NewVillageSayRestrictDto> getSayRestrictList() {
+        return sayRestrictList;
+    }
+
+    public void setSayRestrictList(List<NewVillageSayRestrictDto> sayRestrictList) {
+        this.sayRestrictList = sayRestrictList;
     }
 
 }

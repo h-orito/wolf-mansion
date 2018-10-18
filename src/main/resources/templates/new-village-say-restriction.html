@@ -21,20 +21,21 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>村人</td>
-				<td>
-					<input type="checkbox" class="form-control">
-				</td>
-				<td>通常</td>
-				<td>
-					<div class="input-group">
-						<input type="number" class="form-control" placeholder="400" />
-						<span class="input-group-addon">&nbsp;*&nbsp;</span>
-						<input type="number" class="form-control" placeholder="20" />
-					</div>
-				</td>
-			</tr>
+			<th:block th:each="restrict, idx : *{sayRestrictList}">
+				<tr>
+					<td th:text="${restrict.skillName}">村人</td>
+					<td><input type="checkbox" class="form-control" th:field="*{sayRestrictList[idx].detailList[0].isRestrict}"></td>
+					<td th:text="${restrict.detailList[0].messageTypeName}"></td>
+					<td>
+						<div class="input-group">
+							<input type="number" class="form-control" placeholder="400" /> <span class="input-group-addon">&nbsp;*&nbsp;</span> <input type="number"
+								class="form-control" placeholder="20" />
+								<input type="hidden" th:field="*{sayRestrictList[idx].skillCode}"/>
+						</div>
+					</td>
+				</tr>
+
+			</th:block>
 			<tr>
 				<td>占い師</td>
 				<td>
