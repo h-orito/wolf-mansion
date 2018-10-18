@@ -35,13 +35,13 @@ import com.ort.dbflute.exentity.*;
  *     CAMP
  *
  * [referrer table]
- *     VILLAGE_PLAYER
+ *     MESSAGE_RESTRICTION, VILLAGE_PLAYER
  *
  * [foreign property]
  *     camp
  *
  * [referrer property]
- *     villagePlayerByRequestSkillCodeList, villagePlayerBySecondRequestSkillCodeList, villagePlayerBySkillCodeList
+ *     messageRestrictionList, villagePlayerByRequestSkillCodeList, villagePlayerBySecondRequestSkillCodeList, villagePlayerBySkillCodeList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -74,7 +74,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     /** SKILL_NAME: {NotNull, VARCHAR(20)} */
     protected String _skillName;
 
-    /** CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} */
+    /** CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} */
     protected String _campCode;
 
     /** DISP_ORDER: {NotNull, INT UNSIGNED(10)} */
@@ -90,7 +90,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "SKILL";
+        return "skill";
     }
 
     // ===================================================================================
@@ -128,7 +128,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * Get the value of campCode as the classification of Camp. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -139,7 +139,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * Set the value of campCode as the classification of Camp. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -598,6 +598,26 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
+    /** MESSAGE_RESTRICTION by SKILL_CODE, named 'messageRestrictionList'. */
+    protected List<MessageRestriction> _messageRestrictionList;
+
+    /**
+     * [get] MESSAGE_RESTRICTION by SKILL_CODE, named 'messageRestrictionList'.
+     * @return The entity list of referrer property 'messageRestrictionList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<MessageRestriction> getMessageRestrictionList() {
+        if (_messageRestrictionList == null) { _messageRestrictionList = newReferrerList(); }
+        return _messageRestrictionList;
+    }
+
+    /**
+     * [set] MESSAGE_RESTRICTION by SKILL_CODE, named 'messageRestrictionList'.
+     * @param messageRestrictionList The entity list of referrer property 'messageRestrictionList'. (NullAllowed)
+     */
+    public void setMessageRestrictionList(List<MessageRestriction> messageRestrictionList) {
+        _messageRestrictionList = messageRestrictionList;
+    }
+
     /** VILLAGE_PLAYER by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeList'. */
     protected List<VillagePlayer> _villagePlayerByRequestSkillCodeList;
 
@@ -689,6 +709,8 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
         StringBuilder sb = new StringBuilder();
         if (_camp != null && _camp.isPresent())
         { sb.append(li).append(xbRDS(_camp, "camp")); }
+        if (_messageRestrictionList != null) { for (MessageRestriction et : _messageRestrictionList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "messageRestrictionList")); } } }
         if (_villagePlayerByRequestSkillCodeList != null) { for (VillagePlayer et : _villagePlayerByRequestSkillCodeList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerByRequestSkillCodeList")); } } }
         if (_villagePlayerBySecondRequestSkillCodeList != null) { for (VillagePlayer et : _villagePlayerBySecondRequestSkillCodeList)
@@ -720,6 +742,8 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
         StringBuilder sb = new StringBuilder();
         if (_camp != null && _camp.isPresent())
         { sb.append(dm).append("camp"); }
+        if (_messageRestrictionList != null && !_messageRestrictionList.isEmpty())
+        { sb.append(dm).append("messageRestrictionList"); }
         if (_villagePlayerByRequestSkillCodeList != null && !_villagePlayerByRequestSkillCodeList.isEmpty())
         { sb.append(dm).append("villagePlayerByRequestSkillCodeList"); }
         if (_villagePlayerBySecondRequestSkillCodeList != null && !_villagePlayerBySecondRequestSkillCodeList.isEmpty())
@@ -782,7 +806,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
-     * [get] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * [get] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営コード
      * @return The value of the column 'CAMP_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -792,7 +816,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
-     * [set] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * [set] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営コード
      * @param campCode The value of the column 'CAMP_CODE'. (basically NotNull if update: for the constraint)
      */

@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of VILLAGE.
+ * The condition-query for in-line of village.
  * @author DBFlute(AutoGenerator)
  */
 public class VillageCIQ extends AbstractBsVillageCQ {
@@ -62,18 +62,28 @@ public class VillageCIQ extends AbstractBsVillageCQ {
     //                                                                Override about Query
     //                                                                ====================
     protected ConditionValue xgetCValueVillageId() { return _myCQ.xdfgetVillageId(); }
+    public String keepVillageId_ExistsReferrer_MessageRestrictionList(MessageRestrictionCQ sq)
+    { throwIICBOE("ExistsReferrer"); return null; }
     public String keepVillageId_ExistsReferrer_VillageDayList(VillageDayCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
     public String keepVillageId_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
+    public String keepVillageId_NotExistsReferrer_MessageRestrictionList(MessageRestrictionCQ sq)
+    { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepVillageId_NotExistsReferrer_VillageDayList(VillageDayCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepVillageId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
+    public String keepVillageId_SpecifyDerivedReferrer_MessageRestrictionList(MessageRestrictionCQ sq)
+    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepVillageId_SpecifyDerivedReferrer_VillageDayList(VillageDayCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepVillageId_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
+    public String keepVillageId_QueryDerivedReferrer_MessageRestrictionList(MessageRestrictionCQ sq)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepVillageId_QueryDerivedReferrer_MessageRestrictionListParameter(Object vl)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepVillageId_QueryDerivedReferrer_VillageDayList(VillageDayCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepVillageId_QueryDerivedReferrer_VillageDayListParameter(Object vl)

@@ -7,10 +7,16 @@ body {
 	padding-right: 0px;
 }
 
-.form-control {
+.form-control, .input-group-addon {
 	font-size: 12px;
 	height: 30px;
 	padding: 5px 10px;
+}
+
+.input-group-addon {
+	font-size: 12px;
+	height: 30px;
+	padding: 5px 5px;
 }
 
 ul {

@@ -13,7 +13,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of MESSAGE_TYPE. (Singleton)
+ * The DB meta of message_type. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class MessageTypeDbm extends AbstractDBMeta {
@@ -58,7 +58,7 @@ public class MessageTypeDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "MESSAGE_TYPE";
+    protected final String _tableDbName = "message_type";
     protected final String _tableDispName = "MESSAGE_TYPE";
     protected final String _tablePropertyName = "messageType";
     protected final TableSqlName _tableSqlName = new TableSqlName("MESSAGE_TYPE", _tableDbName);
@@ -71,7 +71,7 @@ public class MessageTypeDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnMessageTypeCode = cci("MESSAGE_TYPE_CODE", "MESSAGE_TYPE_CODE", null, null, String.class, "messageTypeCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "messageList", CDef.DefMeta.MessageType, false);
+    protected final ColumnInfo _columnMessageTypeCode = cci("MESSAGE_TYPE_CODE", "MESSAGE_TYPE_CODE", null, null, String.class, "messageTypeCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "messageList,messageRestrictionList", CDef.DefMeta.MessageType, false);
     protected final ColumnInfo _columnMessageTypeName = cci("MESSAGE_TYPE_NAME", "MESSAGE_TYPE_NAME", null, null, String.class, "messageTypeName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
 
     /**
@@ -123,6 +123,14 @@ public class MessageTypeDbm extends AbstractDBMeta {
     public ReferrerInfo referrerMessageList() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnMessageTypeCode(), MessageDbm.getInstance().columnMessageTypeCode());
         return cri("FK_MESSAGE_MESSAGE_TYPE", "messageList", this, MessageDbm.getInstance(), mp, false, "messageType");
+    }
+    /**
+     * MESSAGE_RESTRICTION by MESSAGE_TYPE_CODE, named 'messageRestrictionList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerMessageRestrictionList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnMessageTypeCode(), MessageRestrictionDbm.getInstance().columnMessageTypeCode());
+        return cri("FK_MESSAGE_RESTRICTION_MESSAGE_TYPE", "messageRestrictionList", this, MessageRestrictionDbm.getInstance(), mp, false, "messageType");
     }
 
     // ===================================================================================

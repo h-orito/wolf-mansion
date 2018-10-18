@@ -105,7 +105,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} */
     protected Integer _villageId;
 
     /** START_PERSON_MIN_NUM: {INT UNSIGNED(10)} */
@@ -147,7 +147,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     /** IS_AVAILABLE_GUARD_SAME_TARGET: {NotNull, BIT, classification=Flg} */
     protected Boolean _isAvailableGuardSameTarget;
 
-    /** CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} */
+    /** CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} */
     protected Integer _characterGroupId;
 
     /** JOIN_PASSWORD: {VARCHAR(12)} */
@@ -156,7 +156,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     /** ORGANIZE: {NotNull, VARCHAR(400)} */
     protected String _organize;
 
-    /** ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to ALLOWED_SECRET_SAY, classification=AllowedSecretSay} */
+    /** ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} */
     protected String _allowedSecretSayCode;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
@@ -181,7 +181,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "VILLAGE_SETTINGS";
+        return "village_settings";
     }
 
     // ===================================================================================
@@ -387,7 +387,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /**
      * Get the value of allowedSecretSayCode as the classification of AllowedSecretSay. <br>
-     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to ALLOWED_SECRET_SAY, classification=AllowedSecretSay} <br>
+     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} <br>
      * 秘話可能範囲
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -398,7 +398,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /**
      * Set the value of allowedSecretSayCode as the classification of AllowedSecretSay. <br>
-     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to ALLOWED_SECRET_SAY, classification=AllowedSecretSay} <br>
+     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} <br>
      * 秘話可能範囲
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -1061,7 +1061,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -1071,7 +1071,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -1350,7 +1350,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [get] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
+     * [get] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
      * キャラクターグループID
      * @return The value of the column 'CHARACTER_GROUP_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -1360,7 +1360,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
+     * [set] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
      * キャラクターグループID
      * @param characterGroupId The value of the column 'CHARACTER_GROUP_ID'. (basically NotNull if update: for the constraint)
      */
@@ -1410,7 +1410,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [get] ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to ALLOWED_SECRET_SAY, classification=AllowedSecretSay} <br>
+     * [get] ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} <br>
      * 秘話可能な範囲コード
      * @return The value of the column 'ALLOWED_SECRET_SAY_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -1420,7 +1420,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to ALLOWED_SECRET_SAY, classification=AllowedSecretSay} <br>
+     * [set] ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} <br>
      * 秘話可能な範囲コード
      * @param allowedSecretSayCode The value of the column 'ALLOWED_SECRET_SAY_CODE'. (basically NotNull if update: for the constraint)
      */

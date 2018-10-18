@@ -33,13 +33,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [referrer table]
- *     MESSAGE
+ *     MESSAGE, MESSAGE_RESTRICTION
  *
  * [foreign property]
  *     
  *
  * [referrer property]
- *     messageList
+ *     messageList, messageRestrictionList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -78,7 +78,7 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "MESSAGE_TYPE";
+        return "message_type";
     }
 
     // ===================================================================================
@@ -412,6 +412,26 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
         _messageList = messageList;
     }
 
+    /** MESSAGE_RESTRICTION by MESSAGE_TYPE_CODE, named 'messageRestrictionList'. */
+    protected List<MessageRestriction> _messageRestrictionList;
+
+    /**
+     * [get] MESSAGE_RESTRICTION by MESSAGE_TYPE_CODE, named 'messageRestrictionList'.
+     * @return The entity list of referrer property 'messageRestrictionList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<MessageRestriction> getMessageRestrictionList() {
+        if (_messageRestrictionList == null) { _messageRestrictionList = newReferrerList(); }
+        return _messageRestrictionList;
+    }
+
+    /**
+     * [set] MESSAGE_RESTRICTION by MESSAGE_TYPE_CODE, named 'messageRestrictionList'.
+     * @param messageRestrictionList The entity list of referrer property 'messageRestrictionList'. (NullAllowed)
+     */
+    public void setMessageRestrictionList(List<MessageRestriction> messageRestrictionList) {
+        _messageRestrictionList = messageRestrictionList;
+    }
+
     protected <ELEMENT> List<ELEMENT> newReferrerList() { // overriding to import
         return new ArrayList<ELEMENT>();
     }
@@ -443,6 +463,8 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
         StringBuilder sb = new StringBuilder();
         if (_messageList != null) { for (Message et : _messageList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "messageList")); } } }
+        if (_messageRestrictionList != null) { for (MessageRestriction et : _messageRestrictionList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "messageRestrictionList")); } } }
         return sb.toString();
     }
 
@@ -463,6 +485,8 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
         StringBuilder sb = new StringBuilder();
         if (_messageList != null && !_messageList.isEmpty())
         { sb.append(dm).append("messageList"); }
+        if (_messageRestrictionList != null && !_messageRestrictionList.isEmpty())
+        { sb.append(dm).append("messageRestrictionList"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }

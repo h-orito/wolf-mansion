@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of MESSAGE_TYPE.
+ * The condition-query for in-line of message_type.
  * @author DBFlute(AutoGenerator)
  */
 public class MessageTypeCIQ extends AbstractBsMessageTypeCQ {
@@ -64,13 +64,23 @@ public class MessageTypeCIQ extends AbstractBsMessageTypeCQ {
     protected ConditionValue xgetCValueMessageTypeCode() { return _myCQ.xdfgetMessageTypeCode(); }
     public String keepMessageTypeCode_ExistsReferrer_MessageList(MessageCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
+    public String keepMessageTypeCode_ExistsReferrer_MessageRestrictionList(MessageRestrictionCQ sq)
+    { throwIICBOE("ExistsReferrer"); return null; }
     public String keepMessageTypeCode_NotExistsReferrer_MessageList(MessageCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
+    public String keepMessageTypeCode_NotExistsReferrer_MessageRestrictionList(MessageRestrictionCQ sq)
+    { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepMessageTypeCode_SpecifyDerivedReferrer_MessageList(MessageCQ sq)
+    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
+    public String keepMessageTypeCode_SpecifyDerivedReferrer_MessageRestrictionList(MessageRestrictionCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepMessageTypeCode_QueryDerivedReferrer_MessageList(MessageCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepMessageTypeCode_QueryDerivedReferrer_MessageListParameter(Object vl)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepMessageTypeCode_QueryDerivedReferrer_MessageRestrictionList(MessageRestrictionCQ sq)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepMessageTypeCode_QueryDerivedReferrer_MessageRestrictionListParameter(Object vl)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     protected ConditionValue xgetCValueMessageTypeName() { return _myCQ.xdfgetMessageTypeName(); }
     protected Map<String, Object> xfindFixedConditionDynamicParameterMap(String pp) { return null; }

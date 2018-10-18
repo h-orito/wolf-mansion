@@ -111,8 +111,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>370</x>
-			<y>977</y>
+			<x>297</x>
+			<y>712</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -213,8 +213,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>374</x>
-			<y>1214</y>
+			<x>303</x>
+			<y>998</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -283,8 +283,8 @@
 			<width>247</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>952</x>
-			<y>779</y>
+			<x>941</x>
+			<y>473</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -324,7 +324,7 @@
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
 					<target_xp>100</target_xp>
-					<target_yp>30</target_yp>
+					<target_yp>41</target_yp>
 				</relationship>
 			</connections>
 			<columns>
@@ -362,12 +362,12 @@
 			<physical_name>RANDOM_CONTENT</physical_name>
 			<logical_name>ランダム変換内容</logical_name>
 			<description></description>
-			<height>75</height>
-			<width>120</width>
+			<height>89</height>
+			<width>303</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>601</x>
-			<y>80</y>
+			<x>1031</x>
+			<y>73</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -426,11 +426,11 @@
 			<logical_name>ランダムキーワード</logical_name>
 			<description></description>
 			<height>75</height>
-			<width>120</width>
+			<width>303</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>258</x>
-			<y>88</y>
+			<x>1030</x>
+			<y>236</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -470,8 +470,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>38</x>
-			<y>767</y>
+			<x>24</x>
+			<y>471</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -510,8 +510,10 @@
 					<reference_for_pk>true</reference_for_pk>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>0</source_xp>
-					<source_yp>46</source_yp>
+					<source_xp>39</source_xp>
+					<source_yp>0</source_yp>
+					<target_xp>73</target_xp>
+					<target_yp>100</target_yp>
 				</relationship>
 				<relationship>
 					<name>FK_ability_CHARA_target</name>
@@ -527,8 +529,10 @@
 					<reference_for_pk>true</reference_for_pk>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>11</source_xp>
+					<source_xp>34</source_xp>
 					<source_yp>0</source_yp>
+					<target_xp>54</target_xp>
+					<target_yp>100</target_yp>
 				</relationship>
 				<relationship>
 					<name>FK_ability_ability_type</name>
@@ -596,8 +600,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>46</x>
-			<y>628</y>
+			<x>64</x>
+			<y>327</y>
 			<color>
 				<r>254</r>
 				<g>251</g>
@@ -635,7 +639,7 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1655</x>
+			<x>1753</x>
 			<y>1233</y>
 			<color>
 				<r>254</r>
@@ -674,8 +678,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1298</x>
-			<y>111</y>
+			<x>1421</x>
+			<y>153</y>
 			<color>
 				<r>254</r>
 				<g>251</g>
@@ -713,7 +717,7 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1656</x>
+			<x>1754</x>
 			<y>953</y>
 			<color>
 				<r>254</r>
@@ -752,7 +756,7 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1670</x>
+			<x>1768</x>
 			<y>620</y>
 			<color>
 				<r>254</r>
@@ -791,8 +795,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>404</x>
-			<y>1359</y>
+			<x>333</x>
+			<y>1233</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -832,8 +836,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>339</x>
-			<y>772</y>
+			<x>320</x>
+			<y>473</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -872,6 +876,8 @@
 					<reference_for_pk>true</reference_for_pk>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
+					<source_xp>47</source_xp>
+					<source_yp>0</source_yp>
 				</relationship>
 			</connections>
 			<columns>
@@ -919,8 +925,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>614</x>
-			<y>301</y>
+			<x>929</x>
+			<y>884</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -942,7 +948,7 @@
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
 					<source_xp>0</source_xp>
-					<source_yp>35</source_yp>
+					<source_yp>67</source_yp>
 				</relationship>
 				<relationship>
 					<name>FK_message_player</name>
@@ -958,6 +964,8 @@
 					<reference_for_pk>true</reference_for_pk>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
+					<source_xp>0</source_xp>
+					<source_yp>50</source_yp>
 				</relationship>
 				<relationship>
 					<name>FK_message_message_type</name>
@@ -1101,13 +1109,113 @@
 			</table_properties>
 		</table>
 		<table>
+			<physical_name>message_restriction</physical_name>
+			<logical_name>発言制限</logical_name>
+			<description>レコードなしの場合は無制限</description>
+			<height>75</height>
+			<width>120</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>946</x>
+			<y>1309</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+				<relationship>
+					<name>FK_message_restriction_village</name>
+					<source>table.village</source>
+					<target>table.message_restriction</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>village_id</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+				<relationship>
+					<name>FK_message_restriction_message_type</name>
+					<source>table.message_type</source>
+					<target>table.message_restriction</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>message_type_code</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+				<relationship>
+					<name>FK_message_restriction_skill</name>
+					<source>table.skill</source>
+					<target>table.message_restriction</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>skill_code</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>village_id</physical_name>
+					<referred_column>table.village.village_id</referred_column>
+					<relationship>FK_message_restriction_village</relationship>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>skill_code</physical_name>
+					<referred_column>table.skill.skill_code</referred_column>
+					<relationship>FK_message_restriction_skill</relationship>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>message_type_code</physical_name>
+					<referred_column>table.message_type.message_type_code</referred_column>
+					<relationship>FK_message_restriction_message_type</relationship>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>message_max_num</physical_name>
+					<logical_name>最大発言回数</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<column_group>共通カラム</column_group>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
 			<physical_name>message_type</physical_name>
 			<logical_name>メッセージ種別</logical_name>
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>251</x>
-			<y>365</y>
+			<x>739</x>
+			<y>1194</y>
 			<color>
 				<r>254</r>
 				<g>251</g>
@@ -1145,8 +1253,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1298</x>
-			<y>271</y>
+			<x>1386</x>
+			<y>280</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -1221,7 +1329,7 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1655</x>
+			<x>1753</x>
 			<y>781</y>
 			<color>
 				<r>254</r>
@@ -1288,7 +1396,7 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1289</x>
+			<x>1387</x>
 			<y>824</y>
 			<color>
 				<r>128</r>
@@ -1396,8 +1504,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>622</x>
-			<y>592</y>
+			<x>852</x>
+			<y>712</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -1457,7 +1565,7 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1290</x>
+			<x>1388</x>
 			<y>487</y>
 			<color>
 				<r>128</r>
@@ -1509,8 +1617,10 @@
 					<reference_for_pk>true</reference_for_pk>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>100</source_xp>
-					<source_yp>38</source_yp>
+					<source_xp>86</source_xp>
+					<source_yp>0</source_yp>
+					<target_xp>0</target_xp>
+					<target_yp>43</target_yp>
 				</relationship>
 				<relationship>
 					<name>FK_village_player_skill</name>
@@ -1675,7 +1785,7 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1212</x>
+			<x>1310</x>
 			<y>1102</y>
 			<color>
 				<r>128</r>
@@ -1855,7 +1965,7 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1654</x>
+			<x>1752</x>
 			<y>1070</y>
 			<color>
 				<r>254</r>
@@ -1894,8 +2004,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>667</x>
-			<y>775</y>
+			<x>641</x>
+			<y>471</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -1916,8 +2026,10 @@
 					<reference_for_pk>true</reference_for_pk>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>70</source_xp>
+					<source_xp>76</source_xp>
 					<source_yp>0</source_yp>
+					<target_xp>34</target_xp>
+					<target_yp>100</target_yp>
 				</relationship>
 				<relationship>
 					<name>FK_vote_CHARA_to</name>
@@ -1933,9 +2045,9 @@
 					<reference_for_pk>true</reference_for_pk>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>80</source_xp>
+					<source_xp>66</source_xp>
 					<source_yp>0</source_yp>
-					<target_xp>47</target_xp>
+					<target_xp>19</target_xp>
 					<target_yp>100</target_yp>
 				</relationship>
 				<relationship>

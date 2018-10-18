@@ -1,0 +1,159 @@
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>フッター</title>
+<link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}" />
+<link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" />
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+<body>
+	<table class="table-bordered table-condensed small" layout:fragment="table">
+		<thead>
+			<tr>
+				<th>役職</th>
+				<th>制限</th>
+				<th colspan="2">1回あたりの発言文字数 * 1日あたりの発言回数</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>村人</td>
+				<td>
+					<input type="checkbox" class="form-control">
+				</td>
+				<td>通常</td>
+				<td>
+					<div class="input-group">
+						<input type="number" class="form-control" placeholder="400" />
+						<span class="input-group-addon">&nbsp;*&nbsp;</span>
+						<input type="number" class="form-control" placeholder="20" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>占い師</td>
+				<td>
+					<input type="checkbox" class="form-control">
+				</td>
+				<td>通常</td>
+				<td>
+					<div class="input-group">
+						<input type="number" class="form-control" placeholder="400" />
+						<span class="input-group-addon">&nbsp;*&nbsp;</span>
+						<input type="number" class="form-control" placeholder="20" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>賢者</td>
+				<td>
+					<input type="checkbox" class="form-control">
+				</td>
+				<td>通常</td>
+				<td>
+					<div class="input-group">
+						<input type="number" class="form-control" placeholder="400" />
+						<span class="input-group-addon">&nbsp;*&nbsp;</span>
+						<input type="number" class="form-control" placeholder="20" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>霊能者</td>
+				<td>
+					<input type="checkbox" class="form-control">
+				</td>
+				<td>通常</td>
+				<td>
+					<div class="input-group">
+						<input type="number" class="form-control" placeholder="400" />
+						<span class="input-group-addon">&nbsp;*&nbsp;</span>
+						<input type="number" class="form-control" placeholder="20" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>導師</td>
+				<td>
+					<input type="checkbox" class="form-control">
+				</td>
+				<td>通常</td>
+				<td>
+					<div class="input-group">
+						<input type="number" class="form-control" placeholder="400" />
+						<span class="input-group-addon">&nbsp;*&nbsp;</span>
+						<input type="number" class="form-control" placeholder="20" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>狩人</td>
+				<td>
+					<input type="checkbox" class="form-control">
+				</td>
+				<td>通常</td>
+				<td>
+					<div class="input-group">
+						<input type="number" class="form-control" placeholder="400" />
+						<span class="input-group-addon">&nbsp;*&nbsp;</span>
+						<input type="number" class="form-control" placeholder="20" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td rowspan="2">共鳴者</td>
+				<td rowspan="2">
+					<input type="checkbox" class="form-control">
+				</td>
+				<td>通常</td>
+				<td>
+					<div class="input-group">
+						<input type="number" class="form-control" placeholder="400" />
+						<span class="input-group-addon">&nbsp;*&nbsp;</span>
+						<input type="number" class="form-control" placeholder="20" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>共鳴</td>
+				<td>
+					<div class="input-group">
+						<input type="number" class="form-control" placeholder="400" />
+						<span class="input-group-addon">&nbsp;*&nbsp;</span>
+						<input type="number" class="form-control" placeholder="20" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td rowspan="2">人狼</td>
+				<td rowspan="2">
+					<input type="checkbox" class="form-control">
+				</td>
+				<td>通常</td>
+				<td>
+					<div class="input-group">
+						<input type="number" class="form-control" placeholder="400" />
+						<span class="input-group-addon">&nbsp;*&nbsp;</span>
+						<input type="number" class="form-control" placeholder="20" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>囁き</td>
+				<td>
+					<div class="input-group">
+						<input type="number" class="form-control" placeholder="400" />
+						<span class="input-group-addon">&nbsp;*&nbsp;</span>
+						<input type="number" class="form-control" placeholder="20" />
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

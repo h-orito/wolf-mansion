@@ -67,7 +67,7 @@ public abstract class BsCommitBhv extends AbstractBehaviorWritable<Commit, Commi
     /** {@inheritDoc} */
     public CommitDbm asDBMeta() { return CommitDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "COMMIT"; }
+    public String asTableDbName() { return "commit"; }
 
     // ===================================================================================
     //                                                                        New Instance
@@ -159,9 +159,9 @@ public abstract class BsCommitBhv extends AbstractBehaviorWritable<Commit, Commi
 
     /**
      * Select the entity by the primary-key value.
-     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY. (NotNull)
-     * @param day : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY. (NotNull)
-     * @param villagePlayerId : PK, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER. (NotNull)
+     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
+     * @param day : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
+     * @param villagePlayerId : PK, IX, NotNull, INT UNSIGNED(10), FK to village_player. (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.

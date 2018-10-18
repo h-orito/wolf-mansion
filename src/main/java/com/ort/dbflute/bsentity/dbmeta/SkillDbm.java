@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of SKILL. (Singleton)
+ * The DB meta of skill. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class SkillDbm extends AbstractDBMeta {
@@ -80,7 +80,7 @@ public class SkillDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "SKILL";
+    protected final String _tableDbName = "skill";
     protected final String _tableDispName = "SKILL";
     protected final String _tablePropertyName = "skill";
     protected final TableSqlName _tableSqlName = new TableSqlName("SKILL", _tableDbName);
@@ -93,7 +93,7 @@ public class SkillDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnSkillCode = cci("SKILL_CODE", "SKILL_CODE", null, null, String.class, "skillCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "villagePlayerByRequestSkillCodeList,villagePlayerBySecondRequestSkillCodeList,villagePlayerBySkillCodeList", CDef.DefMeta.Skill, false);
+    protected final ColumnInfo _columnSkillCode = cci("SKILL_CODE", "SKILL_CODE", null, null, String.class, "skillCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "messageRestrictionList,villagePlayerByRequestSkillCodeList,villagePlayerBySecondRequestSkillCodeList,villagePlayerBySkillCodeList", CDef.DefMeta.Skill, false);
     protected final ColumnInfo _columnSkillName = cci("SKILL_NAME", "SKILL_NAME", null, null, String.class, "skillName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnCampCode = cci("CAMP_CODE", "CAMP_CODE", null, null, String.class, "campCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "camp", null, CDef.DefMeta.Camp, false);
     protected final ColumnInfo _columnDispOrder = cci("DISP_ORDER", "DISP_ORDER", null, null, Integer.class, "dispOrder", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
@@ -109,7 +109,7 @@ public class SkillDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnSkillName() { return _columnSkillName; }
     /**
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCampCode() { return _columnCampCode; }
@@ -160,6 +160,14 @@ public class SkillDbm extends AbstractDBMeta {
     // -----------------------------------------------------
     //                                     Referrer Property
     //                                     -----------------
+    /**
+     * MESSAGE_RESTRICTION by SKILL_CODE, named 'messageRestrictionList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerMessageRestrictionList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnSkillCode(), MessageRestrictionDbm.getInstance().columnSkillCode());
+        return cri("FK_MESSAGE_RESTRICTION_SKILL", "messageRestrictionList", this, MessageRestrictionDbm.getInstance(), mp, false, "skill");
+    }
     /**
      * VILLAGE_PLAYER by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeList'.
      * @return The information object of referrer property. (NotNull)

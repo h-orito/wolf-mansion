@@ -14,7 +14,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of VILLAGE_DAY.
+ * The base condition-query of village_day.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
@@ -36,7 +36,7 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from VILLAGE_DAY) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from village_day) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -59,7 +59,7 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join VILLAGE_DAY on ... and FOO = [value] ...}
+     * {select ... from ... left outer join village_day on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -82,14 +82,14 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @return this. (NotNull)
      */
     public BsVillageDayCQ addOrderBy_VillageId_Asc() { regOBA("VILLAGE_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @return this. (NotNull)
      */
     public BsVillageDayCQ addOrderBy_VillageId_Desc() { regOBD("VILLAGE_ID"); return this; }
@@ -277,7 +277,7 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
         return xgetQueRlMap(prop);
     }
     protected VillageCQ xcreateQueryVillage() {
-        String nrp = xresolveNRP("VILLAGE_DAY", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("village_day", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillageCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "village", nrp);
     }
     protected void xsetupOuterJoinVillage() { xregOutJo("village"); }
@@ -298,7 +298,7 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
     //                                                      ==============================
     /**
      * Set up ExistsReferrer (correlated sub-query by compound key). <br>
-     * {exists (select ... from ABILITY where ...)}
+     * {exists (select ... from ability where ...)}
      * @param subQuery The sub-query of AbilityList for 'exists'. (NotNull)
      */
     public void existsAbility(SubQuery<AbilityCB> subQuery) {
@@ -313,7 +313,7 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
 
     /**
      * Set up ExistsReferrer (correlated sub-query by compound key). <br>
-     * {exists (select ... from COMMIT where ...)}
+     * {exists (select ... from commit where ...)}
      * @param subQuery The sub-query of CommitList for 'exists'. (NotNull)
      */
     public void existsCommit(SubQuery<CommitCB> subQuery) {
@@ -328,7 +328,7 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
 
     /**
      * Set up ExistsReferrer (correlated sub-query by compound key). <br>
-     * {exists (select ... from FOOTSTEP where ...)}
+     * {exists (select ... from footstep where ...)}
      * @param subQuery The sub-query of FootstepList for 'exists'. (NotNull)
      */
     public void existsFootstep(SubQuery<FootstepCB> subQuery) {
@@ -343,7 +343,7 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
 
     /**
      * Set up ExistsReferrer (correlated sub-query by compound key). <br>
-     * {exists (select ... from MESSAGE where ...)}
+     * {exists (select ... from message where ...)}
      * @param subQuery The sub-query of MessageList for 'exists'. (NotNull)
      */
     public void existsMessage(SubQuery<MessageCB> subQuery) {
@@ -358,7 +358,7 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
 
     /**
      * Set up ExistsReferrer (correlated sub-query by compound key). <br>
-     * {exists (select ... from VOTE where ...)}
+     * {exists (select ... from vote where ...)}
      * @param subQuery The sub-query of VoteList for 'exists'. (NotNull)
      */
     public void existsVote(SubQuery<VoteCB> subQuery) {
@@ -373,7 +373,7 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query by compound key). <br>
-     * {not exists (select ... from ABILITY where ...)}
+     * {not exists (select ... from ability where ...)}
      * @param subQuery The sub-query of AbilityList for 'not exists'. (NotNull)
      */
     public void notExistsAbility(SubQuery<AbilityCB> subQuery) {
@@ -388,7 +388,7 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query by compound key). <br>
-     * {not exists (select ... from COMMIT where ...)}
+     * {not exists (select ... from commit where ...)}
      * @param subQuery The sub-query of CommitList for 'not exists'. (NotNull)
      */
     public void notExistsCommit(SubQuery<CommitCB> subQuery) {
@@ -403,7 +403,7 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query by compound key). <br>
-     * {not exists (select ... from FOOTSTEP where ...)}
+     * {not exists (select ... from footstep where ...)}
      * @param subQuery The sub-query of FootstepList for 'not exists'. (NotNull)
      */
     public void notExistsFootstep(SubQuery<FootstepCB> subQuery) {
@@ -418,7 +418,7 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query by compound key). <br>
-     * {not exists (select ... from MESSAGE where ...)}
+     * {not exists (select ... from message where ...)}
      * @param subQuery The sub-query of MessageList for 'not exists'. (NotNull)
      */
     public void notExistsMessage(SubQuery<MessageCB> subQuery) {
@@ -433,7 +433,7 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query by compound key). <br>
-     * {not exists (select ... from VOTE where ...)}
+     * {not exists (select ... from vote where ...)}
      * @param subQuery The sub-query of VoteList for 'not exists'. (NotNull)
      */
     public void notExistsVote(SubQuery<VoteCB> subQuery) {
@@ -504,8 +504,8 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
     //                                              ======================================
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from ABILITY where ...)} <br>
-     * ABILITY by VILLAGE_ID, DAY, named 'abilityAsOne'.
+     * {FOO &lt;= (select max(BAR) from ability where ...)} <br>
+     * ability by VILLAGE_ID, DAY, named 'abilityAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedAbility()</span>.<span style="color: #CC4747">max</span>(new SubQuery&lt;AbilityCB&gt;() {
      *     public void query(AbilityCB subCB) {
@@ -540,8 +540,8 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from COMMIT where ...)} <br>
-     * COMMIT by VILLAGE_ID, DAY, named 'commitAsOne'.
+     * {FOO &lt;= (select max(BAR) from commit where ...)} <br>
+     * commit by VILLAGE_ID, DAY, named 'commitAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedCommit()</span>.<span style="color: #CC4747">max</span>(new SubQuery&lt;CommitCB&gt;() {
      *     public void query(CommitCB subCB) {
@@ -576,8 +576,8 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from FOOTSTEP where ...)} <br>
-     * FOOTSTEP by VILLAGE_ID, DAY, named 'footstepAsOne'.
+     * {FOO &lt;= (select max(BAR) from footstep where ...)} <br>
+     * footstep by VILLAGE_ID, DAY, named 'footstepAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedFootstep()</span>.<span style="color: #CC4747">max</span>(new SubQuery&lt;FootstepCB&gt;() {
      *     public void query(FootstepCB subCB) {
@@ -612,8 +612,8 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from MESSAGE where ...)} <br>
-     * MESSAGE by VILLAGE_ID, DAY, named 'messageAsOne'.
+     * {FOO &lt;= (select max(BAR) from message where ...)} <br>
+     * message by VILLAGE_ID, DAY, named 'messageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedMessage()</span>.<span style="color: #CC4747">max</span>(new SubQuery&lt;MessageCB&gt;() {
      *     public void query(MessageCB subCB) {
@@ -648,8 +648,8 @@ public class BsVillageDayCQ extends AbstractBsVillageDayCQ {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from VOTE where ...)} <br>
-     * VOTE by VILLAGE_ID, DAY, named 'voteAsOne'.
+     * {FOO &lt;= (select max(BAR) from vote where ...)} <br>
+     * vote by VILLAGE_ID, DAY, named 'voteAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVote()</span>.<span style="color: #CC4747">max</span>(new SubQuery&lt;VoteCB&gt;() {
      *     public void query(VoteCB subCB) {

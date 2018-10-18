@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of FOOTSTEP.
+ * The base condition-query of footstep.
  * @author DBFlute(AutoGenerator)
  */
 public class BsFootstepCQ extends AbstractBsFootstepCQ {
@@ -35,7 +35,7 @@ public class BsFootstepCQ extends AbstractBsFootstepCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from FOOTSTEP) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from footstep) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsFootstepCQ extends AbstractBsFootstepCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join FOOTSTEP on ... and FOO = [value] ...}
+     * {select ... from ... left outer join footstep on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -81,14 +81,14 @@ public class BsFootstepCQ extends AbstractBsFootstepCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return this. (NotNull)
      */
     public BsFootstepCQ addOrderBy_VillageId_Asc() { regOBA("VILLAGE_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return this. (NotNull)
      */
     public BsFootstepCQ addOrderBy_VillageId_Desc() { regOBD("VILLAGE_ID"); return this; }
@@ -101,14 +101,14 @@ public class BsFootstepCQ extends AbstractBsFootstepCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return this. (NotNull)
      */
     public BsFootstepCQ addOrderBy_Day_Asc() { regOBA("DAY"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return this. (NotNull)
      */
     public BsFootstepCQ addOrderBy_Day_Desc() { regOBD("DAY"); return this; }
@@ -121,14 +121,14 @@ public class BsFootstepCQ extends AbstractBsFootstepCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
+     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
      * @return this. (NotNull)
      */
     public BsFootstepCQ addOrderBy_CharaId_Asc() { regOBA("CHARA_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
+     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
      * @return this. (NotNull)
      */
     public BsFootstepCQ addOrderBy_CharaId_Desc() { regOBD("CHARA_ID"); return this; }
@@ -299,7 +299,7 @@ public class BsFootstepCQ extends AbstractBsFootstepCQ {
         return xgetQueRlMap(prop);
     }
     protected CharaCQ xcreateQueryChara() {
-        String nrp = xresolveNRP("FOOTSTEP", "chara"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("footstep", "chara"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new CharaCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "chara", nrp);
     }
     protected void xsetupOuterJoinChara() { xregOutJo("chara"); }
@@ -319,7 +319,7 @@ public class BsFootstepCQ extends AbstractBsFootstepCQ {
         return xgetQueRlMap(prop);
     }
     protected VillageDayCQ xcreateQueryVillageDay() {
-        String nrp = xresolveNRP("FOOTSTEP", "villageDay"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("footstep", "villageDay"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillageDayCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "villageDay", nrp);
     }
     protected void xsetupOuterJoinVillageDay() { xregOutJo("villageDay"); }
