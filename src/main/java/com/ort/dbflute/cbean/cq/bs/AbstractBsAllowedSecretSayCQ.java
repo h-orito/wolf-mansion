@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of allowed_secret_say.
+ * The abstract condition-query of ALLOWED_SECRET_SAY.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsAllowedSecretSayCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsAllowedSecretSayCQ extends AbstractConditionQuer
     }
 
     public String asTableDbName() {
-        return "allowed_secret_say";
+        return "ALLOWED_SECRET_SAY";
     }
 
     // ===================================================================================
@@ -185,8 +185,8 @@ public abstract class AbstractBsAllowedSecretSayCQ extends AbstractConditionQuer
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select ALLOWED_SECRET_SAY_CODE from village_settings where ...)} <br>
-     * village_settings by ALLOWED_SECRET_SAY_CODE, named 'villageSettingsAsOne'.
+     * {exists (select ALLOWED_SECRET_SAY_CODE from VILLAGE_SETTINGS where ...)} <br>
+     * VILLAGE_SETTINGS by ALLOWED_SECRET_SAY_CODE, named 'villageSettingsAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsVillageSettings</span>(settingsCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     settingsCB.query().set...
@@ -204,8 +204,8 @@ public abstract class AbstractBsAllowedSecretSayCQ extends AbstractConditionQuer
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select ALLOWED_SECRET_SAY_CODE from village_settings where ...)} <br>
-     * village_settings by ALLOWED_SECRET_SAY_CODE, named 'villageSettingsAsOne'.
+     * {not exists (select ALLOWED_SECRET_SAY_CODE from VILLAGE_SETTINGS where ...)} <br>
+     * VILLAGE_SETTINGS by ALLOWED_SECRET_SAY_CODE, named 'villageSettingsAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsVillageSettings</span>(settingsCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     settingsCB.query().set...
@@ -231,8 +231,8 @@ public abstract class AbstractBsAllowedSecretSayCQ extends AbstractConditionQuer
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from village_settings where ...)} <br>
-     * village_settings by ALLOWED_SECRET_SAY_CODE, named 'villageSettingsAsOne'.
+     * {FOO &lt;= (select max(BAR) from VILLAGE_SETTINGS where ...)} <br>
+     * VILLAGE_SETTINGS by ALLOWED_SECRET_SAY_CODE, named 'villageSettingsAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVillageSettings()</span>.<span style="color: #CC4747">max</span>(settingsCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     settingsCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>

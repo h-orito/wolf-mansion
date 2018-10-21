@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -22,6 +23,8 @@ import org.springframework.ui.Model;
 
 import com.ort.app.web.controller.logic.VillageDispLogic;
 import com.ort.app.web.dto.VillageInfo;
+import com.ort.app.web.form.NewVillageSayRestrictDetailDto;
+import com.ort.app.web.form.NewVillageSayRestrictDto;
 import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
 import com.ort.app.web.form.VillageCommitForm;
@@ -57,6 +60,7 @@ import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.Commit;
 import com.ort.dbflute.exentity.Footstep;
+import com.ort.dbflute.exentity.MessageRestriction;
 import com.ort.dbflute.exentity.RandomKeyword;
 import com.ort.dbflute.exentity.Skill;
 import com.ort.dbflute.exentity.Village;
@@ -75,40 +79,32 @@ public class VillageAssist {
     //                                                                          ==========
     private static final List<CDef.Skill> SET_AVAILABLE_SKILLS = Arrays.asList(CDef.Skill.人狼, CDef.Skill.占い師, CDef.Skill.賢者, CDef.Skill.狩人,
             CDef.Skill.狂人, CDef.Skill.妖狐, CDef.Skill.魔神官, CDef.Skill.C国狂人, CDef.Skill.狂信者);
+    private static final List<CDef.Skill> RESTRICT_SKILLS = Arrays.asList(CDef.Skill.村人, CDef.Skill.霊能者, CDef.Skill.人狼, CDef.Skill.C国狂人,
+            CDef.Skill.占い師, CDef.Skill.賢者, CDef.Skill.狩人, CDef.Skill.共鳴者, CDef.Skill.狂人, CDef.Skill.魔神官, CDef.Skill.狂信者, CDef.Skill.妖狐);
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
     @Autowired
     private VillageBhv villageBhv;
-
     @Autowired
     private VillageSettingsBhv villageSettingsBhv;
-
     @Autowired
     private VillagePlayerBhv villagePlayerBhv;
-
     @Autowired
     private VillageDayBhv villageDayBhv;
-
     @Autowired
     private SkillBhv skillBhv;
-
     @Autowired
     private AbilityBhv abilityBhv;
-
     @Autowired
     private VoteBhv voteBhv;
-
     @Autowired
     private FootstepBhv footstepBhv;
-
     @Autowired
     private CommitBhv commitBhv;
-
     @Autowired
     private RandomKeywordBhv randomKeywordBhv;
-
     @Autowired
     private VillageDispLogic villageDispLogic;
 
@@ -160,12 +156,15 @@ public class VillageAssist {
             cb.setupSelect_VillageSettingsAsOne().withCharaGroup();
             cb.query().setVillageId_Equal(villageId);
         });
-        villageBhv.loadVillagePlayer(village, villagePlayerCB -> { // 参加者一覧用
-            villagePlayerCB.setupSelect_Chara();
-            villagePlayerCB.setupSelect_SkillBySkillCode();
-            villagePlayerCB.setupSelect_DeadReason();
-            villagePlayerCB.query().setIsGone_Equal_False();
-            villagePlayerCB.query().addOrderBy_DeadDay_Asc();
+        villageBhv.load(village, loader -> {
+            loader.loadVillagePlayer(villagePlayerCB -> { // 参加者一覧用
+                villagePlayerCB.setupSelect_Chara();
+                villagePlayerCB.setupSelect_SkillBySkillCode();
+                villagePlayerCB.setupSelect_DeadReason();
+                villagePlayerCB.query().setIsGone_Equal_False();
+                villagePlayerCB.query().addOrderBy_DeadDay_Asc();
+            });
+            loader.loadMessageRestriction(mRest -> {});
         });
         return village;
     }
@@ -372,6 +371,7 @@ public class VillageAssist {
         content.setDayList(villageInfo.getDayList());
         content.setEpilogueDay(villageInfo.village.getEpilogueDay());
         content.setVillageSettings(convertToSettings(villageInfo.settings, villageInfo.dayList));
+        content.setSayRestrictList(convertToRestrictList(villageInfo.village.getMessageRestrictionList()));
         content.setIsSkillRequestAvailable(villageInfo.settings.getIsPossibleSkillRequest());
         content.setDayChangeDatetime(makeDayChangeDatetime(villageInfo));
         content.setIsDispUnspoiler(villageInfo.village.isVillageStatusCodeエピローグ() || villageInfo.village.isVillageStatusCode終了());
@@ -735,6 +735,44 @@ public class VillageAssist {
         String minute = interval >= 60 ? String.format("%02d分", (interval % 3600) / 60) : "";
         String second = String.format("%02d秒", interval % 60);
         return hour + minute + second;
+    }
+
+    private List<NewVillageSayRestrictDto> convertToRestrictList(List<MessageRestriction> registeredRestrictList) {
+        return RESTRICT_SKILLS.stream().map(skill -> {
+            NewVillageSayRestrictDto restrict = new NewVillageSayRestrictDto();
+            restrict.setSkillName(skill.name());
+            restrict.setSkillCode(skill.code());
+            restrict.setDetailList(createDetailList(skill, registeredRestrictList));
+            return restrict;
+        }).collect(Collectors.toList());
+    }
+
+    private List<NewVillageSayRestrictDetailDto> createDetailList(CDef.Skill skill, List<MessageRestriction> registeredRestrictList) {
+        List<NewVillageSayRestrictDetailDto> detailList = new ArrayList<>();
+        detailList.add(createDetail("通常発言", CDef.MessageType.通常発言.code(), skill, registeredRestrictList));
+        if (skill == CDef.Skill.人狼 || skill == CDef.Skill.C国狂人) {
+            detailList.add(createDetail("囁き", CDef.MessageType.人狼の囁き.code(), skill, registeredRestrictList));
+        } else if (skill == CDef.Skill.共鳴者) {
+            detailList.add(createDetail("共鳴発言", CDef.MessageType.共鳴発言.code(), skill, registeredRestrictList));
+        }
+        return detailList;
+    }
+
+    private NewVillageSayRestrictDetailDto createDetail(String messageTypeName, String messageTypeCode, CDef.Skill skill,
+            List<MessageRestriction> registeredRestrictList) {
+        NewVillageSayRestrictDetailDto detail = new NewVillageSayRestrictDetailDto();
+        detail.setMessageTypeName(messageTypeName);
+        detail.setMessageTypeCode(messageTypeCode);
+        detail.setIsRestrict(false);
+        Optional<MessageRestriction> optDbRes = registeredRestrictList.stream()
+                .filter(dbRes -> dbRes.getMessageTypeCode().equals(messageTypeCode) && dbRes.getSkillCode().equals(skill.code()))
+                .findFirst();
+        if (optDbRes.isPresent()) {
+            detail.setIsRestrict(true);
+            detail.setCount(optDbRes.get().getMessageMaxNum());
+            detail.setLength(optDbRes.get().getMessageMaxLength());
+        }
+        return detail;
     }
 
     private VillageVoteDto makeMemberVote(VillageInfo villageInfo) {

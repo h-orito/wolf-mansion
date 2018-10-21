@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of message_restriction.
+ * The base condition-query of MESSAGE_RESTRICTION.
  * @author DBFlute(AutoGenerator)
  */
 public class BsMessageRestrictionCQ extends AbstractBsMessageRestrictionCQ {
@@ -35,7 +35,7 @@ public class BsMessageRestrictionCQ extends AbstractBsMessageRestrictionCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from message_restriction) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from MESSAGE_RESTRICTION) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsMessageRestrictionCQ extends AbstractBsMessageRestrictionCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join message_restriction on ... and FOO = [value] ...}
+     * {select ... from ... left outer join MESSAGE_RESTRICTION on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -81,14 +81,14 @@ public class BsMessageRestrictionCQ extends AbstractBsMessageRestrictionCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @return this. (NotNull)
      */
     public BsMessageRestrictionCQ addOrderBy_VillageId_Asc() { regOBA("VILLAGE_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @return this. (NotNull)
      */
     public BsMessageRestrictionCQ addOrderBy_VillageId_Desc() { regOBD("VILLAGE_ID"); return this; }
@@ -101,14 +101,14 @@ public class BsMessageRestrictionCQ extends AbstractBsMessageRestrictionCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
      * @return this. (NotNull)
      */
     public BsMessageRestrictionCQ addOrderBy_SkillCode_Asc() { regOBA("SKILL_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
      * @return this. (NotNull)
      */
     public BsMessageRestrictionCQ addOrderBy_SkillCode_Desc() { regOBD("SKILL_CODE"); return this; }
@@ -121,14 +121,14 @@ public class BsMessageRestrictionCQ extends AbstractBsMessageRestrictionCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType}
      * @return this. (NotNull)
      */
     public BsMessageRestrictionCQ addOrderBy_MessageTypeCode_Asc() { regOBA("MESSAGE_TYPE_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType}
      * @return this. (NotNull)
      */
     public BsMessageRestrictionCQ addOrderBy_MessageTypeCode_Desc() { regOBD("MESSAGE_TYPE_CODE"); return this; }
@@ -152,6 +152,26 @@ public class BsMessageRestrictionCQ extends AbstractBsMessageRestrictionCQ {
      * @return this. (NotNull)
      */
     public BsMessageRestrictionCQ addOrderBy_MessageMaxNum_Desc() { regOBD("MESSAGE_MAX_NUM"); return this; }
+
+    protected ConditionValue _messageMaxLength;
+    public ConditionValue xdfgetMessageMaxLength()
+    { if (_messageMaxLength == null) { _messageMaxLength = nCV(); }
+      return _messageMaxLength; }
+    protected ConditionValue xgetCValueMessageMaxLength() { return xdfgetMessageMaxLength(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * MESSAGE_MAX_LENGTH: {NotNull, INT UNSIGNED(10)}
+     * @return this. (NotNull)
+     */
+    public BsMessageRestrictionCQ addOrderBy_MessageMaxLength_Asc() { regOBA("MESSAGE_MAX_LENGTH"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * MESSAGE_MAX_LENGTH: {NotNull, INT UNSIGNED(10)}
+     * @return this. (NotNull)
+     */
+    public BsMessageRestrictionCQ addOrderBy_MessageMaxLength_Desc() { regOBD("MESSAGE_MAX_LENGTH"); return this; }
 
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
@@ -302,7 +322,7 @@ public class BsMessageRestrictionCQ extends AbstractBsMessageRestrictionCQ {
         return xgetQueRlMap(prop);
     }
     protected MessageTypeCQ xcreateQueryMessageType() {
-        String nrp = xresolveNRP("message_restriction", "messageType"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("MESSAGE_RESTRICTION", "messageType"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new MessageTypeCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "messageType", nrp);
     }
     protected void xsetupOuterJoinMessageType() { xregOutJo("messageType"); }
@@ -322,7 +342,7 @@ public class BsMessageRestrictionCQ extends AbstractBsMessageRestrictionCQ {
         return xgetQueRlMap(prop);
     }
     protected SkillCQ xcreateQuerySkill() {
-        String nrp = xresolveNRP("message_restriction", "skill"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("MESSAGE_RESTRICTION", "skill"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new SkillCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "skill", nrp);
     }
     protected void xsetupOuterJoinSkill() { xregOutJo("skill"); }
@@ -342,7 +362,7 @@ public class BsMessageRestrictionCQ extends AbstractBsMessageRestrictionCQ {
         return xgetQueRlMap(prop);
     }
     protected VillageCQ xcreateQueryVillage() {
-        String nrp = xresolveNRP("message_restriction", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("MESSAGE_RESTRICTION", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillageCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "village", nrp);
     }
     protected void xsetupOuterJoinVillage() { xregOutJo("village"); }

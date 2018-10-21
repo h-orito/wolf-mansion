@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-bean of message_type.
+ * The base condition-bean of MESSAGE_TYPE.
  * @author DBFlute(AutoGenerator)
  */
 public class BsMessageTypeCB extends AbstractConditionBean {
@@ -73,7 +73,7 @@ public class BsMessageTypeCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "message_type";
+        return "MESSAGE_TYPE";
     }
 
     // ===================================================================================
@@ -300,10 +300,10 @@ public class BsMessageTypeCB extends AbstractConditionBean {
             columnMessageTypeCode(); // PK
         }
         @Override
-        protected String getTableDbName() { return "message_type"; }
+        protected String getTableDbName() { return "MESSAGE_TYPE"; }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from message where ...) as FOO_MAX} <br>
+         * {select max(FOO) from MESSAGE where ...) as FOO_MAX} <br>
          * MESSAGE by MESSAGE_TYPE_CODE, named 'messageList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -320,7 +320,7 @@ public class BsMessageTypeCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from message_restriction where ...) as FOO_MAX} <br>
+         * {select max(FOO) from MESSAGE_RESTRICTION where ...) as FOO_MAX} <br>
          * MESSAGE_RESTRICTION by MESSAGE_TYPE_CODE, named 'messageRestrictionList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(restrictionCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {

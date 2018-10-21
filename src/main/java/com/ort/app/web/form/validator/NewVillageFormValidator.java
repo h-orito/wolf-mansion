@@ -207,5 +207,4 @@ public class NewVillageFormValidator implements Validator {
             errors.rejectValue("sayRestrictList", "NewVillageForm.validator.sayRestrictList", new Object[] {}, null);
         }
     }
-
 }

@@ -117,9 +117,9 @@
 										</th:block></td>
 								</tr>
 								<tr>
-									<th>構成</th>
+									<th>発言制限</th>
 									<td>
-										<table class="table-bordered table-condensed small" layout:fragment="table">
+										<table class="table-bordered table-condensed small">
 											<thead>
 												<tr>
 													<th>役職</th>
@@ -141,7 +141,8 @@
 															th:field="*{sayRestrictList[__${stat.index}__].detailList[0].count}" data-restrict-count /> <input type="hidden"
 															th:field="*{sayRestrictList[__${stat.index}__].skillCode}" /> <input type="hidden"
 															th:field="*{sayRestrictList[__${stat.index}__].skillName}" /> <input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].detailList[0].messageTypeName}" /></td>
+															th:field="*{sayRestrictList[__${stat.index}__].detailList[0].messageTypeName}" /><input type="hidden"
+															th:field="*{sayRestrictList[__${stat.index}__].detailList[0].messageTypeCode}" /></td>
 													</tr>
 													<tr th:if="${restrict.detailList.size() > 1}">
 														<td th:text="${restrict.detailList[1].messageTypeName}"></td>
@@ -151,8 +152,8 @@
 															th:text="${restrict.detailList[1].length} + ' * ' + ${restrict.detailList[1].count}"></span> <input type="hidden"
 															th:field="*{sayRestrictList[__${stat.index}__].detailList[1].length}" /> <input type="hidden"
 															th:field="*{sayRestrictList[__${stat.index}__].detailList[1].count}" /> <input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].skillCode}" /> <input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].detailList[1].messageTypeName}" /></td>
+															th:field="*{sayRestrictList[__${stat.index}__].detailList[1].messageTypeName}" /><input type="hidden"
+															th:field="*{sayRestrictList[__${stat.index}__].detailList[1].messageTypeCode}" /></td>
 													</tr>
 												</th:block>
 											</tbody>

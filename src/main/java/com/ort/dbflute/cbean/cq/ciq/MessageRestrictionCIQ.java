@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of message_restriction.
+ * The condition-query for in-line of MESSAGE_RESTRICTION.
  * @author DBFlute(AutoGenerator)
  */
 public class MessageRestrictionCIQ extends AbstractBsMessageRestrictionCQ {
@@ -65,6 +65,7 @@ public class MessageRestrictionCIQ extends AbstractBsMessageRestrictionCQ {
     protected ConditionValue xgetCValueSkillCode() { return _myCQ.xdfgetSkillCode(); }
     protected ConditionValue xgetCValueMessageTypeCode() { return _myCQ.xdfgetMessageTypeCode(); }
     protected ConditionValue xgetCValueMessageMaxNum() { return _myCQ.xdfgetMessageMaxNum(); }
+    protected ConditionValue xgetCValueMessageMaxLength() { return _myCQ.xdfgetMessageMaxLength(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
     protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }
     protected ConditionValue xgetCValueUpdateDatetime() { return _myCQ.xdfgetUpdateDatetime(); }

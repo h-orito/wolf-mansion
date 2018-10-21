@@ -67,7 +67,7 @@ public abstract class BsRandomContentBhv extends AbstractBehaviorWritable<Random
     /** {@inheritDoc} */
     public RandomContentDbm asDBMeta() { return RandomContentDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "random_content"; }
+    public String asTableDbName() { return "RANDOM_CONTENT"; }
 
     // ===================================================================================
     //                                                                        New Instance

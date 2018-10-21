@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of message_restriction. (Singleton)
+ * The DB meta of MESSAGE_RESTRICTION. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class MessageRestrictionDbm extends AbstractDBMeta {
@@ -61,6 +61,7 @@ public class MessageRestrictionDbm extends AbstractDBMeta {
             }
         }, "messageTypeCode");
         setupEpg(_epgMap, et -> ((MessageRestriction)et).getMessageMaxNum(), (et, vl) -> ((MessageRestriction)et).setMessageMaxNum(cti(vl)), "messageMaxNum");
+        setupEpg(_epgMap, et -> ((MessageRestriction)et).getMessageMaxLength(), (et, vl) -> ((MessageRestriction)et).setMessageMaxLength(cti(vl)), "messageMaxLength");
         setupEpg(_epgMap, et -> ((MessageRestriction)et).getRegisterDatetime(), (et, vl) -> ((MessageRestriction)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((MessageRestriction)et).getRegisterTrace(), (et, vl) -> ((MessageRestriction)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((MessageRestriction)et).getUpdateDatetime(), (et, vl) -> ((MessageRestriction)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -86,7 +87,7 @@ public class MessageRestrictionDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "message_restriction";
+    protected final String _tableDbName = "MESSAGE_RESTRICTION";
     protected final String _tableDispName = "MESSAGE_RESTRICTION";
     protected final String _tablePropertyName = "messageRestriction";
     protected final TableSqlName _tableSqlName = new TableSqlName("MESSAGE_RESTRICTION", _tableDbName);
@@ -103,23 +104,24 @@ public class MessageRestrictionDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnSkillCode = cci("SKILL_CODE", "SKILL_CODE", null, null, String.class, "skillCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "skill", null, CDef.DefMeta.Skill, false);
     protected final ColumnInfo _columnMessageTypeCode = cci("MESSAGE_TYPE_CODE", "MESSAGE_TYPE_CODE", null, null, String.class, "messageTypeCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "messageType", null, CDef.DefMeta.MessageType, false);
     protected final ColumnInfo _columnMessageMaxNum = cci("MESSAGE_MAX_NUM", "MESSAGE_MAX_NUM", null, null, Integer.class, "messageMaxNum", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnMessageMaxLength = cci("MESSAGE_MAX_LENGTH", "MESSAGE_MAX_LENGTH", null, null, Integer.class, "messageMaxLength", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
     /**
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnSkillCode() { return _columnSkillCode; }
     /**
-     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnMessageTypeCode() { return _columnMessageTypeCode; }
@@ -128,6 +130,11 @@ public class MessageRestrictionDbm extends AbstractDBMeta {
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnMessageMaxNum() { return _columnMessageMaxNum; }
+    /**
+     * MESSAGE_MAX_LENGTH: {NotNull, INT UNSIGNED(10)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnMessageMaxLength() { return _columnMessageMaxLength; }
     /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
@@ -155,6 +162,7 @@ public class MessageRestrictionDbm extends AbstractDBMeta {
         ls.add(columnSkillCode());
         ls.add(columnMessageTypeCode());
         ls.add(columnMessageMaxNum());
+        ls.add(columnMessageMaxLength());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());

@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of random_keyword.
+ * The abstract condition-query of RANDOM_KEYWORD.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsRandomKeywordCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsRandomKeywordCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "random_keyword";
+        return "RANDOM_KEYWORD";
     }
 
     // ===================================================================================
@@ -159,8 +159,8 @@ public abstract class AbstractBsRandomKeywordCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select RANDOM_KEYWORD_ID from random_content where ...)} <br>
-     * random_content by RANDOM_KEYWORD_ID, named 'randomContentAsOne'.
+     * {exists (select RANDOM_KEYWORD_ID from RANDOM_CONTENT where ...)} <br>
+     * RANDOM_CONTENT by RANDOM_KEYWORD_ID, named 'randomContentAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsRandomContent</span>(contentCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     contentCB.query().set...
@@ -178,8 +178,8 @@ public abstract class AbstractBsRandomKeywordCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select RANDOM_KEYWORD_ID from random_content where ...)} <br>
-     * random_content by RANDOM_KEYWORD_ID, named 'randomContentAsOne'.
+     * {not exists (select RANDOM_KEYWORD_ID from RANDOM_CONTENT where ...)} <br>
+     * RANDOM_CONTENT by RANDOM_KEYWORD_ID, named 'randomContentAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsRandomContent</span>(contentCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     contentCB.query().set...
@@ -205,8 +205,8 @@ public abstract class AbstractBsRandomKeywordCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from random_content where ...)} <br>
-     * random_content by RANDOM_KEYWORD_ID, named 'randomContentAsOne'.
+     * {FOO &lt;= (select max(BAR) from RANDOM_CONTENT where ...)} <br>
+     * RANDOM_CONTENT by RANDOM_KEYWORD_ID, named 'randomContentAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedRandomContent()</span>.<span style="color: #CC4747">max</span>(contentCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     contentCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>

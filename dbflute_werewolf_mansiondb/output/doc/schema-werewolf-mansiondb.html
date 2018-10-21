@@ -407,7 +407,7 @@ dl.procedurelist dd.column pre {
 	</tr>
 	<tr>
 		<td class="rownumcell">13</td>
-		<td><a href="#message_restriction" title="type=TABLE, primaryKey={VILLAGE_ID, SKILL_CODE, MESSAGE_TYPE_CODE}, nameLength=19, columnCount=8">MESSAGE_RESTRICTION</a></td>
+		<td><a href="#message_restriction" title="type=TABLE, primaryKey={VILLAGE_ID, SKILL_CODE, MESSAGE_TYPE_CODE}, nameLength=19, columnCount=9">MESSAGE_RESTRICTION</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#message_type" title="FK_MESSAGE_RESTRICTION_MESSAGE_TYPE">MESSAGE_TYPE</a>, <a href="#skill" title="FK_MESSAGE_RESTRICTION_SKILL">SKILL</a>, <a href="#village" title="FK_MESSAGE_RESTRICTION_VILLAGE">VILLAGE</a></td>
 		<td class="relcell">&nbsp;</td>
@@ -2108,7 +2108,7 @@ MESSAGE
 		<td class="subcell">String</td>
 	</tr>
 </table>
-<h2 id="message_restriction" title="type=TABLE, primaryKey={VILLAGE_ID, SKILL_CODE, MESSAGE_TYPE_CODE}, nameLength=19, columnCount=8">
+<h2 id="message_restriction" title="type=TABLE, primaryKey={VILLAGE_ID, SKILL_CODE, MESSAGE_TYPE_CODE}, nameLength=19, columnCount=9">
 MESSAGE_RESTRICTION
 </h2>
 <p class="tablecomment">発言制限&nbsp;:&nbsp;レコードなしの場合は無制限</p>
@@ -2207,6 +2207,23 @@ MESSAGE_RESTRICTION
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">*</td>
+		<td id="message_restriction_message_max_length">MESSAGE_MAX_LENGTH</td>
+		<td class="typecell">INT UNSIGNED</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"> 最大文字数</td>
+		<td class="subcell">messageMaxLength</td>
+		<td class="subcell">Integer</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">6</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
 		<td class="comcolcell" id="message_restriction_register_datetime">REGISTER_DATETIME</td>
 		<td class="typecell">DATETIME</td>
 		<td class="sizecell"> 19 </td>
@@ -2218,7 +2235,7 @@ MESSAGE_RESTRICTION
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">6</td>
+		<td class="rownumcell">7</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2235,7 +2252,7 @@ MESSAGE_RESTRICTION
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">7</td>
+		<td class="rownumcell">8</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2252,7 +2269,7 @@ MESSAGE_RESTRICTION
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">8</td>
+		<td class="rownumcell">9</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>

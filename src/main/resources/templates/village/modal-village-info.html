@@ -81,10 +81,8 @@
 							</tr>
 							<tr>
 								<th>キャラセット</th>
-								<td>
-									<a href="javascript:void(0);" th:href="@{/chara-group/{charaGroupId}(charaGroupId=*{charaGroupId})}" th:text="*{charaGroupName}"
-										target="_blank"></a>
-								</td>
+								<td><a href="javascript:void(0);" th:href="@{/chara-group/{charaGroupId}(charaGroupId=*{charaGroupId})}" th:text="*{charaGroupName}"
+									target="_blank"></a></td>
 							</tr>
 							<tr>
 								<th>入村パスワード</th>
@@ -96,13 +94,43 @@
 							</tr>
 							<tr>
 								<th>人数ごとの役職構成</th>
-								<td>
-									<th:block th:if="*{organization}">
+								<td><th:block th:if="*{organization}">
 										<th:block th:each="str, stat : *{organization.split('\r\n|\r|\n', -1)}">
 											<th:block th:text="${str}" />
 											<br th:if="${!stat.last}" />
 										</th:block>
-									</th:block>
+									</th:block></td>
+							</tr>
+							<tr>
+								<th>発言制限</th>
+								<td>
+									<table class="table-bordered table-condensed small">
+										<thead>
+											<tr>
+												<th>役職</th>
+												<th>発言種別</th>
+												<th>制限</th>
+												<th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
+											</tr>
+										</thead>
+										<tbody>
+											<th:block th:each="restrict, stat : ${content.sayRestrictList}">
+												<tr>
+													<td th:rowspan="${restrict.detailList.size()}" th:text="${restrict.skillName}">村人</td>
+													<td th:text="${restrict.detailList[0].messageTypeName}"></td>
+													<td th:text="${restrict.detailList[0].isRestrict ? 'あり' : '無制限'}"></td>
+													<td><span th:if="${restrict.detailList[0].isRestrict}"
+														th:text="${restrict.detailList[0].length} + ' * ' + ${restrict.detailList[0].count}"></span></td>
+												</tr>
+												<tr th:if="${restrict.detailList.size() > 1}">
+													<td th:text="${restrict.detailList[1].messageTypeName}"></td>
+													<td th:text="${restrict.detailList[1].isRestrict ? 'あり' : '無制限'}"></td>
+													<td><span th:if="${restrict.detailList[1].isRestrict}"
+														th:text="${restrict.detailList[1].length} + ' * ' + ${restrict.detailList[1].count}"></span></td>
+												</tr>
+											</th:block>
+										</tbody>
+									</table>
 								</td>
 							</tr>
 						</table>
@@ -111,9 +139,9 @@
 					<div class="clearfix small">
 						<a href="javascript:void(0);" class="btn btn-primary btn-sm pull-right small" data-dismiss="modal">閉じる</a> <a href="javascript:void(0);"
 							th:href="@{/village/{villageId}/settings(villageId=${content.villageId})}" th:if="${content.isAvailableSettingsUpdate}"
-							class="btn btn-success btn-sm pull-right small" style="margin-right: 10px;">設定変更</a>
-						<input type="button" th:unless="${content.isAvailableSettingsUpdate}" class="btn btn-default btn-sm pull-right small disabled"
-							data-dismiss="modal" disabled value="設定変更" style="margin-right: 10px;" />
+							class="btn btn-success btn-sm pull-right small" style="margin-right: 10px;">設定変更</a> <input type="button"
+							th:unless="${content.isAvailableSettingsUpdate}" class="btn btn-default btn-sm pull-right small disabled" data-dismiss="modal" disabled
+							value="設定変更" style="margin-right: 10px;" />
 					</div>
 				</div>
 			</div>

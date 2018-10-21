@@ -34,7 +34,8 @@
 								data-restrict-length /> <span class="input-group-addon">&nbsp;*&nbsp;</span> <input type="number" class="form-control" placeholder="20"
 								th:field="*{sayRestrictList[__${stat.index}__].detailList[0].count}" data-restrict-count /> <input type="hidden"
 								th:field="*{sayRestrictList[__${stat.index}__].skillCode}" /> <input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].skillName}" />
-							<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].messageTypeName}" />
+							<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].messageTypeName}" /> <input type="hidden"
+								th:field="*{sayRestrictList[__${stat.index}__].detailList[0].messageTypeCode}" />
 						</div>
 					</td>
 				</tr>
@@ -47,8 +48,8 @@
 							<input type="number" class="form-control" placeholder="400" th:field="*{sayRestrictList[__${stat.index}__].detailList[1].length}"
 								data-restrict-length /> <span class="input-group-addon">&nbsp;*&nbsp;</span> <input type="number" class="form-control" placeholder="20"
 								th:field="*{sayRestrictList[__${stat.index}__].detailList[1].count}" data-restrict-count /> <input type="hidden"
-								th:field="*{sayRestrictList[__${stat.index}__].skillCode}" /> <input type="hidden"
-								th:field="*{sayRestrictList[__${stat.index}__].detailList[1].messageTypeName}" />
+								th:field="*{sayRestrictList[__${stat.index}__].detailList[1].messageTypeName}" /><input type="hidden"
+								th:field="*{sayRestrictList[__${stat.index}__].detailList[1].messageTypeCode}" />
 						</div>
 					</td>
 				</tr>

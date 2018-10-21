@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.ort.app.web.form.NewVillageSayRestrictDto;
 import com.ort.app.web.model.inner.VillageCharaDto;
 import com.ort.app.web.model.inner.VillageMemberDto;
 import com.ort.app.web.model.inner.VillageMessageDto;
@@ -27,6 +28,9 @@ public class VillageResultContent implements Serializable {
 
     /** 村設定 */
     private VillageSettingsDto villageSettings;
+
+    /** 村設定の発言制限 */
+    private List<NewVillageSayRestrictDto> sayRestrictList;
 
     /** 何日目か */
     private Integer day;
@@ -586,5 +590,13 @@ public class VillageResultContent implements Serializable {
 
     public void setIsDispSpoilerContent(Boolean isDispSpoilerContent) {
         this.isDispSpoilerContent = isDispSpoilerContent;
+    }
+
+    public List<NewVillageSayRestrictDto> getSayRestrictList() {
+        return sayRestrictList;
+    }
+
+    public void setSayRestrictList(List<NewVillageSayRestrictDto> sayRestrictList) {
+        this.sayRestrictList = sayRestrictList;
     }
 }

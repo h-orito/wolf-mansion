@@ -50,37 +50,26 @@ public class VillageController {
     //                                                                           =========
     @Autowired
     private VillageAssist villageAssist;
-
     @Autowired
     private VillageParticipateAssist villageParticipateAssist;
-
     @Autowired
     private VillageSayAssist villageSayAssist;
-
     @Autowired
     private VillageAbilityAssist villageAbilityAssist;
-
     @Autowired
     private VillageCommitAssist villageCommitAssist;
-
     @Autowired
     private VillageSettingsAssist villageSettingsAssist;
-
     @Autowired
     private VillageMessageAssist villageMessageAssist;
-
     @Autowired
     private VillageListAssist villageListAssist;
-
     @Autowired
     private DayChangeLogic dayChangeLogic;
-
     @Autowired
     private VillageSayFormValidator villageSayFormValidator;
-
     @Autowired
     private VillageParticipateFormValidator villageParticipateFormValidator;
-
     @Autowired
     private VillageSettingsFormValidator villageSettingsFormValidator;
 

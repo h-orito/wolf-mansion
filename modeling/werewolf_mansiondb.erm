@@ -1199,6 +1199,13 @@
 					<unsigned>true</unsigned>
 					<not_null>true</not_null>
 				</normal_column>
+				<normal_column>
+					<physical_name>message_max_length</physical_name>
+					<logical_name>最大文字数</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
 				<column_group>共通カラム</column_group>
 			</columns>
 			<indexes>

@@ -3,13 +3,17 @@ package com.ort.app.web.form.validator;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import com.ort.app.web.form.NewVillageSayRestrictDetailDto;
 import com.ort.app.web.form.VillageSettingsForm;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
@@ -74,6 +78,8 @@ public class VillageSettingsFormValidator implements Validator {
         // 構成
         validateOrganization(errors, form);
 
+        // 発言制限
+        validateSayRestrict(errors, form);
     }
 
     private void validateOrganization(Errors errors, VillageSettingsForm form) {
@@ -172,5 +178,22 @@ public class VillageSettingsFormValidator implements Validator {
             skillPersonNumMap.put(skill, skillPersonNum);
         }
         return skillPersonNumMap;
+    }
+
+    // 発言制限
+    private void validateSayRestrict(Errors errors, VillageSettingsForm form) {
+        List<NewVillageSayRestrictDetailDto> detailList =
+                form.getSayRestrictList().stream().flatMap(m -> m.getDetailList().stream()).collect(Collectors.toList());
+        boolean isCountInvalid = detailList.stream().anyMatch(detail -> {
+            return BooleanUtils.isTrue(detail.getIsRestrict())
+                    && (detail.getCount() == null || detail.getCount() < 0 || detail.getCount() > 100);
+        });
+        boolean isLengthInvalid = detailList.stream().anyMatch(detail -> {
+            return BooleanUtils.isTrue(detail.getIsRestrict())
+                    && (detail.getLength() == null || detail.getLength() < 0 || detail.getLength() > 400);
+        });
+        if (isCountInvalid || isLengthInvalid) {
+            errors.rejectValue("sayRestrictList", "NewVillageForm.validator.sayRestrictList", new Object[] {}, null);
+        }
     }
 }

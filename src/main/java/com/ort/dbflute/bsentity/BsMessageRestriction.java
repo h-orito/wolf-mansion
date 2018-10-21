@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID, SKILL_CODE, MESSAGE_TYPE_CODE
  *
  * [column]
- *     VILLAGE_ID, SKILL_CODE, MESSAGE_TYPE_CODE, MESSAGE_MAX_NUM, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, SKILL_CODE, MESSAGE_TYPE_CODE, MESSAGE_MAX_NUM, MESSAGE_MAX_LENGTH, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -50,6 +50,7 @@ import com.ort.dbflute.exentity.*;
  * String skillCode = entity.getSkillCode();
  * String messageTypeCode = entity.getMessageTypeCode();
  * Integer messageMaxNum = entity.getMessageMaxNum();
+ * Integer messageMaxLength = entity.getMessageMaxLength();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -58,6 +59,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setSkillCode(skillCode);
  * entity.setMessageTypeCode(messageTypeCode);
  * entity.setMessageMaxNum(messageMaxNum);
+ * entity.setMessageMaxLength(messageMaxLength);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -77,17 +79,20 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
     protected Integer _villageId;
 
-    /** SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} */
+    /** SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} */
     protected String _skillCode;
 
-    /** MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} */
+    /** MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} */
     protected String _messageTypeCode;
 
     /** MESSAGE_MAX_NUM: {NotNull, INT UNSIGNED(10)} */
     protected Integer _messageMaxNum;
+
+    /** MESSAGE_MAX_LENGTH: {NotNull, INT UNSIGNED(10)} */
+    protected Integer _messageMaxLength;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -111,7 +116,7 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "message_restriction";
+        return "MESSAGE_RESTRICTION";
     }
 
     // ===================================================================================
@@ -130,7 +135,7 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     //                                                             =======================
     /**
      * Get the value of skillCode as the classification of Skill. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -141,7 +146,7 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
 
     /**
      * Set the value of skillCode as the classification of Skill. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -151,7 +156,7 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
 
     /**
      * Get the value of messageTypeCode as the classification of MessageType. <br>
-     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
      * メッセージ種別
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -162,7 +167,7 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
 
     /**
      * Set the value of messageTypeCode as the classification of MessageType. <br>
-     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
      * メッセージ種別
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -924,6 +929,7 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
         sb.append(dm).append(xfND(_skillCode));
         sb.append(dm).append(xfND(_messageTypeCode));
         sb.append(dm).append(xfND(_messageMaxNum));
+        sb.append(dm).append(xfND(_messageMaxLength));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -959,7 +965,7 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -969,7 +975,7 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -979,7 +985,7 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     }
 
     /**
-     * [get] SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * [get] SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職コード
      * @return The value of the column 'SKILL_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -989,7 +995,7 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     }
 
     /**
-     * [set] SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * [set] SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職コード
      * @param skillCode The value of the column 'SKILL_CODE'. (basically NotNull if update: for the constraint)
      */
@@ -1000,7 +1006,7 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     }
 
     /**
-     * [get] MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * [get] MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
      * メッセージ種別コード
      * @return The value of the column 'MESSAGE_TYPE_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -1010,7 +1016,7 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     }
 
     /**
-     * [set] MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * [set] MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
      * メッセージ種別コード
      * @param messageTypeCode The value of the column 'MESSAGE_TYPE_CODE'. (basically NotNull if update: for the constraint)
      */
@@ -1038,6 +1044,26 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     public void setMessageMaxNum(Integer messageMaxNum) {
         registerModifiedProperty("messageMaxNum");
         _messageMaxNum = messageMaxNum;
+    }
+
+    /**
+     * [get] MESSAGE_MAX_LENGTH: {NotNull, INT UNSIGNED(10)} <br>
+     * 最大文字数
+     * @return The value of the column 'MESSAGE_MAX_LENGTH'. (basically NotNull if selected: for the constraint)
+     */
+    public Integer getMessageMaxLength() {
+        checkSpecifiedProperty("messageMaxLength");
+        return _messageMaxLength;
+    }
+
+    /**
+     * [set] MESSAGE_MAX_LENGTH: {NotNull, INT UNSIGNED(10)} <br>
+     * 最大文字数
+     * @param messageMaxLength The value of the column 'MESSAGE_MAX_LENGTH'. (basically NotNull if update: for the constraint)
+     */
+    public void setMessageMaxLength(Integer messageMaxLength) {
+        registerModifiedProperty("messageMaxLength");
+        _messageMaxLength = messageMaxLength;
     }
 
     /**

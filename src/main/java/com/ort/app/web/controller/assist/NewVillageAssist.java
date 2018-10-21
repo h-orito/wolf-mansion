@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -34,6 +35,7 @@ import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillageSettingsBhv;
 import com.ort.dbflute.exentity.CharaGroup;
+import com.ort.dbflute.exentity.MessageRestriction;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillageSettings;
@@ -167,7 +169,7 @@ public class NewVillageAssist {
         // 村設定
         VillageSettings settings = insertVillageSettings(villageForm, village);
         // 発言制限
-        insertMessageRestrict(villageForm);
+        insertMessageRestrict(village.getVillageId(), villageForm);
         // 村日付
         insertVillageDay(village, 0, settings.getStartDatetime());
         // システムメッセージ
@@ -178,11 +180,6 @@ public class NewVillageAssist {
         tweetNewVillage(villageForm, village.getVillageId());
 
         return village;
-    }
-
-    private void insertMessageRestrict(NewVillageForm villageForm) {
-        // TODO Auto-generated method stub
-
     }
 
     private void tweetNewVillage(NewVillageForm villageForm, Integer villageId) {
@@ -256,6 +253,16 @@ public class NewVillageAssist {
         return settings;
     }
 
+    private void insertMessageRestriction(Integer villageId, String skillCode, NewVillageSayRestrictDetailDto detail) {
+        MessageRestriction entity = new MessageRestriction();
+        entity.setVillageId(villageId);
+        entity.setMessageMaxNum(detail.getCount());
+        entity.setMessageMaxLength(detail.getLength());
+        entity.setMessageTypeCodeAsMessageType(CDef.MessageType.codeOf(detail.getMessageTypeCode()));
+        entity.setSkillCodeAsSkill(CDef.Skill.codeOf(skillCode));
+        messageRestrictionBhv.insert(entity);
+    }
+
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
@@ -312,9 +319,23 @@ public class NewVillageAssist {
         NewVillageSayRestrictDetailDto detail = new NewVillageSayRestrictDetailDto();
         detail.setMessageTypeName(messageTypeName);
         detail.setMessageTypeCode(messageTypeCode);
+        detail.setIsRestrict(false);
         detail.setCount(DEFAULT_SAY_MAX_COUNT);
         detail.setLength(DEFAULT_SAY_MAX_LENGTH);
         return detail;
     }
 
+    private void insertMessageRestrict(Integer villageId, NewVillageForm villageForm) {
+        villageForm.getSayRestrictList().forEach(restrict -> {
+            String skillCode = restrict.getSkillCode();
+            restrict.getDetailList().forEach(detail -> {
+                // 制限無しの場合は登録しない
+                if (BooleanUtils.isFalse(detail.getIsRestrict())) {
+                    return;
+                }
+                insertMessageRestriction(villageId, skillCode, detail);
+            });
+        });
+
+    }
 }

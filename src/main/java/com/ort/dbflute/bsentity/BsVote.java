@@ -76,16 +76,16 @@ public abstract class BsVote extends AbstractEntity implements DomainEntity, Ent
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} */
     protected Integer _villageId;
 
-    /** DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day} */
+    /** DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} */
     protected Integer _day;
 
-    /** CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara} */
+    /** CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA} */
     protected Integer _charaId;
 
-    /** VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara} */
+    /** VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA} */
     protected Integer _voteCharaId;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
@@ -110,7 +110,7 @@ public abstract class BsVote extends AbstractEntity implements DomainEntity, Ent
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "vote";
+        return "VOTE";
     }
 
     // ===================================================================================
@@ -280,7 +280,7 @@ public abstract class BsVote extends AbstractEntity implements DomainEntity, Ent
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -290,7 +290,7 @@ public abstract class BsVote extends AbstractEntity implements DomainEntity, Ent
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -300,7 +300,7 @@ public abstract class BsVote extends AbstractEntity implements DomainEntity, Ent
     }
 
     /**
-     * [get] DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day} <br>
+     * [get] DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} <br>
      * 何日目か
      * @return The value of the column 'DAY'. (basically NotNull if selected: for the constraint)
      */
@@ -310,7 +310,7 @@ public abstract class BsVote extends AbstractEntity implements DomainEntity, Ent
     }
 
     /**
-     * [set] DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day} <br>
+     * [set] DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} <br>
      * 何日目か
      * @param day The value of the column 'DAY'. (basically NotNull if update: for the constraint)
      */
@@ -320,7 +320,7 @@ public abstract class BsVote extends AbstractEntity implements DomainEntity, Ent
     }
 
     /**
-     * [get] CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
+     * [get] CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA} <br>
      * キャラクターID
      * @return The value of the column 'CHARA_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -330,7 +330,7 @@ public abstract class BsVote extends AbstractEntity implements DomainEntity, Ent
     }
 
     /**
-     * [set] CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
+     * [set] CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA} <br>
      * キャラクターID
      * @param charaId The value of the column 'CHARA_ID'. (basically NotNull if update: for the constraint)
      */
@@ -340,7 +340,7 @@ public abstract class BsVote extends AbstractEntity implements DomainEntity, Ent
     }
 
     /**
-     * [get] VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
+     * [get] VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA} <br>
      * 投票先キャラクターID
      * @return The value of the column 'VOTE_CHARA_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -350,7 +350,7 @@ public abstract class BsVote extends AbstractEntity implements DomainEntity, Ent
     }
 
     /**
-     * [set] VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
+     * [set] VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA} <br>
      * 投票先キャラクターID
      * @param voteCharaId The value of the column 'VOTE_CHARA_ID'. (basically NotNull if update: for the constraint)
      */
