@@ -29,6 +29,7 @@ import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.CharaGroupBhv;
+import com.ort.dbflute.exbhv.MessageRestrictionBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillageSettingsBhv;
@@ -59,8 +60,9 @@ public class NewVillageAssist {
                     + "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊霊共共\n" // 19
                     + "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊霊霊共共"; // 20
     private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm");
-    private static final List<CDef.Skill> SET_AVAILABLE_SKILLS = Arrays.asList(CDef.Skill.村人, CDef.Skill.霊能者, CDef.Skill.人狼,
-            CDef.Skill.C国狂人, CDef.Skill.占い師, CDef.Skill.賢者, CDef.Skill.狩人, CDef.Skill.狂人, CDef.Skill.魔神官, CDef.Skill.狂信者, CDef.Skill.妖狐);
+    private static final List<CDef.Skill> SET_AVAILABLE_SKILLS =
+            Arrays.asList(CDef.Skill.村人, CDef.Skill.霊能者, CDef.Skill.人狼, CDef.Skill.C国狂人, CDef.Skill.占い師, CDef.Skill.賢者, CDef.Skill.狩人,
+                    CDef.Skill.共鳴者, CDef.Skill.狂人, CDef.Skill.魔神官, CDef.Skill.狂信者, CDef.Skill.妖狐);
     private static final int DEFAULT_SAY_MAX_COUNT = 20;
     private static final int DEFAULT_SAY_MAX_LENGTH = 400;
 
@@ -71,6 +73,8 @@ public class NewVillageAssist {
     private VillageBhv villageBhv;
     @Autowired
     private VillageSettingsBhv villageSettingsBhv;
+    @Autowired
+    private MessageRestrictionBhv messageRestrictionBhv;
     @Autowired
     private VillageDayBhv villageDayBhv;
     @Autowired
@@ -162,6 +166,8 @@ public class NewVillageAssist {
         Village village = insertVillage(villageForm, userName);
         // 村設定
         VillageSettings settings = insertVillageSettings(villageForm, village);
+        // 発言制限
+        insertMessageRestrict(villageForm);
         // 村日付
         insertVillageDay(village, 0, settings.getStartDatetime());
         // システムメッセージ
@@ -172,6 +178,11 @@ public class NewVillageAssist {
         tweetNewVillage(villageForm, village.getVillageId());
 
         return village;
+    }
+
+    private void insertMessageRestrict(NewVillageForm villageForm) {
+        // TODO Auto-generated method stub
+
     }
 
     private void tweetNewVillage(NewVillageForm villageForm, Integer villageId) {

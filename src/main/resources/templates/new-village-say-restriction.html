@@ -16,144 +16,43 @@
 		<thead>
 			<tr>
 				<th>役職</th>
+				<th>発言種別</th>
 				<th>制限</th>
-				<th colspan="2">1回あたりの発言文字数 * 1日あたりの発言回数</th>
+				<th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
 			</tr>
 		</thead>
 		<tbody>
-			<th:block th:each="restrict, idx : *{sayRestrictList}">
+			<th:block th:each="restrict, stat : *{sayRestrictList}">
 				<tr>
-					<td th:text="${restrict.skillName}">村人</td>
-					<td><input type="checkbox" class="form-control" th:field="*{sayRestrictList[idx].detailList[0].isRestrict}"></td>
+					<td th:rowspan="${restrict.detailList.size()}" th:text="${restrict.skillName}">村人</td>
 					<td th:text="${restrict.detailList[0].messageTypeName}"></td>
+					<td><input type="checkbox" class="form-control" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].isRestrict}"
+						data-restrict-check></td>
 					<td>
 						<div class="input-group">
-							<input type="number" class="form-control" placeholder="400" /> <span class="input-group-addon">&nbsp;*&nbsp;</span> <input type="number"
-								class="form-control" placeholder="20" />
-								<input type="hidden" th:field="*{sayRestrictList[idx].skillCode}"/>
+							<input type="number" class="form-control" placeholder="400" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].length}"
+								data-restrict-length /> <span class="input-group-addon">&nbsp;*&nbsp;</span> <input type="number" class="form-control" placeholder="20"
+								th:field="*{sayRestrictList[__${stat.index}__].detailList[0].count}" data-restrict-count /> <input type="hidden"
+								th:field="*{sayRestrictList[__${stat.index}__].skillCode}" /> <input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].skillName}" />
+							<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].messageTypeName}" />
 						</div>
 					</td>
 				</tr>
-
+				<tr th:if="${restrict.detailList.size() > 1}">
+					<td th:text="${restrict.detailList[1].messageTypeName}"></td>
+					<td><input type="checkbox" class="form-control" th:field="*{sayRestrictList[__${stat.index}__].detailList[1].isRestrict}"
+						data-restrict-check></td>
+					<td>
+						<div class="input-group">
+							<input type="number" class="form-control" placeholder="400" th:field="*{sayRestrictList[__${stat.index}__].detailList[1].length}"
+								data-restrict-length /> <span class="input-group-addon">&nbsp;*&nbsp;</span> <input type="number" class="form-control" placeholder="20"
+								th:field="*{sayRestrictList[__${stat.index}__].detailList[1].count}" data-restrict-count /> <input type="hidden"
+								th:field="*{sayRestrictList[__${stat.index}__].skillCode}" /> <input type="hidden"
+								th:field="*{sayRestrictList[__${stat.index}__].detailList[1].messageTypeName}" />
+						</div>
+					</td>
+				</tr>
 			</th:block>
-			<tr>
-				<td>占い師</td>
-				<td>
-					<input type="checkbox" class="form-control">
-				</td>
-				<td>通常</td>
-				<td>
-					<div class="input-group">
-						<input type="number" class="form-control" placeholder="400" />
-						<span class="input-group-addon">&nbsp;*&nbsp;</span>
-						<input type="number" class="form-control" placeholder="20" />
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>賢者</td>
-				<td>
-					<input type="checkbox" class="form-control">
-				</td>
-				<td>通常</td>
-				<td>
-					<div class="input-group">
-						<input type="number" class="form-control" placeholder="400" />
-						<span class="input-group-addon">&nbsp;*&nbsp;</span>
-						<input type="number" class="form-control" placeholder="20" />
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>霊能者</td>
-				<td>
-					<input type="checkbox" class="form-control">
-				</td>
-				<td>通常</td>
-				<td>
-					<div class="input-group">
-						<input type="number" class="form-control" placeholder="400" />
-						<span class="input-group-addon">&nbsp;*&nbsp;</span>
-						<input type="number" class="form-control" placeholder="20" />
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>導師</td>
-				<td>
-					<input type="checkbox" class="form-control">
-				</td>
-				<td>通常</td>
-				<td>
-					<div class="input-group">
-						<input type="number" class="form-control" placeholder="400" />
-						<span class="input-group-addon">&nbsp;*&nbsp;</span>
-						<input type="number" class="form-control" placeholder="20" />
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>狩人</td>
-				<td>
-					<input type="checkbox" class="form-control">
-				</td>
-				<td>通常</td>
-				<td>
-					<div class="input-group">
-						<input type="number" class="form-control" placeholder="400" />
-						<span class="input-group-addon">&nbsp;*&nbsp;</span>
-						<input type="number" class="form-control" placeholder="20" />
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td rowspan="2">共鳴者</td>
-				<td rowspan="2">
-					<input type="checkbox" class="form-control">
-				</td>
-				<td>通常</td>
-				<td>
-					<div class="input-group">
-						<input type="number" class="form-control" placeholder="400" />
-						<span class="input-group-addon">&nbsp;*&nbsp;</span>
-						<input type="number" class="form-control" placeholder="20" />
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>共鳴</td>
-				<td>
-					<div class="input-group">
-						<input type="number" class="form-control" placeholder="400" />
-						<span class="input-group-addon">&nbsp;*&nbsp;</span>
-						<input type="number" class="form-control" placeholder="20" />
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td rowspan="2">人狼</td>
-				<td rowspan="2">
-					<input type="checkbox" class="form-control">
-				</td>
-				<td>通常</td>
-				<td>
-					<div class="input-group">
-						<input type="number" class="form-control" placeholder="400" />
-						<span class="input-group-addon">&nbsp;*&nbsp;</span>
-						<input type="number" class="form-control" placeholder="20" />
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>囁き</td>
-				<td>
-					<div class="input-group">
-						<input type="number" class="form-control" placeholder="400" />
-						<span class="input-group-addon">&nbsp;*&nbsp;</span>
-						<input type="number" class="form-control" placeholder="20" />
-					</div>
-				</td>
-			</tr>
 		</tbody>
 	</table>
 </body>
