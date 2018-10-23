@@ -128,6 +128,7 @@ $(function() {
 			item = item.replace(/&gt;&gt;@(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-spectate-anchor=\"$1\">&gt;&gt;@$1<\/a>');
 			item = item.replace(/&gt;&gt;\-(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-monologue-anchor=\"$1\">&gt;&gt;\-$1<\/a>');
 			item = item.replace(/&gt;&gt;\*(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-whisper-anchor=\"$1\">&gt;&gt;\*$1<\/a>');
+			item = item.replace(/&gt;&gt;\#(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-creator-anchor=\"$1\">&gt;&gt;\#$1<\/a>');
 			return item;
 		}).join('<br>');
 		// 文字装飾
@@ -193,6 +194,10 @@ $(function() {
 	$('body').on('click', '[data-message-whisper-anchor]', function() {
 		const messageNumber = $(this).data('message-whisper-anchor');
 		handlingNumberAnchor($(this), 'WEREWOLF_SAY', messageNumber);
+	});
+	$('body').on('click', '[data-message-creator-anchor]', function() {
+		const messageNumber = $(this).data('message-creator-anchor');
+		handlingNumberAnchor($(this), 'CREATOR_SAY', messageNumber);
 	});
 
 	function handlingNumberAnchor($anchor, messageType, messageNumber) {

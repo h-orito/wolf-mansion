@@ -383,7 +383,7 @@ public class VillageMessageAssist {
         OptionalEntity<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
         if (messageType == CDef.MessageType.人狼の囁き) {
             return isViewAllowedWerewolfSay(village, optVillagePlayer);
-        } else if (messageType == CDef.MessageType.通常発言) {
+        } else if (messageType == CDef.MessageType.通常発言 || messageType == CDef.MessageType.村建て発言) {
             return true;
         } else if (messageType == CDef.MessageType.共鳴発言) {
             return isViewAllowedMasonSay(village, optVillagePlayer);

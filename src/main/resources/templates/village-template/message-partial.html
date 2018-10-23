@@ -39,7 +39,8 @@
 		</div>
 	</div>
 	{{else if (eq messageType 'MONOLOGUE_SAY')}}
-	<div class="col-sm-12 col-xs-12 {{#if messageNumber}}say-h{{messageNumber}}{{/if}}" data-message="{{messageType}}" data-chara-id="{{characterId}}" data-spoiled-content>
+	<div class="col-sm-12 col-xs-12 {{#if messageNumber}}say-h{{messageNumber}}{{/if}}" data-message="{{messageType}}" data-chara-id="{{characterId}}"
+		data-spoiled-content>
 		<div class="row">
 			<div class="col-sm-12 col-xs-12 small">
 				<span style="margin-left: -15px;">{{#if messageNumber}}<a href="javascript:void(0);" data-copy-anchor>>>-{{messageNumber}}</a>.
@@ -60,7 +61,8 @@
 	<div class="col-sm-12 col-xs-12" data-message="{{messageType}}" data-chara-id="{{characterId}}" data-spoiled-content>
 		<div class="row">
 			<div class="col-sm-12 col-xs-12 small">
-				<span style="margin-left: -15px;">[{{characterShortName}}] {{characterName}} → {{targetCharacterName}}{{#if playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}
+				<span style="margin-left: -15px;">[{{characterShortName}}] {{characterName}} → {{targetCharacterName}}{{#if playerName}} [<a
+					href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}
 				</span> <span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
 			</div>
 			<div class="col-sm-12 col-xs-12">
@@ -136,6 +138,10 @@
 	{{else if (eq messageType 'CREATOR_SAY')}}
 	<div class="col-sm-12 col-xs-12" data-message>
 		<div class="row">
+			<div class="col-sm-12 col-xs-12 small">
+				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>#{{messageNumber}}</a>. 天からのお告げ</span> <span
+					style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
+			</div>
 			<div class="message col-sm-12 col-xs-12 message-creator">{{{messageContent}}}</div>
 		</div>
 	</div>
