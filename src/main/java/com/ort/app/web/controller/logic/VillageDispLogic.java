@@ -19,6 +19,7 @@ import com.ort.app.web.dto.VillageInfo;
 import com.ort.app.web.model.OptionDto;
 import com.ort.app.web.model.VillageFootstepDto;
 import com.ort.app.web.model.VillageSituationDto;
+import com.ort.app.web.model.inner.SayRestrictDto;
 import com.ort.app.web.util.CharaUtil;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
@@ -30,6 +31,8 @@ import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.Footstep;
+import com.ort.dbflute.exentity.Message;
+import com.ort.dbflute.exentity.MessageRestriction;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
@@ -45,21 +48,18 @@ public class VillageDispLogic {
     //                                                                           =========
     @Autowired
     private PlayerBhv playerBhv;
-
     @Autowired
     private VillagePlayerBhv villagePlayerBhv;
-
     @Autowired
     private CharaBhv charaBhv;
-
     @Autowired
     private AbilityBhv abilityBhv;
-
     @Autowired
     private FootstepBhv footstepBhv;
-
     @Autowired
     private FootstepLogic footstepLogic;
+    @Autowired
+    private MessageLogic messageLogic;
 
     // ===================================================================================
     //                                                                             Execute
@@ -506,6 +506,54 @@ public class VillageDispLogic {
             situationList.add(situation);
         }
         return situationList;
+    }
+
+    public SayRestrictDto makeRestrict(VillageInfo villageInfo) {
+        SayRestrictDto restrict = new SayRestrictDto();
+        if (!villageInfo.isParticipate() || villageInfo.isSpectator() || villageInfo.isDead() || !villageInfo.isLatestDay()
+                || !villageInfo.village.isVillageStatusCode進行中()) {
+            return restrict;
+        }
+        VillagePlayer vPlayer = villageInfo.optVillagePlayer.get();
+        if ("master".equals(vPlayer.getPlayer().get().getPlayerName())) {
+            return restrict; // masterは制限なし
+        }
+        CDef.Skill skill = vPlayer.getSkillCodeAsSkill();
+        // 制限
+        List<MessageRestriction> restrictList = villageInfo.village.getMessageRestrictionList();
+        restrictList.stream().filter(res -> res.getSkillCodeAsSkill() == skill).forEach(res -> {
+            if (res.isMessageTypeCode通常発言()) {
+                restrict.setNormalCount(res.getMessageMaxNum());
+                restrict.setNormalLength(res.getMessageMaxLength());
+            } else if (res.isMessageTypeCode人狼の囁き()) {
+                restrict.setWhisperCount(res.getMessageMaxNum());
+                restrict.setWhisperLength(res.getMessageMaxLength());
+            } else if (res.isMessageTypeCode共鳴発言()) {
+                restrict.setMasonCount(res.getMessageMaxNum());
+                restrict.setMasonLength(res.getMessageMaxLength());
+            }
+        });
+        // 現在の発言数から残り発言数を計算
+        Integer normalCount = restrict.getNormalCount();
+        Integer whisperCount = restrict.getWhisperCount();
+        Integer masonCount = restrict.getMasonCount();
+        if (normalCount != null || whisperCount != null || masonCount != null) {
+            List<Message> messageList =
+                    messageLogic.selectDayPersonMessage(villageInfo.villageId, villageInfo.day, vPlayer.getVillagePlayerId());
+            if (normalCount != null) {
+                int sayCount = (int) messageList.stream().filter(m -> m.isMessageTypeCode通常発言()).count();
+                restrict.setNormalLeftCount(normalCount - sayCount);
+            }
+            if (whisperCount != null) {
+                int sayCount = (int) messageList.stream().filter(m -> m.isMessageTypeCode人狼の囁き()).count();
+                restrict.setWhisperLeftCount(whisperCount - sayCount);
+            }
+            if (masonCount != null) {
+                int sayCount = (int) messageList.stream().filter(m -> m.isMessageTypeCode共鳴発言()).count();
+                restrict.setMasonLeftCount(masonCount - sayCount);
+            }
+        }
+        return restrict;
     }
 
     private void setSituationDetail(VillageInfo villageInfo, List<VillagePlayer> vpList, final int day, VillageSituationDto situation) {

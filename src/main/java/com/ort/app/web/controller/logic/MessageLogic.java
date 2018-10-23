@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.dbflute.cbean.result.ListResultBean;
+import org.dbflute.optional.OptionalEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,13 +61,10 @@ public class MessageLogic {
     //                                                                           =========
     @Autowired
     private MessageBhv messageBhv;
-
     @Autowired
     private VillagePlayerBhv villagePlayerBhv;
-
     @Autowired
     private MessageSource messageSource;
-
     @Autowired
     private RandomKeywordBhv randomKeywordBhv;
 
@@ -152,6 +150,34 @@ public class MessageLogic {
         } catch (WerewolfMansionBusinessException e) {
             // ここでは被らないはずなので何もしない
         }
+    }
+
+    // 当日の自分の発言取得（発言制限用）
+    public List<Message> selectDayPersonMessage(Integer villageId, int day, Integer vPlayerId) {
+        ListResultBean<Message> messageList = messageBhv.selectList(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setVillagePlayerId_Equal(vPlayerId);
+            cb.query().setDay_Equal(day);
+            cb.query().setMessageTypeCode_InScope_AsMessageType(
+                    Arrays.asList(CDef.MessageType.通常発言, CDef.MessageType.人狼の囁き, CDef.MessageType.共鳴発言));
+        });
+        // 3日目以降は襲撃メッセージがあるので、それを除く
+        if (day < 3) {
+            return messageList;
+        }
+        OptionalEntity<Message> optFirstAttackMessage = messageBhv.selectEntity(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_Equal(day);
+            cb.query().setMessageTypeCode_Equal_人狼の囁き();
+            cb.query().addOrderBy_RegisterDatetime_Asc();
+            cb.fetchFirst(1);
+        });
+        if (!optFirstAttackMessage.isPresent()) {
+            return messageList;
+        }
+        return messageList.stream()
+                .filter(m -> m.getMessageId().intValue() != optFirstAttackMessage.get().getMessageId().intValue())
+                .collect(Collectors.toList());
     }
 
     // ===================================================================================

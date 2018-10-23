@@ -80,8 +80,18 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-12 col-xs-12">
-									<span class="" style="margin-left: 55px;" data-message-count>文字数: 0/400, 行数: 1/20</span><br>
-									<input type="checkbox" class="form-check-input" th:field="*{isConvertDisable}" value="true" style="margin-left: 55px;" >
+									<span class="" style="margin-left: 55px;" data-message-count
+										th:data-message-restrict-normal-max-length="${content.restrict.normalLength != null ? content.restrict.normalLength : ''}"
+										th:data-message-restrict-normal-max-count="${content.restrict.normalCount != null ? content.restrict.normalCount : ''}"
+										th:data-message-restrict-normal-left-count="${content.restrict.normalLeftCount != null ? content.restrict.normalLeftCount : ''}"
+										th:data-message-restrict-whisper-max-length="${content.restrict.whisperLength != null ? content.restrict.whisperLength : ''}"
+										th:data-message-restrict-whisper-max-count="${content.restrict.whisperCount != null ? content.restrict.whisperCount : ''}"
+										th:data-message-restrict-whisper-left-count="${content.restrict.whisperLeftCount != null ? content.restrict.whisperLeftCount : ''}"
+										th:data-message-restrict-mason-max-length="${content.restrict.masonLength != null ? content.restrict.masonLength : ''}"
+										th:data-message-restrict-mason-max-count="${content.restrict.masonCount != null ? content.restrict.masonCount : ''}"
+										th:data-message-restrict-mason-left-count="${content.restrict.masonLeftCount != null ? content.restrict.masonLeftCount : ''}">残り20回,
+										文字数: 0/400, 行数: 1/20</span><br>
+									<input type="checkbox" class="form-check-input" th:field="*{isConvertDisable}" value="true" style="margin-left: 55px;">
 									<label class="form-check-label" for="isConvertDisable">装飾・変換無効</label>
 									<input type="submit" class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />
 								</div>

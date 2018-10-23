@@ -195,6 +195,7 @@ public class VillageAssist {
         }
         return villagePlayerBhv.selectEntity(cb -> {
             cb.setupSelect_Chara();
+            cb.setupSelect_Player();
             cb.setupSelect_SkillBySkillCode();
             cb.query().setVillageId_Equal(villageId);
             cb.query().setIsGone_Equal_False();
@@ -528,6 +529,7 @@ public class VillageAssist {
         content.setIsAvailableGraveSay(isAllSayAvailable || isAvailableGraveSay); // 死者の呻きが発言可能か
         content.setIsAvailableSpectateSay(isAllSayAvailable || isAvailableSpectateSay); // 見学発言が発言可能か
         content.setIsAvailableMonologueSay(isAllSayAvailable || isAvailableMonologueSay); // 独り言が発言可能か
+        content.setRestrict(villageDispLogic.makeRestrict(villageInfo));
         setDefaultMessageTypeIfNeeded(sayForm, isDispSayForm, isAvailableNormalSay, isAvailableWerewolfSay, isAvailableMasonSay,
                 isAvailableGraveSay, isAvailableMonologueSay, isAvailableSpectateSay, villageInfo, model); // デフォルト発言区分
     }

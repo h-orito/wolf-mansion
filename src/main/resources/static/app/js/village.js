@@ -292,6 +292,7 @@ $(function() {
 				return;
 			}
 		});
+		updateSayCount($('[data-say-textarea]'));
 	}
 
 	$sayTypeArea.on('change', 'input[name=messageType]', function() {
@@ -337,22 +338,65 @@ $(function() {
 
 	// 文字数カウント
 	$('body').on('keyup', '[data-say-textarea]', function() {
-		var len = $(this).val().length;
-		var line = $(this).val().split('\n').length;
-		const $countspan = $(this).closest('form').find('[data-message-count]');
-		const $submitbtn = $(this).closest('form').find('[data-message-submit-btn]');
-		$countspan.text('文字数: ' + len + '/400, 行数: ' + line + '/20');
-		if (len > 400 || line > 20) {
+		updateSayCount($(this));
+	});
+
+	function updateSayCount($textarea) {
+		if ($textarea.length === 0) {
+			return;
+		}
+		// 制限
+		const messageType = $('[data-say-type] .active input').val();
+		const $countspan = $textarea.closest('form').find('[data-message-count]');
+		const restrict = getRestriction(messageType, $countspan);
+		let countStr;
+		if (restrict.count == null || restrict.count === '') {
+			countStr = '';
+		} else {
+			countStr = '残り ' + restrict.leftCount + '/' + restrict.count + '回, ';
+		}
+		const len = $textarea.val().length;
+		const lenStr = '文字数: ' + len + '/' + restrict.length + ', ';
+		const line = $textarea.val().split('\n').length;
+		const lineStr = '行数: ' + line + '/20';
+		$countspan.text(countStr + lenStr + lineStr);
+		const $submitbtn = $textarea.closest('form').find('[data-message-submit-btn]');
+		if (restrict.leftCount <= 0 || len > restrict.length || line > 20) {
 			$countspan.addClass('text-danger');
 			$submitbtn.prop('disabled', true);
 		} else {
 			$countspan.removeClass('text-danger');
 			$submitbtn.prop('disabled', false);
 		}
-	});
+	}
+
+	function getRestriction(messageType, $countspan) {
+		let length = null;
+		let count = null;
+		let leftCount = null;
+		if (messageType === 'NORMAL_SAY') {
+			length = $countspan.data('message-restrict-normal-max-length');
+			count = $countspan.data('message-restrict-normal-max-count');
+			leftCount = $countspan.data('message-restrict-normal-left-count');
+		} else if (messageType === 'WEREWOLF_SAY') {
+			length = $countspan.data('message-restrict-whisper-max-length');
+			count = $countspan.data('message-restrict-whisper-max-count');
+			leftCount = $countspan.data('message-restrict-whisper-left-count');
+		} else if (messageType === 'MASON_SAY') {
+			length = $countspan.data('message-restrict-mason-max-length');
+			count = $countspan.data('message-restrict-mason-max-count');
+			leftCount = $countspan.data('message-restrict-mason-left-count');
+		}
+		return {
+			length : length != null ? length : 400,
+			count : count,
+			leftCount : leftCount
+		};
+	}
+
 	$('body').on('keyup', '[data-creator-say-textarea]', function() {
-		var len = $(this).val().length;
-		var line = $(this).val().split('\n').length;
+		const len = $(this).val().length;
+		const line = $(this).val().split('\n').length;
 		const $countspan = $(this).closest('form').find('[data-message-count]');
 		const $submitbtn = $(this).closest('form').find('[data-message-submit-btn]');
 		$countspan.text('文字数: ' + len + '/1000, 行数: ' + line + '/40');
