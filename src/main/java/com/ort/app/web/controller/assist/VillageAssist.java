@@ -79,8 +79,9 @@ public class VillageAssist {
     //                                                                          ==========
     private static final List<CDef.Skill> SET_AVAILABLE_SKILLS = Arrays.asList(CDef.Skill.人狼, CDef.Skill.占い師, CDef.Skill.賢者, CDef.Skill.狩人,
             CDef.Skill.狂人, CDef.Skill.妖狐, CDef.Skill.魔神官, CDef.Skill.C国狂人, CDef.Skill.狂信者);
-    private static final List<CDef.Skill> RESTRICT_SKILLS = Arrays.asList(CDef.Skill.村人, CDef.Skill.霊能者, CDef.Skill.人狼, CDef.Skill.C国狂人,
-            CDef.Skill.占い師, CDef.Skill.賢者, CDef.Skill.狩人, CDef.Skill.共鳴者, CDef.Skill.狂人, CDef.Skill.魔神官, CDef.Skill.狂信者, CDef.Skill.妖狐);
+    private static final List<CDef.Skill> RESTRICT_SKILLS =
+            Arrays.asList(CDef.Skill.村人, CDef.Skill.霊能者, CDef.Skill.導師, CDef.Skill.人狼, CDef.Skill.C国狂人, CDef.Skill.占い師, CDef.Skill.賢者,
+                    CDef.Skill.狩人, CDef.Skill.共鳴者, CDef.Skill.狂人, CDef.Skill.魔神官, CDef.Skill.狂信者, CDef.Skill.妖狐);
 
     // ===================================================================================
     //                                                                           Attribute

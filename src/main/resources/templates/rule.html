@@ -125,6 +125,7 @@
 								<li>>>+1 の形式で墓下発言へのアンカーが付けられます。</li>
 								<li>>>@1 の形式で見学発言へのアンカーが付けられます。</li>
 								<li>>>*1 の形式で囁きへのアンカーが付けられます。</li>
+								<li>>>#1 の形式で村建て発言へのアンカーが付けられます。</li>
 								<li>>>-1 の形式で独り言へのアンカーが付けられます。（エピローグ後のみ）</li>
 								<li>いずれのアンカーも自分が見ることのできない発言はクリックしてもアンカー先を表示できません。</li>
 							</ul>
@@ -185,7 +186,7 @@
 							<ul>
 								<li>1発言につき400文字20行まで発言できます。</li>
 								<li>村建て発言は、1発言につき1000文字40行まで発言できます。</li>
-								<li>発言数制限は未実装です。</li>
+								<li>発言制限が設定されている村では、発言できる最大文字数と1日のうちに発言できる回数が制限されます。</li>
 								<li>ランダム機能については、その他 - ランダム機能を参照してください。</li>
 							</ul>
 						</li>
@@ -361,21 +362,25 @@
 							<tbody>
 								<tr>
 									<td class="vertical-middle">村人陣営</td>
-									<td class="vertical-middle">村人<br>占い師<br>賢者<br>狩人<br>霊能者<br>導師<br>共鳴者
+									<td class="vertical-middle">
+										村人<br>占い師<br>賢者<br>狩人<br>霊能者<br>導師<br>共鳴者
 									</td>
 									<td class="vertical-middle">夜明け時点で人狼および妖狐が全て死亡し、人間（※）が1人以上生存している</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">人狼陣営</td>
-									<td class="vertical-middle">人狼<br>狂人<br>C国狂人<br>魔神官<br>狂信者
+									<td class="vertical-middle">
+										人狼<br>狂人<br>C国狂人<br>魔神官<br>狂信者
 									</td>
-									<td class="vertical-middle">夜明け時点で生存している人狼の数≧生存している人間（※）の数かつ妖狐が死亡している<br>
+									<td class="vertical-middle">
+										夜明け時点で生存している人狼の数≧生存している人間（※）の数かつ妖狐が死亡している<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">妖狐陣営</td>
 									<td class="vertical-middle">妖狐</td>
-									<td class="vertical-middle">夜明け時点で以下のいずれかを満たす
+									<td class="vertical-middle">
+										夜明け時点で以下のいずれかを満たす
 										<ul>
 											<li>人狼が全て死亡かつ妖狐が生存している</li>
 											<li>生存している人狼の数≧生存している人間（※）の数かつ妖狐が生存している</li>
@@ -405,67 +410,80 @@
 							<tbody>
 								<tr>
 									<td class="vertical-middle">8人(4x3)</td>
-									<td class="vertical-middle">＿部部＿<br>部部部部<br>＿部部＿<br>
+									<td class="vertical-middle">
+										＿部部＿<br>部部部部<br>＿部部＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">9人(4x3)</td>
-									<td class="vertical-middle">＿部部＿<br>部部部部<br>＿部部部<br>
+									<td class="vertical-middle">
+										＿部部＿<br>部部部部<br>＿部部部<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">10人(4x3)</td>
-									<td class="vertical-middle">部部部＿<br>部部部部<br>＿部部部<br>
+									<td class="vertical-middle">
+										部部部＿<br>部部部部<br>＿部部部<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">11人(5x3)</td>
-									<td class="vertical-middle">＿部部部＿<br>部部部部部<br>＿部部部＿<br>
+									<td class="vertical-middle">
+										＿部部部＿<br>部部部部部<br>＿部部部＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">12人(4x4)</td>
-									<td class="vertical-middle">＿部部＿<br>部部部部<br>部部部部<br>＿部部＿<br>
+									<td class="vertical-middle">
+										＿部部＿<br>部部部部<br>部部部部<br>＿部部＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">13人(4x4)</td>
-									<td class="vertical-middle">＿部部＿<br>部部部部<br>部部部部<br>＿部部部<br>
+									<td class="vertical-middle">
+										＿部部＿<br>部部部部<br>部部部部<br>＿部部部<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">14人(5x4)</td>
-									<td class="vertical-middle">＿＿部部＿<br>部部部部部<br>部部部部部<br>＿部部＿＿<br>
+									<td class="vertical-middle">
+										＿＿部部＿<br>部部部部部<br>部部部部部<br>＿部部＿＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">15人(5x4)</td>
-									<td class="vertical-middle">＿＿部部＿<br>部部部部部<br>部部部部部<br>＿部部部＿<br>
+									<td class="vertical-middle">
+										＿＿部部＿<br>部部部部部<br>部部部部部<br>＿部部部＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">16人(5x4)</td>
-									<td class="vertical-middle">＿部部部＿<br>部部部部部<br>部部部部部<br>＿部部部＿<br>
+									<td class="vertical-middle">
+										＿部部部＿<br>部部部部部<br>部部部部部<br>＿部部部＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">17人(5x4)</td>
-									<td class="vertical-middle">＿部部部＿<br>部部部部部<br>部部部部部<br>＿部部部部<br>
+									<td class="vertical-middle">
+										＿部部部＿<br>部部部部部<br>部部部部部<br>＿部部部部<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">18人(6x4)</td>
-									<td class="vertical-middle">＿＿部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部＿＿<br>
+									<td class="vertical-middle">
+										＿＿部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部＿＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">19人(6x4)</td>
-									<td class="vertical-middle">＿部部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部＿＿<br>
+									<td class="vertical-middle">
+										＿部部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部＿＿<br>
 									</td>
 								</tr>
 								<tr>
 									<td class="vertical-middle">20人(6x4)</td>
-									<td class="vertical-middle">＿部部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部部＿<br>
+									<td class="vertical-middle">
+										＿部部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部部＿<br>
 									</td>
 								</tr>
 							</tbody>

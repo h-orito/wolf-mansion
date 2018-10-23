@@ -63,8 +63,8 @@ public class NewVillageAssist {
                     + "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊霊霊共共"; // 20
     private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm");
     private static final List<CDef.Skill> SET_AVAILABLE_SKILLS =
-            Arrays.asList(CDef.Skill.村人, CDef.Skill.霊能者, CDef.Skill.人狼, CDef.Skill.C国狂人, CDef.Skill.占い師, CDef.Skill.賢者, CDef.Skill.狩人,
-                    CDef.Skill.共鳴者, CDef.Skill.狂人, CDef.Skill.魔神官, CDef.Skill.狂信者, CDef.Skill.妖狐);
+            Arrays.asList(CDef.Skill.村人, CDef.Skill.霊能者, CDef.Skill.導師, CDef.Skill.人狼, CDef.Skill.C国狂人, CDef.Skill.占い師, CDef.Skill.賢者,
+                    CDef.Skill.狩人, CDef.Skill.共鳴者, CDef.Skill.狂人, CDef.Skill.魔神官, CDef.Skill.狂信者, CDef.Skill.妖狐);
     private static final int DEFAULT_SAY_MAX_COUNT = 20;
     private static final int DEFAULT_SAY_MAX_LENGTH = 400;
 

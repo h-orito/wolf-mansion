@@ -361,7 +361,7 @@ $(function() {
 		const lineStr = '行数: ' + line + '/20';
 		$countspan.text(countStr + lenStr + lineStr);
 		const $submitbtn = $textarea.closest('form').find('[data-message-submit-btn]');
-		if (restrict.leftCount <= 0 || len > restrict.length || line > 20) {
+		if (len > restrict.length || line > 20 || (restrict.leftCount != null && restrict.leftCount <= 0)) {
 			$countspan.addClass('text-danger');
 			$submitbtn.prop('disabled', true);
 		} else {
