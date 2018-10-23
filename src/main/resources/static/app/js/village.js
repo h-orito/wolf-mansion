@@ -739,7 +739,8 @@ $(function() {
 			'bottom_fix_tab' : 'no-fix',
 			'is_no_paging' : false,
 			'page_size' : 30,
-			'auto_refresh' : false
+			'auto_refresh' : false,
+			'already_skill_confirm' : ''
 		};
 	}
 
@@ -804,8 +805,21 @@ $(function() {
 		} else {
 			$('.container').css('padding-bottom', 40);
 		}
+		// 役職確認
+		const confirms = String(getDisplaySetting('already_skill_confirm'));
+		const confirmVillages = confirms == null || confirms == '' ? [] : confirms.split(',');
+		if ($.inArray(String(villageId), confirmVillages) == -1) {
+			$('#modal-initial-skill-description').modal('show');
+		}
 		restoreFilter(); // フィルタを引き継ぐ
 	}
+
+	$('#initial-skill-confirm').on('click', function() {
+		const confirms = String(getDisplaySetting('already_skill_confirm'));
+		let confirmVillages = confirms == null || confirms == '' ? [] : confirms.split(',');
+		confirmVillages.push(villageId);
+		saveDisplaySetting('already_skill_confirm', confirmVillages);
+	});
 
 	$('[data-dsetting-nopaging]').on('change', function() {
 		const isCheck = $(this).prop('checked');
