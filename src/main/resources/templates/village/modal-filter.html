@@ -28,7 +28,7 @@
 							<table class="table-bordered table-condensed small" style="margin-top: 5px;">
 								<tbody>
 									<tr th:each="chara : ${content.characterList}">
-										<td class="small bg-info" th:text="${chara.charaName}" th:data-filter-chara-id="${chara.charaId}"></td>
+										<td class="small bg-info" th:text="${chara.name}" th:data-filter-chara-id="${chara.value}"></td>
 									</tr>
 								</tbody>
 							</table>

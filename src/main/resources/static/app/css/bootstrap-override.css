@@ -128,6 +128,35 @@ tr.top-menu-selectable:hover a {
 	height: 400px;
 }
 
+.faq {
+	margin-bottom: 10px;
+}
+
+.faq .icon {
+	border-radius: 50%;
+	float: left;
+	margin-right: 4px;
+	width: 20px;
+	height: 20px;
+	color: #ffffff;
+	text-align: center;
+	line-height: 20px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.faq .question {
+	background-color: #3498db;
+}
+
+.faq p {
+	padding-left: 25px;	
+}
+
+.faq .answer {
+	background-color: #e74c3c;
+}
+
 .vertical-middle {
 	vertical-align: middle !important;
 }
@@ -406,6 +435,6 @@ ul.announce>li {
 /* アニメーション */
 @keyframes Flash {
 	50%{
-		opacity: 0;
+	opacity: 0;
 	}
 }

@@ -21,7 +21,7 @@
 				</div>
 
 				<div class="col-sm-12 col-xs-12 top-menu">
-					<div class="top-menu-inner h400px" style="display: block; text-align: center;">
+					<div class="top-menu-inner h500px" style="display: block; text-align: center;">
 						<div class="row">
 							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
 								<h2 class="h5">状況のみで推理・説得する、新しい人狼</h2>
@@ -42,11 +42,15 @@
 								</a>
 							</div>
 							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
-								<a href="javascript:void(0);" th:href="@{/rule}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
+								<a href="javascript:void(0);" th:href="@{/rule}" class="col-sm-4 col-xs-4 top-menu-selectable h100px"> <span
 									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-book"></span> <span class="h6" style="display: block;">ルール</span>
 										Rule
 								</span>
-								</a> <a href="javascript:void(0);" th:href="@{/announce}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
+								</a> <a href="javascript:void(0);" th:href="@{/faq}" class="col-sm-4 col-xs-4 top-menu-selectable h100px"> <span
+									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-question-sign"></span> <span class="h6" style="display: block;">よくある質問</span>
+										FAQ
+								</span>
+								</a> <a href="javascript:void(0);" th:href="@{/announce}" class="col-sm-4 col-xs-4 top-menu-selectable h100px"> <span
 									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-bullhorn"></span> <span class="h6" style="display: block;">お知らせ</span>
 										Announce
 								</span>
@@ -131,9 +135,9 @@
 									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-list-alt"></span> <span class="h6" style="display: block;">村一覧</span>
 										Village list
 								</span>
-								</a> <a href="javascript:void(0);" th:href="@{/new-village}" th:if="${user != null && !content.isParticipate}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
-									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-plus"></span> <span class="h6" style="display: block;">村を建てる</span>
-										Create Village
+								</a> <a href="javascript:void(0);" th:href="@{/new-village}" th:if="${user != null && !content.isParticipate}"
+									class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span class="top-menu-selectable-inner"> <span
+										class="glyphicon glyphicon-plus"></span> <span class="h6" style="display: block;">村を建てる</span> Create Village
 								</span>
 								</a>
 							</div>

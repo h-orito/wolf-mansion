@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<head>
+<!--/* 個別ページのタイトル */-->
+<title>FAQ</title>
+<!--/* 個別ページのjs */-->
+<script src="../static/app/js/index.js" th:src="@{/app/js/index.js}"></script>
+</head>
+
+<body>
+	<div class="container">
+		<div layout:fragment="content">
+			<div id="wrapper">
+				<div class="col-sm-12 col-xs-12 faq">
+					<span class="question icon">Q</span>
+					<p>入村できないのですが</p>
+					<span class="answer icon">A</span>
+					<p>
+						入村できない条件は以下のいずれかです<br> ・ログインしていない<br> ・すでに参加（見学）人数が上限に達している<br> ・決着のついていない村に入村中である<br> ・突然死したことがあり、入村制限が解除されていない<br>
+						・その他国主により入村を制限されている<br> 理由が思い当たらない場合は国主までご連絡ください。<br>
+					</p>
+				</div>
+				<div class="col-sm-12 col-xs-12 faq">
+					<span class="question icon">Q</span>
+					<p>相談用の村がないようですが勝手に村を建てても良いですか？</p>
+					<span class="answer icon">A</span>
+					<p>ご自由に建てていただいて結構です！歓迎します。</p>
+				</div>
+				<div class="col-sm-12 col-xs-12 faq">
+					<span class="question icon">Q</span>
+					<p>FAQ薄くないですか？</p>
+					<span class="answer icon">A</span>
+					<p>だいたい<a th:href="@{/rule}" target="_blank">ルール</a>のほうに書いてあるので、あまり書くことがないのです。</p>
+				</div>
+				<div class="col-sm-12 col-xs-12 faq">
+					<span class="question icon">Q</span>
+					<p>ルールにもここにも書かれてないことでわからないことがあるのですが</p>
+					<span class="answer icon">A</span>
+					<p>
+						入村している場合は「@国主」をつけて発言すると国主に発言内容が通知されるようになっているので、お気軽にご質問ください。<br> 国主から秘話で回答します。（秘話オフの村でも国主は秘話を使用できます） <br> 入村していない場合はTwitter<a
+							href="https://twitter.com/ort_dev" target="_blank">@ort_dev</a>にリプやDM等でご質問ください。
+					</p>
+				</div>
+
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		<footer layout:replace="~{layout/footer::footer}"></footer>
+	</div>
+</body>
+</html>

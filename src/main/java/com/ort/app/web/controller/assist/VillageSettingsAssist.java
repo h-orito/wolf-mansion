@@ -168,6 +168,7 @@ public class VillageSettingsAssist {
         settings.setStartDatetime(makeStartDateTime(form)); // この項目は更新しても意味がないが一応更新しておく
         settings.setIsOpenVote(form.getIsOpenVote());
         settings.setIsAvailableSameWolfAttack(form.getIsAvailableSameWolfAttack());
+        settings.setIsAvailableGuardSameTarget(form.getIsAvailableGuardSameTarget());
         settings.setIsOpenSkillInGrave(form.getIsOpenSkillInGrave());
         settings.setIsVisibleGraveSpectateMessage(form.getIsVisibleGraveSpectateMessage());
         settings.setIsAvailableSpectate(form.getIsAvailableSpectate());

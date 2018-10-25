@@ -33,6 +33,7 @@ import com.ort.app.web.form.VillageLeaveForm;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.app.web.form.VillageSayForm;
 import com.ort.app.web.form.VillageVoteForm;
+import com.ort.app.web.model.OptionDto;
 import com.ort.app.web.model.VillageMemberVoteDto;
 import com.ort.app.web.model.VillageResultContent;
 import com.ort.app.web.model.VillageVoteDto;
@@ -388,7 +389,7 @@ public class VillageAssist {
         }
     }
 
-    private List<Chara> extractAndSortCharacterList(VillageInfo villageInfo) {
+    private List<OptionDto> extractAndSortCharacterList(VillageInfo villageInfo) {
         return villageInfo.vPlayerList.stream().sorted((vp1, vp2) -> {
             // 参加→見学 それぞれの中ではキャラID順
             if (vp1.isIsSpectatorTrue() && vp2.isIsSpectatorFalse()) {
@@ -398,7 +399,12 @@ public class VillageAssist {
             } else {
                 return vp1.getCharaId() - vp2.getCharaId();
             }
-        }).map(vp -> vp.getChara().get()).collect(Collectors.toList());
+        }).map(vp -> {
+            OptionDto character = new OptionDto();
+            character.setName(CharaUtil.makeCharaName(vp));
+            character.setValue(vp.getCharaId().toString());
+            return character;
+        }).collect(Collectors.toList());
     }
 
     // 更新時刻

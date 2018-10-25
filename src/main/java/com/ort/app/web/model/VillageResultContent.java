@@ -49,7 +49,7 @@ public class VillageResultContent implements Serializable {
     private List<VillageMemberDto> memberList;
 
     /** キャラクター一覧 */
-    private List<Chara> characterList;
+    private List<OptionDto> characterList;
 
     /** 参加者部屋割り当て */
     private List<VillageRoomAssignedRowDto> roomAssignedRowList;
@@ -252,11 +252,11 @@ public class VillageResultContent implements Serializable {
         this.memberList = memberList;
     }
 
-    public List<Chara> getCharacterList() {
+    public List<OptionDto> getCharacterList() {
         return characterList;
     }
 
-    public void setCharacterList(List<Chara> characterList) {
+    public void setCharacterList(List<OptionDto> characterList) {
         this.characterList = characterList;
     }
 
