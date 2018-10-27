@@ -277,6 +277,9 @@ public class VillageAssist {
         VillageSayForm form = new VillageSayForm();
         if (villageInfo.village.isVillageStatusCodeエピローグ()) {
             form.setMessageType(CDef.MessageType.通常発言.code());
+            if (villageInfo.isSpectator()) {
+                form.setMessageType(CDef.MessageType.見学発言.code());
+            }
         } else if (isAvailableWerewolfSay) {
             form.setMessageType(CDef.MessageType.人狼の囁き.code());
         } else if (isAvailableMasonSay) {
