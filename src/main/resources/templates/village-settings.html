@@ -15,7 +15,7 @@
 				<div class="col-sm-12 col-xs-12">
 					<h1 class="h4">村設定変更</h1>
 					<span class="text-danger" th:if="${errorMessage}" th:text="${errorMessage}">error</span>
-					<form method="post" action="" th:action="@{/village/{villageId}/settings(villageId=${content.villageId})}" th:object="${settingsForm}"
+					<form method="post" id="new-village-form" action="" th:action="@{/village/{villageId}/settings(villageId=${content.villageId})}" th:object="${settingsForm}"
 						class="form-horizontal">
 						<div class="form-group">
 							<label class="col-sm-2 control-label">村名</label>

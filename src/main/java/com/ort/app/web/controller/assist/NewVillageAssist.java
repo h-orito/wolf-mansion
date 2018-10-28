@@ -336,6 +336,5 @@ public class NewVillageAssist {
                 insertMessageRestriction(villageId, skillCode, detail);
             });
         });
-
     }
 }

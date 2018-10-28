@@ -21,6 +21,24 @@ $(function() {
 		});
 	}
 
+	// 構成
+	addPersonNum();
+	function addPersonNum() {
+		const orgs = $('#organization').val();
+		const organization = orgs.split('\n').map(function(elm, idx) {
+			return (idx + 8) + '人：' + elm;
+		}).join('\n');
+		$('#organization').val(organization);
+	}
+	
+	$('#new-village-form').on('submit', function(){
+		const orgs = $('#organization').val();
+		const organization = orgs.split('\n').map(function(elm, idx) {
+			return elm.split('：')[1]
+		}).join('\n');
+		$('#organization').val(organization);
+	});
+
 	// 発言制限
 	$('[data-restrict-check]').on('change', function() {
 		handleRestriction($(this));
