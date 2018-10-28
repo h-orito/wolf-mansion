@@ -438,3 +438,33 @@ ul.announce>li {
 	opacity: 0;
 	}
 }
+
+.btn-dark-success {
+	margin-bottom: 5px;
+	background-color: #222222;
+	color: #00bc8c;
+	border: 1px solid #00bc8c;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.btn-dark-success.active {
+	background-color: #00bc8c;
+	color: #ffffff;
+	border: 1px solid #00bc8c;
+}
+
+.btn-dark-warning {
+	margin-bottom: 5px;
+	background-color: #222222;
+	color: #f39c12;
+	border: 1px solid #f39c12;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.btn-dark-warning.active {
+	background-color: #f39c12;
+	color: #ffffff;
+	border: 1px solid #f39c12;
+}

@@ -26,8 +26,8 @@
 						<div class="form-group">
 							<label class="col-sm-4 col-xs-4 control-label">ページ分割有無</label>
 							<div class="col-sm-8 col-xs-8 form-check" style="margin-bottom: 5px;">
-								<input type="checkbox" class="form-check-input" name="dsetting-nopaging-check" data-dsetting-nopaging>
-								<label class="form-check-label" for="dsetting-nopaging-check">ページ分割しない</label>
+								<input type="checkbox" class="form-check-input" name="dsetting-nopaging-check" data-dsetting-nopaging> <label class="form-check-label"
+									for="dsetting-nopaging-check">ページ分割しない</label>
 							</div>
 							<label class="col-sm-4 col-xs-4 control-label">ページあたりの表示発言数</label>
 							<div class="col-sm-8 col-xs-8">
@@ -44,9 +44,16 @@
 						<div class="form-group">
 							<label class="col-sm-4 col-xs-4 control-label">自動更新</label>
 							<div class="col-sm-8 col-xs-8 form-check" style="margin-bottom: 5px;">
-								<input type="checkbox" class="form-check-input" name="dsetting-autorefresh-check" data-dsetting-autorefresh>
-								<label class="form-check-label" for="dsetting-autorefresh-check">更新検知時自動で読み込む</label>
+								<input type="checkbox" class="form-check-input" name="dsetting-autorefresh-check" data-dsetting-autorefresh> <label
+									class="form-check-label" for="dsetting-autorefresh-check">更新検知時自動で読み込む</label>
 								<p class="small">最新ページにいる時に更新を検知したら自動で更新します。</p>
+							</div>
+						</div>
+						<hr />
+						<h5>表示設定のリセット</h5>
+						<div class="form-group">
+							<div class="col-sm-12 col-xs-12" style="margin-bottom: 5px;">
+								<input type="button" class="btn btn-sm btn-success pull-right" data-dsetting-reset value="リセット">
 							</div>
 						</div>
 					</form>

@@ -813,6 +813,13 @@ $(function() {
 		}
 		restoreFilter(); // フィルタを引き継ぐ
 	}
+	
+	$('[data-dsetting-reset]').on('click', function(){
+		$.cookie('village_display_setting', makeDisplaySettingObject(), {
+			expires : 365,
+			path : '/'
+		});
+	});
 
 	$('#initial-skill-confirm').on('click', function() {
 		const confirms = String(getDisplaySetting('already_skill_confirm'));
