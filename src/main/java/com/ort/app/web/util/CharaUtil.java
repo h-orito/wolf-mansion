@@ -1,5 +1,6 @@
 package com.ort.app.web.util;
 
+import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.VillagePlayer;
 
 public class CharaUtil {
@@ -32,5 +33,9 @@ public class CharaUtil {
         Integer roomNumber = vp.getRoomNumber();
         String shortName = vp.getChara().get().getCharaShortName();
         return makeCharaShortName(roomNumber, shortName);
+    }
+
+    public static String getNormalCharaImgUrl(Chara chara) {
+        return chara.getCharaImageList().stream().filter(im -> im.isFaceTypeCode通常()).findFirst().get().getCharaImgUrl();
     }
 }

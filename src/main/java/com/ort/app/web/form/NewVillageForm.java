@@ -87,6 +87,10 @@ public class NewVillageForm implements Serializable {
     @NotNull
     private Integer characterSetId;
 
+    /** ダミーキャラID */
+    @NotNull
+    private Integer dummyCharaId;
+
     /** ダミーキャラ入村発言 */
     @NotNull
     @Length(min = 1, max = 400)
@@ -329,6 +333,14 @@ public class NewVillageForm implements Serializable {
 
     public void setSayRestrictList(List<NewVillageSayRestrictDto> sayRestrictList) {
         this.sayRestrictList = sayRestrictList;
+    }
+
+    public Integer getDummyCharaId() {
+        return dummyCharaId;
+    }
+
+    public void setDummyCharaId(Integer dummyCharaId) {
+        this.dummyCharaId = dummyCharaId;
     }
 
 }

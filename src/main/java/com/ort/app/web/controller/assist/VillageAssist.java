@@ -59,6 +59,7 @@ import com.ort.dbflute.exbhv.VillageSettingsBhv;
 import com.ort.dbflute.exbhv.VoteBhv;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Chara;
+import com.ort.dbflute.exentity.CharaImage;
 import com.ort.dbflute.exentity.Commit;
 import com.ort.dbflute.exentity.Footstep;
 import com.ort.dbflute.exentity.MessageRestriction;
@@ -165,6 +166,8 @@ public class VillageAssist {
                 villagePlayerCB.setupSelect_DeadReason();
                 villagePlayerCB.query().setIsGone_Equal_False();
                 villagePlayerCB.query().addOrderBy_DeadDay_Asc();
+            }).withNestedReferrer(vpLoader -> {
+                vpLoader.pulloutChara().loadCharaImage(charaImageCB -> charaImageCB.query().setFaceTypeCode_Equal_通常());
             });
             loader.loadMessageRestriction(mRest -> {});
         });
@@ -195,7 +198,7 @@ public class VillageAssist {
         if (userInfo == null) {
             return OptionalThing.empty();
         }
-        return villagePlayerBhv.selectEntity(cb -> {
+        OptionalEntity<VillagePlayer> optVillagePlayer = villagePlayerBhv.selectEntity(cb -> {
             cb.setupSelect_Chara();
             cb.setupSelect_Player();
             cb.setupSelect_SkillBySkillCode();
@@ -205,6 +208,13 @@ public class VillageAssist {
             cb.query().queryVillage().setVillageStatusCode_NotInScope_AsVillageStatus(
                     Arrays.asList(CDef.VillageStatus.廃村, CDef.VillageStatus.終了));
         });
+        if (!optVillagePlayer.isPresent()) {
+            return OptionalThing.empty();
+        }
+        villagePlayerBhv.load(optVillagePlayer.get(), loader -> {
+            loader.pulloutChara().loadCharaImage(charaImageCB -> {});
+        });
+        return optVillagePlayer;
     }
 
     // 参戦キャラとして選択可能なキャラを取得
@@ -223,7 +233,7 @@ public class VillageAssist {
         });
         villageSettingsBhv.load(villageSettings, loader -> {
             loader.pulloutCharaGroup().loadChara(charaCB -> {
-                charaCB.query().setIsDummy_Equal_False();
+                charaCB.query().setCharaId_NotEqual(villageSettings.getDummyCharaId());
                 charaCB.query().setCharaId_NotInScope(alreadyParticipatePlayerIdList);
             });
         });
@@ -293,7 +303,32 @@ public class VillageAssist {
         } else if (isAvailableSpectateSay) {
             form.setMessageType(CDef.MessageType.見学発言.code());
         }
+        form.setFaceType(detectDefaultFaceType(villageInfo, CDef.MessageType.codeOf(form.getMessageType())).code());
         model.addAttribute("sayForm", form);
+    }
+
+    private CDef.FaceType detectDefaultFaceType(VillageInfo villageInfo, CDef.MessageType defaultMessageType) {
+        List<CharaImage> faceList = villageInfo.optVillagePlayer.get().getChara().get().getCharaImageList();
+        CDef.FaceType expectFaceType = null;
+        if (defaultMessageType == CDef.MessageType.通常発言) {
+            expectFaceType = CDef.FaceType.通常;
+        } else if (defaultMessageType == CDef.MessageType.人狼の囁き) {
+            expectFaceType = CDef.FaceType.囁き;
+        } else if (defaultMessageType == CDef.MessageType.共鳴発言) {
+            expectFaceType = CDef.FaceType.共鳴;
+        } else if (defaultMessageType == CDef.MessageType.独り言) {
+            expectFaceType = CDef.FaceType.独り言;
+        } else if (defaultMessageType == CDef.MessageType.死者の呻き) {
+            expectFaceType = CDef.FaceType.墓下;
+        } else if (defaultMessageType == CDef.MessageType.見学発言) {
+            expectFaceType = CDef.FaceType.通常;
+        }
+        final String expectedCode = expectFaceType.code();
+        if (faceList.stream().anyMatch(face -> face.getFaceTypeCodeAsFaceType().code().equals(expectedCode))) {
+            return expectFaceType;
+        } else {
+            return CDef.FaceType.通常;
+        }
     }
 
     private void setAbilityTarget(VillageInfo villageInfo, Model model) {
@@ -506,7 +541,14 @@ public class VillageAssist {
     }
 
     private void setVillageModelPlayerInfo(VillageResultContent content, OptionalThing<VillagePlayer> optVillagePlayer) {
-        content.setCharaImageUrl(optVillagePlayer.map(vp -> vp.getChara().get().getCharaImgUrl()).orElse(null));
+        content.setCharaImageUrl(optVillagePlayer.map(vp -> vp.getChara()
+                .get()
+                .getCharaImageList()
+                .stream()
+                .filter(im -> im.isFaceTypeCode通常())
+                .findFirst()
+                .get()
+                .getCharaImgUrl()).orElse(null));
         content.setCharaImageWidth(optVillagePlayer.map(vp -> vp.getChara().get().getDisplayWidth()).orElse(null));
         content.setCharaImageHeight(optVillagePlayer.map(vp -> vp.getChara().get().getDisplayHeight()).orElse(null));
         content.setIsDead(optVillagePlayer.map(VillagePlayer::isIsDeadTrue).orElse(null));
@@ -660,7 +702,7 @@ public class VillageAssist {
                 vp -> {
                     Chara chara = vp.getChara().get();
                     room.setCharaName(chara.getCharaShortName());
-                    room.setCharaImgUrl(chara.getCharaImgUrl());
+                    room.setCharaImgUrl(CharaUtil.getNormalCharaImgUrl(chara));
                     room.setCharaImgWidth(chara.getDisplayWidth());
                     room.setCharaImgHeight(chara.getDisplayHeight());
                     if (vp.getDeadDay() != null && vp.getDeadDay() <= villageInfo.day) {
@@ -706,7 +748,7 @@ public class VillageAssist {
         VillageCharaDto part = new VillageCharaDto();
         part.setId(chara.getCharaId());
         part.setName(chara.getCharaName());
-        part.setUrl(chara.getCharaImgUrl());
+        part.setUrl(CharaUtil.getNormalCharaImgUrl(chara));
         part.setWidth(chara.getDisplayWidth());
         part.setHeight(chara.getDisplayHeight());
         return part;

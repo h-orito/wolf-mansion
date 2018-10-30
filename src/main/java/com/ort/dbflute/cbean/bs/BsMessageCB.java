@@ -517,7 +517,7 @@ public class BsMessageCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnIsConvertDisable() { return doColumn("IS_CONVERT_DISABLE"); }
         /**
-         * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type}
+         * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnFaceTypeCode() { return doColumn("FACE_TYPE_CODE"); }

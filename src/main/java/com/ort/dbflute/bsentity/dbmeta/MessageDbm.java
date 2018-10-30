@@ -63,7 +63,14 @@ public class MessageDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((Message)et).getIsConvertDisable(), (et, vl) -> {
             ((Message)et).setIsConvertDisable((Boolean)vl);
         }, "isConvertDisable");
-        setupEpg(_epgMap, et -> ((Message)et).getFaceTypeCode(), (et, vl) -> ((Message)et).setFaceTypeCode((String)vl), "faceTypeCode");
+        setupEpg(_epgMap, et -> ((Message)et).getFaceTypeCode(), (et, vl) -> {
+            CDef.FaceType cls = (CDef.FaceType)gcls(et, columnFaceTypeCode(), vl);
+            if (cls != null) {
+                ((Message)et).setFaceTypeCodeAsFaceType(cls);
+            } else {
+                ((Message)et).mynativeMappingFaceTypeCode((String)vl);
+            }
+        }, "faceTypeCode");
         setupEpg(_epgMap, et -> ((Message)et).getRegisterDatetime(), (et, vl) -> ((Message)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((Message)et).getRegisterTrace(), (et, vl) -> ((Message)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((Message)et).getUpdateDatetime(), (et, vl) -> ((Message)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -116,7 +123,7 @@ public class MessageDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnMessageContent = cci("MESSAGE_CONTENT", "MESSAGE_CONTENT", null, null, String.class, "messageContent", null, false, false, true, "VARCHAR", 10000, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnMessageDatetime = cci("MESSAGE_DATETIME", "MESSAGE_DATETIME", null, null, java.time.LocalDateTime.class, "messageDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnIsConvertDisable = cci("IS_CONVERT_DISABLE", "IS_CONVERT_DISABLE", null, null, Boolean.class, "isConvertDisable", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
-    protected final ColumnInfo _columnFaceTypeCode = cci("FACE_TYPE_CODE", "FACE_TYPE_CODE", null, null, String.class, "faceTypeCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, "faceType", null, null, false);
+    protected final ColumnInfo _columnFaceTypeCode = cci("FACE_TYPE_CODE", "FACE_TYPE_CODE", null, null, String.class, "faceTypeCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, "faceType", null, CDef.DefMeta.FaceType, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -178,7 +185,7 @@ public class MessageDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnIsConvertDisable() { return _columnIsConvertDisable; }
     /**
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type}
+     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnFaceTypeCode() { return _columnFaceTypeCode; }

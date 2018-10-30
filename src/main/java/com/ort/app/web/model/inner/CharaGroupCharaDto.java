@@ -1,5 +1,7 @@
 package com.ort.app.web.model.inner;
 
+import java.util.List;
+
 public class CharaGroupCharaDto {
 
     /** キャラID */
@@ -11,8 +13,8 @@ public class CharaGroupCharaDto {
     /** キャラ名略称 */
     private String charaShortName;
 
-    /** キャラ画像URL */
-    private String charaImgUrl;
+    /** キャラ画像URLリスト */
+    private List<String> charaImgUrlList;
 
     /** キャラ画像横幅 */
     private Integer charaImgWidth;
@@ -44,14 +46,6 @@ public class CharaGroupCharaDto {
         this.charaShortName = charaShortName;
     }
 
-    public String getCharaImgUrl() {
-        return charaImgUrl;
-    }
-
-    public void setCharaImgUrl(String charaImgUrl) {
-        this.charaImgUrl = charaImgUrl;
-    }
-
     public Integer getCharaImgWidth() {
         return charaImgWidth;
     }
@@ -66,5 +60,13 @@ public class CharaGroupCharaDto {
 
     public void setCharaImgHeight(Integer charaImgHeight) {
         this.charaImgHeight = charaImgHeight;
+    }
+
+    public List<String> getCharaImgUrlList() {
+        return charaImgUrlList;
+    }
+
+    public void setCharaImgUrlList(List<String> charaImgUrlList) {
+        this.charaImgUrlList = charaImgUrlList;
     }
 }

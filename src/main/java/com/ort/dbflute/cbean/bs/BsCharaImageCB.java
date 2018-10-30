@@ -12,6 +12,7 @@ import org.dbflute.cbean.scoping.*;
 import org.dbflute.dbmeta.DBMetaProvider;
 import org.dbflute.twowaysql.factory.SqlAnalyzerFactory;
 import org.dbflute.twowaysql.style.BoundDateDisplayTimeZoneProvider;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.DBFluteConfig;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.allcommon.ImplementedInvokerAssistant;
@@ -82,13 +83,13 @@ public class BsCharaImageCB extends AbstractConditionBean {
     /**
      * Accept the query condition of primary key as equal.
      * @param charaId : PK, NotNull, INT UNSIGNED(10), FK to chara. (NotNull)
-     * @param faceTypeCode : PK, IX, NotNull, VARCHAR(20), FK to face_type. (NotNull)
+     * @param faceTypeCode : PK, IX, NotNull, VARCHAR(20), FK to face_type, classification=FaceType. (NotNull)
      * @return this. (NotNull)
      */
-    public CharaImageCB acceptPK(Integer charaId, String faceTypeCode) {
+    public CharaImageCB acceptPK(Integer charaId, CDef.FaceType faceTypeCode) {
         assertObjectNotNull("charaId", charaId);assertObjectNotNull("faceTypeCode", faceTypeCode);
         BsCharaImageCB cb = this;
-        cb.query().setCharaId_Equal(charaId);cb.query().setFaceTypeCode_Equal(faceTypeCode);
+        cb.query().setCharaId_Equal(charaId);cb.query().setFaceTypeCode_Equal_AsFaceType(faceTypeCode);
         return (CharaImageCB)this;
     }
 
@@ -337,7 +338,7 @@ public class BsCharaImageCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnCharaId() { return doColumn("CHARA_ID"); }
         /**
-         * FACE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to face_type}
+         * FACE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to face_type, classification=FaceType}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnFaceTypeCode() { return doColumn("FACE_TYPE_CODE"); }

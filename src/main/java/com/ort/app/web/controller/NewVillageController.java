@@ -18,6 +18,7 @@ import com.ort.app.web.controller.logic.VillageParticipateLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageForm;
 import com.ort.app.web.form.validator.NewVillageFormValidator;
+import com.ort.app.web.util.CharaUtil;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.CharaGroupBhv;
 import com.ort.dbflute.exentity.Chara;
@@ -90,10 +91,13 @@ public class NewVillageController {
         model.addAttribute("characterSetName", charaGroupName);
         // キャラ画像URL
         Chara chara = charaBhv.selectEntityWithDeletedCheck(cb -> {
-            cb.query().setIsDummy_Equal_True();
+            cb.query().setCharaId_Equal(villageForm.getDummyCharaId());
             cb.query().setCharaGroupId_Equal(charaGroup.getCharaGroupId());
         });
-        model.addAttribute("characterImgUrl", chara.getCharaImgUrl());
+        charaBhv.loadCharaImage(chara, charaImageCB -> {
+            charaImageCB.query().setFaceTypeCode_Equal_通常();
+        });
+        model.addAttribute("characterImgUrl", CharaUtil.getNormalCharaImgUrl(chara));
         model.addAttribute("characterImgWidth", chara.getDisplayWidth());
         model.addAttribute("characterImgHeight", chara.getDisplayHeight());
 

@@ -101,14 +101,14 @@ public class BsCharaImageCQ extends AbstractBsCharaImageCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * FACE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to face_type}
+     * FACE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to face_type, classification=FaceType}
      * @return this. (NotNull)
      */
     public BsCharaImageCQ addOrderBy_FaceTypeCode_Asc() { regOBA("FACE_TYPE_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * FACE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to face_type}
+     * FACE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to face_type, classification=FaceType}
      * @return this. (NotNull)
      */
     public BsCharaImageCQ addOrderBy_FaceTypeCode_Desc() { regOBD("FACE_TYPE_CODE"); return this; }

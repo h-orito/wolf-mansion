@@ -109,14 +109,14 @@ public class BsFaceTypeCQ extends AbstractBsFaceTypeCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * FACE_TYPE_CODE: {PK, NotNull, VARCHAR(20)}
+     * FACE_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=FaceType}
      * @return this. (NotNull)
      */
     public BsFaceTypeCQ addOrderBy_FaceTypeCode_Asc() { regOBA("FACE_TYPE_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * FACE_TYPE_CODE: {PK, NotNull, VARCHAR(20)}
+     * FACE_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=FaceType}
      * @return this. (NotNull)
      */
     public BsFaceTypeCQ addOrderBy_FaceTypeCode_Desc() { regOBD("FACE_TYPE_CODE"); return this; }

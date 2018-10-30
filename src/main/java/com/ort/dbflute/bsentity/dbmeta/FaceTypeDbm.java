@@ -42,7 +42,14 @@ public class FaceTypeDbm extends AbstractDBMeta {
     protected final Map<String, PropertyGateway> _epgMap = newHashMap();
     { xsetupEpg(); }
     protected void xsetupEpg() {
-        setupEpg(_epgMap, et -> ((FaceType)et).getFaceTypeCode(), (et, vl) -> ((FaceType)et).setFaceTypeCode((String)vl), "faceTypeCode");
+        setupEpg(_epgMap, et -> ((FaceType)et).getFaceTypeCode(), (et, vl) -> {
+            CDef.FaceType cls = (CDef.FaceType)gcls(et, columnFaceTypeCode(), vl);
+            if (cls != null) {
+                ((FaceType)et).setFaceTypeCodeAsFaceType(cls);
+            } else {
+                ((FaceType)et).mynativeMappingFaceTypeCode((String)vl);
+            }
+        }, "faceTypeCode");
         setupEpg(_epgMap, et -> ((FaceType)et).getFaceTypeName(), (et, vl) -> ((FaceType)et).setFaceTypeName((String)vl), "faceTypeName");
         setupEpg(_epgMap, et -> ((FaceType)et).getDispOrder(), (et, vl) -> ((FaceType)et).setDispOrder(cti(vl)), "dispOrder");
     }
@@ -65,12 +72,12 @@ public class FaceTypeDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnFaceTypeCode = cci("FACE_TYPE_CODE", "FACE_TYPE_CODE", null, null, String.class, "faceTypeCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "charaImageList,messageList", null, false);
+    protected final ColumnInfo _columnFaceTypeCode = cci("FACE_TYPE_CODE", "FACE_TYPE_CODE", null, null, String.class, "faceTypeCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "charaImageList,messageList", CDef.DefMeta.FaceType, false);
     protected final ColumnInfo _columnFaceTypeName = cci("FACE_TYPE_NAME", "FACE_TYPE_NAME", null, null, String.class, "faceTypeName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnDispOrder = cci("DISP_ORDER", "DISP_ORDER", null, null, Integer.class, "dispOrder", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
 
     /**
-     * FACE_TYPE_CODE: {PK, NotNull, VARCHAR(20)}
+     * FACE_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=FaceType}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnFaceTypeCode() { return _columnFaceTypeCode; }

@@ -15,6 +15,7 @@ import org.dbflute.exception.*;
 import org.dbflute.hook.CommonColumnAutoSetupper;
 import org.dbflute.optional.OptionalEntity;
 import org.dbflute.outsidesql.executor.*;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.bsbhv.loader.*;
 import com.ort.dbflute.exentity.*;
@@ -159,29 +160,29 @@ public abstract class BsFaceTypeBhv extends AbstractBehaviorWritable<FaceType, F
 
     /**
      * Select the entity by the primary-key value.
-     * @param faceTypeCode : PK, NotNull, VARCHAR(20). (NotNull)
+     * @param faceTypeCode : PK, NotNull, VARCHAR(20), classification=FaceType. (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    public OptionalEntity<FaceType> selectByPK(String faceTypeCode) {
+    public OptionalEntity<FaceType> selectByPK(CDef.FaceType faceTypeCode) {
         return facadeSelectByPK(faceTypeCode);
     }
 
-    protected OptionalEntity<FaceType> facadeSelectByPK(String faceTypeCode) {
+    protected OptionalEntity<FaceType> facadeSelectByPK(CDef.FaceType faceTypeCode) {
         return doSelectOptionalByPK(faceTypeCode, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends FaceType> ENTITY doSelectByPK(String faceTypeCode, Class<? extends ENTITY> tp) {
+    protected <ENTITY extends FaceType> ENTITY doSelectByPK(CDef.FaceType faceTypeCode, Class<? extends ENTITY> tp) {
         return doSelectEntity(xprepareCBAsPK(faceTypeCode), tp);
     }
 
-    protected <ENTITY extends FaceType> OptionalEntity<ENTITY> doSelectOptionalByPK(String faceTypeCode, Class<? extends ENTITY> tp) {
+    protected <ENTITY extends FaceType> OptionalEntity<ENTITY> doSelectOptionalByPK(CDef.FaceType faceTypeCode, Class<? extends ENTITY> tp) {
         return createOptionalEntity(doSelectByPK(faceTypeCode, tp), faceTypeCode);
     }
 
-    protected FaceTypeCB xprepareCBAsPK(String faceTypeCode) {
+    protected FaceTypeCB xprepareCBAsPK(CDef.FaceType faceTypeCode) {
         assertObjectNotNull("faceTypeCode", faceTypeCode);
         return newConditionBean().acceptPK(faceTypeCode);
     }

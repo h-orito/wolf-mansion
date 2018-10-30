@@ -1391,7 +1391,7 @@ CHARA_IMAGE
 		<td class="sizecell"> 20 </td>
 		<td class="relcell"><a href="#face_type" title="FK_CHARA_IMAGE_FACE_TYPE">FACE_TYPE</a>&nbsp;</td>
 		<td class="relcell">&nbsp;</td>
-		<td class="relcell"> &nbsp;</td>
+		<td class="relcell"><a href="#FaceTypeCls">FaceType</a></td>
 		<td class="commentcell"> 表情種別コード</td>
 		<td class="subcell">faceTypeCode</td>
 		<td class="subcell">String</td>
@@ -1780,7 +1780,7 @@ FACE_TYPE
 		<td class="sizecell"> 20 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
 		<td class="relcell"><a href="#chara_image" title="FK_CHARA_IMAGE_FACE_TYPE">CHARA_IMAGE</a>,<br><a href="#message" title="FK_MESSAGE_FACE_TYPE">MESSAGE</a>&nbsp;</td>
-		<td class="relcell"> &nbsp;</td>
+		<td class="relcell"><a href="#FaceTypeCls">FaceType</a></td>
 		<td class="commentcell"> 表情種別コード</td>
 		<td class="subcell">faceTypeCode</td>
 		<td class="subcell">String</td>
@@ -2204,7 +2204,7 @@ MESSAGE
 		<td class="sizecell"> 20 </td>
 		<td class="relcell"><a href="#face_type" title="FK_MESSAGE_FACE_TYPE">FACE_TYPE</a>&nbsp;</td>
 		<td class="relcell">&nbsp;</td>
-		<td class="relcell"> &nbsp;</td>
+		<td class="relcell"><a href="#FaceTypeCls">FaceType</a></td>
 		<td class="commentcell"> 表情種別コード</td>
 		<td class="subcell">faceTypeCode</td>
 		<td class="subcell">String</td>
@@ -4697,6 +4697,50 @@ VOTE
 			<tr>
 				<td>ONLY_CREATOR</td>
 				<td>村建てとのみ</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>FaceType</td>
+		<td class="clstypecell">table</td>
+		<td>表情種別</td>
+		<td>
+			<table class="child">
+			<tr>
+				<th id="FaceTypeCls">Code</th>
+				<th>Name</th>
+				<th>Comment</th>
+			</tr>
+			<tr>
+				<td>GRAVE</td>
+				<td>墓下</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>MASON</td>
+				<td>共鳴</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>MONOLOGUE</td>
+				<td>独り言</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>NORMAL</td>
+				<td>通常</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>SECRET</td>
+				<td>秘話</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>WEREWOLF</td>
+				<td>囁き</td>
 				<td class="commentcell"> &nbsp;</td>
 			</tr>
 			</table>

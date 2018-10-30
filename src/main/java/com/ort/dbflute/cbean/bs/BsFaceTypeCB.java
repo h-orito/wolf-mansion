@@ -12,6 +12,7 @@ import org.dbflute.cbean.scoping.*;
 import org.dbflute.dbmeta.DBMetaProvider;
 import org.dbflute.twowaysql.factory.SqlAnalyzerFactory;
 import org.dbflute.twowaysql.style.BoundDateDisplayTimeZoneProvider;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.DBFluteConfig;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.allcommon.ImplementedInvokerAssistant;
@@ -80,13 +81,13 @@ public class BsFaceTypeCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param faceTypeCode : PK, NotNull, VARCHAR(20). (NotNull)
+     * @param faceTypeCode : PK, NotNull, VARCHAR(20), classification=FaceType. (NotNull)
      * @return this. (NotNull)
      */
-    public FaceTypeCB acceptPK(String faceTypeCode) {
+    public FaceTypeCB acceptPK(CDef.FaceType faceTypeCode) {
         assertObjectNotNull("faceTypeCode", faceTypeCode);
         BsFaceTypeCB cb = this;
-        cb.query().setFaceTypeCode_Equal(faceTypeCode);
+        cb.query().setFaceTypeCode_Equal_AsFaceType(faceTypeCode);
         return (FaceTypeCB)this;
     }
 
@@ -283,7 +284,7 @@ public class BsFaceTypeCB extends AbstractConditionBean {
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * FACE_TYPE_CODE: {PK, NotNull, VARCHAR(20)}
+         * FACE_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=FaceType}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnFaceTypeCode() { return doColumn("FACE_TYPE_CODE"); }

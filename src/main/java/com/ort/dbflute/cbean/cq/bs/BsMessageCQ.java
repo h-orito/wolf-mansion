@@ -301,14 +301,14 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type}
+     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_FaceTypeCode_Asc() { regOBA("FACE_TYPE_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type}
+     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_FaceTypeCode_Desc() { regOBD("FACE_TYPE_CODE"); return this; }

@@ -7,6 +7,7 @@ import org.dbflute.dbmeta.DBMeta;
 import org.dbflute.dbmeta.AbstractEntity;
 import org.dbflute.dbmeta.accessory.DomainEntity;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.*;
 
 /**
@@ -63,7 +64,7 @@ public abstract class BsFaceType extends AbstractEntity implements DomainEntity 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** FACE_TYPE_CODE: {PK, NotNull, VARCHAR(20)} */
+    /** FACE_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=FaceType} */
     protected String _faceTypeCode;
 
     /** FACE_TYPE_NAME: {NotNull, VARCHAR(20)} */
@@ -92,6 +93,150 @@ public abstract class BsFaceType extends AbstractEntity implements DomainEntity 
     public boolean hasPrimaryKeyValue() {
         if (_faceTypeCode == null) { return false; }
         return true;
+    }
+
+    // ===================================================================================
+    //                                                             Classification Property
+    //                                                             =======================
+    /**
+     * Get the value of faceTypeCode as the classification of FaceType. <br>
+     * FACE_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=FaceType} <br>
+     * 表情種別
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.FaceType getFaceTypeCodeAsFaceType() {
+        return CDef.FaceType.codeOf(getFaceTypeCode());
+    }
+
+    /**
+     * Set the value of faceTypeCode as the classification of FaceType. <br>
+     * FACE_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=FaceType} <br>
+     * 表情種別
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setFaceTypeCodeAsFaceType(CDef.FaceType cdef) {
+        setFaceTypeCode(cdef != null ? cdef.code() : null);
+    }
+
+    // ===================================================================================
+    //                                                              Classification Setting
+    //                                                              ======================
+    /**
+     * Set the value of faceTypeCode as 墓下 (GRAVE). <br>
+     * 墓下
+     */
+    public void setFaceTypeCode_墓下() {
+        setFaceTypeCodeAsFaceType(CDef.FaceType.墓下);
+    }
+
+    /**
+     * Set the value of faceTypeCode as 共鳴 (MASON). <br>
+     * 共鳴
+     */
+    public void setFaceTypeCode_共鳴() {
+        setFaceTypeCodeAsFaceType(CDef.FaceType.共鳴);
+    }
+
+    /**
+     * Set the value of faceTypeCode as 独り言 (MONOLOGUE). <br>
+     * 独り言
+     */
+    public void setFaceTypeCode_独り言() {
+        setFaceTypeCodeAsFaceType(CDef.FaceType.独り言);
+    }
+
+    /**
+     * Set the value of faceTypeCode as 通常 (NORMAL). <br>
+     * 通常
+     */
+    public void setFaceTypeCode_通常() {
+        setFaceTypeCodeAsFaceType(CDef.FaceType.通常);
+    }
+
+    /**
+     * Set the value of faceTypeCode as 秘話 (SECRET). <br>
+     * 秘話
+     */
+    public void setFaceTypeCode_秘話() {
+        setFaceTypeCodeAsFaceType(CDef.FaceType.秘話);
+    }
+
+    /**
+     * Set the value of faceTypeCode as 囁き (WEREWOLF). <br>
+     * 囁き
+     */
+    public void setFaceTypeCode_囁き() {
+        setFaceTypeCodeAsFaceType(CDef.FaceType.囁き);
+    }
+
+    // ===================================================================================
+    //                                                        Classification Determination
+    //                                                        ============================
+    /**
+     * Is the value of faceTypeCode 墓下? <br>
+     * 墓下
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isFaceTypeCode墓下() {
+        CDef.FaceType cdef = getFaceTypeCodeAsFaceType();
+        return cdef != null ? cdef.equals(CDef.FaceType.墓下) : false;
+    }
+
+    /**
+     * Is the value of faceTypeCode 共鳴? <br>
+     * 共鳴
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isFaceTypeCode共鳴() {
+        CDef.FaceType cdef = getFaceTypeCodeAsFaceType();
+        return cdef != null ? cdef.equals(CDef.FaceType.共鳴) : false;
+    }
+
+    /**
+     * Is the value of faceTypeCode 独り言? <br>
+     * 独り言
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isFaceTypeCode独り言() {
+        CDef.FaceType cdef = getFaceTypeCodeAsFaceType();
+        return cdef != null ? cdef.equals(CDef.FaceType.独り言) : false;
+    }
+
+    /**
+     * Is the value of faceTypeCode 通常? <br>
+     * 通常
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isFaceTypeCode通常() {
+        CDef.FaceType cdef = getFaceTypeCodeAsFaceType();
+        return cdef != null ? cdef.equals(CDef.FaceType.通常) : false;
+    }
+
+    /**
+     * Is the value of faceTypeCode 秘話? <br>
+     * 秘話
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isFaceTypeCode秘話() {
+        CDef.FaceType cdef = getFaceTypeCodeAsFaceType();
+        return cdef != null ? cdef.equals(CDef.FaceType.秘話) : false;
+    }
+
+    /**
+     * Is the value of faceTypeCode 囁き? <br>
+     * 囁き
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isFaceTypeCode囁き() {
+        CDef.FaceType cdef = getFaceTypeCodeAsFaceType();
+        return cdef != null ? cdef.equals(CDef.FaceType.囁き) : false;
     }
 
     // ===================================================================================
@@ -211,7 +356,7 @@ public abstract class BsFaceType extends AbstractEntity implements DomainEntity 
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] FACE_TYPE_CODE: {PK, NotNull, VARCHAR(20)} <br>
+     * [get] FACE_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=FaceType} <br>
      * 表情種別コード
      * @return The value of the column 'FACE_TYPE_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -221,11 +366,12 @@ public abstract class BsFaceType extends AbstractEntity implements DomainEntity 
     }
 
     /**
-     * [set] FACE_TYPE_CODE: {PK, NotNull, VARCHAR(20)} <br>
+     * [set] FACE_TYPE_CODE: {PK, NotNull, VARCHAR(20), classification=FaceType} <br>
      * 表情種別コード
      * @param faceTypeCode The value of the column 'FACE_TYPE_CODE'. (basically NotNull if update: for the constraint)
      */
-    public void setFaceTypeCode(String faceTypeCode) {
+    protected void setFaceTypeCode(String faceTypeCode) {
+        checkClassificationCode("FACE_TYPE_CODE", CDef.DefMeta.FaceType, faceTypeCode);
         registerModifiedProperty("faceTypeCode");
         _faceTypeCode = faceTypeCode;
     }
@@ -268,5 +414,13 @@ public abstract class BsFaceType extends AbstractEntity implements DomainEntity 
     public void setDispOrder(Integer dispOrder) {
         registerModifiedProperty("dispOrder");
         _dispOrder = dispOrder;
+    }
+
+    /**
+     * For framework so basically DON'T use this method.
+     * @param faceTypeCode The value of the column 'FACE_TYPE_CODE'. (basically NotNull if update: for the constraint)
+     */
+    public void mynativeMappingFaceTypeCode(String faceTypeCode) {
+        setFaceTypeCode(faceTypeCode);
     }
 }

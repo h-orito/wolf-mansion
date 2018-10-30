@@ -56,10 +56,14 @@ public class CharaController {
     private DummyCharaDto getDummyCharaImgUrl(@PathVariable Integer charaGroupId) {
         Chara chara = charaBhv.selectEntityWithDeletedCheck(cb -> {
             cb.query().setCharaGroupId_Equal(charaGroupId);
-            cb.query().setIsDummy_Equal_True();
+            cb.query().addOrderBy_CharaId_Asc();
+            cb.fetchFirst(1);
+        });
+        charaBhv.loadCharaImage(chara, charaImgCB -> {
+            charaImgCB.query().setFaceTypeCode_Equal_通常();
         });
         DummyCharaDto content = new DummyCharaDto();
-        content.setCharaImgUrl(chara.getCharaImgUrl());
+        content.setCharaImgUrl(chara.getCharaImageList().get(0).getCharaImgUrl());
         content.setCharaImgWidth(chara.getDisplayWidth());
         content.setCharaImgHeight(chara.getDisplayHeight());
         content.setJoinMessage(chara.getDefaultJoinMessage());
@@ -82,9 +86,9 @@ public class CharaController {
         part.setCharaGroupName(charaGroup.getCharaGroupName());
         part.setDesignerName(charaGroup.getDesigner().get().getDesignerName());
         part.setCharaNum(charaGroup.getCharaList().size());
-        part.setDummyImgUrl(charaGroup.getCharaList().stream().filter(c -> c.isIsDummyTrue()).findFirst().get().getCharaImgUrl());
-        part.setDummyImgWidth(charaGroup.getCharaList().stream().filter(c -> c.isIsDummyTrue()).findFirst().get().getDisplayWidth());
-        part.setDummyImgHeight(charaGroup.getCharaList().stream().filter(c -> c.isIsDummyTrue()).findFirst().get().getDisplayHeight());
+        part.setDummyImgUrl(charaGroup.getCharaList().get(0).getCharaImageList().get(0).getCharaImgUrl());
+        part.setDummyImgWidth(charaGroup.getCharaList().get(0).getDisplayWidth());
+        part.setDummyImgHeight(charaGroup.getCharaList().get(0).getDisplayHeight());
         return part;
     }
 
@@ -103,7 +107,7 @@ public class CharaController {
         part.setCharaId(chara.getCharaId());
         part.setCharaName(chara.getCharaName());
         part.setCharaShortName(chara.getCharaShortName());
-        part.setCharaImgUrl(chara.getCharaImgUrl());
+        part.setCharaImgUrlList(chara.getCharaImageList().stream().map(charaImg -> charaImg.getCharaImgUrl()).collect(Collectors.toList()));
         part.setCharaImgWidth(chara.getDisplayWidth());
         part.setCharaImgHeight(chara.getDisplayHeight());
         return part;
@@ -117,7 +121,11 @@ public class CharaController {
             cb.setupSelect_Designer();
             cb.query().addOrderBy_CharaGroupId_Asc();
         });
-        charaGroupBhv.loadChara(charaGroupList, cb -> {});
+        charaGroupBhv.load(charaGroupList, loader -> {
+            loader.loadChara(charaCB -> charaCB.fetchFirst(1)).withNestedReferrer(charaLoader -> {
+                charaLoader.loadCharaImage(charaImageCB -> charaImageCB.query().setFaceTypeCode_Equal_通常());
+            });
+        });
         return charaGroupList;
     }
 
@@ -126,7 +134,11 @@ public class CharaController {
             cb.setupSelect_Designer();
             cb.query().setCharaGroupId_Equal(charaGroupId);
         });
-        charaGroupBhv.loadChara(charaGroup, cb -> {});
+        charaGroupBhv.load(charaGroup, loader -> {
+            loader.loadChara(charaCB -> {}).withNestedReferrer(charaLoader -> {
+                charaLoader.loadCharaImage(charaImageCB -> {});
+            });
+        });
         return charaGroup;
     }
 }

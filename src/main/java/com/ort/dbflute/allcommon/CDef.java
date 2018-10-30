@@ -1228,6 +1228,140 @@ public interface CDef extends Classification {
         @Override public String toString() { return code(); }
     }
 
+    /**
+     * 表情種別
+     */
+    public enum FaceType implements CDef {
+        /** 墓下 */
+        墓下("GRAVE", "墓下", emptyStrings())
+        ,
+        /** 共鳴 */
+        共鳴("MASON", "共鳴", emptyStrings())
+        ,
+        /** 独り言 */
+        独り言("MONOLOGUE", "独り言", emptyStrings())
+        ,
+        /** 通常 */
+        通常("NORMAL", "通常", emptyStrings())
+        ,
+        /** 秘話 */
+        秘話("SECRET", "秘話", emptyStrings())
+        ,
+        /** 囁き */
+        囁き("WEREWOLF", "囁き", emptyStrings())
+        ;
+        private static final Map<String, FaceType> _codeClsMap = new HashMap<String, FaceType>();
+        private static final Map<String, FaceType> _nameClsMap = new HashMap<String, FaceType>();
+        static {
+            for (FaceType value : values()) {
+                _codeClsMap.put(value.code().toLowerCase(), value);
+                for (String sister : value.sisterSet()) { _codeClsMap.put(sister.toLowerCase(), value); }
+                _nameClsMap.put(value.name().toLowerCase(), value);
+            }
+        }
+        private String _code; private String _alias; private Set<String> _sisterSet;
+        private FaceType(String code, String alias, String[] sisters)
+        { _code = code; _alias = alias; _sisterSet = Collections.unmodifiableSet(new LinkedHashSet<String>(Arrays.asList(sisters))); }
+        public String code() { return _code; } public String alias() { return _alias; }
+        public Set<String> sisterSet() { return _sisterSet; }
+        public Map<String, Object> subItemMap() { return Collections.emptyMap(); }
+        public ClassificationMeta meta() { return CDef.DefMeta.FaceType; }
+
+        public boolean inGroup(String groupName) {
+            return false;
+        }
+
+        /**
+         * Get the classification of the code. (CaseInsensitive)
+         * @param code The value of code, which is case-insensitive. (NullAllowed: if null, returns empty)
+         * @return The optional classification corresponding to the code. (NotNull, EmptyAllowed: if not found, returns empty)
+         */
+        public static OptionalThing<FaceType> of(Object code) {
+            if (code == null) { return OptionalThing.ofNullable(null, () -> { throw new ClassificationNotFoundException("null code specified"); }); }
+            if (code instanceof FaceType) { return OptionalThing.of((FaceType)code); }
+            if (code instanceof OptionalThing<?>) { return of(((OptionalThing<?>)code).orElse(null)); }
+            return OptionalThing.ofNullable(_codeClsMap.get(code.toString().toLowerCase()), () ->{
+                throw new ClassificationNotFoundException("Unknown classification code: " + code);
+            });
+        }
+
+        /**
+         * Find the classification by the name. (CaseInsensitive)
+         * @param name The string of name, which is case-insensitive. (NotNull)
+         * @return The optional classification corresponding to the name. (NotNull, EmptyAllowed: if not found, returns empty)
+         */
+        public static OptionalThing<FaceType> byName(String name) {
+            if (name == null) { throw new IllegalArgumentException("The argument 'name' should not be null."); }
+            return OptionalThing.ofNullable(_nameClsMap.get(name.toLowerCase()), () ->{
+                throw new ClassificationNotFoundException("Unknown classification name: " + name);
+            });
+        }
+
+        /**
+         * <span style="color: #AD4747; font-size: 120%">Old style so use of(code).</span> <br>
+         * Get the classification by the code. (CaseInsensitive)
+         * @param code The value of code, which is case-insensitive. (NullAllowed: if null, returns null)
+         * @return The instance of the corresponding classification to the code. (NullAllowed: if not found, returns null)
+         */
+        public static FaceType codeOf(Object code) {
+            if (code == null) { return null; }
+            if (code instanceof FaceType) { return (FaceType)code; }
+            return _codeClsMap.get(code.toString().toLowerCase());
+        }
+
+        /**
+         * <span style="color: #AD4747; font-size: 120%">Old style so use byName(name).</span> <br>
+         * Get the classification by the name (also called 'value' in ENUM world).
+         * @param name The string of name, which is case-sensitive. (NullAllowed: if null, returns null)
+         * @return The instance of the corresponding classification to the name. (NullAllowed: if not found, returns null)
+         */
+        public static FaceType nameOf(String name) {
+            if (name == null) { return null; }
+            try { return valueOf(name); } catch (RuntimeException ignored) { return null; }
+        }
+
+        /**
+         * Get the list of all classification elements. (returns new copied list)
+         * @return The snapshot list of all classification elements. (NotNull)
+         */
+        public static List<FaceType> listAll() {
+            return new ArrayList<FaceType>(Arrays.asList(values()));
+        }
+
+        /**
+         * Get the list of classification elements in the specified group. (returns new copied list) <br>
+         * @param groupName The string of group name, which is case-insensitive. (NotNull)
+         * @return The snapshot list of classification elements in the group. (NotNull, EmptyAllowed: if not found, throws exception)
+         */
+        public static List<FaceType> listByGroup(String groupName) {
+            if (groupName == null) { throw new IllegalArgumentException("The argument 'groupName' should not be null."); }
+            throw new ClassificationNotFoundException("Unknown classification group: FaceType." + groupName);
+        }
+
+        /**
+         * Get the list of classification elements corresponding to the specified codes. (returns new copied list) <br>
+         * @param codeList The list of plain code, which is case-insensitive. (NotNull)
+         * @return The snapshot list of classification elements in the code list. (NotNull, EmptyAllowed: when empty specified)
+         */
+        public static List<FaceType> listOf(Collection<String> codeList) {
+            if (codeList == null) { throw new IllegalArgumentException("The argument 'codeList' should not be null."); }
+            List<FaceType> clsList = new ArrayList<FaceType>(codeList.size());
+            for (String code : codeList) { clsList.add(of(code).get()); }
+            return clsList;
+        }
+
+        /**
+         * Get the list of classification elements in the specified group. (returns new copied list) <br>
+         * @param groupName The string of group name, which is case-sensitive. (NullAllowed: if null, returns empty list)
+         * @return The snapshot list of classification elements in the group. (NotNull, EmptyAllowed: if the group is not found)
+         */
+        public static List<FaceType> groupOf(String groupName) {
+            return new ArrayList<FaceType>(4);
+        }
+
+        @Override public String toString() { return code(); }
+    }
+
     public enum DefMeta implements ClassificationMeta {
         /** フラグを示す */
         Flg
@@ -1255,6 +1389,9 @@ public interface CDef extends Classification {
         ,
         /** 秘話可能範囲 */
         AllowedSecretSay
+        ,
+        /** 表情種別 */
+        FaceType
         ;
         public String classificationName() {
             return name(); // same as definition name
@@ -1270,6 +1407,7 @@ public interface CDef extends Classification {
             if (DeadReason.name().equals(name())) { return CDef.DeadReason.of(code); }
             if (AbilityType.name().equals(name())) { return CDef.AbilityType.of(code); }
             if (AllowedSecretSay.name().equals(name())) { return CDef.AllowedSecretSay.of(code); }
+            if (FaceType.name().equals(name())) { return CDef.FaceType.of(code); }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
@@ -1283,6 +1421,7 @@ public interface CDef extends Classification {
             if (DeadReason.name().equals(name())) { return CDef.DeadReason.byName(name); }
             if (AbilityType.name().equals(name())) { return CDef.AbilityType.byName(name); }
             if (AllowedSecretSay.name().equals(name())) { return CDef.AllowedSecretSay.byName(name); }
+            if (FaceType.name().equals(name())) { return CDef.FaceType.byName(name); }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
@@ -1296,6 +1435,7 @@ public interface CDef extends Classification {
             if (DeadReason.name().equals(name())) { return CDef.DeadReason.codeOf(code); }
             if (AbilityType.name().equals(name())) { return CDef.AbilityType.codeOf(code); }
             if (AllowedSecretSay.name().equals(name())) { return CDef.AllowedSecretSay.codeOf(code); }
+            if (FaceType.name().equals(name())) { return CDef.FaceType.codeOf(code); }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
@@ -1309,6 +1449,7 @@ public interface CDef extends Classification {
             if (DeadReason.name().equals(name())) { return CDef.DeadReason.valueOf(name); }
             if (AbilityType.name().equals(name())) { return CDef.AbilityType.valueOf(name); }
             if (AllowedSecretSay.name().equals(name())) { return CDef.AllowedSecretSay.valueOf(name); }
+            if (FaceType.name().equals(name())) { return CDef.FaceType.valueOf(name); }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
@@ -1322,6 +1463,7 @@ public interface CDef extends Classification {
             if (DeadReason.name().equals(name())) { return toClsList(CDef.DeadReason.listAll()); }
             if (AbilityType.name().equals(name())) { return toClsList(CDef.AbilityType.listAll()); }
             if (AllowedSecretSay.name().equals(name())) { return toClsList(CDef.AllowedSecretSay.listAll()); }
+            if (FaceType.name().equals(name())) { return toClsList(CDef.FaceType.listAll()); }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
@@ -1335,6 +1477,7 @@ public interface CDef extends Classification {
             if (DeadReason.name().equals(name())) { return toClsList(CDef.DeadReason.listByGroup(groupName)); }
             if (AbilityType.name().equals(name())) { return toClsList(CDef.AbilityType.listByGroup(groupName)); }
             if (AllowedSecretSay.name().equals(name())) { return toClsList(CDef.AllowedSecretSay.listByGroup(groupName)); }
+            if (FaceType.name().equals(name())) { return toClsList(CDef.FaceType.listByGroup(groupName)); }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
@@ -1348,6 +1491,7 @@ public interface CDef extends Classification {
             if (DeadReason.name().equals(name())) { return toClsList(CDef.DeadReason.listOf(codeList)); }
             if (AbilityType.name().equals(name())) { return toClsList(CDef.AbilityType.listOf(codeList)); }
             if (AllowedSecretSay.name().equals(name())) { return toClsList(CDef.AllowedSecretSay.listOf(codeList)); }
+            if (FaceType.name().equals(name())) { return toClsList(CDef.FaceType.listOf(codeList)); }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
@@ -1361,6 +1505,7 @@ public interface CDef extends Classification {
             if (DeadReason.name().equals(name())) { return toClsList(CDef.DeadReason.groupOf(groupName)); }
             if (AbilityType.name().equals(name())) { return toClsList(CDef.AbilityType.groupOf(groupName)); }
             if (AllowedSecretSay.name().equals(name())) { return toClsList(CDef.AllowedSecretSay.groupOf(groupName)); }
+            if (FaceType.name().equals(name())) { return toClsList(CDef.FaceType.groupOf(groupName)); }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
@@ -1379,6 +1524,7 @@ public interface CDef extends Classification {
             if (DeadReason.name().equals(name())) { return ClassificationCodeType.String; }
             if (AbilityType.name().equals(name())) { return ClassificationCodeType.String; }
             if (AllowedSecretSay.name().equals(name())) { return ClassificationCodeType.String; }
+            if (FaceType.name().equals(name())) { return ClassificationCodeType.String; }
             return ClassificationCodeType.String; // as default
         }
 
@@ -1392,6 +1538,7 @@ public interface CDef extends Classification {
             if (DeadReason.name().equals(name())) { return ClassificationUndefinedHandlingType.LOGGING; }
             if (AbilityType.name().equals(name())) { return ClassificationUndefinedHandlingType.LOGGING; }
             if (AllowedSecretSay.name().equals(name())) { return ClassificationUndefinedHandlingType.LOGGING; }
+            if (FaceType.name().equals(name())) { return ClassificationUndefinedHandlingType.LOGGING; }
             return ClassificationUndefinedHandlingType.LOGGING; // as default
         }
 
@@ -1406,6 +1553,7 @@ public interface CDef extends Classification {
             if (DeadReason.name().equalsIgnoreCase(classificationName)) { return OptionalThing.of(CDef.DefMeta.DeadReason); }
             if (AbilityType.name().equalsIgnoreCase(classificationName)) { return OptionalThing.of(CDef.DefMeta.AbilityType); }
             if (AllowedSecretSay.name().equalsIgnoreCase(classificationName)) { return OptionalThing.of(CDef.DefMeta.AllowedSecretSay); }
+            if (FaceType.name().equalsIgnoreCase(classificationName)) { return OptionalThing.of(CDef.DefMeta.FaceType); }
             return OptionalThing.ofNullable(null, () -> {
                 throw new ClassificationNotFoundException("Unknown classification: " + classificationName);
             });
@@ -1422,6 +1570,7 @@ public interface CDef extends Classification {
             if (DeadReason.name().equalsIgnoreCase(classificationName)) { return CDef.DefMeta.DeadReason; }
             if (AbilityType.name().equalsIgnoreCase(classificationName)) { return CDef.DefMeta.AbilityType; }
             if (AllowedSecretSay.name().equalsIgnoreCase(classificationName)) { return CDef.DefMeta.AllowedSecretSay; }
+            if (FaceType.name().equalsIgnoreCase(classificationName)) { return CDef.DefMeta.FaceType; }
             throw new IllegalStateException("Unknown classification: " + classificationName);
         }
 

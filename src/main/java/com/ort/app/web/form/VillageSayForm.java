@@ -22,6 +22,10 @@ public class VillageSayForm implements Serializable {
     /** 変換無効にするか */
     private Boolean isConvertDisable;
 
+    /** 表情種別 */
+    @NotNull
+    private String faceType;
+
     public String getMessage() {
         return message;
     }
@@ -52,5 +56,13 @@ public class VillageSayForm implements Serializable {
 
     public void setIsConvertDisable(Boolean isConvertDisable) {
         this.isConvertDisable = isConvertDisable;
+    }
+
+    public String getFaceType() {
+        return faceType;
+    }
+
+    public void setFaceType(String faceType) {
+        this.faceType = faceType;
     }
 }

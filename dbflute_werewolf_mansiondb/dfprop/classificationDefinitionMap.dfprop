@@ -117,5 +117,12 @@ map:{
             ; code=ALLOWED_SECRET_SAY_CODE; name=ALLOWED_SECRET_SAY_NAME
         }
     }
+    ; FaceType = list:{
+        ; map:{topComment=表情種別; codeType=String}
+        ; map:{
+            ; table=FACE_TYPE
+            ; code=FACE_TYPE_CODE; name=FACE_TYPE_NAME
+        }
+    }
 }
 # ----------------/

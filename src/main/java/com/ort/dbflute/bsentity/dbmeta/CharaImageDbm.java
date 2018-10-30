@@ -44,7 +44,14 @@ public class CharaImageDbm extends AbstractDBMeta {
     { xsetupEpg(); }
     protected void xsetupEpg() {
         setupEpg(_epgMap, et -> ((CharaImage)et).getCharaId(), (et, vl) -> ((CharaImage)et).setCharaId(cti(vl)), "charaId");
-        setupEpg(_epgMap, et -> ((CharaImage)et).getFaceTypeCode(), (et, vl) -> ((CharaImage)et).setFaceTypeCode((String)vl), "faceTypeCode");
+        setupEpg(_epgMap, et -> ((CharaImage)et).getFaceTypeCode(), (et, vl) -> {
+            CDef.FaceType cls = (CDef.FaceType)gcls(et, columnFaceTypeCode(), vl);
+            if (cls != null) {
+                ((CharaImage)et).setFaceTypeCodeAsFaceType(cls);
+            } else {
+                ((CharaImage)et).mynativeMappingFaceTypeCode((String)vl);
+            }
+        }, "faceTypeCode");
         setupEpg(_epgMap, et -> ((CharaImage)et).getCharaImgUrl(), (et, vl) -> ((CharaImage)et).setCharaImgUrl((String)vl), "charaImgUrl");
     }
     public PropertyGateway findPropertyGateway(String prop)
@@ -80,7 +87,7 @@ public class CharaImageDbm extends AbstractDBMeta {
     //                                                                         Column Info
     //                                                                         ===========
     protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "chara", null, null, false);
-    protected final ColumnInfo _columnFaceTypeCode = cci("FACE_TYPE_CODE", "FACE_TYPE_CODE", null, null, String.class, "faceTypeCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "faceType", null, null, false);
+    protected final ColumnInfo _columnFaceTypeCode = cci("FACE_TYPE_CODE", "FACE_TYPE_CODE", null, null, String.class, "faceTypeCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "faceType", null, CDef.DefMeta.FaceType, false);
     protected final ColumnInfo _columnCharaImgUrl = cci("CHARA_IMG_URL", "CHARA_IMG_URL", null, null, String.class, "charaImgUrl", null, false, false, true, "VARCHAR", 100, 0, null, null, false, null, null, null, null, null, false);
 
     /**
@@ -89,7 +96,7 @@ public class CharaImageDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnCharaId() { return _columnCharaId; }
     /**
-     * FACE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to face_type}
+     * FACE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to face_type, classification=FaceType}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnFaceTypeCode() { return _columnFaceTypeCode; }

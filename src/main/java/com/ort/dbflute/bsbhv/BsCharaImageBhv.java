@@ -15,6 +15,7 @@ import org.dbflute.exception.*;
 import org.dbflute.hook.CommonColumnAutoSetupper;
 import org.dbflute.optional.OptionalEntity;
 import org.dbflute.outsidesql.executor.*;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.bsbhv.loader.*;
 import com.ort.dbflute.exentity.*;
@@ -160,29 +161,29 @@ public abstract class BsCharaImageBhv extends AbstractBehaviorWritable<CharaImag
     /**
      * Select the entity by the primary-key value.
      * @param charaId : PK, NotNull, INT UNSIGNED(10), FK to chara. (NotNull)
-     * @param faceTypeCode : PK, IX, NotNull, VARCHAR(20), FK to face_type. (NotNull)
+     * @param faceTypeCode : PK, IX, NotNull, VARCHAR(20), FK to face_type, classification=FaceType. (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    public OptionalEntity<CharaImage> selectByPK(Integer charaId, String faceTypeCode) {
+    public OptionalEntity<CharaImage> selectByPK(Integer charaId, CDef.FaceType faceTypeCode) {
         return facadeSelectByPK(charaId, faceTypeCode);
     }
 
-    protected OptionalEntity<CharaImage> facadeSelectByPK(Integer charaId, String faceTypeCode) {
+    protected OptionalEntity<CharaImage> facadeSelectByPK(Integer charaId, CDef.FaceType faceTypeCode) {
         return doSelectOptionalByPK(charaId, faceTypeCode, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends CharaImage> ENTITY doSelectByPK(Integer charaId, String faceTypeCode, Class<? extends ENTITY> tp) {
+    protected <ENTITY extends CharaImage> ENTITY doSelectByPK(Integer charaId, CDef.FaceType faceTypeCode, Class<? extends ENTITY> tp) {
         return doSelectEntity(xprepareCBAsPK(charaId, faceTypeCode), tp);
     }
 
-    protected <ENTITY extends CharaImage> OptionalEntity<ENTITY> doSelectOptionalByPK(Integer charaId, String faceTypeCode, Class<? extends ENTITY> tp) {
+    protected <ENTITY extends CharaImage> OptionalEntity<ENTITY> doSelectOptionalByPK(Integer charaId, CDef.FaceType faceTypeCode, Class<? extends ENTITY> tp) {
         return createOptionalEntity(doSelectByPK(charaId, faceTypeCode, tp), charaId, faceTypeCode);
     }
 
-    protected CharaImageCB xprepareCBAsPK(Integer charaId, String faceTypeCode) {
+    protected CharaImageCB xprepareCBAsPK(Integer charaId, CDef.FaceType faceTypeCode) {
         assertObjectNotNull("charaId", charaId);assertObjectNotNull("faceTypeCode", faceTypeCode);
         return newConditionBean().acceptPK(charaId, faceTypeCode);
     }

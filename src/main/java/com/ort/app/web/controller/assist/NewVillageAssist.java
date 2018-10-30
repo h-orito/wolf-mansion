@@ -28,7 +28,6 @@ import com.ort.app.web.form.NewVillageSayRestrictDto;
 import com.ort.app.web.model.common.SelectOptionDto;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
-import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.CharaGroupBhv;
 import com.ort.dbflute.exbhv.MessageRestrictionBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
@@ -79,8 +78,6 @@ public class NewVillageAssist {
     private MessageRestrictionBhv messageRestrictionBhv;
     @Autowired
     private VillageDayBhv villageDayBhv;
-    @Autowired
-    private CharaBhv charaBhv;
     @Autowired
     private CharaGroupBhv charaGroupBhv;
     @Autowired
@@ -231,6 +228,7 @@ public class NewVillageAssist {
     private VillageSettings insertVillageSettings(NewVillageForm villageForm, Village village) throws WerewolfMansionBusinessException {
         VillageSettings settings = new VillageSettings();
         settings.setVillageId(village.getVillageId());
+        settings.setDummyCharaId(villageForm.getDummyCharaId());
         settings.setStartPersonMinNum(villageForm.getStartPersonMinNum());
         settings.setPersonMaxNum(villageForm.getPersonMaxNum());
         settings.setDayChangeIntervalSeconds(villageForm.getDayChangeIntervalHours() * 3600 + villageForm.getDayChangeIntervalMinutes() * 60
@@ -277,11 +275,7 @@ public class NewVillageAssist {
 
     private void joinDummyChara(NewVillageForm villageForm, Village village) {
         int dummyPlayerId = 1;
-        Integer dummyCharaId = charaBhv.selectEntityWithDeletedCheck(cb -> {
-            cb.query().setCharaGroupId_Equal(villageForm.getCharacterSetId());
-            cb.query().setIsDummy_Equal_True();
-        }).getCharaId();
-        villageLogic.participate(village.getVillageId(), dummyPlayerId, dummyCharaId, CDef.Skill.村人, CDef.Skill.村人,
+        villageLogic.participate(village.getVillageId(), dummyPlayerId, villageForm.getDummyCharaId(), CDef.Skill.村人, CDef.Skill.村人,
                 villageForm.getDummyJoinMessage(), false, false);
     }
 
