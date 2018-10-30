@@ -111,8 +111,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>297</x>
-			<y>712</y>
+			<x>167</x>
+			<y>716</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -166,21 +166,14 @@
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
-					<physical_name>chara_img_url</physical_name>
-					<logical_name>キャラクター画像URL</logical_name>
-					<type>varchar(n)</type>
-					<length>100</length>
-					<not_null>true</not_null>
-				</normal_column>
-				<normal_column>
-					<physical_name>is_dummy</physical_name>
-					<logical_name>ダミーか</logical_name>
-					<type>boolean</type>
-					<not_null>true</not_null>
-				</normal_column>
-				<normal_column>
 					<physical_name>default_join_message</physical_name>
 					<logical_name>入村時デフォルト発言</logical_name>
+					<type>varchar(n)</type>
+					<length>200</length>
+				</normal_column>
+				<normal_column>
+					<physical_name>default_firstday_message</physical_name>
+					<logical_name>デフォルト1日目発言</logical_name>
 					<type>varchar(n)</type>
 					<length>200</length>
 				</normal_column>
@@ -213,7 +206,7 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>303</x>
+			<x>171</x>
 			<y>998</y>
 			<color>
 				<r>128</r>
@@ -495,6 +488,8 @@
 					<reference_for_pk>true</reference_for_pk>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
+					<target_xp>90</target_xp>
+					<target_yp>100</target_yp>
 				</relationship>
 				<relationship>
 					<name>FK_ability_CHARA</name>
@@ -751,6 +746,83 @@
 			</table_properties>
 		</table>
 		<table>
+			<physical_name>chara_image</physical_name>
+			<logical_name>キャラクター画像</logical_name>
+			<description></description>
+			<height>89</height>
+			<width>276</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>530</x>
+			<y>815</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+				<relationship>
+					<name>FK_chara_image_face_type</name>
+					<source>table.face_type</source>
+					<target>table.chara_image</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>face_type_code</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+				<relationship>
+					<name>FK_chara_image_CHARA</name>
+					<source>table.CHARA</source>
+					<target>table.chara_image</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>chara_id</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>chara_id</physical_name>
+					<referred_column>table.CHARA.chara_id</referred_column>
+					<relationship>FK_chara_image_CHARA</relationship>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>face_type_code</physical_name>
+					<referred_column>table.face_type.face_type_code</referred_column>
+					<relationship>FK_chara_image_face_type</relationship>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>chara_img_url</physical_name>
+					<logical_name>キャラクター画像URL</logical_name>
+					<type>varchar(n)</type>
+					<length>100</length>
+					<not_null>true</not_null>
+				</normal_column>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
 			<physical_name>dead_reason</physical_name>
 			<logical_name>死亡理由</logical_name>
 			<description></description>
@@ -795,8 +867,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>333</x>
-			<y>1233</y>
+			<x>215</x>
+			<y>1231</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -822,6 +894,52 @@
 					<not_null>true</not_null>
 				</normal_column>
 				<column_group>共通カラム</column_group>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
+			<physical_name>face_type</physical_name>
+			<logical_name>表情種別</logical_name>
+			<description></description>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>556</x>
+			<y>1010</y>
+			<color>
+				<r>254</r>
+				<g>251</g>
+				<b>0</b>
+			</color>
+			<connections>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>face_type_code</physical_name>
+					<logical_name>表情種別コード</logical_name>
+					<type>varchar(n)</type>
+					<length>20</length>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>face_type_name</physical_name>
+					<logical_name>表情種別名</logical_name>
+					<type>varchar(n)</type>
+					<length>20</length>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>disp_order</physical_name>
+					<logical_name>並び順</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
 			</columns>
 			<indexes>
 			</indexes>
@@ -1015,6 +1133,21 @@
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
 				</relationship>
+				<relationship>
+					<name>FK_message_face_type</name>
+					<source>table.face_type</source>
+					<target>table.message</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>face_type_code</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
 			</connections>
 			<columns>
 				<normal_column>
@@ -1084,6 +1217,11 @@
 					<logical_name>変換無効か</logical_name>
 					<type>boolean</type>
 					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>face_type_code</physical_name>
+					<referred_column>table.face_type.face_type_code</referred_column>
+					<relationship>FK_message_face_type</relationship>
 				</normal_column>
 				<column_group>共通カラム</column_group>
 			</columns>
@@ -1853,6 +1991,13 @@
 					<relationship>FK_village_settings_village</relationship>
 					<not_null>true</not_null>
 					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>dummy_chara_id</physical_name>
+					<logical_name>ダミーキャラID</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
 					<physical_name>start_person_min_num</physical_name>

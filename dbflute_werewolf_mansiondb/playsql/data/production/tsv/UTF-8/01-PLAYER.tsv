@@ -1,3 +1,0 @@
-player_id	player_name	player_password	authority_code
-1	master	$2a$10$H7WY9s/okz/OTO2IVkQIpOdXn9MQWELxCBMq5vN67u1Ek1fvFUMDm	ROLE_ADMIN
-2	ort	$2a$10$H7WY9s/okz/OTO2IVkQIpOdXn9MQWELxCBMq5vN67u1Ek1fvFUMDm	ROLE_PLAYER

@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of MESSAGE.
+ * The base condition-query of message.
  * @author DBFlute(AutoGenerator)
  */
 public class BsMessageCQ extends AbstractBsMessageCQ {
@@ -35,7 +35,7 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from MESSAGE) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from message) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join MESSAGE on ... and FOO = [value] ...}
+     * {select ... from ... left outer join message on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -101,14 +101,14 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_VillageId_Asc() { regOBA("VILLAGE_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_VillageId_Desc() { regOBD("VILLAGE_ID"); return this; }
@@ -121,14 +121,14 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_VillagePlayerId_Asc() { regOBA("VILLAGE_PLAYER_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_VillagePlayerId_Desc() { regOBD("VILLAGE_PLAYER_ID"); return this; }
@@ -141,14 +141,14 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_ToVillagePlayerId_Asc() { regOBA("TO_VILLAGE_PLAYER_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_ToVillagePlayerId_Desc() { regOBD("TO_VILLAGE_PLAYER_ID"); return this; }
@@ -161,14 +161,14 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * PLAYER_ID: {IX, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {IX, INT UNSIGNED(10), FK to player}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_PlayerId_Asc() { regOBA("PLAYER_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * PLAYER_ID: {IX, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {IX, INT UNSIGNED(10), FK to player}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_PlayerId_Desc() { regOBD("PLAYER_ID"); return this; }
@@ -181,14 +181,14 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * DAY: {NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+     * DAY: {NotNull, INT UNSIGNED(10), FK to village_day}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_Day_Asc() { regOBA("DAY"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * DAY: {NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+     * DAY: {NotNull, INT UNSIGNED(10), FK to village_day}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_Day_Desc() { regOBD("DAY"); return this; }
@@ -201,14 +201,14 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_MessageTypeCode_Asc() { regOBA("MESSAGE_TYPE_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_MessageTypeCode_Desc() { regOBD("MESSAGE_TYPE_CODE"); return this; }
@@ -292,6 +292,26 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_IsConvertDisable_Desc() { regOBD("IS_CONVERT_DISABLE"); return this; }
+
+    protected ConditionValue _faceTypeCode;
+    public ConditionValue xdfgetFaceTypeCode()
+    { if (_faceTypeCode == null) { _faceTypeCode = nCV(); }
+      return _faceTypeCode; }
+    protected ConditionValue xgetCValueFaceTypeCode() { return xdfgetFaceTypeCode(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type}
+     * @return this. (NotNull)
+     */
+    public BsMessageCQ addOrderBy_FaceTypeCode_Asc() { regOBA("FACE_TYPE_CODE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type}
+     * @return this. (NotNull)
+     */
+    public BsMessageCQ addOrderBy_FaceTypeCode_Desc() { regOBD("FACE_TYPE_CODE"); return this; }
 
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
@@ -414,6 +434,9 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
     public void reflectRelationOnUnionQuery(ConditionQuery bqs, ConditionQuery uqs) {
         MessageCQ bq = (MessageCQ)bqs;
         MessageCQ uq = (MessageCQ)uqs;
+        if (bq.hasConditionQueryFaceType()) {
+            uq.queryFaceType().reflectRelationOnUnionQuery(bq.queryFaceType(), uq.queryFaceType());
+        }
         if (bq.hasConditionQueryMessageType()) {
             uq.queryMessageType().reflectRelationOnUnionQuery(bq.queryMessageType(), uq.queryMessageType());
         }
@@ -436,6 +459,26 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
     //                                                                       =============
     /**
      * Get the condition-query for relation table. <br>
+     * FACE_TYPE by my FACE_TYPE_CODE, named 'faceType'.
+     * @return The instance of condition-query. (NotNull)
+     */
+    public FaceTypeCQ queryFaceType() {
+        return xdfgetConditionQueryFaceType();
+    }
+    public FaceTypeCQ xdfgetConditionQueryFaceType() {
+        String prop = "faceType";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryFaceType()); xsetupOuterJoinFaceType(); }
+        return xgetQueRlMap(prop);
+    }
+    protected FaceTypeCQ xcreateQueryFaceType() {
+        String nrp = xresolveNRP("message", "faceType"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        return xinitRelCQ(new FaceTypeCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "faceType", nrp);
+    }
+    protected void xsetupOuterJoinFaceType() { xregOutJo("faceType"); }
+    public boolean hasConditionQueryFaceType() { return xhasQueRlMap("faceType"); }
+
+    /**
+     * Get the condition-query for relation table. <br>
      * MESSAGE_TYPE by my MESSAGE_TYPE_CODE, named 'messageType'.
      * @return The instance of condition-query. (NotNull)
      */
@@ -448,7 +491,7 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
         return xgetQueRlMap(prop);
     }
     protected MessageTypeCQ xcreateQueryMessageType() {
-        String nrp = xresolveNRP("MESSAGE", "messageType"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("message", "messageType"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new MessageTypeCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "messageType", nrp);
     }
     protected void xsetupOuterJoinMessageType() { xregOutJo("messageType"); }
@@ -468,7 +511,7 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
         return xgetQueRlMap(prop);
     }
     protected PlayerCQ xcreateQueryPlayer() {
-        String nrp = xresolveNRP("MESSAGE", "player"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("message", "player"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new PlayerCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "player", nrp);
     }
     protected void xsetupOuterJoinPlayer() { xregOutJo("player"); }
@@ -488,7 +531,7 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
         return xgetQueRlMap(prop);
     }
     protected VillagePlayerCQ xcreateQueryVillagePlayerByToVillagePlayerId() {
-        String nrp = xresolveNRP("MESSAGE", "villagePlayerByToVillagePlayerId"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("message", "villagePlayerByToVillagePlayerId"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillagePlayerCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "villagePlayerByToVillagePlayerId", nrp);
     }
     protected void xsetupOuterJoinVillagePlayerByToVillagePlayerId() { xregOutJo("villagePlayerByToVillagePlayerId"); }
@@ -508,7 +551,7 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
         return xgetQueRlMap(prop);
     }
     protected VillageDayCQ xcreateQueryVillageDay() {
-        String nrp = xresolveNRP("MESSAGE", "villageDay"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("message", "villageDay"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillageDayCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "villageDay", nrp);
     }
     protected void xsetupOuterJoinVillageDay() { xregOutJo("villageDay"); }
@@ -528,7 +571,7 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
         return xgetQueRlMap(prop);
     }
     protected VillagePlayerCQ xcreateQueryVillagePlayerByVillagePlayerId() {
-        String nrp = xresolveNRP("MESSAGE", "villagePlayerByVillagePlayerId"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("message", "villagePlayerByVillagePlayerId"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillagePlayerCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "villagePlayerByVillagePlayerId", nrp);
     }
     protected void xsetupOuterJoinVillagePlayerByVillagePlayerId() { xregOutJo("villagePlayerByVillagePlayerId"); }

@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of CHARA. (Singleton)
+ * The DB meta of chara. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class CharaDbm extends AbstractDBMeta {
@@ -47,11 +47,8 @@ public class CharaDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((Chara)et).getCharaName(), (et, vl) -> ((Chara)et).setCharaName((String)vl), "charaName");
         setupEpg(_epgMap, et -> ((Chara)et).getCharaShortName(), (et, vl) -> ((Chara)et).setCharaShortName((String)vl), "charaShortName");
         setupEpg(_epgMap, et -> ((Chara)et).getCharaGroupId(), (et, vl) -> ((Chara)et).setCharaGroupId(cti(vl)), "charaGroupId");
-        setupEpg(_epgMap, et -> ((Chara)et).getCharaImgUrl(), (et, vl) -> ((Chara)et).setCharaImgUrl((String)vl), "charaImgUrl");
-        setupEpg(_epgMap, et -> ((Chara)et).getIsDummy(), (et, vl) -> {
-            ((Chara)et).setIsDummy((Boolean)vl);
-        }, "isDummy");
         setupEpg(_epgMap, et -> ((Chara)et).getDefaultJoinMessage(), (et, vl) -> ((Chara)et).setDefaultJoinMessage((String)vl), "defaultJoinMessage");
+        setupEpg(_epgMap, et -> ((Chara)et).getDefaultFirstdayMessage(), (et, vl) -> ((Chara)et).setDefaultFirstdayMessage((String)vl), "defaultFirstdayMessage");
         setupEpg(_epgMap, et -> ((Chara)et).getDisplayWidth(), (et, vl) -> ((Chara)et).setDisplayWidth(cti(vl)), "displayWidth");
         setupEpg(_epgMap, et -> ((Chara)et).getDisplayHeight(), (et, vl) -> ((Chara)et).setDisplayHeight(cti(vl)), "displayHeight");
         setupEpg(_epgMap, et -> ((Chara)et).getRegisterDatetime(), (et, vl) -> ((Chara)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
@@ -77,7 +74,7 @@ public class CharaDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "CHARA";
+    protected final String _tableDbName = "chara";
     protected final String _tableDispName = "CHARA";
     protected final String _tablePropertyName = "chara";
     protected final TableSqlName _tableSqlName = new TableSqlName("CHARA", _tableDbName);
@@ -90,13 +87,12 @@ public class CharaDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "abilityByCharaIdList,abilityByTargetCharaIdList,footstepList,villagePlayerList,voteByCharaIdList,voteByVoteCharaIdList", null, false);
+    protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "abilityByCharaIdList,abilityByTargetCharaIdList,charaImageList,footstepList,villagePlayerList,voteByCharaIdList,voteByVoteCharaIdList", null, false);
     protected final ColumnInfo _columnCharaName = cci("CHARA_NAME", "CHARA_NAME", null, null, String.class, "charaName", null, false, false, true, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnCharaShortName = cci("CHARA_SHORT_NAME", "CHARA_SHORT_NAME", null, null, String.class, "charaShortName", null, false, false, true, "CHAR", 1, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnCharaGroupId = cci("CHARA_GROUP_ID", "CHARA_GROUP_ID", null, null, Integer.class, "charaGroupId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "charaGroup", null, null, false);
-    protected final ColumnInfo _columnCharaImgUrl = cci("CHARA_IMG_URL", "CHARA_IMG_URL", null, null, String.class, "charaImgUrl", null, false, false, true, "VARCHAR", 100, 0, null, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnIsDummy = cci("IS_DUMMY", "IS_DUMMY", null, null, Boolean.class, "isDummy", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnDefaultJoinMessage = cci("DEFAULT_JOIN_MESSAGE", "DEFAULT_JOIN_MESSAGE", null, null, String.class, "defaultJoinMessage", null, false, false, false, "VARCHAR", 200, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnDefaultFirstdayMessage = cci("DEFAULT_FIRSTDAY_MESSAGE", "DEFAULT_FIRSTDAY_MESSAGE", null, null, String.class, "defaultFirstdayMessage", null, false, false, false, "VARCHAR", 200, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnDisplayWidth = cci("DISPLAY_WIDTH", "DISPLAY_WIDTH", null, null, Integer.class, "displayWidth", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnDisplayHeight = cci("DISPLAY_HEIGHT", "DISPLAY_HEIGHT", null, null, Integer.class, "displayHeight", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -120,25 +116,20 @@ public class CharaDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnCharaShortName() { return _columnCharaShortName; }
     /**
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharaGroupId() { return _columnCharaGroupId; }
-    /**
-     * CHARA_IMG_URL: {NotNull, VARCHAR(100)}
-     * @return The information object of specified column. (NotNull)
-     */
-    public ColumnInfo columnCharaImgUrl() { return _columnCharaImgUrl; }
-    /**
-     * IS_DUMMY: {NotNull, BIT, classification=Flg}
-     * @return The information object of specified column. (NotNull)
-     */
-    public ColumnInfo columnIsDummy() { return _columnIsDummy; }
     /**
      * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnDefaultJoinMessage() { return _columnDefaultJoinMessage; }
+    /**
+     * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnDefaultFirstdayMessage() { return _columnDefaultFirstdayMessage; }
     /**
      * DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)}
      * @return The information object of specified column. (NotNull)
@@ -176,9 +167,8 @@ public class CharaDbm extends AbstractDBMeta {
         ls.add(columnCharaName());
         ls.add(columnCharaShortName());
         ls.add(columnCharaGroupId());
-        ls.add(columnCharaImgUrl());
-        ls.add(columnIsDummy());
         ls.add(columnDefaultJoinMessage());
+        ls.add(columnDefaultFirstdayMessage());
         ls.add(columnDisplayWidth());
         ls.add(columnDisplayHeight());
         ls.add(columnRegisterDatetime());
@@ -235,6 +225,14 @@ public class CharaDbm extends AbstractDBMeta {
     public ReferrerInfo referrerAbilityByTargetCharaIdList() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaId(), AbilityDbm.getInstance().columnTargetCharaId());
         return cri("FK_ABILITY_CHARA_TARGET", "abilityByTargetCharaIdList", this, AbilityDbm.getInstance(), mp, false, "charaByTargetCharaId");
+    }
+    /**
+     * CHARA_IMAGE by CHARA_ID, named 'charaImageList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerCharaImageList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaId(), CharaImageDbm.getInstance().columnCharaId());
+        return cri("FK_CHARA_IMAGE_CHARA", "charaImageList", this, CharaImageDbm.getInstance(), mp, false, "chara");
     }
     /**
      * FOOTSTEP by CHARA_ID, named 'footstepList'.

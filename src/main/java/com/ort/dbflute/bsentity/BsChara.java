@@ -10,7 +10,6 @@ import org.dbflute.dbmeta.accessory.DomainEntity;
 import org.dbflute.optional.OptionalEntity;
 import com.ort.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
-import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.*;
 
 /**
@@ -21,7 +20,7 @@ import com.ort.dbflute.exentity.*;
  *     CHARA_ID
  *
  * [column]
- *     CHARA_ID, CHARA_NAME, CHARA_SHORT_NAME, CHARA_GROUP_ID, CHARA_IMG_URL, IS_DUMMY, DEFAULT_JOIN_MESSAGE, DISPLAY_WIDTH, DISPLAY_HEIGHT, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     CHARA_ID, CHARA_NAME, CHARA_SHORT_NAME, CHARA_GROUP_ID, DEFAULT_JOIN_MESSAGE, DEFAULT_FIRSTDAY_MESSAGE, DISPLAY_WIDTH, DISPLAY_HEIGHT, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -36,13 +35,13 @@ import com.ort.dbflute.exentity.*;
  *     CHARA_GROUP
  *
  * [referrer table]
- *     ABILITY, FOOTSTEP, VILLAGE_PLAYER, VOTE
+ *     ABILITY, CHARA_IMAGE, FOOTSTEP, VILLAGE_PLAYER, VOTE
  *
  * [foreign property]
  *     charaGroup
  *
  * [referrer property]
- *     abilityByCharaIdList, abilityByTargetCharaIdList, footstepList, villagePlayerList, voteByCharaIdList, voteByVoteCharaIdList
+ *     abilityByCharaIdList, abilityByTargetCharaIdList, charaImageList, footstepList, villagePlayerList, voteByCharaIdList, voteByVoteCharaIdList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -50,9 +49,8 @@ import com.ort.dbflute.exentity.*;
  * String charaName = entity.getCharaName();
  * String charaShortName = entity.getCharaShortName();
  * Integer charaGroupId = entity.getCharaGroupId();
- * String charaImgUrl = entity.getCharaImgUrl();
- * Boolean isDummy = entity.getIsDummy();
  * String defaultJoinMessage = entity.getDefaultJoinMessage();
+ * String defaultFirstdayMessage = entity.getDefaultFirstdayMessage();
  * Integer displayWidth = entity.getDisplayWidth();
  * Integer displayHeight = entity.getDisplayHeight();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
@@ -63,9 +61,8 @@ import com.ort.dbflute.exentity.*;
  * entity.setCharaName(charaName);
  * entity.setCharaShortName(charaShortName);
  * entity.setCharaGroupId(charaGroupId);
- * entity.setCharaImgUrl(charaImgUrl);
- * entity.setIsDummy(isDummy);
  * entity.setDefaultJoinMessage(defaultJoinMessage);
+ * entity.setDefaultFirstdayMessage(defaultFirstdayMessage);
  * entity.setDisplayWidth(displayWidth);
  * entity.setDisplayHeight(displayHeight);
  * entity.setRegisterDatetime(registerDatetime);
@@ -96,17 +93,14 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
     /** CHARA_SHORT_NAME: {NotNull, CHAR(1)} */
     protected String _charaShortName;
 
-    /** CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} */
+    /** CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} */
     protected Integer _charaGroupId;
-
-    /** CHARA_IMG_URL: {NotNull, VARCHAR(100)} */
-    protected String _charaImgUrl;
-
-    /** IS_DUMMY: {NotNull, BIT, classification=Flg} */
-    protected Boolean _isDummy;
 
     /** DEFAULT_JOIN_MESSAGE: {VARCHAR(200)} */
     protected String _defaultJoinMessage;
+
+    /** DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)} */
+    protected String _defaultFirstdayMessage;
 
     /** DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)} */
     protected Integer _displayWidth;
@@ -136,7 +130,7 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "CHARA";
+        return "chara";
     }
 
     // ===================================================================================
@@ -146,86 +140,6 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
     public boolean hasPrimaryKeyValue() {
         if (_charaId == null) { return false; }
         return true;
-    }
-
-    // ===================================================================================
-    //                                                             Classification Property
-    //                                                             =======================
-    /**
-     * Get the value of isDummy as the classification of Flg. <br>
-     * IS_DUMMY: {NotNull, BIT, classification=Flg} <br>
-     * フラグを示す
-     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
-     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
-     */
-    public CDef.Flg getIsDummyAsFlg() {
-        return CDef.Flg.codeOf(getIsDummy());
-    }
-
-    /**
-     * Set the value of isDummy as the classification of Flg. <br>
-     * IS_DUMMY: {NotNull, BIT, classification=Flg} <br>
-     * フラグを示す
-     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
-     */
-    public void setIsDummyAsFlg(CDef.Flg cdef) {
-        setIsDummy(cdef != null ? toBoolean(cdef.code()) : null);
-    }
-
-    // ===================================================================================
-    //                                                              Classification Setting
-    //                                                              ======================
-    /**
-     * Set the value of isDummy as True (true). <br>
-     * はい: 有効を示す
-     */
-    public void setIsDummy_True() {
-        setIsDummyAsFlg(CDef.Flg.True);
-    }
-
-    /**
-     * Set the value of isDummy as False (false). <br>
-     * いいえ: 無効を示す
-     */
-    public void setIsDummy_False() {
-        setIsDummyAsFlg(CDef.Flg.False);
-    }
-
-    // ===================================================================================
-    //                                                        Classification Determination
-    //                                                        ============================
-    /**
-     * Is the value of isDummy True? <br>
-     * はい: 有効を示す
-     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
-     * @return The determination, true or false.
-     */
-    public boolean isIsDummyTrue() {
-        CDef.Flg cdef = getIsDummyAsFlg();
-        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
-    }
-
-    /**
-     * Is the value of isDummy False? <br>
-     * いいえ: 無効を示す
-     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
-     * @return The determination, true or false.
-     */
-    public boolean isIsDummyFalse() {
-        CDef.Flg cdef = getIsDummyAsFlg();
-        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
-    }
-
-    // ===================================================================================
-    //                                                           Classification Name/Alias
-    //                                                           =========================
-    /**
-     * Get the value of the column 'isDummy' as classification alias.
-     * @return The string of classification alias. (NullAllowed: when the column value is null)
-     */
-    public String getIsDummyAlias() {
-        CDef.Flg cdef = getIsDummyAsFlg();
-        return cdef != null ? cdef.alias() : null;
     }
 
     // ===================================================================================
@@ -293,6 +207,26 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
      */
     public void setAbilityByTargetCharaIdList(List<Ability> abilityByTargetCharaIdList) {
         _abilityByTargetCharaIdList = abilityByTargetCharaIdList;
+    }
+
+    /** CHARA_IMAGE by CHARA_ID, named 'charaImageList'. */
+    protected List<CharaImage> _charaImageList;
+
+    /**
+     * [get] CHARA_IMAGE by CHARA_ID, named 'charaImageList'.
+     * @return The entity list of referrer property 'charaImageList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<CharaImage> getCharaImageList() {
+        if (_charaImageList == null) { _charaImageList = newReferrerList(); }
+        return _charaImageList;
+    }
+
+    /**
+     * [set] CHARA_IMAGE by CHARA_ID, named 'charaImageList'.
+     * @param charaImageList The entity list of referrer property 'charaImageList'. (NullAllowed)
+     */
+    public void setCharaImageList(List<CharaImage> charaImageList) {
+        _charaImageList = charaImageList;
     }
 
     /** FOOTSTEP by CHARA_ID, named 'footstepList'. */
@@ -410,6 +344,8 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
         { if (et != null) { sb.append(li).append(xbRDS(et, "abilityByCharaIdList")); } } }
         if (_abilityByTargetCharaIdList != null) { for (Ability et : _abilityByTargetCharaIdList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "abilityByTargetCharaIdList")); } } }
+        if (_charaImageList != null) { for (CharaImage et : _charaImageList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "charaImageList")); } } }
         if (_footstepList != null) { for (Footstep et : _footstepList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "footstepList")); } } }
         if (_villagePlayerList != null) { for (VillagePlayer et : _villagePlayerList)
@@ -431,9 +367,8 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
         sb.append(dm).append(xfND(_charaName));
         sb.append(dm).append(xfND(_charaShortName));
         sb.append(dm).append(xfND(_charaGroupId));
-        sb.append(dm).append(xfND(_charaImgUrl));
-        sb.append(dm).append(xfND(_isDummy));
         sb.append(dm).append(xfND(_defaultJoinMessage));
+        sb.append(dm).append(xfND(_defaultFirstdayMessage));
         sb.append(dm).append(xfND(_displayWidth));
         sb.append(dm).append(xfND(_displayHeight));
         sb.append(dm).append(xfND(_registerDatetime));
@@ -456,6 +391,8 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
         { sb.append(dm).append("abilityByCharaIdList"); }
         if (_abilityByTargetCharaIdList != null && !_abilityByTargetCharaIdList.isEmpty())
         { sb.append(dm).append("abilityByTargetCharaIdList"); }
+        if (_charaImageList != null && !_charaImageList.isEmpty())
+        { sb.append(dm).append("charaImageList"); }
         if (_footstepList != null && !_footstepList.isEmpty())
         { sb.append(dm).append("footstepList"); }
         if (_villagePlayerList != null && !_villagePlayerList.isEmpty())
@@ -539,7 +476,7 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
     }
 
     /**
-     * [get] CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
+     * [get] CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
      * キャラクターグループID
      * @return The value of the column 'CHARA_GROUP_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -549,54 +486,13 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
     }
 
     /**
-     * [set] CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
+     * [set] CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
      * キャラクターグループID
      * @param charaGroupId The value of the column 'CHARA_GROUP_ID'. (basically NotNull if update: for the constraint)
      */
     public void setCharaGroupId(Integer charaGroupId) {
         registerModifiedProperty("charaGroupId");
         _charaGroupId = charaGroupId;
-    }
-
-    /**
-     * [get] CHARA_IMG_URL: {NotNull, VARCHAR(100)} <br>
-     * キャラクター画像URL
-     * @return The value of the column 'CHARA_IMG_URL'. (basically NotNull if selected: for the constraint)
-     */
-    public String getCharaImgUrl() {
-        checkSpecifiedProperty("charaImgUrl");
-        return convertEmptyToNull(_charaImgUrl);
-    }
-
-    /**
-     * [set] CHARA_IMG_URL: {NotNull, VARCHAR(100)} <br>
-     * キャラクター画像URL
-     * @param charaImgUrl The value of the column 'CHARA_IMG_URL'. (basically NotNull if update: for the constraint)
-     */
-    public void setCharaImgUrl(String charaImgUrl) {
-        registerModifiedProperty("charaImgUrl");
-        _charaImgUrl = charaImgUrl;
-    }
-
-    /**
-     * [get] IS_DUMMY: {NotNull, BIT, classification=Flg} <br>
-     * ダミーか
-     * @return The value of the column 'IS_DUMMY'. (basically NotNull if selected: for the constraint)
-     */
-    public Boolean getIsDummy() {
-        checkSpecifiedProperty("isDummy");
-        return _isDummy;
-    }
-
-    /**
-     * [set] IS_DUMMY: {NotNull, BIT, classification=Flg} <br>
-     * ダミーか
-     * @param isDummy The value of the column 'IS_DUMMY'. (basically NotNull if update: for the constraint)
-     */
-    public void setIsDummy(Boolean isDummy) {
-        checkClassificationCode("IS_DUMMY", CDef.DefMeta.Flg, isDummy);
-        registerModifiedProperty("isDummy");
-        _isDummy = isDummy;
     }
 
     /**
@@ -617,6 +513,26 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
     public void setDefaultJoinMessage(String defaultJoinMessage) {
         registerModifiedProperty("defaultJoinMessage");
         _defaultJoinMessage = defaultJoinMessage;
+    }
+
+    /**
+     * [get] DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)} <br>
+     * デフォルト1日目発言
+     * @return The value of the column 'DEFAULT_FIRSTDAY_MESSAGE'. (NullAllowed even if selected: for no constraint)
+     */
+    public String getDefaultFirstdayMessage() {
+        checkSpecifiedProperty("defaultFirstdayMessage");
+        return convertEmptyToNull(_defaultFirstdayMessage);
+    }
+
+    /**
+     * [set] DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)} <br>
+     * デフォルト1日目発言
+     * @param defaultFirstdayMessage The value of the column 'DEFAULT_FIRSTDAY_MESSAGE'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setDefaultFirstdayMessage(String defaultFirstdayMessage) {
+        registerModifiedProperty("defaultFirstdayMessage");
+        _defaultFirstdayMessage = defaultFirstdayMessage;
     }
 
     /**

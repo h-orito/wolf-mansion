@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of CHARA.
+ * The abstract condition-query of chara.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "CHARA";
+        return "chara";
     }
 
     // ===================================================================================
@@ -159,8 +159,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select CHARA_ID from ABILITY where ...)} <br>
-     * ABILITY by CHARA_ID, named 'abilityByCharaIdAsOne'.
+     * {exists (select CHARA_ID from ability where ...)} <br>
+     * ability by CHARA_ID, named 'abilityByCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsAbilityByCharaId</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     abilityCB.query().set...
@@ -178,8 +178,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select TARGET_CHARA_ID from ABILITY where ...)} <br>
-     * ABILITY by TARGET_CHARA_ID, named 'abilityByTargetCharaIdAsOne'.
+     * {exists (select TARGET_CHARA_ID from ability where ...)} <br>
+     * ability by TARGET_CHARA_ID, named 'abilityByTargetCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsAbilityByTargetCharaId</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     abilityCB.query().set...
@@ -197,8 +197,27 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select CHARA_ID from FOOTSTEP where ...)} <br>
-     * FOOTSTEP by CHARA_ID, named 'footstepAsOne'.
+     * {exists (select CHARA_ID from chara_image where ...)} <br>
+     * chara_image by CHARA_ID, named 'charaImageAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">existsCharaImage</span>(imageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     imageCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of CharaImageList for 'exists'. (NotNull)
+     */
+    public void existsCharaImage(SubQuery<CharaImageCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        CharaImageCB cb = new CharaImageCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepCharaId_ExistsReferrer_CharaImageList(cb.query());
+        registerExistsReferrer(cb.query(), "CHARA_ID", "CHARA_ID", pp, "charaImageList");
+    }
+    public abstract String keepCharaId_ExistsReferrer_CharaImageList(CharaImageCQ sq);
+
+    /**
+     * Set up ExistsReferrer (correlated sub-query). <br>
+     * {exists (select CHARA_ID from footstep where ...)} <br>
+     * footstep by CHARA_ID, named 'footstepAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsFootstep</span>(footstepCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     footstepCB.query().set...
@@ -216,8 +235,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select CHARA_ID from VILLAGE_PLAYER where ...)} <br>
-     * VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerAsOne'.
+     * {exists (select CHARA_ID from village_player where ...)} <br>
+     * village_player by CHARA_ID, named 'villagePlayerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsVillagePlayer</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
@@ -235,8 +254,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select CHARA_ID from VOTE where ...)} <br>
-     * VOTE by CHARA_ID, named 'voteByCharaIdAsOne'.
+     * {exists (select CHARA_ID from vote where ...)} <br>
+     * vote by CHARA_ID, named 'voteByCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsVoteByCharaId</span>(voteCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     voteCB.query().set...
@@ -254,8 +273,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select VOTE_CHARA_ID from VOTE where ...)} <br>
-     * VOTE by VOTE_CHARA_ID, named 'voteByVoteCharaIdAsOne'.
+     * {exists (select VOTE_CHARA_ID from vote where ...)} <br>
+     * vote by VOTE_CHARA_ID, named 'voteByVoteCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsVoteByVoteCharaId</span>(voteCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     voteCB.query().set...
@@ -273,8 +292,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select CHARA_ID from ABILITY where ...)} <br>
-     * ABILITY by CHARA_ID, named 'abilityByCharaIdAsOne'.
+     * {not exists (select CHARA_ID from ability where ...)} <br>
+     * ability by CHARA_ID, named 'abilityByCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsAbilityByCharaId</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     abilityCB.query().set...
@@ -292,8 +311,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select TARGET_CHARA_ID from ABILITY where ...)} <br>
-     * ABILITY by TARGET_CHARA_ID, named 'abilityByTargetCharaIdAsOne'.
+     * {not exists (select TARGET_CHARA_ID from ability where ...)} <br>
+     * ability by TARGET_CHARA_ID, named 'abilityByTargetCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsAbilityByTargetCharaId</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     abilityCB.query().set...
@@ -311,8 +330,27 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select CHARA_ID from FOOTSTEP where ...)} <br>
-     * FOOTSTEP by CHARA_ID, named 'footstepAsOne'.
+     * {not exists (select CHARA_ID from chara_image where ...)} <br>
+     * chara_image by CHARA_ID, named 'charaImageAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">notExistsCharaImage</span>(imageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     imageCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of CharaId_NotExistsReferrer_CharaImageList for 'not exists'. (NotNull)
+     */
+    public void notExistsCharaImage(SubQuery<CharaImageCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        CharaImageCB cb = new CharaImageCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepCharaId_NotExistsReferrer_CharaImageList(cb.query());
+        registerNotExistsReferrer(cb.query(), "CHARA_ID", "CHARA_ID", pp, "charaImageList");
+    }
+    public abstract String keepCharaId_NotExistsReferrer_CharaImageList(CharaImageCQ sq);
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br>
+     * {not exists (select CHARA_ID from footstep where ...)} <br>
+     * footstep by CHARA_ID, named 'footstepAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsFootstep</span>(footstepCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     footstepCB.query().set...
@@ -330,8 +368,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select CHARA_ID from VILLAGE_PLAYER where ...)} <br>
-     * VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerAsOne'.
+     * {not exists (select CHARA_ID from village_player where ...)} <br>
+     * village_player by CHARA_ID, named 'villagePlayerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsVillagePlayer</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
@@ -349,8 +387,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select CHARA_ID from VOTE where ...)} <br>
-     * VOTE by CHARA_ID, named 'voteByCharaIdAsOne'.
+     * {not exists (select CHARA_ID from vote where ...)} <br>
+     * vote by CHARA_ID, named 'voteByCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsVoteByCharaId</span>(voteCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     voteCB.query().set...
@@ -368,8 +406,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select VOTE_CHARA_ID from VOTE where ...)} <br>
-     * VOTE by VOTE_CHARA_ID, named 'voteByVoteCharaIdAsOne'.
+     * {not exists (select VOTE_CHARA_ID from vote where ...)} <br>
+     * vote by VOTE_CHARA_ID, named 'voteByVoteCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsVoteByVoteCharaId</span>(voteCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     voteCB.query().set...
@@ -400,6 +438,14 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
         registerSpecifyDerivedReferrer(fn, cb.query(), "CHARA_ID", "TARGET_CHARA_ID", pp, "abilityByTargetCharaIdList", al, op);
     }
     public abstract String keepCharaId_SpecifyDerivedReferrer_AbilityByTargetCharaIdList(AbilityCQ sq);
+
+    public void xsderiveCharaImageList(String fn, SubQuery<CharaImageCB> sq, String al, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        CharaImageCB cb = new CharaImageCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepCharaId_SpecifyDerivedReferrer_CharaImageList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "CHARA_ID", "CHARA_ID", pp, "charaImageList", al, op);
+    }
+    public abstract String keepCharaId_SpecifyDerivedReferrer_CharaImageList(CharaImageCQ sq);
 
     public void xsderiveFootstepList(String fn, SubQuery<FootstepCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
@@ -435,8 +481,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from ABILITY where ...)} <br>
-     * ABILITY by CHARA_ID, named 'abilityByCharaIdAsOne'.
+     * {FOO &lt;= (select max(BAR) from ability where ...)} <br>
+     * ability by CHARA_ID, named 'abilityByCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedAbilityByCharaId()</span>.<span style="color: #CC4747">max</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     abilityCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -462,8 +508,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from ABILITY where ...)} <br>
-     * ABILITY by TARGET_CHARA_ID, named 'abilityByTargetCharaIdAsOne'.
+     * {FOO &lt;= (select max(BAR) from ability where ...)} <br>
+     * ability by TARGET_CHARA_ID, named 'abilityByTargetCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedAbilityByTargetCharaId()</span>.<span style="color: #CC4747">max</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     abilityCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -489,8 +535,35 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from FOOTSTEP where ...)} <br>
-     * FOOTSTEP by CHARA_ID, named 'footstepAsOne'.
+     * {FOO &lt;= (select max(BAR) from chara_image where ...)} <br>
+     * chara_image by CHARA_ID, named 'charaImageAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">derivedCharaImage()</span>.<span style="color: #CC4747">max</span>(imageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     imageCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     imageCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    public HpQDRFunction<CharaImageCB> derivedCharaImage() {
+        return xcreateQDRFunctionCharaImageList();
+    }
+    protected HpQDRFunction<CharaImageCB> xcreateQDRFunctionCharaImageList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveCharaImageList(fn, sq, rd, vl, op));
+    }
+    public void xqderiveCharaImageList(String fn, SubQuery<CharaImageCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        CharaImageCB cb = new CharaImageCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepCharaId_QueryDerivedReferrer_CharaImageList(cb.query()); String prpp = keepCharaId_QueryDerivedReferrer_CharaImageListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "CHARA_ID", "CHARA_ID", sqpp, "charaImageList", rd, vl, prpp, op);
+    }
+    public abstract String keepCharaId_QueryDerivedReferrer_CharaImageList(CharaImageCQ sq);
+    public abstract String keepCharaId_QueryDerivedReferrer_CharaImageListParameter(Object vl);
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
+     * {FOO &lt;= (select max(BAR) from footstep where ...)} <br>
+     * footstep by CHARA_ID, named 'footstepAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedFootstep()</span>.<span style="color: #CC4747">max</span>(footstepCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     footstepCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -516,8 +589,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from VILLAGE_PLAYER where ...)} <br>
-     * VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerAsOne'.
+     * {FOO &lt;= (select max(BAR) from village_player where ...)} <br>
+     * village_player by CHARA_ID, named 'villagePlayerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVillagePlayer()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -543,8 +616,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from VOTE where ...)} <br>
-     * VOTE by CHARA_ID, named 'voteByCharaIdAsOne'.
+     * {FOO &lt;= (select max(BAR) from vote where ...)} <br>
+     * vote by CHARA_ID, named 'voteByCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVoteByCharaId()</span>.<span style="color: #CC4747">max</span>(voteCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     voteCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -570,8 +643,8 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from VOTE where ...)} <br>
-     * VOTE by VOTE_CHARA_ID, named 'voteByVoteCharaIdAsOne'.
+     * {FOO &lt;= (select max(BAR) from vote where ...)} <br>
+     * vote by VOTE_CHARA_ID, named 'voteByVoteCharaIdAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVoteByVoteCharaId()</span>.<span style="color: #CC4747">max</span>(voteCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     voteCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -882,7 +955,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @param charaGroupId The value of charaGroupId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaGroupId_Equal(Integer charaGroupId) {
@@ -895,7 +968,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @param charaGroupId The value of charaGroupId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaGroupId_NotEqual(Integer charaGroupId) {
@@ -908,7 +981,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @param charaGroupId The value of charaGroupId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaGroupId_GreaterThan(Integer charaGroupId) {
@@ -917,7 +990,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @param charaGroupId The value of charaGroupId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaGroupId_LessThan(Integer charaGroupId) {
@@ -926,7 +999,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @param charaGroupId The value of charaGroupId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaGroupId_GreaterEqual(Integer charaGroupId) {
@@ -935,7 +1008,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @param charaGroupId The value of charaGroupId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaGroupId_LessEqual(Integer charaGroupId) {
@@ -946,7 +1019,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @param minNumber The min number of charaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of charaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -959,7 +1032,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @param minNumber The min number of charaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of charaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -970,7 +1043,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @param charaGroupIdList The collection of charaGroupId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharaGroupId_InScope(Collection<Integer> charaGroupIdList) {
@@ -983,7 +1056,7 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @param charaGroupIdList The collection of charaGroupId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharaGroupId_NotInScope(Collection<Integer> charaGroupIdList) {
@@ -996,183 +1069,6 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     protected void regCharaGroupId(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueCharaGroupId(), "CHARA_GROUP_ID"); }
     protected abstract ConditionValue xgetCValueCharaGroupId();
-
-    /**
-     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * CHARA_IMG_URL: {NotNull, VARCHAR(100)}
-     * @param charaImgUrl The value of charaImgUrl as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setCharaImgUrl_Equal(String charaImgUrl) {
-        doSetCharaImgUrl_Equal(fRES(charaImgUrl));
-    }
-
-    protected void doSetCharaImgUrl_Equal(String charaImgUrl) {
-        regCharaImgUrl(CK_EQ, charaImgUrl);
-    }
-
-    /**
-     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * CHARA_IMG_URL: {NotNull, VARCHAR(100)}
-     * @param charaImgUrl The value of charaImgUrl as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setCharaImgUrl_NotEqual(String charaImgUrl) {
-        doSetCharaImgUrl_NotEqual(fRES(charaImgUrl));
-    }
-
-    protected void doSetCharaImgUrl_NotEqual(String charaImgUrl) {
-        regCharaImgUrl(CK_NES, charaImgUrl);
-    }
-
-    /**
-     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * CHARA_IMG_URL: {NotNull, VARCHAR(100)}
-     * @param charaImgUrl The value of charaImgUrl as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setCharaImgUrl_GreaterThan(String charaImgUrl) {
-        regCharaImgUrl(CK_GT, fRES(charaImgUrl));
-    }
-
-    /**
-     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * CHARA_IMG_URL: {NotNull, VARCHAR(100)}
-     * @param charaImgUrl The value of charaImgUrl as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setCharaImgUrl_LessThan(String charaImgUrl) {
-        regCharaImgUrl(CK_LT, fRES(charaImgUrl));
-    }
-
-    /**
-     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * CHARA_IMG_URL: {NotNull, VARCHAR(100)}
-     * @param charaImgUrl The value of charaImgUrl as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setCharaImgUrl_GreaterEqual(String charaImgUrl) {
-        regCharaImgUrl(CK_GE, fRES(charaImgUrl));
-    }
-
-    /**
-     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * CHARA_IMG_URL: {NotNull, VARCHAR(100)}
-     * @param charaImgUrl The value of charaImgUrl as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setCharaImgUrl_LessEqual(String charaImgUrl) {
-        regCharaImgUrl(CK_LE, fRES(charaImgUrl));
-    }
-
-    /**
-     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * CHARA_IMG_URL: {NotNull, VARCHAR(100)}
-     * @param charaImgUrlList The collection of charaImgUrl as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setCharaImgUrl_InScope(Collection<String> charaImgUrlList) {
-        doSetCharaImgUrl_InScope(charaImgUrlList);
-    }
-
-    protected void doSetCharaImgUrl_InScope(Collection<String> charaImgUrlList) {
-        regINS(CK_INS, cTL(charaImgUrlList), xgetCValueCharaImgUrl(), "CHARA_IMG_URL");
-    }
-
-    /**
-     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * CHARA_IMG_URL: {NotNull, VARCHAR(100)}
-     * @param charaImgUrlList The collection of charaImgUrl as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setCharaImgUrl_NotInScope(Collection<String> charaImgUrlList) {
-        doSetCharaImgUrl_NotInScope(charaImgUrlList);
-    }
-
-    protected void doSetCharaImgUrl_NotInScope(Collection<String> charaImgUrlList) {
-        regINS(CK_NINS, cTL(charaImgUrlList), xgetCValueCharaImgUrl(), "CHARA_IMG_URL");
-    }
-
-    /**
-     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * CHARA_IMG_URL: {NotNull, VARCHAR(100)} <br>
-     * <pre>e.g. setCharaImgUrl_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
-     * @param charaImgUrl The value of charaImgUrl as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param opLambda The callback for option of like-search. (NotNull)
-     */
-    public void setCharaImgUrl_LikeSearch(String charaImgUrl, ConditionOptionCall<LikeSearchOption> opLambda) {
-        setCharaImgUrl_LikeSearch(charaImgUrl, xcLSOP(opLambda));
-    }
-
-    /**
-     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * CHARA_IMG_URL: {NotNull, VARCHAR(100)} <br>
-     * <pre>e.g. setCharaImgUrl_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
-     * @param charaImgUrl The value of charaImgUrl as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param likeSearchOption The option of like-search. (NotNull)
-     */
-    protected void setCharaImgUrl_LikeSearch(String charaImgUrl, LikeSearchOption likeSearchOption) {
-        regLSQ(CK_LS, fRES(charaImgUrl), xgetCValueCharaImgUrl(), "CHARA_IMG_URL", likeSearchOption);
-    }
-
-    /**
-     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
-     * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * CHARA_IMG_URL: {NotNull, VARCHAR(100)}
-     * @param charaImgUrl The value of charaImgUrl as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param opLambda The callback for option of like-search. (NotNull)
-     */
-    public void setCharaImgUrl_NotLikeSearch(String charaImgUrl, ConditionOptionCall<LikeSearchOption> opLambda) {
-        setCharaImgUrl_NotLikeSearch(charaImgUrl, xcLSOP(opLambda));
-    }
-
-    /**
-     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
-     * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * CHARA_IMG_URL: {NotNull, VARCHAR(100)}
-     * @param charaImgUrl The value of charaImgUrl as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
-     * @param likeSearchOption The option of not-like-search. (NotNull)
-     */
-    protected void setCharaImgUrl_NotLikeSearch(String charaImgUrl, LikeSearchOption likeSearchOption) {
-        regLSQ(CK_NLS, fRES(charaImgUrl), xgetCValueCharaImgUrl(), "CHARA_IMG_URL", likeSearchOption);
-    }
-
-    protected void regCharaImgUrl(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueCharaImgUrl(), "CHARA_IMG_URL"); }
-    protected abstract ConditionValue xgetCValueCharaImgUrl();
-
-    /**
-     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * IS_DUMMY: {NotNull, BIT, classification=Flg}
-     * @param isDummy The value of isDummy as equal. (basically NotNull: error as default, or no condition as option)
-     */
-    public void setIsDummy_Equal(Boolean isDummy) {
-        regIsDummy(CK_EQ, isDummy);
-    }
-
-    /**
-     * Equal(=). As Flg. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * IS_DUMMY: {NotNull, BIT, classification=Flg} <br>
-     * フラグを示す
-     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
-     */
-    public void setIsDummy_Equal_AsFlg(CDef.Flg cdef) {
-        doSetIsDummy_Equal(cdef != null ? Boolean.valueOf(cdef.code()) : null);
-    }
-
-    /**
-     * Equal(=). As True. And OnlyOnceRegistered. <br>
-     * はい: 有効を示す
-     */
-    public void setIsDummy_Equal_True() {
-        doSetIsDummy_Equal(Boolean.valueOf(CDef.Flg.True.code()));
-    }
-
-    /**
-     * Equal(=). As False. And OnlyOnceRegistered. <br>
-     * いいえ: 無効を示す
-     */
-    public void setIsDummy_Equal_False() {
-        doSetIsDummy_Equal(Boolean.valueOf(CDef.Flg.False.code()));
-    }
-
-    protected void doSetIsDummy_Equal(Boolean isDummy) {
-        regIsDummy(CK_EQ, isDummy);
-    }
-
-    protected void regIsDummy(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueIsDummy(), "IS_DUMMY"); }
-    protected abstract ConditionValue xgetCValueIsDummy();
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
@@ -1326,6 +1222,159 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
 
     protected void regDefaultJoinMessage(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueDefaultJoinMessage(), "DEFAULT_JOIN_MESSAGE"); }
     protected abstract ConditionValue xgetCValueDefaultJoinMessage();
+
+    /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)}
+     * @param defaultFirstdayMessage The value of defaultFirstdayMessage as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDefaultFirstdayMessage_Equal(String defaultFirstdayMessage) {
+        doSetDefaultFirstdayMessage_Equal(fRES(defaultFirstdayMessage));
+    }
+
+    protected void doSetDefaultFirstdayMessage_Equal(String defaultFirstdayMessage) {
+        regDefaultFirstdayMessage(CK_EQ, defaultFirstdayMessage);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)}
+     * @param defaultFirstdayMessage The value of defaultFirstdayMessage as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDefaultFirstdayMessage_NotEqual(String defaultFirstdayMessage) {
+        doSetDefaultFirstdayMessage_NotEqual(fRES(defaultFirstdayMessage));
+    }
+
+    protected void doSetDefaultFirstdayMessage_NotEqual(String defaultFirstdayMessage) {
+        regDefaultFirstdayMessage(CK_NES, defaultFirstdayMessage);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)}
+     * @param defaultFirstdayMessage The value of defaultFirstdayMessage as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDefaultFirstdayMessage_GreaterThan(String defaultFirstdayMessage) {
+        regDefaultFirstdayMessage(CK_GT, fRES(defaultFirstdayMessage));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)}
+     * @param defaultFirstdayMessage The value of defaultFirstdayMessage as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDefaultFirstdayMessage_LessThan(String defaultFirstdayMessage) {
+        regDefaultFirstdayMessage(CK_LT, fRES(defaultFirstdayMessage));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)}
+     * @param defaultFirstdayMessage The value of defaultFirstdayMessage as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDefaultFirstdayMessage_GreaterEqual(String defaultFirstdayMessage) {
+        regDefaultFirstdayMessage(CK_GE, fRES(defaultFirstdayMessage));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)}
+     * @param defaultFirstdayMessage The value of defaultFirstdayMessage as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDefaultFirstdayMessage_LessEqual(String defaultFirstdayMessage) {
+        regDefaultFirstdayMessage(CK_LE, fRES(defaultFirstdayMessage));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)}
+     * @param defaultFirstdayMessageList The collection of defaultFirstdayMessage as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDefaultFirstdayMessage_InScope(Collection<String> defaultFirstdayMessageList) {
+        doSetDefaultFirstdayMessage_InScope(defaultFirstdayMessageList);
+    }
+
+    protected void doSetDefaultFirstdayMessage_InScope(Collection<String> defaultFirstdayMessageList) {
+        regINS(CK_INS, cTL(defaultFirstdayMessageList), xgetCValueDefaultFirstdayMessage(), "DEFAULT_FIRSTDAY_MESSAGE");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)}
+     * @param defaultFirstdayMessageList The collection of defaultFirstdayMessage as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDefaultFirstdayMessage_NotInScope(Collection<String> defaultFirstdayMessageList) {
+        doSetDefaultFirstdayMessage_NotInScope(defaultFirstdayMessageList);
+    }
+
+    protected void doSetDefaultFirstdayMessage_NotInScope(Collection<String> defaultFirstdayMessageList) {
+        regINS(CK_NINS, cTL(defaultFirstdayMessageList), xgetCValueDefaultFirstdayMessage(), "DEFAULT_FIRSTDAY_MESSAGE");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)} <br>
+     * <pre>e.g. setDefaultFirstdayMessage_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param defaultFirstdayMessage The value of defaultFirstdayMessage as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setDefaultFirstdayMessage_LikeSearch(String defaultFirstdayMessage, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setDefaultFirstdayMessage_LikeSearch(defaultFirstdayMessage, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)} <br>
+     * <pre>e.g. setDefaultFirstdayMessage_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param defaultFirstdayMessage The value of defaultFirstdayMessage as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setDefaultFirstdayMessage_LikeSearch(String defaultFirstdayMessage, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(defaultFirstdayMessage), xgetCValueDefaultFirstdayMessage(), "DEFAULT_FIRSTDAY_MESSAGE", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)}
+     * @param defaultFirstdayMessage The value of defaultFirstdayMessage as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setDefaultFirstdayMessage_NotLikeSearch(String defaultFirstdayMessage, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setDefaultFirstdayMessage_NotLikeSearch(defaultFirstdayMessage, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)}
+     * @param defaultFirstdayMessage The value of defaultFirstdayMessage as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setDefaultFirstdayMessage_NotLikeSearch(String defaultFirstdayMessage, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(defaultFirstdayMessage), xgetCValueDefaultFirstdayMessage(), "DEFAULT_FIRSTDAY_MESSAGE", likeSearchOption);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)}
+     */
+    public void setDefaultFirstdayMessage_IsNull() { regDefaultFirstdayMessage(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)}
+     */
+    public void setDefaultFirstdayMessage_IsNullOrEmpty() { regDefaultFirstdayMessage(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)}
+     */
+    public void setDefaultFirstdayMessage_IsNotNull() { regDefaultFirstdayMessage(CK_ISNN, DOBJ); }
+
+    protected void regDefaultFirstdayMessage(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueDefaultFirstdayMessage(), "DEFAULT_FIRSTDAY_MESSAGE"); }
+    protected abstract ConditionValue xgetCValueDefaultFirstdayMessage();
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>

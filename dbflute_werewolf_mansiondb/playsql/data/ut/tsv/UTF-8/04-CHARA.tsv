@@ -1,115 +1,115 @@
-CHARA_ID	CHARA_NAME	CHARA_SHORT_NAME	CHARA_GROUP_ID	CHARA_IMG_URL	IS_DUMMY	DEFAULT_JOIN_MESSAGE	DISPLAY_WIDTH	DISPLAY_HEIGHT
-1	楽天家 ゲルト	楽	1	/wolf-mansion/app/images/geruto.png	1	人狼なんているわけないじゃん。みんな大げさだなあ	50	77
-2	村長 ヴァルター	長	1	/wolf-mansion/app/images/varuta.png	0		50	77
-3	老人 モーリッツ	老	1	/wolf-mansion/app/images/moritu.png	0		50	77
-4	神父 ジムゾン	神	1	/wolf-mansion/app/images/jimuzon.png	0		50	77
-5	木こり トーマス	樵	1	/wolf-mansion/app/images/tomasu.png	0		50	77
-6	旅人 ニコラス	旅	1	/wolf-mansion/app/images/nikorasu.png	0		50	77
-7	ならず者 ディーター	者	1	/wolf-mansion/app/images/dhita.png	0		50	77
-8	少年 ペーター	年	1	/wolf-mansion/app/images/peta.png	0		50	77
-9	少女 リーザ	妙	1	/wolf-mansion/app/images/riza.png	0		50	77
-10	行商人 アルビン	商	1	/wolf-mansion/app/images/arubin.png	0		50	77
-11	羊飼い カタリナ	羊	1	/wolf-mansion/app/images/katarina.png	0		50	77
-12	パン屋 オットー	屋	1	/wolf-mansion/app/images/otto.png	0		50	77
-13	青年 ヨアヒム	青	1	/wolf-mansion/app/images/yoahimu.png	0		50	77
-14	村娘 パメラ	娘	1	/wolf-mansion/app/images/pamera.png	0		50	77
-15	農夫 ヤコブ	農	1	/wolf-mansion/app/images/yakobu.png	0		50	77
-16	宿屋の女主人 レジーナ	宿	1	/wolf-mansion/app/images/rejina.png	0		50	77
-17	シスター フリーデル	修	1	/wolf-mansion/app/images/furideru.png	0		50	77
-18	仕立て屋 エルナ	服	1	/wolf-mansion/app/images/eruna.png	0		50	77
-19	司書 クララ	書	1	/wolf-mansion/app/images/kurara.png	0		50	77
-20	負傷兵 シモン	兵	1	/wolf-mansion/app/images/shimon.png	0		50	77
-22	天野つぐみ	天	2	https://wolfort.net/wmansion/2/01_5077_A.png	0		50	77
-23	市川夢助	市	2	https://wolfort.net/wmansion/2/02_5077_A.png	0		50	77
-24	稲沢遥介	稲	2	https://wolfort.net/wmansion/2/03_5077_A.png	0		50	77
-25	井上清春	井	2	https://wolfort.net/wmansion/2/04_5077_A.png	0		50	77
-26	歌田由佳里	歌	2	https://wolfort.net/wmansion/2/05_5077_A.png	0		50	77
-27	大木慎之介	大	2	https://wolfort.net/wmansion/2/06_5077_A.png	0		50	77
-28	越智まどか	越	2	https://wolfort.net/wmansion/2/07_5077_A.png	0		50	77
-29	鬼束瑠璃	鬼	2	https://wolfort.net/wmansion/2/08_5077_A.png	0		50	77
-30	櫛田三四子	櫛	2	https://wolfort.net/wmansion/2/09_5077_A.png	0		50	77
-31	後藤拓真	後	2	https://wolfort.net/wmansion/2/10_5077_A.png	0		50	77
-32	椎名梨穂	椎	2	https://wolfort.net/wmansion/2/11_5077_A.png	0		50	77
-33	清水常雅	清	2	https://wolfort.net/wmansion/2/12_5077_A.png	0		50	77
-34	菅原駆	菅	2	https://wolfort.net/wmansion/2/13_5077_A.png	0		50	77
-35	高嶺聖子	聖	2	https://wolfort.net/wmansion/2/14_5077_A.png	0		50	77
-36	千葉郁也	千	2	https://wolfort.net/wmansion/2/15_5077_A.png	0		50	77
-37	椿屋凜子	椿	2	https://wolfort.net/wmansion/2/16_5077_A.png	0		50	77
-38	名坂愛子	愛	2	https://wolfort.net/wmansion/2/17_5077_A.png	0		50	77
-39	名坂雪	雪	2	https://wolfort.net/wmansion/2/18_5077_A.png	0		50	77
-40	デクスター	デ	2	https://wolfort.net/wmansion/2/19_5077_A.png	0		50	77
-41	馬場園初音	初	2	https://wolfort.net/wmansion/2/20_5077_A.png	0		50	77
-42	竹村茜	竹	2	https://wolfort.net/wmansion/2/21_5077_A.png	0		50	77
-43	春原ジン	春	2	https://wolfort.net/wmansion/2/22_5077_A.png	0		50	77
-44	ケイティ	ケ	2	https://wolfort.net/wmansion/2/23_5077_A.png	0		50	77
-45	古川千夏	古	2	https://wolfort.net/wmansion/2/24_5077_A.png	0		50	77
-46	細美悠斗	細	2	https://wolfort.net/wmansion/2/25_5077_A.png	0		50	77
-47	堀江豊久	堀	2	https://wolfort.net/wmansion/2/26_5077_A.png	0		50	77
-48	山中智秋	山	2	https://wolfort.net/wmansion/2/27_5077_A.png	0		50	77
-49	吉田ミチル	吉	2	https://wolfort.net/wmansion/2/28_5077_A.png	0		50	77
-50	米津冬馬	米	2	https://wolfort.net/wmansion/2/29_5077_A.png	0		50	77
-55	岩崎裕三	岩	2	https://wolfort.net/wmansion/2/33_5077_A.png	0		50	77
-56	静子・ギブソン	静	2	https://wolfort.net/wmansion/2/34_5077_A.png	0		50	77
-57	南野朱実	南	2	https://wolfort.net/wmansion/2/35_5077_A.png	0		50	77
-58	小泉義哉	小	2	https://wolfort.net/wmansion/2/36_5077_A.png	0		50	77
-59	田美院翔	田	2	https://wolfort.net/wmansion/2/00_5077_A.png	1	俺の歌を聴きに来てくれてありがとう！最後までよろしくな！	50	77
-60	雛市(ヒナイチ)	雛	3	https://wolfort.net/wmansion/3/01.png	1	人狼なんて、いるわけないじゃない。	50	77
-61	卯波(ウナミ)	卯	3	https://wolfort.net/wmansion/3/02.png	0		50	77
-62	青嵐(アオアラシ)	青	3	https://wolfort.net/wmansion/3/03.png	0		50	77
-63	弥生(ヤヨイ)	弥	3	https://wolfort.net/wmansion/3/04.png	0		50	77
-64	双六(スゴロク)	双	3	https://wolfort.net/wmansion/3/05.png	0		50	77
-65	早乙女(サオトメ)	早	3	https://wolfort.net/wmansion/3/06.png	0		50	77
-66	夜長(ヨナガ)	夜	3	https://wolfort.net/wmansion/3/07.png	0		50	77
-67	花守(ハナモリ)	花	3	https://wolfort.net/wmansion/3/08.png	0		50	77
-68	形代(カタシロ)	形	3	https://wolfort.net/wmansion/3/09.png	0		50	77
-69	髪置(カミオキ)	髪	3	https://wolfort.net/wmansion/3/10.png	0		50	77
-70	毛見(ケミ)	毛	3	https://wolfort.net/wmansion/3/11.png	0		50	77
-71	水玉(ミズタマ)	水	3	https://wolfort.net/wmansion/3/12.png	0		50	77
-72	麦踏(ムギフミ)	麦	3	https://wolfort.net/wmansion/3/13.png	0		50	77
-73	飴湯(アメユ)	飴	3	https://wolfort.net/wmansion/3/14.png	0		50	77
-74	鳥追(トリオイ)	鳥	3	https://wolfort.net/wmansion/3/15.png	0		50	77
-75	雉笛(キジブエ)	雉	3	https://wolfort.net/wmansion/3/16.png	0		50	77
-76	時雨(シグレ)	時	3	https://wolfort.net/wmansion/3/17.png	0		50	77
-77	七姫(ナナヒメ)	姫	3	https://wolfort.net/wmansion/3/18.png	0		50	77
-78	涼風(スズカゼ)	涼	3	https://wolfort.net/wmansion/3/19.png	0		50	77
-79	白露(ハクロ)	白	3	https://wolfort.net/wmansion/3/20.png	0		50	77
-80	氷室(ヒムロ)	氷	3	https://wolfort.net/wmansion/3/21.png	0		50	77
-81	添木(ソエギ)	添	3	https://wolfort.net/wmansion/3/22.png	0		50	77
-82	鬼走(オニバシリ)	鬼	3	https://wolfort.net/wmansion/3/23.png	0		50	77
-83	万歳(バンザイ)	万	3	https://wolfort.net/wmansion/3/24.png	0		50	77
-84	(見学用)子	子	1	/wolf-mansion/app/images/zodiac/ne.png	0		50	77
-85	(見学用)丑	丑	1	/wolf-mansion/app/images/zodiac/ushi.png	0		50	77
-86	(見学用)寅	寅	1	/wolf-mansion/app/images/zodiac/tora.png	0		50	77
-87	(見学用)卯	卯	1	/wolf-mansion/app/images/zodiac/usagi.png	0		50	77
-88	(見学用)辰	辰	1	/wolf-mansion/app/images/zodiac/tatsu.png	0		50	77
-89	(見学用)巳	巳	1	/wolf-mansion/app/images/zodiac/mi.png	0		50	77
-90	(見学用)午	午	1	/wolf-mansion/app/images/zodiac/uma.png	0		50	77
-91	(見学用)未	未	1	/wolf-mansion/app/images/zodiac/hitsuji.png	0		50	77
-92	(見学用)申	申	1	/wolf-mansion/app/images/zodiac/saru.png	0		50	77
-93	(見学用)酉	酉	1	/wolf-mansion/app/images/zodiac/tori.png	0		50	77
-94	(見学用)戌	戌	1	/wolf-mansion/app/images/zodiac/inu.png	0		50	77
-95	(見学用)亥	亥	1	/wolf-mansion/app/images/zodiac/inoshishi.png	0		50	77
-96	(見学用)子	子	2	/wolf-mansion/app/images/zodiac/ne.png	0		50	77
-97	(見学用)丑	丑	2	/wolf-mansion/app/images/zodiac/ushi.png	0		50	77
-98	(見学用)寅	寅	2	/wolf-mansion/app/images/zodiac/tora.png	0		50	77
-99	(見学用)卯	卯	2	/wolf-mansion/app/images/zodiac/usagi.png	0		50	77
-100	(見学用)辰	辰	2	/wolf-mansion/app/images/zodiac/tatsu.png	0		50	77
-101	(見学用)巳	巳	2	/wolf-mansion/app/images/zodiac/mi.png	0		50	77
-102	(見学用)午	午	2	/wolf-mansion/app/images/zodiac/uma.png	0		50	77
-103	(見学用)未	未	2	/wolf-mansion/app/images/zodiac/hitsuji.png	0		50	77
-104	(見学用)申	申	2	/wolf-mansion/app/images/zodiac/saru.png	0		50	77
-105	(見学用)酉	酉	2	/wolf-mansion/app/images/zodiac/tori.png	0		50	77
-106	(見学用)戌	戌	2	/wolf-mansion/app/images/zodiac/inu.png	0		50	77
-107	(見学用)亥	亥	2	/wolf-mansion/app/images/zodiac/inoshishi.png	0		50	77
-108	(見学用)子	子	3	/wolf-mansion/app/images/zodiac/ne.png	0		50	77
-109	(見学用)丑	丑	3	/wolf-mansion/app/images/zodiac/ushi.png	0		50	77
-110	(見学用)寅	寅	3	/wolf-mansion/app/images/zodiac/tora.png	0		50	77
-111	(見学用)卯	卯	3	/wolf-mansion/app/images/zodiac/usagi.png	0		50	77
-112	(見学用)辰	辰	3	/wolf-mansion/app/images/zodiac/tatsu.png	0		50	77
-113	(見学用)巳	巳	3	/wolf-mansion/app/images/zodiac/mi.png	0		50	77
-114	(見学用)午	午	3	/wolf-mansion/app/images/zodiac/uma.png	0		50	77
-115	(見学用)未	未	3	/wolf-mansion/app/images/zodiac/hitsuji.png	0		50	77
-116	(見学用)申	申	3	/wolf-mansion/app/images/zodiac/saru.png	0		50	77
-117	(見学用)酉	酉	3	/wolf-mansion/app/images/zodiac/tori.png	0		50	77
-118	(見学用)戌	戌	3	/wolf-mansion/app/images/zodiac/inu.png	0		50	77
-119	(見学用)亥	亥	3	/wolf-mansion/app/images/zodiac/inoshishi.png	0		50	77
+CHARA_ID	CHARA_NAME	CHARA_SHORT_NAME	CHARA_GROUP_ID	DEFAULT_JOIN_MESSAGE	DEFAULT_FIRSTDAY_MESSAGE	DISPLAY_WIDTH	DISPLAY_HEIGHT
+1	楽天家 ゲルト	楽	1	人狼なんているわけないじゃん。みんな大げさだなあ	ふぁーあ……ねむいな……寝てていい？	50	77
+2	村長 ヴァルター	長	1			50	77
+3	老人 モーリッツ	老	1			50	77
+4	神父 ジムゾン	神	1			50	77
+5	木こり トーマス	樵	1			50	77
+6	旅人 ニコラス	旅	1			50	77
+7	ならず者 ディーター	者	1			50	77
+8	少年 ペーター	年	1			50	77
+9	少女 リーザ	妙	1			50	77
+10	行商人 アルビン	商	1			50	77
+11	羊飼い カタリナ	羊	1			50	77
+12	パン屋 オットー	屋	1			50	77
+13	青年 ヨアヒム	青	1			50	77
+14	村娘 パメラ	娘	1			50	77
+15	農夫 ヤコブ	農	1			50	77
+16	宿屋の女主人 レジーナ	宿	1			50	77
+17	シスター フリーデル	修	1			50	77
+18	仕立て屋 エルナ	服	1			50	77
+19	司書 クララ	書	1			50	77
+20	負傷兵 シモン	兵	1			50	77
+22	天野つぐみ	天	2			50	77
+23	市川夢助	市	2			50	77
+24	稲沢遥介	稲	2			50	77
+25	井上清春	井	2			50	77
+26	歌田由佳里	歌	2			50	77
+27	大木慎之介	大	2			50	77
+28	越智まどか	越	2			50	77
+29	鬼束瑠璃	鬼	2			50	77
+30	櫛田三四子	櫛	2			50	77
+31	後藤拓真	後	2			50	77
+32	椎名梨穂	椎	2			50	77
+33	清水常雅	清	2			50	77
+34	菅原駆	菅	2			50	77
+35	高嶺聖子	聖	2			50	77
+36	千葉郁也	千	2			50	77
+37	椿屋凜子	椿	2			50	77
+38	名坂愛子	愛	2			50	77
+39	名坂雪	雪	2			50	77
+40	デクスター	デ	2			50	77
+41	馬場園初音	初	2			50	77
+42	竹村茜	竹	2			50	77
+43	春原ジン	春	2			50	77
+44	ケイティ	ケ	2			50	77
+45	古川千夏	古	2			50	77
+46	細美悠斗	細	2			50	77
+47	堀江豊久	堀	2			50	77
+48	山中智秋	山	2			50	77
+49	吉田ミチル	吉	2			50	77
+50	米津冬馬	米	2			50	77
+55	岩崎裕三	岩	2			50	77
+56	静子・ギブソン	静	2			50	77
+57	南野朱実	南	2			50	77
+58	小泉義哉	小	2			50	77
+59	田美院翔	田	2	俺の歌を聴きに来てくれてありがとう！最後までよろしくな！		50	77
+60	雛市(ヒナイチ)	雛	3	人狼なんて、いるわけないじゃない。	ちょっとオヤツ買い足してくるねー。	50	77
+61	卯波(ウナミ)	卯	3			50	77
+62	青嵐(アオアラシ)	青	3			50	77
+63	弥生(ヤヨイ)	弥	3			50	77
+64	双六(スゴロク)	双	3			50	77
+65	早乙女(サオトメ)	早	3			50	77
+66	夜長(ヨナガ)	夜	3			50	77
+67	花守(ハナモリ)	花	3			50	77
+68	形代(カタシロ)	形	3			50	77
+69	髪置(カミオキ)	髪	3			50	77
+70	毛見(ケミ)	毛	3			50	77
+71	水玉(ミズタマ)	水	3			50	77
+72	麦踏(ムギフミ)	麦	3			50	77
+73	飴湯(アメユ)	飴	3			50	77
+74	鳥追(トリオイ)	鳥	3			50	77
+75	雉笛(キジブエ)	雉	3			50	77
+76	時雨(シグレ)	時	3			50	77
+77	七姫(ナナヒメ)	姫	3			50	77
+78	涼風(スズカゼ)	涼	3			50	77
+79	白露(ハクロ)	白	3			50	77
+80	氷室(ヒムロ)	氷	3			50	77
+81	添木(ソエギ)	添	3			50	77
+82	鬼走(オニバシリ)	鬼	3			50	77
+83	万歳(バンザイ)	万	3			50	77
+84	(見学用)子	子	1			50	77
+85	(見学用)丑	丑	1			50	77
+86	(見学用)寅	寅	1			50	77
+87	(見学用)卯	卯	1			50	77
+88	(見学用)辰	辰	1			50	77
+89	(見学用)巳	巳	1			50	77
+90	(見学用)午	午	1			50	77
+91	(見学用)未	未	1			50	77
+92	(見学用)申	申	1			50	77
+93	(見学用)酉	酉	1			50	77
+94	(見学用)戌	戌	1			50	77
+95	(見学用)亥	亥	1			50	77
+96	(見学用)子	子	2			50	77
+97	(見学用)丑	丑	2			50	77
+98	(見学用)寅	寅	2			50	77
+99	(見学用)卯	卯	2			50	77
+100	(見学用)辰	辰	2			50	77
+101	(見学用)巳	巳	2			50	77
+102	(見学用)午	午	2			50	77
+103	(見学用)未	未	2			50	77
+104	(見学用)申	申	2			50	77
+105	(見学用)酉	酉	2			50	77
+106	(見学用)戌	戌	2			50	77
+107	(見学用)亥	亥	2			50	77
+108	(見学用)子	子	3			50	77
+109	(見学用)丑	丑	3			50	77
+110	(見学用)寅	寅	3			50	77
+111	(見学用)卯	卯	3			50	77
+112	(見学用)辰	辰	3			50	77
+113	(見学用)巳	巳	3			50	77
+114	(見学用)午	午	3			50	77
+115	(見学用)未	未	3			50	77
+116	(見学用)申	申	3			50	77
+117	(見学用)酉	酉	3			50	77
+118	(見学用)戌	戌	3			50	77
+119	(見学用)亥	亥	3			50	77

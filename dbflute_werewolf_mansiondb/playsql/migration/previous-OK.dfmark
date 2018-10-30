@@ -1,4 +1,4 @@
-[Saved Previous Resources]: 2018/10/18 19:01:16
+[Saved Previous Resources]: 2018/10/30 18:40:09
 playsql/migration/previous/replace-schema-10-basic.sql
 playsql/migration/previous/replace-schema.sql
 playsql/migration/previous/take-finally.sql
@@ -9,6 +9,7 @@ playsql/migration/previous/data/ut/tsv/UTF-8/03-VILLAGE_SETTINGS.tsv
 playsql/migration/previous/data/ut/tsv/UTF-8/08-ABILITY.tsv
 playsql/migration/previous/data/ut/tsv/UTF-8/01-VILLAGE.tsv
 playsql/migration/previous/data/ut/tsv/UTF-8/07-VILLAGE_PLAYER.tsv
+playsql/migration/previous/data/ut/tsv/UTF-8/10-CHARA_IMAGE.tsv
 playsql/migration/previous/data/ut/tsv/UTF-8/tsv-data-result.dfmark
 playsql/migration/previous/data/ut/tsv/UTF-8/02-VILLAGE_DAY.tsv
 playsql/migration/previous/data/ut/tsv/UTF-8/00-PLAYER.tsv
@@ -25,15 +26,8 @@ playsql/migration/previous/data/common/tsv/UTF-8/tsv-data-result.dfmark
 playsql/migration/previous/data/common/tsv/UTF-8/08-DESIGNER.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/07-ABILITY_TYPE.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/03-VILLAGE_STATUS.tsv
+playsql/migration/previous/data/common/tsv/UTF-8/11-FACE_TYPE.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/04-SKILL.tsv
-playsql/migration/previous/data/revprod/reversexls/cyclic-data-03-misc.xls
-playsql/migration/previous/data/revprod/reversexls/cyclic-data-02-VILLAGE-plus.xls
-playsql/migration/previous/data/revprod/reversexls/reverse-data-result.dfmark
-playsql/migration/previous/data/revprod/reversexls/cyclic-data-01-misc.xls
-playsql/migration/previous/data/production/tsv/UTF-8/01-PLAYER.tsv
-playsql/migration/previous/data/production/tsv/UTF-8/defaultValueMap.dataprop
-playsql/migration/previous/data/production/tsv/UTF-8/tsv-data-result.dfmark
-playsql/migration/previous/data/production/tsv/UTF-8/02-CHARA.tsv
-(35 files)
+(29 files)
 
 Look at the log for detail.

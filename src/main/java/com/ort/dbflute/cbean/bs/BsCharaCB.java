@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of CHARA.
+ * The base condition-bean of chara.
  * @author DBFlute(AutoGenerator)
  */
 public class BsCharaCB extends AbstractConditionBean {
@@ -73,7 +73,7 @@ public class BsCharaCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "CHARA";
+        return "chara";
     }
 
     // ===================================================================================
@@ -329,25 +329,20 @@ public class BsCharaCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnCharaShortName() { return doColumn("CHARA_SHORT_NAME"); }
         /**
-         * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+         * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCharaGroupId() { return doColumn("CHARA_GROUP_ID"); }
-        /**
-         * CHARA_IMG_URL: {NotNull, VARCHAR(100)}
-         * @return The information object of specified column. (NotNull)
-         */
-        public SpecifiedColumn columnCharaImgUrl() { return doColumn("CHARA_IMG_URL"); }
-        /**
-         * IS_DUMMY: {NotNull, BIT, classification=Flg}
-         * @return The information object of specified column. (NotNull)
-         */
-        public SpecifiedColumn columnIsDummy() { return doColumn("IS_DUMMY"); }
         /**
          * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnDefaultJoinMessage() { return doColumn("DEFAULT_JOIN_MESSAGE"); }
+        /**
+         * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnDefaultFirstdayMessage() { return doColumn("DEFAULT_FIRSTDAY_MESSAGE"); }
         /**
          * DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)}
          * @return The information object of specified column. (NotNull)
@@ -389,7 +384,7 @@ public class BsCharaCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "CHARA"; }
+        protected String getTableDbName() { return "chara"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * CHARA_GROUP by my CHARA_GROUP_ID, named 'charaGroup'.
@@ -412,7 +407,7 @@ public class BsCharaCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from ABILITY where ...) as FOO_MAX} <br>
+         * {select max(FOO) from ability where ...) as FOO_MAX} <br>
          * ABILITY by CHARA_ID, named 'abilityByCharaIdList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -429,7 +424,7 @@ public class BsCharaCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from ABILITY where ...) as FOO_MAX} <br>
+         * {select max(FOO) from ability where ...) as FOO_MAX} <br>
          * ABILITY by TARGET_CHARA_ID, named 'abilityByTargetCharaIdList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -446,7 +441,24 @@ public class BsCharaCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from FOOTSTEP where ...) as FOO_MAX} <br>
+         * {select max(FOO) from chara_image where ...) as FOO_MAX} <br>
+         * CHARA_IMAGE by CHARA_ID, named 'charaImageList'.
+         * <pre>
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(imageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     imageCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     imageCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, CharaImage.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        public HpSDRFunction<CharaImageCB, CharaCQ> derivedCharaImage() {
+            assertDerived("charaImageList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<CharaImageCB> sq, CharaCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveCharaImageList(fn, sq, al, op), _dbmetaProvider);
+        }
+        /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
+         * {select max(FOO) from footstep where ...) as FOO_MAX} <br>
          * FOOTSTEP by CHARA_ID, named 'footstepList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(footstepCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -463,7 +475,7 @@ public class BsCharaCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from VILLAGE_PLAYER where ...) as FOO_MAX} <br>
+         * {select max(FOO) from village_player where ...) as FOO_MAX} <br>
          * VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -480,7 +492,7 @@ public class BsCharaCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from VOTE where ...) as FOO_MAX} <br>
+         * {select max(FOO) from vote where ...) as FOO_MAX} <br>
          * VOTE by CHARA_ID, named 'voteByCharaIdList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(voteCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -497,7 +509,7 @@ public class BsCharaCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from VOTE where ...) as FOO_MAX} <br>
+         * {select max(FOO) from vote where ...) as FOO_MAX} <br>
          * VOTE by VOTE_CHARA_ID, named 'voteByVoteCharaIdList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(voteCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {

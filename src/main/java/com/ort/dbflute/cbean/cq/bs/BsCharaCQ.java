@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of CHARA.
+ * The base condition-query of chara.
  * @author DBFlute(AutoGenerator)
  */
 public class BsCharaCQ extends AbstractBsCharaCQ {
@@ -35,7 +35,7 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from CHARA) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from chara) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join CHARA on ... and FOO = [value] ...}
+     * {select ... from ... left outer join chara on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -85,6 +85,9 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
     public Map<String, AbilityCQ> xdfgetCharaId_ExistsReferrer_AbilityByTargetCharaIdList() { return xgetSQueMap("charaId_ExistsReferrer_AbilityByTargetCharaIdList"); }
     public String keepCharaId_ExistsReferrer_AbilityByTargetCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_ExistsReferrer_AbilityByTargetCharaIdList", sq); }
 
+    public Map<String, CharaImageCQ> xdfgetCharaId_ExistsReferrer_CharaImageList() { return xgetSQueMap("charaId_ExistsReferrer_CharaImageList"); }
+    public String keepCharaId_ExistsReferrer_CharaImageList(CharaImageCQ sq) { return xkeepSQue("charaId_ExistsReferrer_CharaImageList", sq); }
+
     public Map<String, FootstepCQ> xdfgetCharaId_ExistsReferrer_FootstepList() { return xgetSQueMap("charaId_ExistsReferrer_FootstepList"); }
     public String keepCharaId_ExistsReferrer_FootstepList(FootstepCQ sq) { return xkeepSQue("charaId_ExistsReferrer_FootstepList", sq); }
 
@@ -103,6 +106,9 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
     public Map<String, AbilityCQ> xdfgetCharaId_NotExistsReferrer_AbilityByTargetCharaIdList() { return xgetSQueMap("charaId_NotExistsReferrer_AbilityByTargetCharaIdList"); }
     public String keepCharaId_NotExistsReferrer_AbilityByTargetCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_AbilityByTargetCharaIdList", sq); }
 
+    public Map<String, CharaImageCQ> xdfgetCharaId_NotExistsReferrer_CharaImageList() { return xgetSQueMap("charaId_NotExistsReferrer_CharaImageList"); }
+    public String keepCharaId_NotExistsReferrer_CharaImageList(CharaImageCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_CharaImageList", sq); }
+
     public Map<String, FootstepCQ> xdfgetCharaId_NotExistsReferrer_FootstepList() { return xgetSQueMap("charaId_NotExistsReferrer_FootstepList"); }
     public String keepCharaId_NotExistsReferrer_FootstepList(FootstepCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_FootstepList", sq); }
 
@@ -120,6 +126,9 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
 
     public Map<String, AbilityCQ> xdfgetCharaId_SpecifyDerivedReferrer_AbilityByTargetCharaIdList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_AbilityByTargetCharaIdList"); }
     public String keepCharaId_SpecifyDerivedReferrer_AbilityByTargetCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_AbilityByTargetCharaIdList", sq); }
+
+    public Map<String, CharaImageCQ> xdfgetCharaId_SpecifyDerivedReferrer_CharaImageList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_CharaImageList"); }
+    public String keepCharaId_SpecifyDerivedReferrer_CharaImageList(CharaImageCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_CharaImageList", sq); }
 
     public Map<String, FootstepCQ> xdfgetCharaId_SpecifyDerivedReferrer_FootstepList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_FootstepList"); }
     public String keepCharaId_SpecifyDerivedReferrer_FootstepList(FootstepCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_FootstepList", sq); }
@@ -142,6 +151,11 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
     public String keepCharaId_QueryDerivedReferrer_AbilityByTargetCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_AbilityByTargetCharaIdList", sq); }
     public Map<String, Object> xdfgetCharaId_QueryDerivedReferrer_AbilityByTargetCharaIdListParameter() { return xgetSQuePmMap("charaId_QueryDerivedReferrer_AbilityByTargetCharaIdList"); }
     public String keepCharaId_QueryDerivedReferrer_AbilityByTargetCharaIdListParameter(Object pm) { return xkeepSQuePm("charaId_QueryDerivedReferrer_AbilityByTargetCharaIdList", pm); }
+
+    public Map<String, CharaImageCQ> xdfgetCharaId_QueryDerivedReferrer_CharaImageList() { return xgetSQueMap("charaId_QueryDerivedReferrer_CharaImageList"); }
+    public String keepCharaId_QueryDerivedReferrer_CharaImageList(CharaImageCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_CharaImageList", sq); }
+    public Map<String, Object> xdfgetCharaId_QueryDerivedReferrer_CharaImageListParameter() { return xgetSQuePmMap("charaId_QueryDerivedReferrer_CharaImageList"); }
+    public String keepCharaId_QueryDerivedReferrer_CharaImageListParameter(Object pm) { return xkeepSQuePm("charaId_QueryDerivedReferrer_CharaImageList", pm); }
 
     public Map<String, FootstepCQ> xdfgetCharaId_QueryDerivedReferrer_FootstepList() { return xgetSQueMap("charaId_QueryDerivedReferrer_FootstepList"); }
     public String keepCharaId_QueryDerivedReferrer_FootstepList(FootstepCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_FootstepList", sq); }
@@ -225,57 +239,17 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @return this. (NotNull)
      */
     public BsCharaCQ addOrderBy_CharaGroupId_Asc() { regOBA("CHARA_GROUP_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @return this. (NotNull)
      */
     public BsCharaCQ addOrderBy_CharaGroupId_Desc() { regOBD("CHARA_GROUP_ID"); return this; }
-
-    protected ConditionValue _charaImgUrl;
-    public ConditionValue xdfgetCharaImgUrl()
-    { if (_charaImgUrl == null) { _charaImgUrl = nCV(); }
-      return _charaImgUrl; }
-    protected ConditionValue xgetCValueCharaImgUrl() { return xdfgetCharaImgUrl(); }
-
-    /** 
-     * Add order-by as ascend. <br>
-     * CHARA_IMG_URL: {NotNull, VARCHAR(100)}
-     * @return this. (NotNull)
-     */
-    public BsCharaCQ addOrderBy_CharaImgUrl_Asc() { regOBA("CHARA_IMG_URL"); return this; }
-
-    /**
-     * Add order-by as descend. <br>
-     * CHARA_IMG_URL: {NotNull, VARCHAR(100)}
-     * @return this. (NotNull)
-     */
-    public BsCharaCQ addOrderBy_CharaImgUrl_Desc() { regOBD("CHARA_IMG_URL"); return this; }
-
-    protected ConditionValue _isDummy;
-    public ConditionValue xdfgetIsDummy()
-    { if (_isDummy == null) { _isDummy = nCV(); }
-      return _isDummy; }
-    protected ConditionValue xgetCValueIsDummy() { return xdfgetIsDummy(); }
-
-    /** 
-     * Add order-by as ascend. <br>
-     * IS_DUMMY: {NotNull, BIT, classification=Flg}
-     * @return this. (NotNull)
-     */
-    public BsCharaCQ addOrderBy_IsDummy_Asc() { regOBA("IS_DUMMY"); return this; }
-
-    /**
-     * Add order-by as descend. <br>
-     * IS_DUMMY: {NotNull, BIT, classification=Flg}
-     * @return this. (NotNull)
-     */
-    public BsCharaCQ addOrderBy_IsDummy_Desc() { regOBD("IS_DUMMY"); return this; }
 
     protected ConditionValue _defaultJoinMessage;
     public ConditionValue xdfgetDefaultJoinMessage()
@@ -296,6 +270,26 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
      * @return this. (NotNull)
      */
     public BsCharaCQ addOrderBy_DefaultJoinMessage_Desc() { regOBD("DEFAULT_JOIN_MESSAGE"); return this; }
+
+    protected ConditionValue _defaultFirstdayMessage;
+    public ConditionValue xdfgetDefaultFirstdayMessage()
+    { if (_defaultFirstdayMessage == null) { _defaultFirstdayMessage = nCV(); }
+      return _defaultFirstdayMessage; }
+    protected ConditionValue xgetCValueDefaultFirstdayMessage() { return xdfgetDefaultFirstdayMessage(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_DefaultFirstdayMessage_Asc() { regOBA("DEFAULT_FIRSTDAY_MESSAGE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)}
+     * @return this. (NotNull)
+     */
+    public BsCharaCQ addOrderBy_DefaultFirstdayMessage_Desc() { regOBD("DEFAULT_FIRSTDAY_MESSAGE"); return this; }
 
     protected ConditionValue _displayWidth;
     public ConditionValue xdfgetDisplayWidth()
@@ -480,7 +474,7 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
         return xgetQueRlMap(prop);
     }
     protected CharaGroupCQ xcreateQueryCharaGroup() {
-        String nrp = xresolveNRP("CHARA", "charaGroup"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("chara", "charaGroup"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new CharaGroupCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "charaGroup", nrp);
     }
     protected void xsetupOuterJoinCharaGroup() { xregOutJo("charaGroup"); }

@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of VILLAGE_SETTINGS. (Singleton)
+ * The DB meta of village_settings. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillageSettingsDbm extends AbstractDBMeta {
@@ -44,6 +44,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     { xsetupEpg(); }
     protected void xsetupEpg() {
         setupEpg(_epgMap, et -> ((VillageSettings)et).getVillageId(), (et, vl) -> ((VillageSettings)et).setVillageId(cti(vl)), "villageId");
+        setupEpg(_epgMap, et -> ((VillageSettings)et).getDummyCharaId(), (et, vl) -> ((VillageSettings)et).setDummyCharaId(cti(vl)), "dummyCharaId");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getStartPersonMinNum(), (et, vl) -> ((VillageSettings)et).setStartPersonMinNum(cti(vl)), "startPersonMinNum");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getPersonMaxNum(), (et, vl) -> ((VillageSettings)et).setPersonMaxNum(cti(vl)), "personMaxNum");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getStartDatetime(), (et, vl) -> ((VillageSettings)et).setStartDatetime(ctldt(vl)), "startDatetime");
@@ -111,7 +112,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "VILLAGE_SETTINGS";
+    protected final String _tableDbName = "village_settings";
     protected final String _tableDispName = "VILLAGE_SETTINGS";
     protected final String _tablePropertyName = "villageSettings";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_SETTINGS", _tableDbName);
@@ -125,6 +126,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     //                                                                         Column Info
     //                                                                         ===========
     protected final ColumnInfo _columnVillageId = cci("VILLAGE_ID", "VILLAGE_ID", null, null, Integer.class, "villageId", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "village", null, null, false);
+    protected final ColumnInfo _columnDummyCharaId = cci("DUMMY_CHARA_ID", "DUMMY_CHARA_ID", null, null, Integer.class, "dummyCharaId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnStartPersonMinNum = cci("START_PERSON_MIN_NUM", "START_PERSON_MIN_NUM", null, null, Integer.class, "startPersonMinNum", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnPersonMaxNum = cci("PERSON_MAX_NUM", "PERSON_MAX_NUM", null, null, Integer.class, "personMaxNum", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnStartDatetime = cci("START_DATETIME", "START_DATETIME", null, null, java.time.LocalDateTime.class, "startDatetime", null, false, false, false, "DATETIME", 19, 0, null, null, false, null, null, null, null, null, false);
@@ -148,10 +150,15 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
+    /**
+     * DUMMY_CHARA_ID: {NotNull, INT UNSIGNED(10)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnDummyCharaId() { return _columnDummyCharaId; }
     /**
      * START_PERSON_MIN_NUM: {INT UNSIGNED(10)}
      * @return The information object of specified column. (NotNull)
@@ -218,7 +225,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnIsAvailableGuardSameTarget() { return _columnIsAvailableGuardSameTarget; }
     /**
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharacterGroupId() { return _columnCharacterGroupId; }
@@ -233,7 +240,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnOrganize() { return _columnOrganize; }
     /**
-     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to ALLOWED_SECRET_SAY, classification=AllowedSecretSay}
+     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnAllowedSecretSayCode() { return _columnAllowedSecretSayCode; }
@@ -261,6 +268,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     protected List<ColumnInfo> ccil() {
         List<ColumnInfo> ls = newArrayList();
         ls.add(columnVillageId());
+        ls.add(columnDummyCharaId());
         ls.add(columnStartPersonMinNum());
         ls.add(columnPersonMaxNum());
         ls.add(columnStartDatetime());

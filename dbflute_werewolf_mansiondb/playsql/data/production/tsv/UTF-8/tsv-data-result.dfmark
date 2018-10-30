@@ -1,9 +1,0 @@
-
-* * * * * * * * * *
-*                 *
-* Tsv Data Result *
-*                 *
-* * * * * * * * * *
-data-directory: playsql/data/production/tsv/UTF-8
-
-01-player.tsv (2)

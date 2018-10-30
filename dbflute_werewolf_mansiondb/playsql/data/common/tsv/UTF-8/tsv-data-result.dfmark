@@ -16,3 +16,4 @@ data-directory: playsql/data/common/tsv/UTF-8
 08-DESIGNER.tsv (3)
 09-CHARA_GROUP.tsv (3)
 10-ALLOWED_SECRET_SAY.tsv (3)
+11-FACE_TYPE.tsv (6)

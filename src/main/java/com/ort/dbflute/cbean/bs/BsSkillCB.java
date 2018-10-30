@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-bean of SKILL.
+ * The base condition-bean of skill.
  * @author DBFlute(AutoGenerator)
  */
 public class BsSkillCB extends AbstractConditionBean {
@@ -73,7 +73,7 @@ public class BsSkillCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "SKILL";
+        return "skill";
     }
 
     // ===================================================================================
@@ -315,7 +315,7 @@ public class BsSkillCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnSkillName() { return doColumn("SKILL_NAME"); }
         /**
-         * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
+         * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCampCode() { return doColumn("CAMP_CODE"); }
@@ -335,7 +335,7 @@ public class BsSkillCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "SKILL"; }
+        protected String getTableDbName() { return "skill"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * CAMP by my CAMP_CODE, named 'camp'.
@@ -358,7 +358,7 @@ public class BsSkillCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from MESSAGE_RESTRICTION where ...) as FOO_MAX} <br>
+         * {select max(FOO) from message_restriction where ...) as FOO_MAX} <br>
          * MESSAGE_RESTRICTION by SKILL_CODE, named 'messageRestrictionList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(restrictionCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -375,7 +375,7 @@ public class BsSkillCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from VILLAGE_PLAYER where ...) as FOO_MAX} <br>
+         * {select max(FOO) from village_player where ...) as FOO_MAX} <br>
          * VILLAGE_PLAYER by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -392,7 +392,7 @@ public class BsSkillCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from VILLAGE_PLAYER where ...) as FOO_MAX} <br>
+         * {select max(FOO) from village_player where ...) as FOO_MAX} <br>
          * VILLAGE_PLAYER by SECOND_REQUEST_SKILL_CODE, named 'villagePlayerBySecondRequestSkillCodeList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -409,7 +409,7 @@ public class BsSkillCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from VILLAGE_PLAYER where ...) as FOO_MAX} <br>
+         * {select max(FOO) from village_player where ...) as FOO_MAX} <br>
          * VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerBySkillCodeList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {

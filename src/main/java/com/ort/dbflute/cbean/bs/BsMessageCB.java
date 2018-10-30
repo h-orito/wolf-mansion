@@ -22,7 +22,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of MESSAGE.
+ * The base condition-bean of message.
  * @author DBFlute(AutoGenerator)
  */
 public class BsMessageCB extends AbstractConditionBean {
@@ -74,7 +74,7 @@ public class BsMessageCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "MESSAGE";
+        return "message";
     }
 
     // ===================================================================================
@@ -94,8 +94,8 @@ public class BsMessageCB extends AbstractConditionBean {
 
     /**
      * Accept the query condition of unique key as equal.
-     * @param villageId : UQ+, IX+, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY. (NotNull)
-     * @param messageTypeCode : +UQ, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType. (NotNull)
+     * @param villageId : UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
+     * @param messageTypeCode : +UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType. (NotNull)
      * @param messageNumber : +UQ, INT UNSIGNED(10). (NotNull)
      * @return this. (NotNull)
      */
@@ -253,6 +253,26 @@ public class BsMessageCB extends AbstractConditionBean {
     // ===================================================================================
     //                                                                         SetupSelect
     //                                                                         ===========
+    /**
+     * Set up relation columns to select clause. <br>
+     * FACE_TYPE by my FACE_TYPE_CODE, named 'faceType'.
+     * <pre>
+     * <span style="color: #0000C0">messageBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_FaceType()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     *     <span style="color: #553000">cb</span>.query().set...
+     * }).alwaysPresent(<span style="color: #553000">message</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     ... = <span style="color: #553000">message</span>.<span style="color: #CC4747">getFaceType()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
+     * });
+     * </pre>
+     */
+    public void setupSelect_FaceType() {
+        assertSetupSelectPurpose("faceType");
+        if (hasSpecifiedLocalColumn()) {
+            specify().columnFaceTypeCode();
+        }
+        doSetupSelect(() -> query().queryFaceType());
+    }
+
     /**
      * Set up relation columns to select clause. <br>
      * MESSAGE_TYPE by my MESSAGE_TYPE_CODE, named 'messageType'.
@@ -431,6 +451,7 @@ public class BsMessageCB extends AbstractConditionBean {
     }
 
     public static class HpSpecification extends HpAbstractSpecification<MessageCQ> {
+        protected FaceTypeCB.HpSpecification _faceType;
         protected MessageTypeCB.HpSpecification _messageType;
         protected PlayerCB.HpSpecification _player;
         protected VillagePlayerCB.HpSpecification _villagePlayerByToVillagePlayerId;
@@ -446,32 +467,32 @@ public class BsMessageCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnMessageId() { return doColumn("MESSAGE_ID"); }
         /**
-         * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+         * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageId() { return doColumn("VILLAGE_ID"); }
         /**
-         * VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+         * VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillagePlayerId() { return doColumn("VILLAGE_PLAYER_ID"); }
         /**
-         * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+         * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnToVillagePlayerId() { return doColumn("TO_VILLAGE_PLAYER_ID"); }
         /**
-         * PLAYER_ID: {IX, INT UNSIGNED(10), FK to PLAYER}
+         * PLAYER_ID: {IX, INT UNSIGNED(10), FK to player}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnPlayerId() { return doColumn("PLAYER_ID"); }
         /**
-         * DAY: {NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+         * DAY: {NotNull, INT UNSIGNED(10), FK to village_day}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnDay() { return doColumn("DAY"); }
         /**
-         * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType}
+         * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnMessageTypeCode() { return doColumn("MESSAGE_TYPE_CODE"); }
@@ -495,6 +516,11 @@ public class BsMessageCB extends AbstractConditionBean {
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnIsConvertDisable() { return doColumn("IS_CONVERT_DISABLE"); }
+        /**
+         * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnFaceTypeCode() { return doColumn("FACE_TYPE_CODE"); }
         /**
          * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
@@ -520,6 +546,10 @@ public class BsMessageCB extends AbstractConditionBean {
         @Override
         protected void doSpecifyRequiredColumn() {
             columnMessageId(); // PK
+            if (qyCall().qy().hasConditionQueryFaceType()
+                    || qyCall().qy().xgetReferrerQuery() instanceof FaceTypeCQ) {
+                columnFaceTypeCode(); // FK or one-to-one referrer
+            }
             if (qyCall().qy().hasConditionQueryMessageType()
                     || qyCall().qy().xgetReferrerQuery() instanceof MessageTypeCQ) {
                 columnMessageTypeCode(); // FK or one-to-one referrer
@@ -543,7 +573,27 @@ public class BsMessageCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "MESSAGE"; }
+        protected String getTableDbName() { return "message"; }
+        /**
+         * Prepare to specify functions about relation table. <br>
+         * FACE_TYPE by my FACE_TYPE_CODE, named 'faceType'.
+         * @return The instance for specification for relation table to specify. (NotNull)
+         */
+        public FaceTypeCB.HpSpecification specifyFaceType() {
+            assertRelation("faceType");
+            if (_faceType == null) {
+                _faceType = new FaceTypeCB.HpSpecification(_baseCB
+                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryFaceType()
+                                    , () -> _qyCall.qy().queryFaceType())
+                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
+                if (xhasSyncQyCall()) { // inherits it
+                    _faceType.xsetSyncQyCall(xcreateSpQyCall(
+                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryFaceType()
+                      , () -> xsyncQyCall().qy().queryFaceType()));
+                }
+            }
+            return _faceType;
+        }
         /**
          * Prepare to specify functions about relation table. <br>
          * MESSAGE_TYPE by my MESSAGE_TYPE_CODE, named 'messageType'.

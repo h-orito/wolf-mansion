@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of MESSAGE. (Singleton)
+ * The DB meta of message. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class MessageDbm extends AbstractDBMeta {
@@ -63,6 +63,7 @@ public class MessageDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((Message)et).getIsConvertDisable(), (et, vl) -> {
             ((Message)et).setIsConvertDisable((Boolean)vl);
         }, "isConvertDisable");
+        setupEpg(_epgMap, et -> ((Message)et).getFaceTypeCode(), (et, vl) -> ((Message)et).setFaceTypeCode((String)vl), "faceTypeCode");
         setupEpg(_epgMap, et -> ((Message)et).getRegisterDatetime(), (et, vl) -> ((Message)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((Message)et).getRegisterTrace(), (et, vl) -> ((Message)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((Message)et).getUpdateDatetime(), (et, vl) -> ((Message)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -78,6 +79,7 @@ public class MessageDbm extends AbstractDBMeta {
     { xsetupEfpg(); }
     @SuppressWarnings("unchecked")
     protected void xsetupEfpg() {
+        setupEfpg(_efpgMap, et -> ((Message)et).getFaceType(), (et, vl) -> ((Message)et).setFaceType((OptionalEntity<FaceType>)vl), "faceType");
         setupEfpg(_efpgMap, et -> ((Message)et).getMessageType(), (et, vl) -> ((Message)et).setMessageType((OptionalEntity<MessageType>)vl), "messageType");
         setupEfpg(_efpgMap, et -> ((Message)et).getPlayer(), (et, vl) -> ((Message)et).setPlayer((OptionalEntity<Player>)vl), "player");
         setupEfpg(_efpgMap, et -> ((Message)et).getVillagePlayerByToVillagePlayerId(), (et, vl) -> ((Message)et).setVillagePlayerByToVillagePlayerId((OptionalEntity<VillagePlayer>)vl), "villagePlayerByToVillagePlayerId");
@@ -90,7 +92,7 @@ public class MessageDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "MESSAGE";
+    protected final String _tableDbName = "message";
     protected final String _tableDispName = "MESSAGE";
     protected final String _tablePropertyName = "message";
     protected final TableSqlName _tableSqlName = new TableSqlName("MESSAGE", _tableDbName);
@@ -114,6 +116,7 @@ public class MessageDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnMessageContent = cci("MESSAGE_CONTENT", "MESSAGE_CONTENT", null, null, String.class, "messageContent", null, false, false, true, "VARCHAR", 10000, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnMessageDatetime = cci("MESSAGE_DATETIME", "MESSAGE_DATETIME", null, null, java.time.LocalDateTime.class, "messageDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnIsConvertDisable = cci("IS_CONVERT_DISABLE", "IS_CONVERT_DISABLE", null, null, Boolean.class, "isConvertDisable", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
+    protected final ColumnInfo _columnFaceTypeCode = cci("FACE_TYPE_CODE", "FACE_TYPE_CODE", null, null, String.class, "faceTypeCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, "faceType", null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -125,32 +128,32 @@ public class MessageDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnMessageId() { return _columnMessageId; }
     /**
-     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
     /**
-     * VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillagePlayerId() { return _columnVillagePlayerId; }
     /**
-     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnToVillagePlayerId() { return _columnToVillagePlayerId; }
     /**
-     * PLAYER_ID: {IX, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {IX, INT UNSIGNED(10), FK to player}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnPlayerId() { return _columnPlayerId; }
     /**
-     * DAY: {NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+     * DAY: {NotNull, INT UNSIGNED(10), FK to village_day}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnDay() { return _columnDay; }
     /**
-     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnMessageTypeCode() { return _columnMessageTypeCode; }
@@ -174,6 +177,11 @@ public class MessageDbm extends AbstractDBMeta {
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnIsConvertDisable() { return _columnIsConvertDisable; }
+    /**
+     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnFaceTypeCode() { return _columnFaceTypeCode; }
     /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
@@ -208,6 +216,7 @@ public class MessageDbm extends AbstractDBMeta {
         ls.add(columnMessageContent());
         ls.add(columnMessageDatetime());
         ls.add(columnIsConvertDisable());
+        ls.add(columnFaceTypeCode());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());
@@ -247,12 +256,20 @@ public class MessageDbm extends AbstractDBMeta {
     //                                      Foreign Property
     //                                      ----------------
     /**
+     * FACE_TYPE by my FACE_TYPE_CODE, named 'faceType'.
+     * @return The information object of foreign property. (NotNull)
+     */
+    public ForeignInfo foreignFaceType() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnFaceTypeCode(), FaceTypeDbm.getInstance().columnFaceTypeCode());
+        return cfi("FK_MESSAGE_FACE_TYPE", "faceType", this, FaceTypeDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageList", false);
+    }
+    /**
      * MESSAGE_TYPE by my MESSAGE_TYPE_CODE, named 'messageType'.
      * @return The information object of foreign property. (NotNull)
      */
     public ForeignInfo foreignMessageType() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnMessageTypeCode(), MessageTypeDbm.getInstance().columnMessageTypeCode());
-        return cfi("FK_MESSAGE_MESSAGE_TYPE", "messageType", this, MessageTypeDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageList", false);
+        return cfi("FK_MESSAGE_MESSAGE_TYPE", "messageType", this, MessageTypeDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageList", false);
     }
     /**
      * PLAYER by my PLAYER_ID, named 'player'.
@@ -260,7 +277,7 @@ public class MessageDbm extends AbstractDBMeta {
      */
     public ForeignInfo foreignPlayer() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnPlayerId(), PlayerDbm.getInstance().columnPlayerId());
-        return cfi("FK_MESSAGE_PLAYER", "player", this, PlayerDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageList", false);
+        return cfi("FK_MESSAGE_PLAYER", "player", this, PlayerDbm.getInstance(), mp, 2, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageList", false);
     }
     /**
      * VILLAGE_PLAYER by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'.
@@ -268,7 +285,7 @@ public class MessageDbm extends AbstractDBMeta {
      */
     public ForeignInfo foreignVillagePlayerByToVillagePlayerId() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnToVillagePlayerId(), VillagePlayerDbm.getInstance().columnVillagePlayerId());
-        return cfi("FK_MESSAGE_VILLAGE_PLAYER_TO", "villagePlayerByToVillagePlayerId", this, VillagePlayerDbm.getInstance(), mp, 2, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageByToVillagePlayerIdList", false);
+        return cfi("FK_MESSAGE_VILLAGE_PLAYER_TO", "villagePlayerByToVillagePlayerId", this, VillagePlayerDbm.getInstance(), mp, 3, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageByToVillagePlayerIdList", false);
     }
     /**
      * VILLAGE_DAY by my VILLAGE_ID, DAY, named 'villageDay'.
@@ -278,7 +295,7 @@ public class MessageDbm extends AbstractDBMeta {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMapSized(4);
         mp.put(columnVillageId(), VillageDayDbm.getInstance().columnVillageId());
         mp.put(columnDay(), VillageDayDbm.getInstance().columnDay());
-        return cfi("FK_MESSAGE_VILLAGE_DAY", "villageDay", this, VillageDayDbm.getInstance(), mp, 3, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageList", false);
+        return cfi("FK_MESSAGE_VILLAGE_DAY", "villageDay", this, VillageDayDbm.getInstance(), mp, 4, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageList", false);
     }
     /**
      * VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayerByVillagePlayerId'.
@@ -286,7 +303,7 @@ public class MessageDbm extends AbstractDBMeta {
      */
     public ForeignInfo foreignVillagePlayerByVillagePlayerId() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillagePlayerId(), VillagePlayerDbm.getInstance().columnVillagePlayerId());
-        return cfi("FK_MESSAGE_VILLAGE_PLAYER", "villagePlayerByVillagePlayerId", this, VillagePlayerDbm.getInstance(), mp, 4, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageByVillagePlayerIdList", false);
+        return cfi("FK_MESSAGE_VILLAGE_PLAYER", "villagePlayerByVillagePlayerId", this, VillagePlayerDbm.getInstance(), mp, 5, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "messageByVillagePlayerIdList", false);
     }
 
     // -----------------------------------------------------

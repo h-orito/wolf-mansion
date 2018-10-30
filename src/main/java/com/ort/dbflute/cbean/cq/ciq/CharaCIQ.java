@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of CHARA.
+ * The condition-query for in-line of chara.
  * @author DBFlute(AutoGenerator)
  */
 public class CharaCIQ extends AbstractBsCharaCQ {
@@ -66,6 +66,8 @@ public class CharaCIQ extends AbstractBsCharaCQ {
     { throwIICBOE("ExistsReferrer"); return null; }
     public String keepCharaId_ExistsReferrer_AbilityByTargetCharaIdList(AbilityCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
+    public String keepCharaId_ExistsReferrer_CharaImageList(CharaImageCQ sq)
+    { throwIICBOE("ExistsReferrer"); return null; }
     public String keepCharaId_ExistsReferrer_FootstepList(FootstepCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
     public String keepCharaId_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
@@ -78,6 +80,8 @@ public class CharaCIQ extends AbstractBsCharaCQ {
     { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepCharaId_NotExistsReferrer_AbilityByTargetCharaIdList(AbilityCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
+    public String keepCharaId_NotExistsReferrer_CharaImageList(CharaImageCQ sq)
+    { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepCharaId_NotExistsReferrer_FootstepList(FootstepCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepCharaId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
@@ -89,6 +93,8 @@ public class CharaCIQ extends AbstractBsCharaCQ {
     public String keepCharaId_SpecifyDerivedReferrer_AbilityByCharaIdList(AbilityCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepCharaId_SpecifyDerivedReferrer_AbilityByTargetCharaIdList(AbilityCQ sq)
+    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
+    public String keepCharaId_SpecifyDerivedReferrer_CharaImageList(CharaImageCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepCharaId_SpecifyDerivedReferrer_FootstepList(FootstepCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
@@ -105,6 +111,10 @@ public class CharaCIQ extends AbstractBsCharaCQ {
     public String keepCharaId_QueryDerivedReferrer_AbilityByTargetCharaIdList(AbilityCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepCharaId_QueryDerivedReferrer_AbilityByTargetCharaIdListParameter(Object vl)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepCharaId_QueryDerivedReferrer_CharaImageList(CharaImageCQ sq)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepCharaId_QueryDerivedReferrer_CharaImageListParameter(Object vl)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepCharaId_QueryDerivedReferrer_FootstepList(FootstepCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
@@ -125,9 +135,8 @@ public class CharaCIQ extends AbstractBsCharaCQ {
     protected ConditionValue xgetCValueCharaName() { return _myCQ.xdfgetCharaName(); }
     protected ConditionValue xgetCValueCharaShortName() { return _myCQ.xdfgetCharaShortName(); }
     protected ConditionValue xgetCValueCharaGroupId() { return _myCQ.xdfgetCharaGroupId(); }
-    protected ConditionValue xgetCValueCharaImgUrl() { return _myCQ.xdfgetCharaImgUrl(); }
-    protected ConditionValue xgetCValueIsDummy() { return _myCQ.xdfgetIsDummy(); }
     protected ConditionValue xgetCValueDefaultJoinMessage() { return _myCQ.xdfgetDefaultJoinMessage(); }
+    protected ConditionValue xgetCValueDefaultFirstdayMessage() { return _myCQ.xdfgetDefaultFirstdayMessage(); }
     protected ConditionValue xgetCValueDisplayWidth() { return _myCQ.xdfgetDisplayWidth(); }
     protected ConditionValue xgetCValueDisplayHeight() { return _myCQ.xdfgetDisplayHeight(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }

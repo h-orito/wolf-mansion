@@ -16,3 +16,4 @@ data-directory: playsql/data/ut/tsv/UTF-8
 07-VILLAGE_PLAYER.tsv (151)
 08-ABILITY.tsv (121)
 09-MESSAGE.tsv (16670)
+10-CHARA_IMAGE.tsv (114)

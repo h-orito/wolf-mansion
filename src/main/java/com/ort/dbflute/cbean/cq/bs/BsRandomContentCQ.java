@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of RANDOM_CONTENT.
+ * The base condition-query of random_content.
  * @author DBFlute(AutoGenerator)
  */
 public class BsRandomContentCQ extends AbstractBsRandomContentCQ {
@@ -35,7 +35,7 @@ public class BsRandomContentCQ extends AbstractBsRandomContentCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from RANDOM_CONTENT) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from random_content) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsRandomContentCQ extends AbstractBsRandomContentCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join RANDOM_CONTENT on ... and FOO = [value] ...}
+     * {select ... from ... left outer join random_content on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -101,14 +101,14 @@ public class BsRandomContentCQ extends AbstractBsRandomContentCQ {
 
     /** 
      * Add order-by as ascend. <br>
-     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD}
+     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword}
      * @return this. (NotNull)
      */
     public BsRandomContentCQ addOrderBy_RandomKeywordId_Asc() { regOBA("RANDOM_KEYWORD_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD}
+     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword}
      * @return this. (NotNull)
      */
     public BsRandomContentCQ addOrderBy_RandomKeywordId_Desc() { regOBD("RANDOM_KEYWORD_ID"); return this; }
@@ -196,7 +196,7 @@ public class BsRandomContentCQ extends AbstractBsRandomContentCQ {
         return xgetQueRlMap(prop);
     }
     protected RandomKeywordCQ xcreateQueryRandomKeyword() {
-        String nrp = xresolveNRP("RANDOM_CONTENT", "randomKeyword"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("random_content", "randomKeyword"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new RandomKeywordCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "randomKeyword", nrp);
     }
     protected void xsetupOuterJoinRandomKeyword() { xregOutJo("randomKeyword"); }
