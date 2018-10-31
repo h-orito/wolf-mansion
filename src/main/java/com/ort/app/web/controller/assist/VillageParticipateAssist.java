@@ -12,6 +12,7 @@ import com.ort.app.web.controller.logic.VillageParticipateLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
 import com.ort.app.web.form.VillageParticipateForm;
+import com.ort.app.web.util.CharaUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.PlayerBhv;
@@ -67,7 +68,8 @@ public class VillageParticipateAssist {
         Chara chara = charaBhv.selectByPK(participateForm.getCharaId()).orElseThrow(() -> {
             return new IllegalArgumentException("改ざん？");
         });
-        model.addAttribute("characterImgUrl", chara.getCharaImgUrl());
+        charaBhv.loadCharaImage(chara, charaImageCB -> charaImageCB.query().setFaceTypeCode_Equal_通常());
+        model.addAttribute("characterImgUrl", CharaUtil.getNormalCharaImgUrl(chara));
         model.addAttribute("characterImgWidth", chara.getDisplayWidth());
         model.addAttribute("characterImgHeight", chara.getDisplayHeight());
         model.addAttribute("villageId", villageId);

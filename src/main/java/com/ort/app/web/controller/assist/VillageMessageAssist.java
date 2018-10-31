@@ -142,7 +142,7 @@ public class VillageMessageAssist {
     //                                                                              ======
     private PagingResultBean<Message> selectMessageList(Integer villageId, Integer day, List<CDef.MessageType> messageTypeList,
             OptionalEntity<VillagePlayer> optVillagePlayer, Integer pageNum, Integer pageSize) {
-        return messageBhv.selectPage(cb -> {
+        PagingResultBean<Message> messagePage = messageBhv.selectPage(cb -> {
             if (pageNum != null && pageSize != null) {
                 cb.paging(pageSize, pageNum);
             } else if (pageSize != null) {
@@ -178,6 +178,10 @@ public class VillageMessageAssist {
             cb.query().addOrderBy_MessageDatetime_Asc();
             cb.query().addOrderBy_MessageId_Asc();
         });
+        messageBhv.load(messagePage, loader -> {
+            loader.pulloutVillagePlayerByVillagePlayerId().pulloutChara().loadCharaImage(charaImageCB -> {});
+        });
+        return messagePage;
     }
 
     private OptionalScalar<LocalDateTime> selectLatestMessageDatetime(Integer villageId, Integer latestDay,
@@ -244,6 +248,11 @@ public class VillageMessageAssist {
             cb.query().setMessageNumber_Equal(form.getMessageNumber());
             cb.query().setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.codeOf(form.getMessageType()));
         }).orElse(null);
+        if (message != null) {
+            messageBhv.load(message, loader -> {
+                loader.pulloutVillagePlayerByVillagePlayerId().pulloutChara().loadCharaImage(charaImageCB -> {});
+            });
+        }
         return message;
     }
 
@@ -352,7 +361,7 @@ public class VillageMessageAssist {
             messageDto.setCharacterName(chara.getCharaName());
             messageDto.setCharacterShortName(chara.getCharaShortName());
             messageDto.setCharacterId(chara.getCharaId());
-            messageDto.setCharacterImageUrl(chara.getCharaImgUrl());
+            messageDto.setCharacterImageUrl(CharaUtil.getCharaImgUrlByFaceType(chara, message.getFaceTypeCodeAsFaceType()));
             messageDto.setWidth(chara.getDisplayWidth());
             messageDto.setHeight(chara.getDisplayHeight());
         });
@@ -662,12 +671,13 @@ public class VillageMessageAssist {
             cb.query().setVillageId_Equal(village.getVillageId());
             cb.query().setDay_Equal(day);
         });
+        Integer dummyCharaId = village.getVillageSettingsAsOne().get().getDummyCharaId();
         int livingPersonNum = villagePlayerBhv.selectCount(cb -> {
             cb.query().setVillageId_Equal(village.getVillageId());
             cb.query().setIsGone_Equal_False();
             cb.query().setIsSpectator_Equal_False();
             cb.query().setIsDead_Equal_False();
-            cb.query().queryChara().setIsDummy_Equal_False();
+            cb.query().queryChara().setCharaId_NotEqual(dummyCharaId);
         });
         return String.format("生存者全員がコミットすると日付が更新されます。\n\n現在 %d/%d人 がコミットしています。", commitCount, livingPersonNum);
     }

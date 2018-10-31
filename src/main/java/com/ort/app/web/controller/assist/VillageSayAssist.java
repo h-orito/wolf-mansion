@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import com.ort.app.web.controller.logic.MessageLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageSayForm;
+import com.ort.app.web.util.CharaUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.MessageType;
 import com.ort.dbflute.exbhv.MessageRestrictionBhv;
@@ -71,8 +72,11 @@ public class VillageSayAssist {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, sayForm, null, null, model);
         }
-
-        model.addAttribute("characterImgUrl", villagePlayer.getChara().get().getCharaImgUrl());
+        CDef.FaceType faceType = CDef.FaceType.codeOf(sayForm.getFaceType());
+        if (faceType == null) {
+            throw new IllegalArgumentException("表情種別が改ざんされている");
+        }
+        model.addAttribute("characterImgUrl", CharaUtil.getCharaImgUrlByFaceType(villagePlayer.getChara().get(), faceType));
         model.addAttribute("characterImgWidth", villagePlayer.getChara().get().getDisplayWidth());
         model.addAttribute("characterImgHeight", villagePlayer.getChara().get().getDisplayHeight());
         model.addAttribute("randomKeywords", String.join(",",

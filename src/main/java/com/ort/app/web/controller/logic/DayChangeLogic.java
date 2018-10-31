@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dbflute.cbean.result.ListResultBean;
 import org.dbflute.optional.OptionalEntity;
@@ -98,7 +97,7 @@ public class DayChangeLogic {
         LocalDateTime nextDaychangeDatetime = daychangeDatetime.plusSeconds(intervalSeconds);
 
         // プロローグで接続していない人を退村させる
-        leaveVillageIfNeeded(day, villageId);
+        leaveVillageIfNeeded(day, villageId, settings);
 
         // 日付更新の必要がなければ終了
         if (!shouldChangeDay(village, daychangeDatetime, settings, day, vPlayerList)) {
@@ -118,7 +117,7 @@ public class DayChangeLogic {
         if (day == 0) { // プロ→1日目
             insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ,
                     messageSource.getMessage("village.start.message.day1", null, Locale.JAPAN));
-            assignLogic.assignSkill(villageId, vPlayerList); // 役職割り当て
+            assignLogic.assignSkill(villageId, vPlayerList, settings); // 役職割り当て
             assignLogic.assignRoom(villageId, vPlayerList); // 部屋割り当て
             updateVillageStatus(villageId, CDef.VillageStatus.進行中); // 村ステータス更新
             setDefaultVoteAndAbility(villageId, newDay, settings); // 投票、能力行使のデフォルト設定
@@ -296,7 +295,7 @@ public class DayChangeLogic {
             cb.query().setDay_Equal(day);
         });
         long livingPersonNum = vPlayerList.stream()
-                .filter(vp -> vp.isIsDeadFalse() && vp.isIsSpectatorFalse() && vp.getChara().get().isIsDummyFalse())
+                .filter(vp -> vp.isIsDeadFalse() && vp.isIsSpectatorFalse() && vp.getCharaId().intValue() != settings.getDummyCharaId())
                 .count();
         return commitNum == livingPersonNum;
     }
@@ -335,11 +334,7 @@ public class DayChangeLogic {
         Integer attackedCharaId = null;
         if (newDay == 1) {
             // ダミーキャラ固定
-            attackedCharaId = villagePlayerList.stream()
-                    .filter(vp -> BooleanUtils.isTrue(vp.getChara().get().getIsDummy()))
-                    .findFirst()
-                    .get()
-                    .getCharaId();
+            attackedCharaId = village.getVillageSettingsAsOne().get().getDummyCharaId();
         } else {
             // 狼以外の生存している誰か
             attackedCharaId = getRandomInList(villagePlayerList, vp -> vp.getSkillCodeAsSkill() != CDef.Skill.人狼).getCharaId();
@@ -837,7 +832,7 @@ public class DayChangeLogic {
         }).stream().map(vote -> vote.getCharaId()).collect(Collectors.toList());
         // 投票していない人
         List<VillagePlayer> noVotePlayerList = vPlayerList.stream().filter(vp -> {
-            if (vp.getChara().get().isIsDummyTrue() || vp.isIsSpectatorTrue() || vp.isIsDeadTrue()) {
+            if (vp.getCharaId().intValue() != settings.getDummyCharaId() || vp.isIsSpectatorTrue() || vp.isIsDeadTrue()) {
                 return false; // ダミーと見学と既に死亡している人は対象外
             }
             // 投票していない人
@@ -964,7 +959,7 @@ public class DayChangeLogic {
     }
 
     // プロローグで長時間接続していない人がいたら退村させる
-    private void leaveVillageIfNeeded(Integer day, Integer villageId) {
+    private void leaveVillageIfNeeded(Integer day, Integer villageId, VillageSettings settings) {
         if (day != 0) {
             return;
         }
@@ -979,7 +974,7 @@ public class DayChangeLogic {
                 orCB.query().setLastAccessDatetime_IsNull();
                 orCB.query().setLastAccessDatetime_LessThan(yesterday);
             });
-            cb.query().queryChara().setIsDummy_Equal_False();
+            cb.query().setCharaId_NotEqual(settings.getDummyCharaId());
             cb.query().setIsGone_Equal_False();
         }).stream().forEach(vp -> {
             villageParticipateLogic.leave(vp);

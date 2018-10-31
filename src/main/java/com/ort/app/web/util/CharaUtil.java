@@ -1,5 +1,6 @@
 package com.ort.app.web.util;
 
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.VillagePlayer;
 
@@ -37,5 +38,14 @@ public class CharaUtil {
 
     public static String getNormalCharaImgUrl(Chara chara) {
         return chara.getCharaImageList().stream().filter(im -> im.isFaceTypeCode通常()).findFirst().get().getCharaImgUrl();
+    }
+
+    public static String getCharaImgUrlByFaceType(Chara chara, CDef.FaceType faceType) {
+        return chara.getCharaImageList()
+                .stream()
+                .filter(im -> im.getFaceTypeCodeAsFaceType() == faceType)
+                .findFirst()
+                .get()
+                .getCharaImgUrl();
     }
 }

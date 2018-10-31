@@ -60,7 +60,7 @@ public class VillageInfo {
             stVPList = stVPList.filter(vp -> vp.isIsSpectatorFalse());
         }
         if (rejectDummy) {
-            stVPList = stVPList.filter(vp -> vp.getChara().get().isIsDummyFalse());
+            stVPList = stVPList.filter(vp -> vp.getCharaId().intValue() != settings.getDummyCharaId());
         }
         return stVPList.collect(Collectors.toList());
     }

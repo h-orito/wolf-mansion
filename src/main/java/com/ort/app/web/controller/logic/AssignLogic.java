@@ -26,6 +26,7 @@ import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
+import com.ort.dbflute.exentity.VillageSettings;
 
 @Component
 public class AssignLogic {
@@ -69,13 +70,15 @@ public class AssignLogic {
     //                                                                             Execute
     //                                                                             =======
     // 役職を割り当てる
-    public void assignSkill(Integer villageId, List<VillagePlayer> vPlayerList) {
+    public void assignSkill(Integer villageId, List<VillagePlayer> vPlayerList, VillageSettings settings) {
+        Integer dummyCharaId = settings.getDummyCharaId();
+
         // 村人数に応じた役職人数Map（key: 役職, value: 役職人数）
         Map<CDef.Skill, Integer> skillPersonNumMap = makeSkillPersonNumMap(villageId, vPlayerList.size());
         // 人数により役職構成が切り替わった場合に役職希望を自動で変更する
-        List<VillagePlayer> vpList = updateSkillRequestByOrganization(villageId, vPlayerList, skillPersonNumMap);
+        List<VillagePlayer> vpList = updateSkillRequestByOrganization(villageId, vPlayerList, skillPersonNumMap, dummyCharaId);
         // 管理用オブジェクトへの詰め替え、ダミー配役
-        List<SkillAssign> skillAssignList = createSkillAssignList(vpList);
+        List<SkillAssign> skillAssignList = createSkillAssignList(vpList, dummyCharaId);
         // 第1希望で役職指定で希望した人に割り当て
         assignSpecifySkillRequest(skillAssignList, skillPersonNumMap, true);
         // 第1希望で範囲指定で希望した人に割り当て
@@ -216,8 +219,8 @@ public class AssignLogic {
      * @return
      */
     private List<VillagePlayer> updateSkillRequestByOrganization(Integer villageId, List<VillagePlayer> vPlayerList,
-            Map<Skill, Integer> skillPersonNumMap) {
-        vPlayerList.stream().filter(vp -> vp.getChara().get().isIsDummyFalse()).forEach(vp -> {
+            Map<Skill, Integer> skillPersonNumMap, Integer dummyCharaId) {
+        vPlayerList.stream().filter(vp -> vp.getCharaId().intValue() != dummyCharaId).forEach(vp -> {
             SkillRequest before = new SkillRequest(vp.getRequestSkillCodeAsSkill(), vp.getSecondRequestSkillCodeAsSkill());
             SkillRequest after = new SkillRequest(vp.getRequestSkillCodeAsSkill(), vp.getSecondRequestSkillCodeAsSkill());
             // 存在する役職に変更
@@ -312,11 +315,11 @@ public class AssignLogic {
         }
     }
 
-    private List<SkillAssign> createSkillAssignList(List<VillagePlayer> vPlayerList) {
-        List<SkillAssign> skillAssignList = vPlayerList.stream().filter(vp -> vp.getChara().get().isIsDummyFalse()).map(vp -> {
+    private List<SkillAssign> createSkillAssignList(List<VillagePlayer> vPlayerList, Integer dummyCharaId) {
+        List<SkillAssign> skillAssignList = vPlayerList.stream().filter(vp -> vp.getCharaId().intValue() != dummyCharaId).map(vp -> {
             return new SkillAssign(vp.getVillagePlayerId(), vp.getRequestSkillCodeAsSkill(), vp.getSecondRequestSkillCodeAsSkill());
         }).collect(Collectors.toList());
-        VillagePlayer dummy = vPlayerList.stream().filter(vp -> vp.getChara().get().isIsDummyTrue()).findFirst().get();
+        VillagePlayer dummy = vPlayerList.stream().filter(vp -> vp.getCharaId().intValue() == dummyCharaId).findFirst().get();
         SkillAssign assign =
                 new SkillAssign(dummy.getVillagePlayerId(), dummy.getRequestSkillCodeAsSkill(), dummy.getSecondRequestSkillCodeAsSkill());
         assign.assignedSkill = CDef.Skill.村人; // 村人固定

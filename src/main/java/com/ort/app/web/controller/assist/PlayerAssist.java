@@ -14,6 +14,7 @@ import com.ort.app.web.model.inner.PlayerCampStatsDto;
 import com.ort.app.web.model.inner.PlayerParticipateVillageDto;
 import com.ort.app.web.model.inner.PlayerSkillStatsDto;
 import com.ort.app.web.model.inner.PlayerStatsDto;
+import com.ort.app.web.util.CharaUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.exbhv.PlayerBhv;
@@ -52,14 +53,19 @@ public class PlayerAssist {
             return;
         }
         Player player = optPlayer.get();
-        playerBhv.loadVillagePlayer(player, vPlayerCB -> {
-            vPlayerCB.setupSelect_Chara();
-            vPlayerCB.setupSelect_DeadReason();
-            vPlayerCB.setupSelect_Village();
-            vPlayerCB.setupSelect_SkillBySkillCode().withCamp();
-            vPlayerCB.query().addOrderBy_VillageId_Desc();
+        playerBhv.load(player, loader -> {
+            loader.loadVillagePlayer(vPlayerCB -> {
+                vPlayerCB.setupSelect_Chara();
+                vPlayerCB.setupSelect_DeadReason();
+                vPlayerCB.setupSelect_Village();
+                vPlayerCB.setupSelect_SkillBySkillCode().withCamp();
+                vPlayerCB.query().addOrderBy_VillageId_Desc();
+            }).withNestedReferrer(vPlayerLoader -> {
+                vPlayerLoader.pulloutChara().loadCharaImage(charaImageCB -> {
+                    charaImageCB.query().setFaceTypeCode_Equal_通常();
+                });
+            });
         });
-
         PlayerResultContent content = mappingToContent(player);
         model.addAttribute("content", content);
     }
@@ -172,7 +178,7 @@ public class PlayerAssist {
             participateVillageDto.setVillageId(vp.getVillageId());
             participateVillageDto.setVillageName(village.getVillageDisplayName());
             participateVillageDto.setCharacterName(chara.getCharaName());
-            participateVillageDto.setCharacterImgUrl(chara.getCharaImgUrl());
+            participateVillageDto.setCharacterImgUrl(CharaUtil.getNormalCharaImgUrl(chara));
             participateVillageDto.setCharacterImgWidth(chara.getDisplayWidth());
             participateVillageDto.setCharacterImgHeight(chara.getDisplayHeight());
             participateVillageDto.setSkillName(skill.alias());
@@ -192,7 +198,7 @@ public class PlayerAssist {
             participateVillageDto.setVillageId(vp.getVillageId());
             participateVillageDto.setVillageName(village.getVillageDisplayName());
             participateVillageDto.setCharacterName(chara.getCharaName());
-            participateVillageDto.setCharacterImgUrl(chara.getCharaImgUrl());
+            participateVillageDto.setCharacterImgUrl(CharaUtil.getNormalCharaImgUrl(chara));
             participateVillageDto.setCharacterImgWidth(chara.getDisplayWidth());
             participateVillageDto.setCharacterImgHeight(chara.getDisplayHeight());
             return participateVillageDto;

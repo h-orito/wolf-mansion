@@ -282,7 +282,7 @@ public class VillageDispLogic {
             if (villageInfo.day == 1) {
                 // ダミーキャラ固定
                 return villageInfo.vPlayerList.stream()
-                        .filter(vp -> vp.getChara().get().isIsDummyTrue())
+                        .filter(vp -> vp.getCharaId().intValue() == villageInfo.settings.getDummyCharaId())
                         .map(vp -> new OptionDto(vp))
                         .collect(Collectors.toList());
             } else {

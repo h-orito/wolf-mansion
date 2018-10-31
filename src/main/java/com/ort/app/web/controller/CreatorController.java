@@ -75,12 +75,15 @@ public class CreatorController {
         }
 
         Integer charaId = kickForm.getCharaId();
-
+        Village village = villageBhv.selectEntityWithDeletedCheck(cb -> {
+            cb.setupSelect_VillageSettingsAsOne();
+            cb.query().setVillageId_Equal(villageId);
+        });
         OptionalEntity<VillagePlayer> optVPlayer = villagePlayerBhv.selectEntity(cb -> {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setCharaId_Equal(charaId);
             cb.query().setIsGone_Equal_False();
-            cb.query().queryChara().setIsDummy_Equal_False();
+            cb.query().setCharaId_NotEqual(village.getVillageSettingsAsOne().get().getDummyCharaId());
         });
         // いなかった
         if (!optVPlayer.isPresent()) {

@@ -41,5 +41,4 @@ public class VillageSayFormValidator implements Validator {
             errors.rejectValue("message", "VillageSayForm.validator.message.line");
         }
     }
-
 }

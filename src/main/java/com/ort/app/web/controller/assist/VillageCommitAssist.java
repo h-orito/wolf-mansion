@@ -62,7 +62,8 @@ public class VillageCommitAssist {
             return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
         }
         // 自分がダミーだったり死亡していたり観戦だったら何もしない
-        if (villagePlayer.isIsDeadTrue() || villagePlayer.isIsSpectatorTrue() || villagePlayer.getChara().get().isIsDummyTrue()) {
+        if (villagePlayer.isIsDeadTrue() || villagePlayer.isIsSpectatorTrue()
+                || villagePlayer.getCharaId().intValue() == village.getVillageSettingsAsOne().get().getDummyCharaId()) {
             return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
         }
         int day = villageAssist.selectLatestDay(villageId);
