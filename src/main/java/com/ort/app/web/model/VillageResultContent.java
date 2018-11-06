@@ -180,6 +180,9 @@ public class VillageResultContent implements Serializable {
     /** ネタバレ表示（エピと墓下公開用） */
     private Boolean isDispSpoilerContent;
 
+    /** 選択可能な表情区分 */
+    private List<OptionDto> faceTypeList;
+
     public Integer getVillageId() {
         return villageId;
     }
@@ -610,5 +613,13 @@ public class VillageResultContent implements Serializable {
 
     public void setRestrict(SayRestrictDto restrict) {
         this.restrict = restrict;
+    }
+
+    public List<OptionDto> getFaceTypeList() {
+        return faceTypeList;
+    }
+
+    public void setFaceTypeList(List<OptionDto> faceTypeList) {
+        this.faceTypeList = faceTypeList;
     }
 }

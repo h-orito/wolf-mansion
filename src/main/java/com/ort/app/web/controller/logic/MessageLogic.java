@@ -71,53 +71,28 @@ public class MessageLogic {
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
+    // 秘話など、相手がいる可能性があるのはこれを使う
     public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId,
-            Integer targetVillagePlayerId, Integer playerId, boolean isConvertDisable) throws WerewolfMansionBusinessException {
-        Message message = new Message();
-        message.setVillageId(villageId);
-        message.setDay(day);
-        message.setVillagePlayerId(villagePlayerId);
-        message.setToVillagePlayerId(targetVillagePlayerId);
-        message.setPlayerId(playerId);
-        message.setMessageTypeCodeAsMessageType(messageType);
-        message.setMessageContent(content);
-        message.setMessageDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
-        message.setIsConvertDisable(isConvertDisable);
-        for (int i = 0; i < 3; i++) {
-            try {
-                // 採番で被ることがあるため、insert失敗しても合計3回までやりなおす
-                message.setMessageNumber(selectNextMessageNumber(villageId, messageType));
-                messageBhv.insert(message);
-                return;
-            } catch (Exception e) {
-                // 何もせずやり直す
-            }
-        }
-        // ここにきたら発言失敗している
-        throw new WerewolfMansionBusinessException("混み合っているため発言に失敗しました。再度発言してください。");
-    }
-
-    public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId,
-            Integer targetVillagePlayerId, boolean isConvertDisable) throws WerewolfMansionBusinessException {
+            Integer targetVillagePlayerId, boolean isConvertDisable, CDef.FaceType faceType) throws WerewolfMansionBusinessException {
         // ランダム機能などメッセージ関数を置換して登録
         String message = content;
         if (!isConvertDisable) {
             ListResultBean<VillagePlayer> vPlayerList = selectVPlayerList(villageId);
             message = replaceMessage(content, vPlayerList);
         }
-        insertMessage(villageId, day, messageType, message, villagePlayerId, targetVillagePlayerId, null, isConvertDisable);
+        insertMessage(villageId, day, messageType, message, villagePlayerId, targetVillagePlayerId, null, isConvertDisable, faceType);
         // 特定の文字列が含まれていたらslack投稿
         postToSlackIfNeeded(villageId, day, message);
     }
 
     public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId,
-            boolean isConvertDisable) throws WerewolfMansionBusinessException {
-        insertMessage(villageId, day, messageType, content, villagePlayerId, null, isConvertDisable);
+            boolean isConvertDisable, CDef.FaceType faceType) throws WerewolfMansionBusinessException {
+        insertMessage(villageId, day, messageType, content, villagePlayerId, null, isConvertDisable, faceType);
     }
 
     public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, boolean isConvertDisable)
             throws WerewolfMansionBusinessException {
-        insertMessage(villageId, day, messageType, content, null, isConvertDisable);
+        insertMessage(villageId, day, messageType, content, null, isConvertDisable, null);
     }
 
     // 次の発言番号を返す
@@ -198,6 +173,35 @@ public class MessageLogic {
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
+    private void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId,
+            Integer targetVillagePlayerId, Integer playerId, boolean isConvertDisable, CDef.FaceType faceType)
+            throws WerewolfMansionBusinessException {
+        Message message = new Message();
+        message.setVillageId(villageId);
+        message.setDay(day);
+        message.setVillagePlayerId(villagePlayerId);
+        message.setToVillagePlayerId(targetVillagePlayerId);
+        message.setPlayerId(playerId);
+        message.setMessageTypeCodeAsMessageType(messageType);
+        message.setMessageContent(content);
+        message.setMessageDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
+        message.setIsConvertDisable(isConvertDisable);
+        message.setFaceTypeCodeAsFaceType(faceType);
+        for (int i = 0; i < 3; i++) {
+            try {
+                // 採番で被ることがあるため、insert失敗しても合計3回までやりなおす
+                message.setMessageNumber(selectNextMessageNumber(villageId, messageType));
+                messageBhv.insert(message);
+                return;
+            } catch (Exception e) {
+                e.printStackTrace();
+                // 何もせずやり直す
+            }
+        }
+        // ここにきたら発言失敗している
+        throw new WerewolfMansionBusinessException("混み合っているため発言に失敗しました。再度発言してください。");
+    }
+
     private String makeAbilitySetMessage(Integer charaId, Integer targetCharaId, List<VillagePlayer> villagePlayerList, String footstep,
             boolean isDefault) {
         // 自分

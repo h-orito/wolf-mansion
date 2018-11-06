@@ -1,24 +1,46 @@
 $(function() {
 
-	const GET_DUMMY_CHARA_INFO_URL = contextPath + '/getDummyCharaImgUrl/';
+	const GET_DUMMY_CHARA_INFO_URL = contextPath + '/getCharacterList/';
+	let characterList = null;
 
 	$('#characterSetId').on('change', function() {
 		const charaGroupId = $(this).val();
-		replaceDummyCharaInfo(charaGroupId);
+		replaceCharaSet(charaGroupId);
 	});
 
-	function replaceDummyCharaInfo(charaGroupId) {
+	replaceCharaSet($('#characterSetId').val());
+	function replaceCharaSet(charaGroupId) {
 		$.ajax({
 			type : 'GET',
 			url : GET_DUMMY_CHARA_INFO_URL + charaGroupId
 		}).then(function(response) {
-			$('#dummy-chara-img').html($('<img />', {
-				src : response.charaImgUrl,
-				width : response.charaImgWidth,
-				height : response.charaImgHeight
-			}));
-			$('#dummy-chara-join-message').attr('placeholder', response.joinMessage);
+			characterList = response;
+			// 発言欄
+			replaceDummyChara(response[0].charaId);
+			// プルダウン
+			const $dummyCharaSelect = $('#dummyCharaId');
+			$dummyCharaSelect.empty();
+			$.each(response, function(idx, elm) {
+				$dummyCharaSelect.append($('<option></option>', {
+					text : elm.charaName,
+					value : elm.charaId,
+				}));
+			});
 		});
+	}
+	
+	$('#dummyCharaId').on('change', function(){
+		replaceDummyChara($(this).val());
+	});
+	
+	function replaceDummyChara(charaId) {
+		const dummyChara = characterList.filter(c => c.charaId === parseInt(charaId))[0];
+		$('#dummy-chara-img').html($('<img />', {
+			src : dummyChara.charaImgUrl,
+			width : dummyChara.charaImgWidth,
+			height : dummyChara.charaImgHeight
+		}));
+		$('#dummy-chara-join-message').attr('placeholder', dummyChara.joinMessage);
 	}
 
 	// 構成
@@ -30,8 +52,8 @@ $(function() {
 		}).join('\n');
 		$('#organization').val(organization);
 	}
-	
-	$('#new-village-form').on('submit', function(){
+
+	$('#new-village-form').on('submit', function() {
 		const orgs = $('#organization').val();
 		const organization = orgs.split('\n').map(function(elm, idx) {
 			return elm.split('：')[1]
@@ -89,6 +111,4 @@ $(function() {
 		});
 		initRestrict();
 	});
-
-	replaceDummyCharaInfo($('#characterSetId').val());
 });

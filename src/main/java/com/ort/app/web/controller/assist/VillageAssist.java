@@ -212,7 +212,9 @@ public class VillageAssist {
             return OptionalThing.empty();
         }
         villagePlayerBhv.load(optVillagePlayer.get(), loader -> {
-            loader.pulloutChara().loadCharaImage(charaImageCB -> {});
+            loader.pulloutChara().loadCharaImage(charaImageCB -> {
+                charaImageCB.query().queryFaceType().addOrderBy_DispOrder_Asc();
+            });
         });
         return optVillagePlayer;
     }
@@ -235,6 +237,8 @@ public class VillageAssist {
             loader.pulloutCharaGroup().loadChara(charaCB -> {
                 charaCB.query().setCharaId_NotEqual(villageSettings.getDummyCharaId());
                 charaCB.query().setCharaId_NotInScope(alreadyParticipatePlayerIdList);
+            }).withNestedReferrer(charaLoader -> {
+                charaLoader.loadCharaImage(charaImageCB -> charaImageCB.query().setFaceTypeCode_Equal_通常());
             });
         });
         return villageSettings.getCharaGroup().get().getCharaList();
@@ -411,7 +415,7 @@ public class VillageAssist {
         content.setDay(villageInfo.day);
         content.setDayList(villageInfo.getDayList());
         content.setEpilogueDay(villageInfo.village.getEpilogueDay());
-        content.setVillageSettings(convertToSettings(villageInfo.settings, villageInfo.dayList));
+        content.setVillageSettings(convertToSettings(villageInfo));
         content.setSayRestrictList(convertToRestrictList(villageInfo.village.getMessageRestrictionList()));
         content.setIsSkillRequestAvailable(villageInfo.settings.getIsPossibleSkillRequest());
         content.setDayChangeDatetime(makeDayChangeDatetime(villageInfo));
@@ -582,8 +586,18 @@ public class VillageAssist {
         content.setIsAvailableSpectateSay(isAllSayAvailable || isAvailableSpectateSay); // 見学発言が発言可能か
         content.setIsAvailableMonologueSay(isAllSayAvailable || isAvailableMonologueSay); // 独り言が発言可能か
         content.setRestrict(villageDispLogic.makeRestrict(villageInfo));
+        content.setFaceTypeList(isDispSayForm ? makeFaceTypeCodeList(villageInfo) : null);
         setDefaultMessageTypeIfNeeded(sayForm, isDispSayForm, isAvailableNormalSay, isAvailableWerewolfSay, isAvailableMasonSay,
                 isAvailableGraveSay, isAvailableMonologueSay, isAvailableSpectateSay, villageInfo, model); // デフォルト発言区分
+    }
+
+    private List<OptionDto> makeFaceTypeCodeList(VillageInfo villageInfo) {
+        return villageInfo.optVillagePlayer.get().getChara().get().getCharaImageList().stream().map(img -> {
+            OptionDto option = new OptionDto();
+            option.setName(img.getFaceTypeCodeAsFaceType().alias());
+            option.setValue(img.getFaceTypeCode());
+            return option;
+        }).collect(Collectors.toList());
     }
 
     private void setVillageModekChangeRequestSkillForm(VillageResultContent content, OptionalThing<VillagePlayer> optVillagePlayer,
@@ -698,24 +712,26 @@ public class VillageAssist {
     private VillageRoomAssignedDto createRoomInfo(VillageInfo villageInfo, Integer width, int roomNum) {
         VillageRoomAssignedDto room = new VillageRoomAssignedDto();
         room.setRoomNumber(String.format("%02d", roomNum));
-        villageInfo.vPlayerList.stream().filter(vp -> vp.isIsSpectatorFalse() && vp.getRoomNumber().equals(roomNum)).findFirst().ifPresent(
-                vp -> {
-                    Chara chara = vp.getChara().get();
-                    room.setCharaName(chara.getCharaShortName());
-                    room.setCharaImgUrl(CharaUtil.getNormalCharaImgUrl(chara));
-                    room.setCharaImgWidth(chara.getDisplayWidth());
-                    room.setCharaImgHeight(chara.getDisplayHeight());
-                    if (vp.getDeadDay() != null && vp.getDeadDay() <= villageInfo.day) {
-                        room.setIsDead(true);
-                        room.setDeadDay(vp.getDeadDay());
-                        room.setDeadReason(vp.getDeadReasonCode());
-                    } else {
-                        room.setIsDead(false);
-                    }
-                    if (isAvailableSeeMemberSkill(villageInfo)) {
-                        room.setSkillName(vp.getSkillCodeAsSkill().alias());
-                    }
-                });
+        villageInfo.vPlayerList.stream().filter(vp -> {
+            return vp.isIsSpectatorFalse() && vp.getRoomNumber().equals(roomNum);
+        }).findFirst().ifPresent(vp -> {
+            Chara chara = vp.getChara().get();
+            room.setCharaName(chara.getCharaShortName());
+            room.setCharaImgUrl(CharaUtil.getNormalCharaImgUrl(chara));
+            room.setCharaImgWidth(chara.getDisplayWidth());
+            room.setCharaImgHeight(chara.getDisplayHeight());
+            room.setIsDummy(chara.getCharaId().equals(villageInfo.settings.getDummyCharaId()));
+            if (vp.getDeadDay() != null && vp.getDeadDay() <= villageInfo.day) {
+                room.setIsDead(true);
+                room.setDeadDay(vp.getDeadDay());
+                room.setDeadReason(vp.getDeadReasonCode());
+            } else {
+                room.setIsDead(false);
+            }
+            if (isAvailableSeeMemberSkill(villageInfo)) {
+                room.setSkillName(vp.getSkillCodeAsSkill().alias());
+            }
+        });
         return room;
     }
 
@@ -754,13 +770,17 @@ public class VillageAssist {
         return part;
     }
 
-    private VillageSettingsDto convertToSettings(VillageSettings settings, List<VillageDay> dayList) {
+    private VillageSettingsDto convertToSettings(VillageInfo villageInfo) {
+        VillageSettings settings = villageInfo.settings;
+        List<VillageDay> dayList = villageInfo.dayList;
         VillageSettingsDto part = new VillageSettingsDto();
         part.setStartDatetime(dayList.get(0).getDaychangeDatetime()); // 0日目の切り替え日時
         part.setStartPersonMinNum(settings.getStartPersonMinNum());
         part.setPersonMaxNum(settings.getPersonMaxNum());
         part.setCharaGroupId(settings.getCharacterGroupId());
         part.setCharaGroupName(settings.getCharaGroup().get().getCharaGroupName());
+        part.setDummyCharaName(CharaUtil.makeCharaName(
+                villageInfo.vPlayerList.stream().filter(vp -> vp.getCharaId().equals(settings.getDummyCharaId())).findFirst().get()));
         part.setDayChangeInterval(makeDayChangeIntervalStr(settings.getDayChangeIntervalSeconds()));
         part.setSkillRequestType(BooleanUtils.isTrue(settings.getIsPossibleSkillRequest()) ? "有効" : "無効");
         part.setVoteType(BooleanUtils.isTrue(settings.getIsOpenVote()) ? "記名投票" : "無記名投票");

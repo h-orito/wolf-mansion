@@ -47,7 +47,7 @@
 							class="form-horizontal collapse in" aria-expanded="true" style="margin-top: 10px;">
 							<span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="help-block text-danger">error!</span>
 							<div class="form-group">
-								<div class="col-sm-12 btn-group btn-saytypes" data-toggle="buttons" data-say-type>
+								<div class="col-sm-12 col-xs-12 btn-group btn-saytypes" data-toggle="buttons" data-say-type>
 									<label th:if="${content.isAvailableWerewolfSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'WEREWOLF_SAY' ? 'active' : ''}">
 										<input type="radio" class="" th:field="*{messageType}" value="WEREWOLF_SAY" autocomplete="off" />囁き
 									</label> <label th:if="${content.isAvailableNormalSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'NORMAL_SAY' ? 'active' : ''}">
@@ -71,7 +71,13 @@
 								</div>
 								<div class="col-sm-12 col-xs-12" style="display: flex;">
 									<div>
-										<img th:src="${content.charaImageUrl}" th:width="${content.charaImageWidth}" th:height="${content.charaImageHeight}">
+										<img id="say-face-img" th:src="${content.charaImageUrl}" th:width="${content.charaImageWidth}" th:height="${content.charaImageHeight}">
+										<div style="position: absolute; bottom: 0;">
+											表情<br> <select class="form-control small" th:field="*{faceType}"
+												th:style="'padding-left: 0px; padding-right: 0px; font-size: 86%; max-width: ' + ${content.charaImageWidth} + 'px;'">
+												<option th:each="face : ${content.faceTypeList}" th:value="${face.value}" th:text="${face.name}"></option>
+											</select>
+										</div>
 									</div>
 									<div style="flex: 1; margin-left: 5px; min-height: 150px;">
 										<textarea class="form-control small" th:field="*{message}" style="min-height: 150px;" data-say-textarea></textarea>

@@ -25,6 +25,9 @@ public class VillageSettingsDto {
     /** キャラセット名 */
     private String charaGroupName;
 
+    /** ダミーキャラ名 */
+    private String dummyCharaName;
+
     /** キャラクターグループID */
     private Integer charaGroupId;
 
@@ -200,5 +203,13 @@ public class VillageSettingsDto {
 
     public void setAllowedSecretSayCode(String allowedSecretSayCode) {
         this.allowedSecretSayCode = allowedSecretSayCode;
+    }
+
+    public String getDummyCharaName() {
+        return dummyCharaName;
+    }
+
+    public void setDummyCharaName(String dummyCharaName) {
+        this.dummyCharaName = dummyCharaName;
     }
 }

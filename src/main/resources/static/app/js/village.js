@@ -10,6 +10,7 @@ $(function() {
 	const GET_LATEST_MESSAGE_DATETIME_URL = contextPath + 'village/getLatestMessageDatetime';
 	const GET_ANCHOR_MESSAGE_URL = contextPath + 'village/getAnchorMessage';
 	const GET_FOOTSTEP_URL = contextPath + 'village/getFootstepList';
+	const GET_FACEIMG_URL = contextPath + 'getFaceImgUrl/' + villageId;
 	const messageTemplate = Handlebars.compile($("#message-template").html());
 	const messagePartialTemplate = Handlebars.compile($("#message-partial-template").html());
 	Handlebars.registerPartial('messagePartial', messagePartialTemplate);
@@ -267,24 +268,33 @@ $(function() {
 				$sayTextarea.removeClass().addClass('form-control');
 				$('[data-secret-say-target]').addClass('hidden');
 				switch (sayType) {
+				case 'NORMAL_SAY':
+					changeFaceTypeIfNeeded('NORMAL');
+					break;
 				case 'WEREWOLF_SAY':
 					$sayTextarea.addClass('message-werewolf');
+					changeFaceTypeIfNeeded('WEREWOLF');
 					break;
 				case 'MASON_SAY':
 					$sayTextarea.addClass('message-mason');
+					changeFaceTypeIfNeeded('MASON');
 					break;
 				case 'MONOLOGUE_SAY':
 					$sayTextarea.addClass('message-monologue');
+					changeFaceTypeIfNeeded('MONOLOGUE');
 					break;
 				case 'SECRET_SAY':
 					$sayTextarea.addClass('message-monologue');
 					$('[data-secret-say-target]').removeClass('hidden');
+					changeFaceTypeIfNeeded('SECRET');
 					break;
 				case 'GRAVE_SAY':
 					$sayTextarea.addClass('message-grave');
+					changeFaceTypeIfNeeded('GRAVE');
 					break;
 				case 'SPECTATE_SAY':
 					$sayTextarea.addClass('message-spectate');
+					changeFaceTypeIfNeeded('NORMAL');
 					break;
 				default:
 					break;
@@ -299,6 +309,35 @@ $(function() {
 		changeSayTextAreaBackgroundColor();
 	});
 
+	// 可能なら表情を入れ替え
+	function changeFaceTypeIfNeeded(faceTypeCode) {
+		$('#faceType').find('option').each(function(){
+			if ($(this).val() === faceTypeCode) {
+				$('#faceType').val(faceTypeCode);
+				changeFace(faceTypeCode);
+				return false;
+			}
+		});
+	}
+	
+	
+	// 表情を入れ替え
+	function changeFace(faceTypeCode){
+		$.ajax({
+			type : 'GET',
+			url : GET_FACEIMG_URL + '/' + faceTypeCode
+		}).then(function(response) {
+			if (response == null || response == '') {
+				return;
+			}
+			$('#say-face-img').attr('src', response);
+		});
+	}
+	
+	$('#faceType').on('change', function(){
+		changeFace($(this).val());
+	});
+	
 	// 足音候補を取得して入れ替える
 	function replaceFootstepList() {
 		const $footstepSelect = $('[data-footstep-select]');

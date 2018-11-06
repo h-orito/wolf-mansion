@@ -342,5 +342,4 @@ public class NewVillageForm implements Serializable {
     public void setDummyCharaId(Integer dummyCharaId) {
         this.dummyCharaId = dummyCharaId;
     }
-
 }

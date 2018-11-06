@@ -113,16 +113,17 @@ public class VillageSayAssist {
 
         int day = villageAssist.selectLatestDay(villageId);
         MessageType type = CDef.MessageType.codeOf(sayForm.getMessageType());
+        CDef.FaceType faceType = CDef.FaceType.codeOf(sayForm.getFaceType());
+        if (type == null || faceType == null) {
+            throw new IllegalArgumentException("発言種別改ざん");
+        }
         Integer targetVillagePlayerId = sayForm.getMessageType().equals(CDef.MessageType.秘話.code())
                 ? selectTargetVillagePlayer(villageId, sayForm).getVillagePlayerId()
                 : null;
-        if (type == null) {
-            throw new IllegalArgumentException("発言種別改ざん");
-        }
         // 登録
         try {
             messageLogic.insertMessage(villageId, day, type, sayForm.getMessage(), villagePlayer.getVillagePlayerId(),
-                    targetVillagePlayerId, BooleanUtils.isTrue(sayForm.getIsConvertDisable()));
+                    targetVillagePlayerId, BooleanUtils.isTrue(sayForm.getIsConvertDisable()), faceType);
         } catch (WerewolfMansionBusinessException e) {
             model.addAttribute("sayErrorMessage", e.getMessage());
         }

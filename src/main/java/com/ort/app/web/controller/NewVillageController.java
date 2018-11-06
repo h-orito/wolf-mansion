@@ -97,6 +97,7 @@ public class NewVillageController {
         charaBhv.loadCharaImage(chara, charaImageCB -> {
             charaImageCB.query().setFaceTypeCode_Equal_通常();
         });
+        model.addAttribute("dummyCharaName", chara.getCharaName());
         model.addAttribute("characterImgUrl", CharaUtil.getNormalCharaImgUrl(chara));
         model.addAttribute("characterImgWidth", chara.getDisplayWidth());
         model.addAttribute("characterImgHeight", chara.getDisplayHeight());

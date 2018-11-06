@@ -18,7 +18,7 @@
 							<a th:href="${content.descriptionUrl}" target="_blank" th:text="作者様HP" th:if="${content.descriptionUrl}"></a>
 						</div>
 					</div>
-					<div class="col-sm-4 col-xs-12" style="border: 1px solid #464545;" th:if="${content.charaList != null && content.charaList.size() > 0}"
+					<div class="col-sm-6 col-xs-12" style="border: 1px solid #464545;" th:if="${content.charaList != null && content.charaList.size() > 0}"
 						th:each="chara : ${content.charaList}">
 						<span style="display: block; text-align: center;"> <img th:each="url : ${chara.charaImgUrlList}" th:src="${url}"
 							th:width="${chara.charaImgWidth}" th:height="${chara.charaImgHeight}" />

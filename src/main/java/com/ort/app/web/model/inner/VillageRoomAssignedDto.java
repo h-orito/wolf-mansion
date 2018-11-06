@@ -29,6 +29,9 @@ public class VillageRoomAssignedDto {
     /** キャラ画像縦幅 */
     private Integer charaImgHeight;
 
+    /** ダミーか */
+    private Boolean isDummy;
+
     public String getRoomNumber() {
         return roomNumber;
     }
@@ -99,5 +102,13 @@ public class VillageRoomAssignedDto {
 
     public void setDeadReason(String deadReson) {
         this.deadReason = deadReson;
+    }
+
+    public Boolean getIsDummy() {
+        return isDummy;
+    }
+
+    public void setIsDummy(Boolean isDummy) {
+        this.isDummy = isDummy;
     }
 }

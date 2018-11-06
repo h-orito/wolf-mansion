@@ -57,7 +57,7 @@ public class VillageParticipateLogic {
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
-    public void participate(Integer villageId, Integer playerId, Integer charaId, CDef.Skill requestSkill, CDef.Skill secondRequestSkill,
+    public Integer participate(Integer villageId, Integer playerId, Integer charaId, CDef.Skill requestSkill, CDef.Skill secondRequestSkill,
             String joinMessage, boolean isSpectator, boolean isConvertDisable) {
         // 村参加
         Integer villagePlayerId =
@@ -74,7 +74,8 @@ public class VillageParticipateLogic {
                 messageLogic.insertMessage(villageId, 0, CDef.MessageType.公開システムメッセージ, String.format("%d人目、%s。", participateNum, charaName),
                         true);
                 // 参加発言
-                messageLogic.insertMessage(villageId, 0, CDef.MessageType.通常発言, joinMessage, villagePlayerId, isConvertDisable);
+                messageLogic.insertMessage(villageId, 0, CDef.MessageType.通常発言, joinMessage, villagePlayerId, isConvertDisable,
+                        CDef.FaceType.通常);
                 // 希望役職メッセージ
                 String message = messageSource.getMessage("requestskill.message",
                         new String[] { charaName, requestSkill.alias(), secondRequestSkill.alias() }, Locale.JAPAN);
@@ -97,11 +98,13 @@ public class VillageParticipateLogic {
                 messageLogic.insertMessage(villageId, 0, CDef.MessageType.公開システムメッセージ,
                         String.format("(見学) %d人目、%s。", participateNum, charaName), true);
                 // 参加発言
-                messageLogic.insertMessage(villageId, 0, CDef.MessageType.見学発言, joinMessage, villagePlayerId, isConvertDisable);
+                messageLogic.insertMessage(villageId, 0, CDef.MessageType.見学発言, joinMessage, villagePlayerId, isConvertDisable,
+                        CDef.FaceType.通常);
             } catch (WerewolfMansionBusinessException e) {
                 // ここでは何回も被らないので何もしない
             }
         }
+        return villagePlayerId;
     }
 
     public void leave(VillagePlayer villagePlayer) {

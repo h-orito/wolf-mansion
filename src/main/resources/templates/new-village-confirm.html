@@ -14,7 +14,7 @@
 			<div id="wrapper">
 				<div class="col-sm-12 col-xs-12">
 					<h1 class="h4">村作成確認</h1>
-					<form method="post" action="" th:action="@{/new-village}" th:object="${villageForm}" class="form-horizontal">
+					<form method="post" id="new-village-confirm-form" action="" th:action="@{/new-village}" th:object="${villageForm}" class="form-horizontal">
 						<div class="table-responsive clearfix">
 							<table class="table table-bordered table-condensed">
 								<tr>
@@ -82,6 +82,10 @@
 									<td th:text="${characterSetName}"></td>
 								</tr>
 								<tr>
+									<th>ダミーキャラ</th>
+									<td th:text="${dummyCharaName}"></td>
+								</tr>
+								<tr>
 									<th>ダミーキャラ入村発言</th>
 									<td>
 										<div class="col-sm-12 col-xs-12">
@@ -109,12 +113,14 @@
 								</tr>
 								<tr>
 									<th>構成</th>
-									<td id="organize"><th:block th:if="*{organization}">
+									<td id="organize">
+										<th:block th:if="*{organization}">
 											<th:block th:each="str, stat : *{organization.split('\r\n|\r|\n', -1)}">
 												<th:block th:text="${stat.index + 8 + '人：' + str}" />
 												<br th:if="${!stat.last}" />
 											</th:block>
-										</th:block></td>
+										</th:block>
+									</td>
 								</tr>
 								<tr>
 									<th>発言制限</th>
@@ -133,27 +139,33 @@
 													<tr>
 														<td th:rowspan="${restrict.detailList.size()}" th:text="${restrict.skillName}">村人</td>
 														<td th:text="${restrict.detailList[0].messageTypeName}"></td>
-														<td><span th:text="${restrict.detailList[0].isRestrict ? 'する' : 'しない'}"></span><input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].detailList[0].isRestrict}"></td>
-														<td><span th:if="${restrict.detailList[0].isRestrict}"
-															th:text="${restrict.detailList[0].length} + ' * ' + ${restrict.detailList[0].count}"></span> <input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].detailList[0].length}" /> <input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].detailList[0].count}" data-restrict-count /> <input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].skillCode}" /> <input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].skillName}" /> <input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].detailList[0].messageTypeName}" /><input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].detailList[0].messageTypeCode}" /></td>
+														<td>
+															<span th:text="${restrict.detailList[0].isRestrict ? 'する' : 'しない'}"></span>
+															<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].isRestrict}">
+														</td>
+														<td>
+															<span th:if="${restrict.detailList[0].isRestrict}" th:text="${restrict.detailList[0].length} + ' * ' + ${restrict.detailList[0].count}"></span>
+															<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].length}" />
+															<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].count}" data-restrict-count />
+															<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].skillCode}" />
+															<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].skillName}" />
+															<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].messageTypeName}" />
+															<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].messageTypeCode}" />
+														</td>
 													</tr>
 													<tr th:if="${restrict.detailList.size() > 1}">
 														<td th:text="${restrict.detailList[1].messageTypeName}"></td>
-														<td><span th:text="${restrict.detailList[1].isRestrict ? 'する' : 'しない'}"></span><input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].detailList[1].isRestrict}"></td>
-														<td><span th:if="${restrict.detailList[1].isRestrict}"
-															th:text="${restrict.detailList[1].length} + ' * ' + ${restrict.detailList[1].count}"></span> <input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].detailList[1].length}" /> <input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].detailList[1].count}" /> <input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].detailList[1].messageTypeName}" /><input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].detailList[1].messageTypeCode}" /></td>
+														<td>
+															<span th:text="${restrict.detailList[1].isRestrict ? 'する' : 'しない'}"></span>
+															<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].detailList[1].isRestrict}">
+														</td>
+														<td>
+															<span th:if="${restrict.detailList[1].isRestrict}" th:text="${restrict.detailList[1].length} + ' * ' + ${restrict.detailList[1].count}"></span>
+															<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].detailList[1].length}" />
+															<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].detailList[1].count}" />
+															<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].detailList[1].messageTypeName}" />
+															<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].detailList[1].messageTypeCode}" />
+														</td>
 													</tr>
 												</th:block>
 											</tbody>
@@ -161,20 +173,35 @@
 									</td>
 								</tr>
 							</table>
-							<input type="hidden" th:field="*{villageName}" /> <input type="hidden" th:field="*{startPersonMinNum}" /> <input type="hidden"
-								th:field="*{personMaxNum}" /> <input type="hidden" th:field="*{dayChangeIntervalHours}" /> <input type="hidden"
-								th:field="*{dayChangeIntervalMinutes}" /> <input type="hidden" th:field="*{dayChangeIntervalSeconds}" /> <input type="hidden"
-								th:field="*{startYear}" /> <input type="hidden" th:field=*{startMonth} /> <input type="hidden" th:field="*{startDay}" /> <input
-								type="hidden" th:field="*{startHour}" /> <input type="hidden" th:field="*{startMinute}" /> <input type="hidden" th:field="*{isOpenVote}" />
-							<input type="hidden" th:field="*{isPossibleSkillRequest}" /> <input type="hidden" th:field="*{isAvailableSpectate}" /> <input type="hidden"
-								th:field="*{isAvailableSameWolfAttack}" /> <input type="hidden" th:field="*{isAvailableGuardSameTarget}" /> <input type="hidden"
-								th:field="*{isOpenSkillInGrave}" /> <input type="hidden" th:field="*{isVisibleGraveSpectateMessage}" /> <input type="hidden"
-								th:field="*{isAvailableSuddonlyDeath}" /> <input type="hidden" th:field="*{isAvailableCommit}" /> <input type="hidden"
-								th:field="*{characterSetId}" /> <input type="hidden" th:field="*{dummyJoinMessage}" /> <input type="hidden" th:field="*{joinPassword}" /> <input
-								type="hidden" th:field="*{organization}" /> <input type="hidden" th:field="*{allowedSecretSayCode}" />
+							<input type="hidden" th:field="*{villageName}" />
+							<input type="hidden" th:field="*{startPersonMinNum}" />
+							<input type="hidden" th:field="*{personMaxNum}" />
+							<input type="hidden" th:field="*{dayChangeIntervalHours}" />
+							<input type="hidden" th:field="*{dayChangeIntervalMinutes}" />
+							<input type="hidden" th:field="*{dayChangeIntervalSeconds}" />
+							<input type="hidden" th:field="*{startYear}" />
+							<input type="hidden" th:field="*{startMonth}" />
+							<input type="hidden" th:field="*{startDay}" />
+							<input type="hidden" th:field="*{startHour}" />
+							<input type="hidden" th:field="*{startMinute}" />
+							<input type="hidden" th:field="*{isOpenVote}" />
+							<input type="hidden" th:field="*{isPossibleSkillRequest}" />
+							<input type="hidden" th:field="*{isAvailableSpectate}" />
+							<input type="hidden" th:field="*{isAvailableSameWolfAttack}" />
+							<input type="hidden" th:field="*{isAvailableGuardSameTarget}" />
+							<input type="hidden" th:field="*{isOpenSkillInGrave}" />
+							<input type="hidden" th:field="*{isVisibleGraveSpectateMessage}" />
+							<input type="hidden" th:field="*{isAvailableSuddonlyDeath}" />
+							<input type="hidden" th:field="*{isAvailableCommit}" />
+							<input type="hidden" th:field="*{characterSetId}" />
+							<input type="hidden" th:field="*{dummyCharaId}" />
+							<input type="hidden" th:field="*{dummyJoinMessage}" />
+							<input type="hidden" th:field="*{joinPassword}" />
+							<input type="hidden" th:field="*{organization}" />
+							<input type="hidden" th:field="*{allowedSecretSayCode}" />
 						</div>
 						<div class="form-group">
-							<div class="col-sm-12 col-xs-12 pull-right">
+							<div class="col-sm-12 col-xs-12">
 								<input type="submit" class="btn btn-sm btn-success pull-right" value="作成" />
 							</div>
 						</div>

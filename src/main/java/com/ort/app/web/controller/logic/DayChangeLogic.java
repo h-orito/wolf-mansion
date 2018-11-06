@@ -31,6 +31,7 @@ import com.ort.dbflute.allcommon.CDef.Camp;
 import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.allcommon.CDef.VillageStatus;
 import com.ort.dbflute.exbhv.AbilityBhv;
+import com.ort.dbflute.exbhv.CharaImageBhv;
 import com.ort.dbflute.exbhv.CommitBhv;
 import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
@@ -40,6 +41,7 @@ import com.ort.dbflute.exbhv.VillageSettingsBhv;
 import com.ort.dbflute.exbhv.VoteBhv;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Chara;
+import com.ort.dbflute.exentity.CharaImage;
 import com.ort.dbflute.exentity.Player;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
@@ -70,6 +72,8 @@ public class DayChangeLogic {
     private CommitBhv commitBhv;
     @Autowired
     private PlayerBhv playerBhv;
+    @Autowired
+    private CharaImageBhv charaImageBhv;
     @Autowired
     private AssignLogic assignLogic;
     @Autowired
@@ -122,6 +126,7 @@ public class DayChangeLogic {
             updateVillageStatus(villageId, CDef.VillageStatus.進行中); // 村ステータス更新
             setDefaultVoteAndAbility(villageId, newDay, settings); // 投票、能力行使のデフォルト設定
             updateVillageSettingsIfNeeded(villageId, vPlayerList, settings); // 特殊ルール変更
+            insertDummyCharaMessage(villageId, vPlayerList, settings); // ダミーキャラ発言
             twitterLogic.tweet(String.format("%sが開始されました。", village.getVillageDisplayName()), villageId);
         } else if (village.getVillageStatusCodeAsVillageStatus() == CDef.VillageStatus.エピローグ) {
             updateVillageStatus(villageId, CDef.VillageStatus.終了); // 終了
@@ -658,9 +663,11 @@ public class DayChangeLogic {
         if (day != 2) {
             Collections.shuffle(livingWolfList);
             String attackMessage = String.format("%s！今日がお前の命日だ！", targetPlayer.getChara().get().getCharaName());
+            VillagePlayer attackerPlayer = livingWolfList.get(0);
+            boolean hasWerewolfFace = hasWerewolfFace(attackerPlayer);
             try {
-                messageLogic.insertMessage(villageId, day, CDef.MessageType.人狼の囁き, attackMessage,
-                        livingWolfList.get(0).getVillagePlayerId(), true);
+                messageLogic.insertMessage(villageId, day, CDef.MessageType.人狼の囁き, attackMessage, attackerPlayer.getVillagePlayerId(), true,
+                        hasWerewolfFace ? CDef.FaceType.囁き : CDef.FaceType.通常);
             } catch (WerewolfMansionBusinessException e) {
                 // ここでは被らないはずなので何もしない
             }
@@ -672,6 +679,14 @@ public class DayChangeLogic {
             return Optional.ofNullable(targetPlayer);
         }
         return Optional.empty();
+    }
+
+    private boolean hasWerewolfFace(VillagePlayer attackerPlayer) {
+        OptionalEntity<CharaImage> optAttackFace = charaImageBhv.selectEntity(cb -> {
+            cb.query().setCharaId_Equal(attackerPlayer.getCharaId());
+            cb.query().setFaceTypeCode_Equal_囁き();
+        });
+        return optAttackFace.isPresent();
     }
 
     // 襲撃成功したか
@@ -1020,5 +1035,17 @@ public class DayChangeLogic {
             // 一人も参加していなかったら廃村
             updateVillageCancel(villageId);
         }
+    }
+
+    private void insertDummyCharaMessage(Integer villageId, List<VillagePlayer> vPlayerList, VillageSettings settings) {
+        VillagePlayer dummyChara = vPlayerList.stream().filter(vp -> vp.getCharaId().equals(settings.getDummyCharaId())).findFirst().get();
+        String message = dummyChara.getChara().get().getDefaultFirstdayMessage();
+        if (StringUtils.isEmpty(message)) {
+            return;
+        }
+        try {
+            messageLogic.insertMessage(villageId, 1, CDef.MessageType.通常発言, message, dummyChara.getVillagePlayerId(), true,
+                    CDef.FaceType.通常);
+        } catch (WerewolfMansionBusinessException e) {}
     }
 }
