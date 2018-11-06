@@ -15,6 +15,7 @@
 				<div class="col-sm-12 col-xs-12">
 					<h1 class="h4">村作成確認</h1>
 					<form method="post" id="new-village-confirm-form" action="" th:action="@{/new-village}" th:object="${villageForm}" class="form-horizontal">
+						<h2 class="h5">基本設定</h2>
 						<div class="table-responsive clearfix">
 							<table class="table table-bordered table-condensed">
 								<tr>
@@ -37,46 +38,11 @@
 									<th>開始日時</th>
 									<td th:text="${#temporals.format(startDateTime, 'yyyy/MM/dd HH:mm')}"></td>
 								</tr>
-								<tr>
-									<th>投票</th>
-									<td th:text="*{isOpenVote} ? '記名投票' : '無記名投票'"></td>
-								</tr>
-								<tr>
-									<th>役職希望</th>
-									<td th:text="*{isPossibleSkillRequest} ? '有効' : '無効'"></td>
-								</tr>
-								<tr>
-									<th>見学入村</th>
-									<td th:text="*{isAvailableSpectate} ? '可能' : '不可'"></td>
-								</tr>
-								<tr>
-									<th>同一人狼による連続襲撃</th>
-									<td th:text="*{isAvailableSameWolfAttack} ? '可能' : '不可'"></td>
-								</tr>
-								<tr>
-									<th>狩人による連続護衛</th>
-									<td th:text="*{isAvailableGuardSameTarget} ? '可能' : '不可'"></td>
-								</tr>
-								<tr>
-									<th>墓下見学役職公開</th>
-									<td th:text="*{isOpenSkillInGrave} ? '公開' : '非公開'"></td>
-								</tr>
-								<tr>
-									<th>墓下見学会話公開</th>
-									<td th:text="*{isVisibleGraveSpectateMessage} ? '公開' : '非公開'"></td>
-								</tr>
-								<tr>
-									<th>秘話</th>
-									<td th:text="*{allowedSecretSayCode == 'NOTHING' ? 'なし' : allowedSecretSayCode == 'ONLY_CREATOR' ? '村建てとのみ可能' : '全員可能'}"></td>
-								</tr>
-								<tr>
-									<th>突然死</th>
-									<td th:text="*{isAvailableSuddonlyDeath} ? 'あり' : 'なし'"></td>
-								</tr>
-								<tr>
-									<th>コミット</th>
-									<td th:text="*{isAvailableCommit} ? 'あり' : 'なし'"></td>
-								</tr>
+							</table>
+						</div>
+						<h2 class="h5">キャラチップ設定</h2>
+						<div class="table-responsive clearfix">
+							<table class="table table-bordered table-condensed">
 								<tr>
 									<th>キャラクターセット</th>
 									<td th:text="${characterSetName}"></td>
@@ -107,10 +73,11 @@
 										</div>
 									</td>
 								</tr>
-								<tr th:if="*{joinPassword != null && joinPassword != ''}">
-									<th>入村パスワード</th>
-									<td th:text="*{joinPassword}"></td>
-								</tr>
+							</table>
+						</div>
+						<h2 class="h5">キャラチップ設定</h2>
+						<div class="table-responsive clearfix">
+							<table class="table table-bordered table-condensed">
 								<tr>
 									<th>構成</th>
 									<td id="organize">
@@ -122,6 +89,61 @@
 										</th:block>
 									</td>
 								</tr>
+								<tr>
+									<th>役職希望</th>
+									<td th:text="*{isPossibleSkillRequest} ? '有効' : '無効'"></td>
+								</tr>
+								<tr>
+									<th>同一人狼による連続襲撃</th>
+									<td th:text="*{isAvailableSameWolfAttack} ? '可能' : '不可'"></td>
+								</tr>
+								<tr>
+									<th>狩人による連続護衛</th>
+									<td th:text="*{isAvailableGuardSameTarget} ? '可能' : '不可'"></td>
+								</tr>
+								<tr>
+									<th>突然死</th>
+									<td th:text="*{isAvailableSuddonlyDeath} ? 'あり' : 'なし'"></td>
+								</tr>
+								<tr>
+									<th>コミット</th>
+									<td th:text="*{isAvailableCommit} ? 'あり' : 'なし'"></td>
+								</tr>
+							</table>
+						</div>
+						<h2 class="h5">見学、閲覧設定</h2>
+						<div class="table-responsive clearfix">
+							<table class="table table-bordered table-condensed">
+								<tr>
+									<th>見学入村</th>
+									<td th:text="*{isAvailableSpectate} ? '可能' : '不可'"></td>
+								</tr>
+								<tr>
+									<th>墓下見学役職公開</th>
+									<td th:text="*{isOpenSkillInGrave} ? '公開' : '非公開'"></td>
+								</tr>
+								<tr>
+									<th>墓下見学会話公開</th>
+									<td th:text="*{isVisibleGraveSpectateMessage} ? '公開' : '非公開'"></td>
+								</tr>
+							</table>
+						</div>
+						<h2 class="h5">身内村設定</h2>
+						<div class="table-responsive clearfix">
+							<table class="table table-bordered table-condensed">
+								<tr th:if="*{joinPassword != null && joinPassword != ''}">
+									<th>入村パスワード</th>
+									<td th:text="*{joinPassword}"></td>
+								</tr>
+								<tr>
+									<th>秘話</th>
+									<td th:text="*{allowedSecretSayCode == 'NOTHING' ? 'なし' : allowedSecretSayCode == 'ONLY_CREATOR' ? '村建てとのみ可能' : '全員可能'}"></td>
+								</tr>
+							</table>
+						</div>
+						<h2 class="h5">特殊ルール向け</h2>
+						<div class="table-responsive clearfix">
+							<table class="table table-bordered table-condensed">
 								<tr>
 									<th>発言制限</th>
 									<td>
@@ -172,34 +194,39 @@
 										</table>
 									</td>
 								</tr>
+								<tr>
+									<th>投票</th>
+									<td th:text="*{isOpenVote} ? '記名投票' : '無記名投票'"></td>
+								</tr>
 							</table>
-							<input type="hidden" th:field="*{villageName}" />
-							<input type="hidden" th:field="*{startPersonMinNum}" />
-							<input type="hidden" th:field="*{personMaxNum}" />
-							<input type="hidden" th:field="*{dayChangeIntervalHours}" />
-							<input type="hidden" th:field="*{dayChangeIntervalMinutes}" />
-							<input type="hidden" th:field="*{dayChangeIntervalSeconds}" />
-							<input type="hidden" th:field="*{startYear}" />
-							<input type="hidden" th:field="*{startMonth}" />
-							<input type="hidden" th:field="*{startDay}" />
-							<input type="hidden" th:field="*{startHour}" />
-							<input type="hidden" th:field="*{startMinute}" />
-							<input type="hidden" th:field="*{isOpenVote}" />
-							<input type="hidden" th:field="*{isPossibleSkillRequest}" />
-							<input type="hidden" th:field="*{isAvailableSpectate}" />
-							<input type="hidden" th:field="*{isAvailableSameWolfAttack}" />
-							<input type="hidden" th:field="*{isAvailableGuardSameTarget}" />
-							<input type="hidden" th:field="*{isOpenSkillInGrave}" />
-							<input type="hidden" th:field="*{isVisibleGraveSpectateMessage}" />
-							<input type="hidden" th:field="*{isAvailableSuddonlyDeath}" />
-							<input type="hidden" th:field="*{isAvailableCommit}" />
-							<input type="hidden" th:field="*{characterSetId}" />
-							<input type="hidden" th:field="*{dummyCharaId}" />
-							<input type="hidden" th:field="*{dummyJoinMessage}" />
-							<input type="hidden" th:field="*{joinPassword}" />
-							<input type="hidden" th:field="*{organization}" />
-							<input type="hidden" th:field="*{allowedSecretSayCode}" />
 						</div>
+						<input type="hidden" th:field="*{villageName}" />
+						<input type="hidden" th:field="*{startPersonMinNum}" />
+						<input type="hidden" th:field="*{personMaxNum}" />
+						<input type="hidden" th:field="*{dayChangeIntervalHours}" />
+						<input type="hidden" th:field="*{dayChangeIntervalMinutes}" />
+						<input type="hidden" th:field="*{dayChangeIntervalSeconds}" />
+						<input type="hidden" th:field="*{startYear}" />
+						<input type="hidden" th:field="*{startMonth}" />
+						<input type="hidden" th:field="*{startDay}" />
+						<input type="hidden" th:field="*{startHour}" />
+						<input type="hidden" th:field="*{startMinute}" />
+						<input type="hidden" th:field="*{isOpenVote}" />
+						<input type="hidden" th:field="*{isPossibleSkillRequest}" />
+						<input type="hidden" th:field="*{isAvailableSpectate}" />
+						<input type="hidden" th:field="*{isAvailableSameWolfAttack}" />
+						<input type="hidden" th:field="*{isAvailableGuardSameTarget}" />
+						<input type="hidden" th:field="*{isOpenSkillInGrave}" />
+						<input type="hidden" th:field="*{isVisibleGraveSpectateMessage}" />
+						<input type="hidden" th:field="*{isAvailableSuddonlyDeath}" />
+						<input type="hidden" th:field="*{isAvailableCommit}" />
+						<input type="hidden" th:field="*{characterSetId}" />
+						<input type="hidden" th:field="*{dummyCharaId}" />
+						<input type="hidden" th:field="*{dummyJoinMessage}" />
+						<input type="hidden" th:field="*{joinPassword}" />
+						<input type="hidden" th:field="*{organization}" />
+						<input type="hidden" th:field="*{allowedSecretSayCode}" />
+
 						<div class="form-group">
 							<div class="col-sm-12 col-xs-12">
 								<input type="submit" class="btn btn-sm btn-success pull-right" value="作成" />

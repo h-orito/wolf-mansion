@@ -8,7 +8,9 @@ $(function() {
 		replaceCharaSet(charaGroupId);
 	});
 
-	replaceCharaSet($('#characterSetId').val());
+	if ($('#characterSetId').length != 0) {
+		replaceCharaSet($('#characterSetId').val());
+	}
 	function replaceCharaSet(charaGroupId) {
 		$.ajax({
 			type : 'GET',

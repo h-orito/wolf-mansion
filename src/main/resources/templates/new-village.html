@@ -16,6 +16,8 @@
 					<h1 class="h4">村作成</h1>
 					<span class="text-danger" th:if="${errorMessage}" th:text="${errorMessage}">error</span>
 					<form method="post" id="new-village-form" action="" th:action="@{/new-village/confirm}" th:object="${villageForm}" class="form-horizontal">
+						<hr />
+						<h2 class="h5">基本設定</h2>
 						<div class="form-group">
 							<label class="col-sm-3 control-label">村名</label>
 							<div class="col-sm-9">
@@ -95,18 +97,48 @@
 								<span th:errors="*{startYear}" class="help-block text-danger">error!</span>
 							</div>
 						</div>
+						<hr />
+						<h2 class="h5">キャラチップ設定</h2>
 						<div class="form-group">
-							<label class="col-sm-3 col-xs-12 control-label">投票</label>
+							<label class="col-sm-3 control-label">キャラセット</label>
 							<div class="col-sm-9 col-xs-12 btn-group" data-toggle="buttons">
-								<label th:class="'btn btn-sm btn-dark-success ' + *{isOpenVote ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isOpenVote}" value="true" autocomplete="off" checked />記名
-								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isOpenVote ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isOpenVote}" value="false" autocomplete="off" />無記名
-								</label>
+								<select class="form-control" th:field="*{characterSetId}">
+									<option th:each="charaGroup : ${characterSetList}" th:value="${charaGroup.value}" th:text="${charaGroup.name}"></option>
+								</select> <span th:if="${#fields.hasErrors('characterSetId')}" th:errors="*{characterSetId}" class="help-block text-danger">error!</span>
 							</div>
-							<div class="col-sm-3"></div>
-							<div class="col-sm-9 col-xs-12">
-								<p class="">基本的に投票と足音で推理するルールであるため、記名投票を推奨します。</p>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">ダミーキャラ</label>
+							<div class="col-sm-9 col-xs-12 btn-group" data-toggle="buttons">
+								<select class="form-control" th:field="*{dummyCharaId}">
+									<option value="">読み込み中</option>
+								</select> <span th:if="${#fields.hasErrors('dummyCharaId')}" th:errors="*{dummyCharaId}" class="help-block text-danger">error!</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">ダミーキャラの入村発言</label>
+							<div class="col-sm-9">
+								<div class="row">
+									<div class="col-sm-12 col-xs-12" style="display: flex;">
+										<div id="dummy-chara-img"></div>
+										<div style="flex: 1; margin-left: 5px; min-height: 77px;">
+											<textarea id="dummy-chara-join-message" class="form-control" th:field="*{dummyJoinMessage}" placeholder="人狼なんているわけないじゃん。みんな大げさだなあ"
+												style="min-height: 77px;"></textarea>
+										</div>
+									</div>
+								</div>
+								<span th:if="${#fields.hasErrors('dummyJoinMessage')}" th:errors="*{dummyJoinMessage}" class="help-block text-danger">error!</span>
+							</div>
+						</div>
+						<hr />
+						<h2 class="h5">詳細ルール設定</h2>
+						<div class="form-group">
+							<label class="col-sm-3 col-xs-12 control-label">構成</label>
+							<div class="col-sm-9">
+								<textarea class="form-control" th:field="*{organization}" style="min-height: 250px;"></textarea>
+								<p>村:村人/狼:人狼/狂:狂人/C:C国狂人/魔:魔神官/信:狂信者/占:占い師/賢:賢者/霊:霊能者/導:導師/狐:妖狐/共:共鳴者/狩:狩人</p>
+								<p>ダミーは必ず村人となるため、村を1名以上入れてください。</p>
+								<span th:if="${#fields.hasErrors('organization')}" th:errors="*{organization}" class="help-block text-danger">error!</span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -117,20 +149,6 @@
 								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isPossibleSkillRequest ? '' : 'active'}"> <input type="radio" class=""
 										th:field="*{isPossibleSkillRequest}" value="false" autocomplete="off" />無効
 								</label>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 col-xs-12 control-label">見学入村</label>
-							<div class="col-sm-9 btn-group" data-toggle="buttons">
-								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSpectate ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isAvailableSpectate}" value="true" autocomplete="off" />可能
-								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSpectate ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isAvailableSpectate}" value="false" autocomplete="off" checked="checked" />不可
-								</label>
-							</div>
-							<div class="col-sm-3"></div>
-							<div class="col-xs-12 col-sm-9">
-								<p class="">可能にした場合、最大で[キャラセットの人数 - 定員]人まで見学としての入村が可能になります。</p>
 							</div>
 						</div>
 						<div class="form-group">
@@ -164,6 +182,52 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label class="col-sm-3 col-xs-12 control-label">突然死</label>
+							<div class="col-sm-9 btn-group" data-toggle="buttons">
+								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSuddonlyDeath ? 'active' : ''}"> <input type="radio" class=""
+										th:field="*{isAvailableSuddonlyDeath}" value="true" autocomplete="off" checked="checked" />あり
+								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSuddonlyDeath ? '' : 'active'}"> <input type="radio" class=""
+										th:field="*{isAvailableSuddonlyDeath}" value="false" autocomplete="off" />なし
+								</label>
+							</div>
+							<div class="col-sm-3"></div>
+							<div class="col-xs-12 col-sm-9">
+								<p class="">ありにした場合、日付更新までに投票しなかった参加者は突然死します。</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 col-xs-12 control-label">コミット</label>
+							<div class="col-sm-9 btn-group" data-toggle="buttons">
+								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableCommit ? 'active' : ''}"> <input type="radio" class=""
+										th:field="*{isAvailableCommit}" value="true" autocomplete="off" checked="checked" />あり
+								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableCommit ? '' : 'active'}"> <input type="radio" class=""
+										th:field="*{isAvailableCommit}" value="false" autocomplete="off" />なし
+								</label>
+							</div>
+							<div class="col-sm-3"></div>
+							<div class="col-xs-12 col-sm-9">
+								<p class="">
+									ありにした場合、生存者全員がコミットすると日付を更新することができます。<br /> （コミット状況は人数のみ表示されます）
+								</p>
+							</div>
+						</div>
+						<hr />
+						<h2 class="h5">見学、閲覧設定</h2>
+						<div class="form-group">
+							<label class="col-sm-3 col-xs-12 control-label">見学入村</label>
+							<div class="col-sm-9 btn-group" data-toggle="buttons">
+								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSpectate ? 'active' : ''}"> <input type="radio" class=""
+										th:field="*{isAvailableSpectate}" value="true" autocomplete="off" />可能
+								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSpectate ? '' : 'active'}"> <input type="radio" class=""
+										th:field="*{isAvailableSpectate}" value="false" autocomplete="off" checked="checked" />不可
+								</label>
+							</div>
+							<div class="col-sm-3"></div>
+							<div class="col-xs-12 col-sm-9">
+								<p class="">可能にした場合、最大で[キャラセットの人数 - 定員]人まで見学としての入村が可能になります。</p>
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="col-sm-3 col-xs-12 control-label">墓下見学役職公開</label>
 							<div class="col-sm-9 btn-group" data-toggle="buttons">
 								<label th:class="'btn btn-sm btn-dark-success ' + *{isOpenSkillInGrave ? 'active' : ''}"> <input type="radio" class=""
@@ -191,6 +255,15 @@
 								<p class="">公開にした場合、進行中に生存者が墓下会話や見学会話を参照できるようになります。</p>
 							</div>
 						</div>
+						<hr />
+						<h2 class="h5">身内村向け設定</h2>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">入村パスワード</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" th:field="*{joinPassword}" placeholder="3文字以上12文字以下（任意）" />
+								<span th:if="${#fields.hasErrors('joinPassword')}" th:errors="*{joinPassword}" class="help-block text-danger">error!</span>
+							</div>
+						</div>
 						<div class="form-group">
 							<label class="col-sm-3 col-xs-12 control-label">秘話（1:1の会話）</label>
 							<div class="col-sm-9 btn-group" data-toggle="buttons">
@@ -200,85 +273,8 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group">
-							<label class="col-sm-3 col-xs-12 control-label">突然死</label>
-							<div class="col-sm-9 btn-group" data-toggle="buttons">
-								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSuddonlyDeath ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isAvailableSuddonlyDeath}" value="true" autocomplete="off" checked="checked" />あり
-								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSuddonlyDeath ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isAvailableSuddonlyDeath}" value="false" autocomplete="off" />なし
-								</label>
-							</div>
-							<div class="col-sm-3"></div>
-							<div class="col-xs-12 col-sm-9">
-								<p class="">ありにした場合、前日更新以降一度も村にアクセスしなかった参加者が日付更新時に突然死します。</p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 col-xs-12 control-label">コミット</label>
-							<div class="col-sm-9 btn-group" data-toggle="buttons">
-								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableCommit ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isAvailableCommit}" value="true" autocomplete="off" checked="checked" />あり
-								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableCommit ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isAvailableCommit}" value="false" autocomplete="off" />なし
-								</label>
-							</div>
-							<div class="col-sm-3"></div>
-							<div class="col-xs-12 col-sm-9">
-								<p class="">
-									ありにした場合、生存者全員がコミットすると日付を更新することができます。<br /> （コミット状況は人数のみ表示されます）
-								</p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label">キャラセット</label>
-							<div class="col-sm-9 col-xs-12 btn-group" data-toggle="buttons">
-								<select class="form-control" th:field="*{characterSetId}">
-									<option th:each="charaGroup : ${characterSetList}" th:value="${charaGroup.value}" th:text="${charaGroup.name}"></option>
-								</select> <span th:if="${#fields.hasErrors('characterSetId')}" th:errors="*{characterSetId}" class="help-block text-danger">error!</span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label">ダミーキャラ</label>
-							<div class="col-sm-9 col-xs-12 btn-group" data-toggle="buttons">
-								<select class="form-control" th:field="*{dummyCharaId}">
-									<option value="">読み込み中</option>
- 								</select> <span th:if="${#fields.hasErrors('dummyCharaId')}" th:errors="*{dummyCharaId}" class="help-block text-danger">error!</span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label">ダミーキャラの入村発言</label>
-							<div class="col-sm-9">
-								<div class="row">
-									<div class="col-sm-12 col-xs-12" style="display: flex;">
-										<div id="dummy-chara-img"></div>
-										<div style="flex: 1; margin-left: 5px; min-height: 77px;">
-											<textarea id="dummy-chara-join-message" class="form-control" th:field="*{dummyJoinMessage}" placeholder="人狼なんているわけないじゃん。みんな大げさだなあ"
-												style="min-height: 77px;"></textarea>
-										</div>
-									</div>
-								</div>
-								<span th:if="${#fields.hasErrors('dummyJoinMessage')}" th:errors="*{dummyJoinMessage}" class="help-block text-danger">error!</span>
-							</div>
-						</div>
 						<hr />
-						<div class="form-group">
-							<label class="col-sm-3 control-label">入村パスワード</label>
-							<div class="col-sm-9">
-								<input type="text" class="form-control" th:field="*{joinPassword}" placeholder="3文字以上12文字以下（任意）" />
-								<span th:if="${#fields.hasErrors('joinPassword')}" th:errors="*{joinPassword}" class="help-block text-danger">error!</span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 col-xs-12 control-label">構成</label>
-							<div class="col-sm-9">
-								<textarea class="form-control" th:field="*{organization}" style="min-height: 250px;"></textarea>
-								<p>村:村人/狼:人狼/狂:狂人/C:C国狂人/魔:魔神官/信:狂信者/占:占い師/賢:賢者/霊:霊能者/導:導師/狐:妖狐/共:共鳴者/狩:狩人</p>
-								<p>ダミーは必ず村人となるため、村を1名以上入れてください。</p>
-								<span th:if="${#fields.hasErrors('organization')}" th:errors="*{organization}" class="help-block text-danger">error!</span>
-							</div>
-						</div>
-						<hr />
+						<h2 class="h5">特殊ルール向け</h2>
 						<div class="form-group">
 							<label class="col-sm-3 col-xs-12 control-label">発言制限</label>
 							<div class="col-sm-9">
@@ -287,6 +283,20 @@
 								<p>1回の文字数は0~400、1日の回数は0~100で設定してください。</p>
 								<p>チェックなしにすると無制限になります。</p>
 								<span th:if="${#fields.hasErrors('sayRestrictList')}" th:errors="*{sayRestrictList}" class="help-block text-danger">error!</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 col-xs-12 control-label">投票</label>
+							<div class="col-sm-9 col-xs-12 btn-group" data-toggle="buttons">
+								<label th:class="'btn btn-sm btn-dark-success ' + *{isOpenVote ? 'active' : ''}"> <input type="radio" class=""
+										th:field="*{isOpenVote}" value="true" autocomplete="off" checked />記名
+								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isOpenVote ? '' : 'active'}"> <input type="radio" class=""
+										th:field="*{isOpenVote}" value="false" autocomplete="off" />無記名
+								</label>
+							</div>
+							<div class="col-sm-3"></div>
+							<div class="col-sm-9 col-xs-12">
+								<p class="">基本的に投票と足音で推理するルールであるため、記名投票を推奨します。</p>
 							</div>
 						</div>
 						<hr />

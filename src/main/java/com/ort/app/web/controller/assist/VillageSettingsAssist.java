@@ -11,11 +11,13 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.dbflute.cbean.result.ListResultBean;
+import org.dbflute.optional.OptionalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
+import com.ort.app.web.controller.logic.MessageLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageSayRestrictDetailDto;
 import com.ort.app.web.form.NewVillageSayRestrictDto;
@@ -24,10 +26,12 @@ import com.ort.app.web.model.VillageSettingsResultContent;
 import com.ort.app.web.model.inner.VillageSettingsDto;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
+import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.MessageRestrictionBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exbhv.VillageSettingsBhv;
+import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.MessageRestriction;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
@@ -60,7 +64,11 @@ public class VillageSettingsAssist {
     @Autowired
     private VillagePlayerBhv villagePlayerBhv;
     @Autowired
+    private CharaBhv charaBhv;
+    @Autowired
     private VillageAssist villageAssist;
+    @Autowired
+    private MessageLogic messageLogic;
 
     // ===================================================================================
     //                                                                             Execute
@@ -92,6 +100,7 @@ public class VillageSettingsAssist {
         }
         try {
             updateVillageSettings(villageId, form, userInfo);
+            messageLogic.insertMessage(villageId, 0, CDef.MessageType.公開システムメッセージ, "村の設定が変更されました。", true);
         } catch (WerewolfMansionBusinessException e) {
             model.addAttribute("errorMessage", e.getMessage());
             setVillageSettingsIndexModel(villageId, form, model);
@@ -169,11 +178,13 @@ public class VillageSettingsAssist {
         settings.setIsOpenVote(form.getIsOpenVote());
         settings.setIsAvailableSameWolfAttack(form.getIsAvailableSameWolfAttack());
         settings.setIsAvailableGuardSameTarget(form.getIsAvailableGuardSameTarget());
+        settings.setIsAvailableCommit(form.getIsAvailableCommit());
         settings.setIsOpenSkillInGrave(form.getIsOpenSkillInGrave());
         settings.setIsVisibleGraveSpectateMessage(form.getIsVisibleGraveSpectateMessage());
         settings.setIsAvailableSpectate(form.getIsAvailableSpectate());
         settings.setIsAvailableSuddonlyDeath(form.getIsAvailableSuddonlyDeath());
         settings.setOrganize(form.getOrganization());
+        settings.setJoinPassword(form.getJoinPassword());
         settings.setAllowedSecretSayCodeAsAllowedSecretSay(CDef.AllowedSecretSay.codeOf(form.getAllowedSecretSayCode()));
         villageSettingsBhv.update(settings);
     }
@@ -213,19 +224,21 @@ public class VillageSettingsAssist {
     // ===================================================================================
     //                                                                             Mapping
     //                                                                             =======
-    private VillageSettingsResultContent mappingToSettingsResultContent(VillageSettings settings, ListResultBean<VillageDay> dayList) {
+    private VillageSettingsResultContent mappingToSettingsResultContent(VillageSettings settings, ListResultBean<VillageDay> dayList,
+            Chara dummyChara) {
         VillageSettingsResultContent content = new VillageSettingsResultContent();
         content.setVillageId(settings.getVillageId());
         content.setVillageName(settings.getVillage().get().getVillageDisplayName());
-        content.setVillageSettings(convertToSettings(settings, dayList));
+        content.setVillageSettings(convertToSettings(settings, dayList, dummyChara));
         return content;
     }
 
-    private VillageSettingsDto convertToSettings(VillageSettings settings, ListResultBean<VillageDay> dayList) {
+    private VillageSettingsDto convertToSettings(VillageSettings settings, ListResultBean<VillageDay> dayList, Chara dummyChara) {
         // 変更不可項目はpartへ、変更可能項目はFormへ
         VillageSettingsDto part = new VillageSettingsDto();
         part.setCharaGroupId(settings.getCharacterGroupId());
         part.setCharaGroupName(settings.getCharaGroup().get().getCharaGroupName());
+        part.setDummyCharaName(dummyChara.getCharaName());
         part.setSkillRequestType(BooleanUtils.isTrue(settings.getIsPossibleSkillRequest()) ? "有効" : "無効");
         part.setIsAvailableSpectate(settings.getIsAvailableSpectate());
         return part;
@@ -239,7 +252,8 @@ public class VillageSettingsAssist {
         VillageSettings settings = selectVillageSettings(villageId);
         List<MessageRestriction> restrictList = selectMessageRestrictList(villageId);
         ListResultBean<VillageDay> dayList = selectVillageDayList(villageId);
-        VillageSettingsResultContent content = mappingToSettingsResultContent(settings, dayList);
+        OptionalEntity<Chara> dummyChara = charaBhv.selectByPK(settings.getDummyCharaId());
+        VillageSettingsResultContent content = mappingToSettingsResultContent(settings, dayList, dummyChara.get());
         model.addAttribute("content", content);
         // 現在の年
         LocalDate now = WerewolfMansionDateUtil.currentLocalDate();
