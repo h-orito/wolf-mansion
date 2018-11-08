@@ -39,6 +39,7 @@ import com.ort.app.web.model.VillageAnchorMessageResultContent;
 import com.ort.app.web.model.VillageGetFootstepListResultContent;
 import com.ort.app.web.model.VillageLatestMessageDatetimeResultContent;
 import com.ort.app.web.model.VillageMessageListResultContent;
+import com.ort.app.web.model.VillageSayConfirmResultContent;
 import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 
@@ -167,9 +168,10 @@ public class VillageController {
 
     // 発言確認画面へ
     @PostMapping("/village/{villageId}/confirm")
-    private String confirm(@PathVariable Integer villageId, @Validated @ModelAttribute("sayForm") VillageSayForm sayForm,
-            BindingResult result, Model model) {
-        return villageSayAssist.setConfirmModel(villageId, sayForm, result, model);
+    @ResponseBody
+    private VillageSayConfirmResultContent confirm(@PathVariable Integer villageId,
+            @Validated @ModelAttribute("sayForm") VillageSayForm sayForm, BindingResult result, Model model) {
+        return villageSayAssist.sayConfirm(villageId, sayForm, result, model);
     }
 
     // 発言する

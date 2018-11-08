@@ -11,6 +11,7 @@ $(function() {
 	const GET_ANCHOR_MESSAGE_URL = contextPath + 'village/getAnchorMessage';
 	const GET_FOOTSTEP_URL = contextPath + 'village/getFootstepList';
 	const GET_FACEIMG_URL = contextPath + 'getFaceImgUrl/' + villageId;
+	const SAY_CONFIRM_URL = contextPath + 'village/' + villageId + '/confirm';
 	const messageTemplate = Handlebars.compile($("#message-template").html());
 	const messagePartialTemplate = Handlebars.compile($("#message-partial-template").html());
 	Handlebars.registerPartial('messagePartial', messagePartialTemplate);
@@ -30,6 +31,7 @@ $(function() {
 	const largeRegex = /\[\[large\]\](.*?)\[\[\/large\]\]/g;
 	const smallRegex = /\[\[small\]\](.*?)\[\[\/small\]\]/g;
 	let latestDay;
+	let canAutoRefresh = true; // 発言確認中はfalseになる
 
 	init();
 	function init() {
@@ -48,7 +50,9 @@ $(function() {
 		selectDefaultFootsteps(); // 狐と狂人だったら選択していた足音の部屋を選択状態にする
 	}
 
+	// ----------------------------------------------
 	// ページング
+	// ----------------------------------------------
 	$('body').on('click', '[data-prev-page]', function() {
 		const currentPage = parseInt($(this).data('prev-page'));
 		loadAndDisplayMessage(currentPage - 1).then(function() {
@@ -67,8 +71,11 @@ $(function() {
 		});
 	});
 
+	// ----------------------------------------------
 	// メッセージ取得
+	// ----------------------------------------------
 	function loadAndDisplayMessage(pageNum) {
+		canAutoRefresh = true; // 発言確認されたままだと自動更新されないのでここで解除
 		$("[data-message-area]").addClass('loading');
 		const isNoPaging = getDisplaySetting('is_no_paging');
 		const pageSize = getDisplaySetting('page_size');
@@ -171,7 +178,9 @@ $(function() {
 		return false;
 	}
 
+	// ----------------------------------------------
 	// アンカー
+	// ----------------------------------------------
 	$('body').on('click', '[data-message-anchor]', function() {
 		const messageNumber = $(this).data('message-anchor');
 		handlingNumberAnchor($(this), 'NORMAL_SAY', messageNumber);
@@ -257,6 +266,9 @@ $(function() {
 		$(this).closest('[data-message]').collapse('hide');
 	});
 
+	// ----------------------------------------------
+	// 発言
+	// ----------------------------------------------
 	// 発言種別に応じて発言エリアの色を分ける
 	function changeSayTextAreaBackgroundColor() {
 		if ($sayTypeArea == null) {
@@ -311,7 +323,7 @@ $(function() {
 
 	// 可能なら表情を入れ替え
 	function changeFaceTypeIfNeeded(faceTypeCode) {
-		$('#faceType').find('option').each(function(){
+		$('#faceType').find('option').each(function() {
 			if ($(this).val() === faceTypeCode) {
 				$('#faceType').val(faceTypeCode);
 				changeFace(faceTypeCode);
@@ -319,10 +331,9 @@ $(function() {
 			}
 		});
 	}
-	
-	
+
 	// 表情を入れ替え
-	function changeFace(faceTypeCode){
+	function changeFace(faceTypeCode) {
 		$.ajax({
 			type : 'GET',
 			url : GET_FACEIMG_URL + '/' + faceTypeCode
@@ -333,12 +344,110 @@ $(function() {
 			$('#say-face-img').attr('src', response);
 		});
 	}
-	
-	$('#faceType').on('change', function(){
+
+	$('#faceType').on('change', function() {
 		changeFace($(this).val());
 	});
-	
-	// 足音候補を取得して入れ替える
+
+	// 発言確認を表示
+	let sayFormParam = null;
+	$('#sayform').on('submit', function() {
+		sayFormParam = $(this).serializeArray();
+		$.ajax({
+			type : 'POST',
+			url : SAY_CONFIRM_URL,
+			data : sayFormParam
+		}).then(function(response) {
+			if (response == null || response === '') {
+				return false;
+			}
+			canAutoRefresh = false; // 自動でログ更新させない
+			// htmlエスケープと、アンカーの変換を行う
+			response.message.messageContent = escapeAndSetAnchor(response.message.messageContent, response.message.isConvertDisable);
+			const $confirmMessage = $(messagePartialTemplate(response.message));
+			$('#message-confirm-area').empty();
+			$('#message-confirm-area').append($('<div></div>', {
+				text : '以下の内容で発言してよろしいですか？（まだ発言されていません）',
+				'style' : 'margin-bottom: 10px;'
+			}));
+			$('#message-confirm-area').append($confirmMessage);
+			$('#message-confirm-area').append($('<button></button>', {
+				text : detectSayLabel(response.message.messageType),
+				'class' : 'btn btn-success btn-sm pull-right',
+				'data-say-determine' : ''
+			}));
+			const $cancelButton = $('<button></button>', {
+				text : 'キャンセル',
+				'class' : 'btn btn-default btn-sm'
+			});
+			$cancelButton.attr('data-say-cancel', 'sayform');
+			$cancelButton.data('say-cancel', 'sayform');
+			$('#message-confirm-area').append($cancelButton);
+			$('#message-confirm-area').show();
+			// 発言確認エリアに遷移
+			$('html, body').animate({
+				scrollTop : $('#message-confirm-area-bottom').offset().top
+			}, 200);
+		});
+		return false; // submitしない
+	});
+
+	function detectSayLabel(type) {
+		if (type === 'NORMAL_SAY') {
+			return '発言する';
+		} else if (type === 'WEREWOLF_SAY') {
+			return '囁く';
+		} else if (type === 'MASON_SAY') {
+			return '発言する（共鳴）';
+		} else if (type === 'MONOLOGUE_SAY') {
+			return '発言する（独り言）';
+		} else if (type === 'SECRET_SAY') {
+			return '発言する（秘話）';
+		} else if (type === 'GRAVE_SAY') {
+			return '呻く';
+		} else if (type === 'SPECTATE_SAY') {
+			return '発言する';
+		}
+		return '発言する';
+	}
+
+	$('body').on('click', '[data-say-cancel]', function() {
+		canAutoRefresh = true;
+		$('#message-confirm-area').empty();
+		$('#message-confirm-area').hide();
+		const sayAreaId = $(this).data('say-cancel');
+		if (sayAreaId === 'sayform' && getDisplaySetting('bottom_fix_tab') === 'sayform-panel') {
+			return;
+		}
+		$('html, body').animate({
+			scrollTop : $('#' + sayAreaId).offset().top
+		}, 200);
+	});
+
+	$('body').on('click', '[data-say-determine]', function() {
+		const $confirmForm = $('#say-confirm-form');
+		$.each(sayFormParam, function() {
+			if (this.name === '_csrf') {
+				return true;
+			}
+			$confirmForm.append($('<input></input>', {
+				type : 'hidden',
+				name : this.name,
+				value : this.value
+			}));
+		});
+		$confirmForm.submit();
+	});
+
+	function makeConfirmMessage($message, anchorClassName) {
+		$message.addClass('well');
+		return $message;
+	}
+
+	// ----------------------------------------------
+	// 足音
+	// ----------------------------------------------
+	// 足音候補を入れ替える
 	function replaceFootstepList() {
 		const $footstepSelect = $('[data-footstep-select]');
 		if ($footstepSelect == null) {
@@ -407,6 +516,9 @@ $(function() {
 			$countspan.removeClass('text-danger');
 			$submitbtn.prop('disabled', false);
 		}
+		if ($textarea.val().trim().length == 0) {
+			$submitbtn.prop('disabled', true);
+		}
 	}
 
 	function getRestriction(messageType, $countspan) {
@@ -445,6 +557,9 @@ $(function() {
 		} else {
 			$countspan.removeClass('text-danger');
 			$submitbtn.prop('disabled', false);
+		}
+		if ($(this).val().trim().length == 0) {
+			$submitbtn.prop('disabled', true);
 		}
 	});
 
@@ -852,8 +967,8 @@ $(function() {
 		}
 		restoreFilter(); // フィルタを引き継ぐ
 	}
-	
-	$('[data-dsetting-reset]').on('click', function(){
+
+	$('[data-dsetting-reset]').on('click', function() {
 		$.cookie('village_display_setting', makeDisplaySettingObject(), {
 			expires : 365,
 			path : '/'
@@ -1007,7 +1122,7 @@ $(function() {
 				const afterLatestMessageDatetimeNum = Number(response.latestMessageDatetime);
 				if (beforeLatestMessageDatetimeNum < afterLatestMessageDatetimeNum) {
 					$('.glyphicon-refresh').addClass('flash');
-					if (isInLatestPage(day) && getDisplaySetting('auto_refresh')) {
+					if (isInLatestPage(day) && getDisplaySetting('auto_refresh') && canAutoRefresh) {
 						loadAndDisplayMessage().then(function() {
 							$('#autorefresh-alert').show();
 							$('#autorefresh-alert').fadeIn(1000).delay(2000).fadeOut(2000);

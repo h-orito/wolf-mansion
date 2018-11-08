@@ -23,7 +23,6 @@ public class VillageSayForm implements Serializable {
     private Boolean isConvertDisable;
 
     /** 表情種別 */
-    @NotNull
     private String faceType;
 
     public String getMessage() {

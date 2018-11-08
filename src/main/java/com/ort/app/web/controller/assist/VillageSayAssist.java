@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import com.ort.app.web.controller.logic.MessageLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageSayForm;
+import com.ort.app.web.model.VillageSayConfirmResultContent;
+import com.ort.app.web.model.inner.VillageMessageDto;
 import com.ort.app.web.util.CharaUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.MessageType;
@@ -21,12 +23,14 @@ import com.ort.dbflute.exbhv.MessageRestrictionBhv;
 import com.ort.dbflute.exbhv.RandomKeywordBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
+import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.Message;
 import com.ort.dbflute.exentity.MessageRestriction;
 import com.ort.dbflute.exentity.RandomKeyword;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.fw.security.UserInfo;
+import com.ort.fw.util.WerewolfMansionDateUtil;
 import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 
 @Component
@@ -51,42 +55,47 @@ public class VillageSayAssist {
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
-    public String setConfirmModel(Integer villageId, VillageSayForm sayForm, BindingResult result, Model model) {
+    public VillageSayConfirmResultContent sayConfirm(Integer villageId, VillageSayForm sayForm, BindingResult result, Model model) {
         // ログインしていなかったらNG
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
-            // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, sayForm, null, null, model);
+            return null;
         }
-        Village village = selectVillage(villageId);
         VillagePlayer villagePlayer = villageAssist.selectVillagePlayer(villageId, userInfo, true).orElseThrow(() -> {
-            return new IllegalArgumentException("セッション切れ？");
+            return null;
         });
+        Village village = selectVillage(villageId);
         // 発言権利がなかったらNG
         if (!isAvailableSay(villageId, village, villagePlayer, userInfo, sayForm)) {
-            // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, sayForm, null, null, model);
+            return null;
         }
         // 発言制限に引っかかったらNG
         if (isRestricted(villageId, village, villagePlayer, sayForm)) {
-            // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, sayForm, null, null, model);
+            return null;
         }
         CDef.FaceType faceType = CDef.FaceType.codeOf(sayForm.getFaceType());
         if (faceType == null) {
-            throw new IllegalArgumentException("表情種別が改ざんされている");
+            return null;
         }
-        model.addAttribute("characterImgUrl", CharaUtil.getCharaImgUrlByFaceType(villagePlayer.getChara().get(), faceType));
-        model.addAttribute("characterImgWidth", villagePlayer.getChara().get().getDisplayWidth());
-        model.addAttribute("characterImgHeight", villagePlayer.getChara().get().getDisplayHeight());
-        model.addAttribute("randomKeywords", String.join(",",
+        VillageSayConfirmResultContent content = new VillageSayConfirmResultContent();
+        VillageMessageDto message = new VillageMessageDto();
+        Chara chara = villagePlayer.getChara().get();
+        message.setCharacterName(chara.getCharaName());
+        message.setCharacterShortName(chara.getCharaShortName());
+        message.setCharacterId(chara.getCharaId());
+        message.setCharacterImageUrl(CharaUtil.getCharaImgUrlByFaceType(chara, faceType));
+        message.setMessageType(sayForm.getMessageType());
+        message.setMessageNumber(0);
+        message.setMessageContent(sayForm.getMessage());
+        message.setMessageDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
+        message.setWidth(chara.getDisplayWidth());
+        message.setHeight(chara.getDisplayHeight());
+        message.setIsConvertDisable(sayForm.getIsConvertDisable());
+        message.setTargetCharacterName(createSecretSayTargetCharaName(villageId, sayForm));
+        content.setMessage(message);
+        content.setRandomKeywords(String.join(",",
                 randomKeywordBhv.selectList(cb -> {}).stream().map(RandomKeyword::getKeyword).collect(Collectors.toList())));
-        model.addAttribute("secretSayTargetCharaName", createSecretSayTargetCharaName(villageId, sayForm));
-
-        model.addAttribute("villageId", villageId);
-        model.addAttribute("villageName", village.getVillageDisplayName());
-        // 発言確認画面へ
-        return "say-confirm";
+        return content;
     }
 
     public String say(Integer villageId, VillageSayForm sayForm, BindingResult result, Model model) {
