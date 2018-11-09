@@ -23,9 +23,18 @@ $(function() {
 	});
 
 	$(document).ajaxSuccess(function(event, xhr, settings) {
-		if (settings.url.indexOf('getLatestMessageDatetime') == -1 && settings.url.indexOf('getFootstepList') == -1) {
-			gtag('event', 'page_view', {
-				'send_to' : 'UA-116569504-1'
+		if (settings.url.indexOf('getLatestMessageDatetime') == -1 // 
+				&& settings.url.indexOf('getFootstepList') == -1 //
+				&& settings.url.indexOf('getFaceImgUrl') == -1) {
+			const pos = settings.url.indexOf('&day=');
+			let url;
+			if (pos < 0) {
+				url = settings.url;
+			} else {
+				url = settings.url.substring(0, pos);
+			}
+			gtag('config', 'UA-116569504-1', {
+				'page_path' : url
 			});
 		}
 	});
