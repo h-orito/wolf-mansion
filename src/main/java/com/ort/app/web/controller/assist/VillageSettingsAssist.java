@@ -320,7 +320,7 @@ public class VillageSettingsAssist {
         if (skill == CDef.Skill.人狼 || skill == CDef.Skill.C国狂人) {
             detailList.add(createDetail("囁き", CDef.MessageType.人狼の囁き.code(), skill, restrictList));
         } else if (skill == CDef.Skill.共鳴者) {
-            detailList.add(createDetail("共鳴発言", CDef.MessageType.共鳴発言.code(), skill, restrictList));
+            detailList.add(createDetail("共鳴", CDef.MessageType.共鳴発言.code(), skill, restrictList));
         }
         return detailList;
     }

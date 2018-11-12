@@ -304,7 +304,7 @@ public class NewVillageAssist {
         if (skill == CDef.Skill.人狼 || skill == CDef.Skill.C国狂人) {
             detailList.add(createDetail("囁き", CDef.MessageType.人狼の囁き.code()));
         } else if (skill == CDef.Skill.共鳴者) {
-            detailList.add(createDetail("共鳴発言", CDef.MessageType.共鳴発言.code()));
+            detailList.add(createDetail("共鳴", CDef.MessageType.共鳴発言.code()));
         }
         return detailList;
     }

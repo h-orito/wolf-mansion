@@ -26,6 +26,15 @@
 				</div>
 				<div id="creatorform-content" class="panel-collapse collapse in">
 					<div class="panel-body">
+						<div class="form-horizontal" th:if="${content.isAvailableSettingsUpdate}">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">設定変更</label>
+								<div class="col-sm-10">
+									<a href="javascript:void(0);" th:href="@{/village/{villageId}/settings(villageId=${content.villageId})}" target="_blank"
+										class="btn btn-success btn-sm pull-right small">村設定変更</a>
+								</div>
+							</div>
+						</div>
 						<form method="post" id="kick-form" th:if="${content.day == 0}" action=""
 							th:action="@{/village/{villageId}/kick(villageId=${content.villageId})}" class="form-horizontal" th:object="${kickForm}">
 							<div class="form-group">
