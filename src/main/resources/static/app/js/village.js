@@ -969,6 +969,9 @@ $(function() {
 	}
 
 	$('[data-dsetting-reset]').on('click', function() {
+		if (!confirm('本当に表示設定をリセットしてよろしいですか？')) {
+			return;
+		}
 		$.cookie('village_display_setting', makeDisplaySettingObject(), {
 			expires : 365,
 			path : '/'
