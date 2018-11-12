@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.dbflute.optional.OptionalEntity;
+import org.dbflute.optional.OptionalThing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -61,9 +62,12 @@ public class VillageSayAssist {
         if (result.hasErrors() || userInfo == null) {
             return null;
         }
-        VillagePlayer villagePlayer = villageAssist.selectVillagePlayer(villageId, userInfo, true).orElseThrow(() -> {
+        OptionalThing<VillagePlayer> optVp = villageAssist.selectVillagePlayer(villageId, userInfo, true);
+        if (!optVp.isPresent()) {
             return null;
-        });
+        }
+        VillagePlayer villagePlayer = optVp.get();
+
         Village village = selectVillage(villageId);
         // 発言権利がなかったらNG
         if (!isAvailableSay(villageId, village, villagePlayer, userInfo, sayForm)) {
