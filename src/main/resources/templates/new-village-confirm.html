@@ -14,10 +14,12 @@
 			<div id="wrapper">
 				<div class="col-sm-12 col-xs-12">
 					<h1 class="h4">村作成確認</h1>
-					<form method="post" id="new-village-confirm-form" action="" th:action="@{/new-village}" th:object="${villageForm}" class="form-horizontal">
-						<h2 class="h5">基本設定</h2>
+					<form method="post" id="new-village-confirm-form" action="" th:action="@{/new-village/create}" th:object="${villageForm}" class="form-horizontal">
 						<div class="table-responsive clearfix">
 							<table class="table table-bordered table-condensed">
+								<tr>
+									<th colspan="2"><span class="h4">基本設定</span>
+								</tr>
 								<tr>
 									<th>村名</th>
 									<td th:text="*{villageName}"></td>
@@ -38,11 +40,9 @@
 									<th>開始日時</th>
 									<td th:text="${#temporals.format(startDateTime, 'yyyy/MM/dd HH:mm')}"></td>
 								</tr>
-							</table>
-						</div>
-						<h2 class="h5">キャラチップ設定</h2>
-						<div class="table-responsive clearfix">
-							<table class="table table-bordered table-condensed">
+								<tr>
+									<th colspan="2"><span class="h4">キャラチップ設定</span>
+								</tr>
 								<tr>
 									<th>キャラクターセット</th>
 									<td th:text="${characterSetName}"></td>
@@ -73,11 +73,9 @@
 										</div>
 									</td>
 								</tr>
-							</table>
-						</div>
-						<h2 class="h5">キャラチップ設定</h2>
-						<div class="table-responsive clearfix">
-							<table class="table table-bordered table-condensed">
+								<tr>
+									<th colspan="2"><span class="h4">詳細ルール設定</span>
+								</tr>
 								<tr>
 									<th>構成</th>
 									<td id="organize">
@@ -109,11 +107,9 @@
 									<th>コミット</th>
 									<td th:text="*{isAvailableCommit} ? 'あり' : 'なし'"></td>
 								</tr>
-							</table>
-						</div>
-						<h2 class="h5">見学、閲覧設定</h2>
-						<div class="table-responsive clearfix">
-							<table class="table table-bordered table-condensed">
+								<tr>
+									<th colspan="2"><span class="h4">見学、閲覧設定</span>
+								</tr>
 								<tr>
 									<th>見学入村</th>
 									<td th:text="*{isAvailableSpectate} ? '可能' : '不可'"></td>
@@ -126,11 +122,9 @@
 									<th>墓下見学会話公開</th>
 									<td th:text="*{isVisibleGraveSpectateMessage} ? '公開' : '非公開'"></td>
 								</tr>
-							</table>
-						</div>
-						<h2 class="h5">身内村設定</h2>
-						<div class="table-responsive clearfix">
-							<table class="table table-bordered table-condensed">
+								<tr>
+									<th colspan="2"><span class="h4">身内村設定</span>
+								</tr>
 								<tr th:if="*{joinPassword != null && joinPassword != ''}">
 									<th>入村パスワード</th>
 									<td th:text="*{joinPassword}"></td>
@@ -139,11 +133,9 @@
 									<th>秘話</th>
 									<td th:text="*{allowedSecretSayCode == 'NOTHING' ? 'なし' : allowedSecretSayCode == 'ONLY_CREATOR' ? '村建てとのみ可能' : '全員可能'}"></td>
 								</tr>
-							</table>
-						</div>
-						<h2 class="h5">特殊ルール向け</h2>
-						<div class="table-responsive clearfix">
-							<table class="table table-bordered table-condensed">
+								<tr>
+									<th colspan="2"><span class="h4">特殊ルール向け</span>
+								</tr>
 								<tr>
 									<th>発言制限</th>
 									<td>
@@ -229,6 +221,7 @@
 
 						<div class="form-group">
 							<div class="col-sm-12 col-xs-12">
+								<input id="back" type="button" class="btn btn-sm btn-default" value="戻る" />
 								<input type="submit" class="btn btn-sm btn-success pull-right" value="作成" />
 							</div>
 						</div>

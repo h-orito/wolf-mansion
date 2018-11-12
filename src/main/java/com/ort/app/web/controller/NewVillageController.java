@@ -8,10 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ort.app.web.controller.assist.NewVillageAssist;
 import com.ort.app.web.controller.logic.VillageParticipateLogic;
@@ -57,9 +57,9 @@ public class NewVillageController {
     //                                                                             Execute
     //                                                                             =======
     // 新規村作成初期表示
-    @GetMapping("/new-village")
-    private String newVillageIndex(Model model) {
-        newVillageAssist.setIndexModel(new NewVillageForm(), model);
+    @RequestMapping("/new-village") // 戻る場合もあるのでpostもok
+    private String newVillageIndex(NewVillageForm form, Model model) {
+        newVillageAssist.setIndexModel(form, model);
         return "new-village";
     }
 
@@ -110,7 +110,7 @@ public class NewVillageController {
     }
 
     // 新規村作成
-    @PostMapping("/new-village")
+    @PostMapping("/new-village/create")
     private String makeVillage(@Validated @ModelAttribute("villageForm") NewVillageForm villageForm, BindingResult bindingResult,
             Model model) {
         if (bindingResult.hasErrors()) {

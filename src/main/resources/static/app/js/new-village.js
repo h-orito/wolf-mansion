@@ -28,6 +28,11 @@ $(function() {
 					value : elm.charaId,
 				}));
 			});
+			const firstDummyCharaId = $('[data-dummy-chara-id]').data('dummy-chara-id');
+			if (response.some(chara => chara.charaId === firstDummyCharaId)) {
+				$dummyCharaSelect.val(firstDummyCharaId);
+				replaceDummyChara(firstDummyCharaId);
+			}
 		});
 	}
 	
