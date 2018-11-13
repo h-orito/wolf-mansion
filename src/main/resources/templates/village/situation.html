@@ -90,7 +90,7 @@
 								<div class="col-sm-6 col-xs-6">
 									<table class="table table-bordered table-condensed small" th:each="statusDto, s : ${content.memberList}" th:if=${s.first}>
 										<tr>
-											<th th:text="${statusDto.status}">生存</th>
+											<th th:text="${statusDto.status + ' (' + statusDto.statusMemberList.size() +'人)'}">生存</th>
 										</tr>
 										<tr th:each="member : ${statusDto.statusMemberList}">
 											<td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName}"></td>
@@ -103,7 +103,7 @@
 								<div class="col-sm-6 col-xs-6">
 									<table class="table table-bordered table-condensed small" th:each="statusDto, s : ${content.memberList}" th:unless=${s.first}>
 										<tr>
-											<th th:text="${statusDto.status}">生存</th>
+											<th th:text="${statusDto.status + ' (' + statusDto.statusMemberList.size() +'人)'}">生存</th>
 										</tr>
 										<tr th:each="member : ${statusDto.statusMemberList}">
 											<td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName}"></td>

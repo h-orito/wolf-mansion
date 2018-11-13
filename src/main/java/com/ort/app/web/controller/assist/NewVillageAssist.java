@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -181,13 +182,15 @@ public class NewVillageAssist {
 
     private void tweetNewVillage(NewVillageForm villageForm, Integer villageId) {
         String villageName = villageForm.getVillageName();
+        if (StringUtils.isNotEmpty(villageForm.getJoinPassword())) { // 身内村は通知しない
+            return;
+        }
         String startDatetime =
                 LocalDateTime
                         .of(villageForm.getStartYear(), villageForm.getStartMonth(), villageForm.getStartDay(), villageForm.getStartHour(),
                                 villageForm.getStartMinute(), 0)
                         .format(TIME_FORMAT);
         twitterLogic.tweet(String.format("新しい村が作成されました。\r\n村名：%s\r\n開始予定：%s", villageName, startDatetime), villageId);
-
     }
 
     // ===================================================================================

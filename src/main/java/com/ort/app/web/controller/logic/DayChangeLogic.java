@@ -127,13 +127,20 @@ public class DayChangeLogic {
             setDefaultVoteAndAbility(villageId, newDay, settings); // 投票、能力行使のデフォルト設定
             updateVillageSettingsIfNeeded(villageId, vPlayerList, settings); // 特殊ルール変更
             insertDummyCharaMessage(villageId, vPlayerList, settings); // ダミーキャラ発言
-            twitterLogic.tweet(String.format("%sが開始されました。", village.getVillageDisplayName()), villageId);
+            tweetIfNeeded(villageId, village, settings);
         } else if (village.getVillageStatusCodeAsVillageStatus() == CDef.VillageStatus.エピローグ) {
             updateVillageStatus(villageId, CDef.VillageStatus.終了); // 終了
         } else {
             // 1日目以外
             dayChange(villageId, newDay, vPlayerList, settings);
         }
+    }
+
+    private void tweetIfNeeded(Integer villageId, Village village, VillageSettings settings) {
+        if (StringUtils.isNotEmpty(settings.getJoinPassword())) {
+            return; // 身内村は通知しない
+        }
+        twitterLogic.tweet(String.format("%sが開始されました。", village.getVillageDisplayName()), villageId);
     }
 
     // ===================================================================================
@@ -572,8 +579,13 @@ public class DayChangeLogic {
         // エピは固定で24時間
         updateVillageDay(villageId, day);
         // tweet
-        Village vil = villageBhv.selectEntityWithDeletedCheck(cb -> cb.query().setVillageId_Equal(villageId));
-        twitterLogic.tweet(String.format("%sがエピローグを迎えました。", vil.getVillageDisplayName()), villageId);
+        Village vil = villageBhv.selectEntityWithDeletedCheck(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.setupSelect_VillageSettingsAsOne();
+        });
+        if (StringUtils.isEmpty(vil.getVillageSettingsAsOne().get().getJoinPassword())) {
+            twitterLogic.tweet(String.format("%sがエピローグを迎えました。", vil.getVillageDisplayName()), villageId);
+        }
     }
 
     private void updateVillageDay(Integer villageId, int day) {

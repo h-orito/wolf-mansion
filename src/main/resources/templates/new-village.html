@@ -265,6 +265,10 @@
 								<input type="text" class="form-control" th:field="*{joinPassword}" placeholder="3文字以上12文字以下（任意）" />
 								<span th:if="${#fields.hasErrors('joinPassword')}" th:errors="*{joinPassword}" class="help-block text-danger">error!</span>
 							</div>
+							<div class="col-sm-3"></div>
+							<div class="col-xs-12 col-sm-9">
+								<p class="">設定した場合、作成/開始/エピローグ時にtweetされなくなります。</p>
+							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 col-xs-12 control-label">秘話（1:1の会話）</label>

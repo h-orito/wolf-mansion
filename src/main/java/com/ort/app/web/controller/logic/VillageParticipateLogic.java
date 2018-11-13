@@ -4,6 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Locale;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -209,6 +210,9 @@ public class VillageParticipateLogic {
             cb.setupSelect_VillageSettingsAsOne();
         });
         VillageSettings settings = village.getVillageSettingsAsOne().get();
+        if (StringUtils.isNotEmpty(settings.getJoinPassword())) {
+            return; // 身内村は通知しない
+        }
         String villageName = village.getVillageDisplayName();
         String startDatetime = settings.getStartDatetime().format(TIME_FORMAT);
 
