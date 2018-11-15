@@ -8,12 +8,15 @@ import org.dbflute.optional.OptionalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ort.app.web.controller.logic.VillageParticipateLogic;
 import com.ort.app.web.form.VillageLeaveForm;
 import com.ort.app.web.form.VillageParticipateForm;
+import com.ort.app.web.model.VillageCharaPlayerResultContent;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
@@ -148,5 +151,23 @@ public class AdminController {
             voteBhv.insert(vote);
         });
         return "redirect:/village/" + villageId;
+    }
+
+    // 管理者機能：参加プレイヤー
+    @GetMapping("/admin/village/{villageId}/player")
+    @ResponseBody
+    private List<VillageCharaPlayerResultContent> player(@PathVariable Integer villageId) {
+        return villagePlayerBhv.selectList(cb -> {
+            cb.setupSelect_Chara();
+            cb.setupSelect_Player();
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setIsGone_Equal_False();
+            cb.query().addOrderBy_VillagePlayerId_Asc();
+        }).stream().map(vp -> {
+            VillageCharaPlayerResultContent charaPlayer = new VillageCharaPlayerResultContent();
+            charaPlayer.setCharaName(vp.getChara().get().getCharaName());
+            charaPlayer.setPlayerName(vp.getPlayer().get().getPlayerName());
+            return charaPlayer;
+        }).collect(Collectors.toList());
     }
 }

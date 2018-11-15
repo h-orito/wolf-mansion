@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ort.app.web.controller.logic.VillageParticipateLogic;
 import com.ort.app.web.form.LoginForm;
@@ -35,6 +36,22 @@ public class IndexController {
     private String index(LoginForm form, Model model) {
         setIndexModel(form, model);
         return "index";
+    }
+
+    @GetMapping("/recruiting")
+    @ResponseBody
+    private IndexResultContent recruiting() {
+        ListResultBean<Village> villageList = villageBhv.selectList(cb -> {
+            cb.setupSelect_VillageSettingsAsOne();
+            cb.setupSelect_VillageStatus();
+            cb.query().setVillageStatusCode_Equal_募集中();
+            cb.query().addOrderBy_VillageId_Asc();
+        });
+        villageBhv.loadVillagePlayer(villageList, cb -> {
+            cb.query().setIsGone_Equal_False();
+            cb.query().setIsSpectator_Equal_False();
+        });
+        return mappingToContent(villageList);
     }
 
     // ===================================================================================
