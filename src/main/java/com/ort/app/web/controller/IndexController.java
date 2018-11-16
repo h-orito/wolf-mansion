@@ -46,7 +46,9 @@ public class IndexController {
         ListResultBean<Village> villageList = villageBhv.selectList(cb -> {
             cb.setupSelect_VillageSettingsAsOne();
             cb.setupSelect_VillageStatus();
-            cb.query().setVillageStatusCode_Equal_募集中();
+            cb.query().setVillageStatusCode_InScope_AsVillageStatus(
+                    Arrays.asList(CDef.VillageStatus.募集中, CDef.VillageStatus.エピローグ, CDef.VillageStatus.進行中));
+            cb.query().setVillageDisplayName_NotEqual("【サンプル】インターフェース確認用");
             cb.query().addOrderBy_VillageId_Asc();
         });
         villageBhv.loadVillagePlayer(villageList, cb -> {
