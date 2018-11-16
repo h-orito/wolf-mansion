@@ -488,8 +488,7 @@ public class VillageMessageAssist {
 
     private boolean isViewAllowedMonologueSay(Village village, OptionalEntity<VillagePlayer> optVillagePlayer) {
         // 進行中以外は全開放
-        if (village.isVillageStatusCode募集中() || village.isVillageStatusCode開始待ち() || village.isVillageStatusCodeエピローグ()
-                || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
+        if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             return true;
         }
         return false;
