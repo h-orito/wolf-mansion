@@ -194,7 +194,7 @@ public class AbilityLogic {
             return true;
         }
         // 1日目なのにダミーキャラ以外を襲撃しようとしていたらNG
-        if (day == 1 && village.getVillageSettingsAsOne().get().getDummyCharaId().intValue() == targetCharaId.intValue()) {
+        if (day == 1 && village.getVillageSettingsAsOne().get().getDummyCharaId().intValue() != targetCharaId.intValue()) {
             return true;
         }
         // 襲撃者、襲撃対象、足音の整合性がとれていなかったらNG
