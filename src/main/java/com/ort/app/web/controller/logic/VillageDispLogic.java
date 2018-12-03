@@ -156,6 +156,10 @@ public class VillageDispLogic {
         if (villageInfo.settings.isIsAvailableCommitFalse()) {
             return false;
         }
+        // 最新日以外は表示しない
+        if (!villageInfo.isLatestDay()) {
+            return false;
+        }
         // 参加していなかったり生存していない場合は表示しない
         if (!villageInfo.isParticipate() || villageInfo.isSpectator() || villageInfo.isDead()) {
             return false;
