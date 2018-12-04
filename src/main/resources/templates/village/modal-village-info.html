@@ -97,7 +97,7 @@
 								<td th:text="${content.createPlayerName}"></td>
 							</tr>
 							<tr>
-								<th>人数ごとの役職構成</th>
+								<th>役職構成</th>
 								<td><th:block th:if="*{organization}">
 										<th:block th:each="str, stat : *{organization.split('\r\n|\r|\n', -1)}">
 											<th:block th:text="${str}" />

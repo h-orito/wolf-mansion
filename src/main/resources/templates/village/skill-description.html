@@ -42,6 +42,10 @@
 				<div class="modal-content">
 					<div class="modal-body row">
 						<div class="col-sm-12 col-xs-12">
+							<h5>村が開始されました。役職とルールは以下の通りです。</h5>
+						</div>
+						<div class="col-sm-12 col-xs-12">
+							<h5>役職</h5>
 							<p class="small" th:if="${content.skillName == 'SEER'}" th:utext="#{skill.seer.description}"></p>
 							<p class="small" th:if="${content.skillName == 'WEREWOLF' && content.villageSettings.isAvailableSameWolfAttack}"
 								th:utext="#{skill.werewolf.description}"></p>
@@ -58,6 +62,88 @@
 							<p class="small" th:if="${content.skillName == 'GURU'}" th:utext="#{skill.guru.description}"></p>
 							<p class="small" th:if="${content.skillName == 'EVILMEDIUM'}" th:utext="#{skill.evilmedium.description}"></p>
 							<p class="small" th:if="${content.skillName == 'FANATIC'}" th:utext="#{skill.fanatic.description}"></p>
+						</div>
+						<div class="col-sm-12 col-xs-12">
+							<h5>村の設定</h5>
+							<div class="table-responsive clearfix">
+								<table class="table table-bordered table-condensed" th:object="${content.villageSettings}">
+									<tr>
+										<th>更新間隔</th>
+										<td th:text="*{dayChangeInterval}"></td>
+									</tr>
+									<tr>
+										<th>投票形式</th>
+										<td th:text="*{voteType}"></td>
+									</tr>
+									<tr>
+										<th>同一人狼による連続襲撃</th>
+										<td th:text="*{isAvailableSameWolfAttack ? '可能' : '不可(狼2以下編成の場合は可能に変更されます)'}"></td>
+									</tr>
+									<tr>
+										<th>狩人による連続護衛</th>
+										<td th:text="*{isAvailableGuardSameTarget ? '可能' : '不可'}"></td>
+									</tr>
+									<tr>
+										<th>突然死</th>
+										<td th:text="*{isAvailableSuddonlyDeath ? 'あり' : 'なし'}"></td>
+									</tr>
+									<tr>
+										<th>コミット</th>
+										<td th:text="*{isAvailableCommit ? 'あり' : 'なし'}"></td>
+									</tr>
+									<tr>
+										<th>ダミーキャラ</th>
+										<td th:text="*{dummyCharaName}"></td>
+									</tr>
+									<tr>
+										<th>役職構成</th>
+										<td>
+											<th:block th:if="*{organization}">
+												<th:block th:each="str, stat : *{organization.split('\r\n|\r|\n', -1)}">
+													<th:block th:text="${str}" />
+													<br th:if="${!stat.last}" />
+												</th:block>
+											</th:block>
+										</td>
+									</tr>
+									<tr>
+										<th>発言制限</th>
+										<td>
+											<table class="table-bordered table-condensed small">
+												<thead>
+													<tr>
+														<th>役職</th>
+														<th>発言種別</th>
+														<th>制限</th>
+														<th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
+													</tr>
+												</thead>
+												<tbody>
+													<th:block th:each="restrict, stat : ${content.sayRestrictList}">
+														<tr>
+															<td th:rowspan="${restrict.detailList.size()}" th:text="${restrict.skillName}">村人</td>
+															<td th:text="${restrict.detailList[0].messageTypeName}"></td>
+															<td th:text="${restrict.detailList[0].isRestrict ? 'あり' : '無制限'}"></td>
+															<td>
+																<span th:if="${restrict.detailList[0].isRestrict}"
+																	th:text="${restrict.detailList[0].length} + ' * ' + ${restrict.detailList[0].count}"></span>
+															</td>
+														</tr>
+														<tr th:if="${restrict.detailList.size() > 1}">
+															<td th:text="${restrict.detailList[1].messageTypeName}"></td>
+															<td th:text="${restrict.detailList[1].isRestrict ? 'あり' : '無制限'}"></td>
+															<td>
+																<span th:if="${restrict.detailList[1].isRestrict}"
+																	th:text="${restrict.detailList[1].length} + ' * ' + ${restrict.detailList[1].count}"></span>
+															</td>
+														</tr>
+													</th:block>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+								</table>
+							</div>
 						</div>
 						<div class="clearfix col-sm-12 col-xs-12 small">
 							<a href="javascript:void(0);" id="initial-skill-confirm" class="btn btn-success btn-sm pull-right small" data-dismiss="modal"

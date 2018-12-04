@@ -792,16 +792,22 @@ public class VillageAssist {
         part.setIsVisibleGraveSpectateMessage(settings.getIsVisibleGraveSpectateMessage());
         part.setIsAvailableSuddonlyDeath(settings.getIsAvailableSuddonlyDeath());
         part.setIsAvailableCommit(settings.getIsAvailableCommit());
-        part.setOrganization(makeDisplayOrganization(settings.getOrganize()));
+        part.setOrganization(makeDisplayOrganization(settings.getOrganize(), villageInfo));
         part.setAllowedSecretSayCode(settings.getAllowedSecretSayCode());
         return part;
     }
 
     // 人数：構成の表示にする
-    private String makeDisplayOrganization(String organize) {
-        return String.join("\n", Stream.of(organize.replaceAll("\r\n", "\n").split("\n")).map(org -> {
-            return String.format("%02d人: %s", org.length(), org);
-        }).collect(Collectors.toList()));
+    private String makeDisplayOrganization(String organize, VillageInfo villageInfo) {
+        if (villageInfo.day == 0) {
+            return String.join("\n", Stream.of(organize.replaceAll("\r\n", "\n").split("\n")).map(org -> {
+                return String.format("%02d人: %s", org.length(), org);
+            }).collect(Collectors.toList()));
+        } else {
+            int memberNum = villageInfo.getVPList(false, true, false).size();
+            return String.format("%02d人: %s", memberNum,
+                    Stream.of(organize.replaceAll("\r\n", "\n").split("\n")).filter(org -> org.length() == memberNum).findFirst().get());
+        }
     }
 
     private String makeDayChangeIntervalStr(Integer interval) {
