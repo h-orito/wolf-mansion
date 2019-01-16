@@ -1,7 +1,9 @@
 package com.ort.app.web.controller;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import com.ort.app.web.model.inner.RecruitingVillageDto;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exentity.Village;
+import com.ort.dbflute.exentity.VillageSettings;
 
 @Controller
 public class IndexController {
@@ -44,16 +47,21 @@ public class IndexController {
     @ResponseBody
     private RecruitingResultContent recruiting() {
         ListResultBean<Village> villageList = villageBhv.selectList(cb -> {
-            cb.setupSelect_VillageSettingsAsOne();
+            cb.setupSelect_VillageSettingsAsOne().withCharaGroup();
             cb.setupSelect_VillageStatus();
             cb.query().setVillageStatusCode_InScope_AsVillageStatus(
                     Arrays.asList(CDef.VillageStatus.募集中, CDef.VillageStatus.エピローグ, CDef.VillageStatus.進行中));
             cb.query().setVillageDisplayName_NotEqual("【サンプル】インターフェース確認用");
             cb.query().addOrderBy_VillageId_Asc();
         });
-        villageBhv.loadVillagePlayer(villageList, cb -> {
-            cb.query().setIsGone_Equal_False();
-            cb.query().setIsSpectator_Equal_False();
+        villageBhv.load(villageList, loader -> {
+            loader.loadVillagePlayer(vpCB -> {
+                vpCB.query().setIsGone_Equal_False();
+            });
+            loader.loadVillageDay(vdCB -> {
+                vdCB.query().addOrderBy_DaychangeDatetime_Desc();
+            });
+            loader.loadMessageRestriction(restCB -> {});
         });
         return mappingToRecruitingContent(villageList);
     }
@@ -91,12 +99,28 @@ public class IndexController {
         villageDto.setVillageId(village.getVillageId());
         villageDto.setVillageNumber(String.format("%04d", village.getVillageId()));
         villageDto.setVillageName(village.getVillageDisplayName());
-        int participateNum = village.getVillagePlayerList().size();
-        Integer maxNum = village.getVillageSettingsAsOne().get().getPersonMaxNum();
-        villageDto.setParticipateNum(String.format("%d/%d人", participateNum, maxNum));
+        int participateNum = (int) village.getVillagePlayerList().stream().filter(vp -> vp.isIsSpectatorFalse()).count();
+        VillageSettings settings = village.getVillageSettingsAsOne().get();
+        Integer maxNum = settings.getPersonMaxNum();
+        villageDto.setParticipateNum(String.format("%d/%d", participateNum, maxNum));
+        int spectateNum = (int) village.getVillagePlayerList().stream().filter(vp -> vp.isIsSpectatorTrue()).count();
+        villageDto.setSpectateNum(String.valueOf(spectateNum));
+        villageDto.setDaychangeDatetime(
+                village.getVillageDayList().get(0).getDaychangeDatetime().format(DateTimeFormatter.ofPattern("hh:mm")));
+        villageDto.setDaychangeInterval(makeIntervalStr(settings));
+        villageDto.setCharaset(settings.getCharaGroup().get().getCharaGroupName());
+        villageDto.setRestrict(CollectionUtils.isNotEmpty(village.getMessageRestrictionList()) ? "あり" : "なし");
         villageDto.setStatus(village.getVillageStatus().get().getVillageStatusName());
         villageDto.setUrl("https://wolfort.net/wolf-mansion/village/" + village.getVillageId());
         return villageDto;
+    }
+
+    private String makeIntervalStr(VillageSettings settings) {
+        Integer seconds = settings.getDayChangeIntervalSeconds();
+        if (seconds >= 3600) {
+            return seconds / 3600 + "h";
+        }
+        return seconds / 60 + "m";
     }
 
     // ===================================================================================
