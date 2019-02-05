@@ -38,6 +38,11 @@ public class TwitterLogic {
     //                                                                             Execute
     //                                                                             =======
     public void tweet(String msg, Integer villageId) {
+        String message = String.format("[WOLF MANSION] %s\r\n%s%d", msg, VILLAGE_URL, villageId);
+        this.tweet(message);
+    }
+
+    public void tweet(String msg) {
         if (BooleanUtils.isTrue(debug)) {
             return;
         }
@@ -50,8 +55,7 @@ public class TwitterLogic {
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
         try {
-            String message = String.format("[自動通知][WOLF MANSION] %s\r\n%s%d", msg, VILLAGE_URL, villageId);
-            twitter.updateStatus(message);
+            twitter.updateStatus("[自動通知]" + msg);
         } catch (TwitterException e) {
             // 失敗してもスルー
             logger.warn("fail tweet", e);

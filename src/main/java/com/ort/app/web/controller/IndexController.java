@@ -11,8 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ort.app.web.controller.logic.TwitterLogic;
 import com.ort.app.web.controller.logic.VillageParticipateLogic;
 import com.ort.app.web.form.LoginForm;
+import com.ort.app.web.form.TweetForm;
 import com.ort.app.web.model.IndexResultContent;
 import com.ort.app.web.model.RecruitingResultContent;
 import com.ort.app.web.model.inner.IndexVillageDto;
@@ -30,9 +32,10 @@ public class IndexController {
     //                                                                           =========
     @Autowired
     private VillageBhv villageBhv;
-
     @Autowired
     private VillageParticipateLogic participateLogic;
+    @Autowired
+    private TwitterLogic twitterLogic;
 
     // ===================================================================================
     //                                                                             Execute
@@ -41,6 +44,13 @@ public class IndexController {
     private String index(LoginForm form, Model model) {
         setIndexModel(form, model);
         return "index";
+    }
+
+    @GetMapping("/tweet")
+    @ResponseBody
+    private String tweet(TweetForm form) {
+        twitterLogic.tweet(form.getMsg());
+        return "success";
     }
 
     @GetMapping("/recruiting")
