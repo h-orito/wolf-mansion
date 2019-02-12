@@ -574,6 +574,12 @@
 					<relationship>FK_ability_CHARA_target</relationship>
 				</normal_column>
 				<normal_column>
+					<physical_name>target_footstep</physical_name>
+					<logical_name>行使対象の足音</logical_name>
+					<type>varchar(n)</type>
+					<length>100</length>
+				</normal_column>
+				<normal_column>
 					<physical_name>ability_type_code</physical_name>
 					<referred_column>table.ability_type.ability_type_code</referred_column>
 					<relationship>FK_ability_ability_type</relationship>

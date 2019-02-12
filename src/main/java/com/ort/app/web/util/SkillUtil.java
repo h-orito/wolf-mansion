@@ -26,6 +26,7 @@ public class SkillUtil {
         map.put("狐", CDef.Skill.妖狐);
         map.put("共", CDef.Skill.共鳴者);
         map.put("狩", CDef.Skill.狩人);
+        map.put("探", CDef.Skill.探偵);
         SKILL_SHORTNAME_MAP = MapUtils.unmodifiableMap(map);
     }
 

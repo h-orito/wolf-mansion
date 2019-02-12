@@ -111,6 +111,14 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 足音調査結果 (PRIVATE_INVESTIGATE). And OnlyOnceRegistered. <br>
+     * 足音調査結果
+     */
+    public void setMessageTypeCode_Equal_足音調査結果() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.足音調査結果);
+    }
+
+    /**
      * Equal(=). As 白黒霊視結果 (PRIVATE_PSYCHIC). And OnlyOnceRegistered. <br>
      * 白黒霊視結果
      */
@@ -243,6 +251,14 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
      */
     public void setMessageTypeCode_NotEqual_役職霊視結果() {
         setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.役職霊視結果);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 足音調査結果 (PRIVATE_INVESTIGATE). And OnlyOnceRegistered. <br>
+     * 足音調査結果
+     */
+    public void setMessageTypeCode_NotEqual_足音調査結果() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.足音調査結果);
     }
 
     /**

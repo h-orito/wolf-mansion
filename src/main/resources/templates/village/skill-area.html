@@ -36,8 +36,8 @@
 						<!--/* 能力行使内容 */-->
 						<div
 							th:if="${abilityForm != null && (content.skillName == 'SEER' || content.skillName == 'WISE' 
-										|| content.skillName == 'WEREWOLF' || (content.skillName == 'HUNTER' && content.day > 1) || content.skillName == 'FOX' 
-										|| content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN'
+										|| content.skillName == 'WEREWOLF' || (content.skillName == 'HUNTER' && content.day > 1) || (content.skillName == 'DETECTIVE' && content.day > 1)  
+										|| content.skillName == 'FOX' || content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN'
 										|| content.skillName == 'FANATIC') }"
 							style="padding-bottom: 10px;">
 							<hr />
@@ -47,6 +47,8 @@
 								<p class="small" th:if="${content.skillName == 'SEER' || content.skillName == 'WISE'}" th:text="'現在の選択: ' + ${targetCharaName} + ' を占う'"></p>
 								<p class="small" th:if="${content.skillName == 'WEREWOLF'}" th:text="'現在の選択: ' + ${charaName} + ' が ' + ${targetCharaName} + ' を襲う'"></p>
 								<p class="small" th:if="${content.skillName == 'HUNTER' && content.day > 1}" th:text="'現在の選択: ' + ${targetCharaName} + ' を護衛する'"></p>
+								<p class="small" th:if="${content.skillName == 'DETECTIVE' && content.day > 1}"
+									th:text="${'現在の選択: ' + (footstep == null ? 'なし' : (footstep + ' を調査する'))}"></p>
 								<p class="small"
 									th:if="${content.skillName == 'SEER' || content.skillName == 'WISE' 
 											|| content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER' || content.skillName == 'FOX'
@@ -65,13 +67,18 @@
 												<option th:each="chara : ${content.attackerList}" th:value="${chara.value}" th:text="${chara.name}"></option>
 											</select>
 										</div>
-										<div class="col-sm-12 col-xs-12">
+										<div class="col-sm-12 col-xs-12" th:unless="${content.skillName == 'DETECTIVE'}">
 											<span th:if="${content.skillName == 'WEREWOLF'}" th:text="襲撃対象"></span> <select class="form-control" th:field="*{targetCharaId}"
 												data-ability-target-select>
 												<!--/* <option th:if="${content.skillName == 'WEREWOLF' && content.day > 1}" value="">なし</option> ルール的になしにする */-->
 												<option th:each="target : ${content.abilityTargetList}" th:value="${target.value}" th:text="${target.name}"></option>
-											</select> <span th:if="${content.skillName == 'SEER' || content.skillName == 'WISE'}" th:text="を占う"></span> <span
+											</select> <span th:if="${content.skillName == 'SEER' || content.skillName == 'WISE'}" th:text="を占う"></span><span
 												th:if="${content.skillName == 'HUNTER'}" th:text="を護衛する"></span>
+										</div>
+										<div class="col-sm-12 col-xs-12" th:if="${content.skillName == 'DETECTIVE'}">
+											<select class="form-control" th:field="*{footstep}" data-ability-target-select>
+												<option th:each="target : ${content.abilityTargetList}" th:value="${target.value}" th:text="${target.name}"></option>
+											</select> <span th:if="${content.skillName == 'DETECTIVE'}" th:text="を調査する"></span>
 										</div>
 										<div class="col-sm-12 col-xs-12"
 											th:if="${content.skillName == 'SEER' || content.skillName == 'WISE' || content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER'}">
@@ -85,6 +92,8 @@
 										</div>
 									</div>
 								</form>
+								<!--/* 探偵で候補なし */-->
+								<p class="small" th:if="${content.skillName == 'DETECTIVE' && content.abilityTargetList != null && content.abilityTargetList.size() == 0}">調査対象の足音がないため、本日は能力セットできません。</p>
 								<!--/* 狂人、妖狐用能力セット */-->
 								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
 									th:if="${content.abilityTargetList == null && abilityForm != null && (content.skillName == 'FOX' || content.skillName == 'MADMAN' 

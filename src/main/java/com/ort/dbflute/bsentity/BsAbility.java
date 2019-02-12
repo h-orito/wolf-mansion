@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID, DAY, CHARA_ID, ABILITY_TYPE_CODE
  *
  * [column]
- *     VILLAGE_ID, DAY, CHARA_ID, TARGET_CHARA_ID, ABILITY_TYPE_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, DAY, CHARA_ID, TARGET_CHARA_ID, TARGET_FOOTSTEP, ABILITY_TYPE_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -50,6 +50,7 @@ import com.ort.dbflute.exentity.*;
  * Integer day = entity.getDay();
  * Integer charaId = entity.getCharaId();
  * Integer targetCharaId = entity.getTargetCharaId();
+ * String targetFootstep = entity.getTargetFootstep();
  * String abilityTypeCode = entity.getAbilityTypeCode();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
@@ -59,6 +60,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setDay(day);
  * entity.setCharaId(charaId);
  * entity.setTargetCharaId(targetCharaId);
+ * entity.setTargetFootstep(targetFootstep);
  * entity.setAbilityTypeCode(abilityTypeCode);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
@@ -90,6 +92,9 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
 
     /** TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara} */
     protected Integer _targetCharaId;
+
+    /** TARGET_FOOTSTEP: {VARCHAR(100)} */
+    protected String _targetFootstep;
 
     /** ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType} */
     protected String _abilityTypeCode;
@@ -182,6 +187,14 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
         setAbilityTypeCodeAsAbilityType(CDef.AbilityType.護衛);
     }
 
+    /**
+     * Set the value of abilityTypeCode as 捜査 (INVESTIGATE). <br>
+     * 捜査
+     */
+    public void setAbilityTypeCode_捜査() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.捜査);
+    }
+
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
@@ -216,6 +229,17 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public boolean isAbilityTypeCode護衛() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.護衛) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 捜査? <br>
+     * 捜査
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode捜査() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.捜査) : false;
     }
 
     // ===================================================================================
@@ -364,6 +388,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
         sb.append(dm).append(xfND(_day));
         sb.append(dm).append(xfND(_charaId));
         sb.append(dm).append(xfND(_targetCharaId));
+        sb.append(dm).append(xfND(_targetFootstep));
         sb.append(dm).append(xfND(_abilityTypeCode));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
@@ -479,6 +504,26 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public void setTargetCharaId(Integer targetCharaId) {
         registerModifiedProperty("targetCharaId");
         _targetCharaId = targetCharaId;
+    }
+
+    /**
+     * [get] TARGET_FOOTSTEP: {VARCHAR(100)} <br>
+     * 行使対象の足音
+     * @return The value of the column 'TARGET_FOOTSTEP'. (NullAllowed even if selected: for no constraint)
+     */
+    public String getTargetFootstep() {
+        checkSpecifiedProperty("targetFootstep");
+        return convertEmptyToNull(_targetFootstep);
+    }
+
+    /**
+     * [set] TARGET_FOOTSTEP: {VARCHAR(100)} <br>
+     * 行使対象の足音
+     * @param targetFootstep The value of the column 'TARGET_FOOTSTEP'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setTargetFootstep(String targetFootstep) {
+        registerModifiedProperty("targetFootstep");
+        _targetFootstep = targetFootstep;
     }
 
     /**

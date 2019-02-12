@@ -208,6 +208,10 @@ public class MessageLogic {
         VillagePlayer myself = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(charaId)).findFirst().get();
         Skill skill = myself.getSkillCodeAsSkill();
         String myChara = CharaUtil.makeCharaName(myself);
+        if (skill == CDef.Skill.探偵) {
+            return messageSource.getMessage("ability.detective.message", new String[] { myChara, footstep, isDefault ? "（自動設定）" : "" },
+                    Locale.JAPAN);
+        }
         // 対象
         VillagePlayer target = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(targetCharaId)).findFirst().get();
         String targetChara = CharaUtil.makeCharaName(target);

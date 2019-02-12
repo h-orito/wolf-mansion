@@ -12,7 +12,7 @@ public class VillageAbilityForm implements Serializable {
     /** 対象キャラID(人狼、占い、狩人のみ) */
     private Integer targetCharaId;
 
-    /** 足音(人狼、占い、妖狐、狂人のみ) */
+    /** 足音(人狼、占い、妖狐、狂人、探偵のみ) */
     private String footstep;
 
     public Integer getCharaId() {

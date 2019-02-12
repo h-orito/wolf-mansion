@@ -16,6 +16,8 @@ public class VillageSituationDto {
 
     private String attack;
 
+    private String investigation;
+
     public Integer getDay() {
         return day;
     }
@@ -70,6 +72,14 @@ public class VillageSituationDto {
 
     public void setAttack(String attack) {
         this.attack = attack;
+    }
+
+    public String getInvestigation() {
+        return investigation;
+    }
+
+    public void setInvestigation(String investigation) {
+        this.investigation = investigation;
     }
 
 }

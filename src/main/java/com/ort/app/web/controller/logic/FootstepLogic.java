@@ -31,16 +31,16 @@ public class FootstepLogic {
     //                                                                          ==========
     // 足音：なし
     private static final String NO_FOOTSTEP = "なし";
+    // 足音：なし（メッセージ内）
+    public static final String NO_FOOTSTEP_MESSAGE = "足音を聞いたものはいなかった...。";
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
     @Autowired
     private VillageBhv villageBhv;
-
     @Autowired
     private VillagePlayerBhv villagePlayerBhv;
-
     @Autowired
     private FootstepBhv footStepBhv;
 
@@ -180,7 +180,7 @@ public class FootstepLogic {
                 footstepList.stream().filter(fs -> !NO_FOOTSTEP.equals(fs.getFootstepRoomNumbers())).collect(Collectors.toList());
 
         if (CollectionUtils.isEmpty(footStepList)) {
-            joiner.add("足音を聞いたものはいなかった...。");
+            joiner.add(NO_FOOTSTEP_MESSAGE);
             return joiner.toString();
         }
         // 生存者のいない部屋の音を除去
@@ -195,7 +195,7 @@ public class FootstepLogic {
             return fsJoiner.toString();
         }).filter(fs -> StringUtils.isNotEmpty(fs)).collect(Collectors.toList());
         if (CollectionUtils.isEmpty(livingRoomFootstepList)) {
-            joiner.add("足音を聞いたものはいなかった...。");
+            joiner.add(NO_FOOTSTEP_MESSAGE);
             return joiner.toString();
         }
         Collections.shuffle(livingRoomFootstepList);
@@ -203,6 +203,75 @@ public class FootstepLogic {
             joiner.add(String.format("%sで足音が聞こえた...。", fs));
         });
         return joiner.toString();
+    }
+
+    // day: 足音を表示する日（セットした日ではない）
+    public List<String> getFootstepList(Integer villageId, int day) {
+        // 朝時点で生きている人
+        List<Integer> livingRoomNumList = selectVillagePlayerList(villageId).stream()
+                .filter(vp -> vp.isIsDeadFalse() || day < vp.getDeadDay())
+                .map(VillagePlayer::getRoomNumber)
+                .collect(Collectors.toList());
+        // 足音
+        ListResultBean<Footstep> footstepList = footStepBhv.selectList(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_Equal(day - 1);
+            cb.query().setFootstepRoomNumbers_NotEqual("なし");
+        });
+        if (CollectionUtils.isEmpty(footstepList)) {
+            return new ArrayList<>(); // 足音なし
+        }
+        // 生存者のいない部屋の音を除去
+        final List<String> livingRoomFootstepList = footstepList.stream().map(fs -> {
+            final String[] footsteps = fs.getFootstepRoomNumbers().split(",");
+            final StringJoiner fsJoiner = new StringJoiner(",");
+            for (final String fsRoomNum : footsteps) {
+                if (livingRoomNumList.stream().anyMatch(num -> num.equals(Integer.parseInt(fsRoomNum)))) {
+                    fsJoiner.add(String.format("%02d", Integer.parseInt(fsRoomNum)));
+                }
+            }
+            return fsJoiner.toString();
+        }).filter(fs -> StringUtils.isNotEmpty(fs)).collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(livingRoomFootstepList)) {
+            return new ArrayList<>(); // 足音なし
+        }
+        Collections.shuffle(livingRoomFootstepList);
+        return livingRoomFootstepList;
+    }
+
+    // day: セットした日
+    public String getSkillByFootstep(Integer villageId, int day, String footstep, List<VillagePlayer> vPlayerList) {
+        // 昨日朝時点で生きている人
+        List<Integer> livingRoomNumList = vPlayerList.stream()
+                .filter(vp -> vp.isIsDeadFalse() || day + 1 < vp.getDeadDay())
+                .map(VillagePlayer::getRoomNumber)
+                .collect(Collectors.toList());
+        // 足音候補
+        List<Footstep> footstepList = footStepBhv.selectList(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_Equal(day);
+        }).stream().filter(fs -> {
+            if (NO_FOOTSTEP.equals(fs.getFootstepRoomNumbers())) {
+                return false;
+            }
+            final String[] footsteps = fs.getFootstepRoomNumbers().split(",");
+            final StringJoiner fsJoiner = new StringJoiner(",");
+            for (final String fsRoomNum : footsteps) {
+                if (livingRoomNumList.stream().anyMatch(num -> num.equals(Integer.parseInt(fsRoomNum)))) {
+                    fsJoiner.add(String.format("%02d", Integer.parseInt(fsRoomNum)));
+                }
+            }
+            return fsJoiner.toString().equals(footstep);
+        }).collect(Collectors.toList());
+        // 複数ある場合はランダム
+        Collections.shuffle(footstepList);
+        // 出した人の役職を返す
+        return vPlayerList.stream()
+                .filter(vp -> vp.getCharaId().equals(footstepList.get(0).getCharaId()))
+                .findFirst()
+                .get()
+                .getSkillCodeAsSkill()
+                .alias();
     }
 
     public String makeFootstepMessageOpenSkill(List<Integer> livingRoomNumList, List<VillagePlayer> vPlayerList,

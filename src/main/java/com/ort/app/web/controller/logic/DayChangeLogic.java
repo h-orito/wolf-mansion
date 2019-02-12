@@ -230,14 +230,20 @@ public class DayChangeLogic {
         villageDayBhv.insert(villageDay);
     }
 
-    private void insertAbility(Integer villageId, int newDay, Integer charaId, Integer targetCharaId, CDef.AbilityType abilityType) {
-        Ability attack = new Ability();
-        attack.setVillageId(villageId);
-        attack.setDay(newDay);
-        attack.setCharaId(charaId);
-        attack.setTargetCharaId(targetCharaId);
-        attack.setAbilityTypeCodeAsAbilityType(abilityType);
-        abilityBhv.insert(attack);
+    private void insertAbility(Integer villageId, int day, Integer charaId, Integer targetCharaId, CDef.AbilityType abilityType) {
+        insertAbility(villageId, day, charaId, targetCharaId, null, abilityType);
+    }
+
+    private void insertAbility(Integer villageId, int day, Integer charaId, Integer targetCharaId, String footstep,
+            CDef.AbilityType abilityType) {
+        Ability ability = new Ability();
+        ability.setVillageId(villageId);
+        ability.setDay(day);
+        ability.setCharaId(charaId);
+        ability.setTargetCharaId(targetCharaId);
+        ability.setTargetFootstep(footstep);
+        ability.setAbilityTypeCodeAsAbilityType(abilityType);
+        abilityBhv.insert(ability);
     }
 
     private void insertVote(Integer villageId, int newDay, Integer charaId, Integer targetCharaId) {
@@ -327,6 +333,8 @@ public class DayChangeLogic {
         }
         // 護衛
         insertDefaultGuard(villageId, newDay, vPlayerList, village);
+        // 探偵による調査
+        insertDefaultInvestigate(villageId, vPlayerList, newDay);
         // 投票
         if (settings.isIsAvailableSuddonlyDeathFalse()) { // 突然死ありの場合はデフォ投票はなし
             vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).forEach(vp -> {
@@ -402,6 +410,24 @@ public class DayChangeLogic {
         String footStep = footstepLogic.makeClockwiseFootStep(village, hunterCharaId, targetCharaId, villagePlayerList);
         footstepLogic.insertFootStep(villageId, newDay, hunterCharaId, footStep);
         messageLogic.insertAbilityMessage(villageId, newDay, hunterCharaId, targetCharaId, villagePlayerList, footStep, true);
+    }
+
+    private void insertDefaultInvestigate(Integer villageId, List<VillagePlayer> villagePlayerList, int day) {
+        // 探偵が生きていなければ何もしない
+        Optional<VillagePlayer> optDetective =
+                villagePlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.探偵 && vp.isIsDeadFalse()).findFirst();
+        if (!optDetective.isPresent()) {
+            return;
+        }
+        Integer detectiveCharaId = optDetective.get().getCharaId();
+        List<String> footstepList = footstepLogic.getFootstepList(villageId, day);
+        if (CollectionUtils.isEmpty(footstepList)) {
+            return; // 候補の足音なし
+        }
+        // ランダムでセット
+        Collections.shuffle(footstepList);
+        insertAbility(villageId, day, detectiveCharaId, null, footstepList.get(0), CDef.AbilityType.捜査);
+        messageLogic.insertAbilityMessage(villageId, day, detectiveCharaId, null, villagePlayerList, footstepList.get(0), true);
     }
 
     private void insertDefaultSeer(Integer villageId, int newDay, List<VillagePlayer> villagePlayerList, Village village) {
@@ -492,6 +518,9 @@ public class DayChangeLogic {
         // 呪殺
         Optional<VillagePlayer> optDivineKilledPlayer =
                 divineKill(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, optDivinedPlayer);
+
+        // 捜査
+        invastigate(villageId, day, executedPlayerId, suddonlyDeathVPlayerList, vPlayerList, abilityList);
 
         // 霊能
         psychic(villageId, day, vPlayerList, executedPlayer, suddonlyDeathVPlayerList);
@@ -844,6 +873,33 @@ public class DayChangeLogic {
                 String.format("%sは、%sを護衛している。", CharaUtil.makeCharaName(optLivingHunter.get()), CharaUtil.makeCharaName(targetPlayer));
         insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
         return Optional.ofNullable(targetPlayer);
+    }
+
+    // 調査
+    private void invastigate(Integer villageId, int day, Integer executedPlayerId, List<VillagePlayer> suddonlyDeathVPlayerList,
+            List<VillagePlayer> vPlayerList, List<Ability> abilityList) {
+        if (day == 2) {
+            return;
+        }
+        Optional<VillagePlayer> optLivingDetective = vPlayerList.stream()
+                .filter(vp -> vp.isIsDeadFalse() // 死亡していない
+                        && !vp.getVillagePlayerId().equals(executedPlayerId) // 処刑されていない
+                        && suddonlyDeathVPlayerList.stream().noneMatch(sdvp -> sdvp.getVillagePlayerId().equals(vp.getVillagePlayerId())) // 突然死していない
+                        && vp.getSkillCodeAsSkill() == CDef.Skill.探偵)
+                .findFirst();
+        if (!optLivingDetective.isPresent()) {
+            return; // 探偵が既に死亡している場合は何もしない
+        }
+        Optional<Ability> optInvestigate =
+                abilityList.stream().filter(ability -> ability.getAbilityTypeCodeAsAbilityType() == CDef.AbilityType.捜査).findFirst();
+        if (!optInvestigate.isPresent()) {
+            return; // 能力セットしていない場合は何もしない
+        }
+        String targetFootstep = optInvestigate.get().getTargetFootstep();
+        String skillName = footstepLogic.getSkillByFootstep(villageId, day - 2, targetFootstep, vPlayerList);
+        String message = String.format("%sは、昨日響いた足音%sについて調査した。\n%sの足音を響かせたのは%sのようだ。", CharaUtil.makeCharaName(optLivingDetective.get()),
+                targetFootstep, targetFootstep, skillName);
+        insertMessage(villageId, day, CDef.MessageType.足音調査結果, message);
     }
 
     // 突然死

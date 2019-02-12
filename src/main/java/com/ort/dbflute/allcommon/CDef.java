@@ -526,6 +526,9 @@ public interface CDef extends Classification {
         /** C国狂人 */
         C国狂人("CMADMAN", "C国狂人", emptyStrings())
         ,
+        /** 探偵 */
+        探偵("DETECTIVE", "探偵", emptyStrings())
+        ,
         /** 魔神官 */
         魔神官("EVILMEDIUM", "魔神官", emptyStrings())
         ,
@@ -713,6 +716,9 @@ public interface CDef extends Classification {
         ,
         /** 役職霊視結果 */
         役職霊視結果("PRIVATE_GURU", "役職霊視結果", emptyStrings())
+        ,
+        /** 足音調査結果 */
+        足音調査結果("PRIVATE_INVESTIGATE", "足音調査結果", emptyStrings())
         ,
         /** 白黒霊視結果 */
         白黒霊視結果("PRIVATE_PSYCHIC", "白黒霊視結果", emptyStrings())
@@ -990,6 +996,9 @@ public interface CDef extends Classification {
         ,
         /** 護衛 */
         護衛("GUARD", "護衛", emptyStrings())
+        ,
+        /** 捜査 */
+        捜査("INVESTIGATE", "捜査", emptyStrings())
         ;
         private static final Map<String, AbilityType> _codeClsMap = new HashMap<String, AbilityType>();
         private static final Map<String, AbilityType> _nameClsMap = new HashMap<String, AbilityType>();

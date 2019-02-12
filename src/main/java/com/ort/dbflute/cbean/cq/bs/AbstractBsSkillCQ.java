@@ -71,6 +71,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 探偵 (DETECTIVE). And OnlyOnceRegistered. <br>
+     * 探偵
+     */
+    public void setSkillCode_Equal_探偵() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.探偵);
+    }
+
+    /**
      * Equal(=). As 魔神官 (EVILMEDIUM). And OnlyOnceRegistered. <br>
      * 魔神官
      */
@@ -243,6 +251,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_C国狂人() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 探偵 (DETECTIVE). And OnlyOnceRegistered. <br>
+     * 探偵
+     */
+    public void setSkillCode_NotEqual_探偵() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.探偵);
     }
 
     /**

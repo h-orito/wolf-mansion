@@ -416,6 +416,11 @@ public class BsAbilityCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnTargetCharaId() { return doColumn("TARGET_CHARA_ID"); }
         /**
+         * TARGET_FOOTSTEP: {VARCHAR(100)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnTargetFootstep() { return doColumn("TARGET_FOOTSTEP"); }
+        /**
          * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType}
          * @return The information object of specified column. (NotNull)
          */

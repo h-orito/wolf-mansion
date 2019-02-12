@@ -96,6 +96,16 @@ public class AbilityLogic {
             insertFootstep(villageId, day, villagePlayer.getCharaId(), footstep);
             messageLogic.insertFootstepMessage(villageId, day, villagePlayer.getCharaId(), villagePlayerList, footstep, false);
             break;
+        case 探偵:
+            if ("なし".equals(footstep)) {
+                return;
+            }
+            if (isInvalidDetectiveAbility(villageId, day, footstep)) {
+                return;
+            }
+            updateAbility(villageId, day, villagePlayer.getCharaId(), CDef.AbilityType.捜査, footstep);
+            messageLogic.insertAbilityMessage(villageId, day, villagePlayer.getCharaId(), targetCharaId, villagePlayerList, footstep,
+                    false);
         default:
             break;
         }
@@ -130,13 +140,23 @@ public class AbilityLogic {
         insertAbility(villageId, day, charaId, type, targetCharaId);
     }
 
+    private void updateAbility(Integer villageId, int day, Integer charaId, CDef.AbilityType type, String footstep) {
+        deleteAbility(villageId, day, type);
+        insertAbility(villageId, day, charaId, type, null, footstep);
+    }
+
     private void insertAbility(Integer villageId, int day, Integer charaId, CDef.AbilityType type, Integer targetCharaId) {
+        insertAbility(villageId, day, charaId, type, targetCharaId, null);
+    }
+
+    private void insertAbility(Integer villageId, int day, Integer charaId, CDef.AbilityType type, Integer targetCharaId, String footstep) {
         Ability ability = new Ability();
         ability.setVillageId(villageId);
         ability.setDay(day);
         ability.setCharaId(charaId);
         ability.setAbilityTypeCodeAsAbilityType(type);
         ability.setTargetCharaId(targetCharaId);
+        ability.setTargetFootstep(footstep);
         abilityBhv.insert(ability);
     }
 
@@ -297,6 +317,17 @@ public class AbilityLogic {
     private boolean isInvalidFoxMadmanAbility(Village village, String footstep) {
         // 足音が直線でなかったらNG
         if (!footstepLogic.isFootstepStraight(village, footstep)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isInvalidDetectiveAbility(Integer villageId, int day, String footstep) {
+        if (day == 1) {
+            return true;
+        }
+        List<String> footstepList = footstepLogic.getFootstepList(villageId, day);
+        if (!footstepList.contains(footstep)) {
             return true;
         }
         return false;

@@ -299,7 +299,7 @@ dl.procedurelist dd.column pre {
 	<tbody id="table-list-body">
 	<tr>
 		<td class="rownumcell">1</td>
-		<td><a href="#ability" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID, ABILITY_TYPE_CODE}, nameLength=7, columnCount=9">ABILITY</a></td>
+		<td><a href="#ability" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID, ABILITY_TYPE_CODE}, nameLength=7, columnCount=10">ABILITY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#ability_type" title="FK_ABILITY_ABILITY_TYPE">ABILITY_TYPE</a>, <a href="#chara" title="FK_ABILITY_CHARA">CHARA</a>, <a href="#chara" title="FK_ABILITY_CHARA_TARGET">CHARA</a>, <a href="#village_day" title="FK_ABILITY_VILLAGE_DAY">VILLAGE_DAY</a></td>
 		<td class="relcell">&nbsp;</td>
@@ -534,7 +534,7 @@ dl.procedurelist dd.column pre {
 	</tbody>
 </table>
 
-<h2 id="ability" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID, ABILITY_TYPE_CODE}, nameLength=7, columnCount=9">
+<h2 id="ability" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID, ABILITY_TYPE_CODE}, nameLength=7, columnCount=10">
 ABILITY
 </h2>
 <p class="tablecomment">能力行使</p>
@@ -628,6 +628,23 @@ ABILITY
 	</tr>
 	<tr>
 		<td class="rownumcell">5</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td id="ability_target_footstep">TARGET_FOOTSTEP</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 100 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"> 行使対象の足音</td>
+		<td class="subcell">targetFootstep</td>
+		<td class="subcell">String</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">6</td>
 		<td class="flgcell" title="PRIMARY"><span class="flgplus">+</span>o</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -644,7 +661,7 @@ ABILITY
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">6</td>
+		<td class="rownumcell">7</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -661,7 +678,7 @@ ABILITY
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">7</td>
+		<td class="rownumcell">8</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -678,7 +695,7 @@ ABILITY
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">8</td>
+		<td class="rownumcell">9</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -695,7 +712,7 @@ ABILITY
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">9</td>
+		<td class="rownumcell">10</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -4416,6 +4433,12 @@ VOTE
 				<td class="commentcell"> &nbsp;</td>
 			</tr>
 			<tr>
+				<td>DETECTIVE</td>
+				<td>探偵</td>
+				<td>探偵</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
 				<td>EVILMEDIUM</td>
 				<td>魔神官</td>
 				<td>魔神官</td>
@@ -4568,6 +4591,11 @@ VOTE
 				<td class="commentcell"> &nbsp;</td>
 			</tr>
 			<tr>
+				<td>PRIVATE_INVESTIGATE</td>
+				<td>足音調査結果</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
 				<td>PRIVATE_PSYCHIC</td>
 				<td>白黒霊視結果</td>
 				<td class="commentcell"> &nbsp;</td>
@@ -4668,6 +4696,11 @@ VOTE
 			<tr>
 				<td>GUARD</td>
 				<td>護衛</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>INVESTIGATE</td>
+				<td>捜査</td>
 				<td class="commentcell"> &nbsp;</td>
 			</tr>
 			</table>

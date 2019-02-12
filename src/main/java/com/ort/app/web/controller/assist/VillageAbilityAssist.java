@@ -133,6 +133,9 @@ public class VillageAbilityAssist {
         if ((skill == CDef.Skill.妖狐 || SkillUtil.hasMadmanAbility(skill)) && footstep == null) {
             return true;
         }
+        if (skill == CDef.Skill.探偵 && footstep == null) {
+            return true;
+        }
         if (villagePlayer.isIsDeadTrue()) {
             return true;
         }
@@ -142,7 +145,7 @@ public class VillageAbilityAssist {
     private boolean isAvailableSetAbilitySkill(CDef.Skill skill) {
         return Arrays
                 .asList(CDef.Skill.人狼, CDef.Skill.占い師, CDef.Skill.狩人, CDef.Skill.狂人, CDef.Skill.妖狐, CDef.Skill.C国狂人, CDef.Skill.狂信者,
-                        CDef.Skill.賢者, CDef.Skill.魔神官)
+                        CDef.Skill.賢者, CDef.Skill.魔神官, CDef.Skill.探偵)
                 .contains(skill);
 
     }

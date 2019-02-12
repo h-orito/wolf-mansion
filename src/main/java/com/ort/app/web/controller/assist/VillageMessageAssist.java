@@ -421,6 +421,7 @@ public class VillageMessageAssist {
         addSecretSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addSeerMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addPsychicMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
+        addInvestigateMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addSystemMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         return dispAllowedMessageTypeList;
     }
@@ -589,6 +590,25 @@ public class VillageMessageAssist {
                 dispAllowedMessageTypeList.add(CDef.MessageType.役職霊視結果);
                 return;
             }
+        }
+    }
+
+    // 調査結果
+    private void addInvestigateMessageIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
+            OptionalEntity<VillagePlayer> optVillagePlayer) {
+        // 終了していたら全開放
+        if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
+            dispAllowedMessageTypeList.add(CDef.MessageType.足音調査結果);
+            return;
+        }
+        // 終了していなかったら参加していて死亡しておらず、探偵だったら開放
+        if (!optVillagePlayer.isPresent()) {
+            return;
+        }
+        VillagePlayer vPlayer = optVillagePlayer.get();
+        if (vPlayer.isIsDeadFalse() && vPlayer.getSkillCodeAsSkill() == CDef.Skill.探偵) {
+            dispAllowedMessageTypeList.add(CDef.MessageType.足音調査結果);
+            return;
         }
     }
 

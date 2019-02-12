@@ -35,16 +35,12 @@ public class NewVillageController {
     //                                                                           =========
     @Autowired
     private CharaGroupBhv charaGroupBhv;
-
     @Autowired
     private CharaBhv charaBhv;
-
     @Autowired
     private NewVillageFormValidator newVillageFormValidator;
-
     @Autowired
     private NewVillageAssist newVillageAssist;
-
     @Autowired
     private VillageParticipateLogic participateLogic;
 

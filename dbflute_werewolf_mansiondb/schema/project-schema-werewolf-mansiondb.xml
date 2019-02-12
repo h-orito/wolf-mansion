@@ -15,6 +15,8 @@
             pkPosition="3" primaryKey="true" required="true" size="10" type="INTEGER"/>
         <column comment="行使対象キャラID" dbType="INT UNSIGNED"
             javaType="Integer" name="TARGET_CHARA_ID" size="10" type="INTEGER"/>
+        <column comment="行使対象の足音" dbType="VARCHAR" javaType="String"
+            name="TARGET_FOOTSTEP" size="100" type="VARCHAR"/>
         <column comment="能力種別コード" dbType="VARCHAR" javaType="String"
             name="ABILITY_TYPE_CODE" pkName="PRIMARY" pkPosition="4"
             primaryKey="true" required="true" size="20" type="VARCHAR"/>

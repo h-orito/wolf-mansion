@@ -187,6 +187,14 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     }
 
     /**
+     * Set the value of skillCode as 探偵 (DETECTIVE). <br>
+     * 探偵
+     */
+    public void setSkillCode_探偵() {
+        setSkillCodeAsSkill(CDef.Skill.探偵);
+    }
+
+    /**
      * Set the value of skillCode as 魔神官 (EVILMEDIUM). <br>
      * 魔神官
      */
@@ -379,6 +387,14 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     }
 
     /**
+     * Set the value of messageTypeCode as 足音調査結果 (PRIVATE_INVESTIGATE). <br>
+     * 足音調査結果
+     */
+    public void setMessageTypeCode_足音調査結果() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.足音調査結果);
+    }
+
+    /**
      * Set the value of messageTypeCode as 白黒霊視結果 (PRIVATE_PSYCHIC). <br>
      * 白黒霊視結果
      */
@@ -454,6 +470,17 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     public boolean isSkillCodeC国狂人() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.C国狂人) : false;
+    }
+
+    /**
+     * Is the value of skillCode 探偵? <br>
+     * 探偵
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode探偵() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.探偵) : false;
     }
 
     /**
@@ -718,6 +745,17 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     public boolean isMessageTypeCode役職霊視結果() {
         CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
         return cdef != null ? cdef.equals(CDef.MessageType.役職霊視結果) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 足音調査結果? <br>
+     * 足音調査結果
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode足音調査結果() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.足音調査結果) : false;
     }
 
     /**

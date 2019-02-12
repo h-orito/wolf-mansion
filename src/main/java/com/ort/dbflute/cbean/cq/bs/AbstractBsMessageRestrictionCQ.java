@@ -200,6 +200,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
     }
 
     /**
+     * Equal(=). As 探偵 (DETECTIVE). And OnlyOnceRegistered. <br>
+     * 探偵
+     */
+    public void setSkillCode_Equal_探偵() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.探偵);
+    }
+
+    /**
      * Equal(=). As 魔神官 (EVILMEDIUM). And OnlyOnceRegistered. <br>
      * 魔神官
      */
@@ -372,6 +380,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
      */
     public void setSkillCode_NotEqual_C国狂人() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 探偵 (DETECTIVE). And OnlyOnceRegistered. <br>
+     * 探偵
+     */
+    public void setSkillCode_NotEqual_探偵() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.探偵);
     }
 
     /**
@@ -651,6 +667,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
     }
 
     /**
+     * Equal(=). As 足音調査結果 (PRIVATE_INVESTIGATE). And OnlyOnceRegistered. <br>
+     * 足音調査結果
+     */
+    public void setMessageTypeCode_Equal_足音調査結果() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.足音調査結果);
+    }
+
+    /**
      * Equal(=). As 白黒霊視結果 (PRIVATE_PSYCHIC). And OnlyOnceRegistered. <br>
      * 白黒霊視結果
      */
@@ -783,6 +807,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
      */
     public void setMessageTypeCode_NotEqual_役職霊視結果() {
         setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.役職霊視結果);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 足音調査結果 (PRIVATE_INVESTIGATE). And OnlyOnceRegistered. <br>
+     * 足音調査結果
+     */
+    public void setMessageTypeCode_NotEqual_足音調査結果() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.足音調査結果);
     }
 
     /**

@@ -561,6 +561,159 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * @param targetFootstep The value of targetFootstep as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetFootstep_Equal(String targetFootstep) {
+        doSetTargetFootstep_Equal(fRES(targetFootstep));
+    }
+
+    protected void doSetTargetFootstep_Equal(String targetFootstep) {
+        regTargetFootstep(CK_EQ, targetFootstep);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * @param targetFootstep The value of targetFootstep as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetFootstep_NotEqual(String targetFootstep) {
+        doSetTargetFootstep_NotEqual(fRES(targetFootstep));
+    }
+
+    protected void doSetTargetFootstep_NotEqual(String targetFootstep) {
+        regTargetFootstep(CK_NES, targetFootstep);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * @param targetFootstep The value of targetFootstep as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetFootstep_GreaterThan(String targetFootstep) {
+        regTargetFootstep(CK_GT, fRES(targetFootstep));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * @param targetFootstep The value of targetFootstep as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetFootstep_LessThan(String targetFootstep) {
+        regTargetFootstep(CK_LT, fRES(targetFootstep));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * @param targetFootstep The value of targetFootstep as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetFootstep_GreaterEqual(String targetFootstep) {
+        regTargetFootstep(CK_GE, fRES(targetFootstep));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * @param targetFootstep The value of targetFootstep as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetFootstep_LessEqual(String targetFootstep) {
+        regTargetFootstep(CK_LE, fRES(targetFootstep));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * @param targetFootstepList The collection of targetFootstep as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetFootstep_InScope(Collection<String> targetFootstepList) {
+        doSetTargetFootstep_InScope(targetFootstepList);
+    }
+
+    protected void doSetTargetFootstep_InScope(Collection<String> targetFootstepList) {
+        regINS(CK_INS, cTL(targetFootstepList), xgetCValueTargetFootstep(), "TARGET_FOOTSTEP");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * @param targetFootstepList The collection of targetFootstep as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetFootstep_NotInScope(Collection<String> targetFootstepList) {
+        doSetTargetFootstep_NotInScope(targetFootstepList);
+    }
+
+    protected void doSetTargetFootstep_NotInScope(Collection<String> targetFootstepList) {
+        regINS(CK_NINS, cTL(targetFootstepList), xgetCValueTargetFootstep(), "TARGET_FOOTSTEP");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TARGET_FOOTSTEP: {VARCHAR(100)} <br>
+     * <pre>e.g. setTargetFootstep_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param targetFootstep The value of targetFootstep as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setTargetFootstep_LikeSearch(String targetFootstep, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setTargetFootstep_LikeSearch(targetFootstep, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TARGET_FOOTSTEP: {VARCHAR(100)} <br>
+     * <pre>e.g. setTargetFootstep_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param targetFootstep The value of targetFootstep as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setTargetFootstep_LikeSearch(String targetFootstep, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(targetFootstep), xgetCValueTargetFootstep(), "TARGET_FOOTSTEP", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * @param targetFootstep The value of targetFootstep as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setTargetFootstep_NotLikeSearch(String targetFootstep, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setTargetFootstep_NotLikeSearch(targetFootstep, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * @param targetFootstep The value of targetFootstep as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setTargetFootstep_NotLikeSearch(String targetFootstep, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(targetFootstep), xgetCValueTargetFootstep(), "TARGET_FOOTSTEP", likeSearchOption);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     */
+    public void setTargetFootstep_IsNull() { regTargetFootstep(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     */
+    public void setTargetFootstep_IsNullOrEmpty() { regTargetFootstep(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     */
+    public void setTargetFootstep_IsNotNull() { regTargetFootstep(CK_ISNN, DOBJ); }
+
+    protected void regTargetFootstep(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueTargetFootstep(), "TARGET_FOOTSTEP"); }
+    protected abstract ConditionValue xgetCValueTargetFootstep();
+
+    /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
      * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType}
      * @param abilityTypeCode The value of abilityTypeCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -600,6 +753,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_Equal_護衛() {
         setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.護衛);
+    }
+
+    /**
+     * Equal(=). As 捜査 (INVESTIGATE). And OnlyOnceRegistered. <br>
+     * 捜査
+     */
+    public void setAbilityTypeCode_Equal_捜査() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.捜査);
     }
 
     protected void doSetAbilityTypeCode_Equal(String abilityTypeCode) {
@@ -647,6 +808,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_護衛() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.護衛);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 捜査 (INVESTIGATE). And OnlyOnceRegistered. <br>
+     * 捜査
+     */
+    public void setAbilityTypeCode_NotEqual_捜査() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.捜査);
     }
 
     protected void doSetAbilityTypeCode_NotEqual(String abilityTypeCode) {

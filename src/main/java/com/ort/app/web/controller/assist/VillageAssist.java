@@ -80,7 +80,7 @@ public class VillageAssist {
     //                                                                          Definition
     //                                                                          ==========
     private static final List<CDef.Skill> SET_AVAILABLE_SKILLS = Arrays.asList(CDef.Skill.人狼, CDef.Skill.占い師, CDef.Skill.賢者, CDef.Skill.狩人,
-            CDef.Skill.狂人, CDef.Skill.妖狐, CDef.Skill.魔神官, CDef.Skill.C国狂人, CDef.Skill.狂信者);
+            CDef.Skill.狂人, CDef.Skill.妖狐, CDef.Skill.魔神官, CDef.Skill.C国狂人, CDef.Skill.狂信者, CDef.Skill.探偵);
     private static final List<CDef.Skill> RESTRICT_SKILLS =
             Arrays.asList(CDef.Skill.村人, CDef.Skill.霊能者, CDef.Skill.導師, CDef.Skill.人狼, CDef.Skill.C国狂人, CDef.Skill.占い師, CDef.Skill.賢者,
                     CDef.Skill.狩人, CDef.Skill.共鳴者, CDef.Skill.狂人, CDef.Skill.魔神官, CDef.Skill.狂信者, CDef.Skill.妖狐);
@@ -348,14 +348,19 @@ public class VillageAssist {
         VillageAbilityForm abilityForm = new VillageAbilityForm();
         CDef.AbilityType type = skill == CDef.Skill.人狼 ? CDef.AbilityType.襲撃 //
                 : SkillUtil.hasDivineAbility(skill) ? CDef.AbilityType.占い //
-                        : skill == CDef.Skill.狩人 ? CDef.AbilityType.護衛 : null;
+                        : skill == CDef.Skill.狩人 ? CDef.AbilityType.護衛 // 
+                                : skill == CDef.Skill.探偵 ? CDef.AbilityType.捜査 : null;
         OptionalEntity<Ability> optAbility = selectAbility(villageInfo.villageId, villageInfo.day, type);
         if (optAbility.isPresent()) {
             Ability ab = optAbility.get();
             abilityForm.setCharaId(ab.getCharaId());
             model.addAttribute("charaName", CharaUtil.makeCharaName(extractVillagePlayerBy(villageInfo, ab.getCharaId())));
             abilityForm.setTargetCharaId(ab.getTargetCharaId());
-            model.addAttribute("targetCharaName", CharaUtil.makeCharaName(extractVillagePlayerBy(villageInfo, ab.getTargetCharaId())));
+            if (ab.getTargetCharaId() != null) {
+                model.addAttribute("targetCharaName", CharaUtil.makeCharaName(extractVillagePlayerBy(villageInfo, ab.getTargetCharaId())));
+            }
+            abilityForm.setFootstep(ab.getTargetFootstep());
+            model.addAttribute("footstep", ab.getTargetFootstep());
         }
 
         footstepBhv.selectEntity(cb -> {

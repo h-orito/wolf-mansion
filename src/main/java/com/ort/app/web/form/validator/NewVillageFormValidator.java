@@ -167,6 +167,11 @@ public class NewVillageFormValidator implements Validator {
             errors.rejectValue("organization", "VillageSayForm.validator.organization.maxperson", new Object[] { "狩人", 1, lineNum }, null);
             return true;
         }
+        // 探偵は最大1名まで
+        if (skillPersonNumMap.get(CDef.Skill.探偵) > 1) {
+            errors.rejectValue("organization", "VillageSayForm.validator.organization.maxperson", new Object[] { "探偵", 1, lineNum }, null);
+            return true;
+        }
         // 妖狐は最大1名まで
         if (skillPersonNumMap.get(CDef.Skill.妖狐) > 1) {
             errors.rejectValue("organization", "VillageSayForm.validator.organization.maxperson", new Object[] { "妖狐", 1, lineNum }, null);

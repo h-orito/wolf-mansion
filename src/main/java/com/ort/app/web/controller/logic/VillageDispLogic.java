@@ -325,6 +325,17 @@ public class VillageDispLogic {
                 // 生存者のうち、自分と昨日の護衛先を除いた人
                 return livingCharaList.stream().filter(c -> !c.getValue().equals(yesterdayGuardTargetId)).collect(Collectors.toList());
             }
+        } else if (skill == CDef.Skill.探偵 && villageInfo.day > 1) {
+            List<String> footstepList = footstepLogic.getFootstepList(villageInfo.villageId, villageInfo.day);
+            if (CollectionUtils.isEmpty(footstepList)) {
+                return new ArrayList<>();
+            }
+            return footstepList.stream().map(fs -> {
+                OptionDto option = new OptionDto();
+                option.setName(fs);
+                option.setValue(fs);
+                return option;
+            }).collect(Collectors.toList());
         }
         return null;
     }
@@ -426,6 +437,13 @@ public class VillageDispLogic {
                 String footstep = f.getFootstepRoomNumbers();
                 return String.format("%d日目 %s", f.getDay(),
                         StringUtils.isEmpty(footstep) || "なし".equals(footstep) ? "徘徊しない" : footstep + "を徘徊する");
+            }).collect(Collectors.toList());
+        } else if (skill == CDef.Skill.探偵) {
+            ListResultBean<Ability> abilityList = selectAbilityList(villageInfo, CDef.AbilityType.捜査);
+            return abilityList.stream().map(ability -> {
+                int day = ability.getDay();
+                String footstep = ability.getTargetFootstep();
+                return String.format("%d日目 %s を調査する", day, footstep);
             }).collect(Collectors.toList());
         }
         return null;
@@ -583,6 +601,10 @@ public class VillageDispLogic {
             String attacked =
                     CharaUtil.makeCharaShortName(vpList.stream().filter(vp -> vp.getCharaId().equals(attackedCharaId)).findFirst().get());
             situation.setAttack(attacker + " → " + attacked);
+        }
+        Optional<Ability> optInvestigate = abilityList.stream().filter(a -> a.isAbilityTypeCode捜査()).findFirst();
+        if (optInvestigate.isPresent()) {
+            situation.setInvestigation(optInvestigate.get().getTargetFootstep());
         }
     }
 

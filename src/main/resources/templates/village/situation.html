@@ -69,6 +69,7 @@
 												<th class="hidden" th:if="${content.isDispSpoilerContent}" data-spoiled-content>襲撃</th>
 												<th class="hidden" th:if="${content.isDispSpoilerContent}" data-spoiled-content>占い</th>
 												<th class="hidden" th:if="${content.isDispSpoilerContent}" data-spoiled-content>護衛</th>
+												<th class="hidden" th:if="${content.isDispSpoilerContent}" data-spoiled-content>調査</th>
 											<tr>
 										</thead>
 										<tbody>
@@ -80,6 +81,7 @@
 												<td class="hidden" th:text="${situation.attack}" th:if="${content.isDispSpoilerContent}" data-spoiled-content></td>
 												<td class="hidden" th:text="${situation.divinedChara}" th:if="${content.isDispSpoilerContent}" data-spoiled-content></td>
 												<td class="hidden" th:text="${situation.guardedChara}" th:if="${content.isDispSpoilerContent}" data-spoiled-content></td>
+												<td class="hidden" th:text="${situation.investigation}" th:if="${content.isDispSpoilerContent}" data-spoiled-content></td>
 											</tr>
 										</tbody>
 									</table>
