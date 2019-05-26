@@ -915,7 +915,7 @@ public class DayChangeLogic {
         }).stream().map(vote -> vote.getCharaId()).collect(Collectors.toList());
         // 投票していない人
         List<VillagePlayer> noVotePlayerList = vPlayerList.stream().filter(vp -> {
-            if (vp.getCharaId().intValue() != settings.getDummyCharaId() || vp.isIsSpectatorTrue() || vp.isIsDeadTrue()) {
+            if (vp.getCharaId().intValue() == settings.getDummyCharaId().intValue() || vp.isIsSpectatorTrue() || vp.isIsDeadTrue()) {
                 return false; // ダミーと見学と既に死亡している人は対象外
             }
             // 投票していない人
