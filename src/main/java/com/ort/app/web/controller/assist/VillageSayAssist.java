@@ -322,7 +322,8 @@ public class VillageSayAssist {
         }
         MessageRestriction restrict = optRestrict.get();
         Integer maxLength = restrict.getMessageMaxLength();
-        if (sayForm.getMessage().length() > maxLength) {
+        Integer messageLength = sayForm.getMessage().replace("\r\n", "\n").length();
+        if (messageLength > maxLength) {
             return true; // 文字数オーバー
         }
         // 最新の日付
