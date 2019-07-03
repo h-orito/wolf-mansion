@@ -17,7 +17,17 @@
 
 				<!--/* 村タイトル、日付リンク */-->
 				<div class="col-sm-12 col-xs-12">
-					<h1 class="h5" th:text="${content.villageNumber} + '. ' + ${content.villageName}"></h1>
+					<div style="display: flex;">
+						<h1 class="h5" th:text="${content.villageNumber} + '. ' + ${content.villageName}" style="flex: 1;"></h1>
+						<div class="pull-right" style="margin-top: 10.5px; margin-bottom: 10.5px;">
+							<a
+								th:href="'https://twitter.com/share?text='
+								+ ${content.villageName} + '%0a'
+								+ ${content.day == 0 ? '開始予定: ' + #temporals.format(content.villageSettings.startDatetime, 'yyyy/MM/dd HH:mm') + '%0a' : ''}"
+								class="twitter-share-button" data-hashtags="WOLF_MANSION" data-lang="ja" data-show-count="false"></a>
+							<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+						</div>
+					</div>
 					<hr style="margin-top: 5px; margin-bottom: 10px;" />
 
 					<!--/* 日付リスト */-->
@@ -59,7 +69,9 @@
 				<div layout:replace="~{village/display-settings::display-settings}"></div>
 			</div>
 
-			<div class="hidden"><form id="say-confirm-form" method="post" action="" th:action="@{/village/{villageId}/say(villageId=${content.villageId})}"></form></div>
+			<div class="hidden">
+				<form id="say-confirm-form" method="post" action="" th:action="@{/village/{villageId}/say(villageId=${content.villageId})}"></form>
+			</div>
 			<div class="daychange-alert alert alert-success">日付が更新されました。ページを再読み込みしてください。</div>
 			<div id="autorefresh-alert" class="autorefresh-alert alert alert-success">最新発言を読み込みました</div>
 			<div class="hidden" id="daychange-datetime" th:if="${content.dayChangeDatetime}"
