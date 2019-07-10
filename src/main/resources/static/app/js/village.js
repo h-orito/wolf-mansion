@@ -581,6 +581,14 @@ $(function() {
 		}, 200);
 		return false;
 	});
+	
+	// 画面下部遷移
+	$('body').on('click', '[data-goto-vote]', function() {
+		$('html, body').animate({
+			scrollTop : $('#voteform-panel').offset().top
+		}, 200);
+		return false;
+	});
 
 	// 更新
 	$('body').on('click', '[data-refresh]', function() {

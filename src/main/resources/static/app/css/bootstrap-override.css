@@ -352,6 +352,16 @@ tr.top-menu-selectable:hover a {
 	border: 1px solid #00bc8c;
 }
 
+#footer-menu .footermenu-vote {
+	color: #ff0000;
+	border: 1px solid #ff0000;
+}
+
+#footer-menu .footermenu-vote:hover {
+	background-color: #ff0000;
+	color: #ffffff;
+}
+
 #sayform .btn-saytypes {
 	margin-bottom: 5px;
 }
