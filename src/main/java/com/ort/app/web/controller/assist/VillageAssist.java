@@ -126,20 +126,19 @@ public class VillageAssist {
 
     public String setIndexModel(Integer villageId, int day, VillageSayForm sayForm, VillageParticipateForm participateForm,
             VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
-        Village village = selectVillage(villageId);
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo(); // ログインしているか
-        ListResultBean<VillageDay> dayList = villageDayBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
-        OptionalThing<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo, true);
-        ListResultBean<Vote> voteList = selectVoteList(villageId, day);
-        List<Footstep> footStepList = selectFootstepList(villageId);
-        List<Ability> abilityList = selectAbilityList(villageId);
-        VillageInfo villageInfo = new VillageInfo(village, userInfo, dayList, optVillagePlayer, day, voteList, footStepList, abilityList);
-
+        // 村の初期表示に必要な情報を収集
+        VillageInfo villageInfo = selectVillageInfo(villageId, day);
+        // 表示用情報
         VillageResultContent content = new VillageResultContent();
+        // 参加していなくても見られる情報
         setVillageModelBasicInfo(content, villageInfo);
+        // 参加している場合のみ見られる情報
         setVillageModelForm(content, villageInfo, sayForm, participateForm, changeRequestSkillForm, model);
-        setVillageModelCreateUser(content, village, userInfo, model);
+        // 村建てのみ見られる情報
+        setVillageModelCreateUser(content, villageInfo, model);
+        // デバッグ用
         setDebugInfo(debug, model);
+
         model.addAttribute("content", content);
         return "village";
     }
@@ -281,6 +280,18 @@ public class VillageAssist {
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
+    private VillageInfo selectVillageInfo(Integer villageId, int day) {
+        Village village = selectVillage(villageId);
+        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo(); // ログインしているか
+        ListResultBean<VillageDay> dayList = villageDayBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
+        OptionalThing<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo, true);
+        ListResultBean<Vote> voteList = selectVoteList(villageId, day);
+        List<Footstep> footStepList = selectFootstepList(villageId);
+        List<Ability> abilityList = selectAbilityList(villageId);
+        VillageInfo villageInfo = new VillageInfo(village, userInfo, dayList, optVillagePlayer, day, voteList, footStepList, abilityList);
+        return villageInfo;
+    }
+
     // デフォルト発言区分
     private void setDefaultMessageTypeIfNeeded(VillageSayForm sayForm, boolean isDispSayForm, boolean isAvailableNormalSay,
             boolean isAvailableWerewolfSay, boolean isAvailableMasonSay, boolean isAvailableGraveSay, boolean isAvailableMonologueSay,
@@ -517,14 +528,15 @@ public class VillageAssist {
     }
 
     // 村建て
-    private void setVillageModelCreateUser(VillageResultContent content, Village village, UserInfo userInfo, Model model) {
-        String createPlayerName = village.getCreatePlayerName();
+    private void setVillageModelCreateUser(VillageResultContent content, VillageInfo villageInfo, Model model) {
+        String createPlayerName = villageInfo.village.getCreatePlayerName();
         content.setCreatePlayerName(createPlayerName);
+        UserInfo userInfo = villageInfo.user;
         boolean isCreator = userInfo != null && userInfo.getUsername().equals(createPlayerName);
         content.setIsCreatePlayer(isCreator);
         content.setIsAvailableSettingsUpdate(
                 userInfo != null && (userInfo.getUsername().equals(createPlayerName) || "master".equals(userInfo.getUsername()))
-                        && village.isVillageStatusCode募集中());
+                        && villageInfo.village.isVillageStatusCode募集中());
         if (isCreator) {
             model.addAttribute("kickForm", new VillageKickForm());
             model.addAttribute("creatorSayForm", new VillageSayForm());
