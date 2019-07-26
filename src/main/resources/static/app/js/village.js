@@ -1099,6 +1099,9 @@ $(function() {
 		let diff = dayChangeDatetime.getTime() - nowDatetime.getTime();
 		if (diff < 0) {
 			diff = 0; // 過ぎてたら00:00:00表示
+		} else if (1000 * 60 * 60 * 100 <= diff) {
+			$('#left-time').text('99:59:59');
+			return;
 		}
 		let diffHours = Math.floor(diff / (1000 * 60 * 60));
 		diffHours = ('0' + diffHours).slice(-2);
