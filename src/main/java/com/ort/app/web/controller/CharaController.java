@@ -68,7 +68,7 @@ public class CharaController {
     private List<GroupCharaDto> getCharacterList(@PathVariable Integer charaGroupId) {
         ListResultBean<Chara> charaList = charaBhv.selectList(cb -> {
             cb.query().setCharaGroupId_Equal(charaGroupId);
-            cb.query().addOrderBy_DefaultJoinMessage_Asc().withNullsLast();
+            cb.query().addOrderBy_DefaultJoinMessage_Desc().withNullsLast();
             cb.query().addOrderBy_CharaId_Asc();
         });
         charaBhv.loadCharaImage(charaList, charaImgCB -> {
@@ -173,7 +173,10 @@ public class CharaController {
             cb.query().setCharaGroupId_Equal(charaGroupId);
         });
         charaGroupBhv.load(charaGroup, loader -> {
-            loader.loadChara(charaCB -> {}).withNestedReferrer(charaLoader -> {
+            loader.loadChara(charaCB -> {
+                charaCB.query().addOrderBy_DefaultJoinMessage_Desc();
+                charaCB.query().addOrderBy_CharaId_Asc();
+            }).withNestedReferrer(charaLoader -> {
                 charaLoader.loadCharaImage(charaImageCB -> {
                     charaImageCB.query().queryFaceType().addOrderBy_DispOrder_Asc();
                 });
