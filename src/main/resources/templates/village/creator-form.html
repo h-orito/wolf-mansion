@@ -35,6 +35,19 @@
 								</div>
 							</div>
 						</div>
+						<form th:if="${content.day == 0}" class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">最終アクセス日時</label>
+								<div class="col-sm-10">
+									<table class="table table-bordered table-condensed small" th:each="statusDto, s : ${content.memberList}" th:if=${s.first}>
+										<tr th:each="member : ${statusDto.statusMemberList}">
+											<td th:text="${member.charaName}"></td>
+											<td th:text="*{#temporals.format(member.lastAccessDatetime, 'yyyy/MM/dd HH:mm')}"></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</form>
 						<form method="post" id="kick-form" th:if="${content.day == 0}" action=""
 							th:action="@{/village/{villageId}/kick(villageId=${content.villageId})}" class="form-horizontal" th:object="${kickForm}">
 							<div class="form-group">

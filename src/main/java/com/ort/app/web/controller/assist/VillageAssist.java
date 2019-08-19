@@ -767,6 +767,7 @@ public class VillageAssist {
         VillageMemberDetailDto detail = new VillageMemberDetailDto();
         detail.setCharaName(CharaUtil.makeCharaName(mem));
         detail.setDeadDay(mem.getDeadDay() != null ? mem.getDeadDay() + "d" : null);
+        detail.setLastAccessDatetime(mem.getLastAccessDatetime());
         return detail;
     }
 
