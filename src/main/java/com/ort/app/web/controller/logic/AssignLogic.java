@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.util.CharaUtil;
+import com.ort.app.web.util.RoomSize;
 import com.ort.app.web.util.RoomUtil;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
@@ -34,14 +35,11 @@ public class AssignLogic {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static Map<Integer, List<Integer>> roomNumberAssignMap;
     private static final List<Skill> rangeSkillList =
             Arrays.asList(Skill.おまかせ人外, Skill.おまかせ人狼陣営, Skill.おまかせ役職窓あり, Skill.おまかせ村人陣営, Skill.おまかせ足音職);
     private static final Map<Skill, List<Skill>> rangeSkillMap;
 
     static {
-        roomNumberAssignMap = RoomUtil.createRoomAssignMap();
-
         rangeSkillMap = new HashMap<Skill, List<Skill>>();
         rangeSkillMap.put(Skill.おまかせ人外, Arrays.asList(Skill.C国狂人, Skill.人狼, Skill.妖狐, Skill.狂人, Skill.狂信者, Skill.魔神官));
         rangeSkillMap.put(Skill.おまかせ人狼陣営, Arrays.asList(Skill.C国狂人, Skill.人狼, Skill.狂人, Skill.狂信者, Skill.魔神官));
@@ -447,30 +445,10 @@ public class AssignLogic {
     //                                                          Assist Logic (assign room)
     //                                                                        ============
     private Village calculateRoomSizeAndUpdate(Integer villageId, int personNum) {
-        // 8-10 4x3 11 5x3 12-13 4x4 14-17 5x4 18-20 6x4
-        // 8    9    10   11   
-        // _xx_ _xx_ xxx_ _xxx_
-        // xxxx xxxx xxxx xxxxx
-        // _xx_ _xxx _xxx _xxx_
-        // 
-        // 12   13   14    15    16    17   
-        // _xx_ _xx_ __xx_ __xx_ _xxx_ _xxx_
-        // xxxx xxxx xxxxx xxxxx xxxxx xxxxx
-        // xxxx xxxx xxxxx xxxxx xxxxx xxxxx
-        // _xx_ _xxx _xx__ _xxx_ _xxx_ _xxxx
-        //
-        // 18     19     20
-        // __xxx_ _xxxx_ _xxxx_
-        // xxxxxx xxxxxx xxxxxx
-        // xxxxxx xxxxxx xxxxxx
-        // _xxx__ _xxx__ _xxxx_
-
-        int width = personNum >= 18 ? 6 : personNum >= 14 ? 5 : personNum >= 12 ? 4 : personNum == 11 ? 5 : 4;
-        int height = personNum >= 12 ? 4 : 3;
-
+        RoomSize roomSize = RoomUtil.getRoomSize(personNum);
         Village village = new Village();
-        village.setRoomSizeWidth(width);
-        village.setRoomSizeHeight(height);
+        village.setRoomSizeWidth(roomSize.width);
+        village.setRoomSizeHeight(roomSize.height);
         villageBhv.queryUpdate(village, cb -> cb.query().setVillageId_Equal(villageId));
         return village;
     }
@@ -500,7 +478,7 @@ public class AssignLogic {
     }
 
     private void assignRoomAndUpdate(List<VillagePlayer> playerList, List<Integer> roomNumList) {
-        List<Integer> roomNumberList = new ArrayList<>(roomNumberAssignMap.get(playerList.size()));
+        List<Integer> roomNumberList = new ArrayList<>(RoomUtil.getRoomNumberList(playerList.size()));
         Collections.shuffle(roomNumberList);
         for (int i = 0; i < playerList.size(); i++) {
             VillagePlayer entity = new VillagePlayer();

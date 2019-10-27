@@ -25,7 +25,7 @@ public class NewVillageForm implements Serializable {
 
     /** 定員 */
     @NotNull
-    @Max(20)
+    @Max(99)
     private Integer personMaxNum;
 
     /** 更新間隔時間 */

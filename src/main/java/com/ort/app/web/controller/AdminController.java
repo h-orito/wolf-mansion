@@ -66,7 +66,7 @@ public class AdminController {
             cb.fetchFirst(participateForm.getPersonNumber());
         });
         for (int i = 0; i < charaList.size(); i++) {
-            int playerId = i + 8; // テストアカウントは8~
+            int playerId = i + 2;
             // 希望役職をランダムに取得
             CDef.Skill randomSkill = CDef.Skill.values()[(int) (Math.random() * CDef.Skill.values().length - 1)];
             CDef.Skill randomSkill2 = CDef.Skill.values()[(int) (Math.random() * CDef.Skill.values().length - 1)];

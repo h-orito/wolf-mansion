@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -114,82 +115,57 @@ public class NewVillageFormValidator implements Validator {
             errors.rejectValue("organization", "VillageSayForm.validator.organization.required");
             return;
         }
-        // 行数不足
-        String[] organizationArray = organization.replace("\r\n", "\n").split("\n");
-        if (organizationArray.length < 13) { // 8~20名
-            errors.rejectValue("organization", "VillageSayForm.validator.organization.lines");
-            return;
-        }
-        // 行ごとにチェック
-        int personNum = 8;
-        for (String org : organizationArray) {
-            int lineNum = personNum - 7;
-            // 人数過不足
-            if (org.length() != personNum) {
-                errors.rejectValue("organization", "VillageSayForm.validator.organization.personNum", new Object[] { lineNum, personNum },
-                        null);
+
+        List<String> organizationList = Stream.of(organization.replace("\r\n", "\n").split("\n")).collect(Collectors.toList());
+
+        // 最低人数〜最大人数までの構成が存在するか
+        Integer minNum = form.getStartPersonMinNum();
+        Integer maxNum = form.getPersonMaxNum();
+        for (int i = minNum; i <= maxNum; i++) {
+            int personNum = i;
+            if (organizationList.stream().noneMatch(orgStr -> orgStr.length() == personNum)) {
+                errors.rejectValue("organization", "NewVillageForm.validator.organization.lines");
                 return;
             }
+            if (organizationList.stream().filter(orgStr -> orgStr.length() == personNum).count() > 1) {
+                errors.rejectValue("organization", "NewVillageForm.validator.organization.duplicate", new Object[] { personNum }, null);
+                return;
+            }
+        }
+
+        // 行ごとにチェック
+        for (String org : organizationList) {
+            int personNum = org.length();
             // 存在しない役職
             for (String character : org.split("")) {
                 if (!SkillUtil.SKILL_SHORTNAME_MAP.containsKey(character)) {
-                    errors.rejectValue("organization", "VillageSayForm.validator.organization.noexistskill",
-                            new Object[] { lineNum, character }, null);
+                    errors.rejectValue("organization", "NewVillageForm.validator.organization.noexistskill",
+                            new Object[] { personNum, character }, null);
                     return;
                 }
             }
             // 役職人数制限
-            if (isInvalidOrganizationSkillPersonNum(errors, org, lineNum)) {
+            if (isInvalidOrganizationSkillPersonNum(errors, org, personNum)) {
                 return;
             }
-
-            personNum++;
         }
     }
 
-    private boolean isInvalidOrganizationSkillPersonNum(Errors errors, String org, int lineNum) {
+    private boolean isInvalidOrganizationSkillPersonNum(Errors errors, String org, int personNum) {
         Map<CDef.Skill, Integer> skillPersonNumMap = SkillUtil.createSkillPersonNum(org);
-        // 占い師と賢者は1名まで
-        if (skillPersonNumMap.get(CDef.Skill.占い師) + skillPersonNumMap.get(CDef.Skill.賢者) > 1) {
-            errors.rejectValue("organization", "VillageSayForm.validator.organization.maxperson", new Object[] { "占い師と賢者", 1, lineNum },
-                    null);
-            return true;
-        }
-        // 狂人系役職は最大1名まで
-        if (skillPersonNumMap.get(CDef.Skill.狂人) + skillPersonNumMap.get(CDef.Skill.魔神官) + skillPersonNumMap.get(CDef.Skill.C国狂人)
-                + skillPersonNumMap.get(CDef.Skill.狂信者) > 1) {
-            errors.rejectValue("organization", "VillageSayForm.validator.organization.maxperson",
-                    new Object[] { "狂人、魔神官、C国狂人、狂信者", 1, lineNum }, null);
-            return true;
-        }
-        // 狩人は最大1名まで
-        if (skillPersonNumMap.get(CDef.Skill.狩人) > 1) {
-            errors.rejectValue("organization", "VillageSayForm.validator.organization.maxperson", new Object[] { "狩人", 1, lineNum }, null);
-            return true;
-        }
-        // 探偵は最大1名まで
-        if (skillPersonNumMap.get(CDef.Skill.探偵) > 1) {
-            errors.rejectValue("organization", "VillageSayForm.validator.organization.maxperson", new Object[] { "探偵", 1, lineNum }, null);
-            return true;
-        }
-        // 妖狐は最大1名まで
-        if (skillPersonNumMap.get(CDef.Skill.妖狐) > 1) {
-            errors.rejectValue("organization", "VillageSayForm.validator.organization.maxperson", new Object[] { "妖狐", 1, lineNum }, null);
-            return true;
-        }
         // 村人がいない
         if (skillPersonNumMap.get(CDef.Skill.村人) < 1) {
-            errors.rejectValue("organization", "VillageSayForm.validator.organization.noexistvillager", new Object[] { lineNum }, null);
+            errors.rejectValue("organization", "NewVillageForm.validator.organization.noexistvillager", new Object[] { personNum }, null);
             return true;
         }
         // 人狼がいない
         if (skillPersonNumMap.get(CDef.Skill.人狼) < 1) {
-            errors.rejectValue("organization", "VillageSayForm.validator.organization.noexistwerewolf", new Object[] { lineNum }, null);
+            errors.rejectValue("organization", "NewVillageForm.validator.organization.noexistwerewolf", new Object[] { personNum }, null);
             return true;
         }
         // 人狼の人数が過半数を超えている
         if (skillPersonNumMap.get(CDef.Skill.人狼) > org.length() / 2) {
-            errors.rejectValue("organization", "VillageSayForm.validator.organization.werewolfwin", new Object[] { lineNum }, null);
+            errors.rejectValue("organization", "NewVillageForm.validator.organization.werewolfwin", new Object[] { personNum }, null);
             return true;
         }
 
