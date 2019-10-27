@@ -432,9 +432,8 @@ public class DayChangeLogic {
 
     private void insertDefaultSeer(Integer villageId, int newDay, List<VillagePlayer> villagePlayerList, Village village) {
         // 占う人
-        Optional<VillagePlayer> optSeer = villagePlayerList.stream()
-                .filter(vp -> SkillUtil.hasDivineAbility(vp.getSkillCodeAsSkill()) && vp.isIsDeadFalse())
-                .findFirst();
+        Optional<VillagePlayer> optSeer =
+                villagePlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill().isHasDivineAbility() && vp.isIsDeadFalse()).findFirst();
         if (!optSeer.isPresent()) {
             return;
         }
@@ -451,7 +450,7 @@ public class DayChangeLogic {
     private void insertDefaultFootstep(Integer villageId, int newDay, List<VillagePlayer> vPlayerList) {
         // 妖狐狂人
         List<VillagePlayer> foxMadmanList = vPlayerList.stream()
-                .filter(vp -> (vp.getSkillCodeAsSkill() == CDef.Skill.妖狐 || SkillUtil.hasMadmanAbility(vp.getSkillCodeAsSkill()))
+                .filter(vp -> (vp.getSkillCodeAsSkill() == CDef.Skill.妖狐 || vp.getSkillCodeAsSkill().isHasMadmanAbility())
                         && vp.isIsDeadFalse())
                 .collect(Collectors.toList());
         for (VillagePlayer vp : foxMadmanList) {
@@ -779,7 +778,7 @@ public class DayChangeLogic {
         if (villagePlayerList.stream().anyMatch(vp -> vp.isIsDeadFalse() // 死亡していない
                 && (executedPlayer == null || !vp.getVillagePlayerId().equals(executedPlayer.getVillagePlayerId())) // 処刑されていない
                 && suddonlyDeathVPlayerList.stream().noneMatch(sdvp -> sdvp.getVillagePlayerId().equals(vp.getVillagePlayerId())) // 突然死していない
-                && SkillUtil.hasSkillPsychicAbility(vp.getSkillCodeAsSkill())) // 導師または魔神官
+                && vp.getSkillCodeAsSkill().isHasSkillPsychicAbility()) // 導師または魔神官
         ) {
             StringJoiner joiner = new StringJoiner("\n");
             deadPlayerList.forEach(deadPlayer -> {
@@ -817,7 +816,7 @@ public class DayChangeLogic {
                 .filter(vp -> vp.isIsDeadFalse() // 死亡していない
                         && !vp.getVillagePlayerId().equals(executedPlayerId) // 処刑されていない
                         && suddonlyDeathVPlayerList.stream().noneMatch(sdvp -> sdvp.getVillagePlayerId().equals(vp.getVillagePlayerId())) // 突然死していない
-                        && SkillUtil.hasDivineAbility(vp.getSkillCodeAsSkill())) // 占い能力がある 
+                        && vp.getSkillCodeAsSkill().isHasDivineAbility()) // 占い能力がある 
                 .findFirst();
         if (!optLivingSeer.isPresent()) {
             return Optional.empty(); // 占い師が既に死亡している場合は何もしない

@@ -558,6 +558,46 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * 囁き可能 <br>
+     * The group elements:[人狼, C国狂人]
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode_AvailableWerewolfSay() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null && cdef.isAvailableWerewolfSay();
+    }
+
+    /**
+     * 占い能力を持つ <br>
+     * The group elements:[占い師, 賢者]
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode_HasDivineAbility() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null && cdef.isHasDivineAbility();
+    }
+
+    /**
+     * 役職霊能能力を持つ <br>
+     * The group elements:[導師, 魔神官]
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode_HasSkillPsychicAbility() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null && cdef.isHasSkillPsychicAbility();
+    }
+
+    /**
+     * 狂人能力を持つ <br>
+     * The group elements:[C国狂人, 狂人, 狂信者]
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode_HasMadmanAbility() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null && cdef.isHasMadmanAbility();
+    }
+
+    /**
      * Is the value of campCode 狐陣営? <br>
      * 狐陣営
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>

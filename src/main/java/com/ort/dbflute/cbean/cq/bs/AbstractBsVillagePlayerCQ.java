@@ -1127,6 +1127,46 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
         doSetSkillCode_InScope(cTStrL(cdefList));
     }
 
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 囁き可能 <br>
+     * The group elements:[人狼, C国狂人]
+     */
+    public void setSkillCode_InScope_AvailableWerewolfSay() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfAvailableWerewolfSay());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 占い能力を持つ <br>
+     * The group elements:[占い師, 賢者]
+     */
+    public void setSkillCode_InScope_HasDivineAbility() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDivineAbility());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 役職霊能能力を持つ <br>
+     * The group elements:[導師, 魔神官]
+     */
+    public void setSkillCode_InScope_HasSkillPsychicAbility() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasSkillPsychicAbility());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 狂人能力を持つ <br>
+     * The group elements:[C国狂人, 狂人, 狂信者]
+     */
+    public void setSkillCode_InScope_HasMadmanAbility() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasMadmanAbility());
+    }
+
     protected void doSetSkillCode_InScope(Collection<String> skillCodeList) {
         regINS(CK_INS, cTL(skillCodeList), xgetCValueSkillCode(), "SKILL_CODE");
     }
@@ -1560,6 +1600,46 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
         doSetRequestSkillCode_InScope(cTStrL(cdefList));
     }
 
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 囁き可能 <br>
+     * The group elements:[人狼, C国狂人]
+     */
+    public void setRequestSkillCode_InScope_AvailableWerewolfSay() {
+        setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfAvailableWerewolfSay());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 占い能力を持つ <br>
+     * The group elements:[占い師, 賢者]
+     */
+    public void setRequestSkillCode_InScope_HasDivineAbility() {
+        setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDivineAbility());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 役職霊能能力を持つ <br>
+     * The group elements:[導師, 魔神官]
+     */
+    public void setRequestSkillCode_InScope_HasSkillPsychicAbility() {
+        setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasSkillPsychicAbility());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 狂人能力を持つ <br>
+     * The group elements:[C国狂人, 狂人, 狂信者]
+     */
+    public void setRequestSkillCode_InScope_HasMadmanAbility() {
+        setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasMadmanAbility());
+    }
+
     protected void doSetRequestSkillCode_InScope(Collection<String> requestSkillCodeList) {
         regINS(CK_INS, cTL(requestSkillCodeList), xgetCValueRequestSkillCode(), "REQUEST_SKILL_CODE");
     }
@@ -1991,6 +2071,46 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_InScope_AsSkill(Collection<CDef.Skill> cdefList) {
         doSetSecondRequestSkillCode_InScope(cTStrL(cdefList));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 囁き可能 <br>
+     * The group elements:[人狼, C国狂人]
+     */
+    public void setSecondRequestSkillCode_InScope_AvailableWerewolfSay() {
+        setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfAvailableWerewolfSay());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 占い能力を持つ <br>
+     * The group elements:[占い師, 賢者]
+     */
+    public void setSecondRequestSkillCode_InScope_HasDivineAbility() {
+        setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDivineAbility());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 役職霊能能力を持つ <br>
+     * The group elements:[導師, 魔神官]
+     */
+    public void setSecondRequestSkillCode_InScope_HasSkillPsychicAbility() {
+        setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasSkillPsychicAbility());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 狂人能力を持つ <br>
+     * The group elements:[C国狂人, 狂人, 狂信者]
+     */
+    public void setSecondRequestSkillCode_InScope_HasMadmanAbility() {
+        setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasMadmanAbility());
     }
 
     protected void doSetSecondRequestSkillCode_InScope(Collection<String> secondRequestSkillCodeList) {

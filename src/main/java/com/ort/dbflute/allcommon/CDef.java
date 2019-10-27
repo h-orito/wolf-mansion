@@ -600,7 +600,51 @@ public interface CDef extends Classification {
         public Map<String, Object> subItemMap() { return Collections.emptyMap(); }
         public ClassificationMeta meta() { return CDef.DefMeta.Skill; }
 
+        /**
+         * Is the classification in the group? <br>
+         * 囁き可能 <br>
+         * The group elements:[人狼, C国狂人]
+         * @return The determination, true or false.
+         */
+        public boolean isAvailableWerewolfSay() {
+            return 人狼.equals(this) || C国狂人.equals(this);
+        }
+
+        /**
+         * Is the classification in the group? <br>
+         * 占い能力を持つ <br>
+         * The group elements:[占い師, 賢者]
+         * @return The determination, true or false.
+         */
+        public boolean isHasDivineAbility() {
+            return 占い師.equals(this) || 賢者.equals(this);
+        }
+
+        /**
+         * Is the classification in the group? <br>
+         * 役職霊能能力を持つ <br>
+         * The group elements:[導師, 魔神官]
+         * @return The determination, true or false.
+         */
+        public boolean isHasSkillPsychicAbility() {
+            return 導師.equals(this) || 魔神官.equals(this);
+        }
+
+        /**
+         * Is the classification in the group? <br>
+         * 狂人能力を持つ <br>
+         * The group elements:[C国狂人, 狂人, 狂信者]
+         * @return The determination, true or false.
+         */
+        public boolean isHasMadmanAbility() {
+            return C国狂人.equals(this) || 狂人.equals(this) || 狂信者.equals(this);
+        }
+
         public boolean inGroup(String groupName) {
+            if ("availableWerewolfSay".equals(groupName)) { return isAvailableWerewolfSay(); }
+            if ("hasDivineAbility".equals(groupName)) { return isHasDivineAbility(); }
+            if ("hasSkillPsychicAbility".equals(groupName)) { return isHasSkillPsychicAbility(); }
+            if ("hasMadmanAbility".equals(groupName)) { return isHasMadmanAbility(); }
             return false;
         }
 
@@ -668,6 +712,10 @@ public interface CDef extends Classification {
          */
         public static List<Skill> listByGroup(String groupName) {
             if (groupName == null) { throw new IllegalArgumentException("The argument 'groupName' should not be null."); }
+            if ("availableWerewolfSay".equalsIgnoreCase(groupName)) { return listOfAvailableWerewolfSay(); }
+            if ("hasDivineAbility".equalsIgnoreCase(groupName)) { return listOfHasDivineAbility(); }
+            if ("hasSkillPsychicAbility".equalsIgnoreCase(groupName)) { return listOfHasSkillPsychicAbility(); }
+            if ("hasMadmanAbility".equalsIgnoreCase(groupName)) { return listOfHasMadmanAbility(); }
             throw new ClassificationNotFoundException("Unknown classification group: Skill." + groupName);
         }
 
@@ -684,11 +732,55 @@ public interface CDef extends Classification {
         }
 
         /**
+         * Get the list of group classification elements. (returns new copied list) <br>
+         * 囁き可能 <br>
+         * The group elements:[人狼, C国狂人]
+         * @return The snapshot list of classification elements in the group. (NotNull)
+         */
+        public static List<Skill> listOfAvailableWerewolfSay() {
+            return new ArrayList<Skill>(Arrays.asList(人狼, C国狂人));
+        }
+
+        /**
+         * Get the list of group classification elements. (returns new copied list) <br>
+         * 占い能力を持つ <br>
+         * The group elements:[占い師, 賢者]
+         * @return The snapshot list of classification elements in the group. (NotNull)
+         */
+        public static List<Skill> listOfHasDivineAbility() {
+            return new ArrayList<Skill>(Arrays.asList(占い師, 賢者));
+        }
+
+        /**
+         * Get the list of group classification elements. (returns new copied list) <br>
+         * 役職霊能能力を持つ <br>
+         * The group elements:[導師, 魔神官]
+         * @return The snapshot list of classification elements in the group. (NotNull)
+         */
+        public static List<Skill> listOfHasSkillPsychicAbility() {
+            return new ArrayList<Skill>(Arrays.asList(導師, 魔神官));
+        }
+
+        /**
+         * Get the list of group classification elements. (returns new copied list) <br>
+         * 狂人能力を持つ <br>
+         * The group elements:[C国狂人, 狂人, 狂信者]
+         * @return The snapshot list of classification elements in the group. (NotNull)
+         */
+        public static List<Skill> listOfHasMadmanAbility() {
+            return new ArrayList<Skill>(Arrays.asList(C国狂人, 狂人, 狂信者));
+        }
+
+        /**
          * Get the list of classification elements in the specified group. (returns new copied list) <br>
          * @param groupName The string of group name, which is case-sensitive. (NullAllowed: if null, returns empty list)
          * @return The snapshot list of classification elements in the group. (NotNull, EmptyAllowed: if the group is not found)
          */
         public static List<Skill> groupOf(String groupName) {
+            if ("availableWerewolfSay".equals(groupName)) { return listOfAvailableWerewolfSay(); }
+            if ("hasDivineAbility".equals(groupName)) { return listOfHasDivineAbility(); }
+            if ("hasSkillPsychicAbility".equals(groupName)) { return listOfHasSkillPsychicAbility(); }
+            if ("hasMadmanAbility".equals(groupName)) { return listOfHasMadmanAbility(); }
             return new ArrayList<Skill>(4);
         }
 

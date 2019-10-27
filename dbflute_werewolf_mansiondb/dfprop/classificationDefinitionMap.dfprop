@@ -83,7 +83,27 @@ map:{
         }
     }
     ; Skill = list:{
-        ; map:{topComment=役職; codeType=String}
+        ; map:{
+            ; topComment=役職; codeType=String
+	        	; groupingMap = map:{
+	        		; availableWerewolfSay = map:{
+	        			; groupComment=囁き可能
+	        			; elementList= list:{人狼;C国狂人}
+	        		}
+	        		; hasDivineAbility = map:{
+	        			; groupComment=占い能力を持つ
+	        			; elementList= list:{占い師;賢者}
+	        		}
+	        		; hasSkillPsychicAbility = map:{
+	        			; groupComment=役職霊能能力を持つ
+	        			; elementList= list:{導師;魔神官}
+	        		}
+	        		; hasMadmanAbility = map:{
+	        			; groupComment=狂人能力を持つ
+	        			; elementList= list:{C国狂人;狂人;狂信者}
+	        		}
+	        	}
+        }
         ; map:{
             ; table=SKILL
             ; code=SKILL_CODE; name=SKILL_NAME

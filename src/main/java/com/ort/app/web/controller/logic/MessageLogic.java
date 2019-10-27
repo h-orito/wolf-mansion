@@ -25,7 +25,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.util.CharaUtil;
-import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.exbhv.MessageBhv;
@@ -218,7 +217,7 @@ public class MessageLogic {
         if (skill == CDef.Skill.人狼) {
             return messageSource.getMessage("ability.werewolf.message",
                     new String[] { myChara, targetChara, footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
-        } else if (SkillUtil.hasDivineAbility(skill)) {
+        } else if (skill.isHasDivineAbility()) {
             return messageSource.getMessage("ability.seer.message",
                     new String[] { myChara, targetChara, footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
         } else if (skill == CDef.Skill.狩人) {

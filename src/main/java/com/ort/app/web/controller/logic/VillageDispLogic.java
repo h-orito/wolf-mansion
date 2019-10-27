@@ -21,7 +21,6 @@ import com.ort.app.web.model.VillageFootstepDto;
 import com.ort.app.web.model.VillageSituationDto;
 import com.ort.app.web.model.inner.SayRestrictDto;
 import com.ort.app.web.util.CharaUtil;
-import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.AbilityBhv;
 import com.ort.dbflute.exbhv.CharaBhv;
@@ -297,7 +296,7 @@ public class VillageDispLogic {
                         .map(vp -> new OptionDto(vp))
                         .collect(Collectors.toList());
             }
-        } else if (SkillUtil.hasDivineAbility(skill)) {
+        } else if (skill.isHasDivineAbility()) {
             // 自分以外の生存しているプレイヤー全員
             return villageInfo.getVPList(true, true, false)
                     .stream()
@@ -411,7 +410,7 @@ public class VillageDispLogic {
                 return String.format("%d日目 %s が %s を襲撃する（%s）", day, CharaUtil.makeCharaName(myself), CharaUtil.makeCharaName(target),
                         optFootstep.map(fs -> fs.getFootstepRoomNumbers()).orElse("なし"));
             }).collect(Collectors.toList());
-        } else if (SkillUtil.hasDivineAbility(skill)) {
+        } else if (skill.isHasDivineAbility()) {
             ListResultBean<Ability> abilityList = selectAbilityList(villageInfo, CDef.AbilityType.占い);
             ListResultBean<Footstep> footstepList = selectFootstepList(villageInfo, Arrays.asList(vPlayer.getCharaId()));
             return abilityList.stream().map(ability -> {
@@ -431,7 +430,7 @@ public class VillageDispLogic {
                 return String.format("%d日目 %s を護衛する（%s）", day, CharaUtil.makeCharaName(target),
                         optFootstep.map(fs -> fs.getFootstepRoomNumbers()).orElse("なし"));
             }).collect(Collectors.toList());
-        } else if (SkillUtil.hasMadmanAbility(skill) || skill == CDef.Skill.妖狐) {
+        } else if (skill.isHasMadmanAbility() || skill == CDef.Skill.妖狐) {
             ListResultBean<Footstep> footstepList = selectFootstepList(villageInfo, Arrays.asList(vPlayer.getCharaId()));
             return footstepList.stream().map(f -> {
                 String footstep = f.getFootstepRoomNumbers();

@@ -358,7 +358,7 @@ public class VillageAssist {
 
         VillageAbilityForm abilityForm = new VillageAbilityForm();
         CDef.AbilityType type = skill == CDef.Skill.人狼 ? CDef.AbilityType.襲撃 //
-                : SkillUtil.hasDivineAbility(skill) ? CDef.AbilityType.占い //
+                : skill.isHasDivineAbility() ? CDef.AbilityType.占い //
                         : skill == CDef.Skill.狩人 ? CDef.AbilityType.護衛 // 
                                 : skill == CDef.Skill.探偵 ? CDef.AbilityType.捜査 : null;
         OptionalEntity<Ability> optAbility = selectAbility(villageInfo.villageId, villageInfo.day, type);

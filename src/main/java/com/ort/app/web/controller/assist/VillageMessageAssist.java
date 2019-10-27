@@ -24,7 +24,6 @@ import com.ort.app.web.model.VillageLatestMessageDatetimeResultContent;
 import com.ort.app.web.model.VillageMessageListResultContent;
 import com.ort.app.web.model.inner.VillageMessageDto;
 import com.ort.app.web.util.CharaUtil;
-import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.MessageType;
 import com.ort.dbflute.exbhv.CommitBhv;
@@ -586,7 +585,7 @@ public class VillageMessageAssist {
             if (vPlayer.getSkillCodeAsSkill() == CDef.Skill.霊能者) {
                 dispAllowedMessageTypeList.add(CDef.MessageType.白黒霊視結果);
                 return;
-            } else if (SkillUtil.hasSkillPsychicAbility(vPlayer.getSkillCodeAsSkill())) {
+            } else if (vPlayer.getSkillCodeAsSkill().isHasSkillPsychicAbility()) {
                 dispAllowedMessageTypeList.add(CDef.MessageType.役職霊視結果);
                 return;
             }

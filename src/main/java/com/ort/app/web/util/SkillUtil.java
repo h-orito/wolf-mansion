@@ -33,18 +33,6 @@ public class SkillUtil {
     private SkillUtil() {
     }
 
-    public static boolean hasDivineAbility(CDef.Skill skill) {
-        return skill == CDef.Skill.占い師 || skill == CDef.Skill.賢者;
-    }
-
-    public static boolean hasSkillPsychicAbility(CDef.Skill skill) {
-        return skill == CDef.Skill.導師 || skill == CDef.Skill.魔神官;
-    }
-
-    public static boolean hasMadmanAbility(CDef.Skill skill) {
-        return skill == CDef.Skill.C国狂人 || skill == CDef.Skill.狂人 || skill == CDef.Skill.魔神官 || skill == CDef.Skill.狂信者;
-    }
-
     public static Map<Skill, Integer> createSkillPersonNum(String org) {
         Map<CDef.Skill, Integer> skillPersonNumMap = new HashMap<>();
         for (CDef.Skill skill : CDef.Skill.values()) {

@@ -16,7 +16,6 @@ import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageGetFootstepListForm;
 import com.ort.app.web.form.VillageVoteForm;
 import com.ort.app.web.model.VillageGetFootstepListResultContent;
-import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exbhv.VoteBhv;
@@ -124,13 +123,13 @@ public class VillageAbilityAssist {
         if (skill == CDef.Skill.人狼 && targetCharaId != null && (charaId == null || footstep == null)) {
             return true;
         }
-        if (SkillUtil.hasDivineAbility(skill) && (targetCharaId == null || footstep == null)) {
+        if (skill.isHasDivineAbility() && (targetCharaId == null || footstep == null)) {
             return true;
         }
         if (skill == CDef.Skill.狩人 && targetCharaId == null) {
             return true;
         }
-        if ((skill == CDef.Skill.妖狐 || SkillUtil.hasMadmanAbility(skill)) && footstep == null) {
+        if ((skill == CDef.Skill.妖狐 || skill.isHasMadmanAbility()) && footstep == null) {
             return true;
         }
         if (skill == CDef.Skill.探偵 && footstep == null) {
@@ -157,13 +156,13 @@ public class VillageAbilityAssist {
 
     private boolean isInvalidFootstep(VillagePlayer villagePlayer, VillageGetFootstepListForm form) {
         CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
-        if (skill != CDef.Skill.人狼 && !SkillUtil.hasDivineAbility(skill) && skill != CDef.Skill.狩人) {
+        if (skill != CDef.Skill.人狼 && !skill.isHasDivineAbility() && skill != CDef.Skill.狩人) {
             return true;
         }
         if (skill == CDef.Skill.人狼 && form.getCharaId() == null) {
             return true;
         }
-        if (SkillUtil.hasDivineAbility(skill) && form.getTargetCharaId() == null) {
+        if (skill.isHasDivineAbility() && form.getTargetCharaId() == null) {
             return true;
         }
         if (skill == CDef.Skill.狩人 && form.getTargetCharaId() == null) {
