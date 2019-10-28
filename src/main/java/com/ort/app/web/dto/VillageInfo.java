@@ -31,6 +31,9 @@ public class VillageInfo {
     public List<Footstep> footstepList;
     public List<Ability> abilityList;
 
+    public VillageInfo() {
+    }
+
     public VillageInfo(Village village, UserInfo userInfo, ListResultBean<VillageDay> dayList,
             OptionalThing<VillagePlayer> optVillagePlayer, int day, List<Vote> voteList, List<Footstep> footstepList,
             List<Ability> abilityList) {

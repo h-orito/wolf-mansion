@@ -80,6 +80,13 @@ public class NewVillageController {
             newVillageAssist.setIndexModel(villageForm, model);
             return "new-village";
         }
+        // キャラチップ数が足りなかったらNG
+        if (!newVillageAssist.isEnoughCharacterNum(villageForm)) {
+            model.addAttribute("errorMessage", "定員に対してキャラ数が不足しています。");
+            newVillageAssist.setIndexModel(villageForm, model);
+            return "new-village";
+        }
+
         // キャラセット名を取得
         CharaGroup charaGroup =
                 charaGroupBhv.selectEntityWithDeletedCheck(cb -> cb.query().setCharaGroupId_Equal(villageForm.getCharacterSetId()));

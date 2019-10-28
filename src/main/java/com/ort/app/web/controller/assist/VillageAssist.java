@@ -243,7 +243,7 @@ public class VillageAssist {
         return villageSettings.getCharaGroup().get().getCharaList();
     }
 
-    private OptionalEntity<Ability> selectAbility(Integer villageId, int day, CDef.AbilityType type) {
+    private OptionalEntity<Ability> selectAbility(Integer villageId, int day, CDef.AbilityType type, Integer charaId) {
         if (type == null) {
             return OptionalEntity.empty();
         }
@@ -251,6 +251,7 @@ public class VillageAssist {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setDay_Equal(day);
             cb.query().setAbilityTypeCode_Equal_AsAbilityType(type);
+            cb.query().setCharaId_Equal(charaId);
         });
     }
 
@@ -361,7 +362,8 @@ public class VillageAssist {
                 : skill.isHasDivineAbility() ? CDef.AbilityType.占い //
                         : skill == CDef.Skill.狩人 ? CDef.AbilityType.護衛 // 
                                 : skill == CDef.Skill.探偵 ? CDef.AbilityType.捜査 : null;
-        OptionalEntity<Ability> optAbility = selectAbility(villageInfo.villageId, villageInfo.day, type);
+        OptionalEntity<Ability> optAbility =
+                selectAbility(villageInfo.villageId, villageInfo.day, type, villageInfo.optVillagePlayer.get().getCharaId());
         if (optAbility.isPresent()) {
             Ability ab = optAbility.get();
             abilityForm.setCharaId(ab.getCharaId());
@@ -753,6 +755,9 @@ public class VillageAssist {
     }
 
     private boolean isAvailableSeeMemberSkill(VillageInfo villageInfo) {
+        if (villageInfo.isAdmin()) {
+            return true;
+        }
         if (villageInfo.village.isVillageStatusCodeエピローグ() || villageInfo.village.isVillageStatusCode終了()) {
             return true;
         }

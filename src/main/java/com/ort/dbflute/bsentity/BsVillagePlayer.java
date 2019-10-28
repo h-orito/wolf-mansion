@@ -1141,7 +1141,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 狂人能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者]
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_HasMadmanAbility() {
@@ -1401,7 +1401,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 狂人能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者]
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官]
      * @return The determination, true or false.
      */
     public boolean isRequestSkillCode_HasMadmanAbility() {
@@ -1661,7 +1661,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 狂人能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者]
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官]
      * @return The determination, true or false.
      */
     public boolean isSecondRequestSkillCode_HasMadmanAbility() {

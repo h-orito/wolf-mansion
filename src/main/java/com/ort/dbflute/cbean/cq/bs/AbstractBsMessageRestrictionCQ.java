@@ -591,7 +591,7 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 狂人能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者]
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官]
      */
     public void setSkillCode_InScope_HasMadmanAbility() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasMadmanAbility());

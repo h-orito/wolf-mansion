@@ -40,7 +40,7 @@ $(function() {
 		});
 		changeSayTextAreaBackgroundColor(); // 画面表示時にも切り替える
 		let def = replaceFootstepList(); // 画面表示時にも取得して切り替える
-		if ($('[data-footstep-select]') != null) {
+		if ($('[data-footstep-select]').length > 0) {
 			// 選択していた足音をプルダウンから選択する
 			const nowSelectedFootstep = $('[data-selected-footstep]').data('selected-footstep');
 			def.then(function() {
@@ -450,7 +450,7 @@ $(function() {
 	// 足音候補を入れ替える
 	function replaceFootstepList() {
 		const $footstepSelect = $('[data-footstep-select]');
-		if ($footstepSelect == null) {
+		if ($footstepSelect.length === 0) {
 			return;
 		}
 		const $attackerSelect = $('[data-attacker-select]');
@@ -612,7 +612,9 @@ $(function() {
 			$footstepHdInput.val('なし');
 			$footstepInput.text('なし');
 		} else {
-			footsteps.sort();
+			footsteps.sort(function(f1, f2) {
+				return parseInt(f1) - parseInt(f2);
+			});
 			$footstepHdInput.val(footsteps.join(','));
 			$footstepInput.text(footsteps.join(','));
 		}

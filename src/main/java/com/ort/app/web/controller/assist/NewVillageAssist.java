@@ -29,6 +29,7 @@ import com.ort.app.web.form.NewVillageSayRestrictDto;
 import com.ort.app.web.model.common.SelectOptionDto;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
+import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.CharaGroupBhv;
 import com.ort.dbflute.exbhv.MessageRestrictionBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
@@ -81,6 +82,8 @@ public class NewVillageAssist {
     private VillageDayBhv villageDayBhv;
     @Autowired
     private CharaGroupBhv charaGroupBhv;
+    @Autowired
+    private CharaBhv charaBhv;
     @Autowired
     private MessageSource messageSource;
     @Autowired
@@ -158,6 +161,11 @@ public class NewVillageAssist {
         ListResultBean<CharaGroup> charaGroupList = charaGroupBhv.selectList(cb -> cb.setupSelect_Designer());
         List<SelectOptionDto<Integer>> characterSetList = convertToCharacterSetList(charaGroupList);
         model.addAttribute("characterSetList", characterSetList);
+    }
+
+    public boolean isEnoughCharacterNum(NewVillageForm villageForm) {
+        int charaNum = charaBhv.selectCount(cb -> cb.query().setCharaGroupId_Equal(villageForm.getCharacterSetId()));
+        return villageForm.getPersonMaxNum() <= charaNum;
     }
 
     // 村作成

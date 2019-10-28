@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.function.Predicate;
@@ -21,8 +20,9 @@ import org.dbflute.optional.OptionalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.ort.app.web.controller.logic.daychange.DayChangeLogicHelper;
+import com.ort.app.web.dto.VillageInfo;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.util.CharaUtil;
 import com.ort.app.web.util.SkillUtil;
@@ -32,12 +32,10 @@ import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.allcommon.CDef.VillageStatus;
 import com.ort.dbflute.exbhv.AbilityBhv;
 import com.ort.dbflute.exbhv.CharaImageBhv;
-import com.ort.dbflute.exbhv.CommitBhv;
 import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
-import com.ort.dbflute.exbhv.VillageSettingsBhv;
 import com.ort.dbflute.exbhv.VoteBhv;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Chara;
@@ -59,8 +57,6 @@ public class DayChangeLogic {
     @Autowired
     private VillageBhv villageBhv;
     @Autowired
-    private VillageSettingsBhv villageSettingsBhv;
-    @Autowired
     private VillageDayBhv villageDayBhv;
     @Autowired
     private VillagePlayerBhv villagePlayerBhv;
@@ -68,8 +64,6 @@ public class DayChangeLogic {
     private AbilityBhv abilityBhv;
     @Autowired
     private VoteBhv voteBhv;
-    @Autowired
-    private CommitBhv commitBhv;
     @Autowired
     private PlayerBhv playerBhv;
     @Autowired
@@ -86,103 +80,49 @@ public class DayChangeLogic {
     private MessageSource messageSource;
     @Autowired
     private TwitterLogic twitterLogic;
+    @Autowired
+    private DayChangeLogicHelper dayChangeLogicHelper;
 
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
     public void dayChangeIfNeeded(Integer villageId) {
-        VillageDay maxVillageDay = selectMaxVillageDay(villageId);
-        Integer day = maxVillageDay.getDay();
+        VillageDay maxVillageDay = dayChangeLogicHelper.selectMaxVillageDay(villageId);
         LocalDateTime daychangeDatetime = maxVillageDay.getDaychangeDatetime();
-        Village village = maxVillageDay.getVillage().get();
-        List<VillagePlayer> vPlayerList = village.getVillagePlayerList();
-        VillageSettings settings = village.getVillageSettingsAsOne().get();
-        Integer intervalSeconds = settings.getDayChangeIntervalSeconds();
-        LocalDateTime nextDaychangeDatetime = daychangeDatetime.plusSeconds(intervalSeconds);
+        VillageInfo villageInfo = dayChangeLogicHelper.convertToVillageInfo(maxVillageDay);
 
         // プロローグで接続していない人を退村させる
-        leaveVillageIfNeeded(day, villageId, settings);
+        leaveVillageIfNeeded(villageInfo);
 
         // 日付更新の必要がなければ終了
-        if (!shouldChangeDay(village, daychangeDatetime, settings, day, vPlayerList)) {
+        if (!shouldChangeDay(villageInfo, daychangeDatetime)) {
             return;
         }
 
         // 最低開始人数を満たしていない
-        if (isInsufficientVillagerNum(village, settings)) {
-            extendOrCancelVillage(village, villageId, day, daychangeDatetime);
+        if (isInsufficientVillagerNum(villageInfo)) {
+            extendOrCancelVillage(villageInfo, daychangeDatetime);
             return;
         }
 
         // 日付切り替え -----------------------------------------------------------
-        int newDay = day + 1;
-        insertVillageDayTransactional(villageId, newDay, nextDaychangeDatetime); // 村日付を追加
+        int newDay = villageInfo.day + 1;
+        Integer intervalSeconds = villageInfo.settings.getDayChangeIntervalSeconds();
+        LocalDateTime nextDaychangeDatetime = daychangeDatetime.plusSeconds(intervalSeconds);
+        dayChangeLogicHelper.insertVillageDayTransactional(villageId, newDay, nextDaychangeDatetime); // 村日付を追加
 
-        if (day == 0) { // プロ→1日目
-            insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ,
-                    messageSource.getMessage("village.start.message.day1", null, Locale.JAPAN));
-            assignLogic.assignSkill(villageId, vPlayerList, settings); // 役職割り当て
-            assignLogic.assignRoom(villageId, vPlayerList); // 部屋割り当て
-            updateVillageStatus(villageId, CDef.VillageStatus.進行中); // 村ステータス更新
-            setDefaultVoteAndAbility(villageId, newDay, settings); // 投票、能力行使のデフォルト設定
-            updateVillageSettingsIfNeeded(villageId, vPlayerList, settings); // 特殊ルール変更
-            insertDummyCharaMessage(villageId, vPlayerList, settings); // ダミーキャラ発言
-            tweetIfNeeded(villageId, village, settings);
-        } else if (village.getVillageStatusCodeAsVillageStatus() == CDef.VillageStatus.エピローグ) {
-            updateVillageStatus(villageId, CDef.VillageStatus.終了); // 終了
+        if (villageInfo.day == 0) { // プロ→1日目
+            startVillage(villageInfo, newDay);
+        } else if (villageInfo.village.getVillageStatusCodeAsVillageStatus() == CDef.VillageStatus.エピローグ) {
+            dayChangeLogicHelper.updateVillageStatus(villageId, CDef.VillageStatus.終了); // 終了
         } else {
-            // 1日目以外
-            dayChange(villageId, newDay, vPlayerList, settings);
+            dayChange(villageId, newDay, villageInfo.vPlayerList, villageInfo.settings);
         }
-    }
-
-    private void tweetIfNeeded(Integer villageId, Village village, VillageSettings settings) {
-        if (StringUtils.isNotEmpty(settings.getJoinPassword())) {
-            return; // 身内村は通知しない
-        }
-        twitterLogic.tweet(String.format("%sが開始されました。", village.getVillageDisplayName()), villageId);
     }
 
     // ===================================================================================
     //                                                                              Select
     //                                                                              ======
-    private Village selectVillage(Integer villageId) {
-        return villageBhv.selectEntityWithDeletedCheck(cb -> {
-            cb.setupSelect_VillageSettingsAsOne();
-            cb.query().setVillageId_Equal(villageId);
-        });
-    }
-
-    private VillageDay selectMaxVillageDay(Integer villageId) {
-        VillageDay villageDay = villageDayBhv.selectEntity(cb -> {
-            cb.setupSelect_Village().withVillageSettingsAsOne();
-            cb.query().setVillageId_Equal(villageId);
-            cb.query().addOrderBy_Day_Desc();
-            cb.fetchFirst(1);
-        }).get();
-        villageDayBhv.load(villageDay, loader -> {
-            loader.pulloutVillage().loadVillagePlayer(cb -> {
-                cb.setupSelect_Chara();
-                cb.setupSelect_Player();
-                cb.setupSelect_SkillBySkillCode();
-                cb.query().setIsGone_Equal_False();
-                cb.query().setIsSpectator_Equal_False();
-            });
-        });
-        return villageDay;
-    }
-
-    private List<VillagePlayer> selectVillagePlayerList(Integer villageId) {
-        return villagePlayerBhv.selectList(cb -> {
-            cb.setupSelect_Chara();
-            cb.setupSelect_Player();
-            cb.setupSelect_SkillBySkillCode();
-            cb.query().setIsGone_Equal_False();
-            cb.query().setIsSpectator_Equal_False();
-            cb.query().setVillageId_Equal(villageId);
-        });
-    }
-
     private ListResultBean<Vote> selectVoteList(Integer villageId, int day, List<VillagePlayer> suddonlyDeathVPlayerList) {
         ListResultBean<Vote> voteList = voteBhv.selectList(cb -> {
             cb.query().setVillageId_Equal(villageId);
@@ -206,34 +146,6 @@ public class DayChangeLogic {
     // ===================================================================================
     //                                                                              Update
     //                                                                              ======
-    private void updateVillageStatus(Integer villageId, CDef.VillageStatus status) {
-        Village village = new Village();
-        village.setVillageStatusCodeAsVillageStatus(status);
-        villageBhv.queryUpdate(village, cb -> cb.query().setVillageId_Equal(villageId));
-    }
-
-    private void updateVillageDayTransactional(Integer villageId, int day, LocalDateTime daychangeDatetime) {
-        VillageDay villageDay = new VillageDay();
-        villageDay.setVillageId(villageId);
-        villageDay.setDay(day);
-        villageDay.setDaychangeDatetime(daychangeDatetime.plusDays(1L)); // 1日延長
-        villageDayBhv.update(villageDay);
-    }
-
-    // 村日付のみ即コミットされるようにする。publicでないと効かないので注意。
-    @Transactional(rollbackFor = Exception.class) // 念のため検査例外でもロールバックされるようにしておく
-    public void insertVillageDayTransactional(Integer villageId, int day, LocalDateTime nextDayChangeDatetime) {
-        VillageDay villageDay = new VillageDay();
-        villageDay.setVillageId(villageId);
-        villageDay.setDay(day);
-        villageDay.setDaychangeDatetime(nextDayChangeDatetime);
-        villageDayBhv.insert(villageDay);
-    }
-
-    private void insertAbility(Integer villageId, int day, Integer charaId, Integer targetCharaId, CDef.AbilityType abilityType) {
-        insertAbility(villageId, day, charaId, targetCharaId, null, abilityType);
-    }
-
     private void insertAbility(Integer villageId, int day, Integer charaId, Integer targetCharaId, String footstep,
             CDef.AbilityType abilityType) {
         Ability ability = new Ability();
@@ -255,14 +167,6 @@ public class DayChangeLogic {
         voteBhv.insert(vote);
     }
 
-    private void updateVillagePlayerDead(int day, VillagePlayer targetPlayer, CDef.DeadReason deadReason) {
-        VillagePlayer vPlayer = new VillagePlayer();
-        vPlayer.setDeadReasonCodeAsDeadReason(deadReason);
-        vPlayer.setIsDead_True();
-        vPlayer.setDeadDay(day);
-        villagePlayerBhv.queryUpdate(vPlayer, cb -> cb.query().setVillagePlayerId_Equal(targetPlayer.getVillagePlayerId()));
-    }
-
     private void updatePlayerRestrict(Integer playerId) {
         Player player = new Player();
         player.setPlayerId(playerId);
@@ -270,26 +174,18 @@ public class DayChangeLogic {
         playerBhv.update(player);
     }
 
-    private void updateVillageCancel(Integer villageId) {
-        Village entity = new Village();
-        entity.setVillageId(villageId);
-        entity.setVillageStatusCode_廃村();
-        villageBhv.update(entity);
-    }
-
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
     // 日付更新の必要があるか
-    private boolean shouldChangeDay(Village village, LocalDateTime nextDayChangeDatetime, VillageSettings settings, int day,
-            List<VillagePlayer> vPlayerList) {
+    private boolean shouldChangeDay(VillageInfo vInfo, LocalDateTime nextDayChangeDatetime) {
         // 村が終了していたら必要なし
-        VillageStatus villageStatus = village.getVillageStatusCodeAsVillageStatus();
+        VillageStatus villageStatus = vInfo.village.getVillageStatusCodeAsVillageStatus();
         if (villageStatus == CDef.VillageStatus.廃村 || villageStatus == CDef.VillageStatus.終了) {
             return false;
         }
         // 全員コミットしている
-        if (allLivingPlayerCommited(village, settings, day, vPlayerList)) {
+        if (allLivingPlayerCommited(vInfo)) {
             return true;
         }
         // 最新の村日付の更新時間を過ぎていない
@@ -299,31 +195,41 @@ public class DayChangeLogic {
         return true;
     }
 
+    public void startVillage(VillageInfo vInfo, int newDay) {
+        messageLogic.insertMessageIgnoreError(vInfo.villageId, 1, CDef.MessageType.公開システムメッセージ,
+                messageSource.getMessage("village.start.message.day1", null, Locale.JAPAN));
+        assignLogic.assignSkill(vInfo.villageId, vInfo.vPlayerList, vInfo.settings); // 役職割り当て
+        assignLogic.assignRoom(vInfo.villageId, vInfo.vPlayerList); // 部屋割り当て
+        dayChangeLogicHelper.updateVillageStatus(vInfo.villageId, CDef.VillageStatus.進行中); // 村ステータス更新
+        setDefaultVoteAndAbility(vInfo.villageId, newDay, vInfo.settings); // 投票、能力行使のデフォルト設定
+        updateVillageSettingsIfNeeded(vInfo.villageId, vInfo.vPlayerList, vInfo.settings); // 特殊ルール変更
+        insertDummyCharaMessage(vInfo.villageId, vInfo.vPlayerList, vInfo.settings); // ダミーキャラ発言
+        tweetIfNeeded(vInfo.villageId, vInfo.village, vInfo.settings);
+    }
+
     // 全員コミットしている
-    private boolean allLivingPlayerCommited(Village village, VillageSettings settings, int day, List<VillagePlayer> vPlayerList) {
-        if (settings.isIsAvailableCommitFalse()) { // コミットなし設定
+    private boolean allLivingPlayerCommited(VillageInfo vInfo) {
+        if (vInfo.settings.isIsAvailableCommitFalse()) { // コミットなし設定
             return false;
         }
-        if (!village.isVillageStatusCode進行中()) { // 進行中じゃなかったら対象外
+        if (!vInfo.village.isVillageStatusCode進行中()) { // 進行中じゃなかったら対象外
             return false;
         }
         // 全員コミットしているか
-        int commitNum = commitBhv.selectCount(cb -> {
-            cb.query().setVillageId_Equal(village.getVillageId());
-            cb.query().setDay_Equal(day);
-        });
-        long livingPersonNum = vPlayerList.stream()
-                .filter(vp -> vp.isIsDeadFalse() && vp.isIsSpectatorFalse() && vp.getCharaId().intValue() != settings.getDummyCharaId())
+        int commitNum = dayChangeLogicHelper.selectCommitNum(vInfo);
+        long livingPersonNum = vInfo.vPlayerList.stream()
+                .filter(vp -> vp.isIsDeadFalse() && vp.isIsSpectatorFalse() && !vp.getCharaId().equals(vInfo.settings.getDummyCharaId()))
                 .count();
         return commitNum == livingPersonNum;
     }
 
     // 投票、能力行使のデフォルト設定、生存者メッセージ登録
     private void setDefaultVoteAndAbility(Integer villageId, int newDay, VillageSettings settings) {
-        Village village = selectVillage(villageId);
-        List<VillagePlayer> vPlayerList = selectVillagePlayerList(villageId);
+        // 最新の状況が必要なので取得し直す
+        Village village = dayChangeLogicHelper.selectVillage(villageId);
+        List<VillagePlayer> vPlayerList = village.getVillagePlayerList();
         // 噛み
-        insertDefaultAttack(villageId, newDay, vPlayerList, village);
+        insertDefaultAttack(villageId, settings, newDay, vPlayerList, village);
         // 占い
         insertDefaultSeer(villageId, newDay, vPlayerList, village);
         // 狂人と妖狐の足音
@@ -349,102 +255,101 @@ public class DayChangeLogic {
     }
 
     // デフォルトの噛み先を設定
-    private void insertDefaultAttack(Integer villageId, int newDay, List<VillagePlayer> villagePlayerList, Village village) {
+    private void insertDefaultAttack(Integer villageId, VillageSettings settings, int newDay, List<VillagePlayer> villagePlayerList,
+            Village village) {
         // 噛まれる人
         Integer attackedCharaId = null;
         if (newDay == 1) {
-            // ダミーキャラ固定
-            attackedCharaId = village.getVillageSettingsAsOne().get().getDummyCharaId();
+            attackedCharaId = village.getVillageSettingsAsOne().get().getDummyCharaId(); // ダミーキャラ固定
         } else {
-            // 狼以外の生存している誰か
-            attackedCharaId = getRandomInList(villagePlayerList, vp -> vp.getSkillCodeAsSkill() != CDef.Skill.人狼).getCharaId();
+            attackedCharaId = getRandomInList(villagePlayerList, vp -> vp.getSkillCodeAsSkill() != CDef.Skill.人狼).getCharaId(); // 狼以外の生存している誰か
         }
         // 噛む人（生存している狼で、狼が2名以上の場合は昨日噛んだ人は除外）
-        List<Chara> attackableWolfList = getAttackableWolfList(villageId, newDay, villagePlayerList);
+        List<Chara> attackableWolfList = getAttackableWolfList(villageId, settings, newDay, villagePlayerList);
         Integer attackCharaId = getRandomInList(attackableWolfList).getCharaId();
         // 能力セット
-        insertAbility(villageId, newDay, attackCharaId, attackedCharaId, CDef.AbilityType.襲撃);
+        insertAbility(villageId, newDay, attackCharaId, attackedCharaId, null, CDef.AbilityType.襲撃);
         // 時計回りの足音セット
         String footStep = footstepLogic.makeClockwiseFootStep(village, attackCharaId, attackedCharaId, villagePlayerList);
         footstepLogic.insertFootStep(villageId, newDay, attackCharaId, footStep);
         messageLogic.insertAbilityMessage(villageId, newDay, attackCharaId, attackedCharaId, villagePlayerList, footStep, true);
     }
 
-    private List<Chara> getAttackableWolfList(Integer villageId, int day, List<VillagePlayer> villagePlayerList) {
-        VillageSettings settings = villageBhv.selectEntityWithDeletedCheck(cb -> {
-            cb.setupSelect_VillageSettingsAsOne();
-            cb.query().setVillageId_Equal(villageId);
-        }).getVillageSettingsAsOne().get();
-
+    private List<Chara> getAttackableWolfList(Integer villageId, VillageSettings settings, int day, List<VillagePlayer> villagePlayerList) {
         // 生存している狼リスト
         List<Chara> liveAttackerList = villagePlayerList.stream()
                 .filter(vp -> vp.isIsDeadFalse() && vp.getSkillCodeAsSkill() == CDef.Skill.人狼)
                 .map(vp -> vp.getChara().get())
                 .collect(Collectors.toList());
-        if (settings.isIsAvailableSameWolfAttackTrue() || liveAttackerList.size() <= 1) { // 連続襲撃可能            
-            return liveAttackerList;
-        } else { // 不可
-            // 昨日襲撃した狼を除外して返す
-            Integer yesterdayAttackerId = abilityBhv.selectEntity(cb -> {
-                cb.query().setVillageId_Equal(villageId);
-                cb.query().setDay_Equal(day - 1);
-                cb.query().setAbilityTypeCode_Equal_襲撃();
-            }).map(ab -> ab.getCharaId()).orElse(null);
-            return liveAttackerList.stream().filter(attacker -> !attacker.getCharaId().equals(yesterdayAttackerId)).collect(
-                    Collectors.toList());
+        if (settings.isIsAvailableSameWolfAttackTrue() || liveAttackerList.size() <= 1) {
+            return liveAttackerList; // 連続襲撃可能
         }
+        // 連続襲撃不可
+        // 昨日襲撃した狼を除外して返す
+        Integer yesterdayAttackerId = dayChangeLogicHelper.selectYesterdayAttackerId(villageId, day);
+        return liveAttackerList.stream().filter(attacker -> !attacker.getCharaId().equals(yesterdayAttackerId)).collect(
+                Collectors.toList());
     }
 
     private void insertDefaultGuard(Integer villageId, int newDay, List<VillagePlayer> villagePlayerList, Village village) {
-        // 護衛する人
-        Optional<VillagePlayer> optHunter =
-                villagePlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.狩人 && vp.isIsDeadFalse()).findFirst();
-        if (!optHunter.isPresent()) {
+        // 生存している狩人
+        List<VillagePlayer> hunterList =
+                villagePlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.狩人 && vp.isIsDeadFalse()).collect(
+                        Collectors.toList());
+        if (CollectionUtils.isEmpty(hunterList)) {
             return;
         }
-        Integer hunterCharaId = optHunter.get().getCharaId();
-        // 護衛される人(生存者の中の誰か）
-        Integer targetCharaId = getRandomInList(villagePlayerList, vp -> !vp.getCharaId().equals(hunterCharaId)).getCharaId();
-        insertAbility(villageId, newDay, hunterCharaId, targetCharaId, CDef.AbilityType.護衛);
-        // 時計回りの足音セット
-        String footStep = footstepLogic.makeClockwiseFootStep(village, hunterCharaId, targetCharaId, villagePlayerList);
-        footstepLogic.insertFootStep(villageId, newDay, hunterCharaId, footStep);
-        messageLogic.insertAbilityMessage(villageId, newDay, hunterCharaId, targetCharaId, villagePlayerList, footStep, true);
+        hunterList.forEach(hunter -> {
+            Integer hunterCharaId = hunter.getCharaId();
+            // 護衛される人(生存者の中の誰か）
+            Integer targetCharaId = getRandomInList(villagePlayerList, vp -> !vp.getCharaId().equals(hunterCharaId)).getCharaId();
+            insertAbility(villageId, newDay, hunterCharaId, targetCharaId, null, CDef.AbilityType.護衛);
+            // 時計回りの足音セット
+            String footStep = footstepLogic.makeClockwiseFootStep(village, hunterCharaId, targetCharaId, villagePlayerList);
+            footstepLogic.insertFootStep(villageId, newDay, hunterCharaId, footStep);
+            messageLogic.insertAbilityMessage(villageId, newDay, hunterCharaId, targetCharaId, villagePlayerList, footStep, true);
+        });
     }
 
     private void insertDefaultInvestigate(Integer villageId, List<VillagePlayer> villagePlayerList, int day) {
-        // 探偵が生きていなければ何もしない
-        Optional<VillagePlayer> optDetective =
-                villagePlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.探偵 && vp.isIsDeadFalse()).findFirst();
-        if (!optDetective.isPresent()) {
+        // 生存している探偵
+        List<VillagePlayer> livingDetectiveList =
+                villagePlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.探偵 && vp.isIsDeadFalse()).collect(
+                        Collectors.toList());
+        if (CollectionUtils.isEmpty(livingDetectiveList)) {
             return;
         }
-        Integer detectiveCharaId = optDetective.get().getCharaId();
         List<String> footstepList = footstepLogic.getFootstepList(villageId, day);
         if (CollectionUtils.isEmpty(footstepList)) {
             return; // 候補の足音なし
         }
-        // ランダムでセット
-        Collections.shuffle(footstepList);
-        insertAbility(villageId, day, detectiveCharaId, null, footstepList.get(0), CDef.AbilityType.捜査);
-        messageLogic.insertAbilityMessage(villageId, day, detectiveCharaId, null, villagePlayerList, footstepList.get(0), true);
+        livingDetectiveList.forEach(detective -> {
+            Integer detectiveCharaId = detective.getCharaId();
+            // ランダムでセット
+            Collections.shuffle(footstepList);
+            insertAbility(villageId, day, detectiveCharaId, null, footstepList.get(0), CDef.AbilityType.捜査);
+            messageLogic.insertAbilityMessage(villageId, day, detectiveCharaId, null, villagePlayerList, footstepList.get(0), true);
+        });
     }
 
     private void insertDefaultSeer(Integer villageId, int newDay, List<VillagePlayer> villagePlayerList, Village village) {
         // 占う人
-        Optional<VillagePlayer> optSeer =
-                villagePlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill().isHasDivineAbility() && vp.isIsDeadFalse()).findFirst();
-        if (!optSeer.isPresent()) {
+        List<VillagePlayer> livingSeerList =
+                villagePlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill().isHasDivineAbility() && vp.isIsDeadFalse()).collect(
+                        Collectors.toList());
+        if (CollectionUtils.isEmpty(livingSeerList)) {
             return;
         }
-        Integer seerCharaId = optSeer.get().getCharaId();
-        // 占われる人（生存者の中の誰か）
-        Integer targetCharaId = getRandomInList(villagePlayerList, vp -> !vp.getCharaId().equals(seerCharaId)).getCharaId();
-        insertAbility(villageId, newDay, seerCharaId, targetCharaId, CDef.AbilityType.占い);
-        // 時計回りの足音セット
-        String footStep = footstepLogic.makeClockwiseFootStep(village, seerCharaId, targetCharaId, villagePlayerList);
-        footstepLogic.insertFootStep(villageId, newDay, seerCharaId, footStep);
-        messageLogic.insertAbilityMessage(villageId, newDay, seerCharaId, targetCharaId, villagePlayerList, footStep, true);
+        livingSeerList.forEach(seer -> {
+            Integer seerCharaId = seer.getCharaId();
+            // 占われる人（生存者の中の誰か）
+            Integer targetCharaId = getRandomInList(villagePlayerList, vp -> !vp.getCharaId().equals(seerCharaId)).getCharaId();
+            insertAbility(villageId, newDay, seerCharaId, targetCharaId, null, CDef.AbilityType.占い);
+            // 時計回りの足音セット
+            String footStep = footstepLogic.makeClockwiseFootStep(village, seerCharaId, targetCharaId, villagePlayerList);
+            footstepLogic.insertFootStep(villageId, newDay, seerCharaId, footStep);
+            messageLogic.insertAbilityMessage(villageId, newDay, seerCharaId, targetCharaId, villagePlayerList, footStep, true);
+        });
     }
 
     private void insertDefaultFootstep(Integer villageId, int newDay, List<VillagePlayer> vPlayerList) {
@@ -481,7 +386,7 @@ public class DayChangeLogic {
         vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).forEach(player -> {
             joiner.add(CharaUtil.makeCharaName(player));
         });
-        insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
+        messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
     }
 
     private void insertFootstepMessage(Integer villageId, int newDay, List<VillagePlayer> vPlayerList) {
@@ -491,7 +396,7 @@ public class DayChangeLogic {
         List<Integer> livingPlayerRoomNumList =
                 vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).map(VillagePlayer::getRoomNumber).collect(Collectors.toList());
         String message = footstepLogic.getFootstepMessage(villageId, newDay - 1, livingPlayerRoomNumList);
-        insertMessage(villageId, newDay, CDef.MessageType.公開システムメッセージ, message);
+        messageLogic.insertMessageIgnoreError(villageId, newDay, CDef.MessageType.公開システムメッセージ, message);
     }
 
     // 初日、2日目以外の日付更新処理
@@ -507,16 +412,15 @@ public class DayChangeLogic {
         List<Ability> abilityList = selectAbilityList(villageId, day);
 
         // 護衛
-        Optional<VillagePlayer> optGuardedPlayer =
-                guard(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, abilityList);
+        List<VillagePlayer> guardedPlayerList = guard(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, abilityList);
 
         // 占い
-        Optional<VillagePlayer> optDivinedPlayer =
+        List<VillagePlayer> divinedPlayerList =
                 divine(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, abilityList);
 
         // 呪殺
-        Optional<VillagePlayer> optDivineKilledPlayer =
-                divineKill(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, optDivinedPlayer);
+        List<VillagePlayer> divineKilledPlayerList =
+                divineKill(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, divinedPlayerList);
 
         // 捜査
         invastigate(villageId, day, executedPlayerId, suddonlyDeathVPlayerList, vPlayerList, abilityList);
@@ -526,13 +430,13 @@ public class DayChangeLogic {
 
         // 襲撃
         Optional<VillagePlayer> optAttackedPlayer =
-                attack(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, optGuardedPlayer, abilityList);
+                attack(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, guardedPlayerList, abilityList);
 
         // 無惨メッセージ
-        insertAttackedMessage(villageId, day, optDivineKilledPlayer, optAttackedPlayer);
+        insertAttackedMessage(villageId, day, divineKilledPlayerList, optAttackedPlayer);
 
         if (day == 2 && optAttackedPlayer.isPresent()) {
-            insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ,
+            messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ,
                     messageSource.getMessage("village.start.message.day2", null, Locale.JAPAN));
         }
 
@@ -549,14 +453,7 @@ public class DayChangeLogic {
 
     // 勝敗判定、エピローグ処理
     private Optional<Camp> endVillageIfNeeded(Integer villageId, int day) {
-        ListResultBean<VillagePlayer> villagePlayerList = villagePlayerBhv.selectList(cb -> {
-            cb.setupSelect_Player();
-            cb.setupSelect_Chara();
-            cb.setupSelect_SkillBySkillCode();
-            cb.query().setIsGone_Equal_False();
-            cb.query().setIsSpectator_Equal_False();
-            cb.query().setVillageId_Equal(villageId);
-        });
+        ListResultBean<VillagePlayer> villagePlayerList = dayChangeLogicHelper.selectVillagePlayerList(villageId);
 
         // 人狼の数
         long werewolfCount =
@@ -601,7 +498,7 @@ public class DayChangeLogic {
         villageBhv.queryUpdate(village, cb -> cb.query().setVillageId_Equal(villageId));
         // エピローグ遷移メッセージ登録
         String message = getEpilogueMessage(winCamp, werewolfCount);
-        insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, message);
+        messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, message);
         // 参加者一覧メッセージ登録
         insertPlayerListMessage(villageId, day, villagePlayerList);
         // エピは固定で24時間
@@ -629,7 +526,7 @@ public class DayChangeLogic {
     // 参加者一覧メッセージ登録
     private void insertPlayerListMessage(Integer villageId, int day, ListResultBean<VillagePlayer> villagePlayerList) {
         StringJoiner joiner = new StringJoiner("\n");
-        villagePlayerList.stream().forEach(player -> {
+        villagePlayerList.stream().sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber()).forEach(player -> {
             joiner.add(String.format("%s (%s)、%s。%sだった。", CharaUtil.makeCharaName(player), player.getPlayer().get().getPlayerName(),
                     player.isIsDeadTrue() ? "死亡" : "生存", player.getSkillBySkillCode().get().getSkillName()));
         });
@@ -645,7 +542,7 @@ public class DayChangeLogic {
                 joiner.add(String.format("%s (%s)、見学参加だった。", CharaUtil.makeCharaName(player), player.getPlayer().get().getPlayerName()));
             });
         }
-        insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
+        messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
     }
 
     // エピローグ遷移メッセージ
@@ -662,26 +559,26 @@ public class DayChangeLogic {
     }
 
     // 無惨メッセージ
-    private void insertAttackedMessage(Integer villageId, int day, Optional<VillagePlayer> optDivineKilledPlayer,
+    private void insertAttackedMessage(Integer villageId, int day, List<VillagePlayer> divineKilledPlayerList,
             Optional<VillagePlayer> optAttackedPlayer) {
         List<VillagePlayer> attackedPlayerList = new ArrayList<>();
-        optDivineKilledPlayer.ifPresent(player -> attackedPlayerList.add(player));
+        attackedPlayerList.addAll(divineKilledPlayerList);
         optAttackedPlayer.ifPresent(player -> attackedPlayerList.add(player));
         if (CollectionUtils.isEmpty(attackedPlayerList)) {
-            insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, "今日は犠牲者がいないようだ。人狼は襲撃に失敗したのだろうか。");
+            messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, "今日は犠牲者がいないようだ。人狼は襲撃に失敗したのだろうか。");
         } else {
             Collections.shuffle(attackedPlayerList);
             StringJoiner joiner = new StringJoiner("と", "次の日の朝、", "が無惨な姿で発見された。");
             attackedPlayerList.stream().forEach(player -> {
                 joiner.add(CharaUtil.makeCharaName(player));
             });
-            insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
+            messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
         }
     }
 
     // 襲撃
     private Optional<VillagePlayer> attack(Integer villageId, int day, List<VillagePlayer> villagePlayerList, Integer executedPlayerId,
-            List<VillagePlayer> suddonlyDeathVPlayerList, Optional<VillagePlayer> optGuardedPlayer, List<Ability> abilityList) {
+            List<VillagePlayer> suddonlyDeathVPlayerList, List<VillagePlayer> guardedPlayerList, List<Ability> abilityList) {
 
         List<VillagePlayer> livingWolfList = villagePlayerList.stream()
                 .filter(vp -> vp.isIsDeadFalse() // 死亡していない
@@ -705,17 +602,13 @@ public class DayChangeLogic {
             String attackMessage = String.format("%s！今日がお前の命日だ！", targetPlayer.getChara().get().getCharaName());
             VillagePlayer attackerPlayer = livingWolfList.get(0);
             boolean hasWerewolfFace = hasWerewolfFace(attackerPlayer);
-            try {
-                messageLogic.insertMessage(villageId, day, CDef.MessageType.人狼の囁き, attackMessage, attackerPlayer.getVillagePlayerId(), true,
-                        hasWerewolfFace ? CDef.FaceType.囁き : CDef.FaceType.通常);
-            } catch (WerewolfMansionBusinessException e) {
-                // ここでは被らないはずなので何もしない
-            }
+            messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.人狼の囁き, attackMessage,
+                    attackerPlayer.getVillagePlayerId(), true, hasWerewolfFace ? CDef.FaceType.囁き : CDef.FaceType.通常);
         }
 
         // 襲撃成功したか
-        if (isAttackSuccess(targetPlayer, executedPlayerId, suddonlyDeathVPlayerList, optGuardedPlayer)) {
-            updateVillagePlayerDead(day, targetPlayer, CDef.DeadReason.襲撃); // 死亡処理
+        if (isAttackSuccess(targetPlayer, executedPlayerId, suddonlyDeathVPlayerList, guardedPlayerList)) {
+            dayChangeLogicHelper.updateVillagePlayerDead(day, targetPlayer, CDef.DeadReason.襲撃); // 死亡処理
             return Optional.ofNullable(targetPlayer);
         }
         return Optional.empty();
@@ -731,14 +624,14 @@ public class DayChangeLogic {
 
     // 襲撃成功したか
     private boolean isAttackSuccess(VillagePlayer attackedPlayer, Integer executedPlayerId, List<VillagePlayer> suddonlyDeathVPlayerList,
-            Optional<VillagePlayer> optGuardedPlayer) {
+            List<VillagePlayer> guardedPlayerList) {
         if (attackedPlayer.getVillagePlayerId().equals(executedPlayerId)) {
             return false; // 処刑されていた
         }
         if (suddonlyDeathVPlayerList.stream().anyMatch(sdvp -> sdvp.getVillagePlayerId().equals(attackedPlayer.getVillagePlayerId()))) {
             return false; // 突然死した
         }
-        if (optGuardedPlayer.isPresent() && optGuardedPlayer.get().getVillagePlayerId().equals(attackedPlayer.getVillagePlayerId())) {
+        if (guardedPlayerList.stream().anyMatch(vp -> vp.getVillagePlayerId().equals(attackedPlayer.getVillagePlayerId()))) {
             return false; // 護衛されていた
         }
         if (attackedPlayer.getSkillCodeAsSkill() == CDef.Skill.妖狐) {
@@ -771,7 +664,7 @@ public class DayChangeLogic {
                 boolean isTargetWerewolf = deadPlayer.getSkillCodeAsSkill() == CDef.Skill.人狼;
                 joiner.add(String.format("%sは%sのようだ。", CharaUtil.makeCharaName(deadPlayer), isTargetWerewolf ? "人狼" : "人間"));
             });
-            insertMessage(villageId, day, CDef.MessageType.白黒霊視結果, joiner.toString());
+            messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.白黒霊視結果, joiner.toString());
         }
 
         // 導師
@@ -784,54 +677,66 @@ public class DayChangeLogic {
             deadPlayerList.forEach(deadPlayer -> {
                 joiner.add(String.format("%sは%sのようだ。", CharaUtil.makeCharaName(deadPlayer), deadPlayer.getSkillCodeAsSkill().alias()));
             });
-            insertMessage(villageId, day, CDef.MessageType.役職霊視結果, joiner.toString());
+            messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.役職霊視結果, joiner.toString());
         }
     }
 
     // 呪殺
-    private Optional<VillagePlayer> divineKill(Integer villageId, int day, List<VillagePlayer> villagePlayerList, Integer executedPlayerId,
-            List<VillagePlayer> suddonlyDeathVPlayerList, Optional<VillagePlayer> optDivinedPlayer) {
-        if (!optDivinedPlayer.isPresent()) {
-            return Optional.empty();
+    private List<VillagePlayer> divineKill(Integer villageId, int day, List<VillagePlayer> villagePlayerList, Integer executedPlayerId,
+            List<VillagePlayer> suddonlyDeathVPlayerList, List<VillagePlayer> divinedPlayerList) {
+        if (CollectionUtils.isEmpty(divinedPlayerList)) {
+            return new ArrayList<>();
         }
-        Optional<VillagePlayer> optDivineKilledPlayer = villagePlayerList.stream()
+        List<VillagePlayer> divineKilledPlayerList = villagePlayerList.stream()
                 .filter(vp -> vp.isIsDeadFalse() // 死亡していない 
                         && !vp.getVillagePlayerId().equals(executedPlayerId) // 処刑されていない
                         && suddonlyDeathVPlayerList.stream().noneMatch(sdvp -> sdvp.getVillagePlayerId().equals(vp.getVillagePlayerId())) // 突然死していない
                         && vp.getSkillCodeAsSkill() == CDef.Skill.妖狐 // 妖狐である
-                        && vp.getVillagePlayerId().equals(optDivinedPlayer.get().getVillagePlayerId())) // 占われた
-                .findFirst();
-        if (!optDivineKilledPlayer.isPresent()) {
-            return Optional.empty();
+                        && divinedPlayerList.stream()
+                                .anyMatch(divinedPlayer -> divinedPlayer.getVillagePlayerId().equals(vp.getVillagePlayerId()))) // 占われた
+                .distinct()
+                .collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(divineKilledPlayerList)) {
+            return new ArrayList<>();
         }
-        updateVillagePlayerDead(day, optDivineKilledPlayer.get(), CDef.DeadReason.呪殺); // 死亡処理
+        divineKilledPlayerList.forEach(divineKilledPlayer -> {
+            dayChangeLogicHelper.updateVillagePlayerDead(day, divineKilledPlayer, CDef.DeadReason.呪殺); // 死亡処理
+        });
 
-        return optDivineKilledPlayer;
+        return divineKilledPlayerList;
     }
 
     // 占い
-    private Optional<VillagePlayer> divine(Integer villageId, int day, List<VillagePlayer> villagePlayerList, Integer executedPlayerId,
+    private List<VillagePlayer> divine(Integer villageId, int day, List<VillagePlayer> villagePlayerList, Integer executedPlayerId,
             List<VillagePlayer> suddonlyDeathVPlayerList, List<Ability> abilityList) {
-        Optional<VillagePlayer> optLivingSeer = villagePlayerList.stream()
+        List<VillagePlayer> livingSeerList = villagePlayerList.stream()
                 .filter(vp -> vp.isIsDeadFalse() // 死亡していない
                         && !vp.getVillagePlayerId().equals(executedPlayerId) // 処刑されていない
                         && suddonlyDeathVPlayerList.stream().noneMatch(sdvp -> sdvp.getVillagePlayerId().equals(vp.getVillagePlayerId())) // 突然死していない
                         && vp.getSkillCodeAsSkill().isHasDivineAbility()) // 占い能力がある 
-                .findFirst();
-        if (!optLivingSeer.isPresent()) {
-            return Optional.empty(); // 占い師が既に死亡している場合は何もしない
+                .collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(livingSeerList)) {
+            return new ArrayList<>(); // 占い師が既に死亡している場合は何もしない
         }
-        Optional<Ability> optSeer =
-                abilityList.stream().filter(ability -> ability.getAbilityTypeCodeAsAbilityType() == CDef.AbilityType.占い).findFirst();
-        if (!optSeer.isPresent()) {
-            return Optional.empty(); // 能力セットしていない場合は何もしない
-        }
-        VillagePlayer seerPlayer = optLivingSeer.get();
-        VillagePlayer targetPlayer =
-                villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(optSeer.get().getTargetCharaId())).findFirst().get();
-        String message = makeDivineMessage(seerPlayer, targetPlayer);
-        insertMessage(villageId, day, seerPlayer.isSkillCode占い師() ? CDef.MessageType.白黒占い結果 : CDef.MessageType.役職占い結果, message);
-        return Optional.ofNullable(targetPlayer);
+
+        List<VillagePlayer> divinedPlayerList = new ArrayList<>();
+        livingSeerList.forEach(seerPlayer -> {
+            Optional<Ability> optSeer = abilityList.stream().filter(ability -> {
+                return ability.getAbilityTypeCodeAsAbilityType() == CDef.AbilityType.占い
+                        && seerPlayer.getCharaId().equals(ability.getCharaId());
+            }).findFirst();
+            if (!optSeer.isPresent()) {
+                return; // 能力セットしていない場合は何もしない
+            }
+            VillagePlayer targetPlayer =
+                    villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(optSeer.get().getTargetCharaId())).findFirst().get();
+            String message = makeDivineMessage(seerPlayer, targetPlayer);
+            messageLogic.insertMessageIgnoreError(villageId, day,
+                    seerPlayer.isSkillCode占い師() ? CDef.MessageType.白黒占い結果 : CDef.MessageType.役職占い結果, message,
+                    seerPlayer.getVillagePlayerId(), true, null);
+            divinedPlayerList.add(targetPlayer);
+        });
+        return divinedPlayerList;
     }
 
     private String makeDivineMessage(VillagePlayer seerPlayer, VillagePlayer targetPlayer) {
@@ -841,37 +746,43 @@ public class DayChangeLogic {
             return String.format("%sは、%sを占った。\n%sは%sのようだ。", CharaUtil.makeCharaName(seerPlayer), targetCharaName, targetCharaName,
                     isTargetWerewolf ? "人狼" : "人間");
         } else {
-            return String.format("%sは、%sを占った。\n%sは%sのようだ。", seerPlayer.getChara().get().getCharaName(), targetCharaName, targetCharaName,
+            return String.format("%sは、%sを占った。\n%sは%sのようだ。", CharaUtil.makeCharaName(seerPlayer), targetCharaName, targetCharaName,
                     targetPlayer.getSkillCodeAsSkill().alias());
         }
     }
 
     // 護衛
-    private Optional<VillagePlayer> guard(Integer villageId, int day, List<VillagePlayer> villagePlayerList, Integer executedPlayerId,
+    private List<VillagePlayer> guard(Integer villageId, int day, List<VillagePlayer> villagePlayerList, Integer executedPlayerId,
             List<VillagePlayer> suddonlyDeathVPlayerList, List<Ability> abilityList) {
         if (day == 2) {
-            return Optional.empty();
+            return new ArrayList<>();
         }
-        Optional<VillagePlayer> optLivingHunter = villagePlayerList.stream()
+
+        List<VillagePlayer> livingHunterList = villagePlayerList.stream()
                 .filter(vp -> vp.isIsDeadFalse() // 死亡していない
                         && !vp.getVillagePlayerId().equals(executedPlayerId) // 処刑されていない
                         && suddonlyDeathVPlayerList.stream().noneMatch(sdvp -> sdvp.getVillagePlayerId().equals(vp.getVillagePlayerId())) // 突然死していない
                         && vp.getSkillCodeAsSkill() == CDef.Skill.狩人) //　狩人である
-                .findFirst();
-        if (!optLivingHunter.isPresent()) {
-            return Optional.empty(); // 狩人が既に死亡している場合は何もしない
+                .collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(livingHunterList)) {
+            return new ArrayList<>(); // 狩人が既に死亡している場合は何もしない
         }
-        Optional<Ability> optGuard =
-                abilityList.stream().filter(ability -> ability.getAbilityTypeCodeAsAbilityType() == CDef.AbilityType.護衛).findFirst();
-        if (!optGuard.isPresent()) {
-            return Optional.empty(); // 能力セットしていない場合は何もしない
-        }
-        VillagePlayer targetPlayer =
-                villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(optGuard.get().getTargetCharaId())).findFirst().get();
-        String message =
-                String.format("%sは、%sを護衛している。", CharaUtil.makeCharaName(optLivingHunter.get()), CharaUtil.makeCharaName(targetPlayer));
-        insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
-        return Optional.ofNullable(targetPlayer);
+
+        List<VillagePlayer> guardedPlayerList = new ArrayList<>();
+        livingHunterList.forEach(hunter -> {
+            Optional<Ability> optGuard = abilityList.stream().filter(ability -> {
+                return ability.getAbilityTypeCodeAsAbilityType() == CDef.AbilityType.護衛 && hunter.getCharaId().equals(ability.getCharaId());
+            }).findFirst();
+            if (!optGuard.isPresent()) {
+                return; // 能力セットしていない場合は何もしない
+            }
+            VillagePlayer targetPlayer =
+                    villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(optGuard.get().getTargetCharaId())).findFirst().get();
+            String message = String.format("%sは、%sを護衛している。", CharaUtil.makeCharaName(hunter), CharaUtil.makeCharaName(targetPlayer));
+            messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
+            guardedPlayerList.add(targetPlayer);
+        });
+        return guardedPlayerList;
     }
 
     // 調査
@@ -880,25 +791,30 @@ public class DayChangeLogic {
         if (day == 2) {
             return;
         }
-        Optional<VillagePlayer> optLivingDetective = vPlayerList.stream()
+        List<VillagePlayer> livingDetectiveList = vPlayerList.stream()
                 .filter(vp -> vp.isIsDeadFalse() // 死亡していない
                         && !vp.getVillagePlayerId().equals(executedPlayerId) // 処刑されていない
                         && suddonlyDeathVPlayerList.stream().noneMatch(sdvp -> sdvp.getVillagePlayerId().equals(vp.getVillagePlayerId())) // 突然死していない
                         && vp.getSkillCodeAsSkill() == CDef.Skill.探偵)
-                .findFirst();
-        if (!optLivingDetective.isPresent()) {
+                .collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(livingDetectiveList)) {
             return; // 探偵が既に死亡している場合は何もしない
         }
-        Optional<Ability> optInvestigate =
-                abilityList.stream().filter(ability -> ability.getAbilityTypeCodeAsAbilityType() == CDef.AbilityType.捜査).findFirst();
-        if (!optInvestigate.isPresent()) {
-            return; // 能力セットしていない場合は何もしない
-        }
-        String targetFootstep = optInvestigate.get().getTargetFootstep();
-        String skillName = footstepLogic.getSkillByFootstep(villageId, day - 2, targetFootstep, vPlayerList);
-        String message = String.format("%sは、昨日響いた足音%sについて調査した。\n%sの足音を響かせたのは%sのようだ。", CharaUtil.makeCharaName(optLivingDetective.get()),
-                targetFootstep, targetFootstep, skillName);
-        insertMessage(villageId, day, CDef.MessageType.足音調査結果, message);
+        livingDetectiveList.forEach(detective -> {
+            Optional<Ability> optInvestigate = abilityList.stream().filter(ability -> {
+                return ability.getAbilityTypeCodeAsAbilityType() == CDef.AbilityType.捜査
+                        && detective.getCharaId().equals(ability.getCharaId());
+            }).findFirst();
+            if (!optInvestigate.isPresent()) {
+                return; // 能力セットしていない場合は何もしない
+            }
+            String targetFootstep = optInvestigate.get().getTargetFootstep();
+            String skillName = footstepLogic.getSkillByFootstep(villageId, day - 2, targetFootstep, vPlayerList);
+            String message = String.format("%sは、昨日響いた足音%sについて調査した。\n%sの足音を響かせたのは%sのようだ。", CharaUtil.makeCharaName(detective),
+                    targetFootstep, targetFootstep, skillName);
+            messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.足音調査結果, message, detective.getVillagePlayerId(), true,
+                    null);
+        });
     }
 
     // 突然死
@@ -922,10 +838,10 @@ public class DayChangeLogic {
         }).collect(Collectors.toList());
 
         noVotePlayerList.forEach(vp -> {
-            updateVillagePlayerDead(day, vp, CDef.DeadReason.突然); // 死亡処理
+            dayChangeLogicHelper.updateVillagePlayerDead(day, vp, CDef.DeadReason.突然); // 死亡処理
             updatePlayerRestrict(vp.getPlayerId()); // 入村制限
             String message = String.format("%sは突然死した。", CharaUtil.makeCharaName(vp));
-            insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, message);
+            messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, message);
         });
         return noVotePlayerList;
     }
@@ -948,7 +864,7 @@ public class DayChangeLogic {
                 vPlayerList.stream().filter(vp -> vp.getCharaId().equals(executedCharaIdList.get(0))).findFirst().get();
         // 処刑
         if (suddonlyDeathVPlayerList.stream().noneMatch(vp -> vp.getVillagePlayerId().equals(executedPlayer.getVillagePlayerId()))) {
-            updateVillagePlayerDead(day, executedPlayer, CDef.DeadReason.処刑); // 死亡処理            
+            dayChangeLogicHelper.updateVillagePlayerDead(day, executedPlayer, CDef.DeadReason.処刑); // 死亡処理            
         }
         // 個別投票メッセージ登録
         insertEachVoteMessage(villageId, day, vPlayerList, voteList, settings);
@@ -982,6 +898,14 @@ public class DayChangeLogic {
 
     private void insertEachVoteMessage(Integer villageId, int day, List<VillagePlayer> villagePlayerList, ListResultBean<Vote> voteList,
             VillageSettings settings) {
+        voteList.sort((v1, v2) -> {
+            Integer roomNumber1 =
+                    villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(v1.getCharaId())).findFirst().get().getRoomNumber();
+            Integer roomNumber2 =
+                    villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(v2.getCharaId())).findFirst().get().getRoomNumber();
+            return roomNumber1 - roomNumber2;
+        });
+
         StringJoiner joiner = new StringJoiner("\n");
         joiner.add("投票結果は以下の通り。");
         int playerMaxLength = getMaxPlayerNameLength(voteList, villagePlayerList);
@@ -994,8 +918,8 @@ public class DayChangeLogic {
             joiner.add(String.format("%s → %s", StringUtils.rightPad(CharaUtil.makeCharaName(player), playerMaxLength, "　"), // 
                     StringUtils.rightPad(CharaUtil.makeCharaName(targetPlayer), targetMaxLength, "　")));
         }
-        insertMessage(villageId, day, settings.isIsOpenVoteTrue() ? CDef.MessageType.公開システムメッセージ : CDef.MessageType.非公開システムメッセージ,
-                joiner.toString());
+        messageLogic.insertMessageIgnoreError(villageId, day,
+                settings.isIsOpenVoteTrue() ? CDef.MessageType.公開システムメッセージ : CDef.MessageType.非公開システムメッセージ, joiner.toString());
     }
 
     private int getMaxPlayerNameLength(List<Vote> voteList, List<VillagePlayer> vPlayerList) {
@@ -1024,25 +948,32 @@ public class DayChangeLogic {
 
     private void insertExecuteResultMessage(Integer villageId, int day, List<VillagePlayer> villagePlayerList,
             Map<Integer, Integer> voteNumMap, VillagePlayer executedPlayer) {
+        List<Integer> sortedTargetCharaIdList = voteNumMap.keySet().stream().sorted((charaId1, charaId2) -> {
+            Integer roomNumber1 =
+                    villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(charaId1)).findFirst().get().getRoomNumber();
+            Integer roomNumber2 =
+                    villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(charaId2)).findFirst().get().getRoomNumber();
+            return roomNumber1 - roomNumber2;
+        }).collect(Collectors.toList());
+
         StringJoiner joiner = new StringJoiner("\n");
-        for (Entry<Integer, Integer> entry : voteNumMap.entrySet()) {
-            Integer targetCharaId = entry.getKey();
-            Integer voteCount = entry.getValue();
+        for (Integer targetCharaId : sortedTargetCharaIdList) {
+            Integer voteCount = voteNumMap.get(targetCharaId);
             VillagePlayer targetPlayer = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(targetCharaId)).findFirst().get();
             joiner.add(String.format("%s、%d票", CharaUtil.makeCharaName(targetPlayer), voteCount));
         }
         joiner.add(String.format("\n%sは村人達の手により処刑された。", CharaUtil.makeCharaName(executedPlayer)));
-        insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
+        messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
     }
 
     // 参加者数が不足している
-    private boolean isInsufficientVillagerNum(Village village, VillageSettings settings) {
-        return village.getVillagePlayerList().size() < settings.getStartPersonMinNum();
+    private boolean isInsufficientVillagerNum(VillageInfo vInfo) {
+        return vInfo.vPlayerList.size() < vInfo.settings.getStartPersonMinNum();
     }
 
     // プロローグで長時間接続していない人がいたら退村させる
-    private void leaveVillageIfNeeded(Integer day, Integer villageId, VillageSettings settings) {
-        if (day != 0) {
+    private void leaveVillageIfNeeded(VillageInfo vInfo) {
+        if (vInfo.day != 0) {
             return;
         }
 
@@ -1051,12 +982,12 @@ public class DayChangeLogic {
 
         villagePlayerBhv.selectList(cb -> {
             cb.setupSelect_Chara();
-            cb.query().setVillageId_Equal(villageId);
+            cb.query().setVillageId_Equal(vInfo.villageId);
             cb.orScopeQuery(orCB -> {
                 orCB.query().setLastAccessDatetime_IsNull();
                 orCB.query().setLastAccessDatetime_LessThan(yesterday);
             });
-            cb.query().setCharaId_NotEqual(settings.getDummyCharaId());
+            cb.query().setCharaId_NotEqual(vInfo.settings.getDummyCharaId());
             cb.query().setIsGone_Equal_False();
         }).stream().forEach(vp -> {
             villageParticipateLogic.leave(vp);
@@ -1077,30 +1008,19 @@ public class DayChangeLogic {
         Map<Skill, Integer> skillPersonNum = SkillUtil.createSkillPersonNum(personNumOrg);
         Integer wolfNum = skillPersonNum.get(CDef.Skill.人狼);
         if (wolfNum < 3) {
-            VillageSettings vs = new VillageSettings();
-            vs.setVillageId(villageId);
-            vs.setIsAvailableSameWolfAttack_True();
-            villageSettingsBhv.update(vs);
-            insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ, "人狼の人数が3名より少ないため、同一人狼による連続襲撃を「可能」に変更します。");
+            dayChangeLogicHelper.updateVillageSettingsSameWolfAttackTrue(villageId);
+            messageLogic.insertMessageIgnoreError(villageId, 1, CDef.MessageType.公開システムメッセージ, "人狼の人数が3名より少ないため、同一人狼による連続襲撃を「可能」に変更します。");
         }
     }
 
-    private void insertMessage(Integer villageId, int day, CDef.MessageType type, String message) {
-        try {
-            messageLogic.insertMessage(villageId, day, type, message, true);
-        } catch (WerewolfMansionBusinessException e) {
-            // ここでは被らないので何もしない
-        }
-    }
-
-    private void extendOrCancelVillage(Village village, Integer villageId, Integer day, LocalDateTime daychangeDatetime) {
-        if (village.getVillagePlayerList().size() > 1) {
+    private void extendOrCancelVillage(VillageInfo vInfo, LocalDateTime daychangeDatetime) {
+        if (vInfo.vPlayerList.size() > 1) {
             // 一人でも参加していたら延長
-            updateVillageDayTransactional(villageId, day, daychangeDatetime); // 村日付を1日延長
-            insertMessage(villageId, day, CDef.MessageType.公開システムメッセージ, "まだ村人たちは揃っていないようだ。"); // 延長メッセージ登録
+            dayChangeLogicHelper.updateVillageDay(vInfo, daychangeDatetime); // 村日付を1日延長
+            messageLogic.insertMessageIgnoreError(vInfo.villageId, vInfo.day, CDef.MessageType.公開システムメッセージ, "まだ村人たちは揃っていないようだ。"); // 延長メッセージ登録
         } else {
             // 一人も参加していなかったら廃村
-            updateVillageCancel(villageId);
+            dayChangeLogicHelper.updateVillageStatus(vInfo.villageId, CDef.VillageStatus.廃村);
         }
     }
 
@@ -1114,5 +1034,12 @@ public class DayChangeLogic {
             messageLogic.insertMessage(villageId, 1, CDef.MessageType.通常発言, message, dummyChara.getVillagePlayerId(), true,
                     CDef.FaceType.通常);
         } catch (WerewolfMansionBusinessException e) {}
+    }
+
+    private void tweetIfNeeded(Integer villageId, Village village, VillageSettings settings) {
+        if (StringUtils.isNotEmpty(settings.getJoinPassword())) {
+            return; // 身内村は通知しない
+        }
+        twitterLogic.tweet(String.format("%sが開始されました。", village.getVillageDisplayName()), villageId);
     }
 }

@@ -579,18 +579,21 @@ public class VillageDispLogic {
 
     private void setSituationDetail(VillageInfo villageInfo, List<VillagePlayer> vpList, final int day, VillageSituationDto situation) {
         List<Ability> abilityList = villageInfo.abilityList.stream().filter(a -> a.getDay() == day - 1).collect(Collectors.toList());
-        Integer divinedCharaId =
-                abilityList.stream().filter(a -> a.isAbilityTypeCode占い()).findFirst().map(a -> a.getTargetCharaId()).orElse(null);
-        if (divinedCharaId != null) {
-            List<String> divinedPlayer = filterAndMakeCharaName(vpList, vp -> vp.getCharaId().equals(divinedCharaId));
-            situation.setDivinedChara(shuffleAndJoin(divinedPlayer));
-        }
-        Integer guardedCharaId =
-                abilityList.stream().filter(a -> a.isAbilityTypeCode護衛()).findFirst().map(a -> a.getTargetCharaId()).orElse(null);
-        if (guardedCharaId != null) {
-            List<String> guardedPlayer = filterAndMakeCharaName(vpList, vp -> vp.getCharaId().equals(guardedCharaId));
-            situation.setGuardedChara(shuffleAndJoin(guardedPlayer));
-        }
+
+        List<String> divineList = abilityList.stream().filter(a -> a.isAbilityTypeCode占い()).map(ability -> {
+            String seerCharaName = filterAndMakeCharaName(vpList, vp -> vp.getCharaId().equals(ability.getCharaId())).get(0);
+            String divinedCharaName = filterAndMakeCharaName(vpList, vp -> vp.getCharaId().equals(ability.getTargetCharaId())).get(0);
+            return seerCharaName + " → " + divinedCharaName;
+        }).collect(Collectors.toList());
+        situation.setDivinedChara(String.join("\n", divineList));
+
+        List<String> guardList = abilityList.stream().filter(a -> a.isAbilityTypeCode護衛()).map(ability -> {
+            String hunterCharaName = filterAndMakeCharaName(vpList, vp -> vp.getCharaId().equals(ability.getCharaId())).get(0);
+            String guardedCharaName = filterAndMakeCharaName(vpList, vp -> vp.getCharaId().equals(ability.getTargetCharaId())).get(0);
+            return hunterCharaName + " → " + guardedCharaName;
+        }).collect(Collectors.toList());
+        situation.setGuardedChara(String.join("\n", guardList));
+
         Optional<Ability> optAttack = abilityList.stream().filter(a -> a.isAbilityTypeCode襲撃()).findFirst();
         if (optAttack.isPresent()) {
             Integer attackCharaId = optAttack.get().getCharaId();
@@ -601,10 +604,13 @@ public class VillageDispLogic {
                     CharaUtil.makeCharaShortName(vpList.stream().filter(vp -> vp.getCharaId().equals(attackedCharaId)).findFirst().get());
             situation.setAttack(attacker + " → " + attacked);
         }
-        Optional<Ability> optInvestigate = abilityList.stream().filter(a -> a.isAbilityTypeCode捜査()).findFirst();
-        if (optInvestigate.isPresent()) {
-            situation.setInvestigation(optInvestigate.get().getTargetFootstep());
-        }
+
+        List<String> investigateList = abilityList.stream().filter(a -> a.isAbilityTypeCode捜査()).map(ability -> {
+            String detectiveCharaName = filterAndMakeCharaName(vpList, vp -> vp.getCharaId().equals(ability.getCharaId())).get(0);
+            String targetFootstep = ability.getTargetFootstep();
+            return detectiveCharaName + " → " + targetFootstep;
+        }).collect(Collectors.toList());
+        situation.setInvestigation(String.join("\n", investigateList));
     }
 
     private VillageSituationDto makeSituation(List<VillagePlayer> vpList, final int day) {
@@ -641,6 +647,7 @@ public class VillageDispLogic {
             cb.setupSelect_CharaByCharaId();
             cb.setupSelect_CharaByTargetCharaId();
             cb.query().setVillageId_Equal(villageInfo.villageId);
+            cb.query().setCharaId_Equal(villageInfo.optVillagePlayer.get().getCharaId());
             cb.query().setDay_LessThan(villageInfo.getLatestDay());
             cb.query().setAbilityTypeCode_Equal_AsAbilityType(abilityType);
             cb.query().addOrderBy_Day_Asc();

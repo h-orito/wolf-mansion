@@ -589,7 +589,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * 狂人能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者]
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_HasMadmanAbility() {

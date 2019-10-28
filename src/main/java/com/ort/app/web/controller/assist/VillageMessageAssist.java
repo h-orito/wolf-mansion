@@ -155,7 +155,8 @@ public class VillageMessageAssist {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setDay_Equal(day);
             if (optVillagePlayer.isPresent()) {
-                Integer villagePlayerId = optVillagePlayer.get().getVillagePlayerId();
+                VillagePlayer vPlayer = optVillagePlayer.get();
+                Integer villagePlayerId = vPlayer.getVillagePlayerId();
                 cb.orScopeQuery(orCB -> {
                     orCB.query().setMessageTypeCode_InScope_AsMessageType(messageTypeList);
                     orCB.orScopeQueryAndPart(andCB -> {
@@ -170,6 +171,22 @@ public class VillageMessageAssist {
                         andCB.query().setMessageTypeCode_Equal_秘話();
                         andCB.query().setToVillagePlayerId_Equal(villagePlayerId);
                     });
+                    if (isViewAllowedSeerMessage(vPlayer)) {
+                        orCB.orScopeQueryAndPart(andCB -> {
+                            andCB.query().setMessageTypeCode_Equal_白黒占い結果();
+                            andCB.query().setVillagePlayerId_Equal(villagePlayerId);
+                        });
+                    } else if (isViewAllowedWiseMessage(vPlayer)) {
+                        orCB.orScopeQueryAndPart(andCB -> {
+                            andCB.query().setMessageTypeCode_Equal_役職占い結果();
+                            andCB.query().setVillagePlayerId_Equal(villagePlayerId);
+                        });
+                    } else if (isViewAllowedInvestigateMessage(vPlayer)) {
+                        orCB.orScopeQueryAndPart(andCB -> {
+                            andCB.query().setMessageTypeCode_Equal_足音調査結果();
+                            andCB.query().setVillagePlayerId_Equal(villagePlayerId);
+                        });
+                    }
                 });
             } else {
                 cb.query().setMessageTypeCode_InScope_AsMessageType(messageTypeList);
@@ -181,6 +198,18 @@ public class VillageMessageAssist {
             loader.pulloutVillagePlayerByVillagePlayerId().pulloutChara().loadCharaImage(charaImageCB -> {});
         });
         return messagePage;
+    }
+
+    private boolean isViewAllowedSeerMessage(VillagePlayer villagePlayer) {
+        return villagePlayer.isIsDeadFalse() && villagePlayer.getSkillCodeAsSkill() == CDef.Skill.占い師;
+    }
+
+    private boolean isViewAllowedWiseMessage(VillagePlayer villagePlayer) {
+        return villagePlayer.isIsDeadFalse() && villagePlayer.getSkillCodeAsSkill() == CDef.Skill.賢者;
+    }
+
+    private boolean isViewAllowedInvestigateMessage(VillagePlayer villagePlayer) {
+        return villagePlayer.isIsDeadFalse() && villagePlayer.getSkillCodeAsSkill() == CDef.Skill.探偵;
     }
 
     private OptionalScalar<LocalDateTime> selectLatestMessageDatetime(Integer villageId, Integer latestDay,
@@ -360,7 +389,9 @@ public class VillageMessageAssist {
             messageDto.setCharacterName(chara.getCharaName());
             messageDto.setCharacterShortName(chara.getCharaShortName());
             messageDto.setCharacterId(chara.getCharaId());
-            messageDto.setCharacterImageUrl(CharaUtil.getCharaImgUrlByFaceType(chara, message.getFaceTypeCodeAsFaceType()));
+            if (message.getFaceTypeCodeAsFaceType() != null) {
+                messageDto.setCharacterImageUrl(CharaUtil.getCharaImgUrlByFaceType(chara, message.getFaceTypeCodeAsFaceType()));
+            }
             messageDto.setWidth(chara.getDisplayWidth());
             messageDto.setHeight(chara.getDisplayHeight());
         });
@@ -549,21 +580,6 @@ public class VillageMessageAssist {
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             dispAllowedMessageTypeList.add(CDef.MessageType.白黒占い結果);
             dispAllowedMessageTypeList.add(CDef.MessageType.役職占い結果);
-            return;
-        }
-        // 終了していなかったら参加していて死亡しておらず、占い師だったら開放
-        if (!optVillagePlayer.isPresent()) {
-            return;
-        }
-        VillagePlayer vPlayer = optVillagePlayer.get();
-        if (vPlayer.isIsDeadFalse()) {
-            if (vPlayer.getSkillCodeAsSkill() == CDef.Skill.占い師) {
-                dispAllowedMessageTypeList.add(CDef.MessageType.白黒占い結果);
-                return;
-            } else if (vPlayer.getSkillCodeAsSkill() == CDef.Skill.賢者) {
-                dispAllowedMessageTypeList.add(CDef.MessageType.役職占い結果);
-                return;
-            }
         }
     }
 
@@ -598,16 +614,6 @@ public class VillageMessageAssist {
         // 終了していたら全開放
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             dispAllowedMessageTypeList.add(CDef.MessageType.足音調査結果);
-            return;
-        }
-        // 終了していなかったら参加していて死亡しておらず、探偵だったら開放
-        if (!optVillagePlayer.isPresent()) {
-            return;
-        }
-        VillagePlayer vPlayer = optVillagePlayer.get();
-        if (vPlayer.isIsDeadFalse() && vPlayer.getSkillCodeAsSkill() == CDef.Skill.探偵) {
-            dispAllowedMessageTypeList.add(CDef.MessageType.足音調査結果);
-            return;
         }
     }
 

@@ -89,9 +89,27 @@ public class MessageLogic {
         insertMessage(villageId, day, messageType, content, villagePlayerId, null, isConvertDisable, faceType);
     }
 
+    // 日付更新など、被らないことがわかっている場合に使う
+    public void insertMessageIgnoreError(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId,
+            boolean isConvertDisable, CDef.FaceType faceType) {
+        try {
+            insertMessage(villageId, day, messageType, content, villagePlayerId, null, isConvertDisable, faceType);
+        } catch (WerewolfMansionBusinessException e) {}
+    }
+
     public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, boolean isConvertDisable)
             throws WerewolfMansionBusinessException {
         insertMessage(villageId, day, messageType, content, null, isConvertDisable, null);
+    }
+
+    public void insertMessageIgnoreError(Integer villageId, int day, CDef.MessageType messageType, String content,
+            boolean isConvertDisable) {
+        insertMessageIgnoreError(villageId, day, messageType, content, null, isConvertDisable, null);
+    }
+
+    // 日付更新など、被らないことがわかっている場合に使う
+    public void insertMessageIgnoreError(Integer villageId, int day, CDef.MessageType type, String message) {
+        insertMessageIgnoreError(villageId, day, type, message, true);
     }
 
     // 次の発言番号を返す
@@ -108,22 +126,14 @@ public class MessageLogic {
     public void insertAbilityMessage(Integer villageId, int day, Integer charaId, Integer targetCharaId,
             List<VillagePlayer> villagePlayerList, String footstep, boolean isDefault) {
         String message = makeAbilitySetMessage(charaId, targetCharaId, villagePlayerList, footstep, isDefault);
-        try {
-            insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ, message, true);
-        } catch (WerewolfMansionBusinessException e) {
-            // ここでは被らないはずなので何もしない
-        }
+        insertMessageIgnoreError(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
     }
 
     // 足音セットメッセージ登録
     public void insertFootstepMessage(Integer villageId, int day, Integer charaId, List<VillagePlayer> villagePlayerList, String footstep,
             boolean isDefault) {
         String message = makeFootstepSetMessage(charaId, villagePlayerList, footstep, isDefault);
-        try {
-            insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ, message, true);
-        } catch (WerewolfMansionBusinessException e) {
-            // ここでは被らないはずなので何もしない
-        }
+        insertMessageIgnoreError(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
     }
 
     // 当日の自分の発言取得（発言制限用）

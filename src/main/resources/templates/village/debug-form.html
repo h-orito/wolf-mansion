@@ -46,7 +46,11 @@
 						<input type="button" class="col-sm-2 col-xs-2 btn btn-xs btn-success" value="農" data-dummy-login="testuser14" />
 						<input type="button" class="col-sm-2 col-xs-2 btn btn-xs btn-success" value="宿" data-dummy-login="testuser15" />
 						<input type="button" class="col-sm-2 col-xs-2 btn btn-xs btn-success" value="修" data-dummy-login="testuser16" />
-
+						
+						<hr />
+						<input type="text" class="form-control" value="" placeholder="100" data-dummy-login-usernum />
+						<input type="button" class="col-sm-12 col-xs-12 btn btn-xs btn-success" value="番号指定" data-dummy-login-specify />
+						
 						<form id="logout-form" method="post" action="" th:action="@{/logout}"></form>
 						<form id="login-form" method="post" action="" th:action="@{/login}">
 							<input type="hidden" name="userId" value="u" />
@@ -90,51 +94,24 @@
 									$('#login-form').find('[name=userId]').val(userId);
 									$('#login-form').submit();
 								});
+								$('[data-dummy-login-specify]').on('click', function(){
+									const userId = 'testuser' + $('[data-dummy-login-usernum]').val();
+									$.ajax({
+										type : 'POST',
+										url : LOGIN_URL,
+										data : {
+											'userId' : userId,
+											'password' : 'testuser',
+											'_csrf' : loginToken
+										}
+									}).then(function(re) {
+										location.reload();
+									});
+									$('#login-form').find('[name=userId]').val(userId);
+									$('#login-form').submit();
+								});
 							});
 						</script>
-						<!--/*  
-						<form method="post" th:if="${content.day == 0}" action=""
-							th:action="@{/admin/village/{villageId}/allparticipate(villageId=${content.villageId})}" class="form-horizontal">
-							<div class="form-group">
-								<label class="col-sm-2 control-label">入村させる</label>
-								<div class="col-sm-8">
-									<input class="form-control" type="text" th:value="16" th:name="personNumber" />
-								</div>
-								<div class="col-sm-2">
-									<input type="submit" class="btn btn-sm btn-success pull-right" value="人数分入村させる" />
-								</div>
-							</div>
-						</form>
-						<form method="post" action="" th:action="@{/admin/village/{villageId}/access(villageId=${content.villageId})}" class="form-horizontal">
-							<div class="form-group">
-								<label class="col-sm-2 control-label">全員アクセス</label>
-								<div class="col-sm-10">
-									<input type="submit" class="btn btn-sm btn-success pull-right" value="更新" />
-								</div>
-							</div>
-						</form>
-						<form method="post" action="" th:action="@{/admin/village/{villageId}/dayChange(villageId=${content.villageId})}" class="form-horizontal">
-							<div class="form-group">
-								<label class="col-sm-2 control-label">日付を進める</label>
-								<div class="col-sm-8"></div>
-								<div class="col-sm-2">
-									<input type="submit" class="btn btn-sm btn-success pull-right" value="日付を進める" />
-								</div>
-							</div>
-						</form>
-						<form method="post" action="" th:action="@{/admin/village/{villageId}/leave(villageId=${content.villageId})}"
-							th:if="${content.isDispLeaveVillageForm}" class="form-horizontal">
-							<div class="form-group">
-								<label class="col-sm-2 control-label">強制退村</label>
-								<div class="col-sm-8">
-									<input class="form-control" type="text" value="" name="villagePlayerId" placeholder="village_player_id" />
-								</div>
-								<div class="col-sm-2">
-									<input type="submit" class="btn btn-sm btn-success pull-right" value="退村" />
-								</div>
-							</div>
-						</form>
-						*/-->
 					</div>
 				</div>
 			</div>

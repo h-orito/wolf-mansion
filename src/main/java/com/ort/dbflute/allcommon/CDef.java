@@ -633,11 +633,11 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * 狂人能力を持つ <br>
-         * The group elements:[C国狂人, 狂人, 狂信者]
+         * The group elements:[C国狂人, 狂人, 狂信者, 魔神官]
          * @return The determination, true or false.
          */
         public boolean isHasMadmanAbility() {
-            return C国狂人.equals(this) || 狂人.equals(this) || 狂信者.equals(this);
+            return C国狂人.equals(this) || 狂人.equals(this) || 狂信者.equals(this) || 魔神官.equals(this);
         }
 
         public boolean inGroup(String groupName) {
@@ -764,11 +764,11 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 狂人能力を持つ <br>
-         * The group elements:[C国狂人, 狂人, 狂信者]
+         * The group elements:[C国狂人, 狂人, 狂信者, 魔神官]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfHasMadmanAbility() {
-            return new ArrayList<Skill>(Arrays.asList(C国狂人, 狂人, 狂信者));
+            return new ArrayList<Skill>(Arrays.asList(C国狂人, 狂人, 狂信者, 魔神官));
         }
 
         /**

@@ -100,7 +100,7 @@ map:{
 	        		}
 	        		; hasMadmanAbility = map:{
 	        			; groupComment=狂人能力を持つ
-	        			; elementList= list:{C国狂人;狂人;狂信者}
+	        			; elementList= list:{C国狂人;狂人;狂信者;魔神官}
 	        		}
 	        	}
         }
