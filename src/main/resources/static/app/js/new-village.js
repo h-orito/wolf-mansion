@@ -55,7 +55,7 @@ $(function() {
 	function addPersonNum() {
 		const orgs = $('#organization').val();
 		const organization = orgs.split('\n').map(function(elm, idx) {
-			return (idx + 8) + '人：' + elm;
+			return elm.length + '人：' + elm;
 		}).join('\n');
 		$('#organization').val(organization);
 	}

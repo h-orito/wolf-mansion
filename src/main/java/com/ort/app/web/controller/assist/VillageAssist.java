@@ -251,7 +251,10 @@ public class VillageAssist {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setDay_Equal(day);
             cb.query().setAbilityTypeCode_Equal_AsAbilityType(type);
-            cb.query().setCharaId_Equal(charaId);
+            if (type != CDef.AbilityType.襲撃) {
+                cb.query().setCharaId_Equal(charaId);
+            }
+            cb.fetchFirst(1);
         });
     }
 
@@ -584,6 +587,7 @@ public class VillageAssist {
         content.setAttackerList(villageDispLogic.makeAttackerList(villageInfo));
         content.setSkillHistoryList(villageDispLogic.makeSkillHistoryList(villageInfo));
         content.setWerewolfCharaNameList(villageDispLogic.makeWerewolfCharaNameList(villageInfo));
+        content.setcMadmanCharaNameList(villageDispLogic.makeCMadmanCharaNameList(villageInfo));
         setAbilityTarget(villageInfo, model);
     }
 

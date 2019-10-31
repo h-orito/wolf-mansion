@@ -383,9 +383,10 @@ public class DayChangeLogic {
     private void insertLivingPlayerMessage(Integer villageId, int day, List<VillagePlayer> vPlayerList) {
         long livePersonNum = vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).count();
         StringJoiner joiner = new StringJoiner("、", "現在の生存者は、以下の" + livePersonNum + "名。\n", "");
-        vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).forEach(player -> {
-            joiner.add(CharaUtil.makeCharaName(player));
-        });
+        vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber()).forEach(
+                player -> {
+                    joiner.add(CharaUtil.makeCharaName(player));
+                });
         messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
     }
 

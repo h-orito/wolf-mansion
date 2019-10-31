@@ -139,6 +139,11 @@
 							<hr />
 							<p class="small" th:text="${'この村の人狼は、 ' + content.werewolfCharaNameList + ' です。'}"></p>
 						</div>
+						<!--/* 人狼用メッセージ */-->
+						<div th:if="${content.cMadmanCharaNameList}">
+							<hr />
+							<p class="small" th:text="${'この村のC国狂人は、 ' + content.cMadmanCharaNameList + ' です。'}"></p>
+						</div>
 						<!--/* 能力行使履歴 */-->
 						<div th:if="${content.skillHistoryList != null && content.skillHistoryList.size() > 0}">
 							<hr />

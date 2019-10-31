@@ -293,6 +293,7 @@ public class VillageDispLogic {
                 return villageInfo.getVPList(true, true, false)
                         .stream()
                         .filter(vp -> vp.getSkillCodeAsSkill() != CDef.Skill.人狼)
+                        .sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber())
                         .map(vp -> new OptionDto(vp))
                         .collect(Collectors.toList());
             }
@@ -302,6 +303,7 @@ public class VillageDispLogic {
                     .stream()
                     .filter(vp -> vp.isIsDeadFalse() && vp.isIsSpectatorFalse()
                             && !vp.getVillagePlayerId().equals(vPlayer.getVillagePlayerId()))
+                    .sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber())
                     .map(vp -> new OptionDto(vp))
                     .collect(Collectors.toList());
         } else if (skill == CDef.Skill.狩人 && villageInfo.day > 1) {
@@ -309,6 +311,7 @@ public class VillageDispLogic {
             List<OptionDto> livingCharaList = villageInfo.getVPList(true, true, false)
                     .stream()
                     .filter(vp -> !vp.getVillagePlayerId().equals(vPlayer.getVillagePlayerId()))
+                    .sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber())
                     .map(vp -> new OptionDto(vp))
                     .collect(Collectors.toList());
             if (BooleanUtils.isTrue(villageInfo.settings.getIsAvailableGuardSameTarget())) {
@@ -382,7 +385,11 @@ public class VillageDispLogic {
                 || !villageInfo.village.isVillageStatusCode進行中() || villageInfo.day == 1) {
             return null;
         }
-        return villageInfo.getVPList(true, true, false).stream().map(vp -> new OptionDto(vp)).collect(Collectors.toList());
+        return villageInfo.getVPList(true, true, false)
+                .stream()
+                .sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber())
+                .map(vp -> new OptionDto(vp))
+                .collect(Collectors.toList());
     }
 
     // 能力行使履歴リスト作成
@@ -462,14 +469,36 @@ public class VillageDispLogic {
 
     public String makeWerewolfCharaNameList(VillageInfo villageInfo) {
         if (!villageInfo.isParticipate() || villageInfo.isSpectator() || villageInfo.isDead() || !villageInfo.isLatestDay()
-                || !villageInfo.village.isVillageStatusCode進行中()
-                || !villageInfo.optVillagePlayer.get().getSkillBySkillCode().get().isSkillCode狂信者()) {
+                || !villageInfo.village.isVillageStatusCode進行中()) {
+            return null;
+        }
+        CDef.Skill skill = villageInfo.optVillagePlayer.get().getSkillCodeAsSkill();
+        if (skill != CDef.Skill.C国狂人 && skill != CDef.Skill.狂信者 && skill != CDef.Skill.人狼) {
             return null;
         }
         return String.join("、",
                 villageInfo.getVPList(false, true, true)
                         .stream()
                         .filter(vp -> vp.getSkillBySkillCode().get().isSkillCode人狼())
+                        .sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber())
+                        .map(vp -> CharaUtil.makeCharaName(vp))
+                        .collect(Collectors.toList()));
+    }
+
+    public String makeCMadmanCharaNameList(VillageInfo villageInfo) {
+        if (!villageInfo.isParticipate() || villageInfo.isSpectator() || villageInfo.isDead() || !villageInfo.isLatestDay()
+                || !villageInfo.village.isVillageStatusCode進行中()) {
+            return null;
+        }
+        CDef.Skill skill = villageInfo.optVillagePlayer.get().getSkillCodeAsSkill();
+        if (skill != CDef.Skill.C国狂人 && skill != CDef.Skill.人狼) {
+            return null;
+        }
+        return String.join("、",
+                villageInfo.getVPList(false, true, true)
+                        .stream()
+                        .filter(vp -> vp.getSkillBySkillCode().get().isSkillCodeC国狂人())
+                        .sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber())
                         .map(vp -> CharaUtil.makeCharaName(vp))
                         .collect(Collectors.toList()));
     }

@@ -174,6 +174,9 @@ public class VillageResultContent implements Serializable {
     /** 人狼のキャラ名（狂信者向け） */
     private String werewolfCharaNameList;
 
+    /** C国狂人のキャラ名（人狼向け） */
+    private String cMadmanCharaNameList;
+
     /** 全体状況リスト */
     private List<VillageSituationDto> situationList;
 
@@ -621,5 +624,13 @@ public class VillageResultContent implements Serializable {
 
     public void setFaceTypeList(List<OptionDto> faceTypeList) {
         this.faceTypeList = faceTypeList;
+    }
+
+    public String getcMadmanCharaNameList() {
+        return cMadmanCharaNameList;
+    }
+
+    public void setcMadmanCharaNameList(String cMadmanCharaNameList) {
+        this.cMadmanCharaNameList = cMadmanCharaNameList;
     }
 }

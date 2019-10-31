@@ -13,12 +13,12 @@ public class VillageSettingsForm implements Serializable {
 
     /** 最低開始人数 */
     @NotNull
-    @Min(5)
+    @Min(8)
     private Integer startPersonMinNum;
 
     /** 定員 */
     @NotNull
-    @Max(20)
+    @Max(99)
     private Integer personMaxNum;
 
     /** 更新間隔時間 */
