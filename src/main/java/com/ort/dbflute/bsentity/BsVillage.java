@@ -240,6 +240,14 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
+     * Set the value of winCampCode as 愉快犯陣営 (CRIMINAL). <br>
+     * 愉快犯陣営
+     */
+    public void setWinCampCode_愉快犯陣営() {
+        setWinCampCodeAsCamp(CDef.Camp.愉快犯陣営);
+    }
+
+    /**
      * Set the value of winCampCode as 狐陣営 (FOX). <br>
      * 狐陣営
      */
@@ -330,6 +338,17 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     public boolean isVillageStatusCode開始待ち() {
         CDef.VillageStatus cdef = getVillageStatusCodeAsVillageStatus();
         return cdef != null ? cdef.equals(CDef.VillageStatus.開始待ち) : false;
+    }
+
+    /**
+     * Is the value of winCampCode 愉快犯陣営? <br>
+     * 愉快犯陣営
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isWinCampCode愉快犯陣営() {
+        CDef.Camp cdef = getWinCampCodeAsCamp();
+        return cdef != null ? cdef.equals(CDef.Camp.愉快犯陣営) : false;
     }
 
     /**

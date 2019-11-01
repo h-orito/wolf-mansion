@@ -107,6 +107,9 @@ map:{
         ; map:{
             ; table=SKILL
             ; code=SKILL_CODE; name=SKILL_NAME
+            ; subItemMap=map:{
+            	    ; order=DISP_ORDER
+			}
         }
     }
     ; MessageType = list:{

@@ -1259,6 +1259,14 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 愉快犯陣営 (CRIMINAL). And OnlyOnceRegistered. <br>
+     * 愉快犯陣営
+     */
+    public void setWinCampCode_Equal_愉快犯陣営() {
+        setWinCampCode_Equal_AsCamp(CDef.Camp.愉快犯陣営);
+    }
+
+    /**
      * Equal(=). As 狐陣営 (FOX). And OnlyOnceRegistered. <br>
      * 狐陣営
      */
@@ -1303,6 +1311,14 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
      */
     public void setWinCampCode_NotEqual_AsCamp(CDef.Camp cdef) {
         doSetWinCampCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 愉快犯陣営 (CRIMINAL). And OnlyOnceRegistered. <br>
+     * 愉快犯陣営
+     */
+    public void setWinCampCode_NotEqual_愉快犯陣営() {
+        setWinCampCode_NotEqual_AsCamp(CDef.Camp.愉快犯陣営);
     }
 
     /**

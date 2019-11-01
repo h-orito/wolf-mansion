@@ -151,6 +151,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     //                                                              Classification Setting
     //                                                              ======================
     /**
+     * Set the value of skillCode as 爆弾魔 (BOMBER). <br>
+     * 爆弾魔
+     */
+    public void setSkillCode_爆弾魔() {
+        setSkillCodeAsSkill(CDef.Skill.爆弾魔);
+    }
+
+    /**
      * Set the value of skillCode as C国狂人 (CMADMAN). <br>
      * C国狂人
      */
@@ -271,6 +279,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Set the value of skillCode as 罠師 (TRAPPER). <br>
+     * 罠師
+     */
+    public void setSkillCode_罠師() {
+        setSkillCodeAsSkill(CDef.Skill.罠師);
+    }
+
+    /**
      * Set the value of skillCode as 村人 (VILLAGER). <br>
      * 村人
      */
@@ -311,6 +327,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Set the value of campCode as 愉快犯陣営 (CRIMINAL). <br>
+     * 愉快犯陣営
+     */
+    public void setCampCode_愉快犯陣営() {
+        setCampCodeAsCamp(CDef.Camp.愉快犯陣営);
+    }
+
+    /**
      * Set the value of campCode as 狐陣営 (FOX). <br>
      * 狐陣営
      */
@@ -337,6 +361,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
+    /**
+     * Is the value of skillCode 爆弾魔? <br>
+     * 爆弾魔
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode爆弾魔() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.爆弾魔) : false;
+    }
+
     /**
      * Is the value of skillCode C国狂人? <br>
      * C国狂人
@@ -503,6 +538,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Is the value of skillCode 罠師? <br>
+     * 罠師
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode罠師() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.罠師) : false;
+    }
+
+    /**
      * Is the value of skillCode 村人? <br>
      * 村人
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -595,6 +641,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isSkillCode_HasMadmanAbility() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null && cdef.isHasMadmanAbility();
+    }
+
+    /**
+     * Is the value of campCode 愉快犯陣営? <br>
+     * 愉快犯陣営
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isCampCode愉快犯陣営() {
+        CDef.Camp cdef = getCampCodeAsCamp();
+        return cdef != null ? cdef.equals(CDef.Camp.愉快犯陣営) : false;
     }
 
     /**

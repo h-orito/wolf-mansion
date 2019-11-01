@@ -264,6 +264,9 @@ public interface CDef extends Classification {
      * 陣営
      */
     public enum Camp implements CDef {
+        /** 愉快犯陣営 */
+        愉快犯陣営("CRIMINAL", "愉快犯陣営", emptyStrings())
+        ,
         /** 狐陣営 */
         狐陣営("FOX", "狐陣営", emptyStrings())
         ,
@@ -523,6 +526,9 @@ public interface CDef extends Classification {
      * 役職
      */
     public enum Skill implements CDef {
+        /** 爆弾魔 */
+        爆弾魔("BOMBER", "爆弾魔", emptyStrings())
+        ,
         /** C国狂人 */
         C国狂人("CMADMAN", "C国狂人", emptyStrings())
         ,
@@ -567,6 +573,9 @@ public interface CDef extends Classification {
         ,
         /** 占い師 */
         占い師("SEER", "占い師", emptyStrings())
+        ,
+        /** 罠師 */
+        罠師("TRAPPER", "罠師", emptyStrings())
         ,
         /** 村人 */
         村人("VILLAGER", "村人", emptyStrings())

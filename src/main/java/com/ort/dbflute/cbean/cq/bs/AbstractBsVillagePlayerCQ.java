@@ -762,6 +762,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 爆弾魔 (BOMBER). And OnlyOnceRegistered. <br>
+     * 爆弾魔
+     */
+    public void setSkillCode_Equal_爆弾魔() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.爆弾魔);
+    }
+
+    /**
      * Equal(=). As C国狂人 (CMADMAN). And OnlyOnceRegistered. <br>
      * C国狂人
      */
@@ -882,6 +890,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 罠師 (TRAPPER). And OnlyOnceRegistered. <br>
+     * 罠師
+     */
+    public void setSkillCode_Equal_罠師() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.罠師);
+    }
+
+    /**
      * Equal(=). As 村人 (VILLAGER). And OnlyOnceRegistered. <br>
      * 村人
      */
@@ -942,6 +958,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_AsSkill(CDef.Skill cdef) {
         doSetSkillCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 爆弾魔 (BOMBER). And OnlyOnceRegistered. <br>
+     * 爆弾魔
+     */
+    public void setSkillCode_NotEqual_爆弾魔() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.爆弾魔);
     }
 
     /**
@@ -1062,6 +1086,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_占い師() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.占い師);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 罠師 (TRAPPER). And OnlyOnceRegistered. <br>
+     * 罠師
+     */
+    public void setSkillCode_NotEqual_罠師() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.罠師);
     }
 
     /**
@@ -1235,6 +1267,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 爆弾魔 (BOMBER). And OnlyOnceRegistered. <br>
+     * 爆弾魔
+     */
+    public void setRequestSkillCode_Equal_爆弾魔() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.爆弾魔);
+    }
+
+    /**
      * Equal(=). As C国狂人 (CMADMAN). And OnlyOnceRegistered. <br>
      * C国狂人
      */
@@ -1355,6 +1395,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 罠師 (TRAPPER). And OnlyOnceRegistered. <br>
+     * 罠師
+     */
+    public void setRequestSkillCode_Equal_罠師() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.罠師);
+    }
+
+    /**
      * Equal(=). As 村人 (VILLAGER). And OnlyOnceRegistered. <br>
      * 村人
      */
@@ -1415,6 +1463,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_AsSkill(CDef.Skill cdef) {
         doSetRequestSkillCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 爆弾魔 (BOMBER). And OnlyOnceRegistered. <br>
+     * 爆弾魔
+     */
+    public void setRequestSkillCode_NotEqual_爆弾魔() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.爆弾魔);
     }
 
     /**
@@ -1535,6 +1591,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_占い師() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.占い師);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 罠師 (TRAPPER). And OnlyOnceRegistered. <br>
+     * 罠師
+     */
+    public void setRequestSkillCode_NotEqual_罠師() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.罠師);
     }
 
     /**
@@ -1708,6 +1772,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 爆弾魔 (BOMBER). And OnlyOnceRegistered. <br>
+     * 爆弾魔
+     */
+    public void setSecondRequestSkillCode_Equal_爆弾魔() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.爆弾魔);
+    }
+
+    /**
      * Equal(=). As C国狂人 (CMADMAN). And OnlyOnceRegistered. <br>
      * C国狂人
      */
@@ -1828,6 +1900,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 罠師 (TRAPPER). And OnlyOnceRegistered. <br>
+     * 罠師
+     */
+    public void setSecondRequestSkillCode_Equal_罠師() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.罠師);
+    }
+
+    /**
      * Equal(=). As 村人 (VILLAGER). And OnlyOnceRegistered. <br>
      * 村人
      */
@@ -1888,6 +1968,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill cdef) {
         doSetSecondRequestSkillCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 爆弾魔 (BOMBER). And OnlyOnceRegistered. <br>
+     * 爆弾魔
+     */
+    public void setSecondRequestSkillCode_NotEqual_爆弾魔() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.爆弾魔);
     }
 
     /**
@@ -2008,6 +2096,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_占い師() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.占い師);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 罠師 (TRAPPER). And OnlyOnceRegistered. <br>
+     * 罠師
+     */
+    public void setSecondRequestSkillCode_NotEqual_罠師() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.罠師);
     }
 
     /**

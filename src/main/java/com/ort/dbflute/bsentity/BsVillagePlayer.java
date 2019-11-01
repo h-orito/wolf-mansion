@@ -327,6 +327,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     //                                                              Classification Setting
     //                                                              ======================
     /**
+     * Set the value of skillCode as 爆弾魔 (BOMBER). <br>
+     * 爆弾魔
+     */
+    public void setSkillCode_爆弾魔() {
+        setSkillCodeAsSkill(CDef.Skill.爆弾魔);
+    }
+
+    /**
      * Set the value of skillCode as C国狂人 (CMADMAN). <br>
      * C国狂人
      */
@@ -447,6 +455,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 罠師 (TRAPPER). <br>
+     * 罠師
+     */
+    public void setSkillCode_罠師() {
+        setSkillCodeAsSkill(CDef.Skill.罠師);
+    }
+
+    /**
      * Set the value of skillCode as 村人 (VILLAGER). <br>
      * 村人
      */
@@ -484,6 +500,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSkillCode_賢者() {
         setSkillCodeAsSkill(CDef.Skill.賢者);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 爆弾魔 (BOMBER). <br>
+     * 爆弾魔
+     */
+    public void setRequestSkillCode_爆弾魔() {
+        setRequestSkillCodeAsSkill(CDef.Skill.爆弾魔);
     }
 
     /**
@@ -607,6 +631,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 罠師 (TRAPPER). <br>
+     * 罠師
+     */
+    public void setRequestSkillCode_罠師() {
+        setRequestSkillCodeAsSkill(CDef.Skill.罠師);
+    }
+
+    /**
      * Set the value of requestSkillCode as 村人 (VILLAGER). <br>
      * 村人
      */
@@ -644,6 +676,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setRequestSkillCode_賢者() {
         setRequestSkillCodeAsSkill(CDef.Skill.賢者);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 爆弾魔 (BOMBER). <br>
+     * 爆弾魔
+     */
+    public void setSecondRequestSkillCode_爆弾魔() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.爆弾魔);
     }
 
     /**
@@ -764,6 +804,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_占い師() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.占い師);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 罠師 (TRAPPER). <br>
+     * 罠師
+     */
+    public void setSecondRequestSkillCode_罠師() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.罠師);
     }
 
     /**
@@ -889,6 +937,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
+    /**
+     * Is the value of skillCode 爆弾魔? <br>
+     * 爆弾魔
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode爆弾魔() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.爆弾魔) : false;
+    }
+
     /**
      * Is the value of skillCode C国狂人? <br>
      * C国狂人
@@ -1055,6 +1114,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of skillCode 罠師? <br>
+     * 罠師
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode罠師() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.罠師) : false;
+    }
+
+    /**
      * Is the value of skillCode 村人? <br>
      * 村人
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1147,6 +1217,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode_HasMadmanAbility() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null && cdef.isHasMadmanAbility();
+    }
+
+    /**
+     * Is the value of requestSkillCode 爆弾魔? <br>
+     * 爆弾魔
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode爆弾魔() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.爆弾魔) : false;
     }
 
     /**
@@ -1315,6 +1396,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 罠師? <br>
+     * 罠師
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode罠師() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.罠師) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 村人? <br>
      * 村人
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1407,6 +1499,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isRequestSkillCode_HasMadmanAbility() {
         CDef.Skill cdef = getRequestSkillCodeAsSkill();
         return cdef != null && cdef.isHasMadmanAbility();
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 爆弾魔? <br>
+     * 爆弾魔
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode爆弾魔() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.爆弾魔) : false;
     }
 
     /**
@@ -1572,6 +1675,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode占い師() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.占い師) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 罠師? <br>
+     * 罠師
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode罠師() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.罠師) : false;
     }
 
     /**
