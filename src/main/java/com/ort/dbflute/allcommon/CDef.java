@@ -601,13 +601,130 @@ public interface CDef extends Classification {
                 _nameClsMap.put(value.name().toLowerCase(), value);
             }
         }
+        private static final Map<String, Map<String, Object>> _subItemMapMap = new HashMap<String, Map<String, Object>>();
+        static {
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "16");
+                _subItemMapMap.put(爆弾魔.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "12");
+                _subItemMapMap.put(C国狂人.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "10");
+                _subItemMapMap.put(探偵.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "13");
+                _subItemMapMap.put(魔神官.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "14");
+                _subItemMapMap.put(狂信者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "21");
+                _subItemMapMap.put(おまかせ足音職.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "15");
+                _subItemMapMap.put(妖狐.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "22");
+                _subItemMapMap.put(おまかせ役職窓あり.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "9");
+                _subItemMapMap.put(導師.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "6");
+                _subItemMapMap.put(狩人.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "17");
+                _subItemMapMap.put(おまかせ.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "5");
+                _subItemMapMap.put(狂人.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "7");
+                _subItemMapMap.put(共鳴者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "4");
+                _subItemMapMap.put(霊能者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "20");
+                _subItemMapMap.put(おまかせ人外.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "3");
+                _subItemMapMap.put(占い師.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "11");
+                _subItemMapMap.put(罠師.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "1");
+                _subItemMapMap.put(村人.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "18");
+                _subItemMapMap.put(おまかせ村人陣営.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "2");
+                _subItemMapMap.put(人狼.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "19");
+                _subItemMapMap.put(おまかせ人狼陣営.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "8");
+                _subItemMapMap.put(賢者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+        }
         private String _code; private String _alias; private Set<String> _sisterSet;
         private Skill(String code, String alias, String[] sisters)
         { _code = code; _alias = alias; _sisterSet = Collections.unmodifiableSet(new LinkedHashSet<String>(Arrays.asList(sisters))); }
         public String code() { return _code; } public String alias() { return _alias; }
         public Set<String> sisterSet() { return _sisterSet; }
-        public Map<String, Object> subItemMap() { return Collections.emptyMap(); }
+        public Map<String, Object> subItemMap() { return _subItemMapMap.get(code()); }
         public ClassificationMeta meta() { return CDef.DefMeta.Skill; }
+
+        public String order() {
+            return (String)subItemMap().get("order");
+        }
 
         /**
          * Is the classification in the group? <br>

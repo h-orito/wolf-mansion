@@ -41,10 +41,11 @@ public class AssignLogic {
 
     static {
         rangeSkillMap = new HashMap<Skill, List<Skill>>();
-        rangeSkillMap.put(Skill.おまかせ人外, Arrays.asList(Skill.C国狂人, Skill.人狼, Skill.妖狐, Skill.狂人, Skill.狂信者, Skill.魔神官));
+        rangeSkillMap.put(Skill.おまかせ人外, Arrays.asList(Skill.C国狂人, Skill.人狼, Skill.妖狐, Skill.狂人, Skill.狂信者, Skill.魔神官, Skill.爆弾魔));
         rangeSkillMap.put(Skill.おまかせ人狼陣営, Arrays.asList(Skill.C国狂人, Skill.人狼, Skill.狂人, Skill.狂信者, Skill.魔神官));
         rangeSkillMap.put(Skill.おまかせ役職窓あり, Arrays.asList(Skill.人狼, Skill.C国狂人, Skill.共鳴者));
-        rangeSkillMap.put(Skill.おまかせ村人陣営, Arrays.asList(Skill.共鳴者, Skill.占い師, Skill.導師, Skill.村人, Skill.狩人, Skill.賢者, Skill.霊能者, Skill.探偵));
+        rangeSkillMap.put(Skill.おまかせ村人陣営,
+                Arrays.asList(Skill.共鳴者, Skill.占い師, Skill.導師, Skill.村人, Skill.狩人, Skill.賢者, Skill.霊能者, Skill.探偵, Skill.罠師));
         rangeSkillMap.put(Skill.おまかせ足音職,
                 Arrays.asList(Skill.C国狂人, Skill.人狼, Skill.占い師, Skill.妖狐, Skill.狂人, Skill.狂信者, Skill.狩人, Skill.賢者, Skill.魔神官));
     }
@@ -240,26 +241,53 @@ public class AssignLogic {
         } else if (existSkillInOrg(CDef.Skill.村人, orgMap) && !existSkillInOrg(CDef.Skill.霊能者, orgMap)) {
             convertSkillRequestIfNeeded(after, CDef.Skill.霊能者, CDef.Skill.村人);
         }
-        if (existSkillInOrg(CDef.Skill.狂人, orgMap)) {
-            convertSkillRequestIfNeeded(after, CDef.Skill.C国狂人, CDef.Skill.狂人);
-            convertSkillRequestIfNeeded(after, CDef.Skill.魔神官, CDef.Skill.狂人);
-            convertSkillRequestIfNeeded(after, CDef.Skill.狂信者, CDef.Skill.狂人);
-        } else if (existSkillInOrg(CDef.Skill.C国狂人, orgMap)) {
-            convertSkillRequestIfNeeded(after, CDef.Skill.狂人, CDef.Skill.C国狂人);
-            convertSkillRequestIfNeeded(after, CDef.Skill.魔神官, CDef.Skill.C国狂人);
-            convertSkillRequestIfNeeded(after, CDef.Skill.狂信者, CDef.Skill.C国狂人);
-        } else if (existSkillInOrg(CDef.Skill.魔神官, orgMap)) {
-            convertSkillRequestIfNeeded(after, CDef.Skill.狂人, CDef.Skill.魔神官);
-            convertSkillRequestIfNeeded(after, CDef.Skill.C国狂人, CDef.Skill.魔神官);
-            convertSkillRequestIfNeeded(after, CDef.Skill.狂信者, CDef.Skill.魔神官);
-        } else if (existSkillInOrg(CDef.Skill.狂信者, orgMap)) {
-            convertSkillRequestIfNeeded(after, CDef.Skill.狂人, CDef.Skill.狂信者);
-            convertSkillRequestIfNeeded(after, CDef.Skill.魔神官, CDef.Skill.狂信者);
-            convertSkillRequestIfNeeded(after, CDef.Skill.C国狂人, CDef.Skill.狂信者);
+        if (existSkillInOrg(CDef.Skill.C国狂人, orgMap)) {
+            if (!existSkillInOrg(CDef.Skill.狂人, orgMap)) {
+                convertSkillRequestIfNeeded(after, CDef.Skill.狂人, CDef.Skill.C国狂人);
+            }
+            if (!existSkillInOrg(CDef.Skill.狂信者, orgMap)) {
+                convertSkillRequestIfNeeded(after, CDef.Skill.狂信者, CDef.Skill.C国狂人);
+            }
+            if (!existSkillInOrg(CDef.Skill.魔神官, orgMap)) {
+                convertSkillRequestIfNeeded(after, CDef.Skill.魔神官, CDef.Skill.C国狂人);
+            }
         }
-        if (existSkillInOrg(CDef.Skill.占い師, orgMap)) {
+        if (existSkillInOrg(CDef.Skill.狂信者, orgMap)) {
+            if (!existSkillInOrg(CDef.Skill.C国狂人, orgMap)) {
+                convertSkillRequestIfNeeded(after, CDef.Skill.C国狂人, CDef.Skill.狂信者);
+            }
+            if (!existSkillInOrg(CDef.Skill.狂人, orgMap)) {
+                convertSkillRequestIfNeeded(after, CDef.Skill.狂人, CDef.Skill.狂信者);
+            }
+            if (!existSkillInOrg(CDef.Skill.魔神官, orgMap)) {
+                convertSkillRequestIfNeeded(after, CDef.Skill.魔神官, CDef.Skill.狂信者);
+            }
+        }
+        if (existSkillInOrg(CDef.Skill.魔神官, orgMap)) {
+            if (!existSkillInOrg(CDef.Skill.C国狂人, orgMap)) {
+                convertSkillRequestIfNeeded(after, CDef.Skill.C国狂人, CDef.Skill.魔神官);
+            }
+            if (!existSkillInOrg(CDef.Skill.狂人, orgMap)) {
+                convertSkillRequestIfNeeded(after, CDef.Skill.狂信者, CDef.Skill.魔神官);
+            }
+            if (!existSkillInOrg(CDef.Skill.狂信者, orgMap)) {
+                convertSkillRequestIfNeeded(after, CDef.Skill.狂信者, CDef.Skill.魔神官);
+            }
+        }
+        if (existSkillInOrg(CDef.Skill.狂人, orgMap)) {
+            if (!existSkillInOrg(CDef.Skill.C国狂人, orgMap)) {
+                convertSkillRequestIfNeeded(after, CDef.Skill.C国狂人, CDef.Skill.狂人);
+            }
+            if (!existSkillInOrg(CDef.Skill.魔神官, orgMap)) {
+                convertSkillRequestIfNeeded(after, CDef.Skill.魔神官, CDef.Skill.狂人);
+            }
+            if (!existSkillInOrg(CDef.Skill.狂信者, orgMap)) {
+                convertSkillRequestIfNeeded(after, CDef.Skill.狂信者, CDef.Skill.狂人);
+            }
+        }
+        if (existSkillInOrg(CDef.Skill.占い師, orgMap) && !existSkillInOrg(CDef.Skill.賢者, orgMap)) {
             convertSkillRequestIfNeeded(after, CDef.Skill.賢者, CDef.Skill.占い師);
-        } else if (existSkillInOrg(CDef.Skill.賢者, orgMap)) {
+        } else if (existSkillInOrg(CDef.Skill.賢者, orgMap) && !existSkillInOrg(CDef.Skill.占い師, orgMap)) {
             convertSkillRequestIfNeeded(after, CDef.Skill.占い師, CDef.Skill.賢者);
         }
     }

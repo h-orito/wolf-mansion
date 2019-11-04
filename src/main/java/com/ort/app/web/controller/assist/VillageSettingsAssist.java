@@ -4,7 +4,6 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -46,9 +45,9 @@ public class VillageSettingsAssist {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final List<CDef.Skill> RESTRICT_SKILLS =
-            Arrays.asList(CDef.Skill.村人, CDef.Skill.霊能者, CDef.Skill.導師, CDef.Skill.人狼, CDef.Skill.C国狂人, CDef.Skill.占い師, CDef.Skill.賢者,
-                    CDef.Skill.狩人, CDef.Skill.探偵, CDef.Skill.共鳴者, CDef.Skill.狂人, CDef.Skill.魔神官, CDef.Skill.狂信者, CDef.Skill.妖狐);
+    private static final List<CDef.Skill> RESTRICT_SKILLS = CDef.Skill.listAll().stream().filter(skill -> {
+        return !skill.alias().contains("おまかせ");
+    }).sorted((s1, s2) -> Integer.parseInt(s1.order()) - Integer.parseInt(s2.order())).collect(Collectors.toList());
     private static final int DEFAULT_SAY_MAX_COUNT = 20;
     private static final int DEFAULT_SAY_MAX_LENGTH = 400;
 
