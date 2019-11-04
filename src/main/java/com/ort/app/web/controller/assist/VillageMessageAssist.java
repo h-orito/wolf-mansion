@@ -597,7 +597,8 @@ public class VillageMessageAssist {
             return;
         }
         VillagePlayer vPlayer = optVillagePlayer.get();
-        if (vPlayer.isIsDeadFalse()) {
+        CDef.Skill skill = vPlayer.getSkillCodeAsSkill();
+        if (vPlayer.isIsDeadFalse() && skill != null) {
             if (vPlayer.getSkillCodeAsSkill() == CDef.Skill.霊能者) {
                 dispAllowedMessageTypeList.add(CDef.MessageType.白黒霊視結果);
                 return;
