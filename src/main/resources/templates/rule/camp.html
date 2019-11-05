@@ -1,0 +1,84 @@
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta charset="utf-8" />
+</head>
+<body>
+	<div layout:fragment="camp">
+		<div id="camp" class="table-responsive">
+			<table class="table table-bordered table-condensed small">
+				<thead>
+					<tr>
+						<th class="vertical-middle">陣営</th>
+						<th class="vertical-middle">陣営に所属する役職</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="vertical-middle">村人陣営</td>
+						<td class="vertical-middle">
+							村人<br>占い師<br>賢者<br>狩人<br>霊能者<br>導師<br>共鳴者<br>探偵<br>罠師
+						</td>
+					</tr>
+					<tr>
+						<td class="vertical-middle">人狼陣営</td>
+						<td class="vertical-middle">
+							人狼<br>狂人<br>C国狂人<br>魔神官<br>狂信者
+						</td>
+					</tr>
+					<tr>
+						<td class="vertical-middle">妖狐陣営</td>
+						<td class="vertical-middle">妖狐</td>
+					</tr>
+					<tr>
+						<td class="vertical-middle">愉快犯陣営</td>
+						<td class="vertical-middle">爆弾魔</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="wincondition" class="table-responsive">
+			<table class="table table-bordered table-condensed small">
+				<thead>
+					<tr>
+						<th colspan="3" class="vertical-middle">陣営勝利（同時に満たした場合は上にあるものほど優先度高）</th>
+					</tr>
+					<tr>
+						<th class="vertical-middle">陣営</th>
+						<th class="vertical-middle">勝利条件</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="vertical-middle">妖狐陣営</td>
+						<td class="vertical-middle">いずれかの陣営が勝利条件を満たした際に妖狐が1名以上生存している</td>
+					</tr>
+					<tr>
+						<td class="vertical-middle">人狼陣営</td>
+						<td class="vertical-middle">
+							夜明け時点で生存している人狼の数≧生存している人間（※）の数<br>
+						</td>
+					</tr>
+					<tr>
+						<td class="vertical-middle">村人陣営</td>
+						<td class="vertical-middle">夜明け時点で人狼が全員死亡し、人間（※）が1人以上生存している</td>
+					</tr>
+				<thead>
+					<tr>
+						<th colspan="3" class="vertical-middle">追加勝利（勝利陣営と関係なく条件に当てはまれば勝利）</th>
+					</tr>
+				</thead>
+				<tr>
+					<td class="vertical-middle">愉快犯陣営</td>
+					<td class="vertical-middle">いずれかの陣営が勝利時に自身が生存している（一人一人勝敗判定）</td>
+				</tr>
+				</tbody>
+			</table>
+			※ここでの「人間」は「人狼と妖狐以外」を表す。狂人は人間に含まれ、妖狐は人間にも人狼にも含まれない。
+		</div>
+	</div>
+</body>
+</html>
+
+
+

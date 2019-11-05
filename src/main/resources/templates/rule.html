@@ -12,7 +12,60 @@
 		<div layout:fragment="content">
 			<div id="wrapper">
 				<div class="col-sm-12 col-xs-12">
-					<h2 class="h4">人狼の基本ルール</h2>
+					<div class="well" style="padding-top: 5px; padding-left: 5px;">
+						<ul style="list-style-type: none; padding-left: 0;">
+							<li><a href="#basic">人狼の基本ルール</a></li>
+							<li><a href="#mansion">人狼館の事件簿村ルール</a></li>
+							<li><a href="#detail">詳細ルール</a>
+								<ul>
+									<li><a href="#attitude">基本的な心構え</a></li>
+									<li><a href="#suddenly-death">突然死</a></li>
+									<li><a href="#vote">投票</a></li>
+									<li><a href="#anchor">アンカー</a></li>
+									<li><a href="#default-org">役職配分</a></li>
+									<li><a href="#skill-request">役職希望</a></li>
+									<li><a href="#spectate">見学</a></li>
+									<li><a href="#say">発言</a></li>
+									<li><a href="#commit">コミット</a></li>
+									<li><a href="#process">流れ</a></li>
+								</ul>
+							</li>
+							<li><a href="#skill">役職詳細</a>
+								<ul>
+									<li><a href="#villager">村人</a></li>
+									<li><a href="#seer">占い師</a></li>
+									<li><a href="#wise">賢者</a></li>
+									<li><a href="#werewolf">人狼</a></li>
+									<li><a href="#hunter">狩人</a></li>
+									<li><a href="#detective">探偵</a></li>
+									<li><a href="#trapper">罠師</a></li>
+									<li><a href="#psychic">霊能者</a></li>
+									<li><a href="#guru">導師</a></li>
+									<li><a href="#madman">狂人</a></li>
+									<li><a href="#cmadman">C国狂人</a></li>
+									<li><a href="#evilmedium">魔神官</a></li>
+									<li><a href="#fanatic">狂信者</a></li>
+									<li><a href="#mason">共鳴者</a></li>
+									<li><a href="#fox">妖狐</a></li>
+									<li><a href="#bomber">爆弾魔</a></li>
+								</ul>
+							</li>
+							<li><a href="#camp">陣営・勝敗</a></li>
+							<li><a href="#room">人数と部屋サイズ</a></li>
+							<li><a href="#other">その他</a>
+								<ul>
+									<li><a href="#random-message">発言ランダム機能</a></li>
+									<li><a href="#message-decorate">文字装飾機能</a></li>
+									<li><a href="#call-owner">国主の召喚方法</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			
+				<div class="col-sm-12 col-xs-12">
+					<hr />
+					<h2 id="basic" class="h4">人狼の基本ルール</h2>
 					<ul>
 						<li>通常の人狼のルールを熟知していることが参加の前提となるため、基本ルールは省略します。</li>
 					</ul>
@@ -20,685 +73,38 @@
 
 				<div class="col-sm-12 col-xs-12">
 					<hr />
-					<h2 class="h4" data-toggle="collapse" data-target="#mansion">
-						<a href="javascript:void(0);">人狼館の事件簿村ルール</a>
-					</h2>
-					<ul id="mansion" class="announce collapse in">
-						<li class="text-danger"><strong>白ログでの推理発言、まとめ行為、CO禁止です。（グレラン村）</strong>
-							<ul>
-								<li>役職持ち、騙り含め全てのCOおよび結果報告が禁止となります。</li>
-							</ul></li>
-						<li><strong class="text-danger">ただし、導師と探偵のみCOおよび能力行使結果を白ログで報告することができます。（結果騙りもOKとします。）</strong>
-							<ul>
-								<li>導師と探偵も白ログでの推理やまとめ行為は禁止です。</li>
-								<li>当然ながら、役職者騙りも禁止です。</li>
-								<li>墓下と地上で会話ができる村設定の場合は、死亡後のCO及び結果の報告は禁止です。</li>
-								<li>これらの禁止行為は通常村でのルールとなります。村ごとに定めたルールがある場合はそちらが優先されます。</li>
-							</ul></li>
-						<li>1日目になると、各参加者に碁盤の目のように並んだ部屋のいずれかが割り振られます。
-							<ul>
-								<li><img th:src="@{/app/images/rule/rule01.png}" width="200" /></li>
-							</ul>
-						</li>
-						<li>以下の能力を発動すると、「通過した部屋」に足音が響き、翌日朝に纏めて報告されます。
-							<ul>
-								<li>占い師による占い</li>
-								<li>狼による襲撃</li>
-								<li>狩人による護衛</li>
-								<li>狂人、C国狂人、魔神官、狂信者、妖狐による徘徊（任意）</li>
-							</ul>
-						</li>
-						<li>部屋移動と響く足音について、以下のルールがあります。
-							<ul>
-								<li>行動対象に向かって縦横の最短距離で移動し、通過する部屋に足音が響きます。
-									<ul>
-										<li>曲がる必要がある場合は1回曲がる経路のうちどちらかを選択できます。</li>
-										<li>部屋が隣接している場合は足音は響きません。</li>
-										<li>生存者のいない部屋は足音が響きません。</li>
-									</ul>
-								</li>
-								<li>人狼は襲撃者を選択することができます。<br> ただし、設定で同一人狼による連続襲撃が不可となっている村では、人狼が複数生存している場合、連続で同じ人狼が襲撃することはできません。
-								</li>
-								<li>狂人、C国狂人、魔神官、狂信者、妖狐は自分の部屋からに限らず、どの部屋からどの部屋まで徘徊するか自由に選択できます。
-									<ul>
-										<li>ただし、直線上にしか徘徊することはできません。</li>
-										<li>通過した部屋だけでなく、徘徊した部屋全てに足音が響きます。</li>
-									</ul>
-								</li>
-								<li>狂人、C国狂人、魔神官、狂信者、妖狐は「徘徊しない」こともできます。</li>
-								<li>翌日足音が報告される順番はランダムで、部屋番号は若い順です。</li>
-								<li>翌日に能力者、襲撃担当者が死亡していてもセットした通りに足音が響きます。</li>
-							</ul>
-						</li>
-					</ul>
+					<h2 class="h4">人狼館の事件簿村ルール</h2>
+					<div layout:replace="~{rule/mansion::mansion}"></div>
 				</div>
 
 				<div class="col-sm-12 col-xs-12">
 					<hr />
-					<h2 class="h4" data-toggle="collapse" data-target="#detail">
-						<a href="javascript:void(0);">詳細ルール</a>
-					</h2>
-					<ul id="detail" class="announce collapse in">
-						<li>基本的な心構え
-							<ul>
-								<li>他国と大きく変わりありませんし、あえて長々と記載しません。他者への礼節を欠くような行為は避けてください。</li>
-								<li>途中放棄、突然死については、他国よりも厳しい対処とする可能性があります。</li>
-							</ul>
-						</li>
-						<li>突然死
-							<ul>
-								<li>村の設定で突然死を無しにしている場合、突然死しません。</li>
-								<li>突然死ありの場合、進行中の日付更新のタイミングで、投票していなかった生存者が突然死します。
-									<ul>
-										<li>他国と異なり、発言する必要はありません。</li>
-									</ul>
-								</li>
-								<li>突然死の対象となる参加者は、「本日まだ投票していない者は、・・・」という表現でログの最後に表示されます。</li>
-								<li>突然死者の投票は無効票となります。</li>
-								<li>占い師や賢者が突然死した場合、占いは行われません。（したがって、呪殺も起きません。）</li>
-								<li>狩人が突然死した場合、護衛は行われません。</li>
-								<li>人狼が突然死した場合、他に人狼が生存していればセットした通りに襲撃が実施されます。</li>
-								<li>突然死者のセットしていた足音については、セットした通りに響きます。</li>
-								<li>突然死者はエピローグ以外で一切の発言ができなくなり、以後別の村に入村もできなくなります。
-									<ul>
-										<li>突然死した方は国主まで直接ご連絡ください。会話させていただいたのち入村制限解除とします。</li>
-										<li>連絡いただければ基本的に制限解除しますが、改善が見込めない場合など、解除しない場合があります。</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-						<li>投票
-							<ul>
-								<li>2日目から投票による処刑が始まります。</li>
-								<li>突然死無しの場合：日付更新時のセット先は自投票です。</li>
-								<li>突然死ありの場合：日付更新時のセット先はなしです。（投票しないまま更新時刻を迎えると突然死します。）</li>
-							</ul>
-						</li>
-						<li>アンカー
-							<ul>
-								<li>>>1 の形式で白発言へのアンカーが付けられます。</li>
-								<li>>>=1 の形式で共鳴発言へのアンカーが付けられます。</li>
-								<li>>>+1 の形式で墓下発言へのアンカーが付けられます。</li>
-								<li>>>@1 の形式で見学発言へのアンカーが付けられます。</li>
-								<li>>>*1 の形式で囁きへのアンカーが付けられます。</li>
-								<li>>>#1 の形式で村建て発言へのアンカーが付けられます。</li>
-								<li>>>-1 の形式で独り言へのアンカーが付けられます。（エピローグ後のみ）</li>
-								<li>いずれのアンカーも自分が見ることのできない発言はクリックしてもアンカー先を表示できません。</li>
-							</ul>
-						</li>
-						<li>役職配分
-							<ul>
-								<li>村建て時に変更可能です。デフォルトは以下のようになっています。（ダミーは必ず村人になります）</li>
-								<li>08-09人：ダ1 狼2 賢1導1 村3-4</li>
-								<li>10-11人：ダ1 狼2狂1 賢1導1狩1 村3-4</li>
-								<li>12-13人：ダ1 狼3狂1 賢1導1狩1 村4-5</li>
-								<li>14-15人：ダ1 狼3魔1 狐1 賢1導1狩1 霊5-6</li>
-								<li>16-17人：ダ1 狼3魔1 狐1 賢1導1狩1共2 霊5-6</li>
-								<li>18-20人：ダ1 狼4魔1 狐1 賢1導1狩1共2 霊6-8</li>
-							</ul>
-						</li>
-						<li id="skill-request">役職希望
-							<ul>
-								<li>ダミーキャラ（2日目に人狼に襲撃される人）は必ず村人となります。</li>
-								<li>村建て時に役職希望を無効にした場合、全員がおまかせ扱いになります。</li>
-								<li>役職希望ありの場合、第1希望、第2希望それぞれ役職や陣営などを指定することができます。</li>
-								<li>おまかせ系の希望は、役職指定での希望よりも後で役職が割り振られます。</li>
-								<li>おまかせ（村人陣営、人狼陣営）は、<a href="#camp">陣営</a>に属する役職の希望となります。
-								</li>
-								<li>おまかせ（人外）は、村人陣営以外の役職の希望となります。</li>
-								<li>おまかせ（足音職）は、人狼、狂人系、占い師系、狩人、妖狐の希望となります。</li>
-								<li>おまかせ（役職窓あり）は、人狼、C国狂人、共鳴者の希望となります。</li>
-								<li>1日目に移行する際、以下の処理で配役が決定されます。
-									<ul>
-										<li>1. 人数に応じて構成が変化するため、以下のように自動で希望が変更されます。
-											<ul>
-												<li>ダミーを除いて村人が0名で、霊能者が1名以上存在する場合は、村人→霊能者に変更</li>
-												<li>霊能者が0名で、村人がダミーを除いて1名以上存在する場合は、霊能者→村人に変更</li>
-												<li>占い師と賢者は、存在しない場合、存在する側に変更</li>
-												<li>狂人とC国狂人と狂信者と魔神官は、存在しない場合、C狂>狂信>魔>狂の順で探して存在する役職に変更</li>
-												<li>上記以外で構成上存在しない役職を希望していた場合はおまかせに変更</li>
-											</ul>
-										</li>
-										<li>2. 上記自動変更後、第1希望がおまかせ、第2希望がおまかせ以外の場合は、第1希望と第2希望を入れ替え</li>
-										<li>3. 第1希望のうち、役職指定で希望した人を割り振り</li>
-										<li>4. 第1希望のうち、おまかせ系で希望した人を割り振り</li>
-										<li>5. 第2希望のうち、役職指定で希望した人を割り振り</li>
-										<li>6. 第2希望のうち、おまかせ系で希望した人を割り振り</li>
-										<li>7. ここまでで割り振られなかった人（おまかせもしくは希望が叶わなかった人）を割り振り</li>
-									</ul>
-								</li>
-								<li>G国にあった「初参加者は強制村人希望」「30%の確率でおまかせになる」仕様はありません。</li>
-							</ul>
-						</li>
-						<li>見学
-							<ul>
-								<li>村建て時に見学入村を可能にしていると見学入村できます。</li>
-								<li>見学で入村すると、1日目から死亡扱いとなり、墓下＋見学者同士でのみ会話が可能となります。（地上からは発言は見えません）</li>
-								<li>見学入村できる最大人数はキャラチップにより異なります。[キャラチップ人数 - 村定員]人まで見学入村が可能です。</li>
-								<li>例えば、キャラセットで人狼BBSを選択し、定員を17名にしていた場合は32-17=15名まで見学入村が可能です。</li>
-							</ul>
-						</li>
-						<li>発言
-							<ul>
-								<li>1発言につき400文字20行まで発言できます。</li>
-								<li>村建て発言は、1発言につき1000文字40行まで発言できます。</li>
-								<li>発言制限が設定されている村では、発言できる最大文字数と1日のうちに発言できる回数が制限されます。</li>
-								<li>ランダム機能については、その他 - ランダム機能を参照してください。</li>
-							</ul>
-						</li>
-						<li>コミット
-							<ul>
-								<li>設定でコミットありになっている村では、ダミー以外の生存者全員がコミットすることで次の日に進めることができます。</li>
-								<li>誰がコミットしているかは周りからわかりません。現在コミットしている人数のみ表示されます。</li>
-								<li>コミットは取り下げることもできます。ただし、他全員がコミット済みの場合はすぐに次の日に進むため取り下げることはできません。</li>
-								<li>コミットにより次の日に進んだ場合、次の日がその分長くなります。（つまり、次の更新日時は本来の更新日時のままです。）</li>
-							</ul>
-						</li>
-						<li>流れ
-							<ul>
-								<li>プロローグ
-									<ul>
-										<li>更新時間までに最低開始人数が揃っていた場合、更新時間に1日目に遷移します。</li>
-										<li>24時間ログイン状態でのアクセスがない参加者は自動で村を去ります。</li>
-									</ul>
-								</li>
-								<li>1日目
-									<ul>
-										<li>部屋および役職が各個に割り当てられます。</li>
-										<li>見学者が墓下へ移動し、生存者と会話できなくなります。（オプションで変更可能です）</li>
-										<li>投票および処刑はありません。</li>
-										<li>人狼の襲撃対象はダミーキャラ固定になります。襲撃担当者および経路は選択できます。</li>
-										<li>占い師、賢者は占い対象を選択できます。</li>
-										<li>狂人、魔神官、C国狂人、狂信者、妖狐は徘徊する部屋を選択できます。</li>
-										<li>狩人、探偵は能力行使できません。</li>
-									</ul>
-								</li>
-								<li>2日目以降
-									<ul>
-										<li>能力行使した内容に応じて部屋に足音が響きます。</li>
-										<li>処刑するための投票先を選択できるようにます。</li>
-										<li>人狼が襲撃対象を選択できるようになります。</li>
-										<li>狩人が護衛対象を選択できるようになります。</li>
-										<li>探偵が調査対象を選択できるようになります。</li>
-										<li>日付更新時、勝利条件に当てはまった場合はエピローグに遷移します。</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-					</ul>
+					<h2 class="h4">詳細ルール</h2>
+					<div layout:replace="~{rule/detail::detail}"></div>
 				</div>
 
 				<div class="col-sm-12 col-xs-12">
 					<hr />
-					<h2 class="h4" data-toggle="collapse" data-target="#skill">
-						<a href="javascript:void(0);">役職説明</a>
-					</h2>
-					<ul id="skill" class="announce collapse in">
-						<li>村人
-							<ul>
-								<li>特別な能力はありません。</li>
-							</ul>
-						</li>
-						<li>占い師
-							<ul>
-								<li>毎晩一人を占い、人間か人狼かを知ることができます。<br>占うと、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。
-								</li>
-								<li>処刑により死亡した場合、足音は響きますが、占いは行われません。</li>
-								<li>襲撃により死亡した場合、占いは実行され、足音も響きます。</li>
-								<li>「対象なし」はありません。必ず占い対象を選択することになります。</li>
-								<li>日付更新時のセット先はランダムです。</li>
-								<li>妖狐を占った場合死亡させることができます。「人間」と判定されます。呪殺による死亡なのか襲撃による死亡なのかは判別できません。</li>
-							</ul>
-						</li>
-						<li>賢者
-							<ul>
-								<li>毎晩一人を占い、その人の役職を知ることができます。<br>占うと、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。
-								</li>
-								<li>処刑により死亡した場合、足音は響きますが、占いは行われません。</li>
-								<li>襲撃により死亡した場合、占いは実行され、足音も響きます。</li>
-								<li>「対象なし」はありません。必ず占い対象を選択することになります。</li>
-								<li>日付更新時のセット先はランダムです。</li>
-								<li>妖狐を占った場合死亡させることができます。</li>
-							</ul>
-						</li>
-						<li>人狼
-							<ul>
-								<li>人狼とC国狂人同士にしか聞こえない会話が可能です。<br>また、毎晩一人を襲撃することができます。<br> 襲撃すると、襲撃者の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。
-								</li>
-								<li>突然死や処刑により死亡した場合も襲撃担当者が変わることなく襲撃は実行されます（襲撃なしにはなりません）。（生存している人狼が0名になった場合は襲撃は実行されません）</li>
-								<li>設定で同一人狼による連続襲撃不可となっている村では、人狼が複数生存している場合、2日連続で同じ人狼が襲撃することはできません。</li>
-								<li>日付更新時の襲撃者およびセット先はランダムです。</li>
-								<li>「襲撃なし」はありません。必ず襲撃対象を選択することになります。</li>
-								<li>襲撃失敗の場合、護衛なのか妖狐襲撃なのかは判別できません。</li>
-								<li>処刑された人物と同一人物を襲撃対象として選択していた場合も襲撃失敗になります。</li>
-								<li>「●●！今日がお前の命日だ！」の発言者は生存している人狼からランダムで選ばれるため、襲撃セット時の襲撃者と異なることがあります。（襲撃者が死亡していることがあるため連動させていません）</li>
-							</ul>
-						</li>
-						<li>狩人
-							<ul>
-								<li>毎晩一人を人狼の襲撃から守ることができます。<br>護衛すると、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。
-								</li>
-								<li>処刑により死亡した場合、足音は響きますが、護衛は行われません。</li>
-								<li>襲撃により死亡した場合、護衛は実行され、足音も響きます。</li>
-								<li>「対象なし」はありません。必ず護衛対象を選択することになります。</li>
-								<li>日付更新時のセット先はランダムです。</li>
-								<li>護衛手応えはありません。</li>
-								<li>設定で連続護衛不可となっている村では、同一人物を2日連続で護衛することができません。</li>
-								<li>1日目はセットできません。</li>
-							</ul>
-						</li>
-						<li>探偵（WOLF MANSIONオリジナル役職）
-							<ul>
-								<li>毎晩、昨晩響いた足音のうち一つを調査し、その足音を響かせた人の役職を知ることができます。</li>
-								<li>例. 2日目に響いた足音のうち1つを選んでセットすると、3日目朝にどの役職が鳴らした足音かを知ることができます。</li>
-								<li>足音「なし」については調査できません。</li>
-								<li>例. 狂人がセットしなかった、隣接した部屋への襲撃、生存者がいないため響く足音がなくなったなど</li>
-								<li>足音が1つも響かなかった日は能力をセットすることはできません。</li>
-								<li>全く同じ足音が2つ以上響いていた場合、そのうちどれか1つがランダムで調査されます。</li>
-								<li>例. 人狼、狂人の足音がどちらも12,13で12,13を調査対象とした場合、片方の調査結果だけが得られます。（=結果は人狼or狂人となります）</li>
-								<li>探偵の調査により足音が発生することはありません。</li>
-								<li>日付更新時のセット先はランダムです。</li>
-								<li>1日目は足音がないためセットできません。</li>
-								<li>村人陣営で、占霊判定はいずれも人間となります。また、人狼の襲撃により死亡します。</li>
-							</ul>
-						</li>
-						<li>罠師（WOLF MANSIONオリジナル役職）
-							<ul>
-								<li>2日目以降、全日を通して1回だけ、生存者がいる任意の部屋にその晩限りの罠を設置し、通過した人を死亡させることができます。</li>
-								<li>通過した＝その部屋に足音が響く、という意味で、その部屋の生存者を対象とした能力の場合は通過していないため罠は作動しません。</li>
-								<li>探偵の調査は足音を響かせているわけではないため、罠は作動しません。</li>
-								<li>通過した人は翌朝死亡しますが、その日の能力はそのまま行使されます。</li>
-								<li>罠が作動して死亡した場合、襲撃や呪殺同様、無残な死体として発見されます。</li>
-								<li>一度も能力を使用しないこともできます。また、能力を使ったかどうかは自分以外にはわかりません。</li>
-								<li>罠の設置により足音が発生することはありません。</li>
-								<li>日付更新時のセット先は「なし」です。</li>
-								<li>村人陣営で、占霊判定はいずれも人間となります。また、人狼の襲撃により死亡します。</li>
-							</ul>
-						</li>
-						<li>霊能者
-							<ul>
-								<li>処刑された・突然死した人物が人間であったか人狼であったかを知ることができます。（妖狐は人間判定です）</li>
-							</ul>
-						</li>
-						<li>導師
-							<ul>
-								<li>処刑された・突然死した人物の役職を知ることができます。</li>
-							</ul>
-						</li>
-						<li>狂人
-							<ul>
-								<li>毎晩任意の部屋からその直線上の部屋に向かって徘徊し、徘徊した部屋に足音を響かせることが可能です。</li>
-								<li>「足音なし」が可能です。</li>
-								<li>日付更新時の足音セットは「なし」です。</li>
-							</ul>
-						</li>
-						<li>C国狂人
-							<ul>
-								<li>人狼とC国狂人同士にしか聞こえない会話が可能です。<br>また、毎晩任意の部屋からその直線上の部屋に向かって徘徊し、徘徊した部屋に足音を響かせることが可能です。
-								</li>
-								<li>「足音なし」が可能です。</li>
-								<li>日付更新時の足音セットは「なし」です。</li>
-							</ul>
-						</li>
-						<li>魔神官
-							<ul>
-								<li>処刑された・突然死した人物の役職を知ることができます。<br>また、毎晩任意の部屋からその直線上の部屋に向かって徘徊し、徘徊した部屋に足音を響かせることが可能です。
-								</li>
-								<li>「足音なし」が可能です。</li>
-								<li>日付更新時の足音セットは「なし」です。</li>
-							</ul>
-						</li>
-						<li>狂信者
-							<ul>
-								<li>人狼が誰なのかを知ることができます。（人狼からは自分が狂信者であることはわかりません）</li>
-								<li>毎晩任意の部屋からその直線上の部屋に向かって徘徊し、徘徊した部屋に足音を響かせることが可能です。</li>
-								<li>「足音なし」が可能です。</li>
-								<li>日付更新時の足音セットは「なし」です。</li>
-							</ul>
-						</li>
-						<li>共鳴者
-							<ul>
-								<li>共鳴者同士にしか聞こえない会話が可能です。</li>
-							</ul>
-						</li>
-						<li>妖狐
-							<ul>
-								<li>人狼に襲撃されても死亡しませんが、占われると死亡します。<br>また、毎晩任意の部屋からその直線上の部屋に向かって徘徊し、徘徊した部屋に足音を響かせることが可能です。
-								</li>
-								<li>「足音なし」が可能です。</li>
-								<li>日付更新時の足音セットは「なし」です。</li>
-								<li>処理順は処刑→占い→襲撃となるため、占い師が処刑された場合、妖狐に占いをセットしていても妖狐は死亡しません。逆に、占い師が襲撃された場合でも妖狐に占いをセットしていた場合は妖狐は死亡します。</li>
-							</ul>
-						</li>
-						<li>爆弾魔（WOLF MANSIONオリジナル役職）
-							<ul>
-								<li>2日目以降、全日を通して1回だけ、生存者がいる任意の部屋にその晩限りの爆弾を設置し、誰かが通過した場合、通過した人と設置した部屋の生存者を死亡させることができます。</li>
-								<li>通過した＝その部屋に足音が響く、という意味で、その部屋の生存者を対象とした能力の場合は通過していないため爆弾は作動しません。</li>
-								<li>探偵の調査は足音を響かせているわけではないため、爆弾は作動しません。</li>
-								<li>通過した人や設置された部屋の生存者は翌朝死亡しますが、その日の能力はそのまま行使されます。</li>
-								<li>爆弾が作動して死亡した場合、襲撃や呪殺同様、無残な死体として発見されます。</li>
-								<li>爆弾を設置したのに爆弾が作動しなかった場合、不完全燃焼で自身が自爆し死亡します。</li>
-								<li>爆弾を設置しないままエピローグを迎えると、不完全燃焼で自身が自爆し死亡します。</li>
-								<li>爆弾の設置により足音が発生することはありません。</li>
-								<li>日付更新時のセット先は「なし」です。</li>
-								<li>愉快犯陣営で、占霊判定はいずれも人間となります。また、人狼の襲撃により死亡します。</li>
-							</ul>
-						</li>
-					</ul>
+					<h2 class="h4">役職詳細</h2>
+					<div layout:replace="~{rule/skill::skill}"></div>
 				</div>
 
 				<div class="col-sm-12 col-xs-12">
 					<hr />
-					<h2 class="h4" data-toggle="collapse" data-target="#camp">
-						<a href="javascript:void(0);">陣営・勝敗</a>
-					</h2>
-					<div id="camp" class="table-responsive collapse in">
-						<table class="table table-bordered table-condensed small">
-							<thead>
-								<tr>
-									<th class="vertical-middle">陣営</th>
-									<th class="vertical-middle">陣営に所属する役職</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td class="vertical-middle">村人陣営</td>
-									<td class="vertical-middle">村人<br>占い師<br>賢者<br>狩人<br>霊能者<br>導師<br>共鳴者<br>探偵<br>罠師
-									</td>
-								</tr>
-								<tr>
-									<td class="vertical-middle">人狼陣営</td>
-									<td class="vertical-middle">人狼<br>狂人<br>C国狂人<br>魔神官<br>狂信者
-									</td>
-								</tr>
-								<tr>
-									<td class="vertical-middle">妖狐陣営</td>
-									<td class="vertical-middle">妖狐</td>
-								</tr>
-								<tr>
-									<td class="vertical-middle">愉快犯陣営</td>
-									<td class="vertical-middle">爆弾魔</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div id="wincondition" class="table-responsive collapse in">
-						<table class="table table-bordered table-condensed small">
-							<thead>
-								<tr>
-									<th colspan="3" class="vertical-middle">陣営勝利（同時に満たした場合は上にあるものほど優先度高）</th>
-								</tr>
-								<tr>
-									<th class="vertical-middle">陣営</th>
-									<th class="vertical-middle">勝利条件</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td class="vertical-middle">妖狐陣営</td>
-									<td class="vertical-middle">いずれかの陣営が勝利条件を満たした際に妖狐が1名以上生存している</td>
-								</tr>
-								<tr>
-									<td class="vertical-middle">人狼陣営</td>
-									<td class="vertical-middle">夜明け時点で生存している人狼の数≧生存している人間（※）の数<br>
-									</td>
-								</tr>
-								<tr>
-									<td class="vertical-middle">村人陣営</td>
-									<td class="vertical-middle">夜明け時点で人狼が全員死亡し、人間（※）が1人以上生存している</td>
-								</tr>
-							<thead>
-								<tr>
-									<th colspan="3" class="vertical-middle">追加勝利（勝利陣営と関係なく条件に当てはまれば勝利）</th>
-								</tr>
-							</thead>
-							<tr>
-								<td class="vertical-middle">愉快犯陣営</td>
-								<td class="vertical-middle">いずれかの陣営が勝利時に自身が生存している（一人一人勝敗判定）</td>
-							</tr>
-							</tbody>
-						</table>
-						※ここでの「人間」は「人狼と妖狐以外」を表す。狂人は人間に含まれ、妖狐は人間にも人狼にも含まれない。
-					</div>
+					<h2 class="h4">陣営・勝敗</h2>
+					<div layout:replace="~{rule/camp::camp}"></div>
 				</div>
 
 				<div class="col-sm-12 col-xs-12">
 					<hr />
-					<h2 class="h4" data-toggle="collapse" data-target="#room">
-						<a href="javascript:void(0);">人数と部屋サイズ</a>
-					</h2>
-					<div id="room" class="table-responsive collapse in">
-						<p>21名〜99名の部屋構成については管理者までお問い合わせください。</p>
-						<table class="table table-bordered table-condensed small">
-							<thead>
-								<tr>
-									<th class="vertical-middle">人数</th>
-									<th class="vertical-middle">空き部屋の位置<br> (部：部屋 ＿：空き部屋)
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td class="vertical-middle">8人(4x3)</td>
-									<td class="vertical-middle">＿部部＿<br>部部部部<br>＿部部＿<br>
-									</td>
-								</tr>
-								<tr>
-									<td class="vertical-middle">9人(4x3)</td>
-									<td class="vertical-middle">＿部部＿<br>部部部部<br>＿部部部<br>
-									</td>
-								</tr>
-								<tr>
-									<td class="vertical-middle">10人(4x3)</td>
-									<td class="vertical-middle">部部部＿<br>部部部部<br>＿部部部<br>
-									</td>
-								</tr>
-								<tr>
-									<td class="vertical-middle">11人(5x3)</td>
-									<td class="vertical-middle">＿部部部＿<br>部部部部部<br>＿部部部＿<br>
-									</td>
-								</tr>
-								<tr>
-									<td class="vertical-middle">12人(4x4)</td>
-									<td class="vertical-middle">＿部部＿<br>部部部部<br>部部部部<br>＿部部＿<br>
-									</td>
-								</tr>
-								<tr>
-									<td class="vertical-middle">13人(4x4)</td>
-									<td class="vertical-middle">＿部部＿<br>部部部部<br>部部部部<br>＿部部部<br>
-									</td>
-								</tr>
-								<tr>
-									<td class="vertical-middle">14人(5x4)</td>
-									<td class="vertical-middle">＿＿部部＿<br>部部部部部<br>部部部部部<br>＿部部＿＿<br>
-									</td>
-								</tr>
-								<tr>
-									<td class="vertical-middle">15人(5x4)</td>
-									<td class="vertical-middle">＿＿部部＿<br>部部部部部<br>部部部部部<br>＿部部部＿<br>
-									</td>
-								</tr>
-								<tr>
-									<td class="vertical-middle">16人(5x4)</td>
-									<td class="vertical-middle">＿部部部＿<br>部部部部部<br>部部部部部<br>＿部部部＿<br>
-									</td>
-								</tr>
-								<tr>
-									<td class="vertical-middle">17人(5x4)</td>
-									<td class="vertical-middle">＿部部部＿<br>部部部部部<br>部部部部部<br>＿部部部部<br>
-									</td>
-								</tr>
-								<tr>
-									<td class="vertical-middle">18人(6x4)</td>
-									<td class="vertical-middle">＿＿部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部＿＿<br>
-									</td>
-								</tr>
-								<tr>
-									<td class="vertical-middle">19人(6x4)</td>
-									<td class="vertical-middle">＿部部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部＿＿<br>
-									</td>
-								</tr>
-								<tr>
-									<td class="vertical-middle">20人(6x4)</td>
-									<td class="vertical-middle">＿部部部部＿<br>部部部部部部<br>部部部部部部<br>＿部部部部＿<br>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+					<h2 class="h4">人数と部屋サイズ</h2>
+					<div layout:replace="~{rule/room::room}"></div>
 				</div>
 
 				<div class="col-sm-12 col-xs-12">
 					<hr />
-					<h2 class="h4" data-toggle="collapse" data-target="#other">
-						<a href="javascript:void(0);">その他</a>
-					</h2>
-					<ul id="other" class="announce collapse in">
-						<li>発言ランダム機能
-							<ul class="announce">
-								<li>&#091;&#091;XdY&#093;&#093;でY面ダイスをX個振れます。
-									<ul>
-										<li>&#091;&#091;2d6&#093;&#093; → (3)(5)<span class="extra-small">&#091;&#091;2d6&#093;&#093;</span></li>
-										<li>X:1~9, Y:1~99999</li>
-									</ul>
-								</li>
-								<li>&#091;&#091;fortune&#093;&#093;で0~100までの数字をランダムで表示します。
-									<ul>
-										<li>&#091;&#091;fortune&#093;&#093; → 99<span class="extra-small">&#091;&#091;fortune&#093;&#093;</span></li>
-									</ul>
-								</li>
-								<li>&#091;&#091;XXXorYYYorZZZ&#093;&#093;でorで区切った文字列のいずれかをランダムで表示します。
-									<ul>
-										<li>&#091;&#091;オレサマorゲルトorマルカジリ&#093;&#093; → マルカジリ<span class="extra-small">&#091;&#091;オレサマorゲルトorマルカジリ&#093;&#093;</span></li>
-									</ul>
-								</li>
-								<li>&#091;&#091;who&#093;&#093;で生存者のいずれかをランダムで表示します。
-									<ul>
-										<li>&#091;&#091;who&#093;&#093; → 司書 クララ<span class="extra-small">&#091;&#091;who&#093;&#093;</span></li>
-									</ul>
-								</li>
-								<li>&#091;&#091;allwho&#093;&#093;で見学含む参加者のいずれかをランダムで表示します。
-									<ul>
-										<li>&#091;&#091;allwho&#093;&#093; → 楽天家 ゲルト<span class="extra-small">&#091;&#091;allwho&#093;&#093;</span></li>
-									</ul>
-								</li>
-								<li>他にも、<a th:href="@{/random-message}">ユーザー定義のランダム発言</a>を登録して使用することができます。
-								</li>
-							</ul>
-						</li>
-						<li>文字装飾機能
-							<ul class="announce">
-								<li>&#091;&#091;#ff0000&#093;&#093;文字列&#091;&#091;/#&#093;&#093;で文字に色をつけられます。
-									<ul>
-										<li>&#091;&#091;#ff0000&#093;&#093;文字列&#091;&#091;/#&#093;&#093; → <span style="color: #ff0000;">文字列</span></li>
-									</ul>
-								</li>
-								<li>&#091;&#091;large&#093;&#093;文字列&#091;&#091;/large&#093;&#093;で文字を大きくできます。
-									<ul>
-										<li>&#091;&#091;large&#093;&#093;文字列&#091;&#091;/large&#093;&#093; → <span style="font-size: 16px;">文字列</span></li>
-									</ul>
-								</li>
-								<li>&#091;&#091;small&#093;&#093;文字列&#091;&#091;/small&#093;&#093;で文字を小さくできます。
-									<ul>
-										<li>&#091;&#091;small&#093;&#093;文字列&#091;&#091;/small&#093;&#093; → <span style="font-size: 10px;">文字列</span></li>
-									</ul>
-								</li>
-								<li>&#091;&#091;b&#093;&#093;文字列&#091;&#091;/b&#093;&#093;で文字を太くできます。
-									<ul>
-										<li>&#091;&#091;b&#093;&#093;文字列&#091;&#091;/b&#093;&#093; → <strong>文字列</strong></li>
-									</ul>
-								</li>
-								<li>&#091;&#091;s&#093;&#093;文字列&#091;&#091;/s&#093;&#093;で文字に打ち消し線をつけられます。
-									<ul>
-										<li>&#091;&#091;s&#093;&#093;文字列&#091;&#091;/s&#093;&#093; → <span style="text-decoration: line-through;">文字列</span></li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-						<li>発言種別
-							<div class="col-sm-12 col-xs-12 say-n1">
-								<div class="row">
-									<div class="col-sm-12 col-xs-12">
-										<div class="row" style="display: flex;">
-											<div style="width: 50px; height: 77px; background: url('/wolf-mansion/app/images/geruto.png'); background-repeat: no-repeat;"></div>
-											<div class="message message-normal" style="flex: 1; margin-left: 5px;">通常発言です。全ての人が参照できます。</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-12 say-n1">
-								<div class="row">
-									<div class="col-sm-12 col-xs-12">
-										<div class="row" style="display: flex;">
-											<div style="width: 50px; height: 77px; background: url('/wolf-mansion/app/images/geruto.png'); background-repeat: no-repeat;"></div>
-											<div class="message message-werewolf" style="flex: 1; margin-left: 5px;">囁き発言です。進行中は人狼とC国狂人だけが参照できます。</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-12 col-xs-12 say-n1">
-								<div class="row">
-									<div class="col-sm-12 col-xs-12">
-										<div class="row" style="display: flex;">
-											<div style="width: 50px; height: 77px; background: url('/wolf-mansion/app/images/geruto.png'); background-repeat: no-repeat;"></div>
-											<div class="message message-monologue" style="flex: 1; margin-left: 5px;">独り言です。進行中は自分だけが参照できます。</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-12 col-xs-12 say-n1">
-								<div class="row">
-									<div class="col-sm-12 col-xs-12">
-										<div class="row" style="display: flex;">
-											<div style="width: 50px; height: 77px; background: url('/wolf-mansion/app/images/geruto.png'); background-repeat: no-repeat;"></div>
-											<div class="message message-mason" style="flex: 1; margin-left: 5px;">共鳴発言です。進行中は共鳴者だけが参照できます。</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-12 col-xs-12 say-n1">
-								<div class="row">
-									<div class="col-sm-12 col-xs-12">
-										<div class="row" style="display: flex;">
-											<div style="width: 50px; height: 77px; background: url('/wolf-mansion/app/images/geruto.png'); background-repeat: no-repeat;"></div>
-											<div class="message message-grave" style="flex: 1; margin-left: 5px;">墓下発言です。進行中は死亡者と見学者だけが参照できます。（村の設定によっては、生存者も参照できます。）</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-12 col-xs-12 say-n1">
-								<div class="row">
-									<div class="col-sm-12 col-xs-12">
-										<div class="row" style="display: flex;">
-											<div style="width: 50px; height: 77px; background: url('/wolf-mansion/app/images/geruto.png'); background-repeat: no-repeat;"></div>
-											<div class="message message-spectate" style="flex: 1; margin-left: 5px;">見学発言です。進行中は死亡者と見学者だけが参照できます。（村の設定によっては、生存者も参照できます。）</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-12 col-xs-12">
-								<div class="row">
-									<div class="message col-sm-12 col-xs-12 message-public-system">システムメッセージです。全ての人が参照できます。</div>
-								</div>
-							</div>
-							<div class="col-sm-12 col-xs-12" data-message>
-								<div class="row">
-									<div class="message col-sm-12 col-xs-12 message-private-system">システムメッセージです。進行中は参照できません。（占い結果や霊能結果など、一部役職のみ確認可能なものもあります。）</div>
-								</div>
-							</div>
-							<div class="col-sm-12 col-xs-12" data-message>
-								<div class="row">
-									<div class="message col-sm-12 col-xs-12 message-creator">村建て発言です。全ての人が参照できます。</div>
-								</div>
-							</div>
-						</li>
-						<li>国主の召喚方法
-							<ul>
-								<li>「＠国主」「@国主」をつけて発言すると、国主に発言内容が通知されます。（発言者、役職、発言種別等は通知されないので、必要であれば添えて発言してください。）</li>
-								<li>もしくは、twitterで話しかけるとそれなりの速度で反応します。</li>
-							</ul>
-						</li>
-					</ul>
+					<h2 class="h4">その他</h2>
+					<div layout:replace="~{rule/other::other}"></div>
 				</div>
 
 				<div class="clearfix"></div>
