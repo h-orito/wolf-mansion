@@ -49,7 +49,7 @@
 														th:utext="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span> <span
 														style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
 														th:if="${room.isDead != null && room.isDead && room.charaName != null}"
-														th:text="${room.deadDay} + 'd ' + ${room.deadReason == 'ATTACK' || room.deadReason == 'DIVINED' ? '▲' : room.deadReason == 'EXECUTE' ? '▼' : '凸'}">2d
+														th:text="${room.deadDay} + 'd ' + ${room.deadReason == 'ATTACK' || room.deadReason == 'DIVINED' || room.deadReason == 'TRAPPED' || room.deadReason == 'BOMBED' ? '▲' : room.deadReason == 'EXECUTE' ? '▼' : '凸'}">2d
 														▲</span> <span style="background-color: #222222; opacity: 0.8; white-space: nowrap;" th:if="${room.isDummy != null && room.isDummy}"><br />ダミー</span>
 													<span class="hidden" style="background-color: #222222; opacity: 0.8; white-space: nowrap;" th:if="${room.skillName != null}"
 														th:utext="'<br />' + ${room.skillName}" data-spoiled-content>人狼</span>

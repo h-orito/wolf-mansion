@@ -4,10 +4,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.StringJoiner;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -405,12 +407,16 @@ public class DayChangeLogic {
         // 突然死
         List<VillagePlayer> suddonlyDeathVPlayerList = killNoVotePlayer(villageId, day, vPlayerList, settings);
 
+        // 能力行使内容取得
+        List<Ability> abilityList = selectAbilityList(villageId, day);
+
+        // 罠、爆弾設置メッセージ
+        insertTrapMessages(villageId, day, vPlayerList, abilityList, suddonlyDeathVPlayerList);
+        insertBombMessages(villageId, day, vPlayerList, abilityList, suddonlyDeathVPlayerList);
+
         // 処刑
         VillagePlayer executedPlayer = execute(villageId, day, vPlayerList, settings, suddonlyDeathVPlayerList);
         Integer executedPlayerId = executedPlayer == null ? null : executedPlayer.getVillagePlayerId();
-
-        // 能力行使内容取得
-        List<Ability> abilityList = selectAbilityList(villageId, day);
 
         // 護衛
         List<VillagePlayer> guardedPlayerList = guard(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, abilityList);
@@ -433,8 +439,16 @@ public class DayChangeLogic {
         Optional<VillagePlayer> optAttackedPlayer =
                 attack(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, guardedPlayerList, abilityList);
 
+        // 罠
+        List<VillagePlayer> trappedPlayerList = trap(villageId, day, vPlayerList, abilityList, executedPlayer, divineKilledPlayerList,
+                optAttackedPlayer, suddonlyDeathVPlayerList);
+
+        // 爆弾
+        List<VillagePlayer> bombedPlayerList = bomb(villageId, day, vPlayerList, abilityList, executedPlayer, divineKilledPlayerList,
+                optAttackedPlayer, suddonlyDeathVPlayerList, trappedPlayerList);
+
         // 無惨メッセージ
-        insertAttackedMessage(villageId, day, divineKilledPlayerList, optAttackedPlayer);
+        insertAttackedMessage(villageId, day, divineKilledPlayerList, optAttackedPlayer, trappedPlayerList, bombedPlayerList);
 
         if (day == 2 && optAttackedPlayer.isPresent()) {
             messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ,
@@ -492,20 +506,15 @@ public class DayChangeLogic {
     private void epilogueVillage(Integer villageId, int day, ListResultBean<VillagePlayer> villagePlayerList, Camp winCamp,
             long werewolfCount) {
         // DB更新
-        Village village = new Village();
-        village.setVillageStatusCode_エピローグ();
-        village.setEpilogueDay(day);
-        village.setWinCampCodeAsCamp(winCamp);
-        villageBhv.queryUpdate(village, cb -> cb.query().setVillageId_Equal(villageId));
-        villagePlayerList.forEach(vp -> {
-            vp.setIsWin(winCamp.code().equals(vp.getCampCode()));
-            villagePlayerBhv.update(vp);
-        });
+        dayChangeLogicHelper.updateVillageEpilogue(villageId, day, winCamp);
+        dayChangeLogicHelper.deadBomberIfNeeded(villageId, day, villagePlayerList);
+        ListResultBean<VillagePlayer> vPlayerList = dayChangeLogicHelper.selectVillagePlayerList(villageId);
+        dayChangeLogicHelper.updateIsWin(vPlayerList, winCamp);
         // エピローグ遷移メッセージ登録
         String message = getEpilogueMessage(winCamp, werewolfCount);
         messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, message);
         // 参加者一覧メッセージ登録
-        insertPlayerListMessage(villageId, day, villagePlayerList);
+        insertPlayerListMessage(villageId, day, vPlayerList);
         // エピは固定で24時間
         updateVillageDay(villageId, day);
         // tweet
@@ -532,8 +541,12 @@ public class DayChangeLogic {
     private void insertPlayerListMessage(Integer villageId, int day, ListResultBean<VillagePlayer> villagePlayerList) {
         StringJoiner joiner = new StringJoiner("\n");
         villagePlayerList.stream().sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber()).forEach(player -> {
-            joiner.add(String.format("%s (%s)、%s。%sだった。", CharaUtil.makeCharaName(player), player.getPlayer().get().getPlayerName(),
-                    player.isIsDeadTrue() ? "死亡" : "生存", player.getSkillBySkillCode().get().getSkillName()));
+            joiner.add(String.format("%s (%s)、%s、%s。%sだった。", // 
+                    CharaUtil.makeCharaName(player), // 
+                    player.getPlayer().get().getPlayerName(), //
+                    player.isIsDeadTrue() ? "死亡" : "生存", //
+                    player.isIsWinTrue() ? "勝利" : "敗北", //
+                    player.getSkillBySkillCode().get().getSkillName()));
         });
         ListResultBean<VillagePlayer> spectatorList = villagePlayerBhv.selectList(cb -> {
             cb.setupSelect_Chara();
@@ -565,16 +578,18 @@ public class DayChangeLogic {
 
     // 無惨メッセージ
     private void insertAttackedMessage(Integer villageId, int day, List<VillagePlayer> divineKilledPlayerList,
-            Optional<VillagePlayer> optAttackedPlayer) {
-        List<VillagePlayer> attackedPlayerList = new ArrayList<>();
-        attackedPlayerList.addAll(divineKilledPlayerList);
-        optAttackedPlayer.ifPresent(player -> attackedPlayerList.add(player));
-        if (CollectionUtils.isEmpty(attackedPlayerList)) {
+            Optional<VillagePlayer> optAttackedPlayer, List<VillagePlayer> trappedPlayerList, List<VillagePlayer> bombedPlayerList) {
+        List<VillagePlayer> victimPlayerList = new ArrayList<>();
+        victimPlayerList.addAll(divineKilledPlayerList);
+        victimPlayerList.addAll(trappedPlayerList);
+        victimPlayerList.addAll(bombedPlayerList);
+        optAttackedPlayer.ifPresent(player -> victimPlayerList.add(player));
+        if (CollectionUtils.isEmpty(victimPlayerList)) {
             messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, "今日は犠牲者がいないようだ。人狼は襲撃に失敗したのだろうか。");
         } else {
-            Collections.shuffle(attackedPlayerList);
+            Collections.shuffle(victimPlayerList);
             StringJoiner joiner = new StringJoiner("と", "次の日の朝、", "が無惨な姿で発見された。");
-            attackedPlayerList.stream().forEach(player -> {
+            victimPlayerList.stream().forEach(player -> {
                 joiner.add(CharaUtil.makeCharaName(player));
             });
             messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
@@ -643,6 +658,117 @@ public class DayChangeLogic {
             return false; // 噛み先が妖狐
         }
         return true;
+    }
+
+    // 罠設置メッセージ
+    private void insertTrapMessages(Integer villageId, int day, List<VillagePlayer> vPlayerList, List<Ability> abilityList,
+            List<VillagePlayer> suddonlyDeathVPlayerList) {
+        abilityList.stream().filter(ability -> {
+            return ability.isAbilityTypeCode罠設置() //
+                    && suddonlyDeathVPlayerList.stream().noneMatch(vp -> vp.getCharaId().equals(ability.getCharaId()));
+        }).forEach(trap -> {
+            // 設置した人
+            VillagePlayer trapper = vPlayerList.stream().filter(vp -> vp.getCharaId().equals(trap.getCharaId())).findFirst().get();
+            // 設置された部屋の人
+            VillagePlayer targetPlayer =
+                    vPlayerList.stream().filter(vp -> vp.getCharaId().equals(trap.getTargetCharaId())).findFirst().get();
+            String message = String.format("%sは、%sの部屋に罠を設置した。", CharaUtil.makeCharaName(trapper), CharaUtil.makeCharaName(targetPlayer));
+            messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
+        });
+    }
+
+    // 爆弾設置メッセージ
+    private void insertBombMessages(Integer villageId, int day, List<VillagePlayer> vPlayerList, List<Ability> abilityList,
+            List<VillagePlayer> suddonlyDeathVPlayerList) {
+        abilityList.stream().filter(ability -> {
+            return ability.isAbilityTypeCode爆弾設置() //
+                    && suddonlyDeathVPlayerList.stream().noneMatch(vp -> vp.getCharaId().equals(ability.getCharaId()));
+        }).forEach(bomb -> {
+            // 設置した人
+            VillagePlayer trapper = vPlayerList.stream().filter(vp -> vp.getCharaId().equals(bomb.getCharaId())).findFirst().get();
+            // 設置された部屋の人
+            VillagePlayer targetPlayer =
+                    vPlayerList.stream().filter(vp -> vp.getCharaId().equals(bomb.getTargetCharaId())).findFirst().get();
+            String message = String.format("%sは、%sの部屋に爆弾を設置した。", CharaUtil.makeCharaName(trapper), CharaUtil.makeCharaName(targetPlayer));
+            messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
+        });
+    }
+
+    private List<VillagePlayer> trap(Integer villageId, int day, List<VillagePlayer> vPlayerList, List<Ability> abilityList,
+            VillagePlayer executedPlayer, List<VillagePlayer> divineKilledPlayerList, Optional<VillagePlayer> optAttackedPlayer,
+            List<VillagePlayer> suddonlyDeathVPlayerList) {
+        // 死亡している人
+        List<VillagePlayer> deadPlayerList = new ArrayList<>();
+        deadPlayerList.add(executedPlayer);
+        deadPlayerList.addAll(divineKilledPlayerList);
+        optAttackedPlayer.ifPresent(attackedPlayer -> deadPlayerList.add(attackedPlayer));
+        // 罠
+        Set<VillagePlayer> wholeTrappedPlayerSet = new HashSet<>();
+        abilityList.stream().filter(ability -> {
+            return ability.isAbilityTypeCode罠設置() //
+                    && suddonlyDeathVPlayerList.stream().noneMatch(vp -> vp.getCharaId().equals(ability.getCharaId()));
+        }).forEach(trap -> {
+            // 設置された部屋
+            Integer roomNumber =
+                    vPlayerList.stream().filter(vp -> vp.getCharaId().equals(trap.getTargetCharaId())).findFirst().get().getRoomNumber();
+            // 設置された部屋を通過した人
+            List<VillagePlayer> trappedPlayerList = footstepLogic.getPassedPlayerList(villageId, day - 1, roomNumber, vPlayerList);
+            wholeTrappedPlayerSet.addAll(trappedPlayerList);
+        });
+        // 通過した人の死亡処理
+        wholeTrappedPlayerSet.stream().filter(vp -> {
+            return deadPlayerList.stream().noneMatch(deadVP -> deadVP.getVillagePlayerId().equals(vp.getVillagePlayerId()));
+        }).forEach(trappedPlayer -> {
+            dayChangeLogicHelper.updateVillagePlayerDead(day, trappedPlayer, CDef.DeadReason.罠死); // 死亡処理
+        });
+
+        return wholeTrappedPlayerSet.stream().filter(vp -> {
+            return deadPlayerList.stream().noneMatch(deadVP -> deadVP.getVillagePlayerId().equals(vp.getVillagePlayerId()));
+        }).collect(Collectors.toList());
+    }
+
+    private List<VillagePlayer> bomb(Integer villageId, int day, List<VillagePlayer> vPlayerList, List<Ability> abilityList,
+            VillagePlayer executedPlayer, List<VillagePlayer> divineKilledPlayerList, Optional<VillagePlayer> optAttackedPlayer,
+            List<VillagePlayer> suddonlyDeathVPlayerList, List<VillagePlayer> trappedPlayerList) {
+        // 死亡している人
+        List<VillagePlayer> deadPlayerList = new ArrayList<>();
+        deadPlayerList.add(executedPlayer);
+        deadPlayerList.addAll(divineKilledPlayerList);
+        deadPlayerList.addAll(trappedPlayerList);
+        optAttackedPlayer.ifPresent(attackedPlayer -> deadPlayerList.add(attackedPlayer));
+        // 爆弾
+        Set<VillagePlayer> wholeBombedPlayerSet = new HashSet<>();
+        abilityList.stream().filter(ability -> {
+            return ability.isAbilityTypeCode爆弾設置() //
+                    && suddonlyDeathVPlayerList.stream().noneMatch(vp -> vp.getCharaId().equals(ability.getCharaId()));
+        }).forEach(trap -> {
+            // 設置した人
+            VillagePlayer bomber = vPlayerList.stream().filter(vp -> vp.getCharaId().equals(trap.getCharaId())).findFirst().get();
+            // 設置された部屋の人
+            VillagePlayer bombedRoomPlayer =
+                    vPlayerList.stream().filter(vp -> vp.getCharaId().equals(trap.getTargetCharaId())).findFirst().get();
+            // 設置された部屋を通過した人
+            List<VillagePlayer> bombedPlayerList =
+                    footstepLogic.getPassedPlayerList(villageId, day - 1, bombedRoomPlayer.getRoomNumber(), vPlayerList);
+            if (bombedPlayerList.isEmpty()) {
+                // 爆弾魔が死亡
+                wholeBombedPlayerSet.add(bomber);
+            } else {
+                // 設置された部屋の人と通過した人が死亡
+                wholeBombedPlayerSet.add(bombedRoomPlayer);
+                wholeBombedPlayerSet.addAll(bombedPlayerList);
+            }
+        });
+        // 死亡処理
+        wholeBombedPlayerSet.stream().filter(vp -> {
+            return deadPlayerList.stream().noneMatch(deadVP -> deadVP.getVillagePlayerId().equals(vp.getVillagePlayerId()));
+        }).forEach(trappedPlayer -> {
+            dayChangeLogicHelper.updateVillagePlayerDead(day, trappedPlayer, CDef.DeadReason.爆死); // 死亡処理
+        });
+
+        return wholeBombedPlayerSet.stream().filter(vp -> {
+            return deadPlayerList.stream().noneMatch(deadVP -> deadVP.getVillagePlayerId().equals(vp.getVillagePlayerId()));
+        }).collect(Collectors.toList());
     }
 
     // 霊視

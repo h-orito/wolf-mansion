@@ -3,18 +3,23 @@ package com.ort.app.web.controller.logic.daychange;
 import java.time.LocalDateTime;
 
 import org.dbflute.cbean.result.ListResultBean;
+import org.dbflute.optional.OptionalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ort.app.web.controller.logic.MessageLogic;
 import com.ort.app.web.dto.VillageInfo;
+import com.ort.app.web.util.CharaUtil;
 import com.ort.dbflute.allcommon.CDef;
+import com.ort.dbflute.allcommon.CDef.Camp;
 import com.ort.dbflute.exbhv.AbilityBhv;
 import com.ort.dbflute.exbhv.CommitBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exbhv.VillageSettingsBhv;
+import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
@@ -42,6 +47,8 @@ public class DayChangeLogicHelper {
     private CommitBhv commitBhv;
     @Autowired
     private AbilityBhv abilityBhv;
+    @Autowired
+    private MessageLogic messageLogic;
 
     // ===================================================================================
     //                                                                             Execute
@@ -140,6 +147,14 @@ public class DayChangeLogicHelper {
         villageBhv.queryUpdate(village, cb -> cb.query().setVillageId_Equal(villageId));
     }
 
+    public void updateVillageEpilogue(Integer villageId, int day, Camp winCamp) {
+        Village village = new Village();
+        village.setVillageStatusCode_エピローグ();
+        village.setEpilogueDay(day);
+        village.setWinCampCodeAsCamp(winCamp);
+        villageBhv.queryUpdate(village, cb -> cb.query().setVillageId_Equal(villageId));
+    }
+
     // 村日付のみ即コミットされるようにする。publicでないと効かないので注意。
     @Transactional(rollbackFor = Exception.class) // 念のため検査例外でもロールバックされるようにしておく
     public void insertVillageDayTransactional(Integer villageId, int day, LocalDateTime nextDayChangeDatetime) {
@@ -163,6 +178,40 @@ public class DayChangeLogicHelper {
         vPlayer.setIsDead_True();
         vPlayer.setDeadDay(day);
         villagePlayerBhv.queryUpdate(vPlayer, cb -> cb.query().setVillagePlayerId_Equal(targetPlayer.getVillagePlayerId()));
+    }
+
+    public void deadBomberIfNeeded(Integer villageId, int day, ListResultBean<VillagePlayer> villagePlayerList) {
+        villagePlayerList.stream().filter(vp -> {
+            return vp.isSkillCode爆弾魔() && vp.isIsDeadFalse();
+        }).forEach(bomber -> {
+            OptionalEntity<Ability> optAbility = abilityBhv.selectEntity(cb -> {
+                cb.query().setVillageId_Equal(villageId);
+                cb.query().setAbilityTypeCode_Equal_爆弾設置();
+                cb.query().setCharaId_Equal(bomber.getCharaId());
+                cb.fetchFirst(1);
+            });
+            if (optAbility.isPresent()) {
+                return;
+            }
+            // 爆弾を設置していない
+            String message = String.format("%sは、物足りないので自分の部屋を爆破した。", CharaUtil.makeCharaName(bomber));
+            messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, message);
+            updateVillagePlayerDead(day, bomber, CDef.DeadReason.爆死); // 死亡処理
+        });
+
+    }
+
+    public void updateIsWin(ListResultBean<VillagePlayer> villagePlayerList, CDef.Camp winCamp) {
+        villagePlayerList.forEach(vp -> {
+            if (CDef.Camp.codeOf(vp.getCampCode()) == CDef.Camp.愉快犯陣営) {
+                // 愉快犯陣営は生存していれば追加勝利
+                vp.setIsWin(vp.isIsDeadFalse());
+            } else {
+                // 他は勝利陣営だったら勝利
+                vp.setIsWin(winCamp.code().equals(vp.getCampCode()));
+            }
+            villagePlayerBhv.update(vp);
+        });
     }
 
     // ===================================================================================

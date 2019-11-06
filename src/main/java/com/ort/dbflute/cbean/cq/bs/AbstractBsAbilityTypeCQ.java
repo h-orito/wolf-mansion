@@ -71,6 +71,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 爆弾設置 (BOMB). And OnlyOnceRegistered. <br>
+     * 爆弾設置
+     */
+    public void setAbilityTypeCode_Equal_爆弾設置() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.爆弾設置);
+    }
+
+    /**
      * Equal(=). As 占い (DIVINE). And OnlyOnceRegistered. <br>
      * 占い
      */
@@ -92,6 +100,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_Equal_捜査() {
         setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.捜査);
+    }
+
+    /**
+     * Equal(=). As 罠設置 (TRAP). And OnlyOnceRegistered. <br>
+     * 罠設置
+     */
+    public void setAbilityTypeCode_Equal_罠設置() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.罠設置);
     }
 
     protected void doSetAbilityTypeCode_Equal(String abilityTypeCode) {
@@ -126,6 +142,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 爆弾設置 (BOMB). And OnlyOnceRegistered. <br>
+     * 爆弾設置
+     */
+    public void setAbilityTypeCode_NotEqual_爆弾設置() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.爆弾設置);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 占い (DIVINE). And OnlyOnceRegistered. <br>
      * 占い
      */
@@ -147,6 +171,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_捜査() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.捜査);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 罠設置 (TRAP). And OnlyOnceRegistered. <br>
+     * 罠設置
+     */
+    public void setAbilityTypeCode_NotEqual_罠設置() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.罠設置);
     }
 
     protected void doSetAbilityTypeCode_NotEqual(String abilityTypeCode) {

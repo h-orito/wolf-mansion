@@ -282,64 +282,117 @@ public class VillageDispLogic {
         VillagePlayer vPlayer = villageInfo.optVillagePlayer.get();
         CDef.Skill skill = vPlayer.getSkillCodeAsSkill();
         if (skill == CDef.Skill.人狼) {
-            if (villageInfo.day == 1) {
-                // ダミーキャラ固定
-                return villageInfo.vPlayerList.stream()
-                        .filter(vp -> vp.getCharaId().intValue() == villageInfo.settings.getDummyCharaId())
-                        .map(vp -> new OptionDto(vp))
-                        .collect(Collectors.toList());
-            } else {
-                // 狼以外の生存しているプレイヤー全員
-                return villageInfo.getVPList(true, true, false)
-                        .stream()
-                        .filter(vp -> vp.getSkillCodeAsSkill() != CDef.Skill.人狼)
-                        .sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber())
-                        .map(vp -> new OptionDto(vp))
-                        .collect(Collectors.toList());
-            }
+            return makeWolfAbilityTargetList(villageInfo);
         } else if (skill.isHasDivineAbility()) {
-            // 自分以外の生存しているプレイヤー全員
-            return villageInfo.getVPList(true, true, false)
-                    .stream()
-                    .filter(vp -> vp.isIsDeadFalse() && vp.isIsSpectatorFalse()
-                            && !vp.getVillagePlayerId().equals(vPlayer.getVillagePlayerId()))
-                    .sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber())
-                    .map(vp -> new OptionDto(vp))
-                    .collect(Collectors.toList());
+            // 自分以外の生存者全員
+            return makeAbilityTargetListWithoutMyself(villageInfo, vPlayer);
         } else if (skill == CDef.Skill.狩人 && villageInfo.day > 1) {
-            // 自分以外の生存しているプレイヤー全員
-            List<OptionDto> livingCharaList = villageInfo.getVPList(true, true, false)
-                    .stream()
-                    .filter(vp -> !vp.getVillagePlayerId().equals(vPlayer.getVillagePlayerId()))
-                    .sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber())
-                    .map(vp -> new OptionDto(vp))
-                    .collect(Collectors.toList());
-            if (BooleanUtils.isTrue(villageInfo.settings.getIsAvailableGuardSameTarget())) {
-                // 連ガ可
-                return livingCharaList;
-            } else { // 連ガ不可
-                // 昨日の護衛先
-                String yesterdayGuardTargetId = abilityBhv.selectEntity(cb -> {
-                    cb.query().setVillageId_Equal(villageInfo.villageId);
-                    cb.query().setDay_Equal(villageInfo.day - 1);
-                    cb.query().setAbilityTypeCode_Equal_護衛();
-                }).map(ab -> ab.getTargetCharaId().toString()).orElse(null);
-                // 生存者のうち、自分と昨日の護衛先を除いた人
-                return livingCharaList.stream().filter(c -> !c.getValue().equals(yesterdayGuardTargetId)).collect(Collectors.toList());
-            }
+            return makeHunterAbilityTargetList(villageInfo, vPlayer);
         } else if (skill == CDef.Skill.探偵 && villageInfo.day > 1) {
-            List<String> footstepList = footstepLogic.getFootstepList(villageInfo.villageId, villageInfo.day);
-            if (CollectionUtils.isEmpty(footstepList)) {
-                return new ArrayList<>();
-            }
-            return footstepList.stream().map(fs -> {
-                OptionDto option = new OptionDto();
-                option.setName(fs);
-                option.setValue(fs);
-                return option;
-            }).collect(Collectors.toList());
+            return makeDetectiveAbilityTargetList(villageInfo);
+        } else if (skill == CDef.Skill.罠師) {
+            return makeTrapperAbilityTargetList(villageInfo, vPlayer);
+        } else if (skill == CDef.Skill.爆弾魔) {
+            // 自分以外の生存者全員
+            return makeBomberAbilityTargetList(villageInfo, vPlayer);
         }
         return null;
+    }
+
+    private List<OptionDto> makeBomberAbilityTargetList(VillageInfo villageInfo, VillagePlayer myself) {
+        List<Ability> abilityList = selectAbilityList(villageInfo, CDef.AbilityType.爆弾設置);
+        OptionDto option = new OptionDto();
+        option.setName("なし");
+        option.setValue("");
+        if (!abilityList.isEmpty()) {
+            // 前日以前に能力行使した
+            return Arrays.asList(option);
+        }
+        // まだ能力行使していない
+        // 自分以外の生存者全員＋「なし」
+        List<OptionDto> livingPlayerList = makeAbilityTargetListWithoutMyself(villageInfo, myself);
+        livingPlayerList.add(0, option);
+        return livingPlayerList;
+    }
+
+    private List<OptionDto> makeTrapperAbilityTargetList(VillageInfo villageInfo, VillagePlayer myself) {
+        List<Ability> abilityList = selectAbilityList(villageInfo, CDef.AbilityType.罠設置);
+        OptionDto option = new OptionDto();
+        option.setName("なし");
+        option.setValue("");
+        if (!abilityList.isEmpty()) {
+            // 前日以前に能力行使した
+            return Arrays.asList(option);
+        }
+        // まだ能力行使していない
+        // 生存者全員＋「なし」
+        List<OptionDto> livingPlayerList = villageInfo.getVPList(true, true, false)
+                .stream()
+                .filter(vp -> vp.isIsDeadFalse() && vp.isIsSpectatorFalse())
+                .sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber())
+                .map(vp -> new OptionDto(vp))
+                .collect(Collectors.toList());
+        livingPlayerList.add(0, option);
+        return livingPlayerList;
+    }
+
+    private List<OptionDto> makeDetectiveAbilityTargetList(VillageInfo villageInfo) {
+        List<String> footstepList = footstepLogic.getFootstepList(villageInfo.villageId, villageInfo.day);
+        if (CollectionUtils.isEmpty(footstepList)) {
+            return new ArrayList<>();
+        }
+        return footstepList.stream().map(fs -> {
+            OptionDto option = new OptionDto();
+            option.setName(fs);
+            option.setValue(fs);
+            return option;
+        }).collect(Collectors.toList());
+    }
+
+    private List<OptionDto> makeHunterAbilityTargetList(VillageInfo villageInfo, VillagePlayer vPlayer) {
+        // 自分以外の生存しているプレイヤー全員
+        List<OptionDto> livingCharaList = makeAbilityTargetListWithoutMyself(villageInfo, vPlayer);
+        if (BooleanUtils.isTrue(villageInfo.settings.getIsAvailableGuardSameTarget())) {
+            // 連ガ可
+            return livingCharaList;
+        } else { // 連ガ不可
+            // 昨日の護衛先
+            String yesterdayGuardTargetId = abilityBhv.selectEntity(cb -> {
+                cb.query().setVillageId_Equal(villageInfo.villageId);
+                cb.query().setDay_Equal(villageInfo.day - 1);
+                cb.query().setAbilityTypeCode_Equal_護衛();
+            }).map(ab -> ab.getTargetCharaId().toString()).orElse(null);
+            // 生存者のうち、自分と昨日の護衛先を除いた人
+            return livingCharaList.stream().filter(c -> !c.getValue().equals(yesterdayGuardTargetId)).collect(Collectors.toList());
+        }
+    }
+
+    // 自分以外の生存者全員
+    private List<OptionDto> makeAbilityTargetListWithoutMyself(VillageInfo villageInfo, VillagePlayer myself) {
+        return villageInfo.getVPList(true, true, false)
+                .stream()
+                .filter(vp -> vp.isIsDeadFalse() && vp.isIsSpectatorFalse() && !vp.getVillagePlayerId().equals(myself.getVillagePlayerId()))
+                .sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber())
+                .map(vp -> new OptionDto(vp))
+                .collect(Collectors.toList());
+    }
+
+    private List<OptionDto> makeWolfAbilityTargetList(VillageInfo villageInfo) {
+        if (villageInfo.day == 1) {
+            // ダミーキャラ固定
+            return villageInfo.vPlayerList.stream()
+                    .filter(vp -> vp.getCharaId().intValue() == villageInfo.settings.getDummyCharaId())
+                    .map(vp -> new OptionDto(vp))
+                    .collect(Collectors.toList());
+        } else {
+            // 狼以外の生存しているプレイヤー全員
+            return villageInfo.getVPList(true, true, false)
+                    .stream()
+                    .filter(vp -> vp.getSkillCodeAsSkill() != CDef.Skill.人狼)
+                    .sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber())
+                    .map(vp -> new OptionDto(vp))
+                    .collect(Collectors.toList());
+        }
     }
 
     // 襲撃担当の狼リストを作成
@@ -450,6 +503,20 @@ public class VillageDispLogic {
                 int day = ability.getDay();
                 String footstep = ability.getTargetFootstep();
                 return String.format("%d日目 %s を調査する", day, footstep);
+            }).collect(Collectors.toList());
+        } else if (skill == CDef.Skill.罠師) {
+            ListResultBean<Ability> abilityList = selectAbilityList(villageInfo, CDef.AbilityType.罠設置);
+            return abilityList.stream().map(ability -> {
+                int day = ability.getDay();
+                VillagePlayer target = extractVillagePlayerBy(villageInfo, ability.getTargetCharaId());
+                return String.format("%d日目 %s の部屋に罠を設置する", day, CharaUtil.makeCharaName(target));
+            }).collect(Collectors.toList());
+        } else if (skill == CDef.Skill.爆弾魔) {
+            ListResultBean<Ability> abilityList = selectAbilityList(villageInfo, CDef.AbilityType.爆弾設置);
+            return abilityList.stream().map(ability -> {
+                int day = ability.getDay();
+                VillagePlayer target = extractVillagePlayerBy(villageInfo, ability.getTargetCharaId());
+                return String.format("%d日目 %s の部屋に爆弾を設置する", day, CharaUtil.makeCharaName(target));
             }).collect(Collectors.toList());
         }
         return null;
@@ -649,7 +716,9 @@ public class VillageDispLogic {
                 vpList.stream().filter(vp -> vp.getDeadDay() != null && vp.getDeadDay() == day).collect(Collectors.toList());
         List<String> suddonlyDeathPlayer = filterAndMakeCharaName(deadPlayer, vp -> vp.isDeadReasonCode突然());
         situation.setSuddonlyDeathChara(shuffleAndJoin(suddonlyDeathPlayer));
-        List<String> attackedPlayer = filterAndMakeCharaName(deadPlayer, vp -> vp.isDeadReasonCode呪殺() || vp.isDeadReasonCode襲撃());
+        List<String> attackedPlayer = filterAndMakeCharaName(deadPlayer, vp -> {
+            return vp.isDeadReasonCode呪殺() || vp.isDeadReasonCode襲撃() || vp.isDeadReasonCode爆死() || vp.isDeadReasonCode罠死();
+        });
         situation.setAttackedChara(shuffleAndJoin(attackedPlayer));
         List<String> executedPlayer = filterAndMakeCharaName(deadPlayer, vp -> vp.isDeadReasonCode処刑());
         situation.setExecutedChara(shuffleAndJoin(executedPlayer));

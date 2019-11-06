@@ -126,6 +126,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 爆弾設置 (BOMB). <br>
+     * 爆弾設置
+     */
+    public void setAbilityTypeCode_爆弾設置() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.爆弾設置);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 占い (DIVINE). <br>
      * 占い
      */
@@ -149,6 +157,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
         setAbilityTypeCodeAsAbilityType(CDef.AbilityType.捜査);
     }
 
+    /**
+     * Set the value of abilityTypeCode as 罠設置 (TRAP). <br>
+     * 罠設置
+     */
+    public void setAbilityTypeCode_罠設置() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.罠設置);
+    }
+
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
@@ -161,6 +177,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode襲撃() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.襲撃) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 爆弾設置? <br>
+     * 爆弾設置
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode爆弾設置() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.爆弾設置) : false;
     }
 
     /**
@@ -194,6 +221,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode捜査() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.捜査) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 罠設置? <br>
+     * 罠設置
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode罠設置() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.罠設置) : false;
     }
 
     // ===================================================================================

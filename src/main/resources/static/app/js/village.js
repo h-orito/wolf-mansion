@@ -151,7 +151,7 @@ $(function() {
 	}
 
 	function replaceIdLink(message) {
-		if (message.messageType === 'PUBLIC_SYSTEM' && message.messageContent.indexOf('(master)、死亡。') != -1) {
+		if (message.messageType === 'PUBLIC_SYSTEM' && message.messageContent.indexOf('(master)、死亡、') != -1) {
 			return message.messageContent.replace(/ \(([^\(]*)\)、/g, '(<a href="javascript:void(0);" data-user-page="$1">$1</a>)、');
 		}
 		return message.messageContent;

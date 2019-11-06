@@ -126,6 +126,14 @@ public abstract class BsDeadReason extends AbstractEntity implements DomainEntit
     }
 
     /**
+     * Set the value of deadReasonCode as 爆死 (BOMBED). <br>
+     * 爆死
+     */
+    public void setDeadReasonCode_爆死() {
+        setDeadReasonCodeAsDeadReason(CDef.DeadReason.爆死);
+    }
+
+    /**
      * Set the value of deadReasonCode as 呪殺 (DIVINED). <br>
      * 呪殺
      */
@@ -149,6 +157,14 @@ public abstract class BsDeadReason extends AbstractEntity implements DomainEntit
         setDeadReasonCodeAsDeadReason(CDef.DeadReason.突然);
     }
 
+    /**
+     * Set the value of deadReasonCode as 罠死 (TRAPPED). <br>
+     * 罠死
+     */
+    public void setDeadReasonCode_罠死() {
+        setDeadReasonCodeAsDeadReason(CDef.DeadReason.罠死);
+    }
+
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
@@ -161,6 +177,17 @@ public abstract class BsDeadReason extends AbstractEntity implements DomainEntit
     public boolean isDeadReasonCode襲撃() {
         CDef.DeadReason cdef = getDeadReasonCodeAsDeadReason();
         return cdef != null ? cdef.equals(CDef.DeadReason.襲撃) : false;
+    }
+
+    /**
+     * Is the value of deadReasonCode 爆死? <br>
+     * 爆死
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isDeadReasonCode爆死() {
+        CDef.DeadReason cdef = getDeadReasonCodeAsDeadReason();
+        return cdef != null ? cdef.equals(CDef.DeadReason.爆死) : false;
     }
 
     /**
@@ -194,6 +221,17 @@ public abstract class BsDeadReason extends AbstractEntity implements DomainEntit
     public boolean isDeadReasonCode突然() {
         CDef.DeadReason cdef = getDeadReasonCodeAsDeadReason();
         return cdef != null ? cdef.equals(CDef.DeadReason.突然) : false;
+    }
+
+    /**
+     * Is the value of deadReasonCode 罠死? <br>
+     * 罠死
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isDeadReasonCode罠死() {
+        CDef.DeadReason cdef = getDeadReasonCodeAsDeadReason();
+        return cdef != null ? cdef.equals(CDef.DeadReason.罠死) : false;
     }
 
     // ===================================================================================

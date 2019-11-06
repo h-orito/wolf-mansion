@@ -221,7 +221,13 @@ public class MessageLogic {
             return messageSource.getMessage("ability.detective.message", new String[] { myChara, footstep, isDefault ? "（自動設定）" : "" },
                     Locale.JAPAN);
         }
-        // 対象
+        // 対象なし
+        if (skill == CDef.Skill.罠師 && targetCharaId == null) {
+            return String.format("%sが罠を解除しました。", myChara);
+        } else if (skill == CDef.Skill.爆弾魔 && targetCharaId == null) {
+            return String.format("%sが爆弾を解除しました。", myChara);
+        }
+        // 対象あり
         VillagePlayer target = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(targetCharaId)).findFirst().get();
         String targetChara = CharaUtil.makeCharaName(target);
         if (skill == CDef.Skill.人狼) {
@@ -233,7 +239,14 @@ public class MessageLogic {
         } else if (skill == CDef.Skill.狩人) {
             return messageSource.getMessage("ability.hunter.message",
                     new String[] { myChara, targetChara, footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
+        } else if (skill == CDef.Skill.罠師) {
+            return messageSource.getMessage("ability.trapper.message", new String[] { myChara, targetChara, isDefault ? "（自動設定）" : "" },
+                    Locale.JAPAN);
+        } else if (skill == CDef.Skill.爆弾魔) {
+            return messageSource.getMessage("ability.bomber.message", new String[] { myChara, targetChara, isDefault ? "（自動設定）" : "" },
+                    Locale.JAPAN);
         }
+
         return null;
     }
 

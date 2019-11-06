@@ -106,6 +106,23 @@ public class AbilityLogic {
             updateAbility(villageId, day, villagePlayer.getCharaId(), CDef.AbilityType.捜査, footstep);
             messageLogic.insertAbilityMessage(villageId, day, villagePlayer.getCharaId(), targetCharaId, villagePlayerList, footstep,
                     false);
+            break;
+        case 罠師:
+            if (targetCharaId == null) {
+                deleteAbility(villageId, day, villagePlayer.getCharaId(), CDef.AbilityType.罠設置);
+            } else {
+                updateAbility(villageId, day, villagePlayer.getCharaId(), CDef.AbilityType.罠設置, targetCharaId);
+            }
+            messageLogic.insertAbilityMessage(villageId, day, villagePlayer.getCharaId(), targetCharaId, villagePlayerList, null, false);
+            break;
+        case 爆弾魔:
+            if (targetCharaId == null) {
+                deleteAbility(villageId, day, villagePlayer.getCharaId(), CDef.AbilityType.爆弾設置);
+            } else {
+                updateAbility(villageId, day, villagePlayer.getCharaId(), CDef.AbilityType.爆弾設置, targetCharaId);
+            }
+            messageLogic.insertAbilityMessage(villageId, day, villagePlayer.getCharaId(), targetCharaId, villagePlayerList, null, false);
+            break;
         default:
             break;
         }

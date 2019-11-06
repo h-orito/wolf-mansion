@@ -206,6 +206,10 @@ public class PlayerAssist {
             return deadDay + "d 突然死";
         } else if (vp.isDeadReasonCode襲撃()) {
             return deadDay + "d 襲撃死";
+        } else if (vp.isDeadReasonCode罠死()) {
+            return deadDay + "d 罠死";
+        } else if (vp.isDeadReasonCode爆死()) {
+            return deadDay + "d 爆死";
         }
         return "";
     }

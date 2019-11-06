@@ -71,6 +71,14 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 爆死 (BOMBED). And OnlyOnceRegistered. <br>
+     * 爆死
+     */
+    public void setDeadReasonCode_Equal_爆死() {
+        setDeadReasonCode_Equal_AsDeadReason(CDef.DeadReason.爆死);
+    }
+
+    /**
      * Equal(=). As 呪殺 (DIVINED). And OnlyOnceRegistered. <br>
      * 呪殺
      */
@@ -92,6 +100,14 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
      */
     public void setDeadReasonCode_Equal_突然() {
         setDeadReasonCode_Equal_AsDeadReason(CDef.DeadReason.突然);
+    }
+
+    /**
+     * Equal(=). As 罠死 (TRAPPED). And OnlyOnceRegistered. <br>
+     * 罠死
+     */
+    public void setDeadReasonCode_Equal_罠死() {
+        setDeadReasonCode_Equal_AsDeadReason(CDef.DeadReason.罠死);
     }
 
     protected void doSetDeadReasonCode_Equal(String deadReasonCode) {
@@ -126,6 +142,14 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 爆死 (BOMBED). And OnlyOnceRegistered. <br>
+     * 爆死
+     */
+    public void setDeadReasonCode_NotEqual_爆死() {
+        setDeadReasonCode_NotEqual_AsDeadReason(CDef.DeadReason.爆死);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 呪殺 (DIVINED). And OnlyOnceRegistered. <br>
      * 呪殺
      */
@@ -147,6 +171,14 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
      */
     public void setDeadReasonCode_NotEqual_突然() {
         setDeadReasonCode_NotEqual_AsDeadReason(CDef.DeadReason.突然);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 罠死 (TRAPPED). And OnlyOnceRegistered. <br>
+     * 罠死
+     */
+    public void setDeadReasonCode_NotEqual_罠死() {
+        setDeadReasonCode_NotEqual_AsDeadReason(CDef.DeadReason.罠死);
     }
 
     protected void doSetDeadReasonCode_NotEqual(String deadReasonCode) {

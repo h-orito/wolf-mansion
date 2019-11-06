@@ -1107,6 +1107,9 @@ public interface CDef extends Classification {
         /** 襲撃 */
         襲撃("ATTACK", "襲撃", emptyStrings())
         ,
+        /** 爆死 */
+        爆死("BOMBED", "爆死", emptyStrings())
+        ,
         /** 呪殺 */
         呪殺("DIVINED", "呪殺", emptyStrings())
         ,
@@ -1115,6 +1118,9 @@ public interface CDef extends Classification {
         ,
         /** 突然 */
         突然("SUDDON", "突然", emptyStrings())
+        ,
+        /** 罠死 */
+        罠死("TRAPPED", "罠死", emptyStrings())
         ;
         private static final Map<String, DeadReason> _codeClsMap = new HashMap<String, DeadReason>();
         private static final Map<String, DeadReason> _nameClsMap = new HashMap<String, DeadReason>();
@@ -1235,6 +1241,9 @@ public interface CDef extends Classification {
         /** 襲撃 */
         襲撃("ATTACK", "襲撃", emptyStrings())
         ,
+        /** 爆弾設置 */
+        爆弾設置("BOMB", "爆弾設置", emptyStrings())
+        ,
         /** 占い */
         占い("DIVINE", "占い", emptyStrings())
         ,
@@ -1243,6 +1252,9 @@ public interface CDef extends Classification {
         ,
         /** 捜査 */
         捜査("INVESTIGATE", "捜査", emptyStrings())
+        ,
+        /** 罠設置 */
+        罠設置("TRAP", "罠設置", emptyStrings())
         ;
         private static final Map<String, AbilityType> _codeClsMap = new HashMap<String, AbilityType>();
         private static final Map<String, AbilityType> _nameClsMap = new HashMap<String, AbilityType>();

@@ -274,6 +274,27 @@ public class FootstepLogic {
                 .alias();
     }
 
+    // day: セットした日
+    public List<VillagePlayer> getPassedPlayerList(Integer villageId, int day, Integer roomNumber, List<VillagePlayer> vPlayerList) {
+        List<VillagePlayer> passedPlayerList = new ArrayList<>();
+        footStepBhv.selectList(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+            cb.query().setDay_Equal(day);
+        }).stream().forEach(fs -> {
+            if (NO_FOOTSTEP.equals(fs.getFootstepRoomNumbers())) {
+                return;
+            }
+            if (Stream.of(fs.getFootstepRoomNumbers().split(",")).noneMatch(fsRoomNumStr -> {
+                return roomNumber.equals(Integer.parseInt(fsRoomNumStr));
+            })) {
+                return;
+            }
+            Integer charaId = fs.getCharaId();
+            passedPlayerList.add(vPlayerList.stream().filter(vp -> vp.getCharaId().equals(charaId)).findFirst().get());
+        });
+        return passedPlayerList;
+    }
+
     public String makeFootstepMessageOpenSkill(List<Integer> livingRoomNumList, List<VillagePlayer> vPlayerList,
             List<Footstep> footStepList) {
         List<String> dispFootstepList = footStepList.stream().map(fs -> {

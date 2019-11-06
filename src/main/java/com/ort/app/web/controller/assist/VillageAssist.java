@@ -3,9 +3,12 @@ package com.ort.app.web.controller.assist;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -80,10 +83,23 @@ public class VillageAssist {
     //                                                                          Definition
     //                                                                          ==========
     private static final List<CDef.Skill> SET_AVAILABLE_SKILLS = Arrays.asList(CDef.Skill.人狼, CDef.Skill.占い師, CDef.Skill.賢者, CDef.Skill.狩人,
-            CDef.Skill.狂人, CDef.Skill.妖狐, CDef.Skill.魔神官, CDef.Skill.C国狂人, CDef.Skill.狂信者, CDef.Skill.探偵);
+            CDef.Skill.狂人, CDef.Skill.妖狐, CDef.Skill.魔神官, CDef.Skill.C国狂人, CDef.Skill.狂信者, CDef.Skill.探偵, CDef.Skill.罠師, CDef.Skill.爆弾魔);
     private static final List<CDef.Skill> RESTRICT_SKILLS =
             Arrays.asList(CDef.Skill.村人, CDef.Skill.霊能者, CDef.Skill.導師, CDef.Skill.人狼, CDef.Skill.C国狂人, CDef.Skill.占い師, CDef.Skill.賢者,
                     CDef.Skill.狩人, CDef.Skill.探偵, CDef.Skill.共鳴者, CDef.Skill.狂人, CDef.Skill.魔神官, CDef.Skill.狂信者, CDef.Skill.妖狐);
+    private static Map<CDef.Skill, CDef.AbilityType> SKILL_ABILITY_TYPE_MAP = null;
+    static {
+        Map<CDef.Skill, CDef.AbilityType> map = new HashMap<>();
+        map.put(CDef.Skill.人狼, CDef.AbilityType.襲撃);
+        CDef.Skill.listOfHasDivineAbility().forEach(skill -> {
+            map.put(skill, CDef.AbilityType.占い);
+        });
+        map.put(CDef.Skill.狩人, CDef.AbilityType.護衛);
+        map.put(CDef.Skill.探偵, CDef.AbilityType.捜査);
+        map.put(CDef.Skill.罠師, CDef.AbilityType.罠設置);
+        map.put(CDef.Skill.爆弾魔, CDef.AbilityType.爆弾設置);
+        SKILL_ABILITY_TYPE_MAP = Collections.unmodifiableMap(map);
+    }
 
     // ===================================================================================
     //                                                                           Attribute
@@ -361,10 +377,7 @@ public class VillageAssist {
         }
 
         VillageAbilityForm abilityForm = new VillageAbilityForm();
-        CDef.AbilityType type = skill == CDef.Skill.人狼 ? CDef.AbilityType.襲撃 //
-                : skill.isHasDivineAbility() ? CDef.AbilityType.占い //
-                        : skill == CDef.Skill.狩人 ? CDef.AbilityType.護衛 // 
-                                : skill == CDef.Skill.探偵 ? CDef.AbilityType.捜査 : null;
+        CDef.AbilityType type = SKILL_ABILITY_TYPE_MAP.get(skill);
         OptionalEntity<Ability> optAbility =
                 selectAbility(villageInfo.villageId, villageInfo.day, type, villageInfo.optVillagePlayer.get().getCharaId());
         if (optAbility.isPresent()) {
@@ -662,16 +675,17 @@ public class VillageAssist {
         executedMember.setStatusMemberList(
                 executedMemberList.stream().sorted(compareForMemberList()).map(mem -> convertToMemberDetailPart(mem)).collect(
                         Collectors.toList()));
-        // 襲撃・呪殺
+        // 襲撃・呪殺・罠死・爆死
         VillageMemberDto attackedMember = new VillageMemberDto();
         List<VillagePlayer> attackedMemberList = villagePlayerList.stream().filter(vp -> {
             if (!vp.getDeadReason().isPresent()) {
                 return false;
             }
             CDef.DeadReason reason = CDef.DeadReason.codeOf(vp.getDeadReason().get().getDeadReasonCode());
-            return reason == CDef.DeadReason.襲撃 || reason == CDef.DeadReason.呪殺;
+            return reason == CDef.DeadReason.襲撃 || reason == CDef.DeadReason.呪殺 || reason == CDef.DeadReason.罠死
+                    || reason == CDef.DeadReason.爆死;
         }).collect(Collectors.toList());
-        attackedMember.setStatus("襲撃死・呪殺");
+        attackedMember.setStatus("犠牲");
         attackedMember.setStatusMemberList(
                 attackedMemberList.stream().sorted(compareForMemberList()).map(mem -> convertToMemberDetailPart(mem)).collect(
                         Collectors.toList()));
