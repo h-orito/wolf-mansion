@@ -1716,8 +1716,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1388</x>
-			<y>487</y>
+			<x>1386</x>
+			<y>456</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -1920,6 +1920,17 @@
 					<physical_name>last_access_datetime</physical_name>
 					<logical_name>最終接続日時</logical_name>
 					<type>datetime</type>
+				</normal_column>
+				<normal_column>
+					<physical_name>camp_code</physical_name>
+					<logical_name>勝敗判定陣営コード</logical_name>
+					<type>varchar(n)</type>
+					<length>20</length>
+				</normal_column>
+				<normal_column>
+					<physical_name>is_win</physical_name>
+					<logical_name>勝利したか</logical_name>
+					<type>boolean</type>
 				</normal_column>
 				<column_group>共通カラム</column_group>
 			</columns>

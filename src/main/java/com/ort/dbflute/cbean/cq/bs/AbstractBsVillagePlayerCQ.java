@@ -2906,6 +2906,213 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     protected abstract ConditionValue xgetCValueLastAccessDatetime();
 
     /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CAMP_CODE: {VARCHAR(20)}
+     * @param campCode The value of campCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCampCode_Equal(String campCode) {
+        doSetCampCode_Equal(fRES(campCode));
+    }
+
+    protected void doSetCampCode_Equal(String campCode) {
+        regCampCode(CK_EQ, campCode);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CAMP_CODE: {VARCHAR(20)}
+     * @param campCode The value of campCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCampCode_NotEqual(String campCode) {
+        doSetCampCode_NotEqual(fRES(campCode));
+    }
+
+    protected void doSetCampCode_NotEqual(String campCode) {
+        regCampCode(CK_NES, campCode);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CAMP_CODE: {VARCHAR(20)}
+     * @param campCode The value of campCode as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCampCode_GreaterThan(String campCode) {
+        regCampCode(CK_GT, fRES(campCode));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CAMP_CODE: {VARCHAR(20)}
+     * @param campCode The value of campCode as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCampCode_LessThan(String campCode) {
+        regCampCode(CK_LT, fRES(campCode));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CAMP_CODE: {VARCHAR(20)}
+     * @param campCode The value of campCode as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCampCode_GreaterEqual(String campCode) {
+        regCampCode(CK_GE, fRES(campCode));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CAMP_CODE: {VARCHAR(20)}
+     * @param campCode The value of campCode as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCampCode_LessEqual(String campCode) {
+        regCampCode(CK_LE, fRES(campCode));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * CAMP_CODE: {VARCHAR(20)}
+     * @param campCodeList The collection of campCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCampCode_InScope(Collection<String> campCodeList) {
+        doSetCampCode_InScope(campCodeList);
+    }
+
+    protected void doSetCampCode_InScope(Collection<String> campCodeList) {
+        regINS(CK_INS, cTL(campCodeList), xgetCValueCampCode(), "CAMP_CODE");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * CAMP_CODE: {VARCHAR(20)}
+     * @param campCodeList The collection of campCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCampCode_NotInScope(Collection<String> campCodeList) {
+        doSetCampCode_NotInScope(campCodeList);
+    }
+
+    protected void doSetCampCode_NotInScope(Collection<String> campCodeList) {
+        regINS(CK_NINS, cTL(campCodeList), xgetCValueCampCode(), "CAMP_CODE");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CAMP_CODE: {VARCHAR(20)} <br>
+     * <pre>e.g. setCampCode_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param campCode The value of campCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setCampCode_LikeSearch(String campCode, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setCampCode_LikeSearch(campCode, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CAMP_CODE: {VARCHAR(20)} <br>
+     * <pre>e.g. setCampCode_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param campCode The value of campCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setCampCode_LikeSearch(String campCode, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(campCode), xgetCValueCampCode(), "CAMP_CODE", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CAMP_CODE: {VARCHAR(20)}
+     * @param campCode The value of campCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setCampCode_NotLikeSearch(String campCode, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setCampCode_NotLikeSearch(campCode, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CAMP_CODE: {VARCHAR(20)}
+     * @param campCode The value of campCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setCampCode_NotLikeSearch(String campCode, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(campCode), xgetCValueCampCode(), "CAMP_CODE", likeSearchOption);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * CAMP_CODE: {VARCHAR(20)}
+     */
+    public void setCampCode_IsNull() { regCampCode(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * CAMP_CODE: {VARCHAR(20)}
+     */
+    public void setCampCode_IsNullOrEmpty() { regCampCode(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * CAMP_CODE: {VARCHAR(20)}
+     */
+    public void setCampCode_IsNotNull() { regCampCode(CK_ISNN, DOBJ); }
+
+    protected void regCampCode(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueCampCode(), "CAMP_CODE"); }
+    protected abstract ConditionValue xgetCValueCampCode();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * IS_WIN: {BIT, classification=Flg}
+     * @param isWin The value of isWin as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsWin_Equal(Boolean isWin) {
+        regIsWin(CK_EQ, isWin);
+    }
+
+    /**
+     * Equal(=). As Flg. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * IS_WIN: {BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsWin_Equal_AsFlg(CDef.Flg cdef) {
+        doSetIsWin_Equal(cdef != null ? Boolean.valueOf(cdef.code()) : null);
+    }
+
+    /**
+     * Equal(=). As True. And OnlyOnceRegistered. <br>
+     * はい: 有効を示す
+     */
+    public void setIsWin_Equal_True() {
+        doSetIsWin_Equal(Boolean.valueOf(CDef.Flg.True.code()));
+    }
+
+    /**
+     * Equal(=). As False. And OnlyOnceRegistered. <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsWin_Equal_False() {
+        doSetIsWin_Equal(Boolean.valueOf(CDef.Flg.False.code()));
+    }
+
+    protected void doSetIsWin_Equal(Boolean isWin) {
+        regIsWin(CK_EQ, isWin);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * IS_WIN: {BIT, classification=Flg}
+     */
+    public void setIsWin_IsNull() { regIsWin(CK_ISN, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * IS_WIN: {BIT, classification=Flg}
+     */
+    public void setIsWin_IsNotNull() { regIsWin(CK_ISNN, DOBJ); }
+
+    protected void regIsWin(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueIsWin(), "IS_WIN"); }
+    protected abstract ConditionValue xgetCValueIsWin();
+
+    /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @param registerDatetime The value of registerDatetime as equal. (basically NotNull: error as default, or no condition as option)

@@ -106,6 +106,7 @@
 										<th></th>
 										<th>役職</th>
 										<th>生死</th>
+										<th>陣営</th>
 										<th>勝敗</th>
 									</tr>
 								</thead>
@@ -118,6 +119,7 @@
 										<td style="vertical-align: middle"><img th:src="${village.characterImgUrl}" th:width="${village.characterImgWidth}" th:height="${village.characterImgHeight}"></td>
 										<td th:text="${village.skillName}" style="vertical-align: middle">賢者</td>
 										<td th:text="${village.liveStatus}" style="vertical-align: middle">6d 襲撃死</td>
+										<td th:text="${village.campName}" style="vertical-align: middle">村人陣営</td>
 										<td th:text="${village.winStatus}" style="vertical-align: middle">勝利</td>
 									</tr>
 								</tbody>

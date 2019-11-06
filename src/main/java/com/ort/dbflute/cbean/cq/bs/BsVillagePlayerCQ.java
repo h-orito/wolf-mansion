@@ -395,6 +395,46 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
      */
     public BsVillagePlayerCQ addOrderBy_LastAccessDatetime_Desc() { regOBD("LAST_ACCESS_DATETIME"); return this; }
 
+    protected ConditionValue _campCode;
+    public ConditionValue xdfgetCampCode()
+    { if (_campCode == null) { _campCode = nCV(); }
+      return _campCode; }
+    protected ConditionValue xgetCValueCampCode() { return xdfgetCampCode(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * CAMP_CODE: {VARCHAR(20)}
+     * @return this. (NotNull)
+     */
+    public BsVillagePlayerCQ addOrderBy_CampCode_Asc() { regOBA("CAMP_CODE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * CAMP_CODE: {VARCHAR(20)}
+     * @return this. (NotNull)
+     */
+    public BsVillagePlayerCQ addOrderBy_CampCode_Desc() { regOBD("CAMP_CODE"); return this; }
+
+    protected ConditionValue _isWin;
+    public ConditionValue xdfgetIsWin()
+    { if (_isWin == null) { _isWin = nCV(); }
+      return _isWin; }
+    protected ConditionValue xgetCValueIsWin() { return xdfgetIsWin(); }
+
+    /** 
+     * Add order-by as ascend. <br>
+     * IS_WIN: {BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillagePlayerCQ addOrderBy_IsWin_Asc() { regOBA("IS_WIN"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * IS_WIN: {BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillagePlayerCQ addOrderBy_IsWin_Desc() { regOBD("IS_WIN"); return this; }
+
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
     { if (_registerDatetime == null) { _registerDatetime = nCV(); }

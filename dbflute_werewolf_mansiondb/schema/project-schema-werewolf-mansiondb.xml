@@ -620,6 +620,10 @@
         <column comment="最終接続日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime"
             name="LAST_ACCESS_DATETIME" size="19" type="TIMESTAMP"/>
+        <column comment="勝敗判定陣営コード" dbType="VARCHAR" javaType="String"
+            name="CAMP_CODE" size="20" type="VARCHAR"/>
+        <column comment="勝利したか" dbType="BIT" javaType="Boolean"
+            name="IS_WIN" type="BIT"/>
         <column comment="登録日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>

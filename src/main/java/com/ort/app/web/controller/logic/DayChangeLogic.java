@@ -497,6 +497,10 @@ public class DayChangeLogic {
         village.setEpilogueDay(day);
         village.setWinCampCodeAsCamp(winCamp);
         villageBhv.queryUpdate(village, cb -> cb.query().setVillageId_Equal(villageId));
+        villagePlayerList.forEach(vp -> {
+            vp.setIsWin(winCamp.code().equals(vp.getCampCode()));
+            villagePlayerBhv.update(vp);
+        });
         // エピローグ遷移メッセージ登録
         String message = getEpilogueMessage(winCamp, werewolfCount);
         messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, message);

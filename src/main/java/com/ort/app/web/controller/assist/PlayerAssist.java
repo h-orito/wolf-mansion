@@ -16,7 +16,6 @@ import com.ort.app.web.model.inner.PlayerSkillStatsDto;
 import com.ort.app.web.model.inner.PlayerStatsDto;
 import com.ort.app.web.util.CharaUtil;
 import com.ort.dbflute.allcommon.CDef;
-import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.Player;
@@ -29,10 +28,12 @@ public class PlayerAssist {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private final static CDef.Skill[] STATS_SKILLS =
-            { CDef.Skill.村人, CDef.Skill.占い師, CDef.Skill.賢者, CDef.Skill.霊能者, CDef.Skill.導師, CDef.Skill.狩人, CDef.Skill.探偵, CDef.Skill.共鳴者,
-                    CDef.Skill.狂人, CDef.Skill.C国狂人, CDef.Skill.魔神官, CDef.Skill.狂信者, CDef.Skill.人狼, CDef.Skill.妖狐 };
-    private final static CDef.Camp[] STATS_CAMPS = { CDef.Camp.村人陣営, CDef.Camp.人狼陣営, CDef.Camp.狐陣営 };
+    private final static List<CDef.Skill> STATS_SKILL_LIST = CDef.Skill.listAll()
+            .stream()
+            .filter(s -> !s.alias().startsWith("おまかせ"))
+            .sorted((s1, s2) -> Integer.parseInt(s1.order()) - Integer.parseInt(s2.order()))
+            .collect(Collectors.toList());
+    private final static CDef.Camp[] STATS_CAMPS = { CDef.Camp.村人陣営, CDef.Camp.人狼陣営, CDef.Camp.狐陣営, CDef.Camp.愉快犯陣営 };
 
     // ===================================================================================
     //                                                                           Attribute
@@ -95,11 +96,7 @@ public class PlayerAssist {
             if (vp.isIsGoneTrue() || vp.isIsSpectatorTrue() || vp.getVillage().get().getEpilogueDay() == null) {
                 return false;
             }
-            // 自分の陣営
-            String myCamp = vp.getSkillBySkillCode().get().getCampCode();
-            // 勝利陣営
-            String winCamp = vp.getVillage().get().getWinCampCode();
-            return myCamp.equals(winCamp);
+            return vp.isIsWinTrue();
         }).count();
         float winRate = participateNum == 0 ? 0 : (float) winNum / (float) participateNum;
         part.setParticipateNum(participateNum);
@@ -114,19 +111,15 @@ public class PlayerAssist {
             int participateNum = (int) player.getVillagePlayerList().stream().filter(vp -> {
                 // 退村してない、見学でない、エピローグを迎えている、陣営が一致
                 return vp.isIsGoneFalse() && vp.isIsSpectatorFalse() && vp.getVillage().get().getEpilogueDay() != null
-                        && vp.getSkillBySkillCode().get().getCampCodeAsCamp() == camp;
+                        && camp.code().equals(vp.getCampCode());
             }).count();
             int winNum = (int) player.getVillagePlayerList().stream().filter(vp -> {
                 // 退村してない、見学でない、エピローグを迎えている、陣営が一致、勝利した村数
                 if (vp.isIsGoneTrue() || vp.isIsSpectatorTrue() || vp.getVillage().get().getEpilogueDay() == null
-                        || vp.getSkillBySkillCode().get().getCampCodeAsCamp() != camp) {
+                        || !camp.code().equals(vp.getCampCode())) {
                     return false;
                 }
-                // 自分の陣営
-                String myCamp = vp.getSkillBySkillCode().get().getCampCode();
-                // 勝利陣営
-                String winCamp = vp.getVillage().get().getWinCampCode();
-                return myCamp.equals(winCamp);
+                return vp.isIsWinTrue();
             }).count();
             float winRate = participateNum == 0 ? 0 : (float) winNum / (float) participateNum;
             campStatsDto.setCampName(camp.alias());
@@ -138,7 +131,7 @@ public class PlayerAssist {
     }
 
     private List<PlayerSkillStatsDto> convertToSkillStats(Player player) {
-        return Stream.of(STATS_SKILLS).map(skill -> {
+        return STATS_SKILL_LIST.stream().map(skill -> {
             PlayerSkillStatsDto skillStatsDto = new PlayerSkillStatsDto();
             int participateNum = (int) player.getVillagePlayerList().stream().filter(vp -> {
                 // 退村してない、見学でない、エピローグを迎えている、役職が一致
@@ -146,16 +139,12 @@ public class PlayerAssist {
                         && vp.getSkillCodeAsSkill() == skill;
             }).count();
             int winNum = (int) player.getVillagePlayerList().stream().filter(vp -> {
-                // 退村してない、見学でない、エピローグを迎えている、陣営が一致、勝利した村数
+                // 退村してない、見学でない、エピローグを迎えている、役職が一致、勝利した村数
                 if (vp.isIsGoneTrue() || vp.isIsSpectatorTrue() || vp.getVillage().get().getEpilogueDay() == null
                         || vp.getSkillCodeAsSkill() != skill) {
                     return false;
                 }
-                // 自分の陣営
-                String myCamp = vp.getSkillBySkillCode().get().getCampCode();
-                // 勝利陣営
-                String winCamp = vp.getVillage().get().getWinCampCode();
-                return myCamp.equals(winCamp);
+                return vp.isIsWinTrue();
             }).count();
             float winRate = participateNum == 0 ? 0 : (float) winNum / (float) participateNum;
             skillStatsDto.setSkillName(skill.alias());
@@ -173,18 +162,16 @@ public class PlayerAssist {
             PlayerParticipateVillageDto participateVillageDto = new PlayerParticipateVillageDto();
             Village village = vp.getVillage().get();
             Chara chara = vp.getChara().get();
-            Skill skill = vp.getSkillCodeAsSkill();
-            String myCampCode = vp.getSkillBySkillCode().get().getCampCode();
-            String winCampCode = village.getWinCampCode();
             participateVillageDto.setVillageId(vp.getVillageId());
             participateVillageDto.setVillageName(village.getVillageDisplayName());
             participateVillageDto.setCharacterName(chara.getCharaName());
             participateVillageDto.setCharacterImgUrl(CharaUtil.getNormalCharaImgUrl(chara));
             participateVillageDto.setCharacterImgWidth(chara.getDisplayWidth());
             participateVillageDto.setCharacterImgHeight(chara.getDisplayHeight());
-            participateVillageDto.setSkillName(skill.alias());
+            participateVillageDto.setSkillName(vp.getSkillCodeAsSkill().alias());
+            participateVillageDto.setCampName(CDef.Camp.codeOf(vp.getCampCode()).alias());
             participateVillageDto.setLiveStatus(createLiveStatusMessage(vp));
-            participateVillageDto.setWinStatus(vp.isDeadReasonCode突然() ? "-" : myCampCode.equals(winCampCode) ? "勝利" : "敗北");
+            participateVillageDto.setWinStatus(vp.isDeadReasonCode突然() ? "-" : vp.isIsWinTrue() ? "勝利" : "敗北");
             return participateVillageDto;
         }).collect(Collectors.toList());
     }

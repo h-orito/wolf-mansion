@@ -555,6 +555,16 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnLastAccessDatetime() { return doColumn("LAST_ACCESS_DATETIME"); }
         /**
+         * CAMP_CODE: {VARCHAR(20)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnCampCode() { return doColumn("CAMP_CODE"); }
+        /**
+         * IS_WIN: {BIT, classification=Flg}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnIsWin() { return doColumn("IS_WIN"); }
+        /**
          * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
          */

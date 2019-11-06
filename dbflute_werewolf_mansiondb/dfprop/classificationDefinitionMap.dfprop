@@ -109,6 +109,7 @@ map:{
             ; code=SKILL_CODE; name=SKILL_NAME
             ; subItemMap=map:{
             	    ; order=DISP_ORDER
+            	    ; campCode=CAMP_CODE
 			}
         }
     }

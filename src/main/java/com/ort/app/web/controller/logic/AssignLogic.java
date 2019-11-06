@@ -358,6 +358,7 @@ public class AssignLogic {
             VillagePlayer vp = new VillagePlayer();
             vp.setVillagePlayerId(assign.villagePlayerId);
             vp.setSkillCodeAsSkill(assign.assignedSkill);
+            vp.setCampCode(assign.assignedSkill.campCode());
             villagePlayerBhv.update(vp);
         });
     }

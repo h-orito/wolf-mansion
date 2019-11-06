@@ -26,6 +26,9 @@ public class PlayerParticipateVillageDto {
     /** 生死 */
     private String liveStatus;
 
+    /** 陣営名 */
+    private String campName;
+
     /** 勝敗 */
     private String winStatus;
 
@@ -99,6 +102,14 @@ public class PlayerParticipateVillageDto {
 
     public void setWinStatus(String winStatus) {
         this.winStatus = winStatus;
+    }
+
+    public String getCampName() {
+        return campName;
+    }
+
+    public void setCampName(String campName) {
+        this.campName = campName;
     }
 
 }

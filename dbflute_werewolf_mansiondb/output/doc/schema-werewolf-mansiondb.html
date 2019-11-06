@@ -497,7 +497,7 @@ dl.procedurelist dd.column pre {
 	</tr>
 	<tr>
 		<td class="rownumcell">23</td>
-		<td><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=18">VILLAGE_PLAYER</a></td>
+		<td><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=20">VILLAGE_PLAYER</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara" title="FK_VILLAGE_PLAYER_CHARA">CHARA</a>, <a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_REASON">DEAD_REASON</a>, <a href="#player" title="FK_VILLAGE_PLAYER_PLAYER">PLAYER</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL">SKILL</a>, <a href="#village" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE</a></td>
 		<td class="relcell"><a href="#commit" title="FK_COMMIT_VILLAGE_PLAYER">COMMIT</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER_TO">MESSAGE</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER">MESSAGE</a></td>
@@ -3311,7 +3311,7 @@ VILLAGE_DAY
 		<td class="subcell">String</td>
 	</tr>
 </table>
-<h2 id="village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=18">
+<h2 id="village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=20">
 VILLAGE_PLAYER
 </h2>
 <p class="tablecomment">村参加者</p>
@@ -3579,6 +3579,40 @@ VILLAGE_PLAYER
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td id="village_player_camp_code">CAMP_CODE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"> 勝敗判定陣営コード</td>
+		<td class="subcell">campCode</td>
+		<td class="subcell">String</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">16</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td id="village_player_is_win">IS_WIN</td>
+		<td class="typecell">BIT</td>
+		<td class="sizecell"> &nbsp;</td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#FlgCls">Flg</a></td>
+		<td class="commentcell"> 勝利したか</td>
+		<td class="subcell">isWin</td>
+		<td class="subcell">Boolean</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">17</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">*</td>
 		<td class="comcolcell" id="village_player_register_datetime">REGISTER_DATETIME</td>
 		<td class="typecell">DATETIME</td>
@@ -3591,7 +3625,7 @@ VILLAGE_PLAYER
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">16</td>
+		<td class="rownumcell">18</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -3608,7 +3642,7 @@ VILLAGE_PLAYER
 		<td class="subcell">String</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">17</td>
+		<td class="rownumcell">19</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -3625,7 +3659,7 @@ VILLAGE_PLAYER
 		<td class="subcell">LocalDateTime</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">18</td>
+		<td class="rownumcell">20</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -4445,7 +4479,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=16</td>
+				<td>order=16<br>,&nbsp;campCode=CRIMINAL</td>
 			</tr>
 			<tr>
 				<td>CMADMAN</td>
@@ -4456,7 +4490,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=12</td>
+				<td>order=12<br>,&nbsp;campCode=WEREWOLF</td>
 			</tr>
 			<tr>
 				<td>DETECTIVE</td>
@@ -4467,7 +4501,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=10</td>
+				<td>order=10<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>EVILMEDIUM</td>
@@ -4478,7 +4512,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell">o</td>
-				<td>order=13</td>
+				<td>order=13<br>,&nbsp;campCode=WEREWOLF</td>
 			</tr>
 			<tr>
 				<td>FANATIC</td>
@@ -4489,7 +4523,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=14</td>
+				<td>order=14<br>,&nbsp;campCode=WEREWOLF</td>
 			</tr>
 			<tr>
 				<td>FOOTSTEPS</td>
@@ -4500,7 +4534,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=21</td>
+				<td>order=21<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>FOX</td>
@@ -4511,7 +4545,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=15</td>
+				<td>order=15<br>,&nbsp;campCode=FOX</td>
 			</tr>
 			<tr>
 				<td>FRIENDS</td>
@@ -4522,7 +4556,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=22</td>
+				<td>order=22<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>GURU</td>
@@ -4533,7 +4567,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=9</td>
+				<td>order=9<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>HUNTER</td>
@@ -4544,7 +4578,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=6</td>
+				<td>order=6<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>LEFTOVER</td>
@@ -4555,7 +4589,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=17</td>
+				<td>order=17<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>MADMAN</td>
@@ -4566,7 +4600,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=5</td>
+				<td>order=5<br>,&nbsp;campCode=WEREWOLF</td>
 			</tr>
 			<tr>
 				<td>MASON</td>
@@ -4577,7 +4611,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=7</td>
+				<td>order=7<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>MEDIUM</td>
@@ -4588,7 +4622,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=4</td>
+				<td>order=4<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>NOVILLAGERS</td>
@@ -4599,7 +4633,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=20</td>
+				<td>order=20<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>SEER</td>
@@ -4610,7 +4644,7 @@ VOTE
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=3</td>
+				<td>order=3<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>TRAPPER</td>
@@ -4621,7 +4655,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=11</td>
+				<td>order=11<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>VILLAGER</td>
@@ -4632,7 +4666,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=1</td>
+				<td>order=1<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>VILLAGERS</td>
@@ -4643,7 +4677,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=18</td>
+				<td>order=18<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>WEREWOLF</td>
@@ -4654,7 +4688,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=2</td>
+				<td>order=2<br>,&nbsp;campCode=WEREWOLF</td>
 			</tr>
 			<tr>
 				<td>WEREWOLFS</td>
@@ -4665,7 +4699,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=19</td>
+				<td>order=19<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>WISE</td>
@@ -4676,7 +4710,7 @@ VOTE
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=8</td>
+				<td>order=8<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			</table>
 		</td>

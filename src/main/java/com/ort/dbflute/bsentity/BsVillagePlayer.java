@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_PLAYER_ID
  *
  * [column]
- *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, SECOND_REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, IS_SPECTATOR, DEAD_REASON_CODE, DEAD_DAY, IS_GONE, LAST_ACCESS_DATETIME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, SECOND_REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, IS_SPECTATOR, DEAD_REASON_CODE, DEAD_DAY, IS_GONE, LAST_ACCESS_DATETIME, CAMP_CODE, IS_WIN, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -60,6 +60,8 @@ import com.ort.dbflute.exentity.*;
  * Integer deadDay = entity.getDeadDay();
  * Boolean isGone = entity.getIsGone();
  * java.time.LocalDateTime lastAccessDatetime = entity.getLastAccessDatetime();
+ * String campCode = entity.getCampCode();
+ * Boolean isWin = entity.getIsWin();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -78,6 +80,8 @@ import com.ort.dbflute.exentity.*;
  * entity.setDeadDay(deadDay);
  * entity.setIsGone(isGone);
  * entity.setLastAccessDatetime(lastAccessDatetime);
+ * entity.setCampCode(campCode);
+ * entity.setIsWin(isWin);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -138,6 +142,12 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /** LAST_ACCESS_DATETIME: {DATETIME(19)} */
     protected java.time.LocalDateTime _lastAccessDatetime;
+
+    /** CAMP_CODE: {VARCHAR(20)} */
+    protected String _campCode;
+
+    /** IS_WIN: {BIT, classification=Flg} */
+    protected Boolean _isWin;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -321,6 +331,27 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setIsGoneAsFlg(CDef.Flg cdef) {
         setIsGone(cdef != null ? toBoolean(cdef.code()) : null);
+    }
+
+    /**
+     * Get the value of isWin as the classification of Flg. <br>
+     * IS_WIN: {BIT, classification=Flg} <br>
+     * フラグを示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Flg getIsWinAsFlg() {
+        return CDef.Flg.codeOf(getIsWin());
+    }
+
+    /**
+     * Set the value of isWin as the classification of Flg. <br>
+     * IS_WIN: {BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setIsWinAsFlg(CDef.Flg cdef) {
+        setIsWin(cdef != null ? toBoolean(cdef.code()) : null);
     }
 
     // ===================================================================================
@@ -932,6 +963,22 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setIsGone_False() {
         setIsGoneAsFlg(CDef.Flg.False);
+    }
+
+    /**
+     * Set the value of isWin as True (true). <br>
+     * はい: 有効を示す
+     */
+    public void setIsWin_True() {
+        setIsWinAsFlg(CDef.Flg.True);
+    }
+
+    /**
+     * Set the value of isWin as False (false). <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsWin_False() {
+        setIsWinAsFlg(CDef.Flg.False);
     }
 
     // ===================================================================================
@@ -1893,6 +1940,28 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         return cdef != null ? cdef.equals(CDef.Flg.False) : false;
     }
 
+    /**
+     * Is the value of isWin True? <br>
+     * はい: 有効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsWinTrue() {
+        CDef.Flg cdef = getIsWinAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
+    }
+
+    /**
+     * Is the value of isWin False? <br>
+     * いいえ: 無効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsWinFalse() {
+        CDef.Flg cdef = getIsWinAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
     // ===================================================================================
     //                                                           Classification Name/Alias
     //                                                           =========================
@@ -1920,6 +1989,15 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public String getIsGoneAlias() {
         CDef.Flg cdef = getIsGoneAsFlg();
+        return cdef != null ? cdef.alias() : null;
+    }
+
+    /**
+     * Get the value of the column 'isWin' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     */
+    public String getIsWinAlias() {
+        CDef.Flg cdef = getIsWinAsFlg();
         return cdef != null ? cdef.alias() : null;
     }
 
@@ -2208,6 +2286,8 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         sb.append(dm).append(xfND(_deadDay));
         sb.append(dm).append(xfND(_isGone));
         sb.append(dm).append(xfND(_lastAccessDatetime));
+        sb.append(dm).append(xfND(_campCode));
+        sb.append(dm).append(xfND(_isWin));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -2541,6 +2621,47 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public void setLastAccessDatetime(java.time.LocalDateTime lastAccessDatetime) {
         registerModifiedProperty("lastAccessDatetime");
         _lastAccessDatetime = lastAccessDatetime;
+    }
+
+    /**
+     * [get] CAMP_CODE: {VARCHAR(20)} <br>
+     * 勝敗判定陣営コード
+     * @return The value of the column 'CAMP_CODE'. (NullAllowed even if selected: for no constraint)
+     */
+    public String getCampCode() {
+        checkSpecifiedProperty("campCode");
+        return convertEmptyToNull(_campCode);
+    }
+
+    /**
+     * [set] CAMP_CODE: {VARCHAR(20)} <br>
+     * 勝敗判定陣営コード
+     * @param campCode The value of the column 'CAMP_CODE'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setCampCode(String campCode) {
+        registerModifiedProperty("campCode");
+        _campCode = campCode;
+    }
+
+    /**
+     * [get] IS_WIN: {BIT, classification=Flg} <br>
+     * 勝利したか
+     * @return The value of the column 'IS_WIN'. (NullAllowed even if selected: for no constraint)
+     */
+    public Boolean getIsWin() {
+        checkSpecifiedProperty("isWin");
+        return _isWin;
+    }
+
+    /**
+     * [set] IS_WIN: {BIT, classification=Flg} <br>
+     * 勝利したか
+     * @param isWin The value of the column 'IS_WIN'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setIsWin(Boolean isWin) {
+        checkClassificationCode("IS_WIN", CDef.DefMeta.Flg, isWin);
+        registerModifiedProperty("isWin");
+        _isWin = isWin;
     }
 
     /**

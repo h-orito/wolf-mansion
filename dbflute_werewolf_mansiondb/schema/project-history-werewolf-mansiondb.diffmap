@@ -1,4 +1,23 @@
 map:{
+    ; 2019/11/06 10:26:46 = map:{
+        ; diffDate = 2019/11/06 10:26:46
+        ; tableDiff = map:{
+            ; village_player = map:{
+                ; tableName = village_player
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; CAMP_CODE = map:{
+                        ; columnName = CAMP_CODE
+                        ; diffType = ADD
+                    }
+                    ; IS_WIN = map:{
+                        ; columnName = IS_WIN
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2019/02/12 11:16:05 = map:{
         ; diffDate = 2019/02/12 11:16:05
         ; tableDiff = map:{
