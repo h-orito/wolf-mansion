@@ -136,12 +136,12 @@ public class AbilityLogic {
     //                                                                              ======
     private void updateAbility(Integer villageId, int day, Integer charaId, CDef.AbilityType type, Integer targetCharaId) {
         // delete insertする
-        deleteAbility(villageId, day, type);
+        deleteAbility(villageId, day, charaId, type);
         insertAbility(villageId, day, charaId, type, targetCharaId);
     }
 
     private void updateAbility(Integer villageId, int day, Integer charaId, CDef.AbilityType type, String footstep) {
-        deleteAbility(villageId, day, type);
+        deleteAbility(villageId, day, charaId, type);
         insertAbility(villageId, day, charaId, type, null, footstep);
     }
 
@@ -160,10 +160,11 @@ public class AbilityLogic {
         abilityBhv.insert(ability);
     }
 
-    private void deleteAbility(Integer villageId, int day, CDef.AbilityType type) {
+    private void deleteAbility(Integer villageId, int day, Integer charaId, CDef.AbilityType type) {
         abilityBhv.queryDelete(cb -> {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setDay_Equal(day);
+            cb.query().setCharaId_Equal(charaId);
             cb.query().setAbilityTypeCode_Equal_AsAbilityType(type);
         });
     }
