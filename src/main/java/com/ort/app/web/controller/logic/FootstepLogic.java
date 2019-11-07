@@ -186,7 +186,7 @@ public class FootstepLogic {
         // 生存者のいない部屋の音を除去
         final List<String> livingRoomFootstepList = footStepList.stream().map(fs -> {
             final String[] footsteps = fs.getFootstepRoomNumbers().split(",");
-            final StringJoiner fsJoiner = new StringJoiner(", ", "部屋", "");
+            final StringJoiner fsJoiner = new StringJoiner(", ");
             for (final String fsRoomNum : footsteps) {
                 if (livingRoomNumList.stream().anyMatch(num -> num.equals(Integer.parseInt(fsRoomNum)))) {
                     fsJoiner.add(String.format("%02d", Integer.parseInt(fsRoomNum)));
@@ -200,7 +200,7 @@ public class FootstepLogic {
         }
         Collections.shuffle(livingRoomFootstepList);
         livingRoomFootstepList.forEach(fs -> {
-            joiner.add(String.format("%sで足音が聞こえた...。", fs));
+            joiner.add(String.format("部屋%sで足音が聞こえた...。", fs));
         });
         return joiner.toString();
     }
