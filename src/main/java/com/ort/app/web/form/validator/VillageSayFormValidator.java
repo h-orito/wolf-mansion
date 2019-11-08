@@ -23,6 +23,8 @@ public class VillageSayFormValidator implements Validator {
 
         VillageSayForm form = (VillageSayForm) paramObject;
 
+        // 絵文字はこの時点で削除する
+        form.setMessage(removeSurrogate(form.getMessage()));
         String message = form.getMessage();
         if (message == null) {
             return;
@@ -40,5 +42,17 @@ public class VillageSayFormValidator implements Validator {
         if (trimedMessage.split("\r\n").length > 20) {
             errors.rejectValue("message", "VillageSayForm.validator.message.line");
         }
+    }
+
+    // 絵文字を削除
+    private String removeSurrogate(String str) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (!String.valueOf(c).matches("[\\uD800-\\uDFFF]")) {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
     }
 }
