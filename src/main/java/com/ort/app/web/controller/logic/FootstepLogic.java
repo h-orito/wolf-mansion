@@ -15,6 +15,7 @@ import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ort.app.web.util.CharaUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.FootstepBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
@@ -298,13 +299,10 @@ public class FootstepLogic {
     public String makeFootstepMessageOpenSkill(List<Integer> livingRoomNumList, List<VillagePlayer> vPlayerList,
             List<Footstep> footStepList) {
         List<String> dispFootstepList = footStepList.stream().map(fs -> {
-            // どの役職が出した足音か
-            String skillName = vPlayerList.stream()
-                    .filter(vp -> vp.getCharaId().equals(fs.getCharaId()))
-                    .findFirst()
-                    .get()
-                    .getSkillCodeAsSkill()
-                    .alias();
+            // 出した人
+            VillagePlayer vPlayer = vPlayerList.stream().filter(vp -> vp.getCharaId().equals(fs.getCharaId())).findFirst().get();
+            // 役職
+            String skillName = vPlayer.getSkillCodeAsSkill().alias();
             // 出そうとした音
             String setFootstep = NO_FOOTSTEP.equals(fs.getFootstepRoomNumbers()) ? "なし"
                     : String.join(",", Stream.of(fs.getFootstepRoomNumbers().split(",")).map(room -> {
@@ -320,7 +318,7 @@ public class FootstepLogic {
                         }
                     }).filter(str -> StringUtils.isNotEmpty(str)).collect(Collectors.toList()));
             actualFootstep = StringUtils.isEmpty(actualFootstep) ? "なし" : actualFootstep;
-            return String.format("[%s] %s → %s", skillName, setFootstep, actualFootstep);
+            return String.format("[%s][%s] %s → %s", CharaUtil.makeCharaShortName(vPlayer), skillName, setFootstep, actualFootstep);
         }).collect(Collectors.toList());
 
         return String.join("\n", dispFootstepList);
