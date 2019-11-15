@@ -54,11 +54,13 @@ public class AbilityLogic {
         List<VillagePlayer> villagePlayerList = selectVillagePlayerList(villageId);
         switch (skill) {
         case 人狼:
+        case 呪狼:
+        case 智狼:
             if (isInvalidWolfAbility(village, villagePlayer, villagePlayerList, day, charaId, targetCharaId, footstep)) {
                 return;
             }
             updateAbility(villageId, day, charaId, CDef.AbilityType.襲撃, targetCharaId);
-            deleteSkillFootstep(villageId, day, charaId, footstep, CDef.Skill.人狼, villagePlayerList);
+            deleteSkillFootstep(villageId, day, charaId, footstep, villagePlayer.getSkillCodeAsSkill(), villagePlayerList);
             insertFootstep(villageId, day, charaId, footstep);
             messageLogic.insertAbilityMessage(villageId, day, charaId, targetCharaId, villagePlayerList, footstep, false);
             break;
@@ -251,7 +253,7 @@ public class AbilityLogic {
                 villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(targetCharaId)).findFirst().orElseThrow(() -> {
                     return new IllegalArgumentException("村にいないキャラ");
                 });
-        return target.getSkillCodeAsSkill() == CDef.Skill.人狼 || target.isIsDeadTrue();
+        return target.getSkillCodeAsSkill().isHasAttackAbility() || target.isIsDeadTrue();
     }
 
     // 襲撃可能な人狼を取得
@@ -264,7 +266,7 @@ public class AbilityLogic {
         }).map(ab -> ab.getCharaId()).orElse(null);
         // 生存している狼リスト
         List<Chara> liveAttackerList = villagePlayerList.stream()
-                .filter(vp -> vp.isIsDeadFalse() && vp.getSkillCodeAsSkill() == CDef.Skill.人狼)
+                .filter(vp -> vp.isIsDeadFalse() && vp.getSkillCodeAsSkill() != null && vp.getSkillCodeAsSkill().isHasAttackAbility())
                 .map(vp -> vp.getChara().get())
                 .collect(Collectors.toList());
         // 生存している狼が1名ではない場合は、昨日襲撃した狼は襲撃できない

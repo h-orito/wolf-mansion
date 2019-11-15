@@ -72,7 +72,7 @@
 					<div class="col-sm-12 col-xs-12">
 						<div class="row" style="display: flex;">
 							<div style="width: 50px; height: 77px; background: url('/wolf-mansion/app/images/geruto.png'); background-repeat: no-repeat;"></div>
-							<div class="message message-normal" style="flex: 1; margin-left: 5px;">通常発言です。全ての人が参照できます。</div>
+							<div class="message message-normal" style="flex: 1; margin-left: 5px; min-height: 77px;">通常発言です。全ての人が参照できます。</div>
 						</div>
 					</div>
 				</div>
@@ -82,7 +82,7 @@
 					<div class="col-sm-12 col-xs-12">
 						<div class="row" style="display: flex;">
 							<div style="width: 50px; height: 77px; background: url('/wolf-mansion/app/images/geruto.png'); background-repeat: no-repeat;"></div>
-							<div class="message message-werewolf" style="flex: 1; margin-left: 5px;">囁き発言です。進行中は人狼とC国狂人だけが参照できます。</div>
+							<div class="message message-werewolf" style="flex: 1; margin-left: 5px; min-height: 77px;">囁き発言です。進行中は人狼とC国狂人だけが参照できます。</div>
 						</div>
 					</div>
 				</div>
@@ -92,7 +92,7 @@
 					<div class="col-sm-12 col-xs-12">
 						<div class="row" style="display: flex;">
 							<div style="width: 50px; height: 77px; background: url('/wolf-mansion/app/images/geruto.png'); background-repeat: no-repeat;"></div>
-							<div class="message message-monologue" style="flex: 1; margin-left: 5px;">独り言です。進行中は自分だけが参照できます。</div>
+							<div class="message message-monologue" style="flex: 1; margin-left: 5px; min-height: 77px;">独り言です。進行中は自分だけが参照できます。</div>
 						</div>
 					</div>
 				</div>
@@ -102,7 +102,7 @@
 					<div class="col-sm-12 col-xs-12">
 						<div class="row" style="display: flex;">
 							<div style="width: 50px; height: 77px; background: url('/wolf-mansion/app/images/geruto.png'); background-repeat: no-repeat;"></div>
-							<div class="message message-mason" style="flex: 1; margin-left: 5px;">共鳴発言です。進行中は共鳴者だけが参照できます。</div>
+							<div class="message message-mason" style="flex: 1; margin-left: 5px; min-height: 77px;">共鳴発言です。進行中は共鳴者だけが参照できます。</div>
 						</div>
 					</div>
 				</div>
@@ -112,7 +112,7 @@
 					<div class="col-sm-12 col-xs-12">
 						<div class="row" style="display: flex;">
 							<div style="width: 50px; height: 77px; background: url('/wolf-mansion/app/images/geruto.png'); background-repeat: no-repeat;"></div>
-							<div class="message message-grave" style="flex: 1; margin-left: 5px;">墓下発言です。進行中は死亡者と見学者だけが参照できます。（村の設定によっては、生存者も参照できます。）</div>
+							<div class="message message-grave" style="flex: 1; margin-left: 5px; min-height: 77px;">墓下発言です。進行中は死亡者と見学者だけが参照できます。（村の設定によっては、生存者も参照できます。）</div>
 						</div>
 					</div>
 				</div>
@@ -122,7 +122,7 @@
 					<div class="col-sm-12 col-xs-12">
 						<div class="row" style="display: flex;">
 							<div style="width: 50px; height: 77px; background: url('/wolf-mansion/app/images/geruto.png'); background-repeat: no-repeat;"></div>
-							<div class="message message-spectate" style="flex: 1; margin-left: 5px;">見学発言です。進行中は死亡者と見学者だけが参照できます。（村の設定によっては、生存者も参照できます。）</div>
+							<div class="message message-spectate" style="flex: 1; margin-left: 5px; min-height: 77px;">見学発言です。進行中は死亡者と見学者だけが参照できます。（村の設定によっては、生存者も参照できます。）</div>
 						</div>
 					</div>
 				</div>
@@ -134,7 +134,27 @@
 			</div>
 			<div class="col-sm-12 col-xs-12" data-message>
 				<div class="row">
-					<div class="message col-sm-12 col-xs-12 message-private-system">システムメッセージです。進行中は参照できません。（占い結果や霊能結果など、一部役職のみ確認可能なものもあります。）</div>
+					<div class="message col-sm-12 col-xs-12 message-private-system">システムメッセージです。進行中は参照できません。</div>
+				</div>
+			</div>
+			<div class="col-sm-12 col-xs-12" data-message>
+				<div class="row">
+					<div class="message col-sm-12 col-xs-12 message-private-seer">占い師向けシステムメッセージです。進行中は占い師本人しか参照できません。</div>
+				</div>
+			</div>
+			<div class="col-sm-12 col-xs-12" data-message>
+				<div class="row">
+					<div class="message col-sm-12 col-xs-12 message-private-psychic">霊能者向けシステムメッセージです。進行中は霊能者本人しか参照できません。</div>
+				</div>
+			</div>
+			<div class="col-sm-12 col-xs-12" data-message>
+				<div class="row">
+					<div class="message col-sm-12 col-xs-12 message-private-investigate">探偵向けシステムメッセージです。進行中は探偵本人しか参照できません。</div>
+				</div>
+			</div>
+			<div class="col-sm-12 col-xs-12" data-message>
+				<div class="row">
+					<div class="message col-sm-12 col-xs-12 message-private-werewolf">人狼向けシステムメッセージです。進行中は人狼しか参照できません。</div>
 				</div>
 			</div>
 			<div class="col-sm-12 col-xs-12" data-message>

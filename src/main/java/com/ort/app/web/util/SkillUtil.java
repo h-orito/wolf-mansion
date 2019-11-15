@@ -15,6 +15,8 @@ public class SkillUtil {
         Map<String, CDef.Skill> map = new HashMap<>();
         map.put("村", CDef.Skill.村人);
         map.put("狼", CDef.Skill.人狼);
+        map.put("呪", CDef.Skill.呪狼);
+        map.put("智", CDef.Skill.智狼);
         map.put("狂", CDef.Skill.狂人);
         map.put("C", CDef.Skill.C国狂人);
         map.put("魔", CDef.Skill.魔神官);

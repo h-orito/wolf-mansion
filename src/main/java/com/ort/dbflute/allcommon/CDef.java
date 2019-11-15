@@ -773,11 +773,11 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * 囁き可能 <br>
-         * The group elements:[人狼, C国狂人]
+         * The group elements:[人狼, 呪狼, 智狼, C国狂人]
          * @return The determination, true or false.
          */
         public boolean isAvailableWerewolfSay() {
-            return 人狼.equals(this) || C国狂人.equals(this);
+            return 人狼.equals(this) || 呪狼.equals(this) || 智狼.equals(this) || C国狂人.equals(this);
         }
 
         /**
@@ -928,11 +928,11 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 囁き可能 <br>
-         * The group elements:[人狼, C国狂人]
+         * The group elements:[人狼, 呪狼, 智狼, C国狂人]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfAvailableWerewolfSay() {
-            return new ArrayList<Skill>(Arrays.asList(人狼, C国狂人));
+            return new ArrayList<Skill>(Arrays.asList(人狼, 呪狼, 智狼, C国狂人));
         }
 
         /**

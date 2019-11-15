@@ -230,7 +230,7 @@ public class MessageLogic {
         // 対象あり
         VillagePlayer target = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(targetCharaId)).findFirst().get();
         String targetChara = CharaUtil.makeCharaName(target);
-        if (skill == CDef.Skill.人狼) {
+        if (skill.isHasAttackAbility()) {
             return messageSource.getMessage("ability.werewolf.message",
                     new String[] { myChara, targetChara, footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
         } else if (skill.isHasDivineAbility()) {

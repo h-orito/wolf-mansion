@@ -451,6 +451,7 @@ public class VillageMessageAssist {
         addSecretSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addSeerMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addPsychicMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
+        addAttackMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addInvestigateMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addSystemMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         return dispAllowedMessageTypeList;
@@ -567,7 +568,7 @@ public class VillageMessageAssist {
             return false;
         }
         VillagePlayer vPlayer = optVillagePlayer.get();
-        if (vPlayer.getSkillCodeAsSkill() == CDef.Skill.人狼 || vPlayer.getSkillCodeAsSkill() == CDef.Skill.C国狂人) {
+        if (vPlayer.getSkillCodeAsSkill() != null && vPlayer.getSkillCodeAsSkill().isAvailableWerewolfSay()) {
             return true;
         }
         return false;
@@ -606,6 +607,26 @@ public class VillageMessageAssist {
                 dispAllowedMessageTypeList.add(CDef.MessageType.役職霊視結果);
                 return;
             }
+        }
+    }
+
+    // 襲撃結果
+    private void addAttackMessageIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
+            OptionalEntity<VillagePlayer> optVillagePlayer) {
+        // 終了していたら全開放
+        if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
+            dispAllowedMessageTypeList.add(CDef.MessageType.襲撃結果);
+            return;
+        }
+        // 終了していなかったら参加していて死亡しておらず、人狼系だったら開放
+        if (!optVillagePlayer.isPresent()) {
+            return;
+        }
+        VillagePlayer vPlayer = optVillagePlayer.get();
+        CDef.Skill skill = vPlayer.getSkillCodeAsSkill();
+        if (vPlayer.isIsDeadFalse() && skill != null && skill.isHasAttackAbility()) {
+            dispAllowedMessageTypeList.add(CDef.MessageType.襲撃結果);
+            return;
         }
     }
 

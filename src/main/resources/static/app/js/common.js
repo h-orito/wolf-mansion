@@ -59,7 +59,7 @@ Handlebars.registerHelper('neq', function(param1, param2) {
 Handlebars.registerHelper('or', function() {
 	// argumentsに渡された引数が入っている
 	var existsTrue = false;
-	for (var i = 0; i < arguments.length; i++) {
+	for (var i = 0; i < arguments.length - 1; i++) {
 		if (arguments[i]) {
 			existsTrue = true;
 		}

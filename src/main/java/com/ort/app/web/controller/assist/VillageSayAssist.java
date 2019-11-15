@@ -217,7 +217,7 @@ public class VillageSayAssist {
     private boolean isAvailableWerewolfSay(Village village, VillagePlayer villagePlayer) {
         // 狼とC狂以外は不可
         CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
-        if (skill != CDef.Skill.人狼 && skill != CDef.Skill.C国狂人) {
+        if (skill == null || !skill.isAvailableWerewolfSay()) {
             return false;
         }
         // 死亡していたら不可

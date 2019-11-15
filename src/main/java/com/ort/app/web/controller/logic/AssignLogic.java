@@ -41,13 +41,15 @@ public class AssignLogic {
 
     static {
         rangeSkillMap = new HashMap<Skill, List<Skill>>();
-        rangeSkillMap.put(Skill.おまかせ人外, Arrays.asList(Skill.C国狂人, Skill.人狼, Skill.妖狐, Skill.狂人, Skill.狂信者, Skill.魔神官, Skill.爆弾魔));
-        rangeSkillMap.put(Skill.おまかせ人狼陣営, Arrays.asList(Skill.C国狂人, Skill.人狼, Skill.狂人, Skill.狂信者, Skill.魔神官));
-        rangeSkillMap.put(Skill.おまかせ役職窓あり, Arrays.asList(Skill.人狼, Skill.C国狂人, Skill.共鳴者));
+        rangeSkillMap.put(Skill.おまかせ人外,
+                Arrays.asList(Skill.C国狂人, Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, Skill.妖狐, Skill.狂人, Skill.狂信者, Skill.魔神官, Skill.爆弾魔));
+        rangeSkillMap.put(Skill.おまかせ人狼陣営,
+                Arrays.asList(Skill.C国狂人, Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, Skill.狂人, Skill.狂信者, Skill.魔神官));
+        rangeSkillMap.put(Skill.おまかせ役職窓あり, Arrays.asList(Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, Skill.C国狂人, Skill.共鳴者));
         rangeSkillMap.put(Skill.おまかせ村人陣営,
                 Arrays.asList(Skill.共鳴者, Skill.占い師, Skill.導師, Skill.村人, Skill.狩人, Skill.賢者, Skill.霊能者, Skill.探偵, Skill.罠師));
-        rangeSkillMap.put(Skill.おまかせ足音職,
-                Arrays.asList(Skill.C国狂人, Skill.人狼, Skill.占い師, Skill.妖狐, Skill.狂人, Skill.狂信者, Skill.狩人, Skill.賢者, Skill.魔神官));
+        rangeSkillMap.put(Skill.おまかせ足音職, Arrays.asList(Skill.C国狂人, Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, Skill.占い師, Skill.妖狐, Skill.狂人,
+                Skill.狂信者, Skill.狩人, Skill.賢者, Skill.魔神官));
     }
 
     // ===================================================================================

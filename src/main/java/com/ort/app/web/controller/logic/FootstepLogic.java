@@ -118,7 +118,7 @@ public class FootstepLogic {
         Village village = selectVillage(villageId);
         List<VillagePlayer> villagePlayerList = selectVillagePlayerList(villageId);
 
-        if (skill == CDef.Skill.人狼) {
+        if (skill.isHasAttackAbility()) {
             return makeWolfSeerFootstepCandidateList(charaId, targetCharaId, village, villagePlayerList);
         } else if (skill == CDef.Skill.占い師 || skill == CDef.Skill.賢者 || skill == CDef.Skill.狩人) {
             return makeWolfSeerFootstepCandidateList(villagePlayer.getCharaId(), targetCharaId, village, villagePlayerList);

@@ -145,10 +145,34 @@
 			<div class="message col-sm-12 col-xs-12 message-creator">{{{messageContent}}}</div>
 		</div>
 	</div>
-	{{else if (or (eq messageType 'PRIVATE_SYSTEM') (eq messageType 'PRIVATE_SEER') (eq messageType 'PRIVATE_PSYCHIC'))}}
+	{{else if (eq messageType 'PRIVATE_SYSTEM')}}
 	<div class="col-sm-12 col-xs-12" data-spoiled-content>
 		<div class="row">
 			<div class="message col-sm-12 col-xs-12 message-private-system">{{{messageContent}}}</div>
+		</div>
+	</div>
+	{{else if (or (eq messageType 'PRIVATE_SEER') (eq messageType 'PRIVATE_WISE') )}}
+	<div class="col-sm-12 col-xs-12" data-spoiled-content>
+		<div class="row"> 
+			<div class="message col-sm-12 col-xs-12 message-private-seer">{{{messageContent}}}</div>
+		</div>
+	</div>
+	{{else if (or (eq messageType 'PRIVATE_PSYCHIC') (eq messageType 'PRIVATE_GURU') )}}
+	<div class="col-sm-12 col-xs-12" data-spoiled-content>
+		<div class="row">
+			<div class="message col-sm-12 col-xs-12 message-private-psychic">{{{messageContent}}}</div>
+		</div>
+	</div>
+	{{else if (eq messageType 'PRIVATE_INVESTIGATE')}}
+	<div class="col-sm-12 col-xs-12" data-spoiled-content>
+		<div class="row">
+			<div class="message col-sm-12 col-xs-12 message-private-investigate">{{{messageContent}}}</div>
+		</div>
+	</div>
+	{{else if (eq messageType 'PRIVATE_WEREWOLF')}}
+	<div class="col-sm-12 col-xs-12" data-spoiled-content>
+		<div class="row">
+			<div class="message col-sm-12 col-xs-12 message-private-werewolf">{{{messageContent}}}</div>
 		</div>
 	</div>
 	{{/if}}

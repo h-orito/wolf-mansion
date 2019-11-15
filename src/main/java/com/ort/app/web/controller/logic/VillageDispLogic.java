@@ -214,7 +214,7 @@ public class VillageDispLogic {
     public boolean isAvailableWerewolfSay(Village village, VillagePlayer villagePlayer) {
         // 狼とC狂以外は不可
         CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
-        if (skill != CDef.Skill.人狼 && skill != CDef.Skill.C国狂人) {
+        if (skill == null || !skill.isAvailableWerewolfSay()) {
             return false;
         }
         // 死亡していたら不可
@@ -281,7 +281,7 @@ public class VillageDispLogic {
         }
         VillagePlayer vPlayer = villageInfo.optVillagePlayer.get();
         CDef.Skill skill = vPlayer.getSkillCodeAsSkill();
-        if (skill == CDef.Skill.人狼) {
+        if (skill.isHasAttackAbility()) {
             return makeWolfAbilityTargetList(villageInfo);
         } else if (skill.isHasDivineAbility()) {
             // 自分以外の生存者全員
@@ -388,7 +388,7 @@ public class VillageDispLogic {
             // 狼以外の生存しているプレイヤー全員
             return villageInfo.getVPList(true, true, false)
                     .stream()
-                    .filter(vp -> vp.getSkillCodeAsSkill() != CDef.Skill.人狼)
+                    .filter(vp -> vp.getSkillCodeAsSkill() != null && !vp.getSkillCodeAsSkill().isHasAttackAbility())
                     .sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber())
                     .map(vp -> new OptionDto(vp))
                     .collect(Collectors.toList());
@@ -403,13 +403,13 @@ public class VillageDispLogic {
         }
         VillagePlayer vPlayer = villageInfo.optVillagePlayer.get();
         CDef.Skill skill = vPlayer.getSkillCodeAsSkill();
-        if (skill != CDef.Skill.人狼) {
+        if (!skill.isHasAttackAbility()) {
             return null;
         }
         // 生存している狼リスト
         List<OptionDto> liveAttackerList = villageInfo.getVPList(true, true, false)
                 .stream()
-                .filter(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.人狼)
+                .filter(vp -> vp.getSkillCodeAsSkill().isHasAttackAbility())
                 .map(vp -> new OptionDto(vp))
                 .collect(Collectors.toList());
         if (BooleanUtils.isTrue(villageInfo.settings.getIsAvailableSameWolfAttack())) {
@@ -454,11 +454,11 @@ public class VillageDispLogic {
         VillagePlayer vPlayer = villageInfo.optVillagePlayer.get();
         CDef.Skill skill = vPlayer.getSkillCodeAsSkill();
 
-        if (skill == CDef.Skill.人狼) {
+        if (skill.isHasAttackAbility()) {
             ListResultBean<Ability> abilityList = selectAbilityList(villageInfo, CDef.AbilityType.襲撃);
             List<Integer> wolfCharaIdList = villageInfo.getVPList(false, true, true)
                     .stream()
-                    .filter(vp -> vp.isSkillCode人狼())
+                    .filter(vp -> vp.getSkillCodeAsSkill().isHasAttackAbility())
                     .map(VillagePlayer::getCharaId)
                     .collect(Collectors.toList());
             ListResultBean<Footstep> footstepList = selectFootstepList(villageInfo, wolfCharaIdList);
@@ -540,13 +540,13 @@ public class VillageDispLogic {
             return null;
         }
         CDef.Skill skill = villageInfo.optVillagePlayer.get().getSkillCodeAsSkill();
-        if (skill != CDef.Skill.C国狂人 && skill != CDef.Skill.狂信者 && skill != CDef.Skill.人狼) {
+        if (skill != CDef.Skill.C国狂人 && skill != CDef.Skill.狂信者 && !skill.isHasAttackAbility()) {
             return null;
         }
         return String.join("、",
                 villageInfo.getVPList(false, true, true)
                         .stream()
-                        .filter(vp -> vp.getSkillBySkillCode().get().isSkillCode人狼())
+                        .filter(vp -> vp.getSkillCodeAsSkill().isHasAttackAbility())
                         .sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber())
                         .map(vp -> CharaUtil.makeCharaName(vp))
                         .collect(Collectors.toList()));
@@ -558,7 +558,7 @@ public class VillageDispLogic {
             return null;
         }
         CDef.Skill skill = villageInfo.optVillagePlayer.get().getSkillCodeAsSkill();
-        if (skill != CDef.Skill.C国狂人 && skill != CDef.Skill.人狼) {
+        if (skill != CDef.Skill.C国狂人 && !skill.isHasAttackAbility()) {
             return null;
         }
         return String.join("、",

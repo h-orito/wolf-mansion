@@ -19,26 +19,7 @@
 <body>
 	<div layout:fragment="skill-description">
 		<!--/* 役職説明 */-->
-		<p class="small" th:if="${content.skillName == 'SEER'}" th:utext="#{skill.seer.description}"></p>
-		<p class="small" th:if="${content.skillName == 'WEREWOLF' && content.villageSettings.isAvailableSameWolfAttack}"
-			th:utext="#{skill.werewolf.description}"></p>
-		<p class="small" th:if="${content.skillName == 'WEREWOLF' && !content.villageSettings.isAvailableSameWolfAttack}"
-			th:utext="#{skill.werewolf.sameng.description}"></p>
-		<p class="small" th:if="${content.skillName == 'HUNTER'}" th:utext="#{skill.hunter.description}"></p>
-		<p class="small" th:if="${content.skillName == 'DETECTIVE'}" th:utext="#{skill.detective.description}"></p>
-		<p class="small" th:if="${content.skillName == 'MEDIUM'}" th:utext="#{skill.medium.description}"></p>
-		<p class="small" th:if="${content.skillName == 'MADMAN'}" th:utext="#{skill.madman.description}"></p>
-		<p class="small" th:if="${content.skillName == 'CMADMAN'}" th:utext="#{skill.cmadman.description}"></p>
-		<p class="small" th:if="${content.skillName == 'MASON'}" th:utext="#{skill.mason.description}"></p>
-		<p class="small" th:if="${content.skillName == 'FOX'}" th:utext="#{skill.fox.description}"></p>
-		<p class="small" th:if="${content.skillName == 'VILLAGER'}" th:utext="#{skill.villager.description}"></p>
-		<p class="small" th:if="${content.skillName == 'WISE'}" th:utext="#{skill.wise.description}"></p>
-		<p class="small" th:if="${content.skillName == 'GURU'}" th:utext="#{skill.guru.description}"></p>
-		<p class="small" th:if="${content.skillName == 'EVILMEDIUM'}" th:utext="#{skill.evilmedium.description}"></p>
-		<p class="small" th:if="${content.skillName == 'FANATIC'}" th:utext="#{skill.fanatic.description}"></p>
-		<p class="small" th:if="${content.skillName == 'TRAPPER'}" th:utext="#{skill.trapper.description}"></p>
-		<p class="small" th:if="${content.skillName == 'BOMBER'}" th:utext="#{skill.bomber.description}"></p>
-
+		<p class="small" th:if="${content.skillName != null}" th:utext="#{${'skill.' + content.skillName.toLowerCase() + '.description'}}"></p>
 		<!--/* 最初の1回だけ役職をモーダルで表示する */-->
 		<div class="modal fade" id="modal-initial-skill-description" tabindex="-1">
 			<div class="modal-dialog">
@@ -49,25 +30,7 @@
 						</div>
 						<div class="col-sm-12 col-xs-12">
 							<h5>役職</h5>
-							<p class="small" th:if="${content.skillName == 'SEER'}" th:utext="#{skill.seer.description}"></p>
-							<p class="small" th:if="${content.skillName == 'WEREWOLF' && content.villageSettings.isAvailableSameWolfAttack}"
-								th:utext="#{skill.werewolf.description}"></p>
-							<p class="small" th:if="${content.skillName == 'WEREWOLF' && !content.villageSettings.isAvailableSameWolfAttack}"
-								th:utext="#{skill.werewolf.sameng.description}"></p>
-							<p class="small" th:if="${content.skillName == 'HUNTER'}" th:utext="#{skill.hunter.description}"></p>
-							<p class="small" th:if="${content.skillName == 'DETECTIVE'}" th:utext="#{skill.detective.description}"></p>
-							<p class="small" th:if="${content.skillName == 'MEDIUM'}" th:utext="#{skill.medium.description}"></p>
-							<p class="small" th:if="${content.skillName == 'MADMAN'}" th:utext="#{skill.madman.description}"></p>
-							<p class="small" th:if="${content.skillName == 'CMADMAN'}" th:utext="#{skill.cmadman.description}"></p>
-							<p class="small" th:if="${content.skillName == 'MASON'}" th:utext="#{skill.mason.description}"></p>
-							<p class="small" th:if="${content.skillName == 'FOX'}" th:utext="#{skill.fox.description}"></p>
-							<p class="small" th:if="${content.skillName == 'VILLAGER'}" th:utext="#{skill.villager.description}"></p>
-							<p class="small" th:if="${content.skillName == 'WISE'}" th:utext="#{skill.wise.description}"></p>
-							<p class="small" th:if="${content.skillName == 'GURU'}" th:utext="#{skill.guru.description}"></p>
-							<p class="small" th:if="${content.skillName == 'EVILMEDIUM'}" th:utext="#{skill.evilmedium.description}"></p>
-							<p class="small" th:if="${content.skillName == 'FANATIC'}" th:utext="#{skill.fanatic.description}"></p>
-							<p class="small" th:if="${content.skillName == 'TRAPPER'}" th:utext="#{skill.trapper.description}"></p>
-							<p class="small" th:if="${content.skillName == 'BOMBER'}" th:utext="#{skill.bomber.description}"></p>
+							<p class="small" th:if="${content.skillName != null}" th:utext="#{${'skill.' + content.skillName.toLowerCase() + '.description'}}"></p>
 						</div>
 						<div class="col-sm-12 col-xs-12">
 							<h5>村の設定</h5>

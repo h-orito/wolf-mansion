@@ -231,6 +231,34 @@ tr.top-menu-selectable:hover a {
 	background-color: #333333;
 }
 
+.message-private-seer {
+	color: #eeeeee;
+	border: 1px solid #34a865;
+	min-height: 0px;
+	background-color: #334033;
+}
+
+.message-private-psychic {
+	color: #eeeeee;
+	border: 1px solid #3465a8;
+	min-height: 0px;
+	background-color: #333340;
+}
+
+.message-private-investigate {
+	color: #eeeeee;
+	border: 1px solid #a86534;
+	min-height: 0px;
+	background-color: #403333;
+}
+
+.message-private-werewolf {
+	color: #eeeeee;
+	border: 1px solid #a83434;
+	min-height: 0px;
+	background-color: #403333;
+}
+
 .message-public-system {
 	min-height: 0px;
 }

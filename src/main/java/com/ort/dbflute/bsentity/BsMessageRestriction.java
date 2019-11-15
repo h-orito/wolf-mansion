@@ -767,7 +767,7 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
 
     /**
      * 囁き可能 <br>
-     * The group elements:[人狼, C国狂人]
+     * The group elements:[人狼, 呪狼, 智狼, C国狂人]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_AvailableWerewolfSay() {

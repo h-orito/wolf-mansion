@@ -159,12 +159,13 @@ public class NewVillageFormValidator implements Validator {
             return true;
         }
         // 人狼がいない
-        if (skillPersonNumMap.get(CDef.Skill.人狼) < 1) {
+        int wolfsNum = CDef.Skill.listOfHasAttackAbility().stream().mapToInt(skill -> skillPersonNumMap.get(skill)).sum();
+        if (wolfsNum < 1) {
             errors.rejectValue("organization", "NewVillageForm.validator.organization.noexistwerewolf", new Object[] { personNum }, null);
             return true;
         }
         // 人狼の人数が過半数を超えている
-        if (skillPersonNumMap.get(CDef.Skill.人狼) > org.length() / 2) {
+        if (wolfsNum > org.length() / 2) {
             errors.rejectValue("organization", "NewVillageForm.validator.organization.werewolfwin", new Object[] { personNum }, null);
             return true;
         }

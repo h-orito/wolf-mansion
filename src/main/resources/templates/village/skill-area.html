@@ -36,7 +36,8 @@
 						<!--/* 能力行使内容 */-->
 						<div
 							th:if="${abilityForm != null && (content.skillName == 'SEER' || content.skillName == 'WISE' 
-										|| content.skillName == 'WEREWOLF' || (content.skillName == 'HUNTER' && content.day > 1) || (content.skillName == 'DETECTIVE' && content.day > 1)  
+										|| content.skillName == 'WEREWOLF' || content.skillName == 'CURSEWOLF' || content.skillName == 'WISEWOLF' 
+										|| (content.skillName == 'HUNTER' && content.day > 1) || (content.skillName == 'DETECTIVE' && content.day > 1)  
 										|| content.skillName == 'FOX' || content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN'
 										|| content.skillName == 'FANATIC') || (content.skillName == 'TRAPPER' && content.day > 1) || (content.skillName == 'BOMBER' && content.day > 1)}"
 							style="padding-bottom: 10px;">
@@ -45,13 +46,15 @@
 							<!--/* 能力行使フォーム */-->
 							<div class="collapse in" aria-expanded="true" style="margin-top: 10px;" id="skill-tab-area">
 								<p class="small" th:if="${content.skillName == 'SEER' || content.skillName == 'WISE'}" th:text="'現在の選択: ' + ${targetCharaName} + ' を占う'"></p>
-								<p class="small" th:if="${content.skillName == 'WEREWOLF'}" th:text="'現在の選択: ' + ${charaName} + ' が ' + ${targetCharaName} + ' を襲う'"></p>
+								<p class="small" th:if="${content.skillName == 'WEREWOLF' || content.skillName == 'CURSEWOLF' || content.skillName == 'WISEWOLF'}"
+									th:text="'現在の選択: ' + ${charaName} + ' が ' + ${targetCharaName} + ' を襲う'"></p>
 								<p class="small" th:if="${content.skillName == 'HUNTER' && content.day > 1}" th:text="'現在の選択: ' + ${targetCharaName} + ' を護衛する'"></p>
 								<p class="small" th:if="${content.skillName == 'DETECTIVE' && content.day > 1}"
 									th:text="${'現在の選択: ' + (footstep == null ? 'なし' : (footstep + ' を調査する'))}"></p>
 								<p class="small"
 									th:if="${content.skillName == 'SEER' || content.skillName == 'WISE' 
-											|| content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER' || content.skillName == 'FOX'
+											|| content.skillName == 'WEREWOLF' || content.skillName == 'CURSEWOLF' || content.skillName == 'WISEWOLF'
+											|| content.skillName == 'HUNTER' || content.skillName == 'FOX'
 											|| content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN'
 											|| content.skillName == 'FANATIC'}"
 									th:text="'通過する部屋: ' + ${footstep == '' || footstep == null ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"
@@ -66,15 +69,16 @@
 								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
 									th:if="${content.abilityTargetList != null && content.abilityTargetList.size() > 0}" th:object="${abilityForm}" class="form-horizontal">
 									<div class="form-group small">
-										<div class="col-sm-12 col-xs-12" th:if="${content.skillName == 'WEREWOLF'}">
+										<div class="col-sm-12 col-xs-12"
+											th:if="${content.skillName == 'WEREWOLF' || content.skillName == 'CURSEWOLF' || content.skillName == 'WISEWOLF'}">
 											襲撃者 <select class="form-control" th:field="*{charaId}" data-attacker-select>
 												<option th:each="chara : ${content.attackerList}" th:value="${chara.value}" th:text="${chara.name}"></option>
 											</select>
 										</div>
 										<div class="col-sm-12 col-xs-12" th:unless="${content.skillName == 'DETECTIVE'}">
-											<span th:if="${content.skillName == 'WEREWOLF'}" th:text="襲撃対象"></span><span th:if="${content.skillName == 'TRAPPER'}" th:text="罠を設置する部屋"></span><span
-												th:if="${content.skillName == 'BOMBER'}" th:text="爆弾を設置する部屋"></span> <select class="form-control" th:field="*{targetCharaId}"
-												data-ability-target-select>
+											<span th:if="${content.skillName == 'WEREWOLF' || content.skillName == 'CURSEWOLF' || content.skillName == 'WISEWOLF'}" th:text="襲撃対象"></span><span
+												th:if="${content.skillName == 'TRAPPER'}" th:text="罠を設置する部屋"></span><span th:if="${content.skillName == 'BOMBER'}" th:text="爆弾を設置する部屋"></span>
+											<select class="form-control" th:field="*{targetCharaId}" data-ability-target-select>
 												<option th:each="target : ${content.abilityTargetList}" th:value="${target.value}" th:text="${target.name}"></option>
 											</select> <span th:if="${content.skillName == 'SEER' || content.skillName == 'WISE'}" th:text="を占う"></span><span
 												th:if="${content.skillName == 'HUNTER'}" th:text="を護衛する"></span>
@@ -85,7 +89,7 @@
 											</select> <span th:if="${content.skillName == 'DETECTIVE'}" th:text="を調査する"></span>
 										</div>
 										<div class="col-sm-12 col-xs-12"
-											th:if="${content.skillName == 'SEER' || content.skillName == 'WISE' || content.skillName == 'WEREWOLF' || content.skillName == 'HUNTER'}">
+											th:if="${content.skillName == 'SEER' || content.skillName == 'WISE' || content.skillName == 'WEREWOLF' || content.skillName == 'CURSEWOLF' || content.skillName == 'WISEWOLF' || content.skillName == 'HUNTER'}">
 											通過する部屋<select class="form-control" name="footstep" data-footstep-select>
 											</select>
 										</div>

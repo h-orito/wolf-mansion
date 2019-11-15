@@ -88,7 +88,7 @@ map:{
 	        	; groupingMap = map:{
 	        		; availableWerewolfSay = map:{
 	        			; groupComment=囁き可能
-	        			; elementList= list:{人狼;C国狂人}
+	        			; elementList= list:{人狼;呪狼;智狼;C国狂人}
 	        		}
 	        		; hasDivineAbility = map:{
 	        			; groupComment=占い能力を持つ

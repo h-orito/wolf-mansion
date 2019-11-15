@@ -120,7 +120,7 @@ public class VillageAbilityAssist {
         Integer charaId = abilityForm.getCharaId();
         Integer targetCharaId = abilityForm.getTargetCharaId();
         String footstep = abilityForm.getFootstep();
-        if (skill == CDef.Skill.人狼 && targetCharaId != null && (charaId == null || footstep == null)) {
+        if (skill.isHasAttackAbility() && targetCharaId != null && (charaId == null || footstep == null)) {
             return true;
         }
         if (skill.isHasDivineAbility() && (targetCharaId == null || footstep == null)) {
@@ -143,8 +143,8 @@ public class VillageAbilityAssist {
 
     private boolean isAvailableSetAbilitySkill(CDef.Skill skill) {
         return Arrays
-                .asList(CDef.Skill.人狼, CDef.Skill.占い師, CDef.Skill.狩人, CDef.Skill.狂人, CDef.Skill.妖狐, CDef.Skill.C国狂人, CDef.Skill.狂信者,
-                        CDef.Skill.賢者, CDef.Skill.魔神官, CDef.Skill.探偵, CDef.Skill.罠師, CDef.Skill.爆弾魔)
+                .asList(CDef.Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, CDef.Skill.占い師, CDef.Skill.狩人, CDef.Skill.狂人, CDef.Skill.妖狐,
+                        CDef.Skill.C国狂人, CDef.Skill.狂信者, CDef.Skill.賢者, CDef.Skill.魔神官, CDef.Skill.探偵, CDef.Skill.罠師, CDef.Skill.爆弾魔)
                 .contains(skill);
 
     }
@@ -156,10 +156,10 @@ public class VillageAbilityAssist {
 
     private boolean isInvalidFootstep(VillagePlayer villagePlayer, VillageGetFootstepListForm form) {
         CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
-        if (skill != CDef.Skill.人狼 && !skill.isHasDivineAbility() && skill != CDef.Skill.狩人) {
+        if (!skill.isHasAttackAbility() && !skill.isHasDivineAbility() && skill != CDef.Skill.狩人) {
             return true;
         }
-        if (skill == CDef.Skill.人狼 && form.getCharaId() == null) {
+        if (skill.isHasAttackAbility() && form.getCharaId() == null) {
             return true;
         }
         if (skill.isHasDivineAbility() && form.getTargetCharaId() == null) {

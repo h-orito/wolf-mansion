@@ -264,7 +264,7 @@ public class DayChangeLogic {
         if (newDay == 1) {
             attackedCharaId = village.getVillageSettingsAsOne().get().getDummyCharaId(); // ダミーキャラ固定
         } else {
-            attackedCharaId = getRandomInList(villagePlayerList, vp -> vp.getSkillCodeAsSkill() != CDef.Skill.人狼).getCharaId(); // 狼以外の生存している誰か
+            attackedCharaId = getRandomInList(villagePlayerList, vp -> !vp.getSkillCodeAsSkill().isHasAttackAbility()).getCharaId(); // 狼以外の生存している誰か
         }
         // 噛む人（生存している狼で、狼が2名以上の場合は昨日噛んだ人は除外）
         List<Chara> attackableWolfList = getAttackableWolfList(villageId, settings, newDay, villagePlayerList);
@@ -280,7 +280,7 @@ public class DayChangeLogic {
     private List<Chara> getAttackableWolfList(Integer villageId, VillageSettings settings, int day, List<VillagePlayer> villagePlayerList) {
         // 生存している狼リスト
         List<Chara> liveAttackerList = villagePlayerList.stream()
-                .filter(vp -> vp.isIsDeadFalse() && vp.getSkillCodeAsSkill() == CDef.Skill.人狼)
+                .filter(vp -> vp.isIsDeadFalse() && vp.getSkillCodeAsSkill().isHasAttackAbility())
                 .map(vp -> vp.getChara().get())
                 .collect(Collectors.toList());
         if (settings.isIsAvailableSameWolfAttackTrue() || liveAttackerList.size() <= 1) {
@@ -422,12 +422,16 @@ public class DayChangeLogic {
         List<VillagePlayer> guardedPlayerList = guard(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, abilityList);
 
         // 占い
-        List<VillagePlayer> divinedPlayerList =
-                divine(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, abilityList);
+        List<DivinePlayers> divineList = divine(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, abilityList);
+        List<VillagePlayer> divinedPlayerList = divineList.stream().map(divinePlayer -> divinePlayer.to).collect(Collectors.toList()); // 占われた対象
 
         // 呪殺
         List<VillagePlayer> divineKilledPlayerList =
                 divineKill(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, divinedPlayerList);
+
+        // 逆呪殺
+        List<VillagePlayer> reverseDivineKilledPlayerList =
+                reverseDivineKill(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, divineList);
 
         // 捜査
         invastigate(villageId, day, executedPlayerId, suddonlyDeathVPlayerList, vPlayerList, abilityList);
@@ -439,16 +443,24 @@ public class DayChangeLogic {
         Optional<VillagePlayer> optAttackedPlayer =
                 attack(villageId, day, vPlayerList, executedPlayerId, suddonlyDeathVPlayerList, guardedPlayerList, abilityList);
 
+        // ここまでで死亡している人
+        Set<VillagePlayer> deadPlayerSet = new HashSet<>();
+        deadPlayerSet.addAll(suddonlyDeathVPlayerList);
+        deadPlayerSet.add(executedPlayer);
+        deadPlayerSet.addAll(divineKilledPlayerList);
+        deadPlayerSet.addAll(reverseDivineKilledPlayerList);
+        optAttackedPlayer.ifPresent(attackedPlayer -> deadPlayerSet.add(attackedPlayer));
+
         // 罠
-        List<VillagePlayer> trappedPlayerList = trap(villageId, day, vPlayerList, abilityList, executedPlayer, divineKilledPlayerList,
-                optAttackedPlayer, suddonlyDeathVPlayerList);
+        List<VillagePlayer> trappedPlayerList = trap(villageId, day, vPlayerList, abilityList, deadPlayerSet, suddonlyDeathVPlayerList);
+        deadPlayerSet.addAll(trappedPlayerList);
 
         // 爆弾
-        List<VillagePlayer> bombedPlayerList = bomb(villageId, day, vPlayerList, abilityList, executedPlayer, divineKilledPlayerList,
-                optAttackedPlayer, suddonlyDeathVPlayerList, trappedPlayerList);
+        List<VillagePlayer> bombedPlayerList = bomb(villageId, day, vPlayerList, abilityList, deadPlayerSet, suddonlyDeathVPlayerList);
 
         // 無惨メッセージ
-        insertAttackedMessage(villageId, day, divineKilledPlayerList, optAttackedPlayer, trappedPlayerList, bombedPlayerList);
+        insertAttackedMessage(villageId, day, divineKilledPlayerList, reverseDivineKilledPlayerList, optAttackedPlayer, trappedPlayerList,
+                bombedPlayerList);
 
         if (day == 2 && optAttackedPlayer.isPresent()) {
             messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ,
@@ -472,10 +484,11 @@ public class DayChangeLogic {
 
         // 人狼の数
         long werewolfCount =
-                villagePlayerList.stream().filter(vp -> vp.isIsDeadFalse() && vp.getSkillCodeAsSkill() == CDef.Skill.人狼).count();
+                villagePlayerList.stream().filter(vp -> vp.isIsDeadFalse() && vp.getSkillCodeAsSkill().isHasAttackAbility()).count();
         // 人間の数
         long villagerCount = villagePlayerList.stream()
-                .filter(vp -> vp.isIsDeadFalse() && vp.getSkillCodeAsSkill() != CDef.Skill.人狼 && vp.getSkillCodeAsSkill() != CDef.Skill.妖狐)
+                .filter(vp -> vp.isIsDeadFalse() && !vp.getSkillCodeAsSkill().isHasAttackAbility()
+                        && vp.getSkillCodeAsSkill() != CDef.Skill.妖狐)
                 .count();
         // 妖狐の数
         long foxCount = villagePlayerList.stream().filter(vp -> vp.isIsDeadFalse() && vp.getSkillCodeAsSkill() == CDef.Skill.妖狐).count();
@@ -578,15 +591,18 @@ public class DayChangeLogic {
 
     // 無惨メッセージ
     private void insertAttackedMessage(Integer villageId, int day, List<VillagePlayer> divineKilledPlayerList,
-            Optional<VillagePlayer> optAttackedPlayer, List<VillagePlayer> trappedPlayerList, List<VillagePlayer> bombedPlayerList) {
-        List<VillagePlayer> victimPlayerList = new ArrayList<>();
-        victimPlayerList.addAll(divineKilledPlayerList);
-        victimPlayerList.addAll(trappedPlayerList);
-        victimPlayerList.addAll(bombedPlayerList);
-        optAttackedPlayer.ifPresent(player -> victimPlayerList.add(player));
-        if (CollectionUtils.isEmpty(victimPlayerList)) {
+            List<VillagePlayer> reverseDivineKilledPlayerList, Optional<VillagePlayer> optAttackedPlayer,
+            List<VillagePlayer> trappedPlayerList, List<VillagePlayer> bombedPlayerList) {
+        Set<VillagePlayer> victimPlayerSet = new HashSet<>();
+        victimPlayerSet.addAll(divineKilledPlayerList);
+        victimPlayerSet.addAll(reverseDivineKilledPlayerList);
+        victimPlayerSet.addAll(trappedPlayerList);
+        victimPlayerSet.addAll(bombedPlayerList);
+        optAttackedPlayer.ifPresent(player -> victimPlayerSet.add(player));
+        if (CollectionUtils.isEmpty(victimPlayerSet)) {
             messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, "今日は犠牲者がいないようだ。人狼は襲撃に失敗したのだろうか。");
         } else {
+            List<VillagePlayer> victimPlayerList = new ArrayList<>(victimPlayerSet);
             Collections.shuffle(victimPlayerList);
             StringJoiner joiner = new StringJoiner("と", "次の日の朝、", "が無惨な姿で発見された。");
             victimPlayerList.stream().forEach(player -> {
@@ -604,7 +620,7 @@ public class DayChangeLogic {
                 .filter(vp -> vp.isIsDeadFalse() // 死亡していない
                         && suddonlyDeathVPlayerList.stream().noneMatch(sdvp -> sdvp.getVillagePlayerId().equals(vp.getVillagePlayerId())) // 突然死していない
                         && !vp.getVillagePlayerId().equals(executedPlayerId) // 処刑されていない
-                        && vp.getSkillCodeAsSkill() == CDef.Skill.人狼) // 人狼である
+                        && vp.getSkillCodeAsSkill().isHasAttackAbility()) // 人狼である
                 .collect(Collectors.toList());
         if (CollectionUtils.isEmpty(livingWolfList)) {
             return Optional.empty(); // 人狼がいない場合は何もしない
@@ -626,9 +642,19 @@ public class DayChangeLogic {
                     attackerPlayer.getVillagePlayerId(), true, hasWerewolfFace ? CDef.FaceType.囁き : CDef.FaceType.通常);
         }
 
-        // 襲撃成功したか
+        // 襲撃成功したら死亡
         if (isAttackSuccess(targetPlayer, executedPlayerId, suddonlyDeathVPlayerList, guardedPlayerList)) {
             dayChangeLogicHelper.updateVillagePlayerDead(day, targetPlayer, CDef.DeadReason.襲撃); // 死亡処理
+            // 襲撃したのが智狼だったら襲撃対象の役職を表示
+            Integer attackerCharaId = optAttack.get().getCharaId();
+            VillagePlayer attacker = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(attackerCharaId)).findFirst().get();
+            if (attacker.getSkillCodeAsSkill() == CDef.Skill.智狼 //   
+                    && !executedPlayerId.equals(attackerCharaId) // 処刑されたいない
+                    && suddonlyDeathVPlayerList.stream().noneMatch(sdvp -> sdvp.getCharaId().equals(attackerCharaId))) { // 突然死していない
+                String message =
+                        String.format("%sは%sだったようだ。", CharaUtil.makeCharaName(targetPlayer), targetPlayer.getSkillCodeAsSkill().alias());
+                messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.襲撃結果, message);
+            }
             return Optional.ofNullable(targetPlayer);
         }
         return Optional.empty();
@@ -695,13 +721,7 @@ public class DayChangeLogic {
     }
 
     private List<VillagePlayer> trap(Integer villageId, int day, List<VillagePlayer> vPlayerList, List<Ability> abilityList,
-            VillagePlayer executedPlayer, List<VillagePlayer> divineKilledPlayerList, Optional<VillagePlayer> optAttackedPlayer,
-            List<VillagePlayer> suddonlyDeathVPlayerList) {
-        // 死亡している人
-        List<VillagePlayer> deadPlayerList = new ArrayList<>();
-        deadPlayerList.add(executedPlayer);
-        deadPlayerList.addAll(divineKilledPlayerList);
-        optAttackedPlayer.ifPresent(attackedPlayer -> deadPlayerList.add(attackedPlayer));
+            Set<VillagePlayer> deadPlayerSet, List<VillagePlayer> suddonlyDeathVPlayerList) {
         // 罠
         Set<VillagePlayer> wholeTrappedPlayerSet = new HashSet<>();
         abilityList.stream().filter(ability -> {
@@ -717,25 +737,18 @@ public class DayChangeLogic {
         });
         // 通過した人の死亡処理
         wholeTrappedPlayerSet.stream().filter(vp -> {
-            return deadPlayerList.stream().noneMatch(deadVP -> deadVP.getVillagePlayerId().equals(vp.getVillagePlayerId()));
+            return deadPlayerSet.stream().noneMatch(deadVP -> deadVP.getVillagePlayerId().equals(vp.getVillagePlayerId()));
         }).forEach(trappedPlayer -> {
             dayChangeLogicHelper.updateVillagePlayerDead(day, trappedPlayer, CDef.DeadReason.罠死); // 死亡処理
         });
 
         return wholeTrappedPlayerSet.stream().filter(vp -> {
-            return deadPlayerList.stream().noneMatch(deadVP -> deadVP.getVillagePlayerId().equals(vp.getVillagePlayerId()));
+            return deadPlayerSet.stream().noneMatch(deadVP -> deadVP.getVillagePlayerId().equals(vp.getVillagePlayerId()));
         }).collect(Collectors.toList());
     }
 
     private List<VillagePlayer> bomb(Integer villageId, int day, List<VillagePlayer> vPlayerList, List<Ability> abilityList,
-            VillagePlayer executedPlayer, List<VillagePlayer> divineKilledPlayerList, Optional<VillagePlayer> optAttackedPlayer,
-            List<VillagePlayer> suddonlyDeathVPlayerList, List<VillagePlayer> trappedPlayerList) {
-        // 死亡している人
-        List<VillagePlayer> deadPlayerList = new ArrayList<>();
-        deadPlayerList.add(executedPlayer);
-        deadPlayerList.addAll(divineKilledPlayerList);
-        deadPlayerList.addAll(trappedPlayerList);
-        optAttackedPlayer.ifPresent(attackedPlayer -> deadPlayerList.add(attackedPlayer));
+            Set<VillagePlayer> deadPlayerSet, List<VillagePlayer> suddonlyDeathVPlayerList) {
         // 爆弾
         Set<VillagePlayer> wholeBombedPlayerSet = new HashSet<>();
         abilityList.stream().filter(ability -> {
@@ -761,13 +774,13 @@ public class DayChangeLogic {
         });
         // 死亡処理
         wholeBombedPlayerSet.stream().filter(vp -> {
-            return deadPlayerList.stream().noneMatch(deadVP -> deadVP.getVillagePlayerId().equals(vp.getVillagePlayerId()));
+            return deadPlayerSet.stream().noneMatch(deadVP -> deadVP.getVillagePlayerId().equals(vp.getVillagePlayerId()));
         }).forEach(trappedPlayer -> {
             dayChangeLogicHelper.updateVillagePlayerDead(day, trappedPlayer, CDef.DeadReason.爆死); // 死亡処理
         });
 
         return wholeBombedPlayerSet.stream().filter(vp -> {
-            return deadPlayerList.stream().noneMatch(deadVP -> deadVP.getVillagePlayerId().equals(vp.getVillagePlayerId()));
+            return deadPlayerSet.stream().noneMatch(deadVP -> deadVP.getVillagePlayerId().equals(vp.getVillagePlayerId()));
         }).collect(Collectors.toList());
     }
 
@@ -792,7 +805,7 @@ public class DayChangeLogic {
         ) {
             StringJoiner joiner = new StringJoiner("\n");
             deadPlayerList.forEach(deadPlayer -> {
-                boolean isTargetWerewolf = deadPlayer.getSkillCodeAsSkill() == CDef.Skill.人狼;
+                boolean isTargetWerewolf = deadPlayer.getSkillCodeAsSkill().isHasAttackAbility();
                 joiner.add(String.format("%sは%sのようだ。", CharaUtil.makeCharaName(deadPlayer), isTargetWerewolf ? "人狼" : "人間"));
             });
             messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.白黒霊視結果, joiner.toString());
@@ -837,8 +850,30 @@ public class DayChangeLogic {
         return divineKilledPlayerList;
     }
 
+    // 逆呪殺
+    private List<VillagePlayer> reverseDivineKill(Integer villageId, int day, List<VillagePlayer> villagePlayerList,
+            Integer executedPlayerId, List<VillagePlayer> suddonlyDeathVPlayerList, List<DivinePlayers> divineList) {
+        if (CollectionUtils.isEmpty(divineList)) {
+            return new ArrayList<>();
+        }
+        // 逆呪殺された占い師
+        List<VillagePlayer> reverseDivineKilledPlayerList = divineList.stream().filter(divine -> {
+            VillagePlayer divinedPlayer = divine.to;
+            Integer divinedPlayerId = divinedPlayer.getVillagePlayerId();
+            return !divinedPlayerId.equals(executedPlayerId) // 処刑されてない
+                    && suddonlyDeathVPlayerList.stream().noneMatch(sdvp -> sdvp.getVillagePlayerId().equals(divinedPlayerId)) // 突然死していない
+                    && divinedPlayer.getSkillCodeAsSkill() == CDef.Skill.呪狼; // 占われたのが逆呪殺できる役職
+        }).map(divine -> divine.from).distinct().collect(Collectors.toList());
+
+        reverseDivineKilledPlayerList.forEach(reverseDivineKilledPlayer -> {
+            dayChangeLogicHelper.updateVillagePlayerDead(day, reverseDivineKilledPlayer, CDef.DeadReason.呪殺); // 死亡処理
+        });
+
+        return reverseDivineKilledPlayerList;
+    }
+
     // 占い
-    private List<VillagePlayer> divine(Integer villageId, int day, List<VillagePlayer> villagePlayerList, Integer executedPlayerId,
+    private List<DivinePlayers> divine(Integer villageId, int day, List<VillagePlayer> villagePlayerList, Integer executedPlayerId,
             List<VillagePlayer> suddonlyDeathVPlayerList, List<Ability> abilityList) {
         List<VillagePlayer> livingSeerList = villagePlayerList.stream()
                 .filter(vp -> vp.isIsDeadFalse() // 死亡していない
@@ -850,7 +885,7 @@ public class DayChangeLogic {
             return new ArrayList<>(); // 占い師が既に死亡している場合は何もしない
         }
 
-        List<VillagePlayer> divinedPlayerList = new ArrayList<>();
+        List<DivinePlayers> divineList = new ArrayList<>();
         livingSeerList.forEach(seerPlayer -> {
             Optional<Ability> optSeer = abilityList.stream().filter(ability -> {
                 return ability.getAbilityTypeCodeAsAbilityType() == CDef.AbilityType.占い
@@ -865,15 +900,15 @@ public class DayChangeLogic {
             messageLogic.insertMessageIgnoreError(villageId, day,
                     seerPlayer.isSkillCode占い師() ? CDef.MessageType.白黒占い結果 : CDef.MessageType.役職占い結果, message,
                     seerPlayer.getVillagePlayerId(), true, null);
-            divinedPlayerList.add(targetPlayer);
+            divineList.add(new DivinePlayers(seerPlayer, targetPlayer));
         });
-        return divinedPlayerList;
+        return divineList;
     }
 
     private String makeDivineMessage(VillagePlayer seerPlayer, VillagePlayer targetPlayer) {
         String targetCharaName = CharaUtil.makeCharaName(targetPlayer);
         if (seerPlayer.isSkillCode占い師()) {
-            boolean isTargetWerewolf = targetPlayer.getSkillCodeAsSkill() == CDef.Skill.人狼;
+            boolean isTargetWerewolf = targetPlayer.getSkillCodeAsSkill().isHasAttackAbility();
             return String.format("%sは、%sを占った。\n%sは%sのようだ。", CharaUtil.makeCharaName(seerPlayer), targetCharaName, targetCharaName,
                     isTargetWerewolf ? "人狼" : "人間");
         } else {
@@ -1137,7 +1172,7 @@ public class DayChangeLogic {
                 .findFirst()
                 .get();
         Map<Skill, Integer> skillPersonNum = SkillUtil.createSkillPersonNum(personNumOrg);
-        Integer wolfNum = skillPersonNum.get(CDef.Skill.人狼);
+        Integer wolfNum = CDef.Skill.listOfHasAttackAbility().stream().mapToInt(skill -> skillPersonNum.get(skill)).sum();
         if (wolfNum < 3) {
             dayChangeLogicHelper.updateVillageSettingsSameWolfAttackTrue(villageId);
             messageLogic.insertMessageIgnoreError(villageId, 1, CDef.MessageType.公開システムメッセージ, "人狼の人数が3名より少ないため、同一人狼による連続襲撃を「可能」に変更します。");
@@ -1172,5 +1207,15 @@ public class DayChangeLogic {
             return; // 身内村は通知しない
         }
         twitterLogic.tweet(String.format("%sが開始されました。", village.getVillageDisplayName()), villageId);
+    }
+
+    private static class DivinePlayers {
+        private VillagePlayer from;
+        private VillagePlayer to;
+
+        private DivinePlayers(VillagePlayer from, VillagePlayer to) {
+            this.from = from;
+            this.to = to;
+        }
     }
 }

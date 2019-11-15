@@ -316,7 +316,7 @@ public class VillageSettingsAssist {
     private List<NewVillageSayRestrictDetailDto> createDetailList(Skill skill, List<MessageRestriction> restrictList) {
         List<NewVillageSayRestrictDetailDto> detailList = new ArrayList<>();
         detailList.add(createDetail("通常発言", CDef.MessageType.通常発言.code(), skill, restrictList));
-        if (skill == CDef.Skill.人狼 || skill == CDef.Skill.C国狂人) {
+        if (skill.isAvailableWerewolfSay()) {
             detailList.add(createDetail("囁き", CDef.MessageType.人狼の囁き.code(), skill, restrictList));
         } else if (skill == CDef.Skill.共鳴者) {
             detailList.add(createDetail("共鳴", CDef.MessageType.共鳴発言.code(), skill, restrictList));
