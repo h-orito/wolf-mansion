@@ -143,6 +143,14 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 襲撃結果 (PRIVATE_WEREWOLF). And OnlyOnceRegistered. <br>
+     * 襲撃結果
+     */
+    public void setMessageTypeCode_Equal_襲撃結果() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.襲撃結果);
+    }
+
+    /**
      * Equal(=). As 役職占い結果 (PRIVATE_WISE). And OnlyOnceRegistered. <br>
      * 役職占い結果
      */
@@ -283,6 +291,14 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
      */
     public void setMessageTypeCode_NotEqual_非公開システムメッセージ() {
         setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.非公開システムメッセージ);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 襲撃結果 (PRIVATE_WEREWOLF). And OnlyOnceRegistered. <br>
+     * 襲撃結果
+     */
+    public void setMessageTypeCode_NotEqual_襲撃結果() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.襲撃結果);
     }
 
     /**

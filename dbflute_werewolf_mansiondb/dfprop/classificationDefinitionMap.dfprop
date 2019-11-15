@@ -98,6 +98,10 @@ map:{
 	        			; groupComment=役職霊能能力を持つ
 	        			; elementList= list:{導師;魔神官}
 	        		}
+	        		; hasAttackAbility = map:{
+	        			; groupComment=襲撃能力を持つ
+	        			; elementList= list:{人狼;呪狼;智狼}
+	        		}
 	        		; hasMadmanAbility = map:{
 	        			; groupComment=狂人能力を持つ
 	        			; elementList= list:{C国狂人;狂人;狂信者;魔神官}

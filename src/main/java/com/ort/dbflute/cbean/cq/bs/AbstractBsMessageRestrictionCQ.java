@@ -208,6 +208,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
     }
 
     /**
+     * Equal(=). As 呪狼 (CURSEWOLF). And OnlyOnceRegistered. <br>
+     * 呪狼
+     */
+    public void setSkillCode_Equal_呪狼() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.呪狼);
+    }
+
+    /**
      * Equal(=). As 探偵 (DETECTIVE). And OnlyOnceRegistered. <br>
      * 探偵
      */
@@ -367,6 +375,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
         setSkillCode_Equal_AsSkill(CDef.Skill.賢者);
     }
 
+    /**
+     * Equal(=). As 智狼 (WISEWOLF). And OnlyOnceRegistered. <br>
+     * 智狼
+     */
+    public void setSkillCode_Equal_智狼() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.智狼);
+    }
+
     protected void doSetSkillCode_Equal(String skillCode) {
         regSkillCode(CK_EQ, skillCode);
     }
@@ -404,6 +420,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
      */
     public void setSkillCode_NotEqual_C国狂人() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 呪狼 (CURSEWOLF). And OnlyOnceRegistered. <br>
+     * 呪狼
+     */
+    public void setSkillCode_NotEqual_呪狼() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.呪狼);
     }
 
     /**
@@ -566,6 +590,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
         setSkillCode_NotEqual_AsSkill(CDef.Skill.賢者);
     }
 
+    /**
+     * NotEqual(&lt;&gt;). As 智狼 (WISEWOLF). And OnlyOnceRegistered. <br>
+     * 智狼
+     */
+    public void setSkillCode_NotEqual_智狼() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.智狼);
+    }
+
     protected void doSetSkillCode_NotEqual(String skillCode) {
         regSkillCode(CK_NES, skillCode);
     }
@@ -617,6 +649,16 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
      */
     public void setSkillCode_InScope_HasSkillPsychicAbility() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasSkillPsychicAbility());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 襲撃能力を持つ <br>
+     * The group elements:[人狼, 呪狼, 智狼]
+     */
+    public void setSkillCode_InScope_HasAttackAbility() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasAttackAbility());
     }
 
     /**
@@ -781,6 +823,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
     }
 
     /**
+     * Equal(=). As 襲撃結果 (PRIVATE_WEREWOLF). And OnlyOnceRegistered. <br>
+     * 襲撃結果
+     */
+    public void setMessageTypeCode_Equal_襲撃結果() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.襲撃結果);
+    }
+
+    /**
      * Equal(=). As 役職占い結果 (PRIVATE_WISE). And OnlyOnceRegistered. <br>
      * 役職占い結果
      */
@@ -921,6 +971,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
      */
     public void setMessageTypeCode_NotEqual_非公開システムメッセージ() {
         setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.非公開システムメッセージ);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 襲撃結果 (PRIVATE_WEREWOLF). And OnlyOnceRegistered. <br>
+     * 襲撃結果
+     */
+    public void setMessageTypeCode_NotEqual_襲撃結果() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.襲撃結果);
     }
 
     /**

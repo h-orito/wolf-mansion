@@ -778,6 +778,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 呪狼 (CURSEWOLF). And OnlyOnceRegistered. <br>
+     * 呪狼
+     */
+    public void setSkillCode_Equal_呪狼() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.呪狼);
+    }
+
+    /**
      * Equal(=). As 探偵 (DETECTIVE). And OnlyOnceRegistered. <br>
      * 探偵
      */
@@ -937,6 +945,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
         setSkillCode_Equal_AsSkill(CDef.Skill.賢者);
     }
 
+    /**
+     * Equal(=). As 智狼 (WISEWOLF). And OnlyOnceRegistered. <br>
+     * 智狼
+     */
+    public void setSkillCode_Equal_智狼() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.智狼);
+    }
+
     protected void doSetSkillCode_Equal(String skillCode) {
         regSkillCode(CK_EQ, skillCode);
     }
@@ -974,6 +990,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_C国狂人() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 呪狼 (CURSEWOLF). And OnlyOnceRegistered. <br>
+     * 呪狼
+     */
+    public void setSkillCode_NotEqual_呪狼() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.呪狼);
     }
 
     /**
@@ -1136,6 +1160,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.賢者);
     }
 
+    /**
+     * NotEqual(&lt;&gt;). As 智狼 (WISEWOLF). And OnlyOnceRegistered. <br>
+     * 智狼
+     */
+    public void setSkillCode_NotEqual_智狼() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.智狼);
+    }
+
     protected void doSetSkillCode_NotEqual(String skillCode) {
         regSkillCode(CK_NES, skillCode);
     }
@@ -1187,6 +1219,16 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_InScope_HasSkillPsychicAbility() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasSkillPsychicAbility());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 襲撃能力を持つ <br>
+     * The group elements:[人狼, 呪狼, 智狼]
+     */
+    public void setSkillCode_InScope_HasAttackAbility() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasAttackAbility());
     }
 
     /**
@@ -1290,6 +1332,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_Equal_C国狂人() {
         setRequestSkillCode_Equal_AsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * Equal(=). As 呪狼 (CURSEWOLF). And OnlyOnceRegistered. <br>
+     * 呪狼
+     */
+    public void setRequestSkillCode_Equal_呪狼() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.呪狼);
     }
 
     /**
@@ -1452,6 +1502,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
         setRequestSkillCode_Equal_AsSkill(CDef.Skill.賢者);
     }
 
+    /**
+     * Equal(=). As 智狼 (WISEWOLF). And OnlyOnceRegistered. <br>
+     * 智狼
+     */
+    public void setRequestSkillCode_Equal_智狼() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.智狼);
+    }
+
     protected void doSetRequestSkillCode_Equal(String requestSkillCode) {
         regRequestSkillCode(CK_EQ, requestSkillCode);
     }
@@ -1489,6 +1547,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_C国狂人() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 呪狼 (CURSEWOLF). And OnlyOnceRegistered. <br>
+     * 呪狼
+     */
+    public void setRequestSkillCode_NotEqual_呪狼() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.呪狼);
     }
 
     /**
@@ -1651,6 +1717,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.賢者);
     }
 
+    /**
+     * NotEqual(&lt;&gt;). As 智狼 (WISEWOLF). And OnlyOnceRegistered. <br>
+     * 智狼
+     */
+    public void setRequestSkillCode_NotEqual_智狼() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.智狼);
+    }
+
     protected void doSetRequestSkillCode_NotEqual(String requestSkillCode) {
         regRequestSkillCode(CK_NES, requestSkillCode);
     }
@@ -1702,6 +1776,16 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_InScope_HasSkillPsychicAbility() {
         setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasSkillPsychicAbility());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 襲撃能力を持つ <br>
+     * The group elements:[人狼, 呪狼, 智狼]
+     */
+    public void setRequestSkillCode_InScope_HasAttackAbility() {
+        setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasAttackAbility());
     }
 
     /**
@@ -1805,6 +1889,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_Equal_C国狂人() {
         setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * Equal(=). As 呪狼 (CURSEWOLF). And OnlyOnceRegistered. <br>
+     * 呪狼
+     */
+    public void setSecondRequestSkillCode_Equal_呪狼() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.呪狼);
     }
 
     /**
@@ -1967,6 +2059,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
         setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.賢者);
     }
 
+    /**
+     * Equal(=). As 智狼 (WISEWOLF). And OnlyOnceRegistered. <br>
+     * 智狼
+     */
+    public void setSecondRequestSkillCode_Equal_智狼() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.智狼);
+    }
+
     protected void doSetSecondRequestSkillCode_Equal(String secondRequestSkillCode) {
         regSecondRequestSkillCode(CK_EQ, secondRequestSkillCode);
     }
@@ -2004,6 +2104,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_C国狂人() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 呪狼 (CURSEWOLF). And OnlyOnceRegistered. <br>
+     * 呪狼
+     */
+    public void setSecondRequestSkillCode_NotEqual_呪狼() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.呪狼);
     }
 
     /**
@@ -2166,6 +2274,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.賢者);
     }
 
+    /**
+     * NotEqual(&lt;&gt;). As 智狼 (WISEWOLF). And OnlyOnceRegistered. <br>
+     * 智狼
+     */
+    public void setSecondRequestSkillCode_NotEqual_智狼() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.智狼);
+    }
+
     protected void doSetSecondRequestSkillCode_NotEqual(String secondRequestSkillCode) {
         regSecondRequestSkillCode(CK_NES, secondRequestSkillCode);
     }
@@ -2217,6 +2333,16 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_InScope_HasSkillPsychicAbility() {
         setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasSkillPsychicAbility());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 襲撃能力を持つ <br>
+     * The group elements:[人狼, 呪狼, 智狼]
+     */
+    public void setSecondRequestSkillCode_InScope_HasAttackAbility() {
+        setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasAttackAbility());
     }
 
     /**

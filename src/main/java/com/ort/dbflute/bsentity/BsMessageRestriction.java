@@ -195,6 +195,14 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     }
 
     /**
+     * Set the value of skillCode as 呪狼 (CURSEWOLF). <br>
+     * 呪狼
+     */
+    public void setSkillCode_呪狼() {
+        setSkillCodeAsSkill(CDef.Skill.呪狼);
+    }
+
+    /**
      * Set the value of skillCode as 探偵 (DETECTIVE). <br>
      * 探偵
      */
@@ -355,6 +363,14 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     }
 
     /**
+     * Set the value of skillCode as 智狼 (WISEWOLF). <br>
+     * 智狼
+     */
+    public void setSkillCode_智狼() {
+        setSkillCodeAsSkill(CDef.Skill.智狼);
+    }
+
+    /**
      * Set the value of messageTypeCode as 村建て発言 (CREATOR_SAY). <br>
      * 村建て発言
      */
@@ -435,6 +451,14 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     }
 
     /**
+     * Set the value of messageTypeCode as 襲撃結果 (PRIVATE_WEREWOLF). <br>
+     * 襲撃結果
+     */
+    public void setMessageTypeCode_襲撃結果() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.襲撃結果);
+    }
+
+    /**
      * Set the value of messageTypeCode as 役職占い結果 (PRIVATE_WISE). <br>
      * 役職占い結果
      */
@@ -497,6 +521,17 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     public boolean isSkillCodeC国狂人() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.C国狂人) : false;
+    }
+
+    /**
+     * Is the value of skillCode 呪狼? <br>
+     * 呪狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode呪狼() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.呪狼) : false;
     }
 
     /**
@@ -720,6 +755,17 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     }
 
     /**
+     * Is the value of skillCode 智狼? <br>
+     * 智狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode智狼() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.智狼) : false;
+    }
+
+    /**
      * 囁き可能 <br>
      * The group elements:[人狼, C国狂人]
      * @return The determination, true or false.
@@ -747,6 +793,16 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     public boolean isSkillCode_HasSkillPsychicAbility() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null && cdef.isHasSkillPsychicAbility();
+    }
+
+    /**
+     * 襲撃能力を持つ <br>
+     * The group elements:[人狼, 呪狼, 智狼]
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode_HasAttackAbility() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null && cdef.isHasAttackAbility();
     }
 
     /**
@@ -877,6 +933,17 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     public boolean isMessageTypeCode非公開システムメッセージ() {
         CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
         return cdef != null ? cdef.equals(CDef.MessageType.非公開システムメッセージ) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 襲撃結果? <br>
+     * 襲撃結果
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode襲撃結果() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.襲撃結果) : false;
     }
 
     /**

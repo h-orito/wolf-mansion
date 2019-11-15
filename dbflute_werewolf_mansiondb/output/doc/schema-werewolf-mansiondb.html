@@ -4467,6 +4467,7 @@ VOTE
 				<th><span class="clsgroup" title="囁き可能 :: [人狼, C国狂人]">availableWerewolfSay</span></th>
 				<th><span class="clsgroup" title="占い能力を持つ :: [占い師, 賢者]">hasDivineAbility</span></th>
 				<th><span class="clsgroup" title="役職霊能能力を持つ :: [導師, 魔神官]">hasSkillPsychicAbility</span></th>
+				<th><span class="clsgroup" title="襲撃能力を持つ :: [人狼, 呪狼, 智狼]">hasAttackAbility</span></th>
 				<th><span class="clsgroup" title="狂人能力を持つ :: [C国狂人, 狂人, 狂信者, 魔神官]">hasMadmanAbility</span></th>
 				<th><span class="clsgroup" title="襲撃されても死なない :: [妖狐, 爆弾魔]">noDeadByAttack</span></th>
 				<th>SubItem</th>
@@ -4480,8 +4481,9 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=16<br>,&nbsp;campCode=CRIMINAL</td>
+				<td>order=18<br>,&nbsp;campCode=CRIMINAL</td>
 			</tr>
 			<tr>
 				<td>CMADMAN</td>
@@ -4491,9 +4493,23 @@ VOTE
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=12<br>,&nbsp;campCode=WEREWOLF</td>
+				<td>order=14<br>,&nbsp;campCode=WEREWOLF</td>
+			</tr>
+			<tr>
+				<td>CURSEWOLF</td>
+				<td>呪狼</td>
+				<td>呪狼</td>
+				<td class="commentcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=11<br>,&nbsp;campCode=WEREWOLF</td>
 			</tr>
 			<tr>
 				<td>DETECTIVE</td>
@@ -4505,7 +4521,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=10<br>,&nbsp;campCode=VILLAGER</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=8<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>EVILMEDIUM</td>
@@ -4515,9 +4532,10 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=13<br>,&nbsp;campCode=WEREWOLF</td>
+				<td>order=15<br>,&nbsp;campCode=WEREWOLF</td>
 			</tr>
 			<tr>
 				<td>FANATIC</td>
@@ -4527,9 +4545,10 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=14<br>,&nbsp;campCode=WEREWOLF</td>
+				<td>order=16<br>,&nbsp;campCode=WEREWOLF</td>
 			</tr>
 			<tr>
 				<td>FOOTSTEPS</td>
@@ -4541,7 +4560,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=21<br>,&nbsp;campCode=VILLAGER</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=23<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>FOX</td>
@@ -4552,8 +4572,9 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=15<br>,&nbsp;campCode=FOX</td>
+				<td>order=17<br>,&nbsp;campCode=FOX</td>
 			</tr>
 			<tr>
 				<td>FRIENDS</td>
@@ -4565,7 +4586,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=22<br>,&nbsp;campCode=VILLAGER</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=24<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>GURU</td>
@@ -4577,7 +4599,8 @@ VOTE
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=9<br>,&nbsp;campCode=VILLAGER</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=7<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>HUNTER</td>
@@ -4589,7 +4612,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=6<br>,&nbsp;campCode=VILLAGER</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=4<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>LEFTOVER</td>
@@ -4601,7 +4625,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=17<br>,&nbsp;campCode=VILLAGER</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=19<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>MADMAN</td>
@@ -4611,9 +4636,10 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=5<br>,&nbsp;campCode=WEREWOLF</td>
+				<td>order=13<br>,&nbsp;campCode=WEREWOLF</td>
 			</tr>
 			<tr>
 				<td>MASON</td>
@@ -4625,7 +4651,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=7<br>,&nbsp;campCode=VILLAGER</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=5<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>MEDIUM</td>
@@ -4637,7 +4664,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=4<br>,&nbsp;campCode=VILLAGER</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=3<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>NOVILLAGERS</td>
@@ -4649,7 +4677,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=20<br>,&nbsp;campCode=VILLAGER</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=22<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>SEER</td>
@@ -4661,7 +4690,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=3<br>,&nbsp;campCode=VILLAGER</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=2<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>TRAPPER</td>
@@ -4673,13 +4703,15 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=11<br>,&nbsp;campCode=VILLAGER</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=9<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>VILLAGER</td>
 				<td>村人</td>
 				<td>村人</td>
 				<td class="commentcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -4697,7 +4729,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=18<br>,&nbsp;campCode=VILLAGER</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=20<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>WEREWOLF</td>
@@ -4707,9 +4740,10 @@ VOTE
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=2<br>,&nbsp;campCode=WEREWOLF</td>
+				<td>order=10<br>,&nbsp;campCode=WEREWOLF</td>
 			</tr>
 			<tr>
 				<td>WEREWOLFS</td>
@@ -4721,7 +4755,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=19<br>,&nbsp;campCode=VILLAGER</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=21<br>,&nbsp;campCode=VILLAGER</td>
 			</tr>
 			<tr>
 				<td>WISE</td>
@@ -4733,7 +4768,21 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=8<br>,&nbsp;campCode=VILLAGER</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=6<br>,&nbsp;campCode=VILLAGER</td>
+			</tr>
+			<tr>
+				<td>WISEWOLF</td>
+				<td>智狼</td>
+				<td>智狼</td>
+				<td class="commentcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=12<br>,&nbsp;campCode=WEREWOLF</td>
 			</tr>
 			</table>
 		</td>
@@ -4797,6 +4846,11 @@ VOTE
 			<tr>
 				<td>PRIVATE_SYSTEM</td>
 				<td>非公開システムメッセージ</td>
+				<td class="commentcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>PRIVATE_WEREWOLF</td>
+				<td>襲撃結果</td>
 				<td class="commentcell"> &nbsp;</td>
 			</tr>
 			<tr>

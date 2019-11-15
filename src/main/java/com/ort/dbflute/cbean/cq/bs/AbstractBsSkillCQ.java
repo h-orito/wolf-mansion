@@ -79,6 +79,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 呪狼 (CURSEWOLF). And OnlyOnceRegistered. <br>
+     * 呪狼
+     */
+    public void setSkillCode_Equal_呪狼() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.呪狼);
+    }
+
+    /**
      * Equal(=). As 探偵 (DETECTIVE). And OnlyOnceRegistered. <br>
      * 探偵
      */
@@ -238,6 +246,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
         setSkillCode_Equal_AsSkill(CDef.Skill.賢者);
     }
 
+    /**
+     * Equal(=). As 智狼 (WISEWOLF). And OnlyOnceRegistered. <br>
+     * 智狼
+     */
+    public void setSkillCode_Equal_智狼() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.智狼);
+    }
+
     protected void doSetSkillCode_Equal(String skillCode) {
         regSkillCode(CK_EQ, skillCode);
     }
@@ -275,6 +291,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_C国狂人() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 呪狼 (CURSEWOLF). And OnlyOnceRegistered. <br>
+     * 呪狼
+     */
+    public void setSkillCode_NotEqual_呪狼() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.呪狼);
     }
 
     /**
@@ -437,6 +461,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.賢者);
     }
 
+    /**
+     * NotEqual(&lt;&gt;). As 智狼 (WISEWOLF). And OnlyOnceRegistered. <br>
+     * 智狼
+     */
+    public void setSkillCode_NotEqual_智狼() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.智狼);
+    }
+
     protected void doSetSkillCode_NotEqual(String skillCode) {
         regSkillCode(CK_NES, skillCode);
     }
@@ -488,6 +520,16 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_InScope_HasSkillPsychicAbility() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasSkillPsychicAbility());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 襲撃能力を持つ <br>
+     * The group elements:[人狼, 呪狼, 智狼]
+     */
+    public void setSkillCode_InScope_HasAttackAbility() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasAttackAbility());
     }
 
     /**
