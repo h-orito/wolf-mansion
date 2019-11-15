@@ -1283,6 +1283,16 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * 襲撃されても死なない <br>
+     * The group elements:[妖狐, 爆弾魔]
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode_NoDeadByAttack() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null && cdef.isNoDeadByAttack();
+    }
+
+    /**
      * Is the value of requestSkillCode 爆弾魔? <br>
      * 爆弾魔
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1565,6 +1575,16 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * 襲撃されても死なない <br>
+     * The group elements:[妖狐, 爆弾魔]
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode_NoDeadByAttack() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null && cdef.isNoDeadByAttack();
+    }
+
+    /**
      * Is the value of secondRequestSkillCode 爆弾魔? <br>
      * 爆弾魔
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1844,6 +1864,16 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode_HasMadmanAbility() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null && cdef.isHasMadmanAbility();
+    }
+
+    /**
+     * 襲撃されても死なない <br>
+     * The group elements:[妖狐, 爆弾魔]
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode_NoDeadByAttack() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null && cdef.isNoDeadByAttack();
     }
 
     /**

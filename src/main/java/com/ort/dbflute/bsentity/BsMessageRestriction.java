@@ -760,6 +760,16 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     }
 
     /**
+     * 襲撃されても死なない <br>
+     * The group elements:[妖狐, 爆弾魔]
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode_NoDeadByAttack() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null && cdef.isNoDeadByAttack();
+    }
+
+    /**
      * Is the value of messageTypeCode 村建て発言? <br>
      * 村建て発言
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>

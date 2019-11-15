@@ -654,8 +654,8 @@ public class DayChangeLogic {
         if (guardedPlayerList.stream().anyMatch(vp -> vp.getVillagePlayerId().equals(attackedPlayer.getVillagePlayerId()))) {
             return false; // 護衛されていた
         }
-        if (attackedPlayer.getSkillCodeAsSkill() == CDef.Skill.妖狐) {
-            return false; // 噛み先が妖狐
+        if (attackedPlayer.getSkillCodeAsSkill().isNoDeadByAttack()) {
+            return false; // 襲撃されても死なない役職
         }
         return true;
     }

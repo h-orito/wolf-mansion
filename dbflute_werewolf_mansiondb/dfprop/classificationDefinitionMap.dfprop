@@ -102,6 +102,10 @@ map:{
 	        			; groupComment=狂人能力を持つ
 	        			; elementList= list:{C国狂人;狂人;狂信者;魔神官}
 	        		}
+	        		; noDeadByAttack = map:{
+	        			; groupComment=襲撃されても死なない
+	        			; elementList= list:{妖狐;爆弾魔}
+	        		}
 	        	}
         }
         ; map:{

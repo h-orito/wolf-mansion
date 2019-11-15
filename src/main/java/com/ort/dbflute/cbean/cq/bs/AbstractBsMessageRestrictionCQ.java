@@ -629,6 +629,16 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasMadmanAbility());
     }
 
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 襲撃されても死なない <br>
+     * The group elements:[妖狐, 爆弾魔]
+     */
+    public void setSkillCode_InScope_NoDeadByAttack() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfNoDeadByAttack());
+    }
+
     protected void doSetSkillCode_InScope(Collection<String> skillCodeList) {
         regINS(CK_INS, cTL(skillCodeList), xgetCValueSkillCode(), "SKILL_CODE");
     }

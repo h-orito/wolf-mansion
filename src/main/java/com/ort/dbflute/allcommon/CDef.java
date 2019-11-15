@@ -792,11 +792,22 @@ public interface CDef extends Classification {
             return C国狂人.equals(this) || 狂人.equals(this) || 狂信者.equals(this) || 魔神官.equals(this);
         }
 
+        /**
+         * Is the classification in the group? <br>
+         * 襲撃されても死なない <br>
+         * The group elements:[妖狐, 爆弾魔]
+         * @return The determination, true or false.
+         */
+        public boolean isNoDeadByAttack() {
+            return 妖狐.equals(this) || 爆弾魔.equals(this);
+        }
+
         public boolean inGroup(String groupName) {
             if ("availableWerewolfSay".equals(groupName)) { return isAvailableWerewolfSay(); }
             if ("hasDivineAbility".equals(groupName)) { return isHasDivineAbility(); }
             if ("hasSkillPsychicAbility".equals(groupName)) { return isHasSkillPsychicAbility(); }
             if ("hasMadmanAbility".equals(groupName)) { return isHasMadmanAbility(); }
+            if ("noDeadByAttack".equals(groupName)) { return isNoDeadByAttack(); }
             return false;
         }
 
@@ -868,6 +879,7 @@ public interface CDef extends Classification {
             if ("hasDivineAbility".equalsIgnoreCase(groupName)) { return listOfHasDivineAbility(); }
             if ("hasSkillPsychicAbility".equalsIgnoreCase(groupName)) { return listOfHasSkillPsychicAbility(); }
             if ("hasMadmanAbility".equalsIgnoreCase(groupName)) { return listOfHasMadmanAbility(); }
+            if ("noDeadByAttack".equalsIgnoreCase(groupName)) { return listOfNoDeadByAttack(); }
             throw new ClassificationNotFoundException("Unknown classification group: Skill." + groupName);
         }
 
@@ -924,6 +936,16 @@ public interface CDef extends Classification {
         }
 
         /**
+         * Get the list of group classification elements. (returns new copied list) <br>
+         * 襲撃されても死なない <br>
+         * The group elements:[妖狐, 爆弾魔]
+         * @return The snapshot list of classification elements in the group. (NotNull)
+         */
+        public static List<Skill> listOfNoDeadByAttack() {
+            return new ArrayList<Skill>(Arrays.asList(妖狐, 爆弾魔));
+        }
+
+        /**
          * Get the list of classification elements in the specified group. (returns new copied list) <br>
          * @param groupName The string of group name, which is case-sensitive. (NullAllowed: if null, returns empty list)
          * @return The snapshot list of classification elements in the group. (NotNull, EmptyAllowed: if the group is not found)
@@ -933,6 +955,7 @@ public interface CDef extends Classification {
             if ("hasDivineAbility".equals(groupName)) { return listOfHasDivineAbility(); }
             if ("hasSkillPsychicAbility".equals(groupName)) { return listOfHasSkillPsychicAbility(); }
             if ("hasMadmanAbility".equals(groupName)) { return listOfHasMadmanAbility(); }
+            if ("noDeadByAttack".equals(groupName)) { return listOfNoDeadByAttack(); }
             return new ArrayList<Skill>(4);
         }
 

@@ -1199,6 +1199,16 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasMadmanAbility());
     }
 
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 襲撃されても死なない <br>
+     * The group elements:[妖狐, 爆弾魔]
+     */
+    public void setSkillCode_InScope_NoDeadByAttack() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfNoDeadByAttack());
+    }
+
     protected void doSetSkillCode_InScope(Collection<String> skillCodeList) {
         regINS(CK_INS, cTL(skillCodeList), xgetCValueSkillCode(), "SKILL_CODE");
     }
@@ -1704,6 +1714,16 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
         setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasMadmanAbility());
     }
 
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 襲撃されても死なない <br>
+     * The group elements:[妖狐, 爆弾魔]
+     */
+    public void setRequestSkillCode_InScope_NoDeadByAttack() {
+        setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfNoDeadByAttack());
+    }
+
     protected void doSetRequestSkillCode_InScope(Collection<String> requestSkillCodeList) {
         regINS(CK_INS, cTL(requestSkillCodeList), xgetCValueRequestSkillCode(), "REQUEST_SKILL_CODE");
     }
@@ -2207,6 +2227,16 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_InScope_HasMadmanAbility() {
         setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasMadmanAbility());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 襲撃されても死なない <br>
+     * The group elements:[妖狐, 爆弾魔]
+     */
+    public void setSecondRequestSkillCode_InScope_NoDeadByAttack() {
+        setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfNoDeadByAttack());
     }
 
     protected void doSetSecondRequestSkillCode_InScope(Collection<String> secondRequestSkillCodeList) {
