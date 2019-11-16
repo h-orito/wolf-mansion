@@ -292,6 +292,30 @@ public class AssignLogic {
         } else if (existSkillInOrg(CDef.Skill.賢者, orgMap) && !existSkillInOrg(CDef.Skill.占い師, orgMap)) {
             convertSkillRequestIfNeeded(after, CDef.Skill.占い師, CDef.Skill.賢者);
         }
+        if (existSkillInOrg(CDef.Skill.人狼, orgMap)) {
+            if (!existSkillInOrg(CDef.Skill.呪狼, orgMap)) {
+                convertSkillRequestIfNeeded(after, CDef.Skill.呪狼, CDef.Skill.人狼);
+            }
+            if (!existSkillInOrg(CDef.Skill.智狼, orgMap)) {
+                convertSkillRequestIfNeeded(after, CDef.Skill.智狼, CDef.Skill.人狼);
+            }
+        }
+        if (existSkillInOrg(CDef.Skill.呪狼, orgMap)) {
+            if (!existSkillInOrg(CDef.Skill.人狼, orgMap)) {
+                convertSkillRequestIfNeeded(after, CDef.Skill.人狼, CDef.Skill.呪狼);
+            }
+            if (!existSkillInOrg(CDef.Skill.智狼, orgMap)) {
+                convertSkillRequestIfNeeded(after, CDef.Skill.智狼, CDef.Skill.呪狼);
+            }
+        }
+        if (existSkillInOrg(CDef.Skill.智狼, orgMap)) {
+            if (!existSkillInOrg(CDef.Skill.人狼, orgMap)) {
+                convertSkillRequestIfNeeded(after, CDef.Skill.人狼, CDef.Skill.智狼);
+            }
+            if (!existSkillInOrg(CDef.Skill.呪狼, orgMap)) {
+                convertSkillRequestIfNeeded(after, CDef.Skill.呪狼, CDef.Skill.智狼);
+            }
+        }
     }
 
     private void convertSkillRequestIfNeeded(SkillRequest request, Skill before, Skill after) {
