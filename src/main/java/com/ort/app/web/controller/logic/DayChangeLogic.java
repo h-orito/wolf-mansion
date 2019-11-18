@@ -649,7 +649,7 @@ public class DayChangeLogic {
             Integer attackerCharaId = optAttack.get().getCharaId();
             VillagePlayer attacker = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(attackerCharaId)).findFirst().get();
             if (attacker.getSkillCodeAsSkill() == CDef.Skill.智狼 //   
-                    && !executedPlayerId.equals(attackerCharaId) // 処刑されたいない
+                    && !attackerCharaId.equals(executedPlayerId) // 処刑されていない
                     && suddonlyDeathVPlayerList.stream().noneMatch(sdvp -> sdvp.getCharaId().equals(attackerCharaId))) { // 突然死していない
                 String message =
                         String.format("%sは%sだったようだ。", CharaUtil.makeCharaName(targetPlayer), targetPlayer.getSkillCodeAsSkill().alias());
