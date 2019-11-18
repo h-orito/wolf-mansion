@@ -183,7 +183,9 @@ public class AbilityLogic {
         abilityBhv.queryDelete(cb -> {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setDay_Equal(day);
-            cb.query().setCharaId_Equal(charaId);
+            if (type != CDef.AbilityType.襲撃) {
+                cb.query().setCharaId_Equal(charaId);
+            }
             cb.query().setAbilityTypeCode_Equal_AsAbilityType(type);
         });
     }
