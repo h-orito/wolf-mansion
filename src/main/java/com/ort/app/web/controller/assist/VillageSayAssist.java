@@ -74,7 +74,7 @@ public class VillageSayAssist {
             return null;
         }
         // 発言制限に引っかかったらNG
-        if (isRestricted(villageId, village, villagePlayer, sayForm)) {
+        if (isRestricted(villageId, village, villagePlayer, sayForm, userInfo)) {
             return null;
         }
         CDef.FaceType faceType = CDef.FaceType.codeOf(sayForm.getFaceType());
@@ -119,7 +119,7 @@ public class VillageSayAssist {
             return villageAssist.setIndexModelAndReturnView(villageId, sayForm, null, null, model);
         }
         // 発言制限に引っかかったらNG
-        if (isRestricted(villageId, village, villagePlayer, sayForm)) {
+        if (isRestricted(villageId, village, villagePlayer, sayForm, userInfo)) {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, sayForm, null, null, model);
         }
@@ -304,9 +304,13 @@ public class VillageSayAssist {
         return selectTargetVillagePlayer(villageId, sayForm).getChara().get().getCharaName();
     }
 
-    private boolean isRestricted(Integer villageId, Village village, VillagePlayer vPlayer, VillageSayForm sayForm) {
+    private boolean isRestricted(Integer villageId, Village village, VillagePlayer vPlayer, VillageSayForm sayForm, UserInfo userInfo) {
         if (!village.isVillageStatusCode進行中()) {
             return false; // 制限するのは進行中のみ
+        }
+        // 管理者は発言可能
+        if (userInfo.getAuthorities().stream().anyMatch(a -> a.equals(new SimpleGrantedAuthority("ROLE_ADMIN")))) {
+            return false;
         }
         CDef.MessageType type = CDef.MessageType.codeOf(sayForm.getMessageType());
         if (type != CDef.MessageType.通常発言 && type != CDef.MessageType.人狼の囁き && type != CDef.MessageType.共鳴発言) {
