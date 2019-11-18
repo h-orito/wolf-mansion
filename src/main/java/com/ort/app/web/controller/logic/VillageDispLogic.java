@@ -398,7 +398,8 @@ public class VillageDispLogic {
     // 襲撃担当の狼リストを作成
     public List<OptionDto> makeAttackerList(VillageInfo villageInfo) {
         if (!villageInfo.isParticipate() || villageInfo.isDead() || !villageInfo.isLatestDay()
-                || !villageInfo.village.isVillageStatusCode進行中()) {
+                || !villageInfo.village.isVillageStatusCode進行中() || villageInfo.isSpectator()
+                || villageInfo.optVillagePlayer.get().isIsGoneTrue()) {
             return null;
         }
         VillagePlayer vPlayer = villageInfo.optVillagePlayer.get();
