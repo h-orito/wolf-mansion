@@ -58,6 +58,10 @@ public class VillageAbilityAssist {
         VillagePlayer villagePlayer = villageAssist.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
+        if (villagePlayer.isIsDeadTrue()) {
+            // 最新の日付を表示
+            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
+        }
         if (isInvalidAbility(villagePlayer, abilityForm)) {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
@@ -78,6 +82,10 @@ public class VillageAbilityAssist {
         VillagePlayer villagePlayer = villageAssist.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
+        if (villagePlayer.isIsDeadTrue()) {
+            // 最新の日付を表示
+            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
+        }
         if (isInvalidVote(villageId, villagePlayer, voteForm)) {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
