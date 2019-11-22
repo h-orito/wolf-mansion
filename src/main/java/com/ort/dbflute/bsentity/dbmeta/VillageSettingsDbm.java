@@ -142,7 +142,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnIsAvailableGuardSameTarget = cci("IS_AVAILABLE_GUARD_SAME_TARGET", "IS_AVAILABLE_GUARD_SAME_TARGET", null, null, Boolean.class, "isAvailableGuardSameTarget", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnCharacterGroupId = cci("CHARACTER_GROUP_ID", "CHARACTER_GROUP_ID", null, null, Integer.class, "characterGroupId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "charaGroup", null, null, false);
     protected final ColumnInfo _columnJoinPassword = cci("JOIN_PASSWORD", "JOIN_PASSWORD", null, null, String.class, "joinPassword", null, false, false, false, "VARCHAR", 12, 0, null, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnOrganize = cci("ORGANIZE", "ORGANIZE", null, null, String.class, "organize", null, false, false, true, "VARCHAR", 400, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnOrganize = cci("ORGANIZE", "ORGANIZE", null, null, String.class, "organize", null, false, false, true, "VARCHAR", 10000, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnAllowedSecretSayCode = cci("ALLOWED_SECRET_SAY_CODE", "ALLOWED_SECRET_SAY_CODE", null, null, String.class, "allowedSecretSayCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "allowedSecretSay", null, CDef.DefMeta.AllowedSecretSay, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
@@ -235,7 +235,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnJoinPassword() { return _columnJoinPassword; }
     /**
-     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * ORGANIZE: {NotNull, VARCHAR(10000)}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnOrganize() { return _columnOrganize; }

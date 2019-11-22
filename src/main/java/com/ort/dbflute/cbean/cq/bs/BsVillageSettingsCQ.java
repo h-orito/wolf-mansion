@@ -421,14 +421,14 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * ORGANIZE: {NotNull, VARCHAR(10000)}
      * @return this. (NotNull)
      */
     public BsVillageSettingsCQ addOrderBy_Organize_Asc() { regOBA("ORGANIZE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * ORGANIZE: {NotNull, VARCHAR(10000)}
      * @return this. (NotNull)
      */
     public BsVillageSettingsCQ addOrderBy_Organize_Desc() { regOBD("ORGANIZE"); return this; }

@@ -1,6 +1,5 @@
-[Saved Previous Resources]: 2019/11/15 12:30:11
+[Saved Previous Resources]: 2019/11/22 22:05:11
 playsql/migration/previous/replace-schema-10-basic.sql
-playsql/migration/previous/replace-schema.sql
 playsql/migration/previous/take-finally.sql
 playsql/migration/previous/data/ut/tsv/UTF-8/defaultValueMap.dataprop
 playsql/migration/previous/data/ut/tsv/UTF-8/03-CHARA_IMAGE.tsv
@@ -20,6 +19,6 @@ playsql/migration/previous/data/common/tsv/UTF-8/07-ABILITY_TYPE.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/03-VILLAGE_STATUS.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/11-FACE_TYPE.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/04-SKILL.tsv
-(21 files)
+(20 files)
 
 Look at the log for detail.

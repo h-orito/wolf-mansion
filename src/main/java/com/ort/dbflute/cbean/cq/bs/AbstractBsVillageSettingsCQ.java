@@ -1401,7 +1401,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * ORGANIZE: {NotNull, VARCHAR(10000)}
      * @param organize The value of organize as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setOrganize_Equal(String organize) {
@@ -1414,7 +1414,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * ORGANIZE: {NotNull, VARCHAR(10000)}
      * @param organize The value of organize as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setOrganize_NotEqual(String organize) {
@@ -1427,7 +1427,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * ORGANIZE: {NotNull, VARCHAR(10000)}
      * @param organize The value of organize as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setOrganize_GreaterThan(String organize) {
@@ -1436,7 +1436,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * ORGANIZE: {NotNull, VARCHAR(10000)}
      * @param organize The value of organize as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setOrganize_LessThan(String organize) {
@@ -1445,7 +1445,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * ORGANIZE: {NotNull, VARCHAR(10000)}
      * @param organize The value of organize as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setOrganize_GreaterEqual(String organize) {
@@ -1454,7 +1454,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * ORGANIZE: {NotNull, VARCHAR(10000)}
      * @param organize The value of organize as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setOrganize_LessEqual(String organize) {
@@ -1463,7 +1463,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * ORGANIZE: {NotNull, VARCHAR(10000)}
      * @param organizeList The collection of organize as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setOrganize_InScope(Collection<String> organizeList) {
@@ -1476,7 +1476,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * ORGANIZE: {NotNull, VARCHAR(10000)}
      * @param organizeList The collection of organize as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setOrganize_NotInScope(Collection<String> organizeList) {
@@ -1489,7 +1489,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * ORGANIZE: {NotNull, VARCHAR(400)} <br>
+     * ORGANIZE: {NotNull, VARCHAR(10000)} <br>
      * <pre>e.g. setOrganize_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
      * @param organize The value of organize as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param opLambda The callback for option of like-search. (NotNull)
@@ -1500,7 +1500,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * ORGANIZE: {NotNull, VARCHAR(400)} <br>
+     * ORGANIZE: {NotNull, VARCHAR(10000)} <br>
      * <pre>e.g. setOrganize_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
      * @param organize The value of organize as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param likeSearchOption The option of like-search. (NotNull)
@@ -1512,7 +1512,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
     /**
      * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
      * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * ORGANIZE: {NotNull, VARCHAR(10000)}
      * @param organize The value of organize as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param opLambda The callback for option of like-search. (NotNull)
      */
@@ -1523,7 +1523,7 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
     /**
      * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
      * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * ORGANIZE: {NotNull, VARCHAR(400)}
+     * ORGANIZE: {NotNull, VARCHAR(10000)}
      * @param organize The value of organize as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param likeSearchOption The option of not-like-search. (NotNull)
      */

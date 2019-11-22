@@ -2110,7 +2110,7 @@
 					<physical_name>organize</physical_name>
 					<logical_name>構成</logical_name>
 					<type>varchar(n)</type>
-					<length>400</length>
+					<length>10000</length>
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>

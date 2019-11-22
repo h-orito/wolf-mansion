@@ -727,7 +727,7 @@
         <column comment="入村パスワード" dbType="VARCHAR" javaType="String"
             name="JOIN_PASSWORD" size="12" type="VARCHAR"/>
         <column comment="構成" dbType="VARCHAR" javaType="String"
-            name="ORGANIZE" required="true" size="400" type="VARCHAR"/>
+            name="ORGANIZE" required="true" size="10000" type="VARCHAR"/>
         <column comment="秘話可能な範囲コード" dbType="VARCHAR" javaType="String"
             name="ALLOWED_SECRET_SAY_CODE" required="true" size="20" type="VARCHAR"/>
         <column comment="登録日時" dbType="DATETIME"

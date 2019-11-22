@@ -158,7 +158,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     /** JOIN_PASSWORD: {VARCHAR(12)} */
     protected String _joinPassword;
 
-    /** ORGANIZE: {NotNull, VARCHAR(400)} */
+    /** ORGANIZE: {NotNull, VARCHAR(10000)} */
     protected String _organize;
 
     /** ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} */
@@ -1416,7 +1416,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [get] ORGANIZE: {NotNull, VARCHAR(400)} <br>
+     * [get] ORGANIZE: {NotNull, VARCHAR(10000)} <br>
      * 構成
      * @return The value of the column 'ORGANIZE'. (basically NotNull if selected: for the constraint)
      */
@@ -1426,7 +1426,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] ORGANIZE: {NotNull, VARCHAR(400)} <br>
+     * [set] ORGANIZE: {NotNull, VARCHAR(10000)} <br>
      * 構成
      * @param organize The value of the column 'ORGANIZE'. (basically NotNull if update: for the constraint)
      */

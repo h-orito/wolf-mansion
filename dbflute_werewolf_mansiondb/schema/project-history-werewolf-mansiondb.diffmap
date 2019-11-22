@@ -1,4 +1,25 @@
 map:{
+    ; 2019/11/22 22:02:40 = map:{
+        ; diffDate = 2019/11/22 22:02:40
+        ; diffAuthor = hitoshi
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; village_settings = map:{
+                ; tableName = village_settings
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; ORGANIZE = map:{
+                        ; columnName = ORGANIZE
+                        ; diffType = CHANGE
+                        ; columnSizeDiff = map:{
+                            ; next = 10000
+                            ; previous = 400
+                        }
+                    }
+                }
+            }
+        }
+    }
     ; 2019/11/06 10:26:46 = map:{
         ; diffDate = 2019/11/06 10:26:46
         ; tableDiff = map:{

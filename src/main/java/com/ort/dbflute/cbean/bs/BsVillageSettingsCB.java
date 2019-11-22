@@ -451,7 +451,7 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnJoinPassword() { return doColumn("JOIN_PASSWORD"); }
         /**
-         * ORGANIZE: {NotNull, VARCHAR(400)}
+         * ORGANIZE: {NotNull, VARCHAR(10000)}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnOrganize() { return doColumn("ORGANIZE"); }
