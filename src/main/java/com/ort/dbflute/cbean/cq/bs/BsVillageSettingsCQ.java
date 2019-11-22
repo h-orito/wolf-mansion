@@ -79,7 +79,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _villageId; }
     protected ConditionValue xgetCValueVillageId() { return xdfgetVillageId(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @return this. (NotNull)
@@ -99,7 +99,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _dummyCharaId; }
     protected ConditionValue xgetCValueDummyCharaId() { return xdfgetDummyCharaId(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * DUMMY_CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
@@ -119,7 +119,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _startPersonMinNum; }
     protected ConditionValue xgetCValueStartPersonMinNum() { return xdfgetStartPersonMinNum(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * START_PERSON_MIN_NUM: {INT UNSIGNED(10)}
      * @return this. (NotNull)
@@ -139,7 +139,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _personMaxNum; }
     protected ConditionValue xgetCValuePersonMaxNum() { return xdfgetPersonMaxNum(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * PERSON_MAX_NUM: {INT UNSIGNED(10)}
      * @return this. (NotNull)
@@ -159,7 +159,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _startDatetime; }
     protected ConditionValue xgetCValueStartDatetime() { return xdfgetStartDatetime(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * START_DATETIME: {DATETIME(19)}
      * @return this. (NotNull)
@@ -179,7 +179,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _dayChangeIntervalSeconds; }
     protected ConditionValue xgetCValueDayChangeIntervalSeconds() { return xdfgetDayChangeIntervalSeconds(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * DAY_CHANGE_INTERVAL_SECONDS: {NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
@@ -199,7 +199,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _isOpenVote; }
     protected ConditionValue xgetCValueIsOpenVote() { return xdfgetIsOpenVote(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * IS_OPEN_VOTE: {NotNull, BIT, classification=Flg}
      * @return this. (NotNull)
@@ -219,7 +219,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _isPossibleSkillRequest; }
     protected ConditionValue xgetCValueIsPossibleSkillRequest() { return xdfgetIsPossibleSkillRequest(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * IS_POSSIBLE_SKILL_REQUEST: {NotNull, BIT, classification=Flg}
      * @return this. (NotNull)
@@ -239,7 +239,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _isAvailableSpectate; }
     protected ConditionValue xgetCValueIsAvailableSpectate() { return xdfgetIsAvailableSpectate(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * IS_AVAILABLE_SPECTATE: {NotNull, BIT, classification=Flg}
      * @return this. (NotNull)
@@ -259,7 +259,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _isAvailableSameWolfAttack; }
     protected ConditionValue xgetCValueIsAvailableSameWolfAttack() { return xdfgetIsAvailableSameWolfAttack(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * IS_AVAILABLE_SAME_WOLF_ATTACK: {NotNull, BIT, classification=Flg}
      * @return this. (NotNull)
@@ -279,7 +279,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _isOpenSkillInGrave; }
     protected ConditionValue xgetCValueIsOpenSkillInGrave() { return xdfgetIsOpenSkillInGrave(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * IS_OPEN_SKILL_IN_GRAVE: {NotNull, BIT, classification=Flg}
      * @return this. (NotNull)
@@ -299,7 +299,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _isVisibleGraveSpectateMessage; }
     protected ConditionValue xgetCValueIsVisibleGraveSpectateMessage() { return xdfgetIsVisibleGraveSpectateMessage(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * IS_VISIBLE_GRAVE_SPECTATE_MESSAGE: {NotNull, BIT, classification=Flg}
      * @return this. (NotNull)
@@ -319,7 +319,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _isAvailableSuddonlyDeath; }
     protected ConditionValue xgetCValueIsAvailableSuddonlyDeath() { return xdfgetIsAvailableSuddonlyDeath(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * IS_AVAILABLE_SUDDONLY_DEATH: {NotNull, BIT, classification=Flg}
      * @return this. (NotNull)
@@ -339,7 +339,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _isAvailableCommit; }
     protected ConditionValue xgetCValueIsAvailableCommit() { return xdfgetIsAvailableCommit(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * IS_AVAILABLE_COMMIT: {NotNull, BIT, classification=Flg}
      * @return this. (NotNull)
@@ -359,7 +359,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _isAvailableGuardSameTarget; }
     protected ConditionValue xgetCValueIsAvailableGuardSameTarget() { return xdfgetIsAvailableGuardSameTarget(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * IS_AVAILABLE_GUARD_SAME_TARGET: {NotNull, BIT, classification=Flg}
      * @return this. (NotNull)
@@ -379,7 +379,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _characterGroupId; }
     protected ConditionValue xgetCValueCharacterGroupId() { return xdfgetCharacterGroupId(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @return this. (NotNull)
@@ -399,7 +399,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _joinPassword; }
     protected ConditionValue xgetCValueJoinPassword() { return xdfgetJoinPassword(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * JOIN_PASSWORD: {VARCHAR(12)}
      * @return this. (NotNull)
@@ -419,7 +419,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _organize; }
     protected ConditionValue xgetCValueOrganize() { return xdfgetOrganize(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * ORGANIZE: {NotNull, VARCHAR(400)}
      * @return this. (NotNull)
@@ -439,7 +439,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _allowedSecretSayCode; }
     protected ConditionValue xgetCValueAllowedSecretSayCode() { return xdfgetAllowedSecretSayCode(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay}
      * @return this. (NotNull)
@@ -459,7 +459,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _registerDatetime; }
     protected ConditionValue xgetCValueRegisterDatetime() { return xdfgetRegisterDatetime(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return this. (NotNull)
@@ -479,7 +479,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _registerTrace; }
     protected ConditionValue xgetCValueRegisterTrace() { return xdfgetRegisterTrace(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * REGISTER_TRACE: {NotNull, VARCHAR(64)}
      * @return this. (NotNull)
@@ -499,7 +499,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _updateDatetime; }
     protected ConditionValue xgetCValueUpdateDatetime() { return xdfgetUpdateDatetime(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * UPDATE_DATETIME: {NotNull, DATETIME(19)}
      * @return this. (NotNull)
@@ -519,7 +519,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
       return _updateTrace; }
     protected ConditionValue xgetCValueUpdateTrace() { return xdfgetUpdateTrace(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * UPDATE_TRACE: {NotNull, VARCHAR(64)}
      * @return this. (NotNull)

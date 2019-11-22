@@ -109,7 +109,7 @@ public abstract class BsFootstepBhv extends AbstractBehaviorWritable<Footstep, F
      *     <span style="color: #3F7E5E">// called if present, or exception</span>
      *     ... = <span style="color: #553000">footstep</span>.get...
      * });
-     * 
+     *
      * <span style="color: #3F7E5E">// if it might be no data, ...</span>
      * <span style="color: #0000C0">footstepBhv</span>.<span style="color: #CC4747">selectEntity</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().set...
@@ -808,8 +808,8 @@ public abstract class BsFootstepBhv extends AbstractBehaviorWritable<Footstep, F
     /**
      * Prepare the all facade executor of outside-SQL to execute it.
      * <pre>
-     * <span style="color: #3F7E5E">// main style</span> 
-     * footstepBhv.outideSql().selectEntity(pmb); <span style="color: #3F7E5E">// optional</span> 
+     * <span style="color: #3F7E5E">// main style</span>
+     * footstepBhv.outideSql().selectEntity(pmb); <span style="color: #3F7E5E">// optional</span>
      * footstepBhv.outideSql().selectList(pmb); <span style="color: #3F7E5E">// ListResultBean</span>
      * footstepBhv.outideSql().selectPage(pmb); <span style="color: #3F7E5E">// PagingResultBean</span>
      * footstepBhv.outideSql().selectPagedListOnly(pmb); <span style="color: #3F7E5E">// ListResultBean</span>
@@ -817,7 +817,7 @@ public abstract class BsFootstepBhv extends AbstractBehaviorWritable<Footstep, F
      * footstepBhv.outideSql().execute(pmb); <span style="color: #3F7E5E">// int (updated count)</span>
      * footstepBhv.outideSql().call(pmb); <span style="color: #3F7E5E">// void (pmb has OUT parameters)</span>
      *
-     * <span style="color: #3F7E5E">// traditional style</span> 
+     * <span style="color: #3F7E5E">// traditional style</span>
      * footstepBhv.outideSql().traditionalStyle().selectEntity(path, pmb, entityType);
      * footstepBhv.outideSql().traditionalStyle().selectList(path, pmb, entityType);
      * footstepBhv.outideSql().traditionalStyle().selectPage(path, pmb, entityType);
@@ -825,7 +825,7 @@ public abstract class BsFootstepBhv extends AbstractBehaviorWritable<Footstep, F
      * footstepBhv.outideSql().traditionalStyle().selectCursor(path, pmb, handler);
      * footstepBhv.outideSql().traditionalStyle().execute(path, pmb);
      *
-     * <span style="color: #3F7E5E">// options</span> 
+     * <span style="color: #3F7E5E">// options</span>
      * footstepBhv.outideSql().removeBlockComment().selectList()
      * footstepBhv.outideSql().removeLineComment().selectList()
      * footstepBhv.outideSql().formatSql().selectList()

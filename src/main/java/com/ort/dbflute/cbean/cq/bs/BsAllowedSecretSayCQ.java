@@ -93,7 +93,7 @@ public class BsAllowedSecretSayCQ extends AbstractBsAllowedSecretSayCQ {
     public Map<String, Object> xdfgetAllowedSecretSayCode_QueryDerivedReferrer_VillageSettingsListParameter() { return xgetSQuePmMap("allowedSecretSayCode_QueryDerivedReferrer_VillageSettingsList"); }
     public String keepAllowedSecretSayCode_QueryDerivedReferrer_VillageSettingsListParameter(Object pm) { return xkeepSQuePm("allowedSecretSayCode_QueryDerivedReferrer_VillageSettingsList", pm); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * ALLOWED_SECRET_SAY_CODE: {PK, NotNull, VARCHAR(20), classification=AllowedSecretSay}
      * @return this. (NotNull)
@@ -113,7 +113,7 @@ public class BsAllowedSecretSayCQ extends AbstractBsAllowedSecretSayCQ {
       return _allowedSecretSayName; }
     protected ConditionValue xgetCValueAllowedSecretSayName() { return xdfgetAllowedSecretSayName(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * ALLOWED_SECRET_SAY_NAME: {NotNull, VARCHAR(20)}
      * @return this. (NotNull)

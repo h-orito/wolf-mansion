@@ -79,7 +79,7 @@ public class BsAbilityCQ extends AbstractBsAbilityCQ {
       return _villageId; }
     protected ConditionValue xgetCValueVillageId() { return xdfgetVillageId(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return this. (NotNull)
@@ -99,7 +99,7 @@ public class BsAbilityCQ extends AbstractBsAbilityCQ {
       return _day; }
     protected ConditionValue xgetCValueDay() { return xdfgetDay(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return this. (NotNull)
@@ -119,7 +119,7 @@ public class BsAbilityCQ extends AbstractBsAbilityCQ {
       return _charaId; }
     protected ConditionValue xgetCValueCharaId() { return xdfgetCharaId(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
      * @return this. (NotNull)
@@ -139,7 +139,7 @@ public class BsAbilityCQ extends AbstractBsAbilityCQ {
       return _targetCharaId; }
     protected ConditionValue xgetCValueTargetCharaId() { return xdfgetTargetCharaId(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
      * @return this. (NotNull)
@@ -159,7 +159,7 @@ public class BsAbilityCQ extends AbstractBsAbilityCQ {
       return _targetFootstep; }
     protected ConditionValue xgetCValueTargetFootstep() { return xdfgetTargetFootstep(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * TARGET_FOOTSTEP: {VARCHAR(100)}
      * @return this. (NotNull)
@@ -179,7 +179,7 @@ public class BsAbilityCQ extends AbstractBsAbilityCQ {
       return _abilityTypeCode; }
     protected ConditionValue xgetCValueAbilityTypeCode() { return xdfgetAbilityTypeCode(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType}
      * @return this. (NotNull)
@@ -199,7 +199,7 @@ public class BsAbilityCQ extends AbstractBsAbilityCQ {
       return _registerDatetime; }
     protected ConditionValue xgetCValueRegisterDatetime() { return xdfgetRegisterDatetime(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return this. (NotNull)
@@ -219,7 +219,7 @@ public class BsAbilityCQ extends AbstractBsAbilityCQ {
       return _registerTrace; }
     protected ConditionValue xgetCValueRegisterTrace() { return xdfgetRegisterTrace(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * REGISTER_TRACE: {NotNull, VARCHAR(64)}
      * @return this. (NotNull)
@@ -239,7 +239,7 @@ public class BsAbilityCQ extends AbstractBsAbilityCQ {
       return _updateDatetime; }
     protected ConditionValue xgetCValueUpdateDatetime() { return xdfgetUpdateDatetime(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * UPDATE_DATETIME: {NotNull, DATETIME(19)}
      * @return this. (NotNull)
@@ -259,7 +259,7 @@ public class BsAbilityCQ extends AbstractBsAbilityCQ {
       return _updateTrace; }
     protected ConditionValue xgetCValueUpdateTrace() { return xdfgetUpdateTrace(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * UPDATE_TRACE: {NotNull, VARCHAR(64)}
      * @return this. (NotNull)

@@ -177,7 +177,7 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
     public Map<String, Object> xdfgetCharaId_QueryDerivedReferrer_VoteByVoteCharaIdListParameter() { return xgetSQuePmMap("charaId_QueryDerivedReferrer_VoteByVoteCharaIdList"); }
     public String keepCharaId_QueryDerivedReferrer_VoteByVoteCharaIdListParameter(Object pm) { return xkeepSQuePm("charaId_QueryDerivedReferrer_VoteByVoteCharaIdList", pm); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * CHARA_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
@@ -197,7 +197,7 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
       return _charaName; }
     protected ConditionValue xgetCValueCharaName() { return xdfgetCharaName(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * CHARA_NAME: {NotNull, VARCHAR(40)}
      * @return this. (NotNull)
@@ -217,7 +217,7 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
       return _charaShortName; }
     protected ConditionValue xgetCValueCharaShortName() { return xdfgetCharaShortName(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * CHARA_SHORT_NAME: {NotNull, CHAR(1)}
      * @return this. (NotNull)
@@ -237,7 +237,7 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
       return _charaGroupId; }
     protected ConditionValue xgetCValueCharaGroupId() { return xdfgetCharaGroupId(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @return this. (NotNull)
@@ -257,7 +257,7 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
       return _defaultJoinMessage; }
     protected ConditionValue xgetCValueDefaultJoinMessage() { return xdfgetDefaultJoinMessage(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
      * @return this. (NotNull)
@@ -277,7 +277,7 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
       return _defaultFirstdayMessage; }
     protected ConditionValue xgetCValueDefaultFirstdayMessage() { return xdfgetDefaultFirstdayMessage(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)}
      * @return this. (NotNull)
@@ -297,7 +297,7 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
       return _displayWidth; }
     protected ConditionValue xgetCValueDisplayWidth() { return xdfgetDisplayWidth(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
@@ -317,7 +317,7 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
       return _displayHeight; }
     protected ConditionValue xgetCValueDisplayHeight() { return xdfgetDisplayHeight(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * DISPLAY_HEIGHT: {NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
@@ -337,7 +337,7 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
       return _registerDatetime; }
     protected ConditionValue xgetCValueRegisterDatetime() { return xdfgetRegisterDatetime(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return this. (NotNull)
@@ -357,7 +357,7 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
       return _registerTrace; }
     protected ConditionValue xgetCValueRegisterTrace() { return xdfgetRegisterTrace(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * REGISTER_TRACE: {NotNull, VARCHAR(64)}
      * @return this. (NotNull)
@@ -377,7 +377,7 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
       return _updateDatetime; }
     protected ConditionValue xgetCValueUpdateDatetime() { return xdfgetUpdateDatetime(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * UPDATE_DATETIME: {NotNull, DATETIME(19)}
      * @return this. (NotNull)
@@ -397,7 +397,7 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
       return _updateTrace; }
     protected ConditionValue xgetCValueUpdateTrace() { return xdfgetUpdateTrace(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * UPDATE_TRACE: {NotNull, VARCHAR(64)}
      * @return this. (NotNull)

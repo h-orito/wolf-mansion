@@ -109,7 +109,7 @@ public abstract class BsVillagePlayerBhv extends AbstractBehaviorWritable<Villag
      *     <span style="color: #3F7E5E">// called if present, or exception</span>
      *     ... = <span style="color: #553000">villagePlayer</span>.get...
      * });
-     * 
+     *
      * <span style="color: #3F7E5E">// if it might be no data, ...</span>
      * <span style="color: #0000C0">villagePlayerBhv</span>.<span style="color: #CC4747">selectEntity</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().set...
@@ -1046,8 +1046,8 @@ public abstract class BsVillagePlayerBhv extends AbstractBehaviorWritable<Villag
     /**
      * Prepare the all facade executor of outside-SQL to execute it.
      * <pre>
-     * <span style="color: #3F7E5E">// main style</span> 
-     * villagePlayerBhv.outideSql().selectEntity(pmb); <span style="color: #3F7E5E">// optional</span> 
+     * <span style="color: #3F7E5E">// main style</span>
+     * villagePlayerBhv.outideSql().selectEntity(pmb); <span style="color: #3F7E5E">// optional</span>
      * villagePlayerBhv.outideSql().selectList(pmb); <span style="color: #3F7E5E">// ListResultBean</span>
      * villagePlayerBhv.outideSql().selectPage(pmb); <span style="color: #3F7E5E">// PagingResultBean</span>
      * villagePlayerBhv.outideSql().selectPagedListOnly(pmb); <span style="color: #3F7E5E">// ListResultBean</span>
@@ -1055,7 +1055,7 @@ public abstract class BsVillagePlayerBhv extends AbstractBehaviorWritable<Villag
      * villagePlayerBhv.outideSql().execute(pmb); <span style="color: #3F7E5E">// int (updated count)</span>
      * villagePlayerBhv.outideSql().call(pmb); <span style="color: #3F7E5E">// void (pmb has OUT parameters)</span>
      *
-     * <span style="color: #3F7E5E">// traditional style</span> 
+     * <span style="color: #3F7E5E">// traditional style</span>
      * villagePlayerBhv.outideSql().traditionalStyle().selectEntity(path, pmb, entityType);
      * villagePlayerBhv.outideSql().traditionalStyle().selectList(path, pmb, entityType);
      * villagePlayerBhv.outideSql().traditionalStyle().selectPage(path, pmb, entityType);
@@ -1063,7 +1063,7 @@ public abstract class BsVillagePlayerBhv extends AbstractBehaviorWritable<Villag
      * villagePlayerBhv.outideSql().traditionalStyle().selectCursor(path, pmb, handler);
      * villagePlayerBhv.outideSql().traditionalStyle().execute(path, pmb);
      *
-     * <span style="color: #3F7E5E">// options</span> 
+     * <span style="color: #3F7E5E">// options</span>
      * villagePlayerBhv.outideSql().removeBlockComment().selectList()
      * villagePlayerBhv.outideSql().removeLineComment().selectList()
      * villagePlayerBhv.outideSql().formatSql().selectList()

@@ -93,7 +93,7 @@ public class BsRandomKeywordCQ extends AbstractBsRandomKeywordCQ {
     public Map<String, Object> xdfgetRandomKeywordId_QueryDerivedReferrer_RandomContentListParameter() { return xgetSQuePmMap("randomKeywordId_QueryDerivedReferrer_RandomContentList"); }
     public String keepRandomKeywordId_QueryDerivedReferrer_RandomContentListParameter(Object pm) { return xkeepSQuePm("randomKeywordId_QueryDerivedReferrer_RandomContentList", pm); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * RANDOM_KEYWORD_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
@@ -113,7 +113,7 @@ public class BsRandomKeywordCQ extends AbstractBsRandomKeywordCQ {
       return _keyword; }
     protected ConditionValue xgetCValueKeyword() { return xdfgetKeyword(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * KEYWORD: {UQ, NotNull, VARCHAR(10)}
      * @return this. (NotNull)

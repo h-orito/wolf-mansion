@@ -109,7 +109,7 @@ map:{
     #   [true]
     #     SpecifyColumn of ConditionBean is required. (exception if no specified columns)
     #
-    #; isSpecifyColumnRequired = false
+    ; isSpecifyColumnRequired = false
     # - - - - - - - - - -/
 
     # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

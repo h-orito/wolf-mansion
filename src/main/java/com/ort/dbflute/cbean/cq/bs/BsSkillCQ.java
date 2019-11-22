@@ -135,7 +135,7 @@ public class BsSkillCQ extends AbstractBsSkillCQ {
     public Map<String, Object> xdfgetSkillCode_QueryDerivedReferrer_VillagePlayerBySkillCodeListParameter() { return xgetSQuePmMap("skillCode_QueryDerivedReferrer_VillagePlayerBySkillCodeList"); }
     public String keepSkillCode_QueryDerivedReferrer_VillagePlayerBySkillCodeListParameter(Object pm) { return xkeepSQuePm("skillCode_QueryDerivedReferrer_VillagePlayerBySkillCodeList", pm); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * SKILL_CODE: {PK, NotNull, VARCHAR(20), classification=Skill}
      * @return this. (NotNull)
@@ -155,7 +155,7 @@ public class BsSkillCQ extends AbstractBsSkillCQ {
       return _skillName; }
     protected ConditionValue xgetCValueSkillName() { return xdfgetSkillName(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * SKILL_NAME: {NotNull, VARCHAR(20)}
      * @return this. (NotNull)
@@ -175,7 +175,7 @@ public class BsSkillCQ extends AbstractBsSkillCQ {
       return _campCode; }
     protected ConditionValue xgetCValueCampCode() { return xdfgetCampCode(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
      * @return this. (NotNull)
@@ -195,7 +195,7 @@ public class BsSkillCQ extends AbstractBsSkillCQ {
       return _dispOrder; }
     protected ConditionValue xgetCValueDispOrder() { return xdfgetDispOrder(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * DISP_ORDER: {NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)

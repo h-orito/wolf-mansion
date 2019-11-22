@@ -79,7 +79,7 @@ public class BsMessageRestrictionCQ extends AbstractBsMessageRestrictionCQ {
       return _villageId; }
     protected ConditionValue xgetCValueVillageId() { return xdfgetVillageId(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @return this. (NotNull)
@@ -99,7 +99,7 @@ public class BsMessageRestrictionCQ extends AbstractBsMessageRestrictionCQ {
       return _skillCode; }
     protected ConditionValue xgetCValueSkillCode() { return xdfgetSkillCode(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
      * @return this. (NotNull)
@@ -119,7 +119,7 @@ public class BsMessageRestrictionCQ extends AbstractBsMessageRestrictionCQ {
       return _messageTypeCode; }
     protected ConditionValue xgetCValueMessageTypeCode() { return xdfgetMessageTypeCode(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
      * @return this. (NotNull)
@@ -139,7 +139,7 @@ public class BsMessageRestrictionCQ extends AbstractBsMessageRestrictionCQ {
       return _messageMaxNum; }
     protected ConditionValue xgetCValueMessageMaxNum() { return xdfgetMessageMaxNum(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * MESSAGE_MAX_NUM: {NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
@@ -159,7 +159,7 @@ public class BsMessageRestrictionCQ extends AbstractBsMessageRestrictionCQ {
       return _messageMaxLength; }
     protected ConditionValue xgetCValueMessageMaxLength() { return xdfgetMessageMaxLength(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * MESSAGE_MAX_LENGTH: {NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
@@ -179,7 +179,7 @@ public class BsMessageRestrictionCQ extends AbstractBsMessageRestrictionCQ {
       return _registerDatetime; }
     protected ConditionValue xgetCValueRegisterDatetime() { return xdfgetRegisterDatetime(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return this. (NotNull)
@@ -199,7 +199,7 @@ public class BsMessageRestrictionCQ extends AbstractBsMessageRestrictionCQ {
       return _registerTrace; }
     protected ConditionValue xgetCValueRegisterTrace() { return xdfgetRegisterTrace(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * REGISTER_TRACE: {NotNull, VARCHAR(64)}
      * @return this. (NotNull)
@@ -219,7 +219,7 @@ public class BsMessageRestrictionCQ extends AbstractBsMessageRestrictionCQ {
       return _updateDatetime; }
     protected ConditionValue xgetCValueUpdateDatetime() { return xdfgetUpdateDatetime(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * UPDATE_DATETIME: {NotNull, DATETIME(19)}
      * @return this. (NotNull)
@@ -239,7 +239,7 @@ public class BsMessageRestrictionCQ extends AbstractBsMessageRestrictionCQ {
       return _updateTrace; }
     protected ConditionValue xgetCValueUpdateTrace() { return xdfgetUpdateTrace(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * UPDATE_TRACE: {NotNull, VARCHAR(64)}
      * @return this. (NotNull)

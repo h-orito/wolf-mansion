@@ -4,6 +4,9 @@
 	<meta charset="UTF-8" />
 	<title>werewolf-mansiondb history</title>
 	<style type="text/css">
+/* -------------------------------------------------
+                                             Core
+------------------------------------------------- */
 * {
 	margin: 0;
 	padding: 0;
@@ -15,14 +18,16 @@ body {
 	background-color: #ffffee;
 }
 
-/* heading */
+/* -------------------------------------------------
+                                        Structure
+------------------------------------------------- */
 h1 {
-	font-size: 1.5em;
+	font-size: 1.6em;
 	border-bottom: 2px solid #af0000;
 	border-top: 2px solid #af0000;
 }
 h2 {
-	margin-top: 2em;
+	margin: 30px 0 5px 0;
 	border-bottom: 2px solid #af0000;
 	border-left: 10px solid #af0000;
 	text-indent: 1em;
@@ -33,7 +38,7 @@ h3 {
 	margin: 0.8em 0;
 	padding-left: 1.8em;
 	border-bottom: solid 1px #333;
-	color: #555;
+	color: #AA7777;
 	font-size: 1.2em;
 }
 h4 {
@@ -44,13 +49,15 @@ h4 {
 }
 h5 {
 	width: 11em;
-	font-size: 80%;
+	font-size: 0.8em;
 	border-bottom: solid 1px #333;
 	text-indent: 0.3em;
-	color: #555;
+	color: #AA7777;
 }
 
-/* total info */
+/* -------------------------------------------------
+                                     Whole Header
+------------------------------------------------- */
 .updatedate {
 	text-align: right;
 }
@@ -62,14 +69,54 @@ h5 {
 }
 .sisterlink {
 	margin-top: 0.6em;
-	font-size: 110%;
+	font-size: 1.2em;
 }
 .sistersublink {
 	margin-top: 0.6em;
-	font-size: 80%;
+	font-size: 0.85em;
 }
 
-/* history info */
+/* -------------------------------------------------
+                                Difference Header
+------------------------------------------------- */
+.titlediffno {
+	font-size: 0.8em;
+	font-weight: normal;
+	font-style: italic;
+}
+.titlediffdatepart {
+	font-size: 1.1em;
+}
+.titledifftimepart {
+	font-size: 0.8em;
+}
+.diffcomment {
+	font-size: 1.0em;
+	color: #3F7E5E;
+	padding:0 0 0.2em 1em;
+}
+.commenterror {
+	color: red;
+}
+.tablecount {
+	margin: 0.5em 0 0.5em 1em;
+}
+.titlediffauthor {
+	font-size: 0.7em;
+	font-weight: normal;
+	font-style: italic;
+	color: #888888;
+}
+.titlediffgitbranch {
+	font-size: 0.7em;
+	font-weight: normal;
+	font-style: italic;
+	color: #888888;
+}
+
+/* -------------------------------------------------
+                               Difference Content
+------------------------------------------------- */
 .table-content {
 	margin: 0 6em;
 }
@@ -96,17 +143,66 @@ dl.column-content dd span {
 	border-right: dotted 2px #333;
 	font-weight: bold;
 	font-size: 80%;
-	color: #555;
+	color: #AA7777;
 }
 
-span.dt {
-	font-size: 80%;
+/* -------------------------------------------------
+                                  Hacomment Modal
+------------------------------------------------- */
+.hacommentmodal {
+	display: none;
+	position: fixed;
+	z-index: 5;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	padding-top: 50px;
+	background-color: rgba(0, 0, 0, 0.5);
 }
-p.comment {
-	margin-left: 23em;
+.hacommentmodalcontent {
+	position: relative;
+	z-index: 10;
+	width: 50%;
+	margin: 0 auto;
+	border: 1px solid #999999;
+	padding: 15px;
+	background-color: #ffffff;
+	border-radius: 4px;
 }
-p.tablecount {
-	margin-left: 23em;
+.hacommentmodalcontent p {
+	font-size: 14px;
+}
+.hacommentinput {
+	display: block;
+	width: 100%;
+	margin-top: 10px;
+	font-size: 12px;
+}
+.hacommentmodal-ok-btn {
+	margin: 10px 5px 0 0;
+	padding: 5px 10px;
+	border-radius: 4px;
+}
+.hacommentmodal-close-btn {
+	position: absolute;
+	margin-left: 10px;
+	padding: 0;
+	right: 10px;
+	top: 5px;
+	cursor: pointer;
+	width: 28px;
+	height: 28px;
+	border: 0;
+	border-radius: 50%;
+	color: #657786;
+	font-size: 14px;
+	line-height: 24px;
+	text-align: center;
+	transition: box-shadow .15s ease-in-out;
+}
+.hacommentmodal-close-btn:hover {
+	background-color: #eed;
 }
 	</style>
 </head>
@@ -117,8 +213,11 @@ p.tablecount {
 <p class="sisterlink"><a href="./schema-werewolf-mansiondb.html">to SchemaHTML</a></p>
 </div>
 
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2019/11/06 10:26:46</h2>
+<div class="section diffCode_20191106102646">
+	<h2>
+		<span class="titlediffno">diffNo. 54:</span> <span class="titlediffdatepart">2019/11/06</span> <span class="titledifftimepart">10:26:46</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -132,8 +231,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2019/02/12 11:16:05</h2>
+<div class="section diffCode_20190212111605">
+	<h2>
+		<span class="titlediffno">diffNo. 53:</span> <span class="titlediffdatepart">2019/02/12</span> <span class="titledifftimepart">11:16:05</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -146,9 +248,12 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/10/30 18:24:15</h2>
-	<p class="tablecount"><span class="dt">table count: </span>24&nbsp;-&gt;&nbsp;26</p>
+<div class="section diffCode_20181030182415">
+	<h2>
+		<span class="titlediffno">diffNo. 52:</span> <span class="titlediffdatepart">2018/10/30</span> <span class="titledifftimepart">18:24:15</span>
+	</h2>
+	<pre class="diffcomment"></pre>
+	<p class="tablecount">table count: 24&nbsp;-&gt;&nbsp;26</p>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -207,8 +312,11 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/10/21 12:39:55</h2>
+<div class="section diffCode_20181021123955">
+	<h2>
+		<span class="titlediffno">diffNo. 51:</span> <span class="titlediffdatepart">2018/10/21</span> <span class="titledifftimepart">12:39:55</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -265,9 +373,12 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/10/18 16:55:38</h2>
-	<p class="tablecount"><span class="dt">table count: </span>23&nbsp;-&gt;&nbsp;24</p>
+<div class="section diffCode_20181018165538">
+	<h2>
+		<span class="titlediffno">diffNo. 50:</span> <span class="titlediffdatepart">2018/10/18</span> <span class="titledifftimepart">16:55:38</span>
+	</h2>
+	<pre class="diffcomment"></pre>
+	<p class="tablecount">table count: 23&nbsp;-&gt;&nbsp;24</p>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -323,8 +434,11 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/09/23 16:19:23</h2>
+<div class="section diffCode_20180923161923">
+	<h2>
+		<span class="titlediffno">diffNo. 49:</span> <span class="titlediffdatepart">2018/09/23</span> <span class="titledifftimepart">16:19:23</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -379,8 +493,11 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/09/21 18:25:33</h2>
+<div class="section diffCode_20180921182533">
+	<h2>
+		<span class="titlediffno">diffNo. 48:</span> <span class="titlediffdatepart">2018/09/21</span> <span class="titledifftimepart">18:25:33</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -401,8 +518,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/09/20 16:12:27</h2>
+<div class="section diffCode_20180920161227">
+	<h2>
+		<span class="titlediffno">diffNo. 47:</span> <span class="titlediffdatepart">2018/09/20</span> <span class="titledifftimepart">16:12:27</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -415,8 +535,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/09/12 11:08:10</h2>
+<div class="section diffCode_20180912110810">
+	<h2>
+		<span class="titlediffno">diffNo. 46:</span> <span class="titlediffdatepart">2018/09/12</span> <span class="titledifftimepart">11:08:10</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -429,8 +552,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/08/17 11:45:39</h2>
+<div class="section diffCode_20180817114539">
+	<h2>
+		<span class="titlediffno">diffNo. 45:</span> <span class="titlediffdatepart">2018/08/17</span> <span class="titledifftimepart">11:45:39</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -443,9 +569,12 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/07/30 10:49:08</h2>
-	<p class="tablecount"><span class="dt">table count: </span>22&nbsp;-&gt;&nbsp;23</p>
+<div class="section diffCode_20180730104908">
+	<h2>
+		<span class="titlediffno">diffNo. 44:</span> <span class="titlediffdatepart">2018/07/30</span> <span class="titledifftimepart">10:49:08</span>
+	</h2>
+	<pre class="diffcomment"></pre>
+	<p class="tablecount">table count: 22&nbsp;-&gt;&nbsp;23</p>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -499,9 +628,12 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/07/28 23:34:01</h2>
-	<p class="tablecount"><span class="dt">table count: </span>20&nbsp;-&gt;&nbsp;22</p>
+<div class="section diffCode_20180728233401">
+	<h2>
+		<span class="titlediffno">diffNo. 43:</span> <span class="titlediffdatepart">2018/07/28</span> <span class="titledifftimepart">23:34:01</span>
+	</h2>
+	<pre class="diffcomment"></pre>
+	<p class="tablecount">table count: 20&nbsp;-&gt;&nbsp;22</p>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -509,8 +641,11 @@ p.tablecount {
 		<li>RANDOM_KEYWORD</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/07/22 00:57:04</h2>
+<div class="section diffCode_20180722005704">
+	<h2>
+		<span class="titlediffno">diffNo. 42:</span> <span class="titlediffdatepart">2018/07/22</span> <span class="titledifftimepart">00:57:04</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -524,8 +659,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/06/09 23:46:18</h2>
+<div class="section diffCode_20180609234618">
+	<h2>
+		<span class="titlediffno">diffNo. 41:</span> <span class="titlediffdatepart">2018/06/09</span> <span class="titledifftimepart">23:46:18</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -574,17 +712,23 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/06/07 17:35:36</h2>
-	<p class="tablecount"><span class="dt">table count: </span>19&nbsp;-&gt;&nbsp;20</p>
+<div class="section diffCode_20180607173536">
+	<h2>
+		<span class="titlediffno">diffNo. 40:</span> <span class="titlediffdatepart">2018/06/07</span> <span class="titledifftimepart">17:35:36</span>
+	</h2>
+	<pre class="diffcomment"></pre>
+	<p class="tablecount">table count: 19&nbsp;-&gt;&nbsp;20</p>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
 		<li>COMMIT</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/06/07 12:44:04</h2>
+<div class="section diffCode_20180607124404">
+	<h2>
+		<span class="titlediffno">diffNo. 39:</span> <span class="titlediffdatepart">2018/06/07</span> <span class="titledifftimepart">12:44:04</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -597,8 +741,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/06/05 19:50:52</h2>
+<div class="section diffCode_20180605195052">
+	<h2>
+		<span class="titlediffno">diffNo. 38:</span> <span class="titlediffdatepart">2018/06/05</span> <span class="titledifftimepart">19:50:52</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -645,8 +792,11 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/05/10 00:50:37</h2>
+<div class="section diffCode_20180510005037">
+	<h2>
+		<span class="titlediffno">diffNo. 37:</span> <span class="titlediffdatepart">2018/05/10</span> <span class="titledifftimepart">00:50:37</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -693,8 +843,11 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/05/09 15:08:41</h2>
+<div class="section diffCode_20180509150841">
+	<h2>
+		<span class="titlediffno">diffNo. 36:</span> <span class="titlediffdatepart">2018/05/09</span> <span class="titledifftimepart">15:08:41</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -741,8 +894,11 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/04/18 23:55:43</h2>
+<div class="section diffCode_20180418235543">
+	<h2>
+		<span class="titlediffno">diffNo. 35:</span> <span class="titlediffdatepart">2018/04/18</span> <span class="titledifftimepart">23:55:43</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -755,8 +911,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/04/16 01:50:30</h2>
+<div class="section diffCode_20180416015030">
+	<h2>
+		<span class="titlediffno">diffNo. 34:</span> <span class="titlediffdatepart">2018/04/16</span> <span class="titledifftimepart">01:50:30</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -803,8 +962,11 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/04/11 19:16:02</h2>
+<div class="section diffCode_20180411191602">
+	<h2>
+		<span class="titlediffno">diffNo. 33:</span> <span class="titlediffdatepart">2018/04/11</span> <span class="titledifftimepart">19:16:02</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -817,8 +979,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/04/02 17:18:06</h2>
+<div class="section diffCode_20180402171806">
+	<h2>
+		<span class="titlediffno">diffNo. 32:</span> <span class="titlediffdatepart">2018/04/02</span> <span class="titledifftimepart">17:18:06</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -831,8 +996,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/04/02 16:25:29</h2>
+<div class="section diffCode_20180402162529">
+	<h2>
+		<span class="titlediffno">diffNo. 31:</span> <span class="titlediffdatepart">2018/04/02</span> <span class="titledifftimepart">16:25:29</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -879,8 +1047,11 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/04/01 13:24:23</h2>
+<div class="section diffCode_20180401132423">
+	<h2>
+		<span class="titlediffno">diffNo. 30:</span> <span class="titlediffdatepart">2018/04/01</span> <span class="titledifftimepart">13:24:23</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -927,8 +1098,11 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/03/27 14:18:02</h2>
+<div class="section diffCode_20180327141802">
+	<h2>
+		<span class="titlediffno">diffNo. 29:</span> <span class="titlediffdatepart">2018/03/27</span> <span class="titledifftimepart">14:18:02</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -975,8 +1149,11 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/03/27 01:01:10</h2>
+<div class="section diffCode_20180327010110">
+	<h2>
+		<span class="titlediffno">diffNo. 28:</span> <span class="titlediffdatepart">2018/03/27</span> <span class="titledifftimepart">01:01:10</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -1023,8 +1200,11 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/03/20 16:37:02</h2>
+<div class="section diffCode_20180320163702">
+	<h2>
+		<span class="titlediffno">diffNo. 27:</span> <span class="titlediffdatepart">2018/03/20</span> <span class="titledifftimepart">16:37:02</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -1037,8 +1217,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/03/20 16:29:56</h2>
+<div class="section diffCode_20180320162956">
+	<h2>
+		<span class="titlediffno">diffNo. 26:</span> <span class="titlediffdatepart">2018/03/20</span> <span class="titledifftimepart">16:29:56</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -1051,8 +1234,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/03/20 15:56:18</h2>
+<div class="section diffCode_20180320155618">
+	<h2>
+		<span class="titlediffno">diffNo. 25:</span> <span class="titlediffdatepart">2018/03/20</span> <span class="titledifftimepart">15:56:18</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -1065,8 +1251,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/03/15 16:23:15</h2>
+<div class="section diffCode_20180315162315">
+	<h2>
+		<span class="titlediffno">diffNo. 24:</span> <span class="titlediffdatepart">2018/03/15</span> <span class="titledifftimepart">16:23:15</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -1079,8 +1268,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/03/14 09:24:43</h2>
+<div class="section diffCode_20180314092443">
+	<h2>
+		<span class="titlediffno">diffNo. 23:</span> <span class="titlediffdatepart">2018/03/14</span> <span class="titledifftimepart">09:24:43</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -1093,8 +1285,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/03/14 09:21:42</h2>
+<div class="section diffCode_20180314092142">
+	<h2>
+		<span class="titlediffno">diffNo. 22:</span> <span class="titlediffdatepart">2018/03/14</span> <span class="titledifftimepart">09:21:42</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -1141,8 +1336,11 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/03/11 12:11:32</h2>
+<div class="section diffCode_20180311121132">
+	<h2>
+		<span class="titlediffno">diffNo. 21:</span> <span class="titlediffdatepart">2018/03/11</span> <span class="titledifftimepart">12:11:32</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -1189,8 +1387,11 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/02/02 16:32:17</h2>
+<div class="section diffCode_20180202163217">
+	<h2>
+		<span class="titlediffno">diffNo. 20:</span> <span class="titlediffdatepart">2018/02/02</span> <span class="titledifftimepart">16:32:17</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -1204,8 +1405,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2018/01/09 20:48:57</h2>
+<div class="section diffCode_20180109204857">
+	<h2>
+		<span class="titlediffno">diffNo. 19:</span> <span class="titlediffdatepart">2018/01/09</span> <span class="titledifftimepart">20:48:57</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -1219,8 +1423,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2017/12/29 18:41:19</h2>
+<div class="section diffCode_20171229184119">
+	<h2>
+		<span class="titlediffno">diffNo. 18:</span> <span class="titlediffdatepart">2017/12/29</span> <span class="titledifftimepart">18:41:19</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -1234,8 +1441,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2017/12/29 10:47:22</h2>
+<div class="section diffCode_20171229104722">
+	<h2>
+		<span class="titlediffno">diffNo. 17:</span> <span class="titlediffdatepart">2017/12/29</span> <span class="titledifftimepart">10:47:22</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -1248,8 +1458,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2017/12/29 10:40:26</h2>
+<div class="section diffCode_20171229104026">
+	<h2>
+		<span class="titlediffno">diffNo. 16:</span> <span class="titlediffdatepart">2017/12/29</span> <span class="titledifftimepart">10:40:26</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -1296,8 +1509,11 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2017/12/26 00:11:40</h2>
+<div class="section diffCode_20171226001140">
+	<h2>
+		<span class="titlediffno">diffNo. 15:</span> <span class="titlediffdatepart">2017/12/26</span> <span class="titledifftimepart">00:11:40</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -1344,8 +1560,11 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2017/12/25 16:58:26</h2>
+<div class="section diffCode_20171225165826">
+	<h2>
+		<span class="titlediffno">diffNo. 14:</span> <span class="titlediffdatepart">2017/12/25</span> <span class="titledifftimepart">16:58:26</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -1359,8 +1578,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2017/12/25 16:51:18</h2>
+<div class="section diffCode_20171225165118">
+	<h2>
+		<span class="titlediffno">diffNo. 13:</span> <span class="titlediffdatepart">2017/12/25</span> <span class="titledifftimepart">16:51:18</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -1381,8 +1603,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2017/12/25 10:21:03</h2>
+<div class="section diffCode_20171225102103">
+	<h2>
+		<span class="titlediffno">diffNo. 12:</span> <span class="titlediffdatepart">2017/12/25</span> <span class="titledifftimepart">10:21:03</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -1429,8 +1654,11 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2017/12/23 23:27:09</h2>
+<div class="section diffCode_20171223232709">
+	<h2>
+		<span class="titlediffno">diffNo. 11:</span> <span class="titlediffdatepart">2017/12/23</span> <span class="titledifftimepart">23:27:09</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -1477,8 +1705,11 @@ p.tablecount {
 		<li>VOTE</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2017/12/22 17:21:13</h2>
+<div class="section diffCode_20171222172113">
+	<h2>
+		<span class="titlediffno">diffNo. 10:</span> <span class="titlediffdatepart">2017/12/22</span> <span class="titledifftimepart">17:21:13</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -1500,8 +1731,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2017/12/22 17:07:17</h2>
+<div class="section diffCode_20171222170717">
+	<h2>
+		<span class="titlediffno">diffNo. 9:</span> <span class="titlediffdatepart">2017/12/22</span> <span class="titledifftimepart">17:07:17</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -1526,8 +1760,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2017/12/22 12:40:44</h2>
+<div class="section diffCode_20171222124044">
+	<h2>
+		<span class="titlediffno">diffNo. 8:</span> <span class="titlediffdatepart">2017/12/22</span> <span class="titledifftimepart">12:40:44</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -1540,8 +1777,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2017/12/22 12:10:23</h2>
+<div class="section diffCode_20171222121023">
+	<h2>
+		<span class="titlediffno">diffNo. 7:</span> <span class="titlediffdatepart">2017/12/22</span> <span class="titledifftimepart">12:10:23</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -1652,9 +1892,12 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2017/12/22 11:42:14</h2>
-	<p class="tablecount"><span class="dt">table count: </span>13&nbsp;-&gt;&nbsp;19</p>
+<div class="section diffCode_20171222114214">
+	<h2>
+		<span class="titlediffno">diffNo. 6:</span> <span class="titlediffdatepart">2017/12/22</span> <span class="titledifftimepart">11:42:14</span>
+	</h2>
+	<pre class="diffcomment"></pre>
+	<p class="tablecount">table count: 13&nbsp;-&gt;&nbsp;19</p>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -1695,8 +1938,11 @@ p.tablecount {
 		<li>VILLAGE_STATUS</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2017/12/20 00:28:20</h2>
+<div class="section diffCode_20171220002820">
+	<h2>
+		<span class="titlediffno">diffNo. 5:</span> <span class="titlediffdatepart">2017/12/20</span> <span class="titledifftimepart">00:28:20</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -1731,9 +1977,12 @@ p.tablecount {
 		<li>VILLAGE_STATUS</li>
 	</ul>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2017/12/19 20:58:48</h2>
-	<p class="tablecount"><span class="dt">table count: </span>12&nbsp;-&gt;&nbsp;13</p>
+<div class="section diffCode_20171219205848">
+	<h2>
+		<span class="titlediffno">diffNo. 4:</span> <span class="titlediffdatepart">2017/12/19</span> <span class="titledifftimepart">20:58:48</span>
+	</h2>
+	<pre class="diffcomment"></pre>
+	<p class="tablecount">table count: 12&nbsp;-&gt;&nbsp;13</p>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -1776,9 +2025,12 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2017/12/18 14:04:20</h2>
-	<p class="tablecount"><span class="dt">table count: </span>9&nbsp;-&gt;&nbsp;12</p>
+<div class="section diffCode_20171218140420">
+	<h2>
+		<span class="titlediffno">diffNo. 3:</span> <span class="titlediffdatepart">2017/12/18</span> <span class="titledifftimepart">14:04:20</span>
+	</h2>
+	<pre class="diffcomment"></pre>
+	<p class="tablecount">table count: 9&nbsp;-&gt;&nbsp;12</p>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -1812,9 +2064,12 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2017/12/15 15:56:22</h2>
-	<p class="tablecount"><span class="dt">table count: </span>8&nbsp;-&gt;&nbsp;9</p>
+<div class="section diffCode_20171215155622">
+	<h2>
+		<span class="titlediffno">diffNo. 2:</span> <span class="titlediffdatepart">2017/12/15</span> <span class="titledifftimepart">15:56:22</span>
+	</h2>
+	<pre class="diffcomment"></pre>
+	<p class="tablecount">table count: 8&nbsp;-&gt;&nbsp;9</p>
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
@@ -1843,8 +2098,11 @@ p.tablecount {
 		</div>
 	</div>
 </div>
-<div class="section">
-	<h2><span class="dt">Diff Date: </span>2017/12/15 15:52:34</h2>
+<div class="section diffCode_20171215155234">
+	<h2>
+		<span class="titlediffno">diffNo. 1:</span> <span class="titlediffdatepart">2017/12/15</span> <span class="titledifftimepart">15:52:34</span>
+	</h2>
+	<pre class="diffcomment"></pre>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
@@ -1862,5 +2120,747 @@ p.tablecount {
 <p>
 	Created by <a href="http://dbflute.org/">DBFlute(AutoGenerator)</a>
 </p>
+<!-- Only used by dbflute intro http://dbflute.seasar.org/ja/manual/function/helper/intro/index.html -->
+<div id="hacomment-modal" class="hacommentmodal">
+    <div class="hacommentmodalcontent">
+        <div id="hacomment-close" class="hacommentmodal-close-btn"><span>x</span></div>
+        <p>Input the new comment of diffdate: <span id="hacomment-modal-column-info"></span></p>
+        <textarea id="hacomment-input" class="hacommentinput" rows="5"></textarea>
+        <button id="hacomment-ok" class="hacommentmodal-ok-btn">OK</button>
+    </div>
+</div>
 </body>
+	<script>
+    /**
+     * @author hakiba
+     */
+    function ApiClient() {
+    }
+
+    ApiClient.prototype = {
+        /**
+         * Fetch hacomment virtual pickup.
+         * @param {function} successCallback
+         */
+        fetchHacomment: function(successCallback) {
+            var path = '/api/document/hacomment/' + HacommentUtil.getSchemaName() + '/pickup';
+            var method = 'GET';
+            var errorCallback = function() {
+                alert('Error!! cannot fetch diff comment.');
+            };
+            this.request(path, method, null, successCallback, errorCallback);
+        },
+
+        /**
+         * Request save hacomment
+         * @param {Object} params - Request parameters
+         * @param {function} successCallback
+         */
+        saveHacomment: function(params, successCallback) {
+            var path = '/api/document/hacomment/' + HacommentUtil.getSchemaName() + '/save';
+            var method = 'POST';
+            var errorCallback = function() {
+                alert('Error!! cannot save new column comment.');
+            };
+            this.request(path, method, params, successCallback, errorCallback);
+        },
+
+        /**
+         * Request to intro server
+         * @param {string} path
+         * @param {string} method
+         * @param {object} params
+         * @param {function} successCallback
+         * @param {function} errorCallback
+         */
+        request: function(path, method, params, successCallback, errorCallback) {
+            var http = new XMLHttpRequest();
+            http.withCredentials = true;
+            var url = HacommentUtil.getHostName() + path;
+            http.open(method, url, true);
+
+            http.onreadystatechange = function () {
+                if (http.readyState === 4) {
+                    if (http.status === 200) {
+                        successCallback(http.response)
+                    } else {
+                        errorCallback()
+                    }
+                }
+            };
+            if (params != null) {
+                http.send(JSON.stringify(params, null, "  "));
+            } else {
+                http.send();
+            }
+        }
+    };
+    /**
+     * @author hakiba
+     */
+    var HacommentUtil = new function(){
+        /**
+         * Get host name
+         * @returns {string} Host name
+         */
+        this.getHostName = function() {
+            return 'http://' + window.location.host;
+        },
+                /**
+                 * Get scheme name from url
+                 * @returns {string} Scheme name
+                 */
+                this.getSchemaName = function () {
+                    return "werewolf-mansiondb";
+                },
+                /**
+                 * Escape inputed text
+                 * @param {String} string - text
+                 */
+                this.escapeInputText = function(string) {
+                    if(typeof string !== 'string') {
+                        return string;
+                    }
+                    return string.replace(/[&'`"<>]/g, function(match) {
+                        return {
+                            '&': '&amp;',
+                            "'": '&#x27;',
+                            '`': '&#x60;',
+                            '"': '&quot;',
+                            '<': '&lt;',
+                            '>': '&gt;'
+                        }[match]
+                    });
+                },
+                /**
+                 * Escape newline character of text
+                 * @param {String} string - text
+                 */
+                this.escapeNewlineCharacter = function (string) {
+                    return string.split('<br>').join('\n');
+                },
+                /**
+                 * Delete unnecessary whitespace
+                 * @param {String} string - text
+                 */
+                this.deleteUnnecessaryWhitespace = function(string) {
+                    var commentArray = string.split("\n");
+                    var result = "";
+                    for(var i = 0; i < commentArray.length; i++) {
+                        result += commentArray[i].replace(/\s+$/g,'');
+                        if (!(i === commentArray.length - 1)) {
+                            result += '\n';
+                        }
+                    }
+                    return result.trim();
+                },
+
+                /**
+                 * Unescape whitespace character of text
+                 * @param {String} string - text
+                 */
+                this.unescapeWhitespace = function (string) {
+                    return string.split('&nbsp;').join(' ');
+                }
+    };
+
+    function Hacomment() {
+        this.embeddedPickup = {
+            'diffList' : [
+            ]
+        };
+        this.pickupStore = {
+            '20191106102646' : {
+                'diffDate' : '2019/11/06 10:26:46',
+                'diffComment' : ''
+            }
+            , '20190212111605' : {
+                'diffDate' : '2019/02/12 11:16:05',
+                'diffComment' : ''
+            }
+            , '20181030182415' : {
+                'diffDate' : '2018/10/30 18:24:15',
+                'diffComment' : ''
+            }
+            , '20181021123955' : {
+                'diffDate' : '2018/10/21 12:39:55',
+                'diffComment' : ''
+            }
+            , '20181018165538' : {
+                'diffDate' : '2018/10/18 16:55:38',
+                'diffComment' : ''
+            }
+            , '20180923161923' : {
+                'diffDate' : '2018/09/23 16:19:23',
+                'diffComment' : ''
+            }
+            , '20180921182533' : {
+                'diffDate' : '2018/09/21 18:25:33',
+                'diffComment' : ''
+            }
+            , '20180920161227' : {
+                'diffDate' : '2018/09/20 16:12:27',
+                'diffComment' : ''
+            }
+            , '20180912110810' : {
+                'diffDate' : '2018/09/12 11:08:10',
+                'diffComment' : ''
+            }
+            , '20180817114539' : {
+                'diffDate' : '2018/08/17 11:45:39',
+                'diffComment' : ''
+            }
+            , '20180730104908' : {
+                'diffDate' : '2018/07/30 10:49:08',
+                'diffComment' : ''
+            }
+            , '20180728233401' : {
+                'diffDate' : '2018/07/28 23:34:01',
+                'diffComment' : ''
+            }
+            , '20180722005704' : {
+                'diffDate' : '2018/07/22 00:57:04',
+                'diffComment' : ''
+            }
+            , '20180609234618' : {
+                'diffDate' : '2018/06/09 23:46:18',
+                'diffComment' : ''
+            }
+            , '20180607173536' : {
+                'diffDate' : '2018/06/07 17:35:36',
+                'diffComment' : ''
+            }
+            , '20180607124404' : {
+                'diffDate' : '2018/06/07 12:44:04',
+                'diffComment' : ''
+            }
+            , '20180605195052' : {
+                'diffDate' : '2018/06/05 19:50:52',
+                'diffComment' : ''
+            }
+            , '20180510005037' : {
+                'diffDate' : '2018/05/10 00:50:37',
+                'diffComment' : ''
+            }
+            , '20180509150841' : {
+                'diffDate' : '2018/05/09 15:08:41',
+                'diffComment' : ''
+            }
+            , '20180418235543' : {
+                'diffDate' : '2018/04/18 23:55:43',
+                'diffComment' : ''
+            }
+            , '20180416015030' : {
+                'diffDate' : '2018/04/16 01:50:30',
+                'diffComment' : ''
+            }
+            , '20180411191602' : {
+                'diffDate' : '2018/04/11 19:16:02',
+                'diffComment' : ''
+            }
+            , '20180402171806' : {
+                'diffDate' : '2018/04/02 17:18:06',
+                'diffComment' : ''
+            }
+            , '20180402162529' : {
+                'diffDate' : '2018/04/02 16:25:29',
+                'diffComment' : ''
+            }
+            , '20180401132423' : {
+                'diffDate' : '2018/04/01 13:24:23',
+                'diffComment' : ''
+            }
+            , '20180327141802' : {
+                'diffDate' : '2018/03/27 14:18:02',
+                'diffComment' : ''
+            }
+            , '20180327010110' : {
+                'diffDate' : '2018/03/27 01:01:10',
+                'diffComment' : ''
+            }
+            , '20180320163702' : {
+                'diffDate' : '2018/03/20 16:37:02',
+                'diffComment' : ''
+            }
+            , '20180320162956' : {
+                'diffDate' : '2018/03/20 16:29:56',
+                'diffComment' : ''
+            }
+            , '20180320155618' : {
+                'diffDate' : '2018/03/20 15:56:18',
+                'diffComment' : ''
+            }
+            , '20180315162315' : {
+                'diffDate' : '2018/03/15 16:23:15',
+                'diffComment' : ''
+            }
+            , '20180314092443' : {
+                'diffDate' : '2018/03/14 09:24:43',
+                'diffComment' : ''
+            }
+            , '20180314092142' : {
+                'diffDate' : '2018/03/14 09:21:42',
+                'diffComment' : ''
+            }
+            , '20180311121132' : {
+                'diffDate' : '2018/03/11 12:11:32',
+                'diffComment' : ''
+            }
+            , '20180202163217' : {
+                'diffDate' : '2018/02/02 16:32:17',
+                'diffComment' : ''
+            }
+            , '20180109204857' : {
+                'diffDate' : '2018/01/09 20:48:57',
+                'diffComment' : ''
+            }
+            , '20171229184119' : {
+                'diffDate' : '2017/12/29 18:41:19',
+                'diffComment' : ''
+            }
+            , '20171229104722' : {
+                'diffDate' : '2017/12/29 10:47:22',
+                'diffComment' : ''
+            }
+            , '20171229104026' : {
+                'diffDate' : '2017/12/29 10:40:26',
+                'diffComment' : ''
+            }
+            , '20171226001140' : {
+                'diffDate' : '2017/12/26 00:11:40',
+                'diffComment' : ''
+            }
+            , '20171225165826' : {
+                'diffDate' : '2017/12/25 16:58:26',
+                'diffComment' : ''
+            }
+            , '20171225165118' : {
+                'diffDate' : '2017/12/25 16:51:18',
+                'diffComment' : ''
+            }
+            , '20171225102103' : {
+                'diffDate' : '2017/12/25 10:21:03',
+                'diffComment' : ''
+            }
+            , '20171223232709' : {
+                'diffDate' : '2017/12/23 23:27:09',
+                'diffComment' : ''
+            }
+            , '20171222172113' : {
+                'diffDate' : '2017/12/22 17:21:13',
+                'diffComment' : ''
+            }
+            , '20171222170717' : {
+                'diffDate' : '2017/12/22 17:07:17',
+                'diffComment' : ''
+            }
+            , '20171222124044' : {
+                'diffDate' : '2017/12/22 12:40:44',
+                'diffComment' : ''
+            }
+            , '20171222121023' : {
+                'diffDate' : '2017/12/22 12:10:23',
+                'diffComment' : ''
+            }
+            , '20171222114214' : {
+                'diffDate' : '2017/12/22 11:42:14',
+                'diffComment' : ''
+            }
+            , '20171220002820' : {
+                'diffDate' : '2017/12/20 00:28:20',
+                'diffComment' : ''
+            }
+            , '20171219205848' : {
+                'diffDate' : '2017/12/19 20:58:48',
+                'diffComment' : ''
+            }
+            , '20171218140420' : {
+                'diffDate' : '2017/12/18 14:04:20',
+                'diffComment' : ''
+            }
+            , '20171215155622' : {
+                'diffDate' : '2017/12/15 15:56:22',
+                'diffComment' : ''
+            }
+            , '20171215155234' : {
+                'diffDate' : '2017/12/15 15:52:34',
+                'diffComment' : ''
+            }
+        }
+    }
+    Hacomment.prototype = {
+
+        /**
+         * init
+         */
+        init: function () {
+            if (document.getElementById("intro_opening") !== null) {
+                var schemeName = HacommentUtil.getSchemaName();
+                this.fetchVirtualPickup(schemeName);
+                this.setupSaveDiff();
+                this.setupKeyDownEvent();
+            } else {
+                this.reflectEmbeddedPickup();
+            }
+        },
+
+        /**
+         * Fetch virtual pickup from server
+         */
+        fetchVirtualPickup: function () {
+            var that = this;
+            new ApiClient().fetchHacomment(function(response) {
+                var hacomment = JSON.parse(response);
+                that.reflectPickup(hacomment);
+            })
+        },
+
+        /**
+         * Reflect embedded pickup
+         */
+        reflectEmbeddedPickup: function () {
+            this.reflectPickup(this.embeddedPickup);
+        },
+
+        /**
+         * Reflect pickup
+         * @param {Object} pickupResult - Pickup object
+         */
+        reflectPickup: function (pickupResult) {
+            var that = this;
+            Array.prototype.forEach.call(pickupResult['diffList'], function (diff) {
+                var diffCode = diff['diffCode'];
+                var hacommentElement = that.extractHacommentElement(diffCode);
+                if (that.storePickup(diff)) {
+                    var newDiffComment = that.buildDisplayDiffCommentFromServer(that.getDiffMapFromStore(diffCode));
+                    var authors = that.getDiffMapFromStore(diffCode)['authors'];
+                    that.storePreviousWholeComment(diffCode, newDiffComment);
+                    that.updateDisplayHacommentToHtml(diffCode, hacommentElement, newDiffComment, authors);
+                }
+            });
+        },
+
+        /**
+         * Extract hacomment element
+         * @param {Object} diffCode - Diff code
+         * @returns {Object} Hacomment element
+         */
+        extractHacommentElement: function (diffCode) {
+            var idClassQuerySelector =".diffCode_" + diffCode;
+            var commentClassQuerySelector = ".diffcomment";
+            var hacommentQuerySelector = idClassQuerySelector + " " + commentClassQuerySelector;
+
+            return document.querySelector(hacommentQuerySelector);
+        },
+
+        /**
+         * Store diff comment properties
+         * @param {Object} diff - Diff object
+         * @retuns {Boolean} if properties saved
+         */
+        storePickup: function (diff) {
+            var diffCode = diff['diffCode'];
+            // verify stored diff
+            if (this.pickupStore[diffCode] === undefined) {
+                this.pickupStore[diffCode] = {};
+            }
+            var storedDiff = this.pickupStore[diffCode];
+
+            // verify stored properties
+            if (this.pickupStore[diffCode]['properties'] === undefined) {
+                this.pickupStore[diffCode]['properties'] = {};
+            }
+
+            // check existing property
+            var propertyList = diff['properties'];
+            if (propertyList.length === 0) {
+                return false;
+            }
+
+            // store properties
+            var hacomments = [];
+            var previousPieces = [];
+            var authors = [];
+            var commentVersion = 0;
+            Array.prototype.forEach.call(propertyList, function (property) {
+                // add hacomment
+                hacomments.push(property['hacomment']);
+                // add previous pieceCode
+                if (property['pieceCode'] != null) {
+                    previousPieces.push(property['pieceCode']);
+                }
+                // concat authors
+                authors = authors.concat(property['authorList']);
+                // update comment version
+                if (commentVersion < property['commentVersion']) {
+                    commentVersion = property['commentVersion'];
+                }
+            });
+            // delete duplicate authors
+            authors = authors.filter(function (value, index, self) {
+                return self.indexOf(value) === index;
+            });
+
+            // add diff map property
+            var isConflict = propertyList.length > 1;
+            storedDiff['diffDate'] = diff['diffDate'];
+            storedDiff['isConflict'] = isConflict;
+            storedDiff['hacomments'] = hacomments;
+            storedDiff['previousPieces'] = previousPieces;
+            storedDiff['authors'] = authors;
+            storedDiff['commentVersion'] = commentVersion;
+
+            return true;
+        },
+
+        /**
+         * Build new diff comment from server response
+         * @param {Object} table - table object
+         * @returns {string} New diff comment
+         */
+        buildDisplayDiffCommentFromServer : function (diffMap) {
+            var result = "";
+            // add hacomments
+            result += diffMap['hacomments'].join('\n\n=======\n\n');
+
+            return result;
+        },
+
+        /**
+         * Store new comment properties
+         * @param {Object} diffCode - Diff code object
+         * @param {string} newComment - Comment from server
+         */
+        storePreviousWholeComment: function (diffCode, newComment) {
+            var storedPickup = this.pickupStore[diffCode];
+            storedPickup['previousWholeComment'] = newComment;
+        },
+
+        /**
+         * Update diff comment of html
+         * @param {string} diffCode - Diff Code
+         * @param {Object} diffCommentElement - Diff comment element
+         * @param {string} newComment - New scheme comment
+         * @param {Array} authors - Comment authoers
+         */
+        updateDisplayHacommentToHtml: function(diffCode, diffCommentElement, newComment, authors) {
+            var authorStrForHtml = authors.join(',');
+            var comment = newComment + "\n<span>@author(" + authorStrForHtml + ")</span>";
+            diffCommentElement.innerHTML = comment;
+
+            // reflect conflict
+            var storedDiff = this.pickupStore[diffCode];
+            if (storedDiff["isConflict"]) {
+                diffCommentElement.className += " commenterror"
+            }
+        },
+
+        /**
+         * Get diff map from store.
+         * @param {string} diffCode - Diff code
+         * @returns {Object} commentMap - Comment object of table or column
+         */
+        getDiffMapFromStore: function(diffCode) {
+            var storedDiff = this.pickupStore[diffCode];
+            if (storedDiff === undefined) {
+                return null;
+            }
+            return storedDiff;
+        },
+
+        /**
+         * Check the comment is conflict
+         * @param {Object} diffMap - Comment object of diff
+         * @returns {Boolean} comment is conflict
+         */
+        isCommentConflict: function(diffMap) {
+            if (diffMap === null) {
+                return false;
+            }
+            return diffMap['isConflict'] || false;
+        },
+
+        /**
+         * Setup save diff comment click event to html
+         */
+        setupSaveDiff: function() {
+            var diffCommentSections = this.getHacommentElements();
+            for (var i = 0; i < diffCommentSections.length; i++) {
+                var sectionElement = diffCommentSections[i];
+                // TODO hakiba change how to get diff code(e.g. create diff code list when generate hisotry html)
+                var diffCode = sectionElement.classList[1].split("diffCode_")[1];
+
+                // add click-event (open hacomment modal window, save function)
+                var diffMap = this.getDiffMapFromStore(diffCode);
+                // to Title Element
+                sectionElement.querySelector('h2').onclick = this.createSaveHacommentFunction(diffCode, diffMap);
+                // to Hacommet Element
+                sectionElement.querySelector('pre').onclick = this.createSaveHacommentFunction(diffCode, diffMap);
+
+            }
+        },
+
+        /**
+         * Get Hacomment Elements
+         * @return {Array} html elements
+         */
+        getHacommentElements: function() {
+            return document.getElementsByClassName('section');
+        },
+
+        /**
+         * Get Hacomment Element by DiffCode
+         * @return {Object} html elements
+         */
+        getHacommentElement: function (targetDiffCode) {
+            var hacommentElements = this.getHacommentElements();
+            var result = null;
+            Array.prototype.forEach.call(hacommentElements, function (element) {
+                var diffCode = element.classList[1].split("diffCode_")[1];
+                if (targetDiffCode === diffCode) {
+                    var target = element.querySelector('pre');
+                    result = target;
+                }
+            });
+            return result;
+        },
+
+        /**
+         * Create save hacomment function
+         * param {string} diffCode - Diff code
+         * param {Object} diffMap - Comment element of diff
+         * returns {function} Save hacomment function
+         */
+        createSaveHacommentFunction: function (diffCode, diffMap) {
+            var that = this;
+            return function () {
+                // get modal window element
+                var modalElement = document.getElementById("hacomment-modal");
+                modalElement.style.display = "block";
+
+                // build diff info
+                var isConflict = that.isCommentConflict(diffMap);
+                var diffDate = diffMap['diffDate'];
+                var diffInfo = isConflict ? diffDate + "... but now in CONFLICT!" : diffDate;
+                document.getElementById("hacomment-modal-column-info").innerText = diffInfo;
+
+                // set diff comment
+                var inputElement = document.getElementById("hacomment-input");
+                inputElement.value = that.getDisplayHtmlComment(diffCode);
+                inputElement.focus();
+
+                // set ok event
+                document.getElementById("hacomment-ok").onclick = function () {
+                    var hacomment = inputElement.value;
+                    if (that.isStillConflicting(hacomment)) {
+                      alert('Still conflicting. please resolve.')
+                      return;
+                    }
+                    if (!that.isCommentChanged(diffCode, hacomment)) {
+                        modalElement.style.display = "none";
+                        return;
+                    }
+                    var params = that.buildCommentRequestParams(diffCode, hacomment);
+                    new ApiClient().saveHacomment(params, function() {
+                        that.fetchVirtualPickup();
+                    });
+                    modalElement.style.display = "none";
+                };
+
+                // set close event
+                document.getElementById("hacomment-close").onclick = function () {
+                    modalElement.style.display = "none";
+                };
+            };
+        },
+
+        /**
+         * Check new hacomment and previous comment is different
+         * @param {string} diffCode - Diff name
+         * @param {string} hacomment - Hacomment
+         * @returns {Boolean} is changed
+         */
+        isCommentChanged: function (diffCode, hacomment) {
+            var diffMap = this.getDiffMapFromStore(diffCode);
+            if (diffMap !== null) {
+                var previousComment = diffMap['previousWholeComment'];
+                if (previousComment) {
+                    return previousComment.trim() !== hacomment.trim();
+                }
+            }
+            return hacomment.trim().length !== 0;
+        },
+
+        /**
+         * Build comment request body
+         * @param {string} diffCode - Diff code
+         * @param {string} hacomment - Inputted hacomment
+         * @return {Object} Request body
+         */
+        buildCommentRequestParams: function (diffCode, hacomment) {
+            var diffMap = this.getDiffMapFromStore(diffCode);
+
+            // TODO: refactoring mapping
+            var diffComment;
+            if (diffMap !== null) {
+                var diffDate = diffMap['diffDate'];
+                var authors = diffMap['authors'];
+                var previousPieces = diffMap['previousPieces'];
+                var commentVersion = diffMap['commentVersion'];
+                diffComment = diffMap['diffComment'];
+                if (diffComment) {
+                    diffComment = HacommentUtil.escapeNewlineCharacter(diffComment);
+                }
+            }
+
+            hacomment = HacommentUtil.escapeInputText(hacomment);
+            hacomment = HacommentUtil.deleteUnnecessaryWhitespace(hacomment);
+
+            return {
+                'diffDate': diffDate,
+                'hacomment': hacomment,
+                'diffComment': diffComment,
+                'commentVersion': commentVersion || 0,
+                'authors': authors || [],
+                'previousPieces': previousPieces || []
+            };
+        },
+
+        /**
+         * Get display html comment
+         * @return {string} display html comment
+         */
+        getDisplayHtmlComment: function(diffCode) {
+            var child = this.getHacommentElement(diffCode).childNodes[0];
+            if (child != null && child.nodeName === "#text") {
+                return child.nodeValue.trim();
+            }
+            return ""
+        },
+
+  /**
+   * Check still conflicting
+   * @param {string} hacomment - hacomment
+   * @returns {Boolean} is still conflicting
+   */
+  isStillConflicting: function(hacomment) {
+    return hacomment.includes('=======');
+  },
+
+  /**
+   * Setup key down event
+   */
+  setupKeyDownEvent : function() {
+    document.onkeydown = function (e) {
+      // ESC
+      if(e.keyCode === 27){
+        var modalElement = document.getElementById("hacomment-modal");
+        modalElement.style.display = "none";
+      }
+    }
+  }
+};
+
+    new Hacomment().init();
+</script>
 </html>

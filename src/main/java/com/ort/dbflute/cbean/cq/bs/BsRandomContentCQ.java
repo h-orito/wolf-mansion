@@ -79,7 +79,7 @@ public class BsRandomContentCQ extends AbstractBsRandomContentCQ {
       return _randomContentId; }
     protected ConditionValue xgetCValueRandomContentId() { return xdfgetRandomContentId(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * RANDOM_CONTENT_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
@@ -99,7 +99,7 @@ public class BsRandomContentCQ extends AbstractBsRandomContentCQ {
       return _randomKeywordId; }
     protected ConditionValue xgetCValueRandomKeywordId() { return xdfgetRandomKeywordId(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword}
      * @return this. (NotNull)
@@ -119,7 +119,7 @@ public class BsRandomContentCQ extends AbstractBsRandomContentCQ {
       return _randomMessage; }
     protected ConditionValue xgetCValueRandomMessage() { return xdfgetRandomMessage(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * RANDOM_MESSAGE: {NotNull, VARCHAR(20)}
      * @return this. (NotNull)

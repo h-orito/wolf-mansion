@@ -121,7 +121,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
     public Map<String, Object> xdfgetVillagePlayerId_QueryDerivedReferrer_MessageByVillagePlayerIdListParameter() { return xgetSQuePmMap("villagePlayerId_QueryDerivedReferrer_MessageByVillagePlayerIdList"); }
     public String keepVillagePlayerId_QueryDerivedReferrer_MessageByVillagePlayerIdListParameter(Object pm) { return xkeepSQuePm("villagePlayerId_QueryDerivedReferrer_MessageByVillagePlayerIdList", pm); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * VILLAGE_PLAYER_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
@@ -141,7 +141,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
       return _villageId; }
     protected ConditionValue xgetCValueVillageId() { return xdfgetVillageId(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
      * @return this. (NotNull)
@@ -161,7 +161,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
       return _playerId; }
     protected ConditionValue xgetCValuePlayerId() { return xdfgetPlayerId(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player}
      * @return this. (NotNull)
@@ -181,7 +181,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
       return _charaId; }
     protected ConditionValue xgetCValueCharaId() { return xdfgetCharaId(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
      * @return this. (NotNull)
@@ -201,7 +201,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
       return _skillCode; }
     protected ConditionValue xgetCValueSkillCode() { return xdfgetSkillCode(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      * @return this. (NotNull)
@@ -221,7 +221,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
       return _requestSkillCode; }
     protected ConditionValue xgetCValueRequestSkillCode() { return xdfgetRequestSkillCode(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      * @return this. (NotNull)
@@ -241,7 +241,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
       return _secondRequestSkillCode; }
     protected ConditionValue xgetCValueSecondRequestSkillCode() { return xdfgetSecondRequestSkillCode(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill}
      * @return this. (NotNull)
@@ -261,7 +261,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
       return _roomNumber; }
     protected ConditionValue xgetCValueRoomNumber() { return xdfgetRoomNumber(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * ROOM_NUMBER: {INT UNSIGNED(10)}
      * @return this. (NotNull)
@@ -281,7 +281,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
       return _isDead; }
     protected ConditionValue xgetCValueIsDead() { return xdfgetIsDead(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * IS_DEAD: {NotNull, BIT, classification=Flg}
      * @return this. (NotNull)
@@ -301,7 +301,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
       return _isSpectator; }
     protected ConditionValue xgetCValueIsSpectator() { return xdfgetIsSpectator(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * IS_SPECTATOR: {NotNull, BIT, classification=Flg}
      * @return this. (NotNull)
@@ -321,7 +321,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
       return _deadReasonCode; }
     protected ConditionValue xgetCValueDeadReasonCode() { return xdfgetDeadReasonCode(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason}
      * @return this. (NotNull)
@@ -341,7 +341,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
       return _deadDay; }
     protected ConditionValue xgetCValueDeadDay() { return xdfgetDeadDay(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * DEAD_DAY: {INT UNSIGNED(10)}
      * @return this. (NotNull)
@@ -361,7 +361,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
       return _isGone; }
     protected ConditionValue xgetCValueIsGone() { return xdfgetIsGone(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * IS_GONE: {NotNull, BIT, classification=Flg}
      * @return this. (NotNull)
@@ -381,7 +381,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
       return _lastAccessDatetime; }
     protected ConditionValue xgetCValueLastAccessDatetime() { return xdfgetLastAccessDatetime(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * LAST_ACCESS_DATETIME: {DATETIME(19)}
      * @return this. (NotNull)
@@ -401,7 +401,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
       return _campCode; }
     protected ConditionValue xgetCValueCampCode() { return xdfgetCampCode(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * CAMP_CODE: {VARCHAR(20)}
      * @return this. (NotNull)
@@ -421,7 +421,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
       return _isWin; }
     protected ConditionValue xgetCValueIsWin() { return xdfgetIsWin(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * IS_WIN: {BIT, classification=Flg}
      * @return this. (NotNull)
@@ -441,7 +441,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
       return _registerDatetime; }
     protected ConditionValue xgetCValueRegisterDatetime() { return xdfgetRegisterDatetime(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return this. (NotNull)
@@ -461,7 +461,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
       return _registerTrace; }
     protected ConditionValue xgetCValueRegisterTrace() { return xdfgetRegisterTrace(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * REGISTER_TRACE: {NotNull, VARCHAR(64)}
      * @return this. (NotNull)
@@ -481,7 +481,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
       return _updateDatetime; }
     protected ConditionValue xgetCValueUpdateDatetime() { return xdfgetUpdateDatetime(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * UPDATE_DATETIME: {NotNull, DATETIME(19)}
      * @return this. (NotNull)
@@ -501,7 +501,7 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
       return _updateTrace; }
     protected ConditionValue xgetCValueUpdateTrace() { return xdfgetUpdateTrace(); }
 
-    /** 
+    /**
      * Add order-by as ascend. <br>
      * UPDATE_TRACE: {NotNull, VARCHAR(64)}
      * @return this. (NotNull)

@@ -1757,7 +1757,7 @@ public interface CDef extends Classification {
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
-        public Classification codeOf(Object code) { // null if not found, old style so use classificationOf(code)
+        public Classification codeOf(Object code) { // null if not found, old style so use of(code)
             if (Flg.name().equals(name())) { return CDef.Flg.codeOf(code); }
             if (Authority.name().equals(name())) { return CDef.Authority.codeOf(code); }
             if (Camp.name().equals(name())) { return CDef.Camp.codeOf(code); }
@@ -1771,7 +1771,7 @@ public interface CDef extends Classification {
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
-        public Classification nameOf(String name) { // null if not found, old style so use classificationByName(name)
+        public Classification nameOf(String name) { // null if not found, old style so use byName(name)
             if (Flg.name().equals(name())) { return CDef.Flg.valueOf(name); }
             if (Authority.name().equals(name())) { return CDef.Authority.valueOf(name); }
             if (Camp.name().equals(name())) { return CDef.Camp.valueOf(name); }

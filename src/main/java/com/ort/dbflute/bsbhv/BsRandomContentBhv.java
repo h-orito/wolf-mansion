@@ -109,7 +109,7 @@ public abstract class BsRandomContentBhv extends AbstractBehaviorWritable<Random
      *     <span style="color: #3F7E5E">// called if present, or exception</span>
      *     ... = <span style="color: #553000">randomContent</span>.get...
      * });
-     * 
+     *
      * <span style="color: #3F7E5E">// if it might be no data, ...</span>
      * <span style="color: #0000C0">randomContentBhv</span>.<span style="color: #CC4747">selectEntity</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().set...
@@ -806,8 +806,8 @@ public abstract class BsRandomContentBhv extends AbstractBehaviorWritable<Random
     /**
      * Prepare the all facade executor of outside-SQL to execute it.
      * <pre>
-     * <span style="color: #3F7E5E">// main style</span> 
-     * randomContentBhv.outideSql().selectEntity(pmb); <span style="color: #3F7E5E">// optional</span> 
+     * <span style="color: #3F7E5E">// main style</span>
+     * randomContentBhv.outideSql().selectEntity(pmb); <span style="color: #3F7E5E">// optional</span>
      * randomContentBhv.outideSql().selectList(pmb); <span style="color: #3F7E5E">// ListResultBean</span>
      * randomContentBhv.outideSql().selectPage(pmb); <span style="color: #3F7E5E">// PagingResultBean</span>
      * randomContentBhv.outideSql().selectPagedListOnly(pmb); <span style="color: #3F7E5E">// ListResultBean</span>
@@ -815,7 +815,7 @@ public abstract class BsRandomContentBhv extends AbstractBehaviorWritable<Random
      * randomContentBhv.outideSql().execute(pmb); <span style="color: #3F7E5E">// int (updated count)</span>
      * randomContentBhv.outideSql().call(pmb); <span style="color: #3F7E5E">// void (pmb has OUT parameters)</span>
      *
-     * <span style="color: #3F7E5E">// traditional style</span> 
+     * <span style="color: #3F7E5E">// traditional style</span>
      * randomContentBhv.outideSql().traditionalStyle().selectEntity(path, pmb, entityType);
      * randomContentBhv.outideSql().traditionalStyle().selectList(path, pmb, entityType);
      * randomContentBhv.outideSql().traditionalStyle().selectPage(path, pmb, entityType);
@@ -823,7 +823,7 @@ public abstract class BsRandomContentBhv extends AbstractBehaviorWritable<Random
      * randomContentBhv.outideSql().traditionalStyle().selectCursor(path, pmb, handler);
      * randomContentBhv.outideSql().traditionalStyle().execute(path, pmb);
      *
-     * <span style="color: #3F7E5E">// options</span> 
+     * <span style="color: #3F7E5E">// options</span>
      * randomContentBhv.outideSql().removeBlockComment().selectList()
      * randomContentBhv.outideSql().removeLineComment().selectList()
      * randomContentBhv.outideSql().formatSql().selectList()
