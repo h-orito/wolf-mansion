@@ -1,0 +1,42 @@
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>フッター</title>
+<link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}" />
+<link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" />
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="../../static/lib/bootstrap/js/bootstrap.min.js" th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+<script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js" th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
+<script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
+</head>
+<body>
+	<div layout:fragment="skill-selecting">
+		<!--/* 現在の選択 */-->
+		<p class="small" th:if="${content.skillName == 'SEER' || content.skillName == 'WISE'}" th:text="'現在の選択: ' + ${targetCharaName} + ' を占う'"></p>
+		<p class="small" th:if="${content.skillName == 'ASTROLOGER'}" th:text="'現在の選択: ' + ${targetCharaName} + ' を中心に占う'"></p>
+		<p class="small" th:if="${content.skillName == 'WEREWOLF' || content.skillName == 'CURSEWOLF' || content.skillName == 'WISEWOLF'}"
+			th:text="'現在の選択: ' + ${charaName} + ' が ' + ${targetCharaName} + ' を襲う'"></p>
+		<p class="small" th:if="${content.skillName == 'HUNTER'}" th:text="'現在の選択: ' + ${targetCharaName} + ' を護衛する'"></p>
+		<p class="small" th:if="${content.skillName == 'DETECTIVE'}" th:text="${'現在の選択: ' + (footstep == null ? 'なし' : (footstep + ' を調査する'))}"></p>
+		<p class="small" th:if="${content.skillName == 'TRAPPER'}"
+			th:text="'現在の選択: ' + ${targetCharaName == '' || targetCharaName == null ? '罠を設置しない' : targetCharaName + ' の部屋に罠を設置する'}"></p>
+		<p class="small" th:if="${content.skillName == 'BOMBER'}"
+			th:text="'現在の選択: ' + ${targetCharaName == '' || targetCharaName == null ? '罠を設置しない' : targetCharaName + ' の部屋に爆弾を設置する'}"></p>
+		<!--/* 通過する部屋 */-->
+		<p class="small"
+			th:if="${content.skillName == 'SEER' || content.skillName == 'WISE' 
+				|| content.skillName == 'WEREWOLF' || content.skillName == 'CURSEWOLF' || content.skillName == 'WISEWOLF'
+				|| content.skillName == 'HUNTER' || content.skillName == 'FOX'
+				|| content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN' || content.skillName == 'FANATIC'}"
+			th:text="'通過する部屋: ' + ${footstep == '' || footstep == null ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"
+			th:data-selected-footstep="${footstep == '' || footstep == null ? 'なし': footstep}"></p>
+	</div>
+</body>
+</html>

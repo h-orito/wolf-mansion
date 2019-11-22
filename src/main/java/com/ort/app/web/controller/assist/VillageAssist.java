@@ -350,7 +350,9 @@ public class VillageAssist {
         if (!SkillUtil.SET_AVAILABLE_SKILL_LIST.contains(skill)) {
             return;
         }
-
+        if (SkillUtil.SECOND_DAY_SET_AVAILABLE_SKILL_LIST.contains(skill) && villageInfo.day <= 1) {
+            return; // 1日目はセット不可
+        }
         VillageAbilityForm abilityForm = new VillageAbilityForm();
         CDef.AbilityType type = SkillUtil.SKILL_ABILITY_TYPE_MAP.get(skill);
         OptionalEntity<Ability> optAbility =

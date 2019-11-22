@@ -34,35 +34,12 @@
 						<!--/* 役職説明 */-->
 						<div layout:replace="~{village/skill-description::skill-description}"></div>
 						<!--/* 能力行使内容 */-->
-						<div
-							th:if="${abilityForm != null && (content.skillName == 'SEER' || content.skillName == 'WISE' 
-										|| content.skillName == 'WEREWOLF' || content.skillName == 'CURSEWOLF' || content.skillName == 'WISEWOLF' 
-										|| (content.skillName == 'HUNTER' && content.day > 1) || (content.skillName == 'DETECTIVE' && content.day > 1)  
-										|| content.skillName == 'FOX' || content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN'
-										|| content.skillName == 'FANATIC') || (content.skillName == 'TRAPPER' && content.day > 1) || (content.skillName == 'BOMBER' && content.day > 1)}"
-							style="padding-bottom: 10px;">
+						<div th:if="${abilityForm != null}" style="padding-bottom: 10px;">
 							<hr />
 							<a href="javascript:void(0);" data-toggle="collapse" data-target="#skill-tab-area" class="h5 hidden" aria-expanded="true" data-skill-tab>能力をセットする</a>
 							<!--/* 能力行使フォーム */-->
 							<div class="collapse in" aria-expanded="true" style="margin-top: 10px;" id="skill-tab-area">
-								<p class="small" th:if="${content.skillName == 'SEER' || content.skillName == 'WISE'}" th:text="'現在の選択: ' + ${targetCharaName} + ' を占う'"></p>
-								<p class="small" th:if="${content.skillName == 'WEREWOLF' || content.skillName == 'CURSEWOLF' || content.skillName == 'WISEWOLF'}"
-									th:text="'現在の選択: ' + ${charaName} + ' が ' + ${targetCharaName} + ' を襲う'"></p>
-								<p class="small" th:if="${content.skillName == 'HUNTER' && content.day > 1}" th:text="'現在の選択: ' + ${targetCharaName} + ' を護衛する'"></p>
-								<p class="small" th:if="${content.skillName == 'DETECTIVE' && content.day > 1}"
-									th:text="${'現在の選択: ' + (footstep == null ? 'なし' : (footstep + ' を調査する'))}"></p>
-								<p class="small"
-									th:if="${content.skillName == 'SEER' || content.skillName == 'WISE' 
-											|| content.skillName == 'WEREWOLF' || content.skillName == 'CURSEWOLF' || content.skillName == 'WISEWOLF'
-											|| content.skillName == 'HUNTER' || content.skillName == 'FOX'
-											|| content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN'
-											|| content.skillName == 'FANATIC'}"
-									th:text="'通過する部屋: ' + ${footstep == '' || footstep == null ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"
-									th:data-selected-footstep="${footstep == '' || footstep == null ? 'なし': footstep}"></p>
-								<p class="small" th:if="${content.skillName == 'TRAPPER' && content.day > 1}"
-									th:text="'現在の選択: ' + ${targetCharaName == '' || targetCharaName == null ? '罠を設置しない' : targetCharaName + ' の部屋に罠を設置する'}"></p>
-								<p class="small" th:if="${content.skillName == 'BOMBER' && content.day > 1}"
-									th:text="'現在の選択: ' + ${targetCharaName == '' || targetCharaName == null ? '罠を設置しない' : targetCharaName + ' の部屋に爆弾を設置する'}"></p>
+								<p layout:replace="~{village/skill-selecting::skill-selecting}"></p>
 								<hr />
 
 								<!--/* 人狼、占い師、狩人用能力セット */-->

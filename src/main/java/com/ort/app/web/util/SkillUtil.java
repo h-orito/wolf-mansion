@@ -18,6 +18,9 @@ public class SkillUtil {
     public static List<CDef.Skill> SET_AVAILABLE_SKILL_LIST = Arrays.asList(CDef.Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, CDef.Skill.占い師,
             CDef.Skill.狩人, CDef.Skill.狂人, CDef.Skill.妖狐, CDef.Skill.C国狂人, CDef.Skill.狂信者, CDef.Skill.賢者, CDef.Skill.占星術師, CDef.Skill.魔神官,
             CDef.Skill.探偵, CDef.Skill.罠師, CDef.Skill.爆弾魔);
+    // 上記のうち、1日目には能力行使できない役職
+    public static List<CDef.Skill> SECOND_DAY_SET_AVAILABLE_SKILL_LIST =
+            Arrays.asList(CDef.Skill.狩人, CDef.Skill.探偵, CDef.Skill.罠師, CDef.Skill.爆弾魔);
     // 発言制限対象役職
     public static final List<CDef.Skill> RESTRICT_SKILLS = CDef.Skill.listAll().stream().filter(skill -> {
         return !skill.alias().contains("おまかせ");
