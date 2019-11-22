@@ -26,6 +26,7 @@ import com.ort.app.web.form.NewVillageForm;
 import com.ort.app.web.form.NewVillageSayRestrictDetailDto;
 import com.ort.app.web.form.NewVillageSayRestrictDto;
 import com.ort.app.web.model.common.SelectOptionDto;
+import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.exbhv.CharaBhv;
@@ -62,9 +63,6 @@ public class NewVillageAssist {
                     + "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊霊共共\n" // 19
                     + "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊霊霊共共"; // 20
     private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm");
-    private static final List<CDef.Skill> SET_AVAILABLE_SKILLS = CDef.Skill.listAll().stream().filter(skill -> {
-        return !skill.alias().contains("おまかせ");
-    }).sorted((s1, s2) -> Integer.parseInt(s1.order()) - Integer.parseInt(s2.order())).collect(Collectors.toList());
     private static final int DEFAULT_SAY_MAX_COUNT = 20;
     private static final int DEFAULT_SAY_MAX_LENGTH = 400;
 
@@ -299,7 +297,7 @@ public class NewVillageAssist {
     }
 
     private List<NewVillageSayRestrictDto> createRestrictList() {
-        return SET_AVAILABLE_SKILLS.stream().map(skill -> {
+        return SkillUtil.SET_AVAILABLE_SKILL_LIST.stream().map(skill -> {
             NewVillageSayRestrictDto restrict = new NewVillageSayRestrictDto();
             restrict.setSkillName(skill.name());
             restrict.setSkillCode(skill.code());

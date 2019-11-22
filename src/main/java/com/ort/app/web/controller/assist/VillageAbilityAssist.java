@@ -1,6 +1,5 @@
 package com.ort.app.web.controller.assist;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.dbflute.cbean.result.ListResultBean;
@@ -16,6 +15,7 @@ import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageGetFootstepListForm;
 import com.ort.app.web.form.VillageVoteForm;
 import com.ort.app.web.model.VillageGetFootstepListResultContent;
+import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exbhv.VoteBhv;
@@ -122,7 +122,7 @@ public class VillageAbilityAssist {
     //                                                                          ==========
     private boolean isInvalidAbility(VillagePlayer villagePlayer, VillageAbilityForm abilityForm) {
         CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
-        if (!isAvailableSetAbilitySkill(skill)) {
+        if (!SkillUtil.SET_AVAILABLE_SKILL_LIST.contains(skill)) {
             return true;
         }
         Integer charaId = abilityForm.getCharaId();
@@ -147,15 +147,6 @@ public class VillageAbilityAssist {
             return true;
         }
         return false;
-    }
-
-    private boolean isAvailableSetAbilitySkill(CDef.Skill skill) {
-        return Arrays
-                .asList(CDef.Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, CDef.Skill.占い師, CDef.Skill.狩人, CDef.Skill.狂人, CDef.Skill.妖狐,
-                        CDef.Skill.C国狂人, CDef.Skill.狂信者, CDef.Skill.賢者, CDef.Skill.占星術師, CDef.Skill.魔神官, CDef.Skill.探偵, CDef.Skill.罠師,
-                        CDef.Skill.爆弾魔)
-                .contains(skill);
-
     }
 
     private boolean isInvalidVote(Integer villageId, VillagePlayer villagePlayer, VillageVoteForm voteForm) {

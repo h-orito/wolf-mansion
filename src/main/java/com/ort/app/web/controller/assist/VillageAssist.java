@@ -3,12 +3,9 @@ package com.ort.app.web.controller.assist;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -78,31 +75,6 @@ import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 
 @Component
 public class VillageAssist {
-
-    // ===================================================================================
-    //                                                                          Definition
-    //                                                                          ==========
-    private static final List<CDef.Skill> SET_AVAILABLE_SKILLS = Arrays.asList(CDef.Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, CDef.Skill.占い師,
-            CDef.Skill.賢者, CDef.Skill.占星術師, CDef.Skill.狩人, CDef.Skill.狂人, CDef.Skill.妖狐, CDef.Skill.魔神官, CDef.Skill.C国狂人, CDef.Skill.狂信者,
-            CDef.Skill.探偵, CDef.Skill.罠師, CDef.Skill.爆弾魔);
-    private static final List<CDef.Skill> RESTRICT_SKILLS = CDef.Skill.listAll().stream().filter(skill -> {
-        return !skill.alias().contains("おまかせ");
-    }).sorted((s1, s2) -> Integer.parseInt(s1.order()) - Integer.parseInt(s2.order())).collect(Collectors.toList());
-    private static Map<CDef.Skill, CDef.AbilityType> SKILL_ABILITY_TYPE_MAP = null;
-    static {
-        Map<CDef.Skill, CDef.AbilityType> map = new HashMap<>();
-        CDef.Skill.listOfHasAttackAbility().forEach(skill -> {
-            map.put(skill, CDef.AbilityType.襲撃);
-        });
-        CDef.Skill.listOfHasDivineAbility().forEach(skill -> {
-            map.put(skill, CDef.AbilityType.占い);
-        });
-        map.put(CDef.Skill.狩人, CDef.AbilityType.護衛);
-        map.put(CDef.Skill.探偵, CDef.AbilityType.捜査);
-        map.put(CDef.Skill.罠師, CDef.AbilityType.罠設置);
-        map.put(CDef.Skill.爆弾魔, CDef.AbilityType.爆弾設置);
-        SKILL_ABILITY_TYPE_MAP = Collections.unmodifiableMap(map);
-    }
 
     // ===================================================================================
     //                                                                           Attribute
@@ -375,12 +347,12 @@ public class VillageAssist {
             return;
         }
         CDef.Skill skill = villageInfo.optVillagePlayer.get().getSkillCodeAsSkill();
-        if (!SET_AVAILABLE_SKILLS.contains(skill)) {
+        if (!SkillUtil.SET_AVAILABLE_SKILL_LIST.contains(skill)) {
             return;
         }
 
         VillageAbilityForm abilityForm = new VillageAbilityForm();
-        CDef.AbilityType type = SKILL_ABILITY_TYPE_MAP.get(skill);
+        CDef.AbilityType type = SkillUtil.SKILL_ABILITY_TYPE_MAP.get(skill);
         OptionalEntity<Ability> optAbility =
                 selectAbility(villageInfo.villageId, villageInfo.day, type, villageInfo.optVillagePlayer.get().getCharaId());
         if (optAbility.isPresent()) {
@@ -862,7 +834,7 @@ public class VillageAssist {
     }
 
     private List<NewVillageSayRestrictDto> convertToRestrictList(List<MessageRestriction> registeredRestrictList) {
-        return RESTRICT_SKILLS.stream().map(skill -> {
+        return SkillUtil.RESTRICT_SKILLS.stream().map(skill -> {
             NewVillageSayRestrictDto restrict = new NewVillageSayRestrictDto();
             restrict.setSkillName(skill.name());
             restrict.setSkillCode(skill.code());
