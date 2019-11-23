@@ -23,11 +23,13 @@ public class SkillUtil {
         map.put("信", CDef.Skill.狂信者);
         map.put("占", CDef.Skill.占い師);
         map.put("賢", CDef.Skill.賢者);
+        map.put("星", CDef.Skill.占星術師);
         map.put("霊", CDef.Skill.霊能者);
         map.put("導", CDef.Skill.導師);
         map.put("狐", CDef.Skill.妖狐);
         map.put("共", CDef.Skill.共鳴者);
         map.put("狩", CDef.Skill.狩人);
+        map.put("パ", CDef.Skill.パン屋);
         map.put("探", CDef.Skill.探偵);
         map.put("罠", CDef.Skill.罠師);
         map.put("爆", CDef.Skill.爆弾魔);

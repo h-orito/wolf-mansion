@@ -63,6 +63,22 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 占星術師 (ASTROLOGER). And OnlyOnceRegistered. <br>
+     * 占星術師
+     */
+    public void setSkillCode_Equal_占星術師() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.占星術師);
+    }
+
+    /**
+     * Equal(=). As パン屋 (BAKERY). And OnlyOnceRegistered. <br>
+     * パン屋
+     */
+    public void setSkillCode_Equal_パン屋() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.パン屋);
+    }
+
+    /**
      * Equal(=). As 爆弾魔 (BOMBER). And OnlyOnceRegistered. <br>
      * 爆弾魔
      */
@@ -275,6 +291,22 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_AsSkill(CDef.Skill cdef) {
         doSetSkillCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 占星術師 (ASTROLOGER). And OnlyOnceRegistered. <br>
+     * 占星術師
+     */
+    public void setSkillCode_NotEqual_占星術師() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.占星術師);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As パン屋 (BAKERY). And OnlyOnceRegistered. <br>
+     * パン屋
+     */
+    public void setSkillCode_NotEqual_パン屋() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.パン屋);
     }
 
     /**

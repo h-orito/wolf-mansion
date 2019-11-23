@@ -28,13 +28,13 @@
 						<div class="form-group">
 							<label class="col-sm-2 col-xs-3 control-label">最低開始人数</label>
 							<div class="col-sm-4 col-xs-3">
-								<input type="number" class="form-control" th:field="*{startPersonMinNum}" placeholder="8" />
-								<span th:if="${#fields.hasErrors('startPersonMinNum')}" th:errors="*{startPersonMinNum}" class="help-block text-danger">error!</span>
+								<input type="number" class="form-control" th:field="*{startPersonMinNum}" placeholder="8" /> <span
+									th:if="${#fields.hasErrors('startPersonMinNum')}" th:errors="*{startPersonMinNum}" class="help-block text-danger">error!</span>
 							</div>
 							<label class="col-sm-2 col-xs-3 control-label">定員</label>
 							<div class="col-sm-4 col-xs-3">
-								<input type="number" class="form-control" th:field="*{personMaxNum}" placeholder="16" />
-								<span th:if="${#fields.hasErrors('personMaxNum')}" th:errors="*{personMaxNum}" class="help-block text-danger">error!</span>
+								<input type="number" class="form-control" th:field="*{personMaxNum}" placeholder="16" /> <span th:if="${#fields.hasErrors('personMaxNum')}"
+									th:errors="*{personMaxNum}" class="help-block text-danger">error!</span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -118,7 +118,7 @@
 							<div class="col-sm-10">
 								<textarea class="form-control" th:field="*{organization}" style="min-height: 250px;"></textarea>
 								<p>最低開始人数〜定員までの構成を全て入れてください。</p>
-								<p>村:村人／狼:人狼／呪:呪狼／智:智狼／狂:狂人／C:C国狂人／魔:魔神官／信:狂信者／占:占い師／賢:賢者／霊:霊能者／導:導師／探:探偵／罠:罠師／狐:妖狐／共:共鳴者／狩:狩人／爆:爆弾魔</p>
+								<p>村:村人／占:占い師／賢:賢者／星:占星術師／霊:霊能者／導:導師／狩:狩人／探:探偵／罠:罠師／共:共鳴者／パ:パン屋／狼:人狼／呪:呪狼／智:智狼／狂:狂人／C:C国狂人／魔:魔神官／信:狂信者／狐:妖狐／爆:爆弾魔</p>
 								<p>ダミーは必ず村人となるため、村を1名以上入れてください。</p>
 								<span th:if="${#fields.hasErrors('organization')}" th:errors="*{organization}" class="help-block text-danger">error!</span>
 							</div>
@@ -133,9 +133,9 @@
 							<label class="col-sm-2 col-xs-12 control-label">同一人狼による連続襲撃</label>
 							<div class="col-sm-10 btn-group" data-toggle="buttons">
 								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSameWolfAttack ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isAvailableSameWolfAttack}" value="true" autocomplete="off" checked="checked" />可能
+									th:field="*{isAvailableSameWolfAttack}" value="true" autocomplete="off" checked="checked" />可能
 								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSameWolfAttack ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isAvailableSameWolfAttack}" value="false" autocomplete="off" />不可
+									th:field="*{isAvailableSameWolfAttack}" value="false" autocomplete="off" />不可
 								</label>
 							</div>
 							<div class="col-sm-2"></div>
@@ -149,9 +149,9 @@
 							<label class="col-sm-2 col-xs-12 control-label">狩人による連続護衛</label>
 							<div class="col-sm-10 btn-group" data-toggle="buttons">
 								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableGuardSameTarget ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isAvailableGuardSameTarget}" value="true" autocomplete="off" checked="checked" />可能
+									th:field="*{isAvailableGuardSameTarget}" value="true" autocomplete="off" checked="checked" />可能
 								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableGuardSameTarget ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isAvailableGuardSameTarget}" value="false" autocomplete="off" />不可
+									th:field="*{isAvailableGuardSameTarget}" value="false" autocomplete="off" />不可
 								</label>
 							</div>
 							<div class="col-sm-2"></div>
@@ -163,9 +163,9 @@
 							<label class="col-sm-2 col-xs-12 control-label">突然死</label>
 							<div class="col-sm-10 btn-group" data-toggle="buttons">
 								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSuddonlyDeath ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isAvailableSuddonlyDeath}" value="true" autocomplete="off" checked="checked" />あり
+									th:field="*{isAvailableSuddonlyDeath}" value="true" autocomplete="off" checked="checked" />あり
 								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSuddonlyDeath ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isAvailableSuddonlyDeath}" value="false" autocomplete="off" />なし
+									th:field="*{isAvailableSuddonlyDeath}" value="false" autocomplete="off" />なし
 								</label>
 							</div>
 							<div class="col-sm-2"></div>
@@ -177,9 +177,9 @@
 							<label class="col-sm-2 col-xs-12 control-label">コミット</label>
 							<div class="col-sm-10 btn-group" data-toggle="buttons">
 								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableCommit ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isAvailableCommit}" value="true" autocomplete="off" checked="checked" />あり
+									th:field="*{isAvailableCommit}" value="true" autocomplete="off" checked="checked" />あり
 								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableCommit ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isAvailableCommit}" value="false" autocomplete="off" />なし
+									th:field="*{isAvailableCommit}" value="false" autocomplete="off" />なし
 								</label>
 							</div>
 							<div class="col-sm-2"></div>
@@ -195,9 +195,9 @@
 							<label class="col-sm-2 col-xs-12 control-label">見学入村</label>
 							<div class="col-sm-10 btn-group" data-toggle="buttons">
 								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSpectate ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isAvailableSpectate}" value="true" autocomplete="off" />可能
+									th:field="*{isAvailableSpectate}" value="true" autocomplete="off" />可能
 								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSpectate ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isAvailableSpectate}" value="false" autocomplete="off" checked="checked" />不可
+									th:field="*{isAvailableSpectate}" value="false" autocomplete="off" checked="checked" />不可
 								</label>
 							</div>
 							<div class="col-sm-2"></div>
@@ -209,9 +209,9 @@
 							<label class="col-sm-2 col-xs-12 control-label">墓下見学役職公開</label>
 							<div class="col-sm-10 btn-group" data-toggle="buttons">
 								<label th:class="'btn btn-sm btn-dark-success ' + *{isOpenSkillInGrave ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isOpenSkillInGrave}" value="true" autocomplete="off" checked="checked" />公開
+									th:field="*{isOpenSkillInGrave}" value="true" autocomplete="off" checked="checked" />公開
 								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isOpenSkillInGrave ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isOpenSkillInGrave}" value="false" autocomplete="off" />非公開
+									th:field="*{isOpenSkillInGrave}" value="false" autocomplete="off" />非公開
 								</label>
 							</div>
 							<div class="col-sm-2"></div>
@@ -223,9 +223,9 @@
 							<label class="col-sm-2 col-xs-12 control-label">墓下見学会話公開</label>
 							<div class="col-sm-10 btn-group" data-toggle="buttons">
 								<label th:class="'btn btn-sm btn-dark-success ' + *{isVisibleGraveSpectateMessage ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isVisibleGraveSpectateMessage}" value="true" autocomplete="off" checked="checked" />公開
+									th:field="*{isVisibleGraveSpectateMessage}" value="true" autocomplete="off" checked="checked" />公開
 								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isVisibleGraveSpectateMessage ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isVisibleGraveSpectateMessage}" value="false" autocomplete="off" />非公開
+									th:field="*{isVisibleGraveSpectateMessage}" value="false" autocomplete="off" />非公開
 								</label>
 							</div>
 							<div class="col-sm-2"></div>
@@ -247,8 +247,8 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label">入村パスワード</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" th:field="*{joinPassword}" placeholder="3文字以上12文字以下" />
-								<span th:if="${#fields.hasErrors('joinPassword')}" th:errors="*{joinPassword}" class="help-block text-danger">error!</span>
+								<input type="text" class="form-control" th:field="*{joinPassword}" placeholder="3文字以上12文字以下" /> <span
+									th:if="${#fields.hasErrors('joinPassword')}" th:errors="*{joinPassword}" class="help-block text-danger">error!</span>
 							</div>
 						</div>
 						<hr />
@@ -271,37 +271,31 @@
 											<tr>
 												<td th:rowspan="${restrict.detailList.size()}" th:text="${restrict.skillName}">村人</td>
 												<td th:text="${restrict.detailList[0].messageTypeName}"></td>
-												<td>
-													<input type="checkbox" class="form-control" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].isRestrict}" data-restrict-check>
-												</td>
+												<td><input type="checkbox" class="form-control" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].isRestrict}"
+													data-restrict-check></td>
 												<td>
 													<div class="input-group">
 														<input type="number" class="form-control" placeholder="400" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].length}"
-															data-restrict-length />
-														<span class="input-group-addon">&nbsp;*&nbsp;</span>
-														<input type="number" class="form-control" placeholder="20" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].count}"
-															data-restrict-count />
-														<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].skillCode}" />
-														<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].skillName}" />
-														<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].messageTypeName}" />
-														<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].messageTypeCode}" />
+															data-restrict-length /> <span class="input-group-addon">&nbsp;*&nbsp;</span> <input type="number" class="form-control"
+															placeholder="20" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].count}" data-restrict-count /> <input type="hidden"
+															th:field="*{sayRestrictList[__${stat.index}__].skillCode}" /> <input type="hidden"
+															th:field="*{sayRestrictList[__${stat.index}__].skillName}" /> <input type="hidden"
+															th:field="*{sayRestrictList[__${stat.index}__].detailList[0].messageTypeName}" /> <input type="hidden"
+															th:field="*{sayRestrictList[__${stat.index}__].detailList[0].messageTypeCode}" />
 													</div>
 												</td>
 											</tr>
 											<tr th:if="${restrict.detailList.size() > 1}">
 												<td th:text="${restrict.detailList[1].messageTypeName}"></td>
-												<td>
-													<input type="checkbox" class="form-control" th:field="*{sayRestrictList[__${stat.index}__].detailList[1].isRestrict}" data-restrict-check>
-												</td>
+												<td><input type="checkbox" class="form-control" th:field="*{sayRestrictList[__${stat.index}__].detailList[1].isRestrict}"
+													data-restrict-check></td>
 												<td>
 													<div class="input-group">
 														<input type="number" class="form-control" placeholder="400" th:field="*{sayRestrictList[__${stat.index}__].detailList[1].length}"
-															data-restrict-length />
-														<span class="input-group-addon">&nbsp;*&nbsp;</span>
-														<input type="number" class="form-control" placeholder="20" th:field="*{sayRestrictList[__${stat.index}__].detailList[1].count}"
-															data-restrict-count />
-														<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].detailList[1].messageTypeName}" />
-														<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].detailList[1].messageTypeCode}" />
+															data-restrict-length /> <span class="input-group-addon">&nbsp;*&nbsp;</span> <input type="number" class="form-control"
+															placeholder="20" th:field="*{sayRestrictList[__${stat.index}__].detailList[1].count}" data-restrict-count /> <input type="hidden"
+															th:field="*{sayRestrictList[__${stat.index}__].detailList[1].messageTypeName}" /> <input type="hidden"
+															th:field="*{sayRestrictList[__${stat.index}__].detailList[1].messageTypeCode}" />
 													</div>
 												</td>
 											</tr>
@@ -316,10 +310,10 @@
 						<div class="form-group">
 							<label class="col-sm-2 col-xs-12 control-label">投票</label>
 							<div class="col-sm-10 col-xs-12 btn-group" data-toggle="buttons">
-								<label th:class="'btn btn-sm btn-dark-success ' + *{isOpenVote ? 'active' : ''}"> <input type="radio" class="" th:field="*{isOpenVote}"
-										value="true" autocomplete="off" checked />記名
-								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isOpenVote ? '' : 'active'}"> <input type="radio" class="" th:field="*{isOpenVote}"
-										value="false" autocomplete="off" />無記名
+								<label th:class="'btn btn-sm btn-dark-success ' + *{isOpenVote ? 'active' : ''}"> <input type="radio" class=""
+									th:field="*{isOpenVote}" value="true" autocomplete="off" checked />記名
+								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isOpenVote ? '' : 'active'}"> <input type="radio" class=""
+									th:field="*{isOpenVote}" value="false" autocomplete="off" />無記名
 								</label>
 							</div>
 							<div class="col-sm-2"></div>

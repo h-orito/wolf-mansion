@@ -152,7 +152,8 @@ public class VillageAbilityAssist {
     private boolean isAvailableSetAbilitySkill(CDef.Skill skill) {
         return Arrays
                 .asList(CDef.Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, CDef.Skill.占い師, CDef.Skill.狩人, CDef.Skill.狂人, CDef.Skill.妖狐,
-                        CDef.Skill.C国狂人, CDef.Skill.狂信者, CDef.Skill.賢者, CDef.Skill.魔神官, CDef.Skill.探偵, CDef.Skill.罠師, CDef.Skill.爆弾魔)
+                        CDef.Skill.C国狂人, CDef.Skill.狂信者, CDef.Skill.賢者, CDef.Skill.占星術師, CDef.Skill.魔神官, CDef.Skill.探偵, CDef.Skill.罠師,
+                        CDef.Skill.爆弾魔)
                 .contains(skill);
 
     }

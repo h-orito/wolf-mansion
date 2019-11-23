@@ -179,6 +179,22 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     //                                                              Classification Setting
     //                                                              ======================
     /**
+     * Set the value of skillCode as 占星術師 (ASTROLOGER). <br>
+     * 占星術師
+     */
+    public void setSkillCode_占星術師() {
+        setSkillCodeAsSkill(CDef.Skill.占星術師);
+    }
+
+    /**
+     * Set the value of skillCode as パン屋 (BAKERY). <br>
+     * パン屋
+     */
+    public void setSkillCode_パン屋() {
+        setSkillCodeAsSkill(CDef.Skill.パン屋);
+    }
+
+    /**
      * Set the value of skillCode as 爆弾魔 (BOMBER). <br>
      * 爆弾魔
      */
@@ -501,6 +517,28 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
+    /**
+     * Is the value of skillCode 占星術師? <br>
+     * 占星術師
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode占星術師() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.占星術師) : false;
+    }
+
+    /**
+     * Is the value of skillCode パン屋? <br>
+     * パン屋
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCodeパン屋() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.パン屋) : false;
+    }
+
     /**
      * Is the value of skillCode 爆弾魔? <br>
      * 爆弾魔

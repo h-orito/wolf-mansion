@@ -474,6 +474,9 @@ public class DayChangeLogic {
             return;
         }
 
+        // パン屋メッセージ
+        insertBakeryMessageIfNeeded(villageId, day, vPlayerList);
+
         // 投票、能力行使のデフォルト設定
         setDefaultVoteAndAbility(villageId, day, settings);
     }
@@ -609,6 +612,25 @@ public class DayChangeLogic {
                 joiner.add(CharaUtil.makeCharaName(player));
             });
             messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
+        }
+    }
+
+    // パン屋メッセージ
+    private void insertBakeryMessageIfNeeded(Integer villageId, int day, List<VillagePlayer> vPlayerList) {
+        // パン屋がいない場合は何もしない
+        List<VillagePlayer> bakeryPlayerList =
+                vPlayerList.stream().filter(vp -> vp.getRequestSkillCodeAsSkill() == CDef.Skill.パン屋).collect(Collectors.toList());
+        if (bakeryPlayerList.isEmpty()) {
+            return;
+        }
+        // 生存している人がいる場合
+        if (bakeryPlayerList.stream().anyMatch(vp -> vp.isIsDeadFalse())) {
+            messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, "パン屋がおいしいパンを焼いてくれたそうです。");
+            return;
+        }
+        // 今日で全員死亡した場合
+        if (bakeryPlayerList.stream().anyMatch(vp -> vp.getDeadDay().equals(day))) {
+            messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, "今日からはもうおいしいパンが食べられません。");
         }
     }
 

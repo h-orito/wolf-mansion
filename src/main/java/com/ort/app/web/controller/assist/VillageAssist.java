@@ -82,9 +82,9 @@ public class VillageAssist {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final List<CDef.Skill> SET_AVAILABLE_SKILLS =
-            Arrays.asList(CDef.Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, CDef.Skill.占い師, CDef.Skill.賢者, CDef.Skill.狩人, CDef.Skill.狂人,
-                    CDef.Skill.妖狐, CDef.Skill.魔神官, CDef.Skill.C国狂人, CDef.Skill.狂信者, CDef.Skill.探偵, CDef.Skill.罠師, CDef.Skill.爆弾魔);
+    private static final List<CDef.Skill> SET_AVAILABLE_SKILLS = Arrays.asList(CDef.Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, CDef.Skill.占い師,
+            CDef.Skill.賢者, CDef.Skill.占星術師, CDef.Skill.狩人, CDef.Skill.狂人, CDef.Skill.妖狐, CDef.Skill.魔神官, CDef.Skill.C国狂人, CDef.Skill.狂信者,
+            CDef.Skill.探偵, CDef.Skill.罠師, CDef.Skill.爆弾魔);
     private static final List<CDef.Skill> RESTRICT_SKILLS = CDef.Skill.listAll().stream().filter(skill -> {
         return !skill.alias().contains("おまかせ");
     }).sorted((s1, s2) -> Integer.parseInt(s1.order()) - Integer.parseInt(s2.order())).collect(Collectors.toList());

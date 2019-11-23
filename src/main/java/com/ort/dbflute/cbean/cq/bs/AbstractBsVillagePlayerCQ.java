@@ -762,6 +762,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 占星術師 (ASTROLOGER). And OnlyOnceRegistered. <br>
+     * 占星術師
+     */
+    public void setSkillCode_Equal_占星術師() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.占星術師);
+    }
+
+    /**
+     * Equal(=). As パン屋 (BAKERY). And OnlyOnceRegistered. <br>
+     * パン屋
+     */
+    public void setSkillCode_Equal_パン屋() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.パン屋);
+    }
+
+    /**
      * Equal(=). As 爆弾魔 (BOMBER). And OnlyOnceRegistered. <br>
      * 爆弾魔
      */
@@ -974,6 +990,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_AsSkill(CDef.Skill cdef) {
         doSetSkillCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 占星術師 (ASTROLOGER). And OnlyOnceRegistered. <br>
+     * 占星術師
+     */
+    public void setSkillCode_NotEqual_占星術師() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.占星術師);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As パン屋 (BAKERY). And OnlyOnceRegistered. <br>
+     * パン屋
+     */
+    public void setSkillCode_NotEqual_パン屋() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.パン屋);
     }
 
     /**
@@ -1319,6 +1351,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 占星術師 (ASTROLOGER). And OnlyOnceRegistered. <br>
+     * 占星術師
+     */
+    public void setRequestSkillCode_Equal_占星術師() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.占星術師);
+    }
+
+    /**
+     * Equal(=). As パン屋 (BAKERY). And OnlyOnceRegistered. <br>
+     * パン屋
+     */
+    public void setRequestSkillCode_Equal_パン屋() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.パン屋);
+    }
+
+    /**
      * Equal(=). As 爆弾魔 (BOMBER). And OnlyOnceRegistered. <br>
      * 爆弾魔
      */
@@ -1531,6 +1579,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_AsSkill(CDef.Skill cdef) {
         doSetRequestSkillCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 占星術師 (ASTROLOGER). And OnlyOnceRegistered. <br>
+     * 占星術師
+     */
+    public void setRequestSkillCode_NotEqual_占星術師() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.占星術師);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As パン屋 (BAKERY). And OnlyOnceRegistered. <br>
+     * パン屋
+     */
+    public void setRequestSkillCode_NotEqual_パン屋() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.パン屋);
     }
 
     /**
@@ -1876,6 +1940,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 占星術師 (ASTROLOGER). And OnlyOnceRegistered. <br>
+     * 占星術師
+     */
+    public void setSecondRequestSkillCode_Equal_占星術師() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.占星術師);
+    }
+
+    /**
+     * Equal(=). As パン屋 (BAKERY). And OnlyOnceRegistered. <br>
+     * パン屋
+     */
+    public void setSecondRequestSkillCode_Equal_パン屋() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.パン屋);
+    }
+
+    /**
      * Equal(=). As 爆弾魔 (BOMBER). And OnlyOnceRegistered. <br>
      * 爆弾魔
      */
@@ -2088,6 +2168,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill cdef) {
         doSetSecondRequestSkillCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 占星術師 (ASTROLOGER). And OnlyOnceRegistered. <br>
+     * 占星術師
+     */
+    public void setSecondRequestSkillCode_NotEqual_占星術師() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.占星術師);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As パン屋 (BAKERY). And OnlyOnceRegistered. <br>
+     * パン屋
+     */
+    public void setSecondRequestSkillCode_NotEqual_パン屋() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.パン屋);
     }
 
     /**
