@@ -4,10 +4,8 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
 
 import com.ort.app.web.controller.logic.MessageLogic;
 import com.ort.app.web.controller.logic.TwitterLogic;
@@ -24,11 +21,9 @@ import com.ort.app.web.controller.logic.VillageParticipateLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageForm;
 import com.ort.app.web.form.NewVillageSayRestrictDetailDto;
-import com.ort.app.web.form.NewVillageSayRestrictDto;
 import com.ort.app.web.model.common.SelectOptionDto;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
-import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.CharaGroupBhv;
 import com.ort.dbflute.exbhv.MessageRestrictionBhv;
@@ -48,23 +43,7 @@ public class NewVillageAssist {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final String DEFAULT_ORGANIZE = // 
-            "村狼狼賢導村村村\n" // 8
-                    + "村狼狼賢導村村村村\n" // 9
-                    + "村狼狼狂賢導村村村村\n" // 10
-                    + "村狼狼狂賢導村村村村村\n" // 11
-                    + "村狼狼狼狂賢導狩村村村村\n" // 12
-                    + "村狼狼狼狂賢導狩村村村村村\n" // 13
-                    + "村狼狼狼魔狐賢導狩霊霊霊霊霊\n" // 14
-                    + "村狼狼狼魔狐賢導狩霊霊霊霊霊霊\n" // 15
-                    + "村狼狼狼魔狐賢導狩霊霊霊霊霊共共\n" // 16
-                    + "村狼狼狼魔狐賢導狩霊霊霊霊霊霊共共\n" // 17
-                    + "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊共共\n" // 18
-                    + "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊霊共共\n" // 19
-                    + "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊霊霊共共"; // 20
     private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm");
-    private static final int DEFAULT_SAY_MAX_COUNT = 20;
-    private static final int DEFAULT_SAY_MAX_LENGTH = 400;
 
     // ===================================================================================
     //                                                                           Attribute
@@ -94,62 +73,11 @@ public class NewVillageAssist {
     //                                                                             Execute
     //                                                                             =======
     public void setIndexModel(NewVillageForm form, Model model) {
-        if (form.getStartPersonMinNum() == null) {
-            form.setStartPersonMinNum(8);
-        }
-        if (form.getPersonMaxNum() == null) {
-            form.setPersonMaxNum(20);
-        }
-        if (form.getIsOpenVote() == null) {
-            form.setIsOpenVote(true);
-        }
-        if (form.getIsPossibleSkillRequest() == null) {
-            form.setIsPossibleSkillRequest(true);
-        }
-        if (form.getIsAvailableSpectate() == null) {
-            form.setIsAvailableSpectate(false);
-        }
-        if (form.getIsAvailableSameWolfAttack() == null) {
-            form.setIsAvailableSameWolfAttack(true);
-        }
-        if (form.getIsOpenSkillInGrave() == null) {
-            form.setIsOpenSkillInGrave(false);
-        }
-        if (form.getIsVisibleGraveSpectateMessage() == null) {
-            form.setIsVisibleGraveSpectateMessage(false);
-        }
-        if (form.getIsAvailableSuddonlyDeath() == null) {
-            form.setIsAvailableSuddonlyDeath(false);
-        }
-        if (form.getIsAvailableCommit() == null) {
-            form.setIsAvailableCommit(false);
-        }
-        if (form.getIsAvailableGuardSameTarget() == null) {
-            form.setIsAvailableGuardSameTarget(true);
-        }
-        if (form.getDayChangeIntervalHours() == null) {
-            form.setDayChangeIntervalHours(24);
-        }
-        if (form.getStartYear() == null) {
-            // 一週間後にしておく
-            LocalDateTime oneWeekAfter = WerewolfMansionDateUtil.currentLocalDateTime().plusDays(7L);
-            form.setStartYear(oneWeekAfter.getYear());
-            form.setStartMonth(oneWeekAfter.getMonthValue());
-            form.setStartDay(oneWeekAfter.getDayOfMonth());
-            form.setStartHour(0);
-            form.setStartMinute(0);
-        }
-        if (form.getOrganization() == null) {
-            form.setOrganization(DEFAULT_ORGANIZE);
-        }
-        if (form.getAllowedSecretSayCode() == null) {
-            form.setAllowedSecretSayCode(CDef.AllowedSecretSay.なし.code());
-        }
-        if (CollectionUtils.isEmpty(form.getSayRestrictList())) {
-            form.setSayRestrictList(createRestrictList());
-        }
-
+        form.initialize();
         model.addAttribute("villageForm", form);
+
+        // 役職リスト
+        model.addAttribute("skillListStr", SkillUtil.getSkillListStr());
 
         // 現在の年
         LocalDate now = WerewolfMansionDateUtil.currentLocalDate();
@@ -294,37 +222,6 @@ public class NewVillageAssist {
         } catch (DateTimeException e) {
             throw new WerewolfMansionBusinessException("存在しない日付です");
         }
-    }
-
-    private List<NewVillageSayRestrictDto> createRestrictList() {
-        return SkillUtil.SET_AVAILABLE_SKILL_LIST.stream().map(skill -> {
-            NewVillageSayRestrictDto restrict = new NewVillageSayRestrictDto();
-            restrict.setSkillName(skill.name());
-            restrict.setSkillCode(skill.code());
-            restrict.setDetailList(createDetailList(skill));
-            return restrict;
-        }).collect(Collectors.toList());
-    }
-
-    private List<NewVillageSayRestrictDetailDto> createDetailList(Skill skill) {
-        List<NewVillageSayRestrictDetailDto> detailList = new ArrayList<>();
-        detailList.add(createDetail("通常発言", CDef.MessageType.通常発言.code()));
-        if (skill.isAvailableWerewolfSay()) {
-            detailList.add(createDetail("囁き", CDef.MessageType.人狼の囁き.code()));
-        } else if (skill == CDef.Skill.共鳴者) {
-            detailList.add(createDetail("共鳴", CDef.MessageType.共鳴発言.code()));
-        }
-        return detailList;
-    }
-
-    private NewVillageSayRestrictDetailDto createDetail(String messageTypeName, String messageTypeCode) {
-        NewVillageSayRestrictDetailDto detail = new NewVillageSayRestrictDetailDto();
-        detail.setMessageTypeName(messageTypeName);
-        detail.setMessageTypeCode(messageTypeCode);
-        detail.setIsRestrict(false);
-        detail.setCount(DEFAULT_SAY_MAX_COUNT);
-        detail.setLength(DEFAULT_SAY_MAX_LENGTH);
-        return detail;
     }
 
     private void insertMessageRestrict(Integer villageId, NewVillageForm villageForm) {

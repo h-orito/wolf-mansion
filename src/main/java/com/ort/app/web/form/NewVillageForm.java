@@ -1,17 +1,29 @@
 package com.ort.app.web.form;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.util.CollectionUtils;
+
+import com.ort.app.web.controller.logic.AssignLogic;
+import com.ort.app.web.util.SkillUtil;
+import com.ort.dbflute.allcommon.CDef;
+import com.ort.dbflute.allcommon.CDef.Skill;
+import com.ort.fw.util.WerewolfMansionDateUtil;
 
 public class NewVillageForm implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private static final int DEFAULT_SAY_MAX_COUNT = 20;
+    private static final int DEFAULT_SAY_MAX_LENGTH = 400;
 
     /** 村表示名 */
     @NotNull
@@ -126,6 +138,63 @@ public class NewVillageForm implements Serializable {
     /** 発言制限 */
     @NotNull
     private List<NewVillageSayRestrictDto> sayRestrictList;
+
+    public void initialize() {
+        if (startPersonMinNum == null) {
+            startPersonMinNum = 8;
+        }
+        if (personMaxNum == null) {
+            personMaxNum = 20;
+        }
+        if (isOpenVote == null) {
+            isOpenVote = true;
+        }
+        if (isPossibleSkillRequest == null) {
+            isPossibleSkillRequest = true;
+        }
+        if (isAvailableSpectate == null) {
+            isAvailableSpectate = false;
+        }
+        if (isAvailableSameWolfAttack == null) {
+            isAvailableSameWolfAttack = true;
+        }
+        if (isOpenSkillInGrave == null) {
+            isOpenSkillInGrave = false;
+        }
+        if (isVisibleGraveSpectateMessage == null) {
+            isVisibleGraveSpectateMessage = false;
+        }
+        if (isAvailableSuddonlyDeath == null) {
+            isAvailableSuddonlyDeath = false;
+        }
+        if (isAvailableCommit == null) {
+            isAvailableCommit = false;
+        }
+        if (isAvailableGuardSameTarget == null) {
+            isAvailableGuardSameTarget = true;
+        }
+        if (dayChangeIntervalHours == null) {
+            dayChangeIntervalHours = 24;
+        }
+        if (startYear == null) {
+            // 一週間後にしておく
+            LocalDateTime oneWeekAfter = WerewolfMansionDateUtil.currentLocalDateTime().plusDays(7L);
+            startYear = oneWeekAfter.getYear();
+            startMonth = oneWeekAfter.getMonthValue();
+            startDay = oneWeekAfter.getDayOfMonth();
+            startHour = 0;
+            startMinute = 0;
+        }
+        if (organization == null) {
+            organization = AssignLogic.DEFAULT_ORGANIZE;
+        }
+        if (allowedSecretSayCode == null) {
+            allowedSecretSayCode = CDef.AllowedSecretSay.なし.code();
+        }
+        if (CollectionUtils.isEmpty(sayRestrictList)) {
+            sayRestrictList = createRestrictList();
+        }
+    }
 
     public String getVillageName() {
         return villageName;
@@ -341,5 +410,39 @@ public class NewVillageForm implements Serializable {
 
     public void setDummyCharaId(Integer dummyCharaId) {
         this.dummyCharaId = dummyCharaId;
+    }
+
+    // ===================================================================================
+    //                                                                        Assist Logic
+    //                                                                        ============
+    private List<NewVillageSayRestrictDto> createRestrictList() {
+        return SkillUtil.SET_AVAILABLE_SKILL_LIST.stream().map(skill -> {
+            NewVillageSayRestrictDto restrict = new NewVillageSayRestrictDto();
+            restrict.setSkillName(skill.name());
+            restrict.setSkillCode(skill.code());
+            restrict.setDetailList(createDetailList(skill));
+            return restrict;
+        }).collect(Collectors.toList());
+    }
+
+    private List<NewVillageSayRestrictDetailDto> createDetailList(Skill skill) {
+        List<NewVillageSayRestrictDetailDto> detailList = new ArrayList<>();
+        detailList.add(createDetail("通常発言", CDef.MessageType.通常発言.code()));
+        if (skill.isAvailableWerewolfSay()) {
+            detailList.add(createDetail("囁き", CDef.MessageType.人狼の囁き.code()));
+        } else if (skill == CDef.Skill.共鳴者) {
+            detailList.add(createDetail("共鳴", CDef.MessageType.共鳴発言.code()));
+        }
+        return detailList;
+    }
+
+    private NewVillageSayRestrictDetailDto createDetail(String messageTypeName, String messageTypeCode) {
+        NewVillageSayRestrictDetailDto detail = new NewVillageSayRestrictDetailDto();
+        detail.setMessageTypeName(messageTypeName);
+        detail.setMessageTypeCode(messageTypeCode);
+        detail.setIsRestrict(false);
+        detail.setCount(DEFAULT_SAY_MAX_COUNT);
+        detail.setLength(DEFAULT_SAY_MAX_LENGTH);
+        return detail;
     }
 }

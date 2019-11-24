@@ -139,7 +139,7 @@
 							<div class="col-sm-9">
 								<textarea class="form-control" th:field="*{organization}" style="min-height: 250px;"></textarea>
 								<p>最低開始人数〜定員までの構成を全て入れてください。</p>
-								<p>村:村人／占:占い師／賢:賢者／星:占星術師／霊:霊能者／導:導師／狩:狩人／探:探偵／罠:罠師／共:共鳴者／パ:パン屋／狼:人狼／呪:呪狼／智:智狼／狂:狂人／C:C国狂人／魔:魔神官／信:狂信者／狐:妖狐／爆:爆弾魔</p>
+								<p th:text="${skillListStr}"></p>
 								<p>ダミーは必ず村人となるため、村を1名以上入れてください。</p>
 								
 								<span th:if="${#fields.hasErrors('organization')}" th:errors="*{organization}" class="help-block text-danger">error!</span>

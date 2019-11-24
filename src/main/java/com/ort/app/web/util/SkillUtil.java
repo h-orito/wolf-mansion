@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.MapUtils;
@@ -21,8 +22,8 @@ public class SkillUtil {
     // 上記のうち、1日目には能力行使できない役職
     public static List<CDef.Skill> SECOND_DAY_SET_AVAILABLE_SKILL_LIST =
             Arrays.asList(CDef.Skill.狩人, CDef.Skill.探偵, CDef.Skill.罠師, CDef.Skill.爆弾魔);
-    // 発言制限対象役職
-    public static final List<CDef.Skill> RESTRICT_SKILLS = CDef.Skill.listAll().stream().filter(skill -> {
+    // 表示順役職一覧（おまかせ除く）
+    public static final List<CDef.Skill> SORTED_SKILL_LIST = CDef.Skill.listAll().stream().filter(skill -> {
         return !skill.alias().contains("おまかせ");
     }).sorted((s1, s2) -> Integer.parseInt(s1.order()) - Integer.parseInt(s2.order())).collect(Collectors.toList());
     // 役職略称とのマッピング
@@ -44,6 +45,7 @@ public class SkillUtil {
         SKILL_ABILITY_TYPE_MAP = Collections.unmodifiableMap(skillAbilityTypeMap);
 
         Map<String, CDef.Skill> skillShortNameMap = new HashMap<>();
+        // TODO DBに略称を持たせる
         skillShortNameMap.put("村", CDef.Skill.村人);
         skillShortNameMap.put("狼", CDef.Skill.人狼);
         skillShortNameMap.put("呪", CDef.Skill.呪狼);
@@ -85,5 +87,18 @@ public class SkillUtil {
             }
         }
         return skillPersonNumMap;
+    }
+
+    public static String getSkillListStr() {
+        StringJoiner joiner = new StringJoiner("／");
+        SORTED_SKILL_LIST.stream().forEach(skill -> {
+            SKILL_SHORTNAME_MAP.forEach((shortName, s) -> {
+                if (s == skill) {
+                    joiner.add(String.format("%s:%s", shortName, skill.alias()));
+                    return;
+                }
+            });
+        });
+        return joiner.toString();
     }
 }

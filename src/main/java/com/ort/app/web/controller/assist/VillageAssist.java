@@ -836,7 +836,7 @@ public class VillageAssist {
     }
 
     private List<NewVillageSayRestrictDto> convertToRestrictList(List<MessageRestriction> registeredRestrictList) {
-        return SkillUtil.RESTRICT_SKILLS.stream().map(skill -> {
+        return SkillUtil.SORTED_SKILL_LIST.stream().map(skill -> {
             NewVillageSayRestrictDto restrict = new NewVillageSayRestrictDto();
             restrict.setSkillName(skill.name());
             restrict.setSkillCode(skill.code());

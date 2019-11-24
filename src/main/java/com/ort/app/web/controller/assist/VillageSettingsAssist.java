@@ -23,6 +23,7 @@ import com.ort.app.web.form.NewVillageSayRestrictDto;
 import com.ort.app.web.form.VillageSettingsForm;
 import com.ort.app.web.model.VillageSettingsResultContent;
 import com.ort.app.web.model.inner.VillageSettingsDto;
+import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.exbhv.CharaBhv;
@@ -254,6 +255,8 @@ public class VillageSettingsAssist {
         OptionalEntity<Chara> dummyChara = charaBhv.selectByPK(settings.getDummyCharaId());
         VillageSettingsResultContent content = mappingToSettingsResultContent(settings, dayList, dummyChara.get());
         model.addAttribute("content", content);
+        // 役職リスト
+        model.addAttribute("skillListStr", SkillUtil.getSkillListStr());
         // 現在の年
         LocalDate now = WerewolfMansionDateUtil.currentLocalDate();
         model.addAttribute("nowYear", now.getYear());

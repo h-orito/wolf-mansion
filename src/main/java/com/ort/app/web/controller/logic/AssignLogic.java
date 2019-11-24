@@ -35,6 +35,20 @@ public class AssignLogic {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
+    public static final String DEFAULT_ORGANIZE = // 
+            "村狼狼賢導村村村\n" // 8
+                    + "村狼狼賢導村村村村\n" // 9
+                    + "村狼狼狂賢導村村村村\n" // 10
+                    + "村狼狼狂賢導村村村村村\n" // 11
+                    + "村狼狼狼狂賢導狩村村村村\n" // 12
+                    + "村狼狼狼狂賢導狩村村村村村\n" // 13
+                    + "村狼狼狼魔狐賢導狩霊霊霊霊霊\n" // 14
+                    + "村狼狼狼魔狐賢導狩霊霊霊霊霊霊\n" // 15
+                    + "村狼狼狼魔狐賢導狩霊霊霊霊霊共共\n" // 16
+                    + "村狼狼狼魔狐賢導狩霊霊霊霊霊霊共共\n" // 17
+                    + "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊共共\n" // 18
+                    + "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊霊共共\n" // 19
+                    + "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊霊霊共共"; // 20
     private static final List<Skill> rangeSkillList =
             Arrays.asList(Skill.おまかせ人外, Skill.おまかせ人狼陣営, Skill.おまかせ役職窓あり, Skill.おまかせ村人陣営, Skill.おまかせ足音職);
     private static final Map<Skill, List<Skill>> rangeSkillMap;
