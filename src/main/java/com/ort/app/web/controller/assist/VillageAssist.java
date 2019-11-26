@@ -45,12 +45,14 @@ import com.ort.app.web.model.inner.VillageMemberDto;
 import com.ort.app.web.model.inner.VillageRoomAssignedDto;
 import com.ort.app.web.model.inner.VillageRoomAssignedRowDto;
 import com.ort.app.web.model.inner.VillageSkillDto;
+import com.ort.app.web.model.inner.village.VillageAbilityFormDto;
 import com.ort.app.web.model.inner.village.VillageCommitFormDto;
 import com.ort.app.web.model.inner.village.VillageFormDto;
 import com.ort.app.web.model.inner.village.VillageParticipateDto;
 import com.ort.app.web.model.inner.village.VillageParticipateFormDto;
 import com.ort.app.web.model.inner.village.VillageSayFormDto;
 import com.ort.app.web.model.inner.village.VillageSettingsDto;
+import com.ort.app.web.model.inner.village.VillageVoteFormDto;
 import com.ort.app.web.util.CharaUtil;
 import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
@@ -375,7 +377,6 @@ public class VillageAssist {
         form.setTargetCharaId(optVote.map(vote -> vote.getVoteCharaId()).orElse(null));
         model.addAttribute("voteForm", form);
         model.addAttribute("voteTarget", optVote.map(vote -> vote.getCharaByVoteCharaId().get().getCharaName()).orElse(null));
-
     }
 
     private void setSecretSayTarget(VillageFormDto formDto, VillageInfo villageInfo) {
@@ -383,12 +384,16 @@ public class VillageAssist {
             return;
         }
         CDef.AllowedSecretSay allowedSecretSay = villageInfo.settings.getAllowedSecretSayCodeAsAllowedSecretSay();
-        if (villageInfo.isAdmin() || allowedSecretSay == CDef.AllowedSecretSay.全員) {
+        if (isAvailableSecretSay(villageInfo, allowedSecretSay)) {
             formDto.setIsAvailableSecretSay(true);
             formDto.setSecretSayTargetList(villageDispLogic.makeSecretSayTargetList(villageInfo));
         } else {
             formDto.setIsAvailableSecretSay(false);
         }
+    }
+
+    private boolean isAvailableSecretSay(VillageInfo villageInfo, CDef.AllowedSecretSay allowedSecretSay) {
+        return villageInfo.isAdmin() || allowedSecretSay == CDef.AllowedSecretSay.全員;
     }
 
     // 基本的な情報、参加有無に関わらない情報
@@ -475,16 +480,32 @@ public class VillageAssist {
         formDto.setSay(convertToSayForm(villageInfo));
         model.addAttribute("sayForm", createSayForm(formDto.getSay(), villageInfo, sayForm));
 
-        // TODO h-orito  (2019/11/26)
         // 能力行使
-        setVillageModelAbilityForm(formDto, villageInfo, model);
+        formDto.setAbility(convertToAbilityForm(villageInfo));
+        setAbilityTarget(villageInfo, model);
+
         // 投票
+        formDto.setVote(convertToVoteForm(villageInfo));
         setVoteTarget(villageInfo, model);
-        formDto.setVoteTargetList(villageDispLogic.makeVoteTargetList(villageInfo));
-        // 秘話
-        setSecretSayTarget(formDto, villageInfo);
 
         return formDto;
+    }
+
+    // 投票
+    private VillageVoteFormDto convertToVoteForm(VillageInfo villageInfo) {
+        VillageVoteFormDto vote = new VillageVoteFormDto();
+        vote.setVoteTargetList(villageDispLogic.makeVoteTargetList(villageInfo));
+        return vote;
+    }
+
+    private VillageAbilityFormDto convertToAbilityForm(VillageInfo villageInfo) {
+        VillageAbilityFormDto ability = new VillageAbilityFormDto();
+        ability.setAbilityTargetList(villageDispLogic.makeAbilityTargetList(villageInfo));
+        ability.setAttackerList(villageDispLogic.makeAttackerList(villageInfo));
+        ability.setSkillHistoryList(villageDispLogic.makeSkillHistoryList(villageInfo));
+        ability.setWerewolfCharaNameList(villageDispLogic.makeWerewolfCharaNameList(villageInfo));
+        ability.setcMadmanCharaNameList(villageDispLogic.makeCMadmanCharaNameList(villageInfo));
+        return ability;
     }
 
     // 発言
@@ -545,6 +566,10 @@ public class VillageAssist {
         say.setIsAvailableGraveSay(villageDispLogic.isAvailableGraveSay(village, vPlayer)); // 死者の呻きが発言可能か
         say.setIsAvailableSpectateSay(villageDispLogic.isAvailableSpectateSay(village, vPlayer)); // 見学発言が発言可能か
         say.setIsAvailableMonologueSay(villageDispLogic.isAvailableMonologueSay(village)); // 独り言が発言可能か
+        say.setIsAvailableSecretSay(villageDispLogic.isAvailableSecretSay(village));
+        // 秘話
+        setSecretSayTarget(formDto, villageInfo);
+
         return say;
     }
 
@@ -657,15 +682,6 @@ public class VillageAssist {
         form.setRequestedSkill(villagePlayer.getRequestSkillCode());
         form.setSecondRequestedSkill(villagePlayer.getSecondRequestSkillCode());
         return form;
-    }
-
-    private void setVillageModelAbilityForm(VillageFormDto formDto, VillageInfo villageInfo, Model model) {
-        formDto.setAbilityTargetList(villageDispLogic.makeAbilityTargetList(villageInfo));
-        formDto.setAttackerList(villageDispLogic.makeAttackerList(villageInfo));
-        formDto.setSkillHistoryList(villageDispLogic.makeSkillHistoryList(villageInfo));
-        formDto.setWerewolfCharaNameList(villageDispLogic.makeWerewolfCharaNameList(villageInfo));
-        formDto.setcMadmanCharaNameList(villageDispLogic.makeCMadmanCharaNameList(villageInfo));
-        setAbilityTarget(villageInfo, model);
     }
 
     private List<OptionDto> makeFaceTypeCodeList(VillageInfo villageInfo) {
