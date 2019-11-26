@@ -4,8 +4,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -43,8 +45,11 @@ import com.ort.app.web.model.inner.VillageMemberDto;
 import com.ort.app.web.model.inner.VillageRoomAssignedDto;
 import com.ort.app.web.model.inner.VillageRoomAssignedRowDto;
 import com.ort.app.web.model.inner.VillageSkillDto;
+import com.ort.app.web.model.inner.village.VillageCommitFormDto;
 import com.ort.app.web.model.inner.village.VillageFormDto;
 import com.ort.app.web.model.inner.village.VillageParticipateDto;
+import com.ort.app.web.model.inner.village.VillageParticipateFormDto;
+import com.ort.app.web.model.inner.village.VillageSayFormDto;
 import com.ort.app.web.model.inner.village.VillageSettingsDto;
 import com.ort.app.web.util.CharaUtil;
 import com.ort.app.web.util.SkillUtil;
@@ -78,6 +83,20 @@ import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 @Component
 public class VillageAssist {
 
+    // ===================================================================================
+    //                                                                          Definition
+    //                                                                          ==========
+    private static Map<CDef.MessageType, CDef.FaceType> EXPECTED_FACE_TYPE_MAP = null;
+    static {
+        Map<CDef.MessageType, CDef.FaceType> map = new HashMap<>();
+        map.put(CDef.MessageType.通常発言, CDef.FaceType.通常);
+        map.put(CDef.MessageType.人狼の囁き, CDef.FaceType.囁き);
+        map.put(CDef.MessageType.共鳴発言, CDef.FaceType.共鳴);
+        map.put(CDef.MessageType.独り言, CDef.FaceType.独り言);
+        map.put(CDef.MessageType.死者の呻き, CDef.FaceType.墓下);
+        map.put(CDef.MessageType.見学発言, CDef.FaceType.通常);
+        EXPECTED_FACE_TYPE_MAP = map;
+    }
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
@@ -289,54 +308,10 @@ public class VillageAssist {
         return villageInfo;
     }
 
-    // デフォルト発言区分
-    private void setDefaultMessageTypeIfNeeded(VillageSayForm sayForm, boolean isDispSayForm, boolean isAvailableNormalSay,
-            boolean isAvailableWerewolfSay, boolean isAvailableMasonSay, boolean isAvailableGraveSay, boolean isAvailableMonologueSay,
-            boolean isAvailableSpectateSay, VillageInfo villageInfo, Model model) {
-        if (sayForm != null || !isDispSayForm) {
-            return;
-        }
-        VillageSayForm form = new VillageSayForm();
-        if (villageInfo.village.isVillageStatusCodeエピローグ()) {
-            form.setMessageType(CDef.MessageType.通常発言.code());
-            if (villageInfo.isSpectator()) {
-                form.setMessageType(CDef.MessageType.見学発言.code());
-            }
-        } else if (isAvailableWerewolfSay) {
-            form.setMessageType(CDef.MessageType.人狼の囁き.code());
-        } else if (isAvailableMasonSay) {
-            form.setMessageType(CDef.MessageType.共鳴発言.code());
-        } else if (isAvailableMonologueSay) {
-            form.setMessageType(CDef.MessageType.独り言.code());
-        } else if (isAvailableNormalSay) {
-            form.setMessageType(CDef.MessageType.通常発言.code());
-        } else if (isAvailableGraveSay) {
-            form.setMessageType(CDef.MessageType.死者の呻き.code());
-        } else if (isAvailableSpectateSay) {
-            form.setMessageType(CDef.MessageType.見学発言.code());
-        }
-        form.setFaceType(detectDefaultFaceType(villageInfo, CDef.MessageType.codeOf(form.getMessageType())).code());
-        model.addAttribute("sayForm", form);
-    }
-
     private CDef.FaceType detectDefaultFaceType(VillageInfo villageInfo, CDef.MessageType defaultMessageType) {
+        CDef.FaceType expectFaceType = EXPECTED_FACE_TYPE_MAP.get(defaultMessageType);
         List<CharaImage> faceList = villageInfo.optVillagePlayer.get().getChara().get().getCharaImageList();
-        CDef.FaceType expectFaceType = null;
-        if (defaultMessageType == CDef.MessageType.通常発言) {
-            expectFaceType = CDef.FaceType.通常;
-        } else if (defaultMessageType == CDef.MessageType.人狼の囁き) {
-            expectFaceType = CDef.FaceType.囁き;
-        } else if (defaultMessageType == CDef.MessageType.共鳴発言) {
-            expectFaceType = CDef.FaceType.共鳴;
-        } else if (defaultMessageType == CDef.MessageType.独り言) {
-            expectFaceType = CDef.FaceType.独り言;
-        } else if (defaultMessageType == CDef.MessageType.死者の呻き) {
-            expectFaceType = CDef.FaceType.墓下;
-        } else if (defaultMessageType == CDef.MessageType.見学発言) {
-            expectFaceType = CDef.FaceType.通常;
-        }
-        final String expectedCode = expectFaceType.code();
-        if (faceList.stream().anyMatch(face -> face.getFaceTypeCodeAsFaceType().code().equals(expectedCode))) {
+        if (faceList.stream().anyMatch(face -> face.getFaceTypeCodeAsFaceType() == expectFaceType)) {
             return expectFaceType;
         } else {
             return CDef.FaceType.通常;
@@ -482,25 +457,25 @@ public class VillageAssist {
             VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
         VillageFormDto formDto = new VillageFormDto();
 
+        if (!villageInfo.isParticipate()) {
+            // TODO もろもろ非表示にしてreturn
+        }
+
         // 参戦
-        boolean isDispParticipateForm = villageDispLogic.isDispParticipateForm(villageInfo);
-        setVillageModelParticipateForm(formDto, villageInfo.villageId, participateForm, model, isDispParticipateForm);
         // 役職希望変更
-        formDto.setIsDispChangeRequestNgMessage(villageDispLogic.isDispChangeRequestSkillNgMessage(villageInfo));
-        boolean isDispChangeRequestSkillForm = villageDispLogic.isDispChangeRequestSkillForm(villageInfo);
-        setVillageModelChangeRequestSkillForm(formDto, villageInfo.optVillagePlayer, changeRequestSkillForm, model, isDispParticipateForm,
-                isDispChangeRequestSkillForm);
-        // 参戦、役職希望変更時に選べる役職
-        formDto.setSelectableSkillList(isDispParticipateForm || isDispChangeRequestSkillForm
-                ? selectSelectableSkillList(villageInfo).stream().map(skill -> convertToSkillPart(skill)).collect(Collectors.toList())
-                : null);
         // 退村
-        formDto.setIsDispLeaveVillageForm(villageDispLogic.isDispLeaveVillageForm(villageInfo));
-        model.addAttribute("villageLeaveForm", new VillageLeaveForm());
+        formDto.setParticipate(convertToParticipateForm(villageInfo));
+        setParticipateForm(model, formDto.getParticipate(), villageInfo.optVillagePlayer.get(), participateForm, changeRequestSkillForm);
+
         // コミット
-        setCommitForm(formDto, villageInfo, model);
+        formDto.setCommit(convertToCommitForm(villageInfo));
+        model.addAttribute("commitForm", createCommitForm(formDto.getCommit().getIsDispCommitForm(), villageInfo));
+
         // 発言
-        setVillageModelSayForm(formDto, villageInfo, sayForm, model);
+        formDto.setSay(convertToSayForm(villageInfo));
+        model.addAttribute("sayForm", createSayForm(formDto.getSay(), villageInfo, sayForm));
+
+        // TODO h-orito  (2019/11/26)
         // 能力行使
         setVillageModelAbilityForm(formDto, villageInfo, model);
         // 投票
@@ -510,6 +485,136 @@ public class VillageAssist {
         setSecretSayTarget(formDto, villageInfo);
 
         return formDto;
+    }
+
+    // 発言
+    private VillageSayForm createSayForm(VillageSayFormDto sayFormDto, VillageInfo villageInfo, VillageSayForm sayForm) {
+        if (sayForm != null) {
+            return sayForm;
+        }
+        if (!sayFormDto.getIsDispSayForm()) {
+            return null;
+        }
+        VillageSayForm form = new VillageSayForm();
+        if (villageInfo.village.isVillageStatusCodeエピローグ()) {
+            form.setMessageType(CDef.MessageType.通常発言.code());
+            if (villageInfo.isSpectator()) {
+                form.setMessageType(CDef.MessageType.見学発言.code());
+            }
+        } else if (sayFormDto.getIsAvailableWerewolfSay()) {
+            form.setMessageType(CDef.MessageType.人狼の囁き.code());
+        } else if (sayFormDto.getIsAvailableMasonSay()) {
+            form.setMessageType(CDef.MessageType.共鳴発言.code());
+        } else if (sayFormDto.getIsAvailableMonologueSay()) {
+            form.setMessageType(CDef.MessageType.独り言.code());
+        } else if (sayFormDto.getIsAvailableNormalSay()) {
+            form.setMessageType(CDef.MessageType.通常発言.code());
+        } else if (sayFormDto.getIsAvailableGraveSay()) {
+            form.setMessageType(CDef.MessageType.死者の呻き.code());
+        } else if (sayFormDto.getIsAvailableSpectateSay()) {
+            form.setMessageType(CDef.MessageType.見学発言.code());
+        }
+        form.setFaceType(detectDefaultFaceType(villageInfo, CDef.MessageType.codeOf(form.getMessageType())).code());
+        return form;
+    }
+
+    // 発言
+    private VillageSayFormDto convertToSayForm(VillageInfo villageInfo) {
+        VillageSayFormDto say = new VillageSayFormDto();
+        boolean isDispSayForm = villageDispLogic.isDispSayForm(villageInfo);
+        if (!isDispSayForm) {
+            say.setIsDispSayForm(false);
+            say.setAllSayTypeAvailable(false);
+            return say;
+        }
+        say.setRestrict(villageDispLogic.makeRestrict(villageInfo));
+        say.setFaceTypeList(isDispSayForm ? makeFaceTypeCodeList(villageInfo) : null);
+        say.setIsDispSayForm(true);
+
+        // 管理者は全て発言できる
+        boolean isAllSayAvailable = isDispSayForm && villageInfo.isAdmin();
+        if (isAllSayAvailable) {
+            say.setAllSayTypeAvailable(true);
+            return say;
+        }
+        Village village = villageInfo.village;
+        VillagePlayer vPlayer = villageInfo.optVillagePlayer.get();
+        say.setIsAvailableNormalSay(villageDispLogic.isAvailableNormalSay(village, vPlayer)); // 通常発言可能か
+        say.setIsAvailableWerewolfSay(villageDispLogic.isAvailableWerewolfSay(village, vPlayer)); // 囁き可能か
+        say.setIsAvailableMasonSay(villageDispLogic.isAvailableMasonSay(village, vPlayer)); // 共有者発言可能か
+        say.setIsAvailableGraveSay(villageDispLogic.isAvailableGraveSay(village, vPlayer)); // 死者の呻きが発言可能か
+        say.setIsAvailableSpectateSay(villageDispLogic.isAvailableSpectateSay(village, vPlayer)); // 見学発言が発言可能か
+        say.setIsAvailableMonologueSay(villageDispLogic.isAvailableMonologueSay(village)); // 独り言が発言可能か
+        return say;
+    }
+
+    // 参戦
+    // 役職希望変更
+    // 退村
+    private void setParticipateForm(Model model, VillageParticipateFormDto participate, VillagePlayer villagePlayer,
+            VillageParticipateForm participateForm, VillageChangeRequestSkillForm changeRequestSkillForm) {
+        if (participate.getIsDispParticipateForm()) {
+            model.addAttribute("participateForm", participateForm == null ? new VillageParticipateForm() : participateForm);
+            return;
+        }
+        if (participate.getIsDispChangeRequestSkillForm()) {
+            VillageChangeRequestSkillForm requestSkillForm =
+                    changeRequestSkillForm == null ? makeChangeRequestSkillForm(villagePlayer) : changeRequestSkillForm;
+            model.addAttribute("changeRequestSkillForm", requestSkillForm);
+            model.addAttribute("requestSkillName", CDef.Skill.codeOf(requestSkillForm.getRequestedSkill()).alias());
+            model.addAttribute("secondRequestSkillName", CDef.Skill.codeOf(requestSkillForm.getSecondRequestedSkill()).alias());
+        }
+        if (participate.getIsDispLeaveVillageForm()) {
+            model.addAttribute("villageLeaveForm", new VillageLeaveForm());
+        }
+    }
+
+    // コミット
+    private VillageCommitFormDto convertToCommitForm(VillageInfo villageInfo) {
+        VillageCommitFormDto commit = new VillageCommitFormDto();
+        commit.setIsDispCommitForm(villageDispLogic.isDispCommitForm(villageInfo));
+        return commit;
+    }
+
+    private VillageCommitForm createCommitForm(boolean isDispCommitForm, VillageInfo villageInfo) {
+        if (!isDispCommitForm) {
+            return null;
+        }
+        VillageCommitForm form = new VillageCommitForm();
+        OptionalEntity<Commit> optCommit = commitBhv.selectEntity(cb -> {
+            cb.query().setVillageId_Equal(villageInfo.villageId);
+            cb.query().setDay_Equal(villageInfo.day);
+            cb.query().setVillagePlayerId_Equal(villageInfo.optVillagePlayer.get().getVillagePlayerId());
+        });
+        form.setCommit(!optCommit.isPresent()); // すでに存在する＝取り消すを表示、存在しない＝コミットするを表示
+        return form;
+    }
+
+    // 参戦
+    // 役職希望変更
+    // 退村
+    private VillageParticipateFormDto convertToParticipateForm(VillageInfo villageInfo) {
+        VillageParticipateFormDto participate = new VillageParticipateFormDto();
+        // 参戦
+        boolean isDispParticipateForm = villageDispLogic.isDispParticipateForm(villageInfo);
+        participate.setIsDispParticipateForm(isDispParticipateForm);
+        participate.setSelectableCharaList(isDispParticipateForm
+                ? selectSelectableCharaList(villageInfo.villageId).stream().map(chara -> convertToCharaPart(chara)).collect(
+                        Collectors.toList())
+                : null); // 入村可能なキャラ
+        participate.setIsDispChangeRequestNgMessage(villageDispLogic.isDispChangeRequestSkillNgMessage(villageInfo));
+        // 役職希望変更
+        boolean isDispChangeRequestSkillForm = villageDispLogic.isDispChangeRequestSkillForm(villageInfo);
+        participate.setIsDispChangeRequestSkillForm(isDispChangeRequestSkillForm);
+
+        // 参戦、役職希望変更時に選べる役職
+        participate.setSelectableSkillList(isDispParticipateForm || isDispChangeRequestSkillForm
+                ? selectSelectableSkillList(villageInfo).stream().map(skill -> convertToSkillPart(skill)).collect(Collectors.toList())
+                : null);
+
+        // 退村
+        participate.setIsDispLeaveVillageForm(villageDispLogic.isDispLeaveVillageForm(villageInfo));
+        return participate;
     }
 
     private VillageParticipateDto convertToMyself(VillageInfo villageInfo) {
@@ -531,23 +636,6 @@ public class VillageAssist {
         return myself;
     }
 
-    // コミット
-    private void setCommitForm(VillageFormDto formDto, VillageInfo villageInfo, Model model) {
-        Boolean isDispCommitForm = villageDispLogic.isDispCommitForm(villageInfo);
-        formDto.setIsDispCommitForm(isDispCommitForm);
-        if (!isDispCommitForm) {
-            return;
-        }
-        VillageCommitForm form = new VillageCommitForm();
-        OptionalEntity<Commit> optCommit = commitBhv.selectEntity(cb -> {
-            cb.query().setVillageId_Equal(villageInfo.villageId);
-            cb.query().setDay_Equal(villageInfo.day);
-            cb.query().setVillagePlayerId_Equal(villageInfo.optVillagePlayer.get().getVillagePlayerId());
-        });
-        form.setCommit(!optCommit.isPresent()); // すでに存在する＝取り消すを表示、存在しない＝コミットするを表示
-        model.addAttribute("commitForm", form);
-    }
-
     // 村建て
     private void setVillageModelCreateUser(VillageResultContent content, VillageInfo villageInfo, Model model) {
         String createPlayerName = villageInfo.village.getCreatePlayerName();
@@ -564,21 +652,10 @@ public class VillageAssist {
         }
     }
 
-    private VillageChangeRequestSkillForm makeChangeRequestSkillForm(boolean isDispChangeRequestSkillForm,
-            VillageChangeRequestSkillForm changeRequestSkillForm, OptionalThing<VillagePlayer> optVillagePlayer, Model model) {
-        if (!isDispChangeRequestSkillForm) {
-            return null;
-        }
-        if (changeRequestSkillForm != null) {
-            model.addAttribute("requestSkillName", CDef.Skill.codeOf(changeRequestSkillForm.getRequestedSkill()).alias());
-            model.addAttribute("secondRequestSkillName", CDef.Skill.codeOf(changeRequestSkillForm.getSecondRequestedSkill()).alias());
-            return changeRequestSkillForm;
-        }
+    private VillageChangeRequestSkillForm makeChangeRequestSkillForm(VillagePlayer villagePlayer) {
         VillageChangeRequestSkillForm form = new VillageChangeRequestSkillForm();
-        form.setRequestedSkill(optVillagePlayer.get().getRequestSkillCode());
-        form.setSecondRequestedSkill(optVillagePlayer.get().getSecondRequestSkillCode());
-        model.addAttribute("requestSkillName", CDef.Skill.codeOf(optVillagePlayer.get().getRequestSkillCode()).alias());
-        model.addAttribute("secondRequestSkillName", CDef.Skill.codeOf(optVillagePlayer.get().getSecondRequestSkillCode()).alias());
+        form.setRequestedSkill(villagePlayer.getRequestSkillCode());
+        form.setSecondRequestedSkill(villagePlayer.getSecondRequestSkillCode());
         return form;
     }
 
@@ -591,29 +668,6 @@ public class VillageAssist {
         setAbilityTarget(villageInfo, model);
     }
 
-    private void setVillageModelSayForm(VillageFormDto formDto, VillageInfo villageInfo, VillageSayForm sayForm, Model model) {
-        boolean isDispSayForm = villageDispLogic.isDispSayForm(villageInfo);
-        boolean isAllSayAvailable = isDispSayForm && villageInfo.isAdmin();
-        VillagePlayer vPlayer = villageInfo.optVillagePlayer.orElse(null);
-        boolean isAvailableNormalSay = isDispSayForm && villageDispLogic.isAvailableNormalSay(villageInfo.village, vPlayer); // 通常発言可能か
-        boolean isAvailableWerewolfSay = isDispSayForm && villageDispLogic.isAvailableWerewolfSay(villageInfo.village, vPlayer); // 囁き可能か
-        boolean isAvailableMasonSay = isDispSayForm && villageDispLogic.isAvailableMasonSay(villageInfo.village, vPlayer); // 共有者発言可能か
-        boolean isAvailableGraveSay = isDispSayForm && villageDispLogic.isAvailableGraveSay(villageInfo.village, vPlayer); // 死者の呻きが発言可能か
-        boolean isAvailableSpectateSay = isDispSayForm && villageDispLogic.isAvailableSpectateSay(villageInfo.village, vPlayer); // 見学発言が発言可能か
-        boolean isAvailableMonologueSay = isDispSayForm && villageDispLogic.isAvailableMonologueSay(villageInfo.village); // 独り言が発言可能か
-        formDto.setIsDispSayForm(isAllSayAvailable || isDispSayForm);
-        formDto.setIsAvailableNormalSay(isAllSayAvailable || isAvailableNormalSay); // 通常発言可能か
-        formDto.setIsAvailableWerewolfSay(isAllSayAvailable || isAvailableWerewolfSay); // 囁き可能か
-        formDto.setIsAvailableMasonSay(isAllSayAvailable || isAvailableMasonSay); // 共有者発言可能か
-        formDto.setIsAvailableGraveSay(isAllSayAvailable || isAvailableGraveSay); // 死者の呻きが発言可能か
-        formDto.setIsAvailableSpectateSay(isAllSayAvailable || isAvailableSpectateSay); // 見学発言が発言可能か
-        formDto.setIsAvailableMonologueSay(isAllSayAvailable || isAvailableMonologueSay); // 独り言が発言可能か
-        formDto.setRestrict(villageDispLogic.makeRestrict(villageInfo));
-        formDto.setFaceTypeList(isDispSayForm ? makeFaceTypeCodeList(villageInfo) : null);
-        setDefaultMessageTypeIfNeeded(sayForm, isDispSayForm, isAvailableNormalSay, isAvailableWerewolfSay, isAvailableMasonSay,
-                isAvailableGraveSay, isAvailableMonologueSay, isAvailableSpectateSay, villageInfo, model); // デフォルト発言区分
-    }
-
     private List<OptionDto> makeFaceTypeCodeList(VillageInfo villageInfo) {
         return villageInfo.optVillagePlayer.get().getChara().get().getCharaImageList().stream().map(img -> {
             OptionDto option = new OptionDto();
@@ -621,23 +675,6 @@ public class VillageAssist {
             option.setValue(img.getFaceTypeCode());
             return option;
         }).collect(Collectors.toList());
-    }
-
-    private void setVillageModelChangeRequestSkillForm(VillageFormDto formDto, OptionalThing<VillagePlayer> optVillagePlayer,
-            VillageChangeRequestSkillForm changeRequestSkillForm, Model model, boolean isDispParticipateForm,
-            boolean isDispChangeRequestSkillForm) {
-        formDto.setIsDispChangeRequestSkillForm(isDispChangeRequestSkillForm);
-        model.addAttribute("changeRequestSkillForm",
-                makeChangeRequestSkillForm(isDispChangeRequestSkillForm, changeRequestSkillForm, optVillagePlayer, model));
-    }
-
-    private void setVillageModelParticipateForm(VillageFormDto formDto, Integer villageId, VillageParticipateForm participateForm,
-            Model model, boolean isDispParticipateForm) {
-        formDto.setIsDispParticipateForm(isDispParticipateForm);
-        formDto.setSelectableCharaList(isDispParticipateForm
-                ? selectSelectableCharaList(villageId).stream().map(chara -> convertToCharaPart(chara)).collect(Collectors.toList())
-                : null); // 入村可能なキャラ
-        model.addAttribute("participateForm", participateForm == null ? new VillageParticipateForm() : participateForm);
     }
 
     // ===================================================================================
