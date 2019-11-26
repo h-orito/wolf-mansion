@@ -19,7 +19,7 @@
 <body>
 	<div layout:fragment="skill-description">
 		<!--/* 役職説明 */-->
-		<p class="small" th:if="${content.skillName != null}" th:utext="#{${'skill.' + content.skillName.toLowerCase() + '.description'}}"></p>
+		<p class="small" th:if="${content.myself.skillName != null}" th:utext="#{${'skill.' + content.myself.skillName.toLowerCase() + '.description'}}"></p>
 		<!--/* 最初の1回だけ役職をモーダルで表示する */-->
 		<div class="modal fade" id="modal-initial-skill-description" tabindex="-1">
 			<div class="modal-dialog">
@@ -30,12 +30,12 @@
 						</div>
 						<div class="col-sm-12 col-xs-12">
 							<h5>役職</h5>
-							<p class="small" th:if="${content.skillName != null}" th:utext="#{${'skill.' + content.skillName.toLowerCase() + '.description'}}"></p>
+							<p class="small" th:if="${content.myself.skillName != null}" th:utext="#{${'skill.' + content.myself.skillName.toLowerCase() + '.description'}}"></p>
 						</div>
 						<div class="col-sm-12 col-xs-12">
 							<h5>村の設定</h5>
 							<div class="table-responsive clearfix">
-								<table class="table table-bordered table-condensed" th:object="${content.villageSettings}">
+								<table class="table table-bordered table-condensed" th:object="${content.settings}">
 									<tr>
 										<th>更新間隔</th>
 										<td th:text="*{dayChangeInterval}"></td>
@@ -88,7 +88,7 @@
 													</tr>
 												</thead>
 												<tbody>
-													<th:block th:each="restrict, stat : ${content.sayRestrictList}">
+													<th:block th:each="restrict, stat : ${content.settings.sayRestrictList}">
 														<tr>
 															<td th:rowspan="${restrict.detailList.size()}" th:text="${restrict.skillName}">村人</td>
 															<td th:text="${restrict.detailList[0].messageTypeName}"></td>

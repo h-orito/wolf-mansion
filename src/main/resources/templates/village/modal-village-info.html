@@ -22,7 +22,7 @@
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="table-responsive clearfix">
-						<table class="table table-bordered table-condensed" th:object="${content.villageSettings}">
+						<table class="table table-bordered table-condensed" th:object="${content.settings}">
 							<tr>
 								<th>最低開始人数</th>
 								<td th:text="*{startPersonMinNum}"></td>
@@ -118,7 +118,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											<th:block th:each="restrict, stat : ${content.sayRestrictList}">
+											<th:block th:each="restrict, stat : ${content.settings.sayRestrictList}">
 												<tr>
 													<td th:rowspan="${restrict.detailList.size()}" th:text="${restrict.skillName}">村人</td>
 													<td th:text="${restrict.detailList[0].messageTypeName}"></td>

@@ -17,7 +17,7 @@
 <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<div class="col-sm-12 col-xs-12" th:if="${content.isDispSayForm}" layout:fragment="say-form">
+	<div class="col-sm-12 col-xs-12" th:if="${content.form.isDispSayForm}" layout:fragment="say-form">
 		<div class="panel-group" id="sayform-panel">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -26,18 +26,18 @@
 				</div>
 				<div id="sayform-content" class="panel-collapse collapse in">
 					<div class="panel-body">
-						<div class="alert alert-dead small" th:if="${content.isDead}">
+						<div class="alert alert-dead small" th:if="${content.myself.isDead}">
 							<ul>
 								<li>あなたは死亡しました。現世の思い出を語り合いましょう。</li>
-								<li th:if="${!content.villageSettings.isVisibleGraveSpectateMessage}">墓下では推理発言やCOを行っても問題ありません。</li>
+								<li th:if="${!content.settings.isVisibleGraveSpectateMessage}">墓下では推理発言やCOを行っても問題ありません。</li>
 							</ul>
 						</div>
 						<div class="alert alert-warning-say small"
-							th:if="${!content.isDead || (content.isDead && content.villageSettings.isVisibleGraveSpectateMessage)}">
+							th:if="${!content.myself.isDead || (content.myself.isDead && content.settings.isVisibleGraveSpectateMessage)}">
 							<ul>
-								<li th:if="${content.villageSettings.isVisibleGraveSpectateMessage}">この村は、墓下や見学発言を生存者が参照できます。</li>
-								<li th:if="${content.villageSettings.isVisibleGraveSpectateMessage}">進行中は、推理、まとめ、および推理に繋がる内容は生存者全員が見られる発言種別で発言しないでください。</li>
-								<li th:if="${!content.villageSettings.isVisibleGraveSpectateMessage}">進行中は、推理、まとめ、および推理に繋がる内容は通常発言で発言しないでください。</li>
+								<li th:if="${content.settings.isVisibleGraveSpectateMessage}">この村は、墓下や見学発言を生存者が参照できます。</li>
+								<li th:if="${content.settings.isVisibleGraveSpectateMessage}">進行中は、推理、まとめ、および推理に繋がる内容は生存者全員が見られる発言種別で発言しないでください。</li>
+								<li th:if="${!content.settings.isVisibleGraveSpectateMessage}">進行中は、推理、まとめ、および推理に繋がる内容は通常発言で発言しないでください。</li>
 								<li>COおよび能力行使結果の発表は生存中の導師と探偵のみ行うことができます。騙りCOも禁止です。</li>
 							</ul>
 						</div>
@@ -48,34 +48,34 @@
 							<span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="help-block text-danger">error!</span>
 							<div class="form-group">
 								<div class="col-sm-12 col-xs-12 btn-group btn-saytypes" data-toggle="buttons" data-say-type>
-									<label th:if="${content.isAvailableWerewolfSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'WEREWOLF_SAY' ? 'active' : ''}">
+									<label th:if="${content.form.isAvailableWerewolfSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'WEREWOLF_SAY' ? 'active' : ''}">
 										<input type="radio" class="" th:field="*{messageType}" value="WEREWOLF_SAY" autocomplete="off" />囁き
-									</label> <label th:if="${content.isAvailableNormalSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'NORMAL_SAY' ? 'active' : ''}">
+									</label> <label th:if="${content.form.isAvailableNormalSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'NORMAL_SAY' ? 'active' : ''}">
 										<input type="radio" class="" th:field="*{messageType}" value="NORMAL_SAY" autocomplete="off" />通常
-									</label> <label th:if="${content.isAvailableMasonSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'MASON_SAY' ? 'active' : ''}">
+									</label> <label th:if="${content.form.isAvailableMasonSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'MASON_SAY' ? 'active' : ''}">
 										<input type="radio" class="" th:field="*{messageType}" value="MASON_SAY" autocomplete="off" />共鳴
-									</label> <label th:if="${content.isAvailableGraveSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'GRAVE_SAY' ? 'active' : ''}">
+									</label> <label th:if="${content.form.isAvailableGraveSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'GRAVE_SAY' ? 'active' : ''}">
 										<input type="radio" class="" th:field="*{messageType}" value="GRAVE_SAY" autocomplete="off" />呻き
-									</label> <label th:if="${content.isAvailableSpectateSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'SPECTATE_SAY' ? 'active' : ''}">
+									</label> <label th:if="${content.form.isAvailableSpectateSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'SPECTATE_SAY' ? 'active' : ''}">
 										<input type="radio" class="" th:field="*{messageType}" value="SPECTATE_SAY" autocomplete="off" />見学
-									</label> <label th:if="${content.isAvailableMonologueSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'MONOLOGUE_SAY' ? 'active' : ''}">
+									</label> <label th:if="${content.form.isAvailableMonologueSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'MONOLOGUE_SAY' ? 'active' : ''}">
 										<input type="radio" class="" th:field="*{messageType}" value="MONOLOGUE_SAY" autocomplete="off" />独り言
-									</label> <label th:if="${content.isAvailableSecretSay}" class="btn btn-sm btn-success"> <input type="radio" class=""
+									</label> <label th:if="${content.form.isAvailableSecretSay}" class="btn btn-sm btn-success"> <input type="radio" class=""
 											th:field="*{messageType}" value="SECRET_SAY" autocomplete="off" data-secret-say />秘話
 									</label>
 								</div>
 								<div class="col-sm-12 col-xs-12 hidden" style="margin-top: 10px; margin-bottom: 10px;" data-secret-say-target>
 									秘話相手： <select class="form-control" th:field="*{secretSayTargetCharaId}" th:if="${content.isAvailableSecretSay}">
-										<option th:each="chara : ${content.secretSayTargetList}" th:value="${chara.charaId}" th:text="${chara.charaName}"></option>
+										<option th:each="chara : ${content.form.secretSayTargetList}" th:value="${chara.charaId}" th:text="${chara.charaName}"></option>
 									</select>
 								</div>
 								<div class="col-sm-12 col-xs-12" style="display: flex;">
 									<div>
-										<img id="say-face-img" th:src="${content.charaImageUrl}" th:width="${content.charaImageWidth}" th:height="${content.charaImageHeight}">
+										<img id="say-face-img" th:src="${content.myself.charaImageUrl}" th:width="${content.myself.charaImageWidth}" th:height="${content.myself.charaImageHeight}">
 										<div style="position: absolute; bottom: 0;">
 											表情<br> <select class="form-control small" th:field="*{faceType}"
-												th:style="'padding-left: 0px; padding-right: 0px; font-size: 86%; max-width: ' + ${content.charaImageWidth} + 'px;'">
-												<option th:each="face : ${content.faceTypeList}" th:value="${face.value}" th:text="${face.name}"></option>
+												th:style="'padding-left: 0px; padding-right: 0px; font-size: 86%; max-width: ' + ${content.myself.charaImageWidth} + 'px;'">
+												<option th:each="face : ${content.form.faceTypeList}" th:value="${face.value}" th:text="${face.name}"></option>
 											</select>
 										</div>
 									</div>
@@ -87,15 +87,15 @@
 							<div class="form-group">
 								<div class="col-sm-12 col-xs-12">
 									<span class="" style="margin-left: 55px;" data-message-count
-										th:data-message-restrict-normal-max-length="${content.restrict.normalLength != null ? content.restrict.normalLength : ''}"
-										th:data-message-restrict-normal-max-count="${content.restrict.normalCount != null ? content.restrict.normalCount : ''}"
-										th:data-message-restrict-normal-left-count="${content.restrict.normalLeftCount != null ? content.restrict.normalLeftCount : ''}"
-										th:data-message-restrict-whisper-max-length="${content.restrict.whisperLength != null ? content.restrict.whisperLength : ''}"
-										th:data-message-restrict-whisper-max-count="${content.restrict.whisperCount != null ? content.restrict.whisperCount : ''}"
-										th:data-message-restrict-whisper-left-count="${content.restrict.whisperLeftCount != null ? content.restrict.whisperLeftCount : ''}"
-										th:data-message-restrict-mason-max-length="${content.restrict.masonLength != null ? content.restrict.masonLength : ''}"
-										th:data-message-restrict-mason-max-count="${content.restrict.masonCount != null ? content.restrict.masonCount : ''}"
-										th:data-message-restrict-mason-left-count="${content.restrict.masonLeftCount != null ? content.restrict.masonLeftCount : ''}">残り20回,
+										th:data-message-restrict-normal-max-length="${content.form.restrict.normalLength != null ? content.form.restrict.normalLength : ''}"
+										th:data-message-restrict-normal-max-count="${content.form.restrict.normalCount != null ? content.form.restrict.normalCount : ''}"
+										th:data-message-restrict-normal-left-count="${content.form.restrict.normalLeftCount != null ? content.form.restrict.normalLeftCount : ''}"
+										th:data-message-restrict-whisper-max-length="${content.form.restrict.whisperLength != null ? content.form.restrict.whisperLength : ''}"
+										th:data-message-restrict-whisper-max-count="${content.form.restrict.whisperCount != null ? content.form.restrict.whisperCount : ''}"
+										th:data-message-restrict-whisper-left-count="${content.form.restrict.whisperLeftCount != null ? content.form.restrict.whisperLeftCount : ''}"
+										th:data-message-restrict-mason-max-length="${content.form.restrict.masonLength != null ? content.form.restrict.masonLength : ''}"
+										th:data-message-restrict-mason-max-count="${content.form.restrict.masonCount != null ? content.form.restrict.masonCount : ''}"
+										th:data-message-restrict-mason-left-count="${content.form.restrict.masonLeftCount != null ? content.form.restrict.masonLeftCount : ''}">残り20回,
 										文字数: 0/400, 行数: 1/20</span><br>
 									<input type="checkbox" class="form-check-input" th:field="*{isConvertDisable}" value="true" style="margin-left: 55px;">
 									<label class="form-check-label" for="isConvertDisable">装飾・変換無効</label>

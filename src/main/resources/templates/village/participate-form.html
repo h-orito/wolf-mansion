@@ -17,7 +17,7 @@
 <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<div class="col-sm-12 col-xs-12" th:if="${content.isDispParticipateForm}" layout:fragment="participate-form">
+	<div class="col-sm-12 col-xs-12" th:if="${content.form.isDispParticipateForm}" layout:fragment="participate-form">
 		<div class="panel-group" id="participateform-panel">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -29,46 +29,46 @@
 							th:object="${participateForm}" class="form-horizontal">
 							<span th:if="${participateErrorMessage != null}" class="text-danger" th:text="${participateErrorMessage}">error</span>
 							<div class="form-group">
-								<label class="col-sm-2 control-label" th:if="${content.villageSettings.isAvailableSpectate}">見学</label>
-								<div class="col-sm-10 form-check" th:if="${content.villageSettings.isAvailableSpectate}" style="margin-bottom: 10px;">
+								<label class="col-sm-2 control-label" th:if="${content.settings.isAvailableSpectate}">見学</label>
+								<div class="col-sm-10 form-check" th:if="${content.settings.isAvailableSpectate}" style="margin-bottom: 10px;">
 									<input type="checkbox" id="is-spectator" class="form-check-input" th:field="*{isSpectator}">
 									<label class="form-check-label" for="is-spectator">見学者として入村</label>
 								</div>
 								<label class="col-sm-2 control-label">キャラクター</label>
 								<div class="col-sm-4">
 									<select class="form-control" th:field="*{charaId}" id="participate-chara-select">
-										<option th:each="chara : ${content.selectableCharaList}" th:value="${chara.id}" th:text="${chara.name}" th:data-chara-img-url="${chara.url}"></option>
+										<option th:each="chara : ${content.form.selectableCharaList}" th:value="${chara.id}" th:text="${chara.name}" th:data-chara-img-url="${chara.url}"></option>
 									</select> <span th:if="${#fields.hasErrors('charaId')}" th:errors="*{charaId}" class="help-block text-danger">error!</span>
 								</div>
 								<div class="col-sm-4">
 									<a href="javascript:void(0);" data-toggle="modal" data-target="#modal-select-participate-chara" class="btn btn-sm btn-success">画像から選択</a>
 								</div>
 							</div>
-							<div class="form-group" th:if="${content.isSkillRequestAvailable}">
+							<div class="form-group" th:if="${content.settings.isSkillRequestAvailable}">
 								<div class="col-sm-12 col-xs-12">
 									<div class="row">
 										<label class="col-sm-2 control-label">役職第一希望</label>
 										<div class="col-sm-4">
 											<select class="form-control" th:field="*{requestedSkill}">
-												<option th:each="skill : ${content.selectableSkillList}" th:value="${skill.code}" th:text="${skill.name}"></option>
+												<option th:each="skill : ${content.form.selectableSkillList}" th:value="${skill.code}" th:text="${skill.name}"></option>
 											</select> <span th:if="${#fields.hasErrors('requestedSkill')}" th:errors="*{requestedSkill}" class="help-block text-danger">error!</span>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="form-group" th:if="${content.isSkillRequestAvailable}">
+							<div class="form-group" th:if="${content.settings.isSkillRequestAvailable}">
 								<div class="col-sm-12 col-xs-12">
 									<div class="row">
 										<label class="col-sm-2 control-label">役職第二希望</label>
 										<div class="col-sm-4">
 											<select class="form-control" th:field="*{secondRequestedSkill}">
-												<option th:each="skill : ${content.selectableSkillList}" th:value="${skill.code}" th:text="${skill.name}"></option>
+												<option th:each="skill : ${content.form.selectableSkillList}" th:value="${skill.code}" th:text="${skill.name}"></option>
 											</select> <span th:if="${#fields.hasErrors('secondRequestedSkill')}" th:errors="*{secondRequestedSkill}" class="help-block text-danger">error!</span>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="form-group" th:if="${!content.isSkillRequestAvailable}">
+							<div class="form-group" th:if="${!content.settings.settings.isSkillRequestAvailable}">
 								<input type="hidden" name="requestedSkill" value="LEFTOVER" />
 								<input type="hidden" name="secondRequestedSkill" value="LEFTOVER" />
 							</div>
@@ -79,7 +79,7 @@
 									<span th:if="${#fields.hasErrors('joinMessage')}" th:errors="*{joinMessage}" class="help-block text-danger">error!</span>
 								</div>
 							</div>
-							<div class="form-group" th:if="${content.isRequiredJoinPassword}">
+							<div class="form-group" th:if="${content.settings.isRequiredJoinPassword}">
 								<label class="col-sm-2 control-label">入村パスワード</label>
 								<div class="col-sm-10">
 									<input type="text" class="form-control" th:field="*{joinPassword}" />
@@ -104,8 +104,8 @@
 					<div class="modal-body row">
 						<div class="col-sm-12 col-xs-12">
 							<h4>キャラクター選択</h4>
-							<div class="col-sm-4 col-xs-6" style="border: 1px solid #464545;" th:if="${content.selectableCharaList}"
-								th:each="chara : ${content.selectableCharaList}">
+							<div class="col-sm-4 col-xs-6" style="border: 1px solid #464545;" th:if="${content.form.selectableCharaList}"
+								th:each="chara : ${content.form.selectableCharaList}">
 								<span style="display: block; text-align: center;"><img src="" th:src="${chara.url}" th:width="${chara.width}"
 									th:height="${chara.height}" /></span> <span style="display: block; text-align: center;" th:text="${chara.name}"></span> <a
 									href="javascript:void(0);" class="btn btn-xs btn-success" style="display: block; text-align: center;"

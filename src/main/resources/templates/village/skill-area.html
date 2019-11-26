@@ -17,7 +17,7 @@
 <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<div class="col-sm-12 col-xs-12" th:if="${content.skillName != null && content.isDispSayForm}" data-ability layout:fragment="skill-area">
+	<div class="col-sm-12 col-xs-12" th:if="${content.myself.skillName != null && content.form.isDispSayForm}" data-ability layout:fragment="skill-area">
 		<div class="panel-group" id="skillform-panel">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -26,7 +26,7 @@
 				</div>
 				<div id="skillform-content" class="panel-collapse collapse in">
 					<div class="panel-body">
-						<div class="alert alert-dead small" th:if="${content.isDead}">
+						<div class="alert alert-dead small" th:if="${content.myself.isDead}">
 							<ul>
 								<li>あなたは死亡しました。</li>
 							</ul>
@@ -44,29 +44,29 @@
 
 								<!--/* 人狼、占い師、狩人用能力セット */-->
 								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
-									th:if="${content.abilityTargetList != null && content.abilityTargetList.size() > 0}" th:object="${abilityForm}" class="form-horizontal">
+									th:if="${content.form.abilityTargetList != null && content.form.abilityTargetList.size() > 0}" th:object="${abilityForm}" class="form-horizontal">
 									<div class="form-group small">
 										<div class="col-sm-12 col-xs-12"
-											th:if="${content.skillName == 'WEREWOLF' || content.skillName == 'CURSEWOLF' || content.skillName == 'WISEWOLF'}">
+											th:if="${content.myself.skillName == 'WEREWOLF' || content.myself.skillName == 'CURSEWOLF' || content.myself.skillName == 'WISEWOLF'}">
 											襲撃者 <select class="form-control" th:field="*{charaId}" data-attacker-select>
-												<option th:each="chara : ${content.attackerList}" th:value="${chara.value}" th:text="${chara.name}"></option>
+												<option th:each="chara : ${content.form.attackerList}" th:value="${chara.value}" th:text="${chara.name}"></option>
 											</select>
 										</div>
-										<div class="col-sm-12 col-xs-12" th:unless="${content.skillName == 'DETECTIVE'}">
-											<span th:if="${content.skillName == 'WEREWOLF' || content.skillName == 'CURSEWOLF' || content.skillName == 'WISEWOLF'}" th:text="襲撃対象"></span><span
-												th:if="${content.skillName == 'TRAPPER'}" th:text="罠を設置する部屋"></span><span th:if="${content.skillName == 'BOMBER'}" th:text="爆弾を設置する部屋"></span>
+										<div class="col-sm-12 col-xs-12" th:unless="${content.myself.skillName == 'DETECTIVE'}">
+											<span th:if="${content.myself.skillName == 'WEREWOLF' || content.myself.skillName == 'CURSEWOLF' || content.myself.skillName == 'WISEWOLF'}" th:text="襲撃対象"></span><span
+												th:if="${content.myself.skillName == 'TRAPPER'}" th:text="罠を設置する部屋"></span><span th:if="${content.myself.skillName == 'BOMBER'}" th:text="爆弾を設置する部屋"></span>
 											<select class="form-control" th:field="*{targetCharaId}" data-ability-target-select>
-												<option th:each="target : ${content.abilityTargetList}" th:value="${target.value}" th:text="${target.name}"></option>
-											</select> <span th:if="${content.skillName == 'SEER' || content.skillName == 'WISE'}" th:text="を占う"></span><span
-												th:if="${content.skillName == 'HUNTER'}" th:text="を護衛する"></span>
+												<option th:each="target : ${content.form.abilityTargetList}" th:value="${target.value}" th:text="${target.name}"></option>
+											</select> <span th:if="${content.myself.skillName == 'SEER' || content.myself.skillName == 'WISE'}" th:text="を占う"></span><span
+												th:if="${content.myself.skillName == 'HUNTER'}" th:text="を護衛する"></span>
 										</div>
-										<div class="col-sm-12 col-xs-12" th:if="${content.skillName == 'DETECTIVE'}">
+										<div class="col-sm-12 col-xs-12" th:if="${content.myself.skillName == 'DETECTIVE'}">
 											<select class="form-control" th:field="*{footstep}" data-ability-target-select>
-												<option th:each="target : ${content.abilityTargetList}" th:value="${target.value}" th:text="${target.name}"></option>
-											</select> <span th:if="${content.skillName == 'DETECTIVE'}" th:text="を調査する"></span>
+												<option th:each="target : ${content.form.abilityTargetList}" th:value="${target.value}" th:text="${target.name}"></option>
+											</select> <span th:if="${content.myself.skillName == 'DETECTIVE'}" th:text="を調査する"></span>
 										</div>
 										<div class="col-sm-12 col-xs-12"
-											th:if="${content.skillName == 'SEER' || content.skillName == 'WISE' || content.skillName == 'WEREWOLF' || content.skillName == 'CURSEWOLF' || content.skillName == 'WISEWOLF' || content.skillName == 'HUNTER'}">
+											th:if="${content.myself.skillName == 'SEER' || content.myself.skillName == 'WISE' || content.myself.skillName == 'WEREWOLF' || content.myself.skillName == 'CURSEWOLF' || content.myself.skillName == 'WISEWOLF' || content.myself.skillName == 'HUNTER'}">
 											通過する部屋<select class="form-control" name="footstep" data-footstep-select>
 											</select>
 										</div>
@@ -78,19 +78,19 @@
 									</div>
 								</form>
 								<!--/* 探偵で候補なし */-->
-								<p class="small" th:if="${content.skillName == 'DETECTIVE' && content.abilityTargetList != null && content.abilityTargetList.size() == 0}">調査対象の足音がないため、本日は能力セットできません。</p>
+								<p class="small" th:if="${content.myself.skillName == 'DETECTIVE' && content.form.abilityTargetList != null && content.form.abilityTargetList.size() == 0}">調査対象の足音がないため、本日は能力セットできません。</p>
 								<!--/* 狂人、妖狐用能力セット */-->
 								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
-									th:if="${content.abilityTargetList == null && abilityForm != null && (content.skillName == 'FOX' || content.skillName == 'MADMAN' 
-										|| content.skillName == 'EVILMEDIUM' || content.skillName == 'CMADMAN' || content.skillName == 'FANATIC')}"
+									th:if="${content.form.abilityTargetList == null && abilityForm != null && (content.myself.skillName == 'FOX' || content.myself.skillName == 'MADMAN' 
+										|| content.myself.skillName == 'EVILMEDIUM' || content.myself.skillName == 'CMADMAN' || content.myself.skillName == 'FANATIC')}"
 									th:object="${abilityForm}" class="form-horizontal">
 									<p class="small">
 										任意の部屋からその直線上の部屋に向かって徘徊し、徘徊した部屋に足音を響かせることが可能です。部屋を選択してセットしてください。<br>徘徊しない場合は何も選択せずセットしてください。
 									</p>
 									<div class="form-group small">
 										<div class="col-sm-12 col-xs-12 table-responsive"
-											th:if="${content.skillName == 'FOX' || content.skillName == 'MADMAN' || content.skillName == 'EVILMEDIUM' 
-												|| content.skillName == 'CMADMAN' || content.skillName == 'FANATIC'}">
+											th:if="${content.myself.skillName == 'FOX' || content.myself.skillName == 'MADMAN' || content.myself.skillName == 'EVILMEDIUM' 
+												|| content.myself.skillName == 'CMADMAN' || content.myself.skillName == 'FANATIC'}">
 											<table class="table-bordered table-condensed small" data-footstep-select-table>
 												<tbody>
 													<tr th:each="row : ${content.roomAssignedRowList}">
@@ -120,20 +120,20 @@
 							</div>
 						</div>
 						<!--/* 狂信者用メッセージ */-->
-						<div th:if="${content.werewolfCharaNameList}">
+						<div th:if="${content.form.werewolfCharaNameList}">
 							<hr />
-							<p class="small" th:text="${'この村の人狼は、 ' + content.werewolfCharaNameList + ' です。'}"></p>
+							<p class="small" th:text="${'この村の人狼は、 ' + content.form.werewolfCharaNameList + ' です。'}"></p>
 						</div>
 						<!--/* 人狼用メッセージ */-->
-						<div th:if="${content.cMadmanCharaNameList != null && content.cMadmanCharaNameList != ''}">
+						<div th:if="${content.form.cMadmanCharaNameList != null && content.form.cMadmanCharaNameList != ''}">
 							<hr />
-							<p class="small" th:text="${'この村のC国狂人は、 ' + content.cMadmanCharaNameList + ' です。'}"></p>
+							<p class="small" th:text="${'この村のC国狂人は、 ' + content.form.cMadmanCharaNameList + ' です。'}"></p>
 						</div>
 						<!--/* 能力行使履歴 */-->
-						<div th:if="${content.skillHistoryList != null && content.skillHistoryList.size() > 0}">
+						<div th:if="${content.form.skillHistoryList != null && content.form.skillHistoryList.size() > 0}">
 							<hr />
 							<p class="">前日までの能力セット履歴</p>
-							<p class="small" th:each="historyStr : ${content.skillHistoryList}" th:text="${historyStr}"></p>
+							<p class="small" th:each="historyStr : ${content.form.skillHistoryList}" th:text="${historyStr}"></p>
 						</div>
 					</div>
 				</div>

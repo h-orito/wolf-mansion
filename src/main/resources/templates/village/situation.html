@@ -157,7 +157,7 @@
 										<tbody>
 											<tr th:each="member : ${content.vote.voteList}">
 												<td th:text="${member.charaName}"></td>
-												<td th:each="target: ${member.voteTargetList}" class="small" th:text="${target}"></td>
+												<td th:each="target: ${member.form.voteTargetList}" class="small" th:text="${target}"></td>
 											</tr>
 										</tbody>
 									</table>

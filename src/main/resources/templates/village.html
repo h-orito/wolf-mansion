@@ -23,7 +23,7 @@
 							<a
 								th:href="'https://twitter.com/share?text='
 								+ ${content.villageName} + '%0a'
-								+ ${content.day == 0 ? '開始予定: ' + #temporals.format(content.villageSettings.startDatetime, 'yyyy/MM/dd HH:mm') + '%0a' : ''}"
+								+ ${content.day == 0 ? '開始予定: ' + #temporals.format(content.settings.startDatetime, 'yyyy/MM/dd HH:mm') + '%0a' : ''}"
 								class="twitter-share-button" data-hashtags="WOLF_MANSION" data-lang="ja" data-show-count="false"></a>
 							<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 						</div>
@@ -70,7 +70,7 @@
 			</div>
 
 			<div class="hidden">
-				<form id="say-confirm-form" th:if="${content.isDispSayForm}" method="post" action="" th:action="@{/village/{villageId}/say(villageId=${content.villageId})}"></form>
+				<form id="say-confirm-form" th:if="${content.form.isDispSayForm}" method="post" action="" th:action="@{/village/{villageId}/say(villageId=${content.villageId})}"></form>
 			</div>
 			<div class="daychange-alert alert alert-success">日付が更新されました。ページを再読み込みしてください。</div>
 			<div id="autorefresh-alert" class="autorefresh-alert alert alert-success">最新発言を読み込みました</div>
