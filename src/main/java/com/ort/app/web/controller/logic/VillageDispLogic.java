@@ -674,6 +674,45 @@ public class VillageDispLogic {
         return restrict;
     }
 
+    public String makeTargetPrefixMessage(VillageInfo villageInfo) {
+        if (!villageInfo.isParticipate() || villageInfo.isDead() || !villageInfo.isLatestDay()
+                || !villageInfo.village.isVillageStatusCode進行中() || villageInfo.isSpectator()) {
+            return null;
+        }
+        CDef.Skill skill = villageInfo.optVillagePlayer.get().getSkillCodeAsSkill();
+        if (skill.isHasAttackAbility()) {
+            return "襲撃対象";
+        } else if (skill == CDef.Skill.罠師) {
+            return "罠を設置する部屋";
+        } else if (skill == CDef.Skill.爆弾魔) {
+            return "爆弾を設置する部屋";
+        }
+        return null;
+    }
+
+    public String makeTargetSuffixMessage(VillageInfo villageInfo) {
+        if (!villageInfo.isParticipate() || villageInfo.isDead() || !villageInfo.isLatestDay()
+                || !villageInfo.village.isVillageStatusCode進行中() || villageInfo.isSpectator()) {
+            return null;
+        }
+        CDef.Skill skill = villageInfo.optVillagePlayer.get().getSkillCodeAsSkill();
+        if (skill.isHasDivineAbility()) {
+            return "を占う";
+        } else if (skill == CDef.Skill.狩人 && villageInfo.day > 1) {
+            return "を護衛する";
+        }
+        return null;
+    }
+
+    public Boolean isTargetingAndFootstep(VillageInfo villageInfo) {
+        if (!villageInfo.isParticipate() || villageInfo.isDead() || !villageInfo.isLatestDay()
+                || !villageInfo.village.isVillageStatusCode進行中() || villageInfo.isSpectator()) {
+            return false;
+        }
+        CDef.Skill skill = villageInfo.optVillagePlayer.get().getSkillCodeAsSkill();
+        return skill.isHasDivineAbility() || skill.isHasAttackAbility() || skill == CDef.Skill.狩人;
+    }
+
     private void setSituationDetail(VillageInfo villageInfo, List<VillagePlayer> vpList, final int day, VillageSituationDto situation) {
         List<Ability> abilityList = villageInfo.abilityList.stream().filter(a -> a.getDay() == day - 1).collect(Collectors.toList());
 

@@ -46,9 +46,6 @@ public class VillageSettingsAssist {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final List<CDef.Skill> RESTRICT_SKILLS = CDef.Skill.listAll().stream().filter(skill -> {
-        return !skill.alias().contains("おまかせ");
-    }).sorted((s1, s2) -> Integer.parseInt(s1.order()) - Integer.parseInt(s2.order())).collect(Collectors.toList());
     private static final int DEFAULT_SAY_MAX_COUNT = 20;
     private static final int DEFAULT_SAY_MAX_LENGTH = 400;
 
@@ -307,7 +304,7 @@ public class VillageSettingsAssist {
     }
 
     private List<NewVillageSayRestrictDto> createRestrictList(List<MessageRestriction> restrictList) {
-        return RESTRICT_SKILLS.stream().map(skill -> {
+        return SkillUtil.SORTED_SKILL_LIST.stream().map(skill -> {
             NewVillageSayRestrictDto restrict = new NewVillageSayRestrictDto();
             restrict.setSkillName(skill.name());
             restrict.setSkillCode(skill.code());

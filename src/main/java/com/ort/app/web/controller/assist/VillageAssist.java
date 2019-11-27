@@ -50,6 +50,7 @@ import com.ort.app.web.model.inner.village.VillageCommitFormDto;
 import com.ort.app.web.model.inner.village.VillageFormDto;
 import com.ort.app.web.model.inner.village.VillageParticipateDto;
 import com.ort.app.web.model.inner.village.VillageParticipateFormDto;
+import com.ort.app.web.model.inner.village.VillageParticipateSkillDto;
 import com.ort.app.web.model.inner.village.VillageSayFormDto;
 import com.ort.app.web.model.inner.village.VillageSettingsDto;
 import com.ort.app.web.model.inner.village.VillageVoteFormDto;
@@ -457,7 +458,7 @@ public class VillageAssist {
         // 役職希望変更
         // 退村
         formDto.setParticipate(convertToParticipateForm(villageInfo));
-        setParticipateForm(model, formDto.getParticipate(), villageInfo.optVillagePlayer.get(), participateForm, changeRequestSkillForm);
+        setParticipateForm(model, formDto.getParticipate(), villageInfo.optVillagePlayer, participateForm, changeRequestSkillForm);
 
         // コミット
         formDto.setCommit(convertToCommitForm(villageInfo));
@@ -492,6 +493,9 @@ public class VillageAssist {
         ability.setSkillHistoryList(villageDispLogic.makeSkillHistoryList(villageInfo));
         ability.setWerewolfCharaNameList(villageDispLogic.makeWerewolfCharaNameList(villageInfo));
         ability.setcMadmanCharaNameList(villageDispLogic.makeCMadmanCharaNameList(villageInfo));
+        ability.setTargetPrefixMessage(villageDispLogic.makeTargetPrefixMessage(villageInfo));
+        ability.setTargetSuffixMessage(villageDispLogic.makeTargetSuffixMessage(villageInfo));
+        ability.setIsTargetingAndFootstep(villageDispLogic.isTargetingAndFootstep(villageInfo));
         return ability;
     }
 
@@ -565,7 +569,7 @@ public class VillageAssist {
     // 参戦
     // 役職希望変更
     // 退村
-    private void setParticipateForm(Model model, VillageParticipateFormDto participate, VillagePlayer villagePlayer,
+    private void setParticipateForm(Model model, VillageParticipateFormDto participate, OptionalThing<VillagePlayer> optVillagePlayer,
             VillageParticipateForm participateForm, VillageChangeRequestSkillForm changeRequestSkillForm) {
         if (participate.getIsDispParticipateForm()) {
             model.addAttribute("participateForm", participateForm == null ? new VillageParticipateForm() : participateForm);
@@ -573,7 +577,7 @@ public class VillageAssist {
         }
         if (participate.getIsDispChangeRequestSkillForm()) {
             VillageChangeRequestSkillForm requestSkillForm =
-                    changeRequestSkillForm == null ? makeChangeRequestSkillForm(villagePlayer) : changeRequestSkillForm;
+                    changeRequestSkillForm == null ? makeChangeRequestSkillForm(optVillagePlayer.get()) : changeRequestSkillForm;
             model.addAttribute("changeRequestSkillForm", requestSkillForm);
             model.addAttribute("requestSkillName", CDef.Skill.codeOf(requestSkillForm.getRequestedSkill()).alias());
             model.addAttribute("secondRequestSkillName", CDef.Skill.codeOf(requestSkillForm.getSecondRequestedSkill()).alias());
@@ -643,11 +647,31 @@ public class VillageAssist {
                 .findFirst()
                 .get()
                 .getCharaImgUrl()).orElse(null));
+        myself.setCharaName(optVillagePlayer.map(vp -> CharaUtil.makeCharaName(vp)).orElse(null));
         myself.setCharaImageWidth(optVillagePlayer.map(vp -> vp.getChara().get().getDisplayWidth()).orElse(null));
         myself.setCharaImageHeight(optVillagePlayer.map(vp -> vp.getChara().get().getDisplayHeight()).orElse(null));
         myself.setIsDead(optVillagePlayer.map(VillagePlayer::isIsDeadTrue).orElse(null));
-        myself.setSkillName(optVillagePlayer.map(vp -> vp.getSkillCode()).orElse(null));
+        myself.setSkill(optVillagePlayer.map(vp -> convertToParticipateSkill(vp.getSkillCodeAsSkill())).orElse(null));
         return myself;
+    }
+
+    private VillageParticipateSkillDto convertToParticipateSkill(CDef.Skill skill) {
+        if (skill == null) {
+            return null;
+        }
+        VillageParticipateSkillDto participateSkill = new VillageParticipateSkillDto();
+        participateSkill.setCode(skill.code());
+        participateSkill.setHasAttackAbility(skill.isHasAttackAbility());
+        participateSkill.setHasDivineAbility(skill.isHasDivineAbility());
+        participateSkill.setHasGuardAbility(skill == CDef.Skill.狩人);
+        participateSkill.setHasDisturbAbility(skill.isHasDisturbAbility());
+        participateSkill.setHasFootstepAbility(//
+                skill.isHasAttackAbility() //
+                        || skill.isHasDivineAbility() //
+                        || skill == CDef.Skill.狩人 //
+                        || skill.isHasDisturbAbility() //
+        );
+        return participateSkill;
     }
 
     // 村建て

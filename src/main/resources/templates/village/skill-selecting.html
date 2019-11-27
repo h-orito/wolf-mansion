@@ -19,24 +19,16 @@
 <body>
 	<div layout:fragment="skill-selecting">
 		<!--/* 現在の選択 */-->
-		<p class="small" th:if="${content.myself.skillName == 'SEER' || content.myself.skillName == 'WISE'}"
-			th:text="'現在の選択: ' + ${targetCharaName} + ' を占う'"></p>
-		<p class="small" th:if="${content.myself.skillName == 'ASTROLOGER'}" th:text="'現在の選択: ' + ${targetCharaName} + ' を中心に占う'"></p>
-		<p class="small"
-			th:if="${content.myself.skillName == 'WEREWOLF' || content.myself.skillName == 'CURSEWOLF' || content.myself.skillName == 'WISEWOLF'}"
-			th:text="'現在の選択: ' + ${charaName} + ' が ' + ${targetCharaName} + ' を襲う'"></p>
-		<p class="small" th:if="${content.myself.skillName == 'HUNTER'}" th:text="'現在の選択: ' + ${targetCharaName} + ' を護衛する'"></p>
-		<p class="small" th:if="${content.myself.skillName == 'DETECTIVE'}" th:text="${'現在の選択: ' + (footstep == null ? 'なし' : (footstep + ' を調査する'))}"></p>
-		<p class="small" th:if="${content.myself.skillName == 'TRAPPER'}"
+		<p class="small" th:if="${content.myself.skill.hasDivineAbility}" th:text="'現在の選択: ' + ${targetCharaName} + ' を占う'"></p>
+		<p class="small" th:if="${content.myself.skill.hasAttackAbility}" th:text="'現在の選択: ' + ${charaName} + ' が ' + ${targetCharaName} + ' を襲う'"></p>
+		<p class="small" th:if="${content.myself.skill.hasGuardAbility}" th:text="'現在の選択: ' + ${targetCharaName} + ' を護衛する'"></p>
+		<p class="small" th:if="${content.myself.skill.code == 'DETECTIVE'}" th:text="${'現在の選択: ' + (footstep == null ? 'なし' : (footstep + ' を調査する'))}"></p>
+		<p class="small" th:if="${content.myself.skill.code == 'TRAPPER'}"
 			th:text="'現在の選択: ' + ${targetCharaName == '' || targetCharaName == null ? '罠を設置しない' : targetCharaName + ' の部屋に罠を設置する'}"></p>
-		<p class="small" th:if="${content.myself.skillName == 'BOMBER'}"
+		<p class="small" th:if="${content.myself.skill.code == 'BOMBER'}"
 			th:text="'現在の選択: ' + ${targetCharaName == '' || targetCharaName == null ? '罠を設置しない' : targetCharaName + ' の部屋に爆弾を設置する'}"></p>
 		<!--/* 通過する部屋 */-->
-		<p class="small"
-			th:if="${content.myself.skillName == 'SEER' || content.myself.skillName == 'WISE' || content.myself.skillName == 'ASTROLOGER'
-				|| content.myself.skillName == 'WEREWOLF' || content.myself.skillName == 'CURSEWOLF' || content.myself.skillName == 'WISEWOLF'
-				|| content.myself.skillName == 'HUNTER' || content.myself.skillName == 'FOX'
-				|| content.myself.skillName == 'MADMAN' || content.myself.skillName == 'EVILMEDIUM' || content.myself.skillName == 'CMADMAN' || content.myself.skillName == 'FANATIC'}"
+		<p class="small" th:if="${content.myself.skill.hasFootstepAbility}"
 			th:text="'通過する部屋: ' + ${footstep == '' || footstep == null ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"
 			th:data-selected-footstep="${footstep == '' || footstep == null ? 'なし': footstep}"></p>
 	</div>

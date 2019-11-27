@@ -416,7 +416,7 @@ public class NewVillageForm implements Serializable {
     //                                                                        Assist Logic
     //                                                                        ============
     private List<NewVillageSayRestrictDto> createRestrictList() {
-        return SkillUtil.SET_AVAILABLE_SKILL_LIST.stream().map(skill -> {
+        return SkillUtil.SORTED_SKILL_LIST.stream().map(skill -> {
             NewVillageSayRestrictDto restrict = new NewVillageSayRestrictDto();
             restrict.setSkillName(skill.name());
             restrict.setSkillCode(skill.code());

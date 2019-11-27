@@ -21,6 +21,15 @@ public class VillageAbilityFormDto {
     /** C国狂人のキャラ名（人狼向け） */
     private String cMadmanCharaNameList;
 
+    /** 対象選択の前に表示する文言 */
+    private String targetPrefixMessage;
+
+    /** 対象選択の後に表示する文言 */
+    private String targetSuffixMessage;
+
+    /** 対象選択して足音を残す役職か */
+    private Boolean isTargetingAndFootstep;
+
     public List<OptionDto> getAbilityTargetList() {
         return abilityTargetList;
     }
@@ -59,5 +68,29 @@ public class VillageAbilityFormDto {
 
     public void setcMadmanCharaNameList(String cMadmanCharaNameList) {
         this.cMadmanCharaNameList = cMadmanCharaNameList;
+    }
+
+    public String getTargetPrefixMessage() {
+        return targetPrefixMessage;
+    }
+
+    public void setTargetPrefixMessage(String targetPrefixMessage) {
+        this.targetPrefixMessage = targetPrefixMessage;
+    }
+
+    public String getTargetSuffixMessage() {
+        return targetSuffixMessage;
+    }
+
+    public void setTargetSuffixMessage(String targetSuffixMessage) {
+        this.targetSuffixMessage = targetSuffixMessage;
+    }
+
+    public Boolean getIsTargetingAndFootstep() {
+        return isTargetingAndFootstep;
+    }
+
+    public void setIsTargetingAndFootstep(Boolean isTargetingAndFootstep) {
+        this.isTargetingAndFootstep = isTargetingAndFootstep;
     }
 }

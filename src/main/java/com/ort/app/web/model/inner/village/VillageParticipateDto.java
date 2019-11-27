@@ -2,6 +2,9 @@ package com.ort.app.web.model.inner.village;
 
 public class VillageParticipateDto {
 
+    /** 参戦しているキャラの名前 */
+    private String charaName;
+
     /** 参戦しているキャラの画像 */
     private String charaImageUrl;
 
@@ -12,7 +15,7 @@ public class VillageParticipateDto {
     private Integer charaImageHeight;
 
     /** 役職 */
-    private String skillName;
+    private VillageParticipateSkillDto skill;
 
     /** 死んでいるか */
     private Boolean isDead;
@@ -23,14 +26,6 @@ public class VillageParticipateDto {
 
     public void setCharaImageUrl(String charaImageUrl) {
         this.charaImageUrl = charaImageUrl;
-    }
-
-    public String getSkillName() {
-        return skillName;
-    }
-
-    public void setSkillName(String skillName) {
-        this.skillName = skillName;
     }
 
     public Boolean getIsDead() {
@@ -55,5 +50,21 @@ public class VillageParticipateDto {
 
     public void setCharaImageHeight(Integer charaImageHeight) {
         this.charaImageHeight = charaImageHeight;
+    }
+
+    public VillageParticipateSkillDto getSkill() {
+        return skill;
+    }
+
+    public void setSkill(VillageParticipateSkillDto skill) {
+        this.skill = skill;
+    }
+
+    public String getCharaName() {
+        return charaName;
+    }
+
+    public void setCharaName(String charaName) {
+        this.charaName = charaName;
     }
 }

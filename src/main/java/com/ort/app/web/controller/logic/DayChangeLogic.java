@@ -620,7 +620,7 @@ public class DayChangeLogic {
     private void insertBakeryMessageIfNeeded(Integer villageId, int day, List<VillagePlayer> vPlayerList) {
         // パン屋がいない場合は何もしない
         List<VillagePlayer> bakeryPlayerList =
-                vPlayerList.stream().filter(vp -> vp.getRequestSkillCodeAsSkill() == CDef.Skill.パン屋).collect(Collectors.toList());
+                vPlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.パン屋).collect(Collectors.toList());
         if (bakeryPlayerList.isEmpty()) {
             return;
         }

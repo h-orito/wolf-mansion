@@ -19,7 +19,7 @@
 <body>
 	<div layout:fragment="skill-description">
 		<!--/* 役職説明 */-->
-		<p class="small" th:if="${content.myself.skillName != null}" th:utext="#{${'skill.' + content.myself.skillName.toLowerCase() + '.description'}}"></p>
+		<p class="small" th:if="${content.myself.skill != null}" th:utext="#{${'skill.' + content.myself.skill.code.toLowerCase() + '.description'}}"></p>
 		<!--/* 最初の1回だけ役職をモーダルで表示する */-->
 		<div class="modal fade" id="modal-initial-skill-description" tabindex="-1">
 			<div class="modal-dialog">
@@ -30,7 +30,7 @@
 						</div>
 						<div class="col-sm-12 col-xs-12">
 							<h5>役職</h5>
-							<p class="small" th:if="${content.myself.skillName != null}" th:utext="#{${'skill.' + content.myself.skillName.toLowerCase() + '.description'}}"></p>
+							<p class="small" th:if="${content.myself.skill != null}" th:utext="#{${'skill.' + content.myself.skill.code.toLowerCase() + '.description'}}"></p>
 						</div>
 						<div class="col-sm-12 col-xs-12">
 							<h5>村の設定</h5>
