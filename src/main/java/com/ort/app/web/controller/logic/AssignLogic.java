@@ -284,7 +284,7 @@ public class AssignLogic {
                 convertSkillRequestIfNeeded(after, CDef.Skill.C国狂人, CDef.Skill.魔神官);
             }
             if (!existSkillInOrg(CDef.Skill.狂人, orgMap)) {
-                convertSkillRequestIfNeeded(after, CDef.Skill.狂信者, CDef.Skill.魔神官);
+                convertSkillRequestIfNeeded(after, CDef.Skill.狂人, CDef.Skill.魔神官);
             }
             if (!existSkillInOrg(CDef.Skill.狂信者, orgMap)) {
                 convertSkillRequestIfNeeded(after, CDef.Skill.狂信者, CDef.Skill.魔神官);
