@@ -17,7 +17,7 @@
 <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<div class="col-sm-12 col-xs-12" th:if="${content.form.voteTargetList != null && content.form.voteTargetList.size() > 0}" layout:fragment="vote-form">
+	<div class="col-sm-12 col-xs-12" th:if="${content.form.vote.voteTargetList != null && content.form.vote.voteTargetList.size() > 0}" layout:fragment="vote-form">
 		<div class="panel-group" id="voteform-panel">
 			<div class="panel panel-default">
 				<div class="panel-heading" th:style="${voteTarget == null ? 'background-color: #ff0000' : ''}">
@@ -35,7 +35,7 @@
 							<div class="form-group small">
 								<div class="col-sm-12 col-xs-12">
 									<select class="form-control" th:field="*{targetCharaId}">
-										<option th:each="target : ${content.form.voteTargetList}" th:value="${target.value}" th:text="${target.name}"></option>
+										<option th:each="target : ${content.form.vote.voteTargetList}" th:value="${target.value}" th:text="${target.name}"></option>
 									</select> に投票する
 								</div>
 							</div>

@@ -70,6 +70,9 @@ public class VillageSettingsDto {
     /** 村設定の発言制限 */
     private List<NewVillageSayRestrictDto> sayRestrictList;
 
+    /** 村建てしたプレーヤー名 */
+    private String createPlayerName;
+
     public Integer getStartPersonMinNum() {
         return startPersonMinNum;
     }
@@ -236,5 +239,13 @@ public class VillageSettingsDto {
 
     public void setIsSkillRequestAvailable(Boolean isSkillRequestAvailable) {
         this.isSkillRequestAvailable = isSkillRequestAvailable;
+    }
+
+    public String getCreatePlayerName() {
+        return createPlayerName;
+    }
+
+    public void setCreatePlayerName(String createPlayerName) {
+        this.createPlayerName = createPlayerName;
     }
 }

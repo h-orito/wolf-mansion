@@ -20,7 +20,7 @@
 	<div class="footer-menu-bottom" id="footer-menu" layout:fragment="footer-menu">
 		<div class="tab-content">
 			<div id="tab-useful" class="tab-pane active">
-				<div class="well btn-group" th:if="${content.form.voteTargetList != null && content.form.voteTargetList.size() > 0 && voteTarget == null}" style="padding: 3px 3px; display: flex;">
+				<div class="well btn-group" th:if="${content.form.vote.voteTargetList != null && content.form.vote.voteTargetList.size() > 0 && voteTarget == null}" style="padding: 3px 3px; display: flex;">
 					<div class="btn btn-footermenu footermenu-vote btn-xs" style="flex: 1;" data-floating-group data-goto-vote>
 						投票欄へ (未セットのままだと突然死します)
 					</div>

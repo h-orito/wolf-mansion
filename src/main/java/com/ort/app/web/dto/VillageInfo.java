@@ -97,6 +97,12 @@ public class VillageInfo {
         return user != null && user.getAuthorities().stream().anyMatch(a -> a.equals(new SimpleGrantedAuthority("ROLE_ADMIN")));
     }
 
+    // 村建てか
+    public boolean isCreator() {
+        String createPlayerName = village.getCreatePlayerName();
+        return user != null && user.getUsername().equals(createPlayerName);
+    }
+
     // 死亡しているか
     public boolean isDead() {
         return optVillagePlayer.isPresent() && optVillagePlayer.get().isIsDeadTrue();

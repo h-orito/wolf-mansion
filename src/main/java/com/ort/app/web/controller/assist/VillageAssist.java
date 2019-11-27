@@ -379,20 +379,11 @@ public class VillageAssist {
         model.addAttribute("voteTarget", optVote.map(vote -> vote.getCharaByVoteCharaId().get().getCharaName()).orElse(null));
     }
 
-    private void setSecretSayTarget(VillageFormDto formDto, VillageInfo villageInfo) {
+    private boolean isAvailableSecretSay(VillageInfo villageInfo) {
         if (!villageInfo.isParticipate() || !villageInfo.isLatestDay() || !villageInfo.village.isVillageStatusCode進行中()) {
-            return;
+            return false;
         }
         CDef.AllowedSecretSay allowedSecretSay = villageInfo.settings.getAllowedSecretSayCodeAsAllowedSecretSay();
-        if (isAvailableSecretSay(villageInfo, allowedSecretSay)) {
-            formDto.setIsAvailableSecretSay(true);
-            formDto.setSecretSayTargetList(villageDispLogic.makeSecretSayTargetList(villageInfo));
-        } else {
-            formDto.setIsAvailableSecretSay(false);
-        }
-    }
-
-    private boolean isAvailableSecretSay(VillageInfo villageInfo, CDef.AllowedSecretSay allowedSecretSay) {
         return villageInfo.isAdmin() || allowedSecretSay == CDef.AllowedSecretSay.全員;
     }
 
@@ -462,10 +453,6 @@ public class VillageAssist {
             VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
         VillageFormDto formDto = new VillageFormDto();
 
-        if (!villageInfo.isParticipate()) {
-            // TODO もろもろ非表示にしてreturn
-        }
-
         // 参戦
         // 役職希望変更
         // 退村
@@ -517,7 +504,9 @@ public class VillageAssist {
             return null;
         }
         VillageSayForm form = new VillageSayForm();
-        if (villageInfo.village.isVillageStatusCodeエピローグ()) {
+        if (villageInfo.isAdmin()) {
+            form.setMessageType(CDef.MessageType.通常発言.code());
+        } else if (villageInfo.village.isVillageStatusCodeエピローグ()) {
             form.setMessageType(CDef.MessageType.通常発言.code());
             if (villageInfo.isSpectator()) {
                 form.setMessageType(CDef.MessageType.見学発言.code());
@@ -566,10 +555,10 @@ public class VillageAssist {
         say.setIsAvailableGraveSay(villageDispLogic.isAvailableGraveSay(village, vPlayer)); // 死者の呻きが発言可能か
         say.setIsAvailableSpectateSay(villageDispLogic.isAvailableSpectateSay(village, vPlayer)); // 見学発言が発言可能か
         say.setIsAvailableMonologueSay(villageDispLogic.isAvailableMonologueSay(village)); // 独り言が発言可能か
-        say.setIsAvailableSecretSay(villageDispLogic.isAvailableSecretSay(village));
         // 秘話
-        setSecretSayTarget(formDto, villageInfo);
-
+        boolean availableSecretSay = isAvailableSecretSay(villageInfo);
+        say.setIsAvailableSecretSay(availableSecretSay);
+        say.setSecretSayTargetList(availableSecretSay ? villageDispLogic.makeSecretSayTargetList(villageInfo) : null);
         return say;
     }
 
@@ -663,18 +652,16 @@ public class VillageAssist {
 
     // 村建て
     private void setVillageModelCreateUser(VillageResultContent content, VillageInfo villageInfo, Model model) {
-        String createPlayerName = villageInfo.village.getCreatePlayerName();
-        content.setCreatePlayerName(createPlayerName);
-        UserInfo userInfo = villageInfo.user;
-        boolean isCreator = userInfo != null && userInfo.getUsername().equals(createPlayerName);
-        content.setIsCreatePlayer(isCreator);
-        content.setIsAvailableSettingsUpdate(
-                userInfo != null && (userInfo.getUsername().equals(createPlayerName) || "master".equals(userInfo.getUsername()))
-                        && villageInfo.village.isVillageStatusCode募集中());
-        if (isCreator) {
+        content.setIsCreatePlayer(villageInfo.isCreator());
+        content.setIsAvailableSettingsUpdate(isAvailableSettingsUpdate(villageInfo));
+        if (villageInfo.isCreator()) {
             model.addAttribute("kickForm", new VillageKickForm());
             model.addAttribute("creatorSayForm", new VillageSayForm());
         }
+    }
+
+    private boolean isAvailableSettingsUpdate(VillageInfo villageInfo) {
+        return (villageInfo.isAdmin() || villageInfo.isCreator()) && villageInfo.village.isVillageStatusCode募集中();
     }
 
     private VillageChangeRequestSkillForm makeChangeRequestSkillForm(VillagePlayer villagePlayer) {
@@ -877,6 +864,7 @@ public class VillageAssist {
         part.setAllowedSecretSayCode(settings.getAllowedSecretSayCode());
         part.setSayRestrictList(convertToRestrictList(villageInfo.village.getMessageRestrictionList()));
         part.setIsSkillRequestAvailable(settings.getIsPossibleSkillRequest());
+        part.setCreatePlayerName(villageInfo.village.getCreatePlayerName());
         return part;
     }
 

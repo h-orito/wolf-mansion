@@ -41,7 +41,9 @@
 											<tr th:each="row : ${content.roomAssignedRowList}">
 												<td th:each="room: ${row.roomAssignedList}" class="small"
 													th:style="'vertical-align: bottom; text-align: center;' 
+														+ 'min-width: ' + ${room.charaImgWidth != null ? room.charaImgWidth : '10'} + 'px;'
 														+ 'width: ' + ${room.charaImgWidth != null ? room.charaImgWidth : '10'} + 'px;' 
+														+ 'min-height: '+ ${room.charaImgHeight != null ? room.charaImgHeight : '10'} + 'px; '
 														+ 'height: '+ ${room.charaImgHeight != null ? room.charaImgHeight : '10'} + 'px; '
 									 					+ ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 					+ ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
@@ -157,7 +159,7 @@
 										<tbody>
 											<tr th:each="member : ${content.vote.voteList}">
 												<td th:text="${member.charaName}"></td>
-												<td th:each="target: ${member.form.voteTargetList}" class="small" th:text="${target}"></td>
+												<td th:each="target: ${member.voteTargetList}" class="small" th:text="${target}"></td>
 											</tr>
 										</tbody>
 									</table>

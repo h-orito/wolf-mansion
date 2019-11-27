@@ -17,7 +17,7 @@
 <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<div class="col-sm-12 col-xs-12" th:if="${content.form.isDispSayForm}" layout:fragment="say-form">
+	<div class="col-sm-12 col-xs-12" th:if="${content.form.say.isDispSayForm}" layout:fragment="say-form">
 		<div class="panel-group" id="sayform-panel">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -48,34 +48,39 @@
 							<span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="help-block text-danger">error!</span>
 							<div class="form-group">
 								<div class="col-sm-12 col-xs-12 btn-group btn-saytypes" data-toggle="buttons" data-say-type>
-									<label th:if="${content.form.isAvailableWerewolfSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'WEREWOLF_SAY' ? 'active' : ''}">
-										<input type="radio" class="" th:field="*{messageType}" value="WEREWOLF_SAY" autocomplete="off" />囁き
-									</label> <label th:if="${content.form.isAvailableNormalSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'NORMAL_SAY' ? 'active' : ''}">
-										<input type="radio" class="" th:field="*{messageType}" value="NORMAL_SAY" autocomplete="off" />通常
-									</label> <label th:if="${content.form.isAvailableMasonSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'MASON_SAY' ? 'active' : ''}">
+									<label th:if="${content.form.say.isAvailableWerewolfSay}"
+										th:class="'btn btn-sm btn-success ' + *{messageType == 'WEREWOLF_SAY' ? 'active' : ''}"> <input type="radio" class=""
+										th:field="*{messageType}" value="WEREWOLF_SAY" autocomplete="off" />囁き
+									</label> <label th:if="${content.form.say.isAvailableNormalSay}"
+										th:class="'btn btn-sm btn-success ' + *{messageType == 'NORMAL_SAY' ? 'active' : ''}"> <input type="radio" class=""
+										th:field="*{messageType}" value="NORMAL_SAY" autocomplete="off" />通常
+									</label> <label th:if="${content.form.say.isAvailableMasonSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'MASON_SAY' ? 'active' : ''}">
 										<input type="radio" class="" th:field="*{messageType}" value="MASON_SAY" autocomplete="off" />共鳴
-									</label> <label th:if="${content.form.isAvailableGraveSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'GRAVE_SAY' ? 'active' : ''}">
+									</label> <label th:if="${content.form.say.isAvailableGraveSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'GRAVE_SAY' ? 'active' : ''}">
 										<input type="radio" class="" th:field="*{messageType}" value="GRAVE_SAY" autocomplete="off" />呻き
-									</label> <label th:if="${content.form.isAvailableSpectateSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'SPECTATE_SAY' ? 'active' : ''}">
-										<input type="radio" class="" th:field="*{messageType}" value="SPECTATE_SAY" autocomplete="off" />見学
-									</label> <label th:if="${content.form.isAvailableMonologueSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'MONOLOGUE_SAY' ? 'active' : ''}">
-										<input type="radio" class="" th:field="*{messageType}" value="MONOLOGUE_SAY" autocomplete="off" />独り言
-									</label> <label th:if="${content.form.isAvailableSecretSay}" class="btn btn-sm btn-success"> <input type="radio" class=""
-											th:field="*{messageType}" value="SECRET_SAY" autocomplete="off" data-secret-say />秘話
+									</label> <label th:if="${content.form.say.isAvailableSpectateSay}"
+										th:class="'btn btn-sm btn-success ' + *{messageType == 'SPECTATE_SAY' ? 'active' : ''}"> <input type="radio" class=""
+										th:field="*{messageType}" value="SPECTATE_SAY" autocomplete="off" />見学
+									</label> <label th:if="${content.form.say.isAvailableMonologueSay}"
+										th:class="'btn btn-sm btn-success ' + *{messageType == 'MONOLOGUE_SAY' ? 'active' : ''}"> <input type="radio" class=""
+										th:field="*{messageType}" value="MONOLOGUE_SAY" autocomplete="off" />独り言
+									</label> <label th:if="${content.form.say.isAvailableSecretSay}" class="btn btn-sm btn-success"> <input type="radio" class=""
+										th:field="*{messageType}" value="SECRET_SAY" autocomplete="off" data-secret-say />秘話
 									</label>
 								</div>
 								<div class="col-sm-12 col-xs-12 hidden" style="margin-top: 10px; margin-bottom: 10px;" data-secret-say-target>
-									秘話相手： <select class="form-control" th:field="*{secretSayTargetCharaId}" th:if="${content.isAvailableSecretSay}">
-										<option th:each="chara : ${content.form.secretSayTargetList}" th:value="${chara.charaId}" th:text="${chara.charaName}"></option>
+									秘話相手： <select class="form-control" th:field="*{secretSayTargetCharaId}" th:if="${content.form.say.isAvailableSecretSay}">
+										<option th:each="chara : ${content.form.say.secretSayTargetList}" th:value="${chara.charaId}" th:text="${chara.charaName}"></option>
 									</select>
 								</div>
 								<div class="col-sm-12 col-xs-12" style="display: flex;">
 									<div>
-										<img id="say-face-img" th:src="${content.myself.charaImageUrl}" th:width="${content.myself.charaImageWidth}" th:height="${content.myself.charaImageHeight}">
+										<img id="say-face-img" th:src="${content.myself.charaImageUrl}" th:width="${content.myself.charaImageWidth}"
+											th:height="${content.myself.charaImageHeight}">
 										<div style="position: absolute; bottom: 0;">
 											表情<br> <select class="form-control small" th:field="*{faceType}"
 												th:style="'padding-left: 0px; padding-right: 0px; font-size: 86%; max-width: ' + ${content.myself.charaImageWidth} + 'px;'">
-												<option th:each="face : ${content.form.faceTypeList}" th:value="${face.value}" th:text="${face.name}"></option>
+												<option th:each="face : ${content.form.say.faceTypeList}" th:value="${face.value}" th:text="${face.name}"></option>
 											</select>
 										</div>
 									</div>
@@ -87,19 +92,18 @@
 							<div class="form-group">
 								<div class="col-sm-12 col-xs-12">
 									<span class="" style="margin-left: 55px;" data-message-count
-										th:data-message-restrict-normal-max-length="${content.form.restrict.normalLength != null ? content.form.restrict.normalLength : ''}"
-										th:data-message-restrict-normal-max-count="${content.form.restrict.normalCount != null ? content.form.restrict.normalCount : ''}"
-										th:data-message-restrict-normal-left-count="${content.form.restrict.normalLeftCount != null ? content.form.restrict.normalLeftCount : ''}"
-										th:data-message-restrict-whisper-max-length="${content.form.restrict.whisperLength != null ? content.form.restrict.whisperLength : ''}"
-										th:data-message-restrict-whisper-max-count="${content.form.restrict.whisperCount != null ? content.form.restrict.whisperCount : ''}"
-										th:data-message-restrict-whisper-left-count="${content.form.restrict.whisperLeftCount != null ? content.form.restrict.whisperLeftCount : ''}"
-										th:data-message-restrict-mason-max-length="${content.form.restrict.masonLength != null ? content.form.restrict.masonLength : ''}"
-										th:data-message-restrict-mason-max-count="${content.form.restrict.masonCount != null ? content.form.restrict.masonCount : ''}"
-										th:data-message-restrict-mason-left-count="${content.form.restrict.masonLeftCount != null ? content.form.restrict.masonLeftCount : ''}">残り20回,
-										文字数: 0/400, 行数: 1/20</span><br>
-									<input type="checkbox" class="form-check-input" th:field="*{isConvertDisable}" value="true" style="margin-left: 55px;">
-									<label class="form-check-label" for="isConvertDisable">装飾・変換無効</label>
-									<input type="submit" class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />
+										th:data-message-restrict-normal-max-length="${content.form.say.restrict.normalLength != null ? content.form.say.restrict.normalLength : ''}"
+										th:data-message-restrict-normal-max-count="${content.form.say.restrict.normalCount != null ? content.form.say.restrict.normalCount : ''}"
+										th:data-message-restrict-normal-left-count="${content.form.say.restrict.normalLeftCount != null ? content.form.say.restrict.normalLeftCount : ''}"
+										th:data-message-restrict-whisper-max-length="${content.form.say.restrict.whisperLength != null ? content.form.say.restrict.whisperLength : ''}"
+										th:data-message-restrict-whisper-max-count="${content.form.say.restrict.whisperCount != null ? content.form.say.restrict.whisperCount : ''}"
+										th:data-message-restrict-whisper-left-count="${content.form.say.restrict.whisperLeftCount != null ? content.form.say.restrict.whisperLeftCount : ''}"
+										th:data-message-restrict-mason-max-length="${content.form.say.restrict.masonLength != null ? content.form.say.restrict.masonLength : ''}"
+										th:data-message-restrict-mason-max-count="${content.form.say.restrict.masonCount != null ? content.form.say.restrict.masonCount : ''}"
+										th:data-message-restrict-mason-left-count="${content.form.say.restrict.masonLeftCount != null ? content.form.say.restrict.masonLeftCount : ''}">残り20回,
+										文字数: 0/400, 行数: 1/20</span><br> <input type="checkbox" class="form-check-input" th:field="*{isConvertDisable}" value="true"
+										style="margin-left: 55px;"> <label class="form-check-label" for="isConvertDisable">装飾・変換無効</label> <input type="submit"
+										class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />
 								</div>
 							</div>
 						</form>

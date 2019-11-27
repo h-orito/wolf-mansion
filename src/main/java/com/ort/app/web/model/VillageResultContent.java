@@ -53,9 +53,6 @@ public class VillageResultContent implements Serializable {
     /** 参加している場合の自分自身の情報 */
     private VillageParticipateDto myself;
 
-    /** 村建てしたプレーヤー名 */
-    private String createPlayerName;
-
     /** 村設定変更可能か */
     private Boolean isAvailableSettingsUpdate;
 
@@ -169,14 +166,6 @@ public class VillageResultContent implements Serializable {
 
     public void setRoomWidth(Integer roomWidth) {
         this.roomWidth = roomWidth;
-    }
-
-    public String getCreatePlayerName() {
-        return createPlayerName;
-    }
-
-    public void setCreatePlayerName(String createPlayerName) {
-        this.createPlayerName = createPlayerName;
     }
 
     public Boolean getIsAvailableSettingsUpdate() {
