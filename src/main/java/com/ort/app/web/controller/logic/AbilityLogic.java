@@ -50,12 +50,12 @@ public class AbilityLogic {
     public void setAbility(Integer villageId, VillagePlayer villagePlayer, int day, Integer charaId, Integer targetCharaId,
             String footstep) {
         CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
+        if (skill == null) {
+            return;
+        }
         Village village = selectVillage(villageId);
         List<VillagePlayer> villagePlayerList = selectVillagePlayerList(villageId);
-        switch (skill) {
-        case 人狼:
-        case 呪狼:
-        case 智狼:
+        if (skill.isHasAttackAbility()) {
             if (isInvalidWolfAbility(village, villagePlayer, villagePlayerList, day, charaId, targetCharaId, footstep)) {
                 return;
             }
@@ -63,9 +63,7 @@ public class AbilityLogic {
             deleteSkillFootstep(villageId, day, charaId, footstep, villagePlayer.getSkillCodeAsSkill(), villagePlayerList);
             insertFootstep(villageId, day, charaId, footstep);
             messageLogic.insertAbilityMessage(villageId, day, charaId, targetCharaId, villagePlayerList, footstep, false);
-            break;
-        case 占い師:
-        case 賢者:
+        } else if (skill.isHasDivineAbility()) {
             if (isInvalidSeerAbility(village, villagePlayer, villagePlayerList, day, villagePlayer.getCharaId(), targetCharaId, footstep)) {
                 return;
             }
@@ -74,8 +72,7 @@ public class AbilityLogic {
             insertFootstep(villageId, day, villagePlayer.getCharaId(), footstep);
             messageLogic.insertAbilityMessage(villageId, day, villagePlayer.getCharaId(), targetCharaId, villagePlayerList, footstep,
                     false);
-            break;
-        case 狩人:
+        } else if (skill == CDef.Skill.狩人) {
             if (isInvalidHunterAbility(village, villagePlayer, villagePlayerList, day, villagePlayer.getCharaId(), targetCharaId,
                     footstep)) {
                 return;
@@ -85,20 +82,14 @@ public class AbilityLogic {
             insertFootstep(villageId, day, villagePlayer.getCharaId(), footstep);
             messageLogic.insertAbilityMessage(villageId, day, villagePlayer.getCharaId(), targetCharaId, villagePlayerList, footstep,
                     false);
-            break;
-        case 妖狐:
-        case 狂人:
-        case 魔神官:
-        case C国狂人:
-        case 狂信者:
+        } else if (skill.isHasDisturbAbility()) {
             if (isInvalidFoxMadmanAbility(village, footstep)) {
                 return;
             }
             deleteFootstep(villageId, day, villagePlayer.getCharaId(), footstep);
             insertFootstep(villageId, day, villagePlayer.getCharaId(), footstep);
             messageLogic.insertFootstepMessage(villageId, day, villagePlayer.getCharaId(), villagePlayerList, footstep, false);
-            break;
-        case 探偵:
+        } else if (skill == CDef.Skill.探偵) {
             if ("なし".equals(footstep)) {
                 return;
             }
@@ -108,25 +99,20 @@ public class AbilityLogic {
             updateAbility(villageId, day, villagePlayer.getCharaId(), CDef.AbilityType.捜査, footstep);
             messageLogic.insertAbilityMessage(villageId, day, villagePlayer.getCharaId(), targetCharaId, villagePlayerList, footstep,
                     false);
-            break;
-        case 罠師:
+        } else if (skill == CDef.Skill.罠師) {
             if (targetCharaId == null) {
                 deleteAbility(villageId, day, villagePlayer.getCharaId(), CDef.AbilityType.罠設置);
             } else {
                 updateAbility(villageId, day, villagePlayer.getCharaId(), CDef.AbilityType.罠設置, targetCharaId);
             }
             messageLogic.insertAbilityMessage(villageId, day, villagePlayer.getCharaId(), targetCharaId, villagePlayerList, null, false);
-            break;
-        case 爆弾魔:
+        } else if (skill == CDef.Skill.爆弾魔) {
             if (targetCharaId == null) {
                 deleteAbility(villageId, day, villagePlayer.getCharaId(), CDef.AbilityType.爆弾設置);
             } else {
                 updateAbility(villageId, day, villagePlayer.getCharaId(), CDef.AbilityType.爆弾設置, targetCharaId);
             }
             messageLogic.insertAbilityMessage(villageId, day, villagePlayer.getCharaId(), targetCharaId, villagePlayerList, null, false);
-            break;
-        default:
-            break;
         }
     }
 

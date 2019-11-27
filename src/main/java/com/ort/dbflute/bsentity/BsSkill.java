@@ -696,7 +696,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * 占い能力を持つ <br>
-     * The group elements:[占い師, 賢者]
+     * The group elements:[占い師, 賢者, 占星術師]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_HasDivineAbility() {
@@ -732,6 +732,16 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isSkillCode_HasMadmanAbility() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null && cdef.isHasMadmanAbility();
+    }
+
+    /**
+     * 徘徊能力を持つ <br>
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐]
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode_HasDisturbAbility() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null && cdef.isHasDisturbAbility();
     }
 
     /**

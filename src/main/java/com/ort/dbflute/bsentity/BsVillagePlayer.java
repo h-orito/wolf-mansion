@@ -1394,7 +1394,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 占い能力を持つ <br>
-     * The group elements:[占い師, 賢者]
+     * The group elements:[占い師, 賢者, 占星術師]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_HasDivineAbility() {
@@ -1430,6 +1430,16 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode_HasMadmanAbility() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null && cdef.isHasMadmanAbility();
+    }
+
+    /**
+     * 徘徊能力を持つ <br>
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐]
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode_HasDisturbAbility() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null && cdef.isHasDisturbAbility();
     }
 
     /**
@@ -1740,7 +1750,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 占い能力を持つ <br>
-     * The group elements:[占い師, 賢者]
+     * The group elements:[占い師, 賢者, 占星術師]
      * @return The determination, true or false.
      */
     public boolean isRequestSkillCode_HasDivineAbility() {
@@ -1776,6 +1786,16 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isRequestSkillCode_HasMadmanAbility() {
         CDef.Skill cdef = getRequestSkillCodeAsSkill();
         return cdef != null && cdef.isHasMadmanAbility();
+    }
+
+    /**
+     * 徘徊能力を持つ <br>
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐]
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode_HasDisturbAbility() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null && cdef.isHasDisturbAbility();
     }
 
     /**
@@ -2086,7 +2106,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 占い能力を持つ <br>
-     * The group elements:[占い師, 賢者]
+     * The group elements:[占い師, 賢者, 占星術師]
      * @return The determination, true or false.
      */
     public boolean isSecondRequestSkillCode_HasDivineAbility() {
@@ -2122,6 +2142,16 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode_HasMadmanAbility() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null && cdef.isHasMadmanAbility();
+    }
+
+    /**
+     * 徘徊能力を持つ <br>
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐]
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode_HasDisturbAbility() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null && cdef.isHasDisturbAbility();
     }
 
     /**

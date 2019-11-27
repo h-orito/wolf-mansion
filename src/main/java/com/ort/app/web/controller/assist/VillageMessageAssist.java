@@ -201,7 +201,8 @@ public class VillageMessageAssist {
     }
 
     private boolean isViewAllowedSeerMessage(VillagePlayer villagePlayer) {
-        return villagePlayer.isIsDeadFalse() && villagePlayer.getSkillCodeAsSkill() == CDef.Skill.占い師;
+        return villagePlayer.isIsDeadFalse()
+                && (villagePlayer.getSkillCodeAsSkill() == CDef.Skill.占い師 || villagePlayer.getSkillCodeAsSkill() == CDef.Skill.占星術師);
     }
 
     private boolean isViewAllowedWiseMessage(VillagePlayer villagePlayer) {

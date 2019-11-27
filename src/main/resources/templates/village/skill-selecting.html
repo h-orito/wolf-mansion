@@ -33,7 +33,7 @@
 			th:text="'現在の選択: ' + ${targetCharaName == '' || targetCharaName == null ? '罠を設置しない' : targetCharaName + ' の部屋に爆弾を設置する'}"></p>
 		<!--/* 通過する部屋 */-->
 		<p class="small"
-			th:if="${content.myself.skillName == 'SEER' || content.myself.skillName == 'WISE' 
+			th:if="${content.myself.skillName == 'SEER' || content.myself.skillName == 'WISE' || content.myself.skillName == 'ASTROLOGER'
 				|| content.myself.skillName == 'WEREWOLF' || content.myself.skillName == 'CURSEWOLF' || content.myself.skillName == 'WISEWOLF'
 				|| content.myself.skillName == 'HUNTER' || content.myself.skillName == 'FOX'
 				|| content.myself.skillName == 'MADMAN' || content.myself.skillName == 'EVILMEDIUM' || content.myself.skillName == 'CMADMAN' || content.myself.skillName == 'FANATIC'}"

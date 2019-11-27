@@ -2,6 +2,7 @@ package com.ort.app.web.controller.logic;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -918,25 +919,65 @@ public class DayChangeLogic {
             }
             VillagePlayer targetPlayer =
                     villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(optSeer.get().getTargetCharaId())).findFirst().get();
-            String message = makeDivineMessage(seerPlayer, targetPlayer);
-            messageLogic.insertMessageIgnoreError(villageId, day,
-                    seerPlayer.isSkillCode占い師() ? CDef.MessageType.白黒占い結果 : CDef.MessageType.役職占い結果, message,
-                    seerPlayer.getVillagePlayerId(), true, null);
+            CDef.Skill skill = seerPlayer.getSkillCodeAsSkill();
+            String message = makeDivineMessage(skill, seerPlayer, targetPlayer, villageId, villagePlayerList);
+            CDef.MessageType messageType =
+                    skill == CDef.Skill.占い師 || skill == CDef.Skill.占星術師 ? CDef.MessageType.白黒占い結果 : CDef.MessageType.役職占い結果;
+            messageLogic.insertMessageIgnoreError(villageId, day, messageType, message, seerPlayer.getVillagePlayerId(), true, null);
             divineList.add(new DivinePlayers(seerPlayer, targetPlayer));
         });
         return divineList;
     }
 
-    private String makeDivineMessage(VillagePlayer seerPlayer, VillagePlayer targetPlayer) {
+    private String makeDivineMessage(CDef.Skill skill, VillagePlayer seerPlayer, VillagePlayer targetPlayer, Integer villageId,
+            List<VillagePlayer> villagePlayerList) {
         String targetCharaName = CharaUtil.makeCharaName(targetPlayer);
-        if (seerPlayer.isSkillCode占い師()) {
+        String seerName = CharaUtil.makeCharaName(seerPlayer);
+        if (skill == CDef.Skill.占い師) {
             boolean isTargetWerewolf = targetPlayer.getSkillCodeAsSkill().isHasAttackAbility();
-            return String.format("%sは、%sを占った。\n%sは%sのようだ。", CharaUtil.makeCharaName(seerPlayer), targetCharaName, targetCharaName,
-                    isTargetWerewolf ? "人狼" : "人間");
-        } else {
-            return String.format("%sは、%sを占った。\n%sは%sのようだ。", CharaUtil.makeCharaName(seerPlayer), targetCharaName, targetCharaName,
+            return String.format("%sは、%sを占った。\n%sは%sのようだ。", seerName, targetCharaName, targetCharaName, isTargetWerewolf ? "人狼" : "人間");
+        } else if (skill == CDef.Skill.賢者) {
+            return String.format("%sは、%sを占った。\n%sは%sのようだ。", seerName, targetCharaName, targetCharaName,
                     targetPlayer.getSkillCodeAsSkill().alias());
+        } else if (skill == CDef.Skill.占星術師) {
+            String resultMessage = makeAstrologerDivineResultMessage(villageId, targetPlayer, villagePlayerList);
+            return String.format("%sは、%sのあたりを占った。\nこのあたりには、%sいるようだ。", seerName, targetCharaName, resultMessage);
         }
+        return null;
+    }
+
+    // 占星術結果
+    private String makeAstrologerDivineResultMessage(Integer villageId, VillagePlayer targetPlayer, List<VillagePlayer> villagePlayerList) {
+        Village village = villageBhv.selectByPK(villageId).get();
+        Integer targetRoomNumber = targetPlayer.getRoomNumber();
+        List<Integer> targetRoomNumberList = detectAroundRoomNumber(targetRoomNumber, village.getRoomSizeWidth());
+        Map<Skill, List<VillagePlayer>> targetPlayerSkillMap =
+                villagePlayerList.stream().filter(vp -> targetRoomNumberList.contains(vp.getRoomNumber())).collect(
+                        Collectors.groupingBy(VillagePlayer::getSkillCodeAsSkill));
+        StringJoiner joiner = new StringJoiner("、");
+        SkillUtil.SORTED_SKILL_LIST.forEach(skill -> {
+            if (!targetPlayerSkillMap.containsKey(skill)) {
+                return;
+            }
+            joiner.add(String.format("%sが%d名", skill.alias(), targetPlayerSkillMap.get(skill).size()));
+        });
+
+        return joiner.toString();
+    }
+
+    // 対象＋周辺8部屋の部屋番号（存在しない部屋番号を含んでいても良い）
+    private List<Integer> detectAroundRoomNumber(Integer targetRoomNumber, Integer roomSizeWidth) {
+        return Arrays.asList(//
+                targetRoomNumber, // 対象の部屋
+                targetRoomNumber - roomSizeWidth - 1, // 左上
+                targetRoomNumber - roomSizeWidth, // 上
+                targetRoomNumber - roomSizeWidth + 1, // 右上
+                targetRoomNumber - 1, // 左
+                targetRoomNumber + 1, // 右
+                targetRoomNumber + roomSizeWidth - 1, // 左下
+                targetRoomNumber + roomSizeWidth, // 下
+                targetRoomNumber + roomSizeWidth + 1 // 右下
+        );
     }
 
     // 護衛

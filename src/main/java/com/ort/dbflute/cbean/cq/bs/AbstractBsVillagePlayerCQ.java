@@ -1237,7 +1237,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 占い能力を持つ <br>
-     * The group elements:[占い師, 賢者]
+     * The group elements:[占い師, 賢者, 占星術師]
      */
     public void setSkillCode_InScope_HasDivineAbility() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDivineAbility());
@@ -1271,6 +1271,16 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_InScope_HasMadmanAbility() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasMadmanAbility());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 徘徊能力を持つ <br>
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐]
+     */
+    public void setSkillCode_InScope_HasDisturbAbility() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDisturbAbility());
     }
 
     /**
@@ -1826,7 +1836,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 占い能力を持つ <br>
-     * The group elements:[占い師, 賢者]
+     * The group elements:[占い師, 賢者, 占星術師]
      */
     public void setRequestSkillCode_InScope_HasDivineAbility() {
         setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDivineAbility());
@@ -1860,6 +1870,16 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_InScope_HasMadmanAbility() {
         setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasMadmanAbility());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 徘徊能力を持つ <br>
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐]
+     */
+    public void setRequestSkillCode_InScope_HasDisturbAbility() {
+        setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDisturbAbility());
     }
 
     /**
@@ -2415,7 +2435,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 占い能力を持つ <br>
-     * The group elements:[占い師, 賢者]
+     * The group elements:[占い師, 賢者, 占星術師]
      */
     public void setSecondRequestSkillCode_InScope_HasDivineAbility() {
         setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDivineAbility());
@@ -2449,6 +2469,16 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_InScope_HasMadmanAbility() {
         setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasMadmanAbility());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 徘徊能力を持つ <br>
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐]
+     */
+    public void setSecondRequestSkillCode_InScope_HasDisturbAbility() {
+        setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDisturbAbility());
     }
 
     /**

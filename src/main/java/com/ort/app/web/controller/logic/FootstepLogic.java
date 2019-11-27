@@ -120,7 +120,7 @@ public class FootstepLogic {
 
         if (skill.isHasAttackAbility()) {
             return makeWolfSeerFootstepCandidateList(charaId, targetCharaId, village, villagePlayerList);
-        } else if (skill == CDef.Skill.占い師 || skill == CDef.Skill.賢者 || skill == CDef.Skill.狩人) {
+        } else if (skill.isHasDivineAbility() || skill == CDef.Skill.狩人) {
             return makeWolfSeerFootstepCandidateList(villagePlayer.getCharaId(), targetCharaId, village, villagePlayerList);
         }
         return null;

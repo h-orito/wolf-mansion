@@ -52,6 +52,10 @@ public class AssignLogic {
     private static final List<Skill> rangeSkillList =
             Arrays.asList(Skill.おまかせ人外, Skill.おまかせ人狼陣営, Skill.おまかせ役職窓あり, Skill.おまかせ村人陣営, Skill.おまかせ足音職);
     private static final Map<Skill, List<Skill>> rangeSkillMap;
+    private static final List<CDef.Skill> MADMAN_PRIORITY_LIST =
+            Arrays.asList(CDef.Skill.C国狂人, CDef.Skill.狂信者, CDef.Skill.魔神官, CDef.Skill.狂人);
+    private static final List<CDef.Skill> WOLF_PRIORITY_LIST = Arrays.asList(CDef.Skill.智狼, CDef.Skill.呪狼, CDef.Skill.人狼);
+    private static final List<CDef.Skill> SEER_PRIORITY_LIST = Arrays.asList(CDef.Skill.賢者, CDef.Skill.占星術師, CDef.Skill.占い師);
 
     static {
         rangeSkillMap = new HashMap<Skill, List<Skill>>();
@@ -60,10 +64,10 @@ public class AssignLogic {
         rangeSkillMap.put(Skill.おまかせ人狼陣営,
                 Arrays.asList(Skill.C国狂人, Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, Skill.狂人, Skill.狂信者, Skill.魔神官));
         rangeSkillMap.put(Skill.おまかせ役職窓あり, Arrays.asList(Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, Skill.C国狂人, Skill.共鳴者));
-        rangeSkillMap.put(Skill.おまかせ村人陣営,
-                Arrays.asList(Skill.共鳴者, Skill.占い師, Skill.導師, Skill.村人, Skill.狩人, Skill.賢者, Skill.霊能者, Skill.探偵, Skill.罠師));
-        rangeSkillMap.put(Skill.おまかせ足音職, Arrays.asList(Skill.C国狂人, Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, Skill.占い師, Skill.妖狐, Skill.狂人,
-                Skill.狂信者, Skill.狩人, Skill.賢者, Skill.魔神官));
+        rangeSkillMap.put(Skill.おまかせ村人陣営, Arrays.asList(Skill.共鳴者, Skill.占い師, Skill.導師, Skill.村人, Skill.狩人, Skill.賢者, Skill.霊能者, Skill.探偵,
+                Skill.罠師, Skill.占星術師, Skill.パン屋));
+        rangeSkillMap.put(Skill.おまかせ足音職, Arrays.asList(Skill.C国狂人, Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, Skill.占い師, Skill.占星術師, Skill.妖狐,
+                Skill.狂人, Skill.狂信者, Skill.狩人, Skill.賢者, Skill.魔神官));
     }
 
     // ===================================================================================
@@ -251,85 +255,31 @@ public class AssignLogic {
         return selectVillagePlayerList(villageId);
     }
 
-    private void convertToExistsSkill(SkillRequest after, Map<Skill, Integer> orgMap) {
+    private void convertToExistsSkill(SkillRequest request, Map<Skill, Integer> orgMap) {
         if (!existSkillInOrg(CDef.Skill.村人, orgMap) && existSkillInOrg(CDef.Skill.霊能者, orgMap)) {
-            convertSkillRequestIfNeeded(after, CDef.Skill.村人, CDef.Skill.霊能者);
+            convertSkillRequestIfNeeded(request, CDef.Skill.村人, CDef.Skill.霊能者);
         } else if (existSkillInOrg(CDef.Skill.村人, orgMap) && !existSkillInOrg(CDef.Skill.霊能者, orgMap)) {
-            convertSkillRequestIfNeeded(after, CDef.Skill.霊能者, CDef.Skill.村人);
+            convertSkillRequestIfNeeded(request, CDef.Skill.霊能者, CDef.Skill.村人);
         }
-        if (existSkillInOrg(CDef.Skill.C国狂人, orgMap)) {
-            if (!existSkillInOrg(CDef.Skill.狂人, orgMap)) {
-                convertSkillRequestIfNeeded(after, CDef.Skill.狂人, CDef.Skill.C国狂人);
+
+        convertSkill(MADMAN_PRIORITY_LIST, request, orgMap);
+        convertSkill(WOLF_PRIORITY_LIST, request, orgMap);
+        convertSkill(SEER_PRIORITY_LIST, request, orgMap);
+    }
+
+    private void convertSkill(List<Skill> skillPriorityList, SkillRequest request, Map<Skill, Integer> orgMap) {
+        skillPriorityList.forEach(toSkill -> {
+            if (!existSkillInOrg(toSkill, orgMap)) {
+                return;
             }
-            if (!existSkillInOrg(CDef.Skill.狂信者, orgMap)) {
-                convertSkillRequestIfNeeded(after, CDef.Skill.狂信者, CDef.Skill.C国狂人);
-            }
-            if (!existSkillInOrg(CDef.Skill.魔神官, orgMap)) {
-                convertSkillRequestIfNeeded(after, CDef.Skill.魔神官, CDef.Skill.C国狂人);
-            }
-        }
-        if (existSkillInOrg(CDef.Skill.狂信者, orgMap)) {
-            if (!existSkillInOrg(CDef.Skill.C国狂人, orgMap)) {
-                convertSkillRequestIfNeeded(after, CDef.Skill.C国狂人, CDef.Skill.狂信者);
-            }
-            if (!existSkillInOrg(CDef.Skill.狂人, orgMap)) {
-                convertSkillRequestIfNeeded(after, CDef.Skill.狂人, CDef.Skill.狂信者);
-            }
-            if (!existSkillInOrg(CDef.Skill.魔神官, orgMap)) {
-                convertSkillRequestIfNeeded(after, CDef.Skill.魔神官, CDef.Skill.狂信者);
-            }
-        }
-        if (existSkillInOrg(CDef.Skill.魔神官, orgMap)) {
-            if (!existSkillInOrg(CDef.Skill.C国狂人, orgMap)) {
-                convertSkillRequestIfNeeded(after, CDef.Skill.C国狂人, CDef.Skill.魔神官);
-            }
-            if (!existSkillInOrg(CDef.Skill.狂人, orgMap)) {
-                convertSkillRequestIfNeeded(after, CDef.Skill.狂人, CDef.Skill.魔神官);
-            }
-            if (!existSkillInOrg(CDef.Skill.狂信者, orgMap)) {
-                convertSkillRequestIfNeeded(after, CDef.Skill.狂信者, CDef.Skill.魔神官);
-            }
-        }
-        if (existSkillInOrg(CDef.Skill.狂人, orgMap)) {
-            if (!existSkillInOrg(CDef.Skill.C国狂人, orgMap)) {
-                convertSkillRequestIfNeeded(after, CDef.Skill.C国狂人, CDef.Skill.狂人);
-            }
-            if (!existSkillInOrg(CDef.Skill.魔神官, orgMap)) {
-                convertSkillRequestIfNeeded(after, CDef.Skill.魔神官, CDef.Skill.狂人);
-            }
-            if (!existSkillInOrg(CDef.Skill.狂信者, orgMap)) {
-                convertSkillRequestIfNeeded(after, CDef.Skill.狂信者, CDef.Skill.狂人);
-            }
-        }
-        if (existSkillInOrg(CDef.Skill.占い師, orgMap) && !existSkillInOrg(CDef.Skill.賢者, orgMap)) {
-            convertSkillRequestIfNeeded(after, CDef.Skill.賢者, CDef.Skill.占い師);
-        } else if (existSkillInOrg(CDef.Skill.賢者, orgMap) && !existSkillInOrg(CDef.Skill.占い師, orgMap)) {
-            convertSkillRequestIfNeeded(after, CDef.Skill.占い師, CDef.Skill.賢者);
-        }
-        if (existSkillInOrg(CDef.Skill.人狼, orgMap)) {
-            if (!existSkillInOrg(CDef.Skill.呪狼, orgMap)) {
-                convertSkillRequestIfNeeded(after, CDef.Skill.呪狼, CDef.Skill.人狼);
-            }
-            if (!existSkillInOrg(CDef.Skill.智狼, orgMap)) {
-                convertSkillRequestIfNeeded(after, CDef.Skill.智狼, CDef.Skill.人狼);
-            }
-        }
-        if (existSkillInOrg(CDef.Skill.呪狼, orgMap)) {
-            if (!existSkillInOrg(CDef.Skill.人狼, orgMap)) {
-                convertSkillRequestIfNeeded(after, CDef.Skill.人狼, CDef.Skill.呪狼);
-            }
-            if (!existSkillInOrg(CDef.Skill.智狼, orgMap)) {
-                convertSkillRequestIfNeeded(after, CDef.Skill.智狼, CDef.Skill.呪狼);
-            }
-        }
-        if (existSkillInOrg(CDef.Skill.智狼, orgMap)) {
-            if (!existSkillInOrg(CDef.Skill.人狼, orgMap)) {
-                convertSkillRequestIfNeeded(after, CDef.Skill.人狼, CDef.Skill.智狼);
-            }
-            if (!existSkillInOrg(CDef.Skill.呪狼, orgMap)) {
-                convertSkillRequestIfNeeded(after, CDef.Skill.呪狼, CDef.Skill.智狼);
-            }
-        }
+            skillPriorityList.forEach(fromSkill -> {
+                if (existSkillInOrg(fromSkill, orgMap)) {
+                    return;
+                }
+                // fromが存在しなく、toが存在するので、入れ替える
+                convertSkillRequestIfNeeded(request, fromSkill, toSkill);
+            });
+        });
     }
 
     private void convertSkillRequestIfNeeded(SkillRequest request, Skill before, Skill after) {

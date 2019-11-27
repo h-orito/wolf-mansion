@@ -831,11 +831,11 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * 占い能力を持つ <br>
-         * The group elements:[占い師, 賢者]
+         * The group elements:[占い師, 賢者, 占星術師]
          * @return The determination, true or false.
          */
         public boolean isHasDivineAbility() {
-            return 占い師.equals(this) || 賢者.equals(this);
+            return 占い師.equals(this) || 賢者.equals(this) || 占星術師.equals(this);
         }
 
         /**
@@ -870,6 +870,16 @@ public interface CDef extends Classification {
 
         /**
          * Is the classification in the group? <br>
+         * 徘徊能力を持つ <br>
+         * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐]
+         * @return The determination, true or false.
+         */
+        public boolean isHasDisturbAbility() {
+            return C国狂人.equals(this) || 狂人.equals(this) || 狂信者.equals(this) || 魔神官.equals(this) || 妖狐.equals(this);
+        }
+
+        /**
+         * Is the classification in the group? <br>
          * 襲撃されても死なない <br>
          * The group elements:[妖狐, 爆弾魔]
          * @return The determination, true or false.
@@ -884,6 +894,7 @@ public interface CDef extends Classification {
             if ("hasSkillPsychicAbility".equals(groupName)) { return isHasSkillPsychicAbility(); }
             if ("hasAttackAbility".equals(groupName)) { return isHasAttackAbility(); }
             if ("hasMadmanAbility".equals(groupName)) { return isHasMadmanAbility(); }
+            if ("hasDisturbAbility".equals(groupName)) { return isHasDisturbAbility(); }
             if ("noDeadByAttack".equals(groupName)) { return isNoDeadByAttack(); }
             return false;
         }
@@ -957,6 +968,7 @@ public interface CDef extends Classification {
             if ("hasSkillPsychicAbility".equalsIgnoreCase(groupName)) { return listOfHasSkillPsychicAbility(); }
             if ("hasAttackAbility".equalsIgnoreCase(groupName)) { return listOfHasAttackAbility(); }
             if ("hasMadmanAbility".equalsIgnoreCase(groupName)) { return listOfHasMadmanAbility(); }
+            if ("hasDisturbAbility".equalsIgnoreCase(groupName)) { return listOfHasDisturbAbility(); }
             if ("noDeadByAttack".equalsIgnoreCase(groupName)) { return listOfNoDeadByAttack(); }
             throw new ClassificationNotFoundException("Unknown classification group: Skill." + groupName);
         }
@@ -986,11 +998,11 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 占い能力を持つ <br>
-         * The group elements:[占い師, 賢者]
+         * The group elements:[占い師, 賢者, 占星術師]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfHasDivineAbility() {
-            return new ArrayList<Skill>(Arrays.asList(占い師, 賢者));
+            return new ArrayList<Skill>(Arrays.asList(占い師, 賢者, 占星術師));
         }
 
         /**
@@ -1025,6 +1037,16 @@ public interface CDef extends Classification {
 
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
+         * 徘徊能力を持つ <br>
+         * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐]
+         * @return The snapshot list of classification elements in the group. (NotNull)
+         */
+        public static List<Skill> listOfHasDisturbAbility() {
+            return new ArrayList<Skill>(Arrays.asList(C国狂人, 狂人, 狂信者, 魔神官, 妖狐));
+        }
+
+        /**
+         * Get the list of group classification elements. (returns new copied list) <br>
          * 襲撃されても死なない <br>
          * The group elements:[妖狐, 爆弾魔]
          * @return The snapshot list of classification elements in the group. (NotNull)
@@ -1044,6 +1066,7 @@ public interface CDef extends Classification {
             if ("hasSkillPsychicAbility".equals(groupName)) { return listOfHasSkillPsychicAbility(); }
             if ("hasAttackAbility".equals(groupName)) { return listOfHasAttackAbility(); }
             if ("hasMadmanAbility".equals(groupName)) { return listOfHasMadmanAbility(); }
+            if ("hasDisturbAbility".equals(groupName)) { return listOfHasDisturbAbility(); }
             if ("noDeadByAttack".equals(groupName)) { return listOfNoDeadByAttack(); }
             return new ArrayList<Skill>(4);
         }
