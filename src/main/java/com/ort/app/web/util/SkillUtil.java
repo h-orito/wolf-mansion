@@ -45,28 +45,7 @@ public class SkillUtil {
         SKILL_ABILITY_TYPE_MAP = Collections.unmodifiableMap(skillAbilityTypeMap);
 
         Map<String, CDef.Skill> skillShortNameMap = new HashMap<>();
-        // TODO DBに略称を持たせる
-        skillShortNameMap.put("村", CDef.Skill.村人);
-        skillShortNameMap.put("狼", CDef.Skill.人狼);
-        skillShortNameMap.put("呪", CDef.Skill.呪狼);
-        skillShortNameMap.put("智", CDef.Skill.智狼);
-        skillShortNameMap.put("狂", CDef.Skill.狂人);
-        skillShortNameMap.put("C", CDef.Skill.C国狂人);
-        skillShortNameMap.put("魔", CDef.Skill.魔神官);
-        skillShortNameMap.put("信", CDef.Skill.狂信者);
-        skillShortNameMap.put("占", CDef.Skill.占い師);
-        skillShortNameMap.put("賢", CDef.Skill.賢者);
-        skillShortNameMap.put("星", CDef.Skill.占星術師);
-        skillShortNameMap.put("霊", CDef.Skill.霊能者);
-        skillShortNameMap.put("導", CDef.Skill.導師);
-        skillShortNameMap.put("狐", CDef.Skill.妖狐);
-        skillShortNameMap.put("共", CDef.Skill.共鳴者);
-        skillShortNameMap.put("狩", CDef.Skill.狩人);
-        skillShortNameMap.put("パ", CDef.Skill.パン屋);
-        skillShortNameMap.put("探", CDef.Skill.探偵);
-        skillShortNameMap.put("罠", CDef.Skill.罠師);
-        skillShortNameMap.put("爆", CDef.Skill.爆弾魔);
-
+        SORTED_SKILL_LIST.forEach(skill -> skillShortNameMap.put(skill.skill_short_name(), skill));
         SKILL_SHORTNAME_MAP = MapUtils.unmodifiableMap(skillShortNameMap);
     }
 

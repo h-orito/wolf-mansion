@@ -118,6 +118,7 @@ map:{
             ; subItemMap=map:{
             	    ; order=DISP_ORDER
             	    ; campCode=CAMP_CODE
+            	    ; skill_short_name=SKILL_SHORT_NAME
 			}
         }
     }

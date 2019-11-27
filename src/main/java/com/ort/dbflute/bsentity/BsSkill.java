@@ -20,7 +20,7 @@ import com.ort.dbflute.exentity.*;
  *     SKILL_CODE
  *
  * [column]
- *     SKILL_CODE, SKILL_NAME, CAMP_CODE, DISP_ORDER
+ *     SKILL_CODE, SKILL_NAME, SKILL_SHORT_NAME, CAMP_CODE, DISP_ORDER
  *
  * [sequence]
  *     
@@ -47,10 +47,12 @@ import com.ort.dbflute.exentity.*;
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * String skillCode = entity.getSkillCode();
  * String skillName = entity.getSkillName();
+ * String skillShortName = entity.getSkillShortName();
  * String campCode = entity.getCampCode();
  * Integer dispOrder = entity.getDispOrder();
  * entity.setSkillCode(skillCode);
  * entity.setSkillName(skillName);
+ * entity.setSkillShortName(skillShortName);
  * entity.setCampCode(campCode);
  * entity.setDispOrder(dispOrder);
  * = = = = = = = = = =/
@@ -73,6 +75,9 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /** SKILL_NAME: {NotNull, VARCHAR(20)} */
     protected String _skillName;
+
+    /** SKILL_SHORT_NAME: {NotNull, CHAR(1)} */
+    protected String _skillShortName;
 
     /** CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} */
     protected String _campCode;
@@ -940,6 +945,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
         StringBuilder sb = new StringBuilder();
         sb.append(dm).append(xfND(_skillCode));
         sb.append(dm).append(xfND(_skillName));
+        sb.append(dm).append(xfND(_skillShortName));
         sb.append(dm).append(xfND(_campCode));
         sb.append(dm).append(xfND(_dispOrder));
         if (sb.length() > dm.length()) {
@@ -1015,6 +1021,26 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public void setSkillName(String skillName) {
         registerModifiedProperty("skillName");
         _skillName = skillName;
+    }
+
+    /**
+     * [get] SKILL_SHORT_NAME: {NotNull, CHAR(1)} <br>
+     * 役職名略称
+     * @return The value of the column 'SKILL_SHORT_NAME'. (basically NotNull if selected: for the constraint)
+     */
+    public String getSkillShortName() {
+        checkSpecifiedProperty("skillShortName");
+        return convertEmptyToNull(_skillShortName);
+    }
+
+    /**
+     * [set] SKILL_SHORT_NAME: {NotNull, CHAR(1)} <br>
+     * 役職名略称
+     * @param skillShortName The value of the column 'SKILL_SHORT_NAME'. (basically NotNull if update: for the constraint)
+     */
+    public void setSkillShortName(String skillShortName) {
+        registerModifiedProperty("skillShortName");
+        _skillShortName = skillShortName;
     }
 
     /**

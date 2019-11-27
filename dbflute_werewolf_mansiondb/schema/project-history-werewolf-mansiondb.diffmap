@@ -1,4 +1,21 @@
 map:{
+    ; 2019/11/27 14:03:30 = map:{
+        ; diffDate = 2019/11/27 14:03:30
+        ; diffAuthor = hitoshi
+        ; diffGitBranch = feature/bread
+        ; tableDiff = map:{
+            ; skill = map:{
+                ; tableName = skill
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; SKILL_SHORT_NAME = map:{
+                        ; columnName = SKILL_SHORT_NAME
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2019/11/22 22:02:40 = map:{
         ; diffDate = 2019/11/22 22:02:40
         ; diffAuthor = hitoshi
