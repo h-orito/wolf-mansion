@@ -28,6 +28,9 @@
 		<thymeleaf.version>3.0.3.RELEASE</thymeleaf.version>
 		<thymeleaf-layout-dialect.version>2.1.1</thymeleaf-layout-dialect.version>
 		<springsecurity4.version>3.0.2.RELEASE</springsecurity4.version>
+		<!-- selenide -->
+		<selenium.version>3.14.0</selenium.version>
+		<selenium-htmlunit.version>2.32.1</selenium-htmlunit.version>
 	</properties>
 
 	<dependencies>
@@ -90,6 +93,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.codeborne</groupId>
+			<artifactId>selenide</artifactId>
+			<version>5.5.0</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- commons -->
