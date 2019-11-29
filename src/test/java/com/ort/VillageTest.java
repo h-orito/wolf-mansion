@@ -3,10 +3,8 @@ package com.ort;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,14 +18,7 @@ import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
-import com.ort.dbflute.exbhv.AbilityBhv;
-import com.ort.dbflute.exbhv.FootstepBhv;
-import com.ort.dbflute.exbhv.MessageBhv;
-import com.ort.dbflute.exbhv.VillageBhv;
-import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
-import com.ort.dbflute.exbhv.VillageSettingsBhv;
-import com.ort.dbflute.exbhv.VoteBhv;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -40,21 +31,7 @@ public class VillageTest {
     private Integer port;
 
     @Autowired
-    private MessageBhv messageBhv;
-    @Autowired
-    private AbilityBhv abilityBhv;
-    @Autowired
-    private FootstepBhv footstepBhv;
-    @Autowired
-    private VoteBhv voteBhv;
-    @Autowired
-    private VillageDayBhv villageDayBhv;
-    @Autowired
     private VillagePlayerBhv villagePlayerBhv;
-    @Autowired
-    private VillageSettingsBhv villageSettingsBhv;
-    @Autowired
-    private VillageBhv villageBhv;
 
     // ===================================================================================
     //                                                                               setup
@@ -62,19 +39,6 @@ public class VillageTest {
     @BeforeClass
     public static void setUp() {
         Configuration.browser = WebDriverRunner.CHROME;
-    }
-
-    @Before
-    @After
-    public void deleteAllDb() {
-        messageBhv.varyingQueryDelete(cb -> {}, op -> op.allowNonQueryDelete());
-        abilityBhv.varyingQueryDelete(cb -> {}, op -> op.allowNonQueryDelete());
-        footstepBhv.varyingQueryDelete(cb -> {}, op -> op.allowNonQueryDelete());
-        voteBhv.varyingQueryDelete(cb -> {}, op -> op.allowNonQueryDelete());
-        villageDayBhv.varyingQueryDelete(cb -> {}, op -> op.allowNonQueryDelete());
-        villagePlayerBhv.varyingQueryDelete(cb -> {}, op -> op.allowNonQueryDelete());
-        villageSettingsBhv.varyingQueryDelete(cb -> {}, op -> op.allowNonQueryDelete());
-        villageBhv.varyingQueryDelete(cb -> {}, op -> op.allowNonQueryDelete());
     }
 
     @AfterClass
@@ -99,11 +63,10 @@ public class VillageTest {
         String villageId = getVillageId();
 
         // エピローグまで日付を進めながら全プレイヤーで参照してエラーが出ないことを確認
-        List<String> playerNameList = villagePlayerBhv.selectList(cb -> cb.setupSelect_Player())
-                .stream() //
-                .map(vp -> vp.getPlayer().get().getPlayerName())
-                .filter(name -> !"master".equals(name))
-                .collect(Collectors.toList());
+        List<String> playerNameList = villagePlayerBhv.selectList(cb -> {
+            cb.setupSelect_Player();
+            cb.query().setVillageId_Equal(Integer.parseInt(villageId));
+        }).stream().map(vp -> vp.getPlayer().get().getPlayerName()).filter(name -> !"master".equals(name)).collect(Collectors.toList());
 
         int temp = 0;
         while (!isCompleteVillage()) {
@@ -133,13 +96,8 @@ public class VillageTest {
                 break;
             }
         }
-
-        sleep(5000);
     }
 
-    // ===================================================================================
-    //                                                                                Test
-    //                                                                             =======
     @Test
     public void test_管理者と非ログインだけ確認() {
         // masterで村を作成して17人入村させる
@@ -174,8 +132,34 @@ public class VillageTest {
                 break;
             }
         }
+    }
 
-        sleep(5000);
+    @Test
+    public void test_エピローグまで進める() {
+        // masterで村を作成して17人入村させる
+        open("/");
+        login("master");
+        assertHasError();
+        createVillage("村名001", "初期発言", "村狼狼狼魔狐賢導狩共共霊霊霊霊霊霊");
+        assertHasError();
+        allParticipate();
+
+        // 村のID
+        String villageId = getVillageId();
+
+        int temp = 0;
+        while (!isEpilogueVillage()) {
+            // 村を参照
+            openVillage(villageId);
+            // 日付を進める
+            progressDay();
+
+            // 安全のため
+            temp++;
+            if (temp > 20) {
+                break;
+            }
+        }
     }
 
     // ===================================================================================
@@ -249,6 +233,10 @@ public class VillageTest {
 
     private boolean isCompleteVillage() {
         return Selenide.$("#day-list").find(Selectors.byText("終了")).exists();
+    }
+
+    private boolean isEpilogueVillage() {
+        return Selenide.$("#day-list").find(Selectors.byText("エピローグ")).exists();
     }
 
     private String getVillageId() {
