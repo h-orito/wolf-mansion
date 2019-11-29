@@ -199,7 +199,7 @@ public class FootstepLogic {
             joiner.add(NO_FOOTSTEP_MESSAGE);
             return joiner.toString();
         }
-        Collections.shuffle(livingRoomFootstepList);
+        Collections.sort(livingRoomFootstepList);
         livingRoomFootstepList.forEach(fs -> {
             joiner.add(String.format("部屋%sで足音が聞こえた...。", fs));
         });
