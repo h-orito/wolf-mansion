@@ -48,6 +48,7 @@ $(function() {
 			});
 		}
 		selectDefaultFootsteps(); // 狐と狂人だったら選択していた足音の部屋を選択状態にする
+		$('[data-toggle="tooltip"]').tooltip();
 	}
 
 	// ----------------------------------------------

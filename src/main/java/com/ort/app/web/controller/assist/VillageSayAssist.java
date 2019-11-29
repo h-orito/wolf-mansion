@@ -84,8 +84,7 @@ public class VillageSayAssist {
         VillageSayConfirmResultContent content = new VillageSayConfirmResultContent();
         VillageMessageDto message = new VillageMessageDto();
         Chara chara = villagePlayer.getChara().get();
-        message.setCharacterName(chara.getCharaName());
-        message.setCharacterShortName(chara.getCharaShortName());
+        message.setCharacterName(CharaUtil.makeCharaName(villagePlayer));
         message.setCharacterId(chara.getCharaId());
         message.setCharacterImageUrl(CharaUtil.getCharaImgUrlByFaceType(chara, faceType));
         message.setMessageType(sayForm.getMessageType());

@@ -387,8 +387,7 @@ public class VillageMessageAssist {
         VillageMessageDto messageDto = new VillageMessageDto();
         message.getVillagePlayerByVillagePlayerId().ifPresent(vp -> {
             Chara chara = vp.getChara().get();
-            messageDto.setCharacterName(chara.getCharaName());
-            messageDto.setCharacterShortName(chara.getCharaShortName());
+            messageDto.setCharacterName(CharaUtil.makeCharaName(vp));
             messageDto.setCharacterId(chara.getCharaId());
             if (message.getFaceTypeCodeAsFaceType() != null) {
                 messageDto.setCharacterImageUrl(CharaUtil.getCharaImgUrlByFaceType(chara, message.getFaceTypeCodeAsFaceType()));

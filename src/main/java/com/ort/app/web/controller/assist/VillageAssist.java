@@ -804,7 +804,8 @@ public class VillageAssist {
             return vp.isIsSpectatorFalse() && vp.getRoomNumber().equals(roomNum);
         }).findFirst().ifPresent(vp -> {
             Chara chara = vp.getChara().get();
-            room.setCharaName(chara.getCharaShortName());
+            room.setCharaName(chara.getCharaName());
+            room.setCharaShortName(chara.getCharaShortName());
             room.setCharaImgUrl(CharaUtil.getNormalCharaImgUrl(chara));
             room.setCharaImgWidth(chara.getDisplayWidth());
             room.setCharaImgHeight(chara.getDisplayHeight());

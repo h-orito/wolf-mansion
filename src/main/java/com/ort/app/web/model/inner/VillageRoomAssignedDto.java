@@ -5,8 +5,11 @@ public class VillageRoomAssignedDto {
     /** 部屋番号 0埋めの2桁 */
     private String roomNumber;
 
-    /** キャラ名略称 */
+    /** キャラ名 */
     private String charaName;
+
+    /** キャラ名略称 */
+    private String charaShortName;
 
     /** キャラ画像 */
     private String charaImgUrl;
@@ -110,5 +113,13 @@ public class VillageRoomAssignedDto {
 
     public void setIsDummy(Boolean isDummy) {
         this.isDummy = isDummy;
+    }
+
+    public String getCharaShortName() {
+        return charaShortName;
+    }
+
+    public void setCharaShortName(String charaShortName) {
+        this.charaShortName = charaShortName;
     }
 }
