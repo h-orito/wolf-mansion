@@ -103,6 +103,14 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 検死結果 (PRIVATE_CORONER). And OnlyOnceRegistered. <br>
+     * 検死結果
+     */
+    public void setMessageTypeCode_Equal_検死結果() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.検死結果);
+    }
+
+    /**
      * Equal(=). As 役職霊視結果 (PRIVATE_GURU). And OnlyOnceRegistered. <br>
      * 役職霊視結果
      */
@@ -251,6 +259,14 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
      */
     public void setMessageTypeCode_NotEqual_通常発言() {
         setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.通常発言);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 検死結果 (PRIVATE_CORONER). And OnlyOnceRegistered. <br>
+     * 検死結果
+     */
+    public void setMessageTypeCode_NotEqual_検死結果() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.検死結果);
     }
 
     /**

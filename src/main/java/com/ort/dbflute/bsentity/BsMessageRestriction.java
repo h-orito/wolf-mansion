@@ -211,6 +211,14 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     }
 
     /**
+     * Set the value of skillCode as 検死官 (CORONER). <br>
+     * 検死官
+     */
+    public void setSkillCode_検死官() {
+        setSkillCodeAsSkill(CDef.Skill.検死官);
+    }
+
+    /**
      * Set the value of skillCode as 呪狼 (CURSEWOLF). <br>
      * 呪狼
      */
@@ -427,6 +435,14 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     }
 
     /**
+     * Set the value of messageTypeCode as 検死結果 (PRIVATE_CORONER). <br>
+     * 検死結果
+     */
+    public void setMessageTypeCode_検死結果() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.検死結果);
+    }
+
+    /**
      * Set the value of messageTypeCode as 役職霊視結果 (PRIVATE_GURU). <br>
      * 役職霊視結果
      */
@@ -559,6 +575,17 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     public boolean isSkillCodeC国狂人() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.C国狂人) : false;
+    }
+
+    /**
+     * Is the value of skillCode 検死官? <br>
+     * 検死官
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode検死官() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.検死官) : false;
     }
 
     /**
@@ -926,6 +953,17 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     public boolean isMessageTypeCode通常発言() {
         CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
         return cdef != null ? cdef.equals(CDef.MessageType.通常発言) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 検死結果? <br>
+     * 検死結果
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode検死結果() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.検死結果) : false;
     }
 
     /**

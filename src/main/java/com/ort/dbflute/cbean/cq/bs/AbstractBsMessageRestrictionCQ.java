@@ -224,6 +224,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
     }
 
     /**
+     * Equal(=). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
+     * 検死官
+     */
+    public void setSkillCode_Equal_検死官() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.検死官);
+    }
+
+    /**
      * Equal(=). As 呪狼 (CURSEWOLF). And OnlyOnceRegistered. <br>
      * 呪狼
      */
@@ -452,6 +460,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
      */
     public void setSkillCode_NotEqual_C国狂人() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
+     * 検死官
+     */
+    public void setSkillCode_NotEqual_検死官() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.検死官);
     }
 
     /**
@@ -825,6 +841,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
     }
 
     /**
+     * Equal(=). As 検死結果 (PRIVATE_CORONER). And OnlyOnceRegistered. <br>
+     * 検死結果
+     */
+    public void setMessageTypeCode_Equal_検死結果() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.検死結果);
+    }
+
+    /**
      * Equal(=). As 役職霊視結果 (PRIVATE_GURU). And OnlyOnceRegistered. <br>
      * 役職霊視結果
      */
@@ -973,6 +997,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
      */
     public void setMessageTypeCode_NotEqual_通常発言() {
         setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.通常発言);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 検死結果 (PRIVATE_CORONER). And OnlyOnceRegistered. <br>
+     * 検死結果
+     */
+    public void setMessageTypeCode_NotEqual_検死結果() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.検死結果);
     }
 
     /**

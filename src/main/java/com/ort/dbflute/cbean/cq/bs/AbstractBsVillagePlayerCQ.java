@@ -794,6 +794,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
+     * 検死官
+     */
+    public void setSkillCode_Equal_検死官() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.検死官);
+    }
+
+    /**
      * Equal(=). As 呪狼 (CURSEWOLF). And OnlyOnceRegistered. <br>
      * 呪狼
      */
@@ -1022,6 +1030,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_C国狂人() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
+     * 検死官
+     */
+    public void setSkillCode_NotEqual_検死官() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.検死官);
     }
 
     /**
@@ -1393,6 +1409,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
+     * 検死官
+     */
+    public void setRequestSkillCode_Equal_検死官() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.検死官);
+    }
+
+    /**
      * Equal(=). As 呪狼 (CURSEWOLF). And OnlyOnceRegistered. <br>
      * 呪狼
      */
@@ -1621,6 +1645,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_C国狂人() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
+     * 検死官
+     */
+    public void setRequestSkillCode_NotEqual_検死官() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.検死官);
     }
 
     /**
@@ -1992,6 +2024,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
+     * 検死官
+     */
+    public void setSecondRequestSkillCode_Equal_検死官() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.検死官);
+    }
+
+    /**
      * Equal(=). As 呪狼 (CURSEWOLF). And OnlyOnceRegistered. <br>
      * 呪狼
      */
@@ -2220,6 +2260,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_C国狂人() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.C国狂人);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
+     * 検死官
+     */
+    public void setSecondRequestSkillCode_NotEqual_検死官() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.検死官);
     }
 
     /**

@@ -157,7 +157,7 @@
 			<div class="message col-sm-12 col-xs-12 message-private-seer">{{{messageContent}}}</div>
 		</div>
 	</div>
-	{{else if (or (eq messageType 'PRIVATE_PSYCHIC') (eq messageType 'PRIVATE_GURU') )}}
+	{{else if (or (or (eq messageType 'PRIVATE_PSYCHIC') (eq messageType 'PRIVATE_GURU') ) (eq messageType 'PRIVATE_CORONER') )}}
 	<div class="col-sm-12 col-xs-12" data-spoiled-content>
 		<div class="row">
 			<div class="message col-sm-12 col-xs-12 message-private-psychic">{{{messageContent}}}</div>

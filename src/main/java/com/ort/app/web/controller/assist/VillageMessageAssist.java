@@ -451,6 +451,7 @@ public class VillageMessageAssist {
         addSecretSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addSeerMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addPsychicMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
+        addCoronerMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addAttackMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addInvestigateMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addSystemMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
@@ -600,13 +601,33 @@ public class VillageMessageAssist {
         VillagePlayer vPlayer = optVillagePlayer.get();
         CDef.Skill skill = vPlayer.getSkillCodeAsSkill();
         if (vPlayer.isIsDeadFalse() && skill != null) {
-            if (vPlayer.getSkillCodeAsSkill() == CDef.Skill.霊能者) {
+            if (skill == CDef.Skill.霊能者) {
                 dispAllowedMessageTypeList.add(CDef.MessageType.白黒霊視結果);
                 return;
-            } else if (vPlayer.getSkillCodeAsSkill().isHasSkillPsychicAbility()) {
+            } else if (skill.isHasSkillPsychicAbility()) {
                 dispAllowedMessageTypeList.add(CDef.MessageType.役職霊視結果);
                 return;
             }
+        }
+    }
+
+    // 検死結果
+    private void addCoronerMessageIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
+            OptionalEntity<VillagePlayer> optVillagePlayer) {
+        // 終了していたら全開放
+        if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
+            dispAllowedMessageTypeList.add(CDef.MessageType.検死結果);
+            return;
+        }
+        // 終了していなかったら参加していて死亡しておらず、霊能者だったら開放
+        if (!optVillagePlayer.isPresent()) {
+            return;
+        }
+        VillagePlayer vPlayer = optVillagePlayer.get();
+        CDef.Skill skill = vPlayer.getSkillCodeAsSkill();
+        if (vPlayer.isIsDeadFalse() && skill == CDef.Skill.検死官) {
+            dispAllowedMessageTypeList.add(CDef.MessageType.検死結果);
+            return;
         }
     }
 

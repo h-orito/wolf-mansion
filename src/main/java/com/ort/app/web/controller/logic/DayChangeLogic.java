@@ -459,9 +459,19 @@ public class DayChangeLogic {
         // 爆弾
         List<VillagePlayer> bombedPlayerList = bomb(villageId, day, vPlayerList, abilityList, deadPlayerSet, suddonlyDeathVPlayerList);
 
+        // ここまでで無惨な死体になった人
+        Set<VillagePlayer> victimPlayerSet = new HashSet<>();
+        victimPlayerSet.addAll(divineKilledPlayerList);
+        victimPlayerSet.addAll(reverseDivineKilledPlayerList);
+        victimPlayerSet.addAll(trappedPlayerList);
+        victimPlayerSet.addAll(bombedPlayerList);
+        optAttackedPlayer.ifPresent(player -> victimPlayerSet.add(player));
+
         // 無惨メッセージ
-        insertAttackedMessage(villageId, day, divineKilledPlayerList, reverseDivineKilledPlayerList, optAttackedPlayer, trappedPlayerList,
-                bombedPlayerList);
+        insertAttackedMessage(villageId, day, victimPlayerSet);
+
+        // 検死
+        autopsy(villageId, day, victimPlayerSet, vPlayerList, deadPlayerSet);
 
         if (day == 2 && optAttackedPlayer.isPresent()) {
             messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ,
@@ -594,15 +604,7 @@ public class DayChangeLogic {
     }
 
     // 無惨メッセージ
-    private void insertAttackedMessage(Integer villageId, int day, List<VillagePlayer> divineKilledPlayerList,
-            List<VillagePlayer> reverseDivineKilledPlayerList, Optional<VillagePlayer> optAttackedPlayer,
-            List<VillagePlayer> trappedPlayerList, List<VillagePlayer> bombedPlayerList) {
-        Set<VillagePlayer> victimPlayerSet = new HashSet<>();
-        victimPlayerSet.addAll(divineKilledPlayerList);
-        victimPlayerSet.addAll(reverseDivineKilledPlayerList);
-        victimPlayerSet.addAll(trappedPlayerList);
-        victimPlayerSet.addAll(bombedPlayerList);
-        optAttackedPlayer.ifPresent(player -> victimPlayerSet.add(player));
+    private void insertAttackedMessage(Integer villageId, int day, Set<VillagePlayer> victimPlayerSet) {
         if (CollectionUtils.isEmpty(victimPlayerSet)) {
             messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, "今日は犠牲者がいないようだ。人狼は襲撃に失敗したのだろうか。");
         } else {
@@ -614,6 +616,32 @@ public class DayChangeLogic {
             });
             messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
         }
+    }
+
+    // 検死
+    private void autopsy(Integer villageId, int day, Set<VillagePlayer> victimPlayerSet, List<VillagePlayer> villagePlayerList,
+            Set<VillagePlayer> deadPlayerSet) {
+        if (CollectionUtils.isEmpty(victimPlayerSet)) {
+            return;
+        }
+        // 死亡した人
+        Set<VillagePlayer> deadSet = new HashSet<>(deadPlayerSet);
+        deadSet.addAll(victimPlayerSet);
+        // 検死官が生存している場合のみ
+        if (villagePlayerList.stream().noneMatch(vp -> vp.isIsDeadFalse() // 死亡していない
+                && deadSet.stream().noneMatch(deadVp -> vp.getVillagePlayerId().equals(deadVp.getVillagePlayerId())) // 今日死亡していない
+                && vp.getSkillCodeAsSkill() == CDef.Skill.検死官) // 霊能者である
+        ) {
+            return;
+        }
+
+        String message = String.join("\n", villagePlayerBhv.selectList(cb -> {
+            cb.setupSelect_Chara();
+            cb.query().setVillagePlayerId_InScope(victimPlayerSet.stream().map(vp -> vp.getVillagePlayerId()).collect(Collectors.toList()));
+        }).stream().sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber()).map(vPlayer -> {
+            return String.format("%sの死因は、%sのようだ。", CharaUtil.makeCharaName(vPlayer), vPlayer.getDeadReasonCodeAsDeadReason().alias());
+        }).collect(Collectors.toList()));
+        messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.検死結果, message);
     }
 
     // パン屋メッセージ

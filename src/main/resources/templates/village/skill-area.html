@@ -98,7 +98,7 @@
 														 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 														 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}"
 															th:data-footstep-room-number="${room.roomNumber}"><span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-															th:text="${room.roomNumber} + ' ' + ${room.charaName != null ? room.charaName : ''}">01. 楽</span></td>
+															th:text="${room.roomNumber} + ' ' + ${room.charaShortName != null ? room.charaShortName : ''}">01. 楽</span></td>
 													</tr>
 												</tbody>
 											</table>

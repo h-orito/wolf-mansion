@@ -288,6 +288,14 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
+     * Set the value of messageTypeCode as 検死結果 (PRIVATE_CORONER). <br>
+     * 検死結果
+     */
+    public void setMessageTypeCode_検死結果() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.検死結果);
+    }
+
+    /**
      * Set the value of messageTypeCode as 役職霊視結果 (PRIVATE_GURU). <br>
      * 役職霊視結果
      */
@@ -495,6 +503,17 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     public boolean isMessageTypeCode通常発言() {
         CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
         return cdef != null ? cdef.equals(CDef.MessageType.通常発言) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 検死結果? <br>
+     * 検死結果
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode検死結果() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.検死結果) : false;
     }
 
     /**
