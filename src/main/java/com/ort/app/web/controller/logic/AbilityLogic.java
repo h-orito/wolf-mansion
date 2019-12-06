@@ -60,7 +60,7 @@ public class AbilityLogic {
                 return;
             }
             updateAbility(villageId, day, charaId, CDef.AbilityType.襲撃, targetCharaId);
-            deleteSkillFootstep(villageId, day, charaId, footstep, villagePlayer.getSkillCodeAsSkill(), villagePlayerList);
+            deleteWolfFootstep(villageId, day, charaId, footstep, villagePlayerList);
             insertFootstep(villageId, day, charaId, footstep);
             messageLogic.insertAbilityMessage(villageId, day, charaId, targetCharaId, villagePlayerList, footstep, false);
         } else if (skill.isHasDivineAbility()) {
@@ -176,10 +176,9 @@ public class AbilityLogic {
         });
     }
 
-    private void deleteSkillFootstep(Integer villageId, int day, Integer charaId, String footstep, CDef.Skill skill,
-            List<VillagePlayer> villagePlayerList) {
+    private void deleteWolfFootstep(Integer villageId, int day, Integer charaId, String footstep, List<VillagePlayer> villagePlayerList) {
         List<Integer> werewolfCharaIdList =
-                villagePlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill() == skill).map(vp -> vp.getCharaId()).collect(
+                villagePlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill().isHasAttackAbility()).map(vp -> vp.getCharaId()).collect(
                         Collectors.toList());
         footstepBhv.queryDelete(cb -> {
             cb.query().setVillageId_Equal(villageId);
