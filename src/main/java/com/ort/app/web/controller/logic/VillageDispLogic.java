@@ -785,7 +785,10 @@ public class VillageDispLogic {
             cb.setupSelect_CharaByCharaId();
             cb.setupSelect_CharaByTargetCharaId();
             cb.query().setVillageId_Equal(villageInfo.villageId);
-            cb.query().setCharaId_Equal(villageInfo.optVillagePlayer.get().getCharaId());
+            // 人狼系は他の人がセットしたものも見られる
+            if (abilityType != CDef.AbilityType.襲撃) {
+                cb.query().setCharaId_Equal(villageInfo.optVillagePlayer.get().getCharaId());
+            }
             cb.query().setDay_LessThan(villageInfo.getLatestDay());
             cb.query().setAbilityTypeCode_Equal_AsAbilityType(abilityType);
             cb.query().addOrderBy_Day_Asc();
