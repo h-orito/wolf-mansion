@@ -447,7 +447,9 @@ public class DayChangeLogic {
         // ここまでで死亡している人
         Set<VillagePlayer> deadPlayerSet = new HashSet<>();
         deadPlayerSet.addAll(suddonlyDeathVPlayerList);
-        deadPlayerSet.add(executedPlayer);
+        if (executedPlayer != null) {
+            deadPlayerSet.add(executedPlayer);
+        }
         deadPlayerSet.addAll(divineKilledPlayerList);
         deadPlayerSet.addAll(reverseDivineKilledPlayerList);
         optAttackedPlayer.ifPresent(attackedPlayer -> deadPlayerSet.add(attackedPlayer));
@@ -625,7 +627,8 @@ public class DayChangeLogic {
             return;
         }
         // 死亡した人
-        Set<VillagePlayer> deadSet = new HashSet<>(deadPlayerSet);
+        Set<VillagePlayer> deadSet = new HashSet<>();
+        deadSet.addAll(deadPlayerSet);
         deadSet.addAll(victimPlayerSet);
         // 検死官が生存している場合のみ
         if (villagePlayerList.stream().noneMatch(vp -> vp.isIsDeadFalse() // 死亡していない
