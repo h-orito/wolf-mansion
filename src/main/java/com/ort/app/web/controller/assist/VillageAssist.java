@@ -421,6 +421,8 @@ public class VillageAssist {
                 return 1;
             } else if (vp1.isIsSpectatorFalse() && vp2.isIsSpectatorTrue()) {
                 return -1;
+            } else if (vp1.getRoomNumber() != null) {
+                return vp1.getRoomNumber() - vp2.getRoomNumber();
             } else {
                 return vp1.getCharaId() - vp2.getCharaId();
             }
@@ -549,6 +551,7 @@ public class VillageAssist {
         boolean isAllSayAvailable = isDispSayForm && villageInfo.isAdmin();
         if (isAllSayAvailable) {
             say.setAllSayTypeAvailable(true);
+            say.setSecretSayTargetList(villageDispLogic.makeSecretSayTargetList(villageInfo));
             return say;
         }
         Village village = villageInfo.village;
