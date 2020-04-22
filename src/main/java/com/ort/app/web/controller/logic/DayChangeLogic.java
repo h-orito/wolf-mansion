@@ -488,7 +488,7 @@ public class DayChangeLogic {
         }
 
         // パン屋メッセージ
-        insertBakeryMessageIfNeeded(villageId, day, vPlayerList);
+        insertBakeryMessageIfNeeded(villageId, day, dayChangeLogicHelper.selectVillage(villageId).getVillagePlayerList());
 
         // 投票、能力行使のデフォルト設定
         setDefaultVoteAndAbility(villageId, day, settings);
