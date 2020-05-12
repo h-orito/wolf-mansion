@@ -23,6 +23,9 @@ public class VillageResultContent implements Serializable {
     /** 村名 */
     private String villageName;
 
+    /** 村ステータスコード */
+    private String villageStatusCode;
+
     /** 村設定 */
     private VillageSettingsDto settings;
 
@@ -254,5 +257,13 @@ public class VillageResultContent implements Serializable {
 
     public void setIsCreatePlayer(Boolean isCreatePlayer) {
         this.isCreatePlayer = isCreatePlayer;
+    }
+
+    public String getVillageStatusCode() {
+        return villageStatusCode;
+    }
+
+    public void setVillageStatusCode(String villageStatusCode) {
+        this.villageStatusCode = villageStatusCode;
     }
 }

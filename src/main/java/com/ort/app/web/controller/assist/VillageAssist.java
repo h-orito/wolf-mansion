@@ -393,6 +393,7 @@ public class VillageAssist {
         content.setVillageId(villageInfo.village.getVillageId());
         content.setVillageNumber(String.format("%04d", villageInfo.village.getVillageId()));
         content.setVillageName(villageInfo.village.getVillageDisplayName());
+        content.setVillageStatusCode(villageInfo.village.getVillageStatusCode());
         content.setMemberList(convertToMemberPart(villageInfo.vPlayerList));
         content.setCharacterList(extractAndSortCharacterList(villageInfo));
         content.setRoomAssignedRowList(convertToRoomAssignedPart(villageInfo));

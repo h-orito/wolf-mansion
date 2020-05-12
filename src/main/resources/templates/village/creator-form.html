@@ -35,7 +35,7 @@
 								</div>
 							</div>
 						</div>
-						<form th:if="${content.day == 0}" class="form-horizontal">
+						<form th:if="${content.villageStatusCode == 'IN_PREPARATION'}" class="form-horizontal">
 							<div class="form-group">
 								<label class="col-sm-2 control-label">最終アクセス日時</label>
 								<div class="col-sm-10">
@@ -48,7 +48,7 @@
 								</div>
 							</div>
 						</form>
-						<form method="post" id="kick-form" th:if="${content.day == 0}" action=""
+						<form method="post" id="kick-form" th:if="${content.villageStatusCode == 'IN_PREPARATION'}" action=""
 							th:action="@{/village/{villageId}/kick(villageId=${content.villageId})}" class="form-horizontal" th:object="${kickForm}">
 							<div class="form-group">
 								<label class="col-sm-2 control-label">強制退村</label>
@@ -60,7 +60,7 @@
 								</div>
 							</div>
 						</form>
-						<form method="post" id="cancel-form" th:if="${content.day == 0}" action=""
+						<form method="post" id="cancel-form" th:if="${content.villageStatusCode == 'IN_PREPARATION'}" action=""
 							th:action="@{/village/{villageId}/cancel(villageId=${content.villageId})}" class="form-horizontal">
 							<div class="form-group">
 								<label class="col-sm-2 control-label">廃村</label>
@@ -91,7 +91,7 @@
 								</div>
 							</div>
 						</form>
-						<form method="post" id="extend-form" th:if="${content.day == content.epilogueDay}" action=""
+						<form method="post" id="extend-form" th:if="${content.villageStatusCode == 'EPILOGUE'}" action=""
 							th:action="@{/village/{villageId}/extend-epilogue(villageId=${content.villageId})}" class="form-horizontal">
 							<div class="form-group">
 								<label class="col-sm-2 control-label">エピローグ延長</label>
