@@ -2,8 +2,11 @@ package com.ort.app.web.controller;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,13 +18,18 @@ import com.ort.app.web.controller.logic.TwitterLogic;
 import com.ort.app.web.controller.logic.VillageParticipateLogic;
 import com.ort.app.web.form.LoginForm;
 import com.ort.app.web.form.TweetForm;
+import com.ort.app.web.form.VillageRecordListForm;
 import com.ort.app.web.model.IndexResultContent;
 import com.ort.app.web.model.RecruitingResultContent;
+import com.ort.app.web.model.VillageRecordListResultContent;
 import com.ort.app.web.model.inner.IndexVillageDto;
 import com.ort.app.web.model.inner.RecruitingVillageDto;
+import com.ort.app.web.model.inner.VillageParticipantRecordDto;
+import com.ort.app.web.model.inner.VillageRecordDto;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exentity.Village;
+import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillageSettings;
 
 @Controller
@@ -76,6 +84,35 @@ public class IndexController {
         return mappingToRecruitingContent(villageList);
     }
 
+    @GetMapping("/village-record/list")
+    @ResponseBody
+    private VillageRecordListResultContent villageRecordList( //
+            VillageRecordListForm form //
+    ) {
+        ListResultBean<Village> villageList = villageBhv.selectList(cb -> {
+            cb.setupSelect_VillageSettingsAsOne().withCharaGroup();
+            cb.query().setVillageStatusCode_InScope_AsVillageStatus(Arrays.asList(CDef.VillageStatus.エピローグ, CDef.VillageStatus.終了));
+            if (CollectionUtils.isNotEmpty(form.getVid())) {
+                cb.query().setVillageId_InScope(form.getVid());
+            }
+            cb.query().addOrderBy_VillageId_Desc();
+        });
+        if (villageList.isEmpty()) {
+            return new VillageRecordListResultContent();
+        }
+        villageBhv.load(villageList, loader -> {
+            loader.loadVillagePlayer(vpCB -> {
+                vpCB.setupSelect_Chara();
+                vpCB.setupSelect_Player();
+                vpCB.query().setIsGone_Equal_False();
+            });
+            loader.loadVillageDay(vdCB -> {
+                vdCB.query().addOrderBy_DaychangeDatetime_Desc();
+            });
+        });
+        return mappingToVillageRecordListContent(villageList);
+    }
+
     // ===================================================================================
     //                                                                             Mapping
     //                                                                             =======
@@ -125,12 +162,78 @@ public class IndexController {
         return villageDto;
     }
 
+    private VillageRecordListResultContent mappingToVillageRecordListContent(ListResultBean<Village> villageList) {
+        VillageRecordListResultContent content = new VillageRecordListResultContent();
+        content.setList(villageList.stream().map(village -> convertToVillageRecord(village)).collect(Collectors.toList()));
+        return content;
+    }
+
+    private VillageRecordDto convertToVillageRecord(Village village) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm");
+        VillageRecordDto villageRecord = new VillageRecordDto();
+        villageRecord.setId(village.getVillageId());
+        villageRecord.setName(village.getVillageDisplayName());
+        villageRecord.setOrganization(extractOrganization(village));
+        villageRecord.setStartDatetime(village.getVillageSettingsAsOne().get().getStartDatetime().format(formatter));
+        villageRecord.setEpilogueDatetime(extractEpilogueDatetime(village, formatter));
+        villageRecord.setEpilogueDay(village.getEpilogueDay());
+        villageRecord.setUrl("https://wolfort.net/wolf-mansion/village/" + village.getVillageId());
+        villageRecord.setWinCampName(village.getWinCampCodeAsCamp().alias());
+        villageRecord.setParticipantList(
+                village.getVillagePlayerList().stream().map(vp -> convertToVillageParticipantRecord(village, vp)).collect(
+                        Collectors.toList()));
+        return villageRecord;
+    }
+
+    private VillageParticipantRecordDto convertToVillageParticipantRecord(Village village, VillagePlayer vp) {
+        VillageParticipantRecordDto record = new VillageParticipantRecordDto();
+        record.setUserId(vp.getPlayer().get().getPlayerName());
+        record.setCharacterName(vp.getChara().get().getCharaName());
+        record.setSkillName(vp.getSkillCodeAsSkill() == null ? null : vp.getSkillCodeAsSkill().alias());
+        record.setIsSpectator(vp.getIsSpectator());
+        record.setIsWin(vp.getIsWin());
+        record.setIsDead(vp.getIsDead());
+        record.setDeadDay(vp.getDeadDay());
+        record.setDeadReason(extractDeadReason(vp));
+        return record;
+    }
+
+    private String extractDeadReason(VillagePlayer vp) {
+        if (!BooleanUtils.isTrue(vp.getIsDead())) {
+            return null;
+        }
+        String reason = vp.getDeadReasonCodeAsDeadReason().alias();
+        if (reason.endsWith("死")) {
+            return reason;
+        } else {
+            return reason + "死";
+        }
+    }
+
+    private String extractOrganization(Village village) {
+        // 人数
+        long count = village.getVillagePlayerList().stream().filter(vp -> vp.isIsSpectatorFalse()).count();
+        return Stream.of(village.getVillageSettingsAsOne().get().getOrganize().replaceAll("\r\n", "\n").split("\n"))
+                .filter(org -> org.length() == count)
+                .findFirst()
+                .get();
+    }
+
     private String makeIntervalStr(VillageSettings settings) {
         Integer seconds = settings.getDayChangeIntervalSeconds();
         if (seconds >= 3600) {
             return seconds / 3600 + "h";
         }
         return seconds / 60 + "m";
+    }
+
+    private String extractEpilogueDatetime(Village village, DateTimeFormatter formatter) {
+        return village.getVillageDayList()
+                .stream()
+                .filter(day -> day.getDay().equals(village.getEpilogueDay() - 1))
+                .findFirst()
+                .map(vd -> vd.getDaychangeDatetime().format(formatter))
+                .orElse(null);
     }
 
     // ===================================================================================
