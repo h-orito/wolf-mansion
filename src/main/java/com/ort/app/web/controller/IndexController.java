@@ -216,7 +216,7 @@ public class IndexController {
         return Stream.of(village.getVillageSettingsAsOne().get().getOrganize().replaceAll("\r\n", "\n").split("\n"))
                 .filter(org -> org.length() == count)
                 .findFirst()
-                .get();
+                .orElseThrow(() -> new IllegalStateException("no org. vid=" + village.getVillageId()));
     }
 
     private String makeIntervalStr(VillageSettings settings) {
