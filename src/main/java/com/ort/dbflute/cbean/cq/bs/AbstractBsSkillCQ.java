@@ -175,6 +175,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 背徳者 (IMMORAL). And OnlyOnceRegistered. <br>
+     * 背徳者
+     */
+    public void setSkillCode_Equal_背徳者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.背徳者);
+    }
+
+    /**
      * Equal(=). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
      * おまかせ
      */
@@ -414,6 +422,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 背徳者 (IMMORAL). And OnlyOnceRegistered. <br>
+     * 背徳者
+     */
+    public void setSkillCode_NotEqual_背徳者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.背徳者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
      * おまかせ
      */
@@ -594,7 +610,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 徘徊能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐]
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 背徳者]
      */
     public void setSkillCode_InScope_HasDisturbAbility() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDisturbAbility());

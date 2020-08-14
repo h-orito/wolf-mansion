@@ -108,7 +108,7 @@ map:{
 	        		}
 	        		; hasDisturbAbility = map:{
 	        			; groupComment=徘徊能力を持つ
-	        			; elementList= list:{C国狂人;狂人;狂信者;魔神官;妖狐}
+	        			; elementList= list:{C国狂人;狂人;狂信者;魔神官;妖狐;背徳者}
 	        		}
 	        		; noDeadByAttack = map:{
 	        			; groupComment=襲撃されても死なない

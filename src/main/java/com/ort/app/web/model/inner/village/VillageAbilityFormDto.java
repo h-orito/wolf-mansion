@@ -21,6 +21,9 @@ public class VillageAbilityFormDto {
     /** C国狂人のキャラ名（人狼向け） */
     private String cMadmanCharaNameList;
 
+    /** 妖狐のキャラ名（背徳者向け） */
+    private String foxCharaNameList;
+
     /** 対象選択の前に表示する文言 */
     private String targetPrefixMessage;
 
@@ -92,5 +95,13 @@ public class VillageAbilityFormDto {
 
     public void setIsTargetingAndFootstep(Boolean isTargetingAndFootstep) {
         this.isTargetingAndFootstep = isTargetingAndFootstep;
+    }
+
+    public String getFoxCharaNameList() {
+        return foxCharaNameList;
+    }
+
+    public void setFoxCharaNameList(String foxCharaNameList) {
+        this.foxCharaNameList = foxCharaNameList;
     }
 }

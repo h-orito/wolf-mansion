@@ -874,6 +874,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 背徳者 (IMMORAL). And OnlyOnceRegistered. <br>
+     * 背徳者
+     */
+    public void setSkillCode_Equal_背徳者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.背徳者);
+    }
+
+    /**
      * Equal(=). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
      * おまかせ
      */
@@ -1113,6 +1121,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 背徳者 (IMMORAL). And OnlyOnceRegistered. <br>
+     * 背徳者
+     */
+    public void setSkillCode_NotEqual_背徳者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.背徳者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
      * おまかせ
      */
@@ -1293,7 +1309,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 徘徊能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐]
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 背徳者]
      */
     public void setSkillCode_InScope_HasDisturbAbility() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDisturbAbility());
@@ -1486,6 +1502,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_Equal_狩人() {
         setRequestSkillCode_Equal_AsSkill(CDef.Skill.狩人);
+    }
+
+    /**
+     * Equal(=). As 背徳者 (IMMORAL). And OnlyOnceRegistered. <br>
+     * 背徳者
+     */
+    public void setRequestSkillCode_Equal_背徳者() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.背徳者);
     }
 
     /**
@@ -1728,6 +1752,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 背徳者 (IMMORAL). And OnlyOnceRegistered. <br>
+     * 背徳者
+     */
+    public void setRequestSkillCode_NotEqual_背徳者() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.背徳者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
      * おまかせ
      */
@@ -1908,7 +1940,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 徘徊能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐]
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 背徳者]
      */
     public void setRequestSkillCode_InScope_HasDisturbAbility() {
         setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDisturbAbility());
@@ -2101,6 +2133,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_Equal_狩人() {
         setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.狩人);
+    }
+
+    /**
+     * Equal(=). As 背徳者 (IMMORAL). And OnlyOnceRegistered. <br>
+     * 背徳者
+     */
+    public void setSecondRequestSkillCode_Equal_背徳者() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.背徳者);
     }
 
     /**
@@ -2343,6 +2383,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 背徳者 (IMMORAL). And OnlyOnceRegistered. <br>
+     * 背徳者
+     */
+    public void setSecondRequestSkillCode_NotEqual_背徳者() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.背徳者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
      * おまかせ
      */
@@ -2523,7 +2571,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 徘徊能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐]
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 背徳者]
      */
     public void setSecondRequestSkillCode_InScope_HasDisturbAbility() {
         setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDisturbAbility());

@@ -491,7 +491,7 @@ public class VillageDispLogic {
                 return String.format("%d日目 %s を護衛する（%s）", day, CharaUtil.makeCharaName(target),
                         optFootstep.map(fs -> fs.getFootstepRoomNumbers()).orElse("なし"));
             }).collect(Collectors.toList());
-        } else if (skill.isHasMadmanAbility() || skill == CDef.Skill.妖狐) {
+        } else if (skill.isHasDisturbAbility()) {
             ListResultBean<Footstep> footstepList = selectFootstepList(villageInfo, Arrays.asList(vPlayer.getCharaId()));
             return footstepList.stream().map(f -> {
                 String footstep = f.getFootstepRoomNumbers();
@@ -536,10 +536,9 @@ public class VillageDispLogic {
     }
 
     public String makeWerewolfCharaNameList(VillageInfo villageInfo) {
-        if (!villageInfo.isParticipate() || villageInfo.isSpectator() || villageInfo.isDead() || !villageInfo.isLatestDay()
-                || !villageInfo.village.isVillageStatusCode進行中()) {
+        if (!isDispCharaNameList(villageInfo))
             return null;
-        }
+
         CDef.Skill skill = villageInfo.optVillagePlayer.get().getSkillCodeAsSkill();
         if (skill != CDef.Skill.C国狂人 && skill != CDef.Skill.狂信者 && !skill.isHasAttackAbility()) {
             return null;
@@ -554,10 +553,9 @@ public class VillageDispLogic {
     }
 
     public String makeCMadmanCharaNameList(VillageInfo villageInfo) {
-        if (!villageInfo.isParticipate() || villageInfo.isSpectator() || villageInfo.isDead() || !villageInfo.isLatestDay()
-                || !villageInfo.village.isVillageStatusCode進行中()) {
+        if (!isDispCharaNameList(villageInfo))
             return null;
-        }
+
         CDef.Skill skill = villageInfo.optVillagePlayer.get().getSkillCodeAsSkill();
         if (skill != CDef.Skill.C国狂人 && !skill.isHasAttackAbility()) {
             return null;
@@ -566,6 +564,23 @@ public class VillageDispLogic {
                 villageInfo.getVPList(false, true, true)
                         .stream()
                         .filter(vp -> vp.getSkillBySkillCode().get().isSkillCodeC国狂人())
+                        .sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber())
+                        .map(vp -> CharaUtil.makeCharaName(vp))
+                        .collect(Collectors.toList()));
+    }
+
+    public String makeFoxCharaNameList(VillageInfo villageInfo) {
+        if (!isDispCharaNameList(villageInfo))
+            return null;
+
+        CDef.Skill skill = villageInfo.optVillagePlayer.get().getSkillCodeAsSkill();
+        if (skill != CDef.Skill.背徳者)
+            return null;
+
+        return String.join("、",
+                villageInfo.getVPList(false, true, true)
+                        .stream()
+                        .filter(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.妖狐)
                         .sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber())
                         .map(vp -> CharaUtil.makeCharaName(vp))
                         .collect(Collectors.toList()));
@@ -809,5 +824,13 @@ public class VillageDispLogic {
             cb.query().setPlayerName_Equal(playerName);
             cb.query().setIsRestrictedParticipation_Equal_True();
         }).isPresent();
+    }
+
+    private boolean isDispCharaNameList(VillageInfo villageInfo) {
+        return villageInfo.isParticipate() //
+                && !villageInfo.isSpectator() //
+                && !villageInfo.isDead() //
+                && villageInfo.isLatestDay() //
+                && villageInfo.village.isVillageStatusCode進行中();
     }
 }

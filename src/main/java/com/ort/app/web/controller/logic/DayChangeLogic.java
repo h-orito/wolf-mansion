@@ -357,10 +357,9 @@ public class DayChangeLogic {
 
     private void insertDefaultFootstep(Integer villageId, int newDay, List<VillagePlayer> vPlayerList) {
         // 妖狐狂人
-        List<VillagePlayer> foxMadmanList = vPlayerList.stream()
-                .filter(vp -> (vp.getSkillCodeAsSkill() == CDef.Skill.妖狐 || vp.getSkillCodeAsSkill().isHasMadmanAbility())
-                        && vp.isIsDeadFalse())
-                .collect(Collectors.toList());
+        List<VillagePlayer> foxMadmanList =
+                vPlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill().isHasDisturbAbility() && vp.isIsDeadFalse()).collect(
+                        Collectors.toList());
         for (VillagePlayer vp : foxMadmanList) {
             Integer charaId = vp.getCharaId();
             // 足音なしセット

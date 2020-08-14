@@ -124,6 +124,11 @@
 							<hr />
 							<p class="small" th:text="${'この村のC国狂人は、 ' + content.form.ability.cMadmanCharaNameList + ' です。'}"></p>
 						</div>
+						<!--/* 背徳者用メッセージ */-->
+						<div th:if="${content.form.ability.foxCharaNameList != null && content.form.ability.foxCharaNameList != ''}">
+							<hr />
+							<p class="small" th:text="${'この村の妖狐は、 ' + content.form.ability.foxCharaNameList + ' です。'}"></p>
+						</div>
 						<!--/* 能力行使履歴 */-->
 						<div th:if="${content.form.ability.skillHistoryList != null && content.form.ability.skillHistoryList.size() > 0}">
 							<hr />

@@ -496,6 +496,7 @@ public class VillageAssist {
         ability.setSkillHistoryList(villageDispLogic.makeSkillHistoryList(villageInfo));
         ability.setWerewolfCharaNameList(villageDispLogic.makeWerewolfCharaNameList(villageInfo));
         ability.setcMadmanCharaNameList(villageDispLogic.makeCMadmanCharaNameList(villageInfo));
+        ability.setFoxCharaNameList(villageDispLogic.makeFoxCharaNameList(villageInfo));
         ability.setTargetPrefixMessage(villageDispLogic.makeTargetPrefixMessage(villageInfo));
         ability.setTargetSuffixMessage(villageDispLogic.makeTargetSuffixMessage(villageInfo));
         ability.setIsTargetingAndFootstep(villageDispLogic.isTargetingAndFootstep(villageInfo));
