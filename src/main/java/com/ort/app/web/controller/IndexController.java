@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.dbflute.cbean.result.ListResultBean;
+import org.dbflute.optional.OptionalScalar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import com.ort.app.web.form.LoginForm;
 import com.ort.app.web.form.VillageRecordListForm;
 import com.ort.app.web.model.IndexResultContent;
 import com.ort.app.web.model.RecruitingResultContent;
+import com.ort.app.web.model.VillageRecordLatestVidResultContent;
 import com.ort.app.web.model.VillageRecordListResultContent;
 import com.ort.app.web.model.inner.IndexVillageDto;
 import com.ort.app.web.model.inner.RecruitingVillageDto;
@@ -80,7 +82,12 @@ public class IndexController {
     ) {
         ListResultBean<Village> villageList = villageBhv.selectList(cb -> {
             cb.setupSelect_VillageSettingsAsOne().withCharaGroup();
-            cb.query().setVillageStatusCode_InScope_AsVillageStatus(Arrays.asList(CDef.VillageStatus.エピローグ, CDef.VillageStatus.終了));
+            cb.query().setVillageStatusCode_InScope_AsVillageStatus(//
+                    Arrays.asList(//
+                            CDef.VillageStatus.エピローグ, //
+                            CDef.VillageStatus.終了, //
+                            CDef.VillageStatus.廃村)//
+            );
             if (CollectionUtils.isNotEmpty(form.getVid())) {
                 cb.query().setVillageId_InScope(form.getVid());
             }
@@ -100,6 +107,21 @@ public class IndexController {
             });
         });
         return mappingToVillageRecordListContent(villageList);
+    }
+
+    @GetMapping("/village-record/latest-vid")
+    @ResponseBody
+    private VillageRecordLatestVidResultContent latestVillageRecordVid() {
+        OptionalScalar<Integer> optVid = villageBhv.selectScalar(Integer.class).max(cb -> {
+            cb.specify().columnVillageId();
+            cb.query().setVillageStatusCode_InScope_AsVillageStatus(//
+                    Arrays.asList(//
+                            CDef.VillageStatus.エピローグ, //
+                            CDef.VillageStatus.終了, //
+                            CDef.VillageStatus.廃村)//
+            );
+        });
+        return optVid.map(vid -> new VillageRecordLatestVidResultContent(vid)).orElse(null);
     }
 
     // ===================================================================================
@@ -162,12 +184,15 @@ public class IndexController {
         VillageRecordDto villageRecord = new VillageRecordDto();
         villageRecord.setId(village.getVillageId());
         villageRecord.setName(village.getVillageDisplayName());
+        villageRecord.setStatus(village.getVillageStatusCodeAsVillageStatus().alias());
         villageRecord.setOrganization(extractOrganization(village));
-        villageRecord.setStartDatetime(village.getVillageSettingsAsOne().get().getStartDatetime().format(formatter));
-        villageRecord.setEpilogueDatetime(extractEpilogueDatetime(village, formatter));
+        villageRecord.setStartDatetime(
+                village.isVillageStatusCode廃村() ? null : village.getVillageSettingsAsOne().get().getStartDatetime().format(formatter));
+        villageRecord.setPrologueDatetime(extractPrologueDatetime(village, formatter));
+        villageRecord.setEpilogueDatetime(village.isVillageStatusCode廃村() ? null : extractEpilogueDatetime(village, formatter));
         villageRecord.setEpilogueDay(village.getEpilogueDay());
         villageRecord.setUrl("https://wolfort.net/wolf-mansion/village/" + village.getVillageId());
-        villageRecord.setWinCampName(village.getWinCampCodeAsCamp().alias());
+        villageRecord.setWinCampName(village.isVillageStatusCode廃村() ? null : village.getWinCampCodeAsCamp().alias());
         villageRecord.setParticipantList(
                 village.getVillagePlayerList().stream().map(vp -> convertToVillageParticipantRecord(village, vp)).collect(
                         Collectors.toList()));
@@ -201,6 +226,11 @@ public class IndexController {
 
     private String extractOrganization(Village village) {
         // 人数
+        if (village.isVillageStatusCode廃村()) {
+            return Stream.of(village.getVillageSettingsAsOne().get().getOrganize().replaceAll("\r\n", "\n").split("\n"))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalStateException("no org. vid=" + village.getVillageId()));
+        }
         long count = village.getVillagePlayerList().stream().filter(vp -> vp.isIsSpectatorFalse()).count();
         return Stream.of(village.getVillageSettingsAsOne().get().getOrganize().replaceAll("\r\n", "\n").split("\n"))
                 .filter(org -> org.length() == count)
@@ -214,6 +244,10 @@ public class IndexController {
             return seconds / 3600 + "h";
         }
         return seconds / 60 + "m";
+    }
+
+    private String extractPrologueDatetime(Village village, DateTimeFormatter formatter) {
+        return village.getRegisterDatetime().format(formatter);
     }
 
     private String extractEpilogueDatetime(Village village, DateTimeFormatter formatter) {

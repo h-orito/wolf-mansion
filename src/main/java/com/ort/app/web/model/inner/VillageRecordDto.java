@@ -15,12 +15,19 @@ public class VillageRecordDto implements Serializable {
     /** 村名 */
     private String name;
 
+    /** ステータス */
+    private String status;
+
     /** 編成 */
     private String organization;
 
     /** 開始日時 */
     @JsonProperty("start_datetime")
     private String startDatetime;
+
+    /** プロローグ開始日時 */
+    @JsonProperty("prologue_datetime")
+    private String prologueDatetime;
 
     /** エピローグ日時 */
     @JsonProperty("epilogue_datetime")
@@ -111,5 +118,21 @@ public class VillageRecordDto implements Serializable {
 
     public void setParticipantList(List<VillageParticipantRecordDto> participantList) {
         this.participantList = participantList;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getPrologueDatetime() {
+        return prologueDatetime;
+    }
+
+    public void setPrologueDatetime(String prologueDatetime) {
+        this.prologueDatetime = prologueDatetime;
     }
 }
