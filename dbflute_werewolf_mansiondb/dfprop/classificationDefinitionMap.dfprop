@@ -114,6 +114,14 @@ map:{
 	        			; groupComment=襲撃されても死なない
 	        			; elementList= list:{妖狐;爆弾魔}
 	        		}
+	        		; viewableWolfCharaName = map:{
+	        			; groupComment=人狼が誰かを知ることができる
+	        			; elementList= list:{人狼;呪狼;智狼;C国狂人;狂信者}
+	        		}
+				; someoneSkill = map:{
+					; groupComment=おまかせ系
+					; elementList= list:{おまかせ;おまかせ村人陣営;おまかせ人狼陣営;おまかせ足音職;おまかせ役職窓あり;おまかせ人外}
+				}
 	        	}
         }
         ; map:{
@@ -134,7 +142,15 @@ map:{
         }
     }
     ; DeadReason = list:{
-        ; map:{topComment=死亡理由; codeType=String}
+        ; map:{
+            ; topComment=死亡理由; codeType=String
+            ; groupingMap = map:{
+	        		; miserable = map:{
+	        			; groupComment=無惨
+	        			; elementList= list:{襲撃;呪殺;罠死;爆死}
+	        		}
+	        	}
+        }
         ; map:{
             ; table=DEAD_REASON
             ; code=DEAD_REASON_CODE; name=DEAD_REASON_NAME
@@ -159,6 +175,13 @@ map:{
         ; map:{
             ; table=FACE_TYPE
             ; code=FACE_TYPE_CODE; name=FACE_TYPE_NAME
+        }
+    }
+    ; VillagePlayerStatusType = list:{
+        ; map:{topComment=村参加者ステータス種別; codeType=String}
+        ; map:{
+            ; table=VILLAGE_PLAYER_STATUS_TYPE
+            ; code=VILLAGE_PLAYER_STATUS_TYPE_CODE; name=VILLAGE_PLAYER_STATUS_TYPE_NAME
         }
     }
 }

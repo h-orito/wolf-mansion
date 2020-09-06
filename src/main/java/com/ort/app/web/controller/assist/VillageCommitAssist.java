@@ -6,8 +6,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
-import com.ort.app.web.controller.logic.DayChangeLogic;
-import com.ort.app.web.controller.logic.MessageLogic;
+import com.ort.app.datasource.VillageService;
+import com.ort.app.logic.DayChangeLogic;
+import com.ort.app.logic.MessageLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageCommitForm;
 import com.ort.dbflute.allcommon.CDef;
@@ -27,18 +28,16 @@ public class VillageCommitAssist {
     //                                                                           =========
     @Autowired
     private VillageAssist villageAssist;
-
-    @Autowired
-    private VillageBhv villageBhv;
-
-    @Autowired
-    private CommitBhv commitBhv;
-
     @Autowired
     private DayChangeLogic dayChangeLogic;
-
     @Autowired
     private MessageLogic messageLogic;
+    @Autowired
+    private VillageService villageService;
+    @Autowired
+    private VillageBhv villageBhv;
+    @Autowired
+    private CommitBhv commitBhv;
 
     // ===================================================================================
     //                                                                             Execute
@@ -50,7 +49,7 @@ public class VillageCommitAssist {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
         }
-        VillagePlayer villagePlayer = villageAssist.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
+        VillagePlayer villagePlayer = villageService.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
         Village village = villageBhv.selectEntityWithDeletedCheck(cb -> {
@@ -66,7 +65,7 @@ public class VillageCommitAssist {
                 || villagePlayer.getCharaId().intValue() == village.getVillageSettingsAsOne().get().getDummyCharaId()) {
             return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
         }
-        int day = villageAssist.selectLatestDay(villageId);
+        int day = villageService.selectLatestDay(villageId);
         Integer vPlayerId = villagePlayer.getVillagePlayerId();
         // 念のためselect
         OptionalEntity<Commit> optCommit = selectCommit(villageId, vPlayerId, day);

@@ -36,13 +36,13 @@ import com.ort.dbflute.exentity.*;
  *     CHARA, DEAD_REASON, PLAYER, SKILL, VILLAGE
  *
  * [referrer table]
- *     COMMIT, MESSAGE
+ *     COMMIT, MESSAGE, VILLAGE_PLAYER_STATUS
  *
  * [foreign property]
  *     chara, deadReason, player, skillByRequestSkillCode, skillBySecondRequestSkillCode, skillBySkillCode, village
  *
  * [referrer property]
- *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList
+ *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList, villagePlayerStatusByToVillagePlayerIdList, villagePlayerStatusByVillagePlayerIdList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -390,6 +390,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 同棲者 (COHABITER). <br>
+     * 同棲者
+     */
+    public void setSkillCode_同棲者() {
+        setSkillCodeAsSkill(CDef.Skill.同棲者);
+    }
+
+    /**
      * Set the value of skillCode as 検死官 (CORONER). <br>
      * 検死官
      */
@@ -483,6 +491,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSkillCode_おまかせ() {
         setSkillCodeAsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * Set the value of skillCode as 恋人 (LOVER). <br>
+     * 恋人
+     */
+    public void setSkillCode_恋人() {
+        setSkillCodeAsSkill(CDef.Skill.恋人);
     }
 
     /**
@@ -614,6 +630,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 同棲者 (COHABITER). <br>
+     * 同棲者
+     */
+    public void setRequestSkillCode_同棲者() {
+        setRequestSkillCodeAsSkill(CDef.Skill.同棲者);
+    }
+
+    /**
      * Set the value of requestSkillCode as 検死官 (CORONER). <br>
      * 検死官
      */
@@ -707,6 +731,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setRequestSkillCode_おまかせ() {
         setRequestSkillCodeAsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 恋人 (LOVER). <br>
+     * 恋人
+     */
+    public void setRequestSkillCode_恋人() {
+        setRequestSkillCodeAsSkill(CDef.Skill.恋人);
     }
 
     /**
@@ -838,6 +870,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of secondRequestSkillCode as 同棲者 (COHABITER). <br>
+     * 同棲者
+     */
+    public void setSecondRequestSkillCode_同棲者() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.同棲者);
+    }
+
+    /**
      * Set the value of secondRequestSkillCode as 検死官 (CORONER). <br>
      * 検死官
      */
@@ -931,6 +971,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_おまかせ() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 恋人 (LOVER). <br>
+     * 恋人
+     */
+    public void setSecondRequestSkillCode_恋人() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.恋人);
     }
 
     /**
@@ -1102,6 +1150,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of deadReasonCode as 後追 (SUICIDE). <br>
+     * 後追
+     */
+    public void setDeadReasonCode_後追() {
+        setDeadReasonCodeAsDeadReason(CDef.DeadReason.後追);
+    }
+
+    /**
      * Set the value of deadReasonCode as 罠死 (TRAPPED). <br>
      * 罠死
      */
@@ -1186,6 +1242,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCodeC国狂人() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.C国狂人) : false;
+    }
+
+    /**
+     * Is the value of skillCode 同棲者? <br>
+     * 同棲者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode同棲者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.同棲者) : false;
     }
 
     /**
@@ -1318,6 +1385,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCodeおまかせ() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.おまかせ) : false;
+    }
+
+    /**
+     * Is the value of skillCode 恋人? <br>
+     * 恋人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode恋人() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.恋人) : false;
     }
 
     /**
@@ -1523,6 +1601,26 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * 人狼が誰かを知ることができる <br>
+     * The group elements:[人狼, 呪狼, 智狼, C国狂人, 狂信者]
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode_ViewableWolfCharaName() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null && cdef.isViewableWolfCharaName();
+    }
+
+    /**
+     * おまかせ系 <br>
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode_SomeoneSkill() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null && cdef.isSomeoneSkill();
+    }
+
+    /**
      * Is the value of requestSkillCode 占星術師? <br>
      * 占星術師
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1564,6 +1662,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isRequestSkillCodeC国狂人() {
         CDef.Skill cdef = getRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.C国狂人) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 同棲者? <br>
+     * 同棲者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode同棲者() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.同棲者) : false;
     }
 
     /**
@@ -1696,6 +1805,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isRequestSkillCodeおまかせ() {
         CDef.Skill cdef = getRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.おまかせ) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 恋人? <br>
+     * 恋人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode恋人() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.恋人) : false;
     }
 
     /**
@@ -1901,6 +2021,26 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * 人狼が誰かを知ることができる <br>
+     * The group elements:[人狼, 呪狼, 智狼, C国狂人, 狂信者]
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode_ViewableWolfCharaName() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null && cdef.isViewableWolfCharaName();
+    }
+
+    /**
+     * おまかせ系 <br>
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode_SomeoneSkill() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null && cdef.isSomeoneSkill();
+    }
+
+    /**
      * Is the value of secondRequestSkillCode 占星術師? <br>
      * 占星術師
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1942,6 +2082,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCodeC国狂人() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.C国狂人) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 同棲者? <br>
+     * 同棲者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode同棲者() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.同棲者) : false;
     }
 
     /**
@@ -2074,6 +2225,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCodeおまかせ() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.おまかせ) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 恋人? <br>
+     * 恋人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode恋人() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.恋人) : false;
     }
 
     /**
@@ -2279,6 +2441,26 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * 人狼が誰かを知ることができる <br>
+     * The group elements:[人狼, 呪狼, 智狼, C国狂人, 狂信者]
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode_ViewableWolfCharaName() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null && cdef.isViewableWolfCharaName();
+    }
+
+    /**
+     * おまかせ系 <br>
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode_SomeoneSkill() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null && cdef.isSomeoneSkill();
+    }
+
+    /**
      * Is the value of isDead True? <br>
      * はい: 有効を示す
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -2378,6 +2560,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of deadReasonCode 後追? <br>
+     * 後追
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isDeadReasonCode後追() {
+        CDef.DeadReason cdef = getDeadReasonCodeAsDeadReason();
+        return cdef != null ? cdef.equals(CDef.DeadReason.後追) : false;
+    }
+
+    /**
      * Is the value of deadReasonCode 罠死? <br>
      * 罠死
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -2386,6 +2579,16 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isDeadReasonCode罠死() {
         CDef.DeadReason cdef = getDeadReasonCodeAsDeadReason();
         return cdef != null ? cdef.equals(CDef.DeadReason.罠死) : false;
+    }
+
+    /**
+     * 無惨 <br>
+     * The group elements:[襲撃, 呪殺, 罠死, 爆死]
+     * @return The determination, true or false.
+     */
+    public boolean isDeadReasonCode_Miserable() {
+        CDef.DeadReason cdef = getDeadReasonCodeAsDeadReason();
+        return cdef != null && cdef.isMiserable();
     }
 
     /**
@@ -2684,6 +2887,46 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         _messageByVillagePlayerIdList = messageByVillagePlayerIdList;
     }
 
+    /** VILLAGE_PLAYER_STATUS by TO_VILLAGE_PLAYER_ID, named 'villagePlayerStatusByToVillagePlayerIdList'. */
+    protected List<VillagePlayerStatus> _villagePlayerStatusByToVillagePlayerIdList;
+
+    /**
+     * [get] VILLAGE_PLAYER_STATUS by TO_VILLAGE_PLAYER_ID, named 'villagePlayerStatusByToVillagePlayerIdList'.
+     * @return The entity list of referrer property 'villagePlayerStatusByToVillagePlayerIdList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<VillagePlayerStatus> getVillagePlayerStatusByToVillagePlayerIdList() {
+        if (_villagePlayerStatusByToVillagePlayerIdList == null) { _villagePlayerStatusByToVillagePlayerIdList = newReferrerList(); }
+        return _villagePlayerStatusByToVillagePlayerIdList;
+    }
+
+    /**
+     * [set] VILLAGE_PLAYER_STATUS by TO_VILLAGE_PLAYER_ID, named 'villagePlayerStatusByToVillagePlayerIdList'.
+     * @param villagePlayerStatusByToVillagePlayerIdList The entity list of referrer property 'villagePlayerStatusByToVillagePlayerIdList'. (NullAllowed)
+     */
+    public void setVillagePlayerStatusByToVillagePlayerIdList(List<VillagePlayerStatus> villagePlayerStatusByToVillagePlayerIdList) {
+        _villagePlayerStatusByToVillagePlayerIdList = villagePlayerStatusByToVillagePlayerIdList;
+    }
+
+    /** VILLAGE_PLAYER_STATUS by VILLAGE_PLAYER_ID, named 'villagePlayerStatusByVillagePlayerIdList'. */
+    protected List<VillagePlayerStatus> _villagePlayerStatusByVillagePlayerIdList;
+
+    /**
+     * [get] VILLAGE_PLAYER_STATUS by VILLAGE_PLAYER_ID, named 'villagePlayerStatusByVillagePlayerIdList'.
+     * @return The entity list of referrer property 'villagePlayerStatusByVillagePlayerIdList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<VillagePlayerStatus> getVillagePlayerStatusByVillagePlayerIdList() {
+        if (_villagePlayerStatusByVillagePlayerIdList == null) { _villagePlayerStatusByVillagePlayerIdList = newReferrerList(); }
+        return _villagePlayerStatusByVillagePlayerIdList;
+    }
+
+    /**
+     * [set] VILLAGE_PLAYER_STATUS by VILLAGE_PLAYER_ID, named 'villagePlayerStatusByVillagePlayerIdList'.
+     * @param villagePlayerStatusByVillagePlayerIdList The entity list of referrer property 'villagePlayerStatusByVillagePlayerIdList'. (NullAllowed)
+     */
+    public void setVillagePlayerStatusByVillagePlayerIdList(List<VillagePlayerStatus> villagePlayerStatusByVillagePlayerIdList) {
+        _villagePlayerStatusByVillagePlayerIdList = villagePlayerStatusByVillagePlayerIdList;
+    }
+
     protected <ELEMENT> List<ELEMENT> newReferrerList() { // overriding to import
         return new ArrayList<ELEMENT>();
     }
@@ -2733,6 +2976,10 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         { if (et != null) { sb.append(li).append(xbRDS(et, "messageByToVillagePlayerIdList")); } } }
         if (_messageByVillagePlayerIdList != null) { for (Message et : _messageByVillagePlayerIdList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "messageByVillagePlayerIdList")); } } }
+        if (_villagePlayerStatusByToVillagePlayerIdList != null) { for (VillagePlayerStatus et : _villagePlayerStatusByToVillagePlayerIdList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerStatusByToVillagePlayerIdList")); } } }
+        if (_villagePlayerStatusByVillagePlayerIdList != null) { for (VillagePlayerStatus et : _villagePlayerStatusByVillagePlayerIdList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerStatusByVillagePlayerIdList")); } } }
         return sb.toString();
     }
     protected <ET extends Entity> String xbRDS(org.dbflute.optional.OptionalEntity<ET> et, String name) { // buildRelationDisplayString()
@@ -2792,6 +3039,10 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         { sb.append(dm).append("messageByToVillagePlayerIdList"); }
         if (_messageByVillagePlayerIdList != null && !_messageByVillagePlayerIdList.isEmpty())
         { sb.append(dm).append("messageByVillagePlayerIdList"); }
+        if (_villagePlayerStatusByToVillagePlayerIdList != null && !_villagePlayerStatusByToVillagePlayerIdList.isEmpty())
+        { sb.append(dm).append("villagePlayerStatusByToVillagePlayerIdList"); }
+        if (_villagePlayerStatusByVillagePlayerIdList != null && !_villagePlayerStatusByVillagePlayerIdList.isEmpty())
+        { sb.append(dm).append("villagePlayerStatusByVillagePlayerIdList"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }

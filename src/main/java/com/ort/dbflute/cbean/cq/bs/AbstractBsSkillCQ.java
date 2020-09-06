@@ -95,6 +95,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 同棲者 (COHABITER). And OnlyOnceRegistered. <br>
+     * 同棲者
+     */
+    public void setSkillCode_Equal_同棲者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.同棲者);
+    }
+
+    /**
      * Equal(=). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
      * 検死官
      */
@@ -188,6 +196,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_Equal_おまかせ() {
         setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * Equal(=). As 恋人 (LOVER). And OnlyOnceRegistered. <br>
+     * 恋人
+     */
+    public void setSkillCode_Equal_恋人() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.恋人);
     }
 
     /**
@@ -342,6 +358,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 同棲者 (COHABITER). And OnlyOnceRegistered. <br>
+     * 同棲者
+     */
+    public void setSkillCode_NotEqual_同棲者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.同棲者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
      * 検死官
      */
@@ -435,6 +459,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_おまかせ() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 恋人 (LOVER). And OnlyOnceRegistered. <br>
+     * 恋人
+     */
+    public void setSkillCode_NotEqual_恋人() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.恋人);
     }
 
     /**
@@ -624,6 +656,26 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_InScope_NoDeadByAttack() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfNoDeadByAttack());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 人狼が誰かを知ることができる <br>
+     * The group elements:[人狼, 呪狼, 智狼, C国狂人, 狂信者]
+     */
+    public void setSkillCode_InScope_ViewableWolfCharaName() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfViewableWolfCharaName());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * おまかせ系 <br>
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+     */
+    public void setSkillCode_InScope_SomeoneSkill() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfSomeoneSkill());
     }
 
     protected void doSetSkillCode_InScope(Collection<String> skillCodeList) {
@@ -1266,6 +1318,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 恋人陣営 (LOVERS). And OnlyOnceRegistered. <br>
+     * 恋人陣営
+     */
+    public void setCampCode_Equal_恋人陣営() {
+        setCampCode_Equal_AsCamp(CDef.Camp.恋人陣営);
+    }
+
+    /**
      * Equal(=). As 村人陣営 (VILLAGER). And OnlyOnceRegistered. <br>
      * 村人陣営
      */
@@ -1318,6 +1378,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setCampCode_NotEqual_狐陣営() {
         setCampCode_NotEqual_AsCamp(CDef.Camp.狐陣営);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 恋人陣営 (LOVERS). And OnlyOnceRegistered. <br>
+     * 恋人陣営
+     */
+    public void setCampCode_NotEqual_恋人陣営() {
+        setCampCode_NotEqual_AsCamp(CDef.Camp.恋人陣営);
     }
 
     /**

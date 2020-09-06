@@ -103,6 +103,14 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 後追 (SUICIDE). And OnlyOnceRegistered. <br>
+     * 後追
+     */
+    public void setDeadReasonCode_Equal_後追() {
+        setDeadReasonCode_Equal_AsDeadReason(CDef.DeadReason.後追);
+    }
+
+    /**
      * Equal(=). As 罠死 (TRAPPED). And OnlyOnceRegistered. <br>
      * 罠死
      */
@@ -174,6 +182,14 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 後追 (SUICIDE). And OnlyOnceRegistered. <br>
+     * 後追
+     */
+    public void setDeadReasonCode_NotEqual_後追() {
+        setDeadReasonCode_NotEqual_AsDeadReason(CDef.DeadReason.後追);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 罠死 (TRAPPED). And OnlyOnceRegistered. <br>
      * 罠死
      */
@@ -202,6 +218,16 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
      */
     public void setDeadReasonCode_InScope_AsDeadReason(Collection<CDef.DeadReason> cdefList) {
         doSetDeadReasonCode_InScope(cTStrL(cdefList));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As DeadReason. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 死亡理由 <br>
+     * 無惨 <br>
+     * The group elements:[襲撃, 呪殺, 罠死, 爆死]
+     */
+    public void setDeadReasonCode_InScope_Miserable() {
+        setDeadReasonCode_InScope_AsDeadReason(CDef.DeadReason.listOfMiserable());
     }
 
     protected void doSetDeadReasonCode_InScope(Collection<String> deadReasonCodeList) {

@@ -1,23 +1,23 @@
 package com.ort.app.web.controller.assist;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.dbflute.optional.OptionalEntity;
-import org.dbflute.optional.OptionalThing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
-import com.ort.app.web.controller.logic.MessageLogic;
+import com.ort.app.datasource.VillageService;
+import com.ort.app.logic.MessageLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageSayForm;
 import com.ort.app.web.model.VillageSayConfirmResultContent;
 import com.ort.app.web.model.inner.VillageMessageDto;
-import com.ort.app.web.util.CharaUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.MessageType;
 import com.ort.dbflute.exbhv.MessageRestrictionBhv;
@@ -41,17 +41,19 @@ public class VillageSayAssist {
     //                                                                           Attribute
     //                                                                           =========
     @Autowired
-    private VillageBhv villageBhv;
-    @Autowired
-    private VillagePlayerBhv villagePlayerBhv;
-    @Autowired
     private VillageAssist villageAssist;
+    @Autowired
+    private MessageLogic messageLogic;
+    @Autowired
+    private VillageService villageService;
     @Autowired
     private RandomKeywordBhv randomKeywordBhv;
     @Autowired
     private MessageRestrictionBhv messageRestrictionBhv;
     @Autowired
-    private MessageLogic messageLogic;
+    private VillageBhv villageBhv;
+    @Autowired
+    private VillagePlayerBhv villagePlayerBhv;
 
     // ===================================================================================
     //                                                                             Execute
@@ -62,7 +64,7 @@ public class VillageSayAssist {
         if (result.hasErrors() || userInfo == null) {
             return null;
         }
-        OptionalThing<VillagePlayer> optVp = villageAssist.selectVillagePlayer(villageId, userInfo, true);
+        Optional<VillagePlayer> optVp = villageService.selectVillagePlayer(villageId, userInfo, true);
         if (!optVp.isPresent()) {
             return null;
         }
@@ -84,9 +86,9 @@ public class VillageSayAssist {
         VillageSayConfirmResultContent content = new VillageSayConfirmResultContent();
         VillageMessageDto message = new VillageMessageDto();
         Chara chara = villagePlayer.getChara().get();
-        message.setCharacterName(CharaUtil.makeCharaName(villagePlayer));
+        message.setCharacterName(villagePlayer.name());
         message.setCharacterId(chara.getCharaId());
-        message.setCharacterImageUrl(CharaUtil.getCharaImgUrlByFaceType(chara, faceType));
+        message.setCharacterImageUrl(chara.getCharaImgUrlByFaceType(faceType));
         message.setMessageType(sayForm.getMessageType());
         message.setMessageNumber(0);
         message.setMessageContent(sayForm.getMessage());
@@ -109,7 +111,7 @@ public class VillageSayAssist {
             return villageAssist.setIndexModelAndReturnView(villageId, sayForm, null, null, model);
         }
         Village village = selectVillage(villageId);
-        VillagePlayer villagePlayer = villageAssist.selectVillagePlayer(villageId, userInfo, true).orElseThrow(() -> {
+        VillagePlayer villagePlayer = villageService.selectVillagePlayer(villageId, userInfo, true).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
         // 発言権利がなかったらNG
@@ -123,7 +125,7 @@ public class VillageSayAssist {
             return villageAssist.setIndexModelAndReturnView(villageId, sayForm, null, null, model);
         }
 
-        int day = villageAssist.selectLatestDay(villageId);
+        int day = villageService.selectLatestDay(villageId);
         MessageType type = CDef.MessageType.codeOf(sayForm.getMessageType());
         CDef.FaceType faceType = CDef.FaceType.codeOf(sayForm.getFaceType());
         if (type == null || faceType == null) {
@@ -192,6 +194,8 @@ public class VillageSayAssist {
             return isAvailableNormalSay(village, villagePlayer);
         case 共鳴発言:
             return isAvailableMasonSay(village, villagePlayer);
+        case 恋人発言:
+            return isAvailableLoversSay(village, villagePlayer);
         case 死者の呻き:
             return isAvailableGraveSay(village, villagePlayer);
         case 見学発言:
@@ -234,6 +238,23 @@ public class VillageSayAssist {
         // 共有以外は不可
         CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
         if (skill != CDef.Skill.共鳴者) {
+            return false;
+        }
+        // 死亡していたら不可
+        if (BooleanUtils.isTrue(villagePlayer.getIsDead())) {
+            return false;
+        }
+        // 進行中以外は不可
+        if (!village.isVillageStatusCode進行中()) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isAvailableLoversSay(Village village, VillagePlayer villagePlayer) {
+        // 恋人、同棲者以外は不可
+        CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
+        if (skill != CDef.Skill.恋人 && skill != CDef.Skill.同棲者) {
             return false;
         }
         // 死亡していたら不可
@@ -312,7 +333,8 @@ public class VillageSayAssist {
             return false;
         }
         CDef.MessageType type = CDef.MessageType.codeOf(sayForm.getMessageType());
-        if (type != CDef.MessageType.通常発言 && type != CDef.MessageType.人狼の囁き && type != CDef.MessageType.共鳴発言) {
+        if (type != CDef.MessageType.通常発言 && type != CDef.MessageType.人狼の囁き && type != CDef.MessageType.共鳴発言
+                && type != CDef.MessageType.恋人発言) {
             return false;
         }
         OptionalEntity<MessageRestriction> optRestrict = messageRestrictionBhv.selectEntity(cb -> {
@@ -330,7 +352,7 @@ public class VillageSayAssist {
             return true; // 文字数オーバー
         }
         // 最新の日付
-        int latestDay = villageAssist.selectLatestDay(villageId);
+        int latestDay = villageService.selectLatestDay(villageId);
         List<Message> messageList = messageLogic.selectDayPersonMessage(villageId, latestDay, vPlayer.getVillagePlayerId());
         int count = (int) messageList.stream().filter(m -> m.getMessageTypeCodeAsMessageType() == type).count();
         Integer maxNum = restrict.getMessageMaxNum();

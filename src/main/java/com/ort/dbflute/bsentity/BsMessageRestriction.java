@@ -211,6 +211,14 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     }
 
     /**
+     * Set the value of skillCode as 同棲者 (COHABITER). <br>
+     * 同棲者
+     */
+    public void setSkillCode_同棲者() {
+        setSkillCodeAsSkill(CDef.Skill.同棲者);
+    }
+
+    /**
      * Set the value of skillCode as 検死官 (CORONER). <br>
      * 検死官
      */
@@ -304,6 +312,14 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
      */
     public void setSkillCode_おまかせ() {
         setSkillCodeAsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * Set the value of skillCode as 恋人 (LOVER). <br>
+     * 恋人
+     */
+    public void setSkillCode_恋人() {
+        setSkillCodeAsSkill(CDef.Skill.恋人);
     }
 
     /**
@@ -416,6 +432,14 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
      */
     public void setMessageTypeCode_死者の呻き() {
         setMessageTypeCodeAsMessageType(CDef.MessageType.死者の呻き);
+    }
+
+    /**
+     * Set the value of messageTypeCode as 恋人発言 (LOVERS_SAY). <br>
+     * 恋人発言
+     */
+    public void setMessageTypeCode_恋人発言() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.恋人発言);
     }
 
     /**
@@ -586,6 +610,17 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     }
 
     /**
+     * Is the value of skillCode 同棲者? <br>
+     * 同棲者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode同棲者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.同棲者) : false;
+    }
+
+    /**
      * Is the value of skillCode 検死官? <br>
      * 検死官
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -715,6 +750,17 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     public boolean isSkillCodeおまかせ() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.おまかせ) : false;
+    }
+
+    /**
+     * Is the value of skillCode 恋人? <br>
+     * 恋人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode恋人() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.恋人) : false;
     }
 
     /**
@@ -920,6 +966,26 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     }
 
     /**
+     * 人狼が誰かを知ることができる <br>
+     * The group elements:[人狼, 呪狼, 智狼, C国狂人, 狂信者]
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode_ViewableWolfCharaName() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null && cdef.isViewableWolfCharaName();
+    }
+
+    /**
+     * おまかせ系 <br>
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode_SomeoneSkill() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null && cdef.isSomeoneSkill();
+    }
+
+    /**
      * Is the value of messageTypeCode 村建て発言? <br>
      * 村建て発言
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -939,6 +1005,17 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     public boolean isMessageTypeCode死者の呻き() {
         CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
         return cdef != null ? cdef.equals(CDef.MessageType.死者の呻き) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 恋人発言? <br>
+     * 恋人発言
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode恋人発言() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.恋人発言) : false;
     }
 
     /**

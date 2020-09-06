@@ -188,6 +188,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Set the value of skillCode as 同棲者 (COHABITER). <br>
+     * 同棲者
+     */
+    public void setSkillCode_同棲者() {
+        setSkillCodeAsSkill(CDef.Skill.同棲者);
+    }
+
+    /**
      * Set the value of skillCode as 検死官 (CORONER). <br>
      * 検死官
      */
@@ -281,6 +289,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
      */
     public void setSkillCode_おまかせ() {
         setSkillCodeAsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * Set the value of skillCode as 恋人 (LOVER). <br>
+     * 恋人
+     */
+    public void setSkillCode_恋人() {
+        setSkillCodeAsSkill(CDef.Skill.恋人);
     }
 
     /**
@@ -396,6 +412,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Set the value of campCode as 恋人陣営 (LOVERS). <br>
+     * 恋人陣営
+     */
+    public void setCampCode_恋人陣営() {
+        setCampCodeAsCamp(CDef.Camp.恋人陣営);
+    }
+
+    /**
      * Set the value of campCode as 村人陣営 (VILLAGER). <br>
      * 村人陣営
      */
@@ -456,6 +480,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isSkillCodeC国狂人() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.C国狂人) : false;
+    }
+
+    /**
+     * Is the value of skillCode 同棲者? <br>
+     * 同棲者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode同棲者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.同棲者) : false;
     }
 
     /**
@@ -588,6 +623,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isSkillCodeおまかせ() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.おまかせ) : false;
+    }
+
+    /**
+     * Is the value of skillCode 恋人? <br>
+     * 恋人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode恋人() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.恋人) : false;
     }
 
     /**
@@ -793,6 +839,26 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * 人狼が誰かを知ることができる <br>
+     * The group elements:[人狼, 呪狼, 智狼, C国狂人, 狂信者]
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode_ViewableWolfCharaName() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null && cdef.isViewableWolfCharaName();
+    }
+
+    /**
+     * おまかせ系 <br>
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode_SomeoneSkill() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null && cdef.isSomeoneSkill();
+    }
+
+    /**
      * Is the value of campCode 愉快犯陣営? <br>
      * 愉快犯陣営
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -812,6 +878,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isCampCode狐陣営() {
         CDef.Camp cdef = getCampCodeAsCamp();
         return cdef != null ? cdef.equals(CDef.Camp.狐陣営) : false;
+    }
+
+    /**
+     * Is the value of campCode 恋人陣営? <br>
+     * 恋人陣営
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isCampCode恋人陣営() {
+        CDef.Camp cdef = getCampCodeAsCamp();
+        return cdef != null ? cdef.equals(CDef.Camp.恋人陣営) : false;
     }
 
     /**

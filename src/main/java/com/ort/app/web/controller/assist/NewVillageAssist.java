@@ -15,14 +15,14 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
-import com.ort.app.web.controller.logic.MessageLogic;
-import com.ort.app.web.controller.logic.TwitterLogic;
-import com.ort.app.web.controller.logic.VillageParticipateLogic;
+import com.ort.app.logic.MessageLogic;
+import com.ort.app.logic.TwitterLogic;
+import com.ort.app.logic.VillageParticipateLogic;
+import com.ort.app.util.SkillUtil;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageForm;
 import com.ort.app.web.form.NewVillageSayRestrictDetailDto;
 import com.ort.app.web.model.common.SelectOptionDto;
-import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.CharaGroupBhv;

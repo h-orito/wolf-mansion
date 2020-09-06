@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ort.app.logic.DayChangeLogic;
 import com.ort.app.web.controller.assist.VillageAbilityAssist;
 import com.ort.app.web.controller.assist.VillageAssist;
 import com.ort.app.web.controller.assist.VillageCommitAssist;
@@ -21,7 +22,6 @@ import com.ort.app.web.controller.assist.VillageMessageAssist;
 import com.ort.app.web.controller.assist.VillageParticipateAssist;
 import com.ort.app.web.controller.assist.VillageSayAssist;
 import com.ort.app.web.controller.assist.VillageSettingsAssist;
-import com.ort.app.web.controller.logic.DayChangeLogic;
 import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
 import com.ort.app.web.form.VillageCommitForm;

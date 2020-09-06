@@ -13,8 +13,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.util.CollectionUtils;
 
-import com.ort.app.web.controller.logic.AssignLogic;
-import com.ort.app.web.util.SkillUtil;
+import com.ort.app.logic.AssignLogic;
+import com.ort.app.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.fw.util.WerewolfMansionDateUtil;
@@ -432,6 +432,8 @@ public class NewVillageForm implements Serializable {
             detailList.add(createDetail("囁き", CDef.MessageType.人狼の囁き.code()));
         } else if (skill == CDef.Skill.共鳴者) {
             detailList.add(createDetail("共鳴", CDef.MessageType.共鳴発言.code()));
+        } else if (skill == CDef.Skill.恋人 || skill == CDef.Skill.同棲者) {
+            detailList.add(createDetail("恋人", CDef.MessageType.恋人発言.code()));
         }
         return detailList;
     }

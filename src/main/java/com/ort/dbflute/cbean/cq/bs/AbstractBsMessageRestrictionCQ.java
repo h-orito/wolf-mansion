@@ -224,6 +224,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
     }
 
     /**
+     * Equal(=). As 同棲者 (COHABITER). And OnlyOnceRegistered. <br>
+     * 同棲者
+     */
+    public void setSkillCode_Equal_同棲者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.同棲者);
+    }
+
+    /**
      * Equal(=). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
      * 検死官
      */
@@ -317,6 +325,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
      */
     public void setSkillCode_Equal_おまかせ() {
         setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * Equal(=). As 恋人 (LOVER). And OnlyOnceRegistered. <br>
+     * 恋人
+     */
+    public void setSkillCode_Equal_恋人() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.恋人);
     }
 
     /**
@@ -471,6 +487,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 同棲者 (COHABITER). And OnlyOnceRegistered. <br>
+     * 同棲者
+     */
+    public void setSkillCode_NotEqual_同棲者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.同棲者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
      * 検死官
      */
@@ -564,6 +588,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
      */
     public void setSkillCode_NotEqual_おまかせ() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 恋人 (LOVER). And OnlyOnceRegistered. <br>
+     * 恋人
+     */
+    public void setSkillCode_NotEqual_恋人() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.恋人);
     }
 
     /**
@@ -755,6 +787,26 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfNoDeadByAttack());
     }
 
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 人狼が誰かを知ることができる <br>
+     * The group elements:[人狼, 呪狼, 智狼, C国狂人, 狂信者]
+     */
+    public void setSkillCode_InScope_ViewableWolfCharaName() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfViewableWolfCharaName());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * おまかせ系 <br>
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+     */
+    public void setSkillCode_InScope_SomeoneSkill() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfSomeoneSkill());
+    }
+
     protected void doSetSkillCode_InScope(Collection<String> skillCodeList) {
         regINS(CK_INS, cTL(skillCodeList), xgetCValueSkillCode(), "SKILL_CODE");
     }
@@ -830,6 +882,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
      */
     public void setMessageTypeCode_Equal_死者の呻き() {
         setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.死者の呻き);
+    }
+
+    /**
+     * Equal(=). As 恋人発言 (LOVERS_SAY). And OnlyOnceRegistered. <br>
+     * 恋人発言
+     */
+    public void setMessageTypeCode_Equal_恋人発言() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.恋人発言);
     }
 
     /**
@@ -989,6 +1049,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
      */
     public void setMessageTypeCode_NotEqual_死者の呻き() {
         setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.死者の呻き);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 恋人発言 (LOVERS_SAY). And OnlyOnceRegistered. <br>
+     * 恋人発言
+     */
+    public void setMessageTypeCode_NotEqual_恋人発言() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.恋人発言);
     }
 
     /**

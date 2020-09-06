@@ -93,6 +93,24 @@
 			</div>
 		</div>
 	</div>
+	{{else if (eq messageType 'LOVERS_SAY')}}
+	<div class="col-sm-12 col-xs-12 say-l{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}" data-spoiled-content>
+		<div class="row">
+			<div class="col-sm-12 col-xs-12 small">
+				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>?{{messageNumber}}</a>. {{characterName}}{{#if
+					playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat
+					messageDatetime}}</span>
+			</div>
+			<div class="col-sm-12 col-xs-12">
+				<div class="row" style="display: flex;">
+					<div>
+						<img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
+					</div>
+					<div class="message message-lover" style="flex: 1; margin-left: 5px; {{minHeightCss}}">{{{messageContent}}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	{{else if (eq messageType 'GRAVE_SAY')}}
 	<div class="col-sm-12 col-xs-12 say-g{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}" data-spoiled-content>
 		<div class="row">

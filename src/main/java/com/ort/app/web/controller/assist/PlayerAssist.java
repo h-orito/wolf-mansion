@@ -14,7 +14,6 @@ import com.ort.app.web.model.inner.PlayerCampStatsDto;
 import com.ort.app.web.model.inner.PlayerParticipateVillageDto;
 import com.ort.app.web.model.inner.PlayerSkillStatsDto;
 import com.ort.app.web.model.inner.PlayerStatsDto;
-import com.ort.app.web.util.CharaUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exentity.Chara;
@@ -165,7 +164,7 @@ public class PlayerAssist {
             participateVillageDto.setVillageId(vp.getVillageId());
             participateVillageDto.setVillageName(village.getVillageDisplayName());
             participateVillageDto.setCharacterName(chara.getCharaName());
-            participateVillageDto.setCharacterImgUrl(CharaUtil.getNormalCharaImgUrl(chara));
+            participateVillageDto.setCharacterImgUrl(chara.getNormalCharaImgUrl());
             participateVillageDto.setCharacterImgWidth(chara.getDisplayWidth());
             participateVillageDto.setCharacterImgHeight(chara.getDisplayHeight());
             participateVillageDto.setSkillName(vp.getSkillCodeAsSkill().alias());
@@ -186,7 +185,7 @@ public class PlayerAssist {
             participateVillageDto.setVillageId(vp.getVillageId());
             participateVillageDto.setVillageName(village.getVillageDisplayName());
             participateVillageDto.setCharacterName(chara.getCharaName());
-            participateVillageDto.setCharacterImgUrl(CharaUtil.getNormalCharaImgUrl(chara));
+            participateVillageDto.setCharacterImgUrl(chara.getNormalCharaImgUrl());
             participateVillageDto.setCharacterImgWidth(chara.getDisplayWidth());
             participateVillageDto.setCharacterImgHeight(chara.getDisplayHeight());
             return participateVillageDto;

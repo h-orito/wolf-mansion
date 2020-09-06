@@ -14,4 +14,12 @@ public class Village extends BsVillage {
 
     /** The serial version UID for object serialization. (Default) */
     private static final long serialVersionUID = 1L;
+
+    public VillagePlayers getVillagePlayers() {
+        return new VillagePlayers(getVillagePlayerList());
+    }
+
+    public VillageDays getVillageDays() {
+        return new VillageDays(getVillageDayList());
+    }
 }

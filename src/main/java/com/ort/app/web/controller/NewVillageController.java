@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ort.app.logic.VillageParticipateLogic;
 import com.ort.app.web.controller.assist.NewVillageAssist;
-import com.ort.app.web.controller.logic.VillageParticipateLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageForm;
 import com.ort.app.web.form.validator.NewVillageFormValidator;
-import com.ort.app.web.util.CharaUtil;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.CharaGroupBhv;
 import com.ort.dbflute.exentity.Chara;
@@ -101,7 +100,7 @@ public class NewVillageController {
             charaImageCB.query().setFaceTypeCode_Equal_通常();
         });
         model.addAttribute("dummyCharaName", chara.getCharaName());
-        model.addAttribute("characterImgUrl", CharaUtil.getNormalCharaImgUrl(chara));
+        model.addAttribute("characterImgUrl", chara.getNormalCharaImgUrl());
         model.addAttribute("characterImgWidth", chara.getDisplayWidth());
         model.addAttribute("characterImgHeight", chara.getDisplayHeight());
 

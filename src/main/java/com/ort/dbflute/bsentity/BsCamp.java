@@ -134,6 +134,14 @@ public abstract class BsCamp extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Set the value of campCode as 恋人陣営 (LOVERS). <br>
+     * 恋人陣営
+     */
+    public void setCampCode_恋人陣営() {
+        setCampCodeAsCamp(CDef.Camp.恋人陣営);
+    }
+
+    /**
      * Set the value of campCode as 村人陣営 (VILLAGER). <br>
      * 村人陣営
      */
@@ -172,6 +180,17 @@ public abstract class BsCamp extends AbstractEntity implements DomainEntity {
     public boolean isCampCode狐陣営() {
         CDef.Camp cdef = getCampCodeAsCamp();
         return cdef != null ? cdef.equals(CDef.Camp.狐陣営) : false;
+    }
+
+    /**
+     * Is the value of campCode 恋人陣営? <br>
+     * 恋人陣営
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isCampCode恋人陣営() {
+        CDef.Camp cdef = getCampCodeAsCamp();
+        return cdef != null ? cdef.equals(CDef.Camp.恋人陣営) : false;
     }
 
     /**

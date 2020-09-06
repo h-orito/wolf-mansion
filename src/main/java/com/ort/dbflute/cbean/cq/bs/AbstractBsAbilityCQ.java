@@ -748,6 +748,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 同棲 (COHABIT). And OnlyOnceRegistered. <br>
+     * 同棲
+     */
+    public void setAbilityTypeCode_Equal_同棲() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.同棲);
+    }
+
+    /**
      * Equal(=). As 占い (DIVINE). And OnlyOnceRegistered. <br>
      * 占い
      */
@@ -816,6 +824,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_爆弾設置() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.爆弾設置);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 同棲 (COHABIT). And OnlyOnceRegistered. <br>
+     * 同棲
+     */
+    public void setAbilityTypeCode_NotEqual_同棲() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.同棲);
     }
 
     /**

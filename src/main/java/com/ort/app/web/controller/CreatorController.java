@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.ort.app.datasource.VillageService;
+import com.ort.app.logic.MessageLogic;
+import com.ort.app.logic.VillageParticipateLogic;
 import com.ort.app.web.controller.assist.VillageAssist;
-import com.ort.app.web.controller.logic.MessageLogic;
-import com.ort.app.web.controller.logic.VillageParticipateLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageKickForm;
 import com.ort.app.web.form.VillageSayForm;
@@ -57,6 +58,8 @@ public class CreatorController {
     private VillageAssist villageAssist;
     @Autowired
     private MessageLogic messageLogic;
+    @Autowired
+    private VillageService villageService;
 
     @InitBinder("creatorSayForm")
     public void initBinder(WebDataBinder binder) {
@@ -130,7 +133,7 @@ public class CreatorController {
         if (!isCreator(villageId)) {
             return "redirect:/village/" + villageId;
         }
-        int day = villageAssist.selectLatestDay(villageId);
+        int day = villageService.selectLatestDay(villageId);
         try {
             messageLogic.insertMessage(villageId, day, CDef.MessageType.村建て発言, creatorSayForm.getMessage(),
                     BooleanUtils.isTrue(creatorSayForm.getIsConvertDisable()));

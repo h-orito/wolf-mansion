@@ -741,13 +741,33 @@ pre.spolicyviodisp {
 		<td class="namecell" data-name="village_player"><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=20">VILLAGE_PLAYER</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara" title="FK_VILLAGE_PLAYER_CHARA">CHARA</a>, <a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_REASON">DEAD_REASON</a>, <a href="#player" title="FK_VILLAGE_PLAYER_PLAYER">PLAYER</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL">SKILL</a>, <a href="#village" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE</a></td>
-		<td class="relcell"><a href="#commit" title="FK_COMMIT_VILLAGE_PLAYER">COMMIT</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER_TO">MESSAGE</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER">MESSAGE</a></td>
+		<td class="relcell"><a href="#commit" title="FK_COMMIT_VILLAGE_PLAYER">COMMIT</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER_TO">MESSAGE</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER">MESSAGE</a>, <a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_TO_VILLAGE_PLAYER">VILLAGE_PLAYER_STATUS</a>, <a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER">VILLAGE_PLAYER_STATUS</a></td>
 		<td class="commentcell village_player_comment"><pre>村参加者</pre></td>
 		<td class="subcell">VillagePlayer</td>
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">24</td>
+		<td class="namecell" data-name="village_player_status"><a href="#village_player_status" title="type=TABLE, primaryKey={VILLAGE_PLAYER_STATUS_ID}, nameLength=21, columnCount=8">VILLAGE_PLAYER_STATUS</a></td>
+		<td class="typecell">TABLE</td>
+		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_STATUS_TO_VILLAGE_PLAYER">VILLAGE_PLAYER</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER">VILLAGE_PLAYER</a>, <a href="#village_player_status_type" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER_STATUS_TYPE">VILLAGE_PLAYER_STATUS_TYPE</a></td>
+		<td class="relcell">&nbsp;</td>
+		<td class="commentcell village_player_status_comment"><pre>村参加者ステータス</pre></td>
+		<td class="subcell">VillagePlayerStatus</td>
+		<td class="subcell">2020/08/28</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">25</td>
+		<td class="namecell" data-name="village_player_status_type"><a href="#village_player_status_type" title="type=TABLE, primaryKey={VILLAGE_PLAYER_STATUS_TYPE_CODE}, nameLength=26, columnCount=2">VILLAGE_PLAYER_STATUS_TYPE</a></td>
+		<td class="typecell">TABLE</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER_STATUS_TYPE">VILLAGE_PLAYER_STATUS</a></td>
+		<td class="commentcell village_player_status_type_comment"><pre>村参加者ステータス種別</pre></td>
+		<td class="subcell">VillagePlayerStatusType</td>
+		<td class="subcell">2020/08/28</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">26</td>
 		<td class="namecell" data-name="village_settings"><a href="#village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=23">VILLAGE_SETTINGS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#allowed_secret_say" title="FK_VILLAGE_SETTINGS_ALLOWED_SECRET_SAY">ALLOWED_SECRET_SAY</a>, <a href="#chara_group" title="FK_VILLAGE_SETTINGS_CHARA_GROUP">CHARA_GROUP</a>, <a href="#village" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE</a></td>
@@ -757,7 +777,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/18</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">25</td>
+		<td class="rownumcell">27</td>
 		<td class="namecell" data-name="village_status"><a href="#village_status" title="type=TABLE, primaryKey={VILLAGE_STATUS_CODE}, nameLength=14, columnCount=2">VILLAGE_STATUS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -767,7 +787,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/19</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">26</td>
+		<td class="rownumcell">28</td>
 		<td class="namecell" data-name="vote"><a href="#vote" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID}, nameLength=4, columnCount=8">VOTE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara" title="FK_VOTE_CHARA">CHARA</a>, <a href="#village_day" title="FK_VOTE_VILLAGE_DAY">VILLAGE_DAY</a>, <a href="#chara" title="FK_VOTE_CHARA_TO">CHARA</a></td>
@@ -3876,7 +3896,7 @@ VILLAGE_PLAYER
 		<td class="typecell">INT UNSIGNED</td>
 		<td class="sizecell"> 10 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell"><a href="#commit" title="FK_COMMIT_VILLAGE_PLAYER">COMMIT</a>,<br><a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER_TO">MESSAGE</a>,<br><a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER">MESSAGE</a>&nbsp;</td>
+		<td class="relcell"><a href="#commit" title="FK_COMMIT_VILLAGE_PLAYER">COMMIT</a>,<br><a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER_TO">MESSAGE</a>,<br><a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER">MESSAGE</a>,<br><a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_TO_VILLAGE_PLAYER">VILLAGE_PLAYER_STATUS</a>,<br><a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER">VILLAGE_PLAYER_STATUS</a>&nbsp;</td>
 		<td class="relcell"> &nbsp;</td>
 		<td class="commentcell"><pre>村参加者ID</pre></td>
 		<td class="subcell">villagePlayerId</td>
@@ -4224,6 +4244,248 @@ VILLAGE_PLAYER
 		<td class="subcell">updateTrace</td>
 		<td class="subcell">String</td>
 		<td class="subcell">2017/12/22</td>
+	</tr>
+	</tbody>
+</table>
+
+<h2 id="village_player_status" title="type=TABLE, primaryKey={VILLAGE_PLAYER_STATUS_ID}, nameLength=21, columnCount=8">
+VILLAGE_PLAYER_STATUS
+&nbsp;<span class="tablefirstdatetitle">since 2020/08/28</span>
+</h2>
+<div class="tablecomment village_player_status_comment" data-name="village_player_status"><pre>村参加者ステータス</pre></div>
+<input type="hidden" value="village_player_status">
+<table class="tablecontent">
+	<thead>
+	<tr>
+		<th class="rownumhead">No.</th>
+		<th>PK</th>
+		<th>ID</th>
+		<th>UQ</th>
+		<th>IX</th>
+		<th>Not<br />Null</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Size</th>
+		<th>ForeignTable</th>
+		<th>ReferrerTable</th>
+		<th>Classification</th>
+		<th>ColumnComment</th>
+		<th>PropertyName</th>
+		<th>JavaType</th>
+		<th>Since</th>
+	</tr>
+	</thead>
+	<tbody id="village_player_status-body">
+	<tr>
+		<td class="rownumcell">1</td>
+		<td class="flgcell" title="PRIMARY">o</td>
+		<td class="flgcell">o</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_player_status_village_player_status_id">VILLAGE_PLAYER_STATUS_ID</td>
+		<td class="typecell">INT UNSIGNED</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>村参加者ステータスID</pre></td>
+		<td class="subcell">villagePlayerStatusId</td>
+		<td class="subcell">Integer</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER(VILLAGE_PLAYER_ID)">o</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_player_status_village_player_id">VILLAGE_PLAYER_ID</td>
+		<td class="typecell">INT UNSIGNED</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER">VILLAGE_PLAYER</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>村参加者ID</pre></td>
+		<td class="subcell">villagePlayerId</td>
+		<td class="subcell">Integer</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">3</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_VILLAGE_PLAYER_STATUS_TO_VILLAGE_PLAYER(TO_VILLAGE_PLAYER_ID)">o</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class=" columnnamecell" id="village_player_status_to_village_player_id">TO_VILLAGE_PLAYER_ID</td>
+		<td class="typecell">INT UNSIGNED</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_STATUS_TO_VILLAGE_PLAYER">VILLAGE_PLAYER</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>対象の村参加者ID</pre></td>
+		<td class="subcell">toVillagePlayerId</td>
+		<td class="subcell">Integer</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">4</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER_STATUS_TYPE(VILLAGE_PLAYER_STATUS_CODE)">o</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_player_status_village_player_status_code">VILLAGE_PLAYER_STATUS_CODE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell"><a href="#village_player_status_type" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER_STATUS_TYPE">VILLAGE_PLAYER_STATUS_TYPE</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#VillagePlayerStatusTypeCls">VillagePlayerStatusType</a></td>
+		<td class="commentcell"><pre>村参加者ステータス種別コード</pre></td>
+		<td class="subcell">villagePlayerStatusCode</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">5</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="village_player_status_register_datetime">REGISTER_DATETIME</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>登録日時</pre></td>
+		<td class="subcell">registerDatetime</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">6</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="village_player_status_register_trace">REGISTER_TRACE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 64 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>登録トレース</pre></td>
+		<td class="subcell">registerTrace</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">7</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="village_player_status_update_datetime">UPDATE_DATETIME</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>更新日時</pre></td>
+		<td class="subcell">updateDatetime</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">8</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="village_player_status_update_trace">UPDATE_TRACE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 64 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>更新トレース</pre></td>
+		<td class="subcell">updateTrace</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	</tbody>
+</table>
+
+<h2 id="village_player_status_type" title="type=TABLE, primaryKey={VILLAGE_PLAYER_STATUS_TYPE_CODE}, nameLength=26, columnCount=2">
+VILLAGE_PLAYER_STATUS_TYPE
+&nbsp;<span class="tablefirstdatetitle">since 2020/08/28</span>
+</h2>
+<div class="tablecomment village_player_status_type_comment" data-name="village_player_status_type"><pre>村参加者ステータス種別</pre></div>
+<input type="hidden" value="village_player_status_type">
+<table class="tablecontent">
+	<thead>
+	<tr>
+		<th class="rownumhead">No.</th>
+		<th>PK</th>
+		<th>ID</th>
+		<th>UQ</th>
+		<th>IX</th>
+		<th>Not<br />Null</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Size</th>
+		<th>ForeignTable</th>
+		<th>ReferrerTable</th>
+		<th>Classification</th>
+		<th>ColumnComment</th>
+		<th>PropertyName</th>
+		<th>JavaType</th>
+		<th>Since</th>
+	</tr>
+	</thead>
+	<tbody id="village_player_status_type-body">
+	<tr>
+		<td class="rownumcell">1</td>
+		<td class="flgcell" title="PRIMARY">o</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_player_status_type_village_player_status_type_code">VILLAGE_PLAYER_STATUS_TYPE_CODE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell"><a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER_STATUS_TYPE">VILLAGE_PLAYER_STATUS</a>&nbsp;</td>
+		<td class="relcell"><a href="#VillagePlayerStatusTypeCls">VillagePlayerStatusType</a></td>
+		<td class="commentcell"><pre>村参加者ステータス種別コード</pre></td>
+		<td class="subcell">villagePlayerStatusTypeCode</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_player_status_type_village_player_status_type_name">VILLAGE_PLAYER_STATUS_TYPE_NAME</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>村参加者ステータス種別名</pre></td>
+		<td class="subcell">villagePlayerStatusTypeName</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
 	</tr>
 	</tbody>
 </table>
@@ -5000,6 +5262,11 @@ VOTE
 				<td class="commentcell">&nbsp;</td>
 			</tr>
 			<tr>
+				<td>LOVERS</td>
+				<td>恋人陣営</td>
+				<td class="commentcell">&nbsp;</td>
+			</tr>
+			<tr>
 				<td>VILLAGER</td>
 				<td>村人陣営</td>
 				<td class="commentcell">&nbsp;</td>
@@ -5074,6 +5341,8 @@ VOTE
 				<th><span class="clsgroup" title="狂人能力を持つ :: [C国狂人, 狂人, 狂信者, 魔神官]">hasMadmanAbility</span></th>
 				<th><span class="clsgroup" title="徘徊能力を持つ :: [C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 背徳者]">hasDisturbAbility</span></th>
 				<th><span class="clsgroup" title="襲撃されても死なない :: [妖狐, 爆弾魔]">noDeadByAttack</span></th>
+				<th><span class="clsgroup" title="人狼が誰かを知ることができる :: [人狼, 呪狼, 智狼, C国狂人, 狂信者]">viewableWolfCharaName</span></th>
+				<th><span class="clsgroup" title="おまかせ系 :: [おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]">someoneSkill</span></th>
 				<th>SubItem</th>
 			</tr>
 			<tr>
@@ -5088,6 +5357,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td>order=4<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=星</td>
 			</tr>
 			<tr>
@@ -5095,6 +5366,8 @@ VOTE
 				<td>パン屋</td>
 				<td>パン屋</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -5116,7 +5389,9 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=22<br>,&nbsp;campCode=CRIMINAL<br>,&nbsp;skill_short_name=爆</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=24<br>,&nbsp;campCode=CRIMINAL<br>,&nbsp;skill_short_name=爆</td>
 			</tr>
 			<tr>
 				<td>CMADMAN</td>
@@ -5130,13 +5405,33 @@ VOTE
 				<td class="flgcell">o</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td>order=17<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=C</td>
+			</tr>
+			<tr>
+				<td>COHABITER</td>
+				<td>同棲者</td>
+				<td>同棲者</td>
+				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=21<br>,&nbsp;campCode=LOVERS<br>,&nbsp;skill_short_name=棲</td>
 			</tr>
 			<tr>
 				<td>CORONER</td>
 				<td>検死官</td>
 				<td>検死官</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -5158,6 +5453,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td>order=14<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=呪</td>
 			</tr>
 			<tr>
@@ -5165,6 +5462,8 @@ VOTE
 				<td>探偵</td>
 				<td>探偵</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -5186,6 +5485,8 @@ VOTE
 				<td class="flgcell">o</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td>order=18<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=魔</td>
 			</tr>
 			<tr>
@@ -5198,6 +5499,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
+				<td class="flgcell">o</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td>order=19<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=信</td>
@@ -5214,7 +5517,9 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=27<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
+				<td>order=29<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>FOX</td>
@@ -5228,7 +5533,9 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell">o</td>
-				<td>order=20<br>,&nbsp;campCode=FOX<br>,&nbsp;skill_short_name=狐</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=22<br>,&nbsp;campCode=FOX<br>,&nbsp;skill_short_name=狐</td>
 			</tr>
 			<tr>
 				<td>FRIENDS</td>
@@ -5242,7 +5549,9 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=28<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
+				<td>order=30<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>GURU</td>
@@ -5256,6 +5565,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td>order=6<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=導</td>
 			</tr>
 			<tr>
@@ -5263,6 +5574,8 @@ VOTE
 				<td>狩人</td>
 				<td>狩人</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -5284,7 +5597,9 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=21<br>,&nbsp;campCode=FOX<br>,&nbsp;skill_short_name=背</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=23<br>,&nbsp;campCode=FOX<br>,&nbsp;skill_short_name=背</td>
 			</tr>
 			<tr>
 				<td>LEFTOVER</td>
@@ -5298,7 +5613,25 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=23<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
+				<td>order=25<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+			</tr>
+			<tr>
+				<td>LOVER</td>
+				<td>恋人</td>
+				<td>恋人</td>
+				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=20<br>,&nbsp;campCode=LOVERS<br>,&nbsp;skill_short_name=恋</td>
 			</tr>
 			<tr>
 				<td>MADMAN</td>
@@ -5312,6 +5645,8 @@ VOTE
 				<td class="flgcell">o</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td>order=16<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=狂</td>
 			</tr>
 			<tr>
@@ -5319,6 +5654,8 @@ VOTE
 				<td>共鳴者</td>
 				<td>共鳴者</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -5340,6 +5677,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td>order=5<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=霊</td>
 			</tr>
 			<tr>
@@ -5354,7 +5693,9 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=26<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
+				<td>order=28<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>SEER</td>
@@ -5368,6 +5709,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td>order=2<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=占</td>
 			</tr>
 			<tr>
@@ -5375,6 +5718,8 @@ VOTE
 				<td>罠師</td>
 				<td>罠師</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -5396,6 +5741,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td>order=1<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=村</td>
 			</tr>
 			<tr>
@@ -5410,7 +5757,9 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=24<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
+				<td>order=26<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>WEREWOLF</td>
@@ -5423,6 +5772,8 @@ VOTE
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td>order=13<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=狼</td>
 			</tr>
@@ -5438,7 +5789,9 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=25<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
+				<td>order=27<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>WISE</td>
@@ -5447,6 +5800,8 @@ VOTE
 				<td class="commentcell">&nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -5465,6 +5820,8 @@ VOTE
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td>order=15<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=智</td>
 			</tr>
@@ -5490,6 +5847,11 @@ VOTE
 			<tr>
 				<td>GRAVE_SAY</td>
 				<td>死者の呻き</td>
+				<td class="commentcell">&nbsp;</td>
+			</tr>
+			<tr>
+				<td>LOVERS_SAY</td>
+				<td>恋人発言</td>
 				<td class="commentcell">&nbsp;</td>
 			</tr>
 			<tr>
@@ -5580,36 +5942,49 @@ VOTE
 				<th id="DeadReasonCls">Code</th>
 				<th>Name</th>
 				<th>Comment</th>
+				<th><span class="clsgroup" title="無惨 :: [襲撃, 呪殺, 罠死, 爆死]">miserable</span></th>
 			</tr>
 			<tr>
 				<td>ATTACK</td>
 				<td>襲撃</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell">o</td>
 			</tr>
 			<tr>
 				<td>BOMBED</td>
 				<td>爆死</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell">o</td>
 			</tr>
 			<tr>
 				<td>DIVINED</td>
 				<td>呪殺</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell">o</td>
 			</tr>
 			<tr>
 				<td>EXECUTE</td>
 				<td>処刑</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 			</tr>
 			<tr>
 				<td>SUDDON</td>
 				<td>突然</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+			</tr>
+			<tr>
+				<td>SUICIDE</td>
+				<td>後追</td>
+				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 			</tr>
 			<tr>
 				<td>TRAPPED</td>
 				<td>罠死</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell">o</td>
 			</tr>
 			</table>
 		</td>
@@ -5633,6 +6008,11 @@ VOTE
 			<tr>
 				<td>BOMB</td>
 				<td>爆弾設置</td>
+				<td class="commentcell">&nbsp;</td>
+			</tr>
+			<tr>
+				<td>COHABIT</td>
+				<td>同棲</td>
 				<td class="commentcell">&nbsp;</td>
 			</tr>
 			<tr>
@@ -5726,6 +6106,25 @@ VOTE
 			<tr>
 				<td>WEREWOLF</td>
 				<td>囁き</td>
+				<td class="commentcell">&nbsp;</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>VillagePlayerStatusType</td>
+		<td class="clstypecell">table</td>
+		<td>村参加者ステータス種別</td>
+		<td>
+			<table class="child">
+			<tr>
+				<th id="VillagePlayerStatusTypeCls">Code</th>
+				<th>Name</th>
+				<th>Comment</th>
+			</tr>
+			<tr>
+				<td>FOLLOWING_SUICIDE</td>
+				<td>後追い</td>
 				<td class="commentcell">&nbsp;</td>
 			</tr>
 			</table>
@@ -6831,6 +7230,46 @@ function StoreClient() {
 				}
 				, 'UPDATE_TRACE': {
 					'databaseComment': '更新トレース'
+				}
+			}
+		}
+		, 'village_player_status': {
+			'databaseComment': '村参加者ステータス'
+			, 'columns': {
+				'VILLAGE_PLAYER_STATUS_ID': {
+					'databaseComment': '村参加者ステータスID'
+				}
+				, 'VILLAGE_PLAYER_ID': {
+					'databaseComment': '村参加者ID'
+				}
+				, 'TO_VILLAGE_PLAYER_ID': {
+					'databaseComment': '対象の村参加者ID'
+				}
+				, 'VILLAGE_PLAYER_STATUS_CODE': {
+					'databaseComment': '村参加者ステータス種別コード'
+				}
+				, 'REGISTER_DATETIME': {
+					'databaseComment': '登録日時'
+				}
+				, 'REGISTER_TRACE': {
+					'databaseComment': '登録トレース'
+				}
+				, 'UPDATE_DATETIME': {
+					'databaseComment': '更新日時'
+				}
+				, 'UPDATE_TRACE': {
+					'databaseComment': '更新トレース'
+				}
+			}
+		}
+		, 'village_player_status_type': {
+			'databaseComment': '村参加者ステータス種別'
+			, 'columns': {
+				'VILLAGE_PLAYER_STATUS_TYPE_CODE': {
+					'databaseComment': '村参加者ステータス種別コード'
+				}
+				, 'VILLAGE_PLAYER_STATUS_TYPE_NAME': {
+					'databaseComment': '村参加者ステータス種別名'
 				}
 			}
 		}

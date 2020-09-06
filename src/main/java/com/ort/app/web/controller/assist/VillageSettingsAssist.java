@@ -16,14 +16,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
-import com.ort.app.web.controller.logic.MessageLogic;
+import com.ort.app.logic.MessageLogic;
+import com.ort.app.util.SkillUtil;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageSayRestrictDetailDto;
 import com.ort.app.web.form.NewVillageSayRestrictDto;
 import com.ort.app.web.form.VillageSettingsForm;
 import com.ort.app.web.model.VillageSettingsResultContent;
 import com.ort.app.web.model.inner.VillageSettingsDto;
-import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.exbhv.CharaBhv;

@@ -68,17 +68,29 @@ public class VillagePlayerCIQ extends AbstractBsVillagePlayerCQ {
     { throwIICBOE("ExistsReferrer"); return null; }
     public String keepVillagePlayerId_ExistsReferrer_MessageByVillagePlayerIdList(MessageCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
+    public String keepVillagePlayerId_ExistsReferrer_VillagePlayerStatusByToVillagePlayerIdList(VillagePlayerStatusCQ sq)
+    { throwIICBOE("ExistsReferrer"); return null; }
+    public String keepVillagePlayerId_ExistsReferrer_VillagePlayerStatusByVillagePlayerIdList(VillagePlayerStatusCQ sq)
+    { throwIICBOE("ExistsReferrer"); return null; }
     public String keepVillagePlayerId_NotExistsReferrer_CommitList(CommitCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepVillagePlayerId_NotExistsReferrer_MessageByToVillagePlayerIdList(MessageCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepVillagePlayerId_NotExistsReferrer_MessageByVillagePlayerIdList(MessageCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
+    public String keepVillagePlayerId_NotExistsReferrer_VillagePlayerStatusByToVillagePlayerIdList(VillagePlayerStatusCQ sq)
+    { throwIICBOE("NotExistsReferrer"); return null; }
+    public String keepVillagePlayerId_NotExistsReferrer_VillagePlayerStatusByVillagePlayerIdList(VillagePlayerStatusCQ sq)
+    { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepVillagePlayerId_SpecifyDerivedReferrer_CommitList(CommitCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepVillagePlayerId_SpecifyDerivedReferrer_MessageByToVillagePlayerIdList(MessageCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepVillagePlayerId_SpecifyDerivedReferrer_MessageByVillagePlayerIdList(MessageCQ sq)
+    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
+    public String keepVillagePlayerId_SpecifyDerivedReferrer_VillagePlayerStatusByToVillagePlayerIdList(VillagePlayerStatusCQ sq)
+    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
+    public String keepVillagePlayerId_SpecifyDerivedReferrer_VillagePlayerStatusByVillagePlayerIdList(VillagePlayerStatusCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepVillagePlayerId_QueryDerivedReferrer_CommitList(CommitCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
@@ -91,6 +103,14 @@ public class VillagePlayerCIQ extends AbstractBsVillagePlayerCQ {
     public String keepVillagePlayerId_QueryDerivedReferrer_MessageByVillagePlayerIdList(MessageCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepVillagePlayerId_QueryDerivedReferrer_MessageByVillagePlayerIdListParameter(Object vl)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepVillagePlayerId_QueryDerivedReferrer_VillagePlayerStatusByToVillagePlayerIdList(VillagePlayerStatusCQ sq)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepVillagePlayerId_QueryDerivedReferrer_VillagePlayerStatusByToVillagePlayerIdListParameter(Object vl)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepVillagePlayerId_QueryDerivedReferrer_VillagePlayerStatusByVillagePlayerIdList(VillagePlayerStatusCQ sq)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepVillagePlayerId_QueryDerivedReferrer_VillagePlayerStatusByVillagePlayerIdListParameter(Object vl)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     protected ConditionValue xgetCValueVillageId() { return _myCQ.xdfgetVillageId(); }
     protected ConditionValue xgetCValuePlayerId() { return _myCQ.xdfgetPlayerId(); }

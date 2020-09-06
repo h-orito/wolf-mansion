@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import com.ort.app.util.SkillUtil;
 import com.ort.app.web.form.NewVillageForm;
 import com.ort.app.web.form.NewVillageSayRestrictDetailDto;
-import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.fw.util.WerewolfMansionDateUtil;
 
@@ -167,6 +167,17 @@ public class NewVillageFormValidator implements Validator {
         // 人狼の人数が過半数を超えている
         if (wolfsNum > org.length() / 2) {
             errors.rejectValue("organization", "NewVillageForm.validator.organization.werewolfwin", new Object[] { personNum }, null);
+            return true;
+        }
+        // 恋人や同棲者の人数が偶数でない
+        int loversNum = skillPersonNumMap.get(CDef.Skill.恋人);
+        int cohabiterNum = skillPersonNumMap.get(CDef.Skill.同棲者);
+        if (loversNum % 2 == 1) {
+            errors.rejectValue("organization", "NewVillageForm.validator.organization.loversodd", new Object[] { personNum }, null);
+            return true;
+        }
+        if (cohabiterNum % 2 == 1) {
+            errors.rejectValue("organization", "NewVillageForm.validator.organization.cohabiterodd", new Object[] { personNum }, null);
             return true;
         }
 

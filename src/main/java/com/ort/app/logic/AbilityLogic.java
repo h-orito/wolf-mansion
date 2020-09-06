@@ -1,0 +1,423 @@
+package com.ort.app.logic;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.ort.app.logic.ability.AttackLogic;
+import com.ort.app.logic.ability.BombLogic;
+import com.ort.app.logic.ability.CohabitLogic;
+import com.ort.app.logic.ability.DisturbLogic;
+import com.ort.app.logic.ability.DivineLogic;
+import com.ort.app.logic.ability.GuardLogic;
+import com.ort.app.logic.ability.InvestigateLogic;
+import com.ort.app.logic.ability.TrapLogic;
+import com.ort.app.web.dto.VillageInfo;
+import com.ort.app.web.model.OptionDto;
+import com.ort.dbflute.allcommon.CDef;
+import com.ort.dbflute.exbhv.VillageBhv;
+import com.ort.dbflute.exentity.Village;
+import com.ort.dbflute.exentity.VillagePlayer;
+import com.ort.dbflute.exentity.VillagePlayers;
+
+@Component
+public class AbilityLogic {
+
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
+    @Autowired
+    private VillageBhv villageBhv;
+    @Autowired
+    private AttackLogic attackLogic;
+    @Autowired
+    private DivineLogic divineLogic;
+    @Autowired
+    private GuardLogic guardLogic;
+    @Autowired
+    private DisturbLogic disturbLogic;
+    @Autowired
+    private InvestigateLogic investigateLogic;
+    @Autowired
+    private TrapLogic trapLogic;
+    @Autowired
+    private BombLogic bombLogic;
+    @Autowired
+    private CohabitLogic cohabitLogic;
+
+    // ===================================================================================
+    //                                                                             Execute
+    //                                                                             =======
+    // 能力セット
+    public void setAbility(Integer villageId, VillagePlayer villagePlayer, int day, Integer charaId, Integer targetCharaId,
+            String footstep) {
+        CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
+        if (skill == null) {
+            return;
+        }
+        AbilityType type = detectAbilityType(villagePlayer.getSkillCodeAsSkill());
+        Village village = selectVillage(villageId);
+
+        switch (type) {
+        case ATTACK:
+            attackLogic.setAbility(village, villagePlayer, day, charaId, targetCharaId, footstep);
+            break;
+        case DIVINE:
+            divineLogic.setAbility(village, villagePlayer, day, targetCharaId, footstep);
+            break;
+        case GUARD:
+            guardLogic.setAbility(village, villagePlayer, day, targetCharaId, footstep);
+            break;
+        case DISTURB:
+            disturbLogic.setAbility(village, villagePlayer, day, footstep);
+            break;
+        case INVESTIGATE:
+            investigateLogic.setAbility(village, villagePlayer, day, footstep);
+            break;
+        case TRAP:
+            trapLogic.setAbility(village, villagePlayer, day, targetCharaId);
+            break;
+        case BOMB:
+            bombLogic.setAbility(village, villagePlayer, day, targetCharaId);
+            break;
+        case COHABIT:
+            cohabitLogic.setAbility(village, villagePlayer, day, targetCharaId);
+            break;
+        default:
+            return;
+        }
+    }
+
+    // 能力行使対象
+    public List<OptionDto> getSelectableTargetList(VillageInfo villageInfo) {
+        Village village = villageInfo.village;
+        int day = villageInfo.day;
+
+        if (!isAbilityUsable(village, villageInfo.optVillagePlayer, day)) {
+            // 能力を使用できない
+            return new ArrayList<>();
+        }
+
+        VillagePlayer villagePlayer = villageInfo.optVillagePlayer.get();
+        AbilityType type = detectAbilityType(villagePlayer.getSkillCodeAsSkill());
+        VillagePlayers selectablePlayers = null;
+        switch (type) {
+        case ATTACK:
+            selectablePlayers = attackLogic.getSelectableTarget(village, day);
+            break;
+        case DIVINE:
+            selectablePlayers = divineLogic.getSelectableTarget(village, villagePlayer);
+            break;
+        case GUARD:
+            selectablePlayers = guardLogic.getSelectableTarget(village, day, villagePlayer);
+            break;
+        case DISTURB:
+            return null;
+        case INVESTIGATE:
+            List<String> footstepList = investigateLogic.getSelectableTarget(village, day);
+            // 対象がプレイヤーでないのでここで変換して返す
+            return footstepList.stream().map(fs -> {
+                OptionDto option = new OptionDto();
+                option.setName(fs);
+                option.setValue(fs);
+                return option;
+            }).collect(Collectors.toList());
+        case TRAP:
+            // 「なし」も選べるのでここで返す
+            List<OptionDto> list = trapLogic.getSelectableTarget(village, villagePlayer, day).map(vp -> new OptionDto(vp));
+            list.add(0, new OptionDto("なし", ""));
+            return list;
+        case BOMB:
+            // 「なし」も選べるのでここで返す
+            List<OptionDto> lists = bombLogic.getSelectableTarget(village, villagePlayer, day).map(vp -> new OptionDto(vp));
+            lists.add(0, new OptionDto("なし", ""));
+            return lists;
+        case COHABIT:
+            selectablePlayers = cohabitLogic.getSelectableTarget(villagePlayer);
+            break;
+        default:
+            return null;
+        }
+
+        if (selectablePlayers == null) {
+            return null;
+        }
+        return selectablePlayers.map(vp -> new OptionDto(vp));
+    }
+
+    // 襲撃担当の狼リストを作成
+    public List<OptionDto> getSelectableAttackerList(VillageInfo villageInfo) {
+        Village village = villageInfo.village;
+        int day = villageInfo.day;
+        if (!isAbilityUsable(village, villageInfo.optVillagePlayer, day)) {
+            // 能力を使用できない
+            return new ArrayList<>();
+        }
+
+        VillagePlayer vPlayer = villageInfo.optVillagePlayer.get();
+        if (!vPlayer.getSkillCodeAsSkill().isHasAttackAbility()) {
+            return new ArrayList<>();
+        }
+        return attackLogic.getAttackableWolfs(village, day).map(vp -> new OptionDto(vp));
+    }
+
+    public List<String> makeSkillHistoryList(VillageInfo villageInfo) {
+        Village village = villageInfo.village;
+        int day = villageInfo.day;
+        if (!isAbilityUsable(village, villageInfo.optVillagePlayer, day)) {
+            return new ArrayList<>();
+        }
+        VillagePlayer villagePlayer = villageInfo.optVillagePlayer.get();
+        AbilityType type = detectAbilityType(villagePlayer.getSkillCodeAsSkill());
+
+        switch (type) {
+        case ATTACK:
+            return attackLogic.makeSkillHistoryList(village, day);
+        case DIVINE:
+            return divineLogic.makeSkillHistoryList(village, villagePlayer, day);
+        case GUARD:
+            return guardLogic.makeSkillHistoryList(village, villagePlayer, day);
+        case DISTURB:
+            return disturbLogic.makeSkillHistoryList(village, villagePlayer, day);
+        case INVESTIGATE:
+            return investigateLogic.makeSkillHistoryList(village, villagePlayer, day);
+        case TRAP:
+            return trapLogic.makeSkillHistoryList(village, villagePlayer, day);
+        case BOMB:
+            return bombLogic.makeSkillHistoryList(village, villagePlayer, day);
+        case COHABIT:
+            return cohabitLogic.makeSkillHistoryList(village, villagePlayer, day);
+        default:
+            return new ArrayList<>();
+        }
+    }
+
+    public boolean isAbilityUsable(Village village, Optional<VillagePlayer> optVillagePlayer, int day) {
+        if (!optVillagePlayer.isPresent()) {
+            return false;
+        }
+        VillagePlayer villagePlayer = optVillagePlayer.get();
+        if (villagePlayer.isIsDeadTrue() || villagePlayer.isIsSpectatorTrue()) {
+            return false;
+        }
+        if (!village.isVillageStatusCode進行中()) {
+            return false;
+        }
+        if (!village.getVillageDays().latestDay().getDay().equals(day)) {
+            return false;
+        }
+        AbilityType type = detectAbilityType(villagePlayer.getSkillCodeAsSkill());
+        return isAbilityUsable(type, day);
+    }
+
+    public String createWerewolfCharaNameList(VillageInfo villageInfo) {
+        if (!isAbilityUsable(villageInfo.village, villageInfo.optVillagePlayer, villageInfo.day)) {
+            return null;
+        }
+
+        CDef.Skill skill = villageInfo.optVillagePlayer.get().getSkillCodeAsSkill();
+        if (!skill.isViewableWolfCharaName()) {
+            return null;
+        }
+        return String.join("、", villageInfo.vPlayers //
+                .filterNotDummy(villageInfo.settings.getDummyCharaId())
+                .filterNotSpecatate()
+                .filterBy(vp -> vp.getSkillCodeAsSkill().isHasAttackAbility())
+                .sortedByRoomNumber()
+                .map(VillagePlayer::name));
+    }
+
+    public String createCMadmanCharaNameList(VillageInfo villageInfo) {
+        if (!isAbilityUsable(villageInfo.village, villageInfo.optVillagePlayer, villageInfo.day)) {
+            return null;
+        }
+
+        CDef.Skill skill = villageInfo.optVillagePlayer.get().getSkillCodeAsSkill();
+        if (!skill.isAvailableWerewolfSay()) {
+            return null;
+        }
+        return String.join("、", villageInfo.vPlayers //
+                .filterNotDummy(villageInfo.settings.getDummyCharaId())
+                .filterNotSpecatate()
+                .filterBySkill(CDef.Skill.C国狂人)
+                .sortedByRoomNumber()
+                .map(VillagePlayer::name));
+    }
+
+    public String createFoxCharaNameList(VillageInfo villageInfo) {
+        if (!isAbilityUsable(villageInfo.village, villageInfo.optVillagePlayer, villageInfo.day)) {
+            return null;
+        }
+
+        CDef.Skill skill = villageInfo.optVillagePlayer.get().getSkillCodeAsSkill();
+        if (skill != CDef.Skill.背徳者) {
+            return null;
+        }
+
+        return String.join("、", villageInfo.vPlayers //
+                .filterNotDummy(villageInfo.settings.getDummyCharaId())
+                .filterNotSpecatate()
+                .filterBySkill(CDef.Skill.妖狐)
+                .sortedByRoomNumber()
+                .map(VillagePlayer::name));
+    }
+
+    public String createLoversCharaNameList(VillageInfo villageInfo) {
+        if (!isAbilityUsable(villageInfo.village, villageInfo.optVillagePlayer, villageInfo.day)) {
+            return null;
+        }
+
+        CDef.Skill skill = villageInfo.optVillagePlayer.get().getSkillCodeAsSkill();
+        if (CDef.Camp.codeOf(skill.campCode()) != CDef.Camp.恋人陣営) {
+            return null;
+        }
+        StringJoiner joiner = new StringJoiner("、", "この村の", "です。");
+        Set<String> loversSet = new HashSet<>();
+        StringJoiner loversJoiner = new StringJoiner("、", "恋人は", "");
+        villageInfo.vPlayers //
+                .filterNotDummy(villageInfo.settings.getDummyCharaId())
+                .filterNotSpecatate()
+                .filterBySkill(CDef.Skill.恋人).list.forEach(vp -> {
+                    String myself = vp.name();
+                    String target = vp.getTargetLover().name();
+                    if (!loversSet.contains(myself)) {
+                        loversJoiner.add(myself + "と" + target);
+                        loversSet.add(myself);
+                        loversSet.add(target);
+                    }
+                });
+        StringJoiner cohabitersJoiner = new StringJoiner("、", "同棲者は", "");
+        villageInfo.vPlayers //
+                .filterNotDummy(villageInfo.settings.getDummyCharaId())
+                .filterNotSpecatate()
+                .filterBySkill(CDef.Skill.同棲者).list.forEach(vp -> {
+                    String myself = vp.name();
+                    String target = vp.getTargetLover().name();
+                    if (!loversSet.contains(myself)) {
+                        cohabitersJoiner.add(myself + "と" + target);
+                        loversSet.add(myself);
+                        loversSet.add(target);
+                    }
+                });
+        joiner.add(loversJoiner.toString());
+        joiner.add(cohabitersJoiner.toString());
+        return joiner.toString();
+    }
+
+    public String makeTargetPrefixMessage(VillageInfo villageInfo) {
+        if (!isAbilityUsable(villageInfo.village, villageInfo.optVillagePlayer, villageInfo.day)) {
+            return null;
+        }
+        AbilityType type = detectAbilityType(villageInfo.optVillagePlayer.get().getSkillCodeAsSkill());
+        switch (type) {
+        case ATTACK:
+            return "襲撃対象";
+        case TRAP:
+            return "罠を設置する部屋";
+        case BOMB:
+            return "爆弾を設置する部屋";
+        default:
+            return null;
+        }
+    }
+
+    public String makeTargetSuffixMessage(VillageInfo villageInfo) {
+        if (!isAbilityUsable(villageInfo.village, villageInfo.optVillagePlayer, villageInfo.day)) {
+            return null;
+        }
+        AbilityType type = detectAbilityType(villageInfo.optVillagePlayer.get().getSkillCodeAsSkill());
+        switch (type) {
+        case DIVINE:
+            return "を占う";
+        case GUARD:
+            return "を護衛する";
+        case COHABIT:
+            return "の部屋で過ごす";
+        default:
+            return null;
+        }
+    }
+
+    // 対象と足音両方を選択する能力か
+    public Boolean isTargetingAndFootstep(VillageInfo villageInfo) {
+        if (!isAbilityUsable(villageInfo.village, villageInfo.optVillagePlayer, villageInfo.day)) {
+            return false;
+        }
+        AbilityType type = detectAbilityType(villageInfo.optVillagePlayer.get().getSkillCodeAsSkill());
+        switch (type) {
+        case ATTACK:
+        case DIVINE:
+        case GUARD:
+            return true;
+        default:
+            return false;
+        }
+    }
+
+    // ===================================================================================
+    //                                                                              Select
+    //                                                                              ======
+    private Village selectVillage(Integer villageId) {
+        Village village = villageBhv.selectEntityWithDeletedCheck(cb -> {
+            cb.setupSelect_VillageSettingsAsOne();
+            cb.query().setVillageId_Equal(villageId);
+        });
+        villageBhv.loadVillagePlayer(village, vpCB -> {
+            vpCB.setupSelect_Chara();
+            vpCB.setupSelect_SkillBySkillCode();
+            vpCB.query().setIsGone_Equal_False();
+            vpCB.query().setIsSpectator_Equal_False();
+            vpCB.query().setVillageId_Equal(villageId);
+        });
+        return village;
+    }
+
+    private enum AbilityType {
+        ATTACK, DIVINE, GUARD, DISTURB, INVESTIGATE, TRAP, BOMB, COHABIT
+    }
+
+    private AbilityType detectAbilityType(CDef.Skill skill) {
+        if (skill.isHasAttackAbility()) {
+            return AbilityType.ATTACK;
+        } else if (skill.isHasDivineAbility()) {
+            return AbilityType.DIVINE;
+        } else if (skill == CDef.Skill.狩人) {
+            return AbilityType.GUARD;
+        } else if (skill.isHasDisturbAbility()) {
+            return AbilityType.DISTURB;
+        } else if (skill == CDef.Skill.探偵) {
+            return AbilityType.INVESTIGATE;
+        } else if (skill == CDef.Skill.罠師) {
+            return AbilityType.TRAP;
+        } else if (skill == CDef.Skill.爆弾魔) {
+            return AbilityType.BOMB;
+        } else if (skill == CDef.Skill.同棲者) {
+            return AbilityType.COHABIT;
+        }
+        return null;
+    }
+
+    private boolean isAbilityUsable(AbilityType type, int day) {
+        switch (type) {
+        case ATTACK:
+        case DIVINE:
+        case DISTURB:
+        case COHABIT:
+            return true;
+        case GUARD:
+        case INVESTIGATE:
+        case TRAP:
+        case BOMB:
+            return day > 1;
+        default:
+            return false;
+        }
+    }
+}

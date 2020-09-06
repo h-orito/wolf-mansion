@@ -1,4 +1,23 @@
 map:{
+    ; 2020/08/28 11:11:31 = map:{
+        ; diffDate = 2020/08/28 11:11:31
+        ; tableCount = map:{
+            ; next = 28
+            ; previous = 26
+        }
+        ; diffAuthor = hitoshi
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; village_player_status = map:{
+                ; tableName = village_player_status
+                ; diffType = ADD
+            }
+            ; village_player_status_type = map:{
+                ; tableName = village_player_status_type
+                ; diffType = ADD
+            }
+        }
+    }
     ; 2019/11/27 14:03:30 = map:{
         ; diffDate = 2019/11/27 14:03:30
         ; diffAuthor = hitoshi

@@ -79,6 +79,14 @@ public abstract class AbstractBsCampCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 恋人陣営 (LOVERS). And OnlyOnceRegistered. <br>
+     * 恋人陣営
+     */
+    public void setCampCode_Equal_恋人陣営() {
+        setCampCode_Equal_AsCamp(CDef.Camp.恋人陣営);
+    }
+
+    /**
      * Equal(=). As 村人陣営 (VILLAGER). And OnlyOnceRegistered. <br>
      * 村人陣営
      */
@@ -131,6 +139,14 @@ public abstract class AbstractBsCampCQ extends AbstractConditionQuery {
      */
     public void setCampCode_NotEqual_狐陣営() {
         setCampCode_NotEqual_AsCamp(CDef.Camp.狐陣営);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 恋人陣営 (LOVERS). And OnlyOnceRegistered. <br>
+     * 恋人陣営
+     */
+    public void setCampCode_NotEqual_恋人陣営() {
+        setCampCode_NotEqual_AsCamp(CDef.Camp.恋人陣営);
     }
 
     /**

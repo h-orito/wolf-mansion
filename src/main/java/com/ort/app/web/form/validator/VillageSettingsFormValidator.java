@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import com.ort.app.util.SkillUtil;
 import com.ort.app.web.form.NewVillageSayRestrictDetailDto;
 import com.ort.app.web.form.VillageSettingsForm;
-import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.fw.util.WerewolfMansionDateUtil;
 

@@ -20,6 +20,12 @@ public class SayRestrictDto {
 
     private Integer masonLength;
 
+    private Integer loversCount;
+
+    private Integer loversLeftCount;
+
+    private Integer loversLength;
+
     public Integer getNormalCount() {
         return normalCount;
     }
@@ -90,6 +96,30 @@ public class SayRestrictDto {
 
     public void setMasonLength(Integer masonLength) {
         this.masonLength = masonLength;
+    }
+
+    public Integer getLoversCount() {
+        return loversCount;
+    }
+
+    public void setLoversCount(Integer loversCount) {
+        this.loversCount = loversCount;
+    }
+
+    public Integer getLoversLeftCount() {
+        return loversLeftCount;
+    }
+
+    public void setLoversLeftCount(Integer loversLeftCount) {
+        this.loversLeftCount = loversLeftCount;
+    }
+
+    public Integer getLoversLength() {
+        return loversLength;
+    }
+
+    public void setLoversLength(Integer loversLength) {
+        this.loversLength = loversLength;
     }
 
 }

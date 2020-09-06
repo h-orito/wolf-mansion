@@ -686,6 +686,62 @@
             <index-column name="VILLAGE_ID" position="1"/>
         </index>
     </table>
+    <table comment="村参加者ステータス" name="village_player_status"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column autoIncrement="true" comment="村参加者ステータスID"
+            dbType="INT UNSIGNED" javaType="Integer"
+            name="VILLAGE_PLAYER_STATUS_ID" pkName="PRIMARY"
+            pkPosition="1" primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="村参加者ID" dbType="INT UNSIGNED"
+            javaType="Integer" name="VILLAGE_PLAYER_ID" required="true"
+            size="10" type="INTEGER"/>
+        <column comment="対象の村参加者ID" dbType="INT UNSIGNED"
+            javaType="Integer" name="TO_VILLAGE_PLAYER_ID" size="10" type="INTEGER"/>
+        <column comment="村参加者ステータス種別コード" dbType="VARCHAR"
+            javaType="String" name="VILLAGE_PLAYER_STATUS_CODE"
+            required="true" size="20" type="VARCHAR"/>
+        <column comment="登録日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="登録トレース" dbType="VARCHAR" javaType="String"
+            name="REGISTER_TRACE" required="true" size="64" type="VARCHAR"/>
+        <column comment="更新日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="UPDATE_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="更新トレース" dbType="VARCHAR" javaType="String"
+            name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="village_player" name="FK_VILLAGE_PLAYER_STATUS_TO_VILLAGE_PLAYER">
+            <reference foreign="VILLAGE_PLAYER_ID" local="TO_VILLAGE_PLAYER_ID"/>
+        </foreign-key>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="village_player" name="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER">
+            <reference foreign="VILLAGE_PLAYER_ID" local="VILLAGE_PLAYER_ID"/>
+        </foreign-key>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="village_player_status_type" name="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER_STATUS_TYPE">
+            <reference foreign="VILLAGE_PLAYER_STATUS_TYPE_CODE" local="VILLAGE_PLAYER_STATUS_CODE"/>
+        </foreign-key>
+        <index name="FK_VILLAGE_PLAYER_STATUS_TO_VILLAGE_PLAYER">
+            <index-column name="TO_VILLAGE_PLAYER_ID" position="1"/>
+        </index>
+        <index name="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER">
+            <index-column name="VILLAGE_PLAYER_ID" position="1"/>
+        </index>
+        <index name="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER_STATUS_TYPE">
+            <index-column name="VILLAGE_PLAYER_STATUS_CODE" position="1"/>
+        </index>
+    </table>
+    <table comment="村参加者ステータス種別" name="village_player_status_type"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column comment="村参加者ステータス種別コード" dbType="VARCHAR"
+            javaType="String" name="VILLAGE_PLAYER_STATUS_TYPE_CODE"
+            pkName="PRIMARY" pkPosition="1" primaryKey="true"
+            required="true" size="20" type="VARCHAR"/>
+        <column comment="村参加者ステータス種別名" dbType="VARCHAR"
+            javaType="String" name="VILLAGE_PLAYER_STATUS_TYPE_NAME"
+            required="true" size="20" type="VARCHAR"/>
+    </table>
     <table comment="村設定" name="village_settings"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
         <column comment="村ID" dbType="INT UNSIGNED" javaType="Integer"

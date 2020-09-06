@@ -15,7 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ort.app.web.controller.logic.VillageParticipateLogic;
+import com.ort.app.logic.VillageParticipateLogic;
 import com.ort.app.web.form.LoginForm;
 import com.ort.app.web.form.VillageRecordListForm;
 import com.ort.app.web.model.IndexResultContent;

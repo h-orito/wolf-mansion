@@ -816,6 +816,40 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
                     -> cq.xsderiveMessageByVillagePlayerIdList(fn, sq, al, op), _dbmetaProvider);
         }
         /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
+         * {select max(FOO) from village_player_status where ...) as FOO_MAX} <br>
+         * VILLAGE_PLAYER_STATUS by TO_VILLAGE_PLAYER_ID, named 'villagePlayerStatusByToVillagePlayerIdList'.
+         * <pre>
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(statusCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     statusCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     statusCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, VillagePlayerStatus.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        public HpSDRFunction<VillagePlayerStatusCB, VillagePlayerCQ> derivedVillagePlayerStatusByToVillagePlayerId() {
+            assertDerived("villagePlayerStatusByToVillagePlayerIdList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillagePlayerStatusCB> sq, VillagePlayerCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveVillagePlayerStatusByToVillagePlayerIdList(fn, sq, al, op), _dbmetaProvider);
+        }
+        /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
+         * {select max(FOO) from village_player_status where ...) as FOO_MAX} <br>
+         * VILLAGE_PLAYER_STATUS by VILLAGE_PLAYER_ID, named 'villagePlayerStatusByVillagePlayerIdList'.
+         * <pre>
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(statusCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     statusCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     statusCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, VillagePlayerStatus.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        public HpSDRFunction<VillagePlayerStatusCB, VillagePlayerCQ> derivedVillagePlayerStatusByVillagePlayerId() {
+            assertDerived("villagePlayerStatusByVillagePlayerIdList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillagePlayerStatusCB> sq, VillagePlayerCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveVillagePlayerStatusByVillagePlayerIdList(fn, sq, al, op), _dbmetaProvider);
+        }
+        /**
          * Prepare for (Specify)MyselfDerived (SubQuery).
          * @return The object to set up a function for myself table. (NotNull)
          */

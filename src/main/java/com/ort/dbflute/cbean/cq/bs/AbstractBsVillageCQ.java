@@ -1275,6 +1275,14 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 恋人陣営 (LOVERS). And OnlyOnceRegistered. <br>
+     * 恋人陣営
+     */
+    public void setWinCampCode_Equal_恋人陣営() {
+        setWinCampCode_Equal_AsCamp(CDef.Camp.恋人陣営);
+    }
+
+    /**
      * Equal(=). As 村人陣営 (VILLAGER). And OnlyOnceRegistered. <br>
      * 村人陣営
      */
@@ -1327,6 +1335,14 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
      */
     public void setWinCampCode_NotEqual_狐陣営() {
         setWinCampCode_NotEqual_AsCamp(CDef.Camp.狐陣営);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 恋人陣営 (LOVERS). And OnlyOnceRegistered. <br>
+     * 恋人陣営
+     */
+    public void setWinCampCode_NotEqual_恋人陣営() {
+        setWinCampCode_NotEqual_AsCamp(CDef.Camp.恋人陣営);
     }
 
     /**

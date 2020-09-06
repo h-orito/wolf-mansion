@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
-import com.ort.app.web.controller.logic.VillageParticipateLogic;
+import com.ort.app.datasource.VillageService;
+import com.ort.app.logic.VillageParticipateLogic;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
 import com.ort.app.web.form.VillageParticipateForm;
-import com.ort.app.web.util.CharaUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.PlayerBhv;
@@ -34,22 +34,18 @@ public class VillageParticipateAssist {
     //                                                                           =========
     @Autowired
     private VillageBhv villageBhv;
-
     @Autowired
     private VillageSettingsBhv villageSettingsBhv;
-
     @Autowired
     private VillagePlayerBhv villagePlayerBhv;
-
     @Autowired
     private PlayerBhv playerBhv;
-
     @Autowired
     private CharaBhv charaBhv;
-
     @Autowired
     private VillageAssist villageAssist;
-
+    @Autowired
+    private VillageService villageService;
     @Autowired
     private VillageParticipateLogic villageParticipateLogic;
 
@@ -69,7 +65,7 @@ public class VillageParticipateAssist {
             return new IllegalArgumentException("改ざん？");
         });
         charaBhv.loadCharaImage(chara, charaImageCB -> charaImageCB.query().setFaceTypeCode_Equal_通常());
-        model.addAttribute("characterImgUrl", CharaUtil.getNormalCharaImgUrl(chara));
+        model.addAttribute("characterImgUrl", chara.getNormalCharaImgUrl());
         model.addAttribute("characterImgWidth", chara.getDisplayWidth());
         model.addAttribute("characterImgHeight", chara.getDisplayHeight());
         model.addAttribute("villageId", villageId);
@@ -110,7 +106,7 @@ public class VillageParticipateAssist {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
         }
-        VillagePlayer vPlayer = villageAssist.selectVillagePlayer(villageId, userInfo, true).orElseThrow(() -> {
+        VillagePlayer vPlayer = villageService.selectVillagePlayer(villageId, userInfo, true).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
         Village village = villageBhv.selectEntityWithDeletedCheck(cb -> cb.query().setVillageId_Equal(vPlayer.getVillageId()));
@@ -131,7 +127,7 @@ public class VillageParticipateAssist {
         if (isInvalidForChangeRequestSkill(villageId, changeRequestSkillForm, result, userInfo, model)) {
             return villageAssist.setIndexModelAndReturnView(villageId, null, null, changeRequestSkillForm, model);
         }
-        VillagePlayer vPlayer = villageAssist.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
+        VillagePlayer vPlayer = villageService.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
 

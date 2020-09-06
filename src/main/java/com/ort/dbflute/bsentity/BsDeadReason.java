@@ -158,6 +158,14 @@ public abstract class BsDeadReason extends AbstractEntity implements DomainEntit
     }
 
     /**
+     * Set the value of deadReasonCode as 後追 (SUICIDE). <br>
+     * 後追
+     */
+    public void setDeadReasonCode_後追() {
+        setDeadReasonCodeAsDeadReason(CDef.DeadReason.後追);
+    }
+
+    /**
      * Set the value of deadReasonCode as 罠死 (TRAPPED). <br>
      * 罠死
      */
@@ -224,6 +232,17 @@ public abstract class BsDeadReason extends AbstractEntity implements DomainEntit
     }
 
     /**
+     * Is the value of deadReasonCode 後追? <br>
+     * 後追
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isDeadReasonCode後追() {
+        CDef.DeadReason cdef = getDeadReasonCodeAsDeadReason();
+        return cdef != null ? cdef.equals(CDef.DeadReason.後追) : false;
+    }
+
+    /**
      * Is the value of deadReasonCode 罠死? <br>
      * 罠死
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -232,6 +251,16 @@ public abstract class BsDeadReason extends AbstractEntity implements DomainEntit
     public boolean isDeadReasonCode罠死() {
         CDef.DeadReason cdef = getDeadReasonCodeAsDeadReason();
         return cdef != null ? cdef.equals(CDef.DeadReason.罠死) : false;
+    }
+
+    /**
+     * 無惨 <br>
+     * The group elements:[襲撃, 呪殺, 罠死, 爆死]
+     * @return The determination, true or false.
+     */
+    public boolean isDeadReasonCode_Miserable() {
+        CDef.DeadReason cdef = getDeadReasonCodeAsDeadReason();
+        return cdef != null && cdef.isMiserable();
     }
 
     // ===================================================================================

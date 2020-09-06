@@ -24,6 +24,9 @@ public class VillageAbilityFormDto {
     /** 妖狐のキャラ名（背徳者向け） */
     private String foxCharaNameList;
 
+    /** 恋人陣営のキャラ名（恋人陣営向け） */
+    private String loversCharaNameList;
+
     /** 対象選択の前に表示する文言 */
     private String targetPrefixMessage;
 
@@ -103,5 +106,13 @@ public class VillageAbilityFormDto {
 
     public void setFoxCharaNameList(String foxCharaNameList) {
         this.foxCharaNameList = foxCharaNameList;
+    }
+
+    public String getLoversCharaNameList() {
+        return loversCharaNameList;
+    }
+
+    public void setLoversCharaNameList(String loversCharaNameList) {
+        this.loversCharaNameList = loversCharaNameList;
     }
 }

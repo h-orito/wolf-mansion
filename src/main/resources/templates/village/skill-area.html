@@ -129,6 +129,11 @@
 							<hr />
 							<p class="small" th:text="${'この村の妖狐は、 ' + content.form.ability.foxCharaNameList + ' です。'}"></p>
 						</div>
+						<!--/* 恋人用メッセージ */-->
+						<div th:if="${content.form.ability.loversCharaNameList != null && content.form.ability.loversCharaNameList != ''}">
+							<hr />
+							<p class="small" th:text="${content.form.ability.loversCharaNameList}"></p>
+						</div>
 						<!--/* 能力行使履歴 */-->
 						<div th:if="${content.form.ability.skillHistoryList != null && content.form.ability.skillHistoryList.size() > 0}">
 							<hr />

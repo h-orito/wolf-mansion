@@ -20,6 +20,9 @@ public class VillageSayFormDto {
     /** 共有発言可能か */
     private Boolean isAvailableMasonSay;
 
+    /** 恋人発言可能か */
+    private Boolean isAvailableLoversSay;
+
     /** 墓下発言可能か */
     private Boolean isAvailableGraveSay;
 
@@ -137,5 +140,13 @@ public class VillageSayFormDto {
 
     public void setSecretSayTargetList(List<Chara> secretSayTargetList) {
         this.secretSayTargetList = secretSayTargetList;
+    }
+
+    public Boolean getIsAvailableLoversSay() {
+        return isAvailableLoversSay;
+    }
+
+    public void setIsAvailableLoversSay(Boolean isAvailableLoversSay) {
+        this.isAvailableLoversSay = isAvailableLoversSay;
     }
 }

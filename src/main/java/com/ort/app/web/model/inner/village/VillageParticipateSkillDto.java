@@ -20,6 +20,9 @@ public class VillageParticipateSkillDto {
     /** 足音を残す能力を持っているか */
     private Boolean hasFootstepAbility;
 
+    /** 同棲能力を持っているか */
+    private Boolean hasCohabitAbility;
+
     public String getCode() {
         return code;
     }
@@ -66,5 +69,13 @@ public class VillageParticipateSkillDto {
 
     public void setHasFootstepAbility(Boolean hasFootstepAbility) {
         this.hasFootstepAbility = hasFootstepAbility;
+    }
+
+    public Boolean getHasCohabitAbility() {
+        return hasCohabitAbility;
+    }
+
+    public void setHasCohabitAbility(Boolean hasCohabitAbility) {
+        this.hasCohabitAbility = hasCohabitAbility;
     }
 }

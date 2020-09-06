@@ -30,13 +30,13 @@ import com.ort.dbflute.cbean.*;
  *     CHARA, DEAD_REASON, PLAYER, SKILL, VILLAGE
  *
  * [referrer table]
- *     COMMIT, MESSAGE
+ *     COMMIT, MESSAGE, VILLAGE_PLAYER_STATUS
  *
  * [foreign property]
  *     chara, deadReason, player, skillByRequestSkillCode, skillBySecondRequestSkillCode, skillBySkillCode, village
  *
  * [referrer property]
- *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList
+ *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList, villagePlayerStatusByToVillagePlayerIdList, villagePlayerStatusByVillagePlayerIdList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -161,6 +161,74 @@ public class LoaderOfVillagePlayer {
     public NestedReferrerLoaderGateway<LoaderOfMessage> loadMessageByVillagePlayerId(ReferrerConditionSetupper<MessageCB> refCBLambda) {
         myBhv().loadMessageByVillagePlayerId(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerMessageByVillagePlayerId = refLs);
         return hd -> hd.handle(new LoaderOfMessage().ready(_referrerMessageByVillagePlayerId, _selector));
+    }
+
+    protected List<VillagePlayerStatus> _referrerVillagePlayerStatusByToVillagePlayerId;
+
+    /**
+     * Load referrer of villagePlayerStatusByToVillagePlayerIdList by the set-upper of referrer. <br>
+     * VILLAGE_PLAYER_STATUS by TO_VILLAGE_PLAYER_ID, named 'villagePlayerStatusByToVillagePlayerIdList'.
+     * <pre>
+     * <span style="color: #0000C0">villagePlayerBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">villagePlayerList</span>, <span style="color: #553000">playerLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">playerLoader</span>.<span style="color: #CC4747">loadVillagePlayerStatusByToVillagePlayerId</span>(<span style="color: #553000">statusCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *         <span style="color: #553000">statusCB</span>.setupSelect...
+     *         <span style="color: #553000">statusCB</span>.query().set...
+     *         <span style="color: #553000">statusCB</span>.query().addOrderBy...
+     *     }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     *     <span style="color: #3F7E5E">//}).withNestedReferrer(<span style="color: #553000">statusLoader</span> -&gt; {</span>
+     *     <span style="color: #3F7E5E">//    statusLoader.load...</span>
+     *     <span style="color: #3F7E5E">//});</span>
+     * });
+     * for (VillagePlayer villagePlayer : <span style="color: #553000">villagePlayerList</span>) {
+     *     ... = villagePlayer.<span style="color: #CC4747">getVillagePlayerStatusByToVillagePlayerIdList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setToVillagePlayerId_InScope(pkList);
+     * cb.query().addOrderBy_ToVillagePlayerId_Asc();
+     * </pre>
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerLoaderGateway<LoaderOfVillagePlayerStatus> loadVillagePlayerStatusByToVillagePlayerId(ReferrerConditionSetupper<VillagePlayerStatusCB> refCBLambda) {
+        myBhv().loadVillagePlayerStatusByToVillagePlayerId(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerVillagePlayerStatusByToVillagePlayerId = refLs);
+        return hd -> hd.handle(new LoaderOfVillagePlayerStatus().ready(_referrerVillagePlayerStatusByToVillagePlayerId, _selector));
+    }
+
+    protected List<VillagePlayerStatus> _referrerVillagePlayerStatusByVillagePlayerId;
+
+    /**
+     * Load referrer of villagePlayerStatusByVillagePlayerIdList by the set-upper of referrer. <br>
+     * VILLAGE_PLAYER_STATUS by VILLAGE_PLAYER_ID, named 'villagePlayerStatusByVillagePlayerIdList'.
+     * <pre>
+     * <span style="color: #0000C0">villagePlayerBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">villagePlayerList</span>, <span style="color: #553000">playerLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">playerLoader</span>.<span style="color: #CC4747">loadVillagePlayerStatusByVillagePlayerId</span>(<span style="color: #553000">statusCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *         <span style="color: #553000">statusCB</span>.setupSelect...
+     *         <span style="color: #553000">statusCB</span>.query().set...
+     *         <span style="color: #553000">statusCB</span>.query().addOrderBy...
+     *     }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     *     <span style="color: #3F7E5E">//}).withNestedReferrer(<span style="color: #553000">statusLoader</span> -&gt; {</span>
+     *     <span style="color: #3F7E5E">//    statusLoader.load...</span>
+     *     <span style="color: #3F7E5E">//});</span>
+     * });
+     * for (VillagePlayer villagePlayer : <span style="color: #553000">villagePlayerList</span>) {
+     *     ... = villagePlayer.<span style="color: #CC4747">getVillagePlayerStatusByVillagePlayerIdList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setVillagePlayerId_InScope(pkList);
+     * cb.query().addOrderBy_VillagePlayerId_Asc();
+     * </pre>
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerLoaderGateway<LoaderOfVillagePlayerStatus> loadVillagePlayerStatusByVillagePlayerId(ReferrerConditionSetupper<VillagePlayerStatusCB> refCBLambda) {
+        myBhv().loadVillagePlayerStatusByVillagePlayerId(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerVillagePlayerStatusByVillagePlayerId = refLs);
+        return hd -> hd.handle(new LoaderOfVillagePlayerStatus().ready(_referrerVillagePlayerStatusByVillagePlayerId, _selector));
     }
 
     // ===================================================================================

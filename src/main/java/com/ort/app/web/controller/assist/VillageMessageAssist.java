@@ -23,7 +23,6 @@ import com.ort.app.web.model.VillageAnchorMessageResultContent;
 import com.ort.app.web.model.VillageLatestMessageDatetimeResultContent;
 import com.ort.app.web.model.VillageMessageListResultContent;
 import com.ort.app.web.model.inner.VillageMessageDto;
-import com.ort.app.web.util.CharaUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.MessageType;
 import com.ort.dbflute.exbhv.CommitBhv;
@@ -387,10 +386,10 @@ public class VillageMessageAssist {
         VillageMessageDto messageDto = new VillageMessageDto();
         message.getVillagePlayerByVillagePlayerId().ifPresent(vp -> {
             Chara chara = vp.getChara().get();
-            messageDto.setCharacterName(CharaUtil.makeCharaName(vp));
+            messageDto.setCharacterName(vp.name());
             messageDto.setCharacterId(chara.getCharaId());
             if (message.getFaceTypeCodeAsFaceType() != null) {
-                messageDto.setCharacterImageUrl(CharaUtil.getCharaImgUrlByFaceType(chara, message.getFaceTypeCodeAsFaceType()));
+                messageDto.setCharacterImageUrl(chara.getCharaImgUrlByFaceType(message.getFaceTypeCodeAsFaceType()));
             }
             messageDto.setWidth(chara.getDisplayWidth());
             messageDto.setHeight(chara.getDisplayHeight());
@@ -426,6 +425,8 @@ public class VillageMessageAssist {
             return true;
         } else if (messageType == CDef.MessageType.共鳴発言) {
             return isViewAllowedMasonSay(village, optVillagePlayer);
+        } else if (messageType == CDef.MessageType.恋人発言) {
+            return isViewAllowedLoversSay(village, optVillagePlayer);
         } else if (messageType == CDef.MessageType.死者の呻き) {
             return isViewAllowedGraveSay(village, optVillagePlayer);
         } else if (messageType == CDef.MessageType.見学発言) {
@@ -446,6 +447,7 @@ public class VillageMessageAssist {
         addGraveSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addSpectateSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer, day);
         addMasonSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
+        addLoversSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addWerewolfSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addMonologueSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addSecretSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
@@ -535,6 +537,14 @@ public class VillageMessageAssist {
         }
     }
 
+    // 恋人発言
+    private void addLoversSayIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
+            OptionalEntity<VillagePlayer> optVillagePlayer) {
+        if (isViewAllowedLoversSay(village, optVillagePlayer)) {
+            dispAllowedMessageTypeList.add(CDef.MessageType.恋人発言);
+        }
+    }
+
     private boolean isViewAllowedMasonSay(Village village, OptionalEntity<VillagePlayer> optVillagePlayer) {
         // 終了していたら全開放
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
@@ -549,6 +559,19 @@ public class VillageMessageAssist {
             return true;
         }
         return false;
+    }
+
+    private boolean isViewAllowedLoversSay(Village village, OptionalEntity<VillagePlayer> optVillagePlayer) {
+        // 終了していたら全開放
+        if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
+            return true;
+        }
+        // 終了していなかったら参加していて恋人か同棲者だったら開放
+        if (!optVillagePlayer.isPresent()) {
+            return false;
+        }
+        CDef.Skill skill = optVillagePlayer.get().getSkillCodeAsSkill();
+        return skill == CDef.Skill.恋人 || skill == CDef.Skill.同棲者;
     }
 
     // 人狼の囁き
@@ -719,10 +742,9 @@ public class VillageMessageAssist {
             cb.query().setDay_Equal(day);
         }).stream().map(vote -> vote.getCharaId()).collect(Collectors.toList());
         // 投票していない人
-        List<String> noVoteCharaNameList = villagePlayerList.stream()
-                .filter(vp -> !voteCharaIdList.contains(vp.getCharaId()))
-                .map(vp -> CharaUtil.makeCharaName(vp))
-                .collect(Collectors.toList());
+        List<String> noVoteCharaNameList =
+                villagePlayerList.stream().filter(vp -> !voteCharaIdList.contains(vp.getCharaId())).map(vp -> vp.name()).collect(
+                        Collectors.toList());
         if (noVoteCharaNameList.size() == 0) {
             return null;
         }

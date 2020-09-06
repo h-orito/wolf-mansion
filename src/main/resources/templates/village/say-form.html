@@ -57,6 +57,8 @@
 										th:field="*{messageType}" value="NORMAL_SAY" autocomplete="off" />通常
 									</label> <label th:if="${content.form.say.isAvailableMasonSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'MASON_SAY' ? 'active' : ''}">
 										<input type="radio" class="" th:field="*{messageType}" value="MASON_SAY" autocomplete="off" />共鳴
+									</label> <label th:if="${content.form.say.isAvailableLoversSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'LOVERS_SAY' ? 'active' : ''}">
+										<input type="radio" class="" th:field="*{messageType}" value="LOVERS_SAY" autocomplete="off" />恋人
 									</label> <label th:if="${content.form.say.isAvailableGraveSay}" th:class="'btn btn-sm btn-success ' + *{messageType == 'GRAVE_SAY' ? 'active' : ''}">
 										<input type="radio" class="" th:field="*{messageType}" value="GRAVE_SAY" autocomplete="off" />呻き
 									</label> <label th:if="${content.form.say.isAvailableSpectateSay}"
@@ -101,7 +103,10 @@
 										th:data-message-restrict-whisper-left-count="${content.form.say.restrict.whisperLeftCount != null ? content.form.say.restrict.whisperLeftCount : ''}"
 										th:data-message-restrict-mason-max-length="${content.form.say.restrict.masonLength != null ? content.form.say.restrict.masonLength : ''}"
 										th:data-message-restrict-mason-max-count="${content.form.say.restrict.masonCount != null ? content.form.say.restrict.masonCount : ''}"
-										th:data-message-restrict-mason-left-count="${content.form.say.restrict.masonLeftCount != null ? content.form.say.restrict.masonLeftCount : ''}">残り20回,
+										th:data-message-restrict-mason-left-count="${content.form.say.restrict.masonLeftCount != null ? content.form.say.restrict.masonLeftCount : ''}"
+										th:data-message-restrict-lovers-max-length="${content.form.say.restrict.loversLength != null ? content.form.say.restrict.loversLength : ''}"
+										th:data-message-restrict-lovers-max-count="${content.form.say.restrict.loversCount != null ? content.form.say.restrict.loversCount : ''}"
+										th:data-message-restrict-lovers-left-count="${content.form.say.restrict.loversLeftCount != null ? content.form.say.restrict.loversLeftCount : ''}">残り20回,
 										文字数: 0/400, 行数: 1/20</span><br> <input type="checkbox" class="form-check-input" th:field="*{isConvertDisable}" value="true"
 										style="margin-left: 55px;"> <label class="form-check-label" for="isConvertDisable">装飾・変換無効</label> <input type="submit"
 										class="btn btn-sm btn-success pull-right" value="確認画面へ" data-message-submit-btn />

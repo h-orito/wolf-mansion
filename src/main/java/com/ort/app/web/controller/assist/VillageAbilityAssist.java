@@ -1,21 +1,22 @@
 package com.ort.app.web.controller.assist;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.dbflute.cbean.result.ListResultBean;
-import org.dbflute.optional.OptionalThing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
-import com.ort.app.web.controller.logic.AbilityLogic;
-import com.ort.app.web.controller.logic.FootstepLogic;
+import com.ort.app.datasource.VillageService;
+import com.ort.app.logic.AbilityLogic;
+import com.ort.app.logic.FootstepLogic;
+import com.ort.app.util.SkillUtil;
 import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageGetFootstepListForm;
 import com.ort.app.web.form.VillageVoteForm;
 import com.ort.app.web.model.VillageGetFootstepListResultContent;
-import com.ort.app.web.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exbhv.VoteBhv;
@@ -31,19 +32,17 @@ public class VillageAbilityAssist {
     //                                                                           Attribute
     //                                                                           =========
     @Autowired
-    private VillagePlayerBhv villagePlayerBhv;
-
-    @Autowired
-    private VoteBhv voteBhv;
-
-    @Autowired
     private VillageAssist villageAssist;
-
     @Autowired
     private AbilityLogic abilityLogic;
-
     @Autowired
     private FootstepLogic footstepLogic;
+    @Autowired
+    private VillageService villageService;
+    @Autowired
+    private VillagePlayerBhv villagePlayerBhv;
+    @Autowired
+    private VoteBhv voteBhv;
 
     // ===================================================================================
     //                                                                             Execute
@@ -55,7 +54,7 @@ public class VillageAbilityAssist {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
         }
-        VillagePlayer villagePlayer = villageAssist.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
+        VillagePlayer villagePlayer = villageService.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
         if (villagePlayer.isIsDeadTrue()) {
@@ -66,7 +65,7 @@ public class VillageAbilityAssist {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
         }
-        int day = villageAssist.selectLatestDay(villageId);
+        int day = villageService.selectLatestDay(villageId);
         abilityLogic.setAbility(villageId, villagePlayer, day, abilityForm.getCharaId(), abilityForm.getTargetCharaId(),
                 abilityForm.getFootstep());
         return "redirect:/village/" + villageId + "#bottom";
@@ -79,7 +78,7 @@ public class VillageAbilityAssist {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
         }
-        VillagePlayer villagePlayer = villageAssist.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
+        VillagePlayer villagePlayer = villageService.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
         if (villagePlayer.isIsDeadTrue()) {
@@ -90,7 +89,7 @@ public class VillageAbilityAssist {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
         }
-        int day = villageAssist.selectLatestDay(villageId);
+        int day = villageService.selectLatestDay(villageId);
         setVote(villageId, villagePlayer, day, villagePlayer.getCharaId(), voteForm.getTargetCharaId());
         return "redirect:/village/" + villageId + "#bottom";
     }
@@ -101,7 +100,7 @@ public class VillageAbilityAssist {
         if (result.hasErrors() || userInfo == null) {
             return null;
         }
-        OptionalThing<VillagePlayer> optVillagePlayer = villageAssist.selectVillagePlayer(form.getVillageId(), userInfo, false);
+        Optional<VillagePlayer> optVillagePlayer = villageService.selectVillagePlayer(form.getVillageId(), userInfo, false);
         if (!optVillagePlayer.isPresent()) {
             return null;
         }
@@ -109,7 +108,7 @@ public class VillageAbilityAssist {
         if (isInvalidFootstep(vPlayer, form)) {
             return null;
         }
-        int day = villageAssist.selectLatestDay(form.getVillageId());
+        int day = villageService.selectLatestDay(form.getVillageId());
         List<String> footStepList =
                 footstepLogic.getFootstepCandidateList(form.getVillageId(), vPlayer, day, form.getCharaId(), form.getTargetCharaId());
         VillageGetFootstepListResultContent response = new VillageGetFootstepListResultContent();
@@ -141,6 +140,9 @@ public class VillageAbilityAssist {
             return true;
         }
         if (skill == CDef.Skill.探偵 && footstep == null) {
+            return true;
+        }
+        if (skill == CDef.Skill.同棲者 && targetCharaId == null) {
             return true;
         }
         if (villagePlayer.isIsDeadTrue()) {

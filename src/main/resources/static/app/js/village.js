@@ -134,6 +134,7 @@ $(function() {
 			item = item.replace(/&gt;&gt;(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-anchor=\"$1\">&gt;&gt;$1<\/a>'); // 次にアンカーをaタグにする
 			item = item.replace(/&gt;&gt;\+(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-grave-anchor=\"$1\">&gt;&gt;\+$1<\/a>');
 			item = item.replace(/&gt;&gt;=(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-mason-anchor=\"$1\">&gt;&gt;=$1<\/a>');
+			item = item.replace(/&gt;&gt;\?(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-lover-anchor=\"$1\">&gt;&gt;\?$1<\/a>');
 			item = item.replace(/&gt;&gt;@(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-spectate-anchor=\"$1\">&gt;&gt;@$1<\/a>');
 			item = item.replace(/&gt;&gt;\-(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-monologue-anchor=\"$1\">&gt;&gt;\-$1<\/a>');
 			item = item.replace(/&gt;&gt;\*(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-whisper-anchor=\"$1\">&gt;&gt;\*$1<\/a>');
@@ -193,6 +194,10 @@ $(function() {
 	$('body').on('click', '[data-message-mason-anchor]', function() {
 		const messageNumber = $(this).data('message-mason-anchor');
 		handlingNumberAnchor($(this), 'MASON_SAY', messageNumber);
+	});
+	$('body').on('click', '[data-message-lover-anchor]', function() {
+		const messageNumber = $(this).data('message-lover-anchor');
+		handlingNumberAnchor($(this), 'LOVERS_SAY', messageNumber);
 	});
 	$('body').on('click', '[data-message-spectate-anchor]', function() {
 		const messageNumber = $(this).data('message-spectate-anchor');
@@ -291,6 +296,10 @@ $(function() {
 				case 'MASON_SAY':
 					$sayTextarea.addClass('message-mason');
 					changeFaceTypeIfNeeded('MASON');
+					break;
+				case 'LOVERS_SAY':
+					$sayTextarea.addClass('message-lover');
+					changeFaceTypeIfNeeded('SECRET');
 					break;
 				case 'MONOLOGUE_SAY':
 					$sayTextarea.addClass('message-monologue');
@@ -400,6 +409,8 @@ $(function() {
 			return '囁く';
 		} else if (type === 'MASON_SAY') {
 			return '発言する（共鳴）';
+		} else if (type === 'LOVERS_SAY') {
+			return '発言する（恋人）';
 		} else if (type === 'MONOLOGUE_SAY') {
 			return '発言する（独り言）';
 		} else if (type === 'SECRET_SAY') {
@@ -538,6 +549,10 @@ $(function() {
 			length = $countspan.data('message-restrict-mason-max-length');
 			count = $countspan.data('message-restrict-mason-max-count');
 			leftCount = $countspan.data('message-restrict-mason-left-count');
+		} else if (messageType === 'LOVERS_SAY') {
+			length = $countspan.data('message-restrict-lovers-max-length');
+			count = $countspan.data('message-restrict-lovers-max-count');
+			leftCount = $countspan.data('message-restrict-lovers-left-count');
 		}
 		return {
 			length : length != null ? length : 400,

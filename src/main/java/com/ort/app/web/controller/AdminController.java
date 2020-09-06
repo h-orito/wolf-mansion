@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ort.app.web.controller.logic.VillageParticipateLogic;
+import com.ort.app.logic.VillageParticipateLogic;
 import com.ort.app.web.form.VillageLeaveForm;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.app.web.model.VillageCharaPlayerResultContent;

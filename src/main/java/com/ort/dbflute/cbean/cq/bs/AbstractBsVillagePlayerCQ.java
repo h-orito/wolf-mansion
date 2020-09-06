@@ -215,6 +215,44 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     public abstract String keepVillagePlayerId_ExistsReferrer_MessageByVillagePlayerIdList(MessageCQ sq);
 
     /**
+     * Set up ExistsReferrer (correlated sub-query). <br>
+     * {exists (select TO_VILLAGE_PLAYER_ID from village_player_status where ...)} <br>
+     * village_player_status by TO_VILLAGE_PLAYER_ID, named 'villagePlayerStatusByToVillagePlayerIdAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">existsVillagePlayerStatusByToVillagePlayerId</span>(statusCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     statusCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of VillagePlayerStatusByToVillagePlayerIdList for 'exists'. (NotNull)
+     */
+    public void existsVillagePlayerStatusByToVillagePlayerId(SubQuery<VillagePlayerStatusCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        VillagePlayerStatusCB cb = new VillagePlayerStatusCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepVillagePlayerId_ExistsReferrer_VillagePlayerStatusByToVillagePlayerIdList(cb.query());
+        registerExistsReferrer(cb.query(), "VILLAGE_PLAYER_ID", "TO_VILLAGE_PLAYER_ID", pp, "villagePlayerStatusByToVillagePlayerIdList");
+    }
+    public abstract String keepVillagePlayerId_ExistsReferrer_VillagePlayerStatusByToVillagePlayerIdList(VillagePlayerStatusCQ sq);
+
+    /**
+     * Set up ExistsReferrer (correlated sub-query). <br>
+     * {exists (select VILLAGE_PLAYER_ID from village_player_status where ...)} <br>
+     * village_player_status by VILLAGE_PLAYER_ID, named 'villagePlayerStatusByVillagePlayerIdAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">existsVillagePlayerStatusByVillagePlayerId</span>(statusCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     statusCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of VillagePlayerStatusByVillagePlayerIdList for 'exists'. (NotNull)
+     */
+    public void existsVillagePlayerStatusByVillagePlayerId(SubQuery<VillagePlayerStatusCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        VillagePlayerStatusCB cb = new VillagePlayerStatusCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepVillagePlayerId_ExistsReferrer_VillagePlayerStatusByVillagePlayerIdList(cb.query());
+        registerExistsReferrer(cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", pp, "villagePlayerStatusByVillagePlayerIdList");
+    }
+    public abstract String keepVillagePlayerId_ExistsReferrer_VillagePlayerStatusByVillagePlayerIdList(VillagePlayerStatusCQ sq);
+
+    /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
      * {not exists (select VILLAGE_PLAYER_ID from commit where ...)} <br>
      * commit by VILLAGE_PLAYER_ID, named 'commitAsOne'.
@@ -271,6 +309,44 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
     public abstract String keepVillagePlayerId_NotExistsReferrer_MessageByVillagePlayerIdList(MessageCQ sq);
 
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br>
+     * {not exists (select TO_VILLAGE_PLAYER_ID from village_player_status where ...)} <br>
+     * village_player_status by TO_VILLAGE_PLAYER_ID, named 'villagePlayerStatusByToVillagePlayerIdAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">notExistsVillagePlayerStatusByToVillagePlayerId</span>(statusCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     statusCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of VillagePlayerId_NotExistsReferrer_VillagePlayerStatusByToVillagePlayerIdList for 'not exists'. (NotNull)
+     */
+    public void notExistsVillagePlayerStatusByToVillagePlayerId(SubQuery<VillagePlayerStatusCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        VillagePlayerStatusCB cb = new VillagePlayerStatusCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepVillagePlayerId_NotExistsReferrer_VillagePlayerStatusByToVillagePlayerIdList(cb.query());
+        registerNotExistsReferrer(cb.query(), "VILLAGE_PLAYER_ID", "TO_VILLAGE_PLAYER_ID", pp, "villagePlayerStatusByToVillagePlayerIdList");
+    }
+    public abstract String keepVillagePlayerId_NotExistsReferrer_VillagePlayerStatusByToVillagePlayerIdList(VillagePlayerStatusCQ sq);
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br>
+     * {not exists (select VILLAGE_PLAYER_ID from village_player_status where ...)} <br>
+     * village_player_status by VILLAGE_PLAYER_ID, named 'villagePlayerStatusByVillagePlayerIdAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">notExistsVillagePlayerStatusByVillagePlayerId</span>(statusCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     statusCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of VillagePlayerId_NotExistsReferrer_VillagePlayerStatusByVillagePlayerIdList for 'not exists'. (NotNull)
+     */
+    public void notExistsVillagePlayerStatusByVillagePlayerId(SubQuery<VillagePlayerStatusCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        VillagePlayerStatusCB cb = new VillagePlayerStatusCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepVillagePlayerId_NotExistsReferrer_VillagePlayerStatusByVillagePlayerIdList(cb.query());
+        registerNotExistsReferrer(cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", pp, "villagePlayerStatusByVillagePlayerIdList");
+    }
+    public abstract String keepVillagePlayerId_NotExistsReferrer_VillagePlayerStatusByVillagePlayerIdList(VillagePlayerStatusCQ sq);
+
     public void xsderiveCommitList(String fn, SubQuery<CommitCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
         CommitCB cb = new CommitCB(); cb.xsetupForDerivedReferrer(this);
@@ -294,6 +370,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
         registerSpecifyDerivedReferrer(fn, cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", pp, "messageByVillagePlayerIdList", al, op);
     }
     public abstract String keepVillagePlayerId_SpecifyDerivedReferrer_MessageByVillagePlayerIdList(MessageCQ sq);
+
+    public void xsderiveVillagePlayerStatusByToVillagePlayerIdList(String fn, SubQuery<VillagePlayerStatusCB> sq, String al, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        VillagePlayerStatusCB cb = new VillagePlayerStatusCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepVillagePlayerId_SpecifyDerivedReferrer_VillagePlayerStatusByToVillagePlayerIdList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "VILLAGE_PLAYER_ID", "TO_VILLAGE_PLAYER_ID", pp, "villagePlayerStatusByToVillagePlayerIdList", al, op);
+    }
+    public abstract String keepVillagePlayerId_SpecifyDerivedReferrer_VillagePlayerStatusByToVillagePlayerIdList(VillagePlayerStatusCQ sq);
+
+    public void xsderiveVillagePlayerStatusByVillagePlayerIdList(String fn, SubQuery<VillagePlayerStatusCB> sq, String al, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        VillagePlayerStatusCB cb = new VillagePlayerStatusCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepVillagePlayerId_SpecifyDerivedReferrer_VillagePlayerStatusByVillagePlayerIdList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", pp, "villagePlayerStatusByVillagePlayerIdList", al, op);
+    }
+    public abstract String keepVillagePlayerId_SpecifyDerivedReferrer_VillagePlayerStatusByVillagePlayerIdList(VillagePlayerStatusCQ sq);
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
@@ -375,6 +467,60 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
     public abstract String keepVillagePlayerId_QueryDerivedReferrer_MessageByVillagePlayerIdList(MessageCQ sq);
     public abstract String keepVillagePlayerId_QueryDerivedReferrer_MessageByVillagePlayerIdListParameter(Object vl);
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
+     * {FOO &lt;= (select max(BAR) from village_player_status where ...)} <br>
+     * village_player_status by TO_VILLAGE_PLAYER_ID, named 'villagePlayerStatusByToVillagePlayerIdAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">derivedVillagePlayerStatusByToVillagePlayerId()</span>.<span style="color: #CC4747">max</span>(statusCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     statusCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     statusCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    public HpQDRFunction<VillagePlayerStatusCB> derivedVillagePlayerStatusByToVillagePlayerId() {
+        return xcreateQDRFunctionVillagePlayerStatusByToVillagePlayerIdList();
+    }
+    protected HpQDRFunction<VillagePlayerStatusCB> xcreateQDRFunctionVillagePlayerStatusByToVillagePlayerIdList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveVillagePlayerStatusByToVillagePlayerIdList(fn, sq, rd, vl, op));
+    }
+    public void xqderiveVillagePlayerStatusByToVillagePlayerIdList(String fn, SubQuery<VillagePlayerStatusCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        VillagePlayerStatusCB cb = new VillagePlayerStatusCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepVillagePlayerId_QueryDerivedReferrer_VillagePlayerStatusByToVillagePlayerIdList(cb.query()); String prpp = keepVillagePlayerId_QueryDerivedReferrer_VillagePlayerStatusByToVillagePlayerIdListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "VILLAGE_PLAYER_ID", "TO_VILLAGE_PLAYER_ID", sqpp, "villagePlayerStatusByToVillagePlayerIdList", rd, vl, prpp, op);
+    }
+    public abstract String keepVillagePlayerId_QueryDerivedReferrer_VillagePlayerStatusByToVillagePlayerIdList(VillagePlayerStatusCQ sq);
+    public abstract String keepVillagePlayerId_QueryDerivedReferrer_VillagePlayerStatusByToVillagePlayerIdListParameter(Object vl);
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
+     * {FOO &lt;= (select max(BAR) from village_player_status where ...)} <br>
+     * village_player_status by VILLAGE_PLAYER_ID, named 'villagePlayerStatusByVillagePlayerIdAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">derivedVillagePlayerStatusByVillagePlayerId()</span>.<span style="color: #CC4747">max</span>(statusCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     statusCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     statusCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    public HpQDRFunction<VillagePlayerStatusCB> derivedVillagePlayerStatusByVillagePlayerId() {
+        return xcreateQDRFunctionVillagePlayerStatusByVillagePlayerIdList();
+    }
+    protected HpQDRFunction<VillagePlayerStatusCB> xcreateQDRFunctionVillagePlayerStatusByVillagePlayerIdList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveVillagePlayerStatusByVillagePlayerIdList(fn, sq, rd, vl, op));
+    }
+    public void xqderiveVillagePlayerStatusByVillagePlayerIdList(String fn, SubQuery<VillagePlayerStatusCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        VillagePlayerStatusCB cb = new VillagePlayerStatusCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepVillagePlayerId_QueryDerivedReferrer_VillagePlayerStatusByVillagePlayerIdList(cb.query()); String prpp = keepVillagePlayerId_QueryDerivedReferrer_VillagePlayerStatusByVillagePlayerIdListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", sqpp, "villagePlayerStatusByVillagePlayerIdList", rd, vl, prpp, op);
+    }
+    public abstract String keepVillagePlayerId_QueryDerivedReferrer_VillagePlayerStatusByVillagePlayerIdList(VillagePlayerStatusCQ sq);
+    public abstract String keepVillagePlayerId_QueryDerivedReferrer_VillagePlayerStatusByVillagePlayerIdListParameter(Object vl);
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
@@ -794,6 +940,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 同棲者 (COHABITER). And OnlyOnceRegistered. <br>
+     * 同棲者
+     */
+    public void setSkillCode_Equal_同棲者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.同棲者);
+    }
+
+    /**
      * Equal(=). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
      * 検死官
      */
@@ -887,6 +1041,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_Equal_おまかせ() {
         setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * Equal(=). As 恋人 (LOVER). And OnlyOnceRegistered. <br>
+     * 恋人
+     */
+    public void setSkillCode_Equal_恋人() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.恋人);
     }
 
     /**
@@ -1041,6 +1203,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 同棲者 (COHABITER). And OnlyOnceRegistered. <br>
+     * 同棲者
+     */
+    public void setSkillCode_NotEqual_同棲者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.同棲者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
      * 検死官
      */
@@ -1134,6 +1304,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_おまかせ() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 恋人 (LOVER). And OnlyOnceRegistered. <br>
+     * 恋人
+     */
+    public void setSkillCode_NotEqual_恋人() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.恋人);
     }
 
     /**
@@ -1325,6 +1503,26 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfNoDeadByAttack());
     }
 
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 人狼が誰かを知ることができる <br>
+     * The group elements:[人狼, 呪狼, 智狼, C国狂人, 狂信者]
+     */
+    public void setSkillCode_InScope_ViewableWolfCharaName() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfViewableWolfCharaName());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * おまかせ系 <br>
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+     */
+    public void setSkillCode_InScope_SomeoneSkill() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfSomeoneSkill());
+    }
+
     protected void doSetSkillCode_InScope(Collection<String> skillCodeList) {
         regINS(CK_INS, cTL(skillCodeList), xgetCValueSkillCode(), "SKILL_CODE");
     }
@@ -1425,6 +1623,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 同棲者 (COHABITER). And OnlyOnceRegistered. <br>
+     * 同棲者
+     */
+    public void setRequestSkillCode_Equal_同棲者() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.同棲者);
+    }
+
+    /**
      * Equal(=). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
      * 検死官
      */
@@ -1518,6 +1724,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_Equal_おまかせ() {
         setRequestSkillCode_Equal_AsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * Equal(=). As 恋人 (LOVER). And OnlyOnceRegistered. <br>
+     * 恋人
+     */
+    public void setRequestSkillCode_Equal_恋人() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.恋人);
     }
 
     /**
@@ -1672,6 +1886,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 同棲者 (COHABITER). And OnlyOnceRegistered. <br>
+     * 同棲者
+     */
+    public void setRequestSkillCode_NotEqual_同棲者() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.同棲者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
      * 検死官
      */
@@ -1765,6 +1987,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_おまかせ() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 恋人 (LOVER). And OnlyOnceRegistered. <br>
+     * 恋人
+     */
+    public void setRequestSkillCode_NotEqual_恋人() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.恋人);
     }
 
     /**
@@ -1956,6 +2186,26 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
         setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfNoDeadByAttack());
     }
 
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 人狼が誰かを知ることができる <br>
+     * The group elements:[人狼, 呪狼, 智狼, C国狂人, 狂信者]
+     */
+    public void setRequestSkillCode_InScope_ViewableWolfCharaName() {
+        setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfViewableWolfCharaName());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * おまかせ系 <br>
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+     */
+    public void setRequestSkillCode_InScope_SomeoneSkill() {
+        setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfSomeoneSkill());
+    }
+
     protected void doSetRequestSkillCode_InScope(Collection<String> requestSkillCodeList) {
         regINS(CK_INS, cTL(requestSkillCodeList), xgetCValueRequestSkillCode(), "REQUEST_SKILL_CODE");
     }
@@ -2056,6 +2306,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 同棲者 (COHABITER). And OnlyOnceRegistered. <br>
+     * 同棲者
+     */
+    public void setSecondRequestSkillCode_Equal_同棲者() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.同棲者);
+    }
+
+    /**
      * Equal(=). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
      * 検死官
      */
@@ -2149,6 +2407,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_Equal_おまかせ() {
         setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * Equal(=). As 恋人 (LOVER). And OnlyOnceRegistered. <br>
+     * 恋人
+     */
+    public void setSecondRequestSkillCode_Equal_恋人() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.恋人);
     }
 
     /**
@@ -2303,6 +2569,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 同棲者 (COHABITER). And OnlyOnceRegistered. <br>
+     * 同棲者
+     */
+    public void setSecondRequestSkillCode_NotEqual_同棲者() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.同棲者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
      * 検死官
      */
@@ -2396,6 +2670,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_おまかせ() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 恋人 (LOVER). And OnlyOnceRegistered. <br>
+     * 恋人
+     */
+    public void setSecondRequestSkillCode_NotEqual_恋人() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.恋人);
     }
 
     /**
@@ -2585,6 +2867,26 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_InScope_NoDeadByAttack() {
         setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfNoDeadByAttack());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 人狼が誰かを知ることができる <br>
+     * The group elements:[人狼, 呪狼, 智狼, C国狂人, 狂信者]
+     */
+    public void setSecondRequestSkillCode_InScope_ViewableWolfCharaName() {
+        setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfViewableWolfCharaName());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * おまかせ系 <br>
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+     */
+    public void setSecondRequestSkillCode_InScope_SomeoneSkill() {
+        setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfSomeoneSkill());
     }
 
     protected void doSetSecondRequestSkillCode_InScope(Collection<String> secondRequestSkillCodeList) {
@@ -2908,6 +3210,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 後追 (SUICIDE). And OnlyOnceRegistered. <br>
+     * 後追
+     */
+    public void setDeadReasonCode_Equal_後追() {
+        setDeadReasonCode_Equal_AsDeadReason(CDef.DeadReason.後追);
+    }
+
+    /**
      * Equal(=). As 罠死 (TRAPPED). And OnlyOnceRegistered. <br>
      * 罠死
      */
@@ -2979,6 +3289,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 後追 (SUICIDE). And OnlyOnceRegistered. <br>
+     * 後追
+     */
+    public void setDeadReasonCode_NotEqual_後追() {
+        setDeadReasonCode_NotEqual_AsDeadReason(CDef.DeadReason.後追);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 罠死 (TRAPPED). And OnlyOnceRegistered. <br>
      * 罠死
      */
@@ -3007,6 +3325,16 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setDeadReasonCode_InScope_AsDeadReason(Collection<CDef.DeadReason> cdefList) {
         doSetDeadReasonCode_InScope(cTStrL(cdefList));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As DeadReason. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 死亡理由 <br>
+     * 無惨 <br>
+     * The group elements:[襲撃, 呪殺, 罠死, 爆死]
+     */
+    public void setDeadReasonCode_InScope_Miserable() {
+        setDeadReasonCode_InScope_AsDeadReason(CDef.DeadReason.listOfMiserable());
     }
 
     protected void doSetDeadReasonCode_InScope(Collection<String> deadReasonCodeList) {
