@@ -71,7 +71,7 @@ public class PrologueLogic {
 
     // 延長or廃村
     public void extendOrCancelVillage(VillageInfo vInfo, LocalDateTime daychangeDatetime) {
-        if (!vInfo.vPlayers.list.isEmpty()) {
+        if (vInfo.vPlayers.list.size() > 1) {
             // 一人でも参加していたら延長
             helper.updateVillageDay(vInfo, daychangeDatetime); // 村日付を1日延長
             messageLogic.insertMessageIgnoreError(vInfo.villageId, vInfo.day, CDef.MessageType.公開システムメッセージ, "まだ村人たちは揃っていないようだ。"); // 延長メッセージ登録

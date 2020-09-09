@@ -22,4 +22,8 @@ public class Village extends BsVillage {
     public VillageDays getVillageDays() {
         return new VillageDays(getVillageDayList());
     }
+
+    public String getVillageNumber() {
+        return String.format("%04d", getVillageId());
+    }
 }

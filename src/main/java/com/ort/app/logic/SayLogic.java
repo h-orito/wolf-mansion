@@ -1,6 +1,8 @@
 package com.ort.app.logic;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,6 @@ import com.ort.dbflute.exentity.Message;
 import com.ort.dbflute.exentity.MessageRestriction;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
-import com.ort.dbflute.exentity.VillagePlayers;
 
 @Component
 public class SayLogic {
@@ -29,9 +30,12 @@ public class SayLogic {
     //                                                                             Execute
     //                                                                             =======
     // 秘話対象に選択できる相手
-    public List<Chara> getSelectableSecretSayTarget(VillagePlayers villagePlayers, VillagePlayer villagePlayer) {
+    public List<Chara> getSelectableSecretSayTarget(VillageInfo villageInfo) {
+        if (!isAvailableSecretSay(villageInfo)) {
+            return new ArrayList<>();
+        }
         // 自分以外
-        return villagePlayers.filterNot(villagePlayer).map(vp -> vp.getChara().get());
+        return villageInfo.vPlayers.filterNot(villageInfo.optVillagePlayer.get()).map(vp -> vp.getChara().get());
     }
 
     // 発言可能か（表示用）
@@ -182,6 +186,15 @@ public class SayLogic {
         return true;
     }
 
+    // 秘話可能か
+    public boolean isAvailableSecretSay(VillageInfo villageInfo) {
+        if (!isAvailableSay(villageInfo)) {
+            return false;
+        }
+        CDef.AllowedSecretSay allowedSecretSay = villageInfo.settings.getAllowedSecretSayCodeAsAllowedSecretSay();
+        return villageInfo.isAdmin() || allowedSecretSay == CDef.AllowedSecretSay.全員;
+    }
+
     public SayRestrictDto makeRestrict(VillageInfo villageInfo) {
         SayRestrictDto restrict = new SayRestrictDto();
         if (!villageInfo.isParticipate() //
@@ -239,5 +252,36 @@ public class SayLogic {
             }
         }
         return restrict;
+    }
+
+    public Optional<CDef.MessageType> detectDefaultMessageType(VillageInfo villageInfo) {
+        CDef.MessageType type = null;
+        if (!isAvailableSay(villageInfo)) {
+            return Optional.empty();
+        }
+        if (villageInfo.isAdmin()) {
+            type = CDef.MessageType.通常発言;
+        } else if (villageInfo.village.isVillageStatusCodeエピローグ()) {
+            if (!villageInfo.isSpectator()) {
+                type = CDef.MessageType.通常発言;
+            } else {
+                type = CDef.MessageType.見学発言;
+            }
+        } else if (isAvailableWerewolfSay(villageInfo)) {
+            type = CDef.MessageType.人狼の囁き;
+        } else if (isAvailableMasonSay(villageInfo)) {
+            type = CDef.MessageType.共鳴発言;
+        } else if (isAvailableLoversSay(villageInfo)) {
+            type = CDef.MessageType.恋人発言;
+        } else if (isAvailableMonologueSay(villageInfo)) {
+            type = CDef.MessageType.独り言;
+        } else if (isAvailableNormalSay(villageInfo)) {
+            type = CDef.MessageType.通常発言;
+        } else if (isAvailableGraveSay(villageInfo)) {
+            type = CDef.MessageType.死者の呻き;
+        } else if (isAvailableSpectateSay(villageInfo)) {
+            type = CDef.MessageType.見学発言;
+        }
+        return Optional.of(type);
     }
 }

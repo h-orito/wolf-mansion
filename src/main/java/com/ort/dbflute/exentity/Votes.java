@@ -3,6 +3,7 @@ package com.ort.dbflute.exentity;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -55,5 +56,9 @@ public class Votes {
 
     public <R> List<R> map(Function<Vote, ? extends R> mapper) {
         return this.list.stream().map(mapper).collect(Collectors.toList());
+    }
+
+    public Optional<Vote> findTodayVote(int day, Integer charaId) {
+        return this.filterByDay(day).filterByChara(charaId).list.stream().findFirst();
     }
 }

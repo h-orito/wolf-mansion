@@ -20,6 +20,7 @@ import com.ort.app.web.model.VillageGetFootstepListResultContent;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exbhv.VoteBhv;
+import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.Vote;
 import com.ort.fw.security.UserInfo;
@@ -66,7 +67,8 @@ public class VillageAbilityAssist {
             return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
         }
         int day = villageService.selectLatestDay(villageId);
-        abilityLogic.setAbility(villageId, villagePlayer, day, abilityForm.getCharaId(), abilityForm.getTargetCharaId(),
+        Village village = villageService.selectVillage(villageId, false, false);
+        abilityLogic.setAbility(village, villagePlayer, day, abilityForm.getCharaId(), abilityForm.getTargetCharaId(),
                 abilityForm.getFootstep());
         return "redirect:/village/" + villageId + "#bottom";
     }

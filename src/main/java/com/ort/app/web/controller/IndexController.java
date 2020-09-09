@@ -20,14 +20,19 @@ import com.ort.app.web.form.LoginForm;
 import com.ort.app.web.form.VillageRecordListForm;
 import com.ort.app.web.model.IndexResultContent;
 import com.ort.app.web.model.RecruitingResultContent;
+import com.ort.app.web.model.SkillListResultContent;
 import com.ort.app.web.model.VillageRecordLatestVidResultContent;
 import com.ort.app.web.model.VillageRecordListResultContent;
+import com.ort.app.web.model.inner.CampSkillDto;
 import com.ort.app.web.model.inner.IndexVillageDto;
 import com.ort.app.web.model.inner.RecruitingVillageDto;
 import com.ort.app.web.model.inner.VillageParticipantRecordDto;
 import com.ort.app.web.model.inner.VillageRecordDto;
 import com.ort.dbflute.allcommon.CDef;
+import com.ort.dbflute.exbhv.CampBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
+import com.ort.dbflute.exentity.Camp;
+import com.ort.dbflute.exentity.Skill;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillageSettings;
@@ -40,6 +45,8 @@ public class IndexController {
     //                                                                           =========
     @Autowired
     private VillageBhv villageBhv;
+    @Autowired
+    private CampBhv campBhv;
     @Autowired
     private VillageParticipateLogic participateLogic;
 
@@ -124,6 +131,26 @@ public class IndexController {
         return optVid.map(vid -> new VillageRecordLatestVidResultContent(vid)).orElse(null);
     }
 
+    @GetMapping("/skill/list")
+    @ResponseBody
+    private SkillListResultContent skillList() {
+        ListResultBean<Camp> campList = campBhv.selectList(cb -> {
+            cb.query().addOrderBy_CampCode_Asc();
+        });
+        campBhv.loadSkill(campList, skillCB -> {
+            skillCB.query().addOrderBy_DispOrder_Asc();
+            skillCB.query().setSkillCode_NotInScope_AsSkill(CDef.Skill.listOfSomeoneSkill());
+        });
+        SkillListResultContent content = new SkillListResultContent();
+        content.setList(campList.stream().map(camp -> {
+            CampSkillDto campSkills = new CampSkillDto();
+            campSkills.setCampName(camp.getCampName());
+            campSkills.setSkillList(camp.getSkillList().stream().map(Skill::getSkillName).collect(Collectors.toList()));
+            return campSkills;
+        }).collect(Collectors.toList()));
+        return content;
+    }
+
     // ===================================================================================
     //                                                                             Mapping
     //                                                                             =======
@@ -137,7 +164,7 @@ public class IndexController {
     private IndexVillageDto convertToIndexVillage(Village village) {
         IndexVillageDto villageDto = new IndexVillageDto();
         villageDto.setVillageId(village.getVillageId());
-        villageDto.setVillageNumber(String.format("%04d", village.getVillageId()));
+        villageDto.setVillageNumber(village.getVillageNumber());
         villageDto.setVillageName(village.getVillageDisplayName());
         int participateNum = village.getVillagePlayerList().size();
         Integer maxNum = village.getVillageSettingsAsOne().get().getPersonMaxNum();
@@ -155,7 +182,7 @@ public class IndexController {
     private RecruitingVillageDto convertToRecruitingVillage(Village village) {
         RecruitingVillageDto villageDto = new RecruitingVillageDto();
         villageDto.setVillageId(village.getVillageId());
-        villageDto.setVillageNumber(String.format("%04d", village.getVillageId()));
+        villageDto.setVillageNumber(village.getVillageNumber());
         villageDto.setVillageName(village.getVillageDisplayName());
         int participateNum = (int) village.getVillagePlayerList().stream().filter(vp -> vp.isIsSpectatorFalse()).count();
         VillageSettings settings = village.getVillageSettingsAsOne().get();
@@ -186,6 +213,7 @@ public class IndexController {
         villageRecord.setName(village.getVillageDisplayName());
         villageRecord.setStatus(village.getVillageStatusCodeAsVillageStatus().alias());
         villageRecord.setOrganization(extractOrganization(village));
+        villageRecord.setIntervalSeconds(village.getVillageSettingsAsOne().get().getDayChangeIntervalSeconds());
         villageRecord.setStartDatetime(
                 village.isVillageStatusCode廃村() ? null : village.getVillageSettingsAsOne().get().getStartDatetime().format(formatter));
         villageRecord.setPrologueDatetime(extractPrologueDatetime(village, formatter));

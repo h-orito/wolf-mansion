@@ -300,6 +300,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Set the value of skillCode as おまかせ恋人陣営 (LOVERS). <br>
+     * おまかせ（恋人陣営）
+     */
+    public void setSkillCode_おまかせ恋人陣営() {
+        setSkillCodeAsSkill(CDef.Skill.おまかせ恋人陣営);
+    }
+
+    /**
      * Set the value of skillCode as 狂人 (MADMAN). <br>
      * 狂人
      */
@@ -637,6 +645,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Is the value of skillCode おまかせ恋人陣営? <br>
+     * おまかせ（恋人陣営）
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCodeおまかせ恋人陣営() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.おまかせ恋人陣営) : false;
+    }
+
+    /**
      * Is the value of skillCode 狂人? <br>
      * 狂人
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -850,7 +869,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * おまかせ系 <br>
-     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_SomeoneSkill() {

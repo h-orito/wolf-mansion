@@ -21,6 +21,10 @@ public class VillageRecordDto implements Serializable {
     /** 編成 */
     private String organization;
 
+    /** 更新間隔（秒） */
+    @JsonProperty("interval_seconds")
+    private Integer intervalSeconds;
+
     /** 開始日時 */
     @JsonProperty("start_datetime")
     private String startDatetime;
@@ -134,5 +138,13 @@ public class VillageRecordDto implements Serializable {
 
     public void setPrologueDatetime(String prologueDatetime) {
         this.prologueDatetime = prologueDatetime;
+    }
+
+    public Integer getIntervalSeconds() {
+        return intervalSeconds;
+    }
+
+    public void setIntervalSeconds(Integer intervalSeconds) {
+        this.intervalSeconds = intervalSeconds;
     }
 }

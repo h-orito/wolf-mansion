@@ -22,7 +22,6 @@ import com.ort.app.logic.ability.TrapLogic;
 import com.ort.app.web.dto.VillageInfo;
 import com.ort.app.web.model.OptionDto;
 import com.ort.dbflute.allcommon.CDef;
-import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillagePlayers;
@@ -33,8 +32,6 @@ public class AbilityLogic {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    @Autowired
-    private VillageBhv villageBhv;
     @Autowired
     private AttackLogic attackLogic;
     @Autowired
@@ -56,14 +53,12 @@ public class AbilityLogic {
     //                                                                             Execute
     //                                                                             =======
     // 能力セット
-    public void setAbility(Integer villageId, VillagePlayer villagePlayer, int day, Integer charaId, Integer targetCharaId,
-            String footstep) {
+    public void setAbility(Village village, VillagePlayer villagePlayer, int day, Integer charaId, Integer targetCharaId, String footstep) {
         CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
         if (skill == null) {
             return;
         }
         AbilityType type = detectAbilityType(villagePlayer.getSkillCodeAsSkill());
-        Village village = selectVillage(villageId);
 
         switch (type) {
         case ATTACK:
@@ -361,24 +356,6 @@ public class AbilityLogic {
         }
     }
 
-    // ===================================================================================
-    //                                                                              Select
-    //                                                                              ======
-    private Village selectVillage(Integer villageId) {
-        Village village = villageBhv.selectEntityWithDeletedCheck(cb -> {
-            cb.setupSelect_VillageSettingsAsOne();
-            cb.query().setVillageId_Equal(villageId);
-        });
-        villageBhv.loadVillagePlayer(village, vpCB -> {
-            vpCB.setupSelect_Chara();
-            vpCB.setupSelect_SkillBySkillCode();
-            vpCB.query().setIsGone_Equal_False();
-            vpCB.query().setIsSpectator_Equal_False();
-            vpCB.query().setVillageId_Equal(villageId);
-        });
-        return village;
-    }
-
     private enum AbilityType {
         ATTACK, DIVINE, GUARD, DISTURB, INVESTIGATE, TRAP, BOMB, COHABIT
     }
@@ -405,6 +382,9 @@ public class AbilityLogic {
     }
 
     private boolean isAbilityUsable(AbilityType type, int day) {
+        if (type == null) {
+            return false;
+        }
         switch (type) {
         case ATTACK:
         case DIVINE:

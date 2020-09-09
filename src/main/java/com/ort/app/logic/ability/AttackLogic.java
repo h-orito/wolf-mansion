@@ -62,7 +62,9 @@ public class AttackLogic {
             return; // 人狼がいない場合は何もしない
         }
 
-        Optional<Ability> optAttack = dayChangeVillage.abilities.filterByType(CDef.AbilityType.襲撃).list.stream().findFirst();
+        Optional<Ability> optAttack =
+                dayChangeVillage.abilities.filterYesterday(dayChangeVillage.day).filterByType(CDef.AbilityType.襲撃).list.stream()
+                        .findFirst();
         if (!optAttack.isPresent()) {
             return; // 能力セットしていない場合は何もしない
         }

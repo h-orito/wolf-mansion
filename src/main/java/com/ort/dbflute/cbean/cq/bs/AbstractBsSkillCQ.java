@@ -207,6 +207,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As おまかせ恋人陣営 (LOVERS). And OnlyOnceRegistered. <br>
+     * おまかせ（恋人陣営）
+     */
+    public void setSkillCode_Equal_おまかせ恋人陣営() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ恋人陣営);
+    }
+
+    /**
      * Equal(=). As 狂人 (MADMAN). And OnlyOnceRegistered. <br>
      * 狂人
      */
@@ -470,6 +478,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As おまかせ恋人陣営 (LOVERS). And OnlyOnceRegistered. <br>
+     * おまかせ（恋人陣営）
+     */
+    public void setSkillCode_NotEqual_おまかせ恋人陣営() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ恋人陣営);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 狂人 (MADMAN). And OnlyOnceRegistered. <br>
      * 狂人
      */
@@ -672,7 +688,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * おまかせ系 <br>
-     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
      */
     public void setSkillCode_InScope_SomeoneSkill() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfSomeoneSkill());

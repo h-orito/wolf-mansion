@@ -27,12 +27,32 @@ public class VillagePlayers {
         return this.filterBy(vp -> vp.isIsDeadFalse());
     }
 
+    public VillagePlayers filterExecuted() {
+        return this.filterBy(vp -> vp.isDeadReasonCode処刑());
+    }
+
+    public VillagePlayers filterMiserable() {
+        return this.filterBy(vp -> vp.isIsDeadTrue() && vp.getDeadReasonCodeAsDeadReason().isMiserable());
+    }
+
+    public VillagePlayers filterSuddenly() {
+        return this.filterBy(vp -> vp.isDeadReasonCode突然());
+    }
+
+    public VillagePlayers filterSuicide() {
+        return this.filterBy(vp -> vp.isDeadReasonCode後追());
+    }
+
     public VillagePlayers filterNotDummy(VillageSettings villageSettings) {
         return this.filterNotDummy(villageSettings.getDummyCharaId());
     }
 
     public VillagePlayers filterNotDummy(int dummyCharaId) {
         return this.filterBy(vp -> !vp.getCharaId().equals(dummyCharaId));
+    }
+
+    public VillagePlayers filterSpectate() {
+        return this.filterBy(vp -> vp.isIsSpectatorTrue());
     }
 
     public VillagePlayers filterNotSpecatate() {
@@ -48,12 +68,15 @@ public class VillagePlayers {
     }
 
     public VillagePlayers filterNot(VillagePlayer villagePlayer) {
-        return this.filterBy(vp -> vp.getVillagePlayerId().equals(villagePlayer.getVillagePlayerId()));
+        return this.filterBy(vp -> !vp.getVillagePlayerId().equals(villagePlayer.getVillagePlayerId()));
     }
 
     public VillagePlayers sortedByRoomNumber() {
-        return new VillagePlayers(
-                this.list.stream().sorted(Comparator.comparingInt(VillagePlayer::getRoomNumber)).collect(Collectors.toList()));
+        return this.sortedBy(Comparator.comparingInt(VillagePlayer::getRoomNumber));
+    }
+
+    public VillagePlayers sortedBy(Comparator<VillagePlayer> comparator) {
+        return new VillagePlayers(this.list.stream().sorted(comparator).collect(Collectors.toList()));
     }
 
     public VillagePlayers shuffled() {

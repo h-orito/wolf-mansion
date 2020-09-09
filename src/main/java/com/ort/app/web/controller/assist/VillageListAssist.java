@@ -44,7 +44,7 @@ public class VillageListAssist {
     private VillageListVillageDto convertToVillageDto(Village village) {
         VillageListVillageDto part = new VillageListVillageDto();
         part.setVillageId(village.getVillageId());
-        part.setVillageNumber(String.format("%04d", village.getVillageId()));
+        part.setVillageNumber(village.getVillageNumber());
         part.setVillageName(village.getVillageDisplayName());
         int participateNum = village.getVillagePlayerList().size();
         Integer maxNum = village.getVillageSettingsAsOne().get().getPersonMaxNum();

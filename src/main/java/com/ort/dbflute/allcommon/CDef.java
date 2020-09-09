@@ -583,6 +583,9 @@ public interface CDef extends Classification {
         /** 恋人 */
         恋人("LOVER", "恋人", emptyStrings())
         ,
+        /** おまかせ（恋人陣営） */
+        おまかせ恋人陣営("LOVERS", "おまかせ（恋人陣営）", emptyStrings())
+        ,
         /** 狂人 */
         狂人("MADMAN", "狂人", emptyStrings())
         ,
@@ -702,7 +705,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "29");
+                subItemMap.put("order", "30");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "お");
                 _subItemMapMap.put(おまかせ足音職.code(), Collections.unmodifiableMap(subItemMap));
@@ -716,7 +719,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "30");
+                subItemMap.put("order", "31");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "お");
                 _subItemMapMap.put(おまかせ役職窓あり.code(), Collections.unmodifiableMap(subItemMap));
@@ -758,6 +761,13 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "28");
+                subItemMap.put("campCode", "VILLAGER");
+                subItemMap.put("skill_short_name", "お");
+                _subItemMapMap.put(おまかせ恋人陣営.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
                 subItemMap.put("order", "16");
                 subItemMap.put("campCode", "WEREWOLF");
                 subItemMap.put("skill_short_name", "狂");
@@ -779,7 +789,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "28");
+                subItemMap.put("order", "29");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "お");
                 _subItemMapMap.put(おまかせ人外.code(), Collections.unmodifiableMap(subItemMap));
@@ -944,11 +954,11 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * おまかせ系 <br>
-         * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+         * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
          * @return The determination, true or false.
          */
         public boolean isSomeoneSkill() {
-            return おまかせ.equals(this) || おまかせ村人陣営.equals(this) || おまかせ人狼陣営.equals(this) || おまかせ足音職.equals(this) || おまかせ役職窓あり.equals(this) || おまかせ人外.equals(this);
+            return おまかせ.equals(this) || おまかせ村人陣営.equals(this) || おまかせ人狼陣営.equals(this) || おまかせ恋人陣営.equals(this) || おまかせ足音職.equals(this) || おまかせ役職窓あり.equals(this) || おまかせ人外.equals(this);
         }
 
         public boolean inGroup(String groupName) {
@@ -1135,11 +1145,11 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * おまかせ系 <br>
-         * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+         * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfSomeoneSkill() {
-            return new ArrayList<Skill>(Arrays.asList(おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外));
+            return new ArrayList<Skill>(Arrays.asList(おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外));
         }
 
         /**

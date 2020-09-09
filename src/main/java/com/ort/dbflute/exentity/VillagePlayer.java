@@ -45,6 +45,10 @@ public class VillagePlayer extends BsVillagePlayer {
         return !isDeadWhen(day);
     }
 
+    public CDef.FaceType detectDefaultFaceType(CDef.MessageType messageType) {
+        return getChara().get().detectDefaultFaceType(messageType);
+    }
+
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============

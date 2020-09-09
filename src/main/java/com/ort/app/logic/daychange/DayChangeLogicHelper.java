@@ -67,6 +67,7 @@ public class DayChangeLogicHelper {
         vInfo.village = village;
         vInfo.vPlayers = village.getVillagePlayers();
         vInfo.settings = village.getVillageSettingsAsOne().get();
+        vInfo.days = village.getVillageDays();
         vInfo.day = village.getVillageDays().latestDay().getDay();
 
         return vInfo;

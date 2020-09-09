@@ -4,9 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -64,13 +62,9 @@ import com.ort.app.web.model.inner.village.VillageVoteFormDto;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.CommitBhv;
 import com.ort.dbflute.exbhv.RandomKeywordBhv;
-import com.ort.dbflute.exbhv.VillagePlayerBhv;
-import com.ort.dbflute.exbhv.VillageSettingsBhv;
-import com.ort.dbflute.exbhv.VoteBhv;
 import com.ort.dbflute.exentity.Abilities;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Chara;
-import com.ort.dbflute.exentity.CharaImage;
 import com.ort.dbflute.exentity.Commit;
 import com.ort.dbflute.exentity.Footsteps;
 import com.ort.dbflute.exentity.MessageRestriction;
@@ -78,6 +72,7 @@ import com.ort.dbflute.exentity.RandomKeyword;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
+import com.ort.dbflute.exentity.VillagePlayers;
 import com.ort.dbflute.exentity.VillageSettings;
 import com.ort.dbflute.exentity.Vote;
 import com.ort.dbflute.exentity.Votes;
@@ -88,32 +83,10 @@ import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 public class VillageAssist {
 
     // ===================================================================================
-    //                                                                          Definition
-    //                                                                          ==========
-    private static Map<CDef.MessageType, CDef.FaceType> EXPECTED_FACE_TYPE_MAP = null;
-    static {
-        Map<CDef.MessageType, CDef.FaceType> map = new HashMap<>();
-        map.put(CDef.MessageType.通常発言, CDef.FaceType.通常);
-        map.put(CDef.MessageType.人狼の囁き, CDef.FaceType.囁き);
-        map.put(CDef.MessageType.共鳴発言, CDef.FaceType.共鳴);
-        map.put(CDef.MessageType.独り言, CDef.FaceType.独り言);
-        map.put(CDef.MessageType.死者の呻き, CDef.FaceType.墓下);
-        map.put(CDef.MessageType.見学発言, CDef.FaceType.通常);
-        map.put(CDef.MessageType.恋人発言, CDef.FaceType.秘話);
-        EXPECTED_FACE_TYPE_MAP = map;
-    }
-
-    // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
     @Autowired
     private VillageSituationAssist villageSituationAssist;
-    @Autowired
-    private VillageSettingsBhv villageSettingsBhv;
-    @Autowired
-    private VillagePlayerBhv villagePlayerBhv;
-    @Autowired
-    private VoteBhv voteBhv;
     @Autowired
     private CommitBhv commitBhv;
     @Autowired
@@ -176,31 +149,6 @@ public class VillageAssist {
     // ===================================================================================
     //                                                                              Select
     //                                                                              ======
-    // 参戦キャラとして選択可能なキャラを取得
-    private List<Chara> selectSelectableCharaList(Integer villageId) {
-        // 既に参加しているキャラ
-        List<Integer> alreadyParticipatePlayerIdList = villagePlayerBhv.selectList(cb -> {
-            cb.query().setVillageId_Equal(villageId);
-            cb.query().setIsGone_Equal_False();
-        }).stream().map(VillagePlayer::getCharaId).collect(Collectors.toList());
-
-        // 村作成時に選択したキャラクターグループ内で、まだ参戦していないキャラ
-        // ダミーも除外
-        VillageSettings villageSettings = villageSettingsBhv.selectEntityWithDeletedCheck(cb -> {
-            cb.setupSelect_CharaGroup();
-            cb.query().setVillageId_Equal(villageId);
-        });
-        villageSettingsBhv.load(villageSettings, loader -> {
-            loader.pulloutCharaGroup().loadChara(charaCB -> {
-                charaCB.query().setCharaId_NotEqual(villageSettings.getDummyCharaId());
-                charaCB.query().setCharaId_NotInScope(alreadyParticipatePlayerIdList);
-            }).withNestedReferrer(charaLoader -> {
-                charaLoader.loadCharaImage(charaImageCB -> charaImageCB.query().setFaceTypeCode_Equal_通常());
-            });
-        });
-        return villageSettings.getCharaGroup().get().getCharaList();
-    }
-
     private String selectRandomKeywords() {
         return String.join(",", randomKeywordBhv.selectList(cb -> {}).stream().map(RandomKeyword::getKeyword).collect(Collectors.toList()));
     }
@@ -217,16 +165,6 @@ public class VillageAssist {
         Abilities abilities = abilityService.selectAbilities(villageId);
         VillageInfo villageInfo = new VillageInfo(village, userInfo, optVillagePlayer, day, votes, footsteps, abilities);
         return villageInfo;
-    }
-
-    private CDef.FaceType detectDefaultFaceType(VillageInfo villageInfo, CDef.MessageType defaultMessageType) {
-        CDef.FaceType expectFaceType = EXPECTED_FACE_TYPE_MAP.get(defaultMessageType);
-        List<CharaImage> faceList = villageInfo.optVillagePlayer.get().getChara().get().getCharaImageList();
-        if (faceList.stream().anyMatch(face -> face.getFaceTypeCodeAsFaceType() == expectFaceType)) {
-            return expectFaceType;
-        } else {
-            return CDef.FaceType.通常;
-        }
     }
 
     private void setAbilityTarget(VillageInfo villageInfo, Model model) {
@@ -260,38 +198,27 @@ public class VillageAssist {
     }
 
     private void setVoteTarget(VillageInfo villageInfo, Model model) {
-        if (!villageInfo.isParticipate() || villageInfo.isDead() || villageInfo.isSpectator() || !villageInfo.isLatestDay()
-                || !villageInfo.village.isVillageStatusCode進行中() || villageInfo.day < 2) {
+        int day = villageInfo.day;
+        Optional<VillagePlayer> optVillagePlayer = villageInfo.optVillagePlayer;
+        if (!voteLogic.isAvailableVote(villageInfo.village, optVillagePlayer, day)) {
             return;
         }
-        OptionalEntity<Vote> optVote = voteBhv.selectEntity(cb -> {
-            cb.setupSelect_CharaByVoteCharaId();
-            cb.query().setVillageId_Equal(villageInfo.villageId);
-            cb.query().setCharaId_Equal(villageInfo.optVillagePlayer.get().getCharaId());
-            cb.query().setDay_Equal(villageInfo.day);
-        });
 
+        Optional<Vote> optVote = villageInfo.votes.findTodayVote(day, optVillagePlayer.get().getCharaId());
         VillageVoteForm form = new VillageVoteForm();
         form.setTargetCharaId(optVote.map(vote -> vote.getVoteCharaId()).orElse(null));
         model.addAttribute("voteForm", form);
-        model.addAttribute("voteTarget", optVote.map(vote -> vote.getCharaByVoteCharaId().get().getCharaName()).orElse(null));
-    }
-
-    private boolean isAvailableSecretSay(VillageInfo villageInfo) {
-        if (!villageInfo.isParticipate() || !villageInfo.isLatestDay() || !villageInfo.village.isVillageStatusCode進行中()) {
-            return false;
-        }
-        CDef.AllowedSecretSay allowedSecretSay = villageInfo.settings.getAllowedSecretSayCodeAsAllowedSecretSay();
-        return villageInfo.isAdmin() || allowedSecretSay == CDef.AllowedSecretSay.全員;
+        model.addAttribute("voteTarget",
+                optVote.map(vote -> villageInfo.vPlayers.findByCharaId(vote.getVoteCharaId()).name()).orElse(null));
     }
 
     // 基本的な情報、参加有無に関わらない情報
     private void setVillageModelBasicInfo(VillageResultContent content, VillageInfo villageInfo) {
         content.setVillageId(villageInfo.village.getVillageId());
-        content.setVillageNumber(String.format("%04d", villageInfo.village.getVillageId()));
+        content.setVillageNumber(villageInfo.village.getVillageNumber());
         content.setVillageName(villageInfo.village.getVillageDisplayName());
         content.setVillageStatusCode(villageInfo.village.getVillageStatusCode());
-        content.setMemberList(convertToMemberPart(villageInfo.vPlayers.list));
+        content.setMemberList(convertToMemberPart(villageInfo.vPlayers));
         content.setCharacterList(extractAndSortCharacterList(villageInfo));
         content.setRoomAssignedRowList(convertToRoomAssignedPart(villageInfo));
         content.setRoomWidth(villageInfo.village.getRoomSizeWidth());
@@ -399,29 +326,11 @@ public class VillageAssist {
             return null;
         }
         VillageSayForm form = new VillageSayForm();
-        if (villageInfo.isAdmin()) {
-            form.setMessageType(CDef.MessageType.通常発言.code());
-        } else if (villageInfo.village.isVillageStatusCodeエピローグ()) {
-            form.setMessageType(CDef.MessageType.通常発言.code());
-            if (villageInfo.isSpectator()) {
-                form.setMessageType(CDef.MessageType.見学発言.code());
-            }
-        } else if (sayFormDto.getIsAvailableWerewolfSay()) {
-            form.setMessageType(CDef.MessageType.人狼の囁き.code());
-        } else if (sayFormDto.getIsAvailableMasonSay()) {
-            form.setMessageType(CDef.MessageType.共鳴発言.code());
-        } else if (sayFormDto.getIsAvailableLoversSay()) {
-            form.setMessageType(CDef.MessageType.恋人発言.code());
-        } else if (sayFormDto.getIsAvailableMonologueSay()) {
-            form.setMessageType(CDef.MessageType.独り言.code());
-        } else if (sayFormDto.getIsAvailableNormalSay()) {
-            form.setMessageType(CDef.MessageType.通常発言.code());
-        } else if (sayFormDto.getIsAvailableGraveSay()) {
-            form.setMessageType(CDef.MessageType.死者の呻き.code());
-        } else if (sayFormDto.getIsAvailableSpectateSay()) {
-            form.setMessageType(CDef.MessageType.見学発言.code());
-        }
-        form.setFaceType(detectDefaultFaceType(villageInfo, CDef.MessageType.codeOf(form.getMessageType())).code());
+        Optional<CDef.MessageType> defaultMessageType = sayLogic.detectDefaultMessageType(villageInfo);
+        defaultMessageType.ifPresent(messageType -> {
+            form.setMessageType(messageType.code());
+            form.setFaceType(villageInfo.optVillagePlayer.get().detectDefaultFaceType(messageType).code());
+        });
         return form;
     }
 
@@ -439,10 +348,9 @@ public class VillageAssist {
         say.setIsDispSayForm(true);
 
         // 管理者は全て発言できる
-        VillagePlayer vPlayer = villageInfo.optVillagePlayer.get();
         if (isDispSayForm && villageInfo.isAdmin()) {
             say.setAllSayTypeAvailable(true);
-            say.setSecretSayTargetList(sayLogic.getSelectableSecretSayTarget(villageInfo.vPlayers, vPlayer));
+            say.setSecretSayTargetList(sayLogic.getSelectableSecretSayTarget(villageInfo));
             return say;
         }
         say.setIsAvailableNormalSay(sayLogic.isAvailableNormalSay(villageInfo)); // 通常発言可能か
@@ -453,9 +361,8 @@ public class VillageAssist {
         say.setIsAvailableSpectateSay(sayLogic.isAvailableSpectateSay(villageInfo)); // 見学発言が発言可能か
         say.setIsAvailableMonologueSay(sayLogic.isAvailableMonologueSay(villageInfo)); // 独り言が発言可能か
         // 秘話
-        boolean availableSecretSay = isAvailableSecretSay(villageInfo);
-        say.setIsAvailableSecretSay(availableSecretSay);
-        say.setSecretSayTargetList(availableSecretSay ? sayLogic.getSelectableSecretSayTarget(villageInfo.vPlayers, vPlayer) : null);
+        say.setIsAvailableSecretSay(sayLogic.isAvailableSecretSay(villageInfo));
+        say.setSecretSayTargetList(sayLogic.getSelectableSecretSayTarget(villageInfo));
         return say;
     }
 
@@ -509,10 +416,11 @@ public class VillageAssist {
         // 参戦
         boolean isDispParticipateForm = participateLogic.isAvailableParticipate(villageInfo);
         participate.setIsDispParticipateForm(isDispParticipateForm);
-        participate.setSelectableCharaList(isDispParticipateForm
-                ? selectSelectableCharaList(villageInfo.villageId).stream().map(chara -> convertToCharaPart(chara)).collect(
-                        Collectors.toList())
-                : null); // 入村可能なキャラ
+        if (isDispParticipateForm) {
+            participate.setSelectableCharaList(
+                    participateLogic.selectSelectableCharaList(villageInfo).stream().map(chara -> convertToCharaPart(chara)).collect(
+                            Collectors.toList()));
+        }
         participate.setIsDispChangeRequestNgMessage(villageDispLogic.isDispChangeRequestSkillNgMessage(villageInfo));
         // 役職希望変更
         boolean isDispChangeRequestSkillForm = skillRequestLogic.isAvailableChangeSkillRequest(villageInfo);
@@ -533,14 +441,15 @@ public class VillageAssist {
 
     private VillageParticipateDto convertToMyself(VillageInfo villageInfo) {
         VillageParticipateDto myself = new VillageParticipateDto();
-        Optional<VillagePlayer> optVillagePlayer = villageInfo.optVillagePlayer;
         // 参加情報
-        myself.setCharaImageUrl(optVillagePlayer.map(vp -> vp.getChara().get().getNormalCharaImgUrl()).orElse(null));
-        myself.setCharaName(optVillagePlayer.map(vp -> vp.name()).orElse(null));
-        myself.setCharaImageWidth(optVillagePlayer.map(vp -> vp.getChara().get().getDisplayWidth()).orElse(null));
-        myself.setCharaImageHeight(optVillagePlayer.map(vp -> vp.getChara().get().getDisplayHeight()).orElse(null));
-        myself.setIsDead(optVillagePlayer.map(VillagePlayer::isIsDeadTrue).orElse(null));
-        myself.setSkill(optVillagePlayer.map(vp -> convertToParticipateSkill(vp.getSkillCodeAsSkill())).orElse(null));
+        villageInfo.optVillagePlayer.ifPresent(villagePlayer -> {
+            myself.setCharaImageUrl(villagePlayer.getChara().get().getNormalCharaImgUrl());
+            myself.setCharaName(villagePlayer.name());
+            myself.setCharaImageWidth(villagePlayer.getChara().get().getDisplayWidth());
+            myself.setCharaImageHeight(villagePlayer.getChara().get().getDisplayHeight());
+            myself.setIsDead(villagePlayer.isIsDeadTrue());
+            myself.setSkill(convertToParticipateSkill(villagePlayer.getSkillCodeAsSkill()));
+        });
         return myself;
     }
 
@@ -597,75 +506,46 @@ public class VillageAssist {
     // ===================================================================================
     //                                                                             Mapping
     //                                                                             =======
-    private List<VillageMemberDto> convertToMemberPart(List<VillagePlayer> villagePlayerList) {
+    private List<VillageMemberDto> convertToMemberPart(VillagePlayers villagePlayers) {
         // 生存
         VillageMemberDto aliveMember = new VillageMemberDto();
-        List<VillagePlayer> aliveMemberList =
-                villagePlayerList.stream().filter(vp -> vp.getDeadDay() == null && vp.isIsSpectatorFalse()).collect(Collectors.toList());
         aliveMember.setStatus("生存");
-        aliveMember.setStatusMemberList(
-                aliveMemberList.stream().sorted(compareForMemberList()).map(mem -> convertToMemberDetailPart(mem)).collect(
-                        Collectors.toList()));
-        // 吊り
+        aliveMember.setStatusMemberList(villagePlayers.filterAlive().filterNotSpecatate().sortedBy(compareForMemberList()).map(
+                mem -> convertToMemberDetailPart(mem)));
+        // 処刑
         VillageMemberDto executedMember = new VillageMemberDto();
-        List<VillagePlayer> executedMemberList = villagePlayerList.stream()
-                .filter(villagePlayer -> villagePlayer.getDeadReason().isPresent()
-                        && CDef.DeadReason.処刑 == CDef.DeadReason.codeOf(villagePlayer.getDeadReason().get().getDeadReasonCode()))
-                .collect(Collectors.toList());
         executedMember.setStatus("処刑死");
         executedMember.setStatusMemberList(
-                executedMemberList.stream().sorted(compareForMemberList()).map(mem -> convertToMemberDetailPart(mem)).collect(
-                        Collectors.toList()));
-        // 襲撃・呪殺・罠死・爆死
-        VillageMemberDto attackedMember = new VillageMemberDto();
-        List<VillagePlayer> attackedMemberList = villagePlayerList.stream().filter(vp -> {
-            if (!vp.getDeadReason().isPresent()) {
-                return false;
-            }
-            CDef.DeadReason reason = CDef.DeadReason.codeOf(vp.getDeadReason().get().getDeadReasonCode());
-            return reason == CDef.DeadReason.襲撃 || reason == CDef.DeadReason.呪殺 || reason == CDef.DeadReason.罠死
-                    || reason == CDef.DeadReason.爆死;
-        }).collect(Collectors.toList());
-        attackedMember.setStatus("犠牲");
-        attackedMember.setStatusMemberList(
-                attackedMemberList.stream().sorted(compareForMemberList()).map(mem -> convertToMemberDetailPart(mem)).collect(
-                        Collectors.toList()));
+                villagePlayers.filterExecuted().sortedBy(compareForMemberList()).map(mem -> convertToMemberDetailPart(mem)));
+        // 無惨
+        VillageMemberDto misrableMember = new VillageMemberDto();
+        misrableMember.setStatus("無惨");
+        misrableMember.setStatusMemberList(
+                villagePlayers.filterMiserable().sortedBy(compareForMemberList()).map(mem -> convertToMemberDetailPart(mem)));
+        // 後追
+        VillageMemberDto suicideMember = new VillageMemberDto();
+        suicideMember.setStatus("後追");
+        suicideMember.setStatusMemberList(
+                villagePlayers.filterSuicide().sortedBy(compareForMemberList()).map(mem -> convertToMemberDetailPart(mem)));
         // 突然死
-        VillageMemberDto suddonlyDeathMember = new VillageMemberDto();
-        List<VillagePlayer> suddonlyDeathMemberList = villagePlayerList.stream()
-                .filter(vp -> vp.getDeadReason().isPresent()
-                        && CDef.DeadReason.突然 == CDef.DeadReason.codeOf(vp.getDeadReason().get().getDeadReasonCode()))
-                .collect(Collectors.toList());
-        suddonlyDeathMember.setStatus("突然死");
-        suddonlyDeathMember.setStatusMemberList(
-                suddonlyDeathMemberList.stream().sorted(compareForMemberList()).map(mem -> convertToMemberDetailPart(mem)).collect(
-                        Collectors.toList()));
+        VillageMemberDto suddenlyDeathMember = new VillageMemberDto();
+        suddenlyDeathMember.setStatus("突然死");
+        suddenlyDeathMember.setStatusMemberList(
+                villagePlayers.filterSuddenly().sortedBy(compareForMemberList()).map(mem -> convertToMemberDetailPart(mem)));
         // 見学
         VillageMemberDto spectateMember = new VillageMemberDto();
-        List<VillagePlayer> spectateMemberList =
-                villagePlayerList.stream().filter(vp -> vp.isIsSpectatorTrue()).collect(Collectors.toList());
         spectateMember.setStatus("見学");
         spectateMember.setStatusMemberList(
-                spectateMemberList.stream().sorted(compareForMemberList()).map(mem -> convertToMemberDetailPart(mem)).collect(
-                        Collectors.toList()));
+                villagePlayers.filterSpectate().sortedBy(compareForMemberList()).map(mem -> convertToMemberDetailPart(mem)));
 
-        return Arrays.asList(aliveMember, executedMember, attackedMember, suddonlyDeathMember, spectateMember);
+        return Arrays.asList(aliveMember, executedMember, misrableMember, suicideMember, suddenlyDeathMember, spectateMember);
     }
 
     // 死亡日時の若い順→キャラIDの若い順
-    private Comparator<? super VillagePlayer> compareForMemberList() {
-        return (vp1, vp2) -> {
-            Integer vp1deadDay = vp1.getDeadDay();
-            Integer vp2deadDay = vp2.getDeadDay();
-            if (vp1deadDay != null && vp2deadDay != null) {
-                if (vp1deadDay == vp2deadDay) {
-                    return vp1.getCharaId() - vp2.getCharaId();
-                } else {
-                    return vp1deadDay - vp2deadDay;
-                }
-            }
-            return vp1.getCharaId() - vp2.getCharaId();
-        };
+    private Comparator<VillagePlayer> compareForMemberList() {
+        return Comparator.comparing(VillagePlayer::isIsDeadFalse) //
+                .thenComparing(vp -> Optional.ofNullable(vp.getDeadDay()).orElse(0)) //
+                .thenComparing(VillagePlayer::getCharaId);
     }
 
     private List<VillageRoomAssignedRowDto> convertToRoomAssignedPart(VillageInfo villageInfo) {
@@ -698,12 +578,12 @@ public class VillageAssist {
             room.setCharaImgWidth(chara.getDisplayWidth());
             room.setCharaImgHeight(chara.getDisplayHeight());
             room.setIsDummy(chara.getCharaId().equals(villageInfo.settings.getDummyCharaId()));
-            if (vp.getDeadDay() != null && vp.getDeadDay() <= villageInfo.day) {
+            if (vp.isAliveWhen(villageInfo.day)) {
+                room.setIsDead(false);
+            } else {
                 room.setIsDead(true);
                 room.setDeadDay(vp.getDeadDay());
                 room.setDeadReason(vp.getDeadReasonCode());
-            } else {
-                room.setIsDead(false);
             }
             if (isAvailableSeeMemberSkill(villageInfo)) {
                 room.setSkillName(vp.getSkillCodeAsSkill().alias());
@@ -803,7 +683,7 @@ public class VillageAssist {
     private List<NewVillageSayRestrictDto> convertToRestrictList(List<MessageRestriction> registeredRestrictList) {
         return SkillUtil.SORTED_SKILL_LIST.stream().map(skill -> {
             NewVillageSayRestrictDto restrict = new NewVillageSayRestrictDto();
-            restrict.setSkillName(skill.name());
+            restrict.setSkillName(skill.alias());
             restrict.setSkillCode(skill.code());
             restrict.setDetailList(createDetailList(skill, registeredRestrictList));
             return restrict;
@@ -817,6 +697,8 @@ public class VillageAssist {
             detailList.add(createDetail("囁き", CDef.MessageType.人狼の囁き.code(), skill, registeredRestrictList));
         } else if (skill == CDef.Skill.共鳴者) {
             detailList.add(createDetail("共鳴発言", CDef.MessageType.共鳴発言.code(), skill, registeredRestrictList));
+        } else if (skill == CDef.Skill.恋人 || skill == CDef.Skill.同棲者) {
+            detailList.add(createDetail("恋人発言", CDef.MessageType.恋人発言.code(), skill, registeredRestrictList));
         }
         return detailList;
     }

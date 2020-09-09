@@ -20,6 +20,7 @@ import com.ort.app.util.RoomUtil;
 import com.ort.app.util.SkillUtil;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.dbflute.allcommon.CDef;
+import com.ort.dbflute.allcommon.CDef.Camp;
 import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.exbhv.SkillBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
@@ -51,8 +52,6 @@ public class AssignLogic {
                     + "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊共共\n" // 18
                     + "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊霊共共\n" // 19
                     + "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊霊霊共共"; // 20
-    private static final List<Skill> rangeSkillList =
-            Arrays.asList(Skill.おまかせ人外, Skill.おまかせ人狼陣営, Skill.おまかせ役職窓あり, Skill.おまかせ村人陣営, Skill.おまかせ足音職);
     private static final Map<Skill, List<Skill>> rangeSkillMap;
     private static final List<CDef.Skill> MADMAN_PRIORITY_LIST =
             Arrays.asList(CDef.Skill.C国狂人, CDef.Skill.狂信者, CDef.Skill.魔神官, CDef.Skill.狂人);
@@ -61,16 +60,43 @@ public class AssignLogic {
 
     static {
         rangeSkillMap = new HashMap<Skill, List<Skill>>();
-        rangeSkillMap.put(Skill.おまかせ人外,
-                Arrays.asList(Skill.C国狂人, Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, Skill.妖狐, Skill.狂人, Skill.狂信者, Skill.魔神官, Skill.爆弾魔));
-        rangeSkillMap.put(Skill.おまかせ人狼陣営,
-                Arrays.asList(Skill.C国狂人, Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, Skill.狂人, Skill.狂信者, Skill.魔神官));
-        rangeSkillMap.put(Skill.おまかせ役職窓あり,
-                Arrays.asList(Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, Skill.C国狂人, Skill.共鳴者, Skill.同棲者, Skill.恋人));
-        rangeSkillMap.put(Skill.おまかせ村人陣営, Arrays.asList(Skill.共鳴者, Skill.占い師, Skill.導師, Skill.村人, Skill.狩人, Skill.賢者, Skill.霊能者, Skill.探偵,
-                Skill.罠師, Skill.占星術師, Skill.パン屋));
-        rangeSkillMap.put(Skill.おまかせ足音職, Arrays.asList(Skill.C国狂人, Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, Skill.占い師, Skill.占星術師, Skill.妖狐,
-                Skill.狂人, Skill.狂信者, Skill.狩人, Skill.賢者, Skill.魔神官, Skill.背徳者));
+
+        List<Skill> jingaiSkillList = CDef.Skill.listAll().stream().filter(s -> {
+            if (s.isSomeoneSkill())
+                return false;
+            Camp camp = Camp.codeOf(s.campCode());
+            return camp == CDef.Camp.人狼陣営 || camp == CDef.Camp.狐陣営 || camp == CDef.Camp.愉快犯陣営;
+        }).collect(Collectors.toList());
+        rangeSkillMap.put(Skill.おまかせ人外, jingaiSkillList);
+
+        List<Skill> wolfCampSkillList = CDef.Skill.listAll().stream().filter(s -> {
+            return !s.isSomeoneSkill() && Camp.codeOf(s.campCode()) == CDef.Camp.人狼陣営;
+        }).collect(Collectors.toList());
+        rangeSkillMap.put(Skill.おまかせ人狼陣営, wolfCampSkillList);
+
+        List<Skill> loversCampSkillList = CDef.Skill.listAll().stream().filter(s -> {
+            return !s.isSomeoneSkill() && Camp.codeOf(s.campCode()) == CDef.Camp.恋人陣営;
+        }).collect(Collectors.toList());
+        rangeSkillMap.put(Skill.おまかせ恋人陣営, loversCampSkillList);
+
+        List<Skill> sayableSkillList = CDef.Skill.listAll().stream().filter(s -> {
+            if (s.isSomeoneSkill())
+                return false;
+            return s.isAvailableWerewolfSay() || s == CDef.Skill.共鳴者 || s == CDef.Skill.恋人 || s == CDef.Skill.同棲者;
+        }).collect(Collectors.toList());
+        rangeSkillMap.put(Skill.おまかせ役職窓あり, sayableSkillList);
+
+        List<Skill> villagerCampSkillList = CDef.Skill.listAll().stream().filter(s -> {
+            return !s.isSomeoneSkill() && Camp.codeOf(s.campCode()) == CDef.Camp.村人陣営;
+        }).collect(Collectors.toList());
+        rangeSkillMap.put(Skill.おまかせ村人陣営, villagerCampSkillList);
+
+        List<Skill> footstepSkillList = CDef.Skill.listAll().stream().filter(s -> {
+            if (s.isSomeoneSkill())
+                return false;
+            return s.isHasAttackAbility() || s.isHasDisturbAbility() || s.isHasDivineAbility() || s == CDef.Skill.狩人;
+        }).collect(Collectors.toList());
+        rangeSkillMap.put(Skill.おまかせ足音職, footstepSkillList);
     }
 
     // ===================================================================================
@@ -313,7 +339,7 @@ public class AssignLogic {
     }
 
     private boolean existSkillInOrg(Skill skill, Map<Skill, Integer> skillPersonNumMap) {
-        if (skill == CDef.Skill.おまかせ || rangeSkillList.contains(skill)) {
+        if (skill.isSomeoneSkill()) {
             return true;
         }
         if (skill == CDef.Skill.村人) {
@@ -418,9 +444,12 @@ public class AssignLogic {
 
     private void assignRangeSkillRequest(List<SkillAssign> skillAssignList, Map<Skill, Integer> skillPersonNumMap, boolean isFirst) {
         // 範囲指定している人単位でランダム順に割り当てていく
-        List<SkillAssign> rangeRequestPlayerList =
-                skillAssignList.stream().filter(sa -> rangeSkillList.contains(sa.getRequest(isFirst)) && !sa.alreadyAssigned()).collect(
-                        Collectors.toList());
+        List<SkillAssign> rangeRequestPlayerList = skillAssignList.stream().filter(sa -> {
+            Skill requestSkill = sa.getRequest(isFirst);
+            return requestSkill != CDef.Skill.おまかせ //
+                    && requestSkill.isSomeoneSkill() //
+                    && !sa.alreadyAssigned();
+        }).collect(Collectors.toList());
         if (rangeRequestPlayerList.size() == 0) {
             return;
         }

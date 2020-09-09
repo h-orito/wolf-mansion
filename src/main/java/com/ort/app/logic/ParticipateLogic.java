@@ -1,7 +1,9 @@
 package com.ort.app.logic;
 
 import java.util.Arrays;
+import java.util.List;
 
+import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +11,7 @@ import com.ort.app.web.dto.VillageInfo;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.PlayerBhv;
+import com.ort.dbflute.exentity.Chara;
 
 @Component
 public class ParticipateLogic {
@@ -71,6 +74,19 @@ public class ParticipateLogic {
             return false;
         }
         return true;
+    }
+
+    // 参戦キャラとして選択可能なキャラを取得
+    public List<Chara> selectSelectableCharaList(VillageInfo villageInfo) {
+        List<Integer> alreadyParticipateCharaIdList = villageInfo.vPlayers.filterNotGone().map(vp -> vp.getCharaId());
+        ListResultBean<Chara> charaList = charaBhv.selectList(cb -> {
+            cb.query().setCharaGroupId_Equal(villageInfo.settings.getCharacterGroupId());
+            cb.query().setCharaId_NotInScope(alreadyParticipateCharaIdList);
+        });
+        charaBhv.loadCharaImage(charaList, ciCB -> {
+            ciCB.query().setFaceTypeCode_Equal_通常();
+        });
+        return charaList;
     }
 
     // ===================================================================================
