@@ -60,7 +60,7 @@ public class DefaultSetLogic {
         // 噛み
         attackLogic.insertDefaultAttack(village, newDay);
         // 占い
-        divineLogic.insertDefaultSeer(village, newDay);
+        divineLogic.insertDefaultDivine(village, newDay);
         // 狂人と妖狐の足音
         disturbLogic.insertDefaultFootstep(village, newDay);
         // 同棲

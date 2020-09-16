@@ -90,6 +90,9 @@ public class TrapLogic {
     }
 
     public VillagePlayers getSelectableTarget(Village village, VillagePlayer villagePlayer, int day) {
+        if (day < 2) {
+            return new VillagePlayers(new ArrayList<>());
+        }
         Abilities abilities = abilityService.selectAbilities(village.getVillageId());
         // 前日以前に能力行使していたらもう使えない
         if (!abilities.filterPastDay(day).filterByType(CDef.AbilityType.罠設置).filterByChara(villagePlayer.getCharaId()).list.isEmpty()) {
@@ -131,12 +134,8 @@ public class TrapLogic {
         if (villagePlayer.isIsDeadTrue()) {
             return true; // 死亡していたら設置できない
         }
-        if (village.getVillagePlayers().findByCharaId(targetCharaId).isIsDeadTrue()) {
-            return true; // 対象が死亡していてもだめ
-        }
-        Abilities abilities = abilityService.selectAbilities(village.getVillageId());
-        if (!abilities.filterPastDay(day).filterByType(CDef.AbilityType.罠設置).filterByChara(villagePlayer.getCharaId()).list.isEmpty()) {
-            return true; // もう過去に設置しているのでだめ
+        if (this.getSelectableTarget(village, villagePlayer, day).list.stream().noneMatch(vp -> vp.getCharaId().equals(targetCharaId))) {
+            return true; // 選べない対象を選んでいる
         }
         return false;
     }

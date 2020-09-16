@@ -80,16 +80,16 @@ public class AttackLogic {
             return;
         }
 
-        // 死亡処理
-        helper.updateVillagePlayerDead(dayChangeVillage.day, targetPlayer, CDef.DeadReason.襲撃);
-        dayChangeVillage.deadPlayers.add(targetPlayer, CDef.DeadReason.襲撃);
-
-        // 同棲者がいる部屋だったら両方死亡
+        // 同棲者がいる部屋だったら移動元の同棲者も死亡
         if (isCohabitting(dayChangeVillage, targetPlayer)) {
             VillagePlayer lover = targetPlayer.getTargetLover();
             helper.updateVillagePlayerDead(dayChangeVillage.day, lover, CDef.DeadReason.襲撃);
             dayChangeVillage.deadPlayers.add(lover, CDef.DeadReason.襲撃);
         }
+
+        // 死亡処理
+        helper.updateVillagePlayerDead(dayChangeVillage.day, targetPlayer, CDef.DeadReason.襲撃);
+        dayChangeVillage.deadPlayers.add(targetPlayer, CDef.DeadReason.襲撃);
 
         // 襲撃したのが智狼だったら襲撃対象の役職を表示
         if (isAttackerWiseWolf(dayChangeVillage, attack)) {
@@ -107,6 +107,9 @@ public class AttackLogic {
         Integer attackedCharaId = getSelectableTarget(village, newDay).getRandom().getCharaId();
         // 噛む人（生存している狼で、狼が2名以上の場合は昨日噛んだ人は除外）
         VillagePlayers attackableWolfs = getAttackableWolfs(village, newDay);
+        if (attackableWolfs.list.isEmpty()) {
+            return; // 全滅
+        }
         Integer attackCharaId = attackableWolfs.getRandom().getCharaId();
         // 能力セット
         abilityService.insertAbility(villageId, newDay, attackCharaId, attackedCharaId, null, CDef.AbilityType.襲撃);

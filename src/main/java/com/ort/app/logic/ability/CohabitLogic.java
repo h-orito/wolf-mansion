@@ -72,7 +72,7 @@ public class CohabitLogic {
         Collections.shuffle(list);
         list.forEach(cohabiter -> {
             VillagePlayer lover = cohabiter.getTargetLover();
-            if (cohabitSet.contains(cohabiter.getVillagePlayerId())) {
+            if (cohabitSet.contains(cohabiter.getVillagePlayerId()) || cohabitSet.contains(lover.getVillagePlayerId())) {
                 return;
             }
             abilityService.insertAbility(villageId, newDay, cohabiter.getCharaId(), lover.getCharaId(), null, CDef.AbilityType.同棲);

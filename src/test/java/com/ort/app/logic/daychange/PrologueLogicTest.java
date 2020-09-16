@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ort.TestAssist;
 import com.ort.WerewolfMansionTest;
@@ -28,6 +29,7 @@ import com.ort.dbflute.exentity.VillagePlayer;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class PrologueLogicTest extends WerewolfMansionTest {
 
     @Autowired

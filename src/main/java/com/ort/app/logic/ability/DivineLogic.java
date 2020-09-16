@@ -77,7 +77,7 @@ public class DivineLogic {
         });
     }
 
-    public void insertDefaultSeer(Village village, int newDay) {
+    public void insertDefaultDivine(Village village, int newDay) {
         Integer villageId = village.getVillageId();
         // 占う人
         VillagePlayers aliveSeers = village.getVillagePlayers() //
@@ -108,7 +108,7 @@ public class DivineLogic {
             Integer targetCharaId, //
             String footstep//
     ) {
-        if (isInvalidSeerAbility(village, villagePlayer, day, targetCharaId, footstep)) {
+        if (isInvalidDivineAbility(village, villagePlayer, day, targetCharaId, footstep)) {
             return;
         }
         Integer villageId = village.getVillageId();
@@ -257,7 +257,7 @@ public class DivineLogic {
         }
     }
 
-    private boolean isInvalidSeerAbility(Village village, VillagePlayer villagePlayer, int day, Integer targetCharaId, String footstep) {
+    private boolean isInvalidDivineAbility(Village village, VillagePlayer villagePlayer, int day, Integer targetCharaId, String footstep) {
         Integer charaId = villagePlayer.getCharaId();
         if (villagePlayer.isIsDeadTrue()) {
             return true;
