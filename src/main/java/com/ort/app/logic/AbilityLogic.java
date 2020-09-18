@@ -265,7 +265,17 @@ public class AbilityLogic {
     }
 
     public String createLoversCharaNameList(VillageInfo villageInfo) {
-        if (!isAbilityUsable(villageInfo.village, villageInfo.optVillagePlayer, villageInfo.day)) {
+        if (!villageInfo.optVillagePlayer.isPresent()) {
+            return null;
+        }
+        VillagePlayer villagePlayer = villageInfo.optVillagePlayer.get();
+        if (villagePlayer.isIsDeadTrue() || villagePlayer.isIsSpectatorTrue()) {
+            return null;
+        }
+        if (!villageInfo.village.isVillageStatusCode進行中()) {
+            return null;
+        }
+        if (!villageInfo.village.getVillageDays().latestDay().getDay().equals(villageInfo.day)) {
             return null;
         }
 
@@ -288,6 +298,7 @@ public class AbilityLogic {
                         loversSet.add(target);
                     }
                 });
+        Set<String> cohabitersSet = new HashSet<>();
         StringJoiner cohabitersJoiner = new StringJoiner("、", "同棲者は", "");
         villageInfo.vPlayers //
                 .filterNotDummy(villageInfo.settings.getDummyCharaId())
@@ -295,14 +306,18 @@ public class AbilityLogic {
                 .filterBySkill(CDef.Skill.同棲者).list.forEach(vp -> {
                     String myself = vp.name();
                     String target = vp.getTargetLover().name();
-                    if (!loversSet.contains(myself)) {
+                    if (!cohabitersSet.contains(myself)) {
                         cohabitersJoiner.add(myself + "と" + target);
-                        loversSet.add(myself);
-                        loversSet.add(target);
+                        cohabitersSet.add(myself);
+                        cohabitersSet.add(target);
                     }
                 });
-        joiner.add(loversJoiner.toString());
-        joiner.add(cohabitersJoiner.toString());
+        if (!loversSet.isEmpty()) {
+            joiner.add(loversJoiner.toString());
+        }
+        if (!cohabitersSet.isEmpty()) {
+            joiner.add(cohabitersJoiner.toString());
+        }
         return joiner.toString();
     }
 
