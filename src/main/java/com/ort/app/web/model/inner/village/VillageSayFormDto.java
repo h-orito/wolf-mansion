@@ -52,6 +52,7 @@ public class VillageSayFormDto {
         this.isAvailableSpectateSay = isAvailable;
         this.isAvailableMonologueSay = isAvailable;
         this.isAvailableSecretSay = isAvailable;
+        this.isAvailableLoversSay = isAvailable;
     }
 
     public Boolean getIsDispSayForm() {
