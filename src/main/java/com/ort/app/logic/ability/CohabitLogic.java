@@ -131,7 +131,7 @@ public class CohabitLogic {
         if (villagePlayer.isIsDeadTrue() || lover.isIsDeadTrue()) {
             return true;
         }
-        if (targetCharaId != villagePlayer.getCharaId() && targetCharaId != lover.getCharaId()) {
+        if (!villagePlayer.getCharaId().equals(targetCharaId) && !lover.getCharaId().equals(targetCharaId)) {
             return true;
         }
         return false;
