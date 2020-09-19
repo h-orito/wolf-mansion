@@ -727,9 +727,12 @@ public class VillageAssist {
                 .map(vp -> {
                     VillageMemberVoteDto voteDto = new VillageMemberVoteDto();
                     voteDto.setCharaName(vp.shortName());
-                    List<String> voteTargetList = villageInfo.votes.filterByChara(vp.getCharaId()).sortedByDay().map(v -> {
-                        return villageInfo.vPlayers.findByCharaId(v.getVoteCharaId()).shortName();
-                    });
+                    List<String> voteTargetList = villageInfo.votes.filterByChara(vp.getCharaId()) //
+                            .filterBy(v -> v.getDay() < villageInfo.day) //
+                            .sortedByDay()
+                            .map(v -> {
+                                return villageInfo.vPlayers.findByCharaId(v.getVoteCharaId()).shortName();
+                            });
                     voteDto.setVoteTargetList(voteTargetList);
                     return voteDto;
                 });

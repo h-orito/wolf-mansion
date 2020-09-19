@@ -55,7 +55,7 @@ public class VillageInfo {
 
     // 投票が始まっているか
     public boolean isStartedVote() {
-        return days.latestDay().getDay() >= 2;
+        return days.latestDay().getDay() > 2;
     }
 
     // 足音セットが始まっているか
