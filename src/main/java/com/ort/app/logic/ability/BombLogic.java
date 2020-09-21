@@ -176,7 +176,8 @@ public class BombLogic {
         if (villagePlayer.isIsDeadTrue()) {
             return true; // 死亡していたら設置できない
         }
-        if (this.getSelectableTarget(village, villagePlayer, day).list.stream().noneMatch(vp -> vp.getCharaId().equals(targetCharaId))) {
+        if (targetCharaId != null && this.getSelectableTarget(village, villagePlayer, day).list.stream()
+                .noneMatch(vp -> vp.getCharaId().equals(targetCharaId))) {
             return true; // 選べない対象を選んでいる
         }
         return false;
