@@ -104,9 +104,9 @@ public class BombLogic {
         Integer villageId = village.getVillageId();
         Integer charaId = villagePlayer.getCharaId();
         if (targetCharaId == null) {
-            abilityService.deleteAbility(villageId, day, charaId, CDef.AbilityType.罠設置);
+            abilityService.deleteAbility(villageId, day, charaId, CDef.AbilityType.爆弾設置);
         } else {
-            abilityService.updateAbility(villageId, day, charaId, targetCharaId, CDef.AbilityType.罠設置);
+            abilityService.updateAbility(villageId, day, charaId, targetCharaId, CDef.AbilityType.爆弾設置);
         }
         insertAbilitySetMessage(village, day, villagePlayer, targetCharaId, false);
     }
