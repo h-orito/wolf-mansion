@@ -1,0 +1,55 @@
+# Java Maven CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/openjdk:8-jdk
+
+    branches:
+      only:
+        - master
+
+    working_directory: ~/werewolf-mansion
+
+    environment:
+      # Customize the JVM maximum heap limit
+      MAVEN_OPTS: -Xmx3200m
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: mvn dependency:go-offline
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
+
+      # package
+      - run: mvn -Dmaven.test.skip=true package
+
+      - add_ssh_keys:
+          fingerprints:
+            - "${SSH_FINGERPRINTS}"
+
+      - run:
+          name: Start ssh-keyscan
+          command: |
+            ssh-keyscan -p ${SSH_PORT} ${SSH_IPADDRESS} >> ~/.ssh/known_hosts
+      - deploy:
+          name: Upload jar
+          command: scp -P ${SSH_PORT} ./target/werewolf-mansion-0.0.1-SNAPSHOT.jar ${SSH_USERNAME}@${SSH_IPADDRESS}:${SSH_APP_PATH}wolf-mansion.jar
+      - run:
+          name: Deploy
+          command: ssh -p ${SSH_PORT} ${SSH_USERNAME}@${SSH_IPADDRESS} "sudo sh deploy/deploy_mansion.sh"
