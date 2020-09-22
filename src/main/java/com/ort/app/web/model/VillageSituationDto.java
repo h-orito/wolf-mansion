@@ -10,6 +10,8 @@ public class VillageSituationDto {
 
     private String suddonlyDeathChara;
 
+    private String suicideChara;
+
     private String divinedChara;
 
     private String guardedChara;
@@ -80,6 +82,14 @@ public class VillageSituationDto {
 
     public void setInvestigation(String investigation) {
         this.investigation = investigation;
+    }
+
+    public String getSuicideChara() {
+        return suicideChara;
+    }
+
+    public void setSuicideChara(String suicideChara) {
+        this.suicideChara = suicideChara;
     }
 
 }

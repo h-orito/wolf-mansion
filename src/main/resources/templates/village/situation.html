@@ -77,6 +77,7 @@
 												<th>処刑</th>
 												<th>犠牲</th>
 												<th>突然死</th>
+												<th>後追</th>
 												<th class="hidden" th:if="${content.isDispSpoilerContent}" data-spoiled-content>襲撃</th>
 												<th class="hidden" th:if="${content.isDispSpoilerContent}" data-spoiled-content>占い</th>
 												<th class="hidden" th:if="${content.isDispSpoilerContent}" data-spoiled-content>護衛</th>
@@ -89,6 +90,7 @@
 												<td th:text="${situation.executedChara}"></td>
 												<td th:text="${situation.attackedChara}"></td>
 												<td th:text="${situation.suddonlyDeathChara}"></td>
+												<td th:text="${situation.suicideChara}"></td>
 												<td class="hidden" th:text="${situation.attack}" th:if="${content.isDispSpoilerContent}" data-spoiled-content></td>
 												<td class="hidden" th:if="${content.isDispSpoilerContent}" data-spoiled-content><th:block
 														th:each="str, stat : ${situation.divinedChara.split('\r\n|\r|\n', -1)}">
