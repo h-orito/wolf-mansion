@@ -41,6 +41,17 @@
 							<div class="row" data-message-area>
 								<div class="message col-sm-12 col-xs-12 text-muted">読み込み中...</div>
 							</div>
+							<div class="row">
+								<div class="col-sm-12 col-xs-12 crearfix" th:unless="${noAd}" style="margin-top: 15px;">
+									<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+									<!-- werewolf-mansion-log-bottom -->
+									<ins class="adsbygoogle" style="display: block" data-ad-client="ca-pub-0917187897820609" data-ad-slot="2768254717" data-ad-format="auto"
+										data-full-width-responsive="true"></ins>
+									<script>
+										(adsbygoogle = window.adsbygoogle || []).push({});
+									</script>
+								</div>
+							</div>
 							<hr style="margin-top: 5px; margin-bottom: 10px; margin-left: -15px;" />
 						</div>
 
@@ -70,7 +81,8 @@
 			</div>
 
 			<div class="hidden">
-				<form id="say-confirm-form" th:if="${content.form.say.isDispSayForm}" method="post" action="" th:action="@{/village/{villageId}/say(villageId=${content.villageId})}"></form>
+				<form id="say-confirm-form" th:if="${content.form.say.isDispSayForm}" method="post" action=""
+					th:action="@{/village/{villageId}/say(villageId=${content.villageId})}"></form>
 			</div>
 			<div class="daychange-alert alert alert-success">日付が更新されました。ページを再読み込みしてください。</div>
 			<div id="autorefresh-alert" class="autorefresh-alert alert alert-success">最新発言を読み込みました</div>

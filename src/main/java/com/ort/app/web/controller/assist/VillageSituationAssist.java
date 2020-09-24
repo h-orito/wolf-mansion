@@ -90,7 +90,9 @@ public class VillageSituationAssist {
         VillagePlayers executed = deadPlayers.filterBy(vp -> vp.isDeadReasonCode処刑());
         situation.setExecutedChara(executed.list.isEmpty() ? "なし" : String.join("、", executed.map(VillagePlayer::shortName)));
         VillagePlayers suicide = deadPlayers.filterBy(vp -> vp.isDeadReasonCode後追());
-        situation.setSuicideChara(suicide.list.isEmpty() ? "なし" : String.join("、", suicide.map(VillagePlayer::shortName)));
+        situation.setSuicideChara(suicide.list.isEmpty() ? "なし" : String.join("、", suicide.map(vp -> {
+            return String.format("%s(%s)", vp.shortName(), vp.getTargetLover().shortName());
+        })));
         return situation;
     }
 
