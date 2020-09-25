@@ -133,6 +133,11 @@ public class MessageLogic {
         insertMessageIgnoreError(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
     }
 
+    // 能力セットメッセージ登録
+    public void insertPublicAbilityMessage(Integer villageId, int day, String message) {
+        insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, message);
+    }
+
     // 当日の自分の発言取得（発言制限用）
     public List<Message> selectDayPersonMessage(Integer villageId, int day, Integer vPlayerId) {
         ListResultBean<Message> messageList = messageBhv.selectList(cb -> {

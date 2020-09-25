@@ -219,6 +219,14 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     }
 
     /**
+     * Set the value of skillCode as 指揮官 (COMMANDER). <br>
+     * 指揮官
+     */
+    public void setSkillCode_指揮官() {
+        setSkillCodeAsSkill(CDef.Skill.指揮官);
+    }
+
+    /**
      * Set the value of skillCode as 検死官 (CORONER). <br>
      * 検死官
      */
@@ -328,6 +336,14 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
      */
     public void setSkillCode_おまかせ恋人陣営() {
         setSkillCodeAsSkill(CDef.Skill.おまかせ恋人陣営);
+    }
+
+    /**
+     * Set the value of skillCode as 強運者 (LUCKYMAN). <br>
+     * 強運者
+     */
+    public void setSkillCode_強運者() {
+        setSkillCodeAsSkill(CDef.Skill.強運者);
     }
 
     /**
@@ -629,6 +645,17 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     }
 
     /**
+     * Is the value of skillCode 指揮官? <br>
+     * 指揮官
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode指揮官() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.指揮官) : false;
+    }
+
+    /**
      * Is the value of skillCode 検死官? <br>
      * 検死官
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -780,6 +807,17 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     public boolean isSkillCodeおまかせ恋人陣営() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.おまかせ恋人陣営) : false;
+    }
+
+    /**
+     * Is the value of skillCode 強運者? <br>
+     * 強運者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode強運者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.強運者) : false;
     }
 
     /**

@@ -41,7 +41,6 @@
 							<!--/* 能力行使フォーム */-->
 							<div class="collapse in" aria-expanded="true" style="margin-top: 10px;" id="skill-tab-area">
 								<p layout:replace="~{village/skill-selecting::skill-selecting}"></p>
-								<hr />
 
 								<!--/* 人狼、占い師、狩人用能力セット */-->
 								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
@@ -137,7 +136,7 @@
 						<!--/* 能力行使履歴 */-->
 						<div th:if="${content.form.ability.skillHistoryList != null && content.form.ability.skillHistoryList.size() > 0}">
 							<hr />
-							<p class="">前日までの能力セット履歴</p>
+							<p class="">能力セット履歴</p>
 							<p class="small" th:each="historyStr : ${content.form.ability.skillHistoryList}" th:text="${historyStr}"></p>
 						</div>
 					</div>

@@ -232,6 +232,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
     }
 
     /**
+     * Equal(=). As 指揮官 (COMMANDER). And OnlyOnceRegistered. <br>
+     * 指揮官
+     */
+    public void setSkillCode_Equal_指揮官() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.指揮官);
+    }
+
+    /**
      * Equal(=). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
      * 検死官
      */
@@ -341,6 +349,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
      */
     public void setSkillCode_Equal_おまかせ恋人陣営() {
         setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ恋人陣営);
+    }
+
+    /**
+     * Equal(=). As 強運者 (LUCKYMAN). And OnlyOnceRegistered. <br>
+     * 強運者
+     */
+    public void setSkillCode_Equal_強運者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.強運者);
     }
 
     /**
@@ -503,6 +519,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 指揮官 (COMMANDER). And OnlyOnceRegistered. <br>
+     * 指揮官
+     */
+    public void setSkillCode_NotEqual_指揮官() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.指揮官);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 検死官 (CORONER). And OnlyOnceRegistered. <br>
      * 検死官
      */
@@ -612,6 +636,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
      */
     public void setSkillCode_NotEqual_おまかせ恋人陣営() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ恋人陣営);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 強運者 (LUCKYMAN). And OnlyOnceRegistered. <br>
+     * 強運者
+     */
+    public void setSkillCode_NotEqual_強運者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.強運者);
     }
 
     /**

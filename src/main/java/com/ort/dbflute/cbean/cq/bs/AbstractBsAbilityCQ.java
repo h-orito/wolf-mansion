@@ -756,6 +756,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 指揮 (COMMAND). And OnlyOnceRegistered. <br>
+     * 指揮
+     */
+    public void setAbilityTypeCode_Equal_指揮() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.指揮);
+    }
+
+    /**
      * Equal(=). As 占い (DIVINE). And OnlyOnceRegistered. <br>
      * 占い
      */
@@ -832,6 +840,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_同棲() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.同棲);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 指揮 (COMMAND). And OnlyOnceRegistered. <br>
+     * 指揮
+     */
+    public void setAbilityTypeCode_NotEqual_指揮() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.指揮);
     }
 
     /**

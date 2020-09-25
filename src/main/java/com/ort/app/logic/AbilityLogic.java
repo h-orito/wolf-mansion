@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import com.ort.app.logic.ability.AttackLogic;
 import com.ort.app.logic.ability.BombLogic;
 import com.ort.app.logic.ability.CohabitLogic;
+import com.ort.app.logic.ability.CommandLogic;
 import com.ort.app.logic.ability.DisturbLogic;
 import com.ort.app.logic.ability.DivineLogic;
 import com.ort.app.logic.ability.GuardLogic;
@@ -48,6 +49,8 @@ public class AbilityLogic {
     private BombLogic bombLogic;
     @Autowired
     private CohabitLogic cohabitLogic;
+    @Autowired
+    private CommandLogic commandLogic;
 
     // ===================================================================================
     //                                                                             Execute
@@ -84,6 +87,9 @@ public class AbilityLogic {
             break;
         case COHABIT:
             cohabitLogic.setAbility(village, villagePlayer, day, targetCharaId);
+            break;
+        case COMMAND:
+            commandLogic.setAbility(village, villagePlayer, day, targetCharaId);
             break;
         default:
             return;
@@ -137,6 +143,11 @@ public class AbilityLogic {
         case COHABIT:
             selectablePlayers = cohabitLogic.getSelectableTarget(villagePlayer);
             break;
+        case COMMAND:
+            // 「なし」も選べるのでここで返す
+            List<OptionDto> l = commandLogic.getSelectableTarget(village, villagePlayer, day).map(vp -> new OptionDto(vp));
+            l.add(0, new OptionDto("なし", ""));
+            return l;
         default:
             return null;
         }
@@ -189,6 +200,8 @@ public class AbilityLogic {
             return bombLogic.makeSkillHistoryList(village, villagePlayer, day);
         case COHABIT:
             return cohabitLogic.makeSkillHistoryList(village, villagePlayer, day);
+        case COMMAND:
+            return commandLogic.makeSkillHistoryList(village, villagePlayer, day);
         default:
             return new ArrayList<>();
         }
@@ -350,6 +363,8 @@ public class AbilityLogic {
             return "を護衛する";
         case COHABIT:
             return "の部屋で過ごす";
+        case COMMAND:
+            return "を指差す";
         default:
             return null;
         }
@@ -372,7 +387,7 @@ public class AbilityLogic {
     }
 
     private enum AbilityType {
-        ATTACK, DIVINE, GUARD, DISTURB, INVESTIGATE, TRAP, BOMB, COHABIT
+        ATTACK, DIVINE, GUARD, DISTURB, INVESTIGATE, TRAP, BOMB, COHABIT, COMMAND
     }
 
     private AbilityType detectAbilityType(CDef.Skill skill) {
@@ -392,6 +407,8 @@ public class AbilityLogic {
             return AbilityType.BOMB;
         } else if (skill == CDef.Skill.同棲者) {
             return AbilityType.COHABIT;
+        } else if (skill == CDef.Skill.指揮官) {
+            return AbilityType.COMMAND;
         }
         return null;
     }
@@ -410,6 +427,7 @@ public class AbilityLogic {
         case INVESTIGATE:
         case TRAP:
         case BOMB:
+        case COMMAND:
             return day > 1;
         default:
             return false;

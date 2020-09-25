@@ -1,7 +1,6 @@
 package com.ort.app.logic.daychange;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.VillagePlayer;
+import com.ort.dbflute.exentity.VillagePlayers;
 import com.ort.dbflute.exentity.Vote;
 
 @Component
@@ -40,8 +40,7 @@ public class ExecuteLogic {
         // 得票数トップのプレイヤーを取得（複数いる可能性があるのでリスト）
         Map<Integer, Integer> voteNumMap = new HashMap<>();
         List<Integer> executedCharaIdList = makeExecutedCandidateList(voteList, voteNumMap);
-        Collections.shuffle(executedCharaIdList); // 得票数が同じ場合はランダム
-        VillagePlayer executedPlayer = dayChangeVillage.vPlayers.findByCharaId(executedCharaIdList.get(0));
+        VillagePlayer executedPlayer = decideExecutedPlayer(dayChangeVillage.vPlayers, executedCharaIdList);
 
         // 処刑
         if (dayChangeVillage.isAlive(executedPlayer)) {
@@ -53,6 +52,18 @@ public class ExecuteLogic {
         insertExecuteResultMessage(dayChangeVillage, voteNumMap, executedPlayer);
 
         dayChangeVillage.deadPlayers.add(executedPlayer, CDef.DeadReason.処刑);
+    }
+
+    // 得票数トップの人の中から処刑する対象を決定
+    private VillagePlayer decideExecutedPlayer(VillagePlayers vPlayers, List<Integer> executedCharaIdList) {
+        VillagePlayers candidatePlayers = vPlayers.filterBy(vp -> executedCharaIdList.contains(vp.getCharaId()));
+        // 強運者を除いて1名以上存在する場合は強運者を除いてランダム選出
+        VillagePlayers withoutLuckymanPlayers = candidatePlayers.filterBy(vp -> vp.getSkillCodeAsSkill() != CDef.Skill.強運者);
+        if (withoutLuckymanPlayers.list.size() > 0) {
+            return withoutLuckymanPlayers.getRandom();
+        }
+        // そうでない場合は全体からランダム選出
+        return candidatePlayers.getRandom();
     }
 
     // 得票数トップのプレイヤーを取得（複数いる可能性があるのでリスト）
