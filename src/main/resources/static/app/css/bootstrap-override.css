@@ -212,6 +212,12 @@ tr.top-menu-selectable:hover a {
 	border: 1px solid #f2cece;
 }
 
+.message-owl {
+	color: #333333;
+	background-color: #aeaef2;
+	border: 1px solid #aeaef2;
+}
+
 .message-monologue {
 	color: #333333;
 	background-color: #aaa;

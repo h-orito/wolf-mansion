@@ -178,7 +178,8 @@ public class ProgressLogic {
         long werewolfCount = alivePlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill().isHasAttackAbility()).count();
         // 人間の数
         long villagerCount = alivePlayerList.stream()
-                .filter(vp -> !vp.getSkillCodeAsSkill().isHasAttackAbility() && vp.getSkillCodeAsSkill() != CDef.Skill.妖狐)
+                .filter(vp -> !vp.getSkillCodeAsSkill().isHasAttackAbility() && vp.getSkillCodeAsSkill() != CDef.Skill.妖狐
+                        && vp.getSkillCodeAsSkill() != CDef.Skill.梟)
                 .count();
         // 妖狐の数
         long foxCount = alivePlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.妖狐).count();

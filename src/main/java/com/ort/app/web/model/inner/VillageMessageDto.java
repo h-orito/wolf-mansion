@@ -40,6 +40,9 @@ public class VillageMessageDto {
     /** 変換無効か */
     private Boolean isConvertDisable;
 
+    /** 梟による地獄耳か */
+    private Boolean isBigEars;
+
     public String getPlayerName() {
         return playerName;
     }
@@ -139,5 +142,13 @@ public class VillageMessageDto {
 
     public void setIsConvertDisable(Boolean isConvertDisable) {
         this.isConvertDisable = isConvertDisable;
+    }
+
+    public Boolean getIsBigEars() {
+        return isBigEars;
+    }
+
+    public void setIsBigEars(Boolean isBigEars) {
+        this.isBigEars = isBigEars;
     }
 }

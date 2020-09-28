@@ -84,8 +84,9 @@ public class VillageMessageAssist {
         String suddonlyDeathMessage = makeSuddonlyDeathMessage(village, isLatestDay, day);
         String villageStatusMessage = makeVillageStatusMessage(village, isLatestDay, optVillagePlayer, day);
         String commitStatusMessage = makeCommitStatusMessage(village, isLatestDay, day);
+        boolean isBigEars = optVillagePlayer.isPresent() && optVillagePlayer.get().isSkillCode梟() && village.isVillageStatusCode進行中();
         VillageMessageListResultContent content = mappingToMessageListContent(village, messageList, villageStatusMessage,
-                suddonlyDeathMessage, commitStatusMessage, latestDay);
+                suddonlyDeathMessage, commitStatusMessage, latestDay, isBigEars);
         return content;
     }
 
@@ -103,7 +104,7 @@ public class VillageMessageAssist {
         if (message == null) {
             return content;
         }
-        content.setMessage(convertToMessage(village, message));
+        content.setMessage(convertToMessage(village, message, false));
         return content;
     }
 
@@ -288,9 +289,9 @@ public class VillageMessageAssist {
     //                                                                             Mapping
     //                                                                             =======
     private VillageMessageListResultContent mappingToMessageListContent(Village village, PagingResultBean<Message> messageList,
-            String villageStatusMessage, String suddonlyDeathMessage, String commitStatusMessage, int latestDay) {
+            String villageStatusMessage, String suddonlyDeathMessage, String commitStatusMessage, int latestDay, boolean isBigEars) {
         VillageMessageListResultContent content = new VillageMessageListResultContent();
-        content.setMessageList(convertToMessageList(village, messageList));
+        content.setMessageList(convertToMessageList(village, messageList, isBigEars));
         content.setVillageStatusMessage(villageStatusMessage);
         content.setSuddonlyDeathMessage(suddonlyDeathMessage);
         content.setCommitStatusMessage(commitStatusMessage);
@@ -378,11 +379,11 @@ public class VillageMessageAssist {
         return maxVillageDay;
     }
 
-    private List<VillageMessageDto> convertToMessageList(Village village, List<Message> messageList) {
-        return messageList.stream().map(message -> convertToMessage(village, message)).collect(Collectors.toList());
+    private List<VillageMessageDto> convertToMessageList(Village village, List<Message> messageList, boolean isBigEars) {
+        return messageList.stream().map(message -> convertToMessage(village, message, isBigEars)).collect(Collectors.toList());
     }
 
-    private VillageMessageDto convertToMessage(Village village, Message message) {
+    private VillageMessageDto convertToMessage(Village village, Message message, boolean isBigEars) {
         VillageMessageDto messageDto = new VillageMessageDto();
         message.getVillagePlayerByVillagePlayerId().ifPresent(vp -> {
             Chara chara = vp.getChara().get();
@@ -409,7 +410,15 @@ public class VillageMessageAssist {
             messageDto.setMessageNumber(message.getMessageNumber());
         }
         messageDto.setMessageType(message.getMessageTypeCodeAsMessageType().code());
+        messageDto.setIsBigEars(shouldHideContent(message, isBigEars));
         return messageDto;
+    }
+
+    private boolean shouldHideContent(Message message, boolean isBigEars) {
+        if (!isBigEars)
+            return false;
+        MessageType type = message.getMessageTypeCodeAsMessageType();
+        return type == CDef.MessageType.人狼の囁き || type == CDef.MessageType.共鳴発言 || type == CDef.MessageType.恋人発言;
     }
 
     // ===================================================================================
@@ -457,6 +466,8 @@ public class VillageMessageAssist {
         addAttackMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addInvestigateMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addSystemMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
+        // 梟はここで追加
+        addPrivateSayMessageForOwl(dispAllowedMessageTypeList, village, optVillagePlayer);
         return dispAllowedMessageTypeList;
     }
 
@@ -719,6 +730,23 @@ public class VillageMessageAssist {
     private boolean isLatestDay(Integer villageId, int day) {
         ListResultBean<VillageDay> dayList = villageDayBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
         return dayList.get(dayList.size() - 1).getDay().equals(day);
+    }
+
+    // 梟
+    private void addPrivateSayMessageForOwl(List<MessageType> dispAllowedMessageTypeList, Village village,
+            OptionalEntity<VillagePlayer> optVillagePlayer) {
+        if (!optVillagePlayer.isPresent() || !optVillagePlayer.get().isSkillCode梟()) {
+            return;
+        }
+        if (!dispAllowedMessageTypeList.contains(CDef.MessageType.人狼の囁き)) {
+            dispAllowedMessageTypeList.add(CDef.MessageType.人狼の囁き);
+        }
+        if (!dispAllowedMessageTypeList.contains(CDef.MessageType.共鳴発言)) {
+            dispAllowedMessageTypeList.add(CDef.MessageType.共鳴発言);
+        }
+        if (!dispAllowedMessageTypeList.contains(CDef.MessageType.恋人発言)) {
+            dispAllowedMessageTypeList.add(CDef.MessageType.恋人発言);
+        }
     }
 
     // 突然死ありの場合に投票していない人を表示する
