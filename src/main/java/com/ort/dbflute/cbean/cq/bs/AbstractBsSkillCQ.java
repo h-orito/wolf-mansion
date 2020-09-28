@@ -263,6 +263,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 梟 (OWL). And OnlyOnceRegistered. <br>
+     * 梟
+     */
+    public void setSkillCode_Equal_梟() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.梟);
+    }
+
+    /**
      * Equal(=). As 占い師 (SEER). And OnlyOnceRegistered. <br>
      * 占い師
      */
@@ -547,6 +555,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_おまかせ人外() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ人外);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 梟 (OWL). And OnlyOnceRegistered. <br>
+     * 梟
+     */
+    public void setSkillCode_NotEqual_梟() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.梟);
     }
 
     /**

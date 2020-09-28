@@ -1108,6 +1108,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 梟 (OWL). And OnlyOnceRegistered. <br>
+     * 梟
+     */
+    public void setSkillCode_Equal_梟() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.梟);
+    }
+
+    /**
      * Equal(=). As 占い師 (SEER). And OnlyOnceRegistered. <br>
      * 占い師
      */
@@ -1392,6 +1400,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_おまかせ人外() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ人外);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 梟 (OWL). And OnlyOnceRegistered. <br>
+     * 梟
+     */
+    public void setSkillCode_NotEqual_梟() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.梟);
     }
 
     /**
@@ -1839,6 +1855,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 梟 (OWL). And OnlyOnceRegistered. <br>
+     * 梟
+     */
+    public void setRequestSkillCode_Equal_梟() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.梟);
+    }
+
+    /**
      * Equal(=). As 占い師 (SEER). And OnlyOnceRegistered. <br>
      * 占い師
      */
@@ -2123,6 +2147,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_おまかせ人外() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ人外);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 梟 (OWL). And OnlyOnceRegistered. <br>
+     * 梟
+     */
+    public void setRequestSkillCode_NotEqual_梟() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.梟);
     }
 
     /**
@@ -2570,6 +2602,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 梟 (OWL). And OnlyOnceRegistered. <br>
+     * 梟
+     */
+    public void setSecondRequestSkillCode_Equal_梟() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.梟);
+    }
+
+    /**
      * Equal(=). As 占い師 (SEER). And OnlyOnceRegistered. <br>
      * 占い師
      */
@@ -2854,6 +2894,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_おまかせ人外() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ人外);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 梟 (OWL). And OnlyOnceRegistered. <br>
+     * 梟
+     */
+    public void setSecondRequestSkillCode_NotEqual_梟() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.梟);
     }
 
     /**
