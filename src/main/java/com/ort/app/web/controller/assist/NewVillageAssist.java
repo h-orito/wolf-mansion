@@ -4,8 +4,11 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +26,7 @@ import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageForm;
 import com.ort.app.web.form.NewVillageSayRestrictDetailDto;
 import com.ort.app.web.model.common.SelectOptionDto;
+import com.ort.app.web.model.inner.NewVillageDivertVillageDto;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.CharaGroupBhv;
@@ -76,6 +80,14 @@ public class NewVillageAssist {
         form.initialize();
         model.addAttribute("villageForm", form);
 
+        // 終了した村リスト
+        List<NewVillageDivertVillageDto> villageList = villageBhv.selectList(cb -> {
+            cb.query().setVillageStatusCode_InScope_AsVillageStatus(
+                    Arrays.asList(CDef.VillageStatus.エピローグ, CDef.VillageStatus.廃村, CDef.VillageStatus.終了));
+            cb.query().addOrderBy_VillageId_Asc();
+        }).stream().map(v -> new NewVillageDivertVillageDto(v.getVillageId(), v.getVillageDisplayName())).collect(Collectors.toList());
+        model.addAttribute("villageList", villageList);
+
         // 役職リスト
         model.addAttribute("skillListStr", SkillUtil.getSkillListStr());
 
@@ -86,6 +98,51 @@ public class NewVillageAssist {
         ListResultBean<CharaGroup> charaGroupList = charaGroupBhv.selectList(cb -> cb.setupSelect_Designer());
         List<SelectOptionDto<Integer>> characterSetList = convertToCharacterSetList(charaGroupList);
         model.addAttribute("characterSetList", characterSetList);
+    }
+
+    // 設定流用
+    public void override(NewVillageForm form, Model model, Integer villageId) {
+        VillageSettings settings = villageSettingsBhv.selectEntityWithDeletedCheck(cb -> cb.query().setVillageId_Equal(villageId));
+        form.setStartPersonMinNum(settings.getStartPersonMinNum());
+        form.setPersonMaxNum(settings.getPersonMaxNum());
+        form.setDayChangeIntervalHours(settings.getDayChangeIntervalSeconds() / 3600);
+        form.setDayChangeIntervalMinutes((settings.getDayChangeIntervalSeconds() % 3600) / 60);
+        form.setDayChangeIntervalSeconds(settings.getDayChangeIntervalSeconds() % 60);
+        form.setCharacterSetId(settings.getCharacterGroupId());
+        form.setDummyCharaId(settings.getDummyCharaId());
+        form.setOrganization(settings.getOrganize().trim());
+        form.setIsPossibleSkillRequest(settings.getIsPossibleSkillRequest());
+        form.setIsAvailableSameWolfAttack(settings.getIsAvailableSameWolfAttack());
+        form.setIsAvailableGuardSameTarget(settings.getIsAvailableGuardSameTarget());
+        form.setIsAvailableSuddonlyDeath(settings.getIsAvailableSuddonlyDeath());
+        form.setIsAvailableCommit(settings.getIsAvailableCommit());
+        form.setIsAvailableSpectate(settings.getIsAvailableSpectate());
+        form.setIsOpenSkillInGrave(settings.getIsOpenSkillInGrave());
+        form.setIsVisibleGraveSpectateMessage(settings.getIsVisibleGraveSpectateMessage());
+        form.setAllowedSecretSayCode(settings.getAllowedSecretSayCode());
+        form.setIsOpenVote(settings.getIsOpenVote());
+        ListResultBean<MessageRestriction> restrictList = messageRestrictionBhv.selectList(cb -> {
+            cb.query().setVillageId_Equal(villageId);
+        });
+        form.getSayRestrictList().forEach(formRest -> {
+            String skillCode = formRest.getSkillCode();
+            formRest.getDetailList().forEach(detail -> {
+                Optional<MessageRestriction> optRestrict = restrictList.stream()
+                        .filter(rest -> rest.getSkillCode().equals(skillCode)
+                                && rest.getMessageTypeCode().equals(detail.getMessageTypeCode()))
+                        .findFirst();
+                if (optRestrict.isPresent()) {
+                    detail.setIsRestrict(true);
+                    detail.setCount(optRestrict.get().getMessageMaxNum());
+                    detail.setLength(optRestrict.get().getMessageMaxLength());
+                } else {
+                    detail.setIsRestrict(false);
+                    detail.setCount(20);
+                    detail.setLength(400);
+                }
+            });
+        });
+        model.addAttribute("villageForm", form);
     }
 
     public boolean isEnoughCharacterNum(NewVillageForm villageForm) {

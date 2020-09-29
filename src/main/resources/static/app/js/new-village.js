@@ -118,4 +118,11 @@ $(function() {
 		});
 		initRestrict();
 	});
+	
+	$('#divert-btn').on('click', function(){
+		const villageId = $('#divert-village').val();
+		const $form = $('#divert-form');
+		$form.attr('action', contextPath + 'new-village/divert/' + villageId);
+		$form.submit();
+	});
 });

@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -55,6 +56,14 @@ public class NewVillageController {
     @RequestMapping("/new-village") // 戻る場合もあるのでpostもok
     private String newVillageIndex(NewVillageForm form, Model model) {
         newVillageAssist.setIndexModel(form, model);
+        return "new-village";
+    }
+
+    // 新規村作成_流用
+    @PostMapping("/new-village/divert/{villageId}")
+    private String divert(@PathVariable Integer villageId, NewVillageForm form, Model model) {
+        newVillageAssist.setIndexModel(form, model);
+        newVillageAssist.override(form, model, villageId);
         return "new-village";
     }
 

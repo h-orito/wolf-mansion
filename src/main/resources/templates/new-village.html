@@ -14,7 +14,32 @@
 			<div id="wrapper">
 				<div class="col-sm-12 col-xs-12">
 					<h1 class="h4">村作成</h1>
-					<p><span class="text-danger">*</span> のついている項目は村作成後に変更できません。</p>
+					<p>
+						<span class="text-danger">*</span> のついている項目は村作成後に変更できません。
+					</p>
+					<form method="post" id="divert-form" action="" th:action="@{/new-village/divert}" class="form-horizontal">
+						<hr />
+						<h2 class="h5">設定流用</h2>
+						<div class="form-group">
+							<label class="col-sm-3 col-xs-12 control-label">他の村から流用する</label>
+							<div class="col-sm-3 col-xs-4">
+								<select id="divert-village" class="form-control">
+									<option th:each="v : ${villageList}" th:value="${v.villageId}" th:text="${v.villageNo + ': ' + v.villageName}"></option>
+								</select>
+							</div>
+							<div class="col-sm-3"></div>
+							<div class="col-xs-12 col-sm-9">
+								<p class="">
+									編集状態は一切保持されず、[村名、開始日時、入村発言、入村パスワード]以外が全て選択した村の設定内容になります。<br> また、選択した村を作成した時点で実装されていない役職については発言制限が無制限になっているので注意してください。
+								</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-12 col-xs-12 pull-right">
+								<input id="divert-btn" type="button" class="btn btn-sm btn-success pull-right" value="流用する" />
+							</div>
+						</div>
+					</form>
 					<span class="text-danger" th:if="${errorMessage}" th:text="${errorMessage}">error</span>
 					<form method="post" id="new-village-form" action="" th:action="@{/new-village/confirm}" th:object="${villageForm}" class="form-horizontal">
 						<hr />
@@ -22,20 +47,20 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label">村名 <span class="text-danger">*</span></label>
 							<div class="col-sm-9">
-								<input type="text" class="form-control" th:field="*{villageName}" placeholder="【身内】レタス村" />
-								<span th:if="${#fields.hasErrors('villageName')}" th:errors="*{villageName}" class="help-block text-danger">error!</span>
+								<input type="text" class="form-control" th:field="*{villageName}" placeholder="【身内】レタス村" /> <span th:if="${#fields.hasErrors('villageName')}"
+									th:errors="*{villageName}" class="help-block text-danger">error!</span>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 col-xs-3 control-label">最低開始人数</label>
 							<div class="col-sm-3 col-xs-3">
-								<input type="number" class="form-control" th:field="*{startPersonMinNum}" placeholder="8" />
-								<span th:if="${#fields.hasErrors('startPersonMinNum')}" th:errors="*{startPersonMinNum}" class="help-block text-danger">error!</span>
+								<input type="number" class="form-control" th:field="*{startPersonMinNum}" placeholder="8" /> <span
+									th:if="${#fields.hasErrors('startPersonMinNum')}" th:errors="*{startPersonMinNum}" class="help-block text-danger">error!</span>
 							</div>
 							<label class="col-sm-3 col-xs-3 control-label">定員</label>
 							<div class="col-sm-3 col-xs-3">
-								<input type="number" class="form-control" th:field="*{personMaxNum}" placeholder="16" />
-								<span th:if="${#fields.hasErrors('personMaxNum')}" th:errors="*{personMaxNum}" class="help-block text-danger">error!</span>
+								<input type="number" class="form-control" th:field="*{personMaxNum}" placeholder="16" /> <span th:if="${#fields.hasErrors('personMaxNum')}"
+									th:errors="*{personMaxNum}" class="help-block text-danger">error!</span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -141,7 +166,7 @@
 								<p>最低開始人数〜定員までの構成を全て入れてください。</p>
 								<p th:text="${skillListStr}"></p>
 								<p>ダミーは必ず村人となるため、村を1名以上入れてください。</p>
-								
+
 								<span th:if="${#fields.hasErrors('organization')}" th:errors="*{organization}" class="help-block text-danger">error!</span>
 							</div>
 						</div>
@@ -149,9 +174,9 @@
 							<label class="col-sm-3 col-xs-12 control-label">役職希望 <span class="text-danger">*</span></label>
 							<div class="col-sm-4 btn-group" data-toggle="buttons">
 								<label th:class="'btn btn-sm btn-dark-success ' + *{isPossibleSkillRequest ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isPossibleSkillRequest}" value="true" autocomplete="off" checked />有効
+									th:field="*{isPossibleSkillRequest}" value="true" autocomplete="off" checked />有効
 								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isPossibleSkillRequest ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isPossibleSkillRequest}" value="false" autocomplete="off" />無効
+									th:field="*{isPossibleSkillRequest}" value="false" autocomplete="off" />無効
 								</label>
 							</div>
 						</div>
@@ -159,9 +184,9 @@
 							<label class="col-sm-3 col-xs-12 control-label">同一人狼による連続襲撃</label>
 							<div class="col-sm-9 btn-group" data-toggle="buttons">
 								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSameWolfAttack ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isAvailableSameWolfAttack}" value="true" autocomplete="off" checked="checked" />可能
+									th:field="*{isAvailableSameWolfAttack}" value="true" autocomplete="off" checked="checked" />可能
 								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSameWolfAttack ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isAvailableSameWolfAttack}" value="false" autocomplete="off" />不可
+									th:field="*{isAvailableSameWolfAttack}" value="false" autocomplete="off" />不可
 								</label>
 							</div>
 							<div class="col-sm-3"></div>
@@ -175,9 +200,9 @@
 							<label class="col-sm-3 col-xs-12 control-label">狩人による連続護衛</label>
 							<div class="col-sm-9 btn-group" data-toggle="buttons">
 								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableGuardSameTarget ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isAvailableGuardSameTarget}" value="true" autocomplete="off" checked="checked" />可能
+									th:field="*{isAvailableGuardSameTarget}" value="true" autocomplete="off" checked="checked" />可能
 								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableGuardSameTarget ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isAvailableGuardSameTarget}" value="false" autocomplete="off" />不可
+									th:field="*{isAvailableGuardSameTarget}" value="false" autocomplete="off" />不可
 								</label>
 							</div>
 							<div class="col-sm-3"></div>
@@ -189,9 +214,9 @@
 							<label class="col-sm-3 col-xs-12 control-label">突然死</label>
 							<div class="col-sm-9 btn-group" data-toggle="buttons">
 								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSuddonlyDeath ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isAvailableSuddonlyDeath}" value="true" autocomplete="off" checked="checked" />あり
+									th:field="*{isAvailableSuddonlyDeath}" value="true" autocomplete="off" checked="checked" />あり
 								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSuddonlyDeath ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isAvailableSuddonlyDeath}" value="false" autocomplete="off" />なし
+									th:field="*{isAvailableSuddonlyDeath}" value="false" autocomplete="off" />なし
 								</label>
 							</div>
 							<div class="col-sm-3"></div>
@@ -203,9 +228,9 @@
 							<label class="col-sm-3 col-xs-12 control-label">コミット</label>
 							<div class="col-sm-9 btn-group" data-toggle="buttons">
 								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableCommit ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isAvailableCommit}" value="true" autocomplete="off" checked="checked" />あり
+									th:field="*{isAvailableCommit}" value="true" autocomplete="off" checked="checked" />あり
 								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableCommit ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isAvailableCommit}" value="false" autocomplete="off" />なし
+									th:field="*{isAvailableCommit}" value="false" autocomplete="off" />なし
 								</label>
 							</div>
 							<div class="col-sm-3"></div>
@@ -221,9 +246,9 @@
 							<label class="col-sm-3 col-xs-12 control-label">見学入村</label>
 							<div class="col-sm-9 btn-group" data-toggle="buttons">
 								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSpectate ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isAvailableSpectate}" value="true" autocomplete="off" />可能
+									th:field="*{isAvailableSpectate}" value="true" autocomplete="off" />可能
 								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSpectate ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isAvailableSpectate}" value="false" autocomplete="off" checked="checked" />不可
+									th:field="*{isAvailableSpectate}" value="false" autocomplete="off" checked="checked" />不可
 								</label>
 							</div>
 							<div class="col-sm-3"></div>
@@ -235,9 +260,9 @@
 							<label class="col-sm-3 col-xs-12 control-label">墓下見学役職公開</label>
 							<div class="col-sm-9 btn-group" data-toggle="buttons">
 								<label th:class="'btn btn-sm btn-dark-success ' + *{isOpenSkillInGrave ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isOpenSkillInGrave}" value="true" autocomplete="off" checked="checked" />公開
+									th:field="*{isOpenSkillInGrave}" value="true" autocomplete="off" checked="checked" />公開
 								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isOpenSkillInGrave ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isOpenSkillInGrave}" value="false" autocomplete="off" />非公開
+									th:field="*{isOpenSkillInGrave}" value="false" autocomplete="off" />非公開
 								</label>
 							</div>
 							<div class="col-sm-3"></div>
@@ -249,9 +274,9 @@
 							<label class="col-sm-3 col-xs-12 control-label">墓下見学会話公開</label>
 							<div class="col-sm-9 btn-group" data-toggle="buttons">
 								<label th:class="'btn btn-sm btn-dark-success ' + *{isVisibleGraveSpectateMessage ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isVisibleGraveSpectateMessage}" value="true" autocomplete="off" checked="checked" />公開
+									th:field="*{isVisibleGraveSpectateMessage}" value="true" autocomplete="off" checked="checked" />公開
 								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isVisibleGraveSpectateMessage ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isVisibleGraveSpectateMessage}" value="false" autocomplete="off" />非公開
+									th:field="*{isVisibleGraveSpectateMessage}" value="false" autocomplete="off" />非公開
 								</label>
 							</div>
 							<div class="col-sm-3"></div>
@@ -264,8 +289,8 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label">入村パスワード</label>
 							<div class="col-sm-9">
-								<input type="text" class="form-control" th:field="*{joinPassword}" placeholder="3文字以上12文字以下（任意）" />
-								<span th:if="${#fields.hasErrors('joinPassword')}" th:errors="*{joinPassword}" class="help-block text-danger">error!</span>
+								<input type="text" class="form-control" th:field="*{joinPassword}" placeholder="3文字以上12文字以下（任意）" /> <span
+									th:if="${#fields.hasErrors('joinPassword')}" th:errors="*{joinPassword}" class="help-block text-danger">error!</span>
 							</div>
 							<div class="col-sm-3"></div>
 							<div class="col-xs-12 col-sm-9">
@@ -297,9 +322,9 @@
 							<label class="col-sm-3 col-xs-12 control-label">投票</label>
 							<div class="col-sm-9 col-xs-12 btn-group" data-toggle="buttons">
 								<label th:class="'btn btn-sm btn-dark-success ' + *{isOpenVote ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isOpenVote}" value="true" autocomplete="off" checked />記名
+									th:field="*{isOpenVote}" value="true" autocomplete="off" checked />記名
 								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isOpenVote ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isOpenVote}" value="false" autocomplete="off" />無記名
+									th:field="*{isOpenVote}" value="false" autocomplete="off" />無記名
 								</label>
 							</div>
 							<div class="col-sm-3"></div>
