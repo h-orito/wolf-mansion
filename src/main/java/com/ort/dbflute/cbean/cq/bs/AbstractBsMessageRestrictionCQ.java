@@ -392,6 +392,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
     }
 
     /**
+     * Equal(=). As おまかせ役職窓なし (NOFRIENDS). And OnlyOnceRegistered. <br>
+     * おまかせ（役職窓なし）
+     */
+    public void setSkillCode_Equal_おまかせ役職窓なし() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ役職窓なし);
+    }
+
+    /**
      * Equal(=). As おまかせ人外 (NOVILLAGERS). And OnlyOnceRegistered. <br>
      * おまかせ（人外）
      */
@@ -695,6 +703,14 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
     }
 
     /**
+     * NotEqual(&lt;&gt;). As おまかせ役職窓なし (NOFRIENDS). And OnlyOnceRegistered. <br>
+     * おまかせ（役職窓なし）
+     */
+    public void setSkillCode_NotEqual_おまかせ役職窓なし() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ役職窓なし);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As おまかせ人外 (NOVILLAGERS). And OnlyOnceRegistered. <br>
      * おまかせ（人外）
      */
@@ -881,7 +897,7 @@ public abstract class AbstractBsMessageRestrictionCQ extends AbstractConditionQu
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * おまかせ系 <br>
-     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
      */
     public void setSkillCode_InScope_SomeoneSkill() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfSomeoneSkill());

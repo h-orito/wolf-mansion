@@ -1108,6 +1108,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As おまかせ役職窓なし (NOFRIENDS). And OnlyOnceRegistered. <br>
+     * おまかせ（役職窓なし）
+     */
+    public void setSkillCode_Equal_おまかせ役職窓なし() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ役職窓なし);
+    }
+
+    /**
      * Equal(=). As おまかせ人外 (NOVILLAGERS). And OnlyOnceRegistered. <br>
      * おまかせ（人外）
      */
@@ -1411,6 +1419,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As おまかせ役職窓なし (NOFRIENDS). And OnlyOnceRegistered. <br>
+     * おまかせ（役職窓なし）
+     */
+    public void setSkillCode_NotEqual_おまかせ役職窓なし() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ役職窓なし);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As おまかせ人外 (NOVILLAGERS). And OnlyOnceRegistered. <br>
      * おまかせ（人外）
      */
@@ -1597,7 +1613,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * おまかせ系 <br>
-     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
      */
     public void setSkillCode_InScope_SomeoneSkill() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfSomeoneSkill());
@@ -1868,6 +1884,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_Equal_霊能者() {
         setRequestSkillCode_Equal_AsSkill(CDef.Skill.霊能者);
+    }
+
+    /**
+     * Equal(=). As おまかせ役職窓なし (NOFRIENDS). And OnlyOnceRegistered. <br>
+     * おまかせ（役職窓なし）
+     */
+    public void setRequestSkillCode_Equal_おまかせ役職窓なし() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.おまかせ役職窓なし);
     }
 
     /**
@@ -2174,6 +2198,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As おまかせ役職窓なし (NOFRIENDS). And OnlyOnceRegistered. <br>
+     * おまかせ（役職窓なし）
+     */
+    public void setRequestSkillCode_NotEqual_おまかせ役職窓なし() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ役職窓なし);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As おまかせ人外 (NOVILLAGERS). And OnlyOnceRegistered. <br>
      * おまかせ（人外）
      */
@@ -2360,7 +2392,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * おまかせ系 <br>
-     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
      */
     public void setRequestSkillCode_InScope_SomeoneSkill() {
         setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfSomeoneSkill());
@@ -2631,6 +2663,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_Equal_霊能者() {
         setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.霊能者);
+    }
+
+    /**
+     * Equal(=). As おまかせ役職窓なし (NOFRIENDS). And OnlyOnceRegistered. <br>
+     * おまかせ（役職窓なし）
+     */
+    public void setSecondRequestSkillCode_Equal_おまかせ役職窓なし() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.おまかせ役職窓なし);
     }
 
     /**
@@ -2937,6 +2977,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As おまかせ役職窓なし (NOFRIENDS). And OnlyOnceRegistered. <br>
+     * おまかせ（役職窓なし）
+     */
+    public void setSecondRequestSkillCode_NotEqual_おまかせ役職窓なし() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ役職窓なし);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As おまかせ人外 (NOVILLAGERS). And OnlyOnceRegistered. <br>
      * おまかせ（人外）
      */
@@ -3123,7 +3171,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * おまかせ系 <br>
-     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
      */
     public void setSecondRequestSkillCode_InScope_SomeoneSkill() {
         setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfSomeoneSkill());

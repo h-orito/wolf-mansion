@@ -558,6 +558,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as おまかせ役職窓なし (NOFRIENDS). <br>
+     * おまかせ（役職窓なし）
+     */
+    public void setSkillCode_おまかせ役職窓なし() {
+        setSkillCodeAsSkill(CDef.Skill.おまかせ役職窓なし);
+    }
+
+    /**
      * Set the value of skillCode as おまかせ人外 (NOVILLAGERS). <br>
      * おまかせ（人外）
      */
@@ -838,6 +846,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as おまかせ役職窓なし (NOFRIENDS). <br>
+     * おまかせ（役職窓なし）
+     */
+    public void setRequestSkillCode_おまかせ役職窓なし() {
+        setRequestSkillCodeAsSkill(CDef.Skill.おまかせ役職窓なし);
+    }
+
+    /**
      * Set the value of requestSkillCode as おまかせ人外 (NOVILLAGERS). <br>
      * おまかせ（人外）
      */
@@ -1115,6 +1131,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_霊能者() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.霊能者);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as おまかせ役職窓なし (NOFRIENDS). <br>
+     * おまかせ（役職窓なし）
+     */
+    public void setSecondRequestSkillCode_おまかせ役職窓なし() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.おまかせ役職窓なし);
     }
 
     /**
@@ -1596,6 +1620,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of skillCode おまかせ役職窓なし? <br>
+     * おまかせ（役職窓なし）
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCodeおまかせ役職窓なし() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.おまかせ役職窓なし) : false;
+    }
+
+    /**
      * Is the value of skillCode おまかせ人外? <br>
      * おまかせ（人外）
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1787,7 +1822,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * おまかせ系 <br>
-     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_SomeoneSkill() {
@@ -2071,6 +2106,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode おまかせ役職窓なし? <br>
+     * おまかせ（役職窓なし）
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCodeおまかせ役職窓なし() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.おまかせ役職窓なし) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode おまかせ人外? <br>
      * おまかせ（人外）
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -2262,7 +2308,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * おまかせ系 <br>
-     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
      * @return The determination, true or false.
      */
     public boolean isRequestSkillCode_SomeoneSkill() {
@@ -2546,6 +2592,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of secondRequestSkillCode おまかせ役職窓なし? <br>
+     * おまかせ（役職窓なし）
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCodeおまかせ役職窓なし() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.おまかせ役職窓なし) : false;
+    }
+
+    /**
      * Is the value of secondRequestSkillCode おまかせ人外? <br>
      * おまかせ（人外）
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -2737,7 +2794,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * おまかせ系 <br>
-     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
      * @return The determination, true or false.
      */
     public boolean isSecondRequestSkillCode_SomeoneSkill() {

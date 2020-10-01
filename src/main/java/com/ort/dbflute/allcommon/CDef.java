@@ -604,6 +604,9 @@ public interface CDef extends Classification {
         /** 霊能者 */
         霊能者("MEDIUM", "霊能者", emptyStrings())
         ,
+        /** おまかせ（役職窓なし） */
+        おまかせ役職窓なし("NOFRIENDS", "おまかせ（役職窓なし）", emptyStrings())
+        ,
         /** おまかせ（人外） */
         おまかせ人外("NOVILLAGERS", "おまかせ（人外）", emptyStrings())
         ,
@@ -822,6 +825,13 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "36");
+                subItemMap.put("campCode", "VILLAGER");
+                subItemMap.put("skill_short_name", "お");
+                _subItemMapMap.put(おまかせ役職窓なし.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
                 subItemMap.put("order", "33");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "お");
@@ -994,11 +1004,11 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * おまかせ系 <br>
-         * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+         * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
          * @return The determination, true or false.
          */
         public boolean isSomeoneSkill() {
-            return おまかせ.equals(this) || おまかせ村人陣営.equals(this) || おまかせ人狼陣営.equals(this) || おまかせ恋人陣営.equals(this) || おまかせ足音職.equals(this) || おまかせ役職窓あり.equals(this) || おまかせ人外.equals(this);
+            return おまかせ.equals(this) || おまかせ村人陣営.equals(this) || おまかせ人狼陣営.equals(this) || おまかせ恋人陣営.equals(this) || おまかせ足音職.equals(this) || おまかせ役職窓あり.equals(this) || おまかせ役職窓なし.equals(this) || おまかせ人外.equals(this);
         }
 
         public boolean inGroup(String groupName) {
@@ -1185,11 +1195,11 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * おまかせ系 <br>
-         * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]
+         * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfSomeoneSkill() {
-            return new ArrayList<Skill>(Arrays.asList(おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外));
+            return new ArrayList<Skill>(Arrays.asList(おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外));
         }
 
         /**

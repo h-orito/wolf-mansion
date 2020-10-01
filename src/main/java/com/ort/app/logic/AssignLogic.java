@@ -55,7 +55,7 @@ public class AssignLogic {
     private static final Map<Skill, List<Skill>> rangeSkillMap;
     private static final List<CDef.Skill> MADMAN_PRIORITY_LIST =
             Arrays.asList(CDef.Skill.C国狂人, CDef.Skill.狂信者, CDef.Skill.魔神官, CDef.Skill.狂人);
-    private static final List<CDef.Skill> WOLF_PRIORITY_LIST = Arrays.asList(CDef.Skill.智狼, CDef.Skill.呪狼, CDef.Skill.人狼);
+    private static final List<CDef.Skill> WOLF_PRIORITY_LIST = Arrays.asList(CDef.Skill.智狼, CDef.Skill.呪狼, CDef.Skill.絶対人狼, CDef.Skill.人狼);
     private static final List<CDef.Skill> SEER_PRIORITY_LIST = Arrays.asList(CDef.Skill.賢者, CDef.Skill.占星術師, CDef.Skill.占い師);
 
     static {
@@ -85,6 +85,13 @@ public class AssignLogic {
             return s.isAvailableWerewolfSay() || s == CDef.Skill.共鳴者 || s == CDef.Skill.恋人 || s == CDef.Skill.同棲者;
         }).collect(Collectors.toList());
         rangeSkillMap.put(Skill.おまかせ役職窓あり, sayableSkillList);
+
+        List<Skill> notSayableSkillList = CDef.Skill.listAll().stream().filter(s -> {
+            if (s.isSomeoneSkill())
+                return false;
+            return !s.isAvailableWerewolfSay() && s != CDef.Skill.共鳴者 && s != CDef.Skill.恋人 && s != CDef.Skill.同棲者;
+        }).collect(Collectors.toList());
+        rangeSkillMap.put(Skill.おまかせ役職窓なし, notSayableSkillList);
 
         List<Skill> villagerCampSkillList = CDef.Skill.listAll().stream().filter(s -> {
             return !s.isSomeoneSkill() && Camp.codeOf(s.campCode()) == CDef.Camp.村人陣営;
