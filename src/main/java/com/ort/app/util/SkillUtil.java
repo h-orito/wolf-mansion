@@ -19,9 +19,9 @@ import com.ort.dbflute.allcommon.CDef.Skill;
 public class SkillUtil {
 
     // 能力セットできる役職
-    public static List<CDef.Skill> SET_AVAILABLE_SKILL_LIST = Arrays.asList(CDef.Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, CDef.Skill.占い師,
-            CDef.Skill.狩人, CDef.Skill.狂人, CDef.Skill.妖狐, CDef.Skill.背徳者, CDef.Skill.C国狂人, CDef.Skill.狂信者, CDef.Skill.賢者, CDef.Skill.占星術師,
-            CDef.Skill.魔神官, CDef.Skill.探偵, CDef.Skill.罠師, CDef.Skill.爆弾魔, CDef.Skill.同棲者, CDef.Skill.指揮官);
+    public static List<CDef.Skill> SET_AVAILABLE_SKILL_LIST = Arrays.asList(CDef.Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, CDef.Skill.絶対人狼,
+            CDef.Skill.占い師, CDef.Skill.狩人, CDef.Skill.狂人, CDef.Skill.妖狐, CDef.Skill.背徳者, CDef.Skill.C国狂人, CDef.Skill.狂信者, CDef.Skill.賢者,
+            CDef.Skill.占星術師, CDef.Skill.魔神官, CDef.Skill.探偵, CDef.Skill.罠師, CDef.Skill.爆弾魔, CDef.Skill.同棲者, CDef.Skill.指揮官);
     // 上記のうち、1日目には能力行使できない役職
     public static List<CDef.Skill> SECOND_DAY_SET_AVAILABLE_SKILL_LIST =
             Arrays.asList(CDef.Skill.狩人, CDef.Skill.探偵, CDef.Skill.罠師, CDef.Skill.爆弾魔, CDef.Skill.指揮官);

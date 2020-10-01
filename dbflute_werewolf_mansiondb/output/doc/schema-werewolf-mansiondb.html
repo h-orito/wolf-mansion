@@ -5334,16 +5334,32 @@ VOTE
 				<th>Name</th>
 				<th>Alias</th>
 				<th>Comment</th>
-				<th><span class="clsgroup" title="囁き可能 :: [人狼, 呪狼, 智狼, C国狂人]">availableWerewolfSay</span></th>
+				<th><span class="clsgroup" title="囁き可能 :: [人狼, 呪狼, 智狼, 絶対人狼, C国狂人]">availableWerewolfSay</span></th>
 				<th><span class="clsgroup" title="占い能力を持つ :: [占い師, 賢者, 占星術師]">hasDivineAbility</span></th>
 				<th><span class="clsgroup" title="役職霊能能力を持つ :: [導師, 魔神官]">hasSkillPsychicAbility</span></th>
-				<th><span class="clsgroup" title="襲撃能力を持つ :: [人狼, 呪狼, 智狼]">hasAttackAbility</span></th>
+				<th><span class="clsgroup" title="襲撃能力を持つ :: [人狼, 呪狼, 智狼, 絶対人狼]">hasAttackAbility</span></th>
 				<th><span class="clsgroup" title="狂人能力を持つ :: [C国狂人, 狂人, 狂信者, 魔神官]">hasMadmanAbility</span></th>
 				<th><span class="clsgroup" title="徘徊能力を持つ :: [C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 背徳者]">hasDisturbAbility</span></th>
 				<th><span class="clsgroup" title="襲撃されても死なない :: [妖狐, 爆弾魔]">noDeadByAttack</span></th>
-				<th><span class="clsgroup" title="人狼が誰かを知ることができる :: [人狼, 呪狼, 智狼, C国狂人, 狂信者]">viewableWolfCharaName</span></th>
+				<th><span class="clsgroup" title="人狼が誰かを知ることができる :: [人狼, 呪狼, 智狼, 絶対人狼, C国狂人, 狂信者]">viewableWolfCharaName</span></th>
 				<th><span class="clsgroup" title="おまかせ系 :: [おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ人外]">someoneSkill</span></th>
 				<th>SubItem</th>
+			</tr>
+			<tr>
+				<td>ABSOLUTEWOLF</td>
+				<td>絶対人狼</td>
+				<td>絶対人狼</td>
+				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell">o</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=18<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=絶</td>
 			</tr>
 			<tr>
 				<td>ASTROLOGER</td>
@@ -5391,7 +5407,7 @@ VOTE
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=26<br>,&nbsp;campCode=CRIMINAL<br>,&nbsp;skill_short_name=爆</td>
+				<td>order=27<br>,&nbsp;campCode=CRIMINAL<br>,&nbsp;skill_short_name=爆</td>
 			</tr>
 			<tr>
 				<td>CMADMAN</td>
@@ -5407,7 +5423,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=19<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=C</td>
+				<td>order=20<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=C</td>
 			</tr>
 			<tr>
 				<td>COHABITER</td>
@@ -5423,7 +5439,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=23<br>,&nbsp;campCode=LOVERS<br>,&nbsp;skill_short_name=棲</td>
+				<td>order=24<br>,&nbsp;campCode=LOVERS<br>,&nbsp;skill_short_name=棲</td>
 			</tr>
 			<tr>
 				<td>COMMANDER</td>
@@ -5503,7 +5519,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=20<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=魔</td>
+				<td>order=21<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=魔</td>
 			</tr>
 			<tr>
 				<td>FANATIC</td>
@@ -5519,7 +5535,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=21<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=信</td>
+				<td>order=22<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=信</td>
 			</tr>
 			<tr>
 				<td>FOOTSTEPS</td>
@@ -5535,7 +5551,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=33<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td>order=34<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>FOX</td>
@@ -5551,7 +5567,7 @@ VOTE
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=24<br>,&nbsp;campCode=FOX<br>,&nbsp;skill_short_name=狐</td>
+				<td>order=25<br>,&nbsp;campCode=FOX<br>,&nbsp;skill_short_name=狐</td>
 			</tr>
 			<tr>
 				<td>FRIENDS</td>
@@ -5567,7 +5583,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=33<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td>order=35<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>GURU</td>
@@ -5615,7 +5631,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=25<br>,&nbsp;campCode=FOX<br>,&nbsp;skill_short_name=背</td>
+				<td>order=26<br>,&nbsp;campCode=FOX<br>,&nbsp;skill_short_name=背</td>
 			</tr>
 			<tr>
 				<td>LEFTOVER</td>
@@ -5631,7 +5647,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=28<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td>order=29<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>LOVER</td>
@@ -5647,7 +5663,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=22<br>,&nbsp;campCode=LOVERS<br>,&nbsp;skill_short_name=恋</td>
+				<td>order=23<br>,&nbsp;campCode=LOVERS<br>,&nbsp;skill_short_name=恋</td>
 			</tr>
 			<tr>
 				<td>LOVERS</td>
@@ -5663,7 +5679,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=31<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td>order=32<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>LUCKYMAN</td>
@@ -5695,7 +5711,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=18<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=狂</td>
+				<td>order=19<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=狂</td>
 			</tr>
 			<tr>
 				<td>MASON</td>
@@ -5743,7 +5759,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=32<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td>order=33<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>OWL</td>
@@ -5759,7 +5775,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=27<br>,&nbsp;campCode=CRIMINAL<br>,&nbsp;skill_short_name=梟</td>
+				<td>order=28<br>,&nbsp;campCode=CRIMINAL<br>,&nbsp;skill_short_name=梟</td>
 			</tr>
 			<tr>
 				<td>SEER</td>
@@ -5823,7 +5839,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=29<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td>order=30<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>WEREWOLF</td>
@@ -5855,7 +5871,7 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=30<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td>order=31<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>WISE</td>

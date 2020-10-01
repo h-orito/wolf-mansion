@@ -28,6 +28,7 @@ import com.ort.app.logic.ability.InvestigateLogic;
 import com.ort.app.logic.ability.PsychicLogic;
 import com.ort.app.logic.ability.SuicideLogic;
 import com.ort.app.logic.ability.TrapLogic;
+import com.ort.app.logic.daychange.ability.RevivalLogic;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Camp;
 import com.ort.dbflute.exbhv.VillageBhv;
@@ -79,6 +80,8 @@ public class ProgressLogic {
     private AutopsyLogic autopsyLogic;
     @Autowired
     private BakeryLogic bakeryLogic;
+    @Autowired
+    private RevivalLogic revivalLogic;
     @Autowired
     private DefaultSetLogic defaultSetLogic;
     @Autowired
@@ -145,11 +148,14 @@ public class ProgressLogic {
         // 無惨メッセージ
         miserableLogic.insertAttackedMessage(dayChangeVillage);
 
-        // 後追い
-        suicideLogic.suicide(dayChangeVillage);
-
         // 検死
         autopsyLogic.autopsy(dayChangeVillage);
+
+        // 絶対人狼の復活
+        revivalLogic.revivalAbsoluteWolf(dayChangeVillage);
+
+        // 後追い
+        suicideLogic.suicide(dayChangeVillage);
 
         if (day == 2 && !dayChangeVillage.deadPlayers.filterAttacked().list.isEmpty()) {
             helper.insertMessage(dayChangeVillage, CDef.MessageType.公開システムメッセージ,

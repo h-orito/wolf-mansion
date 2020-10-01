@@ -68,6 +68,10 @@ public class DayChangeVillage {
             list.forEach(vp -> this.add(vp, reason));
         }
 
+        public void remove(VillagePlayer vp) {
+            this.list.removeIf(dp -> dp.villagePlayer.getVillagePlayerId().equals(vp.getVillagePlayerId()));
+        }
+
         public DeadPlayers() {
         }
 

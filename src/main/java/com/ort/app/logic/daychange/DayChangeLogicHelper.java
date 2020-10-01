@@ -176,6 +176,14 @@ public class DayChangeLogicHelper {
         villagePlayerBhv.queryUpdate(vPlayer, cb -> cb.query().setVillagePlayerId_Equal(targetPlayer.getVillagePlayerId()));
     }
 
+    public void updateVillagePlayerRevive(int day, VillagePlayer targetPlayer) {
+        VillagePlayer vPlayer = new VillagePlayer();
+        vPlayer.setDeadReasonCodeAsDeadReason(null);
+        vPlayer.setIsDead_False();
+        vPlayer.setDeadDay(null);
+        villagePlayerBhv.queryUpdate(vPlayer, cb -> cb.query().setVillagePlayerId_Equal(targetPlayer.getVillagePlayerId()));
+    }
+
     public void deadBomberIfNeeded(Village village, int day) {
         Integer villageId = village.getVillageId();
         village.getVillagePlayers().filterAlive().filterBySkill(CDef.Skill.爆弾魔).list.forEach(bomber -> {

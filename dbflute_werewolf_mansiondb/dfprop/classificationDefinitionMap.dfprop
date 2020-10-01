@@ -88,7 +88,7 @@ map:{
 	        	; groupingMap = map:{
 	        		; availableWerewolfSay = map:{
 	        			; groupComment=囁き可能
-	        			; elementList= list:{人狼;呪狼;智狼;C国狂人}
+	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;C国狂人}
 	        		}
 	        		; hasDivineAbility = map:{
 	        			; groupComment=占い能力を持つ
@@ -100,7 +100,7 @@ map:{
 	        		}
 	        		; hasAttackAbility = map:{
 	        			; groupComment=襲撃能力を持つ
-	        			; elementList= list:{人狼;呪狼;智狼}
+	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼}
 	        		}
 	        		; hasMadmanAbility = map:{
 	        			; groupComment=狂人能力を持つ
@@ -116,7 +116,7 @@ map:{
 	        		}
 	        		; viewableWolfCharaName = map:{
 	        			; groupComment=人狼が誰かを知ることができる
-	        			; elementList= list:{人狼;呪狼;智狼;C国狂人;狂信者}
+	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;C国狂人;狂信者}
 	        		}
 				; someoneSkill = map:{
 					; groupComment=おまかせ系

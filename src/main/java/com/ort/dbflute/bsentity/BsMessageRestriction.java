@@ -179,6 +179,14 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     //                                                              Classification Setting
     //                                                              ======================
     /**
+     * Set the value of skillCode as 絶対人狼 (ABSOLUTEWOLF). <br>
+     * 絶対人狼
+     */
+    public void setSkillCode_絶対人狼() {
+        setSkillCodeAsSkill(CDef.Skill.絶対人狼);
+    }
+
+    /**
      * Set the value of skillCode as 占星術師 (ASTROLOGER). <br>
      * 占星術師
      */
@@ -598,6 +606,17 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
     //                                                        Classification Determination
     //                                                        ============================
     /**
+     * Is the value of skillCode 絶対人狼? <br>
+     * 絶対人狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode絶対人狼() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.絶対人狼) : false;
+    }
+
+    /**
      * Is the value of skillCode 占星術師? <br>
      * 占星術師
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -973,7 +992,7 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
 
     /**
      * 囁き可能 <br>
-     * The group elements:[人狼, 呪狼, 智狼, C国狂人]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, C国狂人]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_AvailableWerewolfSay() {
@@ -1003,7 +1022,7 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
 
     /**
      * 襲撃能力を持つ <br>
-     * The group elements:[人狼, 呪狼, 智狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_HasAttackAbility() {
@@ -1043,7 +1062,7 @@ public abstract class BsMessageRestriction extends AbstractEntity implements Dom
 
     /**
      * 人狼が誰かを知ることができる <br>
-     * The group elements:[人狼, 呪狼, 智狼, C国狂人, 狂信者]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, C国狂人, 狂信者]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_ViewableWolfCharaName() {

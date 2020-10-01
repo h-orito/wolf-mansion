@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
+import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.AssignLogic;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.TwitterLogic;
@@ -45,6 +46,8 @@ public class PrologueLogic {
     private DefaultSetLogic defaultSetLogic;
     @Autowired
     private VillagePlayerBhv villagePlayerBhv;
+    @Autowired
+    private VillageService villageService;
 
     // プロローグで長時間接続していない人がいたら退村させる
     public void leaveVillageIfNeeded(VillageInfo vInfo) {
@@ -89,6 +92,7 @@ public class PrologueLogic {
         assignLogic.assignRoom(vInfo.villageId, vInfo.vPlayers); // 部屋割り当て
         helper.updateVillageStatus(vInfo.villageId, CDef.VillageStatus.進行中); // 村ステータス更新
         updateVillageSettingsIfNeeded(vInfo.villageId, vInfo.vPlayers, vInfo.settings); // 特殊ルール変更
+        insertAbsoluteSkillMessageIfNeeded(vInfo); // 絶対人狼メッセージ
         defaultSetLogic.setDefaultVoteAndAbility(vInfo.villageId, newDay); // 投票、能力行使のデフォルト設定
         insertDummyCharaMessage(vInfo.villageId, vInfo.vPlayers, vInfo.settings); // ダミーキャラ発言
         tweetIfNeeded(vInfo.villageId, vInfo.village, vInfo.settings);
@@ -126,6 +130,19 @@ public class PrologueLogic {
             messageLogic.insertMessage(villageId, 1, CDef.MessageType.通常発言, message, dummyChara.getVillagePlayerId(), true,
                     CDef.FaceType.通常);
         } catch (WerewolfMansionBusinessException e) {}
+    }
+
+    private void insertAbsoluteSkillMessageIfNeeded(VillageInfo vInfo) {
+        // 役職が反映されていないので取得しなおす
+        Village village = villageService.selectVillage(vInfo.villageId, false, false);
+        VillageInfo villageInfo = helper.convertToVillageInfo(village);
+
+        VillagePlayers abusoluteWolfs = villageInfo.vPlayers.filterBySkill(CDef.Skill.絶対人狼);
+        if (abusoluteWolfs.list.isEmpty()) {
+            return;
+        }
+        String message = String.join("、", abusoluteWolfs.map(wolf -> wolf.name())) + "は絶対人狼のようだ。";
+        messageLogic.insertPublicAbilityMessage(villageInfo.villageId, 1, message);
     }
 
     private void tweetIfNeeded(Integer villageId, Village village, VillageSettings settings) {
