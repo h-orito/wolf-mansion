@@ -1,10 +1,8 @@
 package com.ort.app.logic;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
@@ -282,7 +280,7 @@ public class AbilityLogic {
             return null;
         }
         VillagePlayer villagePlayer = villageInfo.optVillagePlayer.get();
-        if (villagePlayer.isIsDeadTrue() || villagePlayer.isIsSpectatorTrue()) {
+        if (villagePlayer.isIsDeadTrue() || villagePlayer.isIsSpectatorTrue() || !villagePlayer.hasLover()) {
             return null;
         }
         if (!villageInfo.village.isVillageStatusCode進行中()) {
@@ -292,45 +290,13 @@ public class AbilityLogic {
             return null;
         }
 
-        CDef.Skill skill = villageInfo.optVillagePlayer.get().getSkillCodeAsSkill();
-        if (CDef.Camp.codeOf(skill.campCode()) != CDef.Camp.恋人陣営) {
-            return null;
-        }
-        StringJoiner joiner = new StringJoiner("、", "この村の", "です。");
-        Set<String> loversSet = new HashSet<>();
-        StringJoiner loversJoiner = new StringJoiner("、", "恋人は", "");
+        StringJoiner joiner = new StringJoiner("、", "この村で恋に落ちているのは", "です。");
         villageInfo.vPlayers //
                 .filterNotDummy(villageInfo.settings.getDummyCharaId())
                 .filterNotSpecatate()
-                .filterBySkill(CDef.Skill.恋人).list.forEach(vp -> {
-                    String myself = vp.name();
-                    String target = vp.getTargetLover().name();
-                    if (!loversSet.contains(myself)) {
-                        loversJoiner.add(myself + "と" + target);
-                        loversSet.add(myself);
-                        loversSet.add(target);
-                    }
+                .filterBy(vp -> vp.hasLover()).list.forEach(vp -> {
+                    joiner.add(String.format("%s（%s）", vp.name(), vp.getTargetLover().name()));
                 });
-        Set<String> cohabitersSet = new HashSet<>();
-        StringJoiner cohabitersJoiner = new StringJoiner("、", "同棲者は", "");
-        villageInfo.vPlayers //
-                .filterNotDummy(villageInfo.settings.getDummyCharaId())
-                .filterNotSpecatate()
-                .filterBySkill(CDef.Skill.同棲者).list.forEach(vp -> {
-                    String myself = vp.name();
-                    String target = vp.getTargetLover().name();
-                    if (!cohabitersSet.contains(myself)) {
-                        cohabitersJoiner.add(myself + "と" + target);
-                        cohabitersSet.add(myself);
-                        cohabitersSet.add(target);
-                    }
-                });
-        if (!loversSet.isEmpty()) {
-            joiner.add(loversJoiner.toString());
-        }
-        if (!cohabitersSet.isEmpty()) {
-            joiner.add(cohabitersJoiner.toString());
-        }
         return joiner.toString();
     }
 

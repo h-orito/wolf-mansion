@@ -29,40 +29,57 @@
 									<li><a href="#commit">コミット</a></li>
 									<li><a href="#process">流れ</a></li>
 									<li><a href="#process-order">日付更新時の処理順</a></li>
-								</ul>
-							</li>
+								</ul></li>
 							<li><a href="#skill">役職詳細</a>
 								<ul>
-									<li><a href="#villager">村人</a></li>
-									<li><a href="#seer">占い師</a></li>
-									<li><a href="#wise">賢者</a></li>
-									<li><a href="#astrologer">占星術師</a></li>
-									<li><a href="#hunter">狩人</a></li>
-									<li><a href="#detective">探偵</a></li>
-									<li><a href="#trapper">罠師</a></li>
-									<li><a href="#psychic">霊能者</a></li>
-									<li><a href="#guru">導師</a></li>
-									<li><a href="#coroner">検死官</a></li>
-									<li><a href="#bakery">パン屋</a></li>
-									<li><a href="#mason">共鳴者</a></li>
-									<li><a href="#luckyman">強運者</a></li>
-									<li><a href="#commander">指揮官</a></li>
-									<li><a href="#werewolf">人狼</a></li>
-									<li><a href="#cursewolf">呪狼</a></li>
-									<li><a href="#wisewolf">智狼</a></li>
-									<li><a href="#madman">狂人</a></li>
-									<li><a href="#cmadman">C国狂人</a></li>
-									<li><a href="#evilmedium">魔神官</a></li>
-									<li><a href="#fanatic">狂信者</a></li>
-									<li><a href="#lover">恋人</a></li>
-									<li><a href="#cohabiter">同棲者</a></li>
-									<li><a href="#fox">妖狐</a></li>
-									<li><a href="#immoral">背徳者</a></li>
-									<li><a href="#bomber">爆弾魔</a></li>
-									<li><a href="#owl">梟</a></li>
+									<li><a href="#villagers">村人陣営</a>
+										<ul>
+											<li><a href="#villager">村人</a></li>
+											<li><a href="#seer">占い師</a></li>
+											<li><a href="#wise">賢者</a></li>
+											<li><a href="#astrologer">占星術師</a></li>
+											<li><a href="#hunter">狩人</a></li>
+											<li><a href="#detective">探偵</a></li>
+											<li><a href="#trapper">罠師</a></li>
+											<li><a href="#psychic">霊能者</a></li>
+											<li><a href="#guru">導師</a></li>
+											<li><a href="#coroner">検死官</a></li>
+											<li><a href="#bakery">パン屋</a></li>
+											<li><a href="#mason">共鳴者</a></li>
+											<li><a href="#luckyman">強運者</a></li>
+											<li><a href="#commander">指揮官</a></li>
+										</ul></li>
+									<li><a href="#werewolfs">人狼陣営</a>
+										<ul>
+											<li><a href="#werewolf">人狼</a></li>
+											<li><a href="#cursewolf">呪狼</a></li>
+											<li><a href="#wisewolf">智狼</a></li>
+											<li><a href="#madman">狂人</a></li>
+											<li><a href="#cmadman">C国狂人</a></li>
+											<li><a href="#evilmedium">魔神官</a></li>
+											<li><a href="#fanatic">狂信者</a></li>
+										</ul></li>
+									<li><a href="#lovers">恋人陣営</a>
+										<ul>
+											<li><a href="#lover">恋人</a></li>
+											<li><a href="#cohabiter">同棲者</a></li>
+										</ul></li>
+									<li><a href="#foxs">恋人陣営</a>
+										<ul>
+											<li><a href="#fox">妖狐</a></li>
+											<li><a href="#immoral">背徳者</a></li>
+										</ul></li>
+									<li><a href="#criminals">愉快犯陣営</a>
+										<ul>
+											<li><a href="#bomber">爆弾魔</a></li>
+											<li><a href="#owl">梟</a></li>
+										</ul>
 									<li><a href="#skill-plan">未実装役職</a></li>
-								</ul>
-							</li>
+								</ul></li>
+							<li><a href="#status">ステータス</a>
+								<ul>
+									<li><a href="#status">恋絆</a></li>
+								</ul></li>
 							<li><a href="#camp">陣営・勝敗</a></li>
 							<li><a href="#room">人数と部屋サイズ</a></li>
 							<li><a href="#other">その他</a>
@@ -70,12 +87,11 @@
 									<li><a href="#random-message">発言ランダム機能</a></li>
 									<li><a href="#message-decorate">文字装飾機能</a></li>
 									<li><a href="#call-owner">国主の召喚方法</a></li>
-								</ul>
-							</li>
+								</ul></li>
 						</ul>
 					</div>
 				</div>
-			
+
 				<div class="col-sm-12 col-xs-12">
 					<hr />
 					<h2 id="basic" class="h4">人狼の基本ルール</h2>
@@ -100,6 +116,12 @@
 					<hr />
 					<h2 class="h4">役職詳細</h2>
 					<div layout:replace="~{rule/skill::skill}"></div>
+				</div>
+
+				<div class="col-sm-12 col-xs-12">
+					<hr />
+					<h2 class="h4">ステータス</h2>
+					<div layout:replace="~{rule/status::status}"></div>
 				</div>
 
 				<div class="col-sm-12 col-xs-12">

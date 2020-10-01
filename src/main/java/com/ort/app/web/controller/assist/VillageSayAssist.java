@@ -252,9 +252,8 @@ public class VillageSayAssist {
     }
 
     private boolean isAvailableLoversSay(Village village, VillagePlayer villagePlayer) {
-        // 恋人、同棲者以外は不可
-        CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
-        if (skill != CDef.Skill.恋人 && skill != CDef.Skill.同棲者) {
+        // 恋絆が付与されている人以外は不可
+        if (!villagePlayer.hasLover()) {
             return false;
         }
         // 死亡していたら不可

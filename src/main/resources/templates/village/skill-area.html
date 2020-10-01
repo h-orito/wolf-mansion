@@ -17,8 +17,7 @@
 <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<div class="col-sm-12 col-xs-12" th:if="${content.myself.skill != null && content.form.say.isDispSayForm}" data-ability
-		layout:fragment="skill-area">
+	<div class="col-sm-12 col-xs-12" th:if="${content.myself.skill != null && content.form.say.isDispSayForm}" data-ability layout:fragment="skill-area">
 		<div class="panel-group" id="skillform-panel">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -27,6 +26,11 @@
 				</div>
 				<div id="skillform-content" class="panel-collapse collapse in">
 					<div class="panel-body">
+						<div th:if="${content.form.ability.statusList}" th:each="status : ${content.form.ability.statusList}" class="alert alert-status small">
+							<ul>
+								<li th:text="${status.message}"></li>
+							</ul>
+						</div>
 						<div class="alert alert-dead small" th:if="${content.myself.isDead}">
 							<ul>
 								<li>あなたは死亡しました。</li>
@@ -85,8 +89,7 @@
 										任意の部屋からその直線上の部屋に向かって徘徊し、徘徊した部屋に足音を響かせることが可能です。部屋を選択してセットしてください。<br>徘徊しない場合は何も選択せずセットしてください。
 									</p>
 									<div class="form-group small">
-										<div class="col-sm-12 col-xs-12 table-responsive"
-											th:if="${content.myself.skill.hasDisturbAbility}">
+										<div class="col-sm-12 col-xs-12 table-responsive" th:if="${content.myself.skill.hasDisturbAbility}">
 											<table class="table-bordered table-condensed small" data-footstep-select-table>
 												<tbody>
 													<tr th:each="row : ${content.roomAssignedRowList}">

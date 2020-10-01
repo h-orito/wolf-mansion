@@ -36,6 +36,9 @@ public class VillageAbilityFormDto {
     /** 対象選択して足音を残す役職か */
     private Boolean isTargetingAndFootstep;
 
+    /** 付与されているステータス */
+    private List<VillagePlayerStatusDto> statusList;
+
     public List<OptionDto> getAbilityTargetList() {
         return abilityTargetList;
     }
@@ -114,5 +117,13 @@ public class VillageAbilityFormDto {
 
     public void setLoversCharaNameList(String loversCharaNameList) {
         this.loversCharaNameList = loversCharaNameList;
+    }
+
+    public List<VillagePlayerStatusDto> getStatusList() {
+        return statusList;
+    }
+
+    public void setStatusList(List<VillagePlayerStatusDto> statusList) {
+        this.statusList = statusList;
     }
 }

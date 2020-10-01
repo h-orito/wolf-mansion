@@ -56,6 +56,7 @@ import com.ort.app.web.model.inner.village.VillageFormDto;
 import com.ort.app.web.model.inner.village.VillageParticipateDto;
 import com.ort.app.web.model.inner.village.VillageParticipateFormDto;
 import com.ort.app.web.model.inner.village.VillageParticipateSkillDto;
+import com.ort.app.web.model.inner.village.VillagePlayerStatusDto;
 import com.ort.app.web.model.inner.village.VillageSayFormDto;
 import com.ort.app.web.model.inner.village.VillageSettingsDto;
 import com.ort.app.web.model.inner.village.VillageVoteFormDto;
@@ -314,6 +315,7 @@ public class VillageAssist {
         ability.setTargetPrefixMessage(abilityLogic.makeTargetPrefixMessage(villageInfo));
         ability.setTargetSuffixMessage(abilityLogic.makeTargetSuffixMessage(villageInfo));
         ability.setIsTargetingAndFootstep(abilityLogic.isTargetingAndFootstep(villageInfo));
+        ability.setStatusList(createStatusList(villageInfo));
         return ability;
     }
 
@@ -698,6 +700,7 @@ public class VillageAssist {
         } else if (skill == CDef.Skill.共鳴者) {
             detailList.add(createDetail("共鳴発言", CDef.MessageType.共鳴発言.code(), skill, registeredRestrictList));
         } else if (skill == CDef.Skill.恋人 || skill == CDef.Skill.同棲者) {
+            // TODO 恋絆が付与されている人にしたいがどうするか
             detailList.add(createDetail("恋人発言", CDef.MessageType.恋人発言.code(), skill, registeredRestrictList));
         }
         return detailList;
@@ -750,5 +753,29 @@ public class VillageAssist {
     // 開発用機能
     private void setDebugInfo(Boolean debug, Model model) {
         model.addAttribute("isDebugMode", debug);
+    }
+
+    private List<VillagePlayerStatusDto> createStatusList(VillageInfo villageInfo) {
+        if (!villageInfo.optVillagePlayer.isPresent()) {
+            return null;
+        }
+        VillagePlayer villagePlayer = villageInfo.optVillagePlayer.get();
+        if (villagePlayer.isIsDeadTrue() || villagePlayer.isIsSpectatorTrue()) {
+            return null;
+        }
+        if (!villageInfo.village.isVillageStatusCode進行中()) {
+            return null;
+        }
+        if (!villageInfo.village.getVillageDays().latestDay().getDay().equals(villageInfo.day)) {
+            return null;
+        }
+        return villagePlayer.getVillagePlayerStatusByVillagePlayerIdList().stream().map(status -> {
+            VillagePlayerStatusDto statusDto = new VillagePlayerStatusDto();
+            statusDto.setStatusCode(status.getVillagePlayerStatusCode());
+            if (status.getVillagePlayerStatusCodeAsVillagePlayerStatusType() == CDef.VillagePlayerStatusType.後追い) {
+                statusDto.setMessage(String.format("あなたは%sに恋しています。", status.getVillagePlayerByToVillagePlayerId().get().name()));
+            }
+            return statusDto;
+        }).collect(Collectors.toList());
     }
 }

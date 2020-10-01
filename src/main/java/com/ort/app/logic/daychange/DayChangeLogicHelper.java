@@ -176,10 +176,9 @@ public class DayChangeLogicHelper {
         villagePlayerBhv.queryUpdate(vPlayer, cb -> cb.query().setVillagePlayerId_Equal(targetPlayer.getVillagePlayerId()));
     }
 
-    public void deadBomberIfNeeded(Integer villageId, int day, ListResultBean<VillagePlayer> villagePlayerList) {
-        villagePlayerList.stream().filter(vp -> {
-            return vp.isSkillCode爆弾魔() && vp.isIsDeadFalse();
-        }).forEach(bomber -> {
+    public void deadBomberIfNeeded(Village village, int day) {
+        Integer villageId = village.getVillageId();
+        village.getVillagePlayers().filterAlive().filterBySkill(CDef.Skill.爆弾魔).list.forEach(bomber -> {
             OptionalEntity<Ability> optAbility = abilityBhv.selectEntity(cb -> {
                 cb.query().setVillageId_Equal(villageId);
                 cb.query().setAbilityTypeCode_Equal_爆弾設置();

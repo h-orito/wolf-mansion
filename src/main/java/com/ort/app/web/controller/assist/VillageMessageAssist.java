@@ -6,17 +6,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.dbflute.cbean.result.ListResultBean;
 import org.dbflute.cbean.result.PagingResultBean;
-import org.dbflute.optional.OptionalEntity;
 import org.dbflute.optional.OptionalScalar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
+import com.ort.app.datasource.VillageService;
 import com.ort.app.web.form.VillageGetAnchorMessageForm;
 import com.ort.app.web.form.VillageGetMessageListForm;
 import com.ort.app.web.model.VillageAnchorMessageResultContent;
@@ -27,7 +28,6 @@ import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.MessageType;
 import com.ort.dbflute.exbhv.CommitBhv;
 import com.ort.dbflute.exbhv.MessageBhv;
-import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exbhv.VoteBhv;
@@ -48,25 +48,19 @@ public class VillageMessageAssist {
     //                                                                           Attribute
     //                                                                           =========
     @Autowired
-    private VillageBhv villageBhv;
-
-    @Autowired
     private VillageDayBhv villageDayBhv;
-
     @Autowired
     private VillagePlayerBhv villagePlayerBhv;
-
     @Autowired
     private MessageBhv messageBhv;
-
     @Autowired
     private CommitBhv commitBhv;
-
     @Autowired
     private VoteBhv voteBhv;
-
     @Autowired
     private MessageSource messageSource;
+    @Autowired
+    private VillageService villageService;
 
     // ===================================================================================
     //                                                                             Execute
@@ -75,8 +69,8 @@ public class VillageMessageAssist {
         Integer villageId = form.getVillageId();
         int latestDay = selectLatestDay(villageId);
         int day = form.getDay() != null ? form.getDay() : latestDay;
-        OptionalEntity<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
-        Village village = selectVillage(villageId);
+        Optional<VillagePlayer> optVillagePlayer = villageService.selectVillagePlayer(villageId, userInfo, true);
+        Village village = villageService.selectVillage(villageId, true, true);
         List<CDef.MessageType> messageTypeList = makeMessageTypeList(optVillagePlayer, village, day);
         PagingResultBean<Message> messageList =
                 selectMessageList(form.getVillageId(), day, messageTypeList, optVillagePlayer, form.getPageNum(), form.getPageSize());
@@ -95,7 +89,7 @@ public class VillageMessageAssist {
             return null;
         }
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
-        Village village = selectVillage(form.getVillageId());
+        Village village = villageService.selectVillage(form.getVillageId(), true, true);
         if (!isViewAllowedMessage(form, village, userInfo)) {
             return null;
         }
@@ -110,7 +104,7 @@ public class VillageMessageAssist {
 
     public void updateLastAccessDatetime(Integer villageId) {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
-        OptionalEntity<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
+        Optional<VillagePlayer> optVillagePlayer = villageService.selectVillagePlayer(villageId, userInfo, true);
         if (!optVillagePlayer.isPresent()) {
             return;
         }
@@ -124,8 +118,8 @@ public class VillageMessageAssist {
         Integer villageId = form.getVillageId();
         int latestDay = selectLatestDay(villageId);
         int day = form.getDay() != null ? form.getDay() : latestDay;
-        OptionalEntity<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
-        Village village = selectVillage(villageId);
+        Optional<VillagePlayer> optVillagePlayer = villageService.selectVillagePlayer(villageId, userInfo, true);
+        Village village = villageService.selectVillage(villageId, true, true);
         List<CDef.MessageType> messageTypeList = makeMessageTypeList(optVillagePlayer, village, day);
         OptionalScalar<LocalDateTime> optLatestMessageDatetime =
                 selectLatestMessageDatetime(form.getVillageId(), latestDay, messageTypeList, optVillagePlayer);
@@ -140,7 +134,7 @@ public class VillageMessageAssist {
     //                                                                              Select
     //                                                                              ======
     private PagingResultBean<Message> selectMessageList(Integer villageId, Integer day, List<CDef.MessageType> messageTypeList,
-            OptionalEntity<VillagePlayer> optVillagePlayer, Integer pageNum, Integer pageSize) {
+            Optional<VillagePlayer> optVillagePlayer, Integer pageNum, Integer pageSize) {
         PagingResultBean<Message> messagePage = messageBhv.selectPage(cb -> {
             if (pageNum != null && pageSize != null) {
                 cb.paging(pageSize, pageNum);
@@ -214,7 +208,7 @@ public class VillageMessageAssist {
     }
 
     private OptionalScalar<LocalDateTime> selectLatestMessageDatetime(Integer villageId, Integer latestDay,
-            List<CDef.MessageType> messageTypeList, OptionalEntity<VillagePlayer> optVillagePlayer) {
+            List<CDef.MessageType> messageTypeList, Optional<VillagePlayer> optVillagePlayer) {
         return messageBhv.selectScalar(LocalDateTime.class).max(cb -> {
             cb.specify().columnMessageDatetime();
             cb.query().setVillageId_Equal(villageId);
@@ -239,26 +233,6 @@ public class VillageMessageAssist {
             } else {
                 cb.query().setMessageTypeCode_InScope_AsMessageType(messageTypeList);
             }
-        });
-    }
-
-    private Village selectVillage(Integer villageId) {
-        return villageBhv.selectEntityWithDeletedCheck(cb -> {
-            cb.setupSelect_VillageSettingsAsOne();
-            cb.query().setVillageId_Equal(villageId);
-        });
-    }
-
-    private OptionalEntity<VillagePlayer> selectVillagePlayer(Integer villageId, UserInfo userInfo) {
-        if (userInfo == null) {
-            return OptionalEntity.empty();
-        }
-        return villagePlayerBhv.selectEntity(cb -> {
-            cb.setupSelect_Player();
-            cb.setupSelect_SkillBySkillCode();
-            cb.query().setVillageId_Equal(villageId);
-            cb.query().setIsGone_Equal_False();
-            cb.query().queryPlayer().setPlayerName_Equal(userInfo.getUsername());
         });
     }
 
@@ -333,7 +307,7 @@ public class VillageMessageAssist {
         return pageNumList;
     }
 
-    private String makeVillageStatusMessage(Village village, boolean isLatestDay, OptionalEntity<VillagePlayer> optVillagePlayer, int day) {
+    private String makeVillageStatusMessage(Village village, boolean isLatestDay, Optional<VillagePlayer> optVillagePlayer, int day) {
         if (!isLatestDay) {
             return null;
         }
@@ -427,7 +401,7 @@ public class VillageMessageAssist {
     private boolean isViewAllowedMessage(VillageGetAnchorMessageForm form, Village village, UserInfo userInfo) {
         Integer villageId = form.getVillageId();
         CDef.MessageType messageType = CDef.MessageType.codeOf(form.getMessageType());
-        OptionalEntity<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
+        Optional<VillagePlayer> optVillagePlayer = villageService.selectVillagePlayer(villageId, userInfo, true);
         if (messageType == CDef.MessageType.人狼の囁き) {
             return isViewAllowedWerewolfSay(village, optVillagePlayer);
         } else if (messageType == CDef.MessageType.通常発言 || messageType == CDef.MessageType.村建て発言) {
@@ -446,7 +420,7 @@ public class VillageMessageAssist {
         return false;
     }
 
-    private List<CDef.MessageType> makeMessageTypeList(OptionalEntity<VillagePlayer> optVillagePlayer, Village village, int day) {
+    private List<CDef.MessageType> makeMessageTypeList(Optional<VillagePlayer> optVillagePlayer, Village village, int day) {
         if (optVillagePlayer.isPresent() && "master".equals(optVillagePlayer.get().getPlayer().get().getPlayerName())) {
             // masterは全て見られる
             return CDef.MessageType.listAll();
@@ -473,13 +447,13 @@ public class VillageMessageAssist {
 
     // 墓下発言
     private void addGraveSayIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
-            OptionalEntity<VillagePlayer> optVillagePlayer) {
+            Optional<VillagePlayer> optVillagePlayer) {
         if (isViewAllowedGraveSay(village, optVillagePlayer)) {
             dispAllowedMessageTypeList.add(CDef.MessageType.死者の呻き);
         }
     }
 
-    private boolean isViewAllowedGraveSay(Village village, OptionalEntity<VillagePlayer> optVillagePlayer) {
+    private boolean isViewAllowedGraveSay(Village village, Optional<VillagePlayer> optVillagePlayer) {
         // 終了していたら全開放
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             return true;
@@ -501,13 +475,13 @@ public class VillageMessageAssist {
 
     // 見学発言
     private void addSpectateSayIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
-            OptionalEntity<VillagePlayer> optVillagePlayer, int day) {
+            Optional<VillagePlayer> optVillagePlayer, int day) {
         if (isViewAllowedSpectateSay(village, optVillagePlayer, day)) {
             dispAllowedMessageTypeList.add(CDef.MessageType.見学発言);
         }
     }
 
-    private boolean isViewAllowedSpectateSay(Village village, OptionalEntity<VillagePlayer> optVillagePlayer, int day) {
+    private boolean isViewAllowedSpectateSay(Village village, Optional<VillagePlayer> optVillagePlayer, int day) {
         // 進行中以外は全開放
         if (village.isVillageStatusCode募集中() || village.isVillageStatusCode開始待ち() || village.isVillageStatusCodeエピローグ()
                 || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
@@ -532,7 +506,7 @@ public class VillageMessageAssist {
         return false;
     }
 
-    private boolean isViewAllowedMonologueSay(Village village, OptionalEntity<VillagePlayer> optVillagePlayer) {
+    private boolean isViewAllowedMonologueSay(Village village, Optional<VillagePlayer> optVillagePlayer) {
         // 進行中以外は全開放
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             return true;
@@ -542,7 +516,7 @@ public class VillageMessageAssist {
 
     // 共鳴発言
     private void addMasonSayIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
-            OptionalEntity<VillagePlayer> optVillagePlayer) {
+            Optional<VillagePlayer> optVillagePlayer) {
         if (isViewAllowedMasonSay(village, optVillagePlayer)) {
             dispAllowedMessageTypeList.add(CDef.MessageType.共鳴発言);
         }
@@ -550,13 +524,13 @@ public class VillageMessageAssist {
 
     // 恋人発言
     private void addLoversSayIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
-            OptionalEntity<VillagePlayer> optVillagePlayer) {
+            Optional<VillagePlayer> optVillagePlayer) {
         if (isViewAllowedLoversSay(village, optVillagePlayer)) {
             dispAllowedMessageTypeList.add(CDef.MessageType.恋人発言);
         }
     }
 
-    private boolean isViewAllowedMasonSay(Village village, OptionalEntity<VillagePlayer> optVillagePlayer) {
+    private boolean isViewAllowedMasonSay(Village village, Optional<VillagePlayer> optVillagePlayer) {
         // 終了していたら全開放
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             return true;
@@ -572,28 +546,27 @@ public class VillageMessageAssist {
         return false;
     }
 
-    private boolean isViewAllowedLoversSay(Village village, OptionalEntity<VillagePlayer> optVillagePlayer) {
+    private boolean isViewAllowedLoversSay(Village village, Optional<VillagePlayer> optVillagePlayer) {
         // 終了していたら全開放
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             return true;
         }
-        // 終了していなかったら参加していて恋人か同棲者だったら開放
+        // 終了していなかったら参加していて恋絆が付与されていたら開放
         if (!optVillagePlayer.isPresent()) {
             return false;
         }
-        CDef.Skill skill = optVillagePlayer.get().getSkillCodeAsSkill();
-        return skill == CDef.Skill.恋人 || skill == CDef.Skill.同棲者;
+        return optVillagePlayer.get().hasLover();
     }
 
     // 人狼の囁き
     private void addWerewolfSayIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
-            OptionalEntity<VillagePlayer> optVillagePlayer) {
+            Optional<VillagePlayer> optVillagePlayer) {
         if (isViewAllowedWerewolfSay(village, optVillagePlayer)) {
             dispAllowedMessageTypeList.add(CDef.MessageType.人狼の囁き);
         }
     }
 
-    private boolean isViewAllowedWerewolfSay(Village village, OptionalEntity<VillagePlayer> optVillagePlayer) {
+    private boolean isViewAllowedWerewolfSay(Village village, Optional<VillagePlayer> optVillagePlayer) {
         // 終了していたら全開放
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             return true;
@@ -611,7 +584,7 @@ public class VillageMessageAssist {
 
     // 占い結果
     private void addSeerMessageIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
-            OptionalEntity<VillagePlayer> optVillagePlayer) {
+            Optional<VillagePlayer> optVillagePlayer) {
         // 終了していたら全開放
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             dispAllowedMessageTypeList.add(CDef.MessageType.白黒占い結果);
@@ -621,7 +594,7 @@ public class VillageMessageAssist {
 
     // 霊視結果
     private void addPsychicMessageIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
-            OptionalEntity<VillagePlayer> optVillagePlayer) {
+            Optional<VillagePlayer> optVillagePlayer) {
         // 終了していたら全開放
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             dispAllowedMessageTypeList.add(CDef.MessageType.白黒霊視結果);
@@ -647,7 +620,7 @@ public class VillageMessageAssist {
 
     // 検死結果
     private void addCoronerMessageIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
-            OptionalEntity<VillagePlayer> optVillagePlayer) {
+            Optional<VillagePlayer> optVillagePlayer) {
         // 終了していたら全開放
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             dispAllowedMessageTypeList.add(CDef.MessageType.検死結果);
@@ -667,7 +640,7 @@ public class VillageMessageAssist {
 
     // 襲撃結果
     private void addAttackMessageIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
-            OptionalEntity<VillagePlayer> optVillagePlayer) {
+            Optional<VillagePlayer> optVillagePlayer) {
         // 終了していたら全開放
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             dispAllowedMessageTypeList.add(CDef.MessageType.襲撃結果);
@@ -687,7 +660,7 @@ public class VillageMessageAssist {
 
     // 調査結果
     private void addInvestigateMessageIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
-            OptionalEntity<VillagePlayer> optVillagePlayer) {
+            Optional<VillagePlayer> optVillagePlayer) {
         // 終了していたら全開放
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             dispAllowedMessageTypeList.add(CDef.MessageType.足音調査結果);
@@ -696,7 +669,7 @@ public class VillageMessageAssist {
 
     // 非公開システムメッセージ
     private void addSystemMessageIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
-            OptionalEntity<VillagePlayer> optVillagePlayer) {
+            Optional<VillagePlayer> optVillagePlayer) {
         // 終了していたら全開放
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             dispAllowedMessageTypeList.add(CDef.MessageType.非公開システムメッセージ);
@@ -706,7 +679,7 @@ public class VillageMessageAssist {
 
     // 独り言
     private void addMonologueSayIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
-            OptionalEntity<VillagePlayer> optVillagePlayer) {
+            Optional<VillagePlayer> optVillagePlayer) {
         // 終了していたら全開放
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             dispAllowedMessageTypeList.add(CDef.MessageType.独り言);
@@ -717,7 +690,7 @@ public class VillageMessageAssist {
 
     // 秘話
     private void addSecretSayIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
-            OptionalEntity<VillagePlayer> optVillagePlayer) {
+            Optional<VillagePlayer> optVillagePlayer) {
         // 終了していたら全開放
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             dispAllowedMessageTypeList.add(CDef.MessageType.秘話);
@@ -734,7 +707,7 @@ public class VillageMessageAssist {
 
     // 梟
     private void addPrivateSayMessageForOwl(List<MessageType> dispAllowedMessageTypeList, Village village,
-            OptionalEntity<VillagePlayer> optVillagePlayer) {
+            Optional<VillagePlayer> optVillagePlayer) {
         if (!optVillagePlayer.isPresent() || !optVillagePlayer.get().isSkillCode梟()) {
             return;
         }

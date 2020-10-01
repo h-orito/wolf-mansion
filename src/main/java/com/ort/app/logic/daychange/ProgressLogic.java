@@ -1,10 +1,8 @@
 package com.ort.app.logic.daychange;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.StringJoiner;
-import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +13,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 import com.ort.app.datasource.AbilityService;
+import com.ort.app.datasource.VillageService;
 import com.ort.app.datasource.VoteService;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.TwitterLogic;
@@ -96,6 +95,8 @@ public class ProgressLogic {
     private AbilityService abilityService;
     @Autowired
     private VoteService voteService;
+    @Autowired
+    private VillageService villageService;
 
     // ===================================================================================
     //                                                                             Execute
@@ -171,31 +172,26 @@ public class ProgressLogic {
 
     // 勝敗判定、エピローグ処理
     private Optional<Camp> toEpilogueIfNeeded(Integer villageId, int day) {
-        ListResultBean<VillagePlayer> villagePlayerList = helper.selectVillagePlayerList(villageId);
+        Village village = villageService.selectVillage(villageId, false, false);
 
         // 人狼の数
-        List<VillagePlayer> alivePlayerList = villagePlayerList.stream().filter(vp -> vp.isIsDeadFalse()).collect(Collectors.toList());
-        long werewolfCount = alivePlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill().isHasAttackAbility()).count();
+        VillagePlayers alivePlayers = village.getVillagePlayers().filterAlive();
+        int werewolfCount = alivePlayers.filterBy(vp -> vp.getSkillCodeAsSkill().isHasAttackAbility()).list.size();
         // 人間の数
-        long villagerCount = alivePlayerList.stream()
-                .filter(vp -> !vp.getSkillCodeAsSkill().isHasAttackAbility() && vp.getSkillCodeAsSkill() != CDef.Skill.妖狐
-                        && vp.getSkillCodeAsSkill() != CDef.Skill.梟)
-                .count();
+        int villagerCount = alivePlayers.filterBy(vp -> !vp.getSkillCodeAsSkill().isHasAttackAbility()
+                && vp.getSkillCodeAsSkill() != CDef.Skill.妖狐 && vp.getSkillCodeAsSkill() != CDef.Skill.梟).list.size();
         // 妖狐の数
-        long foxCount = alivePlayerList.stream().filter(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.妖狐).count();
-        // 恋人の数
-        long loversCount = alivePlayerList.stream().filter(vp -> {
-            CDef.Skill skill = vp.getSkillCodeAsSkill();
-            return skill == CDef.Skill.恋人 || skill == CDef.Skill.同棲者;
-        }).count();
+        int foxCount = alivePlayers.filterBySkill(CDef.Skill.妖狐).list.size();
+        // 恋絆が付与されている人の数
+        int loversCount = alivePlayers.filterBy(vp -> vp.hasLover()).list.size();
 
         Optional<Camp> optWinCamp = getWinCamp(werewolfCount, villagerCount, foxCount, loversCount);
-        optWinCamp.ifPresent(winCamp -> epilogueVillage(villageId, day, villagePlayerList, winCamp, werewolfCount));
+        optWinCamp.ifPresent(winCamp -> epilogueVillage(village, day, winCamp, werewolfCount));
         return optWinCamp;
     }
 
     // 勝利陣営
-    private Optional<CDef.Camp> getWinCamp(long wolfCount, long villagerCount, long foxCount, long loversCount) {
+    private Optional<CDef.Camp> getWinCamp(int wolfCount, int villagerCount, int foxCount, int loversCount) {
         if (!isSettled(wolfCount, villagerCount)) {
             return Optional.empty();
         }
@@ -218,11 +214,11 @@ public class ProgressLogic {
     }
 
     // エピローグ処理
-    private void epilogueVillage(Integer villageId, int day, ListResultBean<VillagePlayer> villagePlayerList, Camp winCamp,
-            long werewolfCount) {
+    private void epilogueVillage(Village village, int day, Camp winCamp, long werewolfCount) {
         // DB更新
+        Integer villageId = village.getVillageId();
         helper.updateVillageEpilogue(villageId, day, winCamp);
-        helper.deadBomberIfNeeded(villageId, day, villagePlayerList);
+        helper.deadBomberIfNeeded(village, day);
         ListResultBean<VillagePlayer> vPlayerList = helper.selectVillagePlayerList(villageId);
         helper.updateIsWin(vPlayerList, winCamp);
         // エピローグ遷移メッセージ登録

@@ -16,6 +16,11 @@ public class VillagePlayer extends BsVillagePlayer {
     /** The serial version UID for object serialization. (Default) */
     private static final long serialVersionUID = 1L;
 
+    public boolean hasLover() {
+        return getVillagePlayerStatusByVillagePlayerIdList().stream()
+                .anyMatch(vpSt -> vpSt.getVillagePlayerStatusCodeAsVillagePlayerStatusType() == CDef.VillagePlayerStatusType.後追い);
+    }
+
     public VillagePlayer getTargetLover() {
         return getVillagePlayerStatusByVillagePlayerIdList().stream()
                 .filter(vpSt -> vpSt.getVillagePlayerStatusCodeAsVillagePlayerStatusType() == CDef.VillagePlayerStatusType.後追い)

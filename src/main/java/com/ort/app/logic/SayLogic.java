@@ -131,9 +131,8 @@ public class SayLogic {
         }
         Village village = villageInfo.village;
         VillagePlayer villagePlayer = villageInfo.optVillagePlayer.get();
-        // 恋人と同棲者以外は不可
-        CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
-        if (skill != CDef.Skill.恋人 && skill != CDef.Skill.同棲者) {
+        // 恋絆を結ばれている人のみ可
+        if (!villagePlayer.hasLover()) {
             return false;
         }
         // 死亡していたら不可

@@ -438,6 +438,14 @@ tr.top-menu-selectable:hover a {
 	border-radius: 4px;
 }
 
+.alert-status {
+	border: 1px solid #00bc8c;
+	color: #00bc8c;
+	padding: 5px;
+	margin-bottom: 10px;
+	border-radius: 4px;
+}
+
 /* ”­Œ¾—““§–¾‰» */
 .transparent-well {
 	opacity: 0.8;
