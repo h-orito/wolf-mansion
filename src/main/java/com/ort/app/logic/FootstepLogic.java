@@ -209,8 +209,8 @@ public class FootstepLogic {
     public List<String> getFootstepList(Integer villageId, int day) {
         // 朝時点で生きている人
         List<Integer> livingRoomNumList = selectVillagePlayerList(villageId).stream()
-                .filter(vp -> vp.isIsDeadFalse() || day < vp.getDeadDay())
-                .map(VillagePlayer::getRoomNumber)
+                .filter(vp -> vp.isAliveWhen(day))
+                .map(vp -> vp.getRoomNumberWhen(day - 1)) // TODO: これで合ってる？
                 .collect(Collectors.toList());
         // 足音
         ListResultBean<Footstep> footstepList = footStepBhv.selectList(cb -> {
@@ -242,8 +242,8 @@ public class FootstepLogic {
     public String getSkillByFootstep(Integer villageId, int day, String footstep, List<VillagePlayer> vPlayerList) {
         // 昨日朝時点で生きている人
         List<Integer> livingRoomNumList = vPlayerList.stream()
-                .filter(vp -> vp.isIsDeadFalse() || day + 1 < vp.getDeadDay())
-                .map(VillagePlayer::getRoomNumber)
+                .filter(vp -> vp.isAliveWhen(day))
+                .map(vp -> vp.getRoomNumberWhen(day)) // TODO 合ってる？
                 .collect(Collectors.toList());
         // 足音候補
         List<Footstep> footstepList = footStepBhv.selectList(cb -> {
@@ -316,7 +316,7 @@ public class FootstepLogic {
                         }
                     }).filter(str -> StringUtils.isNotEmpty(str)).collect(Collectors.toList()));
             actualFootstep = StringUtils.isEmpty(actualFootstep) ? "なし" : actualFootstep;
-            return String.format("[%s][%s] %s → %s", vPlayer.shortName(), skillName, setFootstep, actualFootstep);
+            return String.format("[%s][%s] %s → %s", vPlayer.shortName(fs.getDay()), skillName, setFootstep, actualFootstep);
         }).collect(Collectors.toList());
 
         return String.join("\n", dispFootstepList);
@@ -326,11 +326,16 @@ public class FootstepLogic {
     //                                                                              Select
     //                                                                              ======
     private ListResultBean<VillagePlayer> selectVillagePlayerList(Integer villageId) {
-        return villagePlayerBhv.selectList(cb -> {
+        ListResultBean<VillagePlayer> list = villagePlayerBhv.selectList(cb -> {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setIsGone_Equal_False();
             cb.query().setIsSpectator_Equal_False();
         });
+        villagePlayerBhv.load(list, loader -> {
+            loader.loadVillagePlayerRoomHistory(history -> {});
+            loader.loadVillagePlayerDeadHistory(history -> {});
+        });
+        return list;
     }
 
     private Village selectVillage(Integer villageId) {

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.FootstepLogic;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.ability.AttackLogic;
@@ -28,8 +29,6 @@ public class DefaultSetLogic {
     //                                                                           Attribute
     //                                                                           =========
     @Autowired
-    private DayChangeLogicHelper helper;
-    @Autowired
     private AttackLogic attackLogic;
     @Autowired
     private DivineLogic divineLogic;
@@ -47,6 +46,8 @@ public class DefaultSetLogic {
     private MessageLogic messageLogic;
     @Autowired
     private VoteBhv voteBhv;
+    @Autowired
+    private VillageService villageService;
 
     // ===================================================================================
     //                                                                             Execute
@@ -54,7 +55,7 @@ public class DefaultSetLogic {
     // 投票、能力行使のデフォルト設定、生存者メッセージ登録
     public void setDefaultVoteAndAbility(Integer villageId, int newDay) {
         // 最新の状況が必要なので取得し直す
-        Village village = helper.selectVillage(villageId);
+        Village village = villageService.selectVillage(villageId, false, false);
         List<VillagePlayer> vPlayerList = village.getVillagePlayerList();
 
         // 噛み

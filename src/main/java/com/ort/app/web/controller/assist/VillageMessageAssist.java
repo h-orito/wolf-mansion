@@ -360,8 +360,10 @@ public class VillageMessageAssist {
     private VillageMessageDto convertToMessage(Village village, Message message, boolean isBigEars) {
         VillageMessageDto messageDto = new VillageMessageDto();
         message.getVillagePlayerByVillagePlayerId().ifPresent(vp -> {
-            Chara chara = vp.getChara().get();
-            messageDto.setCharacterName(vp.name());
+            VillagePlayer villagePlayer =
+                    village.getVillagePlayers().filterBy(it -> it.getVillagePlayerId().equals(vp.getVillagePlayerId())).list.get(0);
+            Chara chara = villagePlayer.getChara().get();
+            messageDto.setCharacterName(villagePlayer.name(message.getDay()));
             messageDto.setCharacterId(chara.getCharaId());
             if (message.getFaceTypeCodeAsFaceType() != null) {
                 messageDto.setCharacterImageUrl(chara.getCharaImgUrlByFaceType(message.getFaceTypeCodeAsFaceType()));

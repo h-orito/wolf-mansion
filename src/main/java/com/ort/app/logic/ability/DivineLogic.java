@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.ort.app.datasource.AbilityService;
 import com.ort.app.datasource.FootstepService;
+import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.FootstepLogic;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.daychange.DayChangeLogicHelper;
@@ -46,6 +47,8 @@ public class DivineLogic {
     private FootstepLogic footstepLogic;
     @Autowired
     private MessageLogic messageLogic;
+    @Autowired
+    private VillageService villageService;
     @Autowired
     private AbilityService abilityService;
     @Autowired
@@ -140,10 +143,11 @@ public class DivineLogic {
         Footsteps footsteps = footstepService.selectFootsteps(village.getVillageId()).filterByChara(villagePlayer.getCharaId());
 
         return abilities.list.stream().map(ability -> {
+            Integer abilityDay = ability.getDay();
             String footstep =
-                    footsteps.filterByDay(ability.getDay()).list.stream().findFirst().map(Footstep::getFootstepRoomNumbers).orElse("なし");
+                    footsteps.filterByDay(abilityDay).list.stream().findFirst().map(Footstep::getFootstepRoomNumbers).orElse("なし");
             VillagePlayer target = village.getVillagePlayers().findByCharaId(ability.getTargetCharaId());
-            return String.format("%d日目 %s を占う（%s）", ability.getDay(), target.name(), footstep);
+            return String.format("%d日目 %s を占う（%s）", abilityDay, target.name(abilityDay), footstep);
         }).collect(Collectors.toList());
     }
 
@@ -242,7 +246,7 @@ public class DivineLogic {
         if (dayChangeVillage.isAlive(targetPlayer) // 死亡していない
                 && targetPlayer.getSkillCodeAsSkill() == CDef.Skill.妖狐 // 呪殺対象
         ) {
-            helper.updateVillagePlayerDead(dayChangeVillage.day, targetPlayer, CDef.DeadReason.呪殺); // 死亡処理
+            villageService.dead(targetPlayer, dayChangeVillage.day, CDef.DeadReason.呪殺);
             dayChangeVillage.deadPlayers.add(targetPlayer, CDef.DeadReason.呪殺);
         }
     }
@@ -252,7 +256,7 @@ public class DivineLogic {
         if (dayChangeVillage.isAlive(targetPlayer) // 死亡していない
                 && targetPlayer.getSkillCodeAsSkill() == CDef.Skill.呪狼 //　逆呪殺対象
         ) {
-            helper.updateVillagePlayerDead(dayChangeVillage.day, seer, CDef.DeadReason.呪殺); // 死亡処理
+            villageService.dead(seer, dayChangeVillage.day, CDef.DeadReason.呪殺);
             dayChangeVillage.deadPlayers.add(seer, CDef.DeadReason.呪殺);
         }
     }

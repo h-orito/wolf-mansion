@@ -1,4 +1,71 @@
 map:{
+    ; 2020/10/02 16:08:25 = map:{
+        ; diffDate = 2020/10/02 16:08:25
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; VILLAGE_PLAYER_ROOM_HISTORY = map:{
+                ; tableName = VILLAGE_PLAYER_ROOM_HISTORY
+                ; diffType = CHANGE
+                ; foreignKeyDiff = map:{
+                    ; FK_VILLAGE_PLAYER_ROOM_HISTORY_VILLAGE_PLAYER = map:{
+                        ; constraintName = FK_VILLAGE_PLAYER_ROOM_HISTORY_VILLAGE_PLAYER
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = VILLAGE_PLAYER_ID
+                            ; previous = ROOM_NUMBER
+                        }
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_VILLAGE_PLAYER_ROOM_HISTORY_VILLAGE_PLAYER = map:{
+                        ; constraintName = FK_VILLAGE_PLAYER_ROOM_HISTORY_VILLAGE_PLAYER
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = VILLAGE_PLAYER_ID
+                            ; previous = ROOM_NUMBER
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ; 2020/10/02 13:32:15 = map:{
+        ; diffDate = 2020/10/02 13:32:15
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; VILLAGE_PLAYER_ROOM_HISTORY = map:{
+                ; tableName = VILLAGE_PLAYER_ROOM_HISTORY
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; DAY = map:{
+                        ; columnName = DAY
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
+    ; 2020/10/02 13:15:49 = map:{
+        ; diffDate = 2020/10/02 13:15:49
+        ; tableCount = map:{
+            ; next = 31
+            ; previous = 29
+        }
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; VILLAGE_PLAYER_DEAD_HISTORY = map:{
+                ; tableName = VILLAGE_PLAYER_DEAD_HISTORY
+                ; diffType = ADD
+            }
+            ; VILLAGE_PLAYER_ROOM_HISTORY = map:{
+                ; tableName = VILLAGE_PLAYER_ROOM_HISTORY
+                ; diffType = ADD
+            }
+        }
+    }
     ; 2020/10/02 09:11:05 = map:{
         ; diffDate = 2020/10/02 09:11:05
         ; tableCount = map:{

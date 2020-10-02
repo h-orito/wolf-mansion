@@ -11,8 +11,12 @@ import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
+import com.ort.dbflute.exbhv.VillagePlayerDeadHistoryBhv;
+import com.ort.dbflute.exbhv.VillagePlayerRoomHistoryBhv;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
+import com.ort.dbflute.exentity.VillagePlayerDeadHistory;
+import com.ort.dbflute.exentity.VillagePlayerRoomHistory;
 import com.ort.fw.security.UserInfo;
 
 @Repository
@@ -27,6 +31,10 @@ public class VillageService {
     private VillagePlayerBhv villagePlayerBhv;
     @Autowired
     private VillageDayBhv villageDayBhv;
+    @Autowired
+    private VillagePlayerRoomHistoryBhv villagePlayerRoomHistoryBhv;
+    @Autowired
+    private VillagePlayerDeadHistoryBhv villagePlayerDeadHistoryBhv;
 
     // ===================================================================================
     //                                                                             Execute
@@ -58,6 +66,8 @@ public class VillageService {
                     vpStCB.setupSelect_VillagePlayerByToVillagePlayerId().withChara();
                 });
                 vpLoader.pulloutChara().loadCharaImage(ciCB -> {});
+                vpLoader.loadVillagePlayerDeadHistory(history -> {});
+                vpLoader.loadVillagePlayerRoomHistory(history -> {});
             });
             loader.loadVillageDay(vdCB -> {
                 vdCB.query().addOrderBy_Day_Asc();
@@ -99,7 +109,49 @@ public class VillageService {
             loader.pulloutChara().loadCharaImage(charaImageCB -> {
                 charaImageCB.query().queryFaceType().addOrderBy_DispOrder_Asc();
             });
+            loader.loadVillagePlayerDeadHistory(history -> {});
+            loader.loadVillagePlayerRoomHistory(history -> {});
         });
         return Optional.of(optVillagePlayer.get());
+    }
+
+    public void assignRoom(VillagePlayer villagePlayer, int roomNumber, int day) {
+        // 村参加者をupdate
+        VillagePlayer entity = new VillagePlayer();
+        entity.setRoomNumber(roomNumber);
+        villagePlayerBhv.queryUpdate(entity, cb -> cb.query().setVillagePlayerId_Equal(villagePlayer.getVillagePlayerId()));
+        // 履歴をinsert
+        VillagePlayerRoomHistory history = new VillagePlayerRoomHistory();
+        history.setVillagePlayerId(villagePlayer.getVillagePlayerId());
+        history.setRoomNumber(roomNumber);
+        history.setDay(day);
+        villagePlayerRoomHistoryBhv.insert(history);
+    }
+
+    public void dead(VillagePlayer targetPlayer, int day, CDef.DeadReason deadReason) {
+        VillagePlayer vPlayer = new VillagePlayer();
+        vPlayer.setDeadReasonCodeAsDeadReason(deadReason);
+        vPlayer.setIsDead_True();
+        vPlayer.setDeadDay(day);
+        villagePlayerBhv.queryUpdate(vPlayer, cb -> cb.query().setVillagePlayerId_Equal(targetPlayer.getVillagePlayerId()));
+        VillagePlayerDeadHistory history = new VillagePlayerDeadHistory();
+        history.setVillagePlayerId(targetPlayer.getVillagePlayerId());
+        history.setDay(day);
+        history.setDeadReasonCodeAsDeadReason(deadReason);
+        history.setIsDead_True();
+        villagePlayerDeadHistoryBhv.insert(history);
+    }
+
+    public void revive(VillagePlayer targetPlayer, int day) {
+        VillagePlayer vPlayer = new VillagePlayer();
+        vPlayer.setDeadReasonCodeAsDeadReason(null);
+        vPlayer.setIsDead_False();
+        vPlayer.setDeadDay(null);
+        villagePlayerBhv.queryUpdate(vPlayer, cb -> cb.query().setVillagePlayerId_Equal(targetPlayer.getVillagePlayerId()));
+        VillagePlayerDeadHistory history = new VillagePlayerDeadHistory();
+        history.setVillagePlayerId(targetPlayer.getVillagePlayerId());
+        history.setDay(day);
+        history.setIsDead_False();
+        villagePlayerDeadHistoryBhv.insert(history);
     }
 }

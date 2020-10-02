@@ -33,13 +33,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [referrer table]
- *     VILLAGE_PLAYER
+ *     VILLAGE_PLAYER, VILLAGE_PLAYER_DEAD_HISTORY
  *
  * [foreign property]
  *     
  *
  * [referrer property]
- *     villagePlayerList
+ *     villagePlayerList, villagePlayerDeadHistoryList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -289,6 +289,26 @@ public abstract class BsDeadReason extends AbstractEntity implements DomainEntit
         _villagePlayerList = villagePlayerList;
     }
 
+    /** VILLAGE_PLAYER_DEAD_HISTORY by DEAD_REASON_CODE, named 'villagePlayerDeadHistoryList'. */
+    protected List<VillagePlayerDeadHistory> _villagePlayerDeadHistoryList;
+
+    /**
+     * [get] VILLAGE_PLAYER_DEAD_HISTORY by DEAD_REASON_CODE, named 'villagePlayerDeadHistoryList'.
+     * @return The entity list of referrer property 'villagePlayerDeadHistoryList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<VillagePlayerDeadHistory> getVillagePlayerDeadHistoryList() {
+        if (_villagePlayerDeadHistoryList == null) { _villagePlayerDeadHistoryList = newReferrerList(); }
+        return _villagePlayerDeadHistoryList;
+    }
+
+    /**
+     * [set] VILLAGE_PLAYER_DEAD_HISTORY by DEAD_REASON_CODE, named 'villagePlayerDeadHistoryList'.
+     * @param villagePlayerDeadHistoryList The entity list of referrer property 'villagePlayerDeadHistoryList'. (NullAllowed)
+     */
+    public void setVillagePlayerDeadHistoryList(List<VillagePlayerDeadHistory> villagePlayerDeadHistoryList) {
+        _villagePlayerDeadHistoryList = villagePlayerDeadHistoryList;
+    }
+
     protected <ELEMENT> List<ELEMENT> newReferrerList() { // overriding to import
         return new ArrayList<ELEMENT>();
     }
@@ -320,6 +340,8 @@ public abstract class BsDeadReason extends AbstractEntity implements DomainEntit
         StringBuilder sb = new StringBuilder();
         if (_villagePlayerList != null) { for (VillagePlayer et : _villagePlayerList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerList")); } } }
+        if (_villagePlayerDeadHistoryList != null) { for (VillagePlayerDeadHistory et : _villagePlayerDeadHistoryList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerDeadHistoryList")); } } }
         return sb.toString();
     }
 
@@ -340,6 +362,8 @@ public abstract class BsDeadReason extends AbstractEntity implements DomainEntit
         StringBuilder sb = new StringBuilder();
         if (_villagePlayerList != null && !_villagePlayerList.isEmpty())
         { sb.append(dm).append("villagePlayerList"); }
+        if (_villagePlayerDeadHistoryList != null && !_villagePlayerDeadHistoryList.isEmpty())
+        { sb.append(dm).append("villagePlayerDeadHistoryList"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }

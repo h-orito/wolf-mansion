@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.dbflute.cbean.result.ListResultBean;
-import org.dbflute.optional.OptionalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,27 +79,6 @@ public class DayChangeLogicHelper {
         });
     }
 
-    public Village selectVillage(Integer villageId) {
-        Village village = villageBhv.selectEntityWithDeletedCheck(cb -> {
-            cb.setupSelect_VillageSettingsAsOne();
-            cb.query().setVillageId_Equal(villageId);
-        });
-        villageBhv.load(village, loader -> {
-            loader.loadVillagePlayer(vpCB -> {
-                vpCB.setupSelect_Chara();
-                vpCB.setupSelect_Player();
-                vpCB.setupSelect_SkillBySkillCode();
-                vpCB.query().setIsGone_Equal_False();
-                vpCB.query().setIsSpectator_Equal_False();
-            }).withNestedReferrer(vpLoader -> {
-                vpLoader.loadVillagePlayerStatusByVillagePlayerId(vpStCB -> {
-                    vpStCB.setupSelect_VillagePlayerByToVillagePlayerId().withChara();
-                });
-            });
-        });
-        return village;
-    }
-
     public ListResultBean<VillagePlayer> selectVillagePlayerList(Integer villageId) {
         return villagePlayerBhv.selectList(cb -> {
             cb.setupSelect_Player();
@@ -166,41 +144,6 @@ public class DayChangeLogicHelper {
         vs.setVillageId(villageId);
         vs.setIsAvailableSameWolfAttack_True();
         villageSettingsBhv.update(vs);
-    }
-
-    public void updateVillagePlayerDead(int day, VillagePlayer targetPlayer, CDef.DeadReason deadReason) {
-        VillagePlayer vPlayer = new VillagePlayer();
-        vPlayer.setDeadReasonCodeAsDeadReason(deadReason);
-        vPlayer.setIsDead_True();
-        vPlayer.setDeadDay(day);
-        villagePlayerBhv.queryUpdate(vPlayer, cb -> cb.query().setVillagePlayerId_Equal(targetPlayer.getVillagePlayerId()));
-    }
-
-    public void updateVillagePlayerRevive(int day, VillagePlayer targetPlayer) {
-        VillagePlayer vPlayer = new VillagePlayer();
-        vPlayer.setDeadReasonCodeAsDeadReason(null);
-        vPlayer.setIsDead_False();
-        vPlayer.setDeadDay(null);
-        villagePlayerBhv.queryUpdate(vPlayer, cb -> cb.query().setVillagePlayerId_Equal(targetPlayer.getVillagePlayerId()));
-    }
-
-    public void deadBomberIfNeeded(Village village, int day) {
-        Integer villageId = village.getVillageId();
-        village.getVillagePlayers().filterAlive().filterBySkill(CDef.Skill.爆弾魔).list.forEach(bomber -> {
-            OptionalEntity<Ability> optAbility = abilityBhv.selectEntity(cb -> {
-                cb.query().setVillageId_Equal(villageId);
-                cb.query().setAbilityTypeCode_Equal_爆弾設置();
-                cb.query().setCharaId_Equal(bomber.getCharaId());
-                cb.fetchFirst(1);
-            });
-            if (optAbility.isPresent()) {
-                return;
-            }
-            // 爆弾を設置していない
-            String message = String.format("%sは、物足りないので自分の部屋を爆破した。", bomber.name());
-            messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, message);
-            updateVillagePlayerDead(day, bomber, CDef.DeadReason.爆死); // 死亡処理
-        });
     }
 
     public void updateIsWin(ListResultBean<VillagePlayer> villagePlayerList, CDef.Camp winCamp) {

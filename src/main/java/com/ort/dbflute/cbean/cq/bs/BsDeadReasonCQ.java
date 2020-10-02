@@ -82,16 +82,30 @@ public class BsDeadReasonCQ extends AbstractBsDeadReasonCQ {
     public Map<String, VillagePlayerCQ> xdfgetDeadReasonCode_ExistsReferrer_VillagePlayerList() { return xgetSQueMap("deadReasonCode_ExistsReferrer_VillagePlayerList"); }
     public String keepDeadReasonCode_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("deadReasonCode_ExistsReferrer_VillagePlayerList", sq); }
 
+    public Map<String, VillagePlayerDeadHistoryCQ> xdfgetDeadReasonCode_ExistsReferrer_VillagePlayerDeadHistoryList() { return xgetSQueMap("deadReasonCode_ExistsReferrer_VillagePlayerDeadHistoryList"); }
+    public String keepDeadReasonCode_ExistsReferrer_VillagePlayerDeadHistoryList(VillagePlayerDeadHistoryCQ sq) { return xkeepSQue("deadReasonCode_ExistsReferrer_VillagePlayerDeadHistoryList", sq); }
+
     public Map<String, VillagePlayerCQ> xdfgetDeadReasonCode_NotExistsReferrer_VillagePlayerList() { return xgetSQueMap("deadReasonCode_NotExistsReferrer_VillagePlayerList"); }
     public String keepDeadReasonCode_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("deadReasonCode_NotExistsReferrer_VillagePlayerList", sq); }
 
+    public Map<String, VillagePlayerDeadHistoryCQ> xdfgetDeadReasonCode_NotExistsReferrer_VillagePlayerDeadHistoryList() { return xgetSQueMap("deadReasonCode_NotExistsReferrer_VillagePlayerDeadHistoryList"); }
+    public String keepDeadReasonCode_NotExistsReferrer_VillagePlayerDeadHistoryList(VillagePlayerDeadHistoryCQ sq) { return xkeepSQue("deadReasonCode_NotExistsReferrer_VillagePlayerDeadHistoryList", sq); }
+
     public Map<String, VillagePlayerCQ> xdfgetDeadReasonCode_SpecifyDerivedReferrer_VillagePlayerList() { return xgetSQueMap("deadReasonCode_SpecifyDerivedReferrer_VillagePlayerList"); }
     public String keepDeadReasonCode_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("deadReasonCode_SpecifyDerivedReferrer_VillagePlayerList", sq); }
+
+    public Map<String, VillagePlayerDeadHistoryCQ> xdfgetDeadReasonCode_SpecifyDerivedReferrer_VillagePlayerDeadHistoryList() { return xgetSQueMap("deadReasonCode_SpecifyDerivedReferrer_VillagePlayerDeadHistoryList"); }
+    public String keepDeadReasonCode_SpecifyDerivedReferrer_VillagePlayerDeadHistoryList(VillagePlayerDeadHistoryCQ sq) { return xkeepSQue("deadReasonCode_SpecifyDerivedReferrer_VillagePlayerDeadHistoryList", sq); }
 
     public Map<String, VillagePlayerCQ> xdfgetDeadReasonCode_QueryDerivedReferrer_VillagePlayerList() { return xgetSQueMap("deadReasonCode_QueryDerivedReferrer_VillagePlayerList"); }
     public String keepDeadReasonCode_QueryDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("deadReasonCode_QueryDerivedReferrer_VillagePlayerList", sq); }
     public Map<String, Object> xdfgetDeadReasonCode_QueryDerivedReferrer_VillagePlayerListParameter() { return xgetSQuePmMap("deadReasonCode_QueryDerivedReferrer_VillagePlayerList"); }
     public String keepDeadReasonCode_QueryDerivedReferrer_VillagePlayerListParameter(Object pm) { return xkeepSQuePm("deadReasonCode_QueryDerivedReferrer_VillagePlayerList", pm); }
+
+    public Map<String, VillagePlayerDeadHistoryCQ> xdfgetDeadReasonCode_QueryDerivedReferrer_VillagePlayerDeadHistoryList() { return xgetSQueMap("deadReasonCode_QueryDerivedReferrer_VillagePlayerDeadHistoryList"); }
+    public String keepDeadReasonCode_QueryDerivedReferrer_VillagePlayerDeadHistoryList(VillagePlayerDeadHistoryCQ sq) { return xkeepSQue("deadReasonCode_QueryDerivedReferrer_VillagePlayerDeadHistoryList", sq); }
+    public Map<String, Object> xdfgetDeadReasonCode_QueryDerivedReferrer_VillagePlayerDeadHistoryListParameter() { return xgetSQuePmMap("deadReasonCode_QueryDerivedReferrer_VillagePlayerDeadHistoryList"); }
+    public String keepDeadReasonCode_QueryDerivedReferrer_VillagePlayerDeadHistoryListParameter(Object pm) { return xkeepSQuePm("deadReasonCode_QueryDerivedReferrer_VillagePlayerDeadHistoryList", pm); }
 
     /**
      * Add order-by as ascend. <br>

@@ -137,7 +137,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnVillagePlayerId = cci("VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", null, null, Integer.class, "villagePlayerId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "commitList,messageByToVillagePlayerIdList,messageByVillagePlayerIdList,villagePlayerStatusByToVillagePlayerIdList,villagePlayerStatusByVillagePlayerIdList", null, false);
+    protected final ColumnInfo _columnVillagePlayerId = cci("VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", null, null, Integer.class, "villagePlayerId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "commitList,messageByToVillagePlayerIdList,messageByVillagePlayerIdList,villagePlayerDeadHistoryList,villagePlayerRoomHistoryList,villagePlayerStatusByToVillagePlayerIdList,villagePlayerStatusByVillagePlayerIdList", null, false);
     protected final ColumnInfo _columnVillageId = cci("VILLAGE_ID", "VILLAGE_ID", null, null, Integer.class, "villageId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "village", null, null, false);
     protected final ColumnInfo _columnPlayerId = cci("PLAYER_ID", "PLAYER_ID", null, null, Integer.class, "playerId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "player", null, null, false);
     protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "chara", null, null, false);
@@ -387,6 +387,22 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     public ReferrerInfo referrerMessageByVillagePlayerIdList() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillagePlayerId(), MessageDbm.getInstance().columnVillagePlayerId());
         return cri("FK_MESSAGE_VILLAGE_PLAYER", "messageByVillagePlayerIdList", this, MessageDbm.getInstance(), mp, false, "villagePlayerByVillagePlayerId");
+    }
+    /**
+     * VILLAGE_PLAYER_DEAD_HISTORY by VILLAGE_PLAYER_ID, named 'villagePlayerDeadHistoryList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerVillagePlayerDeadHistoryList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillagePlayerId(), VillagePlayerDeadHistoryDbm.getInstance().columnVillagePlayerId());
+        return cri("FK_VILLAGE_PLAYER_DEAD_HISTORY_VILLAGE_PLAYER", "villagePlayerDeadHistoryList", this, VillagePlayerDeadHistoryDbm.getInstance(), mp, false, "villagePlayer");
+    }
+    /**
+     * VILLAGE_PLAYER_ROOM_HISTORY by VILLAGE_PLAYER_ID, named 'villagePlayerRoomHistoryList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerVillagePlayerRoomHistoryList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillagePlayerId(), VillagePlayerRoomHistoryDbm.getInstance().columnVillagePlayerId());
+        return cri("FK_VILLAGE_PLAYER_ROOM_HISTORY_VILLAGE_PLAYER", "villagePlayerRoomHistoryList", this, VillagePlayerRoomHistoryDbm.getInstance(), mp, false, "villagePlayer");
     }
     /**
      * VILLAGE_PLAYER_STATUS by TO_VILLAGE_PLAYER_ID, named 'villagePlayerStatusByToVillagePlayerIdList'.

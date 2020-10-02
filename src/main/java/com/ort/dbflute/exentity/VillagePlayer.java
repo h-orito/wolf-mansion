@@ -1,6 +1,11 @@
 package com.ort.dbflute.exentity;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+
 import com.ort.dbflute.allcommon.CDef;
+import com.ort.dbflute.allcommon.CDef.DeadReason;
 import com.ort.dbflute.bsentity.BsVillagePlayer;
 
 /**
@@ -36,18 +41,69 @@ public class VillagePlayer extends BsVillagePlayer {
         return makeCharaName(roomNumber, shortName, name);
     }
 
+    public String name(int day) {
+        Integer roomNumber = getRoomNumberWhen(day);
+        String shortName = getChara().get().getCharaShortName();
+        String name = getChara().get().getCharaName();
+        return makeCharaName(roomNumber, shortName, name);
+    }
+
     public String shortName() {
         Integer roomNumber = getRoomNumber();
         String shortName = getChara().get().getCharaShortName();
         return makeCharaShortName(roomNumber, shortName);
     }
 
+    public String shortName(int day) {
+        Integer roomNumber = getRoomNumberWhen(day);
+        String shortName = getChara().get().getCharaShortName();
+        return makeCharaShortName(roomNumber, shortName);
+    }
+
     public boolean isDeadWhen(int day) {
-        return isIsDeadTrue() && getDeadDay() <= day;
+        List<VillagePlayerDeadHistory> historyList = getVillagePlayerDeadHistoryList();
+        // 最後に死んだ日
+        Optional<VillagePlayerDeadHistory> optLastDeadHistory =
+                historyList.stream().filter(history -> history.isIsDeadTrue() && history.getDay() <= day).max(
+                        Comparator.comparing(VillagePlayerDeadHistory::getDay));
+        // 死んでいなければ生きている
+        if (!optLastDeadHistory.isPresent()) {
+            return false;
+        }
+        // 最後に死んだ日
+        Integer lastDeadDay = optLastDeadHistory.get().getDay();
+        DeadReason deadReason = optLastDeadHistory.get().getDeadReasonCodeAsDeadReason();
+        // 最後に死んだ日以降、今日までに生き返っていれば生存、生き返っていなければ死亡
+        // 死んだ日と生き返った日が同じ場合、後追なら死亡、そうでなければ生きている
+        boolean existsRevive = false;
+        if (deadReason == CDef.DeadReason.後追) {
+            existsRevive = historyList.stream()
+                    .anyMatch(history -> history.isIsDeadFalse() && history.getDay() <= day && history.getDay() > lastDeadDay);
+        } else {
+            existsRevive = historyList.stream()
+                    .anyMatch(history -> history.isIsDeadFalse() && history.getDay() <= day && history.getDay() >= lastDeadDay);
+        }
+        if (existsRevive) {
+            return false;
+        }
+        return true;
     }
 
     public boolean isAliveWhen(int day) {
         return !isDeadWhen(day);
+    }
+
+    public Integer getRoomNumberWhen(int day) {
+        List<VillagePlayerRoomHistory> historyList = getVillagePlayerRoomHistoryList();
+        if (historyList.isEmpty()) {
+            return null;
+        }
+        Optional<VillagePlayerRoomHistory> optLastHistory =
+                historyList.stream().filter(history -> history.getDay() <= day).max(Comparator.comparing(VillagePlayerRoomHistory::getDay));
+        if (!optLastHistory.isPresent()) {
+            return null;
+        }
+        return optLastHistory.get().getRoomNumber();
     }
 
     public CDef.FaceType detectDefaultFaceType(CDef.MessageType messageType) {

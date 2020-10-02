@@ -13,6 +13,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 import com.ort.app.datasource.AbilityService;
+import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.FootstepLogic;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.daychange.DayChangeLogicHelper;
@@ -40,6 +41,8 @@ public class BombLogic {
     private MessageLogic messageLogic;
     @Autowired
     private AbilityService abilityService;
+    @Autowired
+    private VillageService villageService;
 
     // ===================================================================================
     //                                                                             Execute
@@ -86,7 +89,7 @@ public class BombLogic {
                     }
                 }).filter(vp -> dayChangeVillage.isAlive(vp)).forEach(bombedPlayer -> {
                     // 死亡処理
-                    helper.updateVillagePlayerDead(day, bombedPlayer, CDef.DeadReason.爆死); // 死亡処理
+                    villageService.dead(bombedPlayer, day, CDef.DeadReason.爆死);
                     dayChangeVillage.deadPlayers.add(bombedPlayer, CDef.DeadReason.爆死);
                 });
     }
@@ -136,9 +139,25 @@ public class BombLogic {
                 .filterByChara(villagePlayer.getCharaId())
                 .sortedByDay();
         return abilities.list.stream().map(ability -> {
+            Integer abilityDay = ability.getDay();
             VillagePlayer target = village.getVillagePlayers().findByCharaId(ability.getTargetCharaId());
-            return String.format("%d日目 %s の部屋に爆弾を設置する", ability.getDay(), target.name());
+            return String.format("%d日目 %s の部屋に爆弾を設置する", abilityDay, target.name(abilityDay));
         }).collect(Collectors.toList());
+    }
+
+    // エピローグ遷移時点で爆弾を設置していなかったら自爆
+    public void deadBomberIfNeeded(Village village, int day) {
+        Integer villageId = village.getVillageId();
+        Abilities abilities = abilityService.selectAbilities(villageId);
+        village.getVillagePlayers().filterAlive().filterBySkill(CDef.Skill.爆弾魔).list.forEach(bomber -> {
+            if (!abilities.filterByType(CDef.AbilityType.爆弾設置).filterByChara(bomber.getCharaId()).list.isEmpty()) {
+                return;
+            }
+            // 爆弾を設置していない
+            String message = String.format("%sは、物足りないので自分の部屋を爆破した。", bomber.name());
+            messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, message);
+            villageService.dead(bomber, day, CDef.DeadReason.爆死);
+        });
     }
 
     // ===================================================================================

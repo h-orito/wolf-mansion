@@ -573,7 +573,7 @@ public class VillageAssist {
     private VillageRoomAssignedDto createRoomInfo(VillageInfo villageInfo, Integer width, int roomNum) {
         VillageRoomAssignedDto room = new VillageRoomAssignedDto();
         room.setRoomNumber(String.format("%02d", roomNum));
-        villageInfo.vPlayers.filterNotSpecatate().findByRoomNumber(roomNum).ifPresent(vp -> {
+        villageInfo.vPlayers.filterNotSpecatate().findByRoomNumber(roomNum, villageInfo.day).ifPresent(vp -> {
             Chara chara = vp.getChara().get();
             room.setCharaName(chara.getCharaName());
             room.setCharaShortName(chara.getCharaShortName());
@@ -726,7 +726,7 @@ public class VillageAssist {
                             .filterBy(v -> v.getDay() < villageInfo.day) //
                             .sortedByDay()
                             .map(v -> {
-                                return villageInfo.vPlayers.findByCharaId(v.getVoteCharaId()).shortName();
+                                return villageInfo.vPlayers.findByCharaId(v.getVoteCharaId()).shortName(v.getDay());
                             });
                     voteDto.setVoteTargetList(voteTargetList);
                     return voteDto;

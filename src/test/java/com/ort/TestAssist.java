@@ -203,7 +203,7 @@ public class TestAssist {
         setting.setIsAvailableSameWolfAttack_False();
         setting.setIsOpenSkillInGrave_False();
         setting.setIsVisibleGraveSpectateMessage_False();
-        setting.setIsAvailableSuddonlyDeath_True();
+        setting.setIsAvailableSuddonlyDeath_False();
         setting.setIsAvailableCommit_True();
         setting.setIsAvailableGuardSameTarget_False();
         setting.setCharacterGroupId(1);

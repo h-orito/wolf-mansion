@@ -30,13 +30,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [referrer table]
- *     VILLAGE_PLAYER
+ *     VILLAGE_PLAYER, VILLAGE_PLAYER_DEAD_HISTORY
  *
  * [foreign property]
  *     
  *
  * [referrer property]
- *     villagePlayerList
+ *     villagePlayerList, villagePlayerDeadHistoryList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -93,6 +93,40 @@ public class LoaderOfDeadReason {
     public NestedReferrerLoaderGateway<LoaderOfVillagePlayer> loadVillagePlayer(ReferrerConditionSetupper<VillagePlayerCB> refCBLambda) {
         myBhv().loadVillagePlayer(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerVillagePlayer = refLs);
         return hd -> hd.handle(new LoaderOfVillagePlayer().ready(_referrerVillagePlayer, _selector));
+    }
+
+    protected List<VillagePlayerDeadHistory> _referrerVillagePlayerDeadHistory;
+
+    /**
+     * Load referrer of villagePlayerDeadHistoryList by the set-upper of referrer. <br>
+     * VILLAGE_PLAYER_DEAD_HISTORY by DEAD_REASON_CODE, named 'villagePlayerDeadHistoryList'.
+     * <pre>
+     * <span style="color: #0000C0">deadReasonBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">deadReasonList</span>, <span style="color: #553000">reasonLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">reasonLoader</span>.<span style="color: #CC4747">loadVillagePlayerDeadHistory</span>(<span style="color: #553000">historyCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *         <span style="color: #553000">historyCB</span>.setupSelect...
+     *         <span style="color: #553000">historyCB</span>.query().set...
+     *         <span style="color: #553000">historyCB</span>.query().addOrderBy...
+     *     }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     *     <span style="color: #3F7E5E">//}).withNestedReferrer(<span style="color: #553000">historyLoader</span> -&gt; {</span>
+     *     <span style="color: #3F7E5E">//    historyLoader.load...</span>
+     *     <span style="color: #3F7E5E">//});</span>
+     * });
+     * for (DeadReason deadReason : <span style="color: #553000">deadReasonList</span>) {
+     *     ... = deadReason.<span style="color: #CC4747">getVillagePlayerDeadHistoryList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setDeadReasonCode_InScope(pkList);
+     * cb.query().addOrderBy_DeadReasonCode_Asc();
+     * </pre>
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerLoaderGateway<LoaderOfVillagePlayerDeadHistory> loadVillagePlayerDeadHistory(ReferrerConditionSetupper<VillagePlayerDeadHistoryCB> refCBLambda) {
+        myBhv().loadVillagePlayerDeadHistory(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerVillagePlayerDeadHistory = refLs);
+        return hd -> hd.handle(new LoaderOfVillagePlayerDeadHistory().ready(_referrerVillagePlayerDeadHistory, _selector));
     }
 
     // ===================================================================================

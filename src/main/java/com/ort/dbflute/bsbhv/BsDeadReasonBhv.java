@@ -44,13 +44,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [referrer table]
- *     VILLAGE_PLAYER
+ *     VILLAGE_PLAYER, VILLAGE_PLAYER_DEAD_HISTORY
  *
  * [foreign property]
  *     
  *
  * [referrer property]
- *     villagePlayerList
+ *     villagePlayerList, villagePlayerDeadHistoryList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -424,6 +424,70 @@ public abstract class BsDeadReasonBhv extends AbstractBehaviorWritable<DeadReaso
 
     protected NestedReferrerListGateway<VillagePlayer> doLoadVillagePlayer(List<DeadReason> deadReasonList, LoadReferrerOption<VillagePlayerCB, VillagePlayer> option) {
         return helpLoadReferrerInternally(deadReasonList, option, "villagePlayerList");
+    }
+
+    /**
+     * Load referrer of villagePlayerDeadHistoryList by the set-upper of referrer. <br>
+     * VILLAGE_PLAYER_DEAD_HISTORY by DEAD_REASON_CODE, named 'villagePlayerDeadHistoryList'.
+     * <pre>
+     * <span style="color: #0000C0">deadReasonBhv</span>.<span style="color: #CC4747">loadVillagePlayerDeadHistory</span>(<span style="color: #553000">deadReasonList</span>, <span style="color: #553000">historyCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">historyCB</span>.setupSelect...
+     *     <span style="color: #553000">historyCB</span>.query().set...
+     *     <span style="color: #553000">historyCB</span>.query().addOrderBy...
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * <span style="color: #70226C">for</span> (DeadReason deadReason : <span style="color: #553000">deadReasonList</span>) {
+     *     ... = deadReason.<span style="color: #CC4747">getVillagePlayerDeadHistoryList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setDeadReasonCode_InScope(pkList);
+     * cb.query().addOrderBy_DeadReasonCode_Asc();
+     * </pre>
+     * @param deadReasonList The entity list of deadReason. (NotNull)
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerListGateway<VillagePlayerDeadHistory> loadVillagePlayerDeadHistory(List<DeadReason> deadReasonList, ReferrerConditionSetupper<VillagePlayerDeadHistoryCB> refCBLambda) {
+        xassLRArg(deadReasonList, refCBLambda);
+        return doLoadVillagePlayerDeadHistory(deadReasonList, new LoadReferrerOption<VillagePlayerDeadHistoryCB, VillagePlayerDeadHistory>().xinit(refCBLambda));
+    }
+
+    /**
+     * Load referrer of villagePlayerDeadHistoryList by the set-upper of referrer. <br>
+     * VILLAGE_PLAYER_DEAD_HISTORY by DEAD_REASON_CODE, named 'villagePlayerDeadHistoryList'.
+     * <pre>
+     * <span style="color: #0000C0">deadReasonBhv</span>.<span style="color: #CC4747">loadVillagePlayerDeadHistory</span>(<span style="color: #553000">deadReason</span>, <span style="color: #553000">historyCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">historyCB</span>.setupSelect...
+     *     <span style="color: #553000">historyCB</span>.query().set...
+     *     <span style="color: #553000">historyCB</span>.query().addOrderBy...
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * ... = <span style="color: #553000">deadReason</span>.<span style="color: #CC4747">getVillagePlayerDeadHistoryList()</span>;
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setDeadReasonCode_InScope(pkList);
+     * cb.query().addOrderBy_DeadReasonCode_Asc();
+     * </pre>
+     * @param deadReason The entity of deadReason. (NotNull)
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerListGateway<VillagePlayerDeadHistory> loadVillagePlayerDeadHistory(DeadReason deadReason, ReferrerConditionSetupper<VillagePlayerDeadHistoryCB> refCBLambda) {
+        xassLRArg(deadReason, refCBLambda);
+        return doLoadVillagePlayerDeadHistory(xnewLRLs(deadReason), new LoadReferrerOption<VillagePlayerDeadHistoryCB, VillagePlayerDeadHistory>().xinit(refCBLambda));
+    }
+
+    protected NestedReferrerListGateway<VillagePlayerDeadHistory> doLoadVillagePlayerDeadHistory(List<DeadReason> deadReasonList, LoadReferrerOption<VillagePlayerDeadHistoryCB, VillagePlayerDeadHistory> option) {
+        return helpLoadReferrerInternally(deadReasonList, option, "villagePlayerDeadHistoryList");
     }
 
     // ===================================================================================

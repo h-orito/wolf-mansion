@@ -116,7 +116,8 @@ public class CohabitLogic {
                 .sortedByDay();
         return abilities.list.stream().map(ability -> {
             VillagePlayer target = village.getVillagePlayers().findByCharaId(ability.getTargetCharaId());
-            return String.format("%d日目 %s の部屋で過ごす", ability.getDay(), target.name());
+            Integer abilityDay = ability.getDay();
+            return String.format("%d日目 %s の部屋で過ごす", abilityDay, target.name(abilityDay));
         }).collect(Collectors.toList());
     }
 

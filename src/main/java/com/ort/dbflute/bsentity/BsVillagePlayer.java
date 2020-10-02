@@ -36,13 +36,13 @@ import com.ort.dbflute.exentity.*;
  *     CHARA, DEAD_REASON, PLAYER, SKILL, VILLAGE
  *
  * [referrer table]
- *     COMMIT, MESSAGE, VILLAGE_PLAYER_STATUS
+ *     COMMIT, MESSAGE, VILLAGE_PLAYER_DEAD_HISTORY, VILLAGE_PLAYER_ROOM_HISTORY, VILLAGE_PLAYER_STATUS
  *
  * [foreign property]
  *     chara, deadReason, player, skillByRequestSkillCode, skillBySecondRequestSkillCode, skillBySkillCode, village
  *
  * [referrer property]
- *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList, villagePlayerStatusByToVillagePlayerIdList, villagePlayerStatusByVillagePlayerIdList
+ *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList, villagePlayerDeadHistoryList, villagePlayerRoomHistoryList, villagePlayerStatusByToVillagePlayerIdList, villagePlayerStatusByVillagePlayerIdList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -3229,6 +3229,46 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         _messageByVillagePlayerIdList = messageByVillagePlayerIdList;
     }
 
+    /** VILLAGE_PLAYER_DEAD_HISTORY by VILLAGE_PLAYER_ID, named 'villagePlayerDeadHistoryList'. */
+    protected List<VillagePlayerDeadHistory> _villagePlayerDeadHistoryList;
+
+    /**
+     * [get] VILLAGE_PLAYER_DEAD_HISTORY by VILLAGE_PLAYER_ID, named 'villagePlayerDeadHistoryList'.
+     * @return The entity list of referrer property 'villagePlayerDeadHistoryList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<VillagePlayerDeadHistory> getVillagePlayerDeadHistoryList() {
+        if (_villagePlayerDeadHistoryList == null) { _villagePlayerDeadHistoryList = newReferrerList(); }
+        return _villagePlayerDeadHistoryList;
+    }
+
+    /**
+     * [set] VILLAGE_PLAYER_DEAD_HISTORY by VILLAGE_PLAYER_ID, named 'villagePlayerDeadHistoryList'.
+     * @param villagePlayerDeadHistoryList The entity list of referrer property 'villagePlayerDeadHistoryList'. (NullAllowed)
+     */
+    public void setVillagePlayerDeadHistoryList(List<VillagePlayerDeadHistory> villagePlayerDeadHistoryList) {
+        _villagePlayerDeadHistoryList = villagePlayerDeadHistoryList;
+    }
+
+    /** VILLAGE_PLAYER_ROOM_HISTORY by VILLAGE_PLAYER_ID, named 'villagePlayerRoomHistoryList'. */
+    protected List<VillagePlayerRoomHistory> _villagePlayerRoomHistoryList;
+
+    /**
+     * [get] VILLAGE_PLAYER_ROOM_HISTORY by VILLAGE_PLAYER_ID, named 'villagePlayerRoomHistoryList'.
+     * @return The entity list of referrer property 'villagePlayerRoomHistoryList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<VillagePlayerRoomHistory> getVillagePlayerRoomHistoryList() {
+        if (_villagePlayerRoomHistoryList == null) { _villagePlayerRoomHistoryList = newReferrerList(); }
+        return _villagePlayerRoomHistoryList;
+    }
+
+    /**
+     * [set] VILLAGE_PLAYER_ROOM_HISTORY by VILLAGE_PLAYER_ID, named 'villagePlayerRoomHistoryList'.
+     * @param villagePlayerRoomHistoryList The entity list of referrer property 'villagePlayerRoomHistoryList'. (NullAllowed)
+     */
+    public void setVillagePlayerRoomHistoryList(List<VillagePlayerRoomHistory> villagePlayerRoomHistoryList) {
+        _villagePlayerRoomHistoryList = villagePlayerRoomHistoryList;
+    }
+
     /** VILLAGE_PLAYER_STATUS by TO_VILLAGE_PLAYER_ID, named 'villagePlayerStatusByToVillagePlayerIdList'. */
     protected List<VillagePlayerStatus> _villagePlayerStatusByToVillagePlayerIdList;
 
@@ -3318,6 +3358,10 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         { if (et != null) { sb.append(li).append(xbRDS(et, "messageByToVillagePlayerIdList")); } } }
         if (_messageByVillagePlayerIdList != null) { for (Message et : _messageByVillagePlayerIdList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "messageByVillagePlayerIdList")); } } }
+        if (_villagePlayerDeadHistoryList != null) { for (VillagePlayerDeadHistory et : _villagePlayerDeadHistoryList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerDeadHistoryList")); } } }
+        if (_villagePlayerRoomHistoryList != null) { for (VillagePlayerRoomHistory et : _villagePlayerRoomHistoryList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerRoomHistoryList")); } } }
         if (_villagePlayerStatusByToVillagePlayerIdList != null) { for (VillagePlayerStatus et : _villagePlayerStatusByToVillagePlayerIdList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerStatusByToVillagePlayerIdList")); } } }
         if (_villagePlayerStatusByVillagePlayerIdList != null) { for (VillagePlayerStatus et : _villagePlayerStatusByVillagePlayerIdList)
@@ -3381,6 +3425,10 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         { sb.append(dm).append("messageByToVillagePlayerIdList"); }
         if (_messageByVillagePlayerIdList != null && !_messageByVillagePlayerIdList.isEmpty())
         { sb.append(dm).append("messageByVillagePlayerIdList"); }
+        if (_villagePlayerDeadHistoryList != null && !_villagePlayerDeadHistoryList.isEmpty())
+        { sb.append(dm).append("villagePlayerDeadHistoryList"); }
+        if (_villagePlayerRoomHistoryList != null && !_villagePlayerRoomHistoryList.isEmpty())
+        { sb.append(dm).append("villagePlayerRoomHistoryList"); }
         if (_villagePlayerStatusByToVillagePlayerIdList != null && !_villagePlayerStatusByToVillagePlayerIdList.isEmpty())
         { sb.append(dm).append("villagePlayerStatusByToVillagePlayerIdList"); }
         if (_villagePlayerStatusByVillagePlayerIdList != null && !_villagePlayerStatusByVillagePlayerIdList.isEmpty())

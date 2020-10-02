@@ -93,8 +93,11 @@ public class VillagePlayers {
                 () -> new IllegalStateException("no found chara. charaId: " + charaId));
     }
 
-    public Optional<VillagePlayer> findByRoomNumber(int roomNum) {
-        return this.filterBy(vp -> vp.getRoomNumber() != null && vp.getRoomNumber().equals(roomNum)).list.stream().findFirst();
+    public Optional<VillagePlayer> findByRoomNumber(int roomNum, int day) {
+        return this.filterBy(vp -> {
+            Integer roomNumber = vp.getRoomNumberWhen(day);
+            return roomNumber != null && roomNumber.equals(roomNum);
+        }).list.stream().findFirst();
     }
 
     public VillagePlayer getRandom() {

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import com.ort.app.datasource.AbilityService;
 import com.ort.app.datasource.FootstepService;
+import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.FootstepLogic;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.daychange.DayChangeLogicHelper;
@@ -44,6 +45,8 @@ public class AttackLogic {
     private FootstepLogic footstepLogic;
     @Autowired
     private MessageLogic messageLogic;
+    @Autowired
+    private VillageService villageService;
     @Autowired
     private AbilityService abilityService;
     @Autowired
@@ -83,12 +86,12 @@ public class AttackLogic {
         // 同棲者がいる部屋だったら移動元の同棲者も死亡
         if (isCohabitting(dayChangeVillage, targetPlayer)) {
             VillagePlayer lover = targetPlayer.getTargetLover();
-            helper.updateVillagePlayerDead(dayChangeVillage.day, lover, CDef.DeadReason.襲撃);
+            villageService.dead(lover, dayChangeVillage.day, CDef.DeadReason.襲撃);
             dayChangeVillage.deadPlayers.add(lover, CDef.DeadReason.襲撃);
         }
 
         // 死亡処理
-        helper.updateVillagePlayerDead(dayChangeVillage.day, targetPlayer, CDef.DeadReason.襲撃);
+        villageService.dead(targetPlayer, dayChangeVillage.day, CDef.DeadReason.襲撃);
         dayChangeVillage.deadPlayers.add(targetPlayer, CDef.DeadReason.襲撃);
 
         // 襲撃したのが智狼だったら襲撃対象の役職を表示
@@ -184,11 +187,12 @@ public class AttackLogic {
         Footsteps footsteps = footstepService.selectFootsteps(village.getVillageId()).filterInCharaIdList(wolfCharaIdList);
 
         return abilities.list.stream().map(ability -> {
+            Integer abilityDay = ability.getDay();
             String footstep =
-                    footsteps.filterByDay(ability.getDay()).list.stream().findFirst().map(Footstep::getFootstepRoomNumbers).orElse("なし");
+                    footsteps.filterByDay(abilityDay).list.stream().findFirst().map(Footstep::getFootstepRoomNumbers).orElse("なし");
             VillagePlayer myself = village.getVillagePlayers().findByCharaId(ability.getCharaId());
             VillagePlayer target = village.getVillagePlayers().findByCharaId(ability.getTargetCharaId());
-            return String.format("%d日目 %s が %s を襲撃する（%s）", ability.getDay(), myself.name(), target.name(), footstep);
+            return String.format("%d日目 %s が %s を襲撃する（%s）", abilityDay, myself.name(abilityDay), target.name(abilityDay), footstep);
         }).collect(Collectors.toList());
     }
 

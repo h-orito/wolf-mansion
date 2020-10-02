@@ -323,6 +323,23 @@ public class BsDeadReasonCB extends AbstractConditionBean {
                     -> cq.xsderiveVillagePlayerList(fn, sq, al, op), _dbmetaProvider);
         }
         /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
+         * {select max(FOO) from VILLAGE_PLAYER_DEAD_HISTORY where ...) as FOO_MAX} <br>
+         * VILLAGE_PLAYER_DEAD_HISTORY by DEAD_REASON_CODE, named 'villagePlayerDeadHistoryList'.
+         * <pre>
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(historyCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     historyCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     historyCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, VillagePlayerDeadHistory.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        public HpSDRFunction<VillagePlayerDeadHistoryCB, DeadReasonCQ> derivedVillagePlayerDeadHistory() {
+            assertDerived("villagePlayerDeadHistoryList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillagePlayerDeadHistoryCB> sq, DeadReasonCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveVillagePlayerDeadHistoryList(fn, sq, al, op), _dbmetaProvider);
+        }
+        /**
          * Prepare for (Specify)MyselfDerived (SubQuery).
          * @return The object to set up a function for myself table. (NotNull)
          */

@@ -15,6 +15,7 @@ import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ort.app.datasource.VillageService;
 import com.ort.app.util.RoomSize;
 import com.ort.app.util.RoomUtil;
 import com.ort.app.util.SkillUtil;
@@ -111,18 +112,16 @@ public class AssignLogic {
     //                                                                           =========
     @Autowired
     private VillageBhv villageBhv;
-
     @Autowired
     private VillagePlayerBhv villagePlayerBhv;
-
     @Autowired
     private VillagePlayerStatusBhv villagePlayerStatusBhv;
-
     @Autowired
     private MessageLogic messageLogic;
-
     @Autowired
     private SkillBhv skillBhv;
+    @Autowired
+    private VillageService villageService;
 
     // ===================================================================================
     //                                                                             Execute
@@ -570,10 +569,9 @@ public class AssignLogic {
         List<Integer> roomNumberList = new ArrayList<>(RoomUtil.getRoomNumberList(vPlayers.list.size()));
         Collections.shuffle(roomNumberList);
         for (int i = 0; i < vPlayers.list.size(); i++) {
-            VillagePlayer entity = new VillagePlayer();
-            entity.setRoomNumber(roomNumberList.get(i));
             VillagePlayer player = vPlayers.list.get(i);
-            villagePlayerBhv.queryUpdate(entity, cb -> cb.query().setVillagePlayerId_Equal(player.getVillagePlayerId()));
+            Integer roomNumber = roomNumberList.get(i);
+            villageService.assignRoom(player, roomNumber, 1);
         }
     }
 }

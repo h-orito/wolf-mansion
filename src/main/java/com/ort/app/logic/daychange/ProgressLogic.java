@@ -224,7 +224,7 @@ public class ProgressLogic {
         // DB更新
         Integer villageId = village.getVillageId();
         helper.updateVillageEpilogue(villageId, day, winCamp);
-        helper.deadBomberIfNeeded(village, day);
+        bombLogic.deadBomberIfNeeded(village, day); // 爆弾魔が設置していなかったら自爆
         ListResultBean<VillagePlayer> vPlayerList = helper.selectVillagePlayerList(villageId);
         helper.updateIsWin(vPlayerList, winCamp);
         // エピローグ遷移メッセージ登録

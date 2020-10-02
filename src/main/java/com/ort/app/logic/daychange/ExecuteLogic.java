@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ort.app.datasource.VillageService;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillagePlayers;
@@ -22,6 +23,8 @@ public class ExecuteLogic {
 
     @Autowired
     private DayChangeLogicHelper helper;
+    @Autowired
+    private VillageService villageService;
 
     // 処刑
     public void execute(DayChangeVillage dayChangeVillage) {
@@ -44,7 +47,7 @@ public class ExecuteLogic {
 
         // 処刑
         if (dayChangeVillage.isAlive(executedPlayer)) {
-            helper.updateVillagePlayerDead(day, executedPlayer, CDef.DeadReason.処刑); // 死亡処理            
+            villageService.dead(executedPlayer, day, CDef.DeadReason.処刑);
         }
         // 個別投票メッセージ登録
         insertEachVoteMessage(dayChangeVillage, voteList);

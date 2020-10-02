@@ -10,6 +10,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 import com.ort.app.datasource.AbilityService;
+import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.FootstepLogic;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.daychange.DayChangeLogicHelper;
@@ -35,6 +36,8 @@ public class TrapLogic {
     private FootstepLogic footstepLogic;
     @Autowired
     private MessageLogic messageLogic;
+    @Autowired
+    private VillageService villageService;
     @Autowired
     private AbilityService abilityService;
 
@@ -64,7 +67,7 @@ public class TrapLogic {
                             .getPassedPlayerList(dayChangeVillage.villageId, day - 1, roomNumber, dayChangeVillage.vPlayers.list)
                             .stream();
                 }).filter(vp -> dayChangeVillage.isAlive(vp)).forEach(trappedPlayer -> {
-                    helper.updateVillagePlayerDead(day, trappedPlayer, CDef.DeadReason.罠死); // 死亡処理
+                    villageService.dead(trappedPlayer, day, CDef.DeadReason.罠死);
                     dayChangeVillage.deadPlayers.add(trappedPlayer, CDef.DeadReason.罠死);
                 });
     }
@@ -114,7 +117,8 @@ public class TrapLogic {
                 .sortedByDay();
         return abilities.list.stream().map(ability -> {
             VillagePlayer target = village.getVillagePlayers().findByCharaId(ability.getTargetCharaId());
-            return String.format("%d日目 %s の部屋に罠を設置する", ability.getDay(), target.name());
+            Integer abilityDay = ability.getDay();
+            return String.format("%d日目 %s の部屋に罠を設置する", abilityDay, target.name(abilityDay));
         }).collect(Collectors.toList());
     }
 

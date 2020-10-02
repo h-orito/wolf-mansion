@@ -277,6 +277,25 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
     public abstract String keepDeadReasonCode_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq);
 
     /**
+     * Set up ExistsReferrer (correlated sub-query). <br>
+     * {exists (select DEAD_REASON_CODE from VILLAGE_PLAYER_DEAD_HISTORY where ...)} <br>
+     * VILLAGE_PLAYER_DEAD_HISTORY by DEAD_REASON_CODE, named 'villagePlayerDeadHistoryAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">existsVillagePlayerDeadHistory</span>(historyCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     historyCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of VillagePlayerDeadHistoryList for 'exists'. (NotNull)
+     */
+    public void existsVillagePlayerDeadHistory(SubQuery<VillagePlayerDeadHistoryCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        VillagePlayerDeadHistoryCB cb = new VillagePlayerDeadHistoryCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepDeadReasonCode_ExistsReferrer_VillagePlayerDeadHistoryList(cb.query());
+        registerExistsReferrer(cb.query(), "DEAD_REASON_CODE", "DEAD_REASON_CODE", pp, "villagePlayerDeadHistoryList");
+    }
+    public abstract String keepDeadReasonCode_ExistsReferrer_VillagePlayerDeadHistoryList(VillagePlayerDeadHistoryCQ sq);
+
+    /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
      * {not exists (select DEAD_REASON_CODE from VILLAGE_PLAYER where ...)} <br>
      * VILLAGE_PLAYER by DEAD_REASON_CODE, named 'villagePlayerAsOne'.
@@ -295,6 +314,25 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
     }
     public abstract String keepDeadReasonCode_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq);
 
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br>
+     * {not exists (select DEAD_REASON_CODE from VILLAGE_PLAYER_DEAD_HISTORY where ...)} <br>
+     * VILLAGE_PLAYER_DEAD_HISTORY by DEAD_REASON_CODE, named 'villagePlayerDeadHistoryAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">notExistsVillagePlayerDeadHistory</span>(historyCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     historyCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of DeadReasonCode_NotExistsReferrer_VillagePlayerDeadHistoryList for 'not exists'. (NotNull)
+     */
+    public void notExistsVillagePlayerDeadHistory(SubQuery<VillagePlayerDeadHistoryCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        VillagePlayerDeadHistoryCB cb = new VillagePlayerDeadHistoryCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepDeadReasonCode_NotExistsReferrer_VillagePlayerDeadHistoryList(cb.query());
+        registerNotExistsReferrer(cb.query(), "DEAD_REASON_CODE", "DEAD_REASON_CODE", pp, "villagePlayerDeadHistoryList");
+    }
+    public abstract String keepDeadReasonCode_NotExistsReferrer_VillagePlayerDeadHistoryList(VillagePlayerDeadHistoryCQ sq);
+
     public void xsderiveVillagePlayerList(String fn, SubQuery<VillagePlayerCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
         VillagePlayerCB cb = new VillagePlayerCB(); cb.xsetupForDerivedReferrer(this);
@@ -302,6 +340,14 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
         registerSpecifyDerivedReferrer(fn, cb.query(), "DEAD_REASON_CODE", "DEAD_REASON_CODE", pp, "villagePlayerList", al, op);
     }
     public abstract String keepDeadReasonCode_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq);
+
+    public void xsderiveVillagePlayerDeadHistoryList(String fn, SubQuery<VillagePlayerDeadHistoryCB> sq, String al, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        VillagePlayerDeadHistoryCB cb = new VillagePlayerDeadHistoryCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepDeadReasonCode_SpecifyDerivedReferrer_VillagePlayerDeadHistoryList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "DEAD_REASON_CODE", "DEAD_REASON_CODE", pp, "villagePlayerDeadHistoryList", al, op);
+    }
+    public abstract String keepDeadReasonCode_SpecifyDerivedReferrer_VillagePlayerDeadHistoryList(VillagePlayerDeadHistoryCQ sq);
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
@@ -329,6 +375,33 @@ public abstract class AbstractBsDeadReasonCQ extends AbstractConditionQuery {
     }
     public abstract String keepDeadReasonCode_QueryDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq);
     public abstract String keepDeadReasonCode_QueryDerivedReferrer_VillagePlayerListParameter(Object vl);
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
+     * {FOO &lt;= (select max(BAR) from VILLAGE_PLAYER_DEAD_HISTORY where ...)} <br>
+     * VILLAGE_PLAYER_DEAD_HISTORY by DEAD_REASON_CODE, named 'villagePlayerDeadHistoryAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">derivedVillagePlayerDeadHistory()</span>.<span style="color: #CC4747">max</span>(historyCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     historyCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     historyCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    public HpQDRFunction<VillagePlayerDeadHistoryCB> derivedVillagePlayerDeadHistory() {
+        return xcreateQDRFunctionVillagePlayerDeadHistoryList();
+    }
+    protected HpQDRFunction<VillagePlayerDeadHistoryCB> xcreateQDRFunctionVillagePlayerDeadHistoryList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveVillagePlayerDeadHistoryList(fn, sq, rd, vl, op));
+    }
+    public void xqderiveVillagePlayerDeadHistoryList(String fn, SubQuery<VillagePlayerDeadHistoryCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        VillagePlayerDeadHistoryCB cb = new VillagePlayerDeadHistoryCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepDeadReasonCode_QueryDerivedReferrer_VillagePlayerDeadHistoryList(cb.query()); String prpp = keepDeadReasonCode_QueryDerivedReferrer_VillagePlayerDeadHistoryListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "DEAD_REASON_CODE", "DEAD_REASON_CODE", sqpp, "villagePlayerDeadHistoryList", rd, vl, prpp, op);
+    }
+    public abstract String keepDeadReasonCode_QueryDerivedReferrer_VillagePlayerDeadHistoryList(VillagePlayerDeadHistoryCQ sq);
+    public abstract String keepDeadReasonCode_QueryDerivedReferrer_VillagePlayerDeadHistoryListParameter(Object vl);
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>

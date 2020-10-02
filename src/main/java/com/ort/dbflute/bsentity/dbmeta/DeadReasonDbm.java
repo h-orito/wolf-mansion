@@ -71,7 +71,7 @@ public class DeadReasonDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnDeadReasonCode = cci("DEAD_REASON_CODE", "DEAD_REASON_CODE", null, null, String.class, "deadReasonCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "villagePlayerList", CDef.DefMeta.DeadReason, false);
+    protected final ColumnInfo _columnDeadReasonCode = cci("DEAD_REASON_CODE", "DEAD_REASON_CODE", null, null, String.class, "deadReasonCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "villagePlayerList,villagePlayerDeadHistoryList", CDef.DefMeta.DeadReason, false);
     protected final ColumnInfo _columnDeadReasonName = cci("DEAD_REASON_NAME", "DEAD_REASON_NAME", null, null, String.class, "deadReasonName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
 
     /**
@@ -123,6 +123,14 @@ public class DeadReasonDbm extends AbstractDBMeta {
     public ReferrerInfo referrerVillagePlayerList() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnDeadReasonCode(), VillagePlayerDbm.getInstance().columnDeadReasonCode());
         return cri("FK_VILLAGE_PLAYER_DEAD_REASON", "villagePlayerList", this, VillagePlayerDbm.getInstance(), mp, false, "deadReason");
+    }
+    /**
+     * VILLAGE_PLAYER_DEAD_HISTORY by DEAD_REASON_CODE, named 'villagePlayerDeadHistoryList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerVillagePlayerDeadHistoryList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnDeadReasonCode(), VillagePlayerDeadHistoryDbm.getInstance().columnDeadReasonCode());
+        return cri("FK_VILLAGE_PLAYER_DEAD_HISTORY_DEAD_REASON", "villagePlayerDeadHistoryList", this, VillagePlayerDeadHistoryDbm.getInstance(), mp, false, "deadReason");
     }
 
     // ===================================================================================

@@ -461,12 +461,12 @@
 			<physical_name>VILLAGE_PLAYER_STATUS</physical_name>
 			<logical_name>村参加者ステータス</logical_name>
 			<description></description>
-			<height>75</height>
-			<width>328</width>
+			<height>125</height>
+			<width>373</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1757</x>
-			<y>456</y>
+			<x>1750</x>
+			<y>337</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -743,8 +743,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1753</x>
-			<y>1233</y>
+			<x>1985</x>
+			<y>1280</y>
 			<color>
 				<r>254</r>
 				<g>251</g>
@@ -821,8 +821,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1754</x>
-			<y>953</y>
+			<x>1271</x>
+			<y>1139</y>
 			<color>
 				<r>254</r>
 				<g>251</g>
@@ -859,11 +859,11 @@
 			<logical_name>キャラクター画像</logical_name>
 			<description></description>
 			<height>89</height>
-			<width>276</width>
+			<width>278</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>530</x>
-			<y>815</y>
+			<x>553</x>
+			<y>871</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -937,8 +937,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1768</x>
-			<y>620</y>
+			<x>1844</x>
+			<y>668</y>
 			<color>
 				<r>254</r>
 				<g>251</g>
@@ -1583,8 +1583,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1753</x>
-			<y>781</y>
+			<x>1277</x>
+			<y>886</y>
 			<color>
 				<r>254</r>
 				<g>251</g>
@@ -1742,8 +1742,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1387</x>
-			<y>824</y>
+			<x>1532</x>
+			<y>877</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -1911,8 +1911,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1386</x>
-			<y>456</y>
+			<x>1375</x>
+			<y>455</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -1997,6 +1997,8 @@
 					<reference_for_pk>true</reference_for_pk>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
+					<target_xp>100</target_xp>
+					<target_yp>78</target_yp>
 				</relationship>
 				<relationship>
 					<name>FK_village_player_skill_request</name>
@@ -2012,8 +2014,8 @@
 					<reference_for_pk>true</reference_for_pk>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<target_xp>100</target_xp>
-					<target_yp>69</target_yp>
+					<target_xp>45</target_xp>
+					<target_yp>100</target_yp>
 				</relationship>
 				<relationship>
 					<name>FK_village_player_second_skill_req</name>
@@ -2137,13 +2139,175 @@
 			</table_properties>
 		</table>
 		<table>
+			<physical_name>village_player_dead_history</physical_name>
+			<logical_name>村参加者生死履歴</logical_name>
+			<description></description>
+			<height>143</height>
+			<width>360</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>1845</x>
+			<y>498</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+				<relationship>
+					<name>FK_village_player_dead_history_village_player</name>
+					<source>table.village_player</source>
+					<target>table.village_player_dead_history</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>village_player_id</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+				<relationship>
+					<name>FK_village_player_dead_history_dead_reason</name>
+					<source>table.dead_reason</source>
+					<target>table.village_player_dead_history</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>dead_reason_code</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>village_player_dead_history_id</physical_name>
+					<logical_name>村参加者生死履歴ID</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+					<auto_increment>true</auto_increment>
+				</normal_column>
+				<normal_column>
+					<physical_name>village_player_id</physical_name>
+					<referred_column>table.village_player.village_player_id</referred_column>
+					<relationship>FK_village_player_dead_history_village_player</relationship>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>day</physical_name>
+					<logical_name>何日目か</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>is_dead</physical_name>
+					<logical_name>死亡か</logical_name>
+					<type>boolean</type>
+					<description>falseの場合は復活</description>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>dead_reason_code</physical_name>
+					<referred_column>table.dead_reason.dead_reason_code</referred_column>
+					<relationship>FK_village_player_dead_history_dead_reason</relationship>
+				</normal_column>
+				<column_group>共通カラム</column_group>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
+			<physical_name>village_player_room_history</physical_name>
+			<logical_name>村参加者部屋移動履歴</logical_name>
+			<description></description>
+			<height>75</height>
+			<width>120</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>1851</x>
+			<y>760</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+				<relationship>
+					<name>FK_village_player_room_history_village_player</name>
+					<source>table.village_player</source>
+					<target>table.village_player_room_history</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>village_player_id</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>village_player_room_history_id</physical_name>
+					<logical_name>村参加者部屋移動履歴ID</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+					<auto_increment>true</auto_increment>
+				</normal_column>
+				<normal_column>
+					<physical_name>village_player_id</physical_name>
+					<referred_column>table.village_player.village_player_id</referred_column>
+					<relationship>FK_village_player_room_history_village_player</relationship>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>day</physical_name>
+					<logical_name>何日目か</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>room_number</physical_name>
+					<logical_name>部屋番号</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<column_group>共通カラム</column_group>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
 			<physical_name>village_player_status_type</physical_name>
 			<logical_name>村参加者ステータス種別</logical_name>
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1758</x>
-			<y>327</y>
+			<x>2173</x>
+			<y>373</y>
 			<color>
 				<r>254</r>
 				<g>251</g>
@@ -2181,8 +2345,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1310</x>
-			<y>1102</y>
+			<x>1534</x>
+			<y>1127</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -2368,8 +2532,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1752</x>
-			<y>1070</y>
+			<x>1882</x>
+			<y>963</y>
 			<color>
 				<r>254</r>
 				<g>251</g>

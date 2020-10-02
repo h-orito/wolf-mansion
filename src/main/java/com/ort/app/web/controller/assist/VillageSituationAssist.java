@@ -15,7 +15,6 @@ import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.Abilities;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Footstep;
-import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillagePlayers;
 
 @Component
@@ -39,7 +38,7 @@ public class VillageSituationAssist {
             List<Integer> livingPlayerRoomNumList = villageInfo.vPlayers //
                     .filterNotSpecatate() //
                     .filterBy(vp -> vp.isAliveWhen(day))
-                    .map(VillagePlayer::getRoomNumber);
+                    .map(vp -> vp.getRoomNumberWhen(day - 1)); // TODO あってる？
             String message;
             List<Footstep> dayFootstepList = villageInfo.footsteps.filterYesteday(day).list;
             if (villageDispLogic.isDispSpoilerContent(villageInfo)) {
@@ -84,14 +83,14 @@ public class VillageSituationAssist {
         situation.setDay(day);
         VillagePlayers deadPlayers = vPlayers.filterBy(vp -> vp.getDeadDay() != null && vp.getDeadDay().equals(day));
         VillagePlayers suddenly = deadPlayers.filterBy(vp -> vp.isDeadReasonCode突然()).shuffled();
-        situation.setSuddonlyDeathChara(suddenly.list.isEmpty() ? "なし" : String.join("、", suddenly.map(VillagePlayer::shortName)));
+        situation.setSuddonlyDeathChara(suddenly.list.isEmpty() ? "なし" : String.join("、", suddenly.map(vp -> vp.shortName(day))));
         VillagePlayers miserable = deadPlayers.filterBy(vp -> vp.isDeadReasonCode_Miserable()).shuffled();
-        situation.setAttackedChara(miserable.list.isEmpty() ? "なし" : String.join("、", miserable.map(VillagePlayer::shortName)));
+        situation.setAttackedChara(miserable.list.isEmpty() ? "なし" : String.join("、", miserable.map(vp -> vp.shortName(day))));
         VillagePlayers executed = deadPlayers.filterBy(vp -> vp.isDeadReasonCode処刑());
-        situation.setExecutedChara(executed.list.isEmpty() ? "なし" : String.join("、", executed.map(VillagePlayer::shortName)));
+        situation.setExecutedChara(executed.list.isEmpty() ? "なし" : String.join("、", executed.map(vp -> vp.shortName(day))));
         VillagePlayers suicide = deadPlayers.filterBy(vp -> vp.isDeadReasonCode後追());
         situation.setSuicideChara(suicide.list.isEmpty() ? "なし" : String.join("、", suicide.map(vp -> {
-            return String.format("%s(%s)", vp.shortName(), vp.getTargetLover().shortName());
+            return String.format("%s(%s)", vp.shortName(day), vp.getTargetLover().shortName(day));
         })));
         return situation;
     }
@@ -111,13 +110,14 @@ public class VillageSituationAssist {
         }).ifPresent(attackString -> situation.setAttack(attackString));
 
         List<String> investigateList = abilities.filterByType(CDef.AbilityType.捜査).map(ability -> {
-            return String.format("%s → %s", vPlayers.findByCharaId(ability.getCharaId()).shortName(), ability.getTargetFootstep());
+            return String.format("%s → %s", vPlayers.findByCharaId(ability.getCharaId()).shortName(ability.getDay()),
+                    ability.getTargetFootstep());
         });
         situation.setInvestigation(String.join("\n", investigateList));
     }
 
     private String makeAbilitySituationString(VillagePlayers villagePlayers, Ability ability) {
-        return String.format("%s → %s", villagePlayers.findByCharaId(ability.getCharaId()).shortName(),
+        return String.format("%s → %s", villagePlayers.findByCharaId(ability.getCharaId()).shortName(ability.getDay()),
                 villagePlayers.findByCharaId(ability.getTargetCharaId()).shortName());
     }
 }

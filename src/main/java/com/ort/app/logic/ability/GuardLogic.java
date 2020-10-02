@@ -155,10 +155,11 @@ public class GuardLogic {
         Footsteps footsteps = footstepService.selectFootsteps(village.getVillageId()).filterByChara(villagePlayer.getCharaId());
 
         return abilities.list.stream().map(ability -> {
+            Integer abilityDay = ability.getDay();
             String footstep =
-                    footsteps.filterByDay(ability.getDay()).list.stream().findFirst().map(Footstep::getFootstepRoomNumbers).orElse("なし");
+                    footsteps.filterByDay(abilityDay).list.stream().findFirst().map(Footstep::getFootstepRoomNumbers).orElse("なし");
             VillagePlayer target = village.getVillagePlayers().findByCharaId(ability.getTargetCharaId());
-            return String.format("%d日目 %s を護衛する（%s）", ability.getDay(), target.name(), footstep);
+            return String.format("%d日目 %s を護衛する（%s）", abilityDay, target.name(abilityDay), footstep);
         }).collect(Collectors.toList());
     }
 

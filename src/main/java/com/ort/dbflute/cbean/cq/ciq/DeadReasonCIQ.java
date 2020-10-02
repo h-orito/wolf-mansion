@@ -64,13 +64,23 @@ public class DeadReasonCIQ extends AbstractBsDeadReasonCQ {
     protected ConditionValue xgetCValueDeadReasonCode() { return _myCQ.xdfgetDeadReasonCode(); }
     public String keepDeadReasonCode_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
+    public String keepDeadReasonCode_ExistsReferrer_VillagePlayerDeadHistoryList(VillagePlayerDeadHistoryCQ sq)
+    { throwIICBOE("ExistsReferrer"); return null; }
     public String keepDeadReasonCode_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
+    public String keepDeadReasonCode_NotExistsReferrer_VillagePlayerDeadHistoryList(VillagePlayerDeadHistoryCQ sq)
+    { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepDeadReasonCode_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq)
+    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
+    public String keepDeadReasonCode_SpecifyDerivedReferrer_VillagePlayerDeadHistoryList(VillagePlayerDeadHistoryCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepDeadReasonCode_QueryDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepDeadReasonCode_QueryDerivedReferrer_VillagePlayerListParameter(Object vl)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepDeadReasonCode_QueryDerivedReferrer_VillagePlayerDeadHistoryList(VillagePlayerDeadHistoryCQ sq)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepDeadReasonCode_QueryDerivedReferrer_VillagePlayerDeadHistoryListParameter(Object vl)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     protected ConditionValue xgetCValueDeadReasonName() { return _myCQ.xdfgetDeadReasonName(); }
     protected Map<String, Object> xfindFixedConditionDynamicParameterMap(String pp) { return null; }
