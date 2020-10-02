@@ -62,8 +62,6 @@ public class SkillCIQ extends AbstractBsSkillCQ {
     //                                                                Override about Query
     //                                                                ====================
     protected ConditionValue xgetCValueSkillCode() { return _myCQ.xdfgetSkillCode(); }
-    public String keepSkillCode_ExistsReferrer_MessageRestrictionList(MessageRestrictionCQ sq)
-    { throwIICBOE("ExistsReferrer"); return null; }
     public String keepSkillCode_ExistsReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
     public String keepSkillCode_ExistsReferrer_VillagePlayerByRequestSkillCodeList(VillagePlayerCQ sq)
@@ -72,8 +70,6 @@ public class SkillCIQ extends AbstractBsSkillCQ {
     { throwIICBOE("ExistsReferrer"); return null; }
     public String keepSkillCode_ExistsReferrer_VillagePlayerBySkillCodeList(VillagePlayerCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
-    public String keepSkillCode_NotExistsReferrer_MessageRestrictionList(MessageRestrictionCQ sq)
-    { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepSkillCode_NotExistsReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepSkillCode_NotExistsReferrer_VillagePlayerByRequestSkillCodeList(VillagePlayerCQ sq)
@@ -82,8 +78,6 @@ public class SkillCIQ extends AbstractBsSkillCQ {
     { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepSkillCode_NotExistsReferrer_VillagePlayerBySkillCodeList(VillagePlayerCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
-    public String keepSkillCode_SpecifyDerivedReferrer_MessageRestrictionList(MessageRestrictionCQ sq)
-    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepSkillCode_SpecifyDerivedReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepSkillCode_SpecifyDerivedReferrer_VillagePlayerByRequestSkillCodeList(VillagePlayerCQ sq)
@@ -92,10 +86,6 @@ public class SkillCIQ extends AbstractBsSkillCQ {
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepSkillCode_SpecifyDerivedReferrer_VillagePlayerBySkillCodeList(VillagePlayerCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
-    public String keepSkillCode_QueryDerivedReferrer_MessageRestrictionList(MessageRestrictionCQ sq)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepSkillCode_QueryDerivedReferrer_MessageRestrictionListParameter(Object vl)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepSkillCode_QueryDerivedReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepSkillCode_QueryDerivedReferrer_NormalSayRestrictionListParameter(Object vl)

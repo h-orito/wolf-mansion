@@ -2,7 +2,7 @@ package com.ort.app.web.form;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +16,6 @@ import org.springframework.util.CollectionUtils;
 import com.ort.app.logic.AssignLogic;
 import com.ort.app.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
-import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.fw.util.WerewolfMansionDateUtil;
 
 public class NewVillageForm implements Serializable {
@@ -139,6 +138,10 @@ public class NewVillageForm implements Serializable {
     @NotNull
     private List<NewVillageSayRestrictDto> sayRestrictList;
 
+    /** 役職発言制限 */
+    @NotNull
+    private List<NewVillageSkillSayRestrictDto> skillSayRestrictList;
+
     public void initialize() {
         if (startPersonMinNum == null) {
             startPersonMinNum = 8;
@@ -194,6 +197,10 @@ public class NewVillageForm implements Serializable {
         if (CollectionUtils.isEmpty(sayRestrictList)) {
             sayRestrictList = createRestrictList();
         }
+        if (CollectionUtils.isEmpty(skillSayRestrictList)) {
+            skillSayRestrictList = createSkillRestrictList();
+        }
+
     }
 
     public String getVillageName() {
@@ -412,6 +419,14 @@ public class NewVillageForm implements Serializable {
         this.dummyCharaId = dummyCharaId;
     }
 
+    public List<NewVillageSkillSayRestrictDto> getSkillSayRestrictList() {
+        return skillSayRestrictList;
+    }
+
+    public void setSkillSayRestrictList(List<NewVillageSkillSayRestrictDto> skillSayRestrictList) {
+        this.skillSayRestrictList = skillSayRestrictList;
+    }
+
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
@@ -420,31 +435,22 @@ public class NewVillageForm implements Serializable {
             NewVillageSayRestrictDto restrict = new NewVillageSayRestrictDto();
             restrict.setSkillName(skill.name());
             restrict.setSkillCode(skill.code());
-            restrict.setDetailList(createDetailList(skill));
+            restrict.setIsRestrict(false);
+            restrict.setCount(DEFAULT_SAY_MAX_COUNT);
+            restrict.setLength(DEFAULT_SAY_MAX_LENGTH);
             return restrict;
         }).collect(Collectors.toList());
     }
 
-    private List<NewVillageSayRestrictDetailDto> createDetailList(Skill skill) {
-        List<NewVillageSayRestrictDetailDto> detailList = new ArrayList<>();
-        detailList.add(createDetail("通常発言", CDef.MessageType.通常発言.code()));
-        if (skill.isAvailableWerewolfSay()) {
-            detailList.add(createDetail("囁き", CDef.MessageType.人狼の囁き.code()));
-        } else if (skill == CDef.Skill.共鳴者) {
-            detailList.add(createDetail("共鳴", CDef.MessageType.共鳴発言.code()));
-        } else if (skill == CDef.Skill.恋人 || skill == CDef.Skill.同棲者) {
-            detailList.add(createDetail("恋人", CDef.MessageType.恋人発言.code()));
-        }
-        return detailList;
-    }
-
-    private NewVillageSayRestrictDetailDto createDetail(String messageTypeName, String messageTypeCode) {
-        NewVillageSayRestrictDetailDto detail = new NewVillageSayRestrictDetailDto();
-        detail.setMessageTypeName(messageTypeName);
-        detail.setMessageTypeCode(messageTypeCode);
-        detail.setIsRestrict(false);
-        detail.setCount(DEFAULT_SAY_MAX_COUNT);
-        detail.setLength(DEFAULT_SAY_MAX_LENGTH);
-        return detail;
+    private List<NewVillageSkillSayRestrictDto> createSkillRestrictList() {
+        return Arrays.asList(CDef.MessageType.人狼の囁き, CDef.MessageType.共鳴発言, CDef.MessageType.恋人発言).stream().map(type -> {
+            NewVillageSkillSayRestrictDto restrict = new NewVillageSkillSayRestrictDto();
+            restrict.setMessageTypeCode(type.code());
+            restrict.setMessageTypeName(type.alias());
+            restrict.setIsRestrict(false);
+            restrict.setCount(DEFAULT_SAY_MAX_COUNT);
+            restrict.setLength(DEFAULT_SAY_MAX_LENGTH);
+            return restrict;
+        }).collect(Collectors.toList());
     }
 }

@@ -64,23 +64,17 @@ public class MessageTypeCIQ extends AbstractBsMessageTypeCQ {
     protected ConditionValue xgetCValueMessageTypeCode() { return _myCQ.xdfgetMessageTypeCode(); }
     public String keepMessageTypeCode_ExistsReferrer_MessageList(MessageCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
-    public String keepMessageTypeCode_ExistsReferrer_MessageRestrictionList(MessageRestrictionCQ sq)
-    { throwIICBOE("ExistsReferrer"); return null; }
     public String keepMessageTypeCode_ExistsReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
     public String keepMessageTypeCode_ExistsReferrer_SkillSayRestrictionList(SkillSayRestrictionCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
     public String keepMessageTypeCode_NotExistsReferrer_MessageList(MessageCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
-    public String keepMessageTypeCode_NotExistsReferrer_MessageRestrictionList(MessageRestrictionCQ sq)
-    { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepMessageTypeCode_NotExistsReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepMessageTypeCode_NotExistsReferrer_SkillSayRestrictionList(SkillSayRestrictionCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepMessageTypeCode_SpecifyDerivedReferrer_MessageList(MessageCQ sq)
-    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
-    public String keepMessageTypeCode_SpecifyDerivedReferrer_MessageRestrictionList(MessageRestrictionCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepMessageTypeCode_SpecifyDerivedReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
@@ -89,10 +83,6 @@ public class MessageTypeCIQ extends AbstractBsMessageTypeCQ {
     public String keepMessageTypeCode_QueryDerivedReferrer_MessageList(MessageCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepMessageTypeCode_QueryDerivedReferrer_MessageListParameter(Object vl)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepMessageTypeCode_QueryDerivedReferrer_MessageRestrictionList(MessageRestrictionCQ sq)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepMessageTypeCode_QueryDerivedReferrer_MessageRestrictionListParameter(Object vl)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepMessageTypeCode_QueryDerivedReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.ort.app.web.form.NewVillageSayRestrictDto;
+import com.ort.app.web.form.NewVillageSkillSayRestrictDto;
 
 public class VillageSettingsDto {
 
@@ -69,6 +70,9 @@ public class VillageSettingsDto {
 
     /** 村設定の発言制限 */
     private List<NewVillageSayRestrictDto> sayRestrictList;
+
+    /** 村設定の役職発言制限 */
+    private List<NewVillageSkillSayRestrictDto> skillSayRestrictList;
 
     /** 村建てしたプレーヤー名 */
     private String createPlayerName;
@@ -247,5 +251,13 @@ public class VillageSettingsDto {
 
     public void setCreatePlayerName(String createPlayerName) {
         this.createPlayerName = createPlayerName;
+    }
+
+    public List<NewVillageSkillSayRestrictDto> getSkillSayRestrictList() {
+        return skillSayRestrictList;
+    }
+
+    public void setSkillSayRestrictList(List<NewVillageSkillSayRestrictDto> skillSayRestrictList) {
+        this.skillSayRestrictList = skillSayRestrictList;
     }
 }

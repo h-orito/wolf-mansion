@@ -378,51 +378,6 @@
             <index-column name="TO_VILLAGE_PLAYER_ID" position="1"/>
         </index>
     </table>
-    <table comment="発言制限 : レコードなしの場合は無制限" name="MESSAGE_RESTRICTION"
-        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
-        <column comment="村ID" dbType="INT UNSIGNED" javaType="Integer"
-            name="VILLAGE_ID" pkName="PRIMARY" pkPosition="1"
-            primaryKey="true" required="true" size="10" type="INTEGER"/>
-        <column comment="役職コード" dbType="VARCHAR" javaType="String"
-            name="SKILL_CODE" pkName="PRIMARY" pkPosition="2"
-            primaryKey="true" required="true" size="20" type="VARCHAR"/>
-        <column comment="メッセージ種別コード" dbType="VARCHAR" javaType="String"
-            name="MESSAGE_TYPE_CODE" pkName="PRIMARY" pkPosition="3"
-            primaryKey="true" required="true" size="20" type="VARCHAR"/>
-        <column comment="最大発言回数" dbType="INT UNSIGNED"
-            javaType="Integer" name="MESSAGE_MAX_NUM" required="true"
-            size="10" type="INTEGER"/>
-        <column comment="最大文字数" dbType="INT UNSIGNED" javaType="Integer"
-            name="MESSAGE_MAX_LENGTH" required="true" size="10" type="INTEGER"/>
-        <column comment="登録日時" dbType="DATETIME"
-            javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
-            required="true" size="19" type="TIMESTAMP"/>
-        <column comment="登録トレース" dbType="VARCHAR" javaType="String"
-            name="REGISTER_TRACE" required="true" size="64" type="VARCHAR"/>
-        <column comment="更新日時" dbType="DATETIME"
-            javaType="java.time.LocalDateTime" name="UPDATE_DATETIME"
-            required="true" size="19" type="TIMESTAMP"/>
-        <column comment="更新トレース" dbType="VARCHAR" javaType="String"
-            name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
-        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
-            foreignTable="MESSAGE_TYPE" name="FK_MESSAGE_RESTRICTION_MESSAGE_TYPE">
-            <reference foreign="MESSAGE_TYPE_CODE" local="MESSAGE_TYPE_CODE"/>
-        </foreign-key>
-        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
-            foreignTable="SKILL" name="FK_MESSAGE_RESTRICTION_SKILL">
-            <reference foreign="SKILL_CODE" local="SKILL_CODE"/>
-        </foreign-key>
-        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
-            foreignTable="VILLAGE" name="FK_MESSAGE_RESTRICTION_VILLAGE">
-            <reference foreign="VILLAGE_ID" local="VILLAGE_ID"/>
-        </foreign-key>
-        <index name="FK_MESSAGE_RESTRICTION_MESSAGE_TYPE">
-            <index-column name="MESSAGE_TYPE_CODE" position="1"/>
-        </index>
-        <index name="FK_MESSAGE_RESTRICTION_SKILL">
-            <index-column name="SKILL_CODE" position="1"/>
-        </index>
-    </table>
     <table comment="メッセージ種別" name="MESSAGE_TYPE"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
         <column comment="メッセージ種別コード" dbType="VARCHAR" javaType="String"

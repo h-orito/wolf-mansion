@@ -13,7 +13,6 @@ import com.ort.app.web.model.inner.SayRestrictDto;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.Message;
-import com.ort.dbflute.exentity.MessageRestriction;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
 
@@ -209,12 +208,14 @@ public class SayLogic {
         }
         CDef.Skill skill = vPlayer.getSkillCodeAsSkill();
         // 制限
-        List<MessageRestriction> restrictList = villageInfo.village.getMessageRestrictionList();
-        restrictList.stream().filter(res -> res.getSkillCodeAsSkill() == skill).forEach(res -> {
-            if (res.isMessageTypeCode通常発言()) {
-                restrict.setNormalCount(res.getMessageMaxNum());
-                restrict.setNormalLength(res.getMessageMaxLength());
-            } else if (res.isMessageTypeCode人狼の囁き()) {
+        villageInfo.village.getNormalSayRestrictionList().stream().filter(r -> {
+            return r.getSkillCodeAsSkill() == skill;
+        }).findFirst().ifPresent(res -> {
+            restrict.setNormalCount(res.getMessageMaxNum());
+            restrict.setNormalLength(res.getMessageMaxLength());
+        });
+        villageInfo.village.getSkillSayRestrictionList().stream().forEach(res -> {
+            if (res.isMessageTypeCode人狼の囁き()) {
                 restrict.setWhisperCount(res.getMessageMaxNum());
                 restrict.setWhisperLength(res.getMessageMaxLength());
             } else if (res.isMessageTypeCode共鳴発言()) {

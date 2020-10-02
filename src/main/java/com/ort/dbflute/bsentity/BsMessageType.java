@@ -33,13 +33,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [referrer table]
- *     MESSAGE, MESSAGE_RESTRICTION, NORMAL_SAY_RESTRICTION, SKILL_SAY_RESTRICTION
+ *     MESSAGE, NORMAL_SAY_RESTRICTION, SKILL_SAY_RESTRICTION
  *
  * [foreign property]
  *     
  *
  * [referrer property]
- *     messageList, messageRestrictionList, normalSayRestrictionList, skillSayRestrictionList
+ *     messageList, normalSayRestrictionList, skillSayRestrictionList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -488,26 +488,6 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
         _messageList = messageList;
     }
 
-    /** MESSAGE_RESTRICTION by MESSAGE_TYPE_CODE, named 'messageRestrictionList'. */
-    protected List<MessageRestriction> _messageRestrictionList;
-
-    /**
-     * [get] MESSAGE_RESTRICTION by MESSAGE_TYPE_CODE, named 'messageRestrictionList'.
-     * @return The entity list of referrer property 'messageRestrictionList'. (NotNull: even if no loading, returns empty list)
-     */
-    public List<MessageRestriction> getMessageRestrictionList() {
-        if (_messageRestrictionList == null) { _messageRestrictionList = newReferrerList(); }
-        return _messageRestrictionList;
-    }
-
-    /**
-     * [set] MESSAGE_RESTRICTION by MESSAGE_TYPE_CODE, named 'messageRestrictionList'.
-     * @param messageRestrictionList The entity list of referrer property 'messageRestrictionList'. (NullAllowed)
-     */
-    public void setMessageRestrictionList(List<MessageRestriction> messageRestrictionList) {
-        _messageRestrictionList = messageRestrictionList;
-    }
-
     /** NORMAL_SAY_RESTRICTION by MESSAGE_TYPE_CODE, named 'normalSayRestrictionList'. */
     protected List<NormalSayRestriction> _normalSayRestrictionList;
 
@@ -579,8 +559,6 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
         StringBuilder sb = new StringBuilder();
         if (_messageList != null) { for (Message et : _messageList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "messageList")); } } }
-        if (_messageRestrictionList != null) { for (MessageRestriction et : _messageRestrictionList)
-        { if (et != null) { sb.append(li).append(xbRDS(et, "messageRestrictionList")); } } }
         if (_normalSayRestrictionList != null) { for (NormalSayRestriction et : _normalSayRestrictionList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "normalSayRestrictionList")); } } }
         if (_skillSayRestrictionList != null) { for (SkillSayRestriction et : _skillSayRestrictionList)
@@ -605,8 +583,6 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
         StringBuilder sb = new StringBuilder();
         if (_messageList != null && !_messageList.isEmpty())
         { sb.append(dm).append("messageList"); }
-        if (_messageRestrictionList != null && !_messageRestrictionList.isEmpty())
-        { sb.append(dm).append("messageRestrictionList"); }
         if (_normalSayRestrictionList != null && !_normalSayRestrictionList.isEmpty())
         { sb.append(dm).append("normalSayRestrictionList"); }
         if (_skillSayRestrictionList != null && !_skillSayRestrictionList.isEmpty())

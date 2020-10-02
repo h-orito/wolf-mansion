@@ -658,26 +658,16 @@ pre.spolicyviodisp {
 	</tr>
 	<tr>
 		<td class="rownumcell">15</td>
-		<td class="namecell" data-name="MESSAGE_RESTRICTION"><a href="#message_restriction" title="type=TABLE, primaryKey={VILLAGE_ID, SKILL_CODE, MESSAGE_TYPE_CODE}, nameLength=19, columnCount=9">MESSAGE_RESTRICTION</a></td>
-		<td class="typecell">TABLE</td>
-		<td class="relcell"><a href="#message_type" title="FK_MESSAGE_RESTRICTION_MESSAGE_TYPE">MESSAGE_TYPE</a>, <a href="#skill" title="FK_MESSAGE_RESTRICTION_SKILL">SKILL</a>, <a href="#village" title="FK_MESSAGE_RESTRICTION_VILLAGE">VILLAGE</a></td>
-		<td class="relcell">&nbsp;</td>
-		<td class="commentcell MESSAGE_RESTRICTION_comment"><pre>発言制限 : レコードなしの場合は無制限</pre></td>
-		<td class="subcell">MessageRestriction</td>
-		<td class="subcell">2018/10/18</td>
-	</tr>
-	<tr>
-		<td class="rownumcell">16</td>
 		<td class="namecell" data-name="MESSAGE_TYPE"><a href="#message_type" title="type=TABLE, primaryKey={MESSAGE_TYPE_CODE}, nameLength=12, columnCount=2">MESSAGE_TYPE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
-		<td class="relcell"><a href="#message" title="FK_MESSAGE_MESSAGE_TYPE">MESSAGE</a>, <a href="#message_restriction" title="FK_MESSAGE_RESTRICTION_MESSAGE_TYPE">MESSAGE_RESTRICTION</a>, <a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_MESSAGE_TYPE">NORMAL_SAY_RESTRICTION</a>, <a href="#skill_say_restriction" title="FK_SKILL_SAY_RESTRICTION_MESSAGE_TYPE">SKILL_SAY_RESTRICTION</a></td>
+		<td class="relcell"><a href="#message" title="FK_MESSAGE_MESSAGE_TYPE">MESSAGE</a>, <a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_MESSAGE_TYPE">NORMAL_SAY_RESTRICTION</a>, <a href="#skill_say_restriction" title="FK_SKILL_SAY_RESTRICTION_MESSAGE_TYPE">SKILL_SAY_RESTRICTION</a></td>
 		<td class="commentcell MESSAGE_TYPE_comment"><pre>メッセージ種別</pre></td>
 		<td class="subcell">MessageType</td>
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">17</td>
+		<td class="rownumcell">16</td>
 		<td class="namecell" data-name="NORMAL_SAY_RESTRICTION"><a href="#normal_say_restriction" title="type=TABLE, primaryKey={VILLAGE_ID, SKILL_CODE, MESSAGE_TYPE_CODE}, nameLength=22, columnCount=9">NORMAL_SAY_RESTRICTION</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#message_type" title="FK_NORMAL_SAY_RESTRICTION_MESSAGE_TYPE">MESSAGE_TYPE</a>, <a href="#skill" title="FK_NORMAL_SAY_RESTRICTION_SKILL">SKILL</a>, <a href="#village" title="FK_NORMAL_SAY_RESTRICTION_VILLAGE">VILLAGE</a></td>
@@ -687,7 +677,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2020/10/02</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">18</td>
+		<td class="rownumcell">17</td>
 		<td class="namecell" data-name="PLAYER"><a href="#player" title="type=TABLE, primaryKey={PLAYER_ID}, nameLength=6, columnCount=9">PLAYER</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#authority" title="FK_PLAYER_AUTHORITY">AUTHORITY</a></td>
@@ -697,7 +687,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">19</td>
+		<td class="rownumcell">18</td>
 		<td class="namecell" data-name="RANDOM_CONTENT"><a href="#random_content" title="type=TABLE, primaryKey={RANDOM_CONTENT_ID}, nameLength=14, columnCount=3">RANDOM_CONTENT</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#random_keyword" title="FK_RANDOM_CONTENT_RANDOM_KEYWORD">RANDOM_KEYWORD</a></td>
@@ -707,7 +697,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2018/07/28</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">20</td>
+		<td class="rownumcell">19</td>
 		<td class="namecell" data-name="RANDOM_KEYWORD"><a href="#random_keyword" title="type=TABLE, primaryKey={RANDOM_KEYWORD_ID}, nameLength=14, columnCount=2">RANDOM_KEYWORD</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -717,17 +707,17 @@ pre.spolicyviodisp {
 		<td class="subcell">2018/07/28</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">21</td>
+		<td class="rownumcell">20</td>
 		<td class="namecell" data-name="SKILL"><a href="#skill" title="type=TABLE, primaryKey={SKILL_CODE}, nameLength=5, columnCount=5">SKILL</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#camp" title="FK_SKILL_CAMP">CAMP</a></td>
-		<td class="relcell"><a href="#message_restriction" title="FK_MESSAGE_RESTRICTION_SKILL">MESSAGE_RESTRICTION</a>, <a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_SKILL">NORMAL_SAY_RESTRICTION</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">VILLAGE_PLAYER</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">VILLAGE_PLAYER</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL">VILLAGE_PLAYER</a></td>
+		<td class="relcell"><a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_SKILL">NORMAL_SAY_RESTRICTION</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">VILLAGE_PLAYER</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">VILLAGE_PLAYER</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL">VILLAGE_PLAYER</a></td>
 		<td class="commentcell SKILL_comment"><pre>役職</pre></td>
 		<td class="subcell">Skill</td>
 		<td class="subcell">2017/12/18</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">22</td>
+		<td class="rownumcell">21</td>
 		<td class="namecell" data-name="SKILL_SAY_RESTRICTION"><a href="#skill_say_restriction" title="type=TABLE, primaryKey={VILLAGE_ID, MESSAGE_TYPE_CODE}, nameLength=21, columnCount=8">SKILL_SAY_RESTRICTION</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#message_type" title="FK_SKILL_SAY_RESTRICTION_MESSAGE_TYPE">MESSAGE_TYPE</a>, <a href="#village" title="FK_SKILL_SAY_RESTRICTION_VILLAGE">VILLAGE</a></td>
@@ -737,17 +727,17 @@ pre.spolicyviodisp {
 		<td class="subcell">2020/10/02</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">23</td>
+		<td class="rownumcell">22</td>
 		<td class="namecell" data-name="VILLAGE"><a href="#village" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=7, columnCount=12">VILLAGE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_status" title="FK_VILLAGE_VILLAGE_STATUS">VILLAGE_STATUS</a>, <a href="#camp" title="FK_VILLAGE_CAMP">CAMP</a></td>
-		<td class="relcell"><a href="#message_restriction" title="FK_MESSAGE_RESTRICTION_VILLAGE">MESSAGE_RESTRICTION</a>, <a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_VILLAGE">NORMAL_SAY_RESTRICTION</a>, <a href="#skill_say_restriction" title="FK_SKILL_SAY_RESTRICTION_VILLAGE">SKILL_SAY_RESTRICTION</a>, <a href="#village_day" title="FK_VILLAGE_DAY_VILLAGE">VILLAGE_DAY</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE_PLAYER</a>, <a href="#village_settings" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE_SETTINGS</a></td>
+		<td class="relcell"><a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_VILLAGE">NORMAL_SAY_RESTRICTION</a>, <a href="#skill_say_restriction" title="FK_SKILL_SAY_RESTRICTION_VILLAGE">SKILL_SAY_RESTRICTION</a>, <a href="#village_day" title="FK_VILLAGE_DAY_VILLAGE">VILLAGE_DAY</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE_PLAYER</a>, <a href="#village_settings" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE_SETTINGS</a></td>
 		<td class="commentcell VILLAGE_comment"><pre>村</pre></td>
 		<td class="subcell">Village</td>
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">24</td>
+		<td class="rownumcell">23</td>
 		<td class="namecell" data-name="VILLAGE_DAY"><a href="#village_day" title="type=TABLE, primaryKey={VILLAGE_ID, DAY}, nameLength=11, columnCount=7">VILLAGE_DAY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village" title="FK_VILLAGE_DAY_VILLAGE">VILLAGE</a></td>
@@ -757,7 +747,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">25</td>
+		<td class="rownumcell">24</td>
 		<td class="namecell" data-name="VILLAGE_PLAYER"><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=20">VILLAGE_PLAYER</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara" title="FK_VILLAGE_PLAYER_CHARA">CHARA</a>, <a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_REASON">DEAD_REASON</a>, <a href="#player" title="FK_VILLAGE_PLAYER_PLAYER">PLAYER</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL">SKILL</a>, <a href="#village" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE</a></td>
@@ -767,7 +757,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">26</td>
+		<td class="rownumcell">25</td>
 		<td class="namecell" data-name="VILLAGE_PLAYER_STATUS"><a href="#village_player_status" title="type=TABLE, primaryKey={VILLAGE_PLAYER_STATUS_ID}, nameLength=21, columnCount=8">VILLAGE_PLAYER_STATUS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_STATUS_TO_VILLAGE_PLAYER">VILLAGE_PLAYER</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER">VILLAGE_PLAYER</a>, <a href="#village_player_status_type" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER_STATUS_TYPE">VILLAGE_PLAYER_STATUS_TYPE</a></td>
@@ -777,7 +767,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2020/08/28</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">27</td>
+		<td class="rownumcell">26</td>
 		<td class="namecell" data-name="VILLAGE_PLAYER_STATUS_TYPE"><a href="#village_player_status_type" title="type=TABLE, primaryKey={VILLAGE_PLAYER_STATUS_TYPE_CODE}, nameLength=26, columnCount=2">VILLAGE_PLAYER_STATUS_TYPE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -787,7 +777,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2020/08/28</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">28</td>
+		<td class="rownumcell">27</td>
 		<td class="namecell" data-name="VILLAGE_SETTINGS"><a href="#village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=23">VILLAGE_SETTINGS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#allowed_secret_say" title="FK_VILLAGE_SETTINGS_ALLOWED_SECRET_SAY">ALLOWED_SECRET_SAY</a>, <a href="#chara_group" title="FK_VILLAGE_SETTINGS_CHARA_GROUP">CHARA_GROUP</a>, <a href="#village" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE</a></td>
@@ -797,7 +787,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/18</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">29</td>
+		<td class="rownumcell">28</td>
 		<td class="namecell" data-name="VILLAGE_STATUS"><a href="#village_status" title="type=TABLE, primaryKey={VILLAGE_STATUS_CODE}, nameLength=14, columnCount=2">VILLAGE_STATUS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -807,7 +797,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/19</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">30</td>
+		<td class="rownumcell">29</td>
 		<td class="namecell" data-name="VOTE"><a href="#vote" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID}, nameLength=4, columnCount=8">VOTE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara" title="FK_VOTE_CHARA">CHARA</a>, <a href="#village_day" title="FK_VOTE_VILLAGE_DAY">VILLAGE_DAY</a>, <a href="#chara" title="FK_VOTE_CHARA_TO">CHARA</a></td>
@@ -2747,199 +2737,6 @@ MESSAGE
 	</tbody>
 </table>
 
-<h2 id="message_restriction" title="type=TABLE, primaryKey={VILLAGE_ID, SKILL_CODE, MESSAGE_TYPE_CODE}, nameLength=19, columnCount=9">
-MESSAGE_RESTRICTION
-&nbsp;<span class="tablefirstdatetitle">since 2018/10/18</span>
-</h2>
-<div class="tablecomment MESSAGE_RESTRICTION_comment" data-name="MESSAGE_RESTRICTION"><pre>発言制限 : レコードなしの場合は無制限</pre></div>
-<input type="hidden" value="MESSAGE_RESTRICTION">
-<table class="tablecontent">
-	<thead>
-	<tr>
-		<th class="rownumhead">No.</th>
-		<th>PK</th>
-		<th>ID</th>
-		<th>UQ</th>
-		<th>IX</th>
-		<th>Not<br />Null</th>
-		<th>Name</th>
-		<th>Type</th>
-		<th>Size</th>
-		<th>ForeignTable</th>
-		<th>ReferrerTable</th>
-		<th>Classification</th>
-		<th>ColumnComment</th>
-		<th>PropertyName</th>
-		<th>JavaType</th>
-		<th>Since</th>
-	</tr>
-	</thead>
-	<tbody id="message_restriction-body">
-	<tr>
-		<td class="rownumcell">1</td>
-		<td class="flgcell" title="PRIMARY">o<span class="flgplus">+</span></td>
-		<td class="flgcell"> &nbsp;</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell">*</td>
-		<td class=" columnnamecell" id="message_restriction_village_id">VILLAGE_ID</td>
-		<td class="typecell">INT UNSIGNED</td>
-		<td class="sizecell"> 10 </td>
-		<td class="relcell"><a href="#village" title="FK_MESSAGE_RESTRICTION_VILLAGE">VILLAGE</a>&nbsp;</td>
-		<td class="relcell">&nbsp;</td>
-		<td class="relcell"> &nbsp;</td>
-		<td class="commentcell"><pre>村ID</pre></td>
-		<td class="subcell">villageId</td>
-		<td class="subcell">Integer</td>
-		<td class="subcell">first</td>
-	</tr>
-	<tr>
-		<td class="rownumcell">2</td>
-		<td class="flgcell" title="PRIMARY"><span class="flgplus">+</span>o</td>
-		<td class="flgcell"> &nbsp;</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell" title="FK_MESSAGE_RESTRICTION_SKILL(SKILL_CODE)">o</td>
-		<td class="flgcell">*</td>
-		<td class=" columnnamecell" id="message_restriction_skill_code">SKILL_CODE</td>
-		<td class="typecell">VARCHAR</td>
-		<td class="sizecell"> 20 </td>
-		<td class="relcell"><a href="#skill" title="FK_MESSAGE_RESTRICTION_SKILL">SKILL</a>&nbsp;</td>
-		<td class="relcell">&nbsp;</td>
-		<td class="relcell"><a href="#SkillCls">Skill</a></td>
-		<td class="commentcell"><pre>役職コード</pre></td>
-		<td class="subcell">skillCode</td>
-		<td class="subcell">String</td>
-		<td class="subcell">first</td>
-	</tr>
-	<tr>
-		<td class="rownumcell">3</td>
-		<td class="flgcell" title="PRIMARY"><span class="flgplus">+</span>o</td>
-		<td class="flgcell"> &nbsp;</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell" title="FK_MESSAGE_RESTRICTION_MESSAGE_TYPE(MESSAGE_TYPE_CODE)">o</td>
-		<td class="flgcell">*</td>
-		<td class=" columnnamecell" id="message_restriction_message_type_code">MESSAGE_TYPE_CODE</td>
-		<td class="typecell">VARCHAR</td>
-		<td class="sizecell"> 20 </td>
-		<td class="relcell"><a href="#message_type" title="FK_MESSAGE_RESTRICTION_MESSAGE_TYPE">MESSAGE_TYPE</a>&nbsp;</td>
-		<td class="relcell">&nbsp;</td>
-		<td class="relcell"><a href="#MessageTypeCls">MessageType</a></td>
-		<td class="commentcell"><pre>メッセージ種別コード</pre></td>
-		<td class="subcell">messageTypeCode</td>
-		<td class="subcell">String</td>
-		<td class="subcell">first</td>
-	</tr>
-	<tr>
-		<td class="rownumcell">4</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell"> &nbsp;</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell">*</td>
-		<td class=" columnnamecell" id="message_restriction_message_max_num">MESSAGE_MAX_NUM</td>
-		<td class="typecell">INT UNSIGNED</td>
-		<td class="sizecell"> 10 </td>
-		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell">&nbsp;</td>
-		<td class="relcell"> &nbsp;</td>
-		<td class="commentcell"><pre>最大発言回数</pre></td>
-		<td class="subcell">messageMaxNum</td>
-		<td class="subcell">Integer</td>
-		<td class="subcell">first</td>
-	</tr>
-	<tr>
-		<td class="rownumcell">5</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell"> &nbsp;</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell">*</td>
-		<td class=" columnnamecell" id="message_restriction_message_max_length">MESSAGE_MAX_LENGTH</td>
-		<td class="typecell">INT UNSIGNED</td>
-		<td class="sizecell"> 10 </td>
-		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell">&nbsp;</td>
-		<td class="relcell"> &nbsp;</td>
-		<td class="commentcell"><pre>最大文字数</pre></td>
-		<td class="subcell">messageMaxLength</td>
-		<td class="subcell">Integer</td>
-		<td class="subcell">first</td>
-	</tr>
-	<tr>
-		<td class="rownumcell">6</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell"> &nbsp;</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell">*</td>
-		<td class="comcolcell columnnamecell" id="message_restriction_register_datetime">REGISTER_DATETIME</td>
-		<td class="typecell">DATETIME</td>
-		<td class="sizecell"> 19 </td>
-		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell">&nbsp;</td>
-		<td class="relcell"> &nbsp;</td>
-		<td class="commentcell"><pre>登録日時</pre></td>
-		<td class="subcell">registerDatetime</td>
-		<td class="subcell">LocalDateTime</td>
-		<td class="subcell">first</td>
-	</tr>
-	<tr>
-		<td class="rownumcell">7</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell"> &nbsp;</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell">*</td>
-		<td class="comcolcell columnnamecell" id="message_restriction_register_trace">REGISTER_TRACE</td>
-		<td class="typecell">VARCHAR</td>
-		<td class="sizecell"> 64 </td>
-		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell">&nbsp;</td>
-		<td class="relcell"> &nbsp;</td>
-		<td class="commentcell"><pre>登録トレース</pre></td>
-		<td class="subcell">registerTrace</td>
-		<td class="subcell">String</td>
-		<td class="subcell">first</td>
-	</tr>
-	<tr>
-		<td class="rownumcell">8</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell"> &nbsp;</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell">*</td>
-		<td class="comcolcell columnnamecell" id="message_restriction_update_datetime">UPDATE_DATETIME</td>
-		<td class="typecell">DATETIME</td>
-		<td class="sizecell"> 19 </td>
-		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell">&nbsp;</td>
-		<td class="relcell"> &nbsp;</td>
-		<td class="commentcell"><pre>更新日時</pre></td>
-		<td class="subcell">updateDatetime</td>
-		<td class="subcell">LocalDateTime</td>
-		<td class="subcell">first</td>
-	</tr>
-	<tr>
-		<td class="rownumcell">9</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell"> &nbsp;</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell">*</td>
-		<td class="comcolcell columnnamecell" id="message_restriction_update_trace">UPDATE_TRACE</td>
-		<td class="typecell">VARCHAR</td>
-		<td class="sizecell"> 64 </td>
-		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell">&nbsp;</td>
-		<td class="relcell"> &nbsp;</td>
-		<td class="commentcell"><pre>更新トレース</pre></td>
-		<td class="subcell">updateTrace</td>
-		<td class="subcell">String</td>
-		<td class="subcell">first</td>
-	</tr>
-	</tbody>
-</table>
-
 <h2 id="message_type" title="type=TABLE, primaryKey={MESSAGE_TYPE_CODE}, nameLength=12, columnCount=2">
 MESSAGE_TYPE
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/20</span>
@@ -2979,7 +2776,7 @@ MESSAGE_TYPE
 		<td class="typecell">VARCHAR</td>
 		<td class="sizecell"> 20 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell"><a href="#message" title="FK_MESSAGE_MESSAGE_TYPE">MESSAGE</a>,<br><a href="#message_restriction" title="FK_MESSAGE_RESTRICTION_MESSAGE_TYPE">MESSAGE_RESTRICTION</a>,<br><a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_MESSAGE_TYPE">NORMAL_SAY_RESTRICTION</a>,<br><a href="#skill_say_restriction" title="FK_SKILL_SAY_RESTRICTION_MESSAGE_TYPE">SKILL_SAY_RESTRICTION</a>&nbsp;</td>
+		<td class="relcell"><a href="#message" title="FK_MESSAGE_MESSAGE_TYPE">MESSAGE</a>,<br><a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_MESSAGE_TYPE">NORMAL_SAY_RESTRICTION</a>,<br><a href="#skill_say_restriction" title="FK_SKILL_SAY_RESTRICTION_MESSAGE_TYPE">SKILL_SAY_RESTRICTION</a>&nbsp;</td>
 		<td class="relcell"><a href="#MessageTypeCls">MessageType</a></td>
 		<td class="commentcell"><pre>メッセージ種別コード</pre></td>
 		<td class="subcell">messageTypeCode</td>
@@ -3584,7 +3381,7 @@ SKILL
 		<td class="typecell">VARCHAR</td>
 		<td class="sizecell"> 20 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell"><a href="#message_restriction" title="FK_MESSAGE_RESTRICTION_SKILL">MESSAGE_RESTRICTION</a>,<br><a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_SKILL">NORMAL_SAY_RESTRICTION</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">VILLAGE_PLAYER</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">VILLAGE_PLAYER</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL">VILLAGE_PLAYER</a>&nbsp;</td>
+		<td class="relcell"><a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_SKILL">NORMAL_SAY_RESTRICTION</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">VILLAGE_PLAYER</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">VILLAGE_PLAYER</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL">VILLAGE_PLAYER</a>&nbsp;</td>
 		<td class="relcell"><a href="#SkillCls">Skill</a></td>
 		<td class="commentcell"><pre>役職コード</pre></td>
 		<td class="subcell">skillCode</td>
@@ -3880,7 +3677,7 @@ VILLAGE
 		<td class="typecell">INT UNSIGNED</td>
 		<td class="sizecell"> 10 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell"><a href="#message_restriction" title="FK_MESSAGE_RESTRICTION_VILLAGE">MESSAGE_RESTRICTION</a>,<br><a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_VILLAGE">NORMAL_SAY_RESTRICTION</a>,<br><a href="#skill_say_restriction" title="FK_SKILL_SAY_RESTRICTION_VILLAGE">SKILL_SAY_RESTRICTION</a>,<br><a href="#village_day" title="FK_VILLAGE_DAY_VILLAGE">VILLAGE_DAY</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE_PLAYER</a>,<br><a href="#village_settings" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE_SETTINGS</a>&nbsp;</td>
+		<td class="relcell"><a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_VILLAGE">NORMAL_SAY_RESTRICTION</a>,<br><a href="#skill_say_restriction" title="FK_SKILL_SAY_RESTRICTION_VILLAGE">SKILL_SAY_RESTRICTION</a>,<br><a href="#village_day" title="FK_VILLAGE_DAY_VILLAGE">VILLAGE_DAY</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE_PLAYER</a>,<br><a href="#village_settings" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE_SETTINGS</a>&nbsp;</td>
 		<td class="relcell"> &nbsp;</td>
 		<td class="commentcell"><pre>村ID</pre></td>
 		<td class="subcell">villageId</td>
@@ -7455,38 +7252,6 @@ function StoreClient() {
 				}
 				, 'FACE_TYPE_CODE': {
 					'databaseComment': '表情種別コード'
-				}
-				, 'REGISTER_DATETIME': {
-					'databaseComment': '登録日時'
-				}
-				, 'REGISTER_TRACE': {
-					'databaseComment': '登録トレース'
-				}
-				, 'UPDATE_DATETIME': {
-					'databaseComment': '更新日時'
-				}
-				, 'UPDATE_TRACE': {
-					'databaseComment': '更新トレース'
-				}
-			}
-		}
-		, 'MESSAGE_RESTRICTION': {
-			'databaseComment': '発言制限&nbsp;:&nbsp;レコードなしの場合は無制限'
-			, 'columns': {
-				'VILLAGE_ID': {
-					'databaseComment': '村ID'
-				}
-				, 'SKILL_CODE': {
-					'databaseComment': '役職コード'
-				}
-				, 'MESSAGE_TYPE_CODE': {
-					'databaseComment': 'メッセージ種別コード'
-				}
-				, 'MESSAGE_MAX_NUM': {
-					'databaseComment': '最大発言回数'
-				}
-				, 'MESSAGE_MAX_LENGTH': {
-					'databaseComment': '最大文字数'
 				}
 				, 'REGISTER_DATETIME': {
 					'databaseComment': '登録日時'

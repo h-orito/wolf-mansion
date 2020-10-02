@@ -254,14 +254,13 @@
 						<hr />
 						<h2 class="h5">特殊ルール向け</h2>
 						<div class="form-group">
-							<label class="col-sm-2 col-xs-12 control-label">発言制限</label>
+							<label class="col-sm-2 col-xs-12 control-label">発言制限（通常発言）</label>
 							<div class="col-sm-10">
 								<a href="javascript:void(0);" class="btn btn-xs btn-info" data-restrict-copy>村人の設定を全てにコピー</a>
-								<table class="table-bordered table-condensed small">
+								<table id="say-restriction" class="table-bordered table-condensed small">
 									<thead>
 										<tr>
 											<th>役職</th>
-											<th>発言種別</th>
 											<th>制限</th>
 											<th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
 										</tr>
@@ -269,33 +268,16 @@
 									<tbody>
 										<th:block th:each="restrict, stat : *{sayRestrictList}">
 											<tr>
-												<td th:rowspan="${restrict.detailList.size()}" th:text="${restrict.skillName}">村人</td>
-												<td th:text="${restrict.detailList[0].messageTypeName}"></td>
-												<td><input type="checkbox" class="form-control" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].isRestrict}"
+												<td th:text="${restrict.skillName}">村人</td>
+												<td><input type="checkbox" class="form-control" th:field="*{sayRestrictList[__${stat.index}__].isRestrict}"
 													data-restrict-check></td>
 												<td>
 													<div class="input-group">
-														<input type="number" class="form-control" placeholder="400" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].length}"
+														<input type="number" class="form-control" placeholder="400" th:field="*{sayRestrictList[__${stat.index}__].length}"
 															data-restrict-length /> <span class="input-group-addon">&nbsp;*&nbsp;</span> <input type="number" class="form-control"
-															placeholder="20" th:field="*{sayRestrictList[__${stat.index}__].detailList[0].count}" data-restrict-count /> <input type="hidden"
+															placeholder="20" th:field="*{sayRestrictList[__${stat.index}__].count}" data-restrict-count /> <input type="hidden"
 															th:field="*{sayRestrictList[__${stat.index}__].skillCode}" /> <input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].skillName}" /> <input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].detailList[0].messageTypeName}" /> <input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].detailList[0].messageTypeCode}" />
-													</div>
-												</td>
-											</tr>
-											<tr th:if="${restrict.detailList.size() > 1}">
-												<td th:text="${restrict.detailList[1].messageTypeName}"></td>
-												<td><input type="checkbox" class="form-control" th:field="*{sayRestrictList[__${stat.index}__].detailList[1].isRestrict}"
-													data-restrict-check></td>
-												<td>
-													<div class="input-group">
-														<input type="number" class="form-control" placeholder="400" th:field="*{sayRestrictList[__${stat.index}__].detailList[1].length}"
-															data-restrict-length /> <span class="input-group-addon">&nbsp;*&nbsp;</span> <input type="number" class="form-control"
-															placeholder="20" th:field="*{sayRestrictList[__${stat.index}__].detailList[1].count}" data-restrict-count /> <input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].detailList[1].messageTypeName}" /> <input type="hidden"
-															th:field="*{sayRestrictList[__${stat.index}__].detailList[1].messageTypeCode}" />
+															th:field="*{sayRestrictList[__${stat.index}__].skillName}" />
 													</div>
 												</td>
 											</tr>
@@ -305,6 +287,41 @@
 								<p>1回の文字数は0~400、1日の回数は0~100で設定してください。</p>
 								<p>チェックなしにすると無制限になります。</p>
 								<span th:if="${#fields.hasErrors('sayRestrictList')}" th:errors="*{sayRestrictList}" class="help-block text-danger">error!</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 col-xs-12 control-label">発言制限（役職発言）</label>
+							<div class="col-sm-10">
+								<table class="table-bordered table-condensed small">
+									<thead>
+										<tr>
+											<th>発言種別</th>
+											<th>制限</th>
+											<th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
+										</tr>
+									</thead>
+									<tbody>
+										<th:block th:each="restrict, stat : *{skillSayRestrictList}">
+											<tr>
+												<td th:text="${restrict.messageTypeName}">人狼の囁き</td>
+												<td><input type="checkbox" class="form-control" th:field="*{skillSayRestrictList[__${stat.index}__].isRestrict}"
+													data-restrict-check></td>
+												<td>
+													<div class="input-group">
+														<input type="number" class="form-control" placeholder="400" th:field="*{skillSayRestrictList[__${stat.index}__].length}"
+															data-restrict-length /> <span class="input-group-addon">&nbsp;*&nbsp;</span> <input type="number" class="form-control"
+															placeholder="20" th:field="*{sayRestrictList[__${stat.index}__].count}" data-restrict-count /> <input type="hidden"
+															th:field="*{skillSayRestrictList[__${stat.index}__].messageTypeCode}" /> <input type="hidden"
+															th:field="*{skillSayRestrictList[__${stat.index}__].messageTypeName}" />
+													</div>
+												</td>
+											</tr>
+										</th:block>
+									</tbody>
+								</table>
+								<p>1回の文字数は0~400、1日の回数は0~100で設定してください。</p>
+								<p>チェックなしにすると無制限になります。</p>
+								<span th:if="${#fields.hasErrors('skillSayRestrictList')}" th:errors="*{skillSayRestrictList}" class="help-block text-danger">error!</span>
 							</div>
 						</div>
 						<div class="form-group">

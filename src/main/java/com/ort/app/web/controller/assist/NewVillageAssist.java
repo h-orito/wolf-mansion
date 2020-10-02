@@ -24,18 +24,21 @@ import com.ort.app.logic.VillageParticipateLogic;
 import com.ort.app.util.SkillUtil;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageForm;
-import com.ort.app.web.form.NewVillageSayRestrictDetailDto;
+import com.ort.app.web.form.NewVillageSayRestrictDto;
+import com.ort.app.web.form.NewVillageSkillSayRestrictDto;
 import com.ort.app.web.model.common.SelectOptionDto;
 import com.ort.app.web.model.inner.NewVillageDivertVillageDto;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.CharaGroupBhv;
-import com.ort.dbflute.exbhv.MessageRestrictionBhv;
+import com.ort.dbflute.exbhv.NormalSayRestrictionBhv;
+import com.ort.dbflute.exbhv.SkillSayRestrictionBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillageSettingsBhv;
 import com.ort.dbflute.exentity.CharaGroup;
-import com.ort.dbflute.exentity.MessageRestriction;
+import com.ort.dbflute.exentity.NormalSayRestriction;
+import com.ort.dbflute.exentity.SkillSayRestriction;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillageSettings;
@@ -57,7 +60,9 @@ public class NewVillageAssist {
     @Autowired
     private VillageSettingsBhv villageSettingsBhv;
     @Autowired
-    private MessageRestrictionBhv messageRestrictionBhv;
+    private NormalSayRestrictionBhv normalSayRestrictionBhv;
+    @Autowired
+    private SkillSayRestrictionBhv skillSayRestrictionBhv;
     @Autowired
     private VillageDayBhv villageDayBhv;
     @Autowired
@@ -121,26 +126,37 @@ public class NewVillageAssist {
         form.setIsVisibleGraveSpectateMessage(settings.getIsVisibleGraveSpectateMessage());
         form.setAllowedSecretSayCode(settings.getAllowedSecretSayCode());
         form.setIsOpenVote(settings.getIsOpenVote());
-        ListResultBean<MessageRestriction> restrictList = messageRestrictionBhv.selectList(cb -> {
-            cb.query().setVillageId_Equal(villageId);
-        });
+        ListResultBean<NormalSayRestriction> normalSayRestrictList =
+                normalSayRestrictionBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
         form.getSayRestrictList().forEach(formRest -> {
             String skillCode = formRest.getSkillCode();
-            formRest.getDetailList().forEach(detail -> {
-                Optional<MessageRestriction> optRestrict = restrictList.stream()
-                        .filter(rest -> rest.getSkillCode().equals(skillCode)
-                                && rest.getMessageTypeCode().equals(detail.getMessageTypeCode()))
-                        .findFirst();
-                if (optRestrict.isPresent()) {
-                    detail.setIsRestrict(true);
-                    detail.setCount(optRestrict.get().getMessageMaxNum());
-                    detail.setLength(optRestrict.get().getMessageMaxLength());
-                } else {
-                    detail.setIsRestrict(false);
-                    detail.setCount(20);
-                    detail.setLength(400);
-                }
-            });
+            Optional<NormalSayRestriction> optRestrict =
+                    normalSayRestrictList.stream().filter(rest -> rest.getSkillCode().equals(skillCode)).findFirst();
+            if (optRestrict.isPresent()) {
+                formRest.setIsRestrict(true);
+                formRest.setCount(optRestrict.get().getMessageMaxNum());
+                formRest.setLength(optRestrict.get().getMessageMaxLength());
+            } else {
+                formRest.setIsRestrict(false);
+                formRest.setCount(20);
+                formRest.setLength(400);
+            }
+        });
+        ListResultBean<SkillSayRestriction> skillSayRestrictList =
+                skillSayRestrictionBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
+        form.getSkillSayRestrictList().forEach(formRest -> {
+            String messageTypeCode = formRest.getMessageTypeCode();
+            Optional<SkillSayRestriction> optRestrict =
+                    skillSayRestrictList.stream().filter(rest -> rest.getMessageTypeCode().equals(messageTypeCode)).findFirst();
+            if (optRestrict.isPresent()) {
+                formRest.setIsRestrict(true);
+                formRest.setCount(optRestrict.get().getMessageMaxNum());
+                formRest.setLength(optRestrict.get().getMessageMaxLength());
+            } else {
+                formRest.setIsRestrict(false);
+                formRest.setCount(20);
+                formRest.setLength(400);
+            }
         });
         model.addAttribute("villageForm", form);
     }
@@ -244,14 +260,23 @@ public class NewVillageAssist {
         return settings;
     }
 
-    private void insertMessageRestriction(Integer villageId, String skillCode, NewVillageSayRestrictDetailDto detail) {
-        MessageRestriction entity = new MessageRestriction();
+    private void insertNormalSayRestriction(Integer villageId, NewVillageSayRestrictDto restrict) {
+        NormalSayRestriction entity = new NormalSayRestriction();
         entity.setVillageId(villageId);
-        entity.setMessageMaxNum(detail.getCount());
-        entity.setMessageMaxLength(detail.getLength());
-        entity.setMessageTypeCodeAsMessageType(CDef.MessageType.codeOf(detail.getMessageTypeCode()));
-        entity.setSkillCodeAsSkill(CDef.Skill.codeOf(skillCode));
-        messageRestrictionBhv.insert(entity);
+        entity.setMessageMaxNum(restrict.getCount());
+        entity.setMessageMaxLength(restrict.getLength());
+        entity.setMessageTypeCodeAsMessageType(CDef.MessageType.通常発言);
+        entity.setSkillCodeAsSkill(CDef.Skill.codeOf(restrict.getSkillCode()));
+        normalSayRestrictionBhv.insert(entity);
+    }
+
+    private void insertSkillSayRestriction(Integer villageId, NewVillageSkillSayRestrictDto restrict) {
+        SkillSayRestriction entity = new SkillSayRestriction();
+        entity.setVillageId(villageId);
+        entity.setMessageMaxNum(restrict.getCount());
+        entity.setMessageMaxLength(restrict.getLength());
+        entity.setMessageTypeCodeAsMessageType(CDef.MessageType.codeOf(restrict.getMessageTypeCode()));
+        skillSayRestrictionBhv.insert(entity);
     }
 
     // ===================================================================================
@@ -283,14 +308,18 @@ public class NewVillageAssist {
 
     private void insertMessageRestrict(Integer villageId, NewVillageForm villageForm) {
         villageForm.getSayRestrictList().forEach(restrict -> {
-            String skillCode = restrict.getSkillCode();
-            restrict.getDetailList().forEach(detail -> {
-                // 制限無しの場合は登録しない
-                if (BooleanUtils.isFalse(detail.getIsRestrict())) {
-                    return;
-                }
-                insertMessageRestriction(villageId, skillCode, detail);
-            });
+            // 制限無しの場合は登録しない
+            if (BooleanUtils.isFalse(restrict.getIsRestrict())) {
+                return;
+            }
+            insertNormalSayRestriction(villageId, restrict);
+        });
+        villageForm.getSkillSayRestrictList().forEach(restrict -> {
+            // 制限無しの場合は登録しない
+            if (BooleanUtils.isFalse(restrict.getIsRestrict())) {
+                return;
+            }
+            insertSkillSayRestriction(villageId, restrict);
         });
     }
 }

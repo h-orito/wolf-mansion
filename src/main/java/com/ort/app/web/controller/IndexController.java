@@ -77,7 +77,8 @@ public class IndexController {
             loader.loadVillageDay(vdCB -> {
                 vdCB.query().addOrderBy_DaychangeDatetime_Desc();
             });
-            loader.loadMessageRestriction(restCB -> {});
+            loader.loadNormalSayRestriction(restCB -> {});
+            loader.loadSkillSayRestriction(restCB -> {});
         });
         return mappingToRecruitingContent(villageList);
     }
@@ -194,7 +195,8 @@ public class IndexController {
                 village.getVillageDayList().get(0).getDaychangeDatetime().format(DateTimeFormatter.ofPattern("hh:mm")));
         villageDto.setDaychangeInterval(makeIntervalStr(settings));
         villageDto.setCharaset(settings.getCharaGroup().get().getCharaGroupName());
-        villageDto.setRestrict(CollectionUtils.isNotEmpty(village.getMessageRestrictionList()) ? "あり" : "なし");
+        villageDto.setRestrict(CollectionUtils.isNotEmpty(village.getNormalSayRestrictionList())
+                || CollectionUtils.isNotEmpty(village.getSkillSayRestrictionList()) ? "あり" : "なし");
         villageDto.setStatus(village.getVillageStatus().get().getVillageStatusName());
         villageDto.setUrl("https://wolfort.net/wolf-mansion/village/" + village.getVillageId());
         return villageDto;

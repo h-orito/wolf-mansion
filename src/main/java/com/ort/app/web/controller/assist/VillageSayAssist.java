@@ -20,14 +20,16 @@ import com.ort.app.web.model.VillageSayConfirmResultContent;
 import com.ort.app.web.model.inner.VillageMessageDto;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.MessageType;
-import com.ort.dbflute.exbhv.MessageRestrictionBhv;
+import com.ort.dbflute.exbhv.NormalSayRestrictionBhv;
 import com.ort.dbflute.exbhv.RandomKeywordBhv;
+import com.ort.dbflute.exbhv.SkillSayRestrictionBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.Message;
-import com.ort.dbflute.exentity.MessageRestriction;
+import com.ort.dbflute.exentity.NormalSayRestriction;
 import com.ort.dbflute.exentity.RandomKeyword;
+import com.ort.dbflute.exentity.SkillSayRestriction;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.fw.security.UserInfo;
@@ -49,7 +51,9 @@ public class VillageSayAssist {
     @Autowired
     private RandomKeywordBhv randomKeywordBhv;
     @Autowired
-    private MessageRestrictionBhv messageRestrictionBhv;
+    private NormalSayRestrictionBhv normalSayRestrictionBhv;
+    @Autowired
+    private SkillSayRestrictionBhv skillSayRestrictionBhv;
     @Autowired
     private VillageBhv villageBhv;
     @Autowired
@@ -336,16 +340,30 @@ public class VillageSayAssist {
                 && type != CDef.MessageType.恋人発言) {
             return false;
         }
-        OptionalEntity<MessageRestriction> optRestrict = messageRestrictionBhv.selectEntity(cb -> {
-            cb.query().setVillageId_Equal(villageId);
-            cb.query().setMessageTypeCode_Equal_AsMessageType(type);
-            cb.query().setSkillCode_Equal_AsSkill(vPlayer.getSkillCodeAsSkill());
-        });
-        if (!optRestrict.isPresent()) {
-            return false; // 制限なし
+        Integer maxLength = 0;
+        Integer maxNum = 0;
+        if (type == CDef.MessageType.通常発言) {
+            OptionalEntity<NormalSayRestriction> optRestrict = normalSayRestrictionBhv.selectEntity(cb -> {
+                cb.query().setVillageId_Equal(villageId);
+                cb.query().setMessageTypeCode_Equal_AsMessageType(type);
+                cb.query().setSkillCode_Equal_AsSkill(vPlayer.getSkillCodeAsSkill());
+            });
+            if (!optRestrict.isPresent()) {
+                return false; // 制限なし
+            }
+            maxLength = optRestrict.get().getMessageMaxLength();
+            maxNum = optRestrict.get().getMessageMaxNum();
+        } else {
+            OptionalEntity<SkillSayRestriction> optRestrict = skillSayRestrictionBhv.selectEntity(cb -> {
+                cb.query().setVillageId_Equal(villageId);
+                cb.query().setMessageTypeCode_Equal_AsMessageType(type);
+            });
+            if (!optRestrict.isPresent()) {
+                return false; // 制限なし
+            }
+            maxLength = optRestrict.get().getMessageMaxLength();
+            maxNum = optRestrict.get().getMessageMaxNum();
         }
-        MessageRestriction restrict = optRestrict.get();
-        Integer maxLength = restrict.getMessageMaxLength();
         Integer messageLength = sayForm.getMessage().replace("\r\n", "\n").length();
         if (messageLength > maxLength) {
             return true; // 文字数オーバー
@@ -354,7 +372,6 @@ public class VillageSayAssist {
         int latestDay = villageService.selectLatestDay(villageId);
         List<Message> messageList = messageLogic.selectDayPersonMessage(villageId, latestDay, vPlayer.getVillagePlayerId());
         int count = (int) messageList.stream().filter(m -> m.getMessageTypeCodeAsMessageType() == type).count();
-        Integer maxNum = restrict.getMessageMaxNum();
         if (maxNum <= count) {
             return true; // 制限回数オーバー
         }

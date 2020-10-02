@@ -44,13 +44,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [referrer table]
- *     MESSAGE, MESSAGE_RESTRICTION, NORMAL_SAY_RESTRICTION, SKILL_SAY_RESTRICTION
+ *     MESSAGE, NORMAL_SAY_RESTRICTION, SKILL_SAY_RESTRICTION
  *
  * [foreign property]
  *     
  *
  * [referrer property]
- *     messageList, messageRestrictionList, normalSayRestrictionList, skillSayRestrictionList
+ *     messageList, normalSayRestrictionList, skillSayRestrictionList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -424,70 +424,6 @@ public abstract class BsMessageTypeBhv extends AbstractBehaviorWritable<MessageT
 
     protected NestedReferrerListGateway<Message> doLoadMessage(List<MessageType> messageTypeList, LoadReferrerOption<MessageCB, Message> option) {
         return helpLoadReferrerInternally(messageTypeList, option, "messageList");
-    }
-
-    /**
-     * Load referrer of messageRestrictionList by the set-upper of referrer. <br>
-     * MESSAGE_RESTRICTION by MESSAGE_TYPE_CODE, named 'messageRestrictionList'.
-     * <pre>
-     * <span style="color: #0000C0">messageTypeBhv</span>.<span style="color: #CC4747">loadMessageRestriction</span>(<span style="color: #553000">messageTypeList</span>, <span style="color: #553000">restrictionCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">restrictionCB</span>.setupSelect...
-     *     <span style="color: #553000">restrictionCB</span>.query().set...
-     *     <span style="color: #553000">restrictionCB</span>.query().addOrderBy...
-     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
-     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
-     * <span style="color: #3F7E5E">//    ...</span>
-     * <span style="color: #3F7E5E">//});</span>
-     * <span style="color: #70226C">for</span> (MessageType messageType : <span style="color: #553000">messageTypeList</span>) {
-     *     ... = messageType.<span style="color: #CC4747">getMessageRestrictionList()</span>;
-     * }
-     * </pre>
-     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
-     * The condition-bean, which the set-upper provides, has settings before callback as follows:
-     * <pre>
-     * cb.query().setMessageTypeCode_InScope(pkList);
-     * cb.query().addOrderBy_MessageTypeCode_Asc();
-     * </pre>
-     * @param messageTypeList The entity list of messageType. (NotNull)
-     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
-     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
-     */
-    public NestedReferrerListGateway<MessageRestriction> loadMessageRestriction(List<MessageType> messageTypeList, ReferrerConditionSetupper<MessageRestrictionCB> refCBLambda) {
-        xassLRArg(messageTypeList, refCBLambda);
-        return doLoadMessageRestriction(messageTypeList, new LoadReferrerOption<MessageRestrictionCB, MessageRestriction>().xinit(refCBLambda));
-    }
-
-    /**
-     * Load referrer of messageRestrictionList by the set-upper of referrer. <br>
-     * MESSAGE_RESTRICTION by MESSAGE_TYPE_CODE, named 'messageRestrictionList'.
-     * <pre>
-     * <span style="color: #0000C0">messageTypeBhv</span>.<span style="color: #CC4747">loadMessageRestriction</span>(<span style="color: #553000">messageType</span>, <span style="color: #553000">restrictionCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">restrictionCB</span>.setupSelect...
-     *     <span style="color: #553000">restrictionCB</span>.query().set...
-     *     <span style="color: #553000">restrictionCB</span>.query().addOrderBy...
-     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
-     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
-     * <span style="color: #3F7E5E">//    ...</span>
-     * <span style="color: #3F7E5E">//});</span>
-     * ... = <span style="color: #553000">messageType</span>.<span style="color: #CC4747">getMessageRestrictionList()</span>;
-     * </pre>
-     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
-     * The condition-bean, which the set-upper provides, has settings before callback as follows:
-     * <pre>
-     * cb.query().setMessageTypeCode_InScope(pkList);
-     * cb.query().addOrderBy_MessageTypeCode_Asc();
-     * </pre>
-     * @param messageType The entity of messageType. (NotNull)
-     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
-     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
-     */
-    public NestedReferrerListGateway<MessageRestriction> loadMessageRestriction(MessageType messageType, ReferrerConditionSetupper<MessageRestrictionCB> refCBLambda) {
-        xassLRArg(messageType, refCBLambda);
-        return doLoadMessageRestriction(xnewLRLs(messageType), new LoadReferrerOption<MessageRestrictionCB, MessageRestriction>().xinit(refCBLambda));
-    }
-
-    protected NestedReferrerListGateway<MessageRestriction> doLoadMessageRestriction(List<MessageType> messageTypeList, LoadReferrerOption<MessageRestrictionCB, MessageRestriction> option) {
-        return helpLoadReferrerInternally(messageTypeList, option, "messageRestrictionList");
     }
 
     /**

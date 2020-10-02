@@ -1,7 +1,6 @@
 package com.ort.app.web.form;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class NewVillageSayRestrictDto implements Serializable {
 
@@ -13,7 +12,38 @@ public class NewVillageSayRestrictDto implements Serializable {
     // 入力用
     private String skillCode;
 
-    private List<NewVillageSayRestrictDetailDto> detailList;
+    /** 制限するか */
+    private Boolean isRestrict;
+
+    /** 発言回数 */
+    private Integer count;
+
+    /** 文字数 */
+    private Integer length;
+
+    public Boolean getIsRestrict() {
+        return isRestrict;
+    }
+
+    public void setIsRestrict(Boolean isRestrict) {
+        this.isRestrict = isRestrict;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    public Integer getLength() {
+        return length;
+    }
+
+    public void setLength(Integer length) {
+        this.length = length;
+    }
 
     public String getSkillName() {
         return skillName;
@@ -30,13 +60,4 @@ public class NewVillageSayRestrictDto implements Serializable {
     public void setSkillCode(String skillCode) {
         this.skillCode = skillCode;
     }
-
-    public List<NewVillageSayRestrictDetailDto> getDetailList() {
-        return detailList;
-    }
-
-    public void setDetailList(List<NewVillageSayRestrictDetailDto> detailList) {
-        this.detailList = detailList;
-    }
-
 }

@@ -106,13 +106,12 @@
 									</th:block></td>
 							</tr>
 							<tr>
-								<th>発言制限</th>
+								<th>発言制限（通常発言）</th>
 								<td>
 									<table class="table-bordered table-condensed small">
 										<thead>
 											<tr>
 												<th>役職</th>
-												<th>発言種別</th>
 												<th>制限</th>
 												<th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
 											</tr>
@@ -120,17 +119,34 @@
 										<tbody>
 											<th:block th:each="restrict, stat : ${content.settings.sayRestrictList}">
 												<tr>
-													<td th:rowspan="${restrict.detailList.size()}" th:text="${restrict.skillName}">村人</td>
-													<td th:text="${restrict.detailList[0].messageTypeName}"></td>
-													<td th:text="${restrict.detailList[0].isRestrict ? 'あり' : '無制限'}"></td>
-													<td><span th:if="${restrict.detailList[0].isRestrict}"
-														th:text="${restrict.detailList[0].length} + ' * ' + ${restrict.detailList[0].count}"></span></td>
+													<td th:text="${restrict.skillName}">村人</td>
+													<td th:text="${restrict.isRestrict ? 'あり' : '無制限'}"></td>
+													<td><span th:if="${restrict.isRestrict}"
+														th:text="${restrict.length} + ' * ' + ${restrict.count}"></span></td>
 												</tr>
-												<tr th:if="${restrict.detailList.size() > 1}">
-													<td th:text="${restrict.detailList[1].messageTypeName}"></td>
-													<td th:text="${restrict.detailList[1].isRestrict ? 'あり' : '無制限'}"></td>
-													<td><span th:if="${restrict.detailList[1].isRestrict}"
-														th:text="${restrict.detailList[1].length} + ' * ' + ${restrict.detailList[1].count}"></span></td>
+											</th:block>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr>
+								<th>発言制限（役職発言）</th>
+								<td>
+									<table class="table-bordered table-condensed small">
+										<thead>
+											<tr>
+												<th>発言種別</th>
+												<th>制限</th>
+												<th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
+											</tr>
+										</thead>
+										<tbody>
+											<th:block th:each="restrict, stat : ${content.settings.skillSayRestrictList}">
+												<tr>
+													<td th:text="${restrict.messageTypeName}">人狼の囁き</td>
+													<td th:text="${restrict.isRestrict ? 'あり' : '無制限'}"></td>
+													<td><span th:if="${restrict.isRestrict}"
+														th:text="${restrict.length} + ' * ' + ${restrict.count}"></span></td>
 												</tr>
 											</th:block>
 										</tbody>

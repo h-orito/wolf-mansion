@@ -3,7 +3,7 @@ package com.ort.app.web.controller.assist;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,20 +19,21 @@ import org.springframework.validation.BindingResult;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.util.SkillUtil;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
-import com.ort.app.web.form.NewVillageSayRestrictDetailDto;
 import com.ort.app.web.form.NewVillageSayRestrictDto;
+import com.ort.app.web.form.NewVillageSkillSayRestrictDto;
 import com.ort.app.web.form.VillageSettingsForm;
 import com.ort.app.web.model.VillageSettingsResultContent;
 import com.ort.app.web.model.inner.VillageSettingsDto;
 import com.ort.dbflute.allcommon.CDef;
-import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.exbhv.CharaBhv;
-import com.ort.dbflute.exbhv.MessageRestrictionBhv;
+import com.ort.dbflute.exbhv.NormalSayRestrictionBhv;
+import com.ort.dbflute.exbhv.SkillSayRestrictionBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exbhv.VillageSettingsBhv;
 import com.ort.dbflute.exentity.Chara;
-import com.ort.dbflute.exentity.MessageRestriction;
+import com.ort.dbflute.exentity.NormalSayRestriction;
+import com.ort.dbflute.exentity.SkillSayRestriction;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillageSettings;
@@ -55,7 +56,9 @@ public class VillageSettingsAssist {
     @Autowired
     private VillageSettingsBhv villageSettingsBhv;
     @Autowired
-    private MessageRestrictionBhv messageRestrictionBhv;
+    private NormalSayRestrictionBhv normalSayRestrictionBhv;
+    @Autowired
+    private SkillSayRestrictionBhv skillSayRestrictionBhv;
     @Autowired
     private VillageDayBhv villageDayBhv;
     @Autowired
@@ -153,10 +156,6 @@ public class VillageSettingsAssist {
         });
     }
 
-    private List<MessageRestriction> selectMessageRestrictList(Integer villageId) {
-        return messageRestrictionBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
-    }
-
     private ListResultBean<VillageDay> selectVillageDayList(Integer villageId) {
         return villageDayBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
     }
@@ -187,27 +186,40 @@ public class VillageSettingsAssist {
     }
 
     private void updateMessageRestrictions(Integer villageId, VillageSettingsForm form) {
-        messageRestrictionBhv.queryDelete(cb -> cb.query().setVillageId_Equal(villageId));
+        normalSayRestrictionBhv.queryDelete(cb -> cb.query().setVillageId_Equal(villageId));
         form.getSayRestrictList().forEach(restrict -> {
-            String skillCode = restrict.getSkillCode();
-            restrict.getDetailList().forEach(detail -> {
-                // 制限無しの場合は登録しない
-                if (BooleanUtils.isFalse(detail.getIsRestrict())) {
-                    return;
-                }
-                insertMessageRestriction(villageId, skillCode, detail);
-            });
+            // 制限無しの場合は登録しない
+            if (BooleanUtils.isFalse(restrict.getIsRestrict())) {
+                return;
+            }
+            insertNormalSayRestriction(villageId, restrict);
+        });
+        form.getSkillSayRestrictList().forEach(restrict -> {
+            // 制限無しの場合は登録しない
+            if (BooleanUtils.isFalse(restrict.getIsRestrict())) {
+                return;
+            }
+            insertSkillSayRestriction(villageId, restrict);
         });
     }
 
-    private void insertMessageRestriction(Integer villageId, String skillCode, NewVillageSayRestrictDetailDto detail) {
-        MessageRestriction entity = new MessageRestriction();
+    private void insertNormalSayRestriction(Integer villageId, NewVillageSayRestrictDto restrict) {
+        NormalSayRestriction entity = new NormalSayRestriction();
         entity.setVillageId(villageId);
-        entity.setMessageMaxNum(detail.getCount());
-        entity.setMessageMaxLength(detail.getLength());
-        entity.setMessageTypeCodeAsMessageType(CDef.MessageType.codeOf(detail.getMessageTypeCode()));
-        entity.setSkillCodeAsSkill(CDef.Skill.codeOf(skillCode));
-        messageRestrictionBhv.insert(entity);
+        entity.setMessageMaxNum(restrict.getCount());
+        entity.setMessageMaxLength(restrict.getLength());
+        entity.setMessageTypeCodeAsMessageType(CDef.MessageType.通常発言);
+        entity.setSkillCodeAsSkill(CDef.Skill.codeOf(restrict.getSkillCode()));
+        normalSayRestrictionBhv.insert(entity);
+    }
+
+    private void insertSkillSayRestriction(Integer villageId, NewVillageSkillSayRestrictDto restrict) {
+        SkillSayRestriction entity = new SkillSayRestriction();
+        entity.setVillageId(villageId);
+        entity.setMessageMaxNum(restrict.getCount());
+        entity.setMessageMaxLength(restrict.getLength());
+        entity.setMessageTypeCodeAsMessageType(CDef.MessageType.codeOf(restrict.getMessageTypeCode()));
+        skillSayRestrictionBhv.insert(entity);
     }
 
     private void updateVillageDay(Integer villageId, VillageSettingsForm form) throws WerewolfMansionBusinessException {
@@ -247,7 +259,9 @@ public class VillageSettingsAssist {
     // 村設定変更画面作成
     private void setVillageSettingsIndexModel(Integer villageId, VillageSettingsForm form, Model model) {
         VillageSettings settings = selectVillageSettings(villageId);
-        List<MessageRestriction> restrictList = selectMessageRestrictList(villageId);
+        List<NormalSayRestriction> normalSayRestrictList =
+                normalSayRestrictionBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
+        List<SkillSayRestriction> skillSayRestrictList = skillSayRestrictionBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
         ListResultBean<VillageDay> dayList = selectVillageDayList(villageId);
         OptionalEntity<Chara> dummyChara = charaBhv.selectByPK(settings.getDummyCharaId());
         VillageSettingsResultContent content = mappingToSettingsResultContent(settings, dayList, dummyChara.get());
@@ -257,7 +271,7 @@ public class VillageSettingsAssist {
         // 現在の年
         LocalDate now = WerewolfMansionDateUtil.currentLocalDate();
         model.addAttribute("nowYear", now.getYear());
-        setVillageSettingsForm(form, settings, restrictList, dayList, model);
+        setVillageSettingsForm(form, settings, normalSayRestrictList, skillSayRestrictList, dayList, model);
     }
 
     // 村設定変更
@@ -269,7 +283,8 @@ public class VillageSettingsAssist {
         updateVillageDay(villageId, form);
     }
 
-    private void setVillageSettingsForm(VillageSettingsForm form, VillageSettings settings, List<MessageRestriction> restrictList,
+    private void setVillageSettingsForm(VillageSettingsForm form, VillageSettings settings,
+            List<NormalSayRestriction> normalSayRestrictList, List<SkillSayRestriction> skillSayRestrictList,
             ListResultBean<VillageDay> dayList, Model model) {
         if (form != null) {
             model.addAttribute("settingsForm", form);
@@ -299,49 +314,49 @@ public class VillageSettingsAssist {
         settingsForm.setOrganization(settings.getOrganize());
         settingsForm.setJoinPassword(settings.getJoinPassword());
         settingsForm.setAllowedSecretSayCode(settings.getAllowedSecretSayCode());
-        settingsForm.setSayRestrictList(createRestrictList(restrictList));
+        settingsForm.setSayRestrictList(createRestrictList(normalSayRestrictList));
+        settingsForm.setSkillSayRestrictList(createSkillRestrictList(skillSayRestrictList));
         model.addAttribute("settingsForm", settingsForm);
     }
 
-    private List<NewVillageSayRestrictDto> createRestrictList(List<MessageRestriction> restrictList) {
+    private List<NewVillageSayRestrictDto> createRestrictList(List<NormalSayRestriction> restrictList) {
         return SkillUtil.SORTED_SKILL_LIST.stream().map(skill -> {
             NewVillageSayRestrictDto restrict = new NewVillageSayRestrictDto();
-            restrict.setSkillName(skill.name());
+            restrict.setSkillName(skill.alias());
             restrict.setSkillCode(skill.code());
-            restrict.setDetailList(createDetailList(skill, restrictList));
+            Optional<NormalSayRestriction> optRes =
+                    restrictList.stream().filter(res -> res.getSkillCode().equals(skill.code())).findFirst();
+            if (optRes.isPresent()) {
+                restrict.setIsRestrict(true);
+                restrict.setCount(optRes.get().getMessageMaxNum());
+                restrict.setLength(optRes.get().getMessageMaxLength());
+            } else {
+                restrict.setIsRestrict(false);
+                restrict.setCount(DEFAULT_SAY_MAX_COUNT);
+                restrict.setLength(DEFAULT_SAY_MAX_LENGTH);
+            }
             return restrict;
         }).collect(Collectors.toList());
     }
 
-    private List<NewVillageSayRestrictDetailDto> createDetailList(Skill skill, List<MessageRestriction> restrictList) {
-        List<NewVillageSayRestrictDetailDto> detailList = new ArrayList<>();
-        detailList.add(createDetail("通常発言", CDef.MessageType.通常発言.code(), skill, restrictList));
-        if (skill.isAvailableWerewolfSay()) {
-            detailList.add(createDetail("囁き", CDef.MessageType.人狼の囁き.code(), skill, restrictList));
-        } else if (skill == CDef.Skill.共鳴者) {
-            detailList.add(createDetail("共鳴", CDef.MessageType.共鳴発言.code(), skill, restrictList));
-        }
-        return detailList;
-    }
-
-    private NewVillageSayRestrictDetailDto createDetail(String messageTypeName, String messageTypeCode, Skill skill,
-            List<MessageRestriction> restrictList) {
-        NewVillageSayRestrictDetailDto detail = new NewVillageSayRestrictDetailDto();
-        detail.setMessageTypeName(messageTypeName);
-        detail.setMessageTypeCode(messageTypeCode);
-        Optional<MessageRestriction> optDbRes = restrictList.stream()
-                .filter(dbRes -> dbRes.getMessageTypeCode().equals(messageTypeCode) && dbRes.getSkillCode().equals(skill.code()))
-                .findFirst();
-        if (optDbRes.isPresent()) {
-            detail.setIsRestrict(true);
-            detail.setCount(optDbRes.get().getMessageMaxNum());
-            detail.setLength(optDbRes.get().getMessageMaxLength());
-        } else {
-            detail.setIsRestrict(false);
-            detail.setCount(DEFAULT_SAY_MAX_COUNT);
-            detail.setLength(DEFAULT_SAY_MAX_LENGTH);
-        }
-        return detail;
+    private List<NewVillageSkillSayRestrictDto> createSkillRestrictList(List<SkillSayRestriction> restrictList) {
+        return Arrays.asList(CDef.MessageType.人狼の囁き, CDef.MessageType.共鳴発言, CDef.MessageType.恋人発言).stream().map(type -> {
+            NewVillageSkillSayRestrictDto restrict = new NewVillageSkillSayRestrictDto();
+            restrict.setMessageTypeName(type.alias());
+            restrict.setMessageTypeCode(type.code());
+            Optional<SkillSayRestriction> optRes =
+                    restrictList.stream().filter(res -> res.getMessageTypeCode().equals(type.code())).findFirst();
+            if (optRes.isPresent()) {
+                restrict.setIsRestrict(true);
+                restrict.setCount(optRes.get().getMessageMaxNum());
+                restrict.setLength(optRes.get().getMessageMaxLength());
+            } else {
+                restrict.setIsRestrict(false);
+                restrict.setCount(DEFAULT_SAY_MAX_COUNT);
+                restrict.setLength(DEFAULT_SAY_MAX_LENGTH);
+            }
+            return restrict;
+        }).collect(Collectors.toList());
     }
 
     private LocalDateTime makeStartDateTime(VillageSettingsForm form) throws WerewolfMansionBusinessException {

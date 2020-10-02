@@ -103,6 +103,10 @@ public class VillageSettingsForm implements Serializable {
     @NotNull
     private List<NewVillageSayRestrictDto> sayRestrictList;
 
+    /** 役職発言制限 */
+    @NotNull
+    private List<NewVillageSkillSayRestrictDto> skillSayRestrictList;
+
     public Integer getStartPersonMinNum() {
         return startPersonMinNum;
     }
@@ -277,5 +281,13 @@ public class VillageSettingsForm implements Serializable {
 
     public void setSayRestrictList(List<NewVillageSayRestrictDto> sayRestrictList) {
         this.sayRestrictList = sayRestrictList;
+    }
+
+    public List<NewVillageSkillSayRestrictDto> getSkillSayRestrictList() {
+        return skillSayRestrictList;
+    }
+
+    public void setSkillSayRestrictList(List<NewVillageSkillSayRestrictDto> skillSayRestrictList) {
+        this.skillSayRestrictList = skillSayRestrictList;
     }
 }

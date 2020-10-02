@@ -30,8 +30,8 @@ import com.ort.app.logic.VillageDispLogic;
 import com.ort.app.logic.VoteLogic;
 import com.ort.app.util.SkillUtil;
 import com.ort.app.web.dto.VillageInfo;
-import com.ort.app.web.form.NewVillageSayRestrictDetailDto;
 import com.ort.app.web.form.NewVillageSayRestrictDto;
+import com.ort.app.web.form.NewVillageSkillSayRestrictDto;
 import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
 import com.ort.app.web.form.VillageCommitForm;
@@ -68,8 +68,9 @@ import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.Commit;
 import com.ort.dbflute.exentity.Footsteps;
-import com.ort.dbflute.exentity.MessageRestriction;
+import com.ort.dbflute.exentity.NormalSayRestriction;
 import com.ort.dbflute.exentity.RandomKeyword;
+import com.ort.dbflute.exentity.SkillSayRestriction;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
@@ -656,7 +657,8 @@ public class VillageAssist {
         part.setIsAvailableCommit(settings.getIsAvailableCommit());
         part.setOrganization(makeDisplayOrganization(settings.getOrganize(), villageInfo));
         part.setAllowedSecretSayCode(settings.getAllowedSecretSayCode());
-        part.setSayRestrictList(convertToRestrictList(villageInfo.village.getMessageRestrictionList()));
+        part.setSayRestrictList(convertToRestrictList(villageInfo.village.getNormalSayRestrictionList()));
+        part.setSkillSayRestrictList(convertToSkillRestrictList(villageInfo.village.getSkillSayRestrictionList()));
         part.setIsSkillRequestAvailable(settings.getIsPossibleSkillRequest());
         part.setCreatePlayerName(villageInfo.village.getCreatePlayerName());
         return part;
@@ -682,45 +684,35 @@ public class VillageAssist {
         return hour + minute + second;
     }
 
-    private List<NewVillageSayRestrictDto> convertToRestrictList(List<MessageRestriction> registeredRestrictList) {
+    private List<NewVillageSayRestrictDto> convertToRestrictList(List<NormalSayRestriction> restrictList) {
         return SkillUtil.SORTED_SKILL_LIST.stream().map(skill -> {
             NewVillageSayRestrictDto restrict = new NewVillageSayRestrictDto();
             restrict.setSkillName(skill.alias());
             restrict.setSkillCode(skill.code());
-            restrict.setDetailList(createDetailList(skill, registeredRestrictList));
+            restrict.setIsRestrict(false);
+            restrictList.stream().filter(r -> r.getSkillCode().equals(skill.code())).findFirst().ifPresent(res -> {
+                restrict.setIsRestrict(true);
+                restrict.setCount(res.getMessageMaxNum());
+                restrict.setLength(res.getMessageMaxLength());
+            });
             return restrict;
         }).collect(Collectors.toList());
     }
 
-    private List<NewVillageSayRestrictDetailDto> createDetailList(CDef.Skill skill, List<MessageRestriction> registeredRestrictList) {
-        List<NewVillageSayRestrictDetailDto> detailList = new ArrayList<>();
-        detailList.add(createDetail("通常発言", CDef.MessageType.通常発言.code(), skill, registeredRestrictList));
-        if (skill.isAvailableWerewolfSay()) {
-            detailList.add(createDetail("囁き", CDef.MessageType.人狼の囁き.code(), skill, registeredRestrictList));
-        } else if (skill == CDef.Skill.共鳴者) {
-            detailList.add(createDetail("共鳴発言", CDef.MessageType.共鳴発言.code(), skill, registeredRestrictList));
-        } else if (skill == CDef.Skill.恋人 || skill == CDef.Skill.同棲者) {
-            // TODO 恋絆が付与されている人にしたいがどうするか
-            detailList.add(createDetail("恋人発言", CDef.MessageType.恋人発言.code(), skill, registeredRestrictList));
-        }
-        return detailList;
-    }
+    private List<NewVillageSkillSayRestrictDto> convertToSkillRestrictList(List<SkillSayRestriction> restrictList) {
+        return Arrays.asList(CDef.MessageType.人狼の囁き, CDef.MessageType.共鳴発言, CDef.MessageType.恋人発言).stream().map(type -> {
+            NewVillageSkillSayRestrictDto restrict = new NewVillageSkillSayRestrictDto();
+            restrict.setMessageTypeName(type.alias());
+            restrict.setMessageTypeCode(type.code());
+            restrict.setIsRestrict(false);
+            restrictList.stream().filter(r -> r.getMessageTypeCodeAsMessageType() == type).findFirst().ifPresent(res -> {
+                restrict.setIsRestrict(true);
+                restrict.setCount(res.getMessageMaxNum());
+                restrict.setLength(res.getMessageMaxLength());
 
-    private NewVillageSayRestrictDetailDto createDetail(String messageTypeName, String messageTypeCode, CDef.Skill skill,
-            List<MessageRestriction> registeredRestrictList) {
-        NewVillageSayRestrictDetailDto detail = new NewVillageSayRestrictDetailDto();
-        detail.setMessageTypeName(messageTypeName);
-        detail.setMessageTypeCode(messageTypeCode);
-        detail.setIsRestrict(false);
-        Optional<MessageRestriction> optDbRes = registeredRestrictList.stream()
-                .filter(dbRes -> dbRes.getMessageTypeCode().equals(messageTypeCode) && dbRes.getSkillCode().equals(skill.code()))
-                .findFirst();
-        if (optDbRes.isPresent()) {
-            detail.setIsRestrict(true);
-            detail.setCount(optDbRes.get().getMessageMaxNum());
-            detail.setLength(optDbRes.get().getMessageMaxLength());
-        }
-        return detail;
+            });
+            return restrict;
+        }).collect(Collectors.toList());
     }
 
     private VillageVoteDto makeMemberVote(VillageInfo villageInfo) {

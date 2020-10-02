@@ -2,9 +2,7 @@ package com.ort.app.web.form;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
-
-public class NewVillageSayRestrictDetailDto implements Serializable {
+public class NewVillageSkillSayRestrictDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -12,8 +10,6 @@ public class NewVillageSayRestrictDetailDto implements Serializable {
     private String messageTypeName;
 
     // 入力用
-    /** 発言種別コード */
-    @NotNull
     private String messageTypeCode;
 
     /** 制限するか */

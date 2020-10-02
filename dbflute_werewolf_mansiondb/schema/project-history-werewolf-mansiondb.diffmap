@@ -1,4 +1,19 @@
 map:{
+    ; 2020/10/02 09:11:05 = map:{
+        ; diffDate = 2020/10/02 09:11:05
+        ; tableCount = map:{
+            ; next = 29
+            ; previous = 30
+        }
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; MESSAGE_RESTRICTION = map:{
+                ; tableName = MESSAGE_RESTRICTION
+                ; diffType = DELETE
+            }
+        }
+    }
     ; 2020/10/02 08:53:26 = map:{
         ; diffDate = 2020/10/02 08:53:26
         ; tableCount = map:{

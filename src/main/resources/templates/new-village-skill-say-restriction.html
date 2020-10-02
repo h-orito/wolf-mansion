@@ -12,26 +12,28 @@
 <![endif]-->
 </head>
 <body>
-	<table id="say-restriction" class="table-bordered table-condensed small" layout:fragment="table">
+	<table class="table-bordered table-condensed small" layout:fragment="table">
 		<thead>
 			<tr>
-				<th>役職</th>
+				<th>発言種別</th>
 				<th>制限</th>
 				<th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
 			</tr>
 		</thead>
 		<tbody>
-			<th:block th:each="restrict, stat : *{sayRestrictList}">
+			<th:block th:each="restrict, stat : *{skillSayRestrictList}">
 				<tr>
-					<td th:text="${restrict.skillName}">村人</td>
-					<td><input type="checkbox" class="form-control" th:field="*{sayRestrictList[__${stat.index}__].isRestrict}"
-						data-restrict-check></td>
+					<td th:text="${restrict.messageTypeName}">通常発言</td>
+					<td>
+						<input type="checkbox" class="form-control" th:field="*{skillSayRestrictList[__${stat.index}__].isRestrict}" data-restrict-check>
+					</td>
 					<td>
 						<div class="input-group">
-							<input type="number" class="form-control" placeholder="400" th:field="*{sayRestrictList[__${stat.index}__].length}"
-								data-restrict-length /> <span class="input-group-addon">&nbsp;*&nbsp;</span> <input type="number" class="form-control" placeholder="20"
-								th:field="*{sayRestrictList[__${stat.index}__].count}" data-restrict-count /> <input type="hidden"
-								th:field="*{sayRestrictList[__${stat.index}__].skillCode}" /> <input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].skillName}" />
+							<input type="number" class="form-control" placeholder="400" th:field="*{skillSayRestrictList[__${stat.index}__].length}" data-restrict-length />
+							<span class="input-group-addon">&nbsp;*&nbsp;</span>
+							<input type="number" class="form-control" placeholder="20" th:field="*{skillSayRestrictList[__${stat.index}__].count}" data-restrict-count />
+							<input type="hidden" th:field="*{skillSayRestrictList[__${stat.index}__].messageTypeName}" />
+							<input type="hidden" th:field="*{skillSayRestrictList[__${stat.index}__].messageTypeCode}" />
 						</div>
 					</td>
 				</tr>

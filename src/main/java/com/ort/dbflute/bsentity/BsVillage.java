@@ -36,13 +36,13 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_STATUS, CAMP, VILLAGE_SETTINGS(AsOne)
  *
  * [referrer table]
- *     MESSAGE_RESTRICTION, NORMAL_SAY_RESTRICTION, SKILL_SAY_RESTRICTION, VILLAGE_DAY, VILLAGE_PLAYER, VILLAGE_SETTINGS
+ *     NORMAL_SAY_RESTRICTION, SKILL_SAY_RESTRICTION, VILLAGE_DAY, VILLAGE_PLAYER, VILLAGE_SETTINGS
  *
  * [foreign property]
  *     villageStatus, camp, villageSettingsAsOne
  *
  * [referrer property]
- *     messageRestrictionList, normalSayRestrictionList, skillSayRestrictionList, villageDayList, villagePlayerList
+ *     normalSayRestrictionList, skillSayRestrictionList, villageDayList, villagePlayerList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -472,26 +472,6 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    /** MESSAGE_RESTRICTION by VILLAGE_ID, named 'messageRestrictionList'. */
-    protected List<MessageRestriction> _messageRestrictionList;
-
-    /**
-     * [get] MESSAGE_RESTRICTION by VILLAGE_ID, named 'messageRestrictionList'.
-     * @return The entity list of referrer property 'messageRestrictionList'. (NotNull: even if no loading, returns empty list)
-     */
-    public List<MessageRestriction> getMessageRestrictionList() {
-        if (_messageRestrictionList == null) { _messageRestrictionList = newReferrerList(); }
-        return _messageRestrictionList;
-    }
-
-    /**
-     * [set] MESSAGE_RESTRICTION by VILLAGE_ID, named 'messageRestrictionList'.
-     * @param messageRestrictionList The entity list of referrer property 'messageRestrictionList'. (NullAllowed)
-     */
-    public void setMessageRestrictionList(List<MessageRestriction> messageRestrictionList) {
-        _messageRestrictionList = messageRestrictionList;
-    }
-
     /** NORMAL_SAY_RESTRICTION by VILLAGE_ID, named 'normalSayRestrictionList'. */
     protected List<NormalSayRestriction> _normalSayRestrictionList;
 
@@ -607,8 +587,6 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
         { sb.append(li).append(xbRDS(_camp, "camp")); }
         if (_villageSettingsAsOne != null && _villageSettingsAsOne.isPresent())
         { sb.append(li).append(xbRDS(_villageSettingsAsOne, "villageSettingsAsOne")); }
-        if (_messageRestrictionList != null) { for (MessageRestriction et : _messageRestrictionList)
-        { if (et != null) { sb.append(li).append(xbRDS(et, "messageRestrictionList")); } } }
         if (_normalSayRestrictionList != null) { for (NormalSayRestriction et : _normalSayRestrictionList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "normalSayRestrictionList")); } } }
         if (_skillSayRestrictionList != null) { for (SkillSayRestriction et : _skillSayRestrictionList)
@@ -654,8 +632,6 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
         { sb.append(dm).append("camp"); }
         if (_villageSettingsAsOne != null && _villageSettingsAsOne.isPresent())
         { sb.append(dm).append("villageSettingsAsOne"); }
-        if (_messageRestrictionList != null && !_messageRestrictionList.isEmpty())
-        { sb.append(dm).append("messageRestrictionList"); }
         if (_normalSayRestrictionList != null && !_normalSayRestrictionList.isEmpty())
         { sb.append(dm).append("normalSayRestrictionList"); }
         if (_skillSayRestrictionList != null && !_skillSayRestrictionList.isEmpty())

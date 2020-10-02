@@ -107,13 +107,13 @@ $(function() {
 		const length = $('[data-restrict-length]:first').val();
 		const count = $('[data-restrict-count]:first').val();
 
-		$('[data-restrict-check]').each(function() {
+		$('#say-restriction [data-restrict-check]').each(function() {
 			$(this).prop('checked', checked);
 		});
-		$('[data-restrict-length]').each(function() {
+		$('#say-restriction [data-restrict-length]').each(function() {
 			$(this).val(length);
 		});
-		$('[data-restrict-count]').each(function() {
+		$('#say-restriction [data-restrict-count]').each(function() {
 			$(this).val(count);
 		});
 		initRestrict();

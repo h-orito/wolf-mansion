@@ -82,9 +82,6 @@ public class BsMessageTypeCQ extends AbstractBsMessageTypeCQ {
     public Map<String, MessageCQ> xdfgetMessageTypeCode_ExistsReferrer_MessageList() { return xgetSQueMap("messageTypeCode_ExistsReferrer_MessageList"); }
     public String keepMessageTypeCode_ExistsReferrer_MessageList(MessageCQ sq) { return xkeepSQue("messageTypeCode_ExistsReferrer_MessageList", sq); }
 
-    public Map<String, MessageRestrictionCQ> xdfgetMessageTypeCode_ExistsReferrer_MessageRestrictionList() { return xgetSQueMap("messageTypeCode_ExistsReferrer_MessageRestrictionList"); }
-    public String keepMessageTypeCode_ExistsReferrer_MessageRestrictionList(MessageRestrictionCQ sq) { return xkeepSQue("messageTypeCode_ExistsReferrer_MessageRestrictionList", sq); }
-
     public Map<String, NormalSayRestrictionCQ> xdfgetMessageTypeCode_ExistsReferrer_NormalSayRestrictionList() { return xgetSQueMap("messageTypeCode_ExistsReferrer_NormalSayRestrictionList"); }
     public String keepMessageTypeCode_ExistsReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq) { return xkeepSQue("messageTypeCode_ExistsReferrer_NormalSayRestrictionList", sq); }
 
@@ -94,9 +91,6 @@ public class BsMessageTypeCQ extends AbstractBsMessageTypeCQ {
     public Map<String, MessageCQ> xdfgetMessageTypeCode_NotExistsReferrer_MessageList() { return xgetSQueMap("messageTypeCode_NotExistsReferrer_MessageList"); }
     public String keepMessageTypeCode_NotExistsReferrer_MessageList(MessageCQ sq) { return xkeepSQue("messageTypeCode_NotExistsReferrer_MessageList", sq); }
 
-    public Map<String, MessageRestrictionCQ> xdfgetMessageTypeCode_NotExistsReferrer_MessageRestrictionList() { return xgetSQueMap("messageTypeCode_NotExistsReferrer_MessageRestrictionList"); }
-    public String keepMessageTypeCode_NotExistsReferrer_MessageRestrictionList(MessageRestrictionCQ sq) { return xkeepSQue("messageTypeCode_NotExistsReferrer_MessageRestrictionList", sq); }
-
     public Map<String, NormalSayRestrictionCQ> xdfgetMessageTypeCode_NotExistsReferrer_NormalSayRestrictionList() { return xgetSQueMap("messageTypeCode_NotExistsReferrer_NormalSayRestrictionList"); }
     public String keepMessageTypeCode_NotExistsReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq) { return xkeepSQue("messageTypeCode_NotExistsReferrer_NormalSayRestrictionList", sq); }
 
@@ -105,9 +99,6 @@ public class BsMessageTypeCQ extends AbstractBsMessageTypeCQ {
 
     public Map<String, MessageCQ> xdfgetMessageTypeCode_SpecifyDerivedReferrer_MessageList() { return xgetSQueMap("messageTypeCode_SpecifyDerivedReferrer_MessageList"); }
     public String keepMessageTypeCode_SpecifyDerivedReferrer_MessageList(MessageCQ sq) { return xkeepSQue("messageTypeCode_SpecifyDerivedReferrer_MessageList", sq); }
-
-    public Map<String, MessageRestrictionCQ> xdfgetMessageTypeCode_SpecifyDerivedReferrer_MessageRestrictionList() { return xgetSQueMap("messageTypeCode_SpecifyDerivedReferrer_MessageRestrictionList"); }
-    public String keepMessageTypeCode_SpecifyDerivedReferrer_MessageRestrictionList(MessageRestrictionCQ sq) { return xkeepSQue("messageTypeCode_SpecifyDerivedReferrer_MessageRestrictionList", sq); }
 
     public Map<String, NormalSayRestrictionCQ> xdfgetMessageTypeCode_SpecifyDerivedReferrer_NormalSayRestrictionList() { return xgetSQueMap("messageTypeCode_SpecifyDerivedReferrer_NormalSayRestrictionList"); }
     public String keepMessageTypeCode_SpecifyDerivedReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq) { return xkeepSQue("messageTypeCode_SpecifyDerivedReferrer_NormalSayRestrictionList", sq); }
@@ -119,11 +110,6 @@ public class BsMessageTypeCQ extends AbstractBsMessageTypeCQ {
     public String keepMessageTypeCode_QueryDerivedReferrer_MessageList(MessageCQ sq) { return xkeepSQue("messageTypeCode_QueryDerivedReferrer_MessageList", sq); }
     public Map<String, Object> xdfgetMessageTypeCode_QueryDerivedReferrer_MessageListParameter() { return xgetSQuePmMap("messageTypeCode_QueryDerivedReferrer_MessageList"); }
     public String keepMessageTypeCode_QueryDerivedReferrer_MessageListParameter(Object pm) { return xkeepSQuePm("messageTypeCode_QueryDerivedReferrer_MessageList", pm); }
-
-    public Map<String, MessageRestrictionCQ> xdfgetMessageTypeCode_QueryDerivedReferrer_MessageRestrictionList() { return xgetSQueMap("messageTypeCode_QueryDerivedReferrer_MessageRestrictionList"); }
-    public String keepMessageTypeCode_QueryDerivedReferrer_MessageRestrictionList(MessageRestrictionCQ sq) { return xkeepSQue("messageTypeCode_QueryDerivedReferrer_MessageRestrictionList", sq); }
-    public Map<String, Object> xdfgetMessageTypeCode_QueryDerivedReferrer_MessageRestrictionListParameter() { return xgetSQuePmMap("messageTypeCode_QueryDerivedReferrer_MessageRestrictionList"); }
-    public String keepMessageTypeCode_QueryDerivedReferrer_MessageRestrictionListParameter(Object pm) { return xkeepSQuePm("messageTypeCode_QueryDerivedReferrer_MessageRestrictionList", pm); }
 
     public Map<String, NormalSayRestrictionCQ> xdfgetMessageTypeCode_QueryDerivedReferrer_NormalSayRestrictionList() { return xgetSQueMap("messageTypeCode_QueryDerivedReferrer_NormalSayRestrictionList"); }
     public String keepMessageTypeCode_QueryDerivedReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq) { return xkeepSQue("messageTypeCode_QueryDerivedReferrer_NormalSayRestrictionList", sq); }

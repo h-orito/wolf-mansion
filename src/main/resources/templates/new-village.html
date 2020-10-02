@@ -309,13 +309,22 @@
 						<hr />
 						<h2 class="h5">特殊ルール向け</h2>
 						<div class="form-group">
-							<label class="col-sm-3 col-xs-12 control-label">発言制限</label>
+							<label class="col-sm-3 col-xs-12 control-label">発言制限（通常発言）</label>
 							<div class="col-sm-9">
 								<a href="javascript:void(0);" class="btn btn-xs btn-info" data-restrict-copy>村人の設定を全てにコピー</a>
 								<div layout:replace="~{new-village-say-restriction::table}"></div>
 								<p>1回の文字数は0~400、1日の回数は0~100で設定してください。</p>
 								<p>チェックなしにすると無制限になります。</p>
 								<span th:if="${#fields.hasErrors('sayRestrictList')}" th:errors="*{sayRestrictList}" class="help-block text-danger">error!</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 col-xs-12 control-label">発言制限（役職発言）</label>
+							<div class="col-sm-9">
+								<div layout:replace="~{new-village-skill-say-restriction::table}"></div>
+								<p>1回の文字数は0~400、1日の回数は0~100で設定してください。</p>
+								<p>チェックなしにすると無制限になります。</p>
+								<span th:if="${#fields.hasErrors('skillSayRestrictList')}" th:errors="*{skillSayRestrictList}" class="help-block text-danger">error!</span>
 							</div>
 						</div>
 						<div class="form-group">

@@ -62,7 +62,8 @@ public class VillageService {
             loader.loadVillageDay(vdCB -> {
                 vdCB.query().addOrderBy_Day_Asc();
             });
-            loader.loadMessageRestriction(restCB -> {});
+            loader.loadNormalSayRestriction(nsrCB -> {});
+            loader.loadSkillSayRestriction(ssrCB -> {});
         });
         return village;
     }

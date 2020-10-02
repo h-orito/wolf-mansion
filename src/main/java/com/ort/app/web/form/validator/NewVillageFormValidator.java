@@ -15,7 +15,6 @@ import org.springframework.validation.Validator;
 
 import com.ort.app.util.SkillUtil;
 import com.ort.app.web.form.NewVillageForm;
-import com.ort.app.web.form.NewVillageSayRestrictDetailDto;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.fw.util.WerewolfMansionDateUtil;
 
@@ -86,6 +85,7 @@ public class NewVillageFormValidator implements Validator {
 
         // 発言制限
         validateSayRestrict(errors, form);
+        validateSkillSayRestrict(errors, form);
     }
 
     private void validateMessage(Errors errors, NewVillageForm form) {
@@ -186,18 +186,26 @@ public class NewVillageFormValidator implements Validator {
 
     // 発言制限
     private void validateSayRestrict(Errors errors, NewVillageForm form) {
-        List<NewVillageSayRestrictDetailDto> detailList =
-                form.getSayRestrictList().stream().flatMap(m -> m.getDetailList().stream()).collect(Collectors.toList());
-        boolean isCountInvalid = detailList.stream().anyMatch(detail -> {
-            return BooleanUtils.isTrue(detail.getIsRestrict())
-                    && (detail.getCount() == null || detail.getCount() < 0 || detail.getCount() > 100);
+        boolean isCountInvalid = form.getSayRestrictList().stream().anyMatch(r -> {
+            return BooleanUtils.isTrue(r.getIsRestrict()) && (r.getCount() == null || r.getCount() < 0 || r.getCount() > 100);
         });
-        boolean isLengthInvalid = detailList.stream().anyMatch(detail -> {
-            return BooleanUtils.isTrue(detail.getIsRestrict())
-                    && (detail.getLength() == null || detail.getLength() < 0 || detail.getLength() > 400);
+        boolean isLengthInvalid = form.getSayRestrictList().stream().anyMatch(r -> {
+            return BooleanUtils.isTrue(r.getIsRestrict()) && (r.getLength() == null || r.getLength() < 0 || r.getLength() > 400);
         });
         if (isCountInvalid || isLengthInvalid) {
             errors.rejectValue("sayRestrictList", "NewVillageForm.validator.sayRestrictList", new Object[] {}, null);
+        }
+    }
+
+    private void validateSkillSayRestrict(Errors errors, NewVillageForm form) {
+        boolean isCountInvalid = form.getSkillSayRestrictList().stream().anyMatch(r -> {
+            return BooleanUtils.isTrue(r.getIsRestrict()) && (r.getCount() == null || r.getCount() < 0 || r.getCount() > 100);
+        });
+        boolean isLengthInvalid = form.getSkillSayRestrictList().stream().anyMatch(r -> {
+            return BooleanUtils.isTrue(r.getIsRestrict()) && (r.getLength() == null || r.getLength() < 0 || r.getLength() > 400);
+        });
+        if (isCountInvalid || isLengthInvalid) {
+            errors.rejectValue("skillSayRestrictList", "NewVillageForm.validator.sayRestrictList", new Object[] {}, null);
         }
     }
 }
