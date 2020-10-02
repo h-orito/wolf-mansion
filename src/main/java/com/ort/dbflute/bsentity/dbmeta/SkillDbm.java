@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of skill. (Singleton)
+ * The DB meta of SKILL. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class SkillDbm extends AbstractDBMeta {
@@ -81,7 +81,7 @@ public class SkillDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "skill";
+    protected final String _tableDbName = "SKILL";
     protected final String _tableDispName = "SKILL";
     protected final String _tablePropertyName = "skill";
     protected final TableSqlName _tableSqlName = new TableSqlName("SKILL", _tableDbName);
@@ -94,7 +94,7 @@ public class SkillDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnSkillCode = cci("SKILL_CODE", "SKILL_CODE", null, null, String.class, "skillCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "messageRestrictionList,villagePlayerByRequestSkillCodeList,villagePlayerBySecondRequestSkillCodeList,villagePlayerBySkillCodeList", CDef.DefMeta.Skill, false);
+    protected final ColumnInfo _columnSkillCode = cci("SKILL_CODE", "SKILL_CODE", null, null, String.class, "skillCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "messageRestrictionList,normalSayRestrictionList,villagePlayerByRequestSkillCodeList,villagePlayerBySecondRequestSkillCodeList,villagePlayerBySkillCodeList", CDef.DefMeta.Skill, false);
     protected final ColumnInfo _columnSkillName = cci("SKILL_NAME", "SKILL_NAME", null, null, String.class, "skillName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnSkillShortName = cci("SKILL_SHORT_NAME", "SKILL_SHORT_NAME", null, null, String.class, "skillShortName", null, false, false, true, "CHAR", 1, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnCampCode = cci("CAMP_CODE", "CAMP_CODE", null, null, String.class, "campCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "camp", null, CDef.DefMeta.Camp, false);
@@ -116,7 +116,7 @@ public class SkillDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnSkillShortName() { return _columnSkillShortName; }
     /**
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCampCode() { return _columnCampCode; }
@@ -175,6 +175,14 @@ public class SkillDbm extends AbstractDBMeta {
     public ReferrerInfo referrerMessageRestrictionList() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnSkillCode(), MessageRestrictionDbm.getInstance().columnSkillCode());
         return cri("FK_MESSAGE_RESTRICTION_SKILL", "messageRestrictionList", this, MessageRestrictionDbm.getInstance(), mp, false, "skill");
+    }
+    /**
+     * NORMAL_SAY_RESTRICTION by SKILL_CODE, named 'normalSayRestrictionList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerNormalSayRestrictionList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnSkillCode(), NormalSayRestrictionDbm.getInstance().columnSkillCode());
+        return cri("FK_NORMAL_SAY_RESTRICTION_SKILL", "normalSayRestrictionList", this, NormalSayRestrictionDbm.getInstance(), mp, false, "skill");
     }
     /**
      * VILLAGE_PLAYER by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeList'.

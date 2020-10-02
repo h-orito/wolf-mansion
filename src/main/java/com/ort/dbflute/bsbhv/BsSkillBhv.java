@@ -44,13 +44,13 @@ import com.ort.dbflute.cbean.*;
  *     CAMP
  *
  * [referrer table]
- *     MESSAGE_RESTRICTION, VILLAGE_PLAYER
+ *     MESSAGE_RESTRICTION, NORMAL_SAY_RESTRICTION, VILLAGE_PLAYER
  *
  * [foreign property]
  *     camp
  *
  * [referrer property]
- *     messageRestrictionList, villagePlayerByRequestSkillCodeList, villagePlayerBySecondRequestSkillCodeList, villagePlayerBySkillCodeList
+ *     messageRestrictionList, normalSayRestrictionList, villagePlayerByRequestSkillCodeList, villagePlayerBySecondRequestSkillCodeList, villagePlayerBySkillCodeList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -68,7 +68,7 @@ public abstract class BsSkillBhv extends AbstractBehaviorWritable<Skill, SkillCB
     /** {@inheritDoc} */
     public SkillDbm asDBMeta() { return SkillDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "skill"; }
+    public String asTableDbName() { return "SKILL"; }
 
     // ===================================================================================
     //                                                                        New Instance
@@ -424,6 +424,70 @@ public abstract class BsSkillBhv extends AbstractBehaviorWritable<Skill, SkillCB
 
     protected NestedReferrerListGateway<MessageRestriction> doLoadMessageRestriction(List<Skill> skillList, LoadReferrerOption<MessageRestrictionCB, MessageRestriction> option) {
         return helpLoadReferrerInternally(skillList, option, "messageRestrictionList");
+    }
+
+    /**
+     * Load referrer of normalSayRestrictionList by the set-upper of referrer. <br>
+     * NORMAL_SAY_RESTRICTION by SKILL_CODE, named 'normalSayRestrictionList'.
+     * <pre>
+     * <span style="color: #0000C0">skillBhv</span>.<span style="color: #CC4747">loadNormalSayRestriction</span>(<span style="color: #553000">skillList</span>, <span style="color: #553000">restrictionCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">restrictionCB</span>.setupSelect...
+     *     <span style="color: #553000">restrictionCB</span>.query().set...
+     *     <span style="color: #553000">restrictionCB</span>.query().addOrderBy...
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * <span style="color: #70226C">for</span> (Skill skill : <span style="color: #553000">skillList</span>) {
+     *     ... = skill.<span style="color: #CC4747">getNormalSayRestrictionList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setSkillCode_InScope(pkList);
+     * cb.query().addOrderBy_SkillCode_Asc();
+     * </pre>
+     * @param skillList The entity list of skill. (NotNull)
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerListGateway<NormalSayRestriction> loadNormalSayRestriction(List<Skill> skillList, ReferrerConditionSetupper<NormalSayRestrictionCB> refCBLambda) {
+        xassLRArg(skillList, refCBLambda);
+        return doLoadNormalSayRestriction(skillList, new LoadReferrerOption<NormalSayRestrictionCB, NormalSayRestriction>().xinit(refCBLambda));
+    }
+
+    /**
+     * Load referrer of normalSayRestrictionList by the set-upper of referrer. <br>
+     * NORMAL_SAY_RESTRICTION by SKILL_CODE, named 'normalSayRestrictionList'.
+     * <pre>
+     * <span style="color: #0000C0">skillBhv</span>.<span style="color: #CC4747">loadNormalSayRestriction</span>(<span style="color: #553000">skill</span>, <span style="color: #553000">restrictionCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">restrictionCB</span>.setupSelect...
+     *     <span style="color: #553000">restrictionCB</span>.query().set...
+     *     <span style="color: #553000">restrictionCB</span>.query().addOrderBy...
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * ... = <span style="color: #553000">skill</span>.<span style="color: #CC4747">getNormalSayRestrictionList()</span>;
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setSkillCode_InScope(pkList);
+     * cb.query().addOrderBy_SkillCode_Asc();
+     * </pre>
+     * @param skill The entity of skill. (NotNull)
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerListGateway<NormalSayRestriction> loadNormalSayRestriction(Skill skill, ReferrerConditionSetupper<NormalSayRestrictionCB> refCBLambda) {
+        xassLRArg(skill, refCBLambda);
+        return doLoadNormalSayRestriction(xnewLRLs(skill), new LoadReferrerOption<NormalSayRestrictionCB, NormalSayRestriction>().xinit(refCBLambda));
+    }
+
+    protected NestedReferrerListGateway<NormalSayRestriction> doLoadNormalSayRestriction(List<Skill> skillList, LoadReferrerOption<NormalSayRestrictionCB, NormalSayRestriction> option) {
+        return helpLoadReferrerInternally(skillList, option, "normalSayRestrictionList");
     }
 
     /**

@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of skill.
+ * The base condition-query of SKILL.
  * @author DBFlute(AutoGenerator)
  */
 public class BsSkillCQ extends AbstractBsSkillCQ {
@@ -35,7 +35,7 @@ public class BsSkillCQ extends AbstractBsSkillCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from skill) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from SKILL) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsSkillCQ extends AbstractBsSkillCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join skill on ... and FOO = [value] ...}
+     * {select ... from ... left outer join SKILL on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -82,6 +82,9 @@ public class BsSkillCQ extends AbstractBsSkillCQ {
     public Map<String, MessageRestrictionCQ> xdfgetSkillCode_ExistsReferrer_MessageRestrictionList() { return xgetSQueMap("skillCode_ExistsReferrer_MessageRestrictionList"); }
     public String keepSkillCode_ExistsReferrer_MessageRestrictionList(MessageRestrictionCQ sq) { return xkeepSQue("skillCode_ExistsReferrer_MessageRestrictionList", sq); }
 
+    public Map<String, NormalSayRestrictionCQ> xdfgetSkillCode_ExistsReferrer_NormalSayRestrictionList() { return xgetSQueMap("skillCode_ExistsReferrer_NormalSayRestrictionList"); }
+    public String keepSkillCode_ExistsReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq) { return xkeepSQue("skillCode_ExistsReferrer_NormalSayRestrictionList", sq); }
+
     public Map<String, VillagePlayerCQ> xdfgetSkillCode_ExistsReferrer_VillagePlayerByRequestSkillCodeList() { return xgetSQueMap("skillCode_ExistsReferrer_VillagePlayerByRequestSkillCodeList"); }
     public String keepSkillCode_ExistsReferrer_VillagePlayerByRequestSkillCodeList(VillagePlayerCQ sq) { return xkeepSQue("skillCode_ExistsReferrer_VillagePlayerByRequestSkillCodeList", sq); }
 
@@ -94,6 +97,9 @@ public class BsSkillCQ extends AbstractBsSkillCQ {
     public Map<String, MessageRestrictionCQ> xdfgetSkillCode_NotExistsReferrer_MessageRestrictionList() { return xgetSQueMap("skillCode_NotExistsReferrer_MessageRestrictionList"); }
     public String keepSkillCode_NotExistsReferrer_MessageRestrictionList(MessageRestrictionCQ sq) { return xkeepSQue("skillCode_NotExistsReferrer_MessageRestrictionList", sq); }
 
+    public Map<String, NormalSayRestrictionCQ> xdfgetSkillCode_NotExistsReferrer_NormalSayRestrictionList() { return xgetSQueMap("skillCode_NotExistsReferrer_NormalSayRestrictionList"); }
+    public String keepSkillCode_NotExistsReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq) { return xkeepSQue("skillCode_NotExistsReferrer_NormalSayRestrictionList", sq); }
+
     public Map<String, VillagePlayerCQ> xdfgetSkillCode_NotExistsReferrer_VillagePlayerByRequestSkillCodeList() { return xgetSQueMap("skillCode_NotExistsReferrer_VillagePlayerByRequestSkillCodeList"); }
     public String keepSkillCode_NotExistsReferrer_VillagePlayerByRequestSkillCodeList(VillagePlayerCQ sq) { return xkeepSQue("skillCode_NotExistsReferrer_VillagePlayerByRequestSkillCodeList", sq); }
 
@@ -105,6 +111,9 @@ public class BsSkillCQ extends AbstractBsSkillCQ {
 
     public Map<String, MessageRestrictionCQ> xdfgetSkillCode_SpecifyDerivedReferrer_MessageRestrictionList() { return xgetSQueMap("skillCode_SpecifyDerivedReferrer_MessageRestrictionList"); }
     public String keepSkillCode_SpecifyDerivedReferrer_MessageRestrictionList(MessageRestrictionCQ sq) { return xkeepSQue("skillCode_SpecifyDerivedReferrer_MessageRestrictionList", sq); }
+
+    public Map<String, NormalSayRestrictionCQ> xdfgetSkillCode_SpecifyDerivedReferrer_NormalSayRestrictionList() { return xgetSQueMap("skillCode_SpecifyDerivedReferrer_NormalSayRestrictionList"); }
+    public String keepSkillCode_SpecifyDerivedReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq) { return xkeepSQue("skillCode_SpecifyDerivedReferrer_NormalSayRestrictionList", sq); }
 
     public Map<String, VillagePlayerCQ> xdfgetSkillCode_SpecifyDerivedReferrer_VillagePlayerByRequestSkillCodeList() { return xgetSQueMap("skillCode_SpecifyDerivedReferrer_VillagePlayerByRequestSkillCodeList"); }
     public String keepSkillCode_SpecifyDerivedReferrer_VillagePlayerByRequestSkillCodeList(VillagePlayerCQ sq) { return xkeepSQue("skillCode_SpecifyDerivedReferrer_VillagePlayerByRequestSkillCodeList", sq); }
@@ -119,6 +128,11 @@ public class BsSkillCQ extends AbstractBsSkillCQ {
     public String keepSkillCode_QueryDerivedReferrer_MessageRestrictionList(MessageRestrictionCQ sq) { return xkeepSQue("skillCode_QueryDerivedReferrer_MessageRestrictionList", sq); }
     public Map<String, Object> xdfgetSkillCode_QueryDerivedReferrer_MessageRestrictionListParameter() { return xgetSQuePmMap("skillCode_QueryDerivedReferrer_MessageRestrictionList"); }
     public String keepSkillCode_QueryDerivedReferrer_MessageRestrictionListParameter(Object pm) { return xkeepSQuePm("skillCode_QueryDerivedReferrer_MessageRestrictionList", pm); }
+
+    public Map<String, NormalSayRestrictionCQ> xdfgetSkillCode_QueryDerivedReferrer_NormalSayRestrictionList() { return xgetSQueMap("skillCode_QueryDerivedReferrer_NormalSayRestrictionList"); }
+    public String keepSkillCode_QueryDerivedReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq) { return xkeepSQue("skillCode_QueryDerivedReferrer_NormalSayRestrictionList", sq); }
+    public Map<String, Object> xdfgetSkillCode_QueryDerivedReferrer_NormalSayRestrictionListParameter() { return xgetSQuePmMap("skillCode_QueryDerivedReferrer_NormalSayRestrictionList"); }
+    public String keepSkillCode_QueryDerivedReferrer_NormalSayRestrictionListParameter(Object pm) { return xkeepSQuePm("skillCode_QueryDerivedReferrer_NormalSayRestrictionList", pm); }
 
     public Map<String, VillagePlayerCQ> xdfgetSkillCode_QueryDerivedReferrer_VillagePlayerByRequestSkillCodeList() { return xgetSQueMap("skillCode_QueryDerivedReferrer_VillagePlayerByRequestSkillCodeList"); }
     public String keepSkillCode_QueryDerivedReferrer_VillagePlayerByRequestSkillCodeList(VillagePlayerCQ sq) { return xkeepSQue("skillCode_QueryDerivedReferrer_VillagePlayerByRequestSkillCodeList", sq); }
@@ -197,14 +211,14 @@ public class BsSkillCQ extends AbstractBsSkillCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
      * @return this. (NotNull)
      */
     public BsSkillCQ addOrderBy_CampCode_Asc() { regOBA("CAMP_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
      * @return this. (NotNull)
      */
     public BsSkillCQ addOrderBy_CampCode_Desc() { regOBD("CAMP_CODE"); return this; }
@@ -292,7 +306,7 @@ public class BsSkillCQ extends AbstractBsSkillCQ {
         return xgetQueRlMap(prop);
     }
     protected CampCQ xcreateQueryCamp() {
-        String nrp = xresolveNRP("skill", "camp"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("SKILL", "camp"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new CampCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "camp", nrp);
     }
     protected void xsetupOuterJoinCamp() { xregOutJo("camp"); }

@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-bean of message_type.
+ * The base condition-bean of MESSAGE_TYPE.
  * @author DBFlute(AutoGenerator)
  */
 public class BsMessageTypeCB extends AbstractConditionBean {
@@ -77,7 +77,7 @@ public class BsMessageTypeCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "message_type";
+        return "MESSAGE_TYPE";
     }
 
     // ===================================================================================
@@ -304,10 +304,10 @@ public class BsMessageTypeCB extends AbstractConditionBean {
             columnMessageTypeCode(); // PK
         }
         @Override
-        protected String getTableDbName() { return "message_type"; }
+        protected String getTableDbName() { return "MESSAGE_TYPE"; }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from message where ...) as FOO_MAX} <br>
+         * {select max(FOO) from MESSAGE where ...) as FOO_MAX} <br>
          * MESSAGE by MESSAGE_TYPE_CODE, named 'messageList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -324,7 +324,7 @@ public class BsMessageTypeCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from message_restriction where ...) as FOO_MAX} <br>
+         * {select max(FOO) from MESSAGE_RESTRICTION where ...) as FOO_MAX} <br>
          * MESSAGE_RESTRICTION by MESSAGE_TYPE_CODE, named 'messageRestrictionList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(restrictionCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -338,6 +338,40 @@ public class BsMessageTypeCB extends AbstractConditionBean {
             assertDerived("messageRestrictionList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
             return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<MessageRestrictionCB> sq, MessageTypeCQ cq, String al, DerivedReferrerOption op)
                     -> cq.xsderiveMessageRestrictionList(fn, sq, al, op), _dbmetaProvider);
+        }
+        /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
+         * {select max(FOO) from NORMAL_SAY_RESTRICTION where ...) as FOO_MAX} <br>
+         * NORMAL_SAY_RESTRICTION by MESSAGE_TYPE_CODE, named 'normalSayRestrictionList'.
+         * <pre>
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(restrictionCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     restrictionCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     restrictionCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, NormalSayRestriction.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        public HpSDRFunction<NormalSayRestrictionCB, MessageTypeCQ> derivedNormalSayRestriction() {
+            assertDerived("normalSayRestrictionList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<NormalSayRestrictionCB> sq, MessageTypeCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveNormalSayRestrictionList(fn, sq, al, op), _dbmetaProvider);
+        }
+        /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
+         * {select max(FOO) from SKILL_SAY_RESTRICTION where ...) as FOO_MAX} <br>
+         * SKILL_SAY_RESTRICTION by MESSAGE_TYPE_CODE, named 'skillSayRestrictionList'.
+         * <pre>
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(restrictionCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     restrictionCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     restrictionCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, SkillSayRestriction.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        public HpSDRFunction<SkillSayRestrictionCB, MessageTypeCQ> derivedSkillSayRestriction() {
+            assertDerived("skillSayRestrictionList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<SkillSayRestrictionCB> sq, MessageTypeCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveSkillSayRestrictionList(fn, sq, al, op), _dbmetaProvider);
         }
         /**
          * Prepare for (Specify)MyselfDerived (SubQuery).

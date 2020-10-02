@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of message_type.
+ * The abstract condition-query of MESSAGE_TYPE.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "message_type";
+        return "MESSAGE_TYPE";
     }
 
     // ===================================================================================
@@ -425,8 +425,8 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select MESSAGE_TYPE_CODE from message where ...)} <br>
-     * message by MESSAGE_TYPE_CODE, named 'messageAsOne'.
+     * {exists (select MESSAGE_TYPE_CODE from MESSAGE where ...)} <br>
+     * MESSAGE by MESSAGE_TYPE_CODE, named 'messageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsMessage</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     messageCB.query().set...
@@ -444,8 +444,8 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select MESSAGE_TYPE_CODE from message_restriction where ...)} <br>
-     * message_restriction by MESSAGE_TYPE_CODE, named 'messageRestrictionAsOne'.
+     * {exists (select MESSAGE_TYPE_CODE from MESSAGE_RESTRICTION where ...)} <br>
+     * MESSAGE_RESTRICTION by MESSAGE_TYPE_CODE, named 'messageRestrictionAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsMessageRestriction</span>(restrictionCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     restrictionCB.query().set...
@@ -462,9 +462,47 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
     public abstract String keepMessageTypeCode_ExistsReferrer_MessageRestrictionList(MessageRestrictionCQ sq);
 
     /**
+     * Set up ExistsReferrer (correlated sub-query). <br>
+     * {exists (select MESSAGE_TYPE_CODE from NORMAL_SAY_RESTRICTION where ...)} <br>
+     * NORMAL_SAY_RESTRICTION by MESSAGE_TYPE_CODE, named 'normalSayRestrictionAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">existsNormalSayRestriction</span>(restrictionCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     restrictionCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of NormalSayRestrictionList for 'exists'. (NotNull)
+     */
+    public void existsNormalSayRestriction(SubQuery<NormalSayRestrictionCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        NormalSayRestrictionCB cb = new NormalSayRestrictionCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepMessageTypeCode_ExistsReferrer_NormalSayRestrictionList(cb.query());
+        registerExistsReferrer(cb.query(), "MESSAGE_TYPE_CODE", "MESSAGE_TYPE_CODE", pp, "normalSayRestrictionList");
+    }
+    public abstract String keepMessageTypeCode_ExistsReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq);
+
+    /**
+     * Set up ExistsReferrer (correlated sub-query). <br>
+     * {exists (select MESSAGE_TYPE_CODE from SKILL_SAY_RESTRICTION where ...)} <br>
+     * SKILL_SAY_RESTRICTION by MESSAGE_TYPE_CODE, named 'skillSayRestrictionAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">existsSkillSayRestriction</span>(restrictionCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     restrictionCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of SkillSayRestrictionList for 'exists'. (NotNull)
+     */
+    public void existsSkillSayRestriction(SubQuery<SkillSayRestrictionCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        SkillSayRestrictionCB cb = new SkillSayRestrictionCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepMessageTypeCode_ExistsReferrer_SkillSayRestrictionList(cb.query());
+        registerExistsReferrer(cb.query(), "MESSAGE_TYPE_CODE", "MESSAGE_TYPE_CODE", pp, "skillSayRestrictionList");
+    }
+    public abstract String keepMessageTypeCode_ExistsReferrer_SkillSayRestrictionList(SkillSayRestrictionCQ sq);
+
+    /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select MESSAGE_TYPE_CODE from message where ...)} <br>
-     * message by MESSAGE_TYPE_CODE, named 'messageAsOne'.
+     * {not exists (select MESSAGE_TYPE_CODE from MESSAGE where ...)} <br>
+     * MESSAGE by MESSAGE_TYPE_CODE, named 'messageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsMessage</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     messageCB.query().set...
@@ -482,8 +520,8 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select MESSAGE_TYPE_CODE from message_restriction where ...)} <br>
-     * message_restriction by MESSAGE_TYPE_CODE, named 'messageRestrictionAsOne'.
+     * {not exists (select MESSAGE_TYPE_CODE from MESSAGE_RESTRICTION where ...)} <br>
+     * MESSAGE_RESTRICTION by MESSAGE_TYPE_CODE, named 'messageRestrictionAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsMessageRestriction</span>(restrictionCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     restrictionCB.query().set...
@@ -498,6 +536,44 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
         registerNotExistsReferrer(cb.query(), "MESSAGE_TYPE_CODE", "MESSAGE_TYPE_CODE", pp, "messageRestrictionList");
     }
     public abstract String keepMessageTypeCode_NotExistsReferrer_MessageRestrictionList(MessageRestrictionCQ sq);
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br>
+     * {not exists (select MESSAGE_TYPE_CODE from NORMAL_SAY_RESTRICTION where ...)} <br>
+     * NORMAL_SAY_RESTRICTION by MESSAGE_TYPE_CODE, named 'normalSayRestrictionAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">notExistsNormalSayRestriction</span>(restrictionCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     restrictionCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of MessageTypeCode_NotExistsReferrer_NormalSayRestrictionList for 'not exists'. (NotNull)
+     */
+    public void notExistsNormalSayRestriction(SubQuery<NormalSayRestrictionCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        NormalSayRestrictionCB cb = new NormalSayRestrictionCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepMessageTypeCode_NotExistsReferrer_NormalSayRestrictionList(cb.query());
+        registerNotExistsReferrer(cb.query(), "MESSAGE_TYPE_CODE", "MESSAGE_TYPE_CODE", pp, "normalSayRestrictionList");
+    }
+    public abstract String keepMessageTypeCode_NotExistsReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq);
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br>
+     * {not exists (select MESSAGE_TYPE_CODE from SKILL_SAY_RESTRICTION where ...)} <br>
+     * SKILL_SAY_RESTRICTION by MESSAGE_TYPE_CODE, named 'skillSayRestrictionAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">notExistsSkillSayRestriction</span>(restrictionCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     restrictionCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of MessageTypeCode_NotExistsReferrer_SkillSayRestrictionList for 'not exists'. (NotNull)
+     */
+    public void notExistsSkillSayRestriction(SubQuery<SkillSayRestrictionCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        SkillSayRestrictionCB cb = new SkillSayRestrictionCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepMessageTypeCode_NotExistsReferrer_SkillSayRestrictionList(cb.query());
+        registerNotExistsReferrer(cb.query(), "MESSAGE_TYPE_CODE", "MESSAGE_TYPE_CODE", pp, "skillSayRestrictionList");
+    }
+    public abstract String keepMessageTypeCode_NotExistsReferrer_SkillSayRestrictionList(SkillSayRestrictionCQ sq);
 
     public void xsderiveMessageList(String fn, SubQuery<MessageCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
@@ -515,10 +591,26 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
     }
     public abstract String keepMessageTypeCode_SpecifyDerivedReferrer_MessageRestrictionList(MessageRestrictionCQ sq);
 
+    public void xsderiveNormalSayRestrictionList(String fn, SubQuery<NormalSayRestrictionCB> sq, String al, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        NormalSayRestrictionCB cb = new NormalSayRestrictionCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepMessageTypeCode_SpecifyDerivedReferrer_NormalSayRestrictionList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "MESSAGE_TYPE_CODE", "MESSAGE_TYPE_CODE", pp, "normalSayRestrictionList", al, op);
+    }
+    public abstract String keepMessageTypeCode_SpecifyDerivedReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq);
+
+    public void xsderiveSkillSayRestrictionList(String fn, SubQuery<SkillSayRestrictionCB> sq, String al, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        SkillSayRestrictionCB cb = new SkillSayRestrictionCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepMessageTypeCode_SpecifyDerivedReferrer_SkillSayRestrictionList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "MESSAGE_TYPE_CODE", "MESSAGE_TYPE_CODE", pp, "skillSayRestrictionList", al, op);
+    }
+    public abstract String keepMessageTypeCode_SpecifyDerivedReferrer_SkillSayRestrictionList(SkillSayRestrictionCQ sq);
+
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from message where ...)} <br>
-     * message by MESSAGE_TYPE_CODE, named 'messageAsOne'.
+     * {FOO &lt;= (select max(BAR) from MESSAGE where ...)} <br>
+     * MESSAGE by MESSAGE_TYPE_CODE, named 'messageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedMessage()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     messageCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -544,8 +636,8 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from message_restriction where ...)} <br>
-     * message_restriction by MESSAGE_TYPE_CODE, named 'messageRestrictionAsOne'.
+     * {FOO &lt;= (select max(BAR) from MESSAGE_RESTRICTION where ...)} <br>
+     * MESSAGE_RESTRICTION by MESSAGE_TYPE_CODE, named 'messageRestrictionAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedMessageRestriction()</span>.<span style="color: #CC4747">max</span>(restrictionCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     restrictionCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -568,6 +660,60 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
     }
     public abstract String keepMessageTypeCode_QueryDerivedReferrer_MessageRestrictionList(MessageRestrictionCQ sq);
     public abstract String keepMessageTypeCode_QueryDerivedReferrer_MessageRestrictionListParameter(Object vl);
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
+     * {FOO &lt;= (select max(BAR) from NORMAL_SAY_RESTRICTION where ...)} <br>
+     * NORMAL_SAY_RESTRICTION by MESSAGE_TYPE_CODE, named 'normalSayRestrictionAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">derivedNormalSayRestriction()</span>.<span style="color: #CC4747">max</span>(restrictionCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     restrictionCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     restrictionCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    public HpQDRFunction<NormalSayRestrictionCB> derivedNormalSayRestriction() {
+        return xcreateQDRFunctionNormalSayRestrictionList();
+    }
+    protected HpQDRFunction<NormalSayRestrictionCB> xcreateQDRFunctionNormalSayRestrictionList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveNormalSayRestrictionList(fn, sq, rd, vl, op));
+    }
+    public void xqderiveNormalSayRestrictionList(String fn, SubQuery<NormalSayRestrictionCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        NormalSayRestrictionCB cb = new NormalSayRestrictionCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepMessageTypeCode_QueryDerivedReferrer_NormalSayRestrictionList(cb.query()); String prpp = keepMessageTypeCode_QueryDerivedReferrer_NormalSayRestrictionListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "MESSAGE_TYPE_CODE", "MESSAGE_TYPE_CODE", sqpp, "normalSayRestrictionList", rd, vl, prpp, op);
+    }
+    public abstract String keepMessageTypeCode_QueryDerivedReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq);
+    public abstract String keepMessageTypeCode_QueryDerivedReferrer_NormalSayRestrictionListParameter(Object vl);
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
+     * {FOO &lt;= (select max(BAR) from SKILL_SAY_RESTRICTION where ...)} <br>
+     * SKILL_SAY_RESTRICTION by MESSAGE_TYPE_CODE, named 'skillSayRestrictionAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">derivedSkillSayRestriction()</span>.<span style="color: #CC4747">max</span>(restrictionCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     restrictionCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     restrictionCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    public HpQDRFunction<SkillSayRestrictionCB> derivedSkillSayRestriction() {
+        return xcreateQDRFunctionSkillSayRestrictionList();
+    }
+    protected HpQDRFunction<SkillSayRestrictionCB> xcreateQDRFunctionSkillSayRestrictionList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveSkillSayRestrictionList(fn, sq, rd, vl, op));
+    }
+    public void xqderiveSkillSayRestrictionList(String fn, SubQuery<SkillSayRestrictionCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        SkillSayRestrictionCB cb = new SkillSayRestrictionCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepMessageTypeCode_QueryDerivedReferrer_SkillSayRestrictionList(cb.query()); String prpp = keepMessageTypeCode_QueryDerivedReferrer_SkillSayRestrictionListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "MESSAGE_TYPE_CODE", "MESSAGE_TYPE_CODE", sqpp, "skillSayRestrictionList", rd, vl, prpp, op);
+    }
+    public abstract String keepMessageTypeCode_QueryDerivedReferrer_SkillSayRestrictionList(SkillSayRestrictionCQ sq);
+    public abstract String keepMessageTypeCode_QueryDerivedReferrer_SkillSayRestrictionListParameter(Object vl);
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>

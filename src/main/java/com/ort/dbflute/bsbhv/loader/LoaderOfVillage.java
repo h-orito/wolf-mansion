@@ -30,13 +30,13 @@ import com.ort.dbflute.cbean.*;
  *     VILLAGE_STATUS, CAMP, VILLAGE_SETTINGS(AsOne)
  *
  * [referrer table]
- *     MESSAGE_RESTRICTION, VILLAGE_DAY, VILLAGE_PLAYER, VILLAGE_SETTINGS
+ *     MESSAGE_RESTRICTION, NORMAL_SAY_RESTRICTION, SKILL_SAY_RESTRICTION, VILLAGE_DAY, VILLAGE_PLAYER, VILLAGE_SETTINGS
  *
  * [foreign property]
  *     villageStatus, camp, villageSettingsAsOne
  *
  * [referrer property]
- *     messageRestrictionList, villageDayList, villagePlayerList
+ *     messageRestrictionList, normalSayRestrictionList, skillSayRestrictionList, villageDayList, villagePlayerList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -93,6 +93,74 @@ public class LoaderOfVillage {
     public NestedReferrerLoaderGateway<LoaderOfMessageRestriction> loadMessageRestriction(ReferrerConditionSetupper<MessageRestrictionCB> refCBLambda) {
         myBhv().loadMessageRestriction(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerMessageRestriction = refLs);
         return hd -> hd.handle(new LoaderOfMessageRestriction().ready(_referrerMessageRestriction, _selector));
+    }
+
+    protected List<NormalSayRestriction> _referrerNormalSayRestriction;
+
+    /**
+     * Load referrer of normalSayRestrictionList by the set-upper of referrer. <br>
+     * NORMAL_SAY_RESTRICTION by VILLAGE_ID, named 'normalSayRestrictionList'.
+     * <pre>
+     * <span style="color: #0000C0">villageBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">villageList</span>, <span style="color: #553000">villageLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">villageLoader</span>.<span style="color: #CC4747">loadNormalSayRestriction</span>(<span style="color: #553000">restrictionCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *         <span style="color: #553000">restrictionCB</span>.setupSelect...
+     *         <span style="color: #553000">restrictionCB</span>.query().set...
+     *         <span style="color: #553000">restrictionCB</span>.query().addOrderBy...
+     *     }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     *     <span style="color: #3F7E5E">//}).withNestedReferrer(<span style="color: #553000">restrictionLoader</span> -&gt; {</span>
+     *     <span style="color: #3F7E5E">//    restrictionLoader.load...</span>
+     *     <span style="color: #3F7E5E">//});</span>
+     * });
+     * for (Village village : <span style="color: #553000">villageList</span>) {
+     *     ... = village.<span style="color: #CC4747">getNormalSayRestrictionList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setVillageId_InScope(pkList);
+     * cb.query().addOrderBy_VillageId_Asc();
+     * </pre>
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerLoaderGateway<LoaderOfNormalSayRestriction> loadNormalSayRestriction(ReferrerConditionSetupper<NormalSayRestrictionCB> refCBLambda) {
+        myBhv().loadNormalSayRestriction(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerNormalSayRestriction = refLs);
+        return hd -> hd.handle(new LoaderOfNormalSayRestriction().ready(_referrerNormalSayRestriction, _selector));
+    }
+
+    protected List<SkillSayRestriction> _referrerSkillSayRestriction;
+
+    /**
+     * Load referrer of skillSayRestrictionList by the set-upper of referrer. <br>
+     * SKILL_SAY_RESTRICTION by VILLAGE_ID, named 'skillSayRestrictionList'.
+     * <pre>
+     * <span style="color: #0000C0">villageBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">villageList</span>, <span style="color: #553000">villageLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">villageLoader</span>.<span style="color: #CC4747">loadSkillSayRestriction</span>(<span style="color: #553000">restrictionCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *         <span style="color: #553000">restrictionCB</span>.setupSelect...
+     *         <span style="color: #553000">restrictionCB</span>.query().set...
+     *         <span style="color: #553000">restrictionCB</span>.query().addOrderBy...
+     *     }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     *     <span style="color: #3F7E5E">//}).withNestedReferrer(<span style="color: #553000">restrictionLoader</span> -&gt; {</span>
+     *     <span style="color: #3F7E5E">//    restrictionLoader.load...</span>
+     *     <span style="color: #3F7E5E">//});</span>
+     * });
+     * for (Village village : <span style="color: #553000">villageList</span>) {
+     *     ... = village.<span style="color: #CC4747">getSkillSayRestrictionList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setVillageId_InScope(pkList);
+     * cb.query().addOrderBy_VillageId_Asc();
+     * </pre>
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerLoaderGateway<LoaderOfSkillSayRestriction> loadSkillSayRestriction(ReferrerConditionSetupper<SkillSayRestrictionCB> refCBLambda) {
+        myBhv().loadSkillSayRestriction(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerSkillSayRestriction = refLs);
+        return hd -> hd.handle(new LoaderOfSkillSayRestriction().ready(_referrerSkillSayRestriction, _selector));
     }
 
     protected List<VillageDay> _referrerVillageDay;

@@ -80,13 +80,13 @@ public abstract class BsVillagePlayerStatus extends AbstractEntity implements Do
     /** VILLAGE_PLAYER_STATUS_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
     protected Integer _villagePlayerStatusId;
 
-    /** VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player} */
+    /** VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} */
     protected Integer _villagePlayerId;
 
-    /** TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player} */
+    /** TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER} */
     protected Integer _toVillagePlayerId;
 
-    /** VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_player_status_type, classification=VillagePlayerStatusType} */
+    /** VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_PLAYER_STATUS_TYPE, classification=VillagePlayerStatusType} */
     protected String _villagePlayerStatusCode;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
@@ -111,7 +111,7 @@ public abstract class BsVillagePlayerStatus extends AbstractEntity implements Do
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "village_player_status";
+        return "VILLAGE_PLAYER_STATUS";
     }
 
     // ===================================================================================
@@ -128,7 +128,7 @@ public abstract class BsVillagePlayerStatus extends AbstractEntity implements Do
     //                                                             =======================
     /**
      * Get the value of villagePlayerStatusCode as the classification of VillagePlayerStatusType. <br>
-     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_player_status_type, classification=VillagePlayerStatusType} <br>
+     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_PLAYER_STATUS_TYPE, classification=VillagePlayerStatusType} <br>
      * 村参加者ステータス種別
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -139,7 +139,7 @@ public abstract class BsVillagePlayerStatus extends AbstractEntity implements Do
 
     /**
      * Set the value of villagePlayerStatusCode as the classification of VillagePlayerStatusType. <br>
-     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_player_status_type, classification=VillagePlayerStatusType} <br>
+     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_PLAYER_STATUS_TYPE, classification=VillagePlayerStatusType} <br>
      * 村参加者ステータス種別
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -344,7 +344,7 @@ public abstract class BsVillagePlayerStatus extends AbstractEntity implements Do
     }
 
     /**
-     * [get] VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player} <br>
+     * [get] VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
      * 村参加者ID
      * @return The value of the column 'VILLAGE_PLAYER_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -354,7 +354,7 @@ public abstract class BsVillagePlayerStatus extends AbstractEntity implements Do
     }
 
     /**
-     * [set] VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player} <br>
+     * [set] VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
      * 村参加者ID
      * @param villagePlayerId The value of the column 'VILLAGE_PLAYER_ID'. (basically NotNull if update: for the constraint)
      */
@@ -364,7 +364,7 @@ public abstract class BsVillagePlayerStatus extends AbstractEntity implements Do
     }
 
     /**
-     * [get] TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player} <br>
+     * [get] TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
      * 対象の村参加者ID
      * @return The value of the column 'TO_VILLAGE_PLAYER_ID'. (NullAllowed even if selected: for no constraint)
      */
@@ -374,7 +374,7 @@ public abstract class BsVillagePlayerStatus extends AbstractEntity implements Do
     }
 
     /**
-     * [set] TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player} <br>
+     * [set] TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
      * 対象の村参加者ID
      * @param toVillagePlayerId The value of the column 'TO_VILLAGE_PLAYER_ID'. (NullAllowed: null update allowed for no constraint)
      */
@@ -384,7 +384,7 @@ public abstract class BsVillagePlayerStatus extends AbstractEntity implements Do
     }
 
     /**
-     * [get] VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_player_status_type, classification=VillagePlayerStatusType} <br>
+     * [get] VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_PLAYER_STATUS_TYPE, classification=VillagePlayerStatusType} <br>
      * 村参加者ステータス種別コード
      * @return The value of the column 'VILLAGE_PLAYER_STATUS_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -394,7 +394,7 @@ public abstract class BsVillagePlayerStatus extends AbstractEntity implements Do
     }
 
     /**
-     * [set] VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_player_status_type, classification=VillagePlayerStatusType} <br>
+     * [set] VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_PLAYER_STATUS_TYPE, classification=VillagePlayerStatusType} <br>
      * 村参加者ステータス種別コード
      * @param villagePlayerStatusCode The value of the column 'VILLAGE_PLAYER_STATUS_CODE'. (basically NotNull if update: for the constraint)
      */

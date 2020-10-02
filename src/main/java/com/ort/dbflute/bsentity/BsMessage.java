@@ -96,22 +96,22 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     /** MESSAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
     protected Integer _messageId;
 
-    /** VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day} */
+    /** VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} */
     protected Integer _villageId;
 
-    /** VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player} */
+    /** VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER} */
     protected Integer _villagePlayerId;
 
-    /** TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player} */
+    /** TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER} */
     protected Integer _toVillagePlayerId;
 
-    /** PLAYER_ID: {IX, INT UNSIGNED(10), FK to player} */
+    /** PLAYER_ID: {IX, INT UNSIGNED(10), FK to PLAYER} */
     protected Integer _playerId;
 
-    /** DAY: {NotNull, INT UNSIGNED(10), FK to village_day} */
+    /** DAY: {NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} */
     protected Integer _day;
 
-    /** MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} */
+    /** MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} */
     protected String _messageTypeCode;
 
     /** MESSAGE_NUMBER: {+UQ, INT UNSIGNED(10)} */
@@ -126,7 +126,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     /** IS_CONVERT_DISABLE: {NotNull, BIT, classification=Flg} */
     protected Boolean _isConvertDisable;
 
-    /** FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType} */
+    /** FACE_TYPE_CODE: {IX, VARCHAR(20), FK to FACE_TYPE, classification=FaceType} */
     protected String _faceTypeCode;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
@@ -151,7 +151,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "message";
+        return "MESSAGE";
     }
 
     // ===================================================================================
@@ -166,8 +166,8 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     /**
      * To be unique by the unique column. <br>
      * You can update the entity by the key when entity update (NOT batch update).
-     * @param villageId : UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
-     * @param messageTypeCode : +UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType. (NotNull)
+     * @param villageId : UQ+, IX+, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY. (NotNull)
+     * @param messageTypeCode : +UQ, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType. (NotNull)
      * @param messageNumber : +UQ, INT UNSIGNED(10). (NotNull)
      */
     public void uniqueBy(Integer villageId, CDef.MessageType messageTypeCode, Integer messageNumber) {
@@ -183,7 +183,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     //                                                             =======================
     /**
      * Get the value of messageTypeCode as the classification of MessageType. <br>
-     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
      * メッセージ種別
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -194,7 +194,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
 
     /**
      * Set the value of messageTypeCode as the classification of MessageType. <br>
-     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
      * メッセージ種別
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -225,7 +225,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
 
     /**
      * Get the value of faceTypeCode as the classification of FaceType. <br>
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType} <br>
+     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to FACE_TYPE, classification=FaceType} <br>
      * 表情種別
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -236,7 +236,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
 
     /**
      * Set the value of faceTypeCode as the classification of FaceType. <br>
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType} <br>
+     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to FACE_TYPE, classification=FaceType} <br>
      * 表情種別
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -1011,7 +1011,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day} <br>
+     * [get] VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -1021,7 +1021,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day} <br>
+     * [set] VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -1031,7 +1031,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player} <br>
+     * [get] VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
      * 村参加者ID
      * @return The value of the column 'VILLAGE_PLAYER_ID'. (NullAllowed even if selected: for no constraint)
      */
@@ -1041,7 +1041,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player} <br>
+     * [set] VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
      * 村参加者ID
      * @param villagePlayerId The value of the column 'VILLAGE_PLAYER_ID'. (NullAllowed: null update allowed for no constraint)
      */
@@ -1051,7 +1051,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player} <br>
+     * [get] TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
      * 秘話相手の村参加者ID
      * @return The value of the column 'TO_VILLAGE_PLAYER_ID'. (NullAllowed even if selected: for no constraint)
      */
@@ -1061,7 +1061,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player} <br>
+     * [set] TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
      * 秘話相手の村参加者ID
      * @param toVillagePlayerId The value of the column 'TO_VILLAGE_PLAYER_ID'. (NullAllowed: null update allowed for no constraint)
      */
@@ -1071,7 +1071,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] PLAYER_ID: {IX, INT UNSIGNED(10), FK to player} <br>
+     * [get] PLAYER_ID: {IX, INT UNSIGNED(10), FK to PLAYER} <br>
      * プレイヤーID
      * @return The value of the column 'PLAYER_ID'. (NullAllowed even if selected: for no constraint)
      */
@@ -1081,7 +1081,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] PLAYER_ID: {IX, INT UNSIGNED(10), FK to player} <br>
+     * [set] PLAYER_ID: {IX, INT UNSIGNED(10), FK to PLAYER} <br>
      * プレイヤーID
      * @param playerId The value of the column 'PLAYER_ID'. (NullAllowed: null update allowed for no constraint)
      */
@@ -1091,7 +1091,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] DAY: {NotNull, INT UNSIGNED(10), FK to village_day} <br>
+     * [get] DAY: {NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} <br>
      * 何日目か
      * @return The value of the column 'DAY'. (basically NotNull if selected: for the constraint)
      */
@@ -1101,7 +1101,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] DAY: {NotNull, INT UNSIGNED(10), FK to village_day} <br>
+     * [set] DAY: {NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} <br>
      * 何日目か
      * @param day The value of the column 'DAY'. (basically NotNull if update: for the constraint)
      */
@@ -1111,7 +1111,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * [get] MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
      * メッセージ種別コード
      * @return The value of the column 'MESSAGE_TYPE_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -1121,7 +1121,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * [set] MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
      * メッセージ種別コード
      * @param messageTypeCode The value of the column 'MESSAGE_TYPE_CODE'. (basically NotNull if update: for the constraint)
      */
@@ -1213,7 +1213,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType} <br>
+     * [get] FACE_TYPE_CODE: {IX, VARCHAR(20), FK to FACE_TYPE, classification=FaceType} <br>
      * 表情種別コード
      * @return The value of the column 'FACE_TYPE_CODE'. (NullAllowed even if selected: for no constraint)
      */
@@ -1223,7 +1223,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType} <br>
+     * [set] FACE_TYPE_CODE: {IX, VARCHAR(20), FK to FACE_TYPE, classification=FaceType} <br>
      * 表情種別コード
      * @param faceTypeCode The value of the column 'FACE_TYPE_CODE'. (NullAllowed: null update allowed for no constraint)
      */
