@@ -66,8 +66,14 @@ public class VillageService {
                     vpStCB.setupSelect_VillagePlayerByToVillagePlayerId().withChara();
                 });
                 vpLoader.pulloutChara().loadCharaImage(ciCB -> {});
-                vpLoader.loadVillagePlayerDeadHistory(history -> {});
-                vpLoader.loadVillagePlayerRoomHistory(history -> {});
+                vpLoader.loadVillagePlayerDeadHistory(history -> {
+                    history.query().addOrderBy_Day_Asc();
+                    history.query().addOrderBy_VillagePlayerDeadHistoryId_Asc();
+                });
+                vpLoader.loadVillagePlayerRoomHistory(history -> {
+                    history.query().addOrderBy_Day_Asc();
+                    history.query().addOrderBy_VillagePlayerId_Asc();
+                });
             });
             loader.loadVillageDay(vdCB -> {
                 vdCB.query().addOrderBy_Day_Asc();

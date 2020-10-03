@@ -204,6 +204,14 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
+     * Set the value of abilityTypeCode as フルーツバスケット (FRUITSBASKET). <br>
+     * フルーツバスケット
+     */
+    public void setAbilityTypeCode_フルーツバスケット() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.フルーツバスケット);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 護衛 (GUARD). <br>
      * 護衛
      */
@@ -283,6 +291,17 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public boolean isAbilityTypeCode占い() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.占い) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode フルーツバスケット? <br>
+     * フルーツバスケット
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCodeフルーツバスケット() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.フルーツバスケット) : false;
     }
 
     /**

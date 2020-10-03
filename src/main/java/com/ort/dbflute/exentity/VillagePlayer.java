@@ -89,6 +89,24 @@ public class VillagePlayer extends BsVillagePlayer {
         return true;
     }
 
+    public boolean existsDeadHistory(int day, CDef.DeadReason reason) {
+        return getVillagePlayerDeadHistoryList().stream().anyMatch(history -> {
+            return history.getDay().equals(day) && history.isIsDeadTrue() && history.getDeadReasonCodeAsDeadReason() == reason;
+        });
+    }
+
+    public boolean existsMiserableDeadHistory(int day) {
+        return getVillagePlayerDeadHistoryList().stream().anyMatch(history -> {
+            return history.getDay().equals(day) && history.isIsDeadTrue() && history.isDeadReasonCode_Miserable();
+        });
+    }
+
+    public boolean existsReviveHistory(int day) {
+        return getVillagePlayerDeadHistoryList().stream().anyMatch(history -> {
+            return history.getDay().equals(day) && history.isIsDeadFalse();
+        });
+    }
+
     public boolean isAliveWhen(int day) {
         return !isDeadWhen(day);
     }

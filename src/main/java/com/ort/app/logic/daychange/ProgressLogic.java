@@ -23,6 +23,7 @@ import com.ort.app.logic.ability.BakeryLogic;
 import com.ort.app.logic.ability.BombLogic;
 import com.ort.app.logic.ability.CohabitLogic;
 import com.ort.app.logic.ability.DivineLogic;
+import com.ort.app.logic.ability.FruitsBasketLogic;
 import com.ort.app.logic.ability.GuardLogic;
 import com.ort.app.logic.ability.InvestigateLogic;
 import com.ort.app.logic.ability.PsychicLogic;
@@ -80,6 +81,8 @@ public class ProgressLogic {
     private AutopsyLogic autopsyLogic;
     @Autowired
     private BakeryLogic bakeryLogic;
+    @Autowired
+    private FruitsBasketLogic fruitsBasketLogic;
     @Autowired
     private RevivalLogic revivalLogic;
     @Autowired
@@ -174,6 +177,9 @@ public class ProgressLogic {
 
         // 投票、能力行使のデフォルト設定
         defaultSetLogic.setDefaultVoteAndAbility(villageId, day);
+
+        // フルーツバスケット
+        fruitsBasketLogic.fruitBasket(dayChangeVillage);
     }
 
     // 勝敗判定、エピローグ処理

@@ -37,8 +37,8 @@ public class VillageSituationAssist {
             int day = i;
             List<Integer> livingPlayerRoomNumList = villageInfo.vPlayers //
                     .filterNotSpecatate() //
-                    .filterBy(vp -> vp.isAliveWhen(day))
-                    .map(vp -> vp.getRoomNumberWhen(day - 1)); // TODO あってる？
+                    .filterBy(vp -> vp.isAliveWhen(day - 1))
+                    .map(vp -> vp.getRoomNumberWhen(day - 1));
             String message;
             List<Footstep> dayFootstepList = villageInfo.footsteps.filterYesteday(day).list;
             if (villageDispLogic.isDispSpoilerContent(villageInfo)) {
@@ -81,17 +81,18 @@ public class VillageSituationAssist {
     private VillageSituationDto makeSituation(VillagePlayers vPlayers, final int day) {
         VillageSituationDto situation = new VillageSituationDto();
         situation.setDay(day);
-        VillagePlayers deadPlayers = vPlayers.filterBy(vp -> vp.getDeadDay() != null && vp.getDeadDay().equals(day));
-        VillagePlayers suddenly = deadPlayers.filterBy(vp -> vp.isDeadReasonCode突然()).shuffled();
+        VillagePlayers suddenly = vPlayers.filterBy(vp -> vp.existsDeadHistory(day, CDef.DeadReason.突然)).shuffled();
         situation.setSuddonlyDeathChara(suddenly.list.isEmpty() ? "なし" : String.join("、", suddenly.map(vp -> vp.shortName(day))));
-        VillagePlayers miserable = deadPlayers.filterBy(vp -> vp.isDeadReasonCode_Miserable()).shuffled();
+        VillagePlayers miserable = vPlayers.filterBy(vp -> vp.existsMiserableDeadHistory(day)).shuffled();
         situation.setAttackedChara(miserable.list.isEmpty() ? "なし" : String.join("、", miserable.map(vp -> vp.shortName(day))));
-        VillagePlayers executed = deadPlayers.filterBy(vp -> vp.isDeadReasonCode処刑());
+        VillagePlayers executed = vPlayers.filterBy(vp -> vp.existsDeadHistory(day, CDef.DeadReason.処刑));
         situation.setExecutedChara(executed.list.isEmpty() ? "なし" : String.join("、", executed.map(vp -> vp.shortName(day))));
-        VillagePlayers suicide = deadPlayers.filterBy(vp -> vp.isDeadReasonCode後追());
+        VillagePlayers suicide = vPlayers.filterBy(vp -> vp.existsDeadHistory(day, CDef.DeadReason.後追));
         situation.setSuicideChara(suicide.list.isEmpty() ? "なし" : String.join("、", suicide.map(vp -> {
             return String.format("%s(%s)", vp.shortName(day), vp.getTargetLover().shortName(day));
         })));
+        VillagePlayers revival = vPlayers.filterBy(vp -> vp.existsReviveHistory(day)).shuffled();
+        situation.setRevivalChara(revival.list.isEmpty() ? "なし" : String.join("、", revival.map(vp -> vp.shortName(day))));
         return situation;
     }
 

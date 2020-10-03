@@ -164,9 +164,18 @@ public class AssignLogic {
             roomNumList.add(i);
         }
         // 部屋を割り当てて登録
-        assignRoomAndUpdate(vPlayers, roomNumList);
+        assignRoomAndUpdate(vPlayers, roomNumList, 1);
         // 部屋割り当てメッセージ登録
         insertRoomAssignMessage(villageId);
+    }
+
+    public void reAssignRoom(Village village, VillagePlayers vPlayers) {
+        List<Integer> roomNumList = new ArrayList<>();
+        for (int i = 1; i <= village.getRoomSizeWidth() * village.getRoomSizeHeight(); i++) {
+            roomNumList.add(i);
+        }
+        // 部屋を割り当てて登録
+        assignRoomAndUpdate(vPlayers, roomNumList, village.getVillageDays().latestDay().getDay());
     }
 
     // ===================================================================================
@@ -565,13 +574,13 @@ public class AssignLogic {
         return joiner.toString();
     }
 
-    private void assignRoomAndUpdate(VillagePlayers vPlayers, List<Integer> roomNumList) {
+    private void assignRoomAndUpdate(VillagePlayers vPlayers, List<Integer> roomNumList, int day) {
         List<Integer> roomNumberList = new ArrayList<>(RoomUtil.getRoomNumberList(vPlayers.list.size()));
         Collections.shuffle(roomNumberList);
         for (int i = 0; i < vPlayers.list.size(); i++) {
             VillagePlayer player = vPlayers.list.get(i);
             Integer roomNumber = roomNumberList.get(i);
-            villageService.assignRoom(player, roomNumber, 1);
+            villageService.assignRoom(player, roomNumber, day);
         }
     }
 }

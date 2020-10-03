@@ -15,6 +15,7 @@ import com.ort.app.logic.ability.CohabitLogic;
 import com.ort.app.logic.ability.CommandLogic;
 import com.ort.app.logic.ability.DisturbLogic;
 import com.ort.app.logic.ability.DivineLogic;
+import com.ort.app.logic.ability.FruitsBasketLogic;
 import com.ort.app.logic.ability.GuardLogic;
 import com.ort.app.logic.ability.InvestigateLogic;
 import com.ort.app.logic.ability.TrapLogic;
@@ -49,6 +50,8 @@ public class AbilityLogic {
     private CohabitLogic cohabitLogic;
     @Autowired
     private CommandLogic commandLogic;
+    @Autowired
+    private FruitsBasketLogic fruitsBasketLogic;
 
     // ===================================================================================
     //                                                                             Execute
@@ -89,6 +92,8 @@ public class AbilityLogic {
         case COMMAND:
             commandLogic.setAbility(village, villagePlayer, day, targetCharaId);
             break;
+        case FRUITSBASKET:
+            fruitsBasketLogic.setAbility(village, villagePlayer, day, targetCharaId);
         default:
             return;
         }
@@ -146,6 +151,11 @@ public class AbilityLogic {
             List<OptionDto> l = commandLogic.getSelectableTarget(village, villagePlayer, day).map(vp -> new OptionDto(vp));
             l.add(0, new OptionDto("なし", ""));
             return l;
+        case FRUITSBASKET:
+            // 「なし」も選べるのでここで返す
+            List<OptionDto> lists2 = fruitsBasketLogic.getSelectableTarget(village, villagePlayer, day).map(vp -> new OptionDto(vp));
+            lists2.add(0, new OptionDto("なし", ""));
+            return lists2;
         default:
             return null;
         }
@@ -312,6 +322,8 @@ public class AbilityLogic {
             return "罠を設置する部屋";
         case BOMB:
             return "爆弾を設置する部屋";
+        case FRUITSBASKET:
+            return "発動させる場合自分を選択してください";
         default:
             return null;
         }
@@ -353,7 +365,7 @@ public class AbilityLogic {
     }
 
     private enum AbilityType {
-        ATTACK, DIVINE, GUARD, DISTURB, INVESTIGATE, TRAP, BOMB, COHABIT, COMMAND
+        ATTACK, DIVINE, GUARD, DISTURB, INVESTIGATE, TRAP, BOMB, COHABIT, COMMAND, FRUITSBASKET
     }
 
     private AbilityType detectAbilityType(CDef.Skill skill) {
@@ -375,6 +387,8 @@ public class AbilityLogic {
             return AbilityType.COHABIT;
         } else if (skill == CDef.Skill.指揮官) {
             return AbilityType.COMMAND;
+        } else if (skill == CDef.Skill.果実籠) {
+            return AbilityType.FRUITSBASKET;
         }
         return null;
     }
@@ -394,6 +408,7 @@ public class AbilityLogic {
         case TRAP:
         case BOMB:
         case COMMAND:
+        case FRUITSBASKET:
             return day > 1;
         default:
             return false;

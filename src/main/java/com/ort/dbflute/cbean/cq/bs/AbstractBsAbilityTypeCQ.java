@@ -103,6 +103,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As フルーツバスケット (FRUITSBASKET). And OnlyOnceRegistered. <br>
+     * フルーツバスケット
+     */
+    public void setAbilityTypeCode_Equal_フルーツバスケット() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.フルーツバスケット);
+    }
+
+    /**
      * Equal(=). As 護衛 (GUARD). And OnlyOnceRegistered. <br>
      * 護衛
      */
@@ -187,6 +195,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_占い() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.占い);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As フルーツバスケット (FRUITSBASKET). And OnlyOnceRegistered. <br>
+     * フルーツバスケット
+     */
+    public void setAbilityTypeCode_NotEqual_フルーツバスケット() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.フルーツバスケット);
     }
 
     /**

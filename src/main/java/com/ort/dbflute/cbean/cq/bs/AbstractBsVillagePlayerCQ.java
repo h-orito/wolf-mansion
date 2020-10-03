@@ -1174,6 +1174,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 果実籠 (FRUITSBASKET). And OnlyOnceRegistered. <br>
+     * 果実籠
+     */
+    public void setSkillCode_Equal_果実籠() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.果実籠);
+    }
+
+    /**
      * Equal(=). As 導師 (GURU). And OnlyOnceRegistered. <br>
      * 導師
      */
@@ -1482,6 +1490,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_おまかせ役職窓あり() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ役職窓あり);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 果実籠 (FRUITSBASKET). And OnlyOnceRegistered. <br>
+     * 果実籠
+     */
+    public void setSkillCode_NotEqual_果実籠() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.果実籠);
     }
 
     /**
@@ -1953,6 +1969,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 果実籠 (FRUITSBASKET). And OnlyOnceRegistered. <br>
+     * 果実籠
+     */
+    public void setRequestSkillCode_Equal_果実籠() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.果実籠);
+    }
+
+    /**
      * Equal(=). As 導師 (GURU). And OnlyOnceRegistered. <br>
      * 導師
      */
@@ -2261,6 +2285,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_おまかせ役職窓あり() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ役職窓あり);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 果実籠 (FRUITSBASKET). And OnlyOnceRegistered. <br>
+     * 果実籠
+     */
+    public void setRequestSkillCode_NotEqual_果実籠() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.果実籠);
     }
 
     /**
@@ -2732,6 +2764,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 果実籠 (FRUITSBASKET). And OnlyOnceRegistered. <br>
+     * 果実籠
+     */
+    public void setSecondRequestSkillCode_Equal_果実籠() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.果実籠);
+    }
+
+    /**
      * Equal(=). As 導師 (GURU). And OnlyOnceRegistered. <br>
      * 導師
      */
@@ -3040,6 +3080,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_おまかせ役職窓あり() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ役職窓あり);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 果実籠 (FRUITSBASKET). And OnlyOnceRegistered. <br>
+     * 果実籠
+     */
+    public void setSecondRequestSkillCode_NotEqual_果実籠() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.果実籠);
     }
 
     /**

@@ -21,10 +21,10 @@ public class SkillUtil {
     // 能力セットできる役職
     public static List<CDef.Skill> SET_AVAILABLE_SKILL_LIST = Arrays.asList(CDef.Skill.人狼, CDef.Skill.呪狼, CDef.Skill.智狼, CDef.Skill.絶対人狼,
             CDef.Skill.占い師, CDef.Skill.狩人, CDef.Skill.狂人, CDef.Skill.妖狐, CDef.Skill.背徳者, CDef.Skill.C国狂人, CDef.Skill.狂信者, CDef.Skill.賢者,
-            CDef.Skill.占星術師, CDef.Skill.魔神官, CDef.Skill.探偵, CDef.Skill.罠師, CDef.Skill.爆弾魔, CDef.Skill.同棲者, CDef.Skill.指揮官);
+            CDef.Skill.占星術師, CDef.Skill.魔神官, CDef.Skill.探偵, CDef.Skill.罠師, CDef.Skill.爆弾魔, CDef.Skill.同棲者, CDef.Skill.指揮官, CDef.Skill.果実籠);
     // 上記のうち、1日目には能力行使できない役職
     public static List<CDef.Skill> SECOND_DAY_SET_AVAILABLE_SKILL_LIST =
-            Arrays.asList(CDef.Skill.狩人, CDef.Skill.探偵, CDef.Skill.罠師, CDef.Skill.爆弾魔, CDef.Skill.指揮官);
+            Arrays.asList(CDef.Skill.狩人, CDef.Skill.探偵, CDef.Skill.罠師, CDef.Skill.爆弾魔, CDef.Skill.指揮官, CDef.Skill.果実籠);
     // 表示順役職一覧（おまかせ除く）
     public static final List<CDef.Skill> SORTED_SKILL_LIST = CDef.Skill.listAll().stream().filter(skill -> {
         return !skill.alias().contains("おまかせ");
@@ -47,6 +47,7 @@ public class SkillUtil {
         skillAbilityTypeMap.put(CDef.Skill.爆弾魔, CDef.AbilityType.爆弾設置);
         skillAbilityTypeMap.put(CDef.Skill.同棲者, CDef.AbilityType.同棲);
         skillAbilityTypeMap.put(CDef.Skill.指揮官, CDef.AbilityType.指揮);
+        skillAbilityTypeMap.put(CDef.Skill.果実籠, CDef.AbilityType.フルーツバスケット);
         SKILL_ABILITY_TYPE_MAP = Collections.unmodifiableMap(skillAbilityTypeMap);
 
         Map<String, CDef.Skill> skillShortNameMap = new HashMap<>();

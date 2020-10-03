@@ -231,7 +231,7 @@ public class VillageAssist {
         content.setDayChangeDatetime(makeDayChangeDatetime(villageInfo));
         content.setIsDispUnspoiler(villageInfo.village.isVillageStatusCodeエピローグ() || villageInfo.village.isVillageStatusCode終了());
         content.setRandomKeywords(selectRandomKeywords());
-        if (villageInfo.isStartedVote()) {
+        if (villageInfo.day > 2) {
             content.setVote(makeMemberVote(villageInfo));
         }
         if (villageInfo.isStartedFootstepSet()) {

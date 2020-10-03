@@ -74,9 +74,10 @@
 										<thead>
 											<tr>
 												<th class="text-center">日付</th>
+												<th>突然死</th>
 												<th>処刑</th>
 												<th>犠牲</th>
-												<th>突然死</th>
+												<th>復活</th>
 												<th>後追</th>
 												<th class="hidden" th:if="${content.isDispSpoilerContent}" data-spoiled-content>襲撃</th>
 												<th class="hidden" th:if="${content.isDispSpoilerContent}" data-spoiled-content>占い</th>
@@ -87,9 +88,10 @@
 										<tbody>
 											<tr th:each="situation: ${content.situationList}">
 												<td class="text-center" th:text="${situation.day + 'd'}"></td>
+												<td th:text="${situation.suddonlyDeathChara}"></td>
 												<td th:text="${situation.executedChara}"></td>
 												<td th:text="${situation.attackedChara}"></td>
-												<td th:text="${situation.suddonlyDeathChara}"></td>
+												<td th:text="${situation.revivalChara}"></td>
 												<td th:text="${situation.suicideChara}"></td>
 												<td class="hidden" th:text="${situation.attack}" th:if="${content.isDispSpoilerContent}" data-spoiled-content></td>
 												<td class="hidden" th:if="${content.isDispSpoilerContent}" data-spoiled-content><th:block

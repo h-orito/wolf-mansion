@@ -12,6 +12,8 @@ public class VillageSituationDto {
 
     private String suicideChara;
 
+    private String revivalChara;
+
     private String divinedChara;
 
     private String guardedChara;
@@ -90,6 +92,14 @@ public class VillageSituationDto {
 
     public void setSuicideChara(String suicideChara) {
         this.suicideChara = suicideChara;
+    }
+
+    public String getRevivalChara() {
+        return revivalChara;
+    }
+
+    public void setRevivalChara(String revivalChara) {
+        this.revivalChara = revivalChara;
     }
 
 }
