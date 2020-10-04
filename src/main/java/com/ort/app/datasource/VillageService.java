@@ -13,10 +13,12 @@ import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exbhv.VillagePlayerDeadHistoryBhv;
 import com.ort.dbflute.exbhv.VillagePlayerRoomHistoryBhv;
+import com.ort.dbflute.exbhv.VillagePlayerStatusBhv;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillagePlayerDeadHistory;
 import com.ort.dbflute.exentity.VillagePlayerRoomHistory;
+import com.ort.dbflute.exentity.VillagePlayerStatus;
 import com.ort.fw.security.UserInfo;
 
 @Repository
@@ -35,6 +37,8 @@ public class VillageService {
     private VillagePlayerRoomHistoryBhv villagePlayerRoomHistoryBhv;
     @Autowired
     private VillagePlayerDeadHistoryBhv villagePlayerDeadHistoryBhv;
+    @Autowired
+    private VillagePlayerStatusBhv villagePlayerStatusBhv;
 
     // ===================================================================================
     //                                                                             Execute
@@ -159,5 +163,13 @@ public class VillageService {
         history.setDay(day);
         history.setIsDead_False();
         villagePlayerDeadHistoryBhv.insert(history);
+    }
+
+    public void insertVillagePlayerStatus(VillagePlayer from, VillagePlayer to, CDef.VillagePlayerStatusType type) {
+        VillagePlayerStatus status = new VillagePlayerStatus();
+        status.setVillagePlayerId(from.getVillagePlayerId());
+        status.setToVillagePlayerId(to.getVillagePlayerId());
+        status.setVillagePlayerStatusCodeAsVillagePlayerStatusType(type);
+        villagePlayerStatusBhv.insert(status);
     }
 }

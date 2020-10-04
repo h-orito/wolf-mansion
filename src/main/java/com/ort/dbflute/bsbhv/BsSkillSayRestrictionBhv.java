@@ -68,7 +68,7 @@ public abstract class BsSkillSayRestrictionBhv extends AbstractBehaviorWritable<
     /** {@inheritDoc} */
     public SkillSayRestrictionDbm asDBMeta() { return SkillSayRestrictionDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "SKILL_SAY_RESTRICTION"; }
+    public String asTableDbName() { return "skill_say_restriction"; }
 
     // ===================================================================================
     //                                                                        New Instance
@@ -160,8 +160,8 @@ public abstract class BsSkillSayRestrictionBhv extends AbstractBehaviorWritable<
 
     /**
      * Select the entity by the primary-key value.
-     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
-     * @param messageTypeCode : PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType. (NotNull)
+     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
+     * @param messageTypeCode : PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType. (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.

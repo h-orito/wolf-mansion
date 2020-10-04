@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of VILLAGE_PLAYER_STATUS.
+ * The abstract condition-query of village_player_status.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
     }
 
     public String asTableDbName() {
-        return "VILLAGE_PLAYER_STATUS";
+        return "village_player_status";
     }
 
     // ===================================================================================
@@ -174,7 +174,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param villagePlayerId The value of villagePlayerId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillagePlayerId_Equal(Integer villagePlayerId) {
@@ -187,7 +187,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param villagePlayerId The value of villagePlayerId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillagePlayerId_NotEqual(Integer villagePlayerId) {
@@ -200,7 +200,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param villagePlayerId The value of villagePlayerId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillagePlayerId_GreaterThan(Integer villagePlayerId) {
@@ -209,7 +209,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param villagePlayerId The value of villagePlayerId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillagePlayerId_LessThan(Integer villagePlayerId) {
@@ -218,7 +218,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param villagePlayerId The value of villagePlayerId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillagePlayerId_GreaterEqual(Integer villagePlayerId) {
@@ -227,7 +227,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param villagePlayerId The value of villagePlayerId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillagePlayerId_LessEqual(Integer villagePlayerId) {
@@ -238,7 +238,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param minNumber The min number of villagePlayerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villagePlayerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -251,7 +251,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param minNumber The min number of villagePlayerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villagePlayerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -262,7 +262,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param villagePlayerIdList The collection of villagePlayerId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillagePlayerId_InScope(Collection<Integer> villagePlayerIdList) {
@@ -275,7 +275,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param villagePlayerIdList The collection of villagePlayerId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillagePlayerId_NotInScope(Collection<Integer> villagePlayerIdList) {
@@ -291,7 +291,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      * @param toVillagePlayerId The value of toVillagePlayerId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setToVillagePlayerId_Equal(Integer toVillagePlayerId) {
@@ -304,7 +304,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      * @param toVillagePlayerId The value of toVillagePlayerId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setToVillagePlayerId_NotEqual(Integer toVillagePlayerId) {
@@ -317,7 +317,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      * @param toVillagePlayerId The value of toVillagePlayerId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setToVillagePlayerId_GreaterThan(Integer toVillagePlayerId) {
@@ -326,7 +326,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      * @param toVillagePlayerId The value of toVillagePlayerId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setToVillagePlayerId_LessThan(Integer toVillagePlayerId) {
@@ -335,7 +335,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      * @param toVillagePlayerId The value of toVillagePlayerId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setToVillagePlayerId_GreaterEqual(Integer toVillagePlayerId) {
@@ -344,7 +344,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      * @param toVillagePlayerId The value of toVillagePlayerId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setToVillagePlayerId_LessEqual(Integer toVillagePlayerId) {
@@ -355,7 +355,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      * @param minNumber The min number of toVillagePlayerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of toVillagePlayerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -368,7 +368,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      * @param minNumber The min number of toVillagePlayerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of toVillagePlayerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -379,7 +379,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      * @param toVillagePlayerIdList The collection of toVillagePlayerId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setToVillagePlayerId_InScope(Collection<Integer> toVillagePlayerIdList) {
@@ -392,7 +392,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      * @param toVillagePlayerIdList The collection of toVillagePlayerId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setToVillagePlayerId_NotInScope(Collection<Integer> toVillagePlayerIdList) {
@@ -405,13 +405,13 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      */
     public void setToVillagePlayerId_IsNull() { regToVillagePlayerId(CK_ISN, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
      */
     public void setToVillagePlayerId_IsNotNull() { regToVillagePlayerId(CK_ISNN, DOBJ); }
 
@@ -420,7 +420,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_PLAYER_STATUS_TYPE, classification=VillagePlayerStatusType}
+     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_player_status_type, classification=VillagePlayerStatusType}
      * @param villagePlayerStatusCode The value of villagePlayerStatusCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setVillagePlayerStatusCode_Equal(String villagePlayerStatusCode) {
@@ -429,7 +429,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * Equal(=). As VillagePlayerStatusType. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_PLAYER_STATUS_TYPE, classification=VillagePlayerStatusType} <br>
+     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_player_status_type, classification=VillagePlayerStatusType} <br>
      * 村参加者ステータス種別
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -451,7 +451,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_PLAYER_STATUS_TYPE, classification=VillagePlayerStatusType}
+     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_player_status_type, classification=VillagePlayerStatusType}
      * @param villagePlayerStatusCode The value of villagePlayerStatusCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setVillagePlayerStatusCode_NotEqual(String villagePlayerStatusCode) {
@@ -460,7 +460,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * NotEqual(&lt;&gt;). As VillagePlayerStatusType. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_PLAYER_STATUS_TYPE, classification=VillagePlayerStatusType} <br>
+     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_player_status_type, classification=VillagePlayerStatusType} <br>
      * 村参加者ステータス種別
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -482,7 +482,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_PLAYER_STATUS_TYPE, classification=VillagePlayerStatusType}
+     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_player_status_type, classification=VillagePlayerStatusType}
      * @param villagePlayerStatusCodeList The collection of villagePlayerStatusCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setVillagePlayerStatusCode_InScope(Collection<String> villagePlayerStatusCodeList) {
@@ -491,7 +491,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * InScope {in ('a', 'b')}. As VillagePlayerStatusType. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_PLAYER_STATUS_TYPE, classification=VillagePlayerStatusType} <br>
+     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_player_status_type, classification=VillagePlayerStatusType} <br>
      * 村参加者ステータス種別
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -505,7 +505,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_PLAYER_STATUS_TYPE, classification=VillagePlayerStatusType}
+     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_player_status_type, classification=VillagePlayerStatusType}
      * @param villagePlayerStatusCodeList The collection of villagePlayerStatusCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setVillagePlayerStatusCode_NotInScope(Collection<String> villagePlayerStatusCodeList) {
@@ -514,7 +514,7 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
 
     /**
      * NotInScope {not in ('a', 'b')}. As VillagePlayerStatusType. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_PLAYER_STATUS_TYPE, classification=VillagePlayerStatusType} <br>
+     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_player_status_type, classification=VillagePlayerStatusType} <br>
      * 村参加者ステータス種別
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */

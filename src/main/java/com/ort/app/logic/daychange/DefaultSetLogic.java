@@ -12,10 +12,12 @@ import com.ort.app.logic.FootstepLogic;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.ability.AttackLogic;
 import com.ort.app.logic.ability.CohabitLogic;
+import com.ort.app.logic.ability.CourtLogic;
 import com.ort.app.logic.ability.DisturbLogic;
 import com.ort.app.logic.ability.DivineLogic;
 import com.ort.app.logic.ability.GuardLogic;
 import com.ort.app.logic.ability.InvestigateLogic;
+import com.ort.app.logic.ability.StalkingLogic;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.VoteBhv;
 import com.ort.dbflute.exentity.Village;
@@ -40,6 +42,10 @@ public class DefaultSetLogic {
     private GuardLogic guardLogic;
     @Autowired
     private InvestigateLogic investigateLogic;
+    @Autowired
+    private CourtLogic courtLogic;
+    @Autowired
+    private StalkingLogic stalkingLogic;
     @Autowired
     private FootstepLogic footstepLogic;
     @Autowired
@@ -68,6 +74,8 @@ public class DefaultSetLogic {
         cohabitLogic.insertDefaultCohabit(village, newDay);
 
         if (newDay == 1) {
+            courtLogic.insertDefaultCourt(village, newDay);
+            stalkingLogic.insertDefaultStalking(village, newDay);
             return; // 1日目は護衛と投票なし
         }
 

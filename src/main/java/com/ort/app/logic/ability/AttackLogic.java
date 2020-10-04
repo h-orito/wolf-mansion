@@ -276,6 +276,9 @@ public class AttackLogic {
             Integer targetCharaId, //
             String footstep//
     ) {
+        if (charaId == null || targetCharaId == null || footstep == null) {
+            return true;
+        }
         VillagePlayers attackableWolfs = getAttackableWolfs(village, day);
         if (attackableWolfs.list.stream().noneMatch(vp -> vp.getCharaId().equals(charaId))) {
             return true; // 襲撃できない人が襲撃している

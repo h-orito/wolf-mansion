@@ -208,6 +208,12 @@
 			<div class="message col-sm-12 col-xs-12 message-private-werewolf">{{{messageContent}}}</div>
 		</div>
 	</div>
+	{{else if (eq messageType 'PRIVATE_LOVER')}}
+	<div class="col-sm-12 col-xs-12" data-spoiled-content>
+		<div class="row">
+			<div class="message col-sm-12 col-xs-12 message-private-lover">{{{messageContent}}}</div>
+		</div>
+	</div>
 	{{/if}}
 </body>
 </html>

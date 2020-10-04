@@ -78,7 +78,7 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "MESSAGE_TYPE";
+        return "message_type";
     }
 
     // ===================================================================================
@@ -187,6 +187,14 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
      */
     public void setMessageTypeCode_足音調査結果() {
         setMessageTypeCodeAsMessageType(CDef.MessageType.足音調査結果);
+    }
+
+    /**
+     * Set the value of messageTypeCode as 恋人メッセージ (PRIVATE_LOVER). <br>
+     * 恋人メッセージ
+     */
+    public void setMessageTypeCode_恋人メッセージ() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.恋人メッセージ);
     }
 
     /**
@@ -361,6 +369,17 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
     public boolean isMessageTypeCode足音調査結果() {
         CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
         return cdef != null ? cdef.equals(CDef.MessageType.足音調査結果) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 恋人メッセージ? <br>
+     * 恋人メッセージ
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode恋人メッセージ() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.恋人メッセージ) : false;
     }
 
     /**

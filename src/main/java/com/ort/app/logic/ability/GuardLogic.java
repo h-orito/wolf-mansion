@@ -167,6 +167,9 @@ public class GuardLogic {
     //                                                                        Assist Logic
     //                                                                        ============
     private boolean isInvalidHunterAbility(Village village, VillagePlayer villagePlayer, int day, Integer targetCharaId, String footstep) {
+        if (targetCharaId == null || footstep == null) {
+            return true;
+        }
         if (villagePlayer.isIsDeadTrue()) {
             return true;
         }

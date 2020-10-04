@@ -125,6 +125,9 @@ public class CohabitLogic {
     //                                                                        Assist Logic
     //                                                                        ============
     private boolean isInvalidAbility(Village village, VillagePlayer villagePlayer, int day, Integer targetCharaId) {
+        if (targetCharaId == null) {
+            return true;
+        }
         VillagePlayer lover = villagePlayer.getTargetLover();
         if (lover == null) {
             return true;

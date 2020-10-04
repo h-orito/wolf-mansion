@@ -81,22 +81,22 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day} */
     protected Integer _villageId;
 
-    /** DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} */
+    /** DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day} */
     protected Integer _day;
 
-    /** CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA} */
+    /** CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara} */
     protected Integer _charaId;
 
-    /** TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to CHARA} */
+    /** TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara} */
     protected Integer _targetCharaId;
 
     /** TARGET_FOOTSTEP: {VARCHAR(100)} */
     protected String _targetFootstep;
 
-    /** ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ABILITY_TYPE, classification=AbilityType} */
+    /** ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType} */
     protected String _abilityTypeCode;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
@@ -121,7 +121,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "ABILITY";
+        return "ability";
     }
 
     // ===================================================================================
@@ -141,7 +141,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     //                                                             =======================
     /**
      * Get the value of abilityTypeCode as the classification of AbilityType. <br>
-     * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ABILITY_TYPE, classification=AbilityType} <br>
+     * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType} <br>
      * 能力種別
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -152,7 +152,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
 
     /**
      * Set the value of abilityTypeCode as the classification of AbilityType. <br>
-     * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ABILITY_TYPE, classification=AbilityType} <br>
+     * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType} <br>
      * 能力種別
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -196,6 +196,14 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
+     * Set the value of abilityTypeCode as 求愛 (COURT). <br>
+     * 求愛
+     */
+    public void setAbilityTypeCode_求愛() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.求愛);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 占い (DIVINE). <br>
      * 占い
      */
@@ -225,6 +233,14 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
      */
     public void setAbilityTypeCode_捜査() {
         setAbilityTypeCodeAsAbilityType(CDef.AbilityType.捜査);
+    }
+
+    /**
+     * Set the value of abilityTypeCode as ストーキング (STALKING). <br>
+     * ストーキング
+     */
+    public void setAbilityTypeCode_ストーキング() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.ストーキング);
     }
 
     /**
@@ -283,6 +299,17 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
+     * Is the value of abilityTypeCode 求愛? <br>
+     * 求愛
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode求愛() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.求愛) : false;
+    }
+
+    /**
      * Is the value of abilityTypeCode 占い? <br>
      * 占い
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -324,6 +351,17 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public boolean isAbilityTypeCode捜査() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.捜査) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode ストーキング? <br>
+     * ストーキング
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCodeストーキング() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.ストーキング) : false;
     }
 
     /**
@@ -522,7 +560,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -532,7 +570,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -542,7 +580,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} <br>
+     * [get] DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day} <br>
      * 何日目か
      * @return The value of the column 'DAY'. (basically NotNull if selected: for the constraint)
      */
@@ -552,7 +590,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} <br>
+     * [set] DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day} <br>
      * 何日目か
      * @param day The value of the column 'DAY'. (basically NotNull if update: for the constraint)
      */
@@ -562,7 +600,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA} <br>
+     * [get] CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
      * キャラクターID
      * @return The value of the column 'CHARA_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -572,7 +610,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA} <br>
+     * [set] CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
      * キャラクターID
      * @param charaId The value of the column 'CHARA_ID'. (basically NotNull if update: for the constraint)
      */
@@ -582,7 +620,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to CHARA} <br>
+     * [get] TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara} <br>
      * 行使対象キャラID
      * @return The value of the column 'TARGET_CHARA_ID'. (NullAllowed even if selected: for no constraint)
      */
@@ -592,7 +630,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to CHARA} <br>
+     * [set] TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara} <br>
      * 行使対象キャラID
      * @param targetCharaId The value of the column 'TARGET_CHARA_ID'. (NullAllowed: null update allowed for no constraint)
      */
@@ -622,7 +660,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ABILITY_TYPE, classification=AbilityType} <br>
+     * [get] ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType} <br>
      * 能力種別コード
      * @return The value of the column 'ABILITY_TYPE_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -632,7 +670,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ABILITY_TYPE, classification=AbilityType} <br>
+     * [set] ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType} <br>
      * 能力種別コード
      * @param abilityTypeCode The value of the column 'ABILITY_TYPE_CODE'. (basically NotNull if update: for the constraint)
      */

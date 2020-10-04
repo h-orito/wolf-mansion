@@ -68,7 +68,7 @@ public abstract class BsRandomContent extends AbstractEntity implements DomainEn
     /** RANDOM_CONTENT_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
     protected Integer _randomContentId;
 
-    /** RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD} */
+    /** RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword} */
     protected Integer _randomKeywordId;
 
     /** RANDOM_MESSAGE: {NotNull, VARCHAR(20)} */
@@ -84,7 +84,7 @@ public abstract class BsRandomContent extends AbstractEntity implements DomainEn
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "RANDOM_CONTENT";
+        return "random_content";
     }
 
     // ===================================================================================
@@ -213,7 +213,7 @@ public abstract class BsRandomContent extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD} <br>
+     * [get] RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword} <br>
      * ランダムキーワードID
      * @return The value of the column 'RANDOM_KEYWORD_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -223,7 +223,7 @@ public abstract class BsRandomContent extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD} <br>
+     * [set] RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword} <br>
      * ランダムキーワードID
      * @param randomKeywordId The value of the column 'RANDOM_KEYWORD_ID'. (basically NotNull if update: for the constraint)
      */

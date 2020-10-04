@@ -262,6 +262,9 @@ public class DivineLogic {
     }
 
     private boolean isInvalidDivineAbility(Village village, VillagePlayer villagePlayer, int day, Integer targetCharaId, String footstep) {
+        if (targetCharaId == null || footstep == null) {
+            return true;
+        }
         Integer charaId = villagePlayer.getCharaId();
         if (villagePlayer.isIsDeadTrue()) {
             return true;

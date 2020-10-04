@@ -181,6 +181,12 @@ public class VillageMessageAssist {
                             andCB.query().setVillagePlayerId_Equal(villagePlayerId);
                         });
                     }
+                    if (isViewAllowedLoverMessage(vPlayer)) {
+                        orCB.orScopeQueryAndPart(andCB -> {
+                            andCB.query().setMessageTypeCode_Equal_恋人メッセージ();
+                            andCB.query().setVillagePlayerId_Equal(villagePlayerId);
+                        });
+                    }
                 });
             } else {
                 cb.query().setMessageTypeCode_InScope_AsMessageType(messageTypeList);
@@ -201,6 +207,10 @@ public class VillageMessageAssist {
 
     private boolean isViewAllowedWiseMessage(VillagePlayer villagePlayer) {
         return villagePlayer.isIsDeadFalse() && villagePlayer.getSkillCodeAsSkill() == CDef.Skill.賢者;
+    }
+
+    private boolean isViewAllowedLoverMessage(VillagePlayer villagePlayer) {
+        return villagePlayer.isIsDeadFalse() && villagePlayer.hasLover();
     }
 
     private boolean isViewAllowedInvestigateMessage(VillagePlayer villagePlayer) {
@@ -437,6 +447,7 @@ public class VillageMessageAssist {
         addMonologueSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addSecretSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addSeerMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
+        addLoverMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addPsychicMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addCoronerMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addAttackMessageIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
@@ -591,6 +602,15 @@ public class VillageMessageAssist {
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
             dispAllowedMessageTypeList.add(CDef.MessageType.白黒占い結果);
             dispAllowedMessageTypeList.add(CDef.MessageType.役職占い結果);
+        }
+    }
+
+    // 恋人メッセージ
+    private void addLoverMessageIfAllowed(List<MessageType> dispAllowedMessageTypeList, Village village,
+            Optional<VillagePlayer> optVillagePlayer) {
+        // 終了していたら全開放
+        if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode廃村() || village.isVillageStatusCode終了()) {
+            dispAllowedMessageTypeList.add(CDef.MessageType.恋人メッセージ);
         }
     }
 

@@ -34,6 +34,8 @@
 			th:text="'通過する部屋: ' + ${footstep == '' || footstep == null ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"
 			th:data-selected-footstep="${footstep == '' || footstep == null ? 'なし': footstep}"></p>
 		<p class="small" th:if="${content.myself.skill.hasCohabitAbility}" th:text="'現在の選択: ' + ${targetCharaName} + ' の部屋で過ごす'"></p>
+		<p class="small" th:if="${content.myself.skill.code == 'COURTSHIP'}" th:text="'現在の選択: ' + ${targetCharaName} + ' に求愛する'"></p>
+		<p class="small" th:if="${content.myself.skill.code == 'STALKER'}" th:text="'現在の選択: ' + ${targetCharaName} + ' をストーキングする'"></p>
 		<hr />
 	</div>
 </body>

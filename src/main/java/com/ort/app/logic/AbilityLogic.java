@@ -13,11 +13,13 @@ import com.ort.app.logic.ability.AttackLogic;
 import com.ort.app.logic.ability.BombLogic;
 import com.ort.app.logic.ability.CohabitLogic;
 import com.ort.app.logic.ability.CommandLogic;
+import com.ort.app.logic.ability.CourtLogic;
 import com.ort.app.logic.ability.DisturbLogic;
 import com.ort.app.logic.ability.DivineLogic;
 import com.ort.app.logic.ability.FruitsBasketLogic;
 import com.ort.app.logic.ability.GuardLogic;
 import com.ort.app.logic.ability.InvestigateLogic;
+import com.ort.app.logic.ability.StalkingLogic;
 import com.ort.app.logic.ability.TrapLogic;
 import com.ort.app.web.dto.VillageInfo;
 import com.ort.app.web.model.OptionDto;
@@ -52,6 +54,10 @@ public class AbilityLogic {
     private CommandLogic commandLogic;
     @Autowired
     private FruitsBasketLogic fruitsBasketLogic;
+    @Autowired
+    private CourtLogic courtLogic;
+    @Autowired
+    private StalkingLogic stalkingLogic;
 
     // ===================================================================================
     //                                                                             Execute
@@ -94,6 +100,10 @@ public class AbilityLogic {
             break;
         case FRUITSBASKET:
             fruitsBasketLogic.setAbility(village, villagePlayer, day, targetCharaId);
+        case COURT:
+            courtLogic.setAbility(village, villagePlayer, day, targetCharaId);
+        case STALKING:
+            stalkingLogic.setAbility(village, villagePlayer, day, targetCharaId);
         default:
             return;
         }
@@ -156,6 +166,12 @@ public class AbilityLogic {
             List<OptionDto> lists2 = fruitsBasketLogic.getSelectableTarget(village, villagePlayer, day).map(vp -> new OptionDto(vp));
             lists2.add(0, new OptionDto("なし", ""));
             return lists2;
+        case COURT:
+            selectablePlayers = courtLogic.getSelectableTarget(village, day, villagePlayer);
+            break;
+        case STALKING:
+            selectablePlayers = stalkingLogic.getSelectableTarget(village, day, villagePlayer);
+            break;
         default:
             return null;
         }
@@ -324,6 +340,10 @@ public class AbilityLogic {
             return "爆弾を設置する部屋";
         case FRUITSBASKET:
             return "発動させる場合自分を選択してください";
+        case COURT:
+            return "求愛対象";
+        case STALKING:
+            return "ストーキング対象";
         default:
             return null;
         }
@@ -365,7 +385,7 @@ public class AbilityLogic {
     }
 
     private enum AbilityType {
-        ATTACK, DIVINE, GUARD, DISTURB, INVESTIGATE, TRAP, BOMB, COHABIT, COMMAND, FRUITSBASKET
+        ATTACK, DIVINE, GUARD, DISTURB, INVESTIGATE, TRAP, BOMB, COHABIT, COMMAND, FRUITSBASKET, COURT, STALKING
     }
 
     private AbilityType detectAbilityType(CDef.Skill skill) {
@@ -389,6 +409,10 @@ public class AbilityLogic {
             return AbilityType.COMMAND;
         } else if (skill == CDef.Skill.果実籠) {
             return AbilityType.FRUITSBASKET;
+        } else if (skill == CDef.Skill.求愛者) {
+            return AbilityType.COURT;
+        } else if (skill == CDef.Skill.ストーカー) {
+            return AbilityType.STALKING;
         }
         return null;
     }
@@ -410,6 +434,9 @@ public class AbilityLogic {
         case COMMAND:
         case FRUITSBASKET:
             return day > 1;
+        case COURT:
+        case STALKING:
+            return day == 1;
         default:
             return false;
         }

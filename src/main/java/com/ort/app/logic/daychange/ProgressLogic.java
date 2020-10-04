@@ -1,5 +1,6 @@
 package com.ort.app.logic.daychange;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.StringJoiner;
@@ -22,11 +23,13 @@ import com.ort.app.logic.ability.AutopsyLogic;
 import com.ort.app.logic.ability.BakeryLogic;
 import com.ort.app.logic.ability.BombLogic;
 import com.ort.app.logic.ability.CohabitLogic;
+import com.ort.app.logic.ability.CourtLogic;
 import com.ort.app.logic.ability.DivineLogic;
 import com.ort.app.logic.ability.FruitsBasketLogic;
 import com.ort.app.logic.ability.GuardLogic;
 import com.ort.app.logic.ability.InvestigateLogic;
 import com.ort.app.logic.ability.PsychicLogic;
+import com.ort.app.logic.ability.StalkingLogic;
 import com.ort.app.logic.ability.SuicideLogic;
 import com.ort.app.logic.ability.TrapLogic;
 import com.ort.app.logic.daychange.ability.RevivalLogic;
@@ -86,6 +89,10 @@ public class ProgressLogic {
     @Autowired
     private RevivalLogic revivalLogic;
     @Autowired
+    private CourtLogic courtLogic;
+    @Autowired
+    private StalkingLogic stalkingLogic;
+    @Autowired
     private DefaultSetLogic defaultSetLogic;
     @Autowired
     private VillageBhv villageBhv;
@@ -116,6 +123,12 @@ public class ProgressLogic {
 
         // 突然死
         suddenlyDeathLogic.killNoVotePlayer(dayChangeVillage);
+
+        // 求愛
+        courtLogic.court(dayChangeVillage);
+
+        // ストーキング
+        stalkingLogic.stalking(dayChangeVillage);
 
         // 罠、爆弾設置メッセージ
         trapLogic.insertTrapMessages(dayChangeVillage);
@@ -231,7 +244,7 @@ public class ProgressLogic {
         Integer villageId = village.getVillageId();
         helper.updateVillageEpilogue(villageId, day, winCamp);
         bombLogic.deadBomberIfNeeded(village, day); // 爆弾魔が設置していなかったら自爆
-        ListResultBean<VillagePlayer> vPlayerList = helper.selectVillagePlayerList(villageId);
+        List<VillagePlayer> vPlayerList = village.getVillagePlayers().list;
         helper.updateIsWin(vPlayerList, winCamp);
         // エピローグ遷移メッセージ登録
         String message = getEpilogueMessage(winCamp, werewolfCount);
@@ -261,7 +274,7 @@ public class ProgressLogic {
     }
 
     // 参加者一覧メッセージ登録
-    private void insertPlayerListMessage(Integer villageId, int day, ListResultBean<VillagePlayer> villagePlayerList) {
+    private void insertPlayerListMessage(Integer villageId, int day, List<VillagePlayer> villagePlayerList) {
         StringJoiner joiner = new StringJoiner("\n");
         villagePlayerList.stream().sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber()).forEach(player -> {
             joiner.add(String.format("%s (%s)、%s、%s。%sだった。", // 

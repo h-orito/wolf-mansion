@@ -13,7 +13,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of RANDOM_KEYWORD. (Singleton)
+ * The DB meta of random_keyword. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class RandomKeywordDbm extends AbstractDBMeta {
@@ -51,7 +51,7 @@ public class RandomKeywordDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "RANDOM_KEYWORD";
+    protected final String _tableDbName = "random_keyword";
     protected final String _tableDispName = "RANDOM_KEYWORD";
     protected final String _tablePropertyName = "randomKeyword";
     protected final TableSqlName _tableSqlName = new TableSqlName("RANDOM_KEYWORD", _tableDbName);

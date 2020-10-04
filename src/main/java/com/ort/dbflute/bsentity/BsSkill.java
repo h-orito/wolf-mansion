@@ -79,7 +79,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     /** SKILL_SHORT_NAME: {NotNull, CHAR(1)} */
     protected String _skillShortName;
 
-    /** CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} */
+    /** CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} */
     protected String _campCode;
 
     /** DISP_ORDER: {NotNull, INT UNSIGNED(10)} */
@@ -95,7 +95,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "SKILL";
+        return "skill";
     }
 
     // ===================================================================================
@@ -133,7 +133,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * Get the value of campCode as the classification of Camp. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -144,7 +144,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * Set the value of campCode as the classification of Camp. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -220,6 +220,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Set the value of skillCode as 求愛者 (COURTSHIP). <br>
+     * 求愛者
+     */
+    public void setSkillCode_求愛者() {
+        setSkillCodeAsSkill(CDef.Skill.求愛者);
+    }
+
+    /**
      * Set the value of skillCode as 呪狼 (CURSEWOLF). <br>
      * 呪狼
      */
@@ -276,7 +284,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
-     * Set the value of skillCode as 果実籠 (FRUITSBASKET). <br>
+     * Set the value of skillCode as 果実籠 (FRUITSBASCKET). <br>
      * 果実籠
      */
     public void setSkillCode_果実籠() {
@@ -393,6 +401,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
      */
     public void setSkillCode_占い師() {
         setSkillCodeAsSkill(CDef.Skill.占い師);
+    }
+
+    /**
+     * Set the value of skillCode as ストーカー (STALKER). <br>
+     * ストーカー
+     */
+    public void setSkillCode_ストーカー() {
+        setSkillCodeAsSkill(CDef.Skill.ストーカー);
     }
 
     /**
@@ -580,6 +596,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isSkillCode検死官() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.検死官) : false;
+    }
+
+    /**
+     * Is the value of skillCode 求愛者? <br>
+     * 求愛者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode求愛者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.求愛者) : false;
     }
 
     /**
@@ -822,6 +849,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isSkillCode占い師() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.占い師) : false;
+    }
+
+    /**
+     * Is the value of skillCode ストーカー? <br>
+     * ストーカー
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCodeストーカー() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.ストーカー) : false;
     }
 
     /**
@@ -1302,7 +1340,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
-     * [get] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * [get] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営コード
      * @return The value of the column 'CAMP_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -1312,7 +1350,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
-     * [set] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * [set] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営コード
      * @param campCode The value of the column 'CAMP_CODE'. (basically NotNull if update: for the constraint)
      */

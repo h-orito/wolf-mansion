@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of ABILITY_TYPE.
+ * The abstract condition-query of ability_type.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "ABILITY_TYPE";
+        return "ability_type";
     }
 
     // ===================================================================================
@@ -95,6 +95,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 求愛 (COURT). And OnlyOnceRegistered. <br>
+     * 求愛
+     */
+    public void setAbilityTypeCode_Equal_求愛() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.求愛);
+    }
+
+    /**
      * Equal(=). As 占い (DIVINE). And OnlyOnceRegistered. <br>
      * 占い
      */
@@ -124,6 +132,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_Equal_捜査() {
         setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.捜査);
+    }
+
+    /**
+     * Equal(=). As ストーキング (STALKING). And OnlyOnceRegistered. <br>
+     * ストーキング
+     */
+    public void setAbilityTypeCode_Equal_ストーキング() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.ストーキング);
     }
 
     /**
@@ -190,6 +206,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 求愛 (COURT). And OnlyOnceRegistered. <br>
+     * 求愛
+     */
+    public void setAbilityTypeCode_NotEqual_求愛() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.求愛);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 占い (DIVINE). And OnlyOnceRegistered. <br>
      * 占い
      */
@@ -219,6 +243,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_捜査() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.捜査);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As ストーキング (STALKING). And OnlyOnceRegistered. <br>
+     * ストーキング
+     */
+    public void setAbilityTypeCode_NotEqual_ストーキング() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.ストーキング);
     }
 
     /**
@@ -281,8 +313,8 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select ABILITY_TYPE_CODE from ABILITY where ...)} <br>
-     * ABILITY by ABILITY_TYPE_CODE, named 'abilityAsOne'.
+     * {exists (select ABILITY_TYPE_CODE from ability where ...)} <br>
+     * ability by ABILITY_TYPE_CODE, named 'abilityAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsAbility</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     abilityCB.query().set...
@@ -300,8 +332,8 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select ABILITY_TYPE_CODE from ABILITY where ...)} <br>
-     * ABILITY by ABILITY_TYPE_CODE, named 'abilityAsOne'.
+     * {not exists (select ABILITY_TYPE_CODE from ability where ...)} <br>
+     * ability by ABILITY_TYPE_CODE, named 'abilityAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsAbility</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     abilityCB.query().set...
@@ -327,8 +359,8 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from ABILITY where ...)} <br>
-     * ABILITY by ABILITY_TYPE_CODE, named 'abilityAsOne'.
+     * {FOO &lt;= (select max(BAR) from ability where ...)} <br>
+     * ability by ABILITY_TYPE_CODE, named 'abilityAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedAbility()</span>.<span style="color: #CC4747">max</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     abilityCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>

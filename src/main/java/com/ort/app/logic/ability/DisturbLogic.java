@@ -84,6 +84,9 @@ public class DisturbLogic {
     //                                                                        Assist Logic
     //                                                                        ============
     private boolean isInvalidDisturbAbility(Village village, String footstep) {
+        if (footstep == null) {
+            return true;
+        }
         // 足音が直線でなかったらNG
         if (!footstepLogic.isFootstepStraight(village, footstep)) {
             return true;

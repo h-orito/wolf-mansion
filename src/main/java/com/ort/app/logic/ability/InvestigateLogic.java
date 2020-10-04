@@ -98,9 +98,6 @@ public class InvestigateLogic {
             int day, //
             String footstep//
     ) {
-        if ("なし".equals(footstep)) {
-            return;
-        }
         if (isInvalidInvestigationAbility(village, villagePlayer, day, footstep)) {
             return;
         }
@@ -134,6 +131,9 @@ public class InvestigateLogic {
     //                                                                        ============
     private boolean isInvalidInvestigationAbility(Village village, VillagePlayer villagePlayer, int day, String footstep) {
         if (day == 1) {
+            return true;
+        }
+        if ("なし".equals(footstep) || footstep == null) {
             return true;
         }
         List<String> footstepList = getSelectableTarget(village, day);

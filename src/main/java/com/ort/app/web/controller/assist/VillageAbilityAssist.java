@@ -12,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.AbilityLogic;
 import com.ort.app.logic.FootstepLogic;
-import com.ort.app.util.SkillUtil;
 import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageGetFootstepListForm;
 import com.ort.app.web.form.VillageVoteForm;
@@ -59,10 +58,6 @@ public class VillageAbilityAssist {
             return new IllegalArgumentException("セッション切れ？");
         });
         if (villagePlayer.isIsDeadTrue()) {
-            // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
-        }
-        if (isInvalidAbility(villagePlayer, abilityForm)) {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
         }
@@ -121,38 +116,6 @@ public class VillageAbilityAssist {
     // ===================================================================================
     //                                                                          Validation
     //                                                                          ==========
-    private boolean isInvalidAbility(VillagePlayer villagePlayer, VillageAbilityForm abilityForm) {
-        CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
-        if (!SkillUtil.SET_AVAILABLE_SKILL_LIST.contains(skill)) {
-            return true;
-        }
-        Integer charaId = abilityForm.getCharaId();
-        Integer targetCharaId = abilityForm.getTargetCharaId();
-        String footstep = abilityForm.getFootstep();
-        if (skill.isHasAttackAbility() && targetCharaId != null && (charaId == null || footstep == null)) {
-            return true;
-        }
-        if (skill.isHasDivineAbility() && (targetCharaId == null || footstep == null)) {
-            return true;
-        }
-        if (skill == CDef.Skill.狩人 && targetCharaId == null) {
-            return true;
-        }
-        if ((skill == CDef.Skill.妖狐 || skill.isHasMadmanAbility()) && footstep == null) {
-            return true;
-        }
-        if (skill == CDef.Skill.探偵 && footstep == null) {
-            return true;
-        }
-        if (skill == CDef.Skill.同棲者 && targetCharaId == null) {
-            return true;
-        }
-        if (villagePlayer.isIsDeadTrue()) {
-            return true;
-        }
-        return false;
-    }
-
     private boolean isInvalidVote(Integer villageId, VillagePlayer villagePlayer, VillageVoteForm voteForm) {
         List<VillagePlayer> villagePlayerList = selectVillagePlayerList(villageId);
         return !villagePlayerList.stream().anyMatch(vp -> vp.isIsDeadFalse() && vp.getCharaId().equals(voteForm.getTargetCharaId()));
