@@ -284,7 +284,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
-     * Set the value of skillCode as 果実籠 (FRUITSBASCKET). <br>
+     * Set the value of skillCode as 果実籠 (FRUITSBASKET). <br>
      * 果実籠
      */
     public void setSkillCode_果実籠() {

@@ -486,7 +486,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * Set the value of skillCode as 果実籠 (FRUITSBASCKET). <br>
+     * Set the value of skillCode as 果実籠 (FRUITSBASKET). <br>
      * 果実籠
      */
     public void setSkillCode_果実籠() {
@@ -798,7 +798,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * Set the value of requestSkillCode as 果実籠 (FRUITSBASCKET). <br>
+     * Set the value of requestSkillCode as 果実籠 (FRUITSBASKET). <br>
      * 果実籠
      */
     public void setRequestSkillCode_果実籠() {
@@ -1110,7 +1110,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * Set the value of secondRequestSkillCode as 果実籠 (FRUITSBASCKET). <br>
+     * Set the value of secondRequestSkillCode as 果実籠 (FRUITSBASKET). <br>
      * 果実籠
      */
     public void setSecondRequestSkillCode_果実籠() {

@@ -320,7 +320,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
     }
 
     /**
-     * Equal(=). As 果実籠 (FRUITSBASCKET). And OnlyOnceRegistered. <br>
+     * Equal(=). As 果実籠 (FRUITSBASKET). And OnlyOnceRegistered. <br>
      * 果実籠
      */
     public void setSkillCode_Equal_果実籠() {
@@ -655,7 +655,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
     }
 
     /**
-     * NotEqual(&lt;&gt;). As 果実籠 (FRUITSBASCKET). And OnlyOnceRegistered. <br>
+     * NotEqual(&lt;&gt;). As 果実籠 (FRUITSBASKET). And OnlyOnceRegistered. <br>
      * 果実籠
      */
     public void setSkillCode_NotEqual_果実籠() {

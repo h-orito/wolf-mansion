@@ -578,7 +578,7 @@ public interface CDef extends Classification {
         おまかせ役職窓あり("FRIENDS", "おまかせ（役職窓あり）", emptyStrings())
         ,
         /** 果実籠 */
-        果実籠("FRUITSBASCKET", "果実籠", emptyStrings())
+        果実籠("FRUITSBASKET", "果実籠", emptyStrings())
         ,
         /** 導師 */
         導師("GURU", "導師", emptyStrings())
