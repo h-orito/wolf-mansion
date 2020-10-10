@@ -37,7 +37,7 @@ public class VillageSituationAssist {
             int day = i;
             List<Integer> livingPlayerRoomNumList = villageInfo.vPlayers //
                     .filterNotSpecatate() //
-                    .filterBy(vp -> vp.isAliveWhen(day - 1))
+                    .filterBy(vp -> vp.isAliveWhen(day))
                     .map(vp -> vp.getRoomNumberWhen(day - 1));
             String message;
             List<Footstep> dayFootstepList = villageInfo.footsteps.filterYesteday(day).list;
