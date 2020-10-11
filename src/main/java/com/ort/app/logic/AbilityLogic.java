@@ -100,10 +100,13 @@ public class AbilityLogic {
             break;
         case FRUITSBASKET:
             fruitsBasketLogic.setAbility(village, villagePlayer, day, targetCharaId);
+            break;
         case COURT:
             courtLogic.setAbility(village, villagePlayer, day, targetCharaId);
+            break;
         case STALKING:
             stalkingLogic.setAbility(village, villagePlayer, day, targetCharaId);
+            break;
         default:
             return;
         }
