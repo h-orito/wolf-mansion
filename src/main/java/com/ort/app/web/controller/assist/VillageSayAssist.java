@@ -298,9 +298,9 @@ public class VillageSayAssist {
 
     private boolean isAvailableSecretSay(Village village, VillagePlayer villagePlayer, Integer targetCharaId) {
         // 進行中以外は不可
-        if (!village.isVillageStatusCode進行中()) {
-            return false;
-        }
+        //        if (!village.isVillageStatusCode進行中()) {
+        //            return false;
+        //        }
         // 秘話不可設定の場合は不可
         if (village.getVillageSettingsAsOne().get().getAllowedSecretSayCodeAsAllowedSecretSay() == CDef.AllowedSecretSay.なし) {
             return false;
