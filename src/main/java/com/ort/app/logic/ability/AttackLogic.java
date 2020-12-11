@@ -85,7 +85,7 @@ public class AttackLogic {
 
         // 同棲者がいる部屋だったら移動元の同棲者も死亡
         if (isCohabitting(dayChangeVillage, targetPlayer)) {
-            VillagePlayer lover = targetPlayer.getTargetLover();
+            VillagePlayer lover = targetPlayer.getTargetCohabitor();
             villageService.dead(lover, dayChangeVillage.day, CDef.DeadReason.襲撃);
             dayChangeVillage.deadPlayers.add(lover, CDef.DeadReason.襲撃);
         }

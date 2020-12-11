@@ -71,7 +71,7 @@ public class CohabitLogic {
         List<VillagePlayer> list = new ArrayList<>(aliveCohabiters.list);
         Collections.shuffle(list);
         list.forEach(cohabiter -> {
-            VillagePlayer lover = cohabiter.getTargetLover();
+            VillagePlayer lover = cohabiter.getTargetCohabitor(); // 相方
             if (cohabitSet.contains(cohabiter.getVillagePlayerId()) || cohabitSet.contains(lover.getVillagePlayerId())) {
                 return;
             }
@@ -93,7 +93,7 @@ public class CohabitLogic {
             return;
         }
         Integer villageId = village.getVillageId();
-        Integer loverCharaId = villagePlayer.getTargetLover().getCharaId();
+        Integer loverCharaId = villagePlayer.getTargetCohabitor().getCharaId();
         Integer myself = targetCharaId.equals(villagePlayer.getCharaId()) ? loverCharaId : villagePlayer.getCharaId();
         abilityService.deleteAbility(villageId, day, myself, CDef.AbilityType.同棲);
         abilityService.deleteAbility(villageId, day, targetCharaId, CDef.AbilityType.同棲);
@@ -102,7 +102,7 @@ public class CohabitLogic {
     }
 
     public VillagePlayers getSelectableTarget(VillagePlayer villagePlayer) {
-        return new VillagePlayers(Arrays.asList(villagePlayer, villagePlayer.getTargetLover())).sortedByRoomNumber();
+        return new VillagePlayers(Arrays.asList(villagePlayer, villagePlayer.getTargetCohabitor())).sortedByRoomNumber();
     }
 
     // 能力行使履歴
@@ -128,7 +128,7 @@ public class CohabitLogic {
         if (targetCharaId == null) {
             return true;
         }
-        VillagePlayer lover = villagePlayer.getTargetLover();
+        VillagePlayer lover = villagePlayer.getTargetCohabitor();
         if (lover == null) {
             return true;
         }

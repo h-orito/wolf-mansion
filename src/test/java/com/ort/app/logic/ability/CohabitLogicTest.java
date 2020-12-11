@@ -138,9 +138,9 @@ public class CohabitLogicTest extends WerewolfMansionTest {
         assertTrue(!cohabit1.getCharaId().equals(cohabit2.getTargetCharaId()));
         assertTrue(!cohabit2.getCharaId().equals(cohabit1.getCharaId()));
         assertTrue(!cohabit2.getCharaId().equals(cohabit1.getTargetCharaId()));
-        assertTrue(village.getVillagePlayers().findByCharaId(cohabit1.getCharaId()).getTargetLover().getCharaId().equals(
+        assertTrue(village.getVillagePlayers().findByCharaId(cohabit1.getCharaId()).getTargetCohabitor().getCharaId().equals(
                 cohabit1.getTargetCharaId()));
-        assertTrue(village.getVillagePlayers().findByCharaId(cohabit2.getCharaId()).getTargetLover().getCharaId().equals(
+        assertTrue(village.getVillagePlayers().findByCharaId(cohabit2.getCharaId()).getTargetCohabitor().getCharaId().equals(
                 cohabit2.getTargetCharaId()));
     }
 
@@ -231,6 +231,7 @@ public class CohabitLogicTest extends WerewolfMansionTest {
         // ## Assert ##
         assertTrue(targets.list.size() == 2);
         assertTrue(targets.list.stream().anyMatch(vp -> vp.getVillagePlayerId().equals(cohabiter.getVillagePlayerId())));
-        assertTrue(targets.list.stream().anyMatch(vp -> vp.getVillagePlayerId().equals(cohabiter.getTargetLover().getVillagePlayerId())));
+        assertTrue(
+                targets.list.stream().anyMatch(vp -> vp.getVillagePlayerId().equals(cohabiter.getTargetCohabitor().getVillagePlayerId())));
     }
 }

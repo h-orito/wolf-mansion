@@ -3,6 +3,7 @@ package com.ort.dbflute.exentity;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.DeadReason;
@@ -26,12 +27,21 @@ public class VillagePlayer extends BsVillagePlayer {
                 .anyMatch(vpSt -> vpSt.getVillagePlayerStatusCodeAsVillagePlayerStatusType() == CDef.VillagePlayerStatusType.後追い);
     }
 
-    public VillagePlayer getTargetLover() {
-        return getVillagePlayerStatusByVillagePlayerIdList().stream()
+    // 同棲者の相方を取得
+    public VillagePlayer getTargetCohabitor() {
+        List<VillagePlayer> cohabitorList = this.getTargetLovers().filterBySkill(CDef.Skill.同棲者).list;
+        if (cohabitorList.isEmpty()) {
+            throw new IllegalStateException("同棲者がいません");
+        }
+        return cohabitorList.get(0); // 同棲者同士は重複しないので1人目でok
+    }
+
+    public VillagePlayers getTargetLovers() {
+        List<VillagePlayer> playerList = getVillagePlayerStatusByVillagePlayerIdList().stream()
                 .filter(vpSt -> vpSt.getVillagePlayerStatusCodeAsVillagePlayerStatusType() == CDef.VillagePlayerStatusType.後追い)
-                .findFirst()
                 .map(vpSt -> vpSt.getVillagePlayerByToVillagePlayerId().get())
-                .orElse(null);
+                .collect(Collectors.toList());
+        return new VillagePlayers(playerList);
     }
 
     public String name() {

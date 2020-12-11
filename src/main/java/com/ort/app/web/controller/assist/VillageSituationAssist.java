@@ -89,7 +89,7 @@ public class VillageSituationAssist {
         situation.setExecutedChara(executed.list.isEmpty() ? "なし" : String.join("、", executed.map(vp -> vp.shortName(day))));
         VillagePlayers suicide = vPlayers.filterBy(vp -> vp.existsDeadHistory(day, CDef.DeadReason.後追));
         situation.setSuicideChara(suicide.list.isEmpty() ? "なし" : String.join("、", suicide.map(vp -> {
-            return String.format("%s(%s)", vp.shortName(day), vp.getTargetLover().shortName(day));
+            return String.format("%s", vp.shortName(day));
         })));
         VillagePlayers revival = vPlayers.filterBy(vp -> vp.existsReviveHistory(day)).shuffled();
         situation.setRevivalChara(revival.list.isEmpty() ? "なし" : String.join("、", revival.map(vp -> vp.shortName(day))));

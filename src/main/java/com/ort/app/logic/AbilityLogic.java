@@ -324,7 +324,9 @@ public class AbilityLogic {
                 .filterNotDummy(villageInfo.settings.getDummyCharaId())
                 .filterNotSpecatate()
                 .filterBy(vp -> vp.hasLover()).list.forEach(vp -> {
-                    joiner.add(String.format("%s（%s）", vp.name(), vp.getTargetLover().name()));
+                    vp.getTargetLovers().list.forEach(lover -> {
+                        joiner.add(String.format("%s（%s）", vp.name(), lover.name()));
+                    });
                 });
         return joiner.toString();
     }

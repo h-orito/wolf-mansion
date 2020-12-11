@@ -83,7 +83,7 @@ public class BombLogic {
                         }
                         if (isCohabitting(dayChangeVillage, bombedRoomPlayer)) {
                             // 設置された部屋に同棲者が来ていたら来ていた同棲者も死亡する
-                            bombedPlayerSet.add(bombedRoomPlayer.getTargetLover());
+                            bombedPlayerSet.add(bombedRoomPlayer.getTargetCohabitor());
                         }
                         return bombedPlayerSet.stream();
                     }
