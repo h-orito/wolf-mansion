@@ -916,6 +916,7 @@ $(function() {
 			'is_open_skillform_tab' : true,
 			'is_open_voteform_tab' : true,
 			'is_open_creatorform_tab' : true,
+			'is_open_participateform_tab' : true,
 			'bottom_fix_tab' : 'no-fix',
 			'is_no_paging' : false,
 			'page_size' : 30,
