@@ -242,8 +242,8 @@ public class FootstepLogic {
     public String getSkillByFootstep(Integer villageId, int day, String footstep, List<VillagePlayer> vPlayerList) {
         // 昨日朝時点で生きている人
         List<Integer> livingRoomNumList = vPlayerList.stream()
-                .filter(vp -> vp.isAliveWhen(day))
-                .map(vp -> vp.getRoomNumberWhen(day)) // TODO 合ってる？
+                .filter(vp -> vp.isAliveWhen(day + 1))
+                .map(vp -> vp.getRoomNumberWhen(day + 1))
                 .collect(Collectors.toList());
         // 足音候補
         List<Footstep> footstepList = footStepBhv.selectList(cb -> {
