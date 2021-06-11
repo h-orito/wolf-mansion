@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.dbflute.optional.OptionalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -86,7 +87,7 @@ public class VillageActionAssist {
         String messageContent = actionForm.getMyself() + targetMessage + actionForm.getMessage();
         message.setMessageContent(messageContent);
         message.setMessageDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
-        message.setIsConvertDisable(true);
+        message.setIsConvertDisable(actionForm.getIsConvertDisable());
         content.setMessage(message);
         content.setRandomKeywords(String.join(",",
                 randomKeywordBhv.selectList(cb -> {}).stream().map(RandomKeyword::getKeyword).collect(Collectors.toList())));
@@ -121,7 +122,7 @@ public class VillageActionAssist {
             String targetMessage = actionForm.getTarget() == null ? "" : actionForm.getTarget();
             String messageContent = actionForm.getMyself() + targetMessage + actionForm.getMessage();
             messageLogic.insertMessage(villageId, day, CDef.MessageType.アクション, messageContent, villagePlayer.getVillagePlayerId(), null,
-                    true, null);
+                    BooleanUtils.isTrue(actionForm.getIsConvertDisable()), null);
         } catch (WerewolfMansionBusinessException e) {
             model.addAttribute("actionErrorMessage", e.getMessage());
         }

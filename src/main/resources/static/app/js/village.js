@@ -668,7 +668,6 @@ $(function() {
 		// 制限
 		const $countspan = $input.closest('form').find('[data-action-count]');
 		const restrict = getActionRestriction($countspan);
-		console.log(restrict);
 		let countStr;
 		if (restrict.count == null || restrict.count === '') {
 			countStr = '';

@@ -53,7 +53,8 @@
 									<span data-action-count
 										th:data-message-restrict-action-max-length="${content.form.action.restrict.actionLength != null ? content.form.action.restrict.actionLength : ''}"
 										th:data-message-restrict-action-max-count="${content.form.action.restrict.actionCount != null ? content.form.action.restrict.actionCount : ''}"
-										th:data-message-restrict-action-left-count="${content.form.action.restrict.actionLeftCount != null ? content.form.action.restrict.actionLeftCount : ''}"></span><br>
+										th:data-message-restrict-action-left-count="${content.form.action.restrict.actionLeftCount != null ? content.form.action.restrict.actionLeftCount : ''}"></span><br />
+									<input type="checkbox" class="form-check-input" th:field="*{isConvertDisable}" value="true"> <label class="form-check-label" for="isConvertDisable">装飾・変換無効</label>
 									<input type="submit" class="btn btn-sm btn-success pull-right" disabled value="確認画面へ" data-action-submit-btn />
 								</div>
 							</div>

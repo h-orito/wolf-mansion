@@ -17,6 +17,9 @@ public class VillageActionForm implements Serializable {
     @NotNull
     private String message;
 
+    /** 変換無効にするか */
+    private Boolean isConvertDisable;
+
     public String getMyself() {
         return myself;
     }
@@ -39,5 +42,13 @@ public class VillageActionForm implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Boolean getIsConvertDisable() {
+        return isConvertDisable;
+    }
+
+    public void setIsConvertDisable(Boolean isConvertDisable) {
+        this.isConvertDisable = isConvertDisable;
     }
 }
