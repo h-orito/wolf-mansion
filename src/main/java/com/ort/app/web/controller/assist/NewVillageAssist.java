@@ -335,7 +335,7 @@ public class NewVillageAssist {
         });
         villageForm.getRpSayRestrictList().forEach(restrict -> {
             // 制限無しの場合は登録しない
-            if (BooleanUtils.isFalse(restrict.getIsRestrict())) {
+            if (!BooleanUtils.isTrue(restrict.getIsRestrict())) {
                 return;
             }
             insertRpSayRestriction(villageId, restrict);
