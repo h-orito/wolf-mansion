@@ -79,6 +79,7 @@ public class VillageSettingsFormValidator implements Validator {
         // 発言制限
         validateSayRestrict(errors, form);
         validateSkillSayRestrict(errors, form);
+        validateRpSayRestrict(errors, form);
     }
 
     private void validateOrganization(Errors errors, VillageSettingsForm form) {
@@ -168,6 +169,18 @@ public class VillageSettingsFormValidator implements Validator {
         });
         if (isCountInvalid || isLengthInvalid) {
             errors.rejectValue("skillSayRestrictList", "NewVillageForm.validator.sayRestrictList", new Object[] {}, null);
+        }
+    }
+
+    private void validateRpSayRestrict(Errors errors, VillageSettingsForm form) {
+        boolean isCountInvalid = form.getRpSayRestrictList().stream().anyMatch(r -> {
+            return BooleanUtils.isTrue(r.getIsRestrict()) && (r.getCount() == null || r.getCount() < 0 || r.getCount() > 100);
+        });
+        boolean isLengthInvalid = form.getRpSayRestrictList().stream().anyMatch(r -> {
+            return BooleanUtils.isTrue(r.getIsRestrict()) && (r.getLength() == null || r.getLength() < 0 || r.getLength() > 400);
+        });
+        if (isCountInvalid || isLengthInvalid) {
+            errors.rejectValue("rpSayRestrictList", "NewVillageForm.validator.sayRestrictList", new Object[] {}, null);
         }
     }
 }

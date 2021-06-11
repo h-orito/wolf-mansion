@@ -1,0 +1,68 @@
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>フッター</title>
+<link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}" />
+<link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" />
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="../../static/lib/bootstrap/js/bootstrap.min.js" th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+<script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js" th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
+<script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
+</head>
+<body>
+	<div class="col-sm-12 col-xs-12" th:if="${content.form.action.isDispActionForm}" layout:fragment="action-form">
+		<div class="panel-group" id="actionform-panel">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<a class="h5" data-toggle="collapse" data-parent="#actionform-panel" href="#actionform-content" data-actionform-tab-open>アクション</a> <a
+						href="javascript:void(0);" class="pull-right" data-bottom-fix>固定</a>
+				</div>
+				<div id="actionform-content" class="panel-collapse collapse in">
+					<div class="panel-body">
+						<a href="javascript:void(0);" data-toggle="collapse" data-target="#actionform" class="h5 hidden" aria-expanded="true" data-action-tab>発言する</a> <span
+							th:if="${actionErrorMessage != null}" class="text-danger" th:test="${actionErrorMessage}">error</span>
+						<form method="post" id="actionform" action="" th:action="@{/village/{villageId}/action-confirm(villageId=${content.villageId})}"
+							th:object="${actionForm}" class="form-horizontal collapse in" aria-expanded="true" style="margin-top: 10px;">
+							<span th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="help-block text-danger">error!</span>
+							<p th:text="*{myself}"></p>
+							<div class="form-group">
+								<div class="col-sm-12 col-xs-12" style="display: flex;">
+									<select class="form-control" th:field="*{target}" data-action-select>
+										<option value="">選択しない</option>
+										<option value="全員">全員</option>
+										<option th:each="chara : ${content.form.action.targetList}" th:value="${chara.value}" th:text="${chara.name}"></option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-12 col-xs-12" style="display: flex;">
+									<div style="flex: 1;">
+										<input type="text" class="form-control small" th:field="*{message}" placeholder="自由入力" data-action-text />
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-12 col-xs-12">
+									<span data-action-count
+										th:data-message-restrict-action-max-length="${content.form.action.restrict.actionLength != null ? content.form.action.restrict.actionLength : ''}"
+										th:data-message-restrict-action-max-count="${content.form.action.restrict.actionCount != null ? content.form.action.restrict.actionCount : ''}"
+										th:data-message-restrict-action-left-count="${content.form.action.restrict.actionLeftCount != null ? content.form.action.restrict.actionLeftCount : ''}"></span><br>
+									<input type="submit" class="btn btn-sm btn-success pull-right" disabled value="確認画面へ" data-action-submit-btn />
+								</div>
+							</div>
+							<input type="hidden" th:field="*{myself}" />
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

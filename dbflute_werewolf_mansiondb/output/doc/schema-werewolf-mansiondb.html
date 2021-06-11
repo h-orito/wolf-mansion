@@ -518,311 +518,311 @@ pre.spolicyviodisp {
 	<tbody id="table-list-body">
 	<tr>
 		<td class="rownumcell">1</td>
-		<td class="namecell" data-name="ability"><a href="#ability" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID, ABILITY_TYPE_CODE}, nameLength=7, columnCount=10">ABILITY</a></td>
+		<td class="namecell" data-name="ABILITY"><a href="#ability" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID, ABILITY_TYPE_CODE}, nameLength=7, columnCount=10">ABILITY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#ability_type" title="FK_ABILITY_ABILITY_TYPE">ABILITY_TYPE</a>, <a href="#chara" title="FK_ABILITY_CHARA">CHARA</a>, <a href="#chara" title="FK_ABILITY_CHARA_TARGET">CHARA</a>, <a href="#village_day" title="FK_ABILITY_VILLAGE_DAY">VILLAGE_DAY</a></td>
 		<td class="relcell">&nbsp;</td>
-		<td class="commentcell ability_comment"><pre>能力行使</pre></td>
+		<td class="commentcell ABILITY_comment"><pre>能力行使</pre></td>
 		<td class="subcell">Ability</td>
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">2</td>
-		<td class="namecell" data-name="ability_type"><a href="#ability_type" title="type=TABLE, primaryKey={ABILITY_TYPE_CODE}, nameLength=12, columnCount=2">ABILITY_TYPE</a></td>
+		<td class="namecell" data-name="ABILITY_TYPE"><a href="#ability_type" title="type=TABLE, primaryKey={ABILITY_TYPE_CODE}, nameLength=12, columnCount=2">ABILITY_TYPE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
 		<td class="relcell"><a href="#ability" title="FK_ABILITY_ABILITY_TYPE">ABILITY</a></td>
-		<td class="commentcell ability_type_comment"><pre>能力種別</pre></td>
+		<td class="commentcell ABILITY_TYPE_comment"><pre>能力種別</pre></td>
 		<td class="subcell">AbilityType</td>
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">3</td>
-		<td class="namecell" data-name="allowed_secret_say"><a href="#allowed_secret_say" title="type=TABLE, primaryKey={ALLOWED_SECRET_SAY_CODE}, nameLength=18, columnCount=2">ALLOWED_SECRET_SAY</a></td>
+		<td class="namecell" data-name="ALLOWED_SECRET_SAY"><a href="#allowed_secret_say" title="type=TABLE, primaryKey={ALLOWED_SECRET_SAY_CODE}, nameLength=18, columnCount=2">ALLOWED_SECRET_SAY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
 		<td class="relcell"><a href="#village_settings" title="FK_VILLAGE_SETTINGS_ALLOWED_SECRET_SAY">VILLAGE_SETTINGS</a></td>
-		<td class="commentcell allowed_secret_say_comment"><pre>秘話可能な範囲</pre></td>
+		<td class="commentcell ALLOWED_SECRET_SAY_comment"><pre>秘話可能な範囲</pre></td>
 		<td class="subcell">AllowedSecretSay</td>
 		<td class="subcell">2018/07/30</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">4</td>
-		<td class="namecell" data-name="authority"><a href="#authority" title="type=TABLE, primaryKey={AUTHORITY_CODE}, nameLength=9, columnCount=2">AUTHORITY</a></td>
+		<td class="namecell" data-name="AUTHORITY"><a href="#authority" title="type=TABLE, primaryKey={AUTHORITY_CODE}, nameLength=9, columnCount=2">AUTHORITY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
 		<td class="relcell"><a href="#player" title="FK_PLAYER_AUTHORITY">PLAYER</a></td>
-		<td class="commentcell authority_comment"><pre>権限</pre></td>
+		<td class="commentcell AUTHORITY_comment"><pre>権限</pre></td>
 		<td class="subcell">Authority</td>
 		<td class="subcell">2017/12/15</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">5</td>
-		<td class="namecell" data-name="camp"><a href="#camp" title="type=TABLE, primaryKey={CAMP_CODE}, nameLength=4, columnCount=2">CAMP</a></td>
+		<td class="namecell" data-name="CAMP"><a href="#camp" title="type=TABLE, primaryKey={CAMP_CODE}, nameLength=4, columnCount=2">CAMP</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
 		<td class="relcell"><a href="#skill" title="FK_SKILL_CAMP">SKILL</a>, <a href="#village" title="FK_VILLAGE_CAMP">VILLAGE</a></td>
-		<td class="commentcell camp_comment"><pre>陣営</pre></td>
+		<td class="commentcell CAMP_comment"><pre>陣営</pre></td>
 		<td class="subcell">Camp</td>
 		<td class="subcell">2017/12/18</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">6</td>
-		<td class="namecell" data-name="chara"><a href="#chara" title="type=TABLE, primaryKey={CHARA_ID}, nameLength=5, columnCount=12">CHARA</a></td>
+		<td class="namecell" data-name="CHARA"><a href="#chara" title="type=TABLE, primaryKey={CHARA_ID}, nameLength=5, columnCount=12">CHARA</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara_group" title="FK_CHARA_CHARA_GROUP">CHARA_GROUP</a></td>
 		<td class="relcell"><a href="#ability" title="FK_ABILITY_CHARA">ABILITY</a>, <a href="#ability" title="FK_ABILITY_CHARA_TARGET">ABILITY</a>, <a href="#chara_image" title="FK_CHARA_IMAGE_CHARA">CHARA_IMAGE</a>, <a href="#footstep" title="FK_FOOTSTEP_CHARA">FOOTSTEP</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_CHARA">VILLAGE_PLAYER</a>, <a href="#vote" title="FK_VOTE_CHARA">VOTE</a>, <a href="#vote" title="FK_VOTE_CHARA_TO">VOTE</a></td>
-		<td class="commentcell chara_comment"><pre>キャラクター</pre></td>
+		<td class="commentcell CHARA_comment"><pre>キャラクター</pre></td>
 		<td class="subcell">Chara</td>
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">7</td>
-		<td class="namecell" data-name="chara_group"><a href="#chara_group" title="type=TABLE, primaryKey={CHARA_GROUP_ID}, nameLength=11, columnCount=8">CHARA_GROUP</a></td>
+		<td class="namecell" data-name="CHARA_GROUP"><a href="#chara_group" title="type=TABLE, primaryKey={CHARA_GROUP_ID}, nameLength=11, columnCount=8">CHARA_GROUP</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#designer" title="FK_CHARA_GROUP_DESIGNER">DESIGNER</a></td>
 		<td class="relcell"><a href="#chara" title="FK_CHARA_CHARA_GROUP">CHARA</a>, <a href="#village_settings" title="FK_VILLAGE_SETTINGS_CHARA_GROUP">VILLAGE_SETTINGS</a></td>
-		<td class="commentcell chara_group_comment"><pre>キャラクターグループ</pre></td>
+		<td class="commentcell CHARA_GROUP_comment"><pre>キャラクターグループ</pre></td>
 		<td class="subcell">CharaGroup</td>
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">8</td>
-		<td class="namecell" data-name="chara_image"><a href="#chara_image" title="type=TABLE, primaryKey={CHARA_ID, FACE_TYPE_CODE}, nameLength=11, columnCount=3">CHARA_IMAGE</a></td>
+		<td class="namecell" data-name="CHARA_IMAGE"><a href="#chara_image" title="type=TABLE, primaryKey={CHARA_ID, FACE_TYPE_CODE}, nameLength=11, columnCount=3">CHARA_IMAGE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara" title="FK_CHARA_IMAGE_CHARA">CHARA</a>, <a href="#face_type" title="FK_CHARA_IMAGE_FACE_TYPE">FACE_TYPE</a></td>
 		<td class="relcell">&nbsp;</td>
-		<td class="commentcell chara_image_comment"><pre>キャラクター画像</pre></td>
+		<td class="commentcell CHARA_IMAGE_comment"><pre>キャラクター画像</pre></td>
 		<td class="subcell">CharaImage</td>
 		<td class="subcell">2018/10/30</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">9</td>
-		<td class="namecell" data-name="commit"><a href="#commit" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, VILLAGE_PLAYER_ID}, nameLength=6, columnCount=7">COMMIT</a></td>
+		<td class="namecell" data-name="COMMIT"><a href="#commit" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, VILLAGE_PLAYER_ID}, nameLength=6, columnCount=7">COMMIT</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_day" title="FK_COMMIT_VILLAGE_DAY">VILLAGE_DAY</a>, <a href="#village_player" title="FK_COMMIT_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
 		<td class="relcell">&nbsp;</td>
-		<td class="commentcell commit_comment"><pre>コミット</pre></td>
+		<td class="commentcell COMMIT_comment"><pre>コミット</pre></td>
 		<td class="subcell">Commit</td>
 		<td class="subcell">2018/06/07</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">10</td>
-		<td class="namecell" data-name="dead_reason"><a href="#dead_reason" title="type=TABLE, primaryKey={DEAD_REASON_CODE}, nameLength=11, columnCount=2">DEAD_REASON</a></td>
+		<td class="namecell" data-name="DEAD_REASON"><a href="#dead_reason" title="type=TABLE, primaryKey={DEAD_REASON_CODE}, nameLength=11, columnCount=2">DEAD_REASON</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
 		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_DEAD_REASON">VILLAGE_PLAYER</a>, <a href="#village_player_dead_history" title="FK_VILLAGE_PLAYER_DEAD_HISTORY_DEAD_REASON">VILLAGE_PLAYER_DEAD_HISTORY</a></td>
-		<td class="commentcell dead_reason_comment"><pre>死亡理由</pre></td>
+		<td class="commentcell DEAD_REASON_comment"><pre>死亡理由</pre></td>
 		<td class="subcell">DeadReason</td>
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">11</td>
-		<td class="namecell" data-name="designer"><a href="#designer" title="type=TABLE, primaryKey={DESIGNER_ID}, nameLength=8, columnCount=6">DESIGNER</a></td>
+		<td class="namecell" data-name="DESIGNER"><a href="#designer" title="type=TABLE, primaryKey={DESIGNER_ID}, nameLength=8, columnCount=6">DESIGNER</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
 		<td class="relcell"><a href="#chara_group" title="FK_CHARA_GROUP_DESIGNER">CHARA_GROUP</a></td>
-		<td class="commentcell designer_comment"><pre>デザイナー</pre></td>
+		<td class="commentcell DESIGNER_comment"><pre>デザイナー</pre></td>
 		<td class="subcell">Designer</td>
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">12</td>
-		<td class="namecell" data-name="face_type"><a href="#face_type" title="type=TABLE, primaryKey={FACE_TYPE_CODE}, nameLength=9, columnCount=3">FACE_TYPE</a></td>
+		<td class="namecell" data-name="FACE_TYPE"><a href="#face_type" title="type=TABLE, primaryKey={FACE_TYPE_CODE}, nameLength=9, columnCount=3">FACE_TYPE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
 		<td class="relcell"><a href="#chara_image" title="FK_CHARA_IMAGE_FACE_TYPE">CHARA_IMAGE</a>, <a href="#message" title="FK_MESSAGE_FACE_TYPE">MESSAGE</a></td>
-		<td class="commentcell face_type_comment"><pre>表情種別</pre></td>
+		<td class="commentcell FACE_TYPE_comment"><pre>表情種別</pre></td>
 		<td class="subcell">FaceType</td>
 		<td class="subcell">2018/10/30</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">13</td>
-		<td class="namecell" data-name="footstep"><a href="#footstep" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID}, nameLength=8, columnCount=8">FOOTSTEP</a></td>
+		<td class="namecell" data-name="FOOTSTEP"><a href="#footstep" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID}, nameLength=8, columnCount=8">FOOTSTEP</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara" title="FK_FOOTSTEP_CHARA">CHARA</a>, <a href="#village_day" title="FK_FOOTSTEP_VILLAGE_DAY">VILLAGE_DAY</a></td>
 		<td class="relcell">&nbsp;</td>
-		<td class="commentcell footstep_comment"><pre>足音</pre></td>
+		<td class="commentcell FOOTSTEP_comment"><pre>足音</pre></td>
 		<td class="subcell">Footstep</td>
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">14</td>
-		<td class="namecell" data-name="message"><a href="#message" title="type=TABLE, primaryKey={MESSAGE_ID}, nameLength=7, columnCount=16">MESSAGE</a></td>
+		<td class="namecell" data-name="MESSAGE"><a href="#message" title="type=TABLE, primaryKey={MESSAGE_ID}, nameLength=7, columnCount=16">MESSAGE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#face_type" title="FK_MESSAGE_FACE_TYPE">FACE_TYPE</a>, <a href="#message_type" title="FK_MESSAGE_MESSAGE_TYPE">MESSAGE_TYPE</a>, <a href="#player" title="FK_MESSAGE_PLAYER">PLAYER</a>, <a href="#village_player" title="FK_MESSAGE_VILLAGE_PLAYER_TO">VILLAGE_PLAYER</a>, <a href="#village_day" title="FK_MESSAGE_VILLAGE_DAY">VILLAGE_DAY</a>, <a href="#village_player" title="FK_MESSAGE_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
 		<td class="relcell">&nbsp;</td>
-		<td class="commentcell message_comment"><pre>メッセージ</pre></td>
+		<td class="commentcell MESSAGE_comment"><pre>メッセージ</pre></td>
 		<td class="subcell">Message</td>
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">15</td>
-		<td class="namecell" data-name="message_type"><a href="#message_type" title="type=TABLE, primaryKey={MESSAGE_TYPE_CODE}, nameLength=12, columnCount=2">MESSAGE_TYPE</a></td>
+		<td class="namecell" data-name="MESSAGE_TYPE"><a href="#message_type" title="type=TABLE, primaryKey={MESSAGE_TYPE_CODE}, nameLength=12, columnCount=2">MESSAGE_TYPE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
 		<td class="relcell"><a href="#message" title="FK_MESSAGE_MESSAGE_TYPE">MESSAGE</a>, <a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_MESSAGE_TYPE">NORMAL_SAY_RESTRICTION</a>, <a href="#skill_say_restriction" title="FK_SKILL_SAY_RESTRICTION_MESSAGE_TYPE">SKILL_SAY_RESTRICTION</a></td>
-		<td class="commentcell message_type_comment"><pre>メッセージ種別</pre></td>
+		<td class="commentcell MESSAGE_TYPE_comment"><pre>メッセージ種別</pre></td>
 		<td class="subcell">MessageType</td>
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">16</td>
-		<td class="namecell" data-name="normal_say_restriction"><a href="#normal_say_restriction" title="type=TABLE, primaryKey={VILLAGE_ID, SKILL_CODE, MESSAGE_TYPE_CODE}, nameLength=22, columnCount=9">NORMAL_SAY_RESTRICTION</a></td>
+		<td class="namecell" data-name="NORMAL_SAY_RESTRICTION"><a href="#normal_say_restriction" title="type=TABLE, primaryKey={VILLAGE_ID, SKILL_CODE, MESSAGE_TYPE_CODE}, nameLength=22, columnCount=9">NORMAL_SAY_RESTRICTION</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#message_type" title="FK_NORMAL_SAY_RESTRICTION_MESSAGE_TYPE">MESSAGE_TYPE</a>, <a href="#skill" title="FK_NORMAL_SAY_RESTRICTION_SKILL">SKILL</a>, <a href="#village" title="FK_NORMAL_SAY_RESTRICTION_VILLAGE">VILLAGE</a></td>
 		<td class="relcell">&nbsp;</td>
-		<td class="commentcell normal_say_restriction_comment"><pre>通常発言制限 : レコードなしの場合は無制限</pre></td>
+		<td class="commentcell NORMAL_SAY_RESTRICTION_comment"><pre>通常発言制限 : レコードなしの場合は無制限</pre></td>
 		<td class="subcell">NormalSayRestriction</td>
 		<td class="subcell">2020/10/02</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">17</td>
-		<td class="namecell" data-name="player"><a href="#player" title="type=TABLE, primaryKey={PLAYER_ID}, nameLength=6, columnCount=9">PLAYER</a></td>
+		<td class="namecell" data-name="PLAYER"><a href="#player" title="type=TABLE, primaryKey={PLAYER_ID}, nameLength=6, columnCount=9">PLAYER</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#authority" title="FK_PLAYER_AUTHORITY">AUTHORITY</a></td>
 		<td class="relcell"><a href="#message" title="FK_MESSAGE_PLAYER">MESSAGE</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_PLAYER">VILLAGE_PLAYER</a></td>
-		<td class="commentcell player_comment"><pre>プレイヤー</pre></td>
+		<td class="commentcell PLAYER_comment"><pre>プレイヤー</pre></td>
 		<td class="subcell">Player</td>
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">18</td>
-		<td class="namecell" data-name="random_content"><a href="#random_content" title="type=TABLE, primaryKey={RANDOM_CONTENT_ID}, nameLength=14, columnCount=3">RANDOM_CONTENT</a></td>
+		<td class="namecell" data-name="RANDOM_CONTENT"><a href="#random_content" title="type=TABLE, primaryKey={RANDOM_CONTENT_ID}, nameLength=14, columnCount=3">RANDOM_CONTENT</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#random_keyword" title="FK_RANDOM_CONTENT_RANDOM_KEYWORD">RANDOM_KEYWORD</a></td>
 		<td class="relcell">&nbsp;</td>
-		<td class="commentcell random_content_comment"><pre>ランダム変換内容</pre></td>
+		<td class="commentcell RANDOM_CONTENT_comment"><pre>ランダム変換内容</pre></td>
 		<td class="subcell">RandomContent</td>
 		<td class="subcell">2018/07/28</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">19</td>
-		<td class="namecell" data-name="random_keyword"><a href="#random_keyword" title="type=TABLE, primaryKey={RANDOM_KEYWORD_ID}, nameLength=14, columnCount=2">RANDOM_KEYWORD</a></td>
+		<td class="namecell" data-name="RANDOM_KEYWORD"><a href="#random_keyword" title="type=TABLE, primaryKey={RANDOM_KEYWORD_ID}, nameLength=14, columnCount=2">RANDOM_KEYWORD</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
 		<td class="relcell"><a href="#random_content" title="FK_RANDOM_CONTENT_RANDOM_KEYWORD">RANDOM_CONTENT</a></td>
-		<td class="commentcell random_keyword_comment"><pre>ランダムキーワード</pre></td>
+		<td class="commentcell RANDOM_KEYWORD_comment"><pre>ランダムキーワード</pre></td>
 		<td class="subcell">RandomKeyword</td>
 		<td class="subcell">2018/07/28</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">20</td>
-		<td class="namecell" data-name="skill"><a href="#skill" title="type=TABLE, primaryKey={SKILL_CODE}, nameLength=5, columnCount=5">SKILL</a></td>
+		<td class="namecell" data-name="SKILL"><a href="#skill" title="type=TABLE, primaryKey={SKILL_CODE}, nameLength=5, columnCount=5">SKILL</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#camp" title="FK_SKILL_CAMP">CAMP</a></td>
 		<td class="relcell"><a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_SKILL">NORMAL_SAY_RESTRICTION</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">VILLAGE_PLAYER</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">VILLAGE_PLAYER</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL">VILLAGE_PLAYER</a></td>
-		<td class="commentcell skill_comment"><pre>役職</pre></td>
+		<td class="commentcell SKILL_comment"><pre>役職</pre></td>
 		<td class="subcell">Skill</td>
 		<td class="subcell">2017/12/18</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">21</td>
-		<td class="namecell" data-name="skill_say_restriction"><a href="#skill_say_restriction" title="type=TABLE, primaryKey={VILLAGE_ID, MESSAGE_TYPE_CODE}, nameLength=21, columnCount=8">SKILL_SAY_RESTRICTION</a></td>
+		<td class="namecell" data-name="SKILL_SAY_RESTRICTION"><a href="#skill_say_restriction" title="type=TABLE, primaryKey={VILLAGE_ID, MESSAGE_TYPE_CODE}, nameLength=21, columnCount=8">SKILL_SAY_RESTRICTION</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#message_type" title="FK_SKILL_SAY_RESTRICTION_MESSAGE_TYPE">MESSAGE_TYPE</a>, <a href="#village" title="FK_SKILL_SAY_RESTRICTION_VILLAGE">VILLAGE</a></td>
 		<td class="relcell">&nbsp;</td>
-		<td class="commentcell skill_say_restriction_comment"><pre>役職発言制限 : レコードなしの場合は無制限</pre></td>
+		<td class="commentcell SKILL_SAY_RESTRICTION_comment"><pre>役職発言制限 : レコードなしの場合は無制限</pre></td>
 		<td class="subcell">SkillSayRestriction</td>
 		<td class="subcell">2020/10/02</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">22</td>
-		<td class="namecell" data-name="village"><a href="#village" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=7, columnCount=12">VILLAGE</a></td>
+		<td class="namecell" data-name="VILLAGE"><a href="#village" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=7, columnCount=12">VILLAGE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_status" title="FK_VILLAGE_VILLAGE_STATUS">VILLAGE_STATUS</a>, <a href="#camp" title="FK_VILLAGE_CAMP">CAMP</a></td>
 		<td class="relcell"><a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_VILLAGE">NORMAL_SAY_RESTRICTION</a>, <a href="#skill_say_restriction" title="FK_SKILL_SAY_RESTRICTION_VILLAGE">SKILL_SAY_RESTRICTION</a>, <a href="#village_day" title="FK_VILLAGE_DAY_VILLAGE">VILLAGE_DAY</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE_PLAYER</a>, <a href="#village_settings" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE_SETTINGS</a></td>
-		<td class="commentcell village_comment"><pre>村</pre></td>
+		<td class="commentcell VILLAGE_comment"><pre>村</pre></td>
 		<td class="subcell">Village</td>
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">23</td>
-		<td class="namecell" data-name="village_day"><a href="#village_day" title="type=TABLE, primaryKey={VILLAGE_ID, DAY}, nameLength=11, columnCount=7">VILLAGE_DAY</a></td>
+		<td class="namecell" data-name="VILLAGE_DAY"><a href="#village_day" title="type=TABLE, primaryKey={VILLAGE_ID, DAY}, nameLength=11, columnCount=7">VILLAGE_DAY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village" title="FK_VILLAGE_DAY_VILLAGE">VILLAGE</a></td>
 		<td class="relcell"><a href="#ability" title="FK_ABILITY_VILLAGE_DAY">ABILITY</a>, <a href="#commit" title="FK_COMMIT_VILLAGE_DAY">COMMIT</a>, <a href="#footstep" title="FK_FOOTSTEP_VILLAGE_DAY">FOOTSTEP</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_DAY">MESSAGE</a>, <a href="#vote" title="FK_VOTE_VILLAGE_DAY">VOTE</a></td>
-		<td class="commentcell village_day_comment"><pre>村日付</pre></td>
+		<td class="commentcell VILLAGE_DAY_comment"><pre>村日付</pre></td>
 		<td class="subcell">VillageDay</td>
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">24</td>
-		<td class="namecell" data-name="village_player"><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=20">VILLAGE_PLAYER</a></td>
+		<td class="namecell" data-name="VILLAGE_PLAYER"><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=20">VILLAGE_PLAYER</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara" title="FK_VILLAGE_PLAYER_CHARA">CHARA</a>, <a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_REASON">DEAD_REASON</a>, <a href="#player" title="FK_VILLAGE_PLAYER_PLAYER">PLAYER</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL">SKILL</a>, <a href="#village" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE</a></td>
 		<td class="relcell"><a href="#commit" title="FK_COMMIT_VILLAGE_PLAYER">COMMIT</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER_TO">MESSAGE</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER">MESSAGE</a>, <a href="#village_player_dead_history" title="FK_VILLAGE_PLAYER_DEAD_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER_DEAD_HISTORY</a>, <a href="#village_player_room_history" title="FK_VILLAGE_PLAYER_ROOM_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER_ROOM_HISTORY</a>, <a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_TO_VILLAGE_PLAYER">VILLAGE_PLAYER_STATUS</a>, <a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER">VILLAGE_PLAYER_STATUS</a></td>
-		<td class="commentcell village_player_comment"><pre>村参加者</pre></td>
+		<td class="commentcell VILLAGE_PLAYER_comment"><pre>村参加者</pre></td>
 		<td class="subcell">VillagePlayer</td>
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">25</td>
-		<td class="namecell" data-name="village_player_dead_history"><a href="#village_player_dead_history" title="type=TABLE, primaryKey={VILLAGE_PLAYER_DEAD_HISTORY_ID}, nameLength=27, columnCount=9">VILLAGE_PLAYER_DEAD_HISTORY</a></td>
+		<td class="namecell" data-name="VILLAGE_PLAYER_DEAD_HISTORY"><a href="#village_player_dead_history" title="type=TABLE, primaryKey={VILLAGE_PLAYER_DEAD_HISTORY_ID}, nameLength=27, columnCount=9">VILLAGE_PLAYER_DEAD_HISTORY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_HISTORY_DEAD_REASON">DEAD_REASON</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_DEAD_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
 		<td class="relcell">&nbsp;</td>
-		<td class="commentcell village_player_dead_history_comment"><pre>村参加者生死履歴</pre></td>
+		<td class="commentcell VILLAGE_PLAYER_DEAD_HISTORY_comment"><pre>村参加者生死履歴</pre></td>
 		<td class="subcell">VillagePlayerDeadHistory</td>
 		<td class="subcell">2020/10/02</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">26</td>
-		<td class="namecell" data-name="village_player_room_history"><a href="#village_player_room_history" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ROOM_HISTORY_ID}, nameLength=27, columnCount=8">VILLAGE_PLAYER_ROOM_HISTORY</a></td>
+		<td class="namecell" data-name="VILLAGE_PLAYER_ROOM_HISTORY"><a href="#village_player_room_history" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ROOM_HISTORY_ID}, nameLength=27, columnCount=8">VILLAGE_PLAYER_ROOM_HISTORY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_ROOM_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
 		<td class="relcell">&nbsp;</td>
-		<td class="commentcell village_player_room_history_comment"><pre>村参加者部屋移動履歴</pre></td>
+		<td class="commentcell VILLAGE_PLAYER_ROOM_HISTORY_comment"><pre>村参加者部屋移動履歴</pre></td>
 		<td class="subcell">VillagePlayerRoomHistory</td>
 		<td class="subcell">2020/10/02</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">27</td>
-		<td class="namecell" data-name="village_player_status"><a href="#village_player_status" title="type=TABLE, primaryKey={VILLAGE_PLAYER_STATUS_ID}, nameLength=21, columnCount=8">VILLAGE_PLAYER_STATUS</a></td>
+		<td class="namecell" data-name="VILLAGE_PLAYER_STATUS"><a href="#village_player_status" title="type=TABLE, primaryKey={VILLAGE_PLAYER_STATUS_ID}, nameLength=21, columnCount=8">VILLAGE_PLAYER_STATUS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_STATUS_TO_VILLAGE_PLAYER">VILLAGE_PLAYER</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER">VILLAGE_PLAYER</a>, <a href="#village_player_status_type" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER_STATUS_TYPE">VILLAGE_PLAYER_STATUS_TYPE</a></td>
 		<td class="relcell">&nbsp;</td>
-		<td class="commentcell village_player_status_comment"><pre>村参加者ステータス</pre></td>
+		<td class="commentcell VILLAGE_PLAYER_STATUS_comment"><pre>村参加者ステータス</pre></td>
 		<td class="subcell">VillagePlayerStatus</td>
 		<td class="subcell">2020/08/28</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">28</td>
-		<td class="namecell" data-name="village_player_status_type"><a href="#village_player_status_type" title="type=TABLE, primaryKey={VILLAGE_PLAYER_STATUS_TYPE_CODE}, nameLength=26, columnCount=2">VILLAGE_PLAYER_STATUS_TYPE</a></td>
+		<td class="namecell" data-name="VILLAGE_PLAYER_STATUS_TYPE"><a href="#village_player_status_type" title="type=TABLE, primaryKey={VILLAGE_PLAYER_STATUS_TYPE_CODE}, nameLength=26, columnCount=2">VILLAGE_PLAYER_STATUS_TYPE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
 		<td class="relcell"><a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER_STATUS_TYPE">VILLAGE_PLAYER_STATUS</a></td>
-		<td class="commentcell village_player_status_type_comment"><pre>村参加者ステータス種別</pre></td>
+		<td class="commentcell VILLAGE_PLAYER_STATUS_TYPE_comment"><pre>村参加者ステータス種別</pre></td>
 		<td class="subcell">VillagePlayerStatusType</td>
 		<td class="subcell">2020/08/28</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">29</td>
-		<td class="namecell" data-name="village_settings"><a href="#village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=23">VILLAGE_SETTINGS</a></td>
+		<td class="namecell" data-name="VILLAGE_SETTINGS"><a href="#village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=24">VILLAGE_SETTINGS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#allowed_secret_say" title="FK_VILLAGE_SETTINGS_ALLOWED_SECRET_SAY">ALLOWED_SECRET_SAY</a>, <a href="#chara_group" title="FK_VILLAGE_SETTINGS_CHARA_GROUP">CHARA_GROUP</a>, <a href="#village" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE</a></td>
 		<td class="relcell">&nbsp;</td>
-		<td class="commentcell village_settings_comment"><pre>村設定</pre></td>
+		<td class="commentcell VILLAGE_SETTINGS_comment"><pre>村設定</pre></td>
 		<td class="subcell">VillageSettings</td>
 		<td class="subcell">2017/12/18</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">30</td>
-		<td class="namecell" data-name="village_status"><a href="#village_status" title="type=TABLE, primaryKey={VILLAGE_STATUS_CODE}, nameLength=14, columnCount=2">VILLAGE_STATUS</a></td>
+		<td class="namecell" data-name="VILLAGE_STATUS"><a href="#village_status" title="type=TABLE, primaryKey={VILLAGE_STATUS_CODE}, nameLength=14, columnCount=2">VILLAGE_STATUS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
 		<td class="relcell"><a href="#village" title="FK_VILLAGE_VILLAGE_STATUS">VILLAGE</a></td>
-		<td class="commentcell village_status_comment"><pre>村ステータス</pre></td>
+		<td class="commentcell VILLAGE_STATUS_comment"><pre>村ステータス</pre></td>
 		<td class="subcell">VillageStatus</td>
 		<td class="subcell">2017/12/19</td>
 	</tr>
 	<tr>
 		<td class="rownumcell">31</td>
-		<td class="namecell" data-name="vote"><a href="#vote" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID}, nameLength=4, columnCount=8">VOTE</a></td>
+		<td class="namecell" data-name="VOTE"><a href="#vote" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID}, nameLength=4, columnCount=8">VOTE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara" title="FK_VOTE_CHARA">CHARA</a>, <a href="#village_day" title="FK_VOTE_VILLAGE_DAY">VILLAGE_DAY</a>, <a href="#chara" title="FK_VOTE_CHARA_TO">CHARA</a></td>
 		<td class="relcell">&nbsp;</td>
-		<td class="commentcell vote_comment"><pre>投票</pre></td>
+		<td class="commentcell VOTE_comment"><pre>投票</pre></td>
 		<td class="subcell">Vote</td>
 		<td class="subcell">2017/12/22</td>
 	</tr>
@@ -833,8 +833,8 @@ pre.spolicyviodisp {
 ABILITY
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/22</span>
 </h2>
-<div class="tablecomment ability_comment" data-name="ability"><pre>能力行使</pre></div>
-<input type="hidden" value="ability">
+<div class="tablecomment ABILITY_comment" data-name="ABILITY"><pre>能力行使</pre></div>
+<input type="hidden" value="ABILITY">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -1044,8 +1044,8 @@ ABILITY
 ABILITY_TYPE
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/22</span>
 </h2>
-<div class="tablecomment ability_type_comment" data-name="ability_type"><pre>能力種別</pre></div>
-<input type="hidden" value="ability_type">
+<div class="tablecomment ABILITY_TYPE_comment" data-name="ABILITY_TYPE"><pre>能力種別</pre></div>
+<input type="hidden" value="ABILITY_TYPE">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -1111,8 +1111,8 @@ ABILITY_TYPE
 ALLOWED_SECRET_SAY
 &nbsp;<span class="tablefirstdatetitle">since 2018/07/30</span>
 </h2>
-<div class="tablecomment allowed_secret_say_comment" data-name="allowed_secret_say"><pre>秘話可能な範囲</pre></div>
-<input type="hidden" value="allowed_secret_say">
+<div class="tablecomment ALLOWED_SECRET_SAY_comment" data-name="ALLOWED_SECRET_SAY"><pre>秘話可能な範囲</pre></div>
+<input type="hidden" value="ALLOWED_SECRET_SAY">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -1178,8 +1178,8 @@ ALLOWED_SECRET_SAY
 AUTHORITY
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/15</span>
 </h2>
-<div class="tablecomment authority_comment" data-name="authority"><pre>権限</pre></div>
-<input type="hidden" value="authority">
+<div class="tablecomment AUTHORITY_comment" data-name="AUTHORITY"><pre>権限</pre></div>
+<input type="hidden" value="AUTHORITY">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -1245,8 +1245,8 @@ AUTHORITY
 CAMP
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/18</span>
 </h2>
-<div class="tablecomment camp_comment" data-name="camp"><pre>陣営</pre></div>
-<input type="hidden" value="camp">
+<div class="tablecomment CAMP_comment" data-name="CAMP"><pre>陣営</pre></div>
+<input type="hidden" value="CAMP">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -1312,8 +1312,8 @@ CAMP
 CHARA
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/20</span>
 </h2>
-<div class="tablecomment chara_comment" data-name="chara"><pre>キャラクター</pre></div>
-<input type="hidden" value="chara">
+<div class="tablecomment CHARA_comment" data-name="CHARA"><pre>キャラクター</pre></div>
+<input type="hidden" value="CHARA">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -1559,8 +1559,8 @@ CHARA
 CHARA_GROUP
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/20</span>
 </h2>
-<div class="tablecomment chara_group_comment" data-name="chara_group"><pre>キャラクターグループ</pre></div>
-<input type="hidden" value="chara_group">
+<div class="tablecomment CHARA_GROUP_comment" data-name="CHARA_GROUP"><pre>キャラクターグループ</pre></div>
+<input type="hidden" value="CHARA_GROUP">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -1734,8 +1734,8 @@ CHARA_GROUP
 CHARA_IMAGE
 &nbsp;<span class="tablefirstdatetitle">since 2018/10/30</span>
 </h2>
-<div class="tablecomment chara_image_comment" data-name="chara_image"><pre>キャラクター画像</pre></div>
-<input type="hidden" value="chara_image">
+<div class="tablecomment CHARA_IMAGE_comment" data-name="CHARA_IMAGE"><pre>キャラクター画像</pre></div>
+<input type="hidden" value="CHARA_IMAGE">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -1819,8 +1819,8 @@ CHARA_IMAGE
 COMMIT
 &nbsp;<span class="tablefirstdatetitle">since 2018/06/07</span>
 </h2>
-<div class="tablecomment commit_comment" data-name="commit"><pre>コミット</pre></div>
-<input type="hidden" value="commit">
+<div class="tablecomment COMMIT_comment" data-name="COMMIT"><pre>コミット</pre></div>
+<input type="hidden" value="COMMIT">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -1976,8 +1976,8 @@ COMMIT
 DEAD_REASON
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/22</span>
 </h2>
-<div class="tablecomment dead_reason_comment" data-name="dead_reason"><pre>死亡理由</pre></div>
-<input type="hidden" value="dead_reason">
+<div class="tablecomment DEAD_REASON_comment" data-name="DEAD_REASON"><pre>死亡理由</pre></div>
+<input type="hidden" value="DEAD_REASON">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -2043,8 +2043,8 @@ DEAD_REASON
 DESIGNER
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/20</span>
 </h2>
-<div class="tablecomment designer_comment" data-name="designer"><pre>デザイナー</pre></div>
-<input type="hidden" value="designer">
+<div class="tablecomment DESIGNER_comment" data-name="DESIGNER"><pre>デザイナー</pre></div>
+<input type="hidden" value="DESIGNER">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -2182,8 +2182,8 @@ DESIGNER
 FACE_TYPE
 &nbsp;<span class="tablefirstdatetitle">since 2018/10/30</span>
 </h2>
-<div class="tablecomment face_type_comment" data-name="face_type"><pre>表情種別</pre></div>
-<input type="hidden" value="face_type">
+<div class="tablecomment FACE_TYPE_comment" data-name="FACE_TYPE"><pre>表情種別</pre></div>
+<input type="hidden" value="FACE_TYPE">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -2267,8 +2267,8 @@ FACE_TYPE
 FOOTSTEP
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/22</span>
 </h2>
-<div class="tablecomment footstep_comment" data-name="footstep"><pre>足音</pre></div>
-<input type="hidden" value="footstep">
+<div class="tablecomment FOOTSTEP_comment" data-name="FOOTSTEP"><pre>足音</pre></div>
+<input type="hidden" value="FOOTSTEP">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -2442,8 +2442,8 @@ FOOTSTEP
 MESSAGE
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/20</span>
 </h2>
-<div class="tablecomment message_comment" data-name="message"><pre>メッセージ</pre></div>
-<input type="hidden" value="message">
+<div class="tablecomment MESSAGE_comment" data-name="MESSAGE"><pre>メッセージ</pre></div>
+<input type="hidden" value="MESSAGE">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -2761,8 +2761,8 @@ MESSAGE
 MESSAGE_TYPE
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/20</span>
 </h2>
-<div class="tablecomment message_type_comment" data-name="message_type"><pre>メッセージ種別</pre></div>
-<input type="hidden" value="message_type">
+<div class="tablecomment MESSAGE_TYPE_comment" data-name="MESSAGE_TYPE"><pre>メッセージ種別</pre></div>
+<input type="hidden" value="MESSAGE_TYPE">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -2828,8 +2828,8 @@ MESSAGE_TYPE
 NORMAL_SAY_RESTRICTION
 &nbsp;<span class="tablefirstdatetitle">since 2020/10/02</span>
 </h2>
-<div class="tablecomment normal_say_restriction_comment" data-name="normal_say_restriction"><pre>通常発言制限 : レコードなしの場合は無制限</pre></div>
-<input type="hidden" value="normal_say_restriction">
+<div class="tablecomment NORMAL_SAY_RESTRICTION_comment" data-name="NORMAL_SAY_RESTRICTION"><pre>通常発言制限 : レコードなしの場合は無制限</pre></div>
+<input type="hidden" value="NORMAL_SAY_RESTRICTION">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -3021,8 +3021,8 @@ NORMAL_SAY_RESTRICTION
 PLAYER
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/20</span>
 </h2>
-<div class="tablecomment player_comment" data-name="player"><pre>プレイヤー</pre></div>
-<input type="hidden" value="player">
+<div class="tablecomment PLAYER_comment" data-name="PLAYER"><pre>プレイヤー</pre></div>
+<input type="hidden" value="PLAYER">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -3214,8 +3214,8 @@ PLAYER
 RANDOM_CONTENT
 &nbsp;<span class="tablefirstdatetitle">since 2018/07/28</span>
 </h2>
-<div class="tablecomment random_content_comment" data-name="random_content"><pre>ランダム変換内容</pre></div>
-<input type="hidden" value="random_content">
+<div class="tablecomment RANDOM_CONTENT_comment" data-name="RANDOM_CONTENT"><pre>ランダム変換内容</pre></div>
+<input type="hidden" value="RANDOM_CONTENT">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -3299,8 +3299,8 @@ RANDOM_CONTENT
 RANDOM_KEYWORD
 &nbsp;<span class="tablefirstdatetitle">since 2018/07/28</span>
 </h2>
-<div class="tablecomment random_keyword_comment" data-name="random_keyword"><pre>ランダムキーワード</pre></div>
-<input type="hidden" value="random_keyword">
+<div class="tablecomment RANDOM_KEYWORD_comment" data-name="RANDOM_KEYWORD"><pre>ランダムキーワード</pre></div>
+<input type="hidden" value="RANDOM_KEYWORD">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -3366,8 +3366,8 @@ RANDOM_KEYWORD
 SKILL
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/18</span>
 </h2>
-<div class="tablecomment skill_comment" data-name="skill"><pre>役職</pre></div>
-<input type="hidden" value="skill">
+<div class="tablecomment SKILL_comment" data-name="SKILL"><pre>役職</pre></div>
+<input type="hidden" value="SKILL">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -3487,8 +3487,8 @@ SKILL
 SKILL_SAY_RESTRICTION
 &nbsp;<span class="tablefirstdatetitle">since 2020/10/02</span>
 </h2>
-<div class="tablecomment skill_say_restriction_comment" data-name="skill_say_restriction"><pre>役職発言制限 : レコードなしの場合は無制限</pre></div>
-<input type="hidden" value="skill_say_restriction">
+<div class="tablecomment SKILL_SAY_RESTRICTION_comment" data-name="SKILL_SAY_RESTRICTION"><pre>役職発言制限 : レコードなしの場合は無制限</pre></div>
+<input type="hidden" value="SKILL_SAY_RESTRICTION">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -3662,8 +3662,8 @@ SKILL_SAY_RESTRICTION
 VILLAGE
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/20</span>
 </h2>
-<div class="tablecomment village_comment" data-name="village"><pre>村</pre></div>
-<input type="hidden" value="village">
+<div class="tablecomment VILLAGE_comment" data-name="VILLAGE"><pre>村</pre></div>
+<input type="hidden" value="VILLAGE">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -3909,8 +3909,8 @@ VILLAGE
 VILLAGE_DAY
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/22</span>
 </h2>
-<div class="tablecomment village_day_comment" data-name="village_day"><pre>村日付</pre></div>
-<input type="hidden" value="village_day">
+<div class="tablecomment VILLAGE_DAY_comment" data-name="VILLAGE_DAY"><pre>村日付</pre></div>
+<input type="hidden" value="VILLAGE_DAY">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -4066,8 +4066,8 @@ VILLAGE_DAY
 VILLAGE_PLAYER
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/20</span>
 </h2>
-<div class="tablecomment village_player_comment" data-name="village_player"><pre>村参加者</pre></div>
-<input type="hidden" value="village_player">
+<div class="tablecomment VILLAGE_PLAYER_comment" data-name="VILLAGE_PLAYER"><pre>村参加者</pre></div>
+<input type="hidden" value="VILLAGE_PLAYER">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -4457,8 +4457,8 @@ VILLAGE_PLAYER
 VILLAGE_PLAYER_DEAD_HISTORY
 &nbsp;<span class="tablefirstdatetitle">since 2020/10/02</span>
 </h2>
-<div class="tablecomment village_player_dead_history_comment" data-name="village_player_dead_history"><pre>村参加者生死履歴</pre></div>
-<input type="hidden" value="village_player_dead_history">
+<div class="tablecomment VILLAGE_PLAYER_DEAD_HISTORY_comment" data-name="VILLAGE_PLAYER_DEAD_HISTORY"><pre>村参加者生死履歴</pre></div>
+<input type="hidden" value="VILLAGE_PLAYER_DEAD_HISTORY">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -4650,8 +4650,8 @@ VILLAGE_PLAYER_DEAD_HISTORY
 VILLAGE_PLAYER_ROOM_HISTORY
 &nbsp;<span class="tablefirstdatetitle">since 2020/10/02</span>
 </h2>
-<div class="tablecomment village_player_room_history_comment" data-name="village_player_room_history"><pre>村参加者部屋移動履歴</pre></div>
-<input type="hidden" value="village_player_room_history">
+<div class="tablecomment VILLAGE_PLAYER_ROOM_HISTORY_comment" data-name="VILLAGE_PLAYER_ROOM_HISTORY"><pre>村参加者部屋移動履歴</pre></div>
+<input type="hidden" value="VILLAGE_PLAYER_ROOM_HISTORY">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -4825,8 +4825,8 @@ VILLAGE_PLAYER_ROOM_HISTORY
 VILLAGE_PLAYER_STATUS
 &nbsp;<span class="tablefirstdatetitle">since 2020/08/28</span>
 </h2>
-<div class="tablecomment village_player_status_comment" data-name="village_player_status"><pre>村参加者ステータス</pre></div>
-<input type="hidden" value="village_player_status">
+<div class="tablecomment VILLAGE_PLAYER_STATUS_comment" data-name="VILLAGE_PLAYER_STATUS"><pre>村参加者ステータス</pre></div>
+<input type="hidden" value="VILLAGE_PLAYER_STATUS">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -5000,8 +5000,8 @@ VILLAGE_PLAYER_STATUS
 VILLAGE_PLAYER_STATUS_TYPE
 &nbsp;<span class="tablefirstdatetitle">since 2020/08/28</span>
 </h2>
-<div class="tablecomment village_player_status_type_comment" data-name="village_player_status_type"><pre>村参加者ステータス種別</pre></div>
-<input type="hidden" value="village_player_status_type">
+<div class="tablecomment VILLAGE_PLAYER_STATUS_TYPE_comment" data-name="VILLAGE_PLAYER_STATUS_TYPE"><pre>村参加者ステータス種別</pre></div>
+<input type="hidden" value="VILLAGE_PLAYER_STATUS_TYPE">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -5063,12 +5063,12 @@ VILLAGE_PLAYER_STATUS_TYPE
 	</tbody>
 </table>
 
-<h2 id="village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=23">
+<h2 id="village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=24">
 VILLAGE_SETTINGS
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/18</span>
 </h2>
-<div class="tablecomment village_settings_comment" data-name="village_settings"><pre>村設定</pre></div>
-<input type="hidden" value="village_settings">
+<div class="tablecomment VILLAGE_SETTINGS_comment" data-name="VILLAGE_SETTINGS"><pre>村設定</pre></div>
+<input type="hidden" value="VILLAGE_SETTINGS">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -5440,6 +5440,24 @@ VILLAGE_SETTINGS
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_settings_is_available_action">IS_AVAILABLE_ACTION</td>
+		<td class="typecell">BIT</td>
+		<td class="sizecell"> &nbsp;</td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#FlgCls">Flg</a></td>
+		<td class="commentcell"><pre>アクション可能か</pre></td>
+		<td class="subcell">isAvailableAction</td>
+		<td class="subcell">Boolean</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">21</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
 		<td class="comcolcell columnnamecell" id="village_settings_register_datetime">REGISTER_DATETIME</td>
 		<td class="typecell">DATETIME</td>
 		<td class="sizecell"> 19 </td>
@@ -5452,7 +5470,7 @@ VILLAGE_SETTINGS
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">21</td>
+		<td class="rownumcell">22</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -5470,7 +5488,7 @@ VILLAGE_SETTINGS
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">22</td>
+		<td class="rownumcell">23</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -5488,7 +5506,7 @@ VILLAGE_SETTINGS
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">23</td>
+		<td class="rownumcell">24</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -5512,8 +5530,8 @@ VILLAGE_SETTINGS
 VILLAGE_STATUS
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/19</span>
 </h2>
-<div class="tablecomment village_status_comment" data-name="village_status"><pre>村ステータス</pre></div>
-<input type="hidden" value="village_status">
+<div class="tablecomment VILLAGE_STATUS_comment" data-name="VILLAGE_STATUS"><pre>村ステータス</pre></div>
+<input type="hidden" value="VILLAGE_STATUS">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -5579,8 +5597,8 @@ VILLAGE_STATUS
 VOTE
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/22</span>
 </h2>
-<div class="tablecomment vote_comment" data-name="vote"><pre>投票</pre></div>
-<input type="hidden" value="vote">
+<div class="tablecomment VOTE_comment" data-name="VOTE"><pre>投票</pre></div>
+<input type="hidden" value="VOTE">
 <table class="tablecontent">
 	<thead>
 	<tr>
@@ -6557,6 +6575,11 @@ VOTE
 				<th>Comment</th>
 			</tr>
 			<tr>
+				<td>ACTION</td>
+				<td>アクション</td>
+				<td class="commentcell">&nbsp;</td>
+			</tr>
+			<tr>
 				<td>CREATOR_SAY</td>
 				<td>村建て発言</td>
 				<td class="commentcell">&nbsp;</td>
@@ -7404,7 +7427,7 @@ function StoreClient() {
 		]
 	}
 	this.pickupStore = {
-		'ability': {
+		'ABILITY': {
 			'databaseComment': '能力行使'
 			, 'columns': {
 				'VILLAGE_ID': {
@@ -7439,7 +7462,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'ability_type': {
+		, 'ABILITY_TYPE': {
 			'databaseComment': '能力種別'
 			, 'columns': {
 				'ABILITY_TYPE_CODE': {
@@ -7450,7 +7473,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'allowed_secret_say': {
+		, 'ALLOWED_SECRET_SAY': {
 			'databaseComment': '秘話可能な範囲'
 			, 'columns': {
 				'ALLOWED_SECRET_SAY_CODE': {
@@ -7461,7 +7484,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'authority': {
+		, 'AUTHORITY': {
 			'databaseComment': '権限'
 			, 'columns': {
 				'AUTHORITY_CODE': {
@@ -7472,7 +7495,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'camp': {
+		, 'CAMP': {
 			'databaseComment': '陣営'
 			, 'columns': {
 				'CAMP_CODE': {
@@ -7483,7 +7506,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'chara': {
+		, 'CHARA': {
 			'databaseComment': 'キャラクター'
 			, 'columns': {
 				'CHARA_ID': {
@@ -7524,7 +7547,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'chara_group': {
+		, 'CHARA_GROUP': {
 			'databaseComment': 'キャラクターグループ'
 			, 'columns': {
 				'CHARA_GROUP_ID': {
@@ -7553,7 +7576,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'chara_image': {
+		, 'CHARA_IMAGE': {
 			'databaseComment': 'キャラクター画像'
 			, 'columns': {
 				'CHARA_ID': {
@@ -7567,7 +7590,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'commit': {
+		, 'COMMIT': {
 			'databaseComment': 'コミット'
 			, 'columns': {
 				'VILLAGE_ID': {
@@ -7593,7 +7616,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'dead_reason': {
+		, 'DEAD_REASON': {
 			'databaseComment': '死亡理由'
 			, 'columns': {
 				'DEAD_REASON_CODE': {
@@ -7604,7 +7627,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'designer': {
+		, 'DESIGNER': {
 			'databaseComment': 'デザイナー'
 			, 'columns': {
 				'DESIGNER_ID': {
@@ -7627,7 +7650,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'face_type': {
+		, 'FACE_TYPE': {
 			'databaseComment': '表情種別'
 			, 'columns': {
 				'FACE_TYPE_CODE': {
@@ -7641,7 +7664,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'footstep': {
+		, 'FOOTSTEP': {
 			'databaseComment': '足音'
 			, 'columns': {
 				'VILLAGE_ID': {
@@ -7670,7 +7693,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'message': {
+		, 'MESSAGE': {
 			'databaseComment': 'メッセージ'
 			, 'columns': {
 				'MESSAGE_ID': {
@@ -7723,7 +7746,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'message_type': {
+		, 'MESSAGE_TYPE': {
 			'databaseComment': 'メッセージ種別'
 			, 'columns': {
 				'MESSAGE_TYPE_CODE': {
@@ -7734,7 +7757,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'normal_say_restriction': {
+		, 'NORMAL_SAY_RESTRICTION': {
 			'databaseComment': '通常発言制限&nbsp;:&nbsp;レコードなしの場合は無制限'
 			, 'columns': {
 				'VILLAGE_ID': {
@@ -7766,7 +7789,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'player': {
+		, 'PLAYER': {
 			'databaseComment': 'プレイヤー'
 			, 'columns': {
 				'PLAYER_ID': {
@@ -7798,7 +7821,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'random_content': {
+		, 'RANDOM_CONTENT': {
 			'databaseComment': 'ランダム変換内容'
 			, 'columns': {
 				'RANDOM_CONTENT_ID': {
@@ -7812,7 +7835,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'random_keyword': {
+		, 'RANDOM_KEYWORD': {
 			'databaseComment': 'ランダムキーワード'
 			, 'columns': {
 				'RANDOM_KEYWORD_ID': {
@@ -7823,7 +7846,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'skill': {
+		, 'SKILL': {
 			'databaseComment': '役職'
 			, 'columns': {
 				'SKILL_CODE': {
@@ -7843,7 +7866,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'skill_say_restriction': {
+		, 'SKILL_SAY_RESTRICTION': {
 			'databaseComment': '役職発言制限&nbsp;:&nbsp;レコードなしの場合は無制限'
 			, 'columns': {
 				'VILLAGE_ID': {
@@ -7872,7 +7895,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'village': {
+		, 'VILLAGE': {
 			'databaseComment': '村'
 			, 'columns': {
 				'VILLAGE_ID': {
@@ -7913,7 +7936,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'village_day': {
+		, 'VILLAGE_DAY': {
 			'databaseComment': '村日付'
 			, 'columns': {
 				'VILLAGE_ID': {
@@ -7939,7 +7962,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'village_player': {
+		, 'VILLAGE_PLAYER': {
 			'databaseComment': '村参加者'
 			, 'columns': {
 				'VILLAGE_PLAYER_ID': {
@@ -8004,7 +8027,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'village_player_dead_history': {
+		, 'VILLAGE_PLAYER_DEAD_HISTORY': {
 			'databaseComment': '村参加者生死履歴'
 			, 'columns': {
 				'VILLAGE_PLAYER_DEAD_HISTORY_ID': {
@@ -8036,7 +8059,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'village_player_room_history': {
+		, 'VILLAGE_PLAYER_ROOM_HISTORY': {
 			'databaseComment': '村参加者部屋移動履歴'
 			, 'columns': {
 				'VILLAGE_PLAYER_ROOM_HISTORY_ID': {
@@ -8065,7 +8088,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'village_player_status': {
+		, 'VILLAGE_PLAYER_STATUS': {
 			'databaseComment': '村参加者ステータス'
 			, 'columns': {
 				'VILLAGE_PLAYER_STATUS_ID': {
@@ -8094,7 +8117,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'village_player_status_type': {
+		, 'VILLAGE_PLAYER_STATUS_TYPE': {
 			'databaseComment': '村参加者ステータス種別'
 			, 'columns': {
 				'VILLAGE_PLAYER_STATUS_TYPE_CODE': {
@@ -8105,7 +8128,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'village_settings': {
+		, 'VILLAGE_SETTINGS': {
 			'databaseComment': '村設定'
 			, 'columns': {
 				'VILLAGE_ID': {
@@ -8165,6 +8188,9 @@ function StoreClient() {
 				, 'ALLOWED_SECRET_SAY_CODE': {
 					'databaseComment': '秘話可能な範囲コード'
 				}
+				, 'IS_AVAILABLE_ACTION': {
+					'databaseComment': 'アクション可能か'
+				}
 				, 'REGISTER_DATETIME': {
 					'databaseComment': '登録日時'
 				}
@@ -8179,7 +8205,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'village_status': {
+		, 'VILLAGE_STATUS': {
 			'databaseComment': '村ステータス'
 			, 'columns': {
 				'VILLAGE_STATUS_CODE': {
@@ -8190,7 +8216,7 @@ function StoreClient() {
 				}
 			}
 		}
-		, 'vote': {
+		, 'VOTE': {
 			'databaseComment': '投票'
 			, 'columns': {
 				'VILLAGE_ID': {

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ort.app.logic.DayChangeLogic;
 import com.ort.app.web.controller.assist.VillageAbilityAssist;
+import com.ort.app.web.controller.assist.VillageActionAssist;
 import com.ort.app.web.controller.assist.VillageAssist;
 import com.ort.app.web.controller.assist.VillageCommitAssist;
 import com.ort.app.web.controller.assist.VillageListAssist;
@@ -23,6 +24,7 @@ import com.ort.app.web.controller.assist.VillageParticipateAssist;
 import com.ort.app.web.controller.assist.VillageSayAssist;
 import com.ort.app.web.controller.assist.VillageSettingsAssist;
 import com.ort.app.web.form.VillageAbilityForm;
+import com.ort.app.web.form.VillageActionForm;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
 import com.ort.app.web.form.VillageCommitForm;
 import com.ort.app.web.form.VillageGetAnchorMessageForm;
@@ -32,6 +34,7 @@ import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.app.web.form.VillageSayForm;
 import com.ort.app.web.form.VillageSettingsForm;
 import com.ort.app.web.form.VillageVoteForm;
+import com.ort.app.web.form.validator.VillageActionFormValidator;
 import com.ort.app.web.form.validator.VillageParticipateFormValidator;
 import com.ort.app.web.form.validator.VillageSayFormValidator;
 import com.ort.app.web.form.validator.VillageSettingsFormValidator;
@@ -56,6 +59,8 @@ public class VillageController {
     @Autowired
     private VillageSayAssist villageSayAssist;
     @Autowired
+    private VillageActionAssist villageActionAssist;
+    @Autowired
     private VillageAbilityAssist villageAbilityAssist;
     @Autowired
     private VillageCommitAssist villageCommitAssist;
@@ -70,6 +75,8 @@ public class VillageController {
     @Autowired
     private VillageSayFormValidator villageSayFormValidator;
     @Autowired
+    private VillageActionFormValidator villageActionFormValidator;
+    @Autowired
     private VillageParticipateFormValidator villageParticipateFormValidator;
     @Autowired
     private VillageSettingsFormValidator villageSettingsFormValidator;
@@ -77,6 +84,11 @@ public class VillageController {
     @InitBinder("sayForm")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(villageSayFormValidator);
+    }
+
+    @InitBinder("actionForm")
+    public void initBinderAction(WebDataBinder binder) {
+        binder.addValidators(villageActionFormValidator);
     }
 
     @InitBinder("participateForm")
@@ -102,13 +114,13 @@ public class VillageController {
     @GetMapping("/village/{villageId}")
     private String villageIndex(@PathVariable Integer villageId, Model model) {
         // 最新の日付を表示
-        return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
+        return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
     }
 
     // 村最新日付初期表示
     @GetMapping("/village/{villageId}/day/{day}")
     private String villageDayIndex(@PathVariable Integer villageId, @PathVariable Integer day, Model model) {
-        return villageAssist.setIndexModel(villageId, day, null, null, null, model);
+        return villageAssist.setIndexModel(villageId, day, null, null, null, null, model);
     }
 
     // 発言取得
@@ -179,6 +191,21 @@ public class VillageController {
     private String say(@PathVariable Integer villageId, @Validated @ModelAttribute("sayForm") VillageSayForm sayForm, BindingResult result,
             Model model) {
         return villageSayAssist.say(villageId, sayForm, result, model);
+    }
+
+    // アクション確認画面へ
+    @PostMapping("/village/{villageId}/action-confirm")
+    @ResponseBody
+    private VillageSayConfirmResultContent actionConfirm(@PathVariable Integer villageId,
+            @Validated @ModelAttribute("actionForm") VillageActionForm actionForm, BindingResult result, Model model) {
+        return villageActionAssist.actionConfirm(villageId, actionForm, result, model);
+    }
+
+    // アクション発言する
+    @PostMapping("/village/{villageId}/action")
+    private String action(@PathVariable Integer villageId, @Validated @ModelAttribute("actionForm") VillageActionForm actionForm,
+            BindingResult result, Model model) {
+        return villageActionAssist.action(villageId, actionForm, result, model);
     }
 
     // 能力セットする

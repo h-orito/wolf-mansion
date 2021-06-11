@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of village_player_dead_history.
+ * The base condition-bean of VILLAGE_PLAYER_DEAD_HISTORY.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillagePlayerDeadHistoryCB extends AbstractConditionBean {
@@ -77,7 +77,7 @@ public class BsVillagePlayerDeadHistoryCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "village_player_dead_history";
+        return "VILLAGE_PLAYER_DEAD_HISTORY";
     }
 
     // ===================================================================================
@@ -344,7 +344,7 @@ public class BsVillagePlayerDeadHistoryCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnVillagePlayerDeadHistoryId() { return doColumn("VILLAGE_PLAYER_DEAD_HISTORY_ID"); }
         /**
-         * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
+         * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillagePlayerId() { return doColumn("VILLAGE_PLAYER_ID"); }
@@ -359,7 +359,7 @@ public class BsVillagePlayerDeadHistoryCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnIsDead() { return doColumn("IS_DEAD"); }
         /**
-         * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason}
+         * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnDeadReasonCode() { return doColumn("DEAD_REASON_CODE"); }
@@ -398,7 +398,7 @@ public class BsVillagePlayerDeadHistoryCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "village_player_dead_history"; }
+        protected String getTableDbName() { return "VILLAGE_PLAYER_DEAD_HISTORY"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * DEAD_REASON by my DEAD_REASON_CODE, named 'deadReason'.

@@ -24,6 +24,7 @@ import com.ort.app.logic.VillageParticipateLogic;
 import com.ort.app.util.SkillUtil;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageForm;
+import com.ort.app.web.form.NewVillageRpSayRestrictDto;
 import com.ort.app.web.form.NewVillageSayRestrictDto;
 import com.ort.app.web.form.NewVillageSkillSayRestrictDto;
 import com.ort.app.web.model.common.SelectOptionDto;
@@ -87,8 +88,9 @@ public class NewVillageAssist {
 
         // 終了した村リスト
         List<NewVillageDivertVillageDto> villageList = villageBhv.selectList(cb -> {
-            cb.query().setVillageStatusCode_InScope_AsVillageStatus(
-                    Arrays.asList(CDef.VillageStatus.エピローグ, CDef.VillageStatus.廃村, CDef.VillageStatus.終了));
+            cb.query()
+                    .setVillageStatusCode_InScope_AsVillageStatus(
+                            Arrays.asList(CDef.VillageStatus.エピローグ, CDef.VillageStatus.廃村, CDef.VillageStatus.終了));
             cb.query().addOrderBy_VillageId_Asc();
         }).stream().map(v -> new NewVillageDivertVillageDto(v.getVillageId(), v.getVillageDisplayName())).collect(Collectors.toList());
         model.addAttribute("villageList", villageList);
@@ -254,6 +256,7 @@ public class NewVillageAssist {
         settings.setIsVisibleGraveSpectateMessage(villageForm.getIsVisibleGraveSpectateMessage());
         settings.setIsAvailableSuddonlyDeath(villageForm.getIsAvailableSuddonlyDeath());
         settings.setIsAvailableCommit(villageForm.getIsAvailableCommit());
+        settings.setIsAvailableAction(villageForm.getIsAvailableAction());
         settings.setOrganize(villageForm.getOrganization().replace("\r\n", "\n"));
         settings.setAllowedSecretSayCodeAsAllowedSecretSay(CDef.AllowedSecretSay.codeOf(villageForm.getAllowedSecretSayCode()));
         villageSettingsBhv.insert(settings);
@@ -271,6 +274,15 @@ public class NewVillageAssist {
     }
 
     private void insertSkillSayRestriction(Integer villageId, NewVillageSkillSayRestrictDto restrict) {
+        SkillSayRestriction entity = new SkillSayRestriction();
+        entity.setVillageId(villageId);
+        entity.setMessageMaxNum(restrict.getCount());
+        entity.setMessageMaxLength(restrict.getLength());
+        entity.setMessageTypeCodeAsMessageType(CDef.MessageType.codeOf(restrict.getMessageTypeCode()));
+        skillSayRestrictionBhv.insert(entity);
+    }
+
+    private void insertRpSayRestriction(Integer villageId, NewVillageRpSayRestrictDto restrict) {
         SkillSayRestriction entity = new SkillSayRestriction();
         entity.setVillageId(villageId);
         entity.setMessageMaxNum(restrict.getCount());
@@ -320,6 +332,13 @@ public class NewVillageAssist {
                 return;
             }
             insertSkillSayRestriction(villageId, restrict);
+        });
+        villageForm.getRpSayRestrictList().forEach(restrict -> {
+            // 制限無しの場合は登録しない
+            if (BooleanUtils.isFalse(restrict.getIsRestrict())) {
+                return;
+            }
+            insertRpSayRestriction(villageId, restrict);
         });
     }
 }

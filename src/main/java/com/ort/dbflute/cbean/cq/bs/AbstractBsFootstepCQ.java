@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of footstep.
+ * The abstract condition-query of FOOTSTEP.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "footstep";
+        return "FOOTSTEP";
     }
 
     // ===================================================================================
@@ -45,7 +45,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
     //                                                                               =====
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param villageId The value of villageId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_Equal(Integer villageId) {
@@ -58,7 +58,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param villageId The value of villageId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_NotEqual(Integer villageId) {
@@ -71,7 +71,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param villageId The value of villageId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterThan(Integer villageId) {
@@ -80,7 +80,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param villageId The value of villageId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessThan(Integer villageId) {
@@ -89,7 +89,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param villageId The value of villageId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterEqual(Integer villageId) {
@@ -98,7 +98,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param villageId The value of villageId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessEqual(Integer villageId) {
@@ -109,7 +109,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -122,7 +122,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -133,7 +133,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param villageIdList The collection of villageId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_InScope(Collection<Integer> villageIdList) {
@@ -146,7 +146,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param villageIdList The collection of villageId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_NotInScope(Collection<Integer> villageIdList) {
@@ -159,13 +159,13 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      */
     public void setVillageId_IsNull() { regVillageId(CK_ISN, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      */
     public void setVillageId_IsNotNull() { regVillageId(CK_ISNN, DOBJ); }
 
@@ -174,7 +174,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param day The value of day as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setDay_Equal(Integer day) {
@@ -187,7 +187,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param day The value of day as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setDay_NotEqual(Integer day) {
@@ -200,7 +200,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param day The value of day as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setDay_GreaterThan(Integer day) {
@@ -209,7 +209,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param day The value of day as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setDay_LessThan(Integer day) {
@@ -218,7 +218,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param day The value of day as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setDay_GreaterEqual(Integer day) {
@@ -227,7 +227,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param day The value of day as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setDay_LessEqual(Integer day) {
@@ -238,7 +238,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param minNumber The min number of day. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of day. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -251,7 +251,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param minNumber The min number of day. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of day. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -262,7 +262,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param dayList The collection of day as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setDay_InScope(Collection<Integer> dayList) {
@@ -275,7 +275,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @param dayList The collection of day as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setDay_NotInScope(Collection<Integer> dayList) {
@@ -288,13 +288,13 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      */
     public void setDay_IsNull() { regDay(CK_ISN, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      */
     public void setDay_IsNotNull() { regDay(CK_ISNN, DOBJ); }
 
@@ -303,7 +303,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
      * @param charaId The value of charaId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_Equal(Integer charaId) {
@@ -316,7 +316,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
      * @param charaId The value of charaId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_NotEqual(Integer charaId) {
@@ -329,7 +329,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
      * @param charaId The value of charaId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_GreaterThan(Integer charaId) {
@@ -338,7 +338,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
      * @param charaId The value of charaId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_LessThan(Integer charaId) {
@@ -347,7 +347,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
      * @param charaId The value of charaId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_GreaterEqual(Integer charaId) {
@@ -356,7 +356,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
      * @param charaId The value of charaId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_LessEqual(Integer charaId) {
@@ -367,7 +367,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
      * @param minNumber The min number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -380,7 +380,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
      * @param minNumber The min number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -391,7 +391,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
      * @param charaIdList The collection of charaId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharaId_InScope(Collection<Integer> charaIdList) {
@@ -404,7 +404,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
      * @param charaIdList The collection of charaId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharaId_NotInScope(Collection<Integer> charaIdList) {
@@ -417,13 +417,13 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
      */
     public void setCharaId_IsNull() { regCharaId(CK_ISN, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA}
      */
     public void setCharaId_IsNotNull() { regCharaId(CK_ISNN, DOBJ); }
 

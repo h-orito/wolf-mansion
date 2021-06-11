@@ -52,14 +52,14 @@ public class VillageAbilityAssist {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
         }
         VillagePlayer villagePlayer = villageService.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
         if (villagePlayer.isIsDeadTrue()) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
         }
         int day = villageService.selectLatestDay(villageId);
         Village village = villageService.selectVillage(villageId, false, false);
@@ -73,18 +73,18 @@ public class VillageAbilityAssist {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
         }
         VillagePlayer villagePlayer = villageService.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
         if (villagePlayer.isIsDeadTrue()) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
         }
         if (isInvalidVote(villageId, villagePlayer, voteForm)) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
         }
         int day = villageService.selectLatestDay(villageId);
         setVote(villageId, villagePlayer, day, villagePlayer.getCharaId(), voteForm.getTargetCharaId());

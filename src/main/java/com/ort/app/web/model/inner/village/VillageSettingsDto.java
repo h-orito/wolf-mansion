@@ -3,6 +3,7 @@ package com.ort.app.web.model.inner.village;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.ort.app.web.form.NewVillageRpSayRestrictDto;
 import com.ort.app.web.form.NewVillageSayRestrictDto;
 import com.ort.app.web.form.NewVillageSkillSayRestrictDto;
 
@@ -65,6 +66,9 @@ public class VillageSettingsDto {
     /** コミットありか */
     private Boolean isAvailableCommit;
 
+    /** アクションありか */
+    private Boolean isAvailableAction;
+
     /** 構成 */
     private String organization;
 
@@ -73,6 +77,9 @@ public class VillageSettingsDto {
 
     /** 村設定の役職発言制限 */
     private List<NewVillageSkillSayRestrictDto> skillSayRestrictList;
+
+    /** 村設定のRP発言制限 */
+    private List<NewVillageRpSayRestrictDto> rpSayRestrictList;
 
     /** 村建てしたプレーヤー名 */
     private String createPlayerName;
@@ -259,5 +266,21 @@ public class VillageSettingsDto {
 
     public void setSkillSayRestrictList(List<NewVillageSkillSayRestrictDto> skillSayRestrictList) {
         this.skillSayRestrictList = skillSayRestrictList;
+    }
+
+    public Boolean getIsAvailableAction() {
+        return isAvailableAction;
+    }
+
+    public void setIsAvailableAction(Boolean isAvailableAction) {
+        this.isAvailableAction = isAvailableAction;
+    }
+
+    public List<NewVillageRpSayRestrictDto> getRpSayRestrictList() {
+        return rpSayRestrictList;
+    }
+
+    public void setRpSayRestrictList(List<NewVillageRpSayRestrictDto> rpSayRestrictList) {
+        this.rpSayRestrictList = rpSayRestrictList;
     }
 }

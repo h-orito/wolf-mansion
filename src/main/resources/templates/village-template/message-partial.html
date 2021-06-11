@@ -214,6 +214,18 @@
 			<div class="message col-sm-12 col-xs-12 message-private-lover">{{{messageContent}}}</div>
 		</div>
 	</div>
+	{{else if (eq messageType 'ACTION')}}
+	<div class="col-sm-12 col-xs-12" data-message="{{messageType}}" data-chara-id="{{characterId}}">
+		<div class="row">
+			<div class="col-sm-12 col-xs-12 small">
+				<span style="margin-left: -15px;">
+					<a href="javascript:void(0);" data-copy-anchor>>>a{{messageNumber}}</a>. {{#if
+					playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}
+				</span><span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
+			</div>
+			<div class="message col-sm-12 col-xs-12 message-action">{{{messageContent}}}</div>
+		</div>
+	</div>
 	{{/if}}
 </body>
 </html>

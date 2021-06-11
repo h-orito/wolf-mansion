@@ -11,6 +11,9 @@ public class VillageFormDto {
     /** 発言 */
     private VillageSayFormDto say;
 
+    /** アクション */
+    private VillageActionFormDto action;
+
     /** 能力行使 */
     private VillageAbilityFormDto ability;
 
@@ -55,5 +58,13 @@ public class VillageFormDto {
 
     public void setVote(VillageVoteFormDto vote) {
         this.vote = vote;
+    }
+
+    public VillageActionFormDto getAction() {
+        return action;
+    }
+
+    public void setAction(VillageActionFormDto action) {
+        this.action = action;
     }
 }

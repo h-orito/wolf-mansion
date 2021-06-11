@@ -29,12 +29,12 @@ ul {
 	}
 }
 
-/* ’Ç‰ÁƒtƒHƒ“ƒg */
+/* ï¿½Ç‰ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½g */
 .font-railway {
 	font-family: 'Raleway', sans-serif;
 }
 
-/* ƒgƒbƒv */
+/* ï¿½gï¿½bï¿½v */
 .top-image {
 	cursor: pointer;
 	margin-bottom: 15px;
@@ -288,6 +288,11 @@ tr.top-menu-selectable:hover a {
 	min-height: 0px;
 }
 
+.message-action {
+	min-height: 0px;
+	background-color: #232355;
+}
+
 .message-announce {
 	color: #ff2222;
 	border: 1px solid #ff2222;
@@ -336,8 +341,8 @@ tr.top-menu-selectable:hover a {
 }
 
 .daychange-alert {
-	display: none; /* ‰Šúó‘Ô‚Í”ñ•\¦ */
-	/* ‰æ–Êã•”‚É•\¦ */
+	display: none; /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Í”ï¿½\ï¿½ï¿½ */
+	/* ï¿½ï¿½Êã•”ï¿½É•\ï¿½ï¿½ */
 	position: fixed;
 	top: 0;
 	right: 5px;
@@ -346,8 +351,8 @@ tr.top-menu-selectable:hover a {
 }
 
 .autorefresh-alert {
-	display: none; /* ‰Šúó‘Ô‚Í”ñ•\¦ */
-	/* ‰æ–Êã•”‚É•\¦ */
+	display: none; /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Í”ï¿½\ï¿½ï¿½ */
+	/* ï¿½ï¿½Êã•”ï¿½É•\ï¿½ï¿½ */
 	position: fixed;
 	top: 0;
 	right: 5px;
@@ -427,7 +432,7 @@ tr.top-menu-selectable:hover a {
 	border: 1px solid #00bc8c;
 }
 
-/* warningƒAƒ‰[ƒg‚Ì˜g‚¾‚¯”Å */
+/* warningï¿½Aï¿½ï¿½ï¿½[ï¿½gï¿½Ì˜gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 .alert-warning-say {
 	border: 1px solid #f39c12;
 	color: #f39c12;
@@ -436,7 +441,7 @@ tr.top-menu-selectable:hover a {
 	border-radius: 4px;
 }
 
-/* €–S‚µ‚Ü‚µ‚½‚ÌƒAƒ‰[ƒgiƒAƒ‰[ƒg‚Ì˜g‚¾‚¯”Åj */
+/* ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ÌƒAï¿½ï¿½ï¿½[ï¿½gï¿½iï¿½Aï¿½ï¿½ï¿½[ï¿½gï¿½Ì˜gï¿½ï¿½ï¿½ï¿½ï¿½Åj */
 .alert-dead {
 	border: 1px solid #3498db;
 	color: #3498db;
@@ -453,28 +458,28 @@ tr.top-menu-selectable:hover a {
 	border-radius: 4px;
 }
 
-/* ”­Œ¾—““§–¾‰» */
+/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 .transparent-well {
 	opacity: 0.8;
 }
 
-/* ”­Œ¾—““§–¾‰»‚ÌÛAƒ{ƒ^ƒ“‚¾‚¯‚Í“§–¾‚É‚µ‚È‚¢ */
+/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌÛAï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í“ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½È‚ï¿½ */
 .transparent-well button {
 	opacity: 1;
 }
 
-/* ‰Óğ‘‚«‚Å‰º‚É‹ó”’‚ğ“ü‚ê‚½‚¢‚Æ‚«‚Ég‚¤ */
+/* ï¿½Óï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‰ï¿½ï¿½É‹ó”’‚ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Égï¿½ï¿½ */
 ul.announce>li {
 	margin-bottom: 10px;
 }
 
-/* ƒ‰ƒ“ƒ_ƒ€‹@”\ */
+/* ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½@ï¿½\ */
 .extra-small {
 	font-size: 6px;
 	font-weight: bold;
 }
 
-/* ƒy[ƒWƒ“ƒO */
+/* ï¿½yï¿½[ï¿½Wï¿½ï¿½ï¿½O */
 .pagination-sm>li>a, .pagination-sm>li>span {
 	padding: 2px 14px;
 	font-size: 12px;
@@ -482,7 +487,7 @@ ul.announce>li {
 	margin-bottom: 2px;
 }
 
-/* c‚èŠÔ•\¦ */
+/* ï¿½cï¿½èï¿½Ô•\ï¿½ï¿½ */
 .time-alert {
 	position: fixed;
 	top: 5px;
@@ -492,12 +497,12 @@ ul.announce>li {
 	z-index: 100;
 }
 
-/* “_–Å */
+/* ï¿½_ï¿½ï¿½ */
 .flash {
 	animation: Flash 1s infinite;
 }
 
-/* ƒAƒjƒ[ƒVƒ‡ƒ“ */
+/* ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ */
 @keyframes Flash {
 	50%{
 	opacity: 0;

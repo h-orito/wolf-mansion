@@ -12,6 +12,7 @@ $(function() {
 	const GET_FOOTSTEP_URL = contextPath + 'village/getFootstepList';
 	const GET_FACEIMG_URL = contextPath + 'getFaceImgUrl/' + villageId;
 	const SAY_CONFIRM_URL = contextPath + 'village/' + villageId + '/confirm';
+	const ACTION_CONFIRM_URL = contextPath + 'village/' + villageId + '/action-confirm';
 	const messageTemplate = Handlebars.compile($("#message-template").html());
 	const messagePartialTemplate = Handlebars.compile($("#message-partial-template").html());
 	Handlebars.registerPartial('messagePartial', messagePartialTemplate);
@@ -139,6 +140,7 @@ $(function() {
 			item = item.replace(/&gt;&gt;\-(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-monologue-anchor=\"$1\">&gt;&gt;\-$1<\/a>');
 			item = item.replace(/&gt;&gt;\*(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-whisper-anchor=\"$1\">&gt;&gt;\*$1<\/a>');
 			item = item.replace(/&gt;&gt;\#(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-creator-anchor=\"$1\">&gt;&gt;\#$1<\/a>');
+			item = item.replace(/&gt;&gt;\a(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-action-anchor=\"$1\">&gt;&gt;\a$1<\/a>');
 			return item;
 		}).join('<br>');
 		// 文字装飾
@@ -214,6 +216,10 @@ $(function() {
 	$('body').on('click', '[data-message-creator-anchor]', function() {
 		const messageNumber = $(this).data('message-creator-anchor');
 		handlingNumberAnchor($(this), 'CREATOR_SAY', messageNumber);
+	});
+	$('body').on('click', '[data-message-action-anchor]', function() {
+		const messageNumber = $(this).data('message-action-anchor');
+		handlingNumberAnchor($(this), 'ACTION', messageNumber);
 	});
 
 	function handlingNumberAnchor($anchor, messageType, messageNumber) {
@@ -402,6 +408,49 @@ $(function() {
 		return false; // submitしない
 	});
 
+	// アクション確認を表示
+	let actionFormParam = null;
+	$('#actionform').on('submit', function() {
+		actionFormParam = $(this).serializeArray();
+		$.ajax({
+			type : 'POST',
+			url : ACTION_CONFIRM_URL,
+			data : actionFormParam
+		}).then(function(response) {
+			if (response == null || response === '') {
+				return false;
+			}
+			canAutoRefresh = false; // 自動でログ更新させない
+			// htmlエスケープと、アンカーの変換を行う
+			response.message.messageContent = escapeAndSetAnchor(response.message.messageContent, response.message.isConvertDisable);
+			const $confirmMessage = $(messagePartialTemplate(response.message));
+			$('#message-confirm-area').empty();
+			$('#message-confirm-area').append($('<div></div>', {
+				text : '以下の内容で発言してよろしいですか？（まだ発言されていません）',
+				'style' : 'margin-bottom: 10px;'
+			}));
+			$('#message-confirm-area').append($confirmMessage);
+			$('#message-confirm-area').append($('<button></button>', {
+				text : detectSayLabel(response.message.messageType),
+				'class' : 'btn btn-success btn-sm pull-right',
+				'data-action-determine' : ''
+			}));
+			const $cancelButton = $('<button></button>', {
+				text : 'キャンセル',
+				'class' : 'btn btn-default btn-sm'
+			});
+			$cancelButton.attr('data-action-cancel', 'actionform');
+			$cancelButton.data('action-cancel', 'actionform');
+			$('#message-confirm-area').append($cancelButton);
+			$('#message-confirm-area').show();
+			// 発言確認エリアに遷移
+			$('html, body').animate({
+				scrollTop : $('#message-confirm-area-bottom').offset().top
+			}, 200);
+		});
+		return false; // submitしない
+	});
+
 	function detectSayLabel(type) {
 		if (type === 'NORMAL_SAY') {
 			return '発言する';
@@ -419,6 +468,8 @@ $(function() {
 			return '呻く';
 		} else if (type === 'SPECTATE_SAY') {
 			return '発言する';
+		} else if (type === 'ACTION') {
+			return 'アクション';
 		}
 		return '発言する';
 	}
@@ -451,10 +502,33 @@ $(function() {
 		$confirmForm.submit();
 	});
 
-	function makeConfirmMessage($message, anchorClassName) {
-		$message.addClass('well');
-		return $message;
-	}
+	$('body').on('click', '[data-action-cancel]', function() {
+		canAutoRefresh = true;
+		$('#message-confirm-area').empty();
+		$('#message-confirm-area').hide();
+		const actionAreaId = $(this).data('action-cancel');
+		if (actionAreaId === 'actionform' && getDisplaySetting('bottom_fix_tab') === 'actionform-panel') {
+			return;
+		}
+		$('html, body').animate({
+			scrollTop : $('#' + actionAreaId).offset().top
+		}, 200);
+	});
+
+	$('body').on('click', '[data-action-determine]', function() {
+		const $confirmForm = $('#action-confirm-form');
+		$.each(actionFormParam, function() {
+			if (this.name === '_csrf') {
+				return true;
+			}
+			$confirmForm.append($('<input></input>', {
+				type : 'hidden',
+				name : this.name,
+				value : this.value
+			}));
+		});
+		$confirmForm.submit();
+	});
 
 	// ----------------------------------------------
 	// 足音
@@ -578,6 +652,55 @@ $(function() {
 			$submitbtn.prop('disabled', true);
 		}
 	});
+	
+	// 文字数カウント
+	$('body').on('keyup', '[data-action-text]', function() {
+		updateActionCount($(this));
+	});
+	$('body').on('change', '[data-action-select]', function() {
+		updateActionCount($(this));
+	});
+
+	function updateActionCount($input) {
+		if ($input.length === 0) {
+			return;
+		}
+		// 制限
+		const $countspan = $input.closest('form').find('[data-action-count]');
+		const restrict = getActionRestriction($countspan);
+		console.log(restrict);
+		let countStr;
+		if (restrict.count == null || restrict.count === '') {
+			countStr = '';
+		} else {
+			countStr = '残り ' + restrict.leftCount + '/' + restrict.count + '回, ';
+		}
+		const myself = $input.closest('form').find('input[name=myself]').val();
+		const target = $input.closest('form').find('select[name=target]').val();
+		const len = myself.length + target.length + $input.val().length;
+		const lenStr = '文字数: ' + len + '/' + restrict.length;
+		$countspan.text(countStr + lenStr);
+		const $submitbtn = $input.closest('form').find('[data-action-submit-btn]');
+		if (len > restrict.length || (restrict.leftCount != null && restrict.leftCount <= 0)) {
+			$countspan.addClass('text-danger');
+			$submitbtn.prop('disabled', true);
+		} else {
+			$countspan.removeClass('text-danger');
+			$submitbtn.prop('disabled', false);
+		}
+		if ($input.val().trim().length == 0) {
+			$submitbtn.prop('disabled', true);
+		}
+	}
+
+	function getActionRestriction($countspan) {
+		let length = $countspan.data('message-restrict-action-max-length');
+		return {
+			length : length != null ? length : 400,
+			count : $countspan.data('message-restrict-action-max-count'),
+			leftCount : $countspan.data('message-restrict-action-left-count')
+		};
+	}
 
 	// 画面上部遷移
 	$('body').on('click', '[data-goto-top]', function() {

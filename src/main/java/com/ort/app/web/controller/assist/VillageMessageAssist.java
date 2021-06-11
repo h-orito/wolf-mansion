@@ -416,7 +416,7 @@ public class VillageMessageAssist {
         Optional<VillagePlayer> optVillagePlayer = villageService.selectVillagePlayer(villageId, userInfo, true);
         if (messageType == CDef.MessageType.人狼の囁き) {
             return isViewAllowedWerewolfSay(village, optVillagePlayer);
-        } else if (messageType == CDef.MessageType.通常発言 || messageType == CDef.MessageType.村建て発言) {
+        } else if (messageType == CDef.MessageType.通常発言 || messageType == CDef.MessageType.村建て発言 || messageType == CDef.MessageType.アクション) {
             return true;
         } else if (messageType == CDef.MessageType.共鳴発言) {
             return isViewAllowedMasonSay(village, optVillagePlayer);
@@ -437,8 +437,8 @@ public class VillageMessageAssist {
             // masterは全て見られる
             return CDef.MessageType.listAll();
         }
-        List<CDef.MessageType> dispAllowedMessageTypeList =
-                new ArrayList<>(Arrays.asList(CDef.MessageType.公開システムメッセージ, CDef.MessageType.通常発言, CDef.MessageType.村建て発言));
+        List<CDef.MessageType> dispAllowedMessageTypeList = new ArrayList<>(
+                Arrays.asList(CDef.MessageType.公開システムメッセージ, CDef.MessageType.通常発言, CDef.MessageType.村建て発言, CDef.MessageType.アクション));
         addGraveSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
         addSpectateSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer, day);
         addMasonSayIfAllowed(dispAllowedMessageTypeList, village, optVillagePlayer);
@@ -765,9 +765,10 @@ public class VillageMessageAssist {
             cb.query().setDay_Equal(day);
         }).stream().map(vote -> vote.getCharaId()).collect(Collectors.toList());
         // 投票していない人
-        List<String> noVoteCharaNameList =
-                villagePlayerList.stream().filter(vp -> !voteCharaIdList.contains(vp.getCharaId())).map(vp -> vp.name()).collect(
-                        Collectors.toList());
+        List<String> noVoteCharaNameList = villagePlayerList.stream()
+                .filter(vp -> !voteCharaIdList.contains(vp.getCharaId()))
+                .map(vp -> vp.name())
+                .collect(Collectors.toList());
         if (noVoteCharaNameList.size() == 0) {
             return null;
         }

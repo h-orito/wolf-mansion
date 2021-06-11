@@ -204,6 +204,45 @@
 									<th>投票</th>
 									<td th:text="*{isOpenVote} ? '記名投票' : '無記名投票'"></td>
 								</tr>
+								<tr>
+									<th colspan="2"><span class="h4">RP村向け</span>
+								</tr>
+								<tr>
+									<th>アクション</th>
+									<td th:text="*{isAvailableAction} ? '可能' : '不可'"></td>
+								</tr>
+								<tr>
+									<th>発言制限（RP発言）</th>
+									<td>
+										<table class="table-bordered table-condensed small">
+											<thead>
+												<tr>
+													<th>発言種別</th>
+													<th>制限</th>
+													<th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
+												</tr>
+											</thead>
+											<tbody>
+												<th:block th:each="restrict, stat : *{rpSayRestrictList}">
+													<tr>
+														<td th:text="${restrict.messageTypeName}">人狼の囁き</td>
+														<td>
+															<span th:text="${restrict.isRestrict ? 'する' : 'しない'}"></span>
+															<input type="hidden" th:field="*{skillSayRestrictList[__${stat.index}__].isRestrict}">
+														</td>
+														<td>
+															<span th:if="${restrict.isRestrict}" th:text="${restrict.length} + ' * ' + ${restrict.count}"></span>
+															<input type="hidden" th:field="*{rpSayRestrictList[__${stat.index}__].length}" />
+															<input type="hidden" th:field="*{rpSayRestrictList[__${stat.index}__].count}" data-restrict-count />
+															<input type="hidden" th:field="*{rpSayRestrictList[__${stat.index}__].messageTypeCode}" />
+															<input type="hidden" th:field="*{rpSayRestrictList[__${stat.index}__].messageTypeName}" />
+														</td>
+													</tr>
+												</th:block>
+											</tbody>
+										</table>
+									</td>
+								</tr>
 							</table>
 						</div>
 						<input type="hidden" th:field="*{villageName}" />
@@ -226,6 +265,7 @@
 						<input type="hidden" th:field="*{isVisibleGraveSpectateMessage}" />
 						<input type="hidden" th:field="*{isAvailableSuddonlyDeath}" />
 						<input type="hidden" th:field="*{isAvailableCommit}" />
+						<input type="hidden" th:field="*{isAvailableAction}" />
 						<input type="hidden" th:field="*{characterSetId}" />
 						<input type="hidden" th:field="*{dummyCharaId}" />
 						<input type="hidden" th:field="*{dummyJoinMessage}" />

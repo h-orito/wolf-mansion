@@ -184,6 +184,15 @@ public class SayLogic {
         return true;
     }
 
+    // アクション可能か
+    public boolean isAvailableAction(VillageInfo villageInfo) {
+        if (!isAvailableSay(villageInfo)) {
+            return false;
+        }
+        // 村設定でアクション可なら可能
+        return villageInfo.isAdmin() || villageInfo.settings.isIsAvailableActionTrue();
+    }
+
     // 秘話可能か
     public boolean isAvailableSecretSay(VillageInfo villageInfo) {
         if (!isAvailableSay(villageInfo)) {
@@ -224,6 +233,9 @@ public class SayLogic {
             } else if (res.isMessageTypeCode恋人発言()) {
                 restrict.setLoversCount(res.getMessageMaxNum());
                 restrict.setLoversLength(res.getMessageMaxLength());
+            } else if (res.isMessageTypeCodeアクション()) {
+                restrict.setActionCount(res.getMessageMaxNum());
+                restrict.setActionLength(res.getMessageMaxLength());
             }
         });
         // 現在の発言数から残り発言数を計算
@@ -231,7 +243,8 @@ public class SayLogic {
         Integer whisperCount = restrict.getWhisperCount();
         Integer masonCount = restrict.getMasonCount();
         Integer loversCount = restrict.getLoversCount();
-        if (normalCount != null || whisperCount != null || masonCount != null || loversCount != null) {
+        Integer actionCount = restrict.getActionCount();
+        if (normalCount != null || whisperCount != null || masonCount != null || loversCount != null || actionCount != null) {
             List<Message> messageList =
                     messageLogic.selectDayPersonMessage(villageInfo.villageId, villageInfo.day, vPlayer.getVillagePlayerId());
             if (normalCount != null) {
@@ -250,6 +263,36 @@ public class SayLogic {
                 int sayCount = (int) messageList.stream().filter(m -> m.isMessageTypeCode恋人発言()).count();
                 restrict.setLoversLeftCount(loversCount - sayCount);
             }
+            if (actionCount != null) {
+                int sayCount = (int) messageList.stream().filter(m -> m.isMessageTypeCodeアクション()).count();
+                restrict.setActionLeftCount(actionCount - sayCount);
+            }
+        }
+        return restrict;
+    }
+
+    public SayRestrictDto makeActionRestrict(VillageInfo villageInfo) {
+        SayRestrictDto restrict = new SayRestrictDto();
+        if (!isAvailableSay(villageInfo)) {
+            return restrict;
+        }
+        VillagePlayer vPlayer = villageInfo.optVillagePlayer.get();
+        if ("master".equals(vPlayer.getPlayer().get().getPlayerName())) {
+            return restrict; // masterは制限なし
+        }
+        // 制限
+        villageInfo.village.getSkillSayRestrictionList().stream().filter(res -> res.isMessageTypeCodeアクション()).findFirst().ifPresent(res -> {
+            restrict.setActionCount(res.getMessageMaxNum());
+            restrict.setActionLength(res.getMessageMaxLength());
+        });
+
+        // 現在の発言数から残り発言数を計算
+        Integer actionCount = restrict.getActionCount();
+        if (actionCount != null) {
+            List<Message> messageList =
+                    messageLogic.selectDayPersonMessage(villageInfo.villageId, villageInfo.day, vPlayer.getVillagePlayerId());
+            int sayCount = (int) messageList.stream().filter(m -> m.isMessageTypeCodeアクション()).count();
+            restrict.setActionLeftCount(actionCount - sayCount);
         }
         return restrict;
     }

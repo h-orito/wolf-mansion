@@ -144,8 +144,13 @@ public class MessageLogic {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setVillagePlayerId_Equal(vPlayerId);
             cb.query().setDay_Equal(day);
-            cb.query().setMessageTypeCode_InScope_AsMessageType(
-                    Arrays.asList(CDef.MessageType.通常発言, CDef.MessageType.人狼の囁き, CDef.MessageType.共鳴発言));
+            cb.query()
+                    .setMessageTypeCode_InScope_AsMessageType(Arrays.asList( //
+                            CDef.MessageType.通常発言, //
+                            CDef.MessageType.人狼の囁き, //
+                            CDef.MessageType.共鳴発言, //
+                            CDef.MessageType.恋人発言, //
+                            CDef.MessageType.アクション));
         });
         // 3日目以降は襲撃メッセージがあるので、それを除く
         if (day < 3) {
@@ -197,7 +202,9 @@ public class MessageLogic {
         message.setMessageContent(content);
         message.setMessageDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
         message.setIsConvertDisable(isConvertDisable);
-        message.setFaceTypeCodeAsFaceType(faceType);
+        if (faceType != null) {
+            message.setFaceTypeCodeAsFaceType(faceType);
+        }
         for (int i = 0; i < 3; i++) {
             try {
                 // 採番で被ることがあるため、insert失敗しても合計3回までやりなおす

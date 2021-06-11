@@ -92,6 +92,10 @@ public class VillageSettingsForm implements Serializable {
     @NotNull
     private Boolean isAvailableGuardSameTarget;
 
+    /** アクションありか */
+    @NotNull
+    private Boolean isAvailableAction;
+
     /** 構成 */
     @NotNull
     private String organization;
@@ -106,6 +110,10 @@ public class VillageSettingsForm implements Serializable {
     /** 役職発言制限 */
     @NotNull
     private List<NewVillageSkillSayRestrictDto> skillSayRestrictList;
+
+    /** RP発言制限 */
+    @NotNull
+    private List<NewVillageRpSayRestrictDto> rpSayRestrictList;
 
     public Integer getStartPersonMinNum() {
         return startPersonMinNum;
@@ -289,5 +297,21 @@ public class VillageSettingsForm implements Serializable {
 
     public void setSkillSayRestrictList(List<NewVillageSkillSayRestrictDto> skillSayRestrictList) {
         this.skillSayRestrictList = skillSayRestrictList;
+    }
+
+    public List<NewVillageRpSayRestrictDto> getRpSayRestrictList() {
+        return rpSayRestrictList;
+    }
+
+    public void setRpSayRestrictList(List<NewVillageRpSayRestrictDto> rpSayRestrictList) {
+        this.rpSayRestrictList = rpSayRestrictList;
+    }
+
+    public Boolean getIsAvailableAction() {
+        return isAvailableAction;
+    }
+
+    public void setIsAvailableAction(Boolean isAvailableAction) {
+        this.isAvailableAction = isAvailableAction;
     }
 }

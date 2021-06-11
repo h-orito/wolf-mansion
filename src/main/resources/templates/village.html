@@ -83,6 +83,8 @@
 			<div class="hidden">
 				<form id="say-confirm-form" th:if="${content.form.say.isDispSayForm}" method="post" action=""
 					th:action="@{/village/{villageId}/say(villageId=${content.villageId})}"></form>
+				<form id="action-confirm-form" th:if="${content.form.action.isDispActionForm}" method="post" action=""
+					th:action="@{/village/{villageId}/action(villageId=${content.villageId})}"></form>
 			</div>
 			<div class="daychange-alert alert alert-success">日付が更新されました。ページを再読み込みしてください。</div>
 			<div id="autorefresh-alert" class="autorefresh-alert alert alert-success">最新発言を読み込みました</div>

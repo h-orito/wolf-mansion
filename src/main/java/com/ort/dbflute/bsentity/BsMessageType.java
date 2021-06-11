@@ -78,7 +78,7 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "message_type";
+        return "MESSAGE_TYPE";
     }
 
     // ===================================================================================
@@ -117,6 +117,14 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
     // ===================================================================================
     //                                                              Classification Setting
     //                                                              ======================
+    /**
+     * Set the value of messageTypeCode as アクション (ACTION). <br>
+     * アクション
+     */
+    public void setMessageTypeCode_アクション() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.アクション);
+    }
+
     /**
      * Set the value of messageTypeCode as 村建て発言 (CREATOR_SAY). <br>
      * 村建て発言
@@ -272,6 +280,17 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
+    /**
+     * Is the value of messageTypeCode アクション? <br>
+     * アクション
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCodeアクション() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.アクション) : false;
+    }
+
     /**
      * Is the value of messageTypeCode 村建て発言? <br>
      * 村建て発言

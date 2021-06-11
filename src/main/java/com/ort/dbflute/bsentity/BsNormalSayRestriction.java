@@ -79,13 +79,13 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
     protected Integer _villageId;
 
-    /** SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} */
+    /** SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} */
     protected String _skillCode;
 
-    /** MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} */
+    /** MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} */
     protected String _messageTypeCode;
 
     /** MESSAGE_MAX_NUM: {NotNull, INT UNSIGNED(10)} */
@@ -116,7 +116,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "normal_say_restriction";
+        return "NORMAL_SAY_RESTRICTION";
     }
 
     // ===================================================================================
@@ -135,7 +135,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     //                                                             =======================
     /**
      * Get the value of skillCode as the classification of Skill. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -146,7 +146,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
 
     /**
      * Set the value of skillCode as the classification of Skill. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -156,7 +156,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
 
     /**
      * Get the value of messageTypeCode as the classification of MessageType. <br>
-     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
      * メッセージ種別
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -167,7 +167,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
 
     /**
      * Set the value of messageTypeCode as the classification of MessageType. <br>
-     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
      * メッセージ種別
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -488,6 +488,14 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
      */
     public void setSkillCode_智狼() {
         setSkillCodeAsSkill(CDef.Skill.智狼);
+    }
+
+    /**
+     * Set the value of messageTypeCode as アクション (ACTION). <br>
+     * アクション
+     */
+    public void setMessageTypeCode_アクション() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.アクション);
     }
 
     /**
@@ -1165,6 +1173,17 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
+     * Is the value of messageTypeCode アクション? <br>
+     * アクション
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCodeアクション() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.アクション) : false;
+    }
+
+    /**
      * Is the value of messageTypeCode 村建て発言? <br>
      * 村建て発言
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1530,7 +1549,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -1540,7 +1559,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -1550,7 +1569,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
-     * [get] SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * [get] SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職コード
      * @return The value of the column 'SKILL_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -1560,7 +1579,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
-     * [set] SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * [set] SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職コード
      * @param skillCode The value of the column 'SKILL_CODE'. (basically NotNull if update: for the constraint)
      */
@@ -1571,7 +1590,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
-     * [get] MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * [get] MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
      * メッセージ種別コード
      * @return The value of the column 'MESSAGE_TYPE_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -1581,7 +1600,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
-     * [set] MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * [set] MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
      * メッセージ種別コード
      * @param messageTypeCode The value of the column 'MESSAGE_TYPE_CODE'. (basically NotNull if update: for the constraint)
      */

@@ -22,7 +22,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of message.
+ * The base condition-bean of MESSAGE.
  * @author DBFlute(AutoGenerator)
  */
 public class BsMessageCB extends AbstractConditionBean {
@@ -78,7 +78,7 @@ public class BsMessageCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "message";
+        return "MESSAGE";
     }
 
     // ===================================================================================
@@ -98,8 +98,8 @@ public class BsMessageCB extends AbstractConditionBean {
 
     /**
      * Accept the query condition of unique key as equal.
-     * @param villageId : UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
-     * @param messageTypeCode : +UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType. (NotNull)
+     * @param villageId : UQ+, IX+, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY. (NotNull)
+     * @param messageTypeCode : +UQ, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType. (NotNull)
      * @param messageNumber : +UQ, INT UNSIGNED(10). (NotNull)
      * @return this. (NotNull)
      */
@@ -471,32 +471,32 @@ public class BsMessageCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnMessageId() { return doColumn("MESSAGE_ID"); }
         /**
-         * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
+         * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageId() { return doColumn("VILLAGE_ID"); }
         /**
-         * VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
+         * VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillagePlayerId() { return doColumn("VILLAGE_PLAYER_ID"); }
         /**
-         * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
+         * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnToVillagePlayerId() { return doColumn("TO_VILLAGE_PLAYER_ID"); }
         /**
-         * PLAYER_ID: {IX, INT UNSIGNED(10), FK to player}
+         * PLAYER_ID: {IX, INT UNSIGNED(10), FK to PLAYER}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnPlayerId() { return doColumn("PLAYER_ID"); }
         /**
-         * DAY: {NotNull, INT UNSIGNED(10), FK to village_day}
+         * DAY: {NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnDay() { return doColumn("DAY"); }
         /**
-         * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+         * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnMessageTypeCode() { return doColumn("MESSAGE_TYPE_CODE"); }
@@ -521,7 +521,7 @@ public class BsMessageCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnIsConvertDisable() { return doColumn("IS_CONVERT_DISABLE"); }
         /**
-         * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType}
+         * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to FACE_TYPE, classification=FaceType}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnFaceTypeCode() { return doColumn("FACE_TYPE_CODE"); }
@@ -577,7 +577,7 @@ public class BsMessageCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "message"; }
+        protected String getTableDbName() { return "MESSAGE"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * FACE_TYPE by my FACE_TYPE_CODE, named 'faceType'.

@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID
  *
  * [column]
- *     VILLAGE_ID, DUMMY_CHARA_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, CHARACTER_GROUP_ID, JOIN_PASSWORD, ORGANIZE, ALLOWED_SECRET_SAY_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, DUMMY_CHARA_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, CHARACTER_GROUP_ID, JOIN_PASSWORD, ORGANIZE, ALLOWED_SECRET_SAY_CODE, IS_AVAILABLE_ACTION, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -65,6 +65,7 @@ import com.ort.dbflute.exentity.*;
  * String joinPassword = entity.getJoinPassword();
  * String organize = entity.getOrganize();
  * String allowedSecretSayCode = entity.getAllowedSecretSayCode();
+ * Boolean isAvailableAction = entity.getIsAvailableAction();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -88,6 +89,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setJoinPassword(joinPassword);
  * entity.setOrganize(organize);
  * entity.setAllowedSecretSayCode(allowedSecretSayCode);
+ * entity.setIsAvailableAction(isAvailableAction);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -107,7 +109,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
     protected Integer _villageId;
 
     /** DUMMY_CHARA_ID: {NotNull, INT UNSIGNED(10)} */
@@ -152,7 +154,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     /** IS_AVAILABLE_GUARD_SAME_TARGET: {NotNull, BIT, classification=Flg} */
     protected Boolean _isAvailableGuardSameTarget;
 
-    /** CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} */
+    /** CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} */
     protected Integer _characterGroupId;
 
     /** JOIN_PASSWORD: {VARCHAR(12)} */
@@ -161,8 +163,11 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     /** ORGANIZE: {NotNull, VARCHAR(10000)} */
     protected String _organize;
 
-    /** ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} */
+    /** ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to ALLOWED_SECRET_SAY, classification=AllowedSecretSay} */
     protected String _allowedSecretSayCode;
+
+    /** IS_AVAILABLE_ACTION: {NotNull, BIT, classification=Flg} */
+    protected Boolean _isAvailableAction;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -186,7 +191,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "village_settings";
+        return "VILLAGE_SETTINGS";
     }
 
     // ===================================================================================
@@ -392,7 +397,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /**
      * Get the value of allowedSecretSayCode as the classification of AllowedSecretSay. <br>
-     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} <br>
+     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to ALLOWED_SECRET_SAY, classification=AllowedSecretSay} <br>
      * 秘話可能範囲
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -403,12 +408,33 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /**
      * Set the value of allowedSecretSayCode as the classification of AllowedSecretSay. <br>
-     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} <br>
+     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to ALLOWED_SECRET_SAY, classification=AllowedSecretSay} <br>
      * 秘話可能範囲
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
     public void setAllowedSecretSayCodeAsAllowedSecretSay(CDef.AllowedSecretSay cdef) {
         setAllowedSecretSayCode(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * Get the value of isAvailableAction as the classification of Flg. <br>
+     * IS_AVAILABLE_ACTION: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Flg getIsAvailableActionAsFlg() {
+        return CDef.Flg.codeOf(getIsAvailableAction());
+    }
+
+    /**
+     * Set the value of isAvailableAction as the classification of Flg. <br>
+     * IS_AVAILABLE_ACTION: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setIsAvailableActionAsFlg(CDef.Flg cdef) {
+        setIsAvailableAction(cdef != null ? toBoolean(cdef.code()) : null);
     }
 
     // ===================================================================================
@@ -580,6 +606,22 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      */
     public void setAllowedSecretSayCode_村建てとのみ() {
         setAllowedSecretSayCodeAsAllowedSecretSay(CDef.AllowedSecretSay.村建てとのみ);
+    }
+
+    /**
+     * Set the value of isAvailableAction as True (true). <br>
+     * はい: 有効を示す
+     */
+    public void setIsAvailableAction_True() {
+        setIsAvailableActionAsFlg(CDef.Flg.True);
+    }
+
+    /**
+     * Set the value of isAvailableAction as False (false). <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsAvailableAction_False() {
+        setIsAvailableActionAsFlg(CDef.Flg.False);
     }
 
     // ===================================================================================
@@ -816,6 +858,28 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         return cdef != null ? cdef.equals(CDef.AllowedSecretSay.村建てとのみ) : false;
     }
 
+    /**
+     * Is the value of isAvailableAction True? <br>
+     * はい: 有効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsAvailableActionTrue() {
+        CDef.Flg cdef = getIsAvailableActionAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
+    }
+
+    /**
+     * Is the value of isAvailableAction False? <br>
+     * いいえ: 無効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsAvailableActionFalse() {
+        CDef.Flg cdef = getIsAvailableActionAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
     // ===================================================================================
     //                                                           Classification Name/Alias
     //                                                           =========================
@@ -897,6 +961,15 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      */
     public String getIsAvailableGuardSameTargetAlias() {
         CDef.Flg cdef = getIsAvailableGuardSameTargetAsFlg();
+        return cdef != null ? cdef.alias() : null;
+    }
+
+    /**
+     * Get the value of the column 'isAvailableAction' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     */
+    public String getIsAvailableActionAlias() {
+        CDef.Flg cdef = getIsAvailableActionAsFlg();
         return cdef != null ? cdef.alias() : null;
     }
 
@@ -1032,6 +1105,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         sb.append(dm).append(xfND(_joinPassword));
         sb.append(dm).append(xfND(_organize));
         sb.append(dm).append(xfND(_allowedSecretSayCode));
+        sb.append(dm).append(xfND(_isAvailableAction));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -1067,7 +1141,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -1077,7 +1151,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -1376,7 +1450,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [get] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
+     * [get] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
      * キャラクターグループID
      * @return The value of the column 'CHARACTER_GROUP_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -1386,7 +1460,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
+     * [set] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
      * キャラクターグループID
      * @param characterGroupId The value of the column 'CHARACTER_GROUP_ID'. (basically NotNull if update: for the constraint)
      */
@@ -1436,7 +1510,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [get] ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} <br>
+     * [get] ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to ALLOWED_SECRET_SAY, classification=AllowedSecretSay} <br>
      * 秘話可能な範囲コード
      * @return The value of the column 'ALLOWED_SECRET_SAY_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -1446,7 +1520,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} <br>
+     * [set] ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to ALLOWED_SECRET_SAY, classification=AllowedSecretSay} <br>
      * 秘話可能な範囲コード
      * @param allowedSecretSayCode The value of the column 'ALLOWED_SECRET_SAY_CODE'. (basically NotNull if update: for the constraint)
      */
@@ -1454,6 +1528,27 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         checkClassificationCode("ALLOWED_SECRET_SAY_CODE", CDef.DefMeta.AllowedSecretSay, allowedSecretSayCode);
         registerModifiedProperty("allowedSecretSayCode");
         _allowedSecretSayCode = allowedSecretSayCode;
+    }
+
+    /**
+     * [get] IS_AVAILABLE_ACTION: {NotNull, BIT, classification=Flg} <br>
+     * アクション可能か
+     * @return The value of the column 'IS_AVAILABLE_ACTION'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getIsAvailableAction() {
+        checkSpecifiedProperty("isAvailableAction");
+        return _isAvailableAction;
+    }
+
+    /**
+     * [set] IS_AVAILABLE_ACTION: {NotNull, BIT, classification=Flg} <br>
+     * アクション可能か
+     * @param isAvailableAction The value of the column 'IS_AVAILABLE_ACTION'. (basically NotNull if update: for the constraint)
+     */
+    public void setIsAvailableAction(Boolean isAvailableAction) {
+        checkClassificationCode("IS_AVAILABLE_ACTION", CDef.DefMeta.Flg, isAvailableAction);
+        registerModifiedProperty("isAvailableAction");
+        _isAvailableAction = isAvailableAction;
     }
 
     /**

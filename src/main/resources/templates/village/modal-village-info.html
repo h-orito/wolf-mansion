@@ -81,8 +81,10 @@
 							</tr>
 							<tr>
 								<th>キャラセット</th>
-								<td><a href="javascript:void(0);" th:href="@{/chara-group/{charaGroupId}(charaGroupId=*{charaGroupId})}" th:text="*{charaGroupName}"
-									target="_blank"></a></td>
+								<td>
+									<a href="javascript:void(0);" th:href="@{/chara-group/{charaGroupId}(charaGroupId=*{charaGroupId})}" th:text="*{charaGroupName}"
+										target="_blank"></a>
+								</td>
 							</tr>
 							<tr>
 								<th>ダミーキャラ</th>
@@ -98,12 +100,14 @@
 							</tr>
 							<tr>
 								<th>役職構成</th>
-								<td><th:block th:if="*{organization}">
+								<td>
+									<th:block th:if="*{organization}">
 										<th:block th:each="str, stat : *{organization.split('\r\n|\r|\n', -1)}">
 											<th:block th:text="${str}" />
 											<br th:if="${!stat.last}" />
 										</th:block>
-									</th:block></td>
+									</th:block>
+								</td>
 							</tr>
 							<tr>
 								<th>発言制限（通常発言）</th>
@@ -121,8 +125,9 @@
 												<tr>
 													<td th:text="${restrict.skillName}">村人</td>
 													<td th:text="${restrict.isRestrict ? 'あり' : '無制限'}"></td>
-													<td><span th:if="${restrict.isRestrict}"
-														th:text="${restrict.length} + ' * ' + ${restrict.count}"></span></td>
+													<td>
+														<span th:if="${restrict.isRestrict}" th:text="${restrict.length} + ' * ' + ${restrict.count}"></span>
+													</td>
 												</tr>
 											</th:block>
 										</tbody>
@@ -145,8 +150,41 @@
 												<tr>
 													<td th:text="${restrict.messageTypeName}">人狼の囁き</td>
 													<td th:text="${restrict.isRestrict ? 'あり' : '無制限'}"></td>
-													<td><span th:if="${restrict.isRestrict}"
-														th:text="${restrict.length} + ' * ' + ${restrict.count}"></span></td>
+													<td>
+														<span th:if="${restrict.isRestrict}" th:text="${restrict.length} + ' * ' + ${restrict.count}"></span>
+													</td>
+												</tr>
+											</th:block>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</table>
+						<p>RP設定</p>
+						<table class="table table-bordered table-condensed" th:object="${content.settings}">
+							<tr>
+								<th>アクション</th>
+								<td th:text="*{isAvailableAction ? '可能' : '不可'}"></td>
+							</tr>
+							<tr th:if="*{isAvailableAction}">
+								<th>発言制限（RP発言）</th>
+								<td>
+									<table class="table-bordered table-condensed small">
+										<thead>
+											<tr>
+												<th>発言種別</th>
+												<th>制限</th>
+												<th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
+											</tr>
+										</thead>
+										<tbody>
+											<th:block th:each="restrict, stat : ${content.settings.rpSayRestrictList}">
+												<tr>
+													<td th:text="${restrict.messageTypeName}">人狼の囁き</td>
+													<td th:text="${restrict.isRestrict ? 'あり' : '無制限'}"></td>
+													<td>
+														<span th:if="${restrict.isRestrict}" th:text="${restrict.length} + ' * ' + ${restrict.count}"></span>
+													</td>
 												</tr>
 											</th:block>
 										</tbody>
@@ -159,9 +197,9 @@
 					<div class="clearfix small">
 						<a href="javascript:void(0);" class="btn btn-primary btn-sm pull-right small" data-dismiss="modal">閉じる</a> <a href="javascript:void(0);"
 							th:href="@{/village/{villageId}/settings(villageId=${content.villageId})}" th:if="${content.isAvailableSettingsUpdate}"
-							class="btn btn-success btn-sm pull-right small" style="margin-right: 10px;">設定変更</a> <input type="button"
-							th:unless="${content.isAvailableSettingsUpdate}" class="btn btn-default btn-sm pull-right small disabled" data-dismiss="modal" disabled
-							value="設定変更" style="margin-right: 10px;" />
+							class="btn btn-success btn-sm pull-right small" style="margin-right: 10px;">設定変更</a>
+						<input type="button" th:unless="${content.isAvailableSettingsUpdate}" class="btn btn-default btn-sm pull-right small disabled"
+							data-dismiss="modal" disabled value="設定変更" style="margin-right: 10px;" />
 					</div>
 				</div>
 			</div>

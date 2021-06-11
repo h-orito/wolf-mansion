@@ -103,7 +103,7 @@ public class CreatorController {
     private String confirm(@PathVariable Integer villageId, @Validated @ModelAttribute("creatorSayForm") VillageSayForm creatorSayForm,
             BindingResult result, Model model) {
         if (result.hasErrors()) {
-            String returnView = villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
+            String returnView = villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
             model.addAttribute("creatorSayForm", creatorSayForm);
             return returnView;
         }
@@ -125,7 +125,7 @@ public class CreatorController {
     private String creatorSay(@PathVariable Integer villageId, @Validated @ModelAttribute("creatorSayForm") VillageSayForm creatorSayForm,
             BindingResult result, Model model) {
         if (result.hasErrors()) {
-            String returnView = villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
+            String returnView = villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
             model.addAttribute("creatorSayForm", creatorSayForm);
             return returnView;
         }

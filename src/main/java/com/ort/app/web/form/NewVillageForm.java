@@ -126,6 +126,10 @@ public class NewVillageForm implements Serializable {
     @NotNull
     private Boolean isAvailableGuardSameTarget;
 
+    /** アクションありか */
+    @NotNull
+    private Boolean isAvailableAction;
+
     /** 構成 */
     @NotNull
     private String organization;
@@ -141,6 +145,10 @@ public class NewVillageForm implements Serializable {
     /** 役職発言制限 */
     @NotNull
     private List<NewVillageSkillSayRestrictDto> skillSayRestrictList;
+
+    /** RP発言制限 */
+    @NotNull
+    private List<NewVillageRpSayRestrictDto> rpSayRestrictList;
 
     public void initialize() {
         if (startPersonMinNum == null) {
@@ -173,6 +181,9 @@ public class NewVillageForm implements Serializable {
         if (isAvailableCommit == null) {
             isAvailableCommit = false;
         }
+        if (isAvailableAction == null) {
+            isAvailableAction = false;
+        }
         if (isAvailableGuardSameTarget == null) {
             isAvailableGuardSameTarget = true;
         }
@@ -200,7 +211,9 @@ public class NewVillageForm implements Serializable {
         if (CollectionUtils.isEmpty(skillSayRestrictList)) {
             skillSayRestrictList = createSkillRestrictList();
         }
-
+        if (CollectionUtils.isEmpty(rpSayRestrictList)) {
+            rpSayRestrictList = createRpRestrictList();
+        }
     }
 
     public String getVillageName() {
@@ -427,6 +440,22 @@ public class NewVillageForm implements Serializable {
         this.skillSayRestrictList = skillSayRestrictList;
     }
 
+    public Boolean getIsAvailableAction() {
+        return isAvailableAction;
+    }
+
+    public void setIsAvailableAction(Boolean isAvailableAction) {
+        this.isAvailableAction = isAvailableAction;
+    }
+
+    public List<NewVillageRpSayRestrictDto> getRpSayRestrictList() {
+        return rpSayRestrictList;
+    }
+
+    public void setRpSayRestrictList(List<NewVillageRpSayRestrictDto> rpSayRestrictList) {
+        this.rpSayRestrictList = rpSayRestrictList;
+    }
+
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
@@ -445,6 +474,18 @@ public class NewVillageForm implements Serializable {
     private List<NewVillageSkillSayRestrictDto> createSkillRestrictList() {
         return Arrays.asList(CDef.MessageType.人狼の囁き, CDef.MessageType.共鳴発言, CDef.MessageType.恋人発言).stream().map(type -> {
             NewVillageSkillSayRestrictDto restrict = new NewVillageSkillSayRestrictDto();
+            restrict.setMessageTypeCode(type.code());
+            restrict.setMessageTypeName(type.alias());
+            restrict.setIsRestrict(false);
+            restrict.setCount(DEFAULT_SAY_MAX_COUNT);
+            restrict.setLength(DEFAULT_SAY_MAX_LENGTH);
+            return restrict;
+        }).collect(Collectors.toList());
+    }
+
+    private List<NewVillageRpSayRestrictDto> createRpRestrictList() {
+        return Arrays.asList(CDef.MessageType.アクション).stream().map(type -> {
+            NewVillageRpSayRestrictDto restrict = new NewVillageRpSayRestrictDto();
             restrict.setMessageTypeCode(type.code());
             restrict.setMessageTypeName(type.alias());
             restrict.setIsRestrict(false);

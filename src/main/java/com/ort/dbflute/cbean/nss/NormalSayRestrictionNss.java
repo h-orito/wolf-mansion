@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.NormalSayRestrictionCQ;
 
 /**
- * The nest select set-upper of normal_say_restriction.
+ * The nest select set-upper of NORMAL_SAY_RESTRICTION.
  * @author DBFlute(AutoGenerator)
  */
 public class NormalSayRestrictionNss {

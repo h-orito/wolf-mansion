@@ -58,6 +58,9 @@ public class VillageSettingsDto {
     /** コミットありか */
     private Boolean isAvailableCommit;
 
+    /** アクションありか */
+    private Boolean isAvailableAction;
+
     /** 構成 */
     private String organization;
 
@@ -211,5 +214,13 @@ public class VillageSettingsDto {
 
     public void setDummyCharaName(String dummyCharaName) {
         this.dummyCharaName = dummyCharaName;
+    }
+
+    public Boolean getIsAvailableAction() {
+        return isAvailableAction;
+    }
+
+    public void setIsAvailableAction(Boolean isAvailableAction) {
+        this.isAvailableAction = isAvailableAction;
     }
 }

@@ -30,9 +30,11 @@ import com.ort.app.logic.VillageDispLogic;
 import com.ort.app.logic.VoteLogic;
 import com.ort.app.util.SkillUtil;
 import com.ort.app.web.dto.VillageInfo;
+import com.ort.app.web.form.NewVillageRpSayRestrictDto;
 import com.ort.app.web.form.NewVillageSayRestrictDto;
 import com.ort.app.web.form.NewVillageSkillSayRestrictDto;
 import com.ort.app.web.form.VillageAbilityForm;
+import com.ort.app.web.form.VillageActionForm;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
 import com.ort.app.web.form.VillageCommitForm;
 import com.ort.app.web.form.VillageKickForm;
@@ -51,6 +53,7 @@ import com.ort.app.web.model.inner.VillageRoomAssignedDto;
 import com.ort.app.web.model.inner.VillageRoomAssignedRowDto;
 import com.ort.app.web.model.inner.VillageSkillDto;
 import com.ort.app.web.model.inner.village.VillageAbilityFormDto;
+import com.ort.app.web.model.inner.village.VillageActionFormDto;
 import com.ort.app.web.model.inner.village.VillageCommitFormDto;
 import com.ort.app.web.model.inner.village.VillageFormDto;
 import com.ort.app.web.model.inner.village.VillageParticipateDto;
@@ -122,15 +125,15 @@ public class VillageAssist {
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
-    public String setIndexModelAndReturnView(Integer villageId, VillageSayForm sayForm, VillageParticipateForm participateForm,
-            VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
+    public String setIndexModelAndReturnView(Integer villageId, VillageSayForm sayForm, VillageActionForm actionForm,
+            VillageParticipateForm participateForm, VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
         // 最新の日付取得
         int day = villageService.selectLatestDay(villageId);
-        return setIndexModel(villageId, day, sayForm, participateForm, changeRequestSkillForm, model);
+        return setIndexModel(villageId, day, sayForm, actionForm, participateForm, changeRequestSkillForm, model);
     }
 
-    public String setIndexModel(Integer villageId, int day, VillageSayForm sayForm, VillageParticipateForm participateForm,
-            VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
+    public String setIndexModel(Integer villageId, int day, VillageSayForm sayForm, VillageActionForm actionForm,
+            VillageParticipateForm participateForm, VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
         // 村の初期表示に必要な情報を収集
         VillageInfo villageInfo = selectVillageInfo(villageId, day);
         // 表示用情報
@@ -138,7 +141,7 @@ public class VillageAssist {
         // 参加していなくても見られる情報
         setVillageModelBasicInfo(content, villageInfo);
         // 参加している場合のみ見られる情報
-        setVillageModelForm(content, villageInfo, sayForm, participateForm, changeRequestSkillForm, model);
+        setVillageModelForm(content, villageInfo, sayForm, actionForm, participateForm, changeRequestSkillForm, model);
         // 村建てのみ見られる情報
         setVillageModelCreateUser(content, villageInfo, model);
         // デバッグ用
@@ -260,16 +263,17 @@ public class VillageAssist {
 
     // 参加している場合に使う情報
     private void setVillageModelForm(VillageResultContent content, VillageInfo villageInfo, VillageSayForm sayForm,
-            VillageParticipateForm participateForm, VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
+            VillageActionForm actionForm, VillageParticipateForm participateForm, VillageChangeRequestSkillForm changeRequestSkillForm,
+            Model model) {
         // 各種フォーム絡みの情報
-        content.setForm(convertToVillageForm(villageInfo, sayForm, participateForm, changeRequestSkillForm, model));
+        content.setForm(convertToVillageForm(villageInfo, sayForm, actionForm, participateForm, changeRequestSkillForm, model));
         // 参加している自分自身の情報
         content.setMyself(convertToMyself(villageInfo));
     }
 
     // 各種フォーム絡みの情報
-    private VillageFormDto convertToVillageForm(VillageInfo villageInfo, VillageSayForm sayForm, VillageParticipateForm participateForm,
-            VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
+    private VillageFormDto convertToVillageForm(VillageInfo villageInfo, VillageSayForm sayForm, VillageActionForm actionForm,
+            VillageParticipateForm participateForm, VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
         VillageFormDto formDto = new VillageFormDto();
 
         // 参戦
@@ -285,6 +289,10 @@ public class VillageAssist {
         // 発言
         formDto.setSay(convertToSayForm(villageInfo));
         model.addAttribute("sayForm", createSayForm(formDto.getSay(), villageInfo, sayForm));
+
+        // アクション
+        formDto.setAction(convertToActionForm(villageInfo));
+        model.addAttribute("actionForm", createActionForm(formDto.getAction(), villageInfo, actionForm));
 
         // 能力行使
         formDto.setAbility(convertToAbilityForm(villageInfo));
@@ -337,6 +345,19 @@ public class VillageAssist {
         return form;
     }
 
+    // アクション
+    private VillageActionForm createActionForm(VillageActionFormDto actionFormDto, VillageInfo villageInfo, VillageActionForm actionForm) {
+        if (actionForm != null) {
+            return actionForm;
+        }
+        if (!actionFormDto.getIsDispActionForm()) {
+            return null;
+        }
+        VillageActionForm form = new VillageActionForm();
+        form.setMyself(villageInfo.optVillagePlayer.get().name() + "は、");
+        return form;
+    }
+
     // 発言
     private VillageSayFormDto convertToSayForm(VillageInfo villageInfo) {
         VillageSayFormDto say = new VillageSayFormDto();
@@ -363,10 +384,30 @@ public class VillageAssist {
         say.setIsAvailableGraveSay(sayLogic.isAvailableGraveSay(villageInfo)); // 死者の呻きが発言可能か
         say.setIsAvailableSpectateSay(sayLogic.isAvailableSpectateSay(villageInfo)); // 見学発言が発言可能か
         say.setIsAvailableMonologueSay(sayLogic.isAvailableMonologueSay(villageInfo)); // 独り言が発言可能か
+        say.setIsAvailableAction(sayLogic.isAvailableAction(villageInfo)); // アクションが発言可能か
         // 秘話
         say.setIsAvailableSecretSay(sayLogic.isAvailableSecretSay(villageInfo));
         say.setSecretSayTargetList(sayLogic.getSelectableSecretSayTarget(villageInfo));
         return say;
+    }
+
+    // アクション
+    private VillageActionFormDto convertToActionForm(VillageInfo villageInfo) {
+        VillageActionFormDto action = new VillageActionFormDto();
+        boolean isDispActionForm = sayLogic.isAvailableAction(villageInfo);
+        action.setIsDispActionForm(isDispActionForm);
+        if (isDispActionForm) {
+            List<OptionDto> targetList = villageInfo.vPlayers.list.stream()
+                    .filter(vp -> !vp.getVillagePlayerId().equals(villageInfo.optVillagePlayer.get().getVillagePlayerId()))
+                    .sorted(Comparator.comparing(VillagePlayer::isIsSpectatorTrue) //
+                            .thenComparingInt(vp -> vp.getRoomNumber() != null ? vp.getRoomNumber() : vp.getCharaId())
+                            .thenComparingInt(VillagePlayer::getCharaId))
+                    .map(vp -> new OptionDto(vp.name(), vp.name()))
+                    .collect(Collectors.toList());
+            action.setTargetList(targetList);
+        }
+        action.setRestrict(sayLogic.makeActionRestrict(villageInfo));
+        return action;
     }
 
     // 参戦
@@ -420,9 +461,10 @@ public class VillageAssist {
         boolean isDispParticipateForm = participateLogic.isAvailableParticipate(villageInfo);
         participate.setIsDispParticipateForm(isDispParticipateForm);
         if (isDispParticipateForm) {
-            participate.setSelectableCharaList(
-                    participateLogic.selectSelectableCharaList(villageInfo).stream().map(chara -> convertToCharaPart(chara)).collect(
-                            Collectors.toList()));
+            participate.setSelectableCharaList(participateLogic.selectSelectableCharaList(villageInfo)
+                    .stream()
+                    .map(chara -> convertToCharaPart(chara))
+                    .collect(Collectors.toList()));
         }
         participate.setIsDispChangeRequestNgMessage(villageDispLogic.isDispChangeRequestSkillNgMessage(villageInfo));
         // 役職希望変更
@@ -513,8 +555,10 @@ public class VillageAssist {
         // 生存
         VillageMemberDto aliveMember = new VillageMemberDto();
         aliveMember.setStatus("生存");
-        aliveMember.setStatusMemberList(villagePlayers.filterAlive().filterNotSpecatate().sortedBy(compareForMemberList()).map(
-                mem -> convertToMemberDetailPart(mem)));
+        aliveMember.setStatusMemberList(villagePlayers.filterAlive()
+                .filterNotSpecatate()
+                .sortedBy(compareForMemberList())
+                .map(mem -> convertToMemberDetailPart(mem)));
         // 処刑
         VillageMemberDto executedMember = new VillageMemberDto();
         executedMember.setStatus("処刑死");
@@ -655,10 +699,12 @@ public class VillageAssist {
         part.setIsVisibleGraveSpectateMessage(settings.getIsVisibleGraveSpectateMessage());
         part.setIsAvailableSuddonlyDeath(settings.getIsAvailableSuddonlyDeath());
         part.setIsAvailableCommit(settings.getIsAvailableCommit());
+        part.setIsAvailableAction(settings.getIsAvailableAction());
         part.setOrganization(makeDisplayOrganization(settings.getOrganize(), villageInfo));
         part.setAllowedSecretSayCode(settings.getAllowedSecretSayCode());
         part.setSayRestrictList(convertToRestrictList(villageInfo.village.getNormalSayRestrictionList()));
         part.setSkillSayRestrictList(convertToSkillRestrictList(villageInfo.village.getSkillSayRestrictionList()));
+        part.setRpSayRestrictList(convertToRpRestrictList(villageInfo.village.getSkillSayRestrictionList()));
         part.setIsSkillRequestAvailable(settings.getIsPossibleSkillRequest());
         part.setCreatePlayerName(villageInfo.village.getCreatePlayerName());
         return part;
@@ -702,6 +748,22 @@ public class VillageAssist {
     private List<NewVillageSkillSayRestrictDto> convertToSkillRestrictList(List<SkillSayRestriction> restrictList) {
         return Arrays.asList(CDef.MessageType.人狼の囁き, CDef.MessageType.共鳴発言, CDef.MessageType.恋人発言).stream().map(type -> {
             NewVillageSkillSayRestrictDto restrict = new NewVillageSkillSayRestrictDto();
+            restrict.setMessageTypeName(type.alias());
+            restrict.setMessageTypeCode(type.code());
+            restrict.setIsRestrict(false);
+            restrictList.stream().filter(r -> r.getMessageTypeCodeAsMessageType() == type).findFirst().ifPresent(res -> {
+                restrict.setIsRestrict(true);
+                restrict.setCount(res.getMessageMaxNum());
+                restrict.setLength(res.getMessageMaxLength());
+
+            });
+            return restrict;
+        }).collect(Collectors.toList());
+    }
+
+    private List<NewVillageRpSayRestrictDto> convertToRpRestrictList(List<SkillSayRestriction> restrictList) {
+        return Arrays.asList(CDef.MessageType.アクション).stream().map(type -> {
+            NewVillageRpSayRestrictDto restrict = new NewVillageRpSayRestrictDto();
             restrict.setMessageTypeName(type.alias());
             restrict.setMessageTypeCode(type.code());
             restrict.setIsRestrict(false);

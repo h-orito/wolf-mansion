@@ -35,6 +35,9 @@ public class VillageSayFormDto {
     /** 秘話可能か */
     private Boolean isAvailableSecretSay;
 
+    /** アクション可能か */
+    private Boolean isAvailableAction;
+
     /** 発言制限 */
     private SayRestrictDto restrict;
 
@@ -53,6 +56,7 @@ public class VillageSayFormDto {
         this.isAvailableMonologueSay = isAvailable;
         this.isAvailableSecretSay = isAvailable;
         this.isAvailableLoversSay = isAvailable;
+        this.isAvailableAction = isAvailable;
     }
 
     public Boolean getIsDispSayForm() {
@@ -149,5 +153,13 @@ public class VillageSayFormDto {
 
     public void setIsAvailableLoversSay(Boolean isAvailableLoversSay) {
         this.isAvailableLoversSay = isAvailableLoversSay;
+    }
+
+    public Boolean getIsAvailableAction() {
+        return isAvailableAction;
+    }
+
+    public void setIsAvailableAction(Boolean isAvailableAction) {
+        this.isAvailableAction = isAvailableAction;
     }
 }

@@ -112,7 +112,7 @@ public class VillageSayAssist {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, sayForm, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, sayForm, null, null, null, model);
         }
         Village village = selectVillage(villageId);
         VillagePlayer villagePlayer = villageService.selectVillagePlayer(villageId, userInfo, true).orElseThrow(() -> {
@@ -121,18 +121,18 @@ public class VillageSayAssist {
         // 発言権利がなかったらNG
         if (!isAvailableSay(villageId, village, villagePlayer, userInfo, sayForm)) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, sayForm, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, sayForm, null, null, null, model);
         }
         // 発言制限に引っかかったらNG
         if (isRestricted(villageId, village, villagePlayer, sayForm, userInfo)) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, sayForm, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, sayForm, null, null, null, model);
         }
 
         int day = villageService.selectLatestDay(villageId);
         MessageType type = CDef.MessageType.codeOf(sayForm.getMessageType());
         CDef.FaceType faceType = CDef.FaceType.codeOf(sayForm.getFaceType());
-        if (type == null || faceType == null) {
+        if (type != CDef.MessageType.アクション && faceType == null) {
             throw new IllegalArgumentException("発言種別改ざん");
         }
         Integer targetVillagePlayerId = sayForm.getMessageType().equals(CDef.MessageType.秘話.code())
@@ -143,7 +143,11 @@ public class VillageSayAssist {
             messageLogic.insertMessage(villageId, day, type, sayForm.getMessage(), villagePlayer.getVillagePlayerId(),
                     targetVillagePlayerId, BooleanUtils.isTrue(sayForm.getIsConvertDisable()), faceType);
         } catch (WerewolfMansionBusinessException e) {
-            model.addAttribute("sayErrorMessage", e.getMessage());
+            if (type == CDef.MessageType.アクション) {
+                model.addAttribute("actionErrorMessage", e.getMessage());
+            } else {
+                model.addAttribute("sayErrorMessage", e.getMessage());
+            }
         }
 
         // 最新の日付を表示

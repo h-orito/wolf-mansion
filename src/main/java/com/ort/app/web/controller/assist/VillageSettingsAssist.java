@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.util.SkillUtil;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
+import com.ort.app.web.form.NewVillageRpSayRestrictDto;
 import com.ort.app.web.form.NewVillageSayRestrictDto;
 import com.ort.app.web.form.NewVillageSkillSayRestrictDto;
 import com.ort.app.web.form.VillageSettingsForm;
@@ -79,7 +80,7 @@ public class VillageSettingsAssist {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (userInfo == null) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
         }
         setVillageSettingsIndexModel(villageId, null, model);
         return "village-settings";
@@ -179,6 +180,7 @@ public class VillageSettingsAssist {
         settings.setIsVisibleGraveSpectateMessage(form.getIsVisibleGraveSpectateMessage());
         settings.setIsAvailableSpectate(form.getIsAvailableSpectate());
         settings.setIsAvailableSuddonlyDeath(form.getIsAvailableSuddonlyDeath());
+        settings.setIsAvailableAction(form.getIsAvailableAction());
         settings.setOrganize(form.getOrganization());
         settings.setJoinPassword(form.getJoinPassword());
         settings.setAllowedSecretSayCodeAsAllowedSecretSay(CDef.AllowedSecretSay.codeOf(form.getAllowedSecretSayCode()));
@@ -187,6 +189,7 @@ public class VillageSettingsAssist {
 
     private void updateMessageRestrictions(Integer villageId, VillageSettingsForm form) {
         normalSayRestrictionBhv.queryDelete(cb -> cb.query().setVillageId_Equal(villageId));
+        skillSayRestrictionBhv.queryDelete(cb -> cb.query().setVillageId_Equal(villageId));
         form.getSayRestrictList().forEach(restrict -> {
             // 制限無しの場合は登録しない
             if (BooleanUtils.isFalse(restrict.getIsRestrict())) {
@@ -201,6 +204,14 @@ public class VillageSettingsAssist {
             }
             insertSkillSayRestriction(villageId, restrict);
         });
+        form.getRpSayRestrictList().forEach(restrict -> {
+            // 制限無しの場合は登録しない
+            if (BooleanUtils.isFalse(restrict.getIsRestrict())) {
+                return;
+            }
+            insertRpSayRestriction(villageId, restrict);
+        });
+
     }
 
     private void insertNormalSayRestriction(Integer villageId, NewVillageSayRestrictDto restrict) {
@@ -214,6 +225,15 @@ public class VillageSettingsAssist {
     }
 
     private void insertSkillSayRestriction(Integer villageId, NewVillageSkillSayRestrictDto restrict) {
+        SkillSayRestriction entity = new SkillSayRestriction();
+        entity.setVillageId(villageId);
+        entity.setMessageMaxNum(restrict.getCount());
+        entity.setMessageMaxLength(restrict.getLength());
+        entity.setMessageTypeCodeAsMessageType(CDef.MessageType.codeOf(restrict.getMessageTypeCode()));
+        skillSayRestrictionBhv.insert(entity);
+    }
+
+    private void insertRpSayRestriction(Integer villageId, NewVillageRpSayRestrictDto restrict) {
         SkillSayRestriction entity = new SkillSayRestriction();
         entity.setVillageId(villageId);
         entity.setMessageMaxNum(restrict.getCount());
@@ -311,11 +331,13 @@ public class VillageSettingsAssist {
         settingsForm.setIsAvailableSuddonlyDeath(settings.getIsAvailableSuddonlyDeath());
         settingsForm.setIsAvailableCommit(settings.getIsAvailableCommit());
         settingsForm.setIsAvailableSpectate(settings.getIsAvailableSpectate());
+        settingsForm.setIsAvailableAction(settings.getIsAvailableAction());
         settingsForm.setOrganization(settings.getOrganize());
         settingsForm.setJoinPassword(settings.getJoinPassword());
         settingsForm.setAllowedSecretSayCode(settings.getAllowedSecretSayCode());
         settingsForm.setSayRestrictList(createRestrictList(normalSayRestrictList));
         settingsForm.setSkillSayRestrictList(createSkillRestrictList(skillSayRestrictList));
+        settingsForm.setRpSayRestrictList(createRpRestrictList(skillSayRestrictList));
         model.addAttribute("settingsForm", settingsForm);
     }
 
@@ -342,6 +364,26 @@ public class VillageSettingsAssist {
     private List<NewVillageSkillSayRestrictDto> createSkillRestrictList(List<SkillSayRestriction> restrictList) {
         return Arrays.asList(CDef.MessageType.人狼の囁き, CDef.MessageType.共鳴発言, CDef.MessageType.恋人発言).stream().map(type -> {
             NewVillageSkillSayRestrictDto restrict = new NewVillageSkillSayRestrictDto();
+            restrict.setMessageTypeName(type.alias());
+            restrict.setMessageTypeCode(type.code());
+            Optional<SkillSayRestriction> optRes =
+                    restrictList.stream().filter(res -> res.getMessageTypeCode().equals(type.code())).findFirst();
+            if (optRes.isPresent()) {
+                restrict.setIsRestrict(true);
+                restrict.setCount(optRes.get().getMessageMaxNum());
+                restrict.setLength(optRes.get().getMessageMaxLength());
+            } else {
+                restrict.setIsRestrict(false);
+                restrict.setCount(DEFAULT_SAY_MAX_COUNT);
+                restrict.setLength(DEFAULT_SAY_MAX_LENGTH);
+            }
+            return restrict;
+        }).collect(Collectors.toList());
+    }
+
+    private List<NewVillageRpSayRestrictDto> createRpRestrictList(List<SkillSayRestriction> restrictList) {
+        return Arrays.asList(CDef.MessageType.アクション).stream().map(type -> {
+            NewVillageRpSayRestrictDto restrict = new NewVillageRpSayRestrictDto();
             restrict.setMessageTypeName(type.alias());
             restrict.setMessageTypeCode(type.code());
             Optional<SkillSayRestriction> optRes =

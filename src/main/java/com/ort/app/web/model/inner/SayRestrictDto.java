@@ -26,6 +26,12 @@ public class SayRestrictDto {
 
     private Integer loversLength;
 
+    private Integer actionCount;
+
+    private Integer actionLeftCount;
+
+    private Integer actionLength;
+
     public Integer getNormalCount() {
         return normalCount;
     }
@@ -120,6 +126,30 @@ public class SayRestrictDto {
 
     public void setLoversLength(Integer loversLength) {
         this.loversLength = loversLength;
+    }
+
+    public Integer getActionCount() {
+        return actionCount;
+    }
+
+    public void setActionCount(Integer actionCount) {
+        this.actionCount = actionCount;
+    }
+
+    public Integer getActionLeftCount() {
+        return actionLeftCount;
+    }
+
+    public void setActionLeftCount(Integer actionLeftCount) {
+        this.actionLeftCount = actionLeftCount;
+    }
+
+    public Integer getActionLength() {
+        return actionLength;
+    }
+
+    public void setActionLength(Integer actionLength) {
+        this.actionLength = actionLength;
     }
 
 }

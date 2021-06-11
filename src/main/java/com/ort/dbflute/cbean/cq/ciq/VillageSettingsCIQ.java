@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of village_settings.
+ * The condition-query for in-line of VILLAGE_SETTINGS.
  * @author DBFlute(AutoGenerator)
  */
 public class VillageSettingsCIQ extends AbstractBsVillageSettingsCQ {
@@ -80,6 +80,7 @@ public class VillageSettingsCIQ extends AbstractBsVillageSettingsCQ {
     protected ConditionValue xgetCValueJoinPassword() { return _myCQ.xdfgetJoinPassword(); }
     protected ConditionValue xgetCValueOrganize() { return _myCQ.xdfgetOrganize(); }
     protected ConditionValue xgetCValueAllowedSecretSayCode() { return _myCQ.xdfgetAllowedSecretSayCode(); }
+    protected ConditionValue xgetCValueIsAvailableAction() { return _myCQ.xdfgetIsAvailableAction(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
     protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }
     protected ConditionValue xgetCValueUpdateDatetime() { return _myCQ.xdfgetUpdateDatetime(); }

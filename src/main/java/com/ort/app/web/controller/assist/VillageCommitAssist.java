@@ -47,7 +47,7 @@ public class VillageCommitAssist {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
         }
         VillagePlayer villagePlayer = villageService.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
@@ -58,12 +58,12 @@ public class VillageCommitAssist {
         });
         // コミットできない設定だったり進行中でなかったら何もしない
         if (village.getVillageSettingsAsOne().get().isIsAvailableCommitFalse() || !village.isVillageStatusCode進行中()) {
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
         }
         // 自分がダミーだったり死亡していたり観戦だったら何もしない
         if (villagePlayer.isIsDeadTrue() || villagePlayer.isIsSpectatorTrue()
                 || villagePlayer.getCharaId().intValue() == village.getVillageSettingsAsOne().get().getDummyCharaId()) {
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
         }
         int day = villageService.selectLatestDay(villageId);
         Integer vPlayerId = villagePlayer.getVillagePlayerId();
