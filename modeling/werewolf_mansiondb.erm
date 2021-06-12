@@ -1356,6 +1356,84 @@
 			</table_properties>
 		</table>
 		<table>
+			<physical_name>message_sendto</physical_name>
+			<logical_name>メッセージ送信先</logical_name>
+			<description></description>
+			<height>75</height>
+			<width>120</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>941</x>
+			<y>678</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+				<relationship>
+					<name>FK_message_sendto_message</name>
+					<source>table.message</source>
+					<target>table.message_sendto</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>message_id</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+				<relationship>
+					<name>FK_message_sendto_village_player</name>
+					<source>table.village_player</source>
+					<target>table.message_sendto</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>village_player_id</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>message_replyto_id</physical_name>
+					<logical_name>メッセージ送信先ID</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+					<auto_increment>true</auto_increment>
+				</normal_column>
+				<normal_column>
+					<physical_name>message_id</physical_name>
+					<referred_column>table.message.message_id</referred_column>
+					<relationship>FK_message_sendto_message</relationship>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>village_player_id</physical_name>
+					<referred_column>table.village_player.village_player_id</referred_column>
+					<relationship>FK_message_sendto_village_player</relationship>
+					<not_null>true</not_null>
+				</normal_column>
+				<column_group>共通カラム</column_group>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
 			<physical_name>message_type</physical_name>
 			<logical_name>メッセージ種別</logical_name>
 			<description></description>
@@ -1850,8 +1928,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>852</x>
-			<y>712</y>
+			<x>596</x>
+			<y>709</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -2128,6 +2206,19 @@
 					<physical_name>is_win</physical_name>
 					<logical_name>勝利したか</logical_name>
 					<type>boolean</type>
+				</normal_column>
+				<normal_column>
+					<physical_name>chara_name</physical_name>
+					<logical_name>キャラクター名</logical_name>
+					<type>varchar(n)</type>
+					<length>40</length>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>memo</physical_name>
+					<logical_name>メモ</logical_name>
+					<type>varchar(n)</type>
+					<length>20</length>
 				</normal_column>
 				<column_group>共通カラム</column_group>
 			</columns>
@@ -2515,6 +2606,12 @@
 					<physical_name>allowed_secret_say_code</physical_name>
 					<referred_column>table.allowed_secret_say.allowed_secret_say_code</referred_column>
 					<relationship>FK_village_settings_allowed_secret_say</relationship>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>is_available_action</physical_name>
+					<logical_name>アクション可能か</logical_name>
+					<type>boolean</type>
 					<not_null>true</not_null>
 				</normal_column>
 				<column_group>共通カラム</column_group>
