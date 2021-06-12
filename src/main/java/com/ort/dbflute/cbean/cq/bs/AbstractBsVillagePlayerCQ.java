@@ -216,6 +216,25 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
+     * {exists (select VILLAGE_PLAYER_ID from MESSAGE_SENDTO where ...)} <br>
+     * MESSAGE_SENDTO by VILLAGE_PLAYER_ID, named 'messageSendtoAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">existsMessageSendto</span>(sendtoCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     sendtoCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of MessageSendtoList for 'exists'. (NotNull)
+     */
+    public void existsMessageSendto(SubQuery<MessageSendtoCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        MessageSendtoCB cb = new MessageSendtoCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepVillagePlayerId_ExistsReferrer_MessageSendtoList(cb.query());
+        registerExistsReferrer(cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", pp, "messageSendtoList");
+    }
+    public abstract String keepVillagePlayerId_ExistsReferrer_MessageSendtoList(MessageSendtoCQ sq);
+
+    /**
+     * Set up ExistsReferrer (correlated sub-query). <br>
      * {exists (select VILLAGE_PLAYER_ID from VILLAGE_PLAYER_DEAD_HISTORY where ...)} <br>
      * VILLAGE_PLAYER_DEAD_HISTORY by VILLAGE_PLAYER_ID, named 'villagePlayerDeadHistoryAsOne'.
      * <pre>
@@ -349,6 +368,25 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
+     * {not exists (select VILLAGE_PLAYER_ID from MESSAGE_SENDTO where ...)} <br>
+     * MESSAGE_SENDTO by VILLAGE_PLAYER_ID, named 'messageSendtoAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">notExistsMessageSendto</span>(sendtoCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     sendtoCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of VillagePlayerId_NotExistsReferrer_MessageSendtoList for 'not exists'. (NotNull)
+     */
+    public void notExistsMessageSendto(SubQuery<MessageSendtoCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        MessageSendtoCB cb = new MessageSendtoCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepVillagePlayerId_NotExistsReferrer_MessageSendtoList(cb.query());
+        registerNotExistsReferrer(cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", pp, "messageSendtoList");
+    }
+    public abstract String keepVillagePlayerId_NotExistsReferrer_MessageSendtoList(MessageSendtoCQ sq);
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br>
      * {not exists (select VILLAGE_PLAYER_ID from VILLAGE_PLAYER_DEAD_HISTORY where ...)} <br>
      * VILLAGE_PLAYER_DEAD_HISTORY by VILLAGE_PLAYER_ID, named 'villagePlayerDeadHistoryAsOne'.
      * <pre>
@@ -446,6 +484,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
         registerSpecifyDerivedReferrer(fn, cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", pp, "messageByVillagePlayerIdList", al, op);
     }
     public abstract String keepVillagePlayerId_SpecifyDerivedReferrer_MessageByVillagePlayerIdList(MessageCQ sq);
+
+    public void xsderiveMessageSendtoList(String fn, SubQuery<MessageSendtoCB> sq, String al, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        MessageSendtoCB cb = new MessageSendtoCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepVillagePlayerId_SpecifyDerivedReferrer_MessageSendtoList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", pp, "messageSendtoList", al, op);
+    }
+    public abstract String keepVillagePlayerId_SpecifyDerivedReferrer_MessageSendtoList(MessageSendtoCQ sq);
 
     public void xsderiveVillagePlayerDeadHistoryList(String fn, SubQuery<VillagePlayerDeadHistoryCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
@@ -559,6 +605,33 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
     public abstract String keepVillagePlayerId_QueryDerivedReferrer_MessageByVillagePlayerIdList(MessageCQ sq);
     public abstract String keepVillagePlayerId_QueryDerivedReferrer_MessageByVillagePlayerIdListParameter(Object vl);
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
+     * {FOO &lt;= (select max(BAR) from MESSAGE_SENDTO where ...)} <br>
+     * MESSAGE_SENDTO by VILLAGE_PLAYER_ID, named 'messageSendtoAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">derivedMessageSendto()</span>.<span style="color: #CC4747">max</span>(sendtoCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     sendtoCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     sendtoCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    public HpQDRFunction<MessageSendtoCB> derivedMessageSendto() {
+        return xcreateQDRFunctionMessageSendtoList();
+    }
+    protected HpQDRFunction<MessageSendtoCB> xcreateQDRFunctionMessageSendtoList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveMessageSendtoList(fn, sq, rd, vl, op));
+    }
+    public void xqderiveMessageSendtoList(String fn, SubQuery<MessageSendtoCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        MessageSendtoCB cb = new MessageSendtoCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepVillagePlayerId_QueryDerivedReferrer_MessageSendtoList(cb.query()); String prpp = keepVillagePlayerId_QueryDerivedReferrer_MessageSendtoListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", sqpp, "messageSendtoList", rd, vl, prpp, op);
+    }
+    public abstract String keepVillagePlayerId_QueryDerivedReferrer_MessageSendtoList(MessageSendtoCQ sq);
+    public abstract String keepVillagePlayerId_QueryDerivedReferrer_MessageSendtoListParameter(Object vl);
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
@@ -4427,6 +4500,294 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     protected void regIsWin(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueIsWin(), "IS_WIN"); }
     protected abstract ConditionValue xgetCValueIsWin();
+
+    /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CHARA_NAME: {NotNull, VARCHAR(40)}
+     * @param charaName The value of charaName as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaName_Equal(String charaName) {
+        doSetCharaName_Equal(fRES(charaName));
+    }
+
+    protected void doSetCharaName_Equal(String charaName) {
+        regCharaName(CK_EQ, charaName);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CHARA_NAME: {NotNull, VARCHAR(40)}
+     * @param charaName The value of charaName as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaName_NotEqual(String charaName) {
+        doSetCharaName_NotEqual(fRES(charaName));
+    }
+
+    protected void doSetCharaName_NotEqual(String charaName) {
+        regCharaName(CK_NES, charaName);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CHARA_NAME: {NotNull, VARCHAR(40)}
+     * @param charaName The value of charaName as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaName_GreaterThan(String charaName) {
+        regCharaName(CK_GT, fRES(charaName));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CHARA_NAME: {NotNull, VARCHAR(40)}
+     * @param charaName The value of charaName as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaName_LessThan(String charaName) {
+        regCharaName(CK_LT, fRES(charaName));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CHARA_NAME: {NotNull, VARCHAR(40)}
+     * @param charaName The value of charaName as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaName_GreaterEqual(String charaName) {
+        regCharaName(CK_GE, fRES(charaName));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CHARA_NAME: {NotNull, VARCHAR(40)}
+     * @param charaName The value of charaName as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaName_LessEqual(String charaName) {
+        regCharaName(CK_LE, fRES(charaName));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * CHARA_NAME: {NotNull, VARCHAR(40)}
+     * @param charaNameList The collection of charaName as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaName_InScope(Collection<String> charaNameList) {
+        doSetCharaName_InScope(charaNameList);
+    }
+
+    protected void doSetCharaName_InScope(Collection<String> charaNameList) {
+        regINS(CK_INS, cTL(charaNameList), xgetCValueCharaName(), "CHARA_NAME");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * CHARA_NAME: {NotNull, VARCHAR(40)}
+     * @param charaNameList The collection of charaName as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaName_NotInScope(Collection<String> charaNameList) {
+        doSetCharaName_NotInScope(charaNameList);
+    }
+
+    protected void doSetCharaName_NotInScope(Collection<String> charaNameList) {
+        regINS(CK_NINS, cTL(charaNameList), xgetCValueCharaName(), "CHARA_NAME");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CHARA_NAME: {NotNull, VARCHAR(40)} <br>
+     * <pre>e.g. setCharaName_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param charaName The value of charaName as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setCharaName_LikeSearch(String charaName, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setCharaName_LikeSearch(charaName, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CHARA_NAME: {NotNull, VARCHAR(40)} <br>
+     * <pre>e.g. setCharaName_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param charaName The value of charaName as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setCharaName_LikeSearch(String charaName, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(charaName), xgetCValueCharaName(), "CHARA_NAME", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CHARA_NAME: {NotNull, VARCHAR(40)}
+     * @param charaName The value of charaName as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setCharaName_NotLikeSearch(String charaName, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setCharaName_NotLikeSearch(charaName, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CHARA_NAME: {NotNull, VARCHAR(40)}
+     * @param charaName The value of charaName as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setCharaName_NotLikeSearch(String charaName, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(charaName), xgetCValueCharaName(), "CHARA_NAME", likeSearchOption);
+    }
+
+    protected void regCharaName(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueCharaName(), "CHARA_NAME"); }
+    protected abstract ConditionValue xgetCValueCharaName();
+
+    /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * MEMO: {VARCHAR(20)}
+     * @param memo The value of memo as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setMemo_Equal(String memo) {
+        doSetMemo_Equal(fRES(memo));
+    }
+
+    protected void doSetMemo_Equal(String memo) {
+        regMemo(CK_EQ, memo);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * MEMO: {VARCHAR(20)}
+     * @param memo The value of memo as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setMemo_NotEqual(String memo) {
+        doSetMemo_NotEqual(fRES(memo));
+    }
+
+    protected void doSetMemo_NotEqual(String memo) {
+        regMemo(CK_NES, memo);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * MEMO: {VARCHAR(20)}
+     * @param memo The value of memo as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setMemo_GreaterThan(String memo) {
+        regMemo(CK_GT, fRES(memo));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * MEMO: {VARCHAR(20)}
+     * @param memo The value of memo as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setMemo_LessThan(String memo) {
+        regMemo(CK_LT, fRES(memo));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * MEMO: {VARCHAR(20)}
+     * @param memo The value of memo as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setMemo_GreaterEqual(String memo) {
+        regMemo(CK_GE, fRES(memo));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * MEMO: {VARCHAR(20)}
+     * @param memo The value of memo as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setMemo_LessEqual(String memo) {
+        regMemo(CK_LE, fRES(memo));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * MEMO: {VARCHAR(20)}
+     * @param memoList The collection of memo as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setMemo_InScope(Collection<String> memoList) {
+        doSetMemo_InScope(memoList);
+    }
+
+    protected void doSetMemo_InScope(Collection<String> memoList) {
+        regINS(CK_INS, cTL(memoList), xgetCValueMemo(), "MEMO");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * MEMO: {VARCHAR(20)}
+     * @param memoList The collection of memo as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setMemo_NotInScope(Collection<String> memoList) {
+        doSetMemo_NotInScope(memoList);
+    }
+
+    protected void doSetMemo_NotInScope(Collection<String> memoList) {
+        regINS(CK_NINS, cTL(memoList), xgetCValueMemo(), "MEMO");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * MEMO: {VARCHAR(20)} <br>
+     * <pre>e.g. setMemo_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param memo The value of memo as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setMemo_LikeSearch(String memo, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setMemo_LikeSearch(memo, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * MEMO: {VARCHAR(20)} <br>
+     * <pre>e.g. setMemo_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param memo The value of memo as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setMemo_LikeSearch(String memo, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(memo), xgetCValueMemo(), "MEMO", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * MEMO: {VARCHAR(20)}
+     * @param memo The value of memo as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setMemo_NotLikeSearch(String memo, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setMemo_NotLikeSearch(memo, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * MEMO: {VARCHAR(20)}
+     * @param memo The value of memo as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setMemo_NotLikeSearch(String memo, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(memo), xgetCValueMemo(), "MEMO", likeSearchOption);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * MEMO: {VARCHAR(20)}
+     */
+    public void setMemo_IsNull() { regMemo(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * MEMO: {VARCHAR(20)}
+     */
+    public void setMemo_IsNullOrEmpty() { regMemo(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * MEMO: {VARCHAR(20)}
+     */
+    public void setMemo_IsNotNull() { regMemo(CK_ISNN, DOBJ); }
+
+    protected void regMemo(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueMemo(), "MEMO"); }
+    protected abstract ConditionValue xgetCValueMemo();
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>

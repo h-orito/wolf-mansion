@@ -378,6 +378,43 @@
             <index-column name="TO_VILLAGE_PLAYER_ID" position="1"/>
         </index>
     </table>
+    <table comment="メッセージ送信先" name="MESSAGE_SENDTO"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column autoIncrement="true" comment="メッセージ送信先ID"
+            dbType="INT UNSIGNED" javaType="Integer"
+            name="MESSAGE_REPLYTO_ID" pkName="PRIMARY" pkPosition="1"
+            primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="メッセージID" dbType="INT UNSIGNED"
+            javaType="Integer" name="MESSAGE_ID" required="true"
+            size="10" type="INTEGER"/>
+        <column comment="村参加者ID" dbType="INT UNSIGNED"
+            javaType="Integer" name="VILLAGE_PLAYER_ID" required="true"
+            size="10" type="INTEGER"/>
+        <column comment="登録日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="登録トレース" dbType="VARCHAR" javaType="String"
+            name="REGISTER_TRACE" required="true" size="64" type="VARCHAR"/>
+        <column comment="更新日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="UPDATE_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="更新トレース" dbType="VARCHAR" javaType="String"
+            name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="MESSAGE" name="FK_MESSAGE_SENDTO_MESSAGE">
+            <reference foreign="MESSAGE_ID" local="MESSAGE_ID"/>
+        </foreign-key>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="VILLAGE_PLAYER" name="FK_MESSAGE_SENDTO_VILLAGE_PLAYER">
+            <reference foreign="VILLAGE_PLAYER_ID" local="VILLAGE_PLAYER_ID"/>
+        </foreign-key>
+        <index name="FK_MESSAGE_SENDTO_MESSAGE">
+            <index-column name="MESSAGE_ID" position="1"/>
+        </index>
+        <index name="FK_MESSAGE_SENDTO_VILLAGE_PLAYER">
+            <index-column name="VILLAGE_PLAYER_ID" position="1"/>
+        </index>
+    </table>
     <table comment="メッセージ種別" name="MESSAGE_TYPE"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
         <column comment="メッセージ種別コード" dbType="VARCHAR" javaType="String"
@@ -662,6 +699,10 @@
             name="CAMP_CODE" size="20" type="VARCHAR"/>
         <column comment="勝利したか" dbType="BIT" javaType="Boolean"
             name="IS_WIN" type="BIT"/>
+        <column comment="キャラクター名" dbType="VARCHAR" javaType="String"
+            name="CHARA_NAME" required="true" size="40" type="VARCHAR"/>
+        <column comment="メモ" dbType="VARCHAR" javaType="String"
+            name="MEMO" size="20" type="VARCHAR"/>
         <column comment="登録日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>

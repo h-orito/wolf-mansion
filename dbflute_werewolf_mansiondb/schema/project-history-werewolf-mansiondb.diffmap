@@ -1,4 +1,33 @@
 map:{
+    ; 2021/06/12 23:31:55 = map:{
+        ; diffDate = 2021/06/12 23:31:55
+        ; tableCount = map:{
+            ; next = 32
+            ; previous = 31
+        }
+        ; diffAuthor = h-orito
+        ; diffGitBranch = feature/anchorto
+        ; tableDiff = map:{
+            ; MESSAGE_SENDTO = map:{
+                ; tableName = MESSAGE_SENDTO
+                ; diffType = ADD
+            }
+            ; VILLAGE_PLAYER = map:{
+                ; tableName = VILLAGE_PLAYER
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; CHARA_NAME = map:{
+                        ; columnName = CHARA_NAME
+                        ; diffType = ADD
+                    }
+                    ; MEMO = map:{
+                        ; columnName = MEMO
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2021/06/09 11:05:20 = map:{
         ; diffDate = 2021/06/09 11:05:20
         ; diffAuthor = h-orito

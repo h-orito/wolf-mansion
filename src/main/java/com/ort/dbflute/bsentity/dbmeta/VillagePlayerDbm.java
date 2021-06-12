@@ -95,6 +95,8 @@ public class VillagePlayerDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getIsWin(), (et, vl) -> {
             ((VillagePlayer)et).setIsWin((Boolean)vl);
         }, "isWin");
+        setupEpg(_epgMap, et -> ((VillagePlayer)et).getCharaName(), (et, vl) -> ((VillagePlayer)et).setCharaName((String)vl), "charaName");
+        setupEpg(_epgMap, et -> ((VillagePlayer)et).getMemo(), (et, vl) -> ((VillagePlayer)et).setMemo((String)vl), "memo");
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getRegisterDatetime(), (et, vl) -> ((VillagePlayer)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getRegisterTrace(), (et, vl) -> ((VillagePlayer)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getUpdateDatetime(), (et, vl) -> ((VillagePlayer)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -137,7 +139,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnVillagePlayerId = cci("VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", null, null, Integer.class, "villagePlayerId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "commitList,messageByToVillagePlayerIdList,messageByVillagePlayerIdList,villagePlayerDeadHistoryList,villagePlayerRoomHistoryList,villagePlayerStatusByToVillagePlayerIdList,villagePlayerStatusByVillagePlayerIdList", null, false);
+    protected final ColumnInfo _columnVillagePlayerId = cci("VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", null, null, Integer.class, "villagePlayerId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "commitList,messageByToVillagePlayerIdList,messageByVillagePlayerIdList,messageSendtoList,villagePlayerDeadHistoryList,villagePlayerRoomHistoryList,villagePlayerStatusByToVillagePlayerIdList,villagePlayerStatusByVillagePlayerIdList", null, false);
     protected final ColumnInfo _columnVillageId = cci("VILLAGE_ID", "VILLAGE_ID", null, null, Integer.class, "villageId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "village", null, null, false);
     protected final ColumnInfo _columnPlayerId = cci("PLAYER_ID", "PLAYER_ID", null, null, Integer.class, "playerId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "player", null, null, false);
     protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "chara", null, null, false);
@@ -153,6 +155,8 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnLastAccessDatetime = cci("LAST_ACCESS_DATETIME", "LAST_ACCESS_DATETIME", null, null, java.time.LocalDateTime.class, "lastAccessDatetime", null, false, false, false, "DATETIME", 19, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnCampCode = cci("CAMP_CODE", "CAMP_CODE", null, null, String.class, "campCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnIsWin = cci("IS_WIN", "IS_WIN", null, null, Boolean.class, "isWin", null, false, false, false, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
+    protected final ColumnInfo _columnCharaName = cci("CHARA_NAME", "CHARA_NAME", null, null, String.class, "charaName", null, false, false, true, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnMemo = cci("MEMO", "MEMO", null, null, String.class, "memo", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -239,6 +243,16 @@ public class VillagePlayerDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnIsWin() { return _columnIsWin; }
     /**
+     * CHARA_NAME: {NotNull, VARCHAR(40)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnCharaName() { return _columnCharaName; }
+    /**
+     * MEMO: {VARCHAR(20)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnMemo() { return _columnMemo; }
+    /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
      */
@@ -277,6 +291,8 @@ public class VillagePlayerDbm extends AbstractDBMeta {
         ls.add(columnLastAccessDatetime());
         ls.add(columnCampCode());
         ls.add(columnIsWin());
+        ls.add(columnCharaName());
+        ls.add(columnMemo());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());
@@ -387,6 +403,14 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     public ReferrerInfo referrerMessageByVillagePlayerIdList() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillagePlayerId(), MessageDbm.getInstance().columnVillagePlayerId());
         return cri("FK_MESSAGE_VILLAGE_PLAYER", "messageByVillagePlayerIdList", this, MessageDbm.getInstance(), mp, false, "villagePlayerByVillagePlayerId");
+    }
+    /**
+     * MESSAGE_SENDTO by VILLAGE_PLAYER_ID, named 'messageSendtoList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerMessageSendtoList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillagePlayerId(), MessageSendtoDbm.getInstance().columnVillagePlayerId());
+        return cri("FK_MESSAGE_SENDTO_VILLAGE_PLAYER", "messageSendtoList", this, MessageSendtoDbm.getInstance(), mp, false, "villagePlayer");
     }
     /**
      * VILLAGE_PLAYER_DEAD_HISTORY by VILLAGE_PLAYER_ID, named 'villagePlayerDeadHistoryList'.

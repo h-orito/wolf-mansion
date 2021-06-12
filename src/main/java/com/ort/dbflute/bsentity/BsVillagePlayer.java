@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_PLAYER_ID
  *
  * [column]
- *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, SECOND_REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, IS_SPECTATOR, DEAD_REASON_CODE, DEAD_DAY, IS_GONE, LAST_ACCESS_DATETIME, CAMP_CODE, IS_WIN, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, SECOND_REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, IS_SPECTATOR, DEAD_REASON_CODE, DEAD_DAY, IS_GONE, LAST_ACCESS_DATETIME, CAMP_CODE, IS_WIN, CHARA_NAME, MEMO, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -36,13 +36,13 @@ import com.ort.dbflute.exentity.*;
  *     CHARA, DEAD_REASON, PLAYER, SKILL, VILLAGE
  *
  * [referrer table]
- *     COMMIT, MESSAGE, VILLAGE_PLAYER_DEAD_HISTORY, VILLAGE_PLAYER_ROOM_HISTORY, VILLAGE_PLAYER_STATUS
+ *     COMMIT, MESSAGE, MESSAGE_SENDTO, VILLAGE_PLAYER_DEAD_HISTORY, VILLAGE_PLAYER_ROOM_HISTORY, VILLAGE_PLAYER_STATUS
  *
  * [foreign property]
  *     chara, deadReason, player, skillByRequestSkillCode, skillBySecondRequestSkillCode, skillBySkillCode, village
  *
  * [referrer property]
- *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList, villagePlayerDeadHistoryList, villagePlayerRoomHistoryList, villagePlayerStatusByToVillagePlayerIdList, villagePlayerStatusByVillagePlayerIdList
+ *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList, messageSendtoList, villagePlayerDeadHistoryList, villagePlayerRoomHistoryList, villagePlayerStatusByToVillagePlayerIdList, villagePlayerStatusByVillagePlayerIdList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -62,6 +62,8 @@ import com.ort.dbflute.exentity.*;
  * java.time.LocalDateTime lastAccessDatetime = entity.getLastAccessDatetime();
  * String campCode = entity.getCampCode();
  * Boolean isWin = entity.getIsWin();
+ * String charaName = entity.getCharaName();
+ * String memo = entity.getMemo();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -82,6 +84,8 @@ import com.ort.dbflute.exentity.*;
  * entity.setLastAccessDatetime(lastAccessDatetime);
  * entity.setCampCode(campCode);
  * entity.setIsWin(isWin);
+ * entity.setCharaName(charaName);
+ * entity.setMemo(memo);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -148,6 +152,12 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /** IS_WIN: {BIT, classification=Flg} */
     protected Boolean _isWin;
+
+    /** CHARA_NAME: {NotNull, VARCHAR(40)} */
+    protected String _charaName;
+
+    /** MEMO: {VARCHAR(20)} */
+    protected String _memo;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -3400,6 +3410,26 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         _messageByVillagePlayerIdList = messageByVillagePlayerIdList;
     }
 
+    /** MESSAGE_SENDTO by VILLAGE_PLAYER_ID, named 'messageSendtoList'. */
+    protected List<MessageSendto> _messageSendtoList;
+
+    /**
+     * [get] MESSAGE_SENDTO by VILLAGE_PLAYER_ID, named 'messageSendtoList'.
+     * @return The entity list of referrer property 'messageSendtoList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<MessageSendto> getMessageSendtoList() {
+        if (_messageSendtoList == null) { _messageSendtoList = newReferrerList(); }
+        return _messageSendtoList;
+    }
+
+    /**
+     * [set] MESSAGE_SENDTO by VILLAGE_PLAYER_ID, named 'messageSendtoList'.
+     * @param messageSendtoList The entity list of referrer property 'messageSendtoList'. (NullAllowed)
+     */
+    public void setMessageSendtoList(List<MessageSendto> messageSendtoList) {
+        _messageSendtoList = messageSendtoList;
+    }
+
     /** VILLAGE_PLAYER_DEAD_HISTORY by VILLAGE_PLAYER_ID, named 'villagePlayerDeadHistoryList'. */
     protected List<VillagePlayerDeadHistory> _villagePlayerDeadHistoryList;
 
@@ -3529,6 +3559,8 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         { if (et != null) { sb.append(li).append(xbRDS(et, "messageByToVillagePlayerIdList")); } } }
         if (_messageByVillagePlayerIdList != null) { for (Message et : _messageByVillagePlayerIdList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "messageByVillagePlayerIdList")); } } }
+        if (_messageSendtoList != null) { for (MessageSendto et : _messageSendtoList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "messageSendtoList")); } } }
         if (_villagePlayerDeadHistoryList != null) { for (VillagePlayerDeadHistory et : _villagePlayerDeadHistoryList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerDeadHistoryList")); } } }
         if (_villagePlayerRoomHistoryList != null) { for (VillagePlayerRoomHistory et : _villagePlayerRoomHistoryList)
@@ -3562,6 +3594,8 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         sb.append(dm).append(xfND(_lastAccessDatetime));
         sb.append(dm).append(xfND(_campCode));
         sb.append(dm).append(xfND(_isWin));
+        sb.append(dm).append(xfND(_charaName));
+        sb.append(dm).append(xfND(_memo));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -3596,6 +3630,8 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         { sb.append(dm).append("messageByToVillagePlayerIdList"); }
         if (_messageByVillagePlayerIdList != null && !_messageByVillagePlayerIdList.isEmpty())
         { sb.append(dm).append("messageByVillagePlayerIdList"); }
+        if (_messageSendtoList != null && !_messageSendtoList.isEmpty())
+        { sb.append(dm).append("messageSendtoList"); }
         if (_villagePlayerDeadHistoryList != null && !_villagePlayerDeadHistoryList.isEmpty())
         { sb.append(dm).append("villagePlayerDeadHistoryList"); }
         if (_villagePlayerRoomHistoryList != null && !_villagePlayerRoomHistoryList.isEmpty())
@@ -3944,6 +3980,46 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         checkClassificationCode("IS_WIN", CDef.DefMeta.Flg, isWin);
         registerModifiedProperty("isWin");
         _isWin = isWin;
+    }
+
+    /**
+     * [get] CHARA_NAME: {NotNull, VARCHAR(40)} <br>
+     * キャラクター名
+     * @return The value of the column 'CHARA_NAME'. (basically NotNull if selected: for the constraint)
+     */
+    public String getCharaName() {
+        checkSpecifiedProperty("charaName");
+        return convertEmptyToNull(_charaName);
+    }
+
+    /**
+     * [set] CHARA_NAME: {NotNull, VARCHAR(40)} <br>
+     * キャラクター名
+     * @param charaName The value of the column 'CHARA_NAME'. (basically NotNull if update: for the constraint)
+     */
+    public void setCharaName(String charaName) {
+        registerModifiedProperty("charaName");
+        _charaName = charaName;
+    }
+
+    /**
+     * [get] MEMO: {VARCHAR(20)} <br>
+     * メモ
+     * @return The value of the column 'MEMO'. (NullAllowed even if selected: for no constraint)
+     */
+    public String getMemo() {
+        checkSpecifiedProperty("memo");
+        return convertEmptyToNull(_memo);
+    }
+
+    /**
+     * [set] MEMO: {VARCHAR(20)} <br>
+     * メモ
+     * @param memo The value of the column 'MEMO'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setMemo(String memo) {
+        registerModifiedProperty("memo");
+        _memo = memo;
     }
 
     /**

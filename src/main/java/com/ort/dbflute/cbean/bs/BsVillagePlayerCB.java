@@ -569,6 +569,16 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnIsWin() { return doColumn("IS_WIN"); }
         /**
+         * CHARA_NAME: {NotNull, VARCHAR(40)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnCharaName() { return doColumn("CHARA_NAME"); }
+        /**
+         * MEMO: {VARCHAR(20)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnMemo() { return doColumn("MEMO"); }
+        /**
          * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
          */
@@ -814,6 +824,23 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
             assertDerived("messageByVillagePlayerIdList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
             return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<MessageCB> sq, VillagePlayerCQ cq, String al, DerivedReferrerOption op)
                     -> cq.xsderiveMessageByVillagePlayerIdList(fn, sq, al, op), _dbmetaProvider);
+        }
+        /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
+         * {select max(FOO) from MESSAGE_SENDTO where ...) as FOO_MAX} <br>
+         * MESSAGE_SENDTO by VILLAGE_PLAYER_ID, named 'messageSendtoList'.
+         * <pre>
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(sendtoCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     sendtoCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     sendtoCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, MessageSendto.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        public HpSDRFunction<MessageSendtoCB, VillagePlayerCQ> derivedMessageSendto() {
+            assertDerived("messageSendtoList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<MessageSendtoCB> sq, VillagePlayerCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveMessageSendtoList(fn, sq, al, op), _dbmetaProvider);
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>

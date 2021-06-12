@@ -12,21 +12,21 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of MESSAGE.
+ * The condition-query for in-line of MESSAGE_SENDTO.
  * @author DBFlute(AutoGenerator)
  */
-public class MessageCIQ extends AbstractBsMessageCQ {
+public class MessageSendtoCIQ extends AbstractBsMessageSendtoCQ {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected BsMessageCQ _myCQ;
+    protected BsMessageSendtoCQ _myCQ;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public MessageCIQ(ConditionQuery referrerQuery, SqlClause sqlClause
-                        , String aliasName, int nestLevel, BsMessageCQ myCQ) {
+    public MessageSendtoCIQ(ConditionQuery referrerQuery, SqlClause sqlClause
+                        , String aliasName, int nestLevel, BsMessageSendtoCQ myCQ) {
         super(referrerQuery, sqlClause, aliasName, nestLevel);
         _myCQ = myCQ;
         _foreignPropertyName = _myCQ.xgetForeignPropertyName(); // accept foreign property name
@@ -61,42 +61,23 @@ public class MessageCIQ extends AbstractBsMessageCQ {
     // ===================================================================================
     //                                                                Override about Query
     //                                                                ====================
+    protected ConditionValue xgetCValueMessageReplytoId() { return _myCQ.xdfgetMessageReplytoId(); }
     protected ConditionValue xgetCValueMessageId() { return _myCQ.xdfgetMessageId(); }
-    public String keepMessageId_ExistsReferrer_MessageSendtoList(MessageSendtoCQ sq)
-    { throwIICBOE("ExistsReferrer"); return null; }
-    public String keepMessageId_NotExistsReferrer_MessageSendtoList(MessageSendtoCQ sq)
-    { throwIICBOE("NotExistsReferrer"); return null; }
-    public String keepMessageId_SpecifyDerivedReferrer_MessageSendtoList(MessageSendtoCQ sq)
-    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
-    public String keepMessageId_QueryDerivedReferrer_MessageSendtoList(MessageSendtoCQ sq)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepMessageId_QueryDerivedReferrer_MessageSendtoListParameter(Object vl)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    protected ConditionValue xgetCValueVillageId() { return _myCQ.xdfgetVillageId(); }
     protected ConditionValue xgetCValueVillagePlayerId() { return _myCQ.xdfgetVillagePlayerId(); }
-    protected ConditionValue xgetCValueToVillagePlayerId() { return _myCQ.xdfgetToVillagePlayerId(); }
-    protected ConditionValue xgetCValuePlayerId() { return _myCQ.xdfgetPlayerId(); }
-    protected ConditionValue xgetCValueDay() { return _myCQ.xdfgetDay(); }
-    protected ConditionValue xgetCValueMessageTypeCode() { return _myCQ.xdfgetMessageTypeCode(); }
-    protected ConditionValue xgetCValueMessageNumber() { return _myCQ.xdfgetMessageNumber(); }
-    protected ConditionValue xgetCValueMessageContent() { return _myCQ.xdfgetMessageContent(); }
-    protected ConditionValue xgetCValueMessageDatetime() { return _myCQ.xdfgetMessageDatetime(); }
-    protected ConditionValue xgetCValueIsConvertDisable() { return _myCQ.xdfgetIsConvertDisable(); }
-    protected ConditionValue xgetCValueFaceTypeCode() { return _myCQ.xdfgetFaceTypeCode(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
     protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }
     protected ConditionValue xgetCValueUpdateDatetime() { return _myCQ.xdfgetUpdateDatetime(); }
     protected ConditionValue xgetCValueUpdateTrace() { return _myCQ.xdfgetUpdateTrace(); }
     protected Map<String, Object> xfindFixedConditionDynamicParameterMap(String pp) { return null; }
-    public String keepScalarCondition(MessageCQ sq)
+    public String keepScalarCondition(MessageSendtoCQ sq)
     { throwIICBOE("ScalarCondition"); return null; }
-    public String keepSpecifyMyselfDerived(MessageCQ sq)
+    public String keepSpecifyMyselfDerived(MessageSendtoCQ sq)
     { throwIICBOE("(Specify)MyselfDerived"); return null;}
-    public String keepQueryMyselfDerived(MessageCQ sq)
+    public String keepQueryMyselfDerived(MessageSendtoCQ sq)
     { throwIICBOE("(Query)MyselfDerived"); return null;}
     public String keepQueryMyselfDerivedParameter(Object vl)
     { throwIICBOE("(Query)MyselfDerived"); return null;}
-    public String keepMyselfExists(MessageCQ sq)
+    public String keepMyselfExists(MessageSendtoCQ sq)
     { throwIICBOE("MyselfExists"); return null;}
 
     protected void throwIICBOE(String name)
@@ -106,6 +87,6 @@ public class MessageCIQ extends AbstractBsMessageCQ {
     //                                                                       Very Internal
     //                                                                       =============
     // very internal (for suppressing warn about 'Not Use Import')
-    protected String xinCB() { return MessageCB.class.getName(); }
-    protected String xinCQ() { return MessageCQ.class.getName(); }
+    protected String xinCB() { return MessageSendtoCB.class.getName(); }
+    protected String xinCQ() { return MessageSendtoCQ.class.getName(); }
 }

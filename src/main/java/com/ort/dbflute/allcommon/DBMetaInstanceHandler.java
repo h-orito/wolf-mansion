@@ -45,6 +45,7 @@ public class DBMetaInstanceHandler implements DBMetaProvider {
         tmpMap.put("FACE_TYPE", "com.ort.dbflute.bsentity.dbmeta.FaceTypeDbm");
         tmpMap.put("FOOTSTEP", "com.ort.dbflute.bsentity.dbmeta.FootstepDbm");
         tmpMap.put("MESSAGE", "com.ort.dbflute.bsentity.dbmeta.MessageDbm");
+        tmpMap.put("MESSAGE_SENDTO", "com.ort.dbflute.bsentity.dbmeta.MessageSendtoDbm");
         tmpMap.put("MESSAGE_TYPE", "com.ort.dbflute.bsentity.dbmeta.MessageTypeDbm");
         tmpMap.put("NORMAL_SAY_RESTRICTION", "com.ort.dbflute.bsentity.dbmeta.NormalSayRestrictionDbm");
         tmpMap.put("PLAYER", "com.ort.dbflute.bsentity.dbmeta.PlayerDbm");

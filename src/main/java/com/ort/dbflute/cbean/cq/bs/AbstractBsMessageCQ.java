@@ -158,6 +158,79 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Set up ExistsReferrer (correlated sub-query). <br>
+     * {exists (select MESSAGE_ID from MESSAGE_SENDTO where ...)} <br>
+     * MESSAGE_SENDTO by MESSAGE_ID, named 'messageSendtoAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">existsMessageSendto</span>(sendtoCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     sendtoCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of MessageSendtoList for 'exists'. (NotNull)
+     */
+    public void existsMessageSendto(SubQuery<MessageSendtoCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        MessageSendtoCB cb = new MessageSendtoCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepMessageId_ExistsReferrer_MessageSendtoList(cb.query());
+        registerExistsReferrer(cb.query(), "MESSAGE_ID", "MESSAGE_ID", pp, "messageSendtoList");
+    }
+    public abstract String keepMessageId_ExistsReferrer_MessageSendtoList(MessageSendtoCQ sq);
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br>
+     * {not exists (select MESSAGE_ID from MESSAGE_SENDTO where ...)} <br>
+     * MESSAGE_SENDTO by MESSAGE_ID, named 'messageSendtoAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">notExistsMessageSendto</span>(sendtoCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     sendtoCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of MessageId_NotExistsReferrer_MessageSendtoList for 'not exists'. (NotNull)
+     */
+    public void notExistsMessageSendto(SubQuery<MessageSendtoCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        MessageSendtoCB cb = new MessageSendtoCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepMessageId_NotExistsReferrer_MessageSendtoList(cb.query());
+        registerNotExistsReferrer(cb.query(), "MESSAGE_ID", "MESSAGE_ID", pp, "messageSendtoList");
+    }
+    public abstract String keepMessageId_NotExistsReferrer_MessageSendtoList(MessageSendtoCQ sq);
+
+    public void xsderiveMessageSendtoList(String fn, SubQuery<MessageSendtoCB> sq, String al, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        MessageSendtoCB cb = new MessageSendtoCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepMessageId_SpecifyDerivedReferrer_MessageSendtoList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "MESSAGE_ID", "MESSAGE_ID", pp, "messageSendtoList", al, op);
+    }
+    public abstract String keepMessageId_SpecifyDerivedReferrer_MessageSendtoList(MessageSendtoCQ sq);
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
+     * {FOO &lt;= (select max(BAR) from MESSAGE_SENDTO where ...)} <br>
+     * MESSAGE_SENDTO by MESSAGE_ID, named 'messageSendtoAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">derivedMessageSendto()</span>.<span style="color: #CC4747">max</span>(sendtoCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     sendtoCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     sendtoCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    public HpQDRFunction<MessageSendtoCB> derivedMessageSendto() {
+        return xcreateQDRFunctionMessageSendtoList();
+    }
+    protected HpQDRFunction<MessageSendtoCB> xcreateQDRFunctionMessageSendtoList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveMessageSendtoList(fn, sq, rd, vl, op));
+    }
+    public void xqderiveMessageSendtoList(String fn, SubQuery<MessageSendtoCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        MessageSendtoCB cb = new MessageSendtoCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepMessageId_QueryDerivedReferrer_MessageSendtoList(cb.query()); String prpp = keepMessageId_QueryDerivedReferrer_MessageSendtoListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "MESSAGE_ID", "MESSAGE_ID", sqpp, "messageSendtoList", rd, vl, prpp, op);
+    }
+    public abstract String keepMessageId_QueryDerivedReferrer_MessageSendtoList(MessageSendtoCQ sq);
+    public abstract String keepMessageId_QueryDerivedReferrer_MessageSendtoListParameter(Object vl);
+
+    /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
      * MESSAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
      */

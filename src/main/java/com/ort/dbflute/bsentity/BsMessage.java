@@ -36,13 +36,13 @@ import com.ort.dbflute.exentity.*;
  *     FACE_TYPE, MESSAGE_TYPE, PLAYER, VILLAGE_PLAYER, VILLAGE_DAY
  *
  * [referrer table]
- *     
+ *     MESSAGE_SENDTO
  *
  * [foreign property]
  *     faceType, messageType, player, villagePlayerByToVillagePlayerId, villageDay, villagePlayerByVillagePlayerId
  *
  * [referrer property]
- *     
+ *     messageSendtoList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -926,6 +926,26 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
+    /** MESSAGE_SENDTO by MESSAGE_ID, named 'messageSendtoList'. */
+    protected List<MessageSendto> _messageSendtoList;
+
+    /**
+     * [get] MESSAGE_SENDTO by MESSAGE_ID, named 'messageSendtoList'.
+     * @return The entity list of referrer property 'messageSendtoList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<MessageSendto> getMessageSendtoList() {
+        if (_messageSendtoList == null) { _messageSendtoList = newReferrerList(); }
+        return _messageSendtoList;
+    }
+
+    /**
+     * [set] MESSAGE_SENDTO by MESSAGE_ID, named 'messageSendtoList'.
+     * @param messageSendtoList The entity list of referrer property 'messageSendtoList'. (NullAllowed)
+     */
+    public void setMessageSendtoList(List<MessageSendto> messageSendtoList) {
+        _messageSendtoList = messageSendtoList;
+    }
+
     protected <ELEMENT> List<ELEMENT> newReferrerList() { // overriding to import
         return new ArrayList<ELEMENT>();
     }
@@ -967,6 +987,8 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
         { sb.append(li).append(xbRDS(_villageDay, "villageDay")); }
         if (_villagePlayerByVillagePlayerId != null && _villagePlayerByVillagePlayerId.isPresent())
         { sb.append(li).append(xbRDS(_villagePlayerByVillagePlayerId, "villagePlayerByVillagePlayerId")); }
+        if (_messageSendtoList != null) { for (MessageSendto et : _messageSendtoList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "messageSendtoList")); } } }
         return sb.toString();
     }
     protected <ET extends Entity> String xbRDS(org.dbflute.optional.OptionalEntity<ET> et, String name) { // buildRelationDisplayString()
@@ -1014,6 +1036,8 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
         { sb.append(dm).append("villageDay"); }
         if (_villagePlayerByVillagePlayerId != null && _villagePlayerByVillagePlayerId.isPresent())
         { sb.append(dm).append("villagePlayerByVillagePlayerId"); }
+        if (_messageSendtoList != null && !_messageSendtoList.isEmpty())
+        { sb.append(dm).append("messageSendtoList"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }

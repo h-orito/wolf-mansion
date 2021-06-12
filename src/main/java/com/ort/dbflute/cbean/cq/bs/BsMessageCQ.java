@@ -79,6 +79,20 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
       return _messageId; }
     protected ConditionValue xgetCValueMessageId() { return xdfgetMessageId(); }
 
+    public Map<String, MessageSendtoCQ> xdfgetMessageId_ExistsReferrer_MessageSendtoList() { return xgetSQueMap("messageId_ExistsReferrer_MessageSendtoList"); }
+    public String keepMessageId_ExistsReferrer_MessageSendtoList(MessageSendtoCQ sq) { return xkeepSQue("messageId_ExistsReferrer_MessageSendtoList", sq); }
+
+    public Map<String, MessageSendtoCQ> xdfgetMessageId_NotExistsReferrer_MessageSendtoList() { return xgetSQueMap("messageId_NotExistsReferrer_MessageSendtoList"); }
+    public String keepMessageId_NotExistsReferrer_MessageSendtoList(MessageSendtoCQ sq) { return xkeepSQue("messageId_NotExistsReferrer_MessageSendtoList", sq); }
+
+    public Map<String, MessageSendtoCQ> xdfgetMessageId_SpecifyDerivedReferrer_MessageSendtoList() { return xgetSQueMap("messageId_SpecifyDerivedReferrer_MessageSendtoList"); }
+    public String keepMessageId_SpecifyDerivedReferrer_MessageSendtoList(MessageSendtoCQ sq) { return xkeepSQue("messageId_SpecifyDerivedReferrer_MessageSendtoList", sq); }
+
+    public Map<String, MessageSendtoCQ> xdfgetMessageId_QueryDerivedReferrer_MessageSendtoList() { return xgetSQueMap("messageId_QueryDerivedReferrer_MessageSendtoList"); }
+    public String keepMessageId_QueryDerivedReferrer_MessageSendtoList(MessageSendtoCQ sq) { return xkeepSQue("messageId_QueryDerivedReferrer_MessageSendtoList", sq); }
+    public Map<String, Object> xdfgetMessageId_QueryDerivedReferrer_MessageSendtoListParameter() { return xgetSQuePmMap("messageId_QueryDerivedReferrer_MessageSendtoList"); }
+    public String keepMessageId_QueryDerivedReferrer_MessageSendtoListParameter(Object pm) { return xkeepSQuePm("messageId_QueryDerivedReferrer_MessageSendtoList", pm); }
+
     /**
      * Add order-by as ascend. <br>
      * MESSAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)}

@@ -15,7 +15,7 @@ import com.ort.dbflute.cbean.*;
  *     VILLAGE_PLAYER_ID
  *
  * [column]
- *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, SECOND_REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, IS_SPECTATOR, DEAD_REASON_CODE, DEAD_DAY, IS_GONE, LAST_ACCESS_DATETIME, CAMP_CODE, IS_WIN, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, SECOND_REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, IS_SPECTATOR, DEAD_REASON_CODE, DEAD_DAY, IS_GONE, LAST_ACCESS_DATETIME, CAMP_CODE, IS_WIN, CHARA_NAME, MEMO, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -30,13 +30,13 @@ import com.ort.dbflute.cbean.*;
  *     CHARA, DEAD_REASON, PLAYER, SKILL, VILLAGE
  *
  * [referrer table]
- *     COMMIT, MESSAGE, VILLAGE_PLAYER_DEAD_HISTORY, VILLAGE_PLAYER_ROOM_HISTORY, VILLAGE_PLAYER_STATUS
+ *     COMMIT, MESSAGE, MESSAGE_SENDTO, VILLAGE_PLAYER_DEAD_HISTORY, VILLAGE_PLAYER_ROOM_HISTORY, VILLAGE_PLAYER_STATUS
  *
  * [foreign property]
  *     chara, deadReason, player, skillByRequestSkillCode, skillBySecondRequestSkillCode, skillBySkillCode, village
  *
  * [referrer property]
- *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList, villagePlayerDeadHistoryList, villagePlayerRoomHistoryList, villagePlayerStatusByToVillagePlayerIdList, villagePlayerStatusByVillagePlayerIdList
+ *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList, messageSendtoList, villagePlayerDeadHistoryList, villagePlayerRoomHistoryList, villagePlayerStatusByToVillagePlayerIdList, villagePlayerStatusByVillagePlayerIdList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -161,6 +161,40 @@ public class LoaderOfVillagePlayer {
     public NestedReferrerLoaderGateway<LoaderOfMessage> loadMessageByVillagePlayerId(ReferrerConditionSetupper<MessageCB> refCBLambda) {
         myBhv().loadMessageByVillagePlayerId(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerMessageByVillagePlayerId = refLs);
         return hd -> hd.handle(new LoaderOfMessage().ready(_referrerMessageByVillagePlayerId, _selector));
+    }
+
+    protected List<MessageSendto> _referrerMessageSendto;
+
+    /**
+     * Load referrer of messageSendtoList by the set-upper of referrer. <br>
+     * MESSAGE_SENDTO by VILLAGE_PLAYER_ID, named 'messageSendtoList'.
+     * <pre>
+     * <span style="color: #0000C0">villagePlayerBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">villagePlayerList</span>, <span style="color: #553000">playerLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">playerLoader</span>.<span style="color: #CC4747">loadMessageSendto</span>(<span style="color: #553000">sendtoCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *         <span style="color: #553000">sendtoCB</span>.setupSelect...
+     *         <span style="color: #553000">sendtoCB</span>.query().set...
+     *         <span style="color: #553000">sendtoCB</span>.query().addOrderBy...
+     *     }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     *     <span style="color: #3F7E5E">//}).withNestedReferrer(<span style="color: #553000">sendtoLoader</span> -&gt; {</span>
+     *     <span style="color: #3F7E5E">//    sendtoLoader.load...</span>
+     *     <span style="color: #3F7E5E">//});</span>
+     * });
+     * for (VillagePlayer villagePlayer : <span style="color: #553000">villagePlayerList</span>) {
+     *     ... = villagePlayer.<span style="color: #CC4747">getMessageSendtoList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setVillagePlayerId_InScope(pkList);
+     * cb.query().addOrderBy_VillagePlayerId_Asc();
+     * </pre>
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerLoaderGateway<LoaderOfMessageSendto> loadMessageSendto(ReferrerConditionSetupper<MessageSendtoCB> refCBLambda) {
+        myBhv().loadMessageSendto(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerMessageSendto = refLs);
+        return hd -> hd.handle(new LoaderOfMessageSendto().ready(_referrerMessageSendto, _selector));
     }
 
     protected List<VillagePlayerDeadHistory> _referrerVillagePlayerDeadHistory;
