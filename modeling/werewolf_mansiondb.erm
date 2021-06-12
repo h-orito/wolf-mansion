@@ -1332,6 +1332,12 @@
 					<referred_column>table.face_type.face_type_code</referred_column>
 					<relationship>FK_message_face_type</relationship>
 				</normal_column>
+				<normal_column>
+					<physical_name>chara_name</physical_name>
+					<logical_name>キャラクター名</logical_name>
+					<type>varchar(n)</type>
+					<length>40</length>
+				</normal_column>
 				<column_group>共通カラム</column_group>
 			</columns>
 			<indexes>
