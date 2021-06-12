@@ -525,6 +525,26 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
      */
     public BsVillagePlayerCQ addOrderBy_CharaName_Desc() { regOBD("CHARA_NAME"); return this; }
 
+    protected ConditionValue _charaShortName;
+    public ConditionValue xdfgetCharaShortName()
+    { if (_charaShortName == null) { _charaShortName = nCV(); }
+      return _charaShortName; }
+    protected ConditionValue xgetCValueCharaShortName() { return xdfgetCharaShortName(); }
+
+    /**
+     * Add order-by as ascend. <br>
+     * CHARA_SHORT_NAME: {NotNull, CHAR(1)}
+     * @return this. (NotNull)
+     */
+    public BsVillagePlayerCQ addOrderBy_CharaShortName_Asc() { regOBA("CHARA_SHORT_NAME"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * CHARA_SHORT_NAME: {NotNull, CHAR(1)}
+     * @return this. (NotNull)
+     */
+    public BsVillagePlayerCQ addOrderBy_CharaShortName_Desc() { regOBD("CHARA_SHORT_NAME"); return this; }
+
     protected ConditionValue _memo;
     public ConditionValue xdfgetMemo()
     { if (_memo == null) { _memo = nCV(); }

@@ -158,6 +158,7 @@ public class VillagePlayerCIQ extends AbstractBsVillagePlayerCQ {
     protected ConditionValue xgetCValueCampCode() { return _myCQ.xdfgetCampCode(); }
     protected ConditionValue xgetCValueIsWin() { return _myCQ.xdfgetIsWin(); }
     protected ConditionValue xgetCValueCharaName() { return _myCQ.xdfgetCharaName(); }
+    protected ConditionValue xgetCValueCharaShortName() { return _myCQ.xdfgetCharaShortName(); }
     protected ConditionValue xgetCValueMemo() { return _myCQ.xdfgetMemo(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
     protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }

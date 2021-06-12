@@ -526,6 +526,26 @@ public class BsMessageCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnFaceTypeCode() { return doColumn("FACE_TYPE_CODE"); }
         /**
+         * CHARA_NAME: {VARCHAR(40)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnCharaName() { return doColumn("CHARA_NAME"); }
+        /**
+         * CHARA_SHORT_NAME: {CHAR(1)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnCharaShortName() { return doColumn("CHARA_SHORT_NAME"); }
+        /**
+         * TO_CHARA_NAME: {VARCHAR(40)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnToCharaName() { return doColumn("TO_CHARA_NAME"); }
+        /**
+         * TO_CHARA_SHORT_NAME: {CHAR(1)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnToCharaShortName() { return doColumn("TO_CHARA_SHORT_NAME"); }
+        /**
          * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
          */

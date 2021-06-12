@@ -71,6 +71,10 @@ public class MessageDbm extends AbstractDBMeta {
                 ((Message)et).mynativeMappingFaceTypeCode((String)vl);
             }
         }, "faceTypeCode");
+        setupEpg(_epgMap, et -> ((Message)et).getCharaName(), (et, vl) -> ((Message)et).setCharaName((String)vl), "charaName");
+        setupEpg(_epgMap, et -> ((Message)et).getCharaShortName(), (et, vl) -> ((Message)et).setCharaShortName((String)vl), "charaShortName");
+        setupEpg(_epgMap, et -> ((Message)et).getToCharaName(), (et, vl) -> ((Message)et).setToCharaName((String)vl), "toCharaName");
+        setupEpg(_epgMap, et -> ((Message)et).getToCharaShortName(), (et, vl) -> ((Message)et).setToCharaShortName((String)vl), "toCharaShortName");
         setupEpg(_epgMap, et -> ((Message)et).getRegisterDatetime(), (et, vl) -> ((Message)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((Message)et).getRegisterTrace(), (et, vl) -> ((Message)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((Message)et).getUpdateDatetime(), (et, vl) -> ((Message)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -124,6 +128,10 @@ public class MessageDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnMessageDatetime = cci("MESSAGE_DATETIME", "MESSAGE_DATETIME", null, null, java.time.LocalDateTime.class, "messageDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnIsConvertDisable = cci("IS_CONVERT_DISABLE", "IS_CONVERT_DISABLE", null, null, Boolean.class, "isConvertDisable", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnFaceTypeCode = cci("FACE_TYPE_CODE", "FACE_TYPE_CODE", null, null, String.class, "faceTypeCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, "faceType", null, CDef.DefMeta.FaceType, false);
+    protected final ColumnInfo _columnCharaName = cci("CHARA_NAME", "CHARA_NAME", null, null, String.class, "charaName", null, false, false, false, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnCharaShortName = cci("CHARA_SHORT_NAME", "CHARA_SHORT_NAME", null, null, String.class, "charaShortName", null, false, false, false, "CHAR", 1, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnToCharaName = cci("TO_CHARA_NAME", "TO_CHARA_NAME", null, null, String.class, "toCharaName", null, false, false, false, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnToCharaShortName = cci("TO_CHARA_SHORT_NAME", "TO_CHARA_SHORT_NAME", null, null, String.class, "toCharaShortName", null, false, false, false, "CHAR", 1, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -190,6 +198,26 @@ public class MessageDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnFaceTypeCode() { return _columnFaceTypeCode; }
     /**
+     * CHARA_NAME: {VARCHAR(40)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnCharaName() { return _columnCharaName; }
+    /**
+     * CHARA_SHORT_NAME: {CHAR(1)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnCharaShortName() { return _columnCharaShortName; }
+    /**
+     * TO_CHARA_NAME: {VARCHAR(40)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnToCharaName() { return _columnToCharaName; }
+    /**
+     * TO_CHARA_SHORT_NAME: {CHAR(1)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnToCharaShortName() { return _columnToCharaShortName; }
+    /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
      */
@@ -224,6 +252,10 @@ public class MessageDbm extends AbstractDBMeta {
         ls.add(columnMessageDatetime());
         ls.add(columnIsConvertDisable());
         ls.add(columnFaceTypeCode());
+        ls.add(columnCharaName());
+        ls.add(columnCharaShortName());
+        ls.add(columnToCharaName());
+        ls.add(columnToCharaShortName());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());

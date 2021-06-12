@@ -648,7 +648,7 @@ pre.spolicyviodisp {
 	</tr>
 	<tr>
 		<td class="rownumcell">14</td>
-		<td class="namecell" data-name="MESSAGE"><a href="#message" title="type=TABLE, primaryKey={MESSAGE_ID}, nameLength=7, columnCount=16">MESSAGE</a></td>
+		<td class="namecell" data-name="MESSAGE"><a href="#message" title="type=TABLE, primaryKey={MESSAGE_ID}, nameLength=7, columnCount=20">MESSAGE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#face_type" title="FK_MESSAGE_FACE_TYPE">FACE_TYPE</a>, <a href="#message_type" title="FK_MESSAGE_MESSAGE_TYPE">MESSAGE_TYPE</a>, <a href="#player" title="FK_MESSAGE_PLAYER">PLAYER</a>, <a href="#village_player" title="FK_MESSAGE_VILLAGE_PLAYER_TO">VILLAGE_PLAYER</a>, <a href="#village_day" title="FK_MESSAGE_VILLAGE_DAY">VILLAGE_DAY</a>, <a href="#village_player" title="FK_MESSAGE_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
 		<td class="relcell"><a href="#message_sendto" title="FK_MESSAGE_SENDTO_MESSAGE">MESSAGE_SENDTO</a></td>
@@ -758,7 +758,7 @@ pre.spolicyviodisp {
 	</tr>
 	<tr>
 		<td class="rownumcell">25</td>
-		<td class="namecell" data-name="VILLAGE_PLAYER"><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=22">VILLAGE_PLAYER</a></td>
+		<td class="namecell" data-name="VILLAGE_PLAYER"><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=23">VILLAGE_PLAYER</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara" title="FK_VILLAGE_PLAYER_CHARA">CHARA</a>, <a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_REASON">DEAD_REASON</a>, <a href="#player" title="FK_VILLAGE_PLAYER_PLAYER">PLAYER</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL">SKILL</a>, <a href="#village" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE</a></td>
 		<td class="relcell"><a href="#commit" title="FK_COMMIT_VILLAGE_PLAYER">COMMIT</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER_TO">MESSAGE</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER">MESSAGE</a>, <a href="#message_sendto" title="FK_MESSAGE_SENDTO_VILLAGE_PLAYER">MESSAGE_SENDTO</a>, <a href="#village_player_dead_history" title="FK_VILLAGE_PLAYER_DEAD_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER_DEAD_HISTORY</a>, <a href="#village_player_room_history" title="FK_VILLAGE_PLAYER_ROOM_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER_ROOM_HISTORY</a>, <a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_TO_VILLAGE_PLAYER">VILLAGE_PLAYER_STATUS</a>, <a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER">VILLAGE_PLAYER_STATUS</a></td>
@@ -2448,7 +2448,7 @@ FOOTSTEP
 	</tbody>
 </table>
 
-<h2 id="message" title="type=TABLE, primaryKey={MESSAGE_ID}, nameLength=7, columnCount=16">
+<h2 id="message" title="type=TABLE, primaryKey={MESSAGE_ID}, nameLength=7, columnCount=20">
 MESSAGE
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/20</span>
 </h2>
@@ -2698,6 +2698,78 @@ MESSAGE
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class=" columnnamecell" id="message_chara_name">CHARA_NAME</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 40 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>キャラクター名</pre></td>
+		<td class="subcell">charaName</td>
+		<td class="subcell">String</td>
+		<td class="subcell">2021/06/12</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">14</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class=" columnnamecell" id="message_chara_short_name">CHARA_SHORT_NAME</td>
+		<td class="typecell">CHAR</td>
+		<td class="sizecell"> 1 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>キャラクター略称</pre></td>
+		<td class="subcell">charaShortName</td>
+		<td class="subcell">String</td>
+		<td class="subcell">2021/06/13</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">15</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class=" columnnamecell" id="message_to_chara_name">TO_CHARA_NAME</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 40 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>秘話相手のキャラクター名</pre></td>
+		<td class="subcell">toCharaName</td>
+		<td class="subcell">String</td>
+		<td class="subcell">2021/06/12</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">16</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class=" columnnamecell" id="message_to_chara_short_name">TO_CHARA_SHORT_NAME</td>
+		<td class="typecell">CHAR</td>
+		<td class="sizecell"> 1 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>秘話相手のキャラクター略称</pre></td>
+		<td class="subcell">toCharaShortName</td>
+		<td class="subcell">String</td>
+		<td class="subcell">2021/06/13</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">17</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">*</td>
 		<td class="comcolcell columnnamecell" id="message_register_datetime">REGISTER_DATETIME</td>
 		<td class="typecell">DATETIME</td>
@@ -2711,7 +2783,7 @@ MESSAGE
 		<td class="subcell">first</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">14</td>
+		<td class="rownumcell">18</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2729,7 +2801,7 @@ MESSAGE
 		<td class="subcell">first</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">15</td>
+		<td class="rownumcell">19</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -2747,7 +2819,7 @@ MESSAGE
 		<td class="subcell">first</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">16</td>
+		<td class="rownumcell">20</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -4229,7 +4301,7 @@ VILLAGE_DAY
 	</tbody>
 </table>
 
-<h2 id="village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=22">
+<h2 id="village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=23">
 VILLAGE_PLAYER
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/20</span>
 </h2>
@@ -4569,6 +4641,24 @@ VILLAGE_PLAYER
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_player_chara_short_name">CHARA_SHORT_NAME</td>
+		<td class="typecell">CHAR</td>
+		<td class="sizecell"> 1 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>キャラクター略称</pre></td>
+		<td class="subcell">charaShortName</td>
+		<td class="subcell">String</td>
+		<td class="subcell">2021/06/13</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">19</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class=" columnnamecell" id="village_player_memo">MEMO</td>
 		<td class="typecell">VARCHAR</td>
@@ -4582,7 +4672,7 @@ VILLAGE_PLAYER
 		<td class="subcell">2021/06/12</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">19</td>
+		<td class="rownumcell">20</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -4600,7 +4690,7 @@ VILLAGE_PLAYER
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">20</td>
+		<td class="rownumcell">21</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -4618,7 +4708,7 @@ VILLAGE_PLAYER
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">21</td>
+		<td class="rownumcell">22</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -4636,7 +4726,7 @@ VILLAGE_PLAYER
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">22</td>
+		<td class="rownumcell">23</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -7935,6 +8025,18 @@ function StoreClient() {
 				, 'FACE_TYPE_CODE': {
 					'databaseComment': '表情種別コード'
 				}
+				, 'CHARA_NAME': {
+					'databaseComment': 'キャラクター名'
+				}
+				, 'CHARA_SHORT_NAME': {
+					'databaseComment': 'キャラクター略称'
+				}
+				, 'TO_CHARA_NAME': {
+					'databaseComment': '秘話相手のキャラクター名'
+				}
+				, 'TO_CHARA_SHORT_NAME': {
+					'databaseComment': '秘話相手のキャラクター略称'
+				}
 				, 'REGISTER_DATETIME': {
 					'databaseComment': '登録日時'
 				}
@@ -8244,6 +8346,9 @@ function StoreClient() {
 				}
 				, 'CHARA_NAME': {
 					'databaseComment': 'キャラクター名'
+				}
+				, 'CHARA_SHORT_NAME': {
+					'databaseComment': 'キャラクター略称'
 				}
 				, 'MEMO': {
 					'databaseComment': 'メモ'

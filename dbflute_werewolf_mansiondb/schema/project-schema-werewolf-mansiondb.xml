@@ -318,6 +318,14 @@
             name="IS_CONVERT_DISABLE" required="true" type="BIT"/>
         <column comment="表情種別コード" dbType="VARCHAR" javaType="String"
             name="FACE_TYPE_CODE" size="20" type="VARCHAR"/>
+        <column comment="キャラクター名" dbType="VARCHAR" javaType="String"
+            name="CHARA_NAME" size="40" type="VARCHAR"/>
+        <column comment="キャラクター略称" dbType="CHAR" javaType="String"
+            name="CHARA_SHORT_NAME" size="1" type="CHAR"/>
+        <column comment="秘話相手のキャラクター名" dbType="VARCHAR"
+            javaType="String" name="TO_CHARA_NAME" size="40" type="VARCHAR"/>
+        <column comment="秘話相手のキャラクター略称" dbType="CHAR" javaType="String"
+            name="TO_CHARA_SHORT_NAME" size="1" type="CHAR"/>
         <column comment="登録日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>
@@ -701,6 +709,8 @@
             name="IS_WIN" type="BIT"/>
         <column comment="キャラクター名" dbType="VARCHAR" javaType="String"
             name="CHARA_NAME" required="true" size="40" type="VARCHAR"/>
+        <column comment="キャラクター略称" dbType="CHAR" javaType="String"
+            name="CHARA_SHORT_NAME" required="true" size="1" type="CHAR"/>
         <column comment="メモ" dbType="VARCHAR" javaType="String"
             name="MEMO" size="20" type="VARCHAR"/>
         <column comment="登録日時" dbType="DATETIME"

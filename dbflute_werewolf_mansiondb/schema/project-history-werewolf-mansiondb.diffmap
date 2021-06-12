@@ -1,4 +1,69 @@
 map:{
+    ; 2021/06/13 00:03:02 = map:{
+        ; diffDate = 2021/06/13 00:03:02
+        ; diffAuthor = h-orito
+        ; diffGitBranch = feature/anchorto
+        ; tableDiff = map:{
+            ; MESSAGE = map:{
+                ; tableName = MESSAGE
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; CHARA_SHORT_NAME = map:{
+                        ; columnName = CHARA_SHORT_NAME
+                        ; diffType = ADD
+                    }
+                    ; TO_CHARA_SHORT_NAME = map:{
+                        ; columnName = TO_CHARA_SHORT_NAME
+                        ; diffType = ADD
+                    }
+                }
+            }
+            ; VILLAGE_PLAYER = map:{
+                ; tableName = VILLAGE_PLAYER
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; CHARA_SHORT_NAME = map:{
+                        ; columnName = CHARA_SHORT_NAME
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
+    ; 2021/06/12 23:50:39 = map:{
+        ; diffDate = 2021/06/12 23:50:39
+        ; diffAuthor = h-orito
+        ; diffGitBranch = feature/anchorto
+        ; tableDiff = map:{
+            ; MESSAGE = map:{
+                ; tableName = MESSAGE
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; TO_CHARA_NAME = map:{
+                        ; columnName = TO_CHARA_NAME
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
+    ; 2021/06/12 23:46:01 = map:{
+        ; diffDate = 2021/06/12 23:46:01
+        ; diffAuthor = h-orito
+        ; diffGitBranch = feature/anchorto
+        ; tableDiff = map:{
+            ; MESSAGE = map:{
+                ; tableName = MESSAGE
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; CHARA_NAME = map:{
+                        ; columnName = CHARA_NAME
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2021/06/12 23:31:55 = map:{
         ; diffDate = 2021/06/12 23:31:55
         ; tableCount = map:{

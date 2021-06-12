@@ -96,6 +96,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
             ((VillagePlayer)et).setIsWin((Boolean)vl);
         }, "isWin");
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getCharaName(), (et, vl) -> ((VillagePlayer)et).setCharaName((String)vl), "charaName");
+        setupEpg(_epgMap, et -> ((VillagePlayer)et).getCharaShortName(), (et, vl) -> ((VillagePlayer)et).setCharaShortName((String)vl), "charaShortName");
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getMemo(), (et, vl) -> ((VillagePlayer)et).setMemo((String)vl), "memo");
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getRegisterDatetime(), (et, vl) -> ((VillagePlayer)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((VillagePlayer)et).getRegisterTrace(), (et, vl) -> ((VillagePlayer)et).setRegisterTrace((String)vl), "registerTrace");
@@ -156,6 +157,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnCampCode = cci("CAMP_CODE", "CAMP_CODE", null, null, String.class, "campCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnIsWin = cci("IS_WIN", "IS_WIN", null, null, Boolean.class, "isWin", null, false, false, false, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnCharaName = cci("CHARA_NAME", "CHARA_NAME", null, null, String.class, "charaName", null, false, false, true, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnCharaShortName = cci("CHARA_SHORT_NAME", "CHARA_SHORT_NAME", null, null, String.class, "charaShortName", null, false, false, true, "CHAR", 1, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnMemo = cci("MEMO", "MEMO", null, null, String.class, "memo", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
@@ -248,6 +250,11 @@ public class VillagePlayerDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnCharaName() { return _columnCharaName; }
     /**
+     * CHARA_SHORT_NAME: {NotNull, CHAR(1)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnCharaShortName() { return _columnCharaShortName; }
+    /**
      * MEMO: {VARCHAR(20)}
      * @return The information object of specified column. (NotNull)
      */
@@ -292,6 +299,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
         ls.add(columnCampCode());
         ls.add(columnIsWin());
         ls.add(columnCharaName());
+        ls.add(columnCharaShortName());
         ls.add(columnMemo());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());

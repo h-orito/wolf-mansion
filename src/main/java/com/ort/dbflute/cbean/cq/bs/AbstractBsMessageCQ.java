@@ -1872,6 +1872,618 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
     protected abstract ConditionValue xgetCValueFaceTypeCode();
 
     /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CHARA_NAME: {VARCHAR(40)}
+     * @param charaName The value of charaName as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaName_Equal(String charaName) {
+        doSetCharaName_Equal(fRES(charaName));
+    }
+
+    protected void doSetCharaName_Equal(String charaName) {
+        regCharaName(CK_EQ, charaName);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CHARA_NAME: {VARCHAR(40)}
+     * @param charaName The value of charaName as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaName_NotEqual(String charaName) {
+        doSetCharaName_NotEqual(fRES(charaName));
+    }
+
+    protected void doSetCharaName_NotEqual(String charaName) {
+        regCharaName(CK_NES, charaName);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CHARA_NAME: {VARCHAR(40)}
+     * @param charaName The value of charaName as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaName_GreaterThan(String charaName) {
+        regCharaName(CK_GT, fRES(charaName));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CHARA_NAME: {VARCHAR(40)}
+     * @param charaName The value of charaName as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaName_LessThan(String charaName) {
+        regCharaName(CK_LT, fRES(charaName));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CHARA_NAME: {VARCHAR(40)}
+     * @param charaName The value of charaName as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaName_GreaterEqual(String charaName) {
+        regCharaName(CK_GE, fRES(charaName));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CHARA_NAME: {VARCHAR(40)}
+     * @param charaName The value of charaName as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaName_LessEqual(String charaName) {
+        regCharaName(CK_LE, fRES(charaName));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * CHARA_NAME: {VARCHAR(40)}
+     * @param charaNameList The collection of charaName as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaName_InScope(Collection<String> charaNameList) {
+        doSetCharaName_InScope(charaNameList);
+    }
+
+    protected void doSetCharaName_InScope(Collection<String> charaNameList) {
+        regINS(CK_INS, cTL(charaNameList), xgetCValueCharaName(), "CHARA_NAME");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * CHARA_NAME: {VARCHAR(40)}
+     * @param charaNameList The collection of charaName as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaName_NotInScope(Collection<String> charaNameList) {
+        doSetCharaName_NotInScope(charaNameList);
+    }
+
+    protected void doSetCharaName_NotInScope(Collection<String> charaNameList) {
+        regINS(CK_NINS, cTL(charaNameList), xgetCValueCharaName(), "CHARA_NAME");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CHARA_NAME: {VARCHAR(40)} <br>
+     * <pre>e.g. setCharaName_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param charaName The value of charaName as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setCharaName_LikeSearch(String charaName, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setCharaName_LikeSearch(charaName, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CHARA_NAME: {VARCHAR(40)} <br>
+     * <pre>e.g. setCharaName_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param charaName The value of charaName as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setCharaName_LikeSearch(String charaName, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(charaName), xgetCValueCharaName(), "CHARA_NAME", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CHARA_NAME: {VARCHAR(40)}
+     * @param charaName The value of charaName as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setCharaName_NotLikeSearch(String charaName, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setCharaName_NotLikeSearch(charaName, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CHARA_NAME: {VARCHAR(40)}
+     * @param charaName The value of charaName as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setCharaName_NotLikeSearch(String charaName, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(charaName), xgetCValueCharaName(), "CHARA_NAME", likeSearchOption);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * CHARA_NAME: {VARCHAR(40)}
+     */
+    public void setCharaName_IsNull() { regCharaName(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * CHARA_NAME: {VARCHAR(40)}
+     */
+    public void setCharaName_IsNullOrEmpty() { regCharaName(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * CHARA_NAME: {VARCHAR(40)}
+     */
+    public void setCharaName_IsNotNull() { regCharaName(CK_ISNN, DOBJ); }
+
+    protected void regCharaName(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueCharaName(), "CHARA_NAME"); }
+    protected abstract ConditionValue xgetCValueCharaName();
+
+    /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CHARA_SHORT_NAME: {CHAR(1)}
+     * @param charaShortName The value of charaShortName as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaShortName_Equal(String charaShortName) {
+        doSetCharaShortName_Equal(fRES(charaShortName));
+    }
+
+    protected void doSetCharaShortName_Equal(String charaShortName) {
+        regCharaShortName(CK_EQ, charaShortName);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CHARA_SHORT_NAME: {CHAR(1)}
+     * @param charaShortName The value of charaShortName as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaShortName_NotEqual(String charaShortName) {
+        doSetCharaShortName_NotEqual(fRES(charaShortName));
+    }
+
+    protected void doSetCharaShortName_NotEqual(String charaShortName) {
+        regCharaShortName(CK_NES, charaShortName);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CHARA_SHORT_NAME: {CHAR(1)}
+     * @param charaShortName The value of charaShortName as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaShortName_GreaterThan(String charaShortName) {
+        regCharaShortName(CK_GT, fRES(charaShortName));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CHARA_SHORT_NAME: {CHAR(1)}
+     * @param charaShortName The value of charaShortName as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaShortName_LessThan(String charaShortName) {
+        regCharaShortName(CK_LT, fRES(charaShortName));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CHARA_SHORT_NAME: {CHAR(1)}
+     * @param charaShortName The value of charaShortName as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaShortName_GreaterEqual(String charaShortName) {
+        regCharaShortName(CK_GE, fRES(charaShortName));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * CHARA_SHORT_NAME: {CHAR(1)}
+     * @param charaShortName The value of charaShortName as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaShortName_LessEqual(String charaShortName) {
+        regCharaShortName(CK_LE, fRES(charaShortName));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * CHARA_SHORT_NAME: {CHAR(1)}
+     * @param charaShortNameList The collection of charaShortName as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaShortName_InScope(Collection<String> charaShortNameList) {
+        doSetCharaShortName_InScope(charaShortNameList);
+    }
+
+    protected void doSetCharaShortName_InScope(Collection<String> charaShortNameList) {
+        regINS(CK_INS, cTL(charaShortNameList), xgetCValueCharaShortName(), "CHARA_SHORT_NAME");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * CHARA_SHORT_NAME: {CHAR(1)}
+     * @param charaShortNameList The collection of charaShortName as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setCharaShortName_NotInScope(Collection<String> charaShortNameList) {
+        doSetCharaShortName_NotInScope(charaShortNameList);
+    }
+
+    protected void doSetCharaShortName_NotInScope(Collection<String> charaShortNameList) {
+        regINS(CK_NINS, cTL(charaShortNameList), xgetCValueCharaShortName(), "CHARA_SHORT_NAME");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CHARA_SHORT_NAME: {CHAR(1)} <br>
+     * <pre>e.g. setCharaShortName_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param charaShortName The value of charaShortName as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setCharaShortName_LikeSearch(String charaShortName, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setCharaShortName_LikeSearch(charaShortName, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CHARA_SHORT_NAME: {CHAR(1)} <br>
+     * <pre>e.g. setCharaShortName_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param charaShortName The value of charaShortName as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setCharaShortName_LikeSearch(String charaShortName, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(charaShortName), xgetCValueCharaShortName(), "CHARA_SHORT_NAME", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CHARA_SHORT_NAME: {CHAR(1)}
+     * @param charaShortName The value of charaShortName as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setCharaShortName_NotLikeSearch(String charaShortName, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setCharaShortName_NotLikeSearch(charaShortName, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * CHARA_SHORT_NAME: {CHAR(1)}
+     * @param charaShortName The value of charaShortName as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setCharaShortName_NotLikeSearch(String charaShortName, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(charaShortName), xgetCValueCharaShortName(), "CHARA_SHORT_NAME", likeSearchOption);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * CHARA_SHORT_NAME: {CHAR(1)}
+     */
+    public void setCharaShortName_IsNull() { regCharaShortName(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * CHARA_SHORT_NAME: {CHAR(1)}
+     */
+    public void setCharaShortName_IsNullOrEmpty() { regCharaShortName(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * CHARA_SHORT_NAME: {CHAR(1)}
+     */
+    public void setCharaShortName_IsNotNull() { regCharaShortName(CK_ISNN, DOBJ); }
+
+    protected void regCharaShortName(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueCharaShortName(), "CHARA_SHORT_NAME"); }
+    protected abstract ConditionValue xgetCValueCharaShortName();
+
+    /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TO_CHARA_NAME: {VARCHAR(40)}
+     * @param toCharaName The value of toCharaName as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setToCharaName_Equal(String toCharaName) {
+        doSetToCharaName_Equal(fRES(toCharaName));
+    }
+
+    protected void doSetToCharaName_Equal(String toCharaName) {
+        regToCharaName(CK_EQ, toCharaName);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TO_CHARA_NAME: {VARCHAR(40)}
+     * @param toCharaName The value of toCharaName as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setToCharaName_NotEqual(String toCharaName) {
+        doSetToCharaName_NotEqual(fRES(toCharaName));
+    }
+
+    protected void doSetToCharaName_NotEqual(String toCharaName) {
+        regToCharaName(CK_NES, toCharaName);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TO_CHARA_NAME: {VARCHAR(40)}
+     * @param toCharaName The value of toCharaName as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setToCharaName_GreaterThan(String toCharaName) {
+        regToCharaName(CK_GT, fRES(toCharaName));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TO_CHARA_NAME: {VARCHAR(40)}
+     * @param toCharaName The value of toCharaName as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setToCharaName_LessThan(String toCharaName) {
+        regToCharaName(CK_LT, fRES(toCharaName));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TO_CHARA_NAME: {VARCHAR(40)}
+     * @param toCharaName The value of toCharaName as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setToCharaName_GreaterEqual(String toCharaName) {
+        regToCharaName(CK_GE, fRES(toCharaName));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TO_CHARA_NAME: {VARCHAR(40)}
+     * @param toCharaName The value of toCharaName as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setToCharaName_LessEqual(String toCharaName) {
+        regToCharaName(CK_LE, fRES(toCharaName));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * TO_CHARA_NAME: {VARCHAR(40)}
+     * @param toCharaNameList The collection of toCharaName as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setToCharaName_InScope(Collection<String> toCharaNameList) {
+        doSetToCharaName_InScope(toCharaNameList);
+    }
+
+    protected void doSetToCharaName_InScope(Collection<String> toCharaNameList) {
+        regINS(CK_INS, cTL(toCharaNameList), xgetCValueToCharaName(), "TO_CHARA_NAME");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * TO_CHARA_NAME: {VARCHAR(40)}
+     * @param toCharaNameList The collection of toCharaName as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setToCharaName_NotInScope(Collection<String> toCharaNameList) {
+        doSetToCharaName_NotInScope(toCharaNameList);
+    }
+
+    protected void doSetToCharaName_NotInScope(Collection<String> toCharaNameList) {
+        regINS(CK_NINS, cTL(toCharaNameList), xgetCValueToCharaName(), "TO_CHARA_NAME");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TO_CHARA_NAME: {VARCHAR(40)} <br>
+     * <pre>e.g. setToCharaName_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param toCharaName The value of toCharaName as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setToCharaName_LikeSearch(String toCharaName, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setToCharaName_LikeSearch(toCharaName, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TO_CHARA_NAME: {VARCHAR(40)} <br>
+     * <pre>e.g. setToCharaName_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param toCharaName The value of toCharaName as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setToCharaName_LikeSearch(String toCharaName, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(toCharaName), xgetCValueToCharaName(), "TO_CHARA_NAME", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TO_CHARA_NAME: {VARCHAR(40)}
+     * @param toCharaName The value of toCharaName as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setToCharaName_NotLikeSearch(String toCharaName, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setToCharaName_NotLikeSearch(toCharaName, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TO_CHARA_NAME: {VARCHAR(40)}
+     * @param toCharaName The value of toCharaName as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setToCharaName_NotLikeSearch(String toCharaName, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(toCharaName), xgetCValueToCharaName(), "TO_CHARA_NAME", likeSearchOption);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * TO_CHARA_NAME: {VARCHAR(40)}
+     */
+    public void setToCharaName_IsNull() { regToCharaName(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * TO_CHARA_NAME: {VARCHAR(40)}
+     */
+    public void setToCharaName_IsNullOrEmpty() { regToCharaName(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * TO_CHARA_NAME: {VARCHAR(40)}
+     */
+    public void setToCharaName_IsNotNull() { regToCharaName(CK_ISNN, DOBJ); }
+
+    protected void regToCharaName(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueToCharaName(), "TO_CHARA_NAME"); }
+    protected abstract ConditionValue xgetCValueToCharaName();
+
+    /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TO_CHARA_SHORT_NAME: {CHAR(1)}
+     * @param toCharaShortName The value of toCharaShortName as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setToCharaShortName_Equal(String toCharaShortName) {
+        doSetToCharaShortName_Equal(fRES(toCharaShortName));
+    }
+
+    protected void doSetToCharaShortName_Equal(String toCharaShortName) {
+        regToCharaShortName(CK_EQ, toCharaShortName);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TO_CHARA_SHORT_NAME: {CHAR(1)}
+     * @param toCharaShortName The value of toCharaShortName as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setToCharaShortName_NotEqual(String toCharaShortName) {
+        doSetToCharaShortName_NotEqual(fRES(toCharaShortName));
+    }
+
+    protected void doSetToCharaShortName_NotEqual(String toCharaShortName) {
+        regToCharaShortName(CK_NES, toCharaShortName);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TO_CHARA_SHORT_NAME: {CHAR(1)}
+     * @param toCharaShortName The value of toCharaShortName as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setToCharaShortName_GreaterThan(String toCharaShortName) {
+        regToCharaShortName(CK_GT, fRES(toCharaShortName));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TO_CHARA_SHORT_NAME: {CHAR(1)}
+     * @param toCharaShortName The value of toCharaShortName as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setToCharaShortName_LessThan(String toCharaShortName) {
+        regToCharaShortName(CK_LT, fRES(toCharaShortName));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TO_CHARA_SHORT_NAME: {CHAR(1)}
+     * @param toCharaShortName The value of toCharaShortName as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setToCharaShortName_GreaterEqual(String toCharaShortName) {
+        regToCharaShortName(CK_GE, fRES(toCharaShortName));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TO_CHARA_SHORT_NAME: {CHAR(1)}
+     * @param toCharaShortName The value of toCharaShortName as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setToCharaShortName_LessEqual(String toCharaShortName) {
+        regToCharaShortName(CK_LE, fRES(toCharaShortName));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * TO_CHARA_SHORT_NAME: {CHAR(1)}
+     * @param toCharaShortNameList The collection of toCharaShortName as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setToCharaShortName_InScope(Collection<String> toCharaShortNameList) {
+        doSetToCharaShortName_InScope(toCharaShortNameList);
+    }
+
+    protected void doSetToCharaShortName_InScope(Collection<String> toCharaShortNameList) {
+        regINS(CK_INS, cTL(toCharaShortNameList), xgetCValueToCharaShortName(), "TO_CHARA_SHORT_NAME");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * TO_CHARA_SHORT_NAME: {CHAR(1)}
+     * @param toCharaShortNameList The collection of toCharaShortName as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setToCharaShortName_NotInScope(Collection<String> toCharaShortNameList) {
+        doSetToCharaShortName_NotInScope(toCharaShortNameList);
+    }
+
+    protected void doSetToCharaShortName_NotInScope(Collection<String> toCharaShortNameList) {
+        regINS(CK_NINS, cTL(toCharaShortNameList), xgetCValueToCharaShortName(), "TO_CHARA_SHORT_NAME");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TO_CHARA_SHORT_NAME: {CHAR(1)} <br>
+     * <pre>e.g. setToCharaShortName_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param toCharaShortName The value of toCharaShortName as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setToCharaShortName_LikeSearch(String toCharaShortName, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setToCharaShortName_LikeSearch(toCharaShortName, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TO_CHARA_SHORT_NAME: {CHAR(1)} <br>
+     * <pre>e.g. setToCharaShortName_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param toCharaShortName The value of toCharaShortName as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setToCharaShortName_LikeSearch(String toCharaShortName, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(toCharaShortName), xgetCValueToCharaShortName(), "TO_CHARA_SHORT_NAME", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TO_CHARA_SHORT_NAME: {CHAR(1)}
+     * @param toCharaShortName The value of toCharaShortName as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setToCharaShortName_NotLikeSearch(String toCharaShortName, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setToCharaShortName_NotLikeSearch(toCharaShortName, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TO_CHARA_SHORT_NAME: {CHAR(1)}
+     * @param toCharaShortName The value of toCharaShortName as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setToCharaShortName_NotLikeSearch(String toCharaShortName, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(toCharaShortName), xgetCValueToCharaShortName(), "TO_CHARA_SHORT_NAME", likeSearchOption);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * TO_CHARA_SHORT_NAME: {CHAR(1)}
+     */
+    public void setToCharaShortName_IsNull() { regToCharaShortName(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * TO_CHARA_SHORT_NAME: {CHAR(1)}
+     */
+    public void setToCharaShortName_IsNullOrEmpty() { regToCharaShortName(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * TO_CHARA_SHORT_NAME: {CHAR(1)}
+     */
+    public void setToCharaShortName_IsNotNull() { regToCharaShortName(CK_ISNN, DOBJ); }
+
+    protected void regToCharaShortName(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueToCharaShortName(), "TO_CHARA_SHORT_NAME"); }
+    protected abstract ConditionValue xgetCValueToCharaShortName();
+
+    /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @param registerDatetime The value of registerDatetime as equal. (basically NotNull: error as default, or no condition as option)

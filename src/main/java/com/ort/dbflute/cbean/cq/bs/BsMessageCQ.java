@@ -327,6 +327,86 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
      */
     public BsMessageCQ addOrderBy_FaceTypeCode_Desc() { regOBD("FACE_TYPE_CODE"); return this; }
 
+    protected ConditionValue _charaName;
+    public ConditionValue xdfgetCharaName()
+    { if (_charaName == null) { _charaName = nCV(); }
+      return _charaName; }
+    protected ConditionValue xgetCValueCharaName() { return xdfgetCharaName(); }
+
+    /**
+     * Add order-by as ascend. <br>
+     * CHARA_NAME: {VARCHAR(40)}
+     * @return this. (NotNull)
+     */
+    public BsMessageCQ addOrderBy_CharaName_Asc() { regOBA("CHARA_NAME"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * CHARA_NAME: {VARCHAR(40)}
+     * @return this. (NotNull)
+     */
+    public BsMessageCQ addOrderBy_CharaName_Desc() { regOBD("CHARA_NAME"); return this; }
+
+    protected ConditionValue _charaShortName;
+    public ConditionValue xdfgetCharaShortName()
+    { if (_charaShortName == null) { _charaShortName = nCV(); }
+      return _charaShortName; }
+    protected ConditionValue xgetCValueCharaShortName() { return xdfgetCharaShortName(); }
+
+    /**
+     * Add order-by as ascend. <br>
+     * CHARA_SHORT_NAME: {CHAR(1)}
+     * @return this. (NotNull)
+     */
+    public BsMessageCQ addOrderBy_CharaShortName_Asc() { regOBA("CHARA_SHORT_NAME"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * CHARA_SHORT_NAME: {CHAR(1)}
+     * @return this. (NotNull)
+     */
+    public BsMessageCQ addOrderBy_CharaShortName_Desc() { regOBD("CHARA_SHORT_NAME"); return this; }
+
+    protected ConditionValue _toCharaName;
+    public ConditionValue xdfgetToCharaName()
+    { if (_toCharaName == null) { _toCharaName = nCV(); }
+      return _toCharaName; }
+    protected ConditionValue xgetCValueToCharaName() { return xdfgetToCharaName(); }
+
+    /**
+     * Add order-by as ascend. <br>
+     * TO_CHARA_NAME: {VARCHAR(40)}
+     * @return this. (NotNull)
+     */
+    public BsMessageCQ addOrderBy_ToCharaName_Asc() { regOBA("TO_CHARA_NAME"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * TO_CHARA_NAME: {VARCHAR(40)}
+     * @return this. (NotNull)
+     */
+    public BsMessageCQ addOrderBy_ToCharaName_Desc() { regOBD("TO_CHARA_NAME"); return this; }
+
+    protected ConditionValue _toCharaShortName;
+    public ConditionValue xdfgetToCharaShortName()
+    { if (_toCharaShortName == null) { _toCharaShortName = nCV(); }
+      return _toCharaShortName; }
+    protected ConditionValue xgetCValueToCharaShortName() { return xdfgetToCharaShortName(); }
+
+    /**
+     * Add order-by as ascend. <br>
+     * TO_CHARA_SHORT_NAME: {CHAR(1)}
+     * @return this. (NotNull)
+     */
+    public BsMessageCQ addOrderBy_ToCharaShortName_Asc() { regOBA("TO_CHARA_SHORT_NAME"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * TO_CHARA_SHORT_NAME: {CHAR(1)}
+     * @return this. (NotNull)
+     */
+    public BsMessageCQ addOrderBy_ToCharaShortName_Desc() { regOBD("TO_CHARA_SHORT_NAME"); return this; }
+
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
     { if (_registerDatetime == null) { _registerDatetime = nCV(); }

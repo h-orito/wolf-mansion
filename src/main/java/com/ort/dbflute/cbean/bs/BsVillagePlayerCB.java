@@ -574,6 +574,11 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnCharaName() { return doColumn("CHARA_NAME"); }
         /**
+         * CHARA_SHORT_NAME: {NotNull, CHAR(1)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnCharaShortName() { return doColumn("CHARA_SHORT_NAME"); }
+        /**
          * MEMO: {VARCHAR(20)}
          * @return The information object of specified column. (NotNull)
          */

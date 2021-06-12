@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_PLAYER_ID
  *
  * [column]
- *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, SECOND_REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, IS_SPECTATOR, DEAD_REASON_CODE, DEAD_DAY, IS_GONE, LAST_ACCESS_DATETIME, CAMP_CODE, IS_WIN, CHARA_NAME, MEMO, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_PLAYER_ID, VILLAGE_ID, PLAYER_ID, CHARA_ID, SKILL_CODE, REQUEST_SKILL_CODE, SECOND_REQUEST_SKILL_CODE, ROOM_NUMBER, IS_DEAD, IS_SPECTATOR, DEAD_REASON_CODE, DEAD_DAY, IS_GONE, LAST_ACCESS_DATETIME, CAMP_CODE, IS_WIN, CHARA_NAME, CHARA_SHORT_NAME, MEMO, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -63,6 +63,7 @@ import com.ort.dbflute.exentity.*;
  * String campCode = entity.getCampCode();
  * Boolean isWin = entity.getIsWin();
  * String charaName = entity.getCharaName();
+ * String charaShortName = entity.getCharaShortName();
  * String memo = entity.getMemo();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
@@ -85,6 +86,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setCampCode(campCode);
  * entity.setIsWin(isWin);
  * entity.setCharaName(charaName);
+ * entity.setCharaShortName(charaShortName);
  * entity.setMemo(memo);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
@@ -155,6 +157,9 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /** CHARA_NAME: {NotNull, VARCHAR(40)} */
     protected String _charaName;
+
+    /** CHARA_SHORT_NAME: {NotNull, CHAR(1)} */
+    protected String _charaShortName;
 
     /** MEMO: {VARCHAR(20)} */
     protected String _memo;
@@ -3595,6 +3600,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         sb.append(dm).append(xfND(_campCode));
         sb.append(dm).append(xfND(_isWin));
         sb.append(dm).append(xfND(_charaName));
+        sb.append(dm).append(xfND(_charaShortName));
         sb.append(dm).append(xfND(_memo));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
@@ -4000,6 +4006,26 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public void setCharaName(String charaName) {
         registerModifiedProperty("charaName");
         _charaName = charaName;
+    }
+
+    /**
+     * [get] CHARA_SHORT_NAME: {NotNull, CHAR(1)} <br>
+     * キャラクター略称
+     * @return The value of the column 'CHARA_SHORT_NAME'. (basically NotNull if selected: for the constraint)
+     */
+    public String getCharaShortName() {
+        checkSpecifiedProperty("charaShortName");
+        return convertEmptyToNull(_charaShortName);
+    }
+
+    /**
+     * [set] CHARA_SHORT_NAME: {NotNull, CHAR(1)} <br>
+     * キャラクター略称
+     * @param charaShortName The value of the column 'CHARA_SHORT_NAME'. (basically NotNull if update: for the constraint)
+     */
+    public void setCharaShortName(String charaShortName) {
+        registerModifiedProperty("charaShortName");
+        _charaShortName = charaShortName;
     }
 
     /**
