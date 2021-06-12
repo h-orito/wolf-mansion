@@ -1153,7 +1153,7 @@
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
 			<x>929</x>
-			<y>846</y>
+			<y>826</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -1339,10 +1339,22 @@
 					<length>40</length>
 				</normal_column>
 				<normal_column>
+					<physical_name>chara_short_name</physical_name>
+					<logical_name>キャラクター略称</logical_name>
+					<type>character(n)</type>
+					<length>1</length>
+				</normal_column>
+				<normal_column>
 					<physical_name>to_chara_name</physical_name>
 					<logical_name>秘話相手のキャラクター名</logical_name>
 					<type>varchar(n)</type>
 					<length>40</length>
+				</normal_column>
+				<normal_column>
+					<physical_name>to_chara_short_name</physical_name>
+					<logical_name>秘話相手のキャラクター略称</logical_name>
+					<type>character(n)</type>
+					<length>1</length>
 				</normal_column>
 				<column_group>共通カラム</column_group>
 			</columns>
@@ -1451,8 +1463,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>739</x>
-			<y>1194</y>
+			<x>746</x>
+			<y>1223</y>
 			<color>
 				<r>254</r>
 				<g>251</g>
@@ -1489,11 +1501,11 @@
 			<logical_name>通常発言制限</logical_name>
 			<description>レコードなしの場合は無制限</description>
 			<height>143</height>
-			<width>303</width>
+			<width>306</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
 			<x>952</x>
-			<y>1305</y>
+			<y>1326</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -1674,7 +1686,7 @@
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
 			<x>1277</x>
-			<y>886</y>
+			<y>909</y>
 			<color>
 				<r>254</r>
 				<g>251</g>
@@ -1745,12 +1757,12 @@
 			<physical_name>skill_say_restriction</physical_name>
 			<logical_name>役職発言制限</logical_name>
 			<description>レコードなしの場合は無制限</description>
-			<height>122</height>
+			<height>125</height>
 			<width>303</width>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>619</x>
-			<y>1303</y>
+			<x>614</x>
+			<y>1333</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -1832,8 +1844,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1532</x>
-			<y>877</y>
+			<x>1535</x>
+			<y>908</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -2227,6 +2239,13 @@
 					<not_null>true</not_null>
 				</normal_column>
 				<normal_column>
+					<physical_name>chara_short_name</physical_name>
+					<logical_name>キャラクター略称</logical_name>
+					<type>character(n)</type>
+					<length>1</length>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
 					<physical_name>memo</physical_name>
 					<logical_name>メモ</logical_name>
 					<type>varchar(n)</type>
@@ -2449,7 +2468,7 @@
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
 			<x>1534</x>
-			<y>1127</y>
+			<y>1146</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
