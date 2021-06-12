@@ -1153,7 +1153,7 @@
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
 			<x>929</x>
-			<y>884</y>
+			<y>846</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -1335,6 +1335,12 @@
 				<normal_column>
 					<physical_name>chara_name</physical_name>
 					<logical_name>キャラクター名</logical_name>
+					<type>varchar(n)</type>
+					<length>40</length>
+				</normal_column>
+				<normal_column>
+					<physical_name>to_chara_name</physical_name>
+					<logical_name>秘話相手のキャラクター名</logical_name>
 					<type>varchar(n)</type>
 					<length>40</length>
 				</normal_column>
