@@ -4,15 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ort.app.datasource.VillageService;
-import com.ort.app.logic.daychange.DayChangeLogicHelper;
+import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.daychange.DayChangeVillage;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
 
 @Component
 public class RevivalLogic {
 
     @Autowired
-    private DayChangeLogicHelper helper;
+    private MessageLogic messageLogic;
     @Autowired
     private VillageService villageService;
 
@@ -27,8 +28,9 @@ public class RevivalLogic {
         dayChangeVillage.deadPlayers.getList().stream().filter(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.絶対人狼).forEach(vp -> {
             villageService.revive(vp, dayChangeVillage.day);
             dayChangeVillage.deadPlayers.remove(vp);
-            String message = String.format("不思議なことに、%sが生き返った。", vp.name());
-            helper.insertMessage(dayChangeVillage, CDef.MessageType.公開システムメッセージ, message);
+            messageLogic.saveIgnoreError(MessageEntity.publicSystemBuilder(dayChangeVillage.villageId, dayChangeVillage.day)
+                    .content(String.format("不思議なことに、%sが生き返った。", vp.name()))
+                    .build());
         });
     }
 }

@@ -2,8 +2,10 @@ package com.ort.app.logic;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,7 +17,6 @@ import org.dbflute.optional.OptionalEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -23,13 +24,15 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.dbflute.allcommon.CDef;
-import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.exbhv.MessageBhv;
+import com.ort.dbflute.exbhv.MessageSendtoBhv;
 import com.ort.dbflute.exbhv.RandomKeywordBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exentity.Message;
+import com.ort.dbflute.exentity.MessageSendto;
 import com.ort.dbflute.exentity.RandomContent;
 import com.ort.dbflute.exentity.RandomKeyword;
 import com.ort.dbflute.exentity.VillagePlayer;
@@ -54,15 +57,38 @@ public class MessageLogic {
     private static final String SLACK_URL = "https://hooks.slack.com/services/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";
     private static final Logger logger = LoggerFactory.getLogger(MessageLogic.class);
 
+    private static final Pattern normalAnchorPattern = Pattern.compile("^(?![\\+=\\?@\\-\\*a])(\\d{1,5})");
+    private static final Pattern graveAnchorPattern = Pattern.compile("\\+(\\d{1,5})");
+    private static final Pattern masonAnchorPattern = Pattern.compile("=(\\d{1,5})");
+    private static final Pattern loverAnchorPattern = Pattern.compile("\\?(\\d{1,5})");
+    private static final Pattern spectatePattern = Pattern.compile("@(\\d{1,5})");
+    private static final Pattern monologuePattern = Pattern.compile("\\-(\\d{1,5})");
+    private static final Pattern whisperPattern = Pattern.compile("\\*(\\d{1,5})");
+    private static final Pattern actionPattern = Pattern.compile("a(\\d{1,5})");
+    private static final Map<Pattern, CDef.MessageType> patternMessageTypeMap;
+
+    static {
+        Map<Pattern, CDef.MessageType> map = new HashMap<Pattern, CDef.MessageType>();
+        map.put(normalAnchorPattern, CDef.MessageType.通常発言);
+        map.put(graveAnchorPattern, CDef.MessageType.死者の呻き);
+        map.put(masonAnchorPattern, CDef.MessageType.共鳴発言);
+        map.put(loverAnchorPattern, CDef.MessageType.恋人発言);
+        map.put(spectatePattern, CDef.MessageType.見学発言);
+        map.put(monologuePattern, CDef.MessageType.独り言);
+        map.put(whisperPattern, CDef.MessageType.人狼の囁き);
+        map.put(actionPattern, CDef.MessageType.アクション);
+        patternMessageTypeMap = map;
+    }
+
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
     @Autowired
     private MessageBhv messageBhv;
     @Autowired
-    private VillagePlayerBhv villagePlayerBhv;
+    private MessageSendtoBhv messageSendtoBhv;
     @Autowired
-    private MessageSource messageSource;
+    private VillagePlayerBhv villagePlayerBhv;
     @Autowired
     private RandomKeywordBhv randomKeywordBhv;
 
@@ -70,45 +96,24 @@ public class MessageLogic {
     //                                                                             Execute
     //                                                                             =======
     // 秘話など、相手がいる可能性があるのはこれを使う
-    public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId,
-            Integer targetVillagePlayerId, boolean isConvertDisable, CDef.FaceType faceType) throws WerewolfMansionBusinessException {
+    public void save(MessageEntity entity) throws WerewolfMansionBusinessException {
         // ランダム機能などメッセージ関数を置換して登録
-        String message = content;
-        if (!isConvertDisable) {
-            ListResultBean<VillagePlayer> vPlayerList = selectVPlayerList(villageId);
-            message = replaceMessage(content, vPlayerList);
+        String message = entity.content;
+        if (!entity.isConvertDisable) {
+            ListResultBean<VillagePlayer> vPlayerList = selectVPlayerList(entity.villageId);
+            message = replaceMessage(entity.content, vPlayerList);
         }
-        insertMessage(villageId, day, messageType, message, villagePlayerId, targetVillagePlayerId, null, isConvertDisable, faceType);
+        insertMessage(entity.replaceContent(message));
+
         // 特定の文字列が含まれていたらslack投稿
-        postToSlackIfNeeded(villageId, day, message);
-    }
-
-    public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId,
-            boolean isConvertDisable, CDef.FaceType faceType) throws WerewolfMansionBusinessException {
-        insertMessage(villageId, day, messageType, content, villagePlayerId, null, isConvertDisable, faceType);
+        postToSlackIfNeeded(entity.villageId, entity.day, message);
     }
 
     // 日付更新など、被らないことがわかっている場合に使う
-    public void insertMessageIgnoreError(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId,
-            boolean isConvertDisable, CDef.FaceType faceType) {
+    public void saveIgnoreError(MessageEntity entity) {
         try {
-            insertMessage(villageId, day, messageType, content, villagePlayerId, null, isConvertDisable, faceType);
+            save(entity);
         } catch (WerewolfMansionBusinessException e) {}
-    }
-
-    public void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, boolean isConvertDisable)
-            throws WerewolfMansionBusinessException {
-        insertMessage(villageId, day, messageType, content, null, isConvertDisable, null);
-    }
-
-    public void insertMessageIgnoreError(Integer villageId, int day, CDef.MessageType messageType, String content,
-            boolean isConvertDisable) {
-        insertMessageIgnoreError(villageId, day, messageType, content, null, isConvertDisable, null);
-    }
-
-    // 日付更新など、被らないことがわかっている場合に使う
-    public void insertMessageIgnoreError(Integer villageId, int day, CDef.MessageType type, String message) {
-        insertMessageIgnoreError(villageId, day, type, message, true);
     }
 
     // 次の発言番号を返す
@@ -122,20 +127,19 @@ public class MessageLogic {
     }
 
     // 能力セットメッセージ登録
-    public void insertAbilityMessage(Integer villageId, int day, Integer charaId, Integer targetCharaId,
-            List<VillagePlayer> villagePlayerList, String footstep, boolean isDefault) {
-        String message = makeAbilitySetMessage(charaId, targetCharaId, villagePlayerList, footstep, isDefault);
-        insertMessageIgnoreError(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
-    }
-
-    // 能力セットメッセージ登録
     public void insertAbilityMessage(Integer villageId, int day, String message) {
-        insertMessageIgnoreError(villageId, day, CDef.MessageType.非公開システムメッセージ, message);
+        MessageEntity entity = MessageEntity.privateSystemBuilder(villageId, day) //
+                .content(message) //
+                .build();
+        saveIgnoreError(entity);
     }
 
     // 能力セットメッセージ登録
     public void insertPublicAbilityMessage(Integer villageId, int day, String message) {
-        insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, message);
+        MessageEntity entity = MessageEntity.publicSystemBuilder(villageId, day) //
+                .content(message) //
+                .build();
+        saveIgnoreError(entity);
     }
 
     // 当日の自分の発言取得（発言制限用）
@@ -189,27 +193,35 @@ public class MessageLogic {
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
-    private void insertMessage(Integer villageId, int day, CDef.MessageType messageType, String content, Integer villagePlayerId,
-            Integer targetVillagePlayerId, Integer playerId, boolean isConvertDisable, CDef.FaceType faceType)
-            throws WerewolfMansionBusinessException {
+    private void insertMessage(MessageEntity entity) throws WerewolfMansionBusinessException {
         Message message = new Message();
-        message.setVillageId(villageId);
-        message.setDay(day);
-        message.setVillagePlayerId(villagePlayerId);
-        message.setToVillagePlayerId(targetVillagePlayerId);
-        message.setPlayerId(playerId);
-        message.setMessageTypeCodeAsMessageType(messageType);
-        message.setMessageContent(content);
+        message.setVillageId(entity.villageId);
+        message.setDay(entity.day);
+        Optional.ofNullable(entity.villagePlayer).ifPresent(villagePlayer -> {
+            message.setVillagePlayerId(villagePlayer.getVillagePlayerId());
+            message.setCharaName(villagePlayer.getCharaName());
+            message.setCharaShortName(villagePlayer.getCharaShortName());
+        });
+        Optional.ofNullable(entity.targetVillagePlayer).ifPresent(targetVillagePlayer -> {
+            message.setToVillagePlayerId(targetVillagePlayer.getVillagePlayerId());
+            message.setToCharaName(targetVillagePlayer.getCharaName());
+            message.setToCharaShortName(targetVillagePlayer.getCharaShortName());
+        });
+        message.setPlayerId(null);
+        message.setMessageTypeCodeAsMessageType(entity.messageType);
+        message.setMessageContent(entity.content);
         message.setMessageDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
-        message.setIsConvertDisable(isConvertDisable);
-        if (faceType != null) {
+        message.setIsConvertDisable(entity.isConvertDisable);
+        Optional.ofNullable(entity.faceType).ifPresent(faceType -> {
             message.setFaceTypeCodeAsFaceType(faceType);
-        }
+        });
         for (int i = 0; i < 3; i++) {
             try {
                 // 採番で被ることがあるため、insert失敗しても合計3回までやりなおす
-                message.setMessageNumber(selectNextMessageNumber(villageId, messageType));
+                message.setMessageNumber(selectNextMessageNumber(entity.villageId, entity.messageType));
                 messageBhv.insert(message);
+                // アンカー先を保存しておく
+                saveMessageSendto(message);
                 return;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -218,48 +230,6 @@ public class MessageLogic {
         }
         // ここにきたら発言失敗している
         throw new WerewolfMansionBusinessException("混み合っているため発言に失敗しました。再度発言してください。");
-    }
-
-    private String makeAbilitySetMessage(Integer charaId, Integer targetCharaId, List<VillagePlayer> villagePlayerList, String footstep,
-            boolean isDefault) {
-        // 自分
-        VillagePlayer myself = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(charaId)).findFirst().get();
-        Skill skill = myself.getSkillCodeAsSkill();
-        String myChara = myself.name();
-        if (skill == CDef.Skill.探偵) {
-            return messageSource.getMessage("ability.detective.message", new String[] { myChara, footstep, isDefault ? "（自動設定）" : "" },
-                    Locale.JAPAN);
-        }
-        // 対象なし
-        if (skill == CDef.Skill.罠師 && targetCharaId == null) {
-            return String.format("%sが罠を解除しました。", myChara);
-        } else if (skill == CDef.Skill.爆弾魔 && targetCharaId == null) {
-            return String.format("%sが爆弾を解除しました。", myChara);
-        }
-        // 対象あり
-        VillagePlayer target = villagePlayerList.stream().filter(vp -> vp.getCharaId().equals(targetCharaId)).findFirst().get();
-        String targetChara = target.name();
-        if (skill.isHasAttackAbility()) {
-            return messageSource.getMessage("ability.werewolf.message",
-                    new String[] { myChara, targetChara, footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
-        } else if (skill.isHasDivineAbility()) {
-            return messageSource.getMessage("ability.seer.message",
-                    new String[] { myChara, targetChara, footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
-        } else if (skill == CDef.Skill.狩人) {
-            return messageSource.getMessage("ability.hunter.message",
-                    new String[] { myChara, targetChara, footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
-        } else if (skill == CDef.Skill.罠師) {
-            return messageSource.getMessage("ability.trapper.message", new String[] { myChara, targetChara, isDefault ? "（自動設定）" : "" },
-                    Locale.JAPAN);
-        } else if (skill == CDef.Skill.爆弾魔) {
-            return messageSource.getMessage("ability.bomber.message", new String[] { myChara, targetChara, isDefault ? "（自動設定）" : "" },
-                    Locale.JAPAN);
-        } else if (skill == CDef.Skill.同棲者) {
-            return messageSource.getMessage("ability.cohabit.message", new String[] { myChara, targetChara, isDefault ? "（自動設定）" : "" },
-                    Locale.JAPAN);
-        }
-
-        return null;
     }
 
     private String replaceMessage(String message, List<VillagePlayer> vPlayerList) {
@@ -384,5 +354,35 @@ public class MessageLogic {
                 logger.error("slack投稿に失敗しました", e);
             }
         }
+    }
+
+    // アンカー先を保存
+    private void saveMessageSendto(Message message) {
+        Stream.of(message.getMessageContent().split("\\>\\>")).forEach(str -> {
+            patternMessageTypeMap.forEach((pattern, messageType) -> {
+                Matcher matcher = pattern.matcher(str);
+                if (matcher.find()) {
+                    int number = Integer.parseInt(matcher.group(1));
+                    OptionalEntity<Message> optMessage = messageBhv.selectEntity(cb -> {
+                        cb.query().setVillageId_Equal(message.getVillageId());
+                        cb.query().setMessageTypeCode_Equal_AsMessageType(messageType);
+                        cb.query().setMessageNumber_Equal(number);
+                    });
+                    if (!optMessage.isPresent() || optMessage.get().getVillagePlayerId() == null) {
+                        return;
+                    }
+                    MessageSendto sendTo = new MessageSendto();
+                    sendTo.setMessageId(message.getMessageId());
+                    sendTo.setVillagePlayerId(optMessage.get().getVillagePlayerId());
+                    OptionalEntity<MessageSendto> optEntity = messageSendtoBhv.selectEntity(cb -> {
+                        cb.query().setMessageId_Equal(sendTo.getMessageId());
+                        cb.query().setVillagePlayerId_Equal(sendTo.getVillagePlayerId());
+                    });
+                    if (!optEntity.isPresent()) {
+                        messageSendtoBhv.insert(sendTo);
+                    }
+                }
+            });
+        });
     }
 }

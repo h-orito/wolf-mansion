@@ -21,6 +21,9 @@ public class VillageGetMessageListForm implements Serializable {
     /** 何ページ目か */
     private Integer pageNum;
 
+    /** 自分宛に絞るか */
+    private Boolean onlyToMe;
+
     public Integer getVillageId() {
         return villageId;
     }
@@ -51,5 +54,13 @@ public class VillageGetMessageListForm implements Serializable {
 
     public void setPageNum(Integer pageNum) {
         this.pageNum = pageNum;
+    }
+
+    public Boolean getOnlyToMe() {
+        return onlyToMe;
+    }
+
+    public void setOnlyToMe(Boolean onlyToMe) {
+        this.onlyToMe = onlyToMe;
     }
 }

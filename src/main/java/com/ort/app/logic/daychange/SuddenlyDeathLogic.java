@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ort.app.datasource.VillageService;
+import com.ort.app.logic.MessageLogic;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exentity.Player;
@@ -16,7 +18,7 @@ import com.ort.dbflute.exentity.VillagePlayer;
 public class SuddenlyDeathLogic {
 
     @Autowired
-    private DayChangeLogicHelper helper;
+    private MessageLogic messageLogic;
     @Autowired
     private PlayerBhv playerBhv;
     @Autowired
@@ -41,7 +43,8 @@ public class SuddenlyDeathLogic {
             villageService.dead(vp, dayChangeVillage.day, CDef.DeadReason.突然); // 死亡処理
             updatePlayerRestrict(vp.getPlayerId()); // 入村制限
             String message = String.format("%sは突然死した。", vp.name());
-            helper.insertMessage(dayChangeVillage, CDef.MessageType.公開システムメッセージ, message);
+            messageLogic.saveIgnoreError(
+                    MessageEntity.publicSystemBuilder(dayChangeVillage.villageId, dayChangeVillage.day).content(message).build());
         });
 
         dayChangeVillage.deadPlayers.addAll(noVotePlayerList, CDef.DeadReason.突然);

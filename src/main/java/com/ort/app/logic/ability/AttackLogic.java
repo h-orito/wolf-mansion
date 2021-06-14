@@ -18,8 +18,8 @@ import com.ort.app.datasource.FootstepService;
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.FootstepLogic;
 import com.ort.app.logic.MessageLogic;
-import com.ort.app.logic.daychange.DayChangeLogicHelper;
 import com.ort.app.logic.daychange.DayChangeVillage;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.CharaImageBhv;
 import com.ort.dbflute.exentity.Abilities;
@@ -37,8 +37,6 @@ public class AttackLogic {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    @Autowired
-    private DayChangeLogicHelper helper;
     @Autowired
     private MessageSource messageSource;
     @Autowired
@@ -98,7 +96,10 @@ public class AttackLogic {
         if (isAttackerWiseWolf(dayChangeVillage, attack)) {
             dayChangeVillage.deadPlayers.filterAttacked().getList().forEach(attackedPlayer -> {
                 String message = String.format("%sは%sだったようだ。", targetPlayer.name(), attackedPlayer.getSkillCodeAsSkill().alias());
-                helper.insertMessage(dayChangeVillage, CDef.MessageType.襲撃結果, message);
+                messageLogic.saveIgnoreError(MessageEntity.systemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
+                        .messageType(CDef.MessageType.襲撃結果)
+                        .content(message)
+                        .build());
             });
         }
     }
@@ -180,9 +181,10 @@ public class AttackLogic {
                 .filterPastDay(day) //
                 .filterByType(CDef.AbilityType.襲撃)
                 .sortedByDay();
-        List<Integer> wolfCharaIdList =
-                village.getVillagePlayers().filterNotSpecatate().filterBy(vp -> vp.getSkillCodeAsSkill().isHasAttackAbility()).map(
-                        vp -> vp.getCharaId());
+        List<Integer> wolfCharaIdList = village.getVillagePlayers()
+                .filterNotSpecatate()
+                .filterBy(vp -> vp.getSkillCodeAsSkill().isHasAttackAbility())
+                .map(vp -> vp.getCharaId());
         // 襲撃の足音
         Footsteps footsteps = footstepService.selectFootsteps(village.getVillageId()).filterInCharaIdList(wolfCharaIdList);
 
@@ -209,8 +211,13 @@ public class AttackLogic {
         String attackMessage = String.format("%s！今日がお前の命日だ！", targetPlayer.getChara().get().getCharaName());
         VillagePlayer attackerPlayer = livingWolfList.get(0);
         boolean hasWerewolfFace = hasWerewolfFace(attackerPlayer);
-        helper.insertMessage(dayChangeVillage, CDef.MessageType.人狼の囁き, attackMessage, attackerPlayer.getVillagePlayerId(),
-                hasWerewolfFace ? CDef.FaceType.囁き : CDef.FaceType.通常);
+        messageLogic.saveIgnoreError(new MessageEntity.Builder(dayChangeVillage.villageId, dayChangeVillage.day) //
+                .messageType(CDef.MessageType.人狼の囁き)
+                .content(attackMessage)
+                .villagePlayer(attackerPlayer)
+                .faceType(hasWerewolfFace ? CDef.FaceType.囁き : CDef.FaceType.通常)
+                .isConvertDisable(true)
+                .build());
     }
 
     private boolean hasWerewolfFace(VillagePlayer attackerPlayer) {

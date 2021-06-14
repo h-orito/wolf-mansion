@@ -1,0 +1,97 @@
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>フッター</title>
+<link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}" />
+<link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" />
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="../../static/lib/bootstrap/js/bootstrap.min.js" th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+<script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js" th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
+<script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
+</head>
+<body>
+	<div class="col-sm-12 col-xs-12" th:if="${content.form.changeName.isDispChangeNameForm || content.form.memo.isDispMemoForm}"
+		layout:fragment="change-name-form">
+		<div class="panel-group" id="change-name-form-panel">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<a class="h5" data-toggle="collapse" data-parent="#changenameform-panel" href="#changenameform-content" data-changenameform-tab-open>名前変更・簡易メモ</a>
+					<a href="javascript:void(0);" class="pull-right" data-bottom-fix>固定</a>
+				</div>
+				<div id="changenameform-content" class="panel-collapse collapse in">
+					<div class="panel-body">
+						<div class="alert alert-warning-say small">
+							<ul>
+								<li>進行中は、推理、まとめ、および推理に繋がる内容は記載しないでください。</li>
+							</ul>
+						</div>
+						<a href="javascript:void(0);" data-toggle="collapse" data-target="#changenameform" class="h5 hidden" aria-expanded="true" data-changename-tab>名前変更</a>
+						<div th:if="${content.form.changeName.isDispChangeNameForm}">
+							<span th:if="${changeNameErrorMessage != null}" class="text-danger" th:test="${changeNameErrorMessage}">error</span>
+							<form method="post" id="change-name-form" action="" th:action="@{/village/{villageId}/change-name(villageId=${content.villageId})}"
+								th:object="${changeNameForm}" class="form-horizontal collapse in" aria-expanded="true" style="margin-top: 10px;">
+								<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<div class="row">
+											<label class="col-sm-2 control-label">名前</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control small" th:field="*{name}" />
+												<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="help-block text-danger">error!</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<div class="row">
+											<label class="col-sm-2 control-label">略称</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control small" th:field="*{shortName}" />
+												<span th:if="${#fields.hasErrors('shortName')}" th:errors="*{shortName}" class="help-block text-danger">error!</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<input type="submit" class="btn btn-sm btn-success pull-right" value="変更する" />
+									</div>
+								</div>
+							</form>
+						</div>
+						<div th:if="${content.form.memo.isDispMemoForm}">
+							<span th:if="${memoErrorMessage != null}" class="text-danger" th:test="${memoErrorMessage}">error</span>
+							<form method="post" id="memo-form" action="" th:action="@{/village/{villageId}/memo(villageId=${content.villageId})}"
+								th:object="${memoForm}" class="form-horizontal collapse in" aria-expanded="true" style="margin-top: 10px;">
+								<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<div class="row">
+											<label class="col-sm-2 control-label">簡易メモ</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control small" th:field="*{memo}" />
+												<span th:if="${#fields.hasErrors('memo')}" th:errors="*{memo}" class="help-block text-danger">error!</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-12 col-xs-12">
+										<input type="submit" class="btn btn-sm btn-success pull-right" value="変更する" />
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

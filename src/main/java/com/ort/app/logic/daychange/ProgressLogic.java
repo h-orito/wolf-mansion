@@ -33,6 +33,7 @@ import com.ort.app.logic.ability.StalkingLogic;
 import com.ort.app.logic.ability.SuicideLogic;
 import com.ort.app.logic.ability.TrapLogic;
 import com.ort.app.logic.daychange.ability.RevivalLogic;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Camp;
 import com.ort.dbflute.exbhv.VillageBhv;
@@ -174,8 +175,9 @@ public class ProgressLogic {
         suicideLogic.suicide(dayChangeVillage);
 
         if (day == 2 && !dayChangeVillage.deadPlayers.filterAttacked().list.isEmpty()) {
-            helper.insertMessage(dayChangeVillage, CDef.MessageType.公開システムメッセージ,
-                    messageSource.getMessage("village.start.message.day2", null, Locale.JAPAN));
+            messageLogic.saveIgnoreError(MessageEntity.publicSystemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
+                    .content(messageSource.getMessage("village.start.message.day2", null, Locale.JAPAN))
+                    .build());
         }
 
         // 勝敗判定、エピローグ処理
@@ -248,7 +250,9 @@ public class ProgressLogic {
         helper.updateIsWin(vPlayerList, winCamp);
         // エピローグ遷移メッセージ登録
         String message = getEpilogueMessage(winCamp, werewolfCount);
-        messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, message);
+        messageLogic.saveIgnoreError(MessageEntity.publicSystemBuilder(villageId, day) //
+                .content(message)
+                .build());
         // 参加者一覧メッセージ登録
         insertPlayerListMessage(villageId, day, vPlayerList);
         // エピは固定で24時間
@@ -296,7 +300,9 @@ public class ProgressLogic {
                 joiner.add(String.format("%s (%s)、見学参加だった。", player.name(), player.getPlayer().get().getPlayerName()));
             });
         }
-        messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
+        messageLogic.saveIgnoreError(MessageEntity.publicSystemBuilder(villageId, day) //
+                .content(joiner.toString())
+                .build());
     }
 
     // エピローグ遷移メッセージ

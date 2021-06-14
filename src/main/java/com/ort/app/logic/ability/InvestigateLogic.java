@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 import com.ort.app.datasource.AbilityService;
 import com.ort.app.logic.FootstepLogic;
 import com.ort.app.logic.MessageLogic;
-import com.ort.app.logic.daychange.DayChangeLogicHelper;
 import com.ort.app.logic.daychange.DayChangeVillage;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.Abilities;
 import com.ort.dbflute.exentity.Ability;
@@ -30,8 +30,6 @@ public class InvestigateLogic {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    @Autowired
-    private DayChangeLogicHelper helper;
     @Autowired
     private MessageSource messageSource;
     @Autowired
@@ -64,7 +62,11 @@ public class InvestigateLogic {
                     footstepLogic.getSkillByFootstep(dayChangeVillage.villageId, day - 2, targetFootstep, dayChangeVillage.vPlayers.list);
             String message = String.format("%sは、昨日響いた足音%sについて調査した。\n%sの足音を響かせたのは%sのようだ。", detective.name(), targetFootstep, targetFootstep,
                     skillName);
-            helper.insertMessage(dayChangeVillage, CDef.MessageType.足音調査結果, message, detective.getVillagePlayerId());
+            messageLogic.saveIgnoreError(MessageEntity.systemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
+                    .messageType(CDef.MessageType.足音調査結果)
+                    .content(message)
+                    .villagePlayer(detective)
+                    .build());
         });
     }
 
@@ -88,7 +90,6 @@ public class InvestigateLogic {
             String footstep = footstepList.get(0);
             abilityService.insertAbility(villageId, day, detectiveCharaId, null, footstep, CDef.AbilityType.捜査);
             insertAbilityMessage(village, day, detective, footstep, false);
-            messageLogic.insertAbilityMessage(villageId, day, detectiveCharaId, null, village.getVillagePlayerList(), footstep, true);
         });
     }
 

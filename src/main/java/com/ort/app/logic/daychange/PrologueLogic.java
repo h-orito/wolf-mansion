@@ -15,9 +15,9 @@ import com.ort.app.logic.AssignLogic;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.TwitterLogic;
 import com.ort.app.logic.VillageParticipateLogic;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.app.util.SkillUtil;
 import com.ort.app.web.dto.VillageInfo;
-import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
@@ -77,7 +77,10 @@ public class PrologueLogic {
         if (vInfo.vPlayers.list.size() > 1) {
             // 一人でも参加していたら延長
             helper.updateVillageDay(vInfo, daychangeDatetime); // 村日付を1日延長
-            messageLogic.insertMessageIgnoreError(vInfo.villageId, vInfo.day, CDef.MessageType.公開システムメッセージ, "まだ村人たちは揃っていないようだ。"); // 延長メッセージ登録
+            // 延長メッセージ登録
+            messageLogic.saveIgnoreError(MessageEntity.publicSystemBuilder(vInfo.villageId, vInfo.day) //
+                    .content("まだ村人たちは揃っていないようだ。")
+                    .build());
         } else {
             // 一人も参加していなかったら廃村
             helper.updateVillageStatus(vInfo.villageId, CDef.VillageStatus.廃村);
@@ -86,8 +89,9 @@ public class PrologueLogic {
 
     // 村を開始させる
     public void startVillage(VillageInfo vInfo, int newDay) {
-        messageLogic.insertMessageIgnoreError(vInfo.villageId, 1, CDef.MessageType.公開システムメッセージ,
-                messageSource.getMessage("village.start.message.day1", null, Locale.JAPAN));
+        messageLogic.saveIgnoreError(MessageEntity.publicSystemBuilder(vInfo.villageId, 1)
+                .content(messageSource.getMessage("village.start.message.day1", null, Locale.JAPAN))
+                .build());
         assignLogic.assignSkill(vInfo.villageId, vInfo.vPlayers, vInfo.settings); // 役職割り当て
         assignLogic.assignRoom(vInfo.villageId, vInfo.vPlayers); // 部屋割り当て
         helper.updateVillageStatus(vInfo.villageId, CDef.VillageStatus.進行中); // 村ステータス更新
@@ -116,7 +120,8 @@ public class PrologueLogic {
         Integer wolfNum = CDef.Skill.listOfHasAttackAbility().stream().mapToInt(skill -> skillPersonNum.get(skill)).sum();
         if (wolfNum < 3) {
             helper.updateVillageSettingsSameWolfAttackTrue(villageId);
-            messageLogic.insertMessageIgnoreError(villageId, 1, CDef.MessageType.公開システムメッセージ, "人狼の人数が3名より少ないため、同一人狼による連続襲撃を「可能」に変更します。");
+            messageLogic.saveIgnoreError(
+                    MessageEntity.publicSystemBuilder(villageId, 1).content("人狼の人数が3名より少ないため、同一人狼による連続襲撃を「可能」に変更します。").build());
         }
     }
 
@@ -126,10 +131,13 @@ public class PrologueLogic {
         if (StringUtils.isEmpty(message)) {
             return;
         }
-        try {
-            messageLogic.insertMessage(villageId, 1, CDef.MessageType.通常発言, message, dummyChara.getVillagePlayerId(), true,
-                    CDef.FaceType.通常);
-        } catch (WerewolfMansionBusinessException e) {}
+        messageLogic.saveIgnoreError(new MessageEntity.Builder(villageId, 1) //
+                .messageType(CDef.MessageType.通常発言)
+                .content(message)
+                .villagePlayer(dummyChara)
+                .isConvertDisable(true)
+                .faceType(CDef.FaceType.通常)
+                .build());
     }
 
     private void insertAbsoluteSkillMessageIfNeeded(VillageInfo vInfo) {

@@ -33,6 +33,7 @@ $(function() {
 	const smallRegex = /\[\[small\]\](.*?)\[\[\/small\]\]/g;
 	let latestDay;
 	let canAutoRefresh = true; // 発言確認中はfalseになる
+	let isDispOnlyToMe = getDisplaySetting('filter_onlytome_content');
 
 	init();
 	function init() {
@@ -81,14 +82,16 @@ $(function() {
 		$("[data-message-area]").addClass('loading');
 		const isNoPaging = getDisplaySetting('is_no_paging');
 		const pageSize = getDisplaySetting('page_size');
+		console.log(isDispOnlyToMe);
 		return $.ajax({
-			type : 'GET',
-			url : GET_MESSAGE_URL,
-			data : {
-				'villageId' : villageId,
-				'day' : day,
-				'pageSize' : isNoPaging ? null : pageSize != null ? pageSize : 30,
-				'pageNum' : isNoPaging ? null : pageNum
+			type: 'GET',
+			url: GET_MESSAGE_URL,
+			data: {
+				'villageId': villageId,
+				'day': day,
+				'pageSize': isNoPaging ? null : pageSize != null ? pageSize : 30,
+				'pageNum': isNoPaging ? null : pageNum,
+				'onlyToMe': isDispOnlyToMe
 			}
 		}).then(function(response) {
 			// htmlエスケープと、アンカーの変換を行う
@@ -232,12 +235,12 @@ $(function() {
 		}
 
 		return $.ajax({
-			type : 'GET',
-			url : GET_ANCHOR_MESSAGE_URL,
-			data : {
-				'villageId' : villageId,
-				'messageNumber' : messageNumber,
-				'messageType' : messageType
+			type: 'GET',
+			url: GET_ANCHOR_MESSAGE_URL,
+			data: {
+				'villageId': villageId,
+				'messageNumber': messageNumber,
+				'messageType': messageType
 			}
 		}).then(function(response) {
 			if (response == '') {
@@ -250,7 +253,6 @@ $(function() {
 			$('.' + anchorClassName).collapse('toggle');
 			return false;
 		});
-
 	}
 
 	function getClassName($anchor) {
@@ -269,7 +271,7 @@ $(function() {
 		$message.addClass('well');
 		// $message.find('div.message').addClass('bg-white');
 		$message.closest('[data-message]').prepend(
-				'<span class="btn btn-default btn-sm pull-right close-anchor" style="margin-left:5px; margin-right: -15px;">×</span>');
+			'<span class="btn btn-default btn-sm pull-right close-anchor" style="margin-left:5px; margin-right: -15px;">×</span>');
 		return $message;
 	}
 
@@ -292,40 +294,40 @@ $(function() {
 				$sayTextarea.removeClass().addClass('form-control');
 				$('[data-secret-say-target]').addClass('hidden');
 				switch (sayType) {
-				case 'NORMAL_SAY':
-					changeFaceTypeIfNeeded('NORMAL');
-					break;
-				case 'WEREWOLF_SAY':
-					$sayTextarea.addClass('message-werewolf');
-					changeFaceTypeIfNeeded('WEREWOLF');
-					break;
-				case 'MASON_SAY':
-					$sayTextarea.addClass('message-mason');
-					changeFaceTypeIfNeeded('MASON');
-					break;
-				case 'LOVERS_SAY':
-					$sayTextarea.addClass('message-lover');
-					changeFaceTypeIfNeeded('SECRET');
-					break;
-				case 'MONOLOGUE_SAY':
-					$sayTextarea.addClass('message-monologue');
-					changeFaceTypeIfNeeded('MONOLOGUE');
-					break;
-				case 'SECRET_SAY':
-					$sayTextarea.addClass('message-monologue');
-					$('[data-secret-say-target]').removeClass('hidden');
-					changeFaceTypeIfNeeded('SECRET');
-					break;
-				case 'GRAVE_SAY':
-					$sayTextarea.addClass('message-grave');
-					changeFaceTypeIfNeeded('GRAVE');
-					break;
-				case 'SPECTATE_SAY':
-					$sayTextarea.addClass('message-spectate');
-					changeFaceTypeIfNeeded('NORMAL');
-					break;
-				default:
-					break;
+					case 'NORMAL_SAY':
+						changeFaceTypeIfNeeded('NORMAL');
+						break;
+					case 'WEREWOLF_SAY':
+						$sayTextarea.addClass('message-werewolf');
+						changeFaceTypeIfNeeded('WEREWOLF');
+						break;
+					case 'MASON_SAY':
+						$sayTextarea.addClass('message-mason');
+						changeFaceTypeIfNeeded('MASON');
+						break;
+					case 'LOVERS_SAY':
+						$sayTextarea.addClass('message-lover');
+						changeFaceTypeIfNeeded('SECRET');
+						break;
+					case 'MONOLOGUE_SAY':
+						$sayTextarea.addClass('message-monologue');
+						changeFaceTypeIfNeeded('MONOLOGUE');
+						break;
+					case 'SECRET_SAY':
+						$sayTextarea.addClass('message-monologue');
+						$('[data-secret-say-target]').removeClass('hidden');
+						changeFaceTypeIfNeeded('SECRET');
+						break;
+					case 'GRAVE_SAY':
+						$sayTextarea.addClass('message-grave');
+						changeFaceTypeIfNeeded('GRAVE');
+						break;
+					case 'SPECTATE_SAY':
+						$sayTextarea.addClass('message-spectate');
+						changeFaceTypeIfNeeded('NORMAL');
+						break;
+					default:
+						break;
 				}
 				return;
 			}
@@ -351,8 +353,8 @@ $(function() {
 	// 表情を入れ替え
 	function changeFace(faceTypeCode) {
 		$.ajax({
-			type : 'GET',
-			url : GET_FACEIMG_URL + '/' + faceTypeCode
+			type: 'GET',
+			url: GET_FACEIMG_URL + '/' + faceTypeCode
 		}).then(function(response) {
 			if (response == null || response == '') {
 				return;
@@ -370,9 +372,9 @@ $(function() {
 	$('#sayform').on('submit', function() {
 		sayFormParam = $(this).serializeArray();
 		$.ajax({
-			type : 'POST',
-			url : SAY_CONFIRM_URL,
-			data : sayFormParam
+			type: 'POST',
+			url: SAY_CONFIRM_URL,
+			data: sayFormParam
 		}).then(function(response) {
 			if (response == null || response === '') {
 				return false;
@@ -383,18 +385,18 @@ $(function() {
 			const $confirmMessage = $(messagePartialTemplate(response.message));
 			$('#message-confirm-area').empty();
 			$('#message-confirm-area').append($('<div></div>', {
-				text : '以下の内容で発言してよろしいですか？（まだ発言されていません）',
-				'style' : 'margin-bottom: 10px;'
+				text: '以下の内容で発言してよろしいですか？（まだ発言されていません）',
+				'style': 'margin-bottom: 10px;'
 			}));
 			$('#message-confirm-area').append($confirmMessage);
 			$('#message-confirm-area').append($('<button></button>', {
-				text : detectSayLabel(response.message.messageType),
-				'class' : 'btn btn-success btn-sm pull-right',
-				'data-say-determine' : ''
+				text: detectSayLabel(response.message.messageType),
+				'class': 'btn btn-success btn-sm pull-right',
+				'data-say-determine': ''
 			}));
 			const $cancelButton = $('<button></button>', {
-				text : 'キャンセル',
-				'class' : 'btn btn-default btn-sm'
+				text: 'キャンセル',
+				'class': 'btn btn-default btn-sm'
 			});
 			$cancelButton.attr('data-say-cancel', 'sayform');
 			$cancelButton.data('say-cancel', 'sayform');
@@ -402,7 +404,7 @@ $(function() {
 			$('#message-confirm-area').show();
 			// 発言確認エリアに遷移
 			$('html, body').animate({
-				scrollTop : $('#message-confirm-area-bottom').offset().top
+				scrollTop: $('#message-confirm-area-bottom').offset().top
 			}, 200);
 		});
 		return false; // submitしない
@@ -413,9 +415,9 @@ $(function() {
 	$('#actionform').on('submit', function() {
 		actionFormParam = $(this).serializeArray();
 		$.ajax({
-			type : 'POST',
-			url : ACTION_CONFIRM_URL,
-			data : actionFormParam
+			type: 'POST',
+			url: ACTION_CONFIRM_URL,
+			data: actionFormParam
 		}).then(function(response) {
 			if (response == null || response === '') {
 				return false;
@@ -426,18 +428,18 @@ $(function() {
 			const $confirmMessage = $(messagePartialTemplate(response.message));
 			$('#message-confirm-area').empty();
 			$('#message-confirm-area').append($('<div></div>', {
-				text : '以下の内容で発言してよろしいですか？（まだ発言されていません）',
-				'style' : 'margin-bottom: 10px;'
+				text: '以下の内容で発言してよろしいですか？（まだ発言されていません）',
+				'style': 'margin-bottom: 10px;'
 			}));
 			$('#message-confirm-area').append($confirmMessage);
 			$('#message-confirm-area').append($('<button></button>', {
-				text : detectSayLabel(response.message.messageType),
-				'class' : 'btn btn-success btn-sm pull-right',
-				'data-action-determine' : ''
+				text: detectSayLabel(response.message.messageType),
+				'class': 'btn btn-success btn-sm pull-right',
+				'data-action-determine': ''
 			}));
 			const $cancelButton = $('<button></button>', {
-				text : 'キャンセル',
-				'class' : 'btn btn-default btn-sm'
+				text: 'キャンセル',
+				'class': 'btn btn-default btn-sm'
 			});
 			$cancelButton.attr('data-action-cancel', 'actionform');
 			$cancelButton.data('action-cancel', 'actionform');
@@ -445,7 +447,7 @@ $(function() {
 			$('#message-confirm-area').show();
 			// 発言確認エリアに遷移
 			$('html, body').animate({
-				scrollTop : $('#message-confirm-area-bottom').offset().top
+				scrollTop: $('#message-confirm-area-bottom').offset().top
 			}, 200);
 		});
 		return false; // submitしない
@@ -483,7 +485,7 @@ $(function() {
 			return;
 		}
 		$('html, body').animate({
-			scrollTop : $('#' + sayAreaId).offset().top
+			scrollTop: $('#' + sayAreaId).offset().top
 		}, 200);
 	});
 
@@ -494,9 +496,9 @@ $(function() {
 				return true;
 			}
 			$confirmForm.append($('<input></input>', {
-				type : 'hidden',
-				name : this.name,
-				value : this.value
+				type: 'hidden',
+				name: this.name,
+				value: this.value
 			}));
 		});
 		$confirmForm.submit();
@@ -511,7 +513,7 @@ $(function() {
 			return;
 		}
 		$('html, body').animate({
-			scrollTop : $('#' + actionAreaId).offset().top
+			scrollTop: $('#' + actionAreaId).offset().top
 		}, 200);
 	});
 
@@ -522,9 +524,9 @@ $(function() {
 				return true;
 			}
 			$confirmForm.append($('<input></input>', {
-				type : 'hidden',
-				name : this.name,
-				value : this.value
+				type: 'hidden',
+				name: this.name,
+				value: this.value
 			}));
 		});
 		$confirmForm.submit();
@@ -544,12 +546,12 @@ $(function() {
 		const $targetSelect = $('[data-ability-target-select]');
 		const targetCharaId = $targetSelect == null ? null : $targetSelect.val();
 		return $.ajax({
-			type : 'GET',
-			url : GET_FOOTSTEP_URL,
-			data : {
-				'villageId' : villageId,
-				'charaId' : charaId,
-				'targetCharaId' : targetCharaId
+			type: 'GET',
+			url: GET_FOOTSTEP_URL,
+			data: {
+				'villageId': villageId,
+				'charaId': charaId,
+				'targetCharaId': targetCharaId
 			}
 		}).then(function(response) {
 			if (response == '') {
@@ -558,8 +560,8 @@ $(function() {
 			$footstepSelect.empty();
 			$.each(response.footstepList, function(idx, val) {
 				$footstepSelect.append($('<option></option>', {
-					'value' : val,
-					text : val
+					'value': val,
+					text: val
 				}));
 			});
 		});
@@ -629,9 +631,9 @@ $(function() {
 			leftCount = $countspan.data('message-restrict-lovers-left-count');
 		}
 		return {
-			length : length != null ? length : 400,
-			count : count,
-			leftCount : leftCount
+			length: length != null ? length : 400,
+			count: count,
+			leftCount: leftCount
 		};
 	}
 
@@ -652,7 +654,7 @@ $(function() {
 			$submitbtn.prop('disabled', true);
 		}
 	});
-	
+
 	// 文字数カウント
 	$('body').on('keyup', '[data-action-text]', function() {
 		updateActionCount($(this));
@@ -695,9 +697,9 @@ $(function() {
 	function getActionRestriction($countspan) {
 		let length = $countspan.data('message-restrict-action-max-length');
 		return {
-			length : length != null ? length : 400,
-			count : $countspan.data('message-restrict-action-max-count'),
-			leftCount : $countspan.data('message-restrict-action-left-count')
+			length: length != null ? length : 400,
+			count: $countspan.data('message-restrict-action-max-count'),
+			leftCount: $countspan.data('message-restrict-action-left-count')
 		};
 	}
 
@@ -708,22 +710,22 @@ $(function() {
 	});
 	function gotoHead() {
 		$('html, body').animate({
-			scrollTop : 0
+			scrollTop: 0
 		}, 200);
 	}
 
 	// 画面下部遷移
 	$('body').on('click', '[data-goto-bottom]', function() {
 		$('html, body').animate({
-			scrollTop : $('#bottom').offset().top
+			scrollTop: $('#bottom').offset().top
 		}, 200);
 		return false;
 	});
-	
+
 	// 画面下部遷移
 	$('body').on('click', '[data-goto-vote]', function() {
 		$('html, body').animate({
-			scrollTop : $('#voteform-panel').offset().top
+			scrollTop: $('#voteform-panel').offset().top
 		}, 200);
 		return false;
 	});
@@ -818,6 +820,22 @@ $(function() {
 		saveDisplaySetting('filter_keyword', keywordFilterArr.length == 0 ? [] : $(keywordFilterArr).get().join(' '));
 		saveDisplaySetting('filter_spoiled_content', $('[data-dsetting-unspoiled]').length != 0 && $('[data-dsetting-unspoiled]').prop('checked'));
 		$('#modal-filter').modal('hide');
+	});
+
+	$('[data-onlytome-submit]').on('click', function() {
+		saveDisplaySetting('filter_onlytome_content', true);
+		isDispOnlyToMe = true;
+		loadAndDisplayMessage().then(function() {
+			$('#modal-filter').modal('hide');
+		});
+	});
+
+	$('[data-onlytome-cancel-submit]').on('click', function() {
+		saveDisplaySetting('filter_onlytome_content', false);
+		isDispOnlyToMe = false;
+		loadAndDisplayMessage().then(function() {
+			$('#modal-filter').modal('hide');
+		});
 	});
 
 	function filterMessage() {
@@ -975,7 +993,7 @@ $(function() {
 			let $tr = $('<tr></tr>');
 			$.each(this.votes, function() {
 				$tr.append($('<td></td>', {
-					text : this
+					text: this
 				}));
 			});
 			$tbody.append($tr);
@@ -1006,7 +1024,7 @@ $(function() {
 		$table.find('tbody').find('tr').each(function() {
 			const $tr = $(this);
 			let vote = {
-				votes : []
+				votes: []
 			};
 			$tr.find('td').each(function(idx, elm) {
 				vote.votes.push($(elm).text());
@@ -1026,24 +1044,24 @@ $(function() {
 		}
 		displaySetting[key] = value;
 		$.cookie('village_display_setting', displaySetting, {
-			expires : 365,
-			path : '/'
+			expires: 365,
+			path: '/'
 		});
 	}
 
 	function makeDisplaySettingObject() {
 		return {
-			'is_open_situation_tab' : true,
-			'is_open_sayform_tab' : true,
-			'is_open_skillform_tab' : true,
-			'is_open_voteform_tab' : true,
-			'is_open_creatorform_tab' : true,
-			'is_open_participateform_tab' : true,
-			'bottom_fix_tab' : 'no-fix',
-			'is_no_paging' : false,
-			'page_size' : 30,
-			'auto_refresh' : false,
-			'already_skill_confirm' : ''
+			'is_open_situation_tab': true,
+			'is_open_sayform_tab': true,
+			'is_open_skillform_tab': true,
+			'is_open_voteform_tab': true,
+			'is_open_creatorform_tab': true,
+			'is_open_participateform_tab': true,
+			'bottom_fix_tab': 'no-fix',
+			'is_no_paging': false,
+			'page_size': 30,
+			'auto_refresh': false,
+			'already_skill_confirm': ''
 		};
 	}
 
@@ -1053,8 +1071,8 @@ $(function() {
 		if (displaySetting == null || Object.keys(displaySetting).length === 0) {
 			displaySetting = makeDisplaySettingObject();
 			$.cookie('village_display_setting', displaySetting, {
-				expires : 365,
-				path : '/'
+				expires: 365,
+				path: '/'
 			});
 		}
 		// 各項目なかったら作成
@@ -1122,8 +1140,8 @@ $(function() {
 			return;
 		}
 		$.cookie('village_display_setting', makeDisplaySettingObject(), {
-			expires : 365,
-			path : '/'
+			expires: 365,
+			path: '/'
 		});
 	});
 
@@ -1260,11 +1278,11 @@ $(function() {
 	setInterval(function() {
 		if ($('#daychange-datetime').length) {
 			$.ajax({
-				type : 'GET',
-				url : GET_LATEST_MESSAGE_DATETIME_URL,
-				data : {
-					'villageId' : villageId,
-					'day' : day
+				type: 'GET',
+				url: GET_LATEST_MESSAGE_DATETIME_URL,
+				data: {
+					'villageId': villageId,
+					'day': day
 				}
 			}).then(function(response) {
 				const $latestMessageDatetime = $('#latest-message-datetime');

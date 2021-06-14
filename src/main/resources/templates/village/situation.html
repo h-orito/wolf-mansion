@@ -122,7 +122,7 @@
 											<th th:text="${statusDto.status + ' (' + statusDto.statusMemberList.size() +'人)'}">生存</th>
 										</tr>
 										<tr th:each="member : ${statusDto.statusMemberList}">
-											<td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName}"></td>
+											<td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName} + ${member.memo != null ? '　[' + member.memo + ']' : '' }"></td>
 										</tr>
 										<tr th:if="${statusDto.statusMemberList.size() == 0}">
 											<td>なし</td>
@@ -135,7 +135,7 @@
 											<th th:text="${statusDto.status + ' (' + statusDto.statusMemberList.size() +'人)'}">生存</th>
 										</tr>
 										<tr th:each="member : ${statusDto.statusMemberList}">
-											<td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName}"></td>
+											<td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName} + ${member.memo != null ? '　[' + member.memo + ']' : '' }"></td>
 										</tr>
 										<tr th:if="${statusDto.statusMemberList.size() == 0}">
 											<td>なし</td>

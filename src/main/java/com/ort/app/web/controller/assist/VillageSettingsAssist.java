@@ -17,7 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import com.ort.app.logic.MessageLogic;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.app.util.SkillUtil;
+import com.ort.app.web.controller.assist.impl.VillageForms;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageRpSayRestrictDto;
 import com.ort.app.web.form.NewVillageSayRestrictDto;
@@ -80,7 +82,7 @@ public class VillageSettingsAssist {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (userInfo == null) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
         }
         setVillageSettingsIndexModel(villageId, null, model);
         return "village-settings";
@@ -101,7 +103,7 @@ public class VillageSettingsAssist {
         }
         try {
             updateVillageSettings(villageId, form, userInfo);
-            messageLogic.insertMessage(villageId, 0, CDef.MessageType.公開システムメッセージ, "村の設定が変更されました。", true);
+            messageLogic.save(MessageEntity.publicSystemBuilder(villageId, 0).content("村の設定が変更されました。").build());
         } catch (WerewolfMansionBusinessException e) {
             model.addAttribute("errorMessage", e.getMessage());
             setVillageSettingsIndexModel(villageId, form, model);

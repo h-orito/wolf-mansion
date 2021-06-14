@@ -13,8 +13,8 @@ import com.ort.app.datasource.AbilityService;
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.FootstepLogic;
 import com.ort.app.logic.MessageLogic;
-import com.ort.app.logic.daychange.DayChangeLogicHelper;
 import com.ort.app.logic.daychange.DayChangeVillage;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.Abilities;
 import com.ort.dbflute.exentity.Ability;
@@ -28,8 +28,6 @@ public class TrapLogic {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    @Autowired
-    private DayChangeLogicHelper helper;
     @Autowired
     private MessageSource messageSource;
     @Autowired
@@ -130,8 +128,9 @@ public class TrapLogic {
         VillagePlayer trapper = dayChangeVillage.vPlayers.findByCharaId(trap.getCharaId());
         // 設置された部屋の人
         VillagePlayer targetPlayer = dayChangeVillage.vPlayers.findByCharaId(trap.getTargetCharaId());
-        String message = String.format("%sは、%sの部屋に罠を設置した。", trapper.name(), targetPlayer.name());
-        helper.insertMessage(dayChangeVillage, CDef.MessageType.非公開システムメッセージ, message);
+        messageLogic.saveIgnoreError(MessageEntity.privateSystemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
+                .content(String.format("%sは、%sの部屋に罠を設置した。", trapper.name(), targetPlayer.name()))
+                .build());
     }
 
     private boolean isInvalidAbility(Village village, VillagePlayer villagePlayer, int day, Integer targetCharaId) {

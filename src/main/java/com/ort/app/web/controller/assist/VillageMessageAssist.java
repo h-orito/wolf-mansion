@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.dbflute.cbean.result.ListResultBean;
 import org.dbflute.cbean.result.PagingResultBean;
 import org.dbflute.optional.OptionalScalar;
@@ -72,8 +73,8 @@ public class VillageMessageAssist {
         Optional<VillagePlayer> optVillagePlayer = villageService.selectVillagePlayer(villageId, userInfo, true);
         Village village = villageService.selectVillage(villageId, true, true);
         List<CDef.MessageType> messageTypeList = makeMessageTypeList(optVillagePlayer, village, day);
-        PagingResultBean<Message> messageList =
-                selectMessageList(form.getVillageId(), day, messageTypeList, optVillagePlayer, form.getPageNum(), form.getPageSize());
+        PagingResultBean<Message> messageList = selectMessageList(form.getVillageId(), day, messageTypeList, optVillagePlayer,
+                form.getPageNum(), form.getPageSize(), form.getOnlyToMe());
         boolean isLatestDay = isLatestDay(villageId, day);
         String suddonlyDeathMessage = makeSuddonlyDeathMessage(village, isLatestDay, day);
         String villageStatusMessage = makeVillageStatusMessage(village, isLatestDay, optVillagePlayer, day);
@@ -134,7 +135,7 @@ public class VillageMessageAssist {
     //                                                                              Select
     //                                                                              ======
     private PagingResultBean<Message> selectMessageList(Integer villageId, Integer day, List<CDef.MessageType> messageTypeList,
-            Optional<VillagePlayer> optVillagePlayer, Integer pageNum, Integer pageSize) {
+            Optional<VillagePlayer> optVillagePlayer, Integer pageNum, Integer pageSize, Boolean isOnlyToMe) {
         PagingResultBean<Message> messagePage = messageBhv.selectPage(cb -> {
             if (pageNum != null && pageSize != null) {
                 cb.paging(pageSize, pageNum);
@@ -188,6 +189,14 @@ public class VillageMessageAssist {
                         });
                     }
                 });
+                if (BooleanUtils.isTrue(isOnlyToMe)) {
+                    cb.orScopeQuery(orCB -> {
+                        orCB.query().existsMessageSendto(sendToCB -> {
+                            sendToCB.query().setVillagePlayerId_Equal(villagePlayerId);
+                        });
+                        orCB.query().setToVillagePlayerId_Equal(villagePlayerId);
+                    });
+                }
             } else {
                 cb.query().setMessageTypeCode_InScope_AsMessageType(messageTypeList);
             }
@@ -373,7 +382,7 @@ public class VillageMessageAssist {
             VillagePlayer villagePlayer =
                     village.getVillagePlayers().filterBy(it -> it.getVillagePlayerId().equals(vp.getVillagePlayerId())).list.get(0);
             Chara chara = villagePlayer.getChara().get();
-            messageDto.setCharacterName(villagePlayer.name(message.getDay()));
+            messageDto.setCharacterName(message.name(villagePlayer.getRoomNumberWhen(message.getDay())));
             messageDto.setCharacterId(chara.getCharaId());
             if (message.getFaceTypeCodeAsFaceType() != null) {
                 messageDto.setCharacterImageUrl(chara.getCharaImgUrlByFaceType(message.getFaceTypeCodeAsFaceType()));
@@ -382,7 +391,7 @@ public class VillageMessageAssist {
             messageDto.setHeight(chara.getDisplayHeight());
         });
         message.getVillagePlayerByToVillagePlayerId().ifPresent(vp -> {
-            messageDto.setTargetCharacterName(vp.getChara().get().getCharaName());
+            messageDto.setTargetCharacterName(message.targetName(vp.getRoomNumberWhen(message.getDay())));
         });
         if (village.isVillageStatusCodeエピローグ() || village.isVillageStatusCode終了() || village.isVillageStatusCode廃村()) {
             messageDto.setPlayerName(message.getVillagePlayerByVillagePlayerId()

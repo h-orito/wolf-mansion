@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.VillageParticipateLogic;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.app.web.controller.assist.VillageAssist;
-import com.ort.app.web.exception.WerewolfMansionBusinessException;
+import com.ort.app.web.controller.assist.impl.VillageForms;
 import com.ort.app.web.form.VillageKickForm;
 import com.ort.app.web.form.VillageSayForm;
 import com.ort.app.web.form.validator.CreatorSayFormValidator;
@@ -103,7 +104,7 @@ public class CreatorController {
     private String confirm(@PathVariable Integer villageId, @Validated @ModelAttribute("creatorSayForm") VillageSayForm creatorSayForm,
             BindingResult result, Model model) {
         if (result.hasErrors()) {
-            String returnView = villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
+            String returnView = villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
             model.addAttribute("creatorSayForm", creatorSayForm);
             return returnView;
         }
@@ -125,7 +126,7 @@ public class CreatorController {
     private String creatorSay(@PathVariable Integer villageId, @Validated @ModelAttribute("creatorSayForm") VillageSayForm creatorSayForm,
             BindingResult result, Model model) {
         if (result.hasErrors()) {
-            String returnView = villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
+            String returnView = villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
             model.addAttribute("creatorSayForm", creatorSayForm);
             return returnView;
         }
@@ -134,12 +135,11 @@ public class CreatorController {
             return "redirect:/village/" + villageId;
         }
         int day = villageService.selectLatestDay(villageId);
-        try {
-            messageLogic.insertMessage(villageId, day, CDef.MessageType.村建て発言, creatorSayForm.getMessage(),
-                    BooleanUtils.isTrue(creatorSayForm.getIsConvertDisable()));
-        } catch (WerewolfMansionBusinessException e) {
-            // ここでは何回も被らないので何もしない
-        }
+        messageLogic.saveIgnoreError(new MessageEntity.Builder(villageId, day) //
+                .messageType(CDef.MessageType.村建て発言)
+                .content(creatorSayForm.getMessage())
+                .isConvertDisable(BooleanUtils.isTrue(creatorSayForm.getIsConvertDisable()))
+                .build());
 
         return "redirect:/village/" + villageId + "#bottom";
     }

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ort.app.logic.MessageLogic;
 import com.ort.app.web.dto.VillageInfo;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Camp;
@@ -50,8 +49,6 @@ public class DayChangeLogicHelper {
     private AbilityBhv abilityBhv;
     @Autowired
     private VoteBhv voteBhv;
-    @Autowired
-    private MessageLogic messageLogic;
 
     // ===================================================================================
     //                                                                             Execute
@@ -163,23 +160,4 @@ public class DayChangeLogicHelper {
             villagePlayerBhv.update(vp);
         });
     }
-
-    public void insertMessage(DayChangeVillage dayChangeVillage, CDef.MessageType type, String message) {
-        messageLogic.insertMessageIgnoreError(dayChangeVillage.villageId, dayChangeVillage.day, type, message);
-    }
-
-    public void insertMessage(DayChangeVillage dayChangeVillage, CDef.MessageType type, String message, Integer villagePlayerId) {
-        messageLogic.insertMessageIgnoreError(dayChangeVillage.villageId, dayChangeVillage.day, type, message, villagePlayerId, true, null);
-    }
-
-    public void insertMessage(DayChangeVillage dayChangeVillage, CDef.MessageType type, String message, Integer villagePlayerId,
-            CDef.FaceType faceType) {
-        messageLogic.insertMessageIgnoreError(dayChangeVillage.villageId, dayChangeVillage.day, type, message, villagePlayerId, true,
-                faceType);
-    }
-
-    // ===================================================================================
-    //                                                                        Assist Logic
-    //                                                                        ============
-
 }

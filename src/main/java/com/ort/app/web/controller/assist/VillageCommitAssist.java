@@ -9,9 +9,9 @@ import org.springframework.validation.BindingResult;
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.DayChangeLogic;
 import com.ort.app.logic.MessageLogic;
-import com.ort.app.web.exception.WerewolfMansionBusinessException;
+import com.ort.app.logic.message.MessageEntity;
+import com.ort.app.web.controller.assist.impl.VillageForms;
 import com.ort.app.web.form.VillageCommitForm;
-import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.CommitBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exentity.Commit;
@@ -47,7 +47,7 @@ public class VillageCommitAssist {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
         }
         VillagePlayer villagePlayer = villageService.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
@@ -58,12 +58,12 @@ public class VillageCommitAssist {
         });
         // コミットできない設定だったり進行中でなかったら何もしない
         if (village.getVillageSettingsAsOne().get().isIsAvailableCommitFalse() || !village.isVillageStatusCode進行中()) {
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
         }
         // 自分がダミーだったり死亡していたり観戦だったら何もしない
         if (villagePlayer.isIsDeadTrue() || villagePlayer.isIsSpectatorTrue()
                 || villagePlayer.getCharaId().intValue() == village.getVillageSettingsAsOne().get().getDummyCharaId()) {
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
         }
         int day = villageService.selectLatestDay(villageId);
         Integer vPlayerId = villagePlayer.getVillagePlayerId();
@@ -73,24 +73,17 @@ public class VillageCommitAssist {
             // コミットする
             if (!optCommit.isPresent()) {
                 insertCommit(villageId, vPlayerId, day);
-                try {
-                    messageLogic.insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ,
-                            String.format("%sがコミットしました。", villagePlayer.getChara().get().getCharaName()), true);
-                } catch (WerewolfMansionBusinessException e) {
-                    // 最悪登録されなくても良いので放置
-                }
+                messageLogic.saveIgnoreError(MessageEntity.privateSystemBuilder(villageId, day)
+                        .content(String.format("%sがコミットしました。", villagePlayer.name()))
+                        .build());
                 dayChangeLogic.dayChangeIfNeeded(villageId);
             }
         } else {
             if (optCommit.isPresent()) {
                 deleteCommit(villageId, vPlayerId, day);
-                try {
-                    messageLogic.insertMessage(villageId, day, CDef.MessageType.非公開システムメッセージ,
-                            String.format("%sがコミットを取り消しました。", villagePlayer.getChara().get().getCharaName()), true);
-                } catch (WerewolfMansionBusinessException e) {
-                    // 最悪登録されなくても良いので放置
-                }
-
+                messageLogic.saveIgnoreError(MessageEntity.privateSystemBuilder(villageId, day)
+                        .content(String.format("%sがコミットを取り消しました。", villagePlayer.name()))
+                        .build());
             }
         }
         return "redirect:/village/" + villageId + "#bottom";

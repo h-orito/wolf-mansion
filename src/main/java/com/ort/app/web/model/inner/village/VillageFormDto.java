@@ -14,6 +14,12 @@ public class VillageFormDto {
     /** アクション */
     private VillageActionFormDto action;
 
+    /** 名前変更 */
+    private VillageChangeNameFormDto changeName;
+
+    /** 簡易メモ */
+    private VillageMemoFormDto memo;
+
     /** 能力行使 */
     private VillageAbilityFormDto ability;
 
@@ -66,5 +72,21 @@ public class VillageFormDto {
 
     public void setAction(VillageActionFormDto action) {
         this.action = action;
+    }
+
+    public VillageChangeNameFormDto getChangeName() {
+        return changeName;
+    }
+
+    public void setChangeName(VillageChangeNameFormDto changeName) {
+        this.changeName = changeName;
+    }
+
+    public VillageMemoFormDto getMemo() {
+        return memo;
+    }
+
+    public void setMemo(VillageMemoFormDto memo) {
+        this.memo = memo;
     }
 }

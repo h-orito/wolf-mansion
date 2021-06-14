@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.MessageLogic;
+import com.ort.app.logic.message.MessageEntity;
+import com.ort.app.web.controller.assist.impl.VillageForms;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageActionForm;
 import com.ort.app.web.model.VillageSayConfirmResultContent;
@@ -99,7 +101,7 @@ public class VillageActionAssist {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, actionForm, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, new VillageForms.Builder().actionForm(actionForm).build(), model);
         }
         Village village = selectVillage(villageId);
         VillagePlayer villagePlayer = villageService.selectVillagePlayer(villageId, userInfo, true).orElseThrow(() -> {
@@ -108,21 +110,26 @@ public class VillageActionAssist {
         // 発言権利がなかったらNG
         if (!isAvailableAction(villageId, village, villagePlayer, userInfo, actionForm)) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, actionForm, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, new VillageForms.Builder().actionForm(actionForm).build(), model);
         }
         // 発言制限に引っかかったらNG
         if (isRestricted(villageId, village, villagePlayer, actionForm, userInfo)) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, actionForm, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, new VillageForms.Builder().actionForm(actionForm).build(), model);
         }
 
         int day = villageService.selectLatestDay(villageId);
         // 登録
+
         try {
             String targetMessage = actionForm.getTarget() == null ? "" : actionForm.getTarget();
             String messageContent = actionForm.getMyself() + targetMessage + actionForm.getMessage();
-            messageLogic.insertMessage(villageId, day, CDef.MessageType.アクション, messageContent, villagePlayer.getVillagePlayerId(), null,
-                    BooleanUtils.isTrue(actionForm.getIsConvertDisable()), null);
+            messageLogic.save(new MessageEntity.Builder(villageId, day) //
+                    .messageType(CDef.MessageType.アクション)
+                    .content(messageContent)
+                    .villagePlayer(villagePlayer)
+                    .isConvertDisable(BooleanUtils.isTrue(actionForm.getIsConvertDisable()))
+                    .build());
         } catch (WerewolfMansionBusinessException e) {
             model.addAttribute("actionErrorMessage", e.getMessage());
         }

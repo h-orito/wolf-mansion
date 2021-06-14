@@ -106,8 +106,9 @@ public class VillageService {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setIsGone_Equal_False();
             cb.query().queryPlayer().setPlayerName_Equal(userInfo.getUsername());
-            cb.query().queryVillage().setVillageStatusCode_NotInScope_AsVillageStatus(
-                    Arrays.asList(CDef.VillageStatus.廃村, CDef.VillageStatus.終了));
+            cb.query()
+                    .queryVillage()
+                    .setVillageStatusCode_NotInScope_AsVillageStatus(Arrays.asList(CDef.VillageStatus.廃村, CDef.VillageStatus.終了));
         });
         if (!optVillagePlayer.isPresent()) {
             return Optional.empty();
@@ -163,6 +164,19 @@ public class VillageService {
         history.setDay(day);
         history.setIsDead_False();
         villagePlayerDeadHistoryBhv.insert(history);
+    }
+
+    public void changeName(VillagePlayer villagePlayer, String name, String shortName) {
+        VillagePlayer vPlayer = new VillagePlayer();
+        vPlayer.setCharaName(name);
+        vPlayer.setCharaShortName(shortName);
+        villagePlayerBhv.queryUpdate(vPlayer, cb -> cb.query().setVillagePlayerId_Equal(villagePlayer.getVillagePlayerId()));
+    }
+
+    public void memo(VillagePlayer villagePlayer, String memo) {
+        VillagePlayer vPlayer = new VillagePlayer();
+        vPlayer.setMemo(memo);
+        villagePlayerBhv.queryUpdate(vPlayer, cb -> cb.query().setVillagePlayerId_Equal(villagePlayer.getVillagePlayerId()));
     }
 
     public void insertVillagePlayerStatus(VillagePlayer from, VillagePlayer to, CDef.VillagePlayerStatusType type) {

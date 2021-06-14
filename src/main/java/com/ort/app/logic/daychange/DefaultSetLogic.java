@@ -18,7 +18,7 @@ import com.ort.app.logic.ability.DivineLogic;
 import com.ort.app.logic.ability.GuardLogic;
 import com.ort.app.logic.ability.InvestigateLogic;
 import com.ort.app.logic.ability.StalkingLogic;
-import com.ort.dbflute.allcommon.CDef;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.exbhv.VoteBhv;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
@@ -112,9 +112,13 @@ public class DefaultSetLogic {
     private void insertAlivePlayerMessage(Integer villageId, int day, List<VillagePlayer> vPlayerList) {
         long livePersonNum = vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).count();
         StringJoiner joiner = new StringJoiner("、", "現在の生存者は、以下の" + livePersonNum + "名。\n", "");
-        vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber()).forEach(
-                player -> joiner.add(player.name()));
-        messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, joiner.toString());
+        vPlayerList.stream()
+                .filter(vp -> vp.isIsDeadFalse())
+                .sorted((vp1, vp2) -> vp1.getRoomNumber() - vp2.getRoomNumber())
+                .forEach(player -> joiner.add(player.name()));
+        messageLogic.saveIgnoreError(MessageEntity.publicSystemBuilder(villageId, day) //
+                .content(joiner.toString())
+                .build());
     }
 
     private void insertFootstepMessage(Integer villageId, int newDay, List<VillagePlayer> vPlayerList) {
@@ -124,6 +128,8 @@ public class DefaultSetLogic {
         List<Integer> livingPlayerRoomNumList =
                 vPlayerList.stream().filter(vp -> vp.isIsDeadFalse()).map(VillagePlayer::getRoomNumber).collect(Collectors.toList());
         String message = footstepLogic.getFootstepMessage(villageId, newDay - 1, livingPlayerRoomNumList);
-        messageLogic.insertMessageIgnoreError(villageId, newDay, CDef.MessageType.公開システムメッセージ, message);
+        messageLogic.saveIgnoreError(MessageEntity.publicSystemBuilder(villageId, newDay) //
+                .content(message)
+                .build());
     }
 }

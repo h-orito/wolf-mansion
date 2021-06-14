@@ -16,8 +16,8 @@ import com.ort.app.datasource.AbilityService;
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.FootstepLogic;
 import com.ort.app.logic.MessageLogic;
-import com.ort.app.logic.daychange.DayChangeLogicHelper;
 import com.ort.app.logic.daychange.DayChangeVillage;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.Abilities;
 import com.ort.dbflute.exentity.Ability;
@@ -31,8 +31,6 @@ public class BombLogic {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    @Autowired
-    private DayChangeLogicHelper helper;
     @Autowired
     private MessageSource messageSource;
     @Autowired
@@ -155,7 +153,7 @@ public class BombLogic {
             }
             // 爆弾を設置していない
             String message = String.format("%sは、物足りないので自分の部屋を爆破した。", bomber.name());
-            messageLogic.insertMessageIgnoreError(villageId, day, CDef.MessageType.公開システムメッセージ, message);
+            messageLogic.insertPublicAbilityMessage(villageId, day, message);
             villageService.dead(bomber, day, CDef.DeadReason.爆死);
         });
     }
@@ -170,7 +168,9 @@ public class BombLogic {
         VillagePlayer targetPlayer = dayChangeVillage.vPlayers.findByCharaId(bomb.getTargetCharaId());
         String message = String.format("%sは、%sの部屋に爆弾を設置した。", trapper.name(), targetPlayer.name());
 
-        helper.insertMessage(dayChangeVillage, CDef.MessageType.非公開システムメッセージ, message);
+        messageLogic.saveIgnoreError(MessageEntity.privateSystemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
+                .content(message)
+                .build());
     }
 
     private boolean isAbsence(DayChangeVillage dayChangeVillage, VillagePlayer targetPlayer) {

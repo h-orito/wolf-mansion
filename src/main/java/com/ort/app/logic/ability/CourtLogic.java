@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 import com.ort.app.datasource.AbilityService;
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.MessageLogic;
-import com.ort.app.logic.daychange.DayChangeLogicHelper;
 import com.ort.app.logic.daychange.DayChangeVillage;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Village;
@@ -26,8 +26,6 @@ public class CourtLogic {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    @Autowired
-    private DayChangeLogicHelper helper;
     @Autowired
     private MessageSource messageSource;
     @Autowired
@@ -68,9 +66,17 @@ public class CourtLogic {
             villageService.insertVillagePlayerStatus(targetPlayer, courtship, CDef.VillagePlayerStatusType.後追い);
             // メッセージ
             String courtMessage = String.format("%sは、%sに求愛した。", courtship.name(), targetPlayer.name());
-            helper.insertMessage(dayChangeVillage, CDef.MessageType.恋人メッセージ, courtMessage, courtship.getVillagePlayerId());
+            messageLogic.saveIgnoreError(MessageEntity.systemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
+                    .messageType(CDef.MessageType.恋人メッセージ)
+                    .content(courtMessage)
+                    .villagePlayer(courtship)
+                    .build());
             String courtedMessage = String.format("あなたは、%sに求愛された。", courtship.name());
-            helper.insertMessage(dayChangeVillage, CDef.MessageType.恋人メッセージ, courtedMessage, targetPlayer.getVillagePlayerId());
+            messageLogic.saveIgnoreError(MessageEntity.systemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
+                    .messageType(CDef.MessageType.恋人メッセージ)
+                    .content(courtedMessage)
+                    .villagePlayer(targetPlayer)
+                    .build());
         });
     }
 

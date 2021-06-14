@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.TwitterLogic;
 import com.ort.app.logic.VillageParticipateLogic;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.app.util.SkillUtil;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageForm;
@@ -215,16 +216,10 @@ public class NewVillageAssist {
 
     // 村建て初期メッセージ登録
     private void insertInitialMessage(NewVillageForm villageForm, Village village) {
-        try {
-            messageLogic.insertMessage( // 
-                    village.getVillageId(), // 村ID
-                    0, // day
-                    CDef.MessageType.公開システムメッセージ, // 発言種別
-                    messageSource.getMessage("newvillage.initial.message", null, Locale.JAPAN), // メッセージ内容
-                    false); // 変換有効 
-        } catch (WerewolfMansionBusinessException e) {
-            // 被ることは100％ないため何もしない
-        }
+        messageLogic.saveIgnoreError(MessageEntity.publicSystemBuilder(village.getVillageId(), 0)
+                .content(messageSource.getMessage("newvillage.initial.message", null, Locale.JAPAN))
+                .isConvertDisable(false)
+                .build());
     }
 
     private Village insertVillage(NewVillageForm villageForm, String userName) {

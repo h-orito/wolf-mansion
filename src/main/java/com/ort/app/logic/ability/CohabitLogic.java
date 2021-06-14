@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 
 import com.ort.app.datasource.AbilityService;
 import com.ort.app.logic.MessageLogic;
-import com.ort.app.logic.daychange.DayChangeLogicHelper;
 import com.ort.app.logic.daychange.DayChangeVillage;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.Abilities;
 import com.ort.dbflute.exentity.Village;
@@ -29,8 +29,6 @@ public class CohabitLogic {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    @Autowired
-    private DayChangeLogicHelper helper;
     @Autowired
     private MessageSource messageSource;
     @Autowired
@@ -53,7 +51,9 @@ public class CohabitLogic {
                     // 移動先
                     VillagePlayer to = dayChangeVillage.vPlayers.findByCharaId(cohabit.getTargetCharaId());
                     String message = String.format("%sは、%sの部屋で過ごすことにした。", from.name(), to.name());
-                    helper.insertMessage(dayChangeVillage, CDef.MessageType.非公開システムメッセージ, message);
+                    messageLogic.saveIgnoreError(MessageEntity.privateSystemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
+                            .content(message)
+                            .build());
                 });
     }
 

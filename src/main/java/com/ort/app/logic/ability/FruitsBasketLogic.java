@@ -15,8 +15,8 @@ import com.ort.app.datasource.AbilityService;
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.AssignLogic;
 import com.ort.app.logic.MessageLogic;
-import com.ort.app.logic.daychange.DayChangeLogicHelper;
 import com.ort.app.logic.daychange.DayChangeVillage;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.Abilities;
 import com.ort.dbflute.exentity.Village;
@@ -29,8 +29,6 @@ public class FruitsBasketLogic {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    @Autowired
-    private DayChangeLogicHelper helper;
     @Autowired
     private MessageSource messageSource;
     @Autowired
@@ -68,7 +66,9 @@ public class FruitsBasketLogic {
                     vp.getRoomNumber()));
         });
         String message = joiner.toString();
-        helper.insertMessage(dayChangeVillage, CDef.MessageType.公開システムメッセージ, message);
+        messageLogic.saveIgnoreError(MessageEntity.publicSystemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
+                .content(message)
+                .build());
     }
 
     // 能力セット

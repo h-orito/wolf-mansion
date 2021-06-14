@@ -12,7 +12,6 @@ import org.thymeleaf.util.StringUtils;
 import com.ort.app.datasource.FootstepService;
 import com.ort.app.logic.FootstepLogic;
 import com.ort.app.logic.MessageLogic;
-import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.Footsteps;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
@@ -98,6 +97,6 @@ public class DisturbLogic {
         VillagePlayer myself = village.getVillagePlayers().findByCharaId(charaId);
         String message = messageSource.getMessage("ability.foxmadman.message",
                 new String[] { myself.name(), footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
-        messageLogic.insertMessageIgnoreError(village.getVillageId(), day, CDef.MessageType.非公開システムメッセージ, message);
+        messageLogic.insertAbilityMessage(village.getVillageId(), day, message);
     }
 }

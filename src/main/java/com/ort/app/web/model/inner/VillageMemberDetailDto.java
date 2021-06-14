@@ -13,6 +13,9 @@ public class VillageMemberDetailDto {
     /** 最終接続日時 */
     private LocalDateTime lastAccessDatetime;
 
+    /** 簡易メモ */
+    private String memo;
+
     public String getCharaName() {
         return charaName;
     }
@@ -35,5 +38,13 @@ public class VillageMemberDetailDto {
 
     public void setLastAccessDatetime(LocalDateTime lastAccessDatetime) {
         this.lastAccessDatetime = lastAccessDatetime;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
     }
 }

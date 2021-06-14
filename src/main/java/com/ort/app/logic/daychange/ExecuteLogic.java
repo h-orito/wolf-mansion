@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ort.app.datasource.VillageService;
+import com.ort.app.logic.MessageLogic;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillagePlayers;
@@ -22,7 +24,7 @@ import com.ort.dbflute.exentity.Vote;
 public class ExecuteLogic {
 
     @Autowired
-    private DayChangeLogicHelper helper;
+    private MessageLogic messageLogic;
     @Autowired
     private VillageService villageService;
 
@@ -109,9 +111,10 @@ public class ExecuteLogic {
                     StringUtils.rightPad(player.name(), playerMaxLength, "　"), // 
                     StringUtils.rightPad(targetPlayer.name(), targetMaxLength, "　")));
         }
-        helper.insertMessage(dayChangeVillage,
-                dayChangeVillage.settings.isIsOpenVoteTrue() ? CDef.MessageType.公開システムメッセージ : CDef.MessageType.非公開システムメッセージ,
-                joiner.toString());
+        messageLogic.saveIgnoreError(MessageEntity.systemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
+                .messageType(dayChangeVillage.settings.isIsOpenVoteTrue() ? CDef.MessageType.公開システムメッセージ : CDef.MessageType.非公開システムメッセージ)
+                .content(joiner.toString())
+                .build());
     }
 
     private int getMaxPlayerNameLength(List<Vote> voteList, List<VillagePlayer> vPlayerList) {
@@ -153,6 +156,8 @@ public class ExecuteLogic {
             joiner.add(String.format("%s、%d票", targetPlayer.name(), voteCount));
         }
         joiner.add(String.format("\n%sは村人達の手により処刑された。", executedPlayer.name()));
-        helper.insertMessage(dayChangeVillage, CDef.MessageType.公開システムメッセージ, joiner.toString());
+        messageLogic.saveIgnoreError(MessageEntity.publicSystemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
+                .content(joiner.toString())
+                .build());
     }
 }

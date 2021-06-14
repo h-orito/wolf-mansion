@@ -14,8 +14,8 @@ import com.ort.app.datasource.AbilityService;
 import com.ort.app.datasource.FootstepService;
 import com.ort.app.logic.FootstepLogic;
 import com.ort.app.logic.MessageLogic;
-import com.ort.app.logic.daychange.DayChangeLogicHelper;
 import com.ort.app.logic.daychange.DayChangeVillage;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.AbilityBhv;
 import com.ort.dbflute.exentity.Abilities;
@@ -32,8 +32,6 @@ public class GuardLogic {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    @Autowired
-    private DayChangeLogicHelper helper;
     @Autowired
     private MessageSource messageSource;
     @Autowired
@@ -73,8 +71,9 @@ public class GuardLogic {
                 return; // 能力セットしていない場合は何もしない
             }
             VillagePlayer targetPlayer = dayChangeVillage.vPlayers.findByCharaId(optGuard.get().getTargetCharaId());
-            String message = String.format("%sは、%sを護衛している。", hunter.name(), targetPlayer.name());
-            helper.insertMessage(dayChangeVillage, CDef.MessageType.非公開システムメッセージ, message);
+            messageLogic.saveIgnoreError(MessageEntity.privateSystemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
+                    .content(String.format("%sは、%sを護衛している。", hunter.name(), targetPlayer.name()))
+                    .build());
             dayChangeVillage.guardedPlayers.add(targetPlayer);
         });
     }

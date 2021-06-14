@@ -17,8 +17,8 @@ import com.ort.app.datasource.FootstepService;
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.FootstepLogic;
 import com.ort.app.logic.MessageLogic;
-import com.ort.app.logic.daychange.DayChangeLogicHelper;
 import com.ort.app.logic.daychange.DayChangeVillage;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.app.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Skill;
@@ -39,8 +39,6 @@ public class DivineLogic {
     //                                                                           =========
     @Autowired
     private VillageBhv villageBhv;
-    @Autowired
-    private DayChangeLogicHelper helper;
     @Autowired
     private MessageSource messageSource;
     @Autowired
@@ -159,7 +157,11 @@ public class DivineLogic {
         String message = makeDivineMessage(skill, seer, targetPlayer, dayChangeVillage);
         CDef.MessageType messageType =
                 skill == CDef.Skill.占い師 || skill == CDef.Skill.占星術師 ? CDef.MessageType.白黒占い結果 : CDef.MessageType.役職占い結果;
-        helper.insertMessage(dayChangeVillage, messageType, message, seer.getVillagePlayerId());
+        messageLogic.saveIgnoreError(MessageEntity.systemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
+                .messageType(messageType)
+                .content(message)
+                .villagePlayer(seer)
+                .build());
     }
 
     private String makeDivineMessage(CDef.Skill skill, VillagePlayer seerPlayer, VillagePlayer targetPlayer,

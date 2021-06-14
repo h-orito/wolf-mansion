@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.MessageLogic;
+import com.ort.app.logic.message.MessageEntity;
+import com.ort.app.web.controller.assist.impl.VillageForms;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageSayForm;
 import com.ort.app.web.model.VillageSayConfirmResultContent;
@@ -112,7 +114,7 @@ public class VillageSayAssist {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, sayForm, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, new VillageForms.Builder().sayForm(sayForm).build(), model);
         }
         Village village = selectVillage(villageId);
         VillagePlayer villagePlayer = villageService.selectVillagePlayer(villageId, userInfo, true).orElseThrow(() -> {
@@ -121,12 +123,12 @@ public class VillageSayAssist {
         // 発言権利がなかったらNG
         if (!isAvailableSay(villageId, village, villagePlayer, userInfo, sayForm)) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, sayForm, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, new VillageForms.Builder().sayForm(sayForm).build(), model);
         }
         // 発言制限に引っかかったらNG
         if (isRestricted(villageId, village, villagePlayer, sayForm, userInfo)) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, sayForm, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, new VillageForms.Builder().sayForm(sayForm).build(), model);
         }
 
         int day = villageService.selectLatestDay(villageId);
@@ -135,19 +137,20 @@ public class VillageSayAssist {
         if (type != CDef.MessageType.アクション && faceType == null) {
             throw new IllegalArgumentException("発言種別改ざん");
         }
-        Integer targetVillagePlayerId = sayForm.getMessageType().equals(CDef.MessageType.秘話.code())
-                ? selectTargetVillagePlayer(villageId, sayForm).getVillagePlayerId()
-                : null;
+        VillagePlayer targetVillagePlayer =
+                sayForm.getMessageType().equals(CDef.MessageType.秘話.code()) ? selectTargetVillagePlayer(villageId, sayForm) : null;
         // 登録
         try {
-            messageLogic.insertMessage(villageId, day, type, sayForm.getMessage(), villagePlayer.getVillagePlayerId(),
-                    targetVillagePlayerId, BooleanUtils.isTrue(sayForm.getIsConvertDisable()), faceType);
+            messageLogic.save(new MessageEntity.Builder(villageId, day) //
+                    .messageType(type)
+                    .content(sayForm.getMessage())
+                    .villagePlayer(villagePlayer)
+                    .targetVillagePlayer(targetVillagePlayer)
+                    .isConvertDisable(BooleanUtils.isTrue(sayForm.getIsConvertDisable()))
+                    .faceType(faceType)
+                    .build());
         } catch (WerewolfMansionBusinessException e) {
-            if (type == CDef.MessageType.アクション) {
-                model.addAttribute("actionErrorMessage", e.getMessage());
-            } else {
-                model.addAttribute("sayErrorMessage", e.getMessage());
-            }
+            model.addAttribute("sayErrorMessage", e.getMessage());
         }
 
         // 最新の日付を表示
@@ -328,7 +331,7 @@ public class VillageSayAssist {
         if (!sayForm.getMessageType().equals(CDef.MessageType.秘話.code())) {
             return null;
         }
-        return selectTargetVillagePlayer(villageId, sayForm).getChara().get().getCharaName();
+        return selectTargetVillagePlayer(villageId, sayForm).name();
     }
 
     private boolean isRestricted(Integer villageId, Village village, VillagePlayer vPlayer, VillageSayForm sayForm, UserInfo userInfo) {

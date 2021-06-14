@@ -21,15 +21,19 @@ import com.ort.app.web.controller.assist.VillageCommitAssist;
 import com.ort.app.web.controller.assist.VillageListAssist;
 import com.ort.app.web.controller.assist.VillageMessageAssist;
 import com.ort.app.web.controller.assist.VillageParticipateAssist;
+import com.ort.app.web.controller.assist.VillageRpAssist;
 import com.ort.app.web.controller.assist.VillageSayAssist;
 import com.ort.app.web.controller.assist.VillageSettingsAssist;
+import com.ort.app.web.controller.assist.impl.VillageForms;
 import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageActionForm;
+import com.ort.app.web.form.VillageChangeNameForm;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
 import com.ort.app.web.form.VillageCommitForm;
 import com.ort.app.web.form.VillageGetAnchorMessageForm;
 import com.ort.app.web.form.VillageGetFootstepListForm;
 import com.ort.app.web.form.VillageGetMessageListForm;
+import com.ort.app.web.form.VillageMemoForm;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.app.web.form.VillageSayForm;
 import com.ort.app.web.form.VillageSettingsForm;
@@ -60,6 +64,8 @@ public class VillageController {
     private VillageSayAssist villageSayAssist;
     @Autowired
     private VillageActionAssist villageActionAssist;
+    @Autowired
+    private VillageRpAssist villageRpAssist;
     @Autowired
     private VillageAbilityAssist villageAbilityAssist;
     @Autowired
@@ -114,13 +120,13 @@ public class VillageController {
     @GetMapping("/village/{villageId}")
     private String villageIndex(@PathVariable Integer villageId, Model model) {
         // 最新の日付を表示
-        return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
+        return villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
     }
 
     // 村最新日付初期表示
     @GetMapping("/village/{villageId}/day/{day}")
     private String villageDayIndex(@PathVariable Integer villageId, @PathVariable Integer day, Model model) {
-        return villageAssist.setIndexModel(villageId, day, null, null, null, null, model);
+        return villageAssist.setIndexModel(villageId, day, VillageForms.empty(), model);
     }
 
     // 発言取得
@@ -206,6 +212,20 @@ public class VillageController {
     private String action(@PathVariable Integer villageId, @Validated @ModelAttribute("actionForm") VillageActionForm actionForm,
             BindingResult result, Model model) {
         return villageActionAssist.action(villageId, actionForm, result, model);
+    }
+
+    // 名前を変更する
+    @PostMapping("/village/{villageId}/change-name")
+    private String changeName(@PathVariable Integer villageId,
+            @Validated @ModelAttribute("changeNameForm") VillageChangeNameForm changeNameForm, BindingResult result, Model model) {
+        return villageRpAssist.changeName(villageId, changeNameForm, result, model);
+    }
+
+    // 簡易メモを変更する
+    @PostMapping("/village/{villageId}/memo")
+    private String memo(@PathVariable Integer villageId, @Validated @ModelAttribute("changeNameForm") VillageMemoForm memoForm,
+            BindingResult result, Model model) {
+        return villageRpAssist.memo(villageId, memoForm, result, model);
     }
 
     // 能力セットする

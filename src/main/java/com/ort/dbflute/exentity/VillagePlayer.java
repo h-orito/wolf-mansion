@@ -46,36 +46,36 @@ public class VillagePlayer extends BsVillagePlayer {
 
     public String name() {
         Integer roomNumber = getRoomNumber();
-        String shortName = getChara().get().getCharaShortName();
-        String name = getChara().get().getCharaName();
+        String shortName = getCharaShortName();
+        String name = getCharaName();
         return makeCharaName(roomNumber, shortName, name);
     }
 
     public String name(int day) {
         Integer roomNumber = getRoomNumberWhen(day);
-        String shortName = getChara().get().getCharaShortName();
-        String name = getChara().get().getCharaName();
+        String shortName = getCharaShortName();
+        String name = getCharaName();
         return makeCharaName(roomNumber, shortName, name);
     }
 
     public String shortName() {
         Integer roomNumber = getRoomNumber();
-        String shortName = getChara().get().getCharaShortName();
+        String shortName = getCharaShortName();
         return makeCharaShortName(roomNumber, shortName);
     }
 
     public String shortName(int day) {
         Integer roomNumber = getRoomNumberWhen(day);
-        String shortName = getChara().get().getCharaShortName();
+        String shortName = getCharaShortName();
         return makeCharaShortName(roomNumber, shortName);
     }
 
     public boolean isDeadWhen(int day) {
         List<VillagePlayerDeadHistory> historyList = getVillagePlayerDeadHistoryList();
         // 最後に死んだ日
-        Optional<VillagePlayerDeadHistory> optLastDeadHistory =
-                historyList.stream().filter(history -> history.isIsDeadTrue() && history.getDay() <= day).max(
-                        Comparator.comparing(VillagePlayerDeadHistory::getDay));
+        Optional<VillagePlayerDeadHistory> optLastDeadHistory = historyList.stream()
+                .filter(history -> history.isIsDeadTrue() && history.getDay() <= day)
+                .max(Comparator.comparing(VillagePlayerDeadHistory::getDay));
         // 死んでいなければ生きている
         if (!optLastDeadHistory.isPresent()) {
             return false;

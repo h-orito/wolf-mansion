@@ -26,6 +26,11 @@
 				</div>
 				<div id="actionform-content" class="panel-collapse collapse in">
 					<div class="panel-body">
+						<div class="alert alert-warning-say small">
+							<ul>
+								<li>進行中は、推理、まとめ、および推理に繋がる内容は発言しないでください。</li>
+							</ul>
+						</div>
 						<a href="javascript:void(0);" data-toggle="collapse" data-target="#actionform" class="h5 hidden" aria-expanded="true" data-action-tab>発言する</a> <span
 							th:if="${actionErrorMessage != null}" class="text-danger" th:test="${actionErrorMessage}">error</span>
 						<form method="post" id="actionform" action="" th:action="@{/village/{villageId}/action-confirm(villageId=${content.villageId})}"
@@ -54,7 +59,8 @@
 										th:data-message-restrict-action-max-length="${content.form.action.restrict.actionLength != null ? content.form.action.restrict.actionLength : ''}"
 										th:data-message-restrict-action-max-count="${content.form.action.restrict.actionCount != null ? content.form.action.restrict.actionCount : ''}"
 										th:data-message-restrict-action-left-count="${content.form.action.restrict.actionLeftCount != null ? content.form.action.restrict.actionLeftCount : ''}"></span><br />
-									<input type="checkbox" class="form-check-input" th:field="*{isConvertDisable}" value="true"> <label class="form-check-label" for="isConvertDisable">装飾・変換無効</label>
+									<input type="checkbox" class="form-check-input" th:field="*{isConvertDisable}" value="true">
+									<label class="form-check-label" for="isConvertDisable">装飾・変換無効</label>
 									<input type="submit" class="btn btn-sm btn-success pull-right" disabled value="確認画面へ" data-action-submit-btn />
 								</div>
 							</div>

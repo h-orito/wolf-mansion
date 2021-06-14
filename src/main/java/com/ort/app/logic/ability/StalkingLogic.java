@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 import com.ort.app.datasource.AbilityService;
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.MessageLogic;
-import com.ort.app.logic.daychange.DayChangeLogicHelper;
 import com.ort.app.logic.daychange.DayChangeVillage;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Village;
@@ -26,8 +26,6 @@ public class StalkingLogic {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    @Autowired
-    private DayChangeLogicHelper helper;
     @Autowired
     private MessageSource messageSource;
     @Autowired
@@ -71,7 +69,11 @@ public class StalkingLogic {
                     targetPlayer.name(), //
                     targetPlayer.name(), //
                     targetPlayer.getSkillCodeAsSkill().alias());
-            helper.insertMessage(dayChangeVillage, CDef.MessageType.恋人メッセージ, courtMessage, stalker.getVillagePlayerId());
+            messageLogic.saveIgnoreError(MessageEntity.systemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
+                    .messageType(CDef.MessageType.恋人メッセージ)
+                    .content(courtMessage)
+                    .villagePlayer(stalker)
+                    .build());
         });
     }
 

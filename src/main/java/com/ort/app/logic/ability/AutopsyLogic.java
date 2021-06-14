@@ -5,16 +5,17 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ort.app.logic.daychange.DayChangeLogicHelper;
+import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.daychange.DayChangeVillage;
 import com.ort.app.logic.daychange.DayChangeVillage.DeadPlayers;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
 
 @Component
 public class AutopsyLogic {
 
     @Autowired
-    private DayChangeLogicHelper helper;
+    private MessageLogic messageLogic;
 
     // 検死
     public void autopsy(DayChangeVillage dayChangeVillage) {
@@ -32,6 +33,9 @@ public class AutopsyLogic {
                         .sorted((dp1, dp2) -> dp1.villagePlayer.getRoomNumber() - dp2.villagePlayer.getRoomNumber())
                         .map(dp -> String.format("%sの死因は、%sのようだ。", dp.villagePlayer.name(), dp.reason.alias()))
                         .collect(Collectors.toList()));
-        helper.insertMessage(dayChangeVillage, CDef.MessageType.検死結果, message);
+        messageLogic.saveIgnoreError(MessageEntity.systemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
+                .messageType(CDef.MessageType.検死結果)
+                .content(message)
+                .build());
     }
 }

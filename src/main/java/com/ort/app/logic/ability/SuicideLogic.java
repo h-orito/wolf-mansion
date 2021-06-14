@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ort.app.datasource.VillageService;
-import com.ort.app.logic.daychange.DayChangeLogicHelper;
+import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.daychange.DayChangeVillage;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.VillagePlayer;
 
@@ -15,7 +16,7 @@ import com.ort.dbflute.exentity.VillagePlayer;
 public class SuicideLogic {
 
     @Autowired
-    private DayChangeLogicHelper helper;
+    private MessageLogic messageLogic;
     @Autowired
     private VillageService villageService;
 
@@ -30,8 +31,9 @@ public class SuicideLogic {
             // 後追い対象
             VillagePlayer lover = target.getTargetLovers().filterBy(lov -> !dayChangeVillage.isAlive(lov)).getRandom();
 
-            String message = String.format("%sは、絆に引きずられるように%sの後を追った。", target.name(), lover.name());
-            helper.insertMessage(dayChangeVillage, CDef.MessageType.公開システムメッセージ, message);
+            messageLogic.saveIgnoreError(MessageEntity.publicSystemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
+                    .content(String.format("%sは、絆に引きずられるように%sの後を追った。", target.name(), lover.name()))
+                    .build());
         }
     }
 

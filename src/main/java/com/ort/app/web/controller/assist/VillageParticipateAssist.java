@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.VillageParticipateLogic;
+import com.ort.app.web.controller.assist.impl.VillageForms;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
 import com.ort.app.web.form.VillageParticipateForm;
@@ -58,7 +59,8 @@ public class VillageParticipateAssist {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, participateForm, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, new VillageForms.Builder().participateForm(participateForm).build(),
+                    model);
         }
 
         Chara chara = charaBhv.selectByPK(participateForm.getCharaId()).orElseThrow(() -> {
@@ -79,13 +81,15 @@ public class VillageParticipateAssist {
     public String participate(Integer villageId, VillageParticipateForm participateForm, BindingResult result, Model model) {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (isInvalidForParticipate(villageId, participateForm, result, userInfo, model)) {
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, participateForm, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, new VillageForms.Builder().participateForm(participateForm).build(),
+                    model);
         }
         VillageSettings settings = villageSettingsBhv.selectByPK(villageId).get();
         if (StringUtils.isNotEmpty(settings.getJoinPassword())
                 && !StringUtils.equals(settings.getJoinPassword(), participateForm.getJoinPassword())) {
             model.addAttribute("participateErrorMessage", "入村パスワードが誤っています");
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, participateForm, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, new VillageForms.Builder().participateForm(participateForm).build(),
+                    model);
         }
 
         Integer playerId =
@@ -104,7 +108,7 @@ public class VillageParticipateAssist {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (userInfo == null) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
         }
         VillagePlayer vPlayer = villageService.selectVillagePlayer(villageId, userInfo, true).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
@@ -125,7 +129,8 @@ public class VillageParticipateAssist {
             Model model) {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (isInvalidForChangeRequestSkill(villageId, changeRequestSkillForm, result, userInfo, model)) {
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, changeRequestSkillForm, model);
+            return villageAssist.setIndexModelAndReturnView(villageId,
+                    new VillageForms.Builder().changeRequestSkillForm(changeRequestSkillForm).build(), model);
         }
         VillagePlayer vPlayer = villageService.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");

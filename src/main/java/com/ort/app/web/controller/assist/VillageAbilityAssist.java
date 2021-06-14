@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.AbilityLogic;
 import com.ort.app.logic.FootstepLogic;
+import com.ort.app.web.controller.assist.impl.VillageForms;
 import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageGetFootstepListForm;
 import com.ort.app.web.form.VillageVoteForm;
@@ -52,14 +53,14 @@ public class VillageAbilityAssist {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
         }
         VillagePlayer villagePlayer = villageService.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
         if (villagePlayer.isIsDeadTrue()) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
         }
         int day = villageService.selectLatestDay(villageId);
         Village village = villageService.selectVillage(villageId, false, false);
@@ -73,18 +74,18 @@ public class VillageAbilityAssist {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
         }
         VillagePlayer villagePlayer = villageService.selectVillagePlayer(villageId, userInfo, false).orElseThrow(() -> {
             return new IllegalArgumentException("セッション切れ？");
         });
         if (villagePlayer.isIsDeadTrue()) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
         }
         if (isInvalidVote(villageId, villagePlayer, voteForm)) {
             // 最新の日付を表示
-            return villageAssist.setIndexModelAndReturnView(villageId, null, null, null, null, model);
+            return villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
         }
         int day = villageService.selectLatestDay(villageId);
         setVote(villageId, villagePlayer, day, villagePlayer.getCharaId(), voteForm.getTargetCharaId());

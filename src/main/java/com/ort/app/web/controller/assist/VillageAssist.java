@@ -29,16 +29,19 @@ import com.ort.app.logic.SkillRequestLogic;
 import com.ort.app.logic.VillageDispLogic;
 import com.ort.app.logic.VoteLogic;
 import com.ort.app.util.SkillUtil;
+import com.ort.app.web.controller.assist.impl.VillageForms;
 import com.ort.app.web.dto.VillageInfo;
 import com.ort.app.web.form.NewVillageRpSayRestrictDto;
 import com.ort.app.web.form.NewVillageSayRestrictDto;
 import com.ort.app.web.form.NewVillageSkillSayRestrictDto;
 import com.ort.app.web.form.VillageAbilityForm;
 import com.ort.app.web.form.VillageActionForm;
+import com.ort.app.web.form.VillageChangeNameForm;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
 import com.ort.app.web.form.VillageCommitForm;
 import com.ort.app.web.form.VillageKickForm;
 import com.ort.app.web.form.VillageLeaveForm;
+import com.ort.app.web.form.VillageMemoForm;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.app.web.form.VillageSayForm;
 import com.ort.app.web.form.VillageVoteForm;
@@ -54,8 +57,10 @@ import com.ort.app.web.model.inner.VillageRoomAssignedRowDto;
 import com.ort.app.web.model.inner.VillageSkillDto;
 import com.ort.app.web.model.inner.village.VillageAbilityFormDto;
 import com.ort.app.web.model.inner.village.VillageActionFormDto;
+import com.ort.app.web.model.inner.village.VillageChangeNameFormDto;
 import com.ort.app.web.model.inner.village.VillageCommitFormDto;
 import com.ort.app.web.model.inner.village.VillageFormDto;
+import com.ort.app.web.model.inner.village.VillageMemoFormDto;
 import com.ort.app.web.model.inner.village.VillageParticipateDto;
 import com.ort.app.web.model.inner.village.VillageParticipateFormDto;
 import com.ort.app.web.model.inner.village.VillageParticipateSkillDto;
@@ -125,15 +130,22 @@ public class VillageAssist {
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
-    public String setIndexModelAndReturnView(Integer villageId, VillageSayForm sayForm, VillageActionForm actionForm,
-            VillageParticipateForm participateForm, VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
+    public String setIndexModelAndReturnView( //
+            Integer villageId, //
+            VillageForms forms, //
+            Model model //
+    ) {
         // 最新の日付取得
         int day = villageService.selectLatestDay(villageId);
-        return setIndexModel(villageId, day, sayForm, actionForm, participateForm, changeRequestSkillForm, model);
+        return setIndexModel(villageId, day, forms, model);
     }
 
-    public String setIndexModel(Integer villageId, int day, VillageSayForm sayForm, VillageActionForm actionForm,
-            VillageParticipateForm participateForm, VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
+    public String setIndexModel(//
+            Integer villageId, //
+            int day, //
+            VillageForms forms, //
+            Model model //
+    ) {
         // 村の初期表示に必要な情報を収集
         VillageInfo villageInfo = selectVillageInfo(villageId, day);
         // 表示用情報
@@ -141,7 +153,7 @@ public class VillageAssist {
         // 参加していなくても見られる情報
         setVillageModelBasicInfo(content, villageInfo);
         // 参加している場合のみ見られる情報
-        setVillageModelForm(content, villageInfo, sayForm, actionForm, participateForm, changeRequestSkillForm, model);
+        setVillageModelForm(content, villageInfo, forms, model);
         // 村建てのみ見られる情報
         setVillageModelCreateUser(content, villageInfo, model);
         // デバッグ用
@@ -262,25 +274,31 @@ public class VillageAssist {
     }
 
     // 参加している場合に使う情報
-    private void setVillageModelForm(VillageResultContent content, VillageInfo villageInfo, VillageSayForm sayForm,
-            VillageActionForm actionForm, VillageParticipateForm participateForm, VillageChangeRequestSkillForm changeRequestSkillForm,
-            Model model) {
+    private void setVillageModelForm(//
+            VillageResultContent content, //
+            VillageInfo villageInfo, //
+            VillageForms forms, //
+            Model model //
+    ) {
         // 各種フォーム絡みの情報
-        content.setForm(convertToVillageForm(villageInfo, sayForm, actionForm, participateForm, changeRequestSkillForm, model));
+        content.setForm(convertToVillageForm(villageInfo, forms, model));
         // 参加している自分自身の情報
         content.setMyself(convertToMyself(villageInfo));
     }
 
     // 各種フォーム絡みの情報
-    private VillageFormDto convertToVillageForm(VillageInfo villageInfo, VillageSayForm sayForm, VillageActionForm actionForm,
-            VillageParticipateForm participateForm, VillageChangeRequestSkillForm changeRequestSkillForm, Model model) {
+    private VillageFormDto convertToVillageForm(//
+            VillageInfo villageInfo, //
+            VillageForms forms, //
+            Model model //
+    ) {
         VillageFormDto formDto = new VillageFormDto();
 
         // 参戦
         // 役職希望変更
         // 退村
         formDto.setParticipate(convertToParticipateForm(villageInfo));
-        setParticipateForm(model, formDto.getParticipate(), villageInfo.optVillagePlayer, participateForm, changeRequestSkillForm);
+        setParticipateForm(model, formDto.getParticipate(), villageInfo.optVillagePlayer, forms);
 
         // コミット
         formDto.setCommit(convertToCommitForm(villageInfo));
@@ -288,11 +306,19 @@ public class VillageAssist {
 
         // 発言
         formDto.setSay(convertToSayForm(villageInfo));
-        model.addAttribute("sayForm", createSayForm(formDto.getSay(), villageInfo, sayForm));
+        model.addAttribute("sayForm", createSayForm(formDto.getSay(), villageInfo, forms.sayForm));
 
         // アクション
         formDto.setAction(convertToActionForm(villageInfo));
-        model.addAttribute("actionForm", createActionForm(formDto.getAction(), villageInfo, actionForm));
+        model.addAttribute("actionForm", createActionForm(formDto.getAction(), villageInfo, forms.actionForm));
+
+        // 名前変更
+        formDto.setChangeName(convertToChangeNameForm(villageInfo));
+        model.addAttribute("changeNameForm", createChangeNameForm(formDto.getChangeName(), villageInfo, forms.changeNameForm));
+
+        // 簡易メモ変更
+        formDto.setMemo(convertToMemoForm(villageInfo));
+        model.addAttribute("memoForm", createMemoForm(formDto.getMemo(), villageInfo, forms.memoForm));
 
         // 能力行使
         formDto.setAbility(convertToAbilityForm(villageInfo));
@@ -358,6 +384,36 @@ public class VillageAssist {
         return form;
     }
 
+    // 名前変更
+    private VillageChangeNameForm createChangeNameForm(VillageChangeNameFormDto changeNameFormDto, VillageInfo villageInfo,
+            VillageChangeNameForm changeNameForm) {
+        if (changeNameForm != null) {
+            return changeNameForm;
+        }
+        if (!changeNameFormDto.getIsDispChangeNameForm()) {
+            return null;
+        }
+        VillageChangeNameForm form = new VillageChangeNameForm();
+        VillagePlayer villagePlayer = villageInfo.optVillagePlayer.get();
+        form.setName(villagePlayer.getCharaName());
+        form.setShortName(villagePlayer.getCharaShortName());
+        return form;
+    }
+
+    // 簡易メモ
+    private VillageMemoForm createMemoForm(VillageMemoFormDto memoFormDto, VillageInfo villageInfo, VillageMemoForm memoForm) {
+        if (memoForm != null) {
+            return memoForm;
+        }
+        if (!memoFormDto.getIsDispMemoForm()) {
+            return null;
+        }
+        VillageMemoForm form = new VillageMemoForm();
+        VillagePlayer villagePlayer = villageInfo.optVillagePlayer.get();
+        form.setMemo(villagePlayer.getMemo());
+        return form;
+    }
+
     // 発言
     private VillageSayFormDto convertToSayForm(VillageInfo villageInfo) {
         VillageSayFormDto say = new VillageSayFormDto();
@@ -410,18 +466,38 @@ public class VillageAssist {
         return action;
     }
 
+    // 名前変更
+    private VillageChangeNameFormDto convertToChangeNameForm(VillageInfo villageInfo) {
+        VillageChangeNameFormDto changeName = new VillageChangeNameFormDto();
+        boolean isDispChangeNameForm = sayLogic.isAvailableSay(villageInfo);
+        changeName.setIsDispChangeNameForm(isDispChangeNameForm);
+        return changeName;
+    }
+
+    // 簡易メモ
+    private VillageMemoFormDto convertToMemoForm(VillageInfo villageInfo) {
+        VillageMemoFormDto memo = new VillageMemoFormDto();
+        boolean isDispMemoForm = sayLogic.isAvailableSay(villageInfo);
+        memo.setIsDispMemoForm(isDispMemoForm);
+        return memo;
+    }
+
     // 参戦
     // 役職希望変更
     // 退村
-    private void setParticipateForm(Model model, VillageParticipateFormDto participate, Optional<VillagePlayer> optVillagePlayer,
-            VillageParticipateForm participateForm, VillageChangeRequestSkillForm changeRequestSkillForm) {
+    private void setParticipateForm( //
+            Model model, //
+            VillageParticipateFormDto participate, //
+            Optional<VillagePlayer> optVillagePlayer, //
+            VillageForms forms //
+    ) {
         if (participate.getIsDispParticipateForm()) {
-            model.addAttribute("participateForm", participateForm == null ? new VillageParticipateForm() : participateForm);
+            model.addAttribute("participateForm", Optional.ofNullable(forms.participateForm).orElse(new VillageParticipateForm()));
             return;
         }
         if (participate.getIsDispChangeRequestSkillForm()) {
             VillageChangeRequestSkillForm requestSkillForm =
-                    changeRequestSkillForm == null ? makeChangeRequestSkillForm(optVillagePlayer.get()) : changeRequestSkillForm;
+                    Optional.ofNullable(forms.changeRequestSkillForm).orElse(makeChangeRequestSkillForm(optVillagePlayer.get()));
             model.addAttribute("changeRequestSkillForm", requestSkillForm);
             model.addAttribute("requestSkillName", CDef.Skill.codeOf(requestSkillForm.getRequestedSkill()).alias());
             model.addAttribute("secondRequestSkillName", CDef.Skill.codeOf(requestSkillForm.getSecondRequestedSkill()).alias());
@@ -658,6 +734,7 @@ public class VillageAssist {
         detail.setCharaName(mem.name());
         detail.setDeadDay(mem.getDeadDay() != null ? mem.getDeadDay() + "d" : null);
         detail.setLastAccessDatetime(mem.getLastAccessDatetime());
+        detail.setMemo(mem.getMemo());
         return detail;
     }
 

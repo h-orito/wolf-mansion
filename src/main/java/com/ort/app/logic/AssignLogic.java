@@ -16,10 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ort.app.datasource.VillageService;
+import com.ort.app.logic.message.MessageEntity;
 import com.ort.app.util.RoomSize;
 import com.ort.app.util.RoomUtil;
 import com.ort.app.util.SkillUtil;
-import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Camp;
 import com.ort.dbflute.allcommon.CDef.Skill;
@@ -205,11 +205,9 @@ public class AssignLogic {
                 joiner.add(String.format("%sが%d名", s.alias(), skillPersonNumMap.get(s)));
             }
         });
-        try {
-            messageLogic.insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ, joiner.toString(), true);
-        } catch (WerewolfMansionBusinessException e) {
-            // ここでは何回も被らないので何もしない
-        }
+        messageLogic.saveIgnoreError(MessageEntity.publicSystemBuilder(villageId, 1) //
+                .content(joiner.toString())
+                .build());
     }
 
     private void insertAssignedMessage(Integer villageId) {
@@ -223,11 +221,9 @@ public class AssignLogic {
             cb.query().setVillageId_Equal(villageId);
         });
         String message = makeAssignedMessage(playerList);
-        try {
-            messageLogic.insertMessage(villageId, 1, CDef.MessageType.非公開システムメッセージ, message, true);
-        } catch (WerewolfMansionBusinessException e) {
-            // ここでは何回も被らないので何もしない
-        }
+        messageLogic.saveIgnoreError(MessageEntity.privateSystemBuilder(villageId, 1) //
+                .content(message)
+                .build());
     }
 
     private void updateSkillRequest(Integer villagePlayerId, Skill first, Skill second) {
@@ -368,11 +364,9 @@ public class AssignLogic {
         updateSkillRequest(vp.getVillagePlayerId(), after.first, after.second);
         String message = String.format("%sの役職希望を自動変更しました。\n%s/%s → %s/%s", vp.name(), before.first.alias(), before.second.alias(),
                 after.first.alias(), after.second.alias());
-        try {
-            messageLogic.insertMessage(villageId, 1, CDef.MessageType.非公開システムメッセージ, message, true);
-        } catch (WerewolfMansionBusinessException e) {
-            // ここでは何回も被らないので何もしない
-        }
+        messageLogic.saveIgnoreError(MessageEntity.privateSystemBuilder(villageId, 1) //
+                .content(message)
+                .build());
     }
 
     private List<SkillAssign> createSkillAssignList(List<VillagePlayer> vPlayerList, Integer dummyCharaId) {
@@ -433,9 +427,9 @@ public class AssignLogic {
             CDef.Skill skill = entry.getKey();
             int capacity = entry.getValue();
             // この役職を希望していて、まだ役職が割り当たっていない人
-            List<SkillAssign> requestPlayerList =
-                    skillAssignList.stream().filter(sa -> sa.getRequest(isFirst) == skill && !sa.alreadyAssigned()).collect(
-                            Collectors.toList());
+            List<SkillAssign> requestPlayerList = skillAssignList.stream()
+                    .filter(sa -> sa.getRequest(isFirst) == skill && !sa.alreadyAssigned())
+                    .collect(Collectors.toList());
             if (requestPlayerList.size() == 0) {
                 continue;
             }
@@ -558,11 +552,9 @@ public class AssignLogic {
             cb.query().setVillageId_Equal(villageId);
         });
         String message = makeRoomAssignedMessage(playerList);
-        try {
-            messageLogic.insertMessage(villageId, 1, CDef.MessageType.公開システムメッセージ, message, true);
-        } catch (WerewolfMansionBusinessException e) {
-            // ここでは何回も被らないので何もしない
-        }
+        messageLogic.saveIgnoreError(MessageEntity.publicSystemBuilder(villageId, 1) //
+                .content(message)
+                .build());
     }
 
     private String makeRoomAssignedMessage(ListResultBean<VillagePlayer> playerList) {
