@@ -181,6 +181,26 @@ public class BsCharaGroupCQ extends AbstractBsCharaGroupCQ {
      */
     public BsCharaGroupCQ addOrderBy_DescriptionUrl_Desc() { regOBD("DESCRIPTION_URL"); return this; }
 
+    protected ConditionValue _isAvailableChangeName;
+    public ConditionValue xdfgetIsAvailableChangeName()
+    { if (_isAvailableChangeName == null) { _isAvailableChangeName = nCV(); }
+      return _isAvailableChangeName; }
+    protected ConditionValue xgetCValueIsAvailableChangeName() { return xdfgetIsAvailableChangeName(); }
+
+    /**
+     * Add order-by as ascend. <br>
+     * IS_AVAILABLE_CHANGE_NAME: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsCharaGroupCQ addOrderBy_IsAvailableChangeName_Asc() { regOBA("IS_AVAILABLE_CHANGE_NAME"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * IS_AVAILABLE_CHANGE_NAME: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsCharaGroupCQ addOrderBy_IsAvailableChangeName_Desc() { regOBD("IS_AVAILABLE_CHANGE_NAME"); return this; }
+
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
     { if (_registerDatetime == null) { _registerDatetime = nCV(); }

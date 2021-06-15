@@ -85,6 +85,7 @@ public class CharaGroupCIQ extends AbstractBsCharaGroupCQ {
     protected ConditionValue xgetCValueCharaGroupName() { return _myCQ.xdfgetCharaGroupName(); }
     protected ConditionValue xgetCValueDesignerId() { return _myCQ.xdfgetDesignerId(); }
     protected ConditionValue xgetCValueDescriptionUrl() { return _myCQ.xdfgetDescriptionUrl(); }
+    protected ConditionValue xgetCValueIsAvailableChangeName() { return _myCQ.xdfgetIsAvailableChangeName(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
     protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }
     protected ConditionValue xgetCValueUpdateDatetime() { return _myCQ.xdfgetUpdateDatetime(); }

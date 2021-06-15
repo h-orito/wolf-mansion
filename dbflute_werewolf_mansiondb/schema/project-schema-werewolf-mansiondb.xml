@@ -142,6 +142,8 @@
         <column comment="キャラチップURL : キャラチップの利用規約や配布サイトのURL"
             dbType="TEXT" javaType="String" name="DESCRIPTION_URL"
             size="65535" type="LONGVARCHAR"/>
+        <column comment="名称変更可能か" dbType="BIT" javaType="Boolean"
+            name="IS_AVAILABLE_CHANGE_NAME" required="true" type="BIT"/>
         <column comment="登録日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>

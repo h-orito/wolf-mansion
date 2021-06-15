@@ -69,11 +69,13 @@ import com.ort.app.web.model.inner.village.VillageSayFormDto;
 import com.ort.app.web.model.inner.village.VillageSettingsDto;
 import com.ort.app.web.model.inner.village.VillageVoteFormDto;
 import com.ort.dbflute.allcommon.CDef;
+import com.ort.dbflute.exbhv.CharaGroupBhv;
 import com.ort.dbflute.exbhv.CommitBhv;
 import com.ort.dbflute.exbhv.RandomKeywordBhv;
 import com.ort.dbflute.exentity.Abilities;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Chara;
+import com.ort.dbflute.exentity.CharaGroup;
 import com.ort.dbflute.exentity.Commit;
 import com.ort.dbflute.exentity.Footsteps;
 import com.ort.dbflute.exentity.NormalSayRestriction;
@@ -123,6 +125,8 @@ public class VillageAssist {
     private AbilityService abilityService;
     @Autowired
     private VoteService voteService;
+    @Autowired
+    private CharaGroupBhv charaGroupBhv;
 
     @Value("${isDebugMode}")
     private Boolean debug;
@@ -469,7 +473,9 @@ public class VillageAssist {
     // 名前変更
     private VillageChangeNameFormDto convertToChangeNameForm(VillageInfo villageInfo) {
         VillageChangeNameFormDto changeName = new VillageChangeNameFormDto();
-        boolean isDispChangeNameForm = sayLogic.isAvailableSay(villageInfo);
+        CharaGroup charaGroup = charaGroupBhv
+                .selectEntityWithDeletedCheck(cb -> cb.query().setCharaGroupId_Equal(villageInfo.settings.getCharacterGroupId()));
+        boolean isDispChangeNameForm = sayLogic.isAvailableSay(villageInfo) && charaGroup.isIsAvailableChangeNameTrue();
         changeName.setIsDispChangeNameForm(isDispChangeNameForm);
         return changeName;
     }

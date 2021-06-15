@@ -30,6 +30,7 @@
 						<div class="alert alert-warning-say small">
 							<ul>
 								<li>進行中は、推理、まとめ、および推理に繋がる内容は記載しないでください。</li>
+								<li th:if="${!content.form.changeName.isDispChangeNameForm}">このキャラチップは制作者様の意向により名前変更ができません。</li>
 							</ul>
 						</div>
 						<a href="javascript:void(0);" data-toggle="collapse" data-target="#changenameform" class="h5 hidden" aria-expanded="true" data-changename-tab>名前変更</a>

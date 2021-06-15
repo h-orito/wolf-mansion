@@ -24,6 +24,9 @@ public class CharaGroupResultContent implements Serializable {
     /** キャラリスト */
     private List<CharaGroupCharaDto> charaList;
 
+    /** 名称変更可能か */
+    private Boolean isAvailableChangeName;
+
     public Integer getCharaGroupId() {
         return charaGroupId;
     }
@@ -62,5 +65,13 @@ public class CharaGroupResultContent implements Serializable {
 
     public void setDescriptionUrl(String descriptionUrl) {
         this.descriptionUrl = descriptionUrl;
+    }
+
+    public Boolean getIsAvailableChangeName() {
+        return isAvailableChangeName;
+    }
+
+    public void setIsAvailableChangeName(Boolean isAvailableChangeName) {
+        this.isAvailableChangeName = isAvailableChangeName;
     }
 }

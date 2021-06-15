@@ -328,6 +328,11 @@ public class BsCharaGroupCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnDescriptionUrl() { return doColumn("DESCRIPTION_URL"); }
         /**
+         * IS_AVAILABLE_CHANGE_NAME: {NotNull, BIT, classification=Flg}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnIsAvailableChangeName() { return doColumn("IS_AVAILABLE_CHANGE_NAME"); }
+        /**
          * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
          */

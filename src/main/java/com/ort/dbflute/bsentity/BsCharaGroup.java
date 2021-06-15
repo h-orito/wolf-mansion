@@ -10,6 +10,7 @@ import org.dbflute.dbmeta.accessory.DomainEntity;
 import org.dbflute.optional.OptionalEntity;
 import com.ort.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.*;
 
 /**
@@ -20,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     CHARA_GROUP_ID
  *
  * [column]
- *     CHARA_GROUP_ID, CHARA_GROUP_NAME, DESIGNER_ID, DESCRIPTION_URL, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     CHARA_GROUP_ID, CHARA_GROUP_NAME, DESIGNER_ID, DESCRIPTION_URL, IS_AVAILABLE_CHANGE_NAME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -49,6 +50,7 @@ import com.ort.dbflute.exentity.*;
  * String charaGroupName = entity.getCharaGroupName();
  * Integer designerId = entity.getDesignerId();
  * String descriptionUrl = entity.getDescriptionUrl();
+ * Boolean isAvailableChangeName = entity.getIsAvailableChangeName();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -57,6 +59,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setCharaGroupName(charaGroupName);
  * entity.setDesignerId(designerId);
  * entity.setDescriptionUrl(descriptionUrl);
+ * entity.setIsAvailableChangeName(isAvailableChangeName);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -87,6 +90,9 @@ public abstract class BsCharaGroup extends AbstractEntity implements DomainEntit
 
     /** DESCRIPTION_URL: {TEXT(65535)} */
     protected String _descriptionUrl;
+
+    /** IS_AVAILABLE_CHANGE_NAME: {NotNull, BIT, classification=Flg} */
+    protected Boolean _isAvailableChangeName;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -120,6 +126,86 @@ public abstract class BsCharaGroup extends AbstractEntity implements DomainEntit
     public boolean hasPrimaryKeyValue() {
         if (_charaGroupId == null) { return false; }
         return true;
+    }
+
+    // ===================================================================================
+    //                                                             Classification Property
+    //                                                             =======================
+    /**
+     * Get the value of isAvailableChangeName as the classification of Flg. <br>
+     * IS_AVAILABLE_CHANGE_NAME: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Flg getIsAvailableChangeNameAsFlg() {
+        return CDef.Flg.codeOf(getIsAvailableChangeName());
+    }
+
+    /**
+     * Set the value of isAvailableChangeName as the classification of Flg. <br>
+     * IS_AVAILABLE_CHANGE_NAME: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setIsAvailableChangeNameAsFlg(CDef.Flg cdef) {
+        setIsAvailableChangeName(cdef != null ? toBoolean(cdef.code()) : null);
+    }
+
+    // ===================================================================================
+    //                                                              Classification Setting
+    //                                                              ======================
+    /**
+     * Set the value of isAvailableChangeName as True (true). <br>
+     * はい: 有効を示す
+     */
+    public void setIsAvailableChangeName_True() {
+        setIsAvailableChangeNameAsFlg(CDef.Flg.True);
+    }
+
+    /**
+     * Set the value of isAvailableChangeName as False (false). <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsAvailableChangeName_False() {
+        setIsAvailableChangeNameAsFlg(CDef.Flg.False);
+    }
+
+    // ===================================================================================
+    //                                                        Classification Determination
+    //                                                        ============================
+    /**
+     * Is the value of isAvailableChangeName True? <br>
+     * はい: 有効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsAvailableChangeNameTrue() {
+        CDef.Flg cdef = getIsAvailableChangeNameAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
+    }
+
+    /**
+     * Is the value of isAvailableChangeName False? <br>
+     * いいえ: 無効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsAvailableChangeNameFalse() {
+        CDef.Flg cdef = getIsAvailableChangeNameAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
+    // ===================================================================================
+    //                                                           Classification Name/Alias
+    //                                                           =========================
+    /**
+     * Get the value of the column 'isAvailableChangeName' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     */
+    public String getIsAvailableChangeNameAlias() {
+        CDef.Flg cdef = getIsAvailableChangeNameAsFlg();
+        return cdef != null ? cdef.alias() : null;
     }
 
     // ===================================================================================
@@ -237,6 +323,7 @@ public abstract class BsCharaGroup extends AbstractEntity implements DomainEntit
         sb.append(dm).append(xfND(_charaGroupName));
         sb.append(dm).append(xfND(_designerId));
         sb.append(dm).append(xfND(_descriptionUrl));
+        sb.append(dm).append(xfND(_isAvailableChangeName));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -349,6 +436,27 @@ public abstract class BsCharaGroup extends AbstractEntity implements DomainEntit
     public void setDescriptionUrl(String descriptionUrl) {
         registerModifiedProperty("descriptionUrl");
         _descriptionUrl = descriptionUrl;
+    }
+
+    /**
+     * [get] IS_AVAILABLE_CHANGE_NAME: {NotNull, BIT, classification=Flg} <br>
+     * 名称変更可能か
+     * @return The value of the column 'IS_AVAILABLE_CHANGE_NAME'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getIsAvailableChangeName() {
+        checkSpecifiedProperty("isAvailableChangeName");
+        return _isAvailableChangeName;
+    }
+
+    /**
+     * [set] IS_AVAILABLE_CHANGE_NAME: {NotNull, BIT, classification=Flg} <br>
+     * 名称変更可能か
+     * @param isAvailableChangeName The value of the column 'IS_AVAILABLE_CHANGE_NAME'. (basically NotNull if update: for the constraint)
+     */
+    public void setIsAvailableChangeName(Boolean isAvailableChangeName) {
+        checkClassificationCode("IS_AVAILABLE_CHANGE_NAME", CDef.DefMeta.Flg, isAvailableChangeName);
+        registerModifiedProperty("isAvailableChangeName");
+        _isAvailableChangeName = isAvailableChangeName;
     }
 
     /**

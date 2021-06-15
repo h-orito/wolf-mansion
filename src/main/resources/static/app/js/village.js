@@ -82,7 +82,6 @@ $(function() {
 		$("[data-message-area]").addClass('loading');
 		const isNoPaging = getDisplaySetting('is_no_paging');
 		const pageSize = getDisplaySetting('page_size');
-		console.log(isDispOnlyToMe);
 		return $.ajax({
 			type: 'GET',
 			url: GET_MESSAGE_URL,

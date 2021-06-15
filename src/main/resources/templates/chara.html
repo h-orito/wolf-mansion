@@ -15,6 +15,7 @@
 					<div class="row">
 						<div class="col-sm-12 col-xs-12">
 							<p th:text="${'作者: ' + content.designerName + '様'}"></p>
+							<p th:text="'肩書・名称変更: ' + ${content.isAvailableChangeName ? '可能' : '不可'}"></p>
 							<a th:href="${content.descriptionUrl}" target="_blank" th:text="作者様HP" th:if="${content.descriptionUrl}"></a>
 						</div>
 					</div>

@@ -578,7 +578,7 @@ pre.spolicyviodisp {
 	</tr>
 	<tr>
 		<td class="rownumcell">7</td>
-		<td class="namecell" data-name="CHARA_GROUP"><a href="#chara_group" title="type=TABLE, primaryKey={CHARA_GROUP_ID}, nameLength=11, columnCount=8">CHARA_GROUP</a></td>
+		<td class="namecell" data-name="CHARA_GROUP"><a href="#chara_group" title="type=TABLE, primaryKey={CHARA_GROUP_ID}, nameLength=11, columnCount=9">CHARA_GROUP</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#designer" title="FK_CHARA_GROUP_DESIGNER">DESIGNER</a></td>
 		<td class="relcell"><a href="#chara" title="FK_CHARA_CHARA_GROUP">CHARA</a>, <a href="#village_settings" title="FK_VILLAGE_SETTINGS_CHARA_GROUP">VILLAGE_SETTINGS</a></td>
@@ -1565,7 +1565,7 @@ CHARA
 	</tbody>
 </table>
 
-<h2 id="chara_group" title="type=TABLE, primaryKey={CHARA_GROUP_ID}, nameLength=11, columnCount=8">
+<h2 id="chara_group" title="type=TABLE, primaryKey={CHARA_GROUP_ID}, nameLength=11, columnCount=9">
 CHARA_GROUP
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/20</span>
 </h2>
@@ -1672,6 +1672,24 @@ CHARA_GROUP
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="chara_group_is_available_change_name">IS_AVAILABLE_CHANGE_NAME</td>
+		<td class="typecell">BIT</td>
+		<td class="sizecell"> &nbsp;</td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#FlgCls">Flg</a></td>
+		<td class="commentcell"><pre>名称変更可能か</pre></td>
+		<td class="subcell">isAvailableChangeName</td>
+		<td class="subcell">Boolean</td>
+		<td class="subcell">2021/06/15</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">6</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
 		<td class="comcolcell columnnamecell" id="chara_group_register_datetime">REGISTER_DATETIME</td>
 		<td class="typecell">DATETIME</td>
 		<td class="sizecell"> 19 </td>
@@ -1684,7 +1702,7 @@ CHARA_GROUP
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">6</td>
+		<td class="rownumcell">7</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1702,7 +1720,7 @@ CHARA_GROUP
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">7</td>
+		<td class="rownumcell">8</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1720,7 +1738,7 @@ CHARA_GROUP
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">8</td>
+		<td class="rownumcell">9</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -7854,6 +7872,9 @@ function StoreClient() {
 				}
 				, 'DESCRIPTION_URL': {
 					'databaseComment': 'キャラチップURL&nbsp;:&nbsp;キャラチップの利用規約や配布サイトのURL'
+				}
+				, 'IS_AVAILABLE_CHANGE_NAME': {
+					'databaseComment': '名称変更可能か'
 				}
 				, 'REGISTER_DATETIME': {
 					'databaseComment': '登録日時'
