@@ -259,6 +259,12 @@
 					<type>text</type>
 					<description>キャラチップの利用規約や配布サイトのURL</description>
 				</normal_column>
+				<normal_column>
+					<physical_name>is_available_change_name</physical_name>
+					<logical_name>名称変更可能か</logical_name>
+					<type>boolean</type>
+					<not_null>true</not_null>
+				</normal_column>
 				<column_group>共通カラム</column_group>
 			</columns>
 			<indexes>
