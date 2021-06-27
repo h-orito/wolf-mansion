@@ -1,10 +1,9 @@
 package com.ort.app.web.form;
 
-import java.io.Serializable;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Length;
+import java.io.Serializable;
 
 public class VillageChangeNameForm implements Serializable {
 

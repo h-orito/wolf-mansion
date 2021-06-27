@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -23,15 +22,15 @@ public class TwitterLogic {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    @Value("${isDebugMode}")
+    @Value("${app.debug}")
     private Boolean debug;
-    @Value("${oauth.consumerKey}")
+    @Value("${twitter.oauth.consumer-key:}")
     private String consumerKey;
-    @Value("${oauth.consumerSecret}")
+    @Value("${twitter.oauth.consumer-secret:}")
     private String consumerSecret;
-    @Value("${oauth.accessToken}")
+    @Value("${twitter.oauth.access-token:}")
     private String accessToken;
-    @Value("${oauth.accessTokenSecret}")
+    @Value("${twitter.oauth.access-token-secret:}")
     private String accessTokenSecret;
 
     // ===================================================================================
