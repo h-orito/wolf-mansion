@@ -128,7 +128,7 @@ public class VillageAssist {
     @Autowired
     private CharaGroupBhv charaGroupBhv;
 
-    @Value("${isDebugMode}")
+    @Value("${app.debug}")
     private Boolean debug;
 
     // ===================================================================================
