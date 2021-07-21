@@ -62,8 +62,7 @@ public class FruitsBasketLogic {
         StringJoiner joiner =
                 new StringJoiner("\n", String.format("%sは突然「フルーツバスケット！」と叫んだ。\nなんと、全員の部屋がシャッフルされてしまった。\n\n", player.name()), "");
         village.getVillagePlayers().list.forEach(vp -> {
-            joiner.add(String.format("[%s] %sは、部屋番号%02dに移動した。", vp.getChara().get().getCharaShortName(), vp.getChara().get().getCharaName(),
-                    vp.getRoomNumber()));
+            joiner.add(String.format("[%s] %sは、部屋番号%02dに移動した。", vp.getCharaShortName(), vp.getCharaName(), vp.getRoomNumber()));
         });
         String message = joiner.toString();
         messageLogic.saveIgnoreError(MessageEntity.publicSystemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //

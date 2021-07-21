@@ -94,10 +94,8 @@ public class VillageParticipateLogic {
             cb.query().setVillagePlayerId_Equal(villagePlayer.getVillagePlayerId());
         });
         // 退村発言
-        String charaName =
-                charaBhv.selectEntityWithDeletedCheck(cb -> cb.query().setCharaId_Equal(villagePlayer.getCharaId())).getCharaName();
         messageLogic.saveIgnoreError(MessageEntity.publicSystemBuilder(villagePlayer.getVillageId(), 0) //
-                .content(String.format("%sは村を去った。", charaName))
+                .content(String.format("%sは村を去った。", villagePlayer.getCharaName()))
                 .build());
     }
 

@@ -560,8 +560,8 @@ public class AssignLogic {
     private String makeRoomAssignedMessage(ListResultBean<VillagePlayer> playerList) {
         StringJoiner joiner = new StringJoiner("\n", "人狼の痕跡を残すため、村人たちはそれぞれ別の部屋で夜を明かすことにした。\n\n", "");
         for (VillagePlayer player : playerList) {
-            joiner.add(String.format("[%s] %sには、部屋番号%02dが割り当てられた。", player.getChara().get().getCharaShortName(),
-                    player.getChara().get().getCharaName(), player.getRoomNumber()));
+            joiner.add(String.format("[%s] %sには、部屋番号%02dが割り当てられた。", player.getCharaShortName(), player.getCharaName(),
+                    player.getRoomNumber()));
         }
         return joiner.toString();
     }

@@ -65,8 +65,9 @@ public class IndexController {
         ListResultBean<Village> villageList = villageBhv.selectList(cb -> {
             cb.setupSelect_VillageSettingsAsOne().withCharaGroup();
             cb.setupSelect_VillageStatus();
-            cb.query().setVillageStatusCode_InScope_AsVillageStatus(
-                    Arrays.asList(CDef.VillageStatus.募集中, CDef.VillageStatus.エピローグ, CDef.VillageStatus.進行中));
+            cb.query()
+                    .setVillageStatusCode_InScope_AsVillageStatus(
+                            Arrays.asList(CDef.VillageStatus.募集中, CDef.VillageStatus.エピローグ, CDef.VillageStatus.進行中));
             cb.query().setVillageDisplayName_NotEqual("【サンプル】インターフェース確認用");
             cb.query().addOrderBy_VillageId_Asc();
         });
@@ -90,11 +91,12 @@ public class IndexController {
     ) {
         ListResultBean<Village> villageList = villageBhv.selectList(cb -> {
             cb.setupSelect_VillageSettingsAsOne().withCharaGroup();
-            cb.query().setVillageStatusCode_InScope_AsVillageStatus(//
-                    Arrays.asList(//
-                            CDef.VillageStatus.エピローグ, //
-                            CDef.VillageStatus.終了, //
-                            CDef.VillageStatus.廃村)//
+            cb.query()
+                    .setVillageStatusCode_InScope_AsVillageStatus(//
+                            Arrays.asList(//
+                                    CDef.VillageStatus.エピローグ, //
+                                    CDef.VillageStatus.終了, //
+                                    CDef.VillageStatus.廃村)//
             );
             if (CollectionUtils.isNotEmpty(form.getVid())) {
                 cb.query().setVillageId_InScope(form.getVid());
@@ -122,11 +124,12 @@ public class IndexController {
     private VillageRecordLatestVidResultContent latestVillageRecordVid() {
         OptionalScalar<Integer> optVid = villageBhv.selectScalar(Integer.class).max(cb -> {
             cb.specify().columnVillageId();
-            cb.query().setVillageStatusCode_InScope_AsVillageStatus(//
-                    Arrays.asList(//
-                            CDef.VillageStatus.エピローグ, //
-                            CDef.VillageStatus.終了, //
-                            CDef.VillageStatus.廃村)//
+            cb.query()
+                    .setVillageStatusCode_InScope_AsVillageStatus(//
+                            Arrays.asList(//
+                                    CDef.VillageStatus.エピローグ, //
+                                    CDef.VillageStatus.終了, //
+                                    CDef.VillageStatus.廃村)//
             );
         });
         return optVid.map(vid -> new VillageRecordLatestVidResultContent(vid)).orElse(null);
@@ -223,16 +226,17 @@ public class IndexController {
         villageRecord.setEpilogueDay(village.getEpilogueDay());
         villageRecord.setUrl("https://wolfort.net/wolf-mansion/village/" + village.getVillageId());
         villageRecord.setWinCampName(village.isVillageStatusCode廃村() ? null : village.getWinCampCodeAsCamp().alias());
-        villageRecord.setParticipantList(
-                village.getVillagePlayerList().stream().map(vp -> convertToVillageParticipantRecord(village, vp)).collect(
-                        Collectors.toList()));
+        villageRecord.setParticipantList(village.getVillagePlayerList()
+                .stream()
+                .map(vp -> convertToVillageParticipantRecord(village, vp))
+                .collect(Collectors.toList()));
         return villageRecord;
     }
 
     private VillageParticipantRecordDto convertToVillageParticipantRecord(Village village, VillagePlayer vp) {
         VillageParticipantRecordDto record = new VillageParticipantRecordDto();
         record.setUserId(vp.getPlayer().get().getPlayerName());
-        record.setCharacterName(vp.getChara().get().getCharaName());
+        record.setCharacterName(vp.getCharaName());
         record.setSkillName(vp.getSkillCodeAsSkill() == null ? null : vp.getSkillCodeAsSkill().alias());
         record.setIsSpectator(vp.getIsSpectator());
         record.setIsWin(vp.getIsWin());
@@ -297,8 +301,9 @@ public class IndexController {
         ListResultBean<Village> villageList = villageBhv.selectList(cb -> {
             cb.setupSelect_VillageSettingsAsOne();
             cb.setupSelect_VillageStatus();
-            cb.query().setVillageStatusCode_InScope_AsVillageStatus(
-                    Arrays.asList(CDef.VillageStatus.エピローグ, CDef.VillageStatus.募集中, CDef.VillageStatus.進行中, CDef.VillageStatus.開始待ち));
+            cb.query()
+                    .setVillageStatusCode_InScope_AsVillageStatus(Arrays.asList(CDef.VillageStatus.エピローグ, CDef.VillageStatus.募集中,
+                            CDef.VillageStatus.進行中, CDef.VillageStatus.開始待ち));
             cb.query().addOrderBy_VillageId_Asc();
         });
         villageBhv.loadVillagePlayer(villageList, cb -> {

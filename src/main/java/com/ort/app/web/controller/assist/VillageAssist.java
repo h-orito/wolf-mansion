@@ -701,8 +701,8 @@ public class VillageAssist {
         room.setRoomNumber(String.format("%02d", roomNum));
         villageInfo.vPlayers.filterNotSpecatate().findByRoomNumber(roomNum, villageInfo.day).ifPresent(vp -> {
             Chara chara = vp.getChara().get();
-            room.setCharaName(chara.getCharaName());
-            room.setCharaShortName(chara.getCharaShortName());
+            room.setCharaName(vp.getCharaName());
+            room.setCharaShortName(vp.getCharaShortName());
             room.setCharaImgUrl(chara.getNormalCharaImgUrl());
             room.setCharaImgWidth(chara.getDisplayWidth());
             room.setCharaImgHeight(chara.getDisplayHeight());

@@ -208,7 +208,7 @@ public class AttackLogic {
         List<VillagePlayer> livingWolfList =
                 dayChangeVillage.alivePlayers().filterBy(vp -> vp.getSkillCodeAsSkill().isHasAttackAbility()).list;
         Collections.shuffle(livingWolfList);
-        String attackMessage = String.format("%s！今日がお前の命日だ！", targetPlayer.getChara().get().getCharaName());
+        String attackMessage = String.format("%s！今日がお前の命日だ！", targetPlayer.getCharaName());
         VillagePlayer attackerPlayer = livingWolfList.get(0);
         boolean hasWerewolfFace = hasWerewolfFace(attackerPlayer);
         messageLogic.saveIgnoreError(new MessageEntity.Builder(dayChangeVillage.villageId, dayChangeVillage.day) //

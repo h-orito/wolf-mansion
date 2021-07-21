@@ -57,8 +57,9 @@ public class AdminController {
     private String allparticipate(@PathVariable Integer villageId, VillageParticipateForm participateForm, Model model) {
         // 参戦していないキャラを人数分探す
         ListResultBean<Chara> charaList = charaBhv.selectList(cb -> {
-            cb.query().queryCharaGroup().existsVillageSettings(
-                    villageSettingsCB -> villageSettingsCB.query().setVillageId_Equal(villageId));
+            cb.query()
+                    .queryCharaGroup()
+                    .existsVillageSettings(villageSettingsCB -> villageSettingsCB.query().setVillageId_Equal(villageId));
             cb.query().notExistsVillagePlayer(villagePlayerCB -> {
                 villagePlayerCB.query().setVillageId_Equal(villageId);
                 villagePlayerCB.query().setIsGone_Equal_False();
@@ -165,7 +166,7 @@ public class AdminController {
             cb.query().addOrderBy_VillagePlayerId_Asc();
         }).stream().map(vp -> {
             VillageCharaPlayerResultContent charaPlayer = new VillageCharaPlayerResultContent();
-            charaPlayer.setCharaName(vp.getChara().get().getCharaName());
+            charaPlayer.setCharaName(vp.getCharaName());
             charaPlayer.setPlayerName(vp.getPlayer().get().getPlayerName());
             return charaPlayer;
         }).collect(Collectors.toList());

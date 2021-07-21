@@ -315,7 +315,7 @@ public class MessageLogic {
         Matcher whoMatcher = whoPattern.matcher(mes);
         if (whoMatcher.find()) {
             Collections.shuffle(vPlayerList);
-            replacedMessage = mes.replaceAll(whoRegex, vPlayerList.get(0).getChara().get().getCharaName() + whoMatcher.group(0));
+            replacedMessage = mes.replaceAll(whoRegex, vPlayerList.get(0).getCharaName() + whoMatcher.group(0));
         }
         return replacedMessage;
     }
@@ -326,7 +326,7 @@ public class MessageLogic {
         Matcher allwhoMatcher = allwhoPattern.matcher(mes);
         if (allwhoMatcher.find()) {
             Collections.shuffle(vPlayerList);
-            replacedMessage = mes.replaceAll(allwhoRegex, vPlayerList.get(0).getChara().get().getCharaName() + allwhoMatcher.group(0));
+            replacedMessage = mes.replaceAll(allwhoRegex, vPlayerList.get(0).getCharaName() + allwhoMatcher.group(0));
         }
         return replacedMessage;
     }
