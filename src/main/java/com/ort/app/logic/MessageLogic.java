@@ -1,29 +1,5 @@
 package com.ort.app.logic;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.dbflute.cbean.result.ListResultBean;
-import org.dbflute.optional.OptionalEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-
 import com.ort.app.logic.message.MessageEntity;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.dbflute.allcommon.CDef;
@@ -31,12 +7,26 @@ import com.ort.dbflute.exbhv.MessageBhv;
 import com.ort.dbflute.exbhv.MessageSendtoBhv;
 import com.ort.dbflute.exbhv.RandomKeywordBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
-import com.ort.dbflute.exentity.Message;
-import com.ort.dbflute.exentity.MessageSendto;
-import com.ort.dbflute.exentity.RandomContent;
-import com.ort.dbflute.exentity.RandomKeyword;
-import com.ort.dbflute.exentity.VillagePlayer;
+import com.ort.dbflute.exentity.*;
 import com.ort.fw.util.WerewolfMansionDateUtil;
+import org.dbflute.cbean.result.ListResultBean;
+import org.dbflute.optional.OptionalEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class MessageLogic {
@@ -54,7 +44,6 @@ public class MessageLogic {
     private static final Pattern whoPattern = Pattern.compile(whoRegex);
     private static final String allwhoRegex = "\\[\\[allwho$";
     private static final Pattern allwhoPattern = Pattern.compile(allwhoRegex);
-    private static final String SLACK_URL = "https://hooks.slack.com/services/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";
     private static final Logger logger = LoggerFactory.getLogger(MessageLogic.class);
 
     private static final Pattern normalAnchorPattern = Pattern.compile("^(?![\\+=\\?@\\-\\*a])(\\d{1,5})");
@@ -91,6 +80,9 @@ public class MessageLogic {
     private VillagePlayerBhv villagePlayerBhv;
     @Autowired
     private RandomKeywordBhv randomKeywordBhv;
+
+    @Value("${slack.webhook-url:}")
+    private String slackWebhookUrl;
 
     // ===================================================================================
     //                                                                             Execute
@@ -349,7 +341,7 @@ public class MessageLogic {
                 HttpHeaders formHeaders = new HttpHeaders();
                 formHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
                 HttpEntity<String> formEntity = new HttpEntity<String>(request, formHeaders);
-                restTemplate.exchange(SLACK_URL, HttpMethod.POST, formEntity, String.class);
+                restTemplate.exchange(slackWebhookUrl, HttpMethod.POST, formEntity, String.class);
             } catch (Exception e) {
                 logger.error("slack投稿に失敗しました", e);
             }

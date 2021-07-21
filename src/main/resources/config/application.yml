@@ -34,3 +34,6 @@ twitter:
     consumer-secret:
     access-token:
     access-token-secret:
+
+slack:
+  webhook-url:

@@ -45,3 +45,6 @@ twitter:
     consumer-secret: ${TWITTER_CONSUMER_SECRET}
     access-token: ${TWITTER_ACCESS_TOKEN}
     access-token-secret: ${TWITTER_ACCESS_TOKEN_SECRET}
+
+slack:
+  webhook-url: ${WOLF_MANSION_SLACK_WEBHOOK_URL}
