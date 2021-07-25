@@ -1,6 +1,5 @@
 package com.ort.app.logic;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.dbflute.cbean.result.ListResultBean;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ort.app.web.dto.VillageInfo;
-import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exentity.Chara;
@@ -37,17 +35,8 @@ public class ParticipateLogic {
         if (!villageInfo.village.isVillageStatusCode募集中() && !villageInfo.village.isVillageStatusCode開始待ち()) {
             return false;
         }
-        // 決着のついていない村に参戦している場合表示しない
-        int participateCount = playerBhv.selectCount(cb -> {
-            cb.query().setPlayerName_Equal(villageInfo.user.getUsername());
-            // 募集中、開始待ち、進行中の村に参戦している
-            cb.query().existsVillagePlayer(villagePlayerCB -> {
-                villagePlayerCB.query().queryVillage().setVillageStatusCode_InScope_AsVillageStatus(
-                        Arrays.asList(CDef.VillageStatus.募集中, CDef.VillageStatus.進行中, CDef.VillageStatus.開始待ち));
-                villagePlayerCB.query().setIsGone_Equal_False();
-            });
-        });
-        if (participateCount > 0) {
+        // 既にこの村に参加している場合は表示しない
+        if (villageInfo.isParticipate()) {
             return false;
         }
         // 既に最大人数まで参加していたら表示しない
