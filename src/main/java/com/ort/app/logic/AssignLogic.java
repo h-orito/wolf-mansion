@@ -63,8 +63,9 @@ public class AssignLogic {
         rangeSkillMap = new HashMap<Skill, List<Skill>>();
 
         List<Skill> jingaiSkillList = CDef.Skill.listAll().stream().filter(s -> {
-            if (s.isSomeoneSkill())
+            if (s.isSomeoneSkill()) {
                 return false;
+            }
             Camp camp = Camp.codeOf(s.campCode());
             return camp == CDef.Camp.人狼陣営 || camp == CDef.Camp.狐陣営 || camp == CDef.Camp.愉快犯陣営;
         }).collect(Collectors.toList());
@@ -75,10 +76,20 @@ public class AssignLogic {
         }).collect(Collectors.toList());
         rangeSkillMap.put(Skill.おまかせ人狼陣営, wolfCampSkillList);
 
+        List<Skill> foxCampSkillList = CDef.Skill.listAll().stream().filter(s -> {
+            return !s.isSomeoneSkill() && Camp.codeOf(s.campCode()) == CDef.Camp.狐陣営;
+        }).collect(Collectors.toList());
+        rangeSkillMap.put(Skill.おまかせ妖狐陣営, foxCampSkillList);
+
         List<Skill> loversCampSkillList = CDef.Skill.listAll().stream().filter(s -> {
             return !s.isSomeoneSkill() && Camp.codeOf(s.campCode()) == CDef.Camp.恋人陣営;
         }).collect(Collectors.toList());
         rangeSkillMap.put(Skill.おまかせ恋人陣営, loversCampSkillList);
+
+        List<Skill> criminalCampSkillList = CDef.Skill.listAll().stream().filter(s -> {
+            return !s.isSomeoneSkill() && Camp.codeOf(s.campCode()) == CDef.Camp.愉快犯陣営;
+        }).collect(Collectors.toList());
+        rangeSkillMap.put(Skill.おまかせ愉快犯陣営, criminalCampSkillList);
 
         List<Skill> sayableSkillList = CDef.Skill.listAll().stream().filter(s -> {
             if (s.isSomeoneSkill())

@@ -282,6 +282,13 @@ tr.top-menu-selectable:hover a {
 	background-color: #403333;
 }
 
+.message-private-fox {
+	color: #eeeeee;
+	border: 1px solid #c9c934;
+	min-height: 0px;
+	background-color: #403333;
+}
+
 .message-public-system {
 	min-height: 0px;
 }

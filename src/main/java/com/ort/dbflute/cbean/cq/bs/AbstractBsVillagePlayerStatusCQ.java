@@ -445,6 +445,14 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
         setVillagePlayerStatusCode_Equal_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.後追い);
     }
 
+    /**
+     * Equal(=). As 狐憑き (FOX_POSSESSION). And OnlyOnceRegistered. <br>
+     * 狐憑き
+     */
+    public void setVillagePlayerStatusCode_Equal_狐憑き() {
+        setVillagePlayerStatusCode_Equal_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.狐憑き);
+    }
+
     protected void doSetVillagePlayerStatusCode_Equal(String villagePlayerStatusCode) {
         regVillagePlayerStatusCode(CK_EQ, villagePlayerStatusCode);
     }
@@ -474,6 +482,14 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
      */
     public void setVillagePlayerStatusCode_NotEqual_後追い() {
         setVillagePlayerStatusCode_NotEqual_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.後追い);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 狐憑き (FOX_POSSESSION). And OnlyOnceRegistered. <br>
+     * 狐憑き
+     */
+    public void setVillagePlayerStatusCode_NotEqual_狐憑き() {
+        setVillagePlayerStatusCode_NotEqual_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.狐憑き);
     }
 
     protected void doSetVillagePlayerStatusCode_NotEqual(String villagePlayerStatusCode) {

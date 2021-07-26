@@ -125,6 +125,14 @@ public abstract class BsVillagePlayerStatusType extends AbstractEntity implement
         setVillagePlayerStatusTypeCodeAsVillagePlayerStatusType(CDef.VillagePlayerStatusType.後追い);
     }
 
+    /**
+     * Set the value of villagePlayerStatusTypeCode as 狐憑き (FOX_POSSESSION). <br>
+     * 狐憑き
+     */
+    public void setVillagePlayerStatusTypeCode_狐憑き() {
+        setVillagePlayerStatusTypeCodeAsVillagePlayerStatusType(CDef.VillagePlayerStatusType.狐憑き);
+    }
+
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
@@ -137,6 +145,17 @@ public abstract class BsVillagePlayerStatusType extends AbstractEntity implement
     public boolean isVillagePlayerStatusTypeCode後追い() {
         CDef.VillagePlayerStatusType cdef = getVillagePlayerStatusTypeCodeAsVillagePlayerStatusType();
         return cdef != null ? cdef.equals(CDef.VillagePlayerStatusType.後追い) : false;
+    }
+
+    /**
+     * Is the value of villagePlayerStatusTypeCode 狐憑き? <br>
+     * 狐憑き
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isVillagePlayerStatusTypeCode狐憑き() {
+        CDef.VillagePlayerStatusType cdef = getVillagePlayerStatusTypeCodeAsVillagePlayerStatusType();
+        return cdef != null ? cdef.equals(CDef.VillagePlayerStatusType.狐憑き) : false;
     }
 
     // ===================================================================================

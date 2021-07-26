@@ -149,13 +149,8 @@ public class DayChangeLogicHelper {
                 // 愉快犯陣営は生存していれば追加勝利
                 vp.setIsWin(vp.isIsDeadFalse());
             } else {
-                // 恋絆が付与されている場合、恋人陣営勝利なら勝利
-                if (vp.hasLover()) {
-                    vp.setIsWin(winCamp == CDef.Camp.恋人陣営);
-                } else {
-                    // 他は勝利陣営だったら勝利
-                    vp.setIsWin(winCamp.code().equals(vp.getCampCode()));
-                }
+                // 勝利陣営だったら勝利
+                vp.setIsWin(winCamp.code().equals(vp.getCampCode()));
             }
             villagePlayerBhv.update(vp);
         });

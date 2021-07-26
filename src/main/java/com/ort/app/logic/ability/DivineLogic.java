@@ -246,8 +246,8 @@ public class DivineLogic {
     // 呪殺
     private void divineKillIfNeeded(DayChangeVillage dayChangeVillage, VillagePlayer targetPlayer) {
         if (dayChangeVillage.isAlive(targetPlayer) // 死亡していない
-                && targetPlayer.getSkillCodeAsSkill() == CDef.Skill.妖狐 // 呪殺対象
-        ) {
+                && ( // 呪殺対象
+                targetPlayer.getSkillCodeAsSkill() == CDef.Skill.妖狐 || targetPlayer.getSkillCodeAsSkill() == CDef.Skill.誑狐)) {
             villageService.dead(targetPlayer, dayChangeVillage.day, CDef.DeadReason.呪殺);
             dayChangeVillage.deadPlayers.add(targetPlayer, CDef.DeadReason.呪殺);
         }

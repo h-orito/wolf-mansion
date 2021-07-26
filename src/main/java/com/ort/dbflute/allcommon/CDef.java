@@ -541,6 +541,9 @@ public interface CDef extends Classification {
         /** 爆弾魔 */
         爆弾魔("BOMBER", "爆弾魔", emptyStrings())
         ,
+        /** 誑狐 */
+        誑狐("CHEATERFOX", "誑狐", emptyStrings())
+        ,
         /** C国狂人 */
         C国狂人("CMADMAN", "C国狂人", emptyStrings())
         ,
@@ -555,6 +558,9 @@ public interface CDef extends Classification {
         ,
         /** 求愛者 */
         求愛者("COURTSHIP", "求愛者", emptyStrings())
+        ,
+        /** おまかせ（愉快犯陣営） */
+        おまかせ愉快犯陣営("CRIMINALS", "おまかせ（愉快犯陣営）", emptyStrings())
         ,
         /** 呪狼 */
         呪狼("CURSEWOLF", "呪狼", emptyStrings())
@@ -573,6 +579,9 @@ public interface CDef extends Classification {
         ,
         /** 妖狐 */
         妖狐("FOX", "妖狐", emptyStrings())
+        ,
+        /** おまかせ（妖狐陣営） */
+        おまかせ妖狐陣営("FOXS", "おまかせ（妖狐陣営）", emptyStrings())
         ,
         /** おまかせ（役職窓あり） */
         おまかせ役職窓あり("FRIENDS", "おまかせ（役職窓あり）", emptyStrings())
@@ -680,10 +689,17 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "29");
+                subItemMap.put("order", "30");
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "爆");
                 _subItemMapMap.put(爆弾魔.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "28");
+                subItemMap.put("campCode", "FOX");
+                subItemMap.put("skill_short_name", "誑");
+                _subItemMapMap.put(誑狐.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -722,6 +738,13 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "105");
+                subItemMap.put("campCode", "VILLAGER");
+                subItemMap.put("skill_short_name", "お");
+                _subItemMapMap.put(おまかせ愉快犯陣営.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
                 subItemMap.put("order", "16");
                 subItemMap.put("campCode", "WEREWOLF");
                 subItemMap.put("skill_short_name", "呪");
@@ -750,7 +773,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "37");
+                subItemMap.put("order", "107");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "お");
                 _subItemMapMap.put(おまかせ足音職.code(), Collections.unmodifiableMap(subItemMap));
@@ -764,14 +787,21 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "38");
+                subItemMap.put("order", "104");
+                subItemMap.put("campCode", "VILLAGER");
+                subItemMap.put("skill_short_name", "お");
+                _subItemMapMap.put(おまかせ妖狐陣営.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "108");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "お");
                 _subItemMapMap.put(おまかせ役職窓あり.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "31");
+                subItemMap.put("order", "32");
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "籠");
                 _subItemMapMap.put(果実籠.code(), Collections.unmodifiableMap(subItemMap));
@@ -792,14 +822,14 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "28");
+                subItemMap.put("order", "29");
                 subItemMap.put("campCode", "FOX");
                 subItemMap.put("skill_short_name", "背");
                 _subItemMapMap.put(背徳者.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "32");
+                subItemMap.put("order", "100");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "お");
                 _subItemMapMap.put(おまかせ.code(), Collections.unmodifiableMap(subItemMap));
@@ -813,7 +843,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "35");
+                subItemMap.put("order", "103");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "お");
                 _subItemMapMap.put(おまかせ恋人陣営.code(), Collections.unmodifiableMap(subItemMap));
@@ -848,21 +878,21 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "39");
+                subItemMap.put("order", "109");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "お");
                 _subItemMapMap.put(おまかせ役職窓なし.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "36");
+                subItemMap.put("order", "106");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "お");
                 _subItemMapMap.put(おまかせ人外.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "30");
+                subItemMap.put("order", "31");
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "梟");
                 _subItemMapMap.put(梟.code(), Collections.unmodifiableMap(subItemMap));
@@ -897,7 +927,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "33");
+                subItemMap.put("order", "101");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "お");
                 _subItemMapMap.put(おまかせ村人陣営.code(), Collections.unmodifiableMap(subItemMap));
@@ -911,7 +941,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "34");
+                subItemMap.put("order", "102");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "お");
                 _subItemMapMap.put(おまかせ人狼陣営.code(), Collections.unmodifiableMap(subItemMap));
@@ -1014,11 +1044,31 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * 襲撃されても死なない <br>
-         * The group elements:[妖狐, 爆弾魔]
+         * The group elements:[妖狐, 誑狐, 爆弾魔]
          * @return The determination, true or false.
          */
         public boolean isNoDeadByAttack() {
-            return 妖狐.equals(this) || 爆弾魔.equals(this);
+            return 妖狐.equals(this) || 誑狐.equals(this) || 爆弾魔.equals(this);
+        }
+
+        /**
+         * Is the classification in the group? <br>
+         * 勝敗判定時、人狼にカウントされる <br>
+         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼]
+         * @return The determination, true or false.
+         */
+        public boolean isWolfCount() {
+            return 人狼.equals(this) || 呪狼.equals(this) || 智狼.equals(this) || 絶対人狼.equals(this);
+        }
+
+        /**
+         * Is the classification in the group? <br>
+         * 勝敗判定時、人間にも人狼にもカウントされない <br>
+         * The group elements:[妖狐, 誑狐, 梟]
+         * @return The determination, true or false.
+         */
+        public boolean isNoCount() {
+            return 妖狐.equals(this) || 誑狐.equals(this) || 梟.equals(this);
         }
 
         /**
@@ -1034,11 +1084,11 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * おまかせ系 <br>
-         * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
+         * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ妖狐陣営, おまかせ愉快犯陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
          * @return The determination, true or false.
          */
         public boolean isSomeoneSkill() {
-            return おまかせ.equals(this) || おまかせ村人陣営.equals(this) || おまかせ人狼陣営.equals(this) || おまかせ恋人陣営.equals(this) || おまかせ足音職.equals(this) || おまかせ役職窓あり.equals(this) || おまかせ役職窓なし.equals(this) || おまかせ人外.equals(this);
+            return おまかせ.equals(this) || おまかせ村人陣営.equals(this) || おまかせ人狼陣営.equals(this) || おまかせ恋人陣営.equals(this) || おまかせ妖狐陣営.equals(this) || おまかせ愉快犯陣営.equals(this) || おまかせ足音職.equals(this) || おまかせ役職窓あり.equals(this) || おまかせ役職窓なし.equals(this) || おまかせ人外.equals(this);
         }
 
         public boolean inGroup(String groupName) {
@@ -1049,6 +1099,8 @@ public interface CDef extends Classification {
             if ("hasMadmanAbility".equals(groupName)) { return isHasMadmanAbility(); }
             if ("hasDisturbAbility".equals(groupName)) { return isHasDisturbAbility(); }
             if ("noDeadByAttack".equals(groupName)) { return isNoDeadByAttack(); }
+            if ("wolfCount".equals(groupName)) { return isWolfCount(); }
+            if ("noCount".equals(groupName)) { return isNoCount(); }
             if ("viewableWolfCharaName".equals(groupName)) { return isViewableWolfCharaName(); }
             if ("someoneSkill".equals(groupName)) { return isSomeoneSkill(); }
             return false;
@@ -1125,6 +1177,8 @@ public interface CDef extends Classification {
             if ("hasMadmanAbility".equalsIgnoreCase(groupName)) { return listOfHasMadmanAbility(); }
             if ("hasDisturbAbility".equalsIgnoreCase(groupName)) { return listOfHasDisturbAbility(); }
             if ("noDeadByAttack".equalsIgnoreCase(groupName)) { return listOfNoDeadByAttack(); }
+            if ("wolfCount".equalsIgnoreCase(groupName)) { return listOfWolfCount(); }
+            if ("noCount".equalsIgnoreCase(groupName)) { return listOfNoCount(); }
             if ("viewableWolfCharaName".equalsIgnoreCase(groupName)) { return listOfViewableWolfCharaName(); }
             if ("someoneSkill".equalsIgnoreCase(groupName)) { return listOfSomeoneSkill(); }
             throw new ClassificationNotFoundException("Unknown classification group: Skill." + groupName);
@@ -1205,11 +1259,31 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 襲撃されても死なない <br>
-         * The group elements:[妖狐, 爆弾魔]
+         * The group elements:[妖狐, 誑狐, 爆弾魔]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfNoDeadByAttack() {
-            return new ArrayList<Skill>(Arrays.asList(妖狐, 爆弾魔));
+            return new ArrayList<Skill>(Arrays.asList(妖狐, 誑狐, 爆弾魔));
+        }
+
+        /**
+         * Get the list of group classification elements. (returns new copied list) <br>
+         * 勝敗判定時、人狼にカウントされる <br>
+         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼]
+         * @return The snapshot list of classification elements in the group. (NotNull)
+         */
+        public static List<Skill> listOfWolfCount() {
+            return new ArrayList<Skill>(Arrays.asList(人狼, 呪狼, 智狼, 絶対人狼));
+        }
+
+        /**
+         * Get the list of group classification elements. (returns new copied list) <br>
+         * 勝敗判定時、人間にも人狼にもカウントされない <br>
+         * The group elements:[妖狐, 誑狐, 梟]
+         * @return The snapshot list of classification elements in the group. (NotNull)
+         */
+        public static List<Skill> listOfNoCount() {
+            return new ArrayList<Skill>(Arrays.asList(妖狐, 誑狐, 梟));
         }
 
         /**
@@ -1225,11 +1299,11 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * おまかせ系 <br>
-         * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
+         * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ妖狐陣営, おまかせ愉快犯陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfSomeoneSkill() {
-            return new ArrayList<Skill>(Arrays.asList(おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外));
+            return new ArrayList<Skill>(Arrays.asList(おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ妖狐陣営, おまかせ愉快犯陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外));
         }
 
         /**
@@ -1245,6 +1319,8 @@ public interface CDef extends Classification {
             if ("hasMadmanAbility".equals(groupName)) { return listOfHasMadmanAbility(); }
             if ("hasDisturbAbility".equals(groupName)) { return listOfHasDisturbAbility(); }
             if ("noDeadByAttack".equals(groupName)) { return listOfNoDeadByAttack(); }
+            if ("wolfCount".equals(groupName)) { return listOfWolfCount(); }
+            if ("noCount".equals(groupName)) { return listOfNoCount(); }
             if ("viewableWolfCharaName".equals(groupName)) { return listOfViewableWolfCharaName(); }
             if ("someoneSkill".equals(groupName)) { return listOfSomeoneSkill(); }
             return new ArrayList<Skill>(4);
@@ -1280,6 +1356,9 @@ public interface CDef extends Classification {
         ,
         /** 検死結果 */
         検死結果("PRIVATE_CORONER", "検死結果", emptyStrings())
+        ,
+        /** 妖狐メッセージ */
+        妖狐メッセージ("PRIVATE_FOX", "妖狐メッセージ", emptyStrings())
         ,
         /** 役職霊視結果 */
         役職霊視結果("PRIVATE_GURU", "役職霊視結果", emptyStrings())
@@ -1598,6 +1677,9 @@ public interface CDef extends Classification {
         ,
         /** 爆弾設置 */
         爆弾設置("BOMB", "爆弾設置", emptyStrings())
+        ,
+        /** 誑かす */
+        誑かす("CHEAT", "誑かす", emptyStrings())
         ,
         /** 同棲 */
         同棲("COHABIT", "同棲", emptyStrings())
@@ -2003,6 +2085,9 @@ public interface CDef extends Classification {
     public enum VillagePlayerStatusType implements CDef {
         /** 後追い */
         後追い("FOLLOWING_SUICIDE", "後追い", emptyStrings())
+        ,
+        /** 狐憑き */
+        狐憑き("FOX_POSSESSION", "狐憑き", emptyStrings())
         ;
         private static final Map<String, VillagePlayerStatusType> _codeClsMap = new HashMap<String, VillagePlayerStatusType>();
         private static final Map<String, VillagePlayerStatusType> _nameClsMap = new HashMap<String, VillagePlayerStatusType>();

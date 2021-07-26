@@ -180,6 +180,14 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
+     * Set the value of abilityTypeCode as 誑かす (CHEAT). <br>
+     * 誑かす
+     */
+    public void setAbilityTypeCode_誑かす() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.誑かす);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 同棲 (COHABIT). <br>
      * 同棲
      */
@@ -274,6 +282,17 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public boolean isAbilityTypeCode爆弾設置() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.爆弾設置) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 誑かす? <br>
+     * 誑かす
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode誑かす() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.誑かす) : false;
     }
 
     /**

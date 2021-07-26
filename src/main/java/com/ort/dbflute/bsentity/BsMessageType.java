@@ -182,6 +182,14 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of messageTypeCode as 妖狐メッセージ (PRIVATE_FOX). <br>
+     * 妖狐メッセージ
+     */
+    public void setMessageTypeCode_妖狐メッセージ() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.妖狐メッセージ);
+    }
+
+    /**
      * Set the value of messageTypeCode as 役職霊視結果 (PRIVATE_GURU). <br>
      * 役職霊視結果
      */
@@ -366,6 +374,17 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
     public boolean isMessageTypeCode検死結果() {
         CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
         return cdef != null ? cdef.equals(CDef.MessageType.検死結果) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 妖狐メッセージ? <br>
+     * 妖狐メッセージ
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode妖狐メッセージ() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.妖狐メッセージ) : false;
     }
 
     /**

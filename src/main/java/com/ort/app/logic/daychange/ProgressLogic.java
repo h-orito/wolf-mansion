@@ -22,6 +22,7 @@ import com.ort.app.logic.ability.AttackLogic;
 import com.ort.app.logic.ability.AutopsyLogic;
 import com.ort.app.logic.ability.BakeryLogic;
 import com.ort.app.logic.ability.BombLogic;
+import com.ort.app.logic.ability.CheatLogic;
 import com.ort.app.logic.ability.CohabitLogic;
 import com.ort.app.logic.ability.CourtLogic;
 import com.ort.app.logic.ability.DivineLogic;
@@ -94,6 +95,8 @@ public class ProgressLogic {
     @Autowired
     private StalkingLogic stalkingLogic;
     @Autowired
+    private CheatLogic cheatLogic;
+    @Autowired
     private DefaultSetLogic defaultSetLogic;
     @Autowired
     private VillageBhv villageBhv;
@@ -124,6 +127,9 @@ public class ProgressLogic {
 
         // 突然死
         suddenlyDeathLogic.killNoVotePlayer(dayChangeVillage);
+
+        // 誑かす
+        cheatLogic.cheat(dayChangeVillage);
 
         // 求愛
         courtLogic.court(dayChangeVillage);
@@ -203,12 +209,14 @@ public class ProgressLogic {
 
         // 人狼の数
         VillagePlayers alivePlayers = village.getVillagePlayers().filterAlive();
-        int werewolfCount = alivePlayers.filterBy(vp -> vp.getSkillCodeAsSkill().isHasAttackAbility()).list.size();
+        int werewolfCount = alivePlayers.filterBy(vp -> vp.getSkillCodeAsSkill().isWolfCount()).list.size();
         // 人間の数
-        int villagerCount = alivePlayers.filterBy(vp -> !vp.getSkillCodeAsSkill().isHasAttackAbility()
-                && vp.getSkillCodeAsSkill() != CDef.Skill.妖狐 && vp.getSkillCodeAsSkill() != CDef.Skill.梟).list.size();
+        int villagerCount =
+                alivePlayers.filterBy(vp -> !vp.getSkillCodeAsSkill().isWolfCount() && !vp.getSkillCodeAsSkill().isNoCount()).list.size();
         // 妖狐の数
-        int foxCount = alivePlayers.filterBySkill(CDef.Skill.妖狐).list.size();
+        int foxCount =
+                alivePlayers.filterBy(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.妖狐 || vp.getSkillCodeAsSkill() == CDef.Skill.誑狐).list
+                        .size();
         // 恋絆が付与されている人の数
         int loversCount = alivePlayers.filterBy(vp -> vp.hasLover()).list.size();
 

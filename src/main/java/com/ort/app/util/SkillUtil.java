@@ -42,6 +42,7 @@ public class SkillUtil {
         skillAbilityTypeMap.put(CDef.Skill.果実籠, CDef.AbilityType.フルーツバスケット);
         skillAbilityTypeMap.put(CDef.Skill.求愛者, CDef.AbilityType.求愛);
         skillAbilityTypeMap.put(CDef.Skill.ストーカー, CDef.AbilityType.ストーキング);
+        skillAbilityTypeMap.put(CDef.Skill.誑狐, CDef.AbilityType.誑かす);
         SKILL_ABILITY_TYPE_MAP = Collections.unmodifiableMap(skillAbilityTypeMap);
 
         Map<String, CDef.Skill> skillShortNameMap = new HashMap<>();

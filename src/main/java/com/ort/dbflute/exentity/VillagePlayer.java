@@ -27,6 +27,16 @@ public class VillagePlayer extends BsVillagePlayer {
                 .anyMatch(vpSt -> vpSt.getVillagePlayerStatusCodeAsVillagePlayerStatusType() == CDef.VillagePlayerStatusType.後追い);
     }
 
+    public boolean isFoxPossessioning() {
+        return getVillagePlayerStatusByVillagePlayerIdList().stream()
+                .anyMatch(vpSt -> vpSt.getVillagePlayerStatusCodeAsVillagePlayerStatusType() == CDef.VillagePlayerStatusType.狐憑き);
+    }
+
+    public boolean isFoxPossessioned() {
+        return getVillagePlayerStatusByToVillagePlayerIdList().stream()
+                .anyMatch(vpSt -> vpSt.getVillagePlayerStatusCodeAsVillagePlayerStatusType() == CDef.VillagePlayerStatusType.狐憑き);
+    }
+
     // 同棲者の相方を取得
     public VillagePlayer getTargetCohabitor() {
         List<VillagePlayer> cohabitorList = this.getTargetLovers().filterBySkill(CDef.Skill.同棲者).list;

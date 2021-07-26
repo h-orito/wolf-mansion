@@ -906,13 +906,32 @@ public class VillageAssist {
         if (!villageInfo.village.getVillageDays().latestDay().getDay().equals(villageInfo.day)) {
             return null;
         }
-        return villagePlayer.getVillagePlayerStatusByVillagePlayerIdList().stream().map(status -> {
-            VillagePlayerStatusDto statusDto = new VillagePlayerStatusDto();
-            statusDto.setStatusCode(status.getVillagePlayerStatusCode());
-            if (status.getVillagePlayerStatusCodeAsVillagePlayerStatusType() == CDef.VillagePlayerStatusType.後追い) {
-                statusDto.setMessage(String.format("あなたは%sに恋しています。", status.getVillagePlayerByToVillagePlayerId().get().name()));
-            }
-            return statusDto;
-        }).collect(Collectors.toList());
+        // 恋絆
+        List<VillagePlayerStatusDto> loversStatusList = villagePlayer.getVillagePlayerStatusByVillagePlayerIdList()
+                .stream()
+                .filter(st -> st.getVillagePlayerStatusCodeAsVillagePlayerStatusType() == CDef.VillagePlayerStatusType.後追い)
+                .map(status -> {
+                    VillagePlayerStatusDto statusDto = new VillagePlayerStatusDto();
+                    statusDto.setStatusCode(status.getVillagePlayerStatusCode());
+                    statusDto.setMessage(String.format("あなたは%sに恋しています。", status.getVillagePlayerByToVillagePlayerId().get().name()));
+                    return statusDto;
+                })
+                .collect(Collectors.toList());
+        // 狐憑き
+        List<VillagePlayerStatusDto> foxPosessionStatusList = villagePlayer.getVillagePlayerStatusByToVillagePlayerIdList()
+                .stream()
+                .filter(st -> st.getVillagePlayerStatusCodeAsVillagePlayerStatusType() == CDef.VillagePlayerStatusType.狐憑き)
+                .map(status -> {
+                    VillagePlayerStatusDto statusDto = new VillagePlayerStatusDto();
+                    statusDto.setStatusCode(status.getVillagePlayerStatusCode());
+                    statusDto.setMessage("あなたは妖狐に与するものとなりました。");
+                    return statusDto;
+                })
+                .collect(Collectors.toList());
+
+        List<VillagePlayerStatusDto> list = new ArrayList<>();
+        list.addAll(loversStatusList);
+        list.addAll(foxPosessionStatusList);
+        return list;
     }
 }

@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillagePlayers;
 
 @Component
-public class CourtLogic {
+public class CheatLogic {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -38,70 +38,69 @@ public class CourtLogic {
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
-    // 求愛
-    public void court(DayChangeVillage dayChangeVillage) {
+    // 誑かす
+    public void cheat(DayChangeVillage dayChangeVillage) {
         int day = dayChangeVillage.day;
         if (day != 2) {
             return;
         }
 
-        List<VillagePlayer> livingCourtshipList = dayChangeVillage //
+        List<VillagePlayer> livingCheaterFoxList = dayChangeVillage //
                 .alivePlayers() // 死亡していない
-                .filterBySkill(CDef.Skill.求愛者).list;
-        if (CollectionUtils.isEmpty(livingCourtshipList)) {
-            return; // 求愛者が既に死亡している場合は何もしない
+                .filterBySkill(CDef.Skill.誑狐).list;
+        if (CollectionUtils.isEmpty(livingCheaterFoxList)) {
+            return; // ストーカーが既に死亡している場合は何もしない
         }
 
-        livingCourtshipList.forEach(courtship -> {
+        livingCheaterFoxList.forEach(cheater -> {
             Optional<Ability> optCourt = dayChangeVillage.abilities //
                     .filterYesterday(day) //
-                    .filterByType(CDef.AbilityType.求愛) //
-                    .filterByChara(courtship.getCharaId()).list.stream().findFirst();
+                    .filterByType(CDef.AbilityType.誑かす) //
+                    .filterByChara(cheater.getCharaId()).list.stream().findFirst();
             if (!optCourt.isPresent()) {
                 return; // 能力セットしていない場合は何もしない
             }
             VillagePlayer targetPlayer = dayChangeVillage.vPlayers.findByCharaId(optCourt.get().getTargetCharaId());
-            // 恋絆
-            villageService.insertVillagePlayerStatus(courtship, targetPlayer, CDef.VillagePlayerStatusType.後追い);
-            villageService.insertVillagePlayerStatus(targetPlayer, courtship, CDef.VillagePlayerStatusType.後追い);
+            // 狐憑き
+            villageService.insertVillagePlayerStatus(cheater, targetPlayer, CDef.VillagePlayerStatusType.狐憑き);
             // メッセージ
-            String courtMessage = String.format("%sは、%sに求愛した。", courtship.name(), targetPlayer.name());
+            String cheatMessage = String.format("%sは%sを誑かし、仲間に引き入れた。", cheater.name(), targetPlayer.name());
             messageLogic.saveIgnoreError(MessageEntity.systemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
-                    .messageType(CDef.MessageType.恋人メッセージ)
-                    .content(courtMessage)
-                    .villagePlayer(courtship)
+                    .messageType(CDef.MessageType.妖狐メッセージ)
+                    .content(cheatMessage)
+                    .villagePlayer(cheater)
                     .build());
-            String courtedMessage = String.format("あなたは、%sに求愛された。", courtship.name());
+            String cheatedMessage = String.format("あなたは%sに誑かされ、妖狐に与するものとなりました。", cheater.name());
             messageLogic.saveIgnoreError(MessageEntity.systemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
-                    .messageType(CDef.MessageType.恋人メッセージ)
-                    .content(courtedMessage)
+                    .messageType(CDef.MessageType.妖狐メッセージ)
+                    .content(cheatedMessage)
                     .villagePlayer(targetPlayer)
                     .build());
-            // 勝利条件を恋人陣営で上書き
-            villageService.updatePlayerWinCamp(targetPlayer, CDef.Camp.恋人陣営);
+            // 勝利条件を妖狐陣営で上書き
+            villageService.updatePlayerWinCamp(targetPlayer, CDef.Camp.狐陣営);
         });
     }
 
     // 日付変更時のデフォルトセット
-    public void insertDefaultCourt(Village village, int newDay) {
+    public void insertDefaultCheat(Village village, int newDay) {
         if (newDay != 1) {
             return;
         }
         Integer villageId = village.getVillageId();
-        // 生存している求愛者
-        VillagePlayers aliveCourtships = village.getVillagePlayers() //
+        // 生存している誑狐
+        VillagePlayers aliveStalkers = village.getVillagePlayers() //
                 .filterAlive() //
-                .filterBy(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.求愛者);
-        if (aliveCourtships.list.isEmpty()) {
+                .filterBy(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.誑狐);
+        if (aliveStalkers.list.isEmpty()) {
             return;
         }
-        aliveCourtships.list.forEach(hunter -> {
+        aliveStalkers.list.forEach(hunter -> {
             Integer courtshipCharaId = hunter.getCharaId();
-            // 求愛される人(生存者の中の誰か）
+            // 引き入れる人(生存者の中の誰か）
             Integer targetCharaId = getSelectableTarget(village, newDay, hunter) //
                     .getRandom()
                     .getCharaId();
-            abilityService.insertAbility(villageId, newDay, courtshipCharaId, targetCharaId, null, CDef.AbilityType.求愛);
+            abilityService.insertAbility(villageId, newDay, courtshipCharaId, targetCharaId, null, CDef.AbilityType.誑かす);
             insertAbilityMessage(village, newDay, courtshipCharaId, targetCharaId, true);
         });
     }
@@ -118,7 +117,7 @@ public class CourtLogic {
         }
         Integer villageId = village.getVillageId();
         Integer charaId = villagePlayer.getCharaId();
-        abilityService.updateAbility(villageId, day, charaId, targetCharaId, CDef.AbilityType.求愛);
+        abilityService.updateAbility(villageId, day, charaId, targetCharaId, CDef.AbilityType.誑かす);
         insertAbilityMessage(village, day, charaId, targetCharaId, false);
     }
 
@@ -163,7 +162,7 @@ public class CourtLogic {
     ) {
         VillagePlayer chara = village.getVillagePlayers().findByCharaId(charaId);
         VillagePlayer target = village.getVillagePlayers().findByCharaId(targetCharaId);
-        String message = messageSource.getMessage("ability.court.message",
+        String message = messageSource.getMessage("ability.cheat.message",
                 new String[] { chara.name(), target.name(), isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
         messageLogic.insertAbilityMessage(village.getVillageId(), day, message);
     }

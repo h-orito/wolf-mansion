@@ -1159,6 +1159,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 誑狐 (CHEATERFOX). And OnlyOnceRegistered. <br>
+     * 誑狐
+     */
+    public void setSkillCode_Equal_誑狐() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.誑狐);
+    }
+
+    /**
      * Equal(=). As C国狂人 (CMADMAN). And OnlyOnceRegistered. <br>
      * C国狂人
      */
@@ -1196,6 +1204,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_Equal_求愛者() {
         setSkillCode_Equal_AsSkill(CDef.Skill.求愛者);
+    }
+
+    /**
+     * Equal(=). As おまかせ愉快犯陣営 (CRIMINALS). And OnlyOnceRegistered. <br>
+     * おまかせ（愉快犯陣営）
+     */
+    public void setSkillCode_Equal_おまかせ愉快犯陣営() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ愉快犯陣営);
     }
 
     /**
@@ -1244,6 +1260,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_Equal_妖狐() {
         setSkillCode_Equal_AsSkill(CDef.Skill.妖狐);
+    }
+
+    /**
+     * Equal(=). As おまかせ妖狐陣営 (FOXS). And OnlyOnceRegistered. <br>
+     * おまかせ（妖狐陣営）
+     */
+    public void setSkillCode_Equal_おまかせ妖狐陣営() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ妖狐陣営);
     }
 
     /**
@@ -1494,6 +1518,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 誑狐 (CHEATERFOX). And OnlyOnceRegistered. <br>
+     * 誑狐
+     */
+    public void setSkillCode_NotEqual_誑狐() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.誑狐);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As C国狂人 (CMADMAN). And OnlyOnceRegistered. <br>
      * C国狂人
      */
@@ -1531,6 +1563,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_求愛者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.求愛者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As おまかせ愉快犯陣営 (CRIMINALS). And OnlyOnceRegistered. <br>
+     * おまかせ（愉快犯陣営）
+     */
+    public void setSkillCode_NotEqual_おまかせ愉快犯陣営() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ愉快犯陣営);
     }
 
     /**
@@ -1579,6 +1619,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_妖狐() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.妖狐);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As おまかせ妖狐陣営 (FOXS). And OnlyOnceRegistered. <br>
+     * おまかせ（妖狐陣営）
+     */
+    public void setSkillCode_NotEqual_おまかせ妖狐陣営() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ妖狐陣営);
     }
 
     /**
@@ -1860,10 +1908,30 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 襲撃されても死なない <br>
-     * The group elements:[妖狐, 爆弾魔]
+     * The group elements:[妖狐, 誑狐, 爆弾魔]
      */
     public void setSkillCode_InScope_NoDeadByAttack() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfNoDeadByAttack());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 勝敗判定時、人狼にカウントされる <br>
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼]
+     */
+    public void setSkillCode_InScope_WolfCount() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfWolfCount());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 勝敗判定時、人間にも人狼にもカウントされない <br>
+     * The group elements:[妖狐, 誑狐, 梟]
+     */
+    public void setSkillCode_InScope_NoCount() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfNoCount());
     }
 
     /**
@@ -1880,7 +1948,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * おまかせ系 <br>
-     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ妖狐陣営, おまかせ愉快犯陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
      */
     public void setSkillCode_InScope_SomeoneSkill() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfSomeoneSkill());
@@ -1986,6 +2054,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 誑狐 (CHEATERFOX). And OnlyOnceRegistered. <br>
+     * 誑狐
+     */
+    public void setRequestSkillCode_Equal_誑狐() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.誑狐);
+    }
+
+    /**
      * Equal(=). As C国狂人 (CMADMAN). And OnlyOnceRegistered. <br>
      * C国狂人
      */
@@ -2023,6 +2099,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_Equal_求愛者() {
         setRequestSkillCode_Equal_AsSkill(CDef.Skill.求愛者);
+    }
+
+    /**
+     * Equal(=). As おまかせ愉快犯陣営 (CRIMINALS). And OnlyOnceRegistered. <br>
+     * おまかせ（愉快犯陣営）
+     */
+    public void setRequestSkillCode_Equal_おまかせ愉快犯陣営() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.おまかせ愉快犯陣営);
     }
 
     /**
@@ -2071,6 +2155,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_Equal_妖狐() {
         setRequestSkillCode_Equal_AsSkill(CDef.Skill.妖狐);
+    }
+
+    /**
+     * Equal(=). As おまかせ妖狐陣営 (FOXS). And OnlyOnceRegistered. <br>
+     * おまかせ（妖狐陣営）
+     */
+    public void setRequestSkillCode_Equal_おまかせ妖狐陣営() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.おまかせ妖狐陣営);
     }
 
     /**
@@ -2321,6 +2413,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 誑狐 (CHEATERFOX). And OnlyOnceRegistered. <br>
+     * 誑狐
+     */
+    public void setRequestSkillCode_NotEqual_誑狐() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.誑狐);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As C国狂人 (CMADMAN). And OnlyOnceRegistered. <br>
      * C国狂人
      */
@@ -2358,6 +2458,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_求愛者() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.求愛者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As おまかせ愉快犯陣営 (CRIMINALS). And OnlyOnceRegistered. <br>
+     * おまかせ（愉快犯陣営）
+     */
+    public void setRequestSkillCode_NotEqual_おまかせ愉快犯陣営() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ愉快犯陣営);
     }
 
     /**
@@ -2406,6 +2514,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_妖狐() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.妖狐);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As おまかせ妖狐陣営 (FOXS). And OnlyOnceRegistered. <br>
+     * おまかせ（妖狐陣営）
+     */
+    public void setRequestSkillCode_NotEqual_おまかせ妖狐陣営() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ妖狐陣営);
     }
 
     /**
@@ -2687,10 +2803,30 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 襲撃されても死なない <br>
-     * The group elements:[妖狐, 爆弾魔]
+     * The group elements:[妖狐, 誑狐, 爆弾魔]
      */
     public void setRequestSkillCode_InScope_NoDeadByAttack() {
         setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfNoDeadByAttack());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 勝敗判定時、人狼にカウントされる <br>
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼]
+     */
+    public void setRequestSkillCode_InScope_WolfCount() {
+        setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfWolfCount());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 勝敗判定時、人間にも人狼にもカウントされない <br>
+     * The group elements:[妖狐, 誑狐, 梟]
+     */
+    public void setRequestSkillCode_InScope_NoCount() {
+        setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfNoCount());
     }
 
     /**
@@ -2707,7 +2843,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * おまかせ系 <br>
-     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ妖狐陣営, おまかせ愉快犯陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
      */
     public void setRequestSkillCode_InScope_SomeoneSkill() {
         setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfSomeoneSkill());
@@ -2813,6 +2949,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 誑狐 (CHEATERFOX). And OnlyOnceRegistered. <br>
+     * 誑狐
+     */
+    public void setSecondRequestSkillCode_Equal_誑狐() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.誑狐);
+    }
+
+    /**
      * Equal(=). As C国狂人 (CMADMAN). And OnlyOnceRegistered. <br>
      * C国狂人
      */
@@ -2850,6 +2994,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_Equal_求愛者() {
         setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.求愛者);
+    }
+
+    /**
+     * Equal(=). As おまかせ愉快犯陣営 (CRIMINALS). And OnlyOnceRegistered. <br>
+     * おまかせ（愉快犯陣営）
+     */
+    public void setSecondRequestSkillCode_Equal_おまかせ愉快犯陣営() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.おまかせ愉快犯陣営);
     }
 
     /**
@@ -2898,6 +3050,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_Equal_妖狐() {
         setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.妖狐);
+    }
+
+    /**
+     * Equal(=). As おまかせ妖狐陣営 (FOXS). And OnlyOnceRegistered. <br>
+     * おまかせ（妖狐陣営）
+     */
+    public void setSecondRequestSkillCode_Equal_おまかせ妖狐陣営() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.おまかせ妖狐陣営);
     }
 
     /**
@@ -3148,6 +3308,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 誑狐 (CHEATERFOX). And OnlyOnceRegistered. <br>
+     * 誑狐
+     */
+    public void setSecondRequestSkillCode_NotEqual_誑狐() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.誑狐);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As C国狂人 (CMADMAN). And OnlyOnceRegistered. <br>
      * C国狂人
      */
@@ -3185,6 +3353,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_求愛者() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.求愛者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As おまかせ愉快犯陣営 (CRIMINALS). And OnlyOnceRegistered. <br>
+     * おまかせ（愉快犯陣営）
+     */
+    public void setSecondRequestSkillCode_NotEqual_おまかせ愉快犯陣営() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ愉快犯陣営);
     }
 
     /**
@@ -3233,6 +3409,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_妖狐() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.妖狐);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As おまかせ妖狐陣営 (FOXS). And OnlyOnceRegistered. <br>
+     * おまかせ（妖狐陣営）
+     */
+    public void setSecondRequestSkillCode_NotEqual_おまかせ妖狐陣営() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ妖狐陣営);
     }
 
     /**
@@ -3514,10 +3698,30 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 襲撃されても死なない <br>
-     * The group elements:[妖狐, 爆弾魔]
+     * The group elements:[妖狐, 誑狐, 爆弾魔]
      */
     public void setSecondRequestSkillCode_InScope_NoDeadByAttack() {
         setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfNoDeadByAttack());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 勝敗判定時、人狼にカウントされる <br>
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼]
+     */
+    public void setSecondRequestSkillCode_InScope_WolfCount() {
+        setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfWolfCount());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 勝敗判定時、人間にも人狼にもカウントされない <br>
+     * The group elements:[妖狐, 誑狐, 梟]
+     */
+    public void setSecondRequestSkillCode_InScope_NoCount() {
+        setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfNoCount());
     }
 
     /**
@@ -3534,7 +3738,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * おまかせ系 <br>
-     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
+     * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ妖狐陣営, おまかせ愉快犯陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
      */
     public void setSecondRequestSkillCode_InScope_SomeoneSkill() {
         setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfSomeoneSkill());

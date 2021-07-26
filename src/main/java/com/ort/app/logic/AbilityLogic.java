@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.ort.app.logic.ability.AttackLogic;
 import com.ort.app.logic.ability.BombLogic;
+import com.ort.app.logic.ability.CheatLogic;
 import com.ort.app.logic.ability.CohabitLogic;
 import com.ort.app.logic.ability.CommandLogic;
 import com.ort.app.logic.ability.CourtLogic;
@@ -58,6 +59,8 @@ public class AbilityLogic {
     private CourtLogic courtLogic;
     @Autowired
     private StalkingLogic stalkingLogic;
+    @Autowired
+    private CheatLogic cheatLogic;
 
     // ===================================================================================
     //                                                                             Execute
@@ -106,6 +109,9 @@ public class AbilityLogic {
             break;
         case STALKING:
             stalkingLogic.setAbility(village, villagePlayer, day, targetCharaId);
+            break;
+        case CHEAT:
+            cheatLogic.setAbility(village, villagePlayer, day, targetCharaId);
             break;
         default:
             return;
@@ -173,6 +179,9 @@ public class AbilityLogic {
             selectablePlayers = courtLogic.getSelectableTarget(village, day, villagePlayer);
             break;
         case STALKING:
+            selectablePlayers = stalkingLogic.getSelectableTarget(village, day, villagePlayer);
+            break;
+        case CHEAT:
             selectablePlayers = stalkingLogic.getSelectableTarget(village, day, villagePlayer);
             break;
         default:
@@ -291,17 +300,27 @@ public class AbilityLogic {
             return null;
         }
 
-        CDef.Skill skill = villageInfo.optVillagePlayer.get().getSkillCodeAsSkill();
-        if (skill != CDef.Skill.背徳者) {
+        VillagePlayer villagePlayer = villageInfo.optVillagePlayer.get();
+        if (!isFoxCamp(villagePlayer)) {
             return null;
         }
 
         return String.join("、", villageInfo.vPlayers //
                 .filterNotDummy(villageInfo.settings.getDummyCharaId())
                 .filterNotSpecatate()
-                .filterBySkill(CDef.Skill.妖狐)
+                .filterBy(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.妖狐 || vp.getSkillCodeAsSkill() == CDef.Skill.誑狐)
                 .sortedByRoomNumber()
                 .map(VillagePlayer::name));
+    }
+
+    private boolean isFoxCamp(VillagePlayer villagePlayer) {
+        CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
+        if (skill == CDef.Skill.背徳者 || skill == CDef.Skill.妖狐 || skill == CDef.Skill.誑狐) {
+            return true;
+        }
+        return villagePlayer.getVillagePlayerStatusByToVillagePlayerIdList()
+                .stream()
+                .anyMatch(st -> st.getVillagePlayerStatusCodeAsVillagePlayerStatusType() == CDef.VillagePlayerStatusType.狐憑き);
     }
 
     public String createLoversCharaNameList(VillageInfo villageInfo) {
@@ -349,6 +368,8 @@ public class AbilityLogic {
             return "求愛対象";
         case STALKING:
             return "ストーキング対象";
+        case CHEAT:
+            return "仲間に引き入れる対象";
         default:
             return null;
         }
@@ -390,7 +411,7 @@ public class AbilityLogic {
     }
 
     private enum AbilityType {
-        ATTACK, DIVINE, GUARD, DISTURB, INVESTIGATE, TRAP, BOMB, COHABIT, COMMAND, FRUITSBASKET, COURT, STALKING
+        ATTACK, DIVINE, GUARD, DISTURB, INVESTIGATE, TRAP, BOMB, COHABIT, COMMAND, FRUITSBASKET, COURT, STALKING, CHEAT
     }
 
     private AbilityType detectAbilityType(CDef.Skill skill) {
@@ -418,6 +439,8 @@ public class AbilityLogic {
             return AbilityType.COURT;
         } else if (skill == CDef.Skill.ストーカー) {
             return AbilityType.STALKING;
+        } else if (skill == CDef.Skill.誑狐) {
+            return AbilityType.CHEAT;
         }
         return null;
     }
@@ -441,6 +464,8 @@ public class AbilityLogic {
             return day > 1;
         case COURT:
         case STALKING:
+            return day == 1;
+        case CHEAT:
             return day == 1;
         default:
             return false;

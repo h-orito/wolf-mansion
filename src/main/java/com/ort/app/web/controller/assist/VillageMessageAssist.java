@@ -188,6 +188,12 @@ public class VillageMessageAssist {
                             andCB.query().setVillagePlayerId_Equal(villagePlayerId);
                         });
                     }
+                    if (isViewAllowedFoxMessage(vPlayer)) {
+                        orCB.orScopeQueryAndPart(andCB -> {
+                            andCB.query().setMessageTypeCode_Equal_妖狐メッセージ();
+                            andCB.query().setVillagePlayerId_Equal(villagePlayerId);
+                        });
+                    }
                 });
                 if (BooleanUtils.isTrue(isOnlyToMe)) {
                     cb.orScopeQuery(orCB -> {
@@ -220,6 +226,10 @@ public class VillageMessageAssist {
 
     private boolean isViewAllowedLoverMessage(VillagePlayer villagePlayer) {
         return villagePlayer.isIsDeadFalse() && villagePlayer.hasLover();
+    }
+
+    private boolean isViewAllowedFoxMessage(VillagePlayer villagePlayer) {
+        return villagePlayer.isIsDeadFalse() && (villagePlayer.isFoxPossessioning() || villagePlayer.isFoxPossessioned());
     }
 
     private boolean isViewAllowedInvestigateMessage(VillagePlayer villagePlayer) {

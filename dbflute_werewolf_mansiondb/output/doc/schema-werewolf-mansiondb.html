@@ -6242,9 +6242,11 @@ VOTE
 				<th><span class="clsgroup" title="襲撃能力を持つ :: [人狼, 呪狼, 智狼, 絶対人狼]">hasAttackAbility</span></th>
 				<th><span class="clsgroup" title="狂人能力を持つ :: [C国狂人, 狂人, 狂信者, 魔神官]">hasMadmanAbility</span></th>
 				<th><span class="clsgroup" title="徘徊能力を持つ :: [C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 背徳者]">hasDisturbAbility</span></th>
-				<th><span class="clsgroup" title="襲撃されても死なない :: [妖狐, 爆弾魔]">noDeadByAttack</span></th>
+				<th><span class="clsgroup" title="襲撃されても死なない :: [妖狐, 誑狐, 爆弾魔]">noDeadByAttack</span></th>
+				<th><span class="clsgroup" title="勝敗判定時、人狼にカウントされる :: [人狼, 呪狼, 智狼, 絶対人狼]">wolfCount</span></th>
+				<th><span class="clsgroup" title="勝敗判定時、人間にも人狼にもカウントされない :: [妖狐, 誑狐, 梟]">noCount</span></th>
 				<th><span class="clsgroup" title="人狼が誰かを知ることができる :: [人狼, 呪狼, 智狼, 絶対人狼, C国狂人, 狂信者]">viewableWolfCharaName</span></th>
-				<th><span class="clsgroup" title="おまかせ系 :: [おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]">someoneSkill</span></th>
+				<th><span class="clsgroup" title="おまかせ系 :: [おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ妖狐陣営, おまかせ愉快犯陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]">someoneSkill</span></th>
 				<th>SubItem</th>
 			</tr>
 			<tr>
@@ -6258,6 +6260,8 @@ VOTE
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -6277,6 +6281,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td>order=4<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=星</td>
 			</tr>
 			<tr>
@@ -6284,6 +6290,8 @@ VOTE
 				<td>パン屋</td>
 				<td>パン屋</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -6309,7 +6317,27 @@ VOTE
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=29<br>,&nbsp;campCode=CRIMINAL<br>,&nbsp;skill_short_name=爆</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=30<br>,&nbsp;campCode=CRIMINAL<br>,&nbsp;skill_short_name=爆</td>
+			</tr>
+			<tr>
+				<td>CHEATERFOX</td>
+				<td>誑狐</td>
+				<td>誑狐</td>
+				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=28<br>,&nbsp;campCode=FOX<br>,&nbsp;skill_short_name=誑</td>
 			</tr>
 			<tr>
 				<td>CMADMAN</td>
@@ -6323,6 +6351,8 @@ VOTE
 				<td class="flgcell">o</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td>order=20<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=C</td>
@@ -6332,6 +6362,8 @@ VOTE
 				<td>同棲者</td>
 				<td>同棲者</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -6357,6 +6389,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td>order=14<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=指</td>
 			</tr>
 			<tr>
@@ -6364,6 +6398,8 @@ VOTE
 				<td>検死官</td>
 				<td>検死官</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -6389,7 +6425,27 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td>order=25<br>,&nbsp;campCode=LOVERS<br>,&nbsp;skill_short_name=求</td>
+			</tr>
+			<tr>
+				<td>CRIMINALS</td>
+				<td>おまかせ愉快犯陣営</td>
+				<td>おまかせ（愉快犯陣営）</td>
+				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
+				<td>order=105<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>CURSEWOLF</td>
@@ -6405,6 +6461,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td>order=16<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=呪</td>
 			</tr>
 			<tr>
@@ -6412,6 +6470,8 @@ VOTE
 				<td>探偵</td>
 				<td>探偵</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -6437,6 +6497,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td>order=21<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=魔</td>
 			</tr>
 			<tr>
@@ -6450,6 +6512,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell">o</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -6468,8 +6532,10 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=37<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td>order=107<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>FOX</td>
@@ -6484,8 +6550,28 @@ VOTE
 				<td class="flgcell">o</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td>order=27<br>,&nbsp;campCode=FOX<br>,&nbsp;skill_short_name=狐</td>
+			</tr>
+			<tr>
+				<td>FOXS</td>
+				<td>おまかせ妖狐陣営</td>
+				<td>おまかせ（妖狐陣営）</td>
+				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
+				<td>order=104<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>FRIENDS</td>
@@ -6500,8 +6586,10 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=38<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td>order=108<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>FRUITSBASKET</td>
@@ -6517,7 +6605,9 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=31<br>,&nbsp;campCode=CRIMINAL<br>,&nbsp;skill_short_name=籠</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=32<br>,&nbsp;campCode=CRIMINAL<br>,&nbsp;skill_short_name=籠</td>
 			</tr>
 			<tr>
 				<td>GURU</td>
@@ -6533,6 +6623,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td>order=6<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=導</td>
 			</tr>
 			<tr>
@@ -6540,6 +6632,8 @@ VOTE
 				<td>狩人</td>
 				<td>狩人</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -6565,7 +6659,9 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=28<br>,&nbsp;campCode=FOX<br>,&nbsp;skill_short_name=背</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=29<br>,&nbsp;campCode=FOX<br>,&nbsp;skill_short_name=背</td>
 			</tr>
 			<tr>
 				<td>LEFTOVER</td>
@@ -6580,14 +6676,18 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=32<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td>order=100<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>LOVER</td>
 				<td>恋人</td>
 				<td>恋人</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -6612,14 +6712,18 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=35<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td>order=103<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>LUCKYMAN</td>
 				<td>強運者</td>
 				<td>強運者</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -6645,6 +6749,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td>order=19<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=狂</td>
 			</tr>
 			<tr>
@@ -6652,6 +6758,8 @@ VOTE
 				<td>共鳴者</td>
 				<td>共鳴者</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -6677,6 +6785,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td>order=5<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=霊</td>
 			</tr>
 			<tr>
@@ -6692,8 +6802,10 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=39<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td>order=109<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>NOVILLAGERS</td>
@@ -6708,8 +6820,10 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=36<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td>order=106<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>OWL</td>
@@ -6724,8 +6838,10 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=30<br>,&nbsp;campCode=CRIMINAL<br>,&nbsp;skill_short_name=梟</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=31<br>,&nbsp;campCode=CRIMINAL<br>,&nbsp;skill_short_name=梟</td>
 			</tr>
 			<tr>
 				<td>SEER</td>
@@ -6741,6 +6857,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td>order=2<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=占</td>
 			</tr>
 			<tr>
@@ -6748,6 +6866,8 @@ VOTE
 				<td>ストーカー</td>
 				<td>ストーカー</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -6773,6 +6893,8 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td>order=11<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=罠</td>
 			</tr>
 			<tr>
@@ -6780,6 +6902,8 @@ VOTE
 				<td>村人</td>
 				<td>村人</td>
 				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -6804,8 +6928,10 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=33<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td>order=101<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>WEREWOLF</td>
@@ -6818,6 +6944,8 @@ VOTE
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -6836,8 +6964,10 @@ VOTE
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
-				<td>order=34<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
+				<td>order=102<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=お</td>
 			</tr>
 			<tr>
 				<td>WISE</td>
@@ -6846,6 +6976,8 @@ VOTE
 				<td class="commentcell">&nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -6866,6 +6998,8 @@ VOTE
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell">o</td>
 				<td class="flgcell"> &nbsp;</td>
@@ -6923,6 +7057,11 @@ VOTE
 			<tr>
 				<td>PRIVATE_CORONER</td>
 				<td>検死結果</td>
+				<td class="commentcell">&nbsp;</td>
+			</tr>
+			<tr>
+				<td>PRIVATE_FOX</td>
+				<td>妖狐メッセージ</td>
 				<td class="commentcell">&nbsp;</td>
 			</tr>
 			<tr>
@@ -7067,6 +7206,11 @@ VOTE
 				<td class="commentcell">&nbsp;</td>
 			</tr>
 			<tr>
+				<td>CHEAT</td>
+				<td>誑かす</td>
+				<td class="commentcell">&nbsp;</td>
+			</tr>
+			<tr>
 				<td>COHABIT</td>
 				<td>同棲</td>
 				<td class="commentcell">&nbsp;</td>
@@ -7201,6 +7345,11 @@ VOTE
 			<tr>
 				<td>FOLLOWING_SUICIDE</td>
 				<td>後追い</td>
+				<td class="commentcell">&nbsp;</td>
+			</tr>
+			<tr>
+				<td>FOX_POSSESSION</td>
+				<td>狐憑き</td>
 				<td class="commentcell">&nbsp;</td>
 			</tr>
 			</table>

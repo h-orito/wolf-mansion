@@ -117,6 +117,9 @@ public class VillageService {
             loader.loadVillagePlayerStatusByVillagePlayerId(vpStCB -> {
                 vpStCB.setupSelect_VillagePlayerByToVillagePlayerId().withChara();
             });
+            loader.loadVillagePlayerStatusByToVillagePlayerId(vpStCB -> {
+                vpStCB.setupSelect_VillagePlayerByVillagePlayerId().withChara();
+            });
             loader.pulloutChara().loadCharaImage(charaImageCB -> {
                 charaImageCB.query().queryFaceType().addOrderBy_DispOrder_Asc();
             });
@@ -185,5 +188,12 @@ public class VillageService {
         status.setToVillagePlayerId(to.getVillagePlayerId());
         status.setVillagePlayerStatusCodeAsVillagePlayerStatusType(type);
         villagePlayerStatusBhv.insert(status);
+    }
+
+    // 勝利陣営を変更する
+    public void updatePlayerWinCamp(VillagePlayer villagePlayer, CDef.Camp camp) {
+        VillagePlayer vPlayer = new VillagePlayer();
+        vPlayer.setCampCode(camp.code());
+        villagePlayerBhv.queryUpdate(vPlayer, cb -> cb.query().setVillagePlayerId_Equal(villagePlayer.getVillagePlayerId()));
     }
 }
