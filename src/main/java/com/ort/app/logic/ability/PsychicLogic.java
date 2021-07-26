@@ -30,7 +30,7 @@ public class PsychicLogic {
         if (!dayChangeVillage.alivePlayers().filterBySkill(CDef.Skill.霊能者).list.isEmpty()) {
             StringJoiner joiner = new StringJoiner("\n");
             psychicableDeadPlayerList.forEach(deadPlayer -> {
-                boolean isTargetWerewolf = deadPlayer.getSkillCodeAsSkill().isHasAttackAbility();
+                boolean isTargetWerewolf = deadPlayer.getSkillCodeAsSkill().isPsychicResultWolf();
                 joiner.add(String.format("%sは%sのようだ。", deadPlayer.name(), isTargetWerewolf ? "人狼" : "人間"));
             });
             messageLogic.saveIgnoreError(MessageEntity.systemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //

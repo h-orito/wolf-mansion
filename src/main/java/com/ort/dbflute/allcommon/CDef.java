@@ -601,6 +601,9 @@ public interface CDef extends Classification {
         /** おまかせ */
         おまかせ("LEFTOVER", "おまかせ", emptyStrings())
         ,
+        /** 一匹狼 */
+        一匹狼("LONEWOLF", "一匹狼", emptyStrings())
+        ,
         /** 恋人 */
         恋人("LOVER", "恋人", emptyStrings())
         ,
@@ -833,6 +836,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "お");
                 _subItemMapMap.put(おまかせ.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "33");
+                subItemMap.put("campCode", "CRIMINAL");
+                subItemMap.put("skill_short_name", "匹");
+                _subItemMapMap.put(一匹狼.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -1083,6 +1093,26 @@ public interface CDef extends Classification {
 
         /**
          * Is the classification in the group? <br>
+         * 占い結果が人狼となる <br>
+         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+         * @return The determination, true or false.
+         */
+        public boolean isDivineResultWolf() {
+            return 人狼.equals(this) || 呪狼.equals(this) || 智狼.equals(this) || 絶対人狼.equals(this) || 一匹狼.equals(this);
+        }
+
+        /**
+         * Is the classification in the group? <br>
+         * 霊能結果が人狼となる <br>
+         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+         * @return The determination, true or false.
+         */
+        public boolean isPsychicResultWolf() {
+            return 人狼.equals(this) || 呪狼.equals(this) || 智狼.equals(this) || 絶対人狼.equals(this) || 一匹狼.equals(this);
+        }
+
+        /**
+         * Is the classification in the group? <br>
          * おまかせ系 <br>
          * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ妖狐陣営, おまかせ愉快犯陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
          * @return The determination, true or false.
@@ -1102,6 +1132,8 @@ public interface CDef extends Classification {
             if ("wolfCount".equals(groupName)) { return isWolfCount(); }
             if ("noCount".equals(groupName)) { return isNoCount(); }
             if ("viewableWolfCharaName".equals(groupName)) { return isViewableWolfCharaName(); }
+            if ("divineResultWolf".equals(groupName)) { return isDivineResultWolf(); }
+            if ("psychicResultWolf".equals(groupName)) { return isPsychicResultWolf(); }
             if ("someoneSkill".equals(groupName)) { return isSomeoneSkill(); }
             return false;
         }
@@ -1180,6 +1212,8 @@ public interface CDef extends Classification {
             if ("wolfCount".equalsIgnoreCase(groupName)) { return listOfWolfCount(); }
             if ("noCount".equalsIgnoreCase(groupName)) { return listOfNoCount(); }
             if ("viewableWolfCharaName".equalsIgnoreCase(groupName)) { return listOfViewableWolfCharaName(); }
+            if ("divineResultWolf".equalsIgnoreCase(groupName)) { return listOfDivineResultWolf(); }
+            if ("psychicResultWolf".equalsIgnoreCase(groupName)) { return listOfPsychicResultWolf(); }
             if ("someoneSkill".equalsIgnoreCase(groupName)) { return listOfSomeoneSkill(); }
             throw new ClassificationNotFoundException("Unknown classification group: Skill." + groupName);
         }
@@ -1298,6 +1332,26 @@ public interface CDef extends Classification {
 
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
+         * 占い結果が人狼となる <br>
+         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+         * @return The snapshot list of classification elements in the group. (NotNull)
+         */
+        public static List<Skill> listOfDivineResultWolf() {
+            return new ArrayList<Skill>(Arrays.asList(人狼, 呪狼, 智狼, 絶対人狼, 一匹狼));
+        }
+
+        /**
+         * Get the list of group classification elements. (returns new copied list) <br>
+         * 霊能結果が人狼となる <br>
+         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+         * @return The snapshot list of classification elements in the group. (NotNull)
+         */
+        public static List<Skill> listOfPsychicResultWolf() {
+            return new ArrayList<Skill>(Arrays.asList(人狼, 呪狼, 智狼, 絶対人狼, 一匹狼));
+        }
+
+        /**
+         * Get the list of group classification elements. (returns new copied list) <br>
          * おまかせ系 <br>
          * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ妖狐陣営, おまかせ愉快犯陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
          * @return The snapshot list of classification elements in the group. (NotNull)
@@ -1322,6 +1376,8 @@ public interface CDef extends Classification {
             if ("wolfCount".equals(groupName)) { return listOfWolfCount(); }
             if ("noCount".equals(groupName)) { return listOfNoCount(); }
             if ("viewableWolfCharaName".equals(groupName)) { return listOfViewableWolfCharaName(); }
+            if ("divineResultWolf".equals(groupName)) { return listOfDivineResultWolf(); }
+            if ("psychicResultWolf".equals(groupName)) { return listOfPsychicResultWolf(); }
             if ("someoneSkill".equals(groupName)) { return listOfSomeoneSkill(); }
             return new ArrayList<Skill>(4);
         }
@@ -1701,6 +1757,9 @@ public interface CDef extends Classification {
         ,
         /** 捜査 */
         捜査("INVESTIGATE", "捜査", emptyStrings())
+        ,
+        /** 単独襲撃 */
+        単独襲撃("LONEATTACK", "単独襲撃", emptyStrings())
         ,
         /** ストーキング */
         ストーキング("STALKING", "ストーキング", emptyStrings())

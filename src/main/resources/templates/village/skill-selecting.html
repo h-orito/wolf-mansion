@@ -29,6 +29,8 @@
 			th:text="'現在の選択: ' + ${targetCharaName == '' || targetCharaName == null ? '爆弾を設置しない' : targetCharaName + ' の部屋に爆弾を設置する'}"></p>
 		<p class="small" th:if="${content.myself.skill.code == 'FRUITSBASKET'}"
 			th:text="'現在の選択: ' + ${targetCharaName == '' || targetCharaName == null ? '何もしない' : 'フルーツバスケットする！'}"></p>
+		<p class="small" th:if="${content.myself.skill.code == 'LONEWOLF'}"
+			th:text="'現在の選択: ' + ${targetCharaName == null ? '襲撃しない' : targetCharaName + ' を襲う' }"></p>
 		<!--/* 通過する部屋 */-->
 		<p class="small" th:if="${content.myself.skill.hasFootstepAbility}"
 			th:text="'通過する部屋: ' + ${footstep == '' || footstep == null ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"

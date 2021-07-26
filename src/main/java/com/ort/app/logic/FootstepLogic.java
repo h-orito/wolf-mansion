@@ -119,10 +119,9 @@ public class FootstepLogic {
 
         if (skill.isHasAttackAbility()) {
             return makeWolfSeerFootstepCandidateList(charaId, targetCharaId, village, villagePlayerList);
-        } else if (skill.isHasDivineAbility() || skill == CDef.Skill.狩人) {
+        } else {
             return makeWolfSeerFootstepCandidateList(villagePlayer.getCharaId(), targetCharaId, village, villagePlayerList);
         }
-        return null;
     }
 
     // 足音が直線か

@@ -255,6 +255,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 一匹狼 (LONEWOLF). And OnlyOnceRegistered. <br>
+     * 一匹狼
+     */
+    public void setSkillCode_Equal_一匹狼() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.一匹狼);
+    }
+
+    /**
      * Equal(=). As 恋人 (LOVER). And OnlyOnceRegistered. <br>
      * 恋人
      */
@@ -614,6 +622,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 一匹狼 (LONEWOLF). And OnlyOnceRegistered. <br>
+     * 一匹狼
+     */
+    public void setSkillCode_NotEqual_一匹狼() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.一匹狼);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 恋人 (LOVER). And OnlyOnceRegistered. <br>
      * 恋人
      */
@@ -878,6 +894,26 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_InScope_ViewableWolfCharaName() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfViewableWolfCharaName());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 占い結果が人狼となる <br>
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+     */
+    public void setSkillCode_InScope_DivineResultWolf() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfDivineResultWolf());
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * 役職 <br>
+     * 霊能結果が人狼となる <br>
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+     */
+    public void setSkillCode_InScope_PsychicResultWolf() {
+        setSkillCode_InScope_AsSkill(CDef.Skill.listOfPsychicResultWolf());
     }
 
     /**

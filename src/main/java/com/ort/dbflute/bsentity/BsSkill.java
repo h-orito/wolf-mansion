@@ -348,6 +348,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Set the value of skillCode as 一匹狼 (LONEWOLF). <br>
+     * 一匹狼
+     */
+    public void setSkillCode_一匹狼() {
+        setSkillCodeAsSkill(CDef.Skill.一匹狼);
+    }
+
+    /**
      * Set the value of skillCode as 恋人 (LOVER). <br>
      * 恋人
      */
@@ -799,6 +807,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Is the value of skillCode 一匹狼? <br>
+     * 一匹狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode一匹狼() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.一匹狼) : false;
+    }
+
+    /**
      * Is the value of skillCode 恋人? <br>
      * 恋人
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1094,6 +1113,26 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isSkillCode_ViewableWolfCharaName() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null && cdef.isViewableWolfCharaName();
+    }
+
+    /**
+     * 占い結果が人狼となる <br>
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode_DivineResultWolf() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null && cdef.isDivineResultWolf();
+    }
+
+    /**
+     * 霊能結果が人狼となる <br>
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode_PsychicResultWolf() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null && cdef.isPsychicResultWolf();
     }
 
     /**

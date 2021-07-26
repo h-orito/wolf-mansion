@@ -595,7 +595,7 @@ public class VillageAssist {
                         || skill.isHasDivineAbility() //
                         || skill == CDef.Skill.狩人 //
                         || skill.isHasDisturbAbility() //
-        );
+                        || skill == CDef.Skill.一匹狼);
         participateSkill.setHasCohabitAbility(skill == CDef.Skill.同棲者);
         return participateSkill;
     }

@@ -565,6 +565,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 一匹狼 (LONEWOLF). <br>
+     * 一匹狼
+     */
+    public void setSkillCode_一匹狼() {
+        setSkillCodeAsSkill(CDef.Skill.一匹狼);
+    }
+
+    /**
      * Set the value of skillCode as 恋人 (LOVER). <br>
      * 恋人
      */
@@ -901,6 +909,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 一匹狼 (LONEWOLF). <br>
+     * 一匹狼
+     */
+    public void setRequestSkillCode_一匹狼() {
+        setRequestSkillCodeAsSkill(CDef.Skill.一匹狼);
+    }
+
+    /**
      * Set the value of requestSkillCode as 恋人 (LOVER). <br>
      * 恋人
      */
@@ -1234,6 +1250,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_おまかせ() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 一匹狼 (LONEWOLF). <br>
+     * 一匹狼
+     */
+    public void setSecondRequestSkillCode_一匹狼() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.一匹狼);
     }
 
     /**
@@ -1768,6 +1792,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of skillCode 一匹狼? <br>
+     * 一匹狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode一匹狼() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.一匹狼) : false;
+    }
+
+    /**
      * Is the value of skillCode 恋人? <br>
      * 恋人
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -2066,6 +2101,26 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * 占い結果が人狼となる <br>
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode_DivineResultWolf() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null && cdef.isDivineResultWolf();
+    }
+
+    /**
+     * 霊能結果が人狼となる <br>
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode_PsychicResultWolf() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null && cdef.isPsychicResultWolf();
+    }
+
+    /**
      * おまかせ系 <br>
      * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ妖狐陣営, おまかせ愉快犯陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
      * @return The determination, true or false.
@@ -2337,6 +2392,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isRequestSkillCodeおまかせ() {
         CDef.Skill cdef = getRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.おまかせ) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 一匹狼? <br>
+     * 一匹狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode一匹狼() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.一匹狼) : false;
     }
 
     /**
@@ -2638,6 +2704,26 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * 占い結果が人狼となる <br>
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode_DivineResultWolf() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null && cdef.isDivineResultWolf();
+    }
+
+    /**
+     * 霊能結果が人狼となる <br>
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode_PsychicResultWolf() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null && cdef.isPsychicResultWolf();
+    }
+
+    /**
      * おまかせ系 <br>
      * The group elements:[おまかせ, おまかせ村人陣営, おまかせ人狼陣営, おまかせ恋人陣営, おまかせ妖狐陣営, おまかせ愉快犯陣営, おまかせ足音職, おまかせ役職窓あり, おまかせ役職窓なし, おまかせ人外]
      * @return The determination, true or false.
@@ -2909,6 +2995,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCodeおまかせ() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.おまかせ) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 一匹狼? <br>
+     * 一匹狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode一匹狼() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.一匹狼) : false;
     }
 
     /**
@@ -3207,6 +3304,26 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode_ViewableWolfCharaName() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null && cdef.isViewableWolfCharaName();
+    }
+
+    /**
+     * 占い結果が人狼となる <br>
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode_DivineResultWolf() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null && cdef.isDivineResultWolf();
+    }
+
+    /**
+     * 霊能結果が人狼となる <br>
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode_PsychicResultWolf() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null && cdef.isPsychicResultWolf();
     }
 
     /**

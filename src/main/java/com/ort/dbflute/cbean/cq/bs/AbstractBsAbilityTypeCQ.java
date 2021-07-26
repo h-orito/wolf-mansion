@@ -143,6 +143,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 単独襲撃 (LONEATTACK). And OnlyOnceRegistered. <br>
+     * 単独襲撃
+     */
+    public void setAbilityTypeCode_Equal_単独襲撃() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.単独襲撃);
+    }
+
+    /**
      * Equal(=). As ストーキング (STALKING). And OnlyOnceRegistered. <br>
      * ストーキング
      */
@@ -259,6 +267,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_捜査() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.捜査);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 単独襲撃 (LONEATTACK). And OnlyOnceRegistered. <br>
+     * 単独襲撃
+     */
+    public void setAbilityTypeCode_NotEqual_単独襲撃() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.単独襲撃);
     }
 
     /**

@@ -20,6 +20,7 @@ import com.ort.app.logic.ability.DivineLogic;
 import com.ort.app.logic.ability.FruitsBasketLogic;
 import com.ort.app.logic.ability.GuardLogic;
 import com.ort.app.logic.ability.InvestigateLogic;
+import com.ort.app.logic.ability.LoneAttackLogic;
 import com.ort.app.logic.ability.StalkingLogic;
 import com.ort.app.logic.ability.TrapLogic;
 import com.ort.app.web.dto.VillageInfo;
@@ -37,6 +38,8 @@ public class AbilityLogic {
     //                                                                           =========
     @Autowired
     private AttackLogic attackLogic;
+    @Autowired
+    private LoneAttackLogic loneAttackLogic;
     @Autowired
     private DivineLogic divineLogic;
     @Autowired
@@ -113,6 +116,8 @@ public class AbilityLogic {
         case CHEAT:
             cheatLogic.setAbility(village, villagePlayer, day, targetCharaId);
             break;
+        case LONEATTACK:
+            loneAttackLogic.setAbility(village, villagePlayer, day, targetCharaId, footstep);
         default:
             return;
         }
@@ -184,6 +189,11 @@ public class AbilityLogic {
         case CHEAT:
             selectablePlayers = stalkingLogic.getSelectableTarget(village, day, villagePlayer);
             break;
+        case LONEATTACK:
+            // 「なし」も選べるのでここで返す
+            List<OptionDto> list3 = loneAttackLogic.getSelectableTarget(village, villagePlayer).map(vp -> new OptionDto(vp));
+            list3.add(0, new OptionDto("なし", ""));
+            return list3;
         default:
             return null;
         }
@@ -238,6 +248,8 @@ public class AbilityLogic {
             return cohabitLogic.makeSkillHistoryList(village, villagePlayer, day);
         case COMMAND:
             return commandLogic.makeSkillHistoryList(village, villagePlayer, day);
+        case LONEATTACK:
+            return loneAttackLogic.makeSkillHistoryList(village, villagePlayer, day);
         default:
             return new ArrayList<>();
         }
@@ -357,6 +369,7 @@ public class AbilityLogic {
         AbilityType type = detectAbilityType(villageInfo.optVillagePlayer.get().getSkillCodeAsSkill());
         switch (type) {
         case ATTACK:
+        case LONEATTACK:
             return "襲撃対象";
         case TRAP:
             return "罠を設置する部屋";
@@ -402,6 +415,7 @@ public class AbilityLogic {
         AbilityType type = detectAbilityType(villageInfo.optVillagePlayer.get().getSkillCodeAsSkill());
         switch (type) {
         case ATTACK:
+        case LONEATTACK:
         case DIVINE:
         case GUARD:
             return true;
@@ -411,7 +425,7 @@ public class AbilityLogic {
     }
 
     private enum AbilityType {
-        ATTACK, DIVINE, GUARD, DISTURB, INVESTIGATE, TRAP, BOMB, COHABIT, COMMAND, FRUITSBASKET, COURT, STALKING, CHEAT
+        ATTACK, DIVINE, GUARD, DISTURB, INVESTIGATE, TRAP, BOMB, COHABIT, COMMAND, FRUITSBASKET, COURT, STALKING, CHEAT, LONEATTACK
     }
 
     private AbilityType detectAbilityType(CDef.Skill skill) {
@@ -441,6 +455,8 @@ public class AbilityLogic {
             return AbilityType.STALKING;
         } else if (skill == CDef.Skill.誑狐) {
             return AbilityType.CHEAT;
+        } else if (skill == CDef.Skill.一匹狼) {
+            return AbilityType.LONEATTACK;
         }
         return null;
     }
@@ -461,6 +477,7 @@ public class AbilityLogic {
         case BOMB:
         case COMMAND:
         case FRUITSBASKET:
+        case LONEATTACK:
             return day > 1;
         case COURT:
         case STALKING:

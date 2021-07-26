@@ -169,7 +169,7 @@ public class DivineLogic {
         String targetCharaName = targetPlayer.name();
         String seerName = seerPlayer.name();
         if (skill == CDef.Skill.占い師) {
-            boolean isTargetWerewolf = targetPlayer.getSkillCodeAsSkill().isHasAttackAbility();
+            boolean isTargetWerewolf = targetPlayer.getSkillCodeAsSkill().isDivineResultWolf();
             return String.format("%sは、%sを占った。\n%sは%sのようだ。", seerName, targetCharaName, targetCharaName, isTargetWerewolf ? "人狼" : "人間");
         } else if (skill == CDef.Skill.賢者) {
             return String.format("%sは、%sを占った。\n%sは%sのようだ。", seerName, targetCharaName, targetCharaName,

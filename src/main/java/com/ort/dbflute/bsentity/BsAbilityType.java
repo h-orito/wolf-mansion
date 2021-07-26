@@ -198,6 +198,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 単独襲撃 (LONEATTACK). <br>
+     * 単独襲撃
+     */
+    public void setAbilityTypeCode_単独襲撃() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.単独襲撃);
+    }
+
+    /**
      * Set the value of abilityTypeCode as ストーキング (STALKING). <br>
      * ストーキング
      */
@@ -324,6 +332,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode捜査() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.捜査) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 単独襲撃? <br>
+     * 単独襲撃
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode単独襲撃() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.単独襲撃) : false;
     }
 
     /**

@@ -124,7 +124,7 @@ public class VillageAbilityAssist {
 
     private boolean isInvalidFootstep(VillagePlayer villagePlayer, VillageGetFootstepListForm form) {
         CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
-        if (!skill.isHasAttackAbility() && !skill.isHasDivineAbility() && skill != CDef.Skill.狩人) {
+        if (!skill.isHasAttackAbility() && !skill.isHasDivineAbility() && skill != CDef.Skill.狩人 && skill != CDef.Skill.一匹狼) {
             return true;
         }
         if (skill.isHasAttackAbility() && form.getCharaId() == null) {

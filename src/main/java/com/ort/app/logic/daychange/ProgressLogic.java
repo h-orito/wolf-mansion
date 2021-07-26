@@ -29,6 +29,7 @@ import com.ort.app.logic.ability.DivineLogic;
 import com.ort.app.logic.ability.FruitsBasketLogic;
 import com.ort.app.logic.ability.GuardLogic;
 import com.ort.app.logic.ability.InvestigateLogic;
+import com.ort.app.logic.ability.LoneAttackLogic;
 import com.ort.app.logic.ability.PsychicLogic;
 import com.ort.app.logic.ability.StalkingLogic;
 import com.ort.app.logic.ability.SuicideLogic;
@@ -78,6 +79,8 @@ public class ProgressLogic {
     private CohabitLogic cohabitLogic;
     @Autowired
     private AttackLogic attackLogic;
+    @Autowired
+    private LoneAttackLogic loneAttackLogic;
     @Autowired
     private MiserableLogic miserableLogic;
     @Autowired
@@ -161,6 +164,9 @@ public class ProgressLogic {
 
         // 襲撃
         attackLogic.attack(dayChangeVillage);
+
+        // 単独襲撃
+        loneAttackLogic.loneAttack(dayChangeVillage);
 
         // 罠
         trapLogic.trap(dayChangeVillage);
