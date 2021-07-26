@@ -16,8 +16,10 @@ import com.ort.app.logic.ability.CohabitLogic;
 import com.ort.app.logic.ability.CourtLogic;
 import com.ort.app.logic.ability.DisturbLogic;
 import com.ort.app.logic.ability.DivineLogic;
+import com.ort.app.logic.ability.FantasistLogic;
 import com.ort.app.logic.ability.GuardLogic;
 import com.ort.app.logic.ability.InvestigateLogic;
+import com.ort.app.logic.ability.SleepwalkLogic;
 import com.ort.app.logic.ability.StalkingLogic;
 import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.exbhv.VoteBhv;
@@ -50,6 +52,10 @@ public class DefaultSetLogic {
     @Autowired
     private CheatLogic cheatLogic;
     @Autowired
+    private FantasistLogic fantasistLogic;
+    @Autowired
+    private SleepwalkLogic sleepwarkLogic;
+    @Autowired
     private FootstepLogic footstepLogic;
     @Autowired
     private MessageLogic messageLogic;
@@ -75,6 +81,10 @@ public class DefaultSetLogic {
         disturbLogic.insertDefaultFootstep(village, newDay);
         // 同棲
         cohabitLogic.insertDefaultCohabit(village, newDay);
+        // 妄想癖
+        fantasistLogic.insertDefaultFootstep(village, newDay);
+        // 夢遊病
+        sleepwarkLogic.insertDefaultFootstep(village, newDay);
 
         if (newDay == 1) {
             courtLogic.insertDefaultCourt(village, newDay);

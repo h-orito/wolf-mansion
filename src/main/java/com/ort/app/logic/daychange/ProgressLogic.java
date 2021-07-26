@@ -26,6 +26,7 @@ import com.ort.app.logic.ability.CheatLogic;
 import com.ort.app.logic.ability.CohabitLogic;
 import com.ort.app.logic.ability.CourtLogic;
 import com.ort.app.logic.ability.DivineLogic;
+import com.ort.app.logic.ability.FalseChargesLogic;
 import com.ort.app.logic.ability.FruitsBasketLogic;
 import com.ort.app.logic.ability.GuardLogic;
 import com.ort.app.logic.ability.InvestigateLogic;
@@ -99,6 +100,8 @@ public class ProgressLogic {
     private StalkingLogic stalkingLogic;
     @Autowired
     private CheatLogic cheatLogic;
+    @Autowired
+    private FalseChargesLogic falseChargesLogic;
     @Autowired
     private DefaultSetLogic defaultSetLogic;
     @Autowired
@@ -201,6 +204,9 @@ public class ProgressLogic {
 
         // パン屋メッセージ
         bakeryLogic.insertBakeryMessageIfNeeded(dayChangeVillage);
+
+        // 冤罪者
+        falseChargesLogic.falseCharges(dayChangeVillage);
 
         // 投票、能力行使のデフォルト設定
         defaultSetLogic.setDefaultVoteAndAbility(villageId, day);

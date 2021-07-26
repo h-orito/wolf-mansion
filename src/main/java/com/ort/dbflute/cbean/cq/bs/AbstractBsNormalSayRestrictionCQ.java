@@ -304,11 +304,27 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
     }
 
     /**
+     * Equal(=). As 冤罪者 (FALSECHARGES). And OnlyOnceRegistered. <br>
+     * 冤罪者
+     */
+    public void setSkillCode_Equal_冤罪者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.冤罪者);
+    }
+
+    /**
      * Equal(=). As 狂信者 (FANATIC). And OnlyOnceRegistered. <br>
      * 狂信者
      */
     public void setSkillCode_Equal_狂信者() {
         setSkillCode_Equal_AsSkill(CDef.Skill.狂信者);
+    }
+
+    /**
+     * Equal(=). As 妄想癖 (FANTASIST). And OnlyOnceRegistered. <br>
+     * 妄想癖
+     */
+    public void setSkillCode_Equal_妄想癖() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.妄想癖);
     }
 
     /**
@@ -469,6 +485,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
      */
     public void setSkillCode_Equal_占い師() {
         setSkillCode_Equal_AsSkill(CDef.Skill.占い師);
+    }
+
+    /**
+     * Equal(=). As 夢遊病者 (SLEEPWALKER). And OnlyOnceRegistered. <br>
+     * 夢遊病者
+     */
+    public void setSkillCode_Equal_夢遊病者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.夢遊病者);
     }
 
     /**
@@ -671,11 +695,27 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 冤罪者 (FALSECHARGES). And OnlyOnceRegistered. <br>
+     * 冤罪者
+     */
+    public void setSkillCode_NotEqual_冤罪者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.冤罪者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 狂信者 (FANATIC). And OnlyOnceRegistered. <br>
      * 狂信者
      */
     public void setSkillCode_NotEqual_狂信者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.狂信者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 妄想癖 (FANTASIST). And OnlyOnceRegistered. <br>
+     * 妄想癖
+     */
+    public void setSkillCode_NotEqual_妄想癖() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.妄想癖);
     }
 
     /**
@@ -836,6 +876,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
      */
     public void setSkillCode_NotEqual_占い師() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.占い師);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 夢遊病者 (SLEEPWALKER). And OnlyOnceRegistered. <br>
+     * 夢遊病者
+     */
+    public void setSkillCode_NotEqual_夢遊病者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.夢遊病者);
     }
 
     /**

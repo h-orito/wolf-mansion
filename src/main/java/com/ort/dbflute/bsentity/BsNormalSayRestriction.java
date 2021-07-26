@@ -291,11 +291,27 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
+     * Set the value of skillCode as 冤罪者 (FALSECHARGES). <br>
+     * 冤罪者
+     */
+    public void setSkillCode_冤罪者() {
+        setSkillCodeAsSkill(CDef.Skill.冤罪者);
+    }
+
+    /**
      * Set the value of skillCode as 狂信者 (FANATIC). <br>
      * 狂信者
      */
     public void setSkillCode_狂信者() {
         setSkillCodeAsSkill(CDef.Skill.狂信者);
+    }
+
+    /**
+     * Set the value of skillCode as 妄想癖 (FANTASIST). <br>
+     * 妄想癖
+     */
+    public void setSkillCode_妄想癖() {
+        setSkillCodeAsSkill(CDef.Skill.妄想癖);
     }
 
     /**
@@ -456,6 +472,14 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
      */
     public void setSkillCode_占い師() {
         setSkillCodeAsSkill(CDef.Skill.占い師);
+    }
+
+    /**
+     * Set the value of skillCode as 夢遊病者 (SLEEPWALKER). <br>
+     * 夢遊病者
+     */
+    public void setSkillCode_夢遊病者() {
+        setSkillCodeAsSkill(CDef.Skill.夢遊病者);
     }
 
     /**
@@ -848,6 +872,17 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
+     * Is the value of skillCode 冤罪者? <br>
+     * 冤罪者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode冤罪者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.冤罪者) : false;
+    }
+
+    /**
      * Is the value of skillCode 狂信者? <br>
      * 狂信者
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -856,6 +891,17 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     public boolean isSkillCode狂信者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.狂信者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 妄想癖? <br>
+     * 妄想癖
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode妄想癖() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.妄想癖) : false;
     }
 
     /**
@@ -1076,6 +1122,17 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     public boolean isSkillCode占い師() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.占い師) : false;
+    }
+
+    /**
+     * Is the value of skillCode 夢遊病者? <br>
+     * 夢遊病者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode夢遊病者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.夢遊病者) : false;
     }
 
     /**
