@@ -11,6 +11,7 @@ import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.FootstepLogic;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.ability.AttackLogic;
+import com.ort.app.logic.ability.BadgerGameLogic;
 import com.ort.app.logic.ability.CheatLogic;
 import com.ort.app.logic.ability.CohabitLogic;
 import com.ort.app.logic.ability.CourtLogic;
@@ -19,6 +20,7 @@ import com.ort.app.logic.ability.DivineLogic;
 import com.ort.app.logic.ability.FantasistLogic;
 import com.ort.app.logic.ability.GuardLogic;
 import com.ort.app.logic.ability.InvestigateLogic;
+import com.ort.app.logic.ability.SeduceLogic;
 import com.ort.app.logic.ability.SleepwalkLogic;
 import com.ort.app.logic.ability.StalkingLogic;
 import com.ort.app.logic.message.MessageEntity;
@@ -49,6 +51,10 @@ public class DefaultSetLogic {
     private CourtLogic courtLogic;
     @Autowired
     private StalkingLogic stalkingLogic;
+    @Autowired
+    private SeduceLogic seduceLogic;
+    @Autowired
+    private BadgerGameLogic badgerGameLogic;
     @Autowired
     private CheatLogic cheatLogic;
     @Autowired
@@ -90,6 +96,8 @@ public class DefaultSetLogic {
             courtLogic.insertDefaultCourt(village, newDay);
             stalkingLogic.insertDefaultStalking(village, newDay);
             cheatLogic.insertDefaultCheat(village, newDay);
+            seduceLogic.insertDefaultSeduce(village, newDay);
+            badgerGameLogic.insertDefaultSeduce(village, newDay);
             return; // 1日目は護衛と投票なし
         }
 

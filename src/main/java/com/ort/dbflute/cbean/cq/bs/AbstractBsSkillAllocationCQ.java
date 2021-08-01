@@ -208,6 +208,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
     }
 
     /**
+     * Equal(=). As 美人局 (BADGERGAME). And OnlyOnceRegistered. <br>
+     * 美人局
+     */
+    public void setSkillCode_Equal_美人局() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.美人局);
+    }
+
+    /**
      * Equal(=). As パン屋 (BAKERY). And OnlyOnceRegistered. <br>
      * パン屋
      */
@@ -389,6 +397,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
      */
     public void setSkillCode_Equal_背徳者() {
         setSkillCode_Equal_AsSkill(CDef.Skill.背徳者);
+    }
+
+    /**
+     * Equal(=). As 絡新婦 (JOROGUMO). And OnlyOnceRegistered. <br>
+     * 絡新婦
+     */
+    public void setSkillCode_Equal_絡新婦() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.絡新婦);
     }
 
     /**
@@ -599,6 +615,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 美人局 (BADGERGAME). And OnlyOnceRegistered. <br>
+     * 美人局
+     */
+    public void setSkillCode_NotEqual_美人局() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.美人局);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As パン屋 (BAKERY). And OnlyOnceRegistered. <br>
      * パン屋
      */
@@ -780,6 +804,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
      */
     public void setSkillCode_NotEqual_背徳者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.背徳者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 絡新婦 (JOROGUMO). And OnlyOnceRegistered. <br>
+     * 絡新婦
+     */
+    public void setSkillCode_NotEqual_絡新婦() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.絡新婦);
     }
 
     /**

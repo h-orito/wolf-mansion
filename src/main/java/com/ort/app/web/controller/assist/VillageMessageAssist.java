@@ -225,7 +225,19 @@ public class VillageMessageAssist {
     }
 
     private boolean isViewAllowedLoverMessage(VillagePlayer villagePlayer) {
-        return villagePlayer.isIsDeadFalse() && villagePlayer.hasLover();
+        if (!villagePlayer.isIsDeadFalse()) {
+            return false;
+        }
+        if (villagePlayer.hasLover()) {
+            return true;
+        }
+        CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
+        if (skill != null && CDef.Camp.codeOf(skill.campCode()) == CDef.Camp.恋人陣営) {
+            // シスメは恋人陣営なら見えて良い
+            return true;
+        }
+
+        return false;
     }
 
     private boolean isViewAllowedFoxMessage(VillagePlayer villagePlayer) {

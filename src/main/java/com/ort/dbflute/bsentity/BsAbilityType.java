@@ -126,6 +126,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 美人局 (BADGERGAME). <br>
+     * 美人局
+     */
+    public void setAbilityTypeCode_美人局() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.美人局);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 爆弾設置 (BOMB). <br>
      * 爆弾設置
      */
@@ -206,6 +214,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 誘惑 (SEDUCE). <br>
+     * 誘惑
+     */
+    public void setAbilityTypeCode_誘惑() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.誘惑);
+    }
+
+    /**
      * Set the value of abilityTypeCode as ストーキング (STALKING). <br>
      * ストーキング
      */
@@ -233,6 +249,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode襲撃() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.襲撃) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 美人局? <br>
+     * 美人局
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode美人局() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.美人局) : false;
     }
 
     /**
@@ -343,6 +370,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode単独襲撃() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.単独襲撃) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 誘惑? <br>
+     * 誘惑
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode誘惑() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.誘惑) : false;
     }
 
     /**

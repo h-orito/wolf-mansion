@@ -535,6 +535,9 @@ public interface CDef extends Classification {
         /** 占星術師 */
         占星術師("ASTROLOGER", "占星術師", emptyStrings())
         ,
+        /** 美人局 */
+        美人局("BADGERGAME", "美人局", emptyStrings())
+        ,
         /** パン屋 */
         パン屋("BAKERY", "パン屋", emptyStrings())
         ,
@@ -603,6 +606,9 @@ public interface CDef extends Classification {
         ,
         /** 背徳者 */
         背徳者("IMMORAL", "背徳者", emptyStrings())
+        ,
+        /** 絡新婦 */
+        絡新婦("JOROGUMO", "絡新婦", emptyStrings())
         ,
         /** おまかせ */
         おまかせ("LEFTOVER", "おまかせ", emptyStrings())
@@ -691,6 +697,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "星");
                 _subItemMapMap.put(占星術師.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "305");
+                subItemMap.put("campCode", "LOVERS");
+                subItemMap.put("skill_short_name", "美");
+                _subItemMapMap.put(美人局.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -852,6 +865,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "FOX");
                 subItemMap.put("skill_short_name", "背");
                 _subItemMapMap.put(背徳者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "304");
+                subItemMap.put("campCode", "LOVERS");
+                subItemMap.put("skill_short_name", "絡");
+                _subItemMapMap.put(絡新婦.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -1761,6 +1781,9 @@ public interface CDef extends Classification {
         /** 襲撃 */
         襲撃("ATTACK", "襲撃", emptyStrings())
         ,
+        /** 美人局 */
+        美人局("BADGERGAME", "美人局", emptyStrings())
+        ,
         /** 爆弾設置 */
         爆弾設置("BOMB", "爆弾設置", emptyStrings())
         ,
@@ -1790,6 +1813,9 @@ public interface CDef extends Classification {
         ,
         /** 単独襲撃 */
         単独襲撃("LONEATTACK", "単独襲撃", emptyStrings())
+        ,
+        /** 誘惑 */
+        誘惑("SEDUCE", "誘惑", emptyStrings())
         ,
         /** ストーキング */
         ストーキング("STALKING", "ストーキング", emptyStrings())

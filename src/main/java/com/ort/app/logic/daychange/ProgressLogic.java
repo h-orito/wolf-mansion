@@ -20,6 +20,7 @@ import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.TwitterLogic;
 import com.ort.app.logic.ability.AttackLogic;
 import com.ort.app.logic.ability.AutopsyLogic;
+import com.ort.app.logic.ability.BadgerGameLogic;
 import com.ort.app.logic.ability.BakeryLogic;
 import com.ort.app.logic.ability.BombLogic;
 import com.ort.app.logic.ability.CheatLogic;
@@ -32,6 +33,7 @@ import com.ort.app.logic.ability.GuardLogic;
 import com.ort.app.logic.ability.InvestigateLogic;
 import com.ort.app.logic.ability.LoneAttackLogic;
 import com.ort.app.logic.ability.PsychicLogic;
+import com.ort.app.logic.ability.SeduceLogic;
 import com.ort.app.logic.ability.StalkingLogic;
 import com.ort.app.logic.ability.SuicideLogic;
 import com.ort.app.logic.ability.TrapLogic;
@@ -99,6 +101,10 @@ public class ProgressLogic {
     @Autowired
     private StalkingLogic stalkingLogic;
     @Autowired
+    private SeduceLogic seduceLogic;
+    @Autowired
+    private BadgerGameLogic badgerGameLogic;
+    @Autowired
     private CheatLogic cheatLogic;
     @Autowired
     private FalseChargesLogic falseChargesLogic;
@@ -143,6 +149,14 @@ public class ProgressLogic {
         // ストーキング
         stalkingLogic.stalking(dayChangeVillage);
 
+        // 誘惑
+        seduceLogic.seduce(dayChangeVillage);
+
+        // 美人局
+        if (day == 2) {
+            badgerGameLogic.badgerGame(dayChangeVillage);
+        }
+
         // 罠、爆弾設置メッセージ
         trapLogic.insertTrapMessages(dayChangeVillage);
         bombLogic.insertBombMessages(dayChangeVillage);
@@ -167,6 +181,11 @@ public class ProgressLogic {
 
         // 襲撃
         attackLogic.attack(dayChangeVillage);
+
+        // 美人局による襲撃
+        if (day == 3) {
+            badgerGameLogic.badgerGame(dayChangeVillage);
+        }
 
         // 単独襲撃
         loneAttackLogic.loneAttack(dayChangeVillage);
@@ -229,11 +248,16 @@ public class ProgressLogic {
         int foxCount =
                 alivePlayers.filterBy(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.妖狐 || vp.getSkillCodeAsSkill() == CDef.Skill.誑狐).list
                         .size();
-        // 恋絆が付与されている人の数
-        int loversCount = alivePlayers.filterBy(vp -> vp.hasLover()).list.size();
+        // 恋人陣営or恋絆が付与されている人の数
+        int loversCount = alivePlayers.filterBy(vp -> {
+            boolean isLoversCamp = CDef.Camp.codeOf(vp.getSkillCodeAsSkill().campCode()) == CDef.Camp.恋人陣営;
+            return isLoversCamp || vp.hasLover();
+        }).list.size();
 
         Optional<Camp> optWinCamp = getWinCamp(werewolfCount, villagerCount, foxCount, loversCount);
-        optWinCamp.ifPresent(winCamp -> epilogueVillage(village, day, winCamp, werewolfCount));
+        optWinCamp.ifPresent(winCamp ->
+
+        epilogueVillage(village, day, winCamp, werewolfCount));
         return optWinCamp;
     }
 

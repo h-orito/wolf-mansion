@@ -740,6 +740,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 美人局 (BADGERGAME). And OnlyOnceRegistered. <br>
+     * 美人局
+     */
+    public void setAbilityTypeCode_Equal_美人局() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.美人局);
+    }
+
+    /**
      * Equal(=). As 爆弾設置 (BOMB). And OnlyOnceRegistered. <br>
      * 爆弾設置
      */
@@ -820,6 +828,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 誘惑 (SEDUCE). And OnlyOnceRegistered. <br>
+     * 誘惑
+     */
+    public void setAbilityTypeCode_Equal_誘惑() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.誘惑);
+    }
+
+    /**
      * Equal(=). As ストーキング (STALKING). And OnlyOnceRegistered. <br>
      * ストーキング
      */
@@ -864,6 +880,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_襲撃() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.襲撃);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 美人局 (BADGERGAME). And OnlyOnceRegistered. <br>
+     * 美人局
+     */
+    public void setAbilityTypeCode_NotEqual_美人局() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.美人局);
     }
 
     /**
@@ -944,6 +968,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_単独襲撃() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.単独襲撃);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 誘惑 (SEDUCE). And OnlyOnceRegistered. <br>
+     * 誘惑
+     */
+    public void setAbilityTypeCode_NotEqual_誘惑() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.誘惑);
     }
 
     /**

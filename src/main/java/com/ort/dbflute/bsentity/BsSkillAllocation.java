@@ -173,6 +173,14 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     }
 
     /**
+     * Set the value of skillCode as 美人局 (BADGERGAME). <br>
+     * 美人局
+     */
+    public void setSkillCode_美人局() {
+        setSkillCodeAsSkill(CDef.Skill.美人局);
+    }
+
+    /**
      * Set the value of skillCode as パン屋 (BAKERY). <br>
      * パン屋
      */
@@ -354,6 +362,14 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
      */
     public void setSkillCode_背徳者() {
         setSkillCodeAsSkill(CDef.Skill.背徳者);
+    }
+
+    /**
+     * Set the value of skillCode as 絡新婦 (JOROGUMO). <br>
+     * 絡新婦
+     */
+    public void setSkillCode_絡新婦() {
+        setSkillCodeAsSkill(CDef.Skill.絡新婦);
     }
 
     /**
@@ -547,6 +563,17 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     public boolean isSkillCode占星術師() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.占星術師) : false;
+    }
+
+    /**
+     * Is the value of skillCode 美人局? <br>
+     * 美人局
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode美人局() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.美人局) : false;
     }
 
     /**
@@ -800,6 +827,17 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     public boolean isSkillCode背徳者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.背徳者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 絡新婦? <br>
+     * 絡新婦
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode絡新婦() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.絡新婦) : false;
     }
 
     /**

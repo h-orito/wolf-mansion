@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ort.app.logic.ability.AttackLogic;
+import com.ort.app.logic.ability.BadgerGameLogic;
 import com.ort.app.logic.ability.BombLogic;
 import com.ort.app.logic.ability.CheatLogic;
 import com.ort.app.logic.ability.CohabitLogic;
@@ -21,6 +22,7 @@ import com.ort.app.logic.ability.FruitsBasketLogic;
 import com.ort.app.logic.ability.GuardLogic;
 import com.ort.app.logic.ability.InvestigateLogic;
 import com.ort.app.logic.ability.LoneAttackLogic;
+import com.ort.app.logic.ability.SeduceLogic;
 import com.ort.app.logic.ability.StalkingLogic;
 import com.ort.app.logic.ability.TrapLogic;
 import com.ort.app.web.dto.VillageInfo;
@@ -64,6 +66,10 @@ public class AbilityLogic {
     private StalkingLogic stalkingLogic;
     @Autowired
     private CheatLogic cheatLogic;
+    @Autowired
+    private SeduceLogic seduceLogic;
+    @Autowired
+    private BadgerGameLogic badgerGameLogic;
 
     // ===================================================================================
     //                                                                             Execute
@@ -118,6 +124,13 @@ public class AbilityLogic {
             break;
         case LONEATTACK:
             loneAttackLogic.setAbility(village, villagePlayer, day, targetCharaId, footstep);
+            break;
+        case SEDUCE:
+            seduceLogic.setAbility(village, villagePlayer, day, targetCharaId);
+            break;
+        case BADGERGAME:
+            badgerGameLogic.setAbility(village, villagePlayer, day, targetCharaId);
+            break;
         default:
             return;
         }
@@ -194,6 +207,12 @@ public class AbilityLogic {
             List<OptionDto> list3 = loneAttackLogic.getSelectableTarget(village, villagePlayer).map(vp -> new OptionDto(vp));
             list3.add(0, new OptionDto("なし", ""));
             return list3;
+        case SEDUCE:
+            selectablePlayers = seduceLogic.getSelectableTarget(village, day, villagePlayer);
+            break;
+        case BADGERGAME:
+            selectablePlayers = badgerGameLogic.getSelectableTarget(village, day, villagePlayer);
+            break;
         default:
             return null;
         }
@@ -383,6 +402,10 @@ public class AbilityLogic {
             return "ストーキング対象";
         case CHEAT:
             return "仲間に引き入れる対象";
+        case SEDUCE:
+            return "誘惑する対象";
+        case BADGERGAME:
+            return "誘惑して脅す対象";
         default:
             return null;
         }
@@ -425,7 +448,8 @@ public class AbilityLogic {
     }
 
     private enum AbilityType {
-        ATTACK, DIVINE, GUARD, DISTURB, INVESTIGATE, TRAP, BOMB, COHABIT, COMMAND, FRUITSBASKET, COURT, STALKING, CHEAT, LONEATTACK
+        ATTACK, DIVINE, GUARD, DISTURB, INVESTIGATE, TRAP, BOMB, COHABIT, COMMAND, FRUITSBASKET, COURT, // 
+        STALKING, CHEAT, LONEATTACK, SEDUCE, BADGERGAME
     }
 
     private AbilityType detectAbilityType(CDef.Skill skill) {
@@ -457,6 +481,10 @@ public class AbilityLogic {
             return AbilityType.CHEAT;
         } else if (skill == CDef.Skill.一匹狼) {
             return AbilityType.LONEATTACK;
+        } else if (skill == CDef.Skill.絡新婦) {
+            return AbilityType.SEDUCE;
+        } else if (skill == CDef.Skill.美人局) {
+            return AbilityType.BADGERGAME;
         }
         return null;
     }
@@ -481,8 +509,9 @@ public class AbilityLogic {
             return day > 1;
         case COURT:
         case STALKING:
-            return day == 1;
         case CHEAT:
+        case SEDUCE:
+        case BADGERGAME:
             return day == 1;
         default:
             return false;

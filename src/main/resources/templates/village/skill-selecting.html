@@ -38,6 +38,8 @@
 		<p class="small" th:if="${content.myself.skill.hasCohabitAbility}" th:text="'現在の選択: ' + ${targetCharaName} + ' の部屋で過ごす'"></p>
 		<p class="small" th:if="${content.myself.skill.code == 'COURTSHIP'}" th:text="'現在の選択: ' + ${targetCharaName} + ' に求愛する'"></p>
 		<p class="small" th:if="${content.myself.skill.code == 'STALKER'}" th:text="'現在の選択: ' + ${targetCharaName} + ' をストーキングする'"></p>
+		<p class="small" th:if="${content.myself.skill.code == 'JOROGUMO'}" th:text="'現在の選択: ' + ${targetCharaName} + ' を誘惑する'"></p>
+		<p class="small" th:if="${content.myself.skill.code == 'BADGERGAME'}" th:text="'現在の選択: ' + ${targetCharaName} + ' を誘惑して脅す'"></p>
 		<p class="small" th:if="${content.myself.skill.code == 'CHEATERFOX'}" th:text="'現在の選択: ' + ${targetCharaName} + ' を仲間に引き入れる'"></p>
 		<hr />
 	</div>
