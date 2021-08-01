@@ -71,7 +71,7 @@ public class CampDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnCampCode = cci("CAMP_CODE", "CAMP_CODE", null, null, String.class, "campCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "skillList,villageList", CDef.DefMeta.Camp, false);
+    protected final ColumnInfo _columnCampCode = cci("CAMP_CODE", "CAMP_CODE", null, null, String.class, "campCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "campAllocationList,skillList,villageList", CDef.DefMeta.Camp, false);
     protected final ColumnInfo _columnCampName = cci("CAMP_NAME", "CAMP_NAME", null, null, String.class, "campName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
 
     /**
@@ -116,6 +116,14 @@ public class CampDbm extends AbstractDBMeta {
     // -----------------------------------------------------
     //                                     Referrer Property
     //                                     -----------------
+    /**
+     * CAMP_ALLOCATION by CAMP_CODE, named 'campAllocationList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerCampAllocationList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCampCode(), CampAllocationDbm.getInstance().columnCampCode());
+        return cri("FK_CAMP_ALLOCATION_CAMP", "campAllocationList", this, CampAllocationDbm.getInstance(), mp, false, "camp");
+    }
     /**
      * SKILL by CAMP_CODE, named 'skillList'.
      * @return The information object of referrer property. (NotNull)

@@ -169,6 +169,11 @@ public class VillageParticipateAssist {
             cb.setupSelect_VillageSettingsAsOne();
             cb.query().setVillageId_Equal(villageId);
         });
+
+        if (village.getVillageStatusCodeAsVillageStatus() != CDef.VillageStatus.募集中) {
+            throw new WerewolfMansionBusinessException("プロローグが終了しているため入村できません。");
+        }
+
         ListResultBean<VillagePlayer> vPlayerList = villagePlayerBhv.selectList(cb -> {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setIsGone_Equal_False();

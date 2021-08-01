@@ -1721,6 +1721,48 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * IS_RANDOM_ORGANIZE: {NotNull, BIT, classification=Flg}
+     * @param isRandomOrganize The value of isRandomOrganize as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsRandomOrganize_Equal(Boolean isRandomOrganize) {
+        regIsRandomOrganize(CK_EQ, isRandomOrganize);
+    }
+
+    /**
+     * Equal(=). As Flg. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * IS_RANDOM_ORGANIZE: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsRandomOrganize_Equal_AsFlg(CDef.Flg cdef) {
+        doSetIsRandomOrganize_Equal(cdef != null ? Boolean.valueOf(cdef.code()) : null);
+    }
+
+    /**
+     * Equal(=). As True. And OnlyOnceRegistered. <br>
+     * はい: 有効を示す
+     */
+    public void setIsRandomOrganize_Equal_True() {
+        doSetIsRandomOrganize_Equal(Boolean.valueOf(CDef.Flg.True.code()));
+    }
+
+    /**
+     * Equal(=). As False. And OnlyOnceRegistered. <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsRandomOrganize_Equal_False() {
+        doSetIsRandomOrganize_Equal(Boolean.valueOf(CDef.Flg.False.code()));
+    }
+
+    protected void doSetIsRandomOrganize_Equal(Boolean isRandomOrganize) {
+        regIsRandomOrganize(CK_EQ, isRandomOrganize);
+    }
+
+    protected void regIsRandomOrganize(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueIsRandomOrganize(), "IS_RANDOM_ORGANIZE"); }
+    protected abstract ConditionValue xgetCValueIsRandomOrganize();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @param registerDatetime The value of registerDatetime as equal. (basically NotNull: error as default, or no condition as option)
      */

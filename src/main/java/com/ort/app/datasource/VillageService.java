@@ -84,6 +84,8 @@ public class VillageService {
             });
             loader.loadNormalSayRestriction(nsrCB -> {});
             loader.loadSkillSayRestriction(ssrCB -> {});
+            loader.loadCampAllocation(cb -> {});
+            loader.loadSkillAllocation(cb -> {});
         });
         return village;
     }

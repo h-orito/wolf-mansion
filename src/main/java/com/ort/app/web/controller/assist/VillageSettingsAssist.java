@@ -21,6 +21,8 @@ import com.ort.app.logic.message.MessageEntity;
 import com.ort.app.util.SkillUtil;
 import com.ort.app.web.controller.assist.impl.VillageForms;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
+import com.ort.app.web.form.NewVillageRandomOrgCampDto;
+import com.ort.app.web.form.NewVillageRandomOrgSkillDto;
 import com.ort.app.web.form.NewVillageRpSayRestrictDto;
 import com.ort.app.web.form.NewVillageSayRestrictDto;
 import com.ort.app.web.form.NewVillageSkillSayRestrictDto;
@@ -28,14 +30,18 @@ import com.ort.app.web.form.VillageSettingsForm;
 import com.ort.app.web.model.VillageSettingsResultContent;
 import com.ort.app.web.model.inner.VillageSettingsDto;
 import com.ort.dbflute.allcommon.CDef;
+import com.ort.dbflute.exbhv.CampAllocationBhv;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.NormalSayRestrictionBhv;
+import com.ort.dbflute.exbhv.SkillAllocationBhv;
 import com.ort.dbflute.exbhv.SkillSayRestrictionBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exbhv.VillageSettingsBhv;
+import com.ort.dbflute.exentity.CampAllocation;
 import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.NormalSayRestriction;
+import com.ort.dbflute.exentity.SkillAllocation;
 import com.ort.dbflute.exentity.SkillSayRestriction;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
@@ -58,6 +64,10 @@ public class VillageSettingsAssist {
     //                                                                           =========
     @Autowired
     private VillageSettingsBhv villageSettingsBhv;
+    @Autowired
+    private CampAllocationBhv campAllocationBhv;
+    @Autowired
+    private SkillAllocationBhv skillAllocationBhv;
     @Autowired
     private NormalSayRestrictionBhv normalSayRestrictionBhv;
     @Autowired
@@ -184,6 +194,7 @@ public class VillageSettingsAssist {
         settings.setIsAvailableSuddonlyDeath(form.getIsAvailableSuddonlyDeath());
         settings.setIsAvailableAction(form.getIsAvailableAction());
         settings.setOrganize(form.getOrganization());
+        settings.setIsRandomOrganize(form.getIsRandomOrganization());
         settings.setJoinPassword(form.getJoinPassword());
         settings.setAllowedSecretSayCodeAsAllowedSecretSay(CDef.AllowedSecretSay.codeOf(form.getAllowedSecretSayCode()));
         villageSettingsBhv.update(settings);
@@ -252,6 +263,37 @@ public class VillageSettingsAssist {
         villageDayBhv.update(day);
     }
 
+    private void updateCampSkillAllocations(Integer villageId, VillageSettingsForm form) {
+        campAllocationBhv.queryDelete(cb -> cb.query().setVillageId_Equal(villageId));
+        skillAllocationBhv.queryDelete(cb -> cb.query().setVillageId_Equal(villageId));
+        form.getCampAllocationList().stream().forEach(camp -> {
+            insertCampAllocation(villageId, camp);
+        });
+        form.getCampAllocationList().stream().flatMap(camp -> camp.getSkillAllocation().stream()).forEach(skill -> {
+            insertSkillAllocation(villageId, skill);
+        });
+    }
+
+    private void insertCampAllocation(Integer villageId, NewVillageRandomOrgCampDto camp) {
+        CampAllocation campAllocation = new CampAllocation();
+        campAllocation.setVillageId(villageId);
+        campAllocation.setCampCodeAsCamp(CDef.Camp.codeOf(camp.getCampCode()));
+        campAllocation.setMinNum(camp.getMinNum());
+        campAllocation.setMaxNum(camp.getMaxNum());
+        campAllocation.setAllocation(camp.getAllocation());
+        campAllocationBhv.insert(campAllocation);
+    }
+
+    private void insertSkillAllocation(Integer villageId, NewVillageRandomOrgSkillDto skill) {
+        SkillAllocation skillAllocation = new SkillAllocation();
+        skillAllocation.setVillageId(villageId);
+        skillAllocation.setSkillCodeAsSkill(CDef.Skill.codeOf(skill.getSkillCode()));
+        skillAllocation.setMinNum(skill.getMinNum());
+        skillAllocation.setMaxNum(skill.getMaxNum());
+        skillAllocation.setAllocation(skill.getAllocation());
+        skillAllocationBhv.insert(skillAllocation);
+    }
+
     // ===================================================================================
     //                                                                             Mapping
     //                                                                             =======
@@ -293,7 +335,11 @@ public class VillageSettingsAssist {
         // 現在の年
         LocalDate now = WerewolfMansionDateUtil.currentLocalDate();
         model.addAttribute("nowYear", now.getYear());
-        setVillageSettingsForm(form, settings, normalSayRestrictList, skillSayRestrictList, dayList, model);
+        // 闇鍋
+        ListResultBean<CampAllocation> campAllocationList = campAllocationBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
+        ListResultBean<SkillAllocation> skillAllocationList = skillAllocationBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
+        setVillageSettingsForm(form, settings, normalSayRestrictList, skillSayRestrictList, campAllocationList, skillAllocationList,
+                dayList, model);
     }
 
     // 村設定変更
@@ -303,11 +349,13 @@ public class VillageSettingsAssist {
         updateSettings(villageId, form);
         updateMessageRestrictions(villageId, form);
         updateVillageDay(villageId, form);
+        updateCampSkillAllocations(villageId, form);
     }
 
     private void setVillageSettingsForm(VillageSettingsForm form, VillageSettings settings,
             List<NormalSayRestriction> normalSayRestrictList, List<SkillSayRestriction> skillSayRestrictList,
-            ListResultBean<VillageDay> dayList, Model model) {
+            List<CampAllocation> campAllocationList, List<SkillAllocation> skillAllocationList, ListResultBean<VillageDay> dayList,
+            Model model) {
         if (form != null) {
             model.addAttribute("settingsForm", form);
             return;
@@ -335,12 +383,61 @@ public class VillageSettingsAssist {
         settingsForm.setIsAvailableSpectate(settings.getIsAvailableSpectate());
         settingsForm.setIsAvailableAction(settings.getIsAvailableAction());
         settingsForm.setOrganization(settings.getOrganize());
+        settingsForm.setIsRandomOrganization(settings.getIsRandomOrganize());
+        settingsForm.setCampAllocationList(createCampAllocationList(campAllocationList, skillAllocationList));
         settingsForm.setJoinPassword(settings.getJoinPassword());
         settingsForm.setAllowedSecretSayCode(settings.getAllowedSecretSayCode());
         settingsForm.setSayRestrictList(createRestrictList(normalSayRestrictList));
         settingsForm.setSkillSayRestrictList(createSkillRestrictList(skillSayRestrictList));
         settingsForm.setRpSayRestrictList(createRpRestrictList(skillSayRestrictList));
         model.addAttribute("settingsForm", settingsForm);
+    }
+
+    private List<NewVillageRandomOrgCampDto> createCampAllocationList(List<CampAllocation> campAllocationList,
+            List<SkillAllocation> skillAllocationList) {
+        return campAllocationList.stream().sorted((c1, c2) -> getCampOrder(c1) - getCampOrder(c2)).map(campAllocation -> {
+            NewVillageRandomOrgCampDto campDto = new NewVillageRandomOrgCampDto();
+            campDto.setCampCode(campAllocation.getCampCode());
+            campDto.setCampName(campAllocation.getCampCodeAsCamp().alias());
+            campDto.setMinNum(campAllocation.getMinNum());
+            campDto.setMaxNum(campAllocation.getMaxNum());
+            campDto.setAllocation(campAllocation.getAllocation());
+            campDto.setSkillAllocation(makeSkillAllocationList(campAllocation.getCampCodeAsCamp(), skillAllocationList));
+            return campDto;
+        }).collect(Collectors.toList());
+    }
+
+    private int getCampOrder(CampAllocation c) {
+        CDef.Camp camp = c.getCampCodeAsCamp();
+        switch (camp) {
+        case 村人陣営:
+            return 1;
+        case 人狼陣営:
+            return 2;
+        case 狐陣営:
+            return 3;
+        case 恋人陣営:
+            return 4;
+        case 愉快犯陣営:
+            return 5;
+        }
+        return 9;
+    }
+
+    private List<NewVillageRandomOrgSkillDto> makeSkillAllocationList(CDef.Camp camp, List<SkillAllocation> skillAllocationList) {
+        return skillAllocationList.stream()
+                .filter(skill -> skill.getSkillCodeAsSkill().campCode().equals(camp.code()))
+                .sorted((s1, s2) -> Integer.parseInt(s1.getSkillCodeAsSkill().order()) - Integer.parseInt(s2.getSkillCodeAsSkill().order()))
+                .map(skillAllocation -> {
+                    NewVillageRandomOrgSkillDto skillDto = new NewVillageRandomOrgSkillDto();
+                    skillDto.setSkillCode(skillAllocation.getSkillCode());
+                    skillDto.setSkillName(skillAllocation.getSkillCodeAsSkill().alias());
+                    skillDto.setMinNum(skillAllocation.getMinNum());
+                    skillDto.setMaxNum(skillAllocation.getMaxNum());
+                    skillDto.setAllocation(skillAllocation.getAllocation());
+                    return skillDto;
+                })
+                .collect(Collectors.toList());
     }
 
     private List<NewVillageSayRestrictDto> createRestrictList(List<NormalSayRestriction> restrictList) {

@@ -31,6 +31,8 @@ import com.ort.app.logic.VoteLogic;
 import com.ort.app.util.SkillUtil;
 import com.ort.app.web.controller.assist.impl.VillageForms;
 import com.ort.app.web.dto.VillageInfo;
+import com.ort.app.web.form.NewVillageRandomOrgCampDto;
+import com.ort.app.web.form.NewVillageRandomOrgSkillDto;
 import com.ort.app.web.form.NewVillageRpSayRestrictDto;
 import com.ort.app.web.form.NewVillageSayRestrictDto;
 import com.ort.app.web.form.NewVillageSkillSayRestrictDto;
@@ -74,12 +76,14 @@ import com.ort.dbflute.exbhv.CommitBhv;
 import com.ort.dbflute.exbhv.RandomKeywordBhv;
 import com.ort.dbflute.exentity.Abilities;
 import com.ort.dbflute.exentity.Ability;
+import com.ort.dbflute.exentity.CampAllocation;
 import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.CharaGroup;
 import com.ort.dbflute.exentity.Commit;
 import com.ort.dbflute.exentity.Footsteps;
 import com.ort.dbflute.exentity.NormalSayRestriction;
 import com.ort.dbflute.exentity.RandomKeyword;
+import com.ort.dbflute.exentity.SkillAllocation;
 import com.ort.dbflute.exentity.SkillSayRestriction;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
@@ -783,7 +787,10 @@ public class VillageAssist {
         part.setIsAvailableSuddonlyDeath(settings.getIsAvailableSuddonlyDeath());
         part.setIsAvailableCommit(settings.getIsAvailableCommit());
         part.setIsAvailableAction(settings.getIsAvailableAction());
-        part.setOrganization(makeDisplayOrganization(settings.getOrganize(), villageInfo));
+        part.setOrganization(makeDisplayOrganization(villageInfo));
+        part.setIsRandomOrganization(settings.getIsRandomOrganize());
+        part.setCampAllocationList(
+                makeCampAllocationList(villageInfo.village.getCampAllocationList(), villageInfo.village.getSkillAllocationList()));
         part.setAllowedSecretSayCode(settings.getAllowedSecretSayCode());
         part.setSayRestrictList(convertToRestrictList(villageInfo.village.getNormalSayRestrictionList()));
         part.setSkillSayRestrictList(convertToSkillRestrictList(villageInfo.village.getSkillSayRestrictionList()));
@@ -794,8 +801,9 @@ public class VillageAssist {
     }
 
     // 人数：構成の表示にする
-    private String makeDisplayOrganization(String organize, VillageInfo villageInfo) {
-        if (villageInfo.day == 0) {
+    private String makeDisplayOrganization(VillageInfo villageInfo) {
+        String organize = villageInfo.settings.getOrganize();
+        if (villageInfo.village.isVillageStatusCode募集中()) {
             return String.join("\n", Stream.of(organize.replaceAll("\r\n", "\n").split("\n")).map(org -> {
                 return String.format("%02d人: %s", org.length(), org);
             }).collect(Collectors.toList()));
@@ -804,6 +812,53 @@ public class VillageAssist {
             return String.format("%02d人: %s", memberNum,
                     Stream.of(organize.replaceAll("\r\n", "\n").split("\n")).filter(org -> org.length() == memberNum).findFirst().get());
         }
+    }
+
+    private List<NewVillageRandomOrgCampDto> makeCampAllocationList(List<CampAllocation> campAllocationList,
+            List<SkillAllocation> skillAllocationList) {
+        return campAllocationList.stream().sorted((c1, c2) -> getCampOrder(c1) - getCampOrder(c2)).map(campAllocation -> {
+            NewVillageRandomOrgCampDto campDto = new NewVillageRandomOrgCampDto();
+            campDto.setCampCode(campAllocation.getCampCode());
+            campDto.setCampName(campAllocation.getCampCodeAsCamp().alias());
+            campDto.setMinNum(campAllocation.getMinNum());
+            campDto.setMaxNum(campAllocation.getMaxNum());
+            campDto.setAllocation(campAllocation.getAllocation());
+            campDto.setSkillAllocation(makeSkillAllocationList(campAllocation.getCampCodeAsCamp(), skillAllocationList));
+            return campDto;
+        }).collect(Collectors.toList());
+    }
+
+    private int getCampOrder(CampAllocation c) {
+        CDef.Camp camp = c.getCampCodeAsCamp();
+        switch (camp) {
+        case 村人陣営:
+            return 1;
+        case 人狼陣営:
+            return 2;
+        case 狐陣営:
+            return 3;
+        case 恋人陣営:
+            return 4;
+        case 愉快犯陣営:
+            return 5;
+        }
+        return 9;
+    }
+
+    private List<NewVillageRandomOrgSkillDto> makeSkillAllocationList(CDef.Camp camp, List<SkillAllocation> skillAllocationList) {
+        return skillAllocationList.stream()
+                .filter(skill -> skill.getSkillCodeAsSkill().campCode().equals(camp.code()))
+                .sorted((s1, s2) -> Integer.parseInt(s1.getSkillCodeAsSkill().order()) - Integer.parseInt(s2.getSkillCodeAsSkill().order()))
+                .map(skillAllocation -> {
+                    NewVillageRandomOrgSkillDto skillDto = new NewVillageRandomOrgSkillDto();
+                    skillDto.setSkillCode(skillAllocation.getSkillCode());
+                    skillDto.setSkillName(skillAllocation.getSkillCodeAsSkill().alias());
+                    skillDto.setMinNum(skillAllocation.getMinNum());
+                    skillDto.setMaxNum(skillAllocation.getMaxNum());
+                    skillDto.setAllocation(skillAllocation.getAllocation());
+                    return skillDto;
+                })
+                .collect(Collectors.toList());
     }
 
     private String makeDayChangeIntervalStr(Integer interval) {

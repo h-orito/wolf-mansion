@@ -494,6 +494,23 @@ public class BsVillageCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
+         * {select max(FOO) from CAMP_ALLOCATION where ...) as FOO_MAX} <br>
+         * CAMP_ALLOCATION by VILLAGE_ID, named 'campAllocationList'.
+         * <pre>
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(allocationCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     allocationCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     allocationCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, CampAllocation.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        public HpSDRFunction<CampAllocationCB, VillageCQ> derivedCampAllocation() {
+            assertDerived("campAllocationList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<CampAllocationCB> sq, VillageCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveCampAllocationList(fn, sq, al, op), _dbmetaProvider);
+        }
+        /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
          * {select max(FOO) from NORMAL_SAY_RESTRICTION where ...) as FOO_MAX} <br>
          * NORMAL_SAY_RESTRICTION by VILLAGE_ID, named 'normalSayRestrictionList'.
          * <pre>
@@ -508,6 +525,23 @@ public class BsVillageCB extends AbstractConditionBean {
             assertDerived("normalSayRestrictionList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
             return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<NormalSayRestrictionCB> sq, VillageCQ cq, String al, DerivedReferrerOption op)
                     -> cq.xsderiveNormalSayRestrictionList(fn, sq, al, op), _dbmetaProvider);
+        }
+        /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
+         * {select max(FOO) from SKILL_ALLOCATION where ...) as FOO_MAX} <br>
+         * SKILL_ALLOCATION by VILLAGE_ID, named 'skillAllocationList'.
+         * <pre>
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(allocationCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     allocationCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     allocationCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, SkillAllocation.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        public HpSDRFunction<SkillAllocationCB, VillageCQ> derivedSkillAllocation() {
+            assertDerived("skillAllocationList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<SkillAllocationCB> sq, VillageCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveSkillAllocationList(fn, sq, al, op), _dbmetaProvider);
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>

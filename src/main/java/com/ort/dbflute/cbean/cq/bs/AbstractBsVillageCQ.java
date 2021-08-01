@@ -159,6 +159,25 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
+     * {exists (select VILLAGE_ID from CAMP_ALLOCATION where ...)} <br>
+     * CAMP_ALLOCATION by VILLAGE_ID, named 'campAllocationAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">existsCampAllocation</span>(allocationCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     allocationCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of CampAllocationList for 'exists'. (NotNull)
+     */
+    public void existsCampAllocation(SubQuery<CampAllocationCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        CampAllocationCB cb = new CampAllocationCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepVillageId_ExistsReferrer_CampAllocationList(cb.query());
+        registerExistsReferrer(cb.query(), "VILLAGE_ID", "VILLAGE_ID", pp, "campAllocationList");
+    }
+    public abstract String keepVillageId_ExistsReferrer_CampAllocationList(CampAllocationCQ sq);
+
+    /**
+     * Set up ExistsReferrer (correlated sub-query). <br>
      * {exists (select VILLAGE_ID from NORMAL_SAY_RESTRICTION where ...)} <br>
      * NORMAL_SAY_RESTRICTION by VILLAGE_ID, named 'normalSayRestrictionAsOne'.
      * <pre>
@@ -175,6 +194,25 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
         registerExistsReferrer(cb.query(), "VILLAGE_ID", "VILLAGE_ID", pp, "normalSayRestrictionList");
     }
     public abstract String keepVillageId_ExistsReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq);
+
+    /**
+     * Set up ExistsReferrer (correlated sub-query). <br>
+     * {exists (select VILLAGE_ID from SKILL_ALLOCATION where ...)} <br>
+     * SKILL_ALLOCATION by VILLAGE_ID, named 'skillAllocationAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">existsSkillAllocation</span>(allocationCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     allocationCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of SkillAllocationList for 'exists'. (NotNull)
+     */
+    public void existsSkillAllocation(SubQuery<SkillAllocationCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        SkillAllocationCB cb = new SkillAllocationCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepVillageId_ExistsReferrer_SkillAllocationList(cb.query());
+        registerExistsReferrer(cb.query(), "VILLAGE_ID", "VILLAGE_ID", pp, "skillAllocationList");
+    }
+    public abstract String keepVillageId_ExistsReferrer_SkillAllocationList(SkillAllocationCQ sq);
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
@@ -235,6 +273,25 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
+     * {not exists (select VILLAGE_ID from CAMP_ALLOCATION where ...)} <br>
+     * CAMP_ALLOCATION by VILLAGE_ID, named 'campAllocationAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">notExistsCampAllocation</span>(allocationCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     allocationCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of VillageId_NotExistsReferrer_CampAllocationList for 'not exists'. (NotNull)
+     */
+    public void notExistsCampAllocation(SubQuery<CampAllocationCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        CampAllocationCB cb = new CampAllocationCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepVillageId_NotExistsReferrer_CampAllocationList(cb.query());
+        registerNotExistsReferrer(cb.query(), "VILLAGE_ID", "VILLAGE_ID", pp, "campAllocationList");
+    }
+    public abstract String keepVillageId_NotExistsReferrer_CampAllocationList(CampAllocationCQ sq);
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br>
      * {not exists (select VILLAGE_ID from NORMAL_SAY_RESTRICTION where ...)} <br>
      * NORMAL_SAY_RESTRICTION by VILLAGE_ID, named 'normalSayRestrictionAsOne'.
      * <pre>
@@ -251,6 +308,25 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
         registerNotExistsReferrer(cb.query(), "VILLAGE_ID", "VILLAGE_ID", pp, "normalSayRestrictionList");
     }
     public abstract String keepVillageId_NotExistsReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq);
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br>
+     * {not exists (select VILLAGE_ID from SKILL_ALLOCATION where ...)} <br>
+     * SKILL_ALLOCATION by VILLAGE_ID, named 'skillAllocationAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">notExistsSkillAllocation</span>(allocationCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     allocationCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of VillageId_NotExistsReferrer_SkillAllocationList for 'not exists'. (NotNull)
+     */
+    public void notExistsSkillAllocation(SubQuery<SkillAllocationCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        SkillAllocationCB cb = new SkillAllocationCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepVillageId_NotExistsReferrer_SkillAllocationList(cb.query());
+        registerNotExistsReferrer(cb.query(), "VILLAGE_ID", "VILLAGE_ID", pp, "skillAllocationList");
+    }
+    public abstract String keepVillageId_NotExistsReferrer_SkillAllocationList(SkillAllocationCQ sq);
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
@@ -309,6 +385,14 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
     }
     public abstract String keepVillageId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq);
 
+    public void xsderiveCampAllocationList(String fn, SubQuery<CampAllocationCB> sq, String al, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        CampAllocationCB cb = new CampAllocationCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepVillageId_SpecifyDerivedReferrer_CampAllocationList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "VILLAGE_ID", "VILLAGE_ID", pp, "campAllocationList", al, op);
+    }
+    public abstract String keepVillageId_SpecifyDerivedReferrer_CampAllocationList(CampAllocationCQ sq);
+
     public void xsderiveNormalSayRestrictionList(String fn, SubQuery<NormalSayRestrictionCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
         NormalSayRestrictionCB cb = new NormalSayRestrictionCB(); cb.xsetupForDerivedReferrer(this);
@@ -316,6 +400,14 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
         registerSpecifyDerivedReferrer(fn, cb.query(), "VILLAGE_ID", "VILLAGE_ID", pp, "normalSayRestrictionList", al, op);
     }
     public abstract String keepVillageId_SpecifyDerivedReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq);
+
+    public void xsderiveSkillAllocationList(String fn, SubQuery<SkillAllocationCB> sq, String al, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        SkillAllocationCB cb = new SkillAllocationCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepVillageId_SpecifyDerivedReferrer_SkillAllocationList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "VILLAGE_ID", "VILLAGE_ID", pp, "skillAllocationList", al, op);
+    }
+    public abstract String keepVillageId_SpecifyDerivedReferrer_SkillAllocationList(SkillAllocationCQ sq);
 
     public void xsderiveSkillSayRestrictionList(String fn, SubQuery<SkillSayRestrictionCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
@@ -343,6 +435,33 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
+     * {FOO &lt;= (select max(BAR) from CAMP_ALLOCATION where ...)} <br>
+     * CAMP_ALLOCATION by VILLAGE_ID, named 'campAllocationAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">derivedCampAllocation()</span>.<span style="color: #CC4747">max</span>(allocationCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     allocationCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     allocationCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    public HpQDRFunction<CampAllocationCB> derivedCampAllocation() {
+        return xcreateQDRFunctionCampAllocationList();
+    }
+    protected HpQDRFunction<CampAllocationCB> xcreateQDRFunctionCampAllocationList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveCampAllocationList(fn, sq, rd, vl, op));
+    }
+    public void xqderiveCampAllocationList(String fn, SubQuery<CampAllocationCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        CampAllocationCB cb = new CampAllocationCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepVillageId_QueryDerivedReferrer_CampAllocationList(cb.query()); String prpp = keepVillageId_QueryDerivedReferrer_CampAllocationListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "VILLAGE_ID", "VILLAGE_ID", sqpp, "campAllocationList", rd, vl, prpp, op);
+    }
+    public abstract String keepVillageId_QueryDerivedReferrer_CampAllocationList(CampAllocationCQ sq);
+    public abstract String keepVillageId_QueryDerivedReferrer_CampAllocationListParameter(Object vl);
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
      * {FOO &lt;= (select max(BAR) from NORMAL_SAY_RESTRICTION where ...)} <br>
      * NORMAL_SAY_RESTRICTION by VILLAGE_ID, named 'normalSayRestrictionAsOne'.
      * <pre>
@@ -367,6 +486,33 @@ public abstract class AbstractBsVillageCQ extends AbstractConditionQuery {
     }
     public abstract String keepVillageId_QueryDerivedReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq);
     public abstract String keepVillageId_QueryDerivedReferrer_NormalSayRestrictionListParameter(Object vl);
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
+     * {FOO &lt;= (select max(BAR) from SKILL_ALLOCATION where ...)} <br>
+     * SKILL_ALLOCATION by VILLAGE_ID, named 'skillAllocationAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">derivedSkillAllocation()</span>.<span style="color: #CC4747">max</span>(allocationCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     allocationCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     allocationCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    public HpQDRFunction<SkillAllocationCB> derivedSkillAllocation() {
+        return xcreateQDRFunctionSkillAllocationList();
+    }
+    protected HpQDRFunction<SkillAllocationCB> xcreateQDRFunctionSkillAllocationList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveSkillAllocationList(fn, sq, rd, vl, op));
+    }
+    public void xqderiveSkillAllocationList(String fn, SubQuery<SkillAllocationCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        SkillAllocationCB cb = new SkillAllocationCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepVillageId_QueryDerivedReferrer_SkillAllocationList(cb.query()); String prpp = keepVillageId_QueryDerivedReferrer_SkillAllocationListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "VILLAGE_ID", "VILLAGE_ID", sqpp, "skillAllocationList", rd, vl, prpp, op);
+    }
+    public abstract String keepVillageId_QueryDerivedReferrer_SkillAllocationList(SkillAllocationCQ sq);
+    public abstract String keepVillageId_QueryDerivedReferrer_SkillAllocationListParameter(Object vl);
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>

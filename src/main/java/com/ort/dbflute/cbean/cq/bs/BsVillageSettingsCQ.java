@@ -473,6 +473,26 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
      */
     public BsVillageSettingsCQ addOrderBy_IsAvailableAction_Desc() { regOBD("IS_AVAILABLE_ACTION"); return this; }
 
+    protected ConditionValue _isRandomOrganize;
+    public ConditionValue xdfgetIsRandomOrganize()
+    { if (_isRandomOrganize == null) { _isRandomOrganize = nCV(); }
+      return _isRandomOrganize; }
+    protected ConditionValue xgetCValueIsRandomOrganize() { return xdfgetIsRandomOrganize(); }
+
+    /**
+     * Add order-by as ascend. <br>
+     * IS_RANDOM_ORGANIZE: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_IsRandomOrganize_Asc() { regOBA("IS_RANDOM_ORGANIZE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * IS_RANDOM_ORGANIZE: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_IsRandomOrganize_Desc() { regOBD("IS_RANDOM_ORGANIZE"); return this; }
+
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
     { if (_registerDatetime == null) { _registerDatetime = nCV(); }

@@ -44,13 +44,13 @@ import com.ort.dbflute.cbean.*;
  *     CAMP
  *
  * [referrer table]
- *     NORMAL_SAY_RESTRICTION, VILLAGE_PLAYER
+ *     NORMAL_SAY_RESTRICTION, SKILL_ALLOCATION, VILLAGE_PLAYER
  *
  * [foreign property]
  *     camp
  *
  * [referrer property]
- *     normalSayRestrictionList, villagePlayerByRequestSkillCodeList, villagePlayerBySecondRequestSkillCodeList, villagePlayerBySkillCodeList
+ *     normalSayRestrictionList, skillAllocationList, villagePlayerByRequestSkillCodeList, villagePlayerBySecondRequestSkillCodeList, villagePlayerBySkillCodeList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -424,6 +424,70 @@ public abstract class BsSkillBhv extends AbstractBehaviorWritable<Skill, SkillCB
 
     protected NestedReferrerListGateway<NormalSayRestriction> doLoadNormalSayRestriction(List<Skill> skillList, LoadReferrerOption<NormalSayRestrictionCB, NormalSayRestriction> option) {
         return helpLoadReferrerInternally(skillList, option, "normalSayRestrictionList");
+    }
+
+    /**
+     * Load referrer of skillAllocationList by the set-upper of referrer. <br>
+     * SKILL_ALLOCATION by SKILL_CODE, named 'skillAllocationList'.
+     * <pre>
+     * <span style="color: #0000C0">skillBhv</span>.<span style="color: #CC4747">loadSkillAllocation</span>(<span style="color: #553000">skillList</span>, <span style="color: #553000">allocationCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">allocationCB</span>.setupSelect...
+     *     <span style="color: #553000">allocationCB</span>.query().set...
+     *     <span style="color: #553000">allocationCB</span>.query().addOrderBy...
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * <span style="color: #70226C">for</span> (Skill skill : <span style="color: #553000">skillList</span>) {
+     *     ... = skill.<span style="color: #CC4747">getSkillAllocationList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setSkillCode_InScope(pkList);
+     * cb.query().addOrderBy_SkillCode_Asc();
+     * </pre>
+     * @param skillList The entity list of skill. (NotNull)
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerListGateway<SkillAllocation> loadSkillAllocation(List<Skill> skillList, ReferrerConditionSetupper<SkillAllocationCB> refCBLambda) {
+        xassLRArg(skillList, refCBLambda);
+        return doLoadSkillAllocation(skillList, new LoadReferrerOption<SkillAllocationCB, SkillAllocation>().xinit(refCBLambda));
+    }
+
+    /**
+     * Load referrer of skillAllocationList by the set-upper of referrer. <br>
+     * SKILL_ALLOCATION by SKILL_CODE, named 'skillAllocationList'.
+     * <pre>
+     * <span style="color: #0000C0">skillBhv</span>.<span style="color: #CC4747">loadSkillAllocation</span>(<span style="color: #553000">skill</span>, <span style="color: #553000">allocationCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">allocationCB</span>.setupSelect...
+     *     <span style="color: #553000">allocationCB</span>.query().set...
+     *     <span style="color: #553000">allocationCB</span>.query().addOrderBy...
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * ... = <span style="color: #553000">skill</span>.<span style="color: #CC4747">getSkillAllocationList()</span>;
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setSkillCode_InScope(pkList);
+     * cb.query().addOrderBy_SkillCode_Asc();
+     * </pre>
+     * @param skill The entity of skill. (NotNull)
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerListGateway<SkillAllocation> loadSkillAllocation(Skill skill, ReferrerConditionSetupper<SkillAllocationCB> refCBLambda) {
+        xassLRArg(skill, refCBLambda);
+        return doLoadSkillAllocation(xnewLRLs(skill), new LoadReferrerOption<SkillAllocationCB, SkillAllocation>().xinit(refCBLambda));
+    }
+
+    protected NestedReferrerListGateway<SkillAllocation> doLoadSkillAllocation(List<Skill> skillList, LoadReferrerOption<SkillAllocationCB, SkillAllocation> option) {
+        return helpLoadReferrerInternally(skillList, option, "skillAllocationList");
     }
 
     /**

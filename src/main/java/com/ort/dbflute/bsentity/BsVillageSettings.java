@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID
  *
  * [column]
- *     VILLAGE_ID, DUMMY_CHARA_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, CHARACTER_GROUP_ID, JOIN_PASSWORD, ORGANIZE, ALLOWED_SECRET_SAY_CODE, IS_AVAILABLE_ACTION, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, DUMMY_CHARA_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, CHARACTER_GROUP_ID, JOIN_PASSWORD, ORGANIZE, ALLOWED_SECRET_SAY_CODE, IS_AVAILABLE_ACTION, IS_RANDOM_ORGANIZE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -66,6 +66,7 @@ import com.ort.dbflute.exentity.*;
  * String organize = entity.getOrganize();
  * String allowedSecretSayCode = entity.getAllowedSecretSayCode();
  * Boolean isAvailableAction = entity.getIsAvailableAction();
+ * Boolean isRandomOrganize = entity.getIsRandomOrganize();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -90,6 +91,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setOrganize(organize);
  * entity.setAllowedSecretSayCode(allowedSecretSayCode);
  * entity.setIsAvailableAction(isAvailableAction);
+ * entity.setIsRandomOrganize(isRandomOrganize);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -168,6 +170,9 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /** IS_AVAILABLE_ACTION: {NotNull, BIT, classification=Flg} */
     protected Boolean _isAvailableAction;
+
+    /** IS_RANDOM_ORGANIZE: {NotNull, BIT, classification=Flg} */
+    protected Boolean _isRandomOrganize;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -437,6 +442,27 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         setIsAvailableAction(cdef != null ? toBoolean(cdef.code()) : null);
     }
 
+    /**
+     * Get the value of isRandomOrganize as the classification of Flg. <br>
+     * IS_RANDOM_ORGANIZE: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Flg getIsRandomOrganizeAsFlg() {
+        return CDef.Flg.codeOf(getIsRandomOrganize());
+    }
+
+    /**
+     * Set the value of isRandomOrganize as the classification of Flg. <br>
+     * IS_RANDOM_ORGANIZE: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setIsRandomOrganizeAsFlg(CDef.Flg cdef) {
+        setIsRandomOrganize(cdef != null ? toBoolean(cdef.code()) : null);
+    }
+
     // ===================================================================================
     //                                                              Classification Setting
     //                                                              ======================
@@ -622,6 +648,22 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      */
     public void setIsAvailableAction_False() {
         setIsAvailableActionAsFlg(CDef.Flg.False);
+    }
+
+    /**
+     * Set the value of isRandomOrganize as True (true). <br>
+     * はい: 有効を示す
+     */
+    public void setIsRandomOrganize_True() {
+        setIsRandomOrganizeAsFlg(CDef.Flg.True);
+    }
+
+    /**
+     * Set the value of isRandomOrganize as False (false). <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsRandomOrganize_False() {
+        setIsRandomOrganizeAsFlg(CDef.Flg.False);
     }
 
     // ===================================================================================
@@ -880,6 +922,28 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         return cdef != null ? cdef.equals(CDef.Flg.False) : false;
     }
 
+    /**
+     * Is the value of isRandomOrganize True? <br>
+     * はい: 有効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsRandomOrganizeTrue() {
+        CDef.Flg cdef = getIsRandomOrganizeAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
+    }
+
+    /**
+     * Is the value of isRandomOrganize False? <br>
+     * いいえ: 無効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsRandomOrganizeFalse() {
+        CDef.Flg cdef = getIsRandomOrganizeAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
     // ===================================================================================
     //                                                           Classification Name/Alias
     //                                                           =========================
@@ -970,6 +1034,15 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      */
     public String getIsAvailableActionAlias() {
         CDef.Flg cdef = getIsAvailableActionAsFlg();
+        return cdef != null ? cdef.alias() : null;
+    }
+
+    /**
+     * Get the value of the column 'isRandomOrganize' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     */
+    public String getIsRandomOrganizeAlias() {
+        CDef.Flg cdef = getIsRandomOrganizeAsFlg();
         return cdef != null ? cdef.alias() : null;
     }
 
@@ -1106,6 +1179,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         sb.append(dm).append(xfND(_organize));
         sb.append(dm).append(xfND(_allowedSecretSayCode));
         sb.append(dm).append(xfND(_isAvailableAction));
+        sb.append(dm).append(xfND(_isRandomOrganize));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -1549,6 +1623,27 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         checkClassificationCode("IS_AVAILABLE_ACTION", CDef.DefMeta.Flg, isAvailableAction);
         registerModifiedProperty("isAvailableAction");
         _isAvailableAction = isAvailableAction;
+    }
+
+    /**
+     * [get] IS_RANDOM_ORGANIZE: {NotNull, BIT, classification=Flg} <br>
+     * 闇鍋構成か
+     * @return The value of the column 'IS_RANDOM_ORGANIZE'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getIsRandomOrganize() {
+        checkSpecifiedProperty("isRandomOrganize");
+        return _isRandomOrganize;
+    }
+
+    /**
+     * [set] IS_RANDOM_ORGANIZE: {NotNull, BIT, classification=Flg} <br>
+     * 闇鍋構成か
+     * @param isRandomOrganize The value of the column 'IS_RANDOM_ORGANIZE'. (basically NotNull if update: for the constraint)
+     */
+    public void setIsRandomOrganize(Boolean isRandomOrganize) {
+        checkClassificationCode("IS_RANDOM_ORGANIZE", CDef.DefMeta.Flg, isRandomOrganize);
+        registerModifiedProperty("isRandomOrganize");
+        _isRandomOrganize = isRandomOrganize;
     }
 
     /**

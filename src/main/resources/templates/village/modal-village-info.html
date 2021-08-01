@@ -24,7 +24,7 @@
 					<div class="table-responsive clearfix">
 						<table class="table table-bordered table-condensed" th:object="${content.settings}">
 							<tr>
-								<th>最低開始人数</th>
+								<th>最少開始人数</th>
 								<td th:text="*{startPersonMinNum}"></td>
 							</tr>
 							<tr>
@@ -98,7 +98,7 @@
 								<th>館を建てたプレイヤー</th>
 								<td th:text="*{createPlayerName}"></td>
 							</tr>
-							<tr>
+							<tr th:unless="*{isRandomOrganization}">
 								<th>役職構成</th>
 								<td>
 									<th:block th:if="*{organization}">
@@ -107,6 +107,62 @@
 											<br th:if="${!stat.last}" />
 										</th:block>
 									</th:block>
+								</td>
+							</tr>
+							<tr th:if="*{isRandomOrganization}">
+								<th>役職構成（闇鍋）</th>
+								<td>
+									<table class="table-bordered table-condensed small">
+										<tbody>
+											<th:block th:each="camp, stat: *{campAllocationList}">
+												<tr>
+													<td class="bg-info text-white" colspan="7">
+														<strong th:text="${camp.campName}"></strong>
+													</td>
+												</tr>
+												<tr>
+													<td colspan="7">陣営全体の配分</td>
+												</tr>
+												<tr>
+													<td>
+														<span th:text="${camp.campName}">村人陣営</span>
+													</td>
+													<td>最少人数</td>
+													<td>
+														<span th:text="*{campAllocationList[__${stat.index}__].minNum}"></span>
+													</td>
+													<td>最大人数</td>
+													<td>
+														<span th:text="*{campAllocationList[__${stat.index}__].maxNum}"></span>
+													</td>
+													<td>配分</td>
+													<td>
+														<span th:text="*{campAllocationList[__${stat.index}__].allocation}"></span>
+													</td>
+												</tr>
+												<tr>
+													<td colspan="7">役職ごとの配分</td>
+												</tr>
+												<tr th:each="skill, sta: *{campAllocationList[__${stat.index}__].skillAllocation}">
+													<td>
+														<span th:text="${skill.skillName}">村人</span>
+													</td>
+													<td>最少人数</td>
+													<td>
+														<span th:text="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].minNum}">村人</span>
+													</td>
+													<td>最大人数</td>
+													<td>
+														<span th:text="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].maxNum}">村人</span>
+													</td>
+													<td>配分</td>
+													<td>
+														<span th:text="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].allocation}">村人</span>
+													</td>
+												</tr>
+											</th:block>
+										</tbody>
+									</table>
 								</td>
 							</tr>
 							<tr>

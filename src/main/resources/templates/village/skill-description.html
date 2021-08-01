@@ -66,13 +66,16 @@
 									</tr>
 									<tr>
 										<th>役職構成</th>
-										<td>
+										<td th:unless="*{isRandomOrganization}">
 											<th:block th:if="*{organization}">
 												<th:block th:each="str, stat : *{organization.split('\r\n|\r|\n', -1)}">
 													<th:block th:text="${str}" />
 													<br th:if="${!stat.last}" />
 												</th:block>
 											</th:block>
+										</td>
+										<td th:if="*{isRandomOrganization}">
+											闇鍋編成のため非表示
 										</td>
 									</tr>
 									<tr>

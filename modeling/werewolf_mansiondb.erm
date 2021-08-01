@@ -749,8 +749,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1985</x>
-			<y>1280</y>
+			<x>2259</x>
+			<y>1298</y>
 			<color>
 				<r>254</r>
 				<g>251</g>
@@ -852,6 +852,97 @@
 					<length>20</length>
 					<not_null>true</not_null>
 				</normal_column>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
+			<physical_name>camp_allocation</physical_name>
+			<logical_name>陣営配分</logical_name>
+			<description></description>
+			<height>143</height>
+			<width>228</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>1276</x>
+			<y>1278</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+				<relationship>
+					<name>FK_camp_allocation_camp</name>
+					<source>table.camp</source>
+					<target>table.camp_allocation</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>camp_code</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+				<relationship>
+					<name>FK_camp_allocation_village</name>
+					<source>table.village</source>
+					<target>table.camp_allocation</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>village_id</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>village_id</physical_name>
+					<referred_column>table.village.village_id</referred_column>
+					<relationship>FK_camp_allocation_village</relationship>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>camp_code</physical_name>
+					<referred_column>table.camp.camp_code</referred_column>
+					<relationship>FK_camp_allocation_camp</relationship>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>min_num</physical_name>
+					<logical_name>最小人数</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>max_num</physical_name>
+					<logical_name>最大人数</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+				</normal_column>
+				<normal_column>
+					<physical_name>allocation</physical_name>
+					<logical_name>配分</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<column_group>共通カラム</column_group>
 			</columns>
 			<indexes>
 			</indexes>
@@ -1760,6 +1851,97 @@
 			</table_properties>
 		</table>
 		<table>
+			<physical_name>skill_allocation</physical_name>
+			<logical_name>役職配分</logical_name>
+			<description></description>
+			<height>143</height>
+			<width>227</width>
+			<font_name>.AppleSystemUIFont</font_name>
+			<font_size>9</font_size>
+			<x>1524</x>
+			<y>1280</y>
+			<color>
+				<r>128</r>
+				<g>128</g>
+				<b>192</b>
+			</color>
+			<connections>
+				<relationship>
+					<name>FK_skill_allocation_skill</name>
+					<source>table.skill</source>
+					<target>table.skill_allocation</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>skill_code</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+				<relationship>
+					<name>FK_skill_allocation_village</name>
+					<source>table.village</source>
+					<target>table.skill_allocation</target>
+					<fk_columns>
+						<fk_column>
+							<fk_column_name>village_id</fk_column_name>
+						</fk_column>
+					</fk_columns>
+					<parent_cardinality>1</parent_cardinality>
+					<child_cardinality>0..n</child_cardinality>
+					<reference_for_pk>true</reference_for_pk>
+					<on_delete_action>RESTRICT</on_delete_action>
+					<on_update_action>RESTRICT</on_update_action>
+				</relationship>
+			</connections>
+			<columns>
+				<normal_column>
+					<physical_name>village_id</physical_name>
+					<referred_column>table.village.village_id</referred_column>
+					<relationship>FK_skill_allocation_village</relationship>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>skill_code</physical_name>
+					<referred_column>table.skill.skill_code</referred_column>
+					<relationship>FK_skill_allocation_skill</relationship>
+					<not_null>true</not_null>
+					<primary_key>true</primary_key>
+				</normal_column>
+				<normal_column>
+					<physical_name>min_num</physical_name>
+					<logical_name>最小人数</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>max_num</physical_name>
+					<logical_name>最大人数</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+				</normal_column>
+				<normal_column>
+					<physical_name>allocation</physical_name>
+					<logical_name>配分</logical_name>
+					<type>integer</type>
+					<unsigned>true</unsigned>
+					<not_null>true</not_null>
+				</normal_column>
+				<column_group>共通カラム</column_group>
+			</columns>
+			<indexes>
+			</indexes>
+			<compound_unique_key_list>
+			</compound_unique_key_list>
+			<table_properties>
+			</table_properties>
+		</table>
+		<table>
 			<physical_name>skill_say_restriction</physical_name>
 			<logical_name>役職発言制限</logical_name>
 			<description>レコードなしの場合は無制限</description>
@@ -2473,8 +2655,8 @@
 			<description></description>
 			<font_name>.AppleSystemUIFont</font_name>
 			<font_size>9</font_size>
-			<x>1534</x>
-			<y>1146</y>
+			<x>1810</x>
+			<y>1156</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -2648,6 +2830,12 @@
 				<normal_column>
 					<physical_name>is_available_action</physical_name>
 					<logical_name>アクション可能か</logical_name>
+					<type>boolean</type>
+					<not_null>true</not_null>
+				</normal_column>
+				<normal_column>
+					<physical_name>is_random_organize</physical_name>
+					<logical_name>闇鍋構成か</logical_name>
 					<type>boolean</type>
 					<not_null>true</not_null>
 				</normal_column>

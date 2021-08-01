@@ -15,7 +15,10 @@ import org.springframework.validation.Validator;
 
 import com.ort.app.util.SkillUtil;
 import com.ort.app.web.form.NewVillageForm;
+import com.ort.app.web.form.NewVillageRandomOrgCampDto;
+import com.ort.app.web.form.NewVillageRandomOrgSkillDto;
 import com.ort.dbflute.allcommon.CDef;
+import com.ort.dbflute.allcommon.CDef.Camp;
 import com.ort.fw.util.WerewolfMansionDateUtil;
 
 @Component
@@ -110,6 +113,123 @@ public class NewVillageFormValidator implements Validator {
     }
 
     private void validateOrganization(Errors errors, NewVillageForm form) {
+        Boolean isRandomOrganization = form.getIsRandomOrganization();
+        if (isRandomOrganization == null) {
+            errors.rejectValue("organization", "VillageSayForm.validator.organization.required");
+            return;
+        }
+
+        if (isRandomOrganization) {
+            validateRandomOrganization(errors, form);
+        } else {
+            validateFixOrganization(errors, form);
+        }
+    }
+
+    private void validateRandomOrganization(Errors errors, NewVillageForm form) {
+        // 未入力があったらチェックしない
+        List<NewVillageRandomOrgCampDto> campAllocationList = form.getCampAllocationList();
+        Integer startPersonMin = form.getStartPersonMinNum();
+        if (campAllocationList == null || startPersonMin == null || campAllocationList.stream().anyMatch(camp -> {
+            return camp.getMinNum() == null || camp.getAllocation() == null
+                    || camp.getSkillAllocation().stream().anyMatch(skill -> skill.getMinNum() == null);
+        })) {
+            return;
+        }
+
+        // 村人は最低一人必要
+        NewVillageRandomOrgSkillDto villagerSkillOrg = campAllocationList.stream()
+                .filter(c -> CDef.Camp.codeOf(c.getCampCode()) == CDef.Camp.村人陣営)
+                .findFirst()
+                .get()
+                .getSkillAllocation()
+                .stream()
+                .filter(s -> CDef.Skill.codeOf(s.getSkillCode()) == CDef.Skill.村人)
+                .findFirst()
+                .get();
+        if (villagerSkillOrg.getMinNum() <= 0) {
+            errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.novillager");
+            return;
+        }
+
+        // 陣営の最低人数の合計が村の最低人数よりも多かったらNG
+        int campMinSum = campAllocationList.stream().mapToInt(camp -> camp.getMinNum()).sum();
+
+        if (startPersonMin < campMinSum) {
+            errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.campmin");
+            return;
+        }
+
+        // 役職の最低人数の合計が村の最低人数よりも多かったらNG
+        int skillMinSum = campAllocationList.stream()
+                .flatMapToInt(camp -> camp.getSkillAllocation().stream().mapToInt(skill -> skill.getMinNum()))
+                .sum();
+        if (startPersonMin < skillMinSum) {
+            errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.campmin");
+            return;
+        }
+
+        // 狼系の最低人数が村の最低人数の半数を超えたらNG
+        int wolfMinSum =
+                campAllocationList.stream().filter(camp -> Camp.codeOf(camp.getCampCode()) == CDef.Camp.人狼陣営).flatMapToInt(camp -> {
+                    return camp.getSkillAllocation()
+                            .stream()
+                            .filter(skill -> CDef.Skill.codeOf(skill.getSkillCode()).isWolfCount())
+                            .mapToInt(skill -> skill.getMinNum());
+                }).sum();
+        if (startPersonMin <= wolfMinSum * 2) {
+            errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.wolfmin");
+            return;
+        }
+
+        // 狼系の最低人数が全て0かつ配分が全て0だったらNG
+        int wolfAllocationSum =
+                campAllocationList.stream().filter(camp -> Camp.codeOf(camp.getCampCode()) == CDef.Camp.人狼陣営).flatMapToInt(camp -> {
+                    return camp.getSkillAllocation()
+                            .stream()
+                            .filter(skill -> CDef.Skill.codeOf(skill.getSkillCode()).isWolfCount())
+                            .mapToInt(skill -> skill.getAllocation());
+                }).sum();
+        if (wolfMinSum <= 0 && wolfAllocationSum <= 0) {
+            errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.nowolf");
+            return;
+        }
+
+        // 最低>最大だったらNG
+        if (campAllocationList.stream().anyMatch(camp -> {
+            int min = camp.getMinNum();
+            Integer max = camp.getMaxNum();
+            return max != null && max < min;
+        })) {
+            errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.campmingtmax");
+            return;
+        }
+        if (campAllocationList.stream().anyMatch(camp -> {
+            return camp.getSkillAllocation().stream().anyMatch(skill -> {
+                int min = skill.getMinNum();
+                Integer max = skill.getMaxNum();
+                return max != null && max < min;
+            });
+        })) {
+            errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.skillmingtmax");
+            return;
+        }
+
+        // 陣営の最大人数 < 陣営の役職の最低人数の合計だったらNG
+        if (campAllocationList.stream().anyMatch(camp -> {
+            Integer maxNum = camp.getMaxNum();
+            if (maxNum == null) {
+                return false;
+            }
+            int minSum = camp.getSkillAllocation().stream().mapToInt(skill -> skill.getMinNum()).sum();
+            return maxNum < minSum;
+        })) {
+            errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.campmaxltskillminsum");
+            return;
+        }
+    }
+
+    private void validateFixOrganization(Errors errors, NewVillageForm form) {
         String organization = form.getOrganization();
         // 未入力
         if (StringUtils.isEmpty(organization)) {

@@ -217,6 +217,25 @@ public abstract class AbstractBsCampCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
+     * {exists (select CAMP_CODE from CAMP_ALLOCATION where ...)} <br>
+     * CAMP_ALLOCATION by CAMP_CODE, named 'campAllocationAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">existsCampAllocation</span>(allocationCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     allocationCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of CampAllocationList for 'exists'. (NotNull)
+     */
+    public void existsCampAllocation(SubQuery<CampAllocationCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        CampAllocationCB cb = new CampAllocationCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepCampCode_ExistsReferrer_CampAllocationList(cb.query());
+        registerExistsReferrer(cb.query(), "CAMP_CODE", "CAMP_CODE", pp, "campAllocationList");
+    }
+    public abstract String keepCampCode_ExistsReferrer_CampAllocationList(CampAllocationCQ sq);
+
+    /**
+     * Set up ExistsReferrer (correlated sub-query). <br>
      * {exists (select CAMP_CODE from SKILL where ...)} <br>
      * SKILL by CAMP_CODE, named 'skillAsOne'.
      * <pre>
@@ -252,6 +271,25 @@ public abstract class AbstractBsCampCQ extends AbstractConditionQuery {
         registerExistsReferrer(cb.query(), "CAMP_CODE", "WIN_CAMP_CODE", pp, "villageList");
     }
     public abstract String keepCampCode_ExistsReferrer_VillageList(VillageCQ sq);
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br>
+     * {not exists (select CAMP_CODE from CAMP_ALLOCATION where ...)} <br>
+     * CAMP_ALLOCATION by CAMP_CODE, named 'campAllocationAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">notExistsCampAllocation</span>(allocationCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     allocationCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of CampCode_NotExistsReferrer_CampAllocationList for 'not exists'. (NotNull)
+     */
+    public void notExistsCampAllocation(SubQuery<CampAllocationCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        CampAllocationCB cb = new CampAllocationCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepCampCode_NotExistsReferrer_CampAllocationList(cb.query());
+        registerNotExistsReferrer(cb.query(), "CAMP_CODE", "CAMP_CODE", pp, "campAllocationList");
+    }
+    public abstract String keepCampCode_NotExistsReferrer_CampAllocationList(CampAllocationCQ sq);
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
@@ -291,6 +329,14 @@ public abstract class AbstractBsCampCQ extends AbstractConditionQuery {
     }
     public abstract String keepCampCode_NotExistsReferrer_VillageList(VillageCQ sq);
 
+    public void xsderiveCampAllocationList(String fn, SubQuery<CampAllocationCB> sq, String al, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        CampAllocationCB cb = new CampAllocationCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepCampCode_SpecifyDerivedReferrer_CampAllocationList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "CAMP_CODE", "CAMP_CODE", pp, "campAllocationList", al, op);
+    }
+    public abstract String keepCampCode_SpecifyDerivedReferrer_CampAllocationList(CampAllocationCQ sq);
+
     public void xsderiveSkillList(String fn, SubQuery<SkillCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
         SkillCB cb = new SkillCB(); cb.xsetupForDerivedReferrer(this);
@@ -306,6 +352,33 @@ public abstract class AbstractBsCampCQ extends AbstractConditionQuery {
         registerSpecifyDerivedReferrer(fn, cb.query(), "CAMP_CODE", "WIN_CAMP_CODE", pp, "villageList", al, op);
     }
     public abstract String keepCampCode_SpecifyDerivedReferrer_VillageList(VillageCQ sq);
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
+     * {FOO &lt;= (select max(BAR) from CAMP_ALLOCATION where ...)} <br>
+     * CAMP_ALLOCATION by CAMP_CODE, named 'campAllocationAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">derivedCampAllocation()</span>.<span style="color: #CC4747">max</span>(allocationCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     allocationCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     allocationCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    public HpQDRFunction<CampAllocationCB> derivedCampAllocation() {
+        return xcreateQDRFunctionCampAllocationList();
+    }
+    protected HpQDRFunction<CampAllocationCB> xcreateQDRFunctionCampAllocationList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveCampAllocationList(fn, sq, rd, vl, op));
+    }
+    public void xqderiveCampAllocationList(String fn, SubQuery<CampAllocationCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        CampAllocationCB cb = new CampAllocationCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepCampCode_QueryDerivedReferrer_CampAllocationList(cb.query()); String prpp = keepCampCode_QueryDerivedReferrer_CampAllocationListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "CAMP_CODE", "CAMP_CODE", sqpp, "campAllocationList", rd, vl, prpp, op);
+    }
+    public abstract String keepCampCode_QueryDerivedReferrer_CampAllocationList(CampAllocationCQ sq);
+    public abstract String keepCampCode_QueryDerivedReferrer_CampAllocationListParameter(Object vl);
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>

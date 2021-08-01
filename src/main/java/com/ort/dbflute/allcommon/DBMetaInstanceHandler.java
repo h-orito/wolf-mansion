@@ -36,6 +36,7 @@ public class DBMetaInstanceHandler implements DBMetaProvider {
         tmpMap.put("ALLOWED_SECRET_SAY", "com.ort.dbflute.bsentity.dbmeta.AllowedSecretSayDbm");
         tmpMap.put("AUTHORITY", "com.ort.dbflute.bsentity.dbmeta.AuthorityDbm");
         tmpMap.put("CAMP", "com.ort.dbflute.bsentity.dbmeta.CampDbm");
+        tmpMap.put("CAMP_ALLOCATION", "com.ort.dbflute.bsentity.dbmeta.CampAllocationDbm");
         tmpMap.put("CHARA", "com.ort.dbflute.bsentity.dbmeta.CharaDbm");
         tmpMap.put("CHARA_GROUP", "com.ort.dbflute.bsentity.dbmeta.CharaGroupDbm");
         tmpMap.put("CHARA_IMAGE", "com.ort.dbflute.bsentity.dbmeta.CharaImageDbm");
@@ -52,6 +53,7 @@ public class DBMetaInstanceHandler implements DBMetaProvider {
         tmpMap.put("RANDOM_CONTENT", "com.ort.dbflute.bsentity.dbmeta.RandomContentDbm");
         tmpMap.put("RANDOM_KEYWORD", "com.ort.dbflute.bsentity.dbmeta.RandomKeywordDbm");
         tmpMap.put("SKILL", "com.ort.dbflute.bsentity.dbmeta.SkillDbm");
+        tmpMap.put("SKILL_ALLOCATION", "com.ort.dbflute.bsentity.dbmeta.SkillAllocationDbm");
         tmpMap.put("SKILL_SAY_RESTRICTION", "com.ort.dbflute.bsentity.dbmeta.SkillSayRestrictionDbm");
         tmpMap.put("VILLAGE", "com.ort.dbflute.bsentity.dbmeta.VillageDbm");
         tmpMap.put("VILLAGE_DAY", "com.ort.dbflute.bsentity.dbmeta.VillageDayDbm");

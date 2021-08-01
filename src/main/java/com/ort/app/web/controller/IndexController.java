@@ -2,6 +2,7 @@ package com.ort.app.web.controller;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -170,9 +171,15 @@ public class IndexController {
         villageDto.setVillageId(village.getVillageId());
         villageDto.setVillageNumber(village.getVillageNumber());
         villageDto.setVillageName(village.getVillageDisplayName());
-        int participateNum = village.getVillagePlayerList().size();
-        Integer maxNum = village.getVillageSettingsAsOne().get().getPersonMaxNum();
-        villageDto.setParticipateNum(String.format("%d/%d人", participateNum, maxNum));
+        long participateNum = village.getVillagePlayerList().stream().filter(vp -> vp.isIsSpectatorFalse()).count();
+        long spectatorNum = village.getVillagePlayerList().stream().filter(vp -> vp.isIsSpectatorTrue()).count();
+        String spectatorStr = spectatorNum <= 0 ? "" : String.format("（%d）", spectatorNum);
+        if (village.isVillageStatusCode募集中()) {
+            Integer maxNum = village.getVillageSettingsAsOne().get().getPersonMaxNum();
+            villageDto.setParticipateNum(String.format("%d/%d%s人", participateNum, maxNum, spectatorStr));
+        } else {
+            villageDto.setParticipateNum(String.format("%d%s人", participateNum, spectatorStr));
+        }
         villageDto.setStatus(village.getVillageStatus().get().getVillageStatusName());
         return villageDto;
     }
@@ -261,15 +268,24 @@ public class IndexController {
     private String extractOrganization(Village village) {
         // 人数
         if (village.isVillageStatusCode廃村()) {
+            return "廃村";
+        }
+        if (village.getVillageSettingsAsOne().get().getIsRandomOrganize()) {
+            List<String> skillShortNameList = village.getVillagePlayerList()
+                    .stream()
+                    .filter(vp -> vp.getSkillCodeAsSkill() != null)
+                    .map(vp -> vp.getSkillCodeAsSkill())
+                    .sorted((s1, s2) -> Integer.parseInt(s1.order()) - Integer.parseInt(s2.order()))
+                    .map(s -> s.skill_short_name())
+                    .collect(Collectors.toList());
+            return String.join("", skillShortNameList);
+        } else {
+            long count = village.getVillagePlayerList().stream().filter(vp -> vp.isIsSpectatorFalse()).count();
             return Stream.of(village.getVillageSettingsAsOne().get().getOrganize().replaceAll("\r\n", "\n").split("\n"))
+                    .filter(org -> org.length() == count)
                     .findFirst()
                     .orElseThrow(() -> new IllegalStateException("no org. vid=" + village.getVillageId()));
         }
-        long count = village.getVillagePlayerList().stream().filter(vp -> vp.isIsSpectatorFalse()).count();
-        return Stream.of(village.getVillageSettingsAsOne().get().getOrganize().replaceAll("\r\n", "\n").split("\n"))
-                .filter(org -> org.length() == count)
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("no org. vid=" + village.getVillageId()));
     }
 
     private String makeIntervalStr(VillageSettings settings) {
@@ -308,7 +324,6 @@ public class IndexController {
         });
         villageBhv.loadVillagePlayer(villageList, cb -> {
             cb.query().setIsGone_Equal_False();
-            cb.query().setIsSpectator_Equal_False();
         });
         IndexResultContent content = mappingToContent(villageList);
         model.addAttribute("content", content);

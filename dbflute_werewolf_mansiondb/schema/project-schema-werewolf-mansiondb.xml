@@ -89,6 +89,42 @@
         <column comment="陣営名" dbType="VARCHAR" javaType="String"
             name="CAMP_NAME" required="true" size="20" type="VARCHAR"/>
     </table>
+    <table comment="陣営配分" name="CAMP_ALLOCATION"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column comment="村ID" dbType="INT UNSIGNED" javaType="Integer"
+            name="VILLAGE_ID" pkName="PRIMARY" pkPosition="1"
+            primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="陣営コード" dbType="VARCHAR" javaType="String"
+            name="CAMP_CODE" pkName="PRIMARY" pkPosition="2"
+            primaryKey="true" required="true" size="20" type="VARCHAR"/>
+        <column comment="最小人数" dbType="INT UNSIGNED" javaType="Integer"
+            name="MIN_NUM" required="true" size="10" type="INTEGER"/>
+        <column comment="最大人数" dbType="INT UNSIGNED" javaType="Integer"
+            name="MAX_NUM" size="10" type="INTEGER"/>
+        <column comment="配分" dbType="INT UNSIGNED" javaType="Integer"
+            name="ALLOCATION" required="true" size="10" type="INTEGER"/>
+        <column comment="登録日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="登録トレース" dbType="VARCHAR" javaType="String"
+            name="REGISTER_TRACE" required="true" size="64" type="VARCHAR"/>
+        <column comment="更新日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="UPDATE_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="更新トレース" dbType="VARCHAR" javaType="String"
+            name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="CAMP" name="FK_CAMP_ALLOCATION_CAMP">
+            <reference foreign="CAMP_CODE" local="CAMP_CODE"/>
+        </foreign-key>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="VILLAGE" name="FK_CAMP_ALLOCATION_VILLAGE">
+            <reference foreign="VILLAGE_ID" local="VILLAGE_ID"/>
+        </foreign-key>
+        <index name="FK_CAMP_ALLOCATION_CAMP">
+            <index-column name="CAMP_CODE" position="1"/>
+        </index>
+    </table>
     <table comment="キャラクター" name="CHARA"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
         <column autoIncrement="true" comment="キャラクターID"
@@ -566,6 +602,42 @@
             <index-column name="CAMP_CODE" position="1"/>
         </index>
     </table>
+    <table comment="役職配分" name="SKILL_ALLOCATION"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column comment="村ID" dbType="INT UNSIGNED" javaType="Integer"
+            name="VILLAGE_ID" pkName="PRIMARY" pkPosition="1"
+            primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="役職コード" dbType="VARCHAR" javaType="String"
+            name="SKILL_CODE" pkName="PRIMARY" pkPosition="2"
+            primaryKey="true" required="true" size="20" type="VARCHAR"/>
+        <column comment="最小人数" dbType="INT UNSIGNED" javaType="Integer"
+            name="MIN_NUM" required="true" size="10" type="INTEGER"/>
+        <column comment="最大人数" dbType="INT UNSIGNED" javaType="Integer"
+            name="MAX_NUM" size="10" type="INTEGER"/>
+        <column comment="配分" dbType="INT UNSIGNED" javaType="Integer"
+            name="ALLOCATION" required="true" size="10" type="INTEGER"/>
+        <column comment="登録日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="登録トレース" dbType="VARCHAR" javaType="String"
+            name="REGISTER_TRACE" required="true" size="64" type="VARCHAR"/>
+        <column comment="更新日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="UPDATE_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="更新トレース" dbType="VARCHAR" javaType="String"
+            name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="SKILL" name="FK_SKILL_ALLOCATION_SKILL">
+            <reference foreign="SKILL_CODE" local="SKILL_CODE"/>
+        </foreign-key>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="VILLAGE" name="FK_SKILL_ALLOCATION_VILLAGE">
+            <reference foreign="VILLAGE_ID" local="VILLAGE_ID"/>
+        </foreign-key>
+        <index name="FK_SKILL_ALLOCATION_SKILL">
+            <index-column name="SKILL_CODE" position="1"/>
+        </index>
+    </table>
     <table comment="役職発言制限 : レコードなしの場合は無制限" name="SKILL_SAY_RESTRICTION"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
         <column comment="村ID" dbType="INT UNSIGNED" javaType="Integer"
@@ -950,6 +1022,8 @@
             name="ALLOWED_SECRET_SAY_CODE" required="true" size="20" type="VARCHAR"/>
         <column comment="アクション可能か" dbType="BIT" javaType="Boolean"
             name="IS_AVAILABLE_ACTION" required="true" type="BIT"/>
+        <column comment="闇鍋構成か" dbType="BIT" javaType="Boolean"
+            name="IS_RANDOM_ORGANIZE" required="true" type="BIT"/>
         <column comment="登録日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>

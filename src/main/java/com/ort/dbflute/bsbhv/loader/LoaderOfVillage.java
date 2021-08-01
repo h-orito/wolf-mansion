@@ -30,13 +30,13 @@ import com.ort.dbflute.cbean.*;
  *     VILLAGE_STATUS, CAMP, VILLAGE_SETTINGS(AsOne)
  *
  * [referrer table]
- *     NORMAL_SAY_RESTRICTION, SKILL_SAY_RESTRICTION, VILLAGE_DAY, VILLAGE_PLAYER, VILLAGE_SETTINGS
+ *     CAMP_ALLOCATION, NORMAL_SAY_RESTRICTION, SKILL_ALLOCATION, SKILL_SAY_RESTRICTION, VILLAGE_DAY, VILLAGE_PLAYER, VILLAGE_SETTINGS
  *
  * [foreign property]
  *     villageStatus, camp, villageSettingsAsOne
  *
  * [referrer property]
- *     normalSayRestrictionList, skillSayRestrictionList, villageDayList, villagePlayerList
+ *     campAllocationList, normalSayRestrictionList, skillAllocationList, skillSayRestrictionList, villageDayList, villagePlayerList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -61,6 +61,40 @@ public class LoaderOfVillage {
     // ===================================================================================
     //                                                                       Load Referrer
     //                                                                       =============
+    protected List<CampAllocation> _referrerCampAllocation;
+
+    /**
+     * Load referrer of campAllocationList by the set-upper of referrer. <br>
+     * CAMP_ALLOCATION by VILLAGE_ID, named 'campAllocationList'.
+     * <pre>
+     * <span style="color: #0000C0">villageBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">villageList</span>, <span style="color: #553000">villageLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">villageLoader</span>.<span style="color: #CC4747">loadCampAllocation</span>(<span style="color: #553000">allocationCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *         <span style="color: #553000">allocationCB</span>.setupSelect...
+     *         <span style="color: #553000">allocationCB</span>.query().set...
+     *         <span style="color: #553000">allocationCB</span>.query().addOrderBy...
+     *     }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     *     <span style="color: #3F7E5E">//}).withNestedReferrer(<span style="color: #553000">allocationLoader</span> -&gt; {</span>
+     *     <span style="color: #3F7E5E">//    allocationLoader.load...</span>
+     *     <span style="color: #3F7E5E">//});</span>
+     * });
+     * for (Village village : <span style="color: #553000">villageList</span>) {
+     *     ... = village.<span style="color: #CC4747">getCampAllocationList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setVillageId_InScope(pkList);
+     * cb.query().addOrderBy_VillageId_Asc();
+     * </pre>
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerLoaderGateway<LoaderOfCampAllocation> loadCampAllocation(ReferrerConditionSetupper<CampAllocationCB> refCBLambda) {
+        myBhv().loadCampAllocation(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerCampAllocation = refLs);
+        return hd -> hd.handle(new LoaderOfCampAllocation().ready(_referrerCampAllocation, _selector));
+    }
+
     protected List<NormalSayRestriction> _referrerNormalSayRestriction;
 
     /**
@@ -93,6 +127,40 @@ public class LoaderOfVillage {
     public NestedReferrerLoaderGateway<LoaderOfNormalSayRestriction> loadNormalSayRestriction(ReferrerConditionSetupper<NormalSayRestrictionCB> refCBLambda) {
         myBhv().loadNormalSayRestriction(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerNormalSayRestriction = refLs);
         return hd -> hd.handle(new LoaderOfNormalSayRestriction().ready(_referrerNormalSayRestriction, _selector));
+    }
+
+    protected List<SkillAllocation> _referrerSkillAllocation;
+
+    /**
+     * Load referrer of skillAllocationList by the set-upper of referrer. <br>
+     * SKILL_ALLOCATION by VILLAGE_ID, named 'skillAllocationList'.
+     * <pre>
+     * <span style="color: #0000C0">villageBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">villageList</span>, <span style="color: #553000">villageLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">villageLoader</span>.<span style="color: #CC4747">loadSkillAllocation</span>(<span style="color: #553000">allocationCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *         <span style="color: #553000">allocationCB</span>.setupSelect...
+     *         <span style="color: #553000">allocationCB</span>.query().set...
+     *         <span style="color: #553000">allocationCB</span>.query().addOrderBy...
+     *     }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     *     <span style="color: #3F7E5E">//}).withNestedReferrer(<span style="color: #553000">allocationLoader</span> -&gt; {</span>
+     *     <span style="color: #3F7E5E">//    allocationLoader.load...</span>
+     *     <span style="color: #3F7E5E">//});</span>
+     * });
+     * for (Village village : <span style="color: #553000">villageList</span>) {
+     *     ... = village.<span style="color: #CC4747">getSkillAllocationList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setVillageId_InScope(pkList);
+     * cb.query().addOrderBy_VillageId_Asc();
+     * </pre>
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerLoaderGateway<LoaderOfSkillAllocation> loadSkillAllocation(ReferrerConditionSetupper<SkillAllocationCB> refCBLambda) {
+        myBhv().loadSkillAllocation(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerSkillAllocation = refLs);
+        return hd -> hd.handle(new LoaderOfSkillAllocation().ready(_referrerSkillAllocation, _selector));
     }
 
     protected List<SkillSayRestriction> _referrerSkillSayRestriction;

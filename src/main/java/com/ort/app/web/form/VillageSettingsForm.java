@@ -3,6 +3,7 @@ package com.ort.app.web.form;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -97,8 +98,15 @@ public class VillageSettingsForm implements Serializable {
     private Boolean isAvailableAction;
 
     /** 構成 */
-    @NotNull
     private String organization;
+
+    /** 闇鍋か */
+    @NotNull
+    private Boolean isRandomOrganization;
+
+    /** 闇鍋編成詳細 */
+    @Valid
+    private List<NewVillageRandomOrgCampDto> campAllocationList;
 
     /** 入村パスワード */
     private String joinPassword;
@@ -313,5 +321,21 @@ public class VillageSettingsForm implements Serializable {
 
     public void setIsAvailableAction(Boolean isAvailableAction) {
         this.isAvailableAction = isAvailableAction;
+    }
+
+    public Boolean getIsRandomOrganization() {
+        return isRandomOrganization;
+    }
+
+    public void setIsRandomOrganization(Boolean isRandomOrganization) {
+        this.isRandomOrganization = isRandomOrganization;
+    }
+
+    public List<NewVillageRandomOrgCampDto> getCampAllocationList() {
+        return campAllocationList;
+    }
+
+    public void setCampAllocationList(List<NewVillageRandomOrgCampDto> campAllocationList) {
+        this.campAllocationList = campAllocationList;
     }
 }

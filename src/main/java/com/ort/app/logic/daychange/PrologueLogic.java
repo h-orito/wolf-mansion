@@ -145,12 +145,19 @@ public class PrologueLogic {
         Village village = villageService.selectVillage(vInfo.villageId, false, false);
         VillageInfo villageInfo = helper.convertToVillageInfo(village);
 
+        // 絶対人狼
         VillagePlayers abusoluteWolfs = villageInfo.vPlayers.filterBySkill(CDef.Skill.絶対人狼);
-        if (abusoluteWolfs.list.isEmpty()) {
-            return;
+        if (!abusoluteWolfs.list.isEmpty()) {
+            String message = String.join("、", abusoluteWolfs.map(wolf -> wolf.name())) + "は絶対人狼のようだ。";
+            messageLogic.insertPublicAbilityMessage(villageInfo.villageId, 1, message);
         }
-        String message = String.join("、", abusoluteWolfs.map(wolf -> wolf.name())) + "は絶対人狼のようだ。";
-        messageLogic.insertPublicAbilityMessage(villageInfo.villageId, 1, message);
+
+        // 梟
+        VillagePlayers owls = villageInfo.vPlayers.filterBySkill(CDef.Skill.梟);
+        if (!owls.list.isEmpty()) {
+            String message = "この村には強力な聴力を持つ者がいるようだ。";
+            messageLogic.insertPublicAbilityMessage(villageInfo.villageId, 1, message);
+        }
     }
 
     private void tweetIfNeeded(Integer villageId, Village village, VillageSettings settings) {

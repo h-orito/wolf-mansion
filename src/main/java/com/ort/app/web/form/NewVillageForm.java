@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -131,8 +132,15 @@ public class NewVillageForm implements Serializable {
     private Boolean isAvailableAction;
 
     /** 構成 */
-    @NotNull
     private String organization;
+
+    /** 闇鍋か */
+    @NotNull
+    private Boolean isRandomOrganization;
+
+    /** 闇鍋編成詳細 */
+    @Valid
+    private List<NewVillageRandomOrgCampDto> campAllocationList;
 
     /** 秘話可能範囲 */
     @NotNull
@@ -198,6 +206,12 @@ public class NewVillageForm implements Serializable {
             startDay = oneWeekAfter.getDayOfMonth();
             startHour = 0;
             startMinute = 0;
+        }
+        if (isRandomOrganization == null) {
+            isRandomOrganization = false;
+        }
+        if (campAllocationList == null) {
+            campAllocationList = createDefaultCampAllocationList();
         }
         if (organization == null) {
             organization = AssignLogic.DEFAULT_ORGANIZE;
@@ -493,5 +507,29 @@ public class NewVillageForm implements Serializable {
             restrict.setLength(DEFAULT_SAY_MAX_LENGTH);
             return restrict;
         }).collect(Collectors.toList());
+    }
+
+    private List<NewVillageRandomOrgCampDto> createDefaultCampAllocationList() {
+        return Arrays.asList(CDef.Camp.村人陣営, CDef.Camp.人狼陣営, CDef.Camp.狐陣営, CDef.Camp.恋人陣営, CDef.Camp.愉快犯陣営).stream().map(camp -> {
+            NewVillageRandomOrgCampDto campDto = new NewVillageRandomOrgCampDto();
+            campDto.initialize(camp);
+            return campDto;
+        }).collect(Collectors.toList());
+    }
+
+    public Boolean getIsRandomOrganization() {
+        return isRandomOrganization;
+    }
+
+    public void setIsRandomOrganization(Boolean isRandomOrganization) {
+        this.isRandomOrganization = isRandomOrganization;
+    }
+
+    public List<NewVillageRandomOrgCampDto> getCampAllocationList() {
+        return campAllocationList;
+    }
+
+    public void setCampAllocationList(List<NewVillageRandomOrgCampDto> campAllocationList) {
+        this.campAllocationList = campAllocationList;
     }
 }

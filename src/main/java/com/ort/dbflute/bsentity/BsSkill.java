@@ -35,13 +35,13 @@ import com.ort.dbflute.exentity.*;
  *     CAMP
  *
  * [referrer table]
- *     NORMAL_SAY_RESTRICTION, VILLAGE_PLAYER
+ *     NORMAL_SAY_RESTRICTION, SKILL_ALLOCATION, VILLAGE_PLAYER
  *
  * [foreign property]
  *     camp
  *
  * [referrer property]
- *     normalSayRestrictionList, villagePlayerByRequestSkillCodeList, villagePlayerBySecondRequestSkillCodeList, villagePlayerBySkillCodeList
+ *     normalSayRestrictionList, skillAllocationList, villagePlayerByRequestSkillCodeList, villagePlayerBySecondRequestSkillCodeList, villagePlayerBySkillCodeList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -1304,6 +1304,26 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
         _normalSayRestrictionList = normalSayRestrictionList;
     }
 
+    /** SKILL_ALLOCATION by SKILL_CODE, named 'skillAllocationList'. */
+    protected List<SkillAllocation> _skillAllocationList;
+
+    /**
+     * [get] SKILL_ALLOCATION by SKILL_CODE, named 'skillAllocationList'.
+     * @return The entity list of referrer property 'skillAllocationList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<SkillAllocation> getSkillAllocationList() {
+        if (_skillAllocationList == null) { _skillAllocationList = newReferrerList(); }
+        return _skillAllocationList;
+    }
+
+    /**
+     * [set] SKILL_ALLOCATION by SKILL_CODE, named 'skillAllocationList'.
+     * @param skillAllocationList The entity list of referrer property 'skillAllocationList'. (NullAllowed)
+     */
+    public void setSkillAllocationList(List<SkillAllocation> skillAllocationList) {
+        _skillAllocationList = skillAllocationList;
+    }
+
     /** VILLAGE_PLAYER by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeList'. */
     protected List<VillagePlayer> _villagePlayerByRequestSkillCodeList;
 
@@ -1397,6 +1417,8 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
         { sb.append(li).append(xbRDS(_camp, "camp")); }
         if (_normalSayRestrictionList != null) { for (NormalSayRestriction et : _normalSayRestrictionList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "normalSayRestrictionList")); } } }
+        if (_skillAllocationList != null) { for (SkillAllocation et : _skillAllocationList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "skillAllocationList")); } } }
         if (_villagePlayerByRequestSkillCodeList != null) { for (VillagePlayer et : _villagePlayerByRequestSkillCodeList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerByRequestSkillCodeList")); } } }
         if (_villagePlayerBySecondRequestSkillCodeList != null) { for (VillagePlayer et : _villagePlayerBySecondRequestSkillCodeList)
@@ -1431,6 +1453,8 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
         { sb.append(dm).append("camp"); }
         if (_normalSayRestrictionList != null && !_normalSayRestrictionList.isEmpty())
         { sb.append(dm).append("normalSayRestrictionList"); }
+        if (_skillAllocationList != null && !_skillAllocationList.isEmpty())
+        { sb.append(dm).append("skillAllocationList"); }
         if (_villagePlayerByRequestSkillCodeList != null && !_villagePlayerByRequestSkillCodeList.isEmpty())
         { sb.append(dm).append("villagePlayerByRequestSkillCodeList"); }
         if (_villagePlayerBySecondRequestSkillCodeList != null && !_villagePlayerBySecondRequestSkillCodeList.isEmpty())

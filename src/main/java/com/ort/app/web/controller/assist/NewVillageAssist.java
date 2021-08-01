@@ -25,21 +25,27 @@ import com.ort.app.logic.message.MessageEntity;
 import com.ort.app.util.SkillUtil;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageForm;
+import com.ort.app.web.form.NewVillageRandomOrgCampDto;
+import com.ort.app.web.form.NewVillageRandomOrgSkillDto;
 import com.ort.app.web.form.NewVillageRpSayRestrictDto;
 import com.ort.app.web.form.NewVillageSayRestrictDto;
 import com.ort.app.web.form.NewVillageSkillSayRestrictDto;
 import com.ort.app.web.model.common.SelectOptionDto;
 import com.ort.app.web.model.inner.NewVillageDivertVillageDto;
 import com.ort.dbflute.allcommon.CDef;
+import com.ort.dbflute.exbhv.CampAllocationBhv;
 import com.ort.dbflute.exbhv.CharaBhv;
 import com.ort.dbflute.exbhv.CharaGroupBhv;
 import com.ort.dbflute.exbhv.NormalSayRestrictionBhv;
+import com.ort.dbflute.exbhv.SkillAllocationBhv;
 import com.ort.dbflute.exbhv.SkillSayRestrictionBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exbhv.VillageDayBhv;
 import com.ort.dbflute.exbhv.VillageSettingsBhv;
+import com.ort.dbflute.exentity.CampAllocation;
 import com.ort.dbflute.exentity.CharaGroup;
 import com.ort.dbflute.exentity.NormalSayRestriction;
+import com.ort.dbflute.exentity.SkillAllocation;
 import com.ort.dbflute.exentity.SkillSayRestriction;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
@@ -61,6 +67,10 @@ public class NewVillageAssist {
     private VillageBhv villageBhv;
     @Autowired
     private VillageSettingsBhv villageSettingsBhv;
+    @Autowired
+    private CampAllocationBhv campAllocationBhv;
+    @Autowired
+    private SkillAllocationBhv skillAllocationBhv;
     @Autowired
     private NormalSayRestrictionBhv normalSayRestrictionBhv;
     @Autowired
@@ -119,6 +129,37 @@ public class NewVillageAssist {
         form.setCharacterSetId(settings.getCharacterGroupId());
         form.setDummyCharaId(settings.getDummyCharaId());
         form.setOrganization(settings.getOrganize().trim());
+        form.setIsRandomOrganization(settings.getIsRandomOrganize());
+        ListResultBean<CampAllocation> campAllocationList = campAllocationBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
+        ListResultBean<SkillAllocation> skillAllocationList = skillAllocationBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
+        form.getCampAllocationList().forEach(formCampAllocation -> {
+            Optional<CampAllocation> optDbCampAllocation =
+                    campAllocationList.stream().filter(c -> c.getCampCode().equals(formCampAllocation.getCampCode())).findFirst();
+            if (optDbCampAllocation.isPresent()) {
+                CampAllocation dbAllocation = optDbCampAllocation.get();
+                formCampAllocation.setMinNum(dbAllocation.getMinNum());
+                formCampAllocation.setMaxNum(dbAllocation.getMaxNum());
+                formCampAllocation.setAllocation(dbAllocation.getAllocation());
+            } else {
+                formCampAllocation.setMinNum(0);
+                formCampAllocation.setMaxNum(0);
+                formCampAllocation.setAllocation(0);
+            }
+            formCampAllocation.getSkillAllocation().forEach(formSkillAllocation -> {
+                Optional<SkillAllocation> optDbSkillAllocation =
+                        skillAllocationList.stream().filter(s -> s.getSkillCode().equals(formSkillAllocation.getSkillCode())).findFirst();
+                if (optDbSkillAllocation.isPresent()) {
+                    SkillAllocation dbAllocation = optDbSkillAllocation.get();
+                    formSkillAllocation.setMinNum(dbAllocation.getMinNum());
+                    formSkillAllocation.setMaxNum(dbAllocation.getMaxNum());
+                    formSkillAllocation.setAllocation(dbAllocation.getAllocation());
+                } else {
+                    formSkillAllocation.setMinNum(0);
+                    formSkillAllocation.setMaxNum(0);
+                    formSkillAllocation.setAllocation(0);
+                }
+            });
+        });
         form.setIsPossibleSkillRequest(settings.getIsPossibleSkillRequest());
         form.setIsAvailableSameWolfAttack(settings.getIsAvailableSameWolfAttack());
         form.setIsAvailableGuardSameTarget(settings.getIsAvailableGuardSameTarget());
@@ -175,6 +216,8 @@ public class NewVillageAssist {
         Village village = insertVillage(villageForm, userName);
         // 村設定
         VillageSettings settings = insertVillageSettings(villageForm, village);
+        // 陣営、役職配分
+        insertCampSkillAllocation(villageForm, village);
         // 発言制限
         insertMessageRestrict(village.getVillageId(), villageForm);
         // 村日付
@@ -254,8 +297,39 @@ public class NewVillageAssist {
         settings.setIsAvailableAction(villageForm.getIsAvailableAction());
         settings.setOrganize(villageForm.getOrganization().replace("\r\n", "\n"));
         settings.setAllowedSecretSayCodeAsAllowedSecretSay(CDef.AllowedSecretSay.codeOf(villageForm.getAllowedSecretSayCode()));
+        settings.setIsRandomOrganize(villageForm.getIsRandomOrganization());
         villageSettingsBhv.insert(settings);
         return settings;
+    }
+
+    private void insertCampSkillAllocation(NewVillageForm villageForm, Village village) {
+        Integer villageId = village.getVillageId();
+        villageForm.getCampAllocationList().stream().forEach(camp -> {
+            insertCampAllocation(villageId, camp);
+        });
+        villageForm.getCampAllocationList().stream().flatMap(camp -> camp.getSkillAllocation().stream()).forEach(skill -> {
+            insertSkillAllocation(villageId, skill);
+        });
+    }
+
+    private void insertCampAllocation(Integer villageId, NewVillageRandomOrgCampDto camp) {
+        CampAllocation campAllocation = new CampAllocation();
+        campAllocation.setVillageId(villageId);
+        campAllocation.setCampCodeAsCamp(CDef.Camp.codeOf(camp.getCampCode()));
+        campAllocation.setMinNum(camp.getMinNum());
+        campAllocation.setMaxNum(camp.getMaxNum());
+        campAllocation.setAllocation(camp.getAllocation());
+        campAllocationBhv.insert(campAllocation);
+    }
+
+    private void insertSkillAllocation(Integer villageId, NewVillageRandomOrgSkillDto skill) {
+        SkillAllocation skillAllocation = new SkillAllocation();
+        skillAllocation.setVillageId(villageId);
+        skillAllocation.setSkillCodeAsSkill(CDef.Skill.codeOf(skill.getSkillCode()));
+        skillAllocation.setMinNum(skill.getMinNum());
+        skillAllocation.setMaxNum(skill.getMaxNum());
+        skillAllocation.setAllocation(skill.getAllocation());
+        skillAllocationBhv.insert(skillAllocation);
     }
 
     private void insertNormalSayRestriction(Integer villageId, NewVillageSayRestrictDto restrict) {

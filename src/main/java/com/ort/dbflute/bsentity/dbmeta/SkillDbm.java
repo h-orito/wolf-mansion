@@ -94,7 +94,7 @@ public class SkillDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnSkillCode = cci("SKILL_CODE", "SKILL_CODE", null, null, String.class, "skillCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "normalSayRestrictionList,villagePlayerByRequestSkillCodeList,villagePlayerBySecondRequestSkillCodeList,villagePlayerBySkillCodeList", CDef.DefMeta.Skill, false);
+    protected final ColumnInfo _columnSkillCode = cci("SKILL_CODE", "SKILL_CODE", null, null, String.class, "skillCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "normalSayRestrictionList,skillAllocationList,villagePlayerByRequestSkillCodeList,villagePlayerBySecondRequestSkillCodeList,villagePlayerBySkillCodeList", CDef.DefMeta.Skill, false);
     protected final ColumnInfo _columnSkillName = cci("SKILL_NAME", "SKILL_NAME", null, null, String.class, "skillName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnSkillShortName = cci("SKILL_SHORT_NAME", "SKILL_SHORT_NAME", null, null, String.class, "skillShortName", null, false, false, true, "CHAR", 1, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnCampCode = cci("CAMP_CODE", "CAMP_CODE", null, null, String.class, "campCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "camp", null, CDef.DefMeta.Camp, false);
@@ -175,6 +175,14 @@ public class SkillDbm extends AbstractDBMeta {
     public ReferrerInfo referrerNormalSayRestrictionList() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnSkillCode(), NormalSayRestrictionDbm.getInstance().columnSkillCode());
         return cri("FK_NORMAL_SAY_RESTRICTION_SKILL", "normalSayRestrictionList", this, NormalSayRestrictionDbm.getInstance(), mp, false, "skill");
+    }
+    /**
+     * SKILL_ALLOCATION by SKILL_CODE, named 'skillAllocationList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerSkillAllocationList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnSkillCode(), SkillAllocationDbm.getInstance().columnSkillCode());
+        return cri("FK_SKILL_ALLOCATION_SKILL", "skillAllocationList", this, SkillAllocationDbm.getInstance(), mp, false, "skill");
     }
     /**
      * VILLAGE_PLAYER by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeList'.

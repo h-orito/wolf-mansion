@@ -33,13 +33,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [referrer table]
- *     SKILL, VILLAGE
+ *     CAMP_ALLOCATION, SKILL, VILLAGE
  *
  * [foreign property]
  *     
  *
  * [referrer property]
- *     skillList, villageList
+ *     campAllocationList, skillList, villageList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -221,6 +221,26 @@ public abstract class BsCamp extends AbstractEntity implements DomainEntity {
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
+    /** CAMP_ALLOCATION by CAMP_CODE, named 'campAllocationList'. */
+    protected List<CampAllocation> _campAllocationList;
+
+    /**
+     * [get] CAMP_ALLOCATION by CAMP_CODE, named 'campAllocationList'.
+     * @return The entity list of referrer property 'campAllocationList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<CampAllocation> getCampAllocationList() {
+        if (_campAllocationList == null) { _campAllocationList = newReferrerList(); }
+        return _campAllocationList;
+    }
+
+    /**
+     * [set] CAMP_ALLOCATION by CAMP_CODE, named 'campAllocationList'.
+     * @param campAllocationList The entity list of referrer property 'campAllocationList'. (NullAllowed)
+     */
+    public void setCampAllocationList(List<CampAllocation> campAllocationList) {
+        _campAllocationList = campAllocationList;
+    }
+
     /** SKILL by CAMP_CODE, named 'skillList'. */
     protected List<Skill> _skillList;
 
@@ -290,6 +310,8 @@ public abstract class BsCamp extends AbstractEntity implements DomainEntity {
     @Override
     protected String doBuildStringWithRelation(String li) {
         StringBuilder sb = new StringBuilder();
+        if (_campAllocationList != null) { for (CampAllocation et : _campAllocationList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "campAllocationList")); } } }
         if (_skillList != null) { for (Skill et : _skillList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "skillList")); } } }
         if (_villageList != null) { for (Village et : _villageList)
@@ -312,6 +334,8 @@ public abstract class BsCamp extends AbstractEntity implements DomainEntity {
     @Override
     protected String doBuildRelationString(String dm) {
         StringBuilder sb = new StringBuilder();
+        if (_campAllocationList != null && !_campAllocationList.isEmpty())
+        { sb.append(dm).append("campAllocationList"); }
         if (_skillList != null && !_skillList.isEmpty())
         { sb.append(dm).append("skillList"); }
         if (_villageList != null && !_villageList.isEmpty())

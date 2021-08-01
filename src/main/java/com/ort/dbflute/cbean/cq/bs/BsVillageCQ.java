@@ -79,8 +79,14 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
       return _villageId; }
     protected ConditionValue xgetCValueVillageId() { return xdfgetVillageId(); }
 
+    public Map<String, CampAllocationCQ> xdfgetVillageId_ExistsReferrer_CampAllocationList() { return xgetSQueMap("villageId_ExistsReferrer_CampAllocationList"); }
+    public String keepVillageId_ExistsReferrer_CampAllocationList(CampAllocationCQ sq) { return xkeepSQue("villageId_ExistsReferrer_CampAllocationList", sq); }
+
     public Map<String, NormalSayRestrictionCQ> xdfgetVillageId_ExistsReferrer_NormalSayRestrictionList() { return xgetSQueMap("villageId_ExistsReferrer_NormalSayRestrictionList"); }
     public String keepVillageId_ExistsReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq) { return xkeepSQue("villageId_ExistsReferrer_NormalSayRestrictionList", sq); }
+
+    public Map<String, SkillAllocationCQ> xdfgetVillageId_ExistsReferrer_SkillAllocationList() { return xgetSQueMap("villageId_ExistsReferrer_SkillAllocationList"); }
+    public String keepVillageId_ExistsReferrer_SkillAllocationList(SkillAllocationCQ sq) { return xkeepSQue("villageId_ExistsReferrer_SkillAllocationList", sq); }
 
     public Map<String, SkillSayRestrictionCQ> xdfgetVillageId_ExistsReferrer_SkillSayRestrictionList() { return xgetSQueMap("villageId_ExistsReferrer_SkillSayRestrictionList"); }
     public String keepVillageId_ExistsReferrer_SkillSayRestrictionList(SkillSayRestrictionCQ sq) { return xkeepSQue("villageId_ExistsReferrer_SkillSayRestrictionList", sq); }
@@ -91,8 +97,14 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
     public Map<String, VillagePlayerCQ> xdfgetVillageId_ExistsReferrer_VillagePlayerList() { return xgetSQueMap("villageId_ExistsReferrer_VillagePlayerList"); }
     public String keepVillageId_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("villageId_ExistsReferrer_VillagePlayerList", sq); }
 
+    public Map<String, CampAllocationCQ> xdfgetVillageId_NotExistsReferrer_CampAllocationList() { return xgetSQueMap("villageId_NotExistsReferrer_CampAllocationList"); }
+    public String keepVillageId_NotExistsReferrer_CampAllocationList(CampAllocationCQ sq) { return xkeepSQue("villageId_NotExistsReferrer_CampAllocationList", sq); }
+
     public Map<String, NormalSayRestrictionCQ> xdfgetVillageId_NotExistsReferrer_NormalSayRestrictionList() { return xgetSQueMap("villageId_NotExistsReferrer_NormalSayRestrictionList"); }
     public String keepVillageId_NotExistsReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq) { return xkeepSQue("villageId_NotExistsReferrer_NormalSayRestrictionList", sq); }
+
+    public Map<String, SkillAllocationCQ> xdfgetVillageId_NotExistsReferrer_SkillAllocationList() { return xgetSQueMap("villageId_NotExistsReferrer_SkillAllocationList"); }
+    public String keepVillageId_NotExistsReferrer_SkillAllocationList(SkillAllocationCQ sq) { return xkeepSQue("villageId_NotExistsReferrer_SkillAllocationList", sq); }
 
     public Map<String, SkillSayRestrictionCQ> xdfgetVillageId_NotExistsReferrer_SkillSayRestrictionList() { return xgetSQueMap("villageId_NotExistsReferrer_SkillSayRestrictionList"); }
     public String keepVillageId_NotExistsReferrer_SkillSayRestrictionList(SkillSayRestrictionCQ sq) { return xkeepSQue("villageId_NotExistsReferrer_SkillSayRestrictionList", sq); }
@@ -103,8 +115,14 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
     public Map<String, VillagePlayerCQ> xdfgetVillageId_NotExistsReferrer_VillagePlayerList() { return xgetSQueMap("villageId_NotExistsReferrer_VillagePlayerList"); }
     public String keepVillageId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("villageId_NotExistsReferrer_VillagePlayerList", sq); }
 
+    public Map<String, CampAllocationCQ> xdfgetVillageId_SpecifyDerivedReferrer_CampAllocationList() { return xgetSQueMap("villageId_SpecifyDerivedReferrer_CampAllocationList"); }
+    public String keepVillageId_SpecifyDerivedReferrer_CampAllocationList(CampAllocationCQ sq) { return xkeepSQue("villageId_SpecifyDerivedReferrer_CampAllocationList", sq); }
+
     public Map<String, NormalSayRestrictionCQ> xdfgetVillageId_SpecifyDerivedReferrer_NormalSayRestrictionList() { return xgetSQueMap("villageId_SpecifyDerivedReferrer_NormalSayRestrictionList"); }
     public String keepVillageId_SpecifyDerivedReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq) { return xkeepSQue("villageId_SpecifyDerivedReferrer_NormalSayRestrictionList", sq); }
+
+    public Map<String, SkillAllocationCQ> xdfgetVillageId_SpecifyDerivedReferrer_SkillAllocationList() { return xgetSQueMap("villageId_SpecifyDerivedReferrer_SkillAllocationList"); }
+    public String keepVillageId_SpecifyDerivedReferrer_SkillAllocationList(SkillAllocationCQ sq) { return xkeepSQue("villageId_SpecifyDerivedReferrer_SkillAllocationList", sq); }
 
     public Map<String, SkillSayRestrictionCQ> xdfgetVillageId_SpecifyDerivedReferrer_SkillSayRestrictionList() { return xgetSQueMap("villageId_SpecifyDerivedReferrer_SkillSayRestrictionList"); }
     public String keepVillageId_SpecifyDerivedReferrer_SkillSayRestrictionList(SkillSayRestrictionCQ sq) { return xkeepSQue("villageId_SpecifyDerivedReferrer_SkillSayRestrictionList", sq); }
@@ -115,10 +133,20 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
     public Map<String, VillagePlayerCQ> xdfgetVillageId_SpecifyDerivedReferrer_VillagePlayerList() { return xgetSQueMap("villageId_SpecifyDerivedReferrer_VillagePlayerList"); }
     public String keepVillageId_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("villageId_SpecifyDerivedReferrer_VillagePlayerList", sq); }
 
+    public Map<String, CampAllocationCQ> xdfgetVillageId_QueryDerivedReferrer_CampAllocationList() { return xgetSQueMap("villageId_QueryDerivedReferrer_CampAllocationList"); }
+    public String keepVillageId_QueryDerivedReferrer_CampAllocationList(CampAllocationCQ sq) { return xkeepSQue("villageId_QueryDerivedReferrer_CampAllocationList", sq); }
+    public Map<String, Object> xdfgetVillageId_QueryDerivedReferrer_CampAllocationListParameter() { return xgetSQuePmMap("villageId_QueryDerivedReferrer_CampAllocationList"); }
+    public String keepVillageId_QueryDerivedReferrer_CampAllocationListParameter(Object pm) { return xkeepSQuePm("villageId_QueryDerivedReferrer_CampAllocationList", pm); }
+
     public Map<String, NormalSayRestrictionCQ> xdfgetVillageId_QueryDerivedReferrer_NormalSayRestrictionList() { return xgetSQueMap("villageId_QueryDerivedReferrer_NormalSayRestrictionList"); }
     public String keepVillageId_QueryDerivedReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq) { return xkeepSQue("villageId_QueryDerivedReferrer_NormalSayRestrictionList", sq); }
     public Map<String, Object> xdfgetVillageId_QueryDerivedReferrer_NormalSayRestrictionListParameter() { return xgetSQuePmMap("villageId_QueryDerivedReferrer_NormalSayRestrictionList"); }
     public String keepVillageId_QueryDerivedReferrer_NormalSayRestrictionListParameter(Object pm) { return xkeepSQuePm("villageId_QueryDerivedReferrer_NormalSayRestrictionList", pm); }
+
+    public Map<String, SkillAllocationCQ> xdfgetVillageId_QueryDerivedReferrer_SkillAllocationList() { return xgetSQueMap("villageId_QueryDerivedReferrer_SkillAllocationList"); }
+    public String keepVillageId_QueryDerivedReferrer_SkillAllocationList(SkillAllocationCQ sq) { return xkeepSQue("villageId_QueryDerivedReferrer_SkillAllocationList", sq); }
+    public Map<String, Object> xdfgetVillageId_QueryDerivedReferrer_SkillAllocationListParameter() { return xgetSQuePmMap("villageId_QueryDerivedReferrer_SkillAllocationList"); }
+    public String keepVillageId_QueryDerivedReferrer_SkillAllocationListParameter(Object pm) { return xkeepSQuePm("villageId_QueryDerivedReferrer_SkillAllocationList", pm); }
 
     public Map<String, SkillSayRestrictionCQ> xdfgetVillageId_QueryDerivedReferrer_SkillSayRestrictionList() { return xgetSQueMap("villageId_QueryDerivedReferrer_SkillSayRestrictionList"); }
     public String keepVillageId_QueryDerivedReferrer_SkillSayRestrictionList(SkillSayRestrictionCQ sq) { return xkeepSQue("villageId_QueryDerivedReferrer_SkillSayRestrictionList", sq); }

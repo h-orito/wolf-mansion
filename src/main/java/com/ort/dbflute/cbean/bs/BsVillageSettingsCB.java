@@ -466,6 +466,11 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnIsAvailableAction() { return doColumn("IS_AVAILABLE_ACTION"); }
         /**
+         * IS_RANDOM_ORGANIZE: {NotNull, BIT, classification=Flg}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnIsRandomOrganize() { return doColumn("IS_RANDOM_ORGANIZE"); }
+        /**
          * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
          */

@@ -81,6 +81,7 @@ public class VillageSettingsCIQ extends AbstractBsVillageSettingsCQ {
     protected ConditionValue xgetCValueOrganize() { return _myCQ.xdfgetOrganize(); }
     protected ConditionValue xgetCValueAllowedSecretSayCode() { return _myCQ.xdfgetAllowedSecretSayCode(); }
     protected ConditionValue xgetCValueIsAvailableAction() { return _myCQ.xdfgetIsAvailableAction(); }
+    protected ConditionValue xgetCValueIsRandomOrganize() { return _myCQ.xdfgetIsRandomOrganize(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
     protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }
     protected ConditionValue xgetCValueUpdateDatetime() { return _myCQ.xdfgetUpdateDatetime(); }

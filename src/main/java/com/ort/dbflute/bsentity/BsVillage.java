@@ -36,13 +36,13 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_STATUS, CAMP, VILLAGE_SETTINGS(AsOne)
  *
  * [referrer table]
- *     NORMAL_SAY_RESTRICTION, SKILL_SAY_RESTRICTION, VILLAGE_DAY, VILLAGE_PLAYER, VILLAGE_SETTINGS
+ *     CAMP_ALLOCATION, NORMAL_SAY_RESTRICTION, SKILL_ALLOCATION, SKILL_SAY_RESTRICTION, VILLAGE_DAY, VILLAGE_PLAYER, VILLAGE_SETTINGS
  *
  * [foreign property]
  *     villageStatus, camp, villageSettingsAsOne
  *
  * [referrer property]
- *     normalSayRestrictionList, skillSayRestrictionList, villageDayList, villagePlayerList
+ *     campAllocationList, normalSayRestrictionList, skillAllocationList, skillSayRestrictionList, villageDayList, villagePlayerList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -472,6 +472,26 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
+    /** CAMP_ALLOCATION by VILLAGE_ID, named 'campAllocationList'. */
+    protected List<CampAllocation> _campAllocationList;
+
+    /**
+     * [get] CAMP_ALLOCATION by VILLAGE_ID, named 'campAllocationList'.
+     * @return The entity list of referrer property 'campAllocationList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<CampAllocation> getCampAllocationList() {
+        if (_campAllocationList == null) { _campAllocationList = newReferrerList(); }
+        return _campAllocationList;
+    }
+
+    /**
+     * [set] CAMP_ALLOCATION by VILLAGE_ID, named 'campAllocationList'.
+     * @param campAllocationList The entity list of referrer property 'campAllocationList'. (NullAllowed)
+     */
+    public void setCampAllocationList(List<CampAllocation> campAllocationList) {
+        _campAllocationList = campAllocationList;
+    }
+
     /** NORMAL_SAY_RESTRICTION by VILLAGE_ID, named 'normalSayRestrictionList'. */
     protected List<NormalSayRestriction> _normalSayRestrictionList;
 
@@ -490,6 +510,26 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
      */
     public void setNormalSayRestrictionList(List<NormalSayRestriction> normalSayRestrictionList) {
         _normalSayRestrictionList = normalSayRestrictionList;
+    }
+
+    /** SKILL_ALLOCATION by VILLAGE_ID, named 'skillAllocationList'. */
+    protected List<SkillAllocation> _skillAllocationList;
+
+    /**
+     * [get] SKILL_ALLOCATION by VILLAGE_ID, named 'skillAllocationList'.
+     * @return The entity list of referrer property 'skillAllocationList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<SkillAllocation> getSkillAllocationList() {
+        if (_skillAllocationList == null) { _skillAllocationList = newReferrerList(); }
+        return _skillAllocationList;
+    }
+
+    /**
+     * [set] SKILL_ALLOCATION by VILLAGE_ID, named 'skillAllocationList'.
+     * @param skillAllocationList The entity list of referrer property 'skillAllocationList'. (NullAllowed)
+     */
+    public void setSkillAllocationList(List<SkillAllocation> skillAllocationList) {
+        _skillAllocationList = skillAllocationList;
     }
 
     /** SKILL_SAY_RESTRICTION by VILLAGE_ID, named 'skillSayRestrictionList'. */
@@ -587,8 +627,12 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
         { sb.append(li).append(xbRDS(_camp, "camp")); }
         if (_villageSettingsAsOne != null && _villageSettingsAsOne.isPresent())
         { sb.append(li).append(xbRDS(_villageSettingsAsOne, "villageSettingsAsOne")); }
+        if (_campAllocationList != null) { for (CampAllocation et : _campAllocationList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "campAllocationList")); } } }
         if (_normalSayRestrictionList != null) { for (NormalSayRestriction et : _normalSayRestrictionList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "normalSayRestrictionList")); } } }
+        if (_skillAllocationList != null) { for (SkillAllocation et : _skillAllocationList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "skillAllocationList")); } } }
         if (_skillSayRestrictionList != null) { for (SkillSayRestriction et : _skillSayRestrictionList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "skillSayRestrictionList")); } } }
         if (_villageDayList != null) { for (VillageDay et : _villageDayList)
@@ -632,8 +676,12 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
         { sb.append(dm).append("camp"); }
         if (_villageSettingsAsOne != null && _villageSettingsAsOne.isPresent())
         { sb.append(dm).append("villageSettingsAsOne"); }
+        if (_campAllocationList != null && !_campAllocationList.isEmpty())
+        { sb.append(dm).append("campAllocationList"); }
         if (_normalSayRestrictionList != null && !_normalSayRestrictionList.isEmpty())
         { sb.append(dm).append("normalSayRestrictionList"); }
+        if (_skillAllocationList != null && !_skillAllocationList.isEmpty())
+        { sb.append(dm).append("skillAllocationList"); }
         if (_skillSayRestrictionList != null && !_skillSayRestrictionList.isEmpty())
         { sb.append(dm).append("skillSayRestrictionList"); }
         if (_villageDayList != null && !_villageDayList.isEmpty())

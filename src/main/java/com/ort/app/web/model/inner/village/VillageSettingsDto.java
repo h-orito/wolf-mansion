@@ -3,6 +3,7 @@ package com.ort.app.web.model.inner.village;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.ort.app.web.form.NewVillageRandomOrgCampDto;
 import com.ort.app.web.form.NewVillageRpSayRestrictDto;
 import com.ort.app.web.form.NewVillageSayRestrictDto;
 import com.ort.app.web.form.NewVillageSkillSayRestrictDto;
@@ -71,6 +72,12 @@ public class VillageSettingsDto {
 
     /** 構成 */
     private String organization;
+
+    /** 闇鍋編成か */
+    private Boolean isRandomOrganization;
+
+    /** 闇鍋陣営配分 */
+    private List<NewVillageRandomOrgCampDto> campAllocationList;
 
     /** 村設定の発言制限 */
     private List<NewVillageSayRestrictDto> sayRestrictList;
@@ -282,5 +289,21 @@ public class VillageSettingsDto {
 
     public void setRpSayRestrictList(List<NewVillageRpSayRestrictDto> rpSayRestrictList) {
         this.rpSayRestrictList = rpSayRestrictList;
+    }
+
+    public Boolean getIsRandomOrganization() {
+        return isRandomOrganization;
+    }
+
+    public void setIsRandomOrganization(Boolean isRandomOrganization) {
+        this.isRandomOrganization = isRandomOrganization;
+    }
+
+    public List<NewVillageRandomOrgCampDto> getCampAllocationList() {
+        return campAllocationList;
+    }
+
+    public void setCampAllocationList(List<NewVillageRandomOrgCampDto> campAllocationList) {
+        this.campAllocationList = campAllocationList;
     }
 }

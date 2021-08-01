@@ -62,18 +62,28 @@ public class CampCIQ extends AbstractBsCampCQ {
     //                                                                Override about Query
     //                                                                ====================
     protected ConditionValue xgetCValueCampCode() { return _myCQ.xdfgetCampCode(); }
+    public String keepCampCode_ExistsReferrer_CampAllocationList(CampAllocationCQ sq)
+    { throwIICBOE("ExistsReferrer"); return null; }
     public String keepCampCode_ExistsReferrer_SkillList(SkillCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
     public String keepCampCode_ExistsReferrer_VillageList(VillageCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
+    public String keepCampCode_NotExistsReferrer_CampAllocationList(CampAllocationCQ sq)
+    { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepCampCode_NotExistsReferrer_SkillList(SkillCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepCampCode_NotExistsReferrer_VillageList(VillageCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
+    public String keepCampCode_SpecifyDerivedReferrer_CampAllocationList(CampAllocationCQ sq)
+    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepCampCode_SpecifyDerivedReferrer_SkillList(SkillCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepCampCode_SpecifyDerivedReferrer_VillageList(VillageCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
+    public String keepCampCode_QueryDerivedReferrer_CampAllocationList(CampAllocationCQ sq)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepCampCode_QueryDerivedReferrer_CampAllocationListParameter(Object vl)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepCampCode_QueryDerivedReferrer_SkillList(SkillCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepCampCode_QueryDerivedReferrer_SkillListParameter(Object vl)

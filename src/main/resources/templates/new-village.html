@@ -52,7 +52,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 col-xs-3 control-label">最低開始人数</label>
+							<label class="col-sm-3 col-xs-3 control-label">最少開始人数</label>
 							<div class="col-sm-3 col-xs-3">
 								<input type="number" class="form-control" th:field="*{startPersonMinNum}" placeholder="8" />
 								<span th:if="${#fields.hasErrors('startPersonMinNum')}" th:errors="*{startPersonMinNum}" class="help-block text-danger">error!</span>
@@ -149,7 +149,7 @@
 									<div class="col-sm-12 col-xs-12" style="display: flex;">
 										<div id="dummy-chara-img"></div>
 										<div style="flex: 1; margin-left: 5px; min-height: 77px;">
-											<textarea id="dummy-chara-join-message" class="form-control" th:field="*{dummyJoinMessage}" placeholder="人狼なんているわけないじゃん。みんな大げさだなあ"
+											<textarea id="dummy-chara-join-message" class="form-control" th:field="*{dummyJoinMessage}"
 												style="min-height: 77px;"></textarea>
 										</div>
 									</div>
@@ -160,14 +160,106 @@
 						<hr />
 						<h2 class="h5">詳細ルール設定</h2>
 						<div class="form-group">
-							<label class="col-sm-3 col-xs-12 control-label">構成</label>
+							<label class="col-sm-3 col-xs-12 control-label">役職構成</label>
+							<div id="org-check" class="col-sm-9 btn-group" data-toggle="buttons">
+								<label th:class="'btn btn-sm btn-dark-success ' + *{isRandomOrganization ? 'active' : ''}"> <input type="radio" class=""
+										th:field="*{isRandomOrganization}" value="true" autocomplete="off" checked="checked" />闇鍋
+								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isRandomOrganization ? '' : 'active'}"> <input type="radio" class=""
+										th:field="*{isRandomOrganization}" value="false" autocomplete="off" />固定
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 col-xs-12 control-label"></label>
 							<div class="col-sm-9">
-								<textarea class="form-control" th:field="*{organization}" style="min-height: 250px;"></textarea>
-								<p>最低開始人数〜定員までの構成を全て入れてください。</p>
-								<p th:text="${skillListStr}"></p>
-								<p>ダミーは必ず村人となるため、村を1名以上入れてください。</p>
-
-								<span th:if="${#fields.hasErrors('organization')}" th:errors="*{organization}" class="help-block text-danger">error!</span>
+								<div id="fix-org" class="hidden">
+									<p>固定の役職構成にしたい場合はこちらで入力してください。</p>
+									<textarea class="form-control" th:field="*{organization}" style="min-height: 250px;"></textarea>
+									<p>最少開始人数〜定員までの役職構成を全て入れてください。</p>
+									<p th:text="${skillListStr}"></p>
+									<p>ダミーは必ず村人となるため、村を1名以上入れてください。</p>
+									<span th:if="${#fields.hasErrors('organization')}" th:errors="*{organization}" class="help-block text-danger">error!</span>
+								</div>
+								<div id="random-org" class="hidden">
+									<p>ランダム役職構成にしたい場合はこちらで入力してください。</p>
+									<ul>
+										<li>役職ごとに最少人数が1名以上で設定されている場合、先に確保されます。</li>
+										<li>その後、陣営の最少人数が1名以上で設定されている場合、先に確保されます。</li>
+										<li>その後、一人ずつ陣営を抽選 → 陣営内の役職を抽選します。</li>
+										<li>配分の値が高いほど抽選率が上がります。</li>
+										<li>陣営の抽選率＝[陣営の配分 / 全陣営の配分の合計]です。</li>
+										<li>役職の抽選率＝[役職の配分 / 陣営内の役職の配分の合計]です。</li>
+										<li>ダミーは必ず村人となるため、村人の最少人数は1以上にする必要があります。</li>
+										<li>人狼系役職のいずれかの最少人数もしくは配分を1以上にする必要があります。</li>
+										<li>割り振った結果以下の条件を1つでも満たすと50回まで再抽選しますが、50回で決まらなかった場合1日目開始時にエラーとなります。
+											<ul>
+												<li>2日目にPP発生</li>											
+												<li>恋人や同棲者が奇数</li>
+												<li>妖狐系なしで背徳者がいるなど、勝利条件を満たせない役職がある</li>
+											</ul>
+										</li>
+									</ul>
+									<span th:if="${#fields.hasErrors('campAllocationList')}" th:errors="*{campAllocationList}" class="help-block text-danger">error!</span>
+									<table class="table-bordered table-condensed small">
+										<tbody>
+											<th:block th:each="camp, stat: *{campAllocationList}">
+												<tr>
+													<td class="bg-info text-white" colspan="7">
+														<strong th:text="${camp.campName}"></strong>
+													</td>
+												</tr>
+												<tr>
+													<td colspan="7">
+														陣営全体の配分
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<span th:text="${camp.campName}">村人陣営</span>
+														<input type="hidden" th:field="*{campAllocationList[__${stat.index}__].campCode}" />
+														<input type="hidden" th:field="*{campAllocationList[__${stat.index}__].campName}" />
+													</td>
+													<td>最少人数</td>
+													<td>
+														<input type="number" th:field="*{campAllocationList[__${stat.index}__].minNum}" class="form-control input-sm" placeholder="0" />
+													</td>
+													<td>最大人数</td>
+													<td>
+														<input type="number" th:field="*{campAllocationList[__${stat.index}__].maxNum}" class="form-control input-sm" placeholder="0" />
+													</td>
+													<td>配分（0-100）</td>
+													<td>
+														<input type="number" th:field="*{campAllocationList[__${stat.index}__].allocation}" class="form-control input-sm" placeholder="0" />
+													</td>
+												</tr>
+												<tr>
+													<td colspan="7">
+														役職ごとの配分
+													</td>
+												</tr>
+												<tr th:each="skill, sta: *{campAllocationList[__${stat.index}__].skillAllocation}">
+													<td>
+														<span th:text="${skill.skillName}">村人</span>
+														<input type="hidden" th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].skillCode}" />
+														<input type="hidden" th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].skillName}" />
+													</td>
+													<td>最少人数</td>
+													<td>
+														<input type="number" th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].minNum}" class="form-control input-sm" placeholder="0" />
+													</td>
+													<td>最大人数</td>
+													<td>
+														<input type="number" th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].maxNum}" class="form-control input-sm" placeholder="0" />
+													</td>
+													<td>配分（0-100）</td>
+													<td>
+														<input type="number" th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].allocation}" class="form-control input-sm" placeholder="0" />
+													</td>
+												</tr>
+											</th:block>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 						<div class="form-group">

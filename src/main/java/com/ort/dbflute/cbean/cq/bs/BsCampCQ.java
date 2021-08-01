@@ -79,11 +79,17 @@ public class BsCampCQ extends AbstractBsCampCQ {
       return _campCode; }
     protected ConditionValue xgetCValueCampCode() { return xdfgetCampCode(); }
 
+    public Map<String, CampAllocationCQ> xdfgetCampCode_ExistsReferrer_CampAllocationList() { return xgetSQueMap("campCode_ExistsReferrer_CampAllocationList"); }
+    public String keepCampCode_ExistsReferrer_CampAllocationList(CampAllocationCQ sq) { return xkeepSQue("campCode_ExistsReferrer_CampAllocationList", sq); }
+
     public Map<String, SkillCQ> xdfgetCampCode_ExistsReferrer_SkillList() { return xgetSQueMap("campCode_ExistsReferrer_SkillList"); }
     public String keepCampCode_ExistsReferrer_SkillList(SkillCQ sq) { return xkeepSQue("campCode_ExistsReferrer_SkillList", sq); }
 
     public Map<String, VillageCQ> xdfgetCampCode_ExistsReferrer_VillageList() { return xgetSQueMap("campCode_ExistsReferrer_VillageList"); }
     public String keepCampCode_ExistsReferrer_VillageList(VillageCQ sq) { return xkeepSQue("campCode_ExistsReferrer_VillageList", sq); }
+
+    public Map<String, CampAllocationCQ> xdfgetCampCode_NotExistsReferrer_CampAllocationList() { return xgetSQueMap("campCode_NotExistsReferrer_CampAllocationList"); }
+    public String keepCampCode_NotExistsReferrer_CampAllocationList(CampAllocationCQ sq) { return xkeepSQue("campCode_NotExistsReferrer_CampAllocationList", sq); }
 
     public Map<String, SkillCQ> xdfgetCampCode_NotExistsReferrer_SkillList() { return xgetSQueMap("campCode_NotExistsReferrer_SkillList"); }
     public String keepCampCode_NotExistsReferrer_SkillList(SkillCQ sq) { return xkeepSQue("campCode_NotExistsReferrer_SkillList", sq); }
@@ -91,11 +97,19 @@ public class BsCampCQ extends AbstractBsCampCQ {
     public Map<String, VillageCQ> xdfgetCampCode_NotExistsReferrer_VillageList() { return xgetSQueMap("campCode_NotExistsReferrer_VillageList"); }
     public String keepCampCode_NotExistsReferrer_VillageList(VillageCQ sq) { return xkeepSQue("campCode_NotExistsReferrer_VillageList", sq); }
 
+    public Map<String, CampAllocationCQ> xdfgetCampCode_SpecifyDerivedReferrer_CampAllocationList() { return xgetSQueMap("campCode_SpecifyDerivedReferrer_CampAllocationList"); }
+    public String keepCampCode_SpecifyDerivedReferrer_CampAllocationList(CampAllocationCQ sq) { return xkeepSQue("campCode_SpecifyDerivedReferrer_CampAllocationList", sq); }
+
     public Map<String, SkillCQ> xdfgetCampCode_SpecifyDerivedReferrer_SkillList() { return xgetSQueMap("campCode_SpecifyDerivedReferrer_SkillList"); }
     public String keepCampCode_SpecifyDerivedReferrer_SkillList(SkillCQ sq) { return xkeepSQue("campCode_SpecifyDerivedReferrer_SkillList", sq); }
 
     public Map<String, VillageCQ> xdfgetCampCode_SpecifyDerivedReferrer_VillageList() { return xgetSQueMap("campCode_SpecifyDerivedReferrer_VillageList"); }
     public String keepCampCode_SpecifyDerivedReferrer_VillageList(VillageCQ sq) { return xkeepSQue("campCode_SpecifyDerivedReferrer_VillageList", sq); }
+
+    public Map<String, CampAllocationCQ> xdfgetCampCode_QueryDerivedReferrer_CampAllocationList() { return xgetSQueMap("campCode_QueryDerivedReferrer_CampAllocationList"); }
+    public String keepCampCode_QueryDerivedReferrer_CampAllocationList(CampAllocationCQ sq) { return xkeepSQue("campCode_QueryDerivedReferrer_CampAllocationList", sq); }
+    public Map<String, Object> xdfgetCampCode_QueryDerivedReferrer_CampAllocationListParameter() { return xgetSQuePmMap("campCode_QueryDerivedReferrer_CampAllocationList"); }
+    public String keepCampCode_QueryDerivedReferrer_CampAllocationListParameter(Object pm) { return xkeepSQuePm("campCode_QueryDerivedReferrer_CampAllocationList", pm); }
 
     public Map<String, SkillCQ> xdfgetCampCode_QueryDerivedReferrer_SkillList() { return xgetSQueMap("campCode_QueryDerivedReferrer_SkillList"); }
     public String keepCampCode_QueryDerivedReferrer_SkillList(SkillCQ sq) { return xkeepSQue("campCode_QueryDerivedReferrer_SkillList", sq); }
