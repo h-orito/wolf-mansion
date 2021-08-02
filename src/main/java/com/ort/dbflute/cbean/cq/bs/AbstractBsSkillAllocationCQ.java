@@ -384,6 +384,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
     }
 
     /**
+     * Equal(=). As 申し子 (HEAVENCHILD). And OnlyOnceRegistered. <br>
+     * 申し子
+     */
+    public void setSkillCode_Equal_申し子() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.申し子);
+    }
+
+    /**
      * Equal(=). As 狩人 (HUNTER). And OnlyOnceRegistered. <br>
      * 狩人
      */
@@ -493,6 +501,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
      */
     public void setSkillCode_Equal_梟() {
         setSkillCode_Equal_AsSkill(CDef.Skill.梟);
+    }
+
+    /**
+     * Equal(=). As 転生者 (REINCARNATION). And OnlyOnceRegistered. <br>
+     * 転生者
+     */
+    public void setSkillCode_Equal_転生者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.転生者);
     }
 
     /**
@@ -791,6 +807,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 申し子 (HEAVENCHILD). And OnlyOnceRegistered. <br>
+     * 申し子
+     */
+    public void setSkillCode_NotEqual_申し子() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.申し子);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 狩人 (HUNTER). And OnlyOnceRegistered. <br>
      * 狩人
      */
@@ -900,6 +924,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
      */
     public void setSkillCode_NotEqual_梟() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.梟);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 転生者 (REINCARNATION). And OnlyOnceRegistered. <br>
+     * 転生者
+     */
+    public void setSkillCode_NotEqual_転生者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.転生者);
     }
 
     /**

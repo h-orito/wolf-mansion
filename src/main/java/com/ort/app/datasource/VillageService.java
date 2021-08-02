@@ -69,6 +69,9 @@ public class VillageService {
                 vpLoader.loadVillagePlayerStatusByVillagePlayerId(vpStCB -> {
                     vpStCB.setupSelect_VillagePlayerByToVillagePlayerId().withChara();
                 });
+                vpLoader.loadVillagePlayerStatusByToVillagePlayerId(vpStCB -> {
+                    vpStCB.setupSelect_VillagePlayerByVillagePlayerId().withChara();
+                });
                 vpLoader.pulloutChara().loadCharaImage(ciCB -> {});
                 vpLoader.loadVillagePlayerDeadHistory(history -> {
                     history.query().addOrderBy_Day_Asc();
@@ -196,6 +199,17 @@ public class VillageService {
     public void updatePlayerWinCamp(VillagePlayer villagePlayer, CDef.Camp camp) {
         VillagePlayer vPlayer = new VillagePlayer();
         vPlayer.setCampCode(camp.code());
+        villagePlayerBhv.queryUpdate(vPlayer, cb -> cb.query().setVillagePlayerId_Equal(villagePlayer.getVillagePlayerId()));
+    }
+
+    // 役職を変更する
+    public void updateSkill(VillagePlayer villagePlayer, CDef.Skill skill) {
+        VillagePlayer vPlayer = new VillagePlayer();
+        vPlayer.setSkillCodeAsSkill(skill);
+        // 恋絆、狐憑き持ちは役職が変わっても勝利陣営が変わらない
+        if (!villagePlayer.hasLover() && !villagePlayer.isFoxPossessioned()) {
+            vPlayer.setCampCode(skill.campCode());
+        }
         villagePlayerBhv.queryUpdate(vPlayer, cb -> cb.query().setVillagePlayerId_Equal(villagePlayer.getVillagePlayerId()));
     }
 }

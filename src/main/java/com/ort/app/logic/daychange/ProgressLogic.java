@@ -202,8 +202,8 @@ public class ProgressLogic {
         // 検死
         autopsyLogic.autopsy(dayChangeVillage);
 
-        // 絶対人狼の復活
-        revivalLogic.revivalAbsoluteWolf(dayChangeVillage);
+        // 復活
+        revivalLogic.revival(dayChangeVillage);
 
         // 後追い
         suicideLogic.suicide(dayChangeVillage);

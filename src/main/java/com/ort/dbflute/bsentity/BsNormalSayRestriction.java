@@ -371,6 +371,14 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
+     * Set the value of skillCode as 申し子 (HEAVENCHILD). <br>
+     * 申し子
+     */
+    public void setSkillCode_申し子() {
+        setSkillCodeAsSkill(CDef.Skill.申し子);
+    }
+
+    /**
      * Set the value of skillCode as 狩人 (HUNTER). <br>
      * 狩人
      */
@@ -480,6 +488,14 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
      */
     public void setSkillCode_梟() {
         setSkillCodeAsSkill(CDef.Skill.梟);
+    }
+
+    /**
+     * Set the value of skillCode as 転生者 (REINCARNATION). <br>
+     * 転生者
+     */
+    public void setSkillCode_転生者() {
+        setSkillCodeAsSkill(CDef.Skill.転生者);
     }
 
     /**
@@ -998,6 +1014,17 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
+     * Is the value of skillCode 申し子? <br>
+     * 申し子
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode申し子() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.申し子) : false;
+    }
+
+    /**
      * Is the value of skillCode 狩人? <br>
      * 狩人
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1149,6 +1176,17 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     public boolean isSkillCode梟() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.梟) : false;
+    }
+
+    /**
+     * Is the value of skillCode 転生者? <br>
+     * 転生者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode転生者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.転生者) : false;
     }
 
     /**

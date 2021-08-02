@@ -565,6 +565,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 申し子 (HEAVENCHILD). <br>
+     * 申し子
+     */
+    public void setSkillCode_申し子() {
+        setSkillCodeAsSkill(CDef.Skill.申し子);
+    }
+
+    /**
      * Set the value of skillCode as 狩人 (HUNTER). <br>
      * 狩人
      */
@@ -674,6 +682,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSkillCode_梟() {
         setSkillCodeAsSkill(CDef.Skill.梟);
+    }
+
+    /**
+     * Set the value of skillCode as 転生者 (REINCARNATION). <br>
+     * 転生者
+     */
+    public void setSkillCode_転生者() {
+        setSkillCodeAsSkill(CDef.Skill.転生者);
     }
 
     /**
@@ -949,6 +965,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 申し子 (HEAVENCHILD). <br>
+     * 申し子
+     */
+    public void setRequestSkillCode_申し子() {
+        setRequestSkillCodeAsSkill(CDef.Skill.申し子);
+    }
+
+    /**
      * Set the value of requestSkillCode as 狩人 (HUNTER). <br>
      * 狩人
      */
@@ -1058,6 +1082,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setRequestSkillCode_梟() {
         setRequestSkillCodeAsSkill(CDef.Skill.梟);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 転生者 (REINCARNATION). <br>
+     * 転生者
+     */
+    public void setRequestSkillCode_転生者() {
+        setRequestSkillCodeAsSkill(CDef.Skill.転生者);
     }
 
     /**
@@ -1333,6 +1365,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of secondRequestSkillCode as 申し子 (HEAVENCHILD). <br>
+     * 申し子
+     */
+    public void setSecondRequestSkillCode_申し子() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.申し子);
+    }
+
+    /**
      * Set the value of secondRequestSkillCode as 狩人 (HUNTER). <br>
      * 狩人
      */
@@ -1442,6 +1482,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_梟() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.梟);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 転生者 (REINCARNATION). <br>
+     * 転生者
+     */
+    public void setSecondRequestSkillCode_転生者() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.転生者);
     }
 
     /**
@@ -1912,6 +1960,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of skillCode 申し子? <br>
+     * 申し子
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode申し子() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.申し子) : false;
+    }
+
+    /**
      * Is the value of skillCode 狩人? <br>
      * 狩人
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -2063,6 +2122,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode梟() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.梟) : false;
+    }
+
+    /**
+     * Is the value of skillCode 転生者? <br>
+     * 転生者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode転生者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.転生者) : false;
     }
 
     /**
@@ -2570,6 +2640,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 申し子? <br>
+     * 申し子
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode申し子() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.申し子) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 狩人? <br>
      * 狩人
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -2721,6 +2802,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isRequestSkillCode梟() {
         CDef.Skill cdef = getRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.梟) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 転生者? <br>
+     * 転生者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode転生者() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.転生者) : false;
     }
 
     /**
@@ -3228,6 +3320,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of secondRequestSkillCode 申し子? <br>
+     * 申し子
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode申し子() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.申し子) : false;
+    }
+
+    /**
      * Is the value of secondRequestSkillCode 狩人? <br>
      * 狩人
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -3379,6 +3482,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode梟() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.梟) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 転生者? <br>
+     * 転生者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode転生者() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.転生者) : false;
     }
 
     /**
