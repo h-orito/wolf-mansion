@@ -1,5 +1,6 @@
 package com.ort.app.logic.ability;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -15,6 +16,7 @@ import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.daychange.DayChangeVillage;
 import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
+import com.ort.dbflute.exentity.Abilities;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
@@ -41,9 +43,6 @@ public class CheatLogic {
     // 誑かす
     public void cheat(DayChangeVillage dayChangeVillage) {
         int day = dayChangeVillage.day;
-        if (day != 2) {
-            return;
-        }
 
         List<VillagePlayer> livingCheaterFoxList = dayChangeVillage //
                 .alivePlayers() // 死亡していない
@@ -77,31 +76,9 @@ public class CheatLogic {
                     .villagePlayer(targetPlayer)
                     .build());
             // 勝利条件を妖狐陣営で上書き
-            villageService.updatePlayerWinCamp(targetPlayer, CDef.Camp.狐陣営);
-        });
-    }
-
-    // 日付変更時のデフォルトセット
-    public void insertDefaultCheat(Village village, int newDay) {
-        if (newDay != 1) {
-            return;
-        }
-        Integer villageId = village.getVillageId();
-        // 生存している誑狐
-        VillagePlayers aliveStalkers = village.getVillagePlayers() //
-                .filterAlive() //
-                .filterBy(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.誑狐);
-        if (aliveStalkers.list.isEmpty()) {
-            return;
-        }
-        aliveStalkers.list.forEach(hunter -> {
-            Integer courtshipCharaId = hunter.getCharaId();
-            // 引き入れる人(生存者の中の誰か）
-            Integer targetCharaId = getSelectableTarget(village, newDay, hunter) //
-                    .getRandom()
-                    .getCharaId();
-            abilityService.insertAbility(villageId, newDay, courtshipCharaId, targetCharaId, null, CDef.AbilityType.誑かす);
-            insertAbilityMessage(village, newDay, courtshipCharaId, targetCharaId, true);
+            if (!targetPlayer.hasLover()) {
+                villageService.updatePlayerWinCamp(targetPlayer, CDef.Camp.狐陣営);
+            }
         });
     }
 
@@ -117,20 +94,27 @@ public class CheatLogic {
         }
         Integer villageId = village.getVillageId();
         Integer charaId = villagePlayer.getCharaId();
-        abilityService.updateAbility(villageId, day, charaId, targetCharaId, CDef.AbilityType.誑かす);
+        if (targetCharaId == null) {
+            abilityService.deleteAbility(villageId, day, charaId, CDef.AbilityType.誑かす);
+        } else {
+            abilityService.updateAbility(villageId, day, charaId, targetCharaId, CDef.AbilityType.誑かす);
+        }
         insertAbilityMessage(village, day, charaId, targetCharaId, false);
     }
 
-    public VillagePlayers getSelectableTarget(Village village, int day, VillagePlayer courtship) {
-        if (day != 1) {
-            return null;
+    public VillagePlayers getSelectableTarget(Village village, int day, VillagePlayer villagePlayer) {
+        Abilities abilities = abilityService.selectAbilities(village.getVillageId());
+        // 前日以前に能力行使していたらもう使えない
+        if (!abilities.filterPastDay(day).filterByType(CDef.AbilityType.誑かす).filterByChara(villagePlayer.getCharaId()).list.isEmpty()) {
+            return new VillagePlayers(new ArrayList<>());
         }
+
         // 自分以外の生存している人
         return village.getVillagePlayers() //
                 .filterAlive() //
                 .filterNotDummy(village.getVillageSettingsAsOne().get().getDummyCharaId())
                 .filterNotSpecatate()
-                .filterNot(courtship)
+                .filterNot(villagePlayer)
                 .sortedByRoomNumber();
     }
 
@@ -138,16 +122,11 @@ public class CheatLogic {
     //                                                                        Assist Logic
     //                                                                        ============
     private boolean isInvalidAbility(Village village, VillagePlayer villagePlayer, int day, Integer targetCharaId) {
-        if (targetCharaId == null) {
-            return true;
-        }
         if (villagePlayer.isIsDeadTrue()) {
             return true;
         }
-        if (getSelectableTarget(village, day, villagePlayer).list.stream().noneMatch(vp -> vp.getCharaId().equals(targetCharaId))) {
-            return true;
-        }
-        if (day != 1) {
+        if (targetCharaId != null
+                && getSelectableTarget(village, day, villagePlayer).list.stream().noneMatch(vp -> vp.getCharaId().equals(targetCharaId))) {
             return true;
         }
         return false;
@@ -161,9 +140,11 @@ public class CheatLogic {
             boolean isDefault //
     ) {
         VillagePlayer chara = village.getVillagePlayers().findByCharaId(charaId);
-        VillagePlayer target = village.getVillagePlayers().findByCharaId(targetCharaId);
-        String message = messageSource.getMessage("ability.cheat.message",
-                new String[] { chara.name(), target.name(), isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
+        String message = messageSource.getMessage("ability.cheat.message", new String[] { //
+                chara.name(), //
+                targetCharaId != null ? village.getVillagePlayers().findByCharaId(targetCharaId).name() : "なし", //
+                isDefault ? "（自動設定）" : ""//
+        }, Locale.JAPAN);
         messageLogic.insertAbilityMessage(village.getVillageId(), day, message);
     }
 }

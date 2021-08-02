@@ -1,5 +1,6 @@
 package com.ort.app.logic.ability;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -15,6 +16,7 @@ import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.daychange.DayChangeVillage;
 import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
+import com.ort.dbflute.exentity.Abilities;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
@@ -41,9 +43,6 @@ public class SeduceLogic {
     // 誘惑
     public void seduce(DayChangeVillage dayChangeVillage) {
         int day = dayChangeVillage.day;
-        if (day != 2) {
-            return;
-        }
 
         List<VillagePlayer> livingJorogumoList = dayChangeVillage //
                 .alivePlayers() // 死亡していない
@@ -83,30 +82,6 @@ public class SeduceLogic {
         });
     }
 
-    // 日付変更時のデフォルトセット
-    public void insertDefaultSeduce(Village village, int newDay) {
-        if (newDay != 1) {
-            return;
-        }
-        Integer villageId = village.getVillageId();
-        // 生存している絡新婦
-        VillagePlayers aliveJorogumos = village.getVillagePlayers() //
-                .filterAlive() //
-                .filterBy(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.絡新婦);
-        if (aliveJorogumos.list.isEmpty()) {
-            return;
-        }
-        aliveJorogumos.list.forEach(jorogumo -> {
-            Integer charaId = jorogumo.getCharaId();
-            // 誘惑される人(生存者の中の誰か）
-            Integer targetCharaId = getSelectableTarget(village, newDay, jorogumo) //
-                    .getRandom()
-                    .getCharaId();
-            abilityService.insertAbility(villageId, newDay, charaId, targetCharaId, null, CDef.AbilityType.誘惑);
-            insertAbilityMessage(village, newDay, charaId, targetCharaId, true);
-        });
-    }
-
     // 能力セット
     public void setAbility(//
             Village village, //
@@ -119,20 +94,27 @@ public class SeduceLogic {
         }
         Integer villageId = village.getVillageId();
         Integer charaId = villagePlayer.getCharaId();
-        abilityService.updateAbility(villageId, day, charaId, targetCharaId, CDef.AbilityType.誘惑);
+        if (targetCharaId == null) {
+            abilityService.deleteAbility(villageId, day, charaId, CDef.AbilityType.誘惑);
+        } else {
+            abilityService.updateAbility(villageId, day, charaId, targetCharaId, CDef.AbilityType.誘惑);
+        }
         insertAbilityMessage(village, day, charaId, targetCharaId, false);
     }
 
-    public VillagePlayers getSelectableTarget(Village village, int day, VillagePlayer courtship) {
-        if (day != 1) {
-            return null;
+    public VillagePlayers getSelectableTarget(Village village, int day, VillagePlayer villagePlayer) {
+        Abilities abilities = abilityService.selectAbilities(village.getVillageId());
+        // 前日以前に能力行使していたらもう使えない
+        if (!abilities.filterPastDay(day).filterByType(CDef.AbilityType.誘惑).filterByChara(villagePlayer.getCharaId()).list.isEmpty()) {
+            return new VillagePlayers(new ArrayList<>());
         }
+
         // 自分以外の生存している人
         return village.getVillagePlayers() //
                 .filterAlive() //
                 .filterNotDummy(village.getVillageSettingsAsOne().get().getDummyCharaId())
                 .filterNotSpecatate()
-                .filterNot(courtship)
+                .filterNot(villagePlayer)
                 .sortedByRoomNumber();
     }
 
@@ -140,16 +122,11 @@ public class SeduceLogic {
     //                                                                        Assist Logic
     //                                                                        ============
     private boolean isInvalidAbility(Village village, VillagePlayer villagePlayer, int day, Integer targetCharaId) {
-        if (targetCharaId == null) {
-            return true;
-        }
         if (villagePlayer.isIsDeadTrue()) {
             return true;
         }
-        if (getSelectableTarget(village, day, villagePlayer).list.stream().noneMatch(vp -> vp.getCharaId().equals(targetCharaId))) {
-            return true;
-        }
-        if (day != 1) {
+        if (targetCharaId != null
+                && getSelectableTarget(village, day, villagePlayer).list.stream().noneMatch(vp -> vp.getCharaId().equals(targetCharaId))) {
             return true;
         }
         return false;
@@ -163,9 +140,11 @@ public class SeduceLogic {
             boolean isDefault //
     ) {
         VillagePlayer chara = village.getVillagePlayers().findByCharaId(charaId);
-        VillagePlayer target = village.getVillagePlayers().findByCharaId(targetCharaId);
-        String message = messageSource.getMessage("ability.seduce.message",
-                new String[] { chara.name(), target.name(), isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
+        String message = messageSource.getMessage("ability.seduce.message", new String[] { //
+                chara.name(), //
+                targetCharaId != null ? village.getVillagePlayers().findByCharaId(targetCharaId).name() : "なし", //
+                isDefault ? "（自動設定）" : "" //
+        }, Locale.JAPAN);
         messageLogic.insertAbilityMessage(village.getVillageId(), day, message);
     }
 }

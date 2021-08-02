@@ -200,19 +200,25 @@ public class AbilityLogic {
             selectablePlayers = stalkingLogic.getSelectableTarget(village, day, villagePlayer);
             break;
         case CHEAT:
-            selectablePlayers = stalkingLogic.getSelectableTarget(village, day, villagePlayer);
-            break;
+            // 「なし」も選べるのでここで返す
+            List<OptionDto> cheatList = cheatLogic.getSelectableTarget(village, day, villagePlayer).map(vp -> new OptionDto(vp));
+            cheatList.add(0, new OptionDto("なし", ""));
+            return cheatList;
         case LONEATTACK:
             // 「なし」も選べるのでここで返す
             List<OptionDto> list3 = loneAttackLogic.getSelectableTarget(village, villagePlayer).map(vp -> new OptionDto(vp));
             list3.add(0, new OptionDto("なし", ""));
             return list3;
         case SEDUCE:
-            selectablePlayers = seduceLogic.getSelectableTarget(village, day, villagePlayer);
-            break;
+            // 「なし」も選べるのでここで返す
+            List<OptionDto> seduceList = seduceLogic.getSelectableTarget(village, day, villagePlayer).map(vp -> new OptionDto(vp));
+            seduceList.add(0, new OptionDto("なし", ""));
+            return seduceList;
         case BADGERGAME:
-            selectablePlayers = badgerGameLogic.getSelectableTarget(village, day, villagePlayer);
-            break;
+            // 「なし」も選べるのでここで返す
+            List<OptionDto> badgergameList = badgerGameLogic.getSelectableTarget(village, day, villagePlayer).map(vp -> new OptionDto(vp));
+            badgergameList.add(0, new OptionDto("なし", ""));
+            return badgergameList;
         default:
             return null;
         }
@@ -498,6 +504,9 @@ public class AbilityLogic {
         case DIVINE:
         case DISTURB:
         case COHABIT:
+        case CHEAT:
+        case SEDUCE:
+        case BADGERGAME:
             return true;
         case GUARD:
         case INVESTIGATE:
@@ -509,9 +518,6 @@ public class AbilityLogic {
             return day > 1;
         case COURT:
         case STALKING:
-        case CHEAT:
-        case SEDUCE:
-        case BADGERGAME:
             return day == 1;
         default:
             return false;

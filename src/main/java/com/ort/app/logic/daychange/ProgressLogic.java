@@ -153,9 +153,7 @@ public class ProgressLogic {
         seduceLogic.seduce(dayChangeVillage);
 
         // 美人局
-        if (day == 2) {
-            badgerGameLogic.badgerGame(dayChangeVillage);
-        }
+        badgerGameLogic.badgerGame(dayChangeVillage);
 
         // 罠、爆弾設置メッセージ
         trapLogic.insertTrapMessages(dayChangeVillage);
@@ -183,9 +181,7 @@ public class ProgressLogic {
         attackLogic.attack(dayChangeVillage);
 
         // 美人局による襲撃
-        if (day == 3) {
-            badgerGameLogic.badgerGame(dayChangeVillage);
-        }
+        badgerGameLogic.badgerGameAttack(dayChangeVillage);
 
         // 単独襲撃
         loneAttackLogic.loneAttack(dayChangeVillage);

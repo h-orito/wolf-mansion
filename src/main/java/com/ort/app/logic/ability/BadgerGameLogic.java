@@ -1,5 +1,6 @@
 package com.ort.app.logic.ability;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import com.ort.app.logic.ability.helper.AttackLogicHelper;
 import com.ort.app.logic.daychange.DayChangeVillage;
 import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
+import com.ort.dbflute.exentity.Abilities;
 import com.ort.dbflute.exentity.Ability;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
@@ -44,14 +46,6 @@ public class BadgerGameLogic {
     // 美人局
     public void badgerGame(DayChangeVillage dayChangeVillage) {
         int day = dayChangeVillage.day;
-        if (day == 2) {
-            badgerGame2Day(dayChangeVillage, day);
-        } else if (day == 3) {
-            badgerGame3Day(dayChangeVillage, day);
-        }
-    }
-
-    private void badgerGame2Day(DayChangeVillage dayChangeVillage, int day) {
         List<VillagePlayer> livingBadgergameList = dayChangeVillage //
                 .alivePlayers() // 死亡していない
                 .filterBySkill(CDef.Skill.美人局).list;
@@ -59,29 +53,29 @@ public class BadgerGameLogic {
             return; // 美人局が既に死亡している場合は何もしない
         }
 
-        livingBadgergameList.forEach(jorogumo -> {
-            Optional<Ability> optCourt = dayChangeVillage.abilities //
+        livingBadgergameList.forEach(badgergame -> {
+            Optional<Ability> optBadgergameAbility = dayChangeVillage.abilities //
                     .filterYesterday(day) //
                     .filterByType(CDef.AbilityType.美人局) //
-                    .filterByChara(jorogumo.getCharaId()).list.stream().findFirst();
-            if (!optCourt.isPresent()) {
+                    .filterByChara(badgergame.getCharaId()).list.stream().findFirst();
+            if (!optBadgergameAbility.isPresent()) {
                 return; // 能力セットしていない場合は何もしない
             }
-            VillagePlayer targetPlayer = dayChangeVillage.vPlayers.findByCharaId(optCourt.get().getTargetCharaId());
+            VillagePlayer targetPlayer = dayChangeVillage.vPlayers.findByCharaId(optBadgergameAbility.get().getTargetCharaId());
             // 恋絆
-            villageService.insertVillagePlayerStatus(targetPlayer, jorogumo, CDef.VillagePlayerStatusType.後追い);
+            villageService.insertVillagePlayerStatus(targetPlayer, badgergame, CDef.VillagePlayerStatusType.後追い);
             // メッセージ
             String seduceMessage = String.format("%sは、%sを誘惑した。", //
-                    jorogumo.name(), //
+                    badgergame.name(), //
                     targetPlayer.name());
             messageLogic.saveIgnoreError(MessageEntity.systemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
                     .messageType(CDef.MessageType.恋人メッセージ)
                     .content(seduceMessage)
-                    .villagePlayer(jorogumo)
+                    .villagePlayer(badgergame)
                     .build());
             String seducedMessage = String.format("%sは%sに誘惑され、恋をしてしまった。", //
                     targetPlayer.name(), //
-                    jorogumo.name());
+                    badgergame.name());
             messageLogic.saveIgnoreError(MessageEntity.systemBuilder(dayChangeVillage.villageId, dayChangeVillage.day) //
                     .messageType(CDef.MessageType.恋人メッセージ)
                     .content(seducedMessage)
@@ -91,51 +85,41 @@ public class BadgerGameLogic {
     }
 
     // 対象を襲撃
-    private void badgerGame3Day(DayChangeVillage dayChangeVillage, int day) {
-        dayChangeVillage.abilities //
-                .filterByDay(1) // 1日目の能力行使
-                .filterByType(CDef.AbilityType.美人局).list.forEach(badgergameAbility -> {
-                    VillagePlayer targetPlayer = dayChangeVillage.vPlayers.findByCharaId(badgergameAbility.getTargetCharaId());
-
-                    // 襲撃成功したら死亡
-                    if (!helper.isAttackSuccess(dayChangeVillage, targetPlayer)) {
-                        return;
-                    }
-
-                    // 同棲者がいる部屋だったら移動元の同棲者も死亡
-                    if (helper.isCohabitting(dayChangeVillage, targetPlayer)) {
-                        VillagePlayer lover = targetPlayer.getTargetCohabitor();
-                        villageService.dead(lover, dayChangeVillage.day, CDef.DeadReason.襲撃);
-                        dayChangeVillage.deadPlayers.add(lover, CDef.DeadReason.襲撃);
-                    }
-
-                    // 死亡処理
-                    villageService.dead(targetPlayer, dayChangeVillage.day, CDef.DeadReason.襲撃);
-                    dayChangeVillage.deadPlayers.add(targetPlayer, CDef.DeadReason.襲撃);
-                });
-    }
-
-    // 日付変更時のデフォルトセット
-    public void insertDefaultSeduce(Village village, int newDay) {
-        if (newDay != 1) {
-            return;
+    public void badgerGameAttack(DayChangeVillage dayChangeVillage) {
+        int day = dayChangeVillage.day;
+        List<VillagePlayer> livingBadgergameList = dayChangeVillage //
+                .alivePlayers() // 死亡していない
+                .filterBySkill(CDef.Skill.美人局).list;
+        if (CollectionUtils.isEmpty(livingBadgergameList)) {
+            return; // 美人局が既に死亡している場合は何もしない
         }
-        Integer villageId = village.getVillageId();
-        // 生存している美人局
-        VillagePlayers aliveJorogumos = village.getVillagePlayers() //
-                .filterAlive() //
-                .filterBy(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.美人局);
-        if (aliveJorogumos.list.isEmpty()) {
-            return;
-        }
-        aliveJorogumos.list.forEach(jorogumo -> {
-            Integer charaId = jorogumo.getCharaId();
-            // 誘惑される人(生存者の中の誰か）
-            Integer targetCharaId = getSelectableTarget(village, newDay, jorogumo) //
-                    .getRandom()
-                    .getCharaId();
-            abilityService.insertAbility(villageId, newDay, charaId, targetCharaId, null, CDef.AbilityType.美人局);
-            insertAbilityMessage(village, newDay, charaId, targetCharaId, true);
+
+        livingBadgergameList.forEach(badgergame -> {
+            Optional<Ability> optBadgergameAbility = dayChangeVillage.abilities //
+                    .filterByDay(day - 2) // 2日前の能力行使
+                    .filterByType(CDef.AbilityType.美人局) //
+                    .filterByChara(badgergame.getCharaId()).list.stream().findFirst();
+            if (!optBadgergameAbility.isPresent()) {
+                return; // 能力セットしていない場合は何もしない
+            }
+            Ability badgergameAbility = optBadgergameAbility.get();
+            VillagePlayer targetPlayer = dayChangeVillage.vPlayers.findByCharaId(badgergameAbility.getTargetCharaId());
+
+            // 襲撃成功したら死亡
+            if (!helper.isAttackSuccess(dayChangeVillage, targetPlayer)) {
+                return;
+            }
+
+            // 同棲者がいる部屋だったら移動元の同棲者も死亡
+            if (helper.isCohabitting(dayChangeVillage, targetPlayer)) {
+                VillagePlayer lover = targetPlayer.getTargetCohabitor();
+                villageService.dead(lover, dayChangeVillage.day, CDef.DeadReason.襲撃);
+                dayChangeVillage.deadPlayers.add(lover, CDef.DeadReason.襲撃);
+            }
+
+            // 死亡処理
+            villageService.dead(targetPlayer, dayChangeVillage.day, CDef.DeadReason.襲撃);
+            dayChangeVillage.deadPlayers.add(targetPlayer, CDef.DeadReason.襲撃);
         });
     }
 
@@ -151,20 +135,27 @@ public class BadgerGameLogic {
         }
         Integer villageId = village.getVillageId();
         Integer charaId = villagePlayer.getCharaId();
-        abilityService.updateAbility(villageId, day, charaId, targetCharaId, CDef.AbilityType.美人局);
+        if (targetCharaId == null) {
+            abilityService.deleteAbility(villageId, day, charaId, CDef.AbilityType.美人局);
+        } else {
+            abilityService.updateAbility(villageId, day, charaId, targetCharaId, CDef.AbilityType.美人局);
+        }
         insertAbilityMessage(village, day, charaId, targetCharaId, false);
     }
 
-    public VillagePlayers getSelectableTarget(Village village, int day, VillagePlayer courtship) {
-        if (day != 1) {
-            return null;
+    public VillagePlayers getSelectableTarget(Village village, int day, VillagePlayer villagePlayer) {
+        Abilities abilities = abilityService.selectAbilities(village.getVillageId());
+        // 前日以前に能力行使していたらもう使えない
+        if (!abilities.filterPastDay(day).filterByType(CDef.AbilityType.美人局).filterByChara(villagePlayer.getCharaId()).list.isEmpty()) {
+            return new VillagePlayers(new ArrayList<>());
         }
+
         // 自分以外の生存している人
         return village.getVillagePlayers() //
                 .filterAlive() //
                 .filterNotDummy(village.getVillageSettingsAsOne().get().getDummyCharaId())
                 .filterNotSpecatate()
-                .filterNot(courtship)
+                .filterNot(villagePlayer)
                 .sortedByRoomNumber();
     }
 
@@ -172,16 +163,11 @@ public class BadgerGameLogic {
     //                                                                        Assist Logic
     //                                                                        ============
     private boolean isInvalidAbility(Village village, VillagePlayer villagePlayer, int day, Integer targetCharaId) {
-        if (targetCharaId == null) {
-            return true;
-        }
         if (villagePlayer.isIsDeadTrue()) {
             return true;
         }
-        if (getSelectableTarget(village, day, villagePlayer).list.stream().noneMatch(vp -> vp.getCharaId().equals(targetCharaId))) {
-            return true;
-        }
-        if (day != 1) {
+        if (targetCharaId != null
+                && getSelectableTarget(village, day, villagePlayer).list.stream().noneMatch(vp -> vp.getCharaId().equals(targetCharaId))) {
             return true;
         }
         return false;
@@ -195,9 +181,11 @@ public class BadgerGameLogic {
             boolean isDefault //
     ) {
         VillagePlayer chara = village.getVillagePlayers().findByCharaId(charaId);
-        VillagePlayer target = village.getVillagePlayers().findByCharaId(targetCharaId);
-        String message = messageSource.getMessage("ability.badgergame.message",
-                new String[] { chara.name(), target.name(), isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
+        String message = messageSource.getMessage("ability.badgergame.message", new String[] { //
+                chara.name(), //
+                targetCharaId != null ? village.getVillagePlayers().findByCharaId(targetCharaId).name() : "なし", //
+                isDefault ? "（自動設定）" : "" //
+        }, Locale.JAPAN);
         messageLogic.insertAbilityMessage(village.getVillageId(), day, message);
     }
 }
