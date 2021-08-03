@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import com.ort.app.datasource.AbilityService;
 import com.ort.app.datasource.VillageService;
 import com.ort.app.datasource.VoteService;
+import com.ort.app.logic.FootstepLogic;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.TwitterLogic;
 import com.ort.app.logic.ability.AttackLogic;
@@ -118,6 +119,8 @@ public class ProgressLogic {
     private VillagePlayerBhv villagePlayerBhv;
     @Autowired
     private MessageLogic messageLogic;
+    @Autowired
+    private FootstepLogic footstepLogic;
     @Autowired
     private TwitterLogic twitterLogic;
     @Autowired
@@ -223,11 +226,48 @@ public class ProgressLogic {
         // 冤罪者
         falseChargesLogic.falseCharges(dayChangeVillage);
 
-        // 投票、能力行使のデフォルト設定
-        defaultSetLogic.setDefaultVoteAndAbility(villageId, day);
+        // 生存者、足音メッセージ登録
+        insertAlivePlayerAndFootstepMessage(villageId, day);
 
         // フルーツバスケット
         fruitsBasketLogic.fruitBasket(dayChangeVillage);
+
+        // 投票、能力行使のデフォルト設定
+        defaultSetLogic.setDefaultVoteAndAbility(villageId, day);
+    }
+
+    private void insertAlivePlayerAndFootstepMessage(Integer villageId, int day) {
+        if (day == 1) {
+            return; // 1日目は必要なし
+        }
+        // 最新の状況が必要なので取得し直す
+        Village village = villageService.selectVillage(villageId, false, false);
+        // 生存者メッセージ登録
+        insertAlivePlayerMessage(village, day);
+        // 足音メッセージ登録
+        insertFootstepMessage(village, day);
+    }
+
+    // 生存者メッセージ登録
+    private void insertAlivePlayerMessage(Village village, int day) {
+        VillagePlayers villagePlayers = village.getVillagePlayers();
+        int livePersonNum = villagePlayers.filterAlive().list.size();
+        StringJoiner joiner = new StringJoiner("、", "現在の生存者は、以下の" + livePersonNum + "名。\n", "");
+        villagePlayers.filterAlive().sortedByRoomNumber().list.forEach(player -> joiner.add(player.name()));
+        messageLogic.saveIgnoreError(MessageEntity.publicSystemBuilder(village.getVillageId(), day) //
+                .content(joiner.toString())
+                .build());
+    }
+
+    private void insertFootstepMessage(Village village, int day) {
+        if (day == 1) {
+            return;
+        }
+        List<Integer> livingPlayerRoomNumList = village.getVillagePlayers().filterAlive().map(VillagePlayer::getRoomNumber);
+        String message = footstepLogic.getFootstepMessage(village.getVillageId(), day - 1, livingPlayerRoomNumList);
+        messageLogic.saveIgnoreError(MessageEntity.publicSystemBuilder(village.getVillageId(), day) //
+                .content(message)
+                .build());
     }
 
     // 勝敗判定、エピローグ処理

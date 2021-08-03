@@ -1,9 +1,7 @@
 package com.ort.app.logic.daychange.ability;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,7 +11,7 @@ import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.daychange.DayChangeVillage;
 import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
-import com.ort.dbflute.allcommon.CDef.Skill;
+import com.ort.dbflute.exentity.Skills;
 import com.ort.dbflute.exentity.VillagePlayer;
 
 @Component
@@ -52,11 +50,7 @@ public class RevivalLogic {
             villageService.revive(vp, dayChangeVillage.day);
             dayChangeVillage.deadPlayers.remove(vp);
             // ランダム役職で蘇生
-            List<Skill> skillList = CDef.Skill.listAll().stream().filter(s -> {
-                return !notRevivalableSkillList.contains(s) && !s.isSomeoneSkill();
-            }).collect(Collectors.toList());
-            Collections.shuffle(skillList);
-            CDef.Skill skill = skillList.get(0);
+            CDef.Skill skill = Skills.of().filterNotSomeone().filterBy(s -> !notRevivalableSkillList.contains(s)).getRandom();
             villageService.updateSkill(vp, skill);
             saveRevivalMessage(dayChangeVillage, vp);
             // 後続処理のためここもset
@@ -72,11 +66,11 @@ public class RevivalLogic {
             villageService.revive(vp, dayChangeVillage.day);
             dayChangeVillage.deadPlayers.remove(vp);
             // 村陣営のランダム役職で蘇生
-            List<Skill> skillList = CDef.Skill.listAll().stream().filter(s -> {
-                return CDef.Camp.codeOf(s.campCode()) == CDef.Camp.村人陣営 && !notRevivalableSkillList.contains(s) && !s.isSomeoneSkill();
-            }).collect(Collectors.toList());
-            Collections.shuffle(skillList);
-            CDef.Skill skill = skillList.get(0);
+            CDef.Skill skill = Skills.of()
+                    .filterNotSomeone()
+                    .filterByCamp(CDef.Camp.村人陣営)
+                    .filterBy(s -> !notRevivalableSkillList.contains(s))
+                    .getRandom();
             villageService.updateSkill(vp, skill);
             saveRevivalMessage(dayChangeVillage, vp);
             // 後続処理のためここもset

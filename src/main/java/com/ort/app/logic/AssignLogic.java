@@ -33,6 +33,7 @@ import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exbhv.VillagePlayerStatusBhv;
 import com.ort.dbflute.exentity.CampAllocation;
 import com.ort.dbflute.exentity.SkillAllocation;
+import com.ort.dbflute.exentity.Skills;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillagePlayerStatus;
@@ -619,7 +620,7 @@ public class AssignLogic {
         List<SkillAllocation> skillAllocationList = village.getSkillAllocationList();
 
         Map<Skill, Integer> skillPersonNumMap = new HashMap<>();
-        CDef.Skill.listAll().stream().filter(s -> !s.isSomeoneSkill()).forEach(skill -> {
+        Skills.of().filterNotSomeone().list.forEach(skill -> {
             skillPersonNumMap.put(skill, 0);
         });
 

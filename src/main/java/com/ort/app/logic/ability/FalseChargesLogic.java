@@ -25,7 +25,7 @@ public class FalseChargesLogic {
         if (victims.list.isEmpty()) {
             return;
         }
-        dayChangeVillage.alivePlayers().filterBy(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.冤罪者).list.forEach(vp -> {
+        dayChangeVillage.alivePlayers().filterBySkill(CDef.Skill.冤罪者).list.forEach(vp -> {
             Integer charaId = vp.getCharaId();
             Integer targetCharaId = victims.getRandom().getCharaId();
             List<String> footstepList =

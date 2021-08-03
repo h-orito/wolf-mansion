@@ -803,7 +803,7 @@ public class VillageAssist {
     // 人数：構成の表示にする
     private String makeDisplayOrganization(VillageInfo villageInfo) {
         String organize = villageInfo.settings.getOrganize();
-        if (villageInfo.village.isVillageStatusCode募集中()) {
+        if (villageInfo.village.isVillageStatusCode募集中() || villageInfo.village.isVillageStatusCode廃村()) {
             return String.join("\n", Stream.of(organize.replaceAll("\r\n", "\n").split("\n")).map(org -> {
                 return String.format("%02d人: %s", org.length(), org);
             }).collect(Collectors.toList()));

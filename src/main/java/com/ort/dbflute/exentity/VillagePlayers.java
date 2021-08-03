@@ -19,6 +19,14 @@ public class VillagePlayers {
         this.list = list;
     }
 
+    public boolean isEmpty() {
+        return this.list.isEmpty();
+    }
+
+    public boolean isNotEmpty() {
+        return !this.isEmpty();
+    }
+
     public VillagePlayers filterBy(Predicate<VillagePlayer> predicate) {
         return new VillagePlayers(this.list.stream().filter(predicate).collect(Collectors.toList()));
     }
@@ -89,8 +97,9 @@ public class VillagePlayers {
     }
 
     public VillagePlayer findByCharaId(int charaId) {
-        return this.filterBy(vp -> vp.getCharaId().equals(charaId)).list.stream().findFirst().orElseThrow(
-                () -> new IllegalStateException("no found chara. charaId: " + charaId));
+        return this.filterBy(vp -> vp.getCharaId().equals(charaId)).list.stream()
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("no found chara. charaId: " + charaId));
     }
 
     public Optional<VillagePlayer> findByRoomNumber(int roomNum, int day) {
