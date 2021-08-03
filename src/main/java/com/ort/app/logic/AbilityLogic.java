@@ -25,6 +25,7 @@ import com.ort.app.logic.ability.LoneAttackLogic;
 import com.ort.app.logic.ability.SeduceLogic;
 import com.ort.app.logic.ability.StalkingLogic;
 import com.ort.app.logic.ability.TrapLogic;
+import com.ort.app.logic.ability.WallPunchLogic;
 import com.ort.app.web.dto.VillageInfo;
 import com.ort.app.web.model.OptionDto;
 import com.ort.dbflute.allcommon.CDef;
@@ -46,6 +47,8 @@ public class AbilityLogic {
     private DivineLogic divineLogic;
     @Autowired
     private GuardLogic guardLogic;
+    @Autowired
+    private WallPunchLogic wallPunchLogic;
     @Autowired
     private DisturbLogic disturbLogic;
     @Autowired
@@ -91,6 +94,9 @@ public class AbilityLogic {
             break;
         case GUARD:
             guardLogic.setAbility(village, villagePlayer, day, targetCharaId, footstep);
+            break;
+        case WALLPUNCH:
+            wallPunchLogic.setAbility(village, villagePlayer, day, targetCharaId);
             break;
         case DISTURB:
             disturbLogic.setAbility(village, villagePlayer, day, footstep);
@@ -158,6 +164,9 @@ public class AbilityLogic {
             break;
         case GUARD:
             selectablePlayers = guardLogic.getSelectableTarget(village, day, villagePlayer);
+            break;
+        case WALLPUNCH:
+            selectablePlayers = wallPunchLogic.getSelectableTarget(village, day, villagePlayer);
             break;
         case DISTURB:
             return null;
@@ -261,6 +270,8 @@ public class AbilityLogic {
             return divineLogic.makeSkillHistoryList(village, villagePlayer, day);
         case GUARD:
             return guardLogic.makeSkillHistoryList(village, villagePlayer, day);
+        case WALLPUNCH:
+            return wallPunchLogic.makeSkillHistoryList(village, villagePlayer, day);
         case DISTURB:
             return disturbLogic.makeSkillHistoryList(village, villagePlayer, day);
         case INVESTIGATE:
@@ -427,6 +438,8 @@ public class AbilityLogic {
             return "を占う";
         case GUARD:
             return "を護衛する";
+        case WALLPUNCH:
+            return "の部屋の壁を殴る";
         case COHABIT:
             return "の部屋で過ごす";
         case COMMAND:
@@ -454,7 +467,7 @@ public class AbilityLogic {
     }
 
     private enum AbilityType {
-        ATTACK, DIVINE, GUARD, DISTURB, INVESTIGATE, TRAP, BOMB, COHABIT, COMMAND, FRUITSBASKET, COURT, // 
+        ATTACK, DIVINE, GUARD, WALLPUNCH, DISTURB, INVESTIGATE, TRAP, BOMB, COHABIT, COMMAND, FRUITSBASKET, COURT, // 
         STALKING, CHEAT, LONEATTACK, SEDUCE, BADGERGAME
     }
 
@@ -465,6 +478,8 @@ public class AbilityLogic {
             return AbilityType.DIVINE;
         } else if (skill == CDef.Skill.狩人) {
             return AbilityType.GUARD;
+        } else if (skill == CDef.Skill.壁殴り代行) {
+            return AbilityType.WALLPUNCH;
         } else if (skill.isHasDisturbAbility()) {
             return AbilityType.DISTURB;
         } else if (skill == CDef.Skill.探偵) {
@@ -509,6 +524,7 @@ public class AbilityLogic {
         case BADGERGAME:
             return true;
         case GUARD:
+        case WALLPUNCH:
         case INVESTIGATE:
         case TRAP:
         case BOMB:

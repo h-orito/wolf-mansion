@@ -431,6 +431,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 壁殴り代行 (WALLPUNCHER). And OnlyOnceRegistered. <br>
+     * 壁殴り代行
+     */
+    public void setSkillCode_Equal_壁殴り代行() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.壁殴り代行);
+    }
+
+    /**
      * Equal(=). As 人狼 (WEREWOLF). And OnlyOnceRegistered. <br>
      * 人狼
      */
@@ -854,6 +862,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 壁殴り代行 (WALLPUNCHER). And OnlyOnceRegistered. <br>
+     * 壁殴り代行
+     */
+    public void setSkillCode_NotEqual_壁殴り代行() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.壁殴り代行);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 人狼 (WEREWOLF). And OnlyOnceRegistered. <br>
      * 人狼
      */
@@ -972,7 +988,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 襲撃されても死なない <br>
-     * The group elements:[妖狐, 誑狐, 爆弾魔]
+     * The group elements:[壁殴り代行, 妖狐, 誑狐, 爆弾魔]
      */
     public void setSkillCode_InScope_NoDeadByAttack() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfNoDeadByAttack());

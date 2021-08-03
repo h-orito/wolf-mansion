@@ -245,11 +245,8 @@ public class AttackLogic {
     }
 
     private boolean isGuarded(DayChangeVillage dayChangeVillage, VillagePlayer targetPlayer) {
-        return dayChangeVillage.abilities //
-                .filterYesterday(dayChangeVillage.day) //
-                .filterByType(CDef.AbilityType.護衛) //
-                .filterMylsefNotIn(dayChangeVillage.deadPlayers.getList()) //
-                        .list.stream().anyMatch(a -> a.getTargetCharaId().equals(targetPlayer.getCharaId()));
+        return dayChangeVillage.guardedPlayers.list.stream()
+                .anyMatch(guardedPlayer -> guardedPlayer.getVillagePlayerId().equals(targetPlayer.getVillagePlayerId()));
     }
 
     private boolean isAbsence(DayChangeVillage dayChangeVillage, VillagePlayer targetPlayer) {

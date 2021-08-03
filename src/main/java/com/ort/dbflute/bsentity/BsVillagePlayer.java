@@ -741,6 +741,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 壁殴り代行 (WALLPUNCHER). <br>
+     * 壁殴り代行
+     */
+    public void setSkillCode_壁殴り代行() {
+        setSkillCodeAsSkill(CDef.Skill.壁殴り代行);
+    }
+
+    /**
      * Set the value of skillCode as 人狼 (WEREWOLF). <br>
      * 人狼
      */
@@ -1141,6 +1149,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 壁殴り代行 (WALLPUNCHER). <br>
+     * 壁殴り代行
+     */
+    public void setRequestSkillCode_壁殴り代行() {
+        setRequestSkillCodeAsSkill(CDef.Skill.壁殴り代行);
+    }
+
+    /**
      * Set the value of requestSkillCode as 人狼 (WEREWOLF). <br>
      * 人狼
      */
@@ -1538,6 +1554,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_おまかせ村人陣営() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.おまかせ村人陣営);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 壁殴り代行 (WALLPUNCHER). <br>
+     * 壁殴り代行
+     */
+    public void setSecondRequestSkillCode_壁殴り代行() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.壁殴り代行);
     }
 
     /**
@@ -2202,6 +2226,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of skillCode 壁殴り代行? <br>
+     * 壁殴り代行
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode壁殴り代行() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.壁殴り代行) : false;
+    }
+
+    /**
      * Is the value of skillCode 人狼? <br>
      * 人狼
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -2307,7 +2342,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 襲撃されても死なない <br>
-     * The group elements:[妖狐, 誑狐, 爆弾魔]
+     * The group elements:[壁殴り代行, 妖狐, 誑狐, 爆弾魔]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_NoDeadByAttack() {
@@ -2882,6 +2917,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 壁殴り代行? <br>
+     * 壁殴り代行
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode壁殴り代行() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.壁殴り代行) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 人狼? <br>
      * 人狼
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -2987,7 +3033,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 襲撃されても死なない <br>
-     * The group elements:[妖狐, 誑狐, 爆弾魔]
+     * The group elements:[壁殴り代行, 妖狐, 誑狐, 爆弾魔]
      * @return The determination, true or false.
      */
     public boolean isRequestSkillCode_NoDeadByAttack() {
@@ -3562,6 +3608,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of secondRequestSkillCode 壁殴り代行? <br>
+     * 壁殴り代行
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode壁殴り代行() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.壁殴り代行) : false;
+    }
+
+    /**
      * Is the value of secondRequestSkillCode 人狼? <br>
      * 人狼
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -3667,7 +3724,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 襲撃されても死なない <br>
-     * The group elements:[妖狐, 誑狐, 爆弾魔]
+     * The group elements:[壁殴り代行, 妖狐, 誑狐, 爆弾魔]
      * @return The determination, true or false.
      */
     public boolean isSecondRequestSkillCode_NoDeadByAttack() {

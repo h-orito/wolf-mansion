@@ -525,6 +525,14 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     }
 
     /**
+     * Set the value of skillCode as 壁殴り代行 (WALLPUNCHER). <br>
+     * 壁殴り代行
+     */
+    public void setSkillCode_壁殴り代行() {
+        setSkillCodeAsSkill(CDef.Skill.壁殴り代行);
+    }
+
+    /**
      * Set the value of skillCode as 人狼 (WEREWOLF). <br>
      * 人狼
      */
@@ -1066,6 +1074,17 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     }
 
     /**
+     * Is the value of skillCode 壁殴り代行? <br>
+     * 壁殴り代行
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode壁殴り代行() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.壁殴り代行) : false;
+    }
+
+    /**
      * Is the value of skillCode 人狼? <br>
      * 人狼
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1171,7 +1190,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
 
     /**
      * 襲撃されても死なない <br>
-     * The group elements:[妖狐, 誑狐, 爆弾魔]
+     * The group elements:[壁殴り代行, 妖狐, 誑狐, 爆弾魔]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_NoDeadByAttack() {

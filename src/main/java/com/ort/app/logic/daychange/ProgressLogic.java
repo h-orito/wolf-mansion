@@ -38,6 +38,7 @@ import com.ort.app.logic.ability.SeduceLogic;
 import com.ort.app.logic.ability.StalkingLogic;
 import com.ort.app.logic.ability.SuicideLogic;
 import com.ort.app.logic.ability.TrapLogic;
+import com.ort.app.logic.ability.WallPunchLogic;
 import com.ort.app.logic.daychange.ability.RevivalLogic;
 import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
@@ -73,6 +74,8 @@ public class ProgressLogic {
     private ExecuteLogic executeLogic;
     @Autowired
     private GuardLogic guardLogic;
+    @Autowired
+    private WallPunchLogic wallPunchLogic;
     @Autowired
     private DivineLogic divineLogic;
     @Autowired
@@ -167,6 +170,9 @@ public class ProgressLogic {
 
         // 護衛
         guardLogic.guard(dayChangeVillage);
+
+        // 壁殴り
+        wallPunchLogic.wallPunch(dayChangeVillage);
 
         // 占い、呪殺、逆呪殺
         divineLogic.divine(dayChangeVillage);

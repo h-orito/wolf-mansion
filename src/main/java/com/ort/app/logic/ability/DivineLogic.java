@@ -1,6 +1,5 @@
 package com.ort.app.logic.ability;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -17,6 +16,7 @@ import com.ort.app.datasource.FootstepService;
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.FootstepLogic;
 import com.ort.app.logic.MessageLogic;
+import com.ort.app.logic.RoomLogic;
 import com.ort.app.logic.daychange.DayChangeVillage;
 import com.ort.app.logic.message.MessageEntity;
 import com.ort.app.util.SkillUtil;
@@ -43,6 +43,8 @@ public class DivineLogic {
     private MessageSource messageSource;
     @Autowired
     private FootstepLogic footstepLogic;
+    @Autowired
+    private RoomLogic roomLogic;
     @Autowired
     private MessageLogic messageLogic;
     @Autowired
@@ -185,7 +187,7 @@ public class DivineLogic {
     private String makeAstrologerDivineResultMessage(DayChangeVillage dayChangeVillage, VillagePlayer targetPlayer) {
         Village village = villageBhv.selectByPK(dayChangeVillage.villageId).get();
         Integer targetRoomNumber = targetPlayer.getRoomNumber();
-        List<Integer> targetRoomNumberList = detectAroundRoomNumber(targetRoomNumber, village.getRoomSizeWidth());
+        List<Integer> targetRoomNumberList = roomLogic.detectAroundRoomNumber(targetRoomNumber, village.getRoomSizeWidth());
         Map<Skill, List<VillagePlayer>> targetPlayerSkillMap = dayChangeVillage.vPlayers //
                 .filterBy(vp -> targetRoomNumberList.contains(vp.getRoomNumber())).list.stream()
                         .collect(Collectors.groupingBy(VillagePlayer::getSkillCodeAsSkill));
@@ -198,49 +200,6 @@ public class DivineLogic {
         });
 
         return joiner.toString();
-    }
-
-    // 対象＋周辺8部屋の部屋番号（存在しない部屋番号を含んでいても良い）
-    private List<Integer> detectAroundRoomNumber(Integer targetRoomNumber, Integer roomSizeWidth) {
-        if (isLeftSide(targetRoomNumber, roomSizeWidth)) {
-            return Arrays.asList(//
-                    targetRoomNumber, // 対象の部屋
-                    targetRoomNumber - roomSizeWidth, // 上
-                    targetRoomNumber - roomSizeWidth + 1, // 右上
-                    targetRoomNumber + 1, // 右
-                    targetRoomNumber + roomSizeWidth, // 下
-                    targetRoomNumber + roomSizeWidth + 1 // 右下
-            );
-        } else if (isRightSide(targetRoomNumber, roomSizeWidth)) {
-            return Arrays.asList(//
-                    targetRoomNumber, // 対象の部屋
-                    targetRoomNumber - roomSizeWidth - 1, // 左上
-                    targetRoomNumber - roomSizeWidth, // 上
-                    targetRoomNumber - 1, // 左
-                    targetRoomNumber + roomSizeWidth - 1, // 左下
-                    targetRoomNumber + roomSizeWidth // 下
-            );
-        } else {
-            return Arrays.asList(//
-                    targetRoomNumber, // 対象の部屋
-                    targetRoomNumber - roomSizeWidth - 1, // 左上
-                    targetRoomNumber - roomSizeWidth, // 上
-                    targetRoomNumber - roomSizeWidth + 1, // 右上
-                    targetRoomNumber - 1, // 左
-                    targetRoomNumber + 1, // 右
-                    targetRoomNumber + roomSizeWidth - 1, // 左下
-                    targetRoomNumber + roomSizeWidth, // 下
-                    targetRoomNumber + roomSizeWidth + 1 // 右下
-            );
-        }
-    }
-
-    private boolean isLeftSide(int targetRoomNumber, int width) {
-        return targetRoomNumber % width == 1;
-    }
-
-    private boolean isRightSide(int targetRoomNumber, int width) {
-        return targetRoomNumber % width == 0;
     }
 
     // 呪殺

@@ -283,6 +283,14 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
         setAbilityTypeCodeAsAbilityType(CDef.AbilityType.罠設置);
     }
 
+    /**
+     * Set the value of abilityTypeCode as 壁殴り (WALLPUNCH). <br>
+     * 壁殴り
+     */
+    public void setAbilityTypeCode_壁殴り() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.壁殴り);
+    }
+
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
@@ -449,6 +457,17 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public boolean isAbilityTypeCode罠設置() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.罠設置) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 壁殴り? <br>
+     * 壁殴り
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode壁殴り() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.壁殴り) : false;
     }
 
     // ===================================================================================

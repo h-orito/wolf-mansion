@@ -14,6 +14,7 @@ import com.ort.app.logic.ability.GuardLogic;
 import com.ort.app.logic.ability.InvestigateLogic;
 import com.ort.app.logic.ability.SleepwalkLogic;
 import com.ort.app.logic.ability.StalkingLogic;
+import com.ort.app.logic.ability.WallPunchLogic;
 import com.ort.dbflute.exbhv.VoteBhv;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.Vote;
@@ -34,6 +35,8 @@ public class DefaultSetLogic {
     private CohabitLogic cohabitLogic;
     @Autowired
     private GuardLogic guardLogic;
+    @Autowired
+    private WallPunchLogic wallPunchLogic;
     @Autowired
     private InvestigateLogic investigateLogic;
     @Autowired
@@ -78,6 +81,8 @@ public class DefaultSetLogic {
 
         // 護衛
         guardLogic.insertDefaultGuard(village, newDay);
+        // 壁殴り代行
+        wallPunchLogic.insertDefaultWallPunch(village, newDay);
         // 探偵による調査
         investigateLogic.insertDefaultInvestigate(village, newDay);
 

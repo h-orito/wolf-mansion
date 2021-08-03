@@ -34,6 +34,7 @@ public class SkillUtil {
             skillAbilityTypeMap.put(skill, CDef.AbilityType.占い);
         });
         skillAbilityTypeMap.put(CDef.Skill.狩人, CDef.AbilityType.護衛);
+        skillAbilityTypeMap.put(CDef.Skill.壁殴り代行, CDef.AbilityType.壁殴り);
         skillAbilityTypeMap.put(CDef.Skill.探偵, CDef.AbilityType.捜査);
         skillAbilityTypeMap.put(CDef.Skill.罠師, CDef.AbilityType.罠設置);
         skillAbilityTypeMap.put(CDef.Skill.爆弾魔, CDef.AbilityType.爆弾設置);
