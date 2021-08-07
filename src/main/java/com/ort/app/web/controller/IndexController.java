@@ -250,6 +250,7 @@ public class IndexController {
         record.setIsDead(vp.getIsDead());
         record.setDeadDay(vp.getDeadDay());
         record.setDeadReason(extractDeadReason(vp));
+        record.setCampName(vp.getCampCode() == null ? null : CDef.Camp.codeOf(vp.getCampCode()).alias());
         return record;
     }
 

@@ -40,6 +40,10 @@ public class VillageParticipantRecordDto implements Serializable {
     @JsonProperty("dead_reason")
     private String deadReason;
 
+    /** 勝敗判定陣営 */
+    @JsonProperty("camp_name")
+    private String campName;
+
     public String getUserId() {
         return userId;
     }
@@ -102,5 +106,13 @@ public class VillageParticipantRecordDto implements Serializable {
 
     public void setIsSpectator(Boolean isSpectator) {
         this.isSpectator = isSpectator;
+    }
+
+    public String getCampName() {
+        return campName;
+    }
+
+    public void setCampName(String campName) {
+        this.campName = campName;
     }
 }
