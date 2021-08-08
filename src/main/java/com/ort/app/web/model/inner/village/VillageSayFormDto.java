@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.ort.app.web.model.OptionDto;
 import com.ort.app.web.model.inner.SayRestrictDto;
-import com.ort.dbflute.exentity.Chara;
 
 public class VillageSayFormDto {
 
@@ -45,7 +44,7 @@ public class VillageSayFormDto {
     private List<OptionDto> faceTypeList;
 
     /** 秘話相手 */
-    private List<Chara> secretSayTargetList;
+    private List<OptionDto> secretSayTargetList;
 
     public void setAllSayTypeAvailable(boolean isAvailable) {
         this.isAvailableNormalSay = isAvailable;
@@ -139,11 +138,11 @@ public class VillageSayFormDto {
         this.faceTypeList = faceTypeList;
     }
 
-    public List<Chara> getSecretSayTargetList() {
+    public List<OptionDto> getSecretSayTargetList() {
         return secretSayTargetList;
     }
 
-    public void setSecretSayTargetList(List<Chara> secretSayTargetList) {
+    public void setSecretSayTargetList(List<OptionDto> secretSayTargetList) {
         this.secretSayTargetList = secretSayTargetList;
     }
 

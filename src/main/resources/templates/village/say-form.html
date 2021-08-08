@@ -73,7 +73,7 @@
 								</div>
 								<div class="col-sm-12 col-xs-12 hidden" style="margin-top: 10px; margin-bottom: 10px;" data-secret-say-target>
 									秘話相手： <select class="form-control" th:field="*{secretSayTargetCharaId}" th:if="${content.form.say.isAvailableSecretSay}">
-										<option th:each="chara : ${content.form.say.secretSayTargetList}" th:value="${chara.charaId}" th:text="${chara.charaName}"></option>
+										<option th:each="chara : ${content.form.say.secretSayTargetList}" th:value="${chara.value}" th:text="${chara.name}"></option>
 									</select>
 								</div>
 								<div class="col-sm-12 col-xs-12" style="display: flex;">

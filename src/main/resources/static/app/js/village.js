@@ -313,7 +313,7 @@ $(function() {
 						changeFaceTypeIfNeeded('MONOLOGUE');
 						break;
 					case 'SECRET_SAY':
-						$sayTextarea.addClass('message-monologue');
+						$sayTextarea.addClass('message-secret');
 						$('[data-secret-say-target]').removeClass('hidden');
 						changeFaceTypeIfNeeded('SECRET');
 						break;

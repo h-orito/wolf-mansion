@@ -640,8 +640,7 @@ public class AssignLogic {
             for (int i = 0; i < left; i++) {
                 // 割り振っても良い役職
                 List<SkillAllocation> skillList = skillAllocationList.stream().filter(s -> {
-                    return s.getSkillCodeAsSkill().campCode().equals(campAllocation.getCampCode())
-                            && isAllocatableSkill(skillPersonNumMap, s, campAllocation.getCampCodeAsCamp());
+                    return isAllocatableSkill(skillPersonNumMap, s, campAllocation.getCampCodeAsCamp());
                 }).collect(Collectors.toList());
                 CDef.Skill skill = gachaSkill(skillList);
                 addSkillPerson(skillPersonNumMap, skill);
@@ -795,8 +794,8 @@ public class AssignLogic {
         if (max != null && current != null && max <= current) {
             return false;
         }
-
-        return true;
+        // 陣営が指定のもの
+        return skillAllocation.getSkillCodeAsSkill().campCode().equals(camp.code());
     }
 
     private void addSkillPerson(Map<Skill, Integer> skillPersonNumMap, CDef.Skill skill) {

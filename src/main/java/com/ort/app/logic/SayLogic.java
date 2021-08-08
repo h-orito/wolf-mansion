@@ -1,6 +1,7 @@
 package com.ort.app.logic;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ort.app.web.dto.VillageInfo;
+import com.ort.app.web.model.OptionDto;
 import com.ort.app.web.model.inner.SayRestrictDto;
 import com.ort.dbflute.allcommon.CDef;
-import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.Message;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
@@ -29,12 +30,18 @@ public class SayLogic {
     //                                                                             Execute
     //                                                                             =======
     // 秘話対象に選択できる相手
-    public List<Chara> getSelectableSecretSayTarget(VillageInfo villageInfo) {
+    public List<OptionDto> getSelectableSecretSayTarget(VillageInfo villageInfo) {
         if (!isAvailableSecretSay(villageInfo)) {
             return new ArrayList<>();
         }
         // 自分以外
-        return villageInfo.vPlayers.filterNot(villageInfo.optVillagePlayer.get()).map(vp -> vp.getChara().get());
+        return villageInfo.vPlayers.filterNot(villageInfo.optVillagePlayer.get())
+                .sortedBy(Comparator.comparing(VillagePlayer::isIsSpectatorTrue) //
+                        .thenComparingInt(vp -> vp.getRoomNumber() != null ? vp.getRoomNumber() : vp.getCharaId())
+                        .thenComparingInt(VillagePlayer::getCharaId))
+                .map(vp -> {
+                    return new OptionDto(vp);
+                });
     }
 
     // 発言可能か（表示用）
