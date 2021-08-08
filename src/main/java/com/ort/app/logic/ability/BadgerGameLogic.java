@@ -81,6 +81,8 @@ public class BadgerGameLogic {
                     .content(seducedMessage)
                     .villagePlayer(targetPlayer)
                     .build());
+            // 勝利条件を恋人陣営で上書き
+            villageService.updatePlayerWinCamp(targetPlayer, CDef.Camp.恋人陣営);
         });
     }
 
