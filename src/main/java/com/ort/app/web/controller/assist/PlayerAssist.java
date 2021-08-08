@@ -197,19 +197,11 @@ public class PlayerAssist {
             return "生存";
         }
         Integer deadDay = vp.getDeadDay();
-        if (vp.isDeadReasonCode処刑()) {
-            return deadDay + "d 処刑死";
-        } else if (vp.isDeadReasonCode呪殺()) {
-            return deadDay + "d 呪殺";
-        } else if (vp.isDeadReasonCode突然()) {
-            return deadDay + "d 突然死";
-        } else if (vp.isDeadReasonCode襲撃()) {
-            return deadDay + "d 襲撃死";
-        } else if (vp.isDeadReasonCode罠死()) {
-            return deadDay + "d 罠死";
-        } else if (vp.isDeadReasonCode爆死()) {
-            return deadDay + "d 爆死";
+        String reason = vp.getDeadReasonCodeAsDeadReason().alias();
+        if (reason.endsWith("死")) {
+            return deadDay + "d " + reason;
+        } else {
+            return deadDay + "d " + reason + "死";
         }
-        return "";
     }
 }
