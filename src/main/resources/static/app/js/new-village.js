@@ -1,6 +1,6 @@
 $(function() {
 
-	const GET_DUMMY_CHARA_INFO_URL = contextPath + '/getCharacterList/';
+	const GET_DUMMY_CHARA_INFO_URL = contextPath + 'getCharacterList/';
 	let characterList = null;
 
 	$('#characterSetId').on('change', function() {
