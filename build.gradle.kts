@@ -43,7 +43,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("org.dbflute:dbflute-runtime:1.2.1")
-    implementation("mysql:mysql-connector-java:8.0.25")
+    val mysqlConnectorVersion = if (System.getenv("MYSQL_CONNECTOR_VERSION") != null) {
+        System.getenv("MYSQL_CONNECTOR_VERSION")
+    } else "8.0.25"
+    implementation("mysql:mysql-connector-java:$mysqlConnectorVersion")
     testImplementation("com.codeborne:selenide:5.5.0")
     implementation("org.apache.commons:commons-lang3:3.6")
     implementation("org.apache.commons:commons-collections4:4.1")
