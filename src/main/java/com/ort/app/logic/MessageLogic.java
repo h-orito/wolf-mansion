@@ -350,7 +350,11 @@ public class MessageLogic {
 
     // アンカー先を保存
     private void saveMessageSendto(Message message) {
-        Stream.of(message.getMessageContent().split("\\>\\>")).forEach(str -> {
+        String[] splitted = message.getMessageContent().split("\\>\\>");
+        if (splitted.length <= 1) {
+            return; // >>が含まれていない
+        }
+        Stream.of(splitted).forEach(str -> {
             patternMessageTypeMap.forEach((pattern, messageType) -> {
                 Matcher matcher = pattern.matcher(str);
                 if (matcher.find()) {
