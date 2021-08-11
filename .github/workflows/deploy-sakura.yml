@@ -20,8 +20,9 @@ jobs:
           java-version: 1.8
 
       - name: build
+        env:
+          MYSQL_CONNECTOR_VERSION: ${{ secrets.MYSQL_CONNECTOR_VERSION }}
         run: |
-          MYSQL_CONNECTOR_VERSION=${{ secrets.MYSQL_CONNECTOR_VERSION }}
           ./gradlew build -x test
 
       - name: Copy to remote server
