@@ -21,7 +21,7 @@ jobs:
 
       - name: build
         run: |
-          MYSQL_CONNECTOR_VERSION=${secrets.MYSQL_CONNECTOR_VERSION}
+          MYSQL_CONNECTOR_VERSION=${{ secrets.MYSQL_CONNECTOR_VERSION }}
           ./gradlew build -x test
 
       - name: Copy to remote server
