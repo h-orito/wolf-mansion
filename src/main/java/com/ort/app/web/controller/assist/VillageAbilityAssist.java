@@ -21,9 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +47,7 @@ public class VillageAbilityAssist {
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
-    public String setAbility(Integer villageId, VillageAbilityForm abilityForm, BindingResult result, Model model, UriComponentsBuilder builder) {
+    public String setAbility(Integer villageId, VillageAbilityForm abilityForm, BindingResult result, Model model) {
         // ログインしていなかったらNG
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
@@ -67,11 +65,10 @@ public class VillageAbilityAssist {
         Village village = villageService.selectVillage(villageId, false, false);
         abilityLogic.setAbility(village, villagePlayer, day, abilityForm.getCharaId(), abilityForm.getTargetCharaId(),
                 abilityForm.getFootstep());
-        URI location = builder.path("/village/" + villageId).build().toUri();
-        return "redirect:" + location.toString() + "#bottom";
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
-    public String setVote(Integer villageId, VillageVoteForm voteForm, BindingResult result, Model model, UriComponentsBuilder builder) {
+    public String setVote(Integer villageId, VillageVoteForm voteForm, BindingResult result, Model model) {
         // ログインしていなかったらNG
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
@@ -91,8 +88,7 @@ public class VillageAbilityAssist {
         }
         int day = villageService.selectLatestDay(villageId);
         setVote(villageId, villagePlayer, day, villagePlayer.getCharaId(), voteForm.getTargetCharaId());
-        URI location = builder.path("/village/" + villageId).build().toUri();
-        return "redirect:" + location.toString() + "#bottom";
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     public VillageGetFootstepListResultContent getFootstepList(VillageGetFootstepListForm form, BindingResult result) {

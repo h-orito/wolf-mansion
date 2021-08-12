@@ -84,8 +84,7 @@ public class PlayerController {
             BindingResult result, //
             @CookieValue(name = COOKIE_NAME_ID_REGISTER, required = false) Boolean isRecentRegistered, //
             HttpServletResponse response, //
-            Model model, //
-            UriComponentsBuilder builder
+            Model model
     ) {
         if (result.hasErrors()) {
             setIndexModel(form, model);
@@ -107,7 +106,7 @@ public class PlayerController {
         }
         insertPlayer(form);
         registerCookie(response);
-        return "redirect:" + builder.path("/").build().toUri().toString();
+        return "redirect:/";
     }
 
     // パスワード変更
@@ -122,20 +121,18 @@ public class PlayerController {
     private String changePassword(
             @Validated @ModelAttribute("changePasswordForm") PlayerChangePasswordForm form, //
             BindingResult result, //
-            Model model, //
-            UriComponentsBuilder builder
+            Model model
     ) {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
-        String redirectUrl = "redirect:" + builder.path("/").build().toUri().toString();
         if (userInfo == null) {
-            return redirectUrl;
+            return "redirect:/";
         }
         if (result.hasErrors()) {
             setChangePasswordIndexModel(form, model);
             return "change-password";
         }
         updatePlayerPassword(form, userInfo);
-        return redirectUrl;
+        return "redirect:/";
     }
 
     // ユーザ情報

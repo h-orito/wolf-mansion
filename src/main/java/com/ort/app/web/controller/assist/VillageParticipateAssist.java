@@ -21,9 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.net.URI;
 
 @Component
 public class VillageParticipateAssist {
@@ -76,7 +73,7 @@ public class VillageParticipateAssist {
     }
 
     // 参戦する
-    public String participate(Integer villageId, VillageParticipateForm participateForm, BindingResult result, Model model, UriComponentsBuilder builder) {
+    public String participate(Integer villageId, VillageParticipateForm participateForm, BindingResult result, Model model) {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (isInvalidForParticipate(villageId, participateForm, result, userInfo, model)) {
             return villageAssist.setIndexModelAndReturnView(villageId, new VillageForms.Builder().participateForm(participateForm).build(),
@@ -97,12 +94,11 @@ public class VillageParticipateAssist {
                 CDef.Skill.codeOf(participateForm.getRequestedSkill()), CDef.Skill.codeOf(participateForm.getSecondRequestedSkill()),
                 participateForm.getJoinMessage(), BooleanUtils.isTrue(participateForm.getIsSpectator()), false);
         // 最新の日へ
-        URI location = builder.path("/village/" + villageId).build().toUri();
-        return "redirect:" + location.toString() + "#bottom";
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // 退村する
-    public String leave(Integer villageId, Model model, UriComponentsBuilder builder) {
+    public String leave(Integer villageId, Model model) {
         // ログインしていなかったらNG
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (userInfo == null) {
@@ -114,20 +110,18 @@ public class VillageParticipateAssist {
         });
         Village village = villageBhv.selectEntityWithDeletedCheck(cb -> cb.query().setVillageId_Equal(vPlayer.getVillageId()));
 
-        URI location = builder.path("/village/" + villageId).build().toUri();
-        String redirectUrl = "redirect:" + location.toString() + "#bottom";
         if (!village.isVillageStatusCode募集中() && !village.isVillageStatusCode開始待ち()) {
-            return redirectUrl;
+            return "redirect:/village/" + villageId + "#bottom";
         }
         // 退村
         villageParticipateLogic.leave(vPlayer);
         // 最新の日へ
-        return redirectUrl;
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // 役職希望変更
     public String changeRequestSkill(Integer villageId, VillageChangeRequestSkillForm changeRequestSkillForm, BindingResult result,
-                                     Model model, UriComponentsBuilder builder) {
+                                     Model model) {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (isInvalidForChangeRequestSkill(villageId, changeRequestSkillForm, result, userInfo, model)) {
             return villageAssist.setIndexModelAndReturnView(villageId,
@@ -138,16 +132,14 @@ public class VillageParticipateAssist {
         });
 
         Village village = villageBhv.selectEntityWithDeletedCheck(cb -> cb.query().setVillageId_Equal(vPlayer.getVillageId()));
-        URI location = builder.path("/village/" + villageId).build().toUri();
-        String redirectUrl = "redirect:" + location.toString() + "#bottom";
         if (!village.isVillageStatusCode募集中() && !village.isVillageStatusCode開始待ち()) {
-            return redirectUrl;
+            return "redirect:/village/" + villageId + "#bottom";
         }
         // 役職希望変更
         villageParticipateLogic.changeRequestSkill(vPlayer, changeRequestSkillForm.getRequestedSkill(),
                 changeRequestSkillForm.getSecondRequestedSkill());
         // 最新の日へ
-        return redirectUrl;
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // ===================================================================================

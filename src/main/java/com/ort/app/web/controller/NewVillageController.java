@@ -19,7 +19,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDateTime;
 
@@ -121,8 +120,7 @@ public class NewVillageController {
     private String makeVillage(
             @Validated @ModelAttribute("villageForm") NewVillageForm villageForm,
             BindingResult bindingResult,
-            Model model,
-            UriComponentsBuilder builder
+            Model model
     ) {
         if (bindingResult.hasErrors()) {
             newVillageAssist.setIndexModel(villageForm, model);
@@ -149,7 +147,7 @@ public class NewVillageController {
             newVillageAssist.setIndexModel(villageForm, model);
             return "new-village";
         }
-        return "redirect:" + builder.path("/village/" + village.getVillageId()).build().toUri().toString();
+        return "redirect:/village/" + village.getVillageId() + "#bottom";
     }
 
     // ===================================================================================

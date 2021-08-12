@@ -21,9 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -81,7 +79,7 @@ public class VillageSettingsAssist {
     }
 
     // 設定変更
-    public String updateSettings(Integer villageId, VillageSettingsForm form, BindingResult bindingResult, Model model, UriComponentsBuilder builder) {
+    public String updateSettings(Integer villageId, VillageSettingsForm form, BindingResult bindingResult, Model model) {
         // ログインしていなかったらNG
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (userInfo == null) {
@@ -101,8 +99,7 @@ public class VillageSettingsAssist {
             setVillageSettingsIndexModel(villageId, form, model);
             return "village-settings";
         }
-        URI location = builder.path("/village/" + villageId).build().toUri();
-        return "redirect:" + location.toString() + "#bottom";
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // ===================================================================================

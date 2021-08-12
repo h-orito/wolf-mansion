@@ -57,8 +57,7 @@ public class AdminController {
     private String allparticipate(
             @PathVariable Integer villageId,
             VillageParticipateForm participateForm,
-            Model model,
-            UriComponentsBuilder builder
+            Model model
     ) {
         // 参戦していないキャラを人数分探す
         ListResultBean<Chara> charaList = charaBhv.selectList(cb -> {
@@ -81,12 +80,12 @@ public class AdminController {
                     "テストアカウント入村です。playerId：" + playerId, false, true);
         }
 
-        return "redirect:" + builder.path("/village/" + villageId).build().toUri().toString();
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // 管理者機能：時間を進める
     @PostMapping("/admin/village/{villageId}/dayChange")
-    private String daychange(@PathVariable Integer villageId, UriComponentsBuilder builder) {
+    private String daychange(@PathVariable Integer villageId) {
         // 最新の日付の更新日時を今にする
         VillageDay latestDay = villageDayBhv.selectEntity(cb -> {
             cb.query().setVillageId_Equal(villageId);
@@ -99,36 +98,34 @@ public class AdminController {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setDay_Equal(latestDay.getDay());
         });
-
-        return "redirect:" + builder.path("/village/" + villageId).build().toUri().toString();
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // 管理者機能：強制退村
     @PostMapping("/admin/village/{villageId}/leave")
-    private String leave(@PathVariable Integer villageId, VillageLeaveForm leaveForm, UriComponentsBuilder builder) {
-        String redirectUrl = "redirect:" + builder.path("/village/" + villageId).build().toUri().toString();
+    private String leave(@PathVariable Integer villageId, VillageLeaveForm leaveForm) {
         if (leaveForm.getVillagePlayerId() == null) {
-            return redirectUrl;
+            return "redirect:/village/" + villageId + "#bottom";
         }
         OptionalEntity<VillagePlayer> optVPlayer = villagePlayerBhv.selectByPK(leaveForm.getVillagePlayerId());
         if (!optVPlayer.isPresent()) {
-            return redirectUrl;
+            return "redirect:/village/" + villageId + "#bottom";
         }
         // 退村させる
         villageLogic.leave(optVPlayer.get());
 
-        return redirectUrl;
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // 管理者機能：全員アクセス
     @PostMapping("/admin/village/{villageId}/access")
-    private String leave(@PathVariable Integer villageId, UriComponentsBuilder builder) {
+    private String leave(@PathVariable Integer villageId) {
         VillagePlayer vp = new VillagePlayer();
         vp.setLastAccessDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
         villagePlayerBhv.queryUpdate(vp, cb -> {
             cb.query().setVillageId_Equal(villageId);
         });
-        return "redirect:" + builder.path("/village/" + villageId).build().toUri().toString();
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // 管理者機能：全員自分投票
@@ -157,7 +154,7 @@ public class AdminController {
             vote.setVoteCharaId(vp.getCharaId());
             voteBhv.insert(vote);
         });
-        return "redirect:" + builder.path("/village/" + villageId).build().toUri().toString();
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // 管理者機能：参加プレイヤー

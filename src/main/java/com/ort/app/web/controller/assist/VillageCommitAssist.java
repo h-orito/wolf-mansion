@@ -18,9 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.net.URI;
 
 @Component
 public class VillageCommitAssist {
@@ -44,7 +41,7 @@ public class VillageCommitAssist {
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
-    public String setCommit(Integer villageId, VillageCommitForm commitForm, BindingResult result, Model model, UriComponentsBuilder builder) {
+    public String setCommit(Integer villageId, VillageCommitForm commitForm, BindingResult result, Model model) {
         // ログインしていなかったらNG
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
@@ -88,8 +85,7 @@ public class VillageCommitAssist {
                         .build());
             }
         }
-        URI location = builder.path("/village/" + villageId).build().toUri();
-        return "redirect:" + location.toString() + "#bottom";
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // ===================================================================================

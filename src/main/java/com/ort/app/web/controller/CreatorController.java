@@ -74,13 +74,11 @@ public class CreatorController {
     @PostMapping("/village/{villageId}/kick")
     private String kick(
             @PathVariable Integer villageId,
-            VillageKickForm kickForm,
-            UriComponentsBuilder builder
+            VillageKickForm kickForm
     ) {
         // 村建てでなければNG
-        String redirectUrl = "redirect:" + builder.path("/village/" + villageId).build().toUri().toString() + "#bottom";
         if (!isCreator(villageId)) {
-            return redirectUrl;
+            return "redirect:/village/" + villageId + "#bottom";
         }
 
         Integer charaId = kickForm.getCharaId();
@@ -96,11 +94,11 @@ public class CreatorController {
         });
         // いなかった
         if (!optVPlayer.isPresent()) {
-            return redirectUrl;
+            return "redirect:/village/" + villageId + "#bottom";
         }
         // 退村させる
         villageParticipateLogic.leave(optVPlayer.get());
-        return redirectUrl;
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // 村建て機能：村建て発言確認画面へ
@@ -109,8 +107,7 @@ public class CreatorController {
             @PathVariable Integer villageId,
             @Validated @ModelAttribute("creatorSayForm") VillageSayForm creatorSayForm,
             BindingResult result,
-            Model model,
-            UriComponentsBuilder builder
+            Model model
     ) {
         if (result.hasErrors()) {
             String returnView = villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
@@ -119,7 +116,7 @@ public class CreatorController {
         }
         // 村建てでなければNG
         if (!isCreator(villageId)) {
-            return "redirect:" + builder.path("/village/" + villageId).build().toUri().toString() + "#bottom";
+            return "redirect:/village/" + villageId + "#bottom";
         }
         model.addAttribute("villageId", villageId);
         Village village = selectVillage(villageId);
@@ -137,8 +134,7 @@ public class CreatorController {
             @PathVariable Integer villageId,
             @Validated @ModelAttribute("creatorSayForm") VillageSayForm creatorSayForm,
             BindingResult result,
-            Model model,
-            UriComponentsBuilder builder
+            Model model
     ) {
         if (result.hasErrors()) {
             String returnView = villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
@@ -146,9 +142,8 @@ public class CreatorController {
             return returnView;
         }
         // 村建てでなければNG
-        String redirectUrl = "redirect:" + builder.path("/village/" + villageId).build().toUri().toString() + "#bottom";
         if (!isCreator(villageId)) {
-            return redirectUrl;
+            return "redirect:/village/" + villageId + "#bottom";
         }
         int day = villageService.selectLatestDay(villageId);
         messageLogic.saveIgnoreError(new MessageEntity.Builder(villageId, day) //
@@ -157,51 +152,47 @@ public class CreatorController {
                 .isConvertDisable(BooleanUtils.isTrue(creatorSayForm.getIsConvertDisable()))
                 .build());
 
-        return redirectUrl;
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // 村建て機能：廃村
     @PostMapping("/village/{villageId}/cancel")
     private String cancel(
             @PathVariable Integer villageId,
-            Model model,
-            UriComponentsBuilder builder
+            Model model
     ) {
         // 村建てでなければNG
-        String redirectUrl = "redirect:" + builder.path("/village/" + villageId).build().toUri().toString() + "#bottom";
         if (!isCreator(villageId)) {
-            return redirectUrl;
+            return "redirect:/village/" + villageId + "#bottom";
         }
         // プロローグでなければNG
         Village village = selectVillage(villageId);
         if (!village.isVillageStatusCode募集中() && !village.isVillageStatusCode開始待ち()) {
-            return redirectUrl;
+            return "redirect:/village/" + villageId + "#bottom";
         }
         // 廃村にする
         updateVillageCancel(villageId);
-        return redirectUrl;
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // 村建て機能：エピローグ延長
     @PostMapping("/village/{villageId}/extend-epilogue")
     private String extend(
             @PathVariable Integer villageId,
-            Model model,
-            UriComponentsBuilder builder
+            Model model
     ) {
         // 村建てでなければNG
-        String redirectUrl = "redirect:" + builder.path("/village/" + villageId).build().toUri().toString() + "#bottom";
         if (!isCreator(villageId)) {
-            return redirectUrl;
+            return "redirect:/village/" + villageId + "#bottom";
         }
         // エピローグでなければNG
         Village village = selectVillage(villageId);
         if (!village.isVillageStatusCodeエピローグ()) {
-            return redirectUrl;
+            return "redirect:/village/" + villageId + "#bottom";
         }
         // エピローグを1日延長する
         extendEpilogue(villageId);
-        return redirectUrl;
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // ===================================================================================

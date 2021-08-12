@@ -143,10 +143,9 @@ public class VillageController {
             @PathVariable Integer villageId, //
             @Validated @ModelAttribute("participateForm") VillageParticipateForm participateForm, //
             BindingResult result, //
-            Model model, //
-            UriComponentsBuilder builder
+            Model model
     ) {
-        return villageParticipateAssist.participate(villageId, participateForm, result, model, builder);
+        return villageParticipateAssist.participate(villageId, participateForm, result, model);
     }
 
     // 希望役職変更
@@ -155,16 +154,15 @@ public class VillageController {
             @PathVariable Integer villageId, //
             @Validated @ModelAttribute("changeRequestSkill") VillageChangeRequestSkillForm changeRequestSkillForm, //
             BindingResult result, //
-            Model model, //
-            UriComponentsBuilder builder
+            Model model
     ) {
-        return villageParticipateAssist.changeRequestSkill(villageId, changeRequestSkillForm, result, model, builder);
+        return villageParticipateAssist.changeRequestSkill(villageId, changeRequestSkillForm, result, model);
     }
 
     // 退村
     @PostMapping("/village/{villageId}/leave")
-    private String leave(@PathVariable Integer villageId, Model model, UriComponentsBuilder builder) {
-        return villageParticipateAssist.leave(villageId, model, builder);
+    private String leave(@PathVariable Integer villageId, Model model) {
+        return villageParticipateAssist.leave(villageId, model);
     }
 
     // 発言確認画面へ
@@ -181,10 +179,9 @@ public class VillageController {
             @PathVariable Integer villageId, //
             @Validated @ModelAttribute("sayForm") VillageSayForm sayForm, //
             BindingResult result, //
-            Model model, //
-            UriComponentsBuilder builder
+            Model model
     ) {
-        return villageSayAssist.say(villageId, sayForm, result, model, builder);
+        return villageSayAssist.say(villageId, sayForm, result, model);
     }
 
     // アクション確認画面へ
@@ -201,10 +198,9 @@ public class VillageController {
             @PathVariable Integer villageId, //
             @Validated @ModelAttribute("actionForm") VillageActionForm actionForm, //
             BindingResult result, //
-            Model model, //
-            UriComponentsBuilder builder
+            Model model
     ) {
-        return villageActionAssist.action(villageId, actionForm, result, model, builder);
+        return villageActionAssist.action(villageId, actionForm, result, model);
     }
 
     // 名前を変更する
@@ -213,10 +209,9 @@ public class VillageController {
             @PathVariable Integer villageId, //
             @Validated @ModelAttribute("changeNameForm") VillageChangeNameForm changeNameForm, //
             BindingResult result, //
-            Model model, //
-            UriComponentsBuilder builder
+            Model model
     ) {
-        return villageRpAssist.changeName(villageId, changeNameForm, result, model, builder);
+        return villageRpAssist.changeName(villageId, changeNameForm, result, model);
     }
 
     // 簡易メモを変更する
@@ -225,10 +220,9 @@ public class VillageController {
             @PathVariable Integer villageId, //
             @Validated @ModelAttribute("changeNameForm") VillageMemoForm memoForm, //
             BindingResult result, //
-            Model model, //
-            UriComponentsBuilder builder
+            Model model
     ) {
-        return villageRpAssist.memo(villageId, memoForm, result, model, builder);
+        return villageRpAssist.memo(villageId, memoForm, result, model);
     }
 
     // 能力セットする
@@ -237,10 +231,9 @@ public class VillageController {
             @PathVariable Integer villageId, //
             @Validated @ModelAttribute("abilityForm") VillageAbilityForm abilityForm, //
             BindingResult result, //
-            Model model, //
-            UriComponentsBuilder builder
+            Model model
     ) {
-        return villageAbilityAssist.setAbility(villageId, abilityForm, result, model, builder);
+        return villageAbilityAssist.setAbility(villageId, abilityForm, result, model);
     }
 
     // 投票セットする
@@ -249,10 +242,9 @@ public class VillageController {
             @PathVariable Integer villageId, //
             @Validated @ModelAttribute("voteForm") VillageVoteForm voteForm, //
             BindingResult result, //
-            Model model,
-            UriComponentsBuilder builder
+            Model model
     ) {
-        return villageAbilityAssist.setVote(villageId, voteForm, result, model, builder);
+        return villageAbilityAssist.setVote(villageId, voteForm, result, model);
     }
 
     // コミットする
@@ -261,10 +253,9 @@ public class VillageController {
             @PathVariable Integer villageId, //
             @Validated @ModelAttribute("commitForm") VillageCommitForm commitForm, //
             BindingResult result, //
-            Model model, //
-            UriComponentsBuilder builder
+            Model model
     ) {
-        return villageCommitAssist.setCommit(villageId, commitForm, result, model, builder);
+        return villageCommitAssist.setCommit(villageId, commitForm, result, model);
     }
 
     // 足音候補取得
@@ -286,9 +277,8 @@ public class VillageController {
             @PathVariable Integer villageId, //
             @Validated @ModelAttribute("settingsForm") VillageSettingsForm form, //
             BindingResult bindingResult, //
-            Model model, //
-            UriComponentsBuilder builder
+            Model model
     ) {
-        return villageSettingsAssist.updateSettings(villageId, form, bindingResult, model, builder);
+        return villageSettingsAssist.updateSettings(villageId, form, bindingResult, model);
     }
 }

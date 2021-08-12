@@ -23,9 +23,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -53,7 +51,7 @@ public class VillageActionAssist {
     //                                                                             Execute
     //                                                                             =======
     public VillageSayConfirmResultContent actionConfirm(Integer villageId, VillageActionForm actionForm, BindingResult result,
-            Model model) {
+                                                        Model model) {
         // ログインしていなかったらNG
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
@@ -88,11 +86,12 @@ public class VillageActionAssist {
         message.setIsConvertDisable(actionForm.getIsConvertDisable());
         content.setMessage(message);
         content.setRandomKeywords(String.join(",",
-                randomKeywordBhv.selectList(cb -> {}).stream().map(RandomKeyword::getKeyword).collect(Collectors.toList())));
+                randomKeywordBhv.selectList(cb -> {
+                }).stream().map(RandomKeyword::getKeyword).collect(Collectors.toList())));
         return content;
     }
 
-    public String action(Integer villageId, VillageActionForm actionForm, BindingResult result, Model model, UriComponentsBuilder builder) {
+    public String action(Integer villageId, VillageActionForm actionForm, BindingResult result, Model model) {
         // ログインしていなかったらNG
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
@@ -131,8 +130,7 @@ public class VillageActionAssist {
         }
 
         // 最新の日付を表示
-        URI location = builder.path("/village/" + villageId).build().toUri();
-        return "redirect:" + location.toString() + "#bottom";
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // ===================================================================================
@@ -158,7 +156,7 @@ public class VillageActionAssist {
     //                                                                        ============
     // 発言可能かチェック
     private boolean isAvailableAction(Integer villageId, Village village, VillagePlayer villagePlayer, UserInfo userInfo,
-            VillageActionForm actionForm) {
+                                      VillageActionForm actionForm) {
         // 管理者は発言可能
         if (userInfo.getAuthorities().stream().anyMatch(a -> a.equals(new SimpleGrantedAuthority("ROLE_ADMIN")))) {
             return true;
@@ -172,7 +170,7 @@ public class VillageActionAssist {
     }
 
     private boolean isRestricted(Integer villageId, Village village, VillagePlayer vPlayer, VillageActionForm actionForm,
-            UserInfo userInfo) {
+                                 UserInfo userInfo) {
         if (!village.isVillageStatusCode進行中()) {
             return false; // 制限するのは進行中のみ
         }
