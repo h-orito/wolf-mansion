@@ -18,6 +18,7 @@ server:
       timeout: 86400
   port: 8081
   tomcat:
+    use-relative-redirects: true
     basedir: /app/logs/
     accesslog:
       enabled: true
