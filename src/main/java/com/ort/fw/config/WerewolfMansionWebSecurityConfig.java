@@ -49,8 +49,7 @@ public class WerewolfMansionWebSecurityConfig extends WebSecurityConfigurerAdapt
                 .loginProcessingUrl("/login")
                 .loginPage("/")
                 // ログイン成功時の遷移先URL
-                .successHandler(new WolfMansionAuthenticationSuccessHandler())
-//                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/")
                 // ログイン失敗時の遷移先URL
                 .failureUrl("/login?error=true")
                 // usernameのパラメタ名

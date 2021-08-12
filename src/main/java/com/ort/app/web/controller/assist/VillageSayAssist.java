@@ -146,8 +146,9 @@ public class VillageSayAssist {
         }
 
         // 最新の日付を表示
-        URI location = builder.path("/village/" + villageId).build().toUri();
-        return "redirect:" + location.toString()+ "#bottom" ;
+//        URI location = builder.path("/village/" + villageId).build().toUri();
+//        return "redirect:" + location.toString()+ "#bottom" ;
+        return "redirect:/village/" + villageId + "#bottom";
     }
 
     // ===================================================================================
