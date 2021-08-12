@@ -67,7 +67,7 @@ Handlebars.registerHelper('or', function () {
     return existsTrue;
 });
 Handlebars.registerHelper('timeFormat', function (time) {
-    return time.replaceAll('T', ' ').replaceAll('-', '/')
+    return time.replace('T', ' ').replace('-', '/')
 });
 
 Handlebars.registerHelper('escapeHtmlWithoutBr', function (text) {
