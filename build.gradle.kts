@@ -31,7 +31,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity4:3.0.2.RELEASE")
+    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
     implementation("org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.0.RELEASE")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     implementation("org.thymeleaf:thymeleaf:3.0.9.RELEASE")
