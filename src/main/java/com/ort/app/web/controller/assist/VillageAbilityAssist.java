@@ -1,14 +1,5 @@
 package com.ort.app.web.controller.assist;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.dbflute.cbean.result.ListResultBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.AbilityLogic;
 import com.ort.app.logic.FootstepLogic;
@@ -25,6 +16,16 @@ import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.Vote;
 import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import org.dbflute.cbean.result.ListResultBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
 
 @Component
 public class VillageAbilityAssist {
@@ -48,7 +49,7 @@ public class VillageAbilityAssist {
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
-    public String setAbility(Integer villageId, VillageAbilityForm abilityForm, BindingResult result, Model model) {
+    public String setAbility(Integer villageId, VillageAbilityForm abilityForm, BindingResult result, Model model, UriComponentsBuilder builder) {
         // ログインしていなかったらNG
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
@@ -66,10 +67,11 @@ public class VillageAbilityAssist {
         Village village = villageService.selectVillage(villageId, false, false);
         abilityLogic.setAbility(village, villagePlayer, day, abilityForm.getCharaId(), abilityForm.getTargetCharaId(),
                 abilityForm.getFootstep());
-        return "redirect:/village/" + villageId + "#bottom";
+        URI location = builder.path("/village/" + villageId).build().toUri();
+        return "redirect:" + location.toString() + "#bottom";
     }
 
-    public String setVote(Integer villageId, VillageVoteForm voteForm, BindingResult result, Model model) {
+    public String setVote(Integer villageId, VillageVoteForm voteForm, BindingResult result, Model model, UriComponentsBuilder builder) {
         // ログインしていなかったらNG
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
@@ -89,7 +91,8 @@ public class VillageAbilityAssist {
         }
         int day = villageService.selectLatestDay(villageId);
         setVote(villageId, villagePlayer, day, villagePlayer.getCharaId(), voteForm.getTargetCharaId());
-        return "redirect:/village/" + villageId + "#bottom";
+        URI location = builder.path("/village/" + villageId).build().toUri();
+        return "redirect:" + location.toString() + "#bottom";
     }
 
     public VillageGetFootstepListResultContent getFootstepList(VillageGetFootstepListForm form, BindingResult result) {

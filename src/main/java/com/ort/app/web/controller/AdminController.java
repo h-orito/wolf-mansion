@@ -1,18 +1,5 @@
 package com.ort.app.web.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.dbflute.cbean.result.ListResultBean;
-import org.dbflute.optional.OptionalEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.ort.app.logic.VillageParticipateLogic;
 import com.ort.app.web.form.VillageLeaveForm;
 import com.ort.app.web.form.VillageParticipateForm;
@@ -27,6 +14,19 @@ import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.Vote;
 import com.ort.fw.util.WerewolfMansionDateUtil;
+import org.dbflute.cbean.result.ListResultBean;
+import org.dbflute.optional.OptionalEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class AdminController {
@@ -54,7 +54,12 @@ public class AdminController {
     //                                                                             =======
     // 管理者機能：参戦
     @PostMapping("/admin/village/{villageId}/allparticipate")
-    private String allparticipate(@PathVariable Integer villageId, VillageParticipateForm participateForm, Model model) {
+    private String allparticipate(
+            @PathVariable Integer villageId,
+            VillageParticipateForm participateForm,
+            Model model,
+            UriComponentsBuilder builder
+    ) {
         // 参戦していないキャラを人数分探す
         ListResultBean<Chara> charaList = charaBhv.selectList(cb -> {
             cb.query()
@@ -76,12 +81,12 @@ public class AdminController {
                     "テストアカウント入村です。playerId：" + playerId, false, true);
         }
 
-        return "redirect:/village/" + villageId;
+        return "redirect:" + builder.path("/village/" + villageId).build().toUri().toString();
     }
 
     // 管理者機能：時間を進める
     @PostMapping("/admin/village/{villageId}/dayChange")
-    private String daychange(@PathVariable Integer villageId) {
+    private String daychange(@PathVariable Integer villageId, UriComponentsBuilder builder) {
         // 最新の日付の更新日時を今にする
         VillageDay latestDay = villageDayBhv.selectEntity(cb -> {
             cb.query().setVillageId_Equal(villageId);
@@ -95,39 +100,40 @@ public class AdminController {
             cb.query().setDay_Equal(latestDay.getDay());
         });
 
-        return "redirect:/village/" + villageId;
+        return "redirect:" + builder.path("/village/" + villageId).build().toUri().toString();
     }
 
     // 管理者機能：強制退村
     @PostMapping("/admin/village/{villageId}/leave")
-    private String leave(@PathVariable Integer villageId, VillageLeaveForm leaveForm) {
+    private String leave(@PathVariable Integer villageId, VillageLeaveForm leaveForm, UriComponentsBuilder builder) {
+        String redirectUrl = "redirect:" + builder.path("/village/" + villageId).build().toUri().toString();
         if (leaveForm.getVillagePlayerId() == null) {
-            return "redirect:/village/" + villageId;
+            return redirectUrl;
         }
         OptionalEntity<VillagePlayer> optVPlayer = villagePlayerBhv.selectByPK(leaveForm.getVillagePlayerId());
         if (!optVPlayer.isPresent()) {
-            return "redirect:/village/" + villageId;
+            return redirectUrl;
         }
         // 退村させる
         villageLogic.leave(optVPlayer.get());
 
-        return "redirect:/village/" + villageId;
+        return redirectUrl;
     }
 
     // 管理者機能：全員アクセス
     @PostMapping("/admin/village/{villageId}/access")
-    private String leave(@PathVariable Integer villageId) {
+    private String leave(@PathVariable Integer villageId, UriComponentsBuilder builder) {
         VillagePlayer vp = new VillagePlayer();
         vp.setLastAccessDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
         villagePlayerBhv.queryUpdate(vp, cb -> {
             cb.query().setVillageId_Equal(villageId);
         });
-        return "redirect:/village/" + villageId;
+        return "redirect:" + builder.path("/village/" + villageId).build().toUri().toString();
     }
 
     // 管理者機能：全員自分投票
     @PostMapping("/admin/village/{villageId}/vote")
-    private String vote(@PathVariable Integer villageId) {
+    private String vote(@PathVariable Integer villageId, UriComponentsBuilder builder) {
         Integer latestDay = villageDayBhv.selectEntity(cb -> {
             cb.query().setVillageId_Equal(villageId);
             cb.query().addOrderBy_Day_Desc();
@@ -151,7 +157,7 @@ public class AdminController {
             vote.setVoteCharaId(vp.getCharaId());
             voteBhv.insert(vote);
         });
-        return "redirect:/village/" + villageId;
+        return "redirect:" + builder.path("/village/" + villageId).build().toUri().toString();
     }
 
     // 管理者機能：参加プレイヤー

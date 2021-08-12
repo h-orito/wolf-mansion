@@ -1,13 +1,5 @@
 package com.ort.app.web.controller.assist;
 
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.dbflute.cbean.result.ListResultBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.VillageParticipateLogic;
 import com.ort.app.web.controller.assist.impl.VillageForms;
@@ -15,17 +7,23 @@ import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.VillageChangeRequestSkillForm;
 import com.ort.app.web.form.VillageParticipateForm;
 import com.ort.dbflute.allcommon.CDef;
-import com.ort.dbflute.exbhv.CharaBhv;
-import com.ort.dbflute.exbhv.PlayerBhv;
-import com.ort.dbflute.exbhv.VillageBhv;
-import com.ort.dbflute.exbhv.VillagePlayerBhv;
-import com.ort.dbflute.exbhv.VillageSettingsBhv;
+import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillageSettings;
 import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.dbflute.cbean.result.ListResultBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @Component
 public class VillageParticipateAssist {
@@ -78,7 +76,7 @@ public class VillageParticipateAssist {
     }
 
     // 参戦する
-    public String participate(Integer villageId, VillageParticipateForm participateForm, BindingResult result, Model model) {
+    public String participate(Integer villageId, VillageParticipateForm participateForm, BindingResult result, Model model, UriComponentsBuilder builder) {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (isInvalidForParticipate(villageId, participateForm, result, userInfo, model)) {
             return villageAssist.setIndexModelAndReturnView(villageId, new VillageForms.Builder().participateForm(participateForm).build(),
@@ -99,11 +97,12 @@ public class VillageParticipateAssist {
                 CDef.Skill.codeOf(participateForm.getRequestedSkill()), CDef.Skill.codeOf(participateForm.getSecondRequestedSkill()),
                 participateForm.getJoinMessage(), BooleanUtils.isTrue(participateForm.getIsSpectator()), false);
         // 最新の日へ
-        return "redirect:/village/" + villageId + "#bottom";
+        URI location = builder.path("/village/" + villageId).build().toUri();
+        return "redirect:" + location.toString() + "#bottom";
     }
 
     // 退村する
-    public String leave(Integer villageId, Model model) {
+    public String leave(Integer villageId, Model model, UriComponentsBuilder builder) {
         // ログインしていなかったらNG
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (userInfo == null) {
@@ -115,18 +114,20 @@ public class VillageParticipateAssist {
         });
         Village village = villageBhv.selectEntityWithDeletedCheck(cb -> cb.query().setVillageId_Equal(vPlayer.getVillageId()));
 
+        URI location = builder.path("/village/" + villageId).build().toUri();
+        String redirectUrl = "redirect:" + location.toString() + "#bottom";
         if (!village.isVillageStatusCode募集中() && !village.isVillageStatusCode開始待ち()) {
-            return "redirect:/village/" + villageId + "#bottom";
+            return redirectUrl;
         }
         // 退村
         villageParticipateLogic.leave(vPlayer);
         // 最新の日へ
-        return "redirect:/village/" + villageId + "#bottom";
+        return redirectUrl;
     }
 
     // 役職希望変更
     public String changeRequestSkill(Integer villageId, VillageChangeRequestSkillForm changeRequestSkillForm, BindingResult result,
-            Model model) {
+                                     Model model, UriComponentsBuilder builder) {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (isInvalidForChangeRequestSkill(villageId, changeRequestSkillForm, result, userInfo, model)) {
             return villageAssist.setIndexModelAndReturnView(villageId,
@@ -137,21 +138,23 @@ public class VillageParticipateAssist {
         });
 
         Village village = villageBhv.selectEntityWithDeletedCheck(cb -> cb.query().setVillageId_Equal(vPlayer.getVillageId()));
+        URI location = builder.path("/village/" + villageId).build().toUri();
+        String redirectUrl = "redirect:" + location.toString() + "#bottom";
         if (!village.isVillageStatusCode募集中() && !village.isVillageStatusCode開始待ち()) {
-            return "redirect:/village/" + villageId + "#bottom";
+            return redirectUrl;
         }
         // 役職希望変更
         villageParticipateLogic.changeRequestSkill(vPlayer, changeRequestSkillForm.getRequestedSkill(),
                 changeRequestSkillForm.getSecondRequestedSkill());
         // 最新の日へ
-        return "redirect:/village/" + villageId + "#bottom";
+        return redirectUrl;
     }
 
     // ===================================================================================
     //                                                                          Validation
     //                                                                          ==========
     private boolean isInvalidForParticipate(Integer villageId, VillageParticipateForm participateForm, BindingResult result,
-            UserInfo userInfo, Model model) {
+                                            UserInfo userInfo, Model model) {
         if (result.hasErrors() || userInfo == null) {
             return true;
         }
@@ -208,7 +211,7 @@ public class VillageParticipateAssist {
     }
 
     private boolean isInvalidForChangeRequestSkill(Integer villageId, VillageChangeRequestSkillForm changeRequestSkillForm,
-            BindingResult result, UserInfo userInfo, Model model) {
+                                                   BindingResult result, UserInfo userInfo, Model model) {
         if (result.hasErrors() || userInfo == null) {
             return true;
         }

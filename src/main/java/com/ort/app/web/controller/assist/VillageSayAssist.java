@@ -1,17 +1,5 @@
 package com.ort.app.web.controller.assist;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.BooleanUtils;
-import org.dbflute.optional.OptionalEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.message.MessageEntity;
@@ -22,21 +10,24 @@ import com.ort.app.web.model.VillageSayConfirmResultContent;
 import com.ort.app.web.model.inner.VillageMessageDto;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.MessageType;
-import com.ort.dbflute.exbhv.NormalSayRestrictionBhv;
-import com.ort.dbflute.exbhv.RandomKeywordBhv;
-import com.ort.dbflute.exbhv.SkillSayRestrictionBhv;
-import com.ort.dbflute.exbhv.VillageBhv;
-import com.ort.dbflute.exbhv.VillagePlayerBhv;
-import com.ort.dbflute.exentity.Chara;
-import com.ort.dbflute.exentity.Message;
-import com.ort.dbflute.exentity.NormalSayRestriction;
-import com.ort.dbflute.exentity.RandomKeyword;
-import com.ort.dbflute.exentity.SkillSayRestriction;
-import com.ort.dbflute.exentity.Village;
-import com.ort.dbflute.exentity.VillagePlayer;
+import com.ort.dbflute.exbhv.*;
+import com.ort.dbflute.exentity.*;
 import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionDateUtil;
 import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import org.apache.commons.lang3.BooleanUtils;
+import org.dbflute.optional.OptionalEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class VillageSayAssist {
@@ -105,11 +96,12 @@ public class VillageSayAssist {
         message.setTargetCharacterName(createSecretSayTargetCharaName(villageId, sayForm));
         content.setMessage(message);
         content.setRandomKeywords(String.join(",",
-                randomKeywordBhv.selectList(cb -> {}).stream().map(RandomKeyword::getKeyword).collect(Collectors.toList())));
+                randomKeywordBhv.selectList(cb -> {
+                }).stream().map(RandomKeyword::getKeyword).collect(Collectors.toList())));
         return content;
     }
 
-    public String say(Integer villageId, VillageSayForm sayForm, BindingResult result, Model model) {
+    public String say(Integer villageId, VillageSayForm sayForm, BindingResult result, Model model, UriComponentsBuilder builder) {
         // ログインしていなかったらNG
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
@@ -154,7 +146,8 @@ public class VillageSayAssist {
         }
 
         // 最新の日付を表示
-        return "redirect:/village/" + villageId + "#bottom";
+        URI location = builder.path("/village/" + villageId).build().toUri();
+        return "redirect:" + location.toString()+ "#bottom" ;
     }
 
     // ===================================================================================
@@ -189,7 +182,7 @@ public class VillageSayAssist {
     //                                                                        ============
     // 発言可能かチェック
     private boolean isAvailableSay(Integer villageId, Village village, VillagePlayer villagePlayer, UserInfo userInfo,
-            VillageSayForm sayForm) {
+                                   VillageSayForm sayForm) {
         CDef.MessageType type = CDef.MessageType.codeOf(sayForm.getMessageType());
         if (type == null) {
             throw new IllegalArgumentException("発言種別が改ざんされている");
@@ -199,24 +192,24 @@ public class VillageSayAssist {
             return true;
         }
         switch (type) {
-        case 人狼の囁き:
-            return isAvailableWerewolfSay(village, villagePlayer);
-        case 通常発言:
-            return isAvailableNormalSay(village, villagePlayer);
-        case 共鳴発言:
-            return isAvailableMasonSay(village, villagePlayer);
-        case 恋人発言:
-            return isAvailableLoversSay(village, villagePlayer);
-        case 死者の呻き:
-            return isAvailableGraveSay(village, villagePlayer);
-        case 見学発言:
-            return isAvailableSpectateSay(village, villagePlayer);
-        case 独り言:
-            return isAvailableMonologueSay(village);
-        case 秘話:
-            return isAvailableSecretSay(village, villagePlayer, sayForm.getSecretSayTargetCharaId());
-        default:
-            throw new IllegalArgumentException("発言種別が改ざんされている type: " + type);
+            case 人狼の囁き:
+                return isAvailableWerewolfSay(village, villagePlayer);
+            case 通常発言:
+                return isAvailableNormalSay(village, villagePlayer);
+            case 共鳴発言:
+                return isAvailableMasonSay(village, villagePlayer);
+            case 恋人発言:
+                return isAvailableLoversSay(village, villagePlayer);
+            case 死者の呻き:
+                return isAvailableGraveSay(village, villagePlayer);
+            case 見学発言:
+                return isAvailableSpectateSay(village, villagePlayer);
+            case 独り言:
+                return isAvailableMonologueSay(village);
+            case 秘話:
+                return isAvailableSecretSay(village, villagePlayer, sayForm.getSecretSayTargetCharaId());
+            default:
+                throw new IllegalArgumentException("発言種別が改ざんされている type: " + type);
         }
     }
 

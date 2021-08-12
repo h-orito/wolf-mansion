@@ -1,54 +1,24 @@
 package com.ort.app.web.controller;
 
+import com.ort.app.logic.DayChangeLogic;
+import com.ort.app.web.controller.assist.*;
+import com.ort.app.web.controller.assist.impl.VillageForms;
+import com.ort.app.web.form.*;
+import com.ort.app.web.form.validator.VillageActionFormValidator;
+import com.ort.app.web.form.validator.VillageParticipateFormValidator;
+import com.ort.app.web.form.validator.VillageSayFormValidator;
+import com.ort.app.web.form.validator.VillageSettingsFormValidator;
+import com.ort.app.web.model.*;
+import com.ort.fw.security.UserInfo;
+import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.ort.app.logic.DayChangeLogic;
-import com.ort.app.web.controller.assist.VillageAbilityAssist;
-import com.ort.app.web.controller.assist.VillageActionAssist;
-import com.ort.app.web.controller.assist.VillageAssist;
-import com.ort.app.web.controller.assist.VillageCommitAssist;
-import com.ort.app.web.controller.assist.VillageListAssist;
-import com.ort.app.web.controller.assist.VillageMessageAssist;
-import com.ort.app.web.controller.assist.VillageParticipateAssist;
-import com.ort.app.web.controller.assist.VillageRpAssist;
-import com.ort.app.web.controller.assist.VillageSayAssist;
-import com.ort.app.web.controller.assist.VillageSettingsAssist;
-import com.ort.app.web.controller.assist.impl.VillageForms;
-import com.ort.app.web.form.VillageAbilityForm;
-import com.ort.app.web.form.VillageActionForm;
-import com.ort.app.web.form.VillageChangeNameForm;
-import com.ort.app.web.form.VillageChangeRequestSkillForm;
-import com.ort.app.web.form.VillageCommitForm;
-import com.ort.app.web.form.VillageGetAnchorMessageForm;
-import com.ort.app.web.form.VillageGetFootstepListForm;
-import com.ort.app.web.form.VillageGetMessageListForm;
-import com.ort.app.web.form.VillageMemoForm;
-import com.ort.app.web.form.VillageParticipateForm;
-import com.ort.app.web.form.VillageSayForm;
-import com.ort.app.web.form.VillageSettingsForm;
-import com.ort.app.web.form.VillageVoteForm;
-import com.ort.app.web.form.validator.VillageActionFormValidator;
-import com.ort.app.web.form.validator.VillageParticipateFormValidator;
-import com.ort.app.web.form.validator.VillageSayFormValidator;
-import com.ort.app.web.form.validator.VillageSettingsFormValidator;
-import com.ort.app.web.model.VillageAnchorMessageResultContent;
-import com.ort.app.web.model.VillageGetFootstepListResultContent;
-import com.ort.app.web.model.VillageLatestMessageDatetimeResultContent;
-import com.ort.app.web.model.VillageMessageListResultContent;
-import com.ort.app.web.model.VillageSayConfirmResultContent;
-import com.ort.fw.security.UserInfo;
-import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Controller
 public class VillageController {
@@ -158,95 +128,143 @@ public class VillageController {
 
     // 入村確認画面へ
     @PostMapping("/village/{villageId}/confirm-participate")
-    private String confirmParticipate(@PathVariable Integer villageId,
-            @Validated @ModelAttribute("participateForm") VillageParticipateForm participateForm, BindingResult result, Model model) {
+    private String confirmParticipate(
+            @PathVariable Integer villageId, //
+            @Validated @ModelAttribute("participateForm") VillageParticipateForm participateForm, //
+            BindingResult result, //
+            Model model //
+    ) {
         return villageParticipateAssist.setConfirmModel(villageId, participateForm, result, model);
     }
 
     // 入村
     @PostMapping("/village/{villageId}/participate")
-    private String participate(@PathVariable Integer villageId,
-            @Validated @ModelAttribute("participateForm") VillageParticipateForm participateForm, BindingResult result, Model model) {
-        return villageParticipateAssist.participate(villageId, participateForm, result, model);
+    private String participate(
+            @PathVariable Integer villageId, //
+            @Validated @ModelAttribute("participateForm") VillageParticipateForm participateForm, //
+            BindingResult result, //
+            Model model, //
+            UriComponentsBuilder builder
+    ) {
+        return villageParticipateAssist.participate(villageId, participateForm, result, model, builder);
     }
 
     // 希望役職変更
     @PostMapping("/village/{villageId}/change-skill")
-    private String changeSkill(@PathVariable Integer villageId,
-            @Validated @ModelAttribute("changeRequestSkill") VillageChangeRequestSkillForm changeRequestSkillForm, BindingResult result,
-            Model model) {
-        return villageParticipateAssist.changeRequestSkill(villageId, changeRequestSkillForm, result, model);
+    private String changeSkill(
+            @PathVariable Integer villageId, //
+            @Validated @ModelAttribute("changeRequestSkill") VillageChangeRequestSkillForm changeRequestSkillForm, //
+            BindingResult result, //
+            Model model, //
+            UriComponentsBuilder builder
+    ) {
+        return villageParticipateAssist.changeRequestSkill(villageId, changeRequestSkillForm, result, model, builder);
     }
 
     // 退村
     @PostMapping("/village/{villageId}/leave")
-    private String leave(@PathVariable Integer villageId, Model model) {
-        return villageParticipateAssist.leave(villageId, model);
+    private String leave(@PathVariable Integer villageId, Model model, UriComponentsBuilder builder) {
+        return villageParticipateAssist.leave(villageId, model, builder);
     }
 
     // 発言確認画面へ
     @PostMapping("/village/{villageId}/confirm")
     @ResponseBody
     private VillageSayConfirmResultContent confirm(@PathVariable Integer villageId,
-            @Validated @ModelAttribute("sayForm") VillageSayForm sayForm, BindingResult result, Model model) {
+                                                   @Validated @ModelAttribute("sayForm") VillageSayForm sayForm, BindingResult result, Model model) {
         return villageSayAssist.sayConfirm(villageId, sayForm, result, model);
     }
 
     // 発言する
     @PostMapping("/village/{villageId}/say")
-    private String say(@PathVariable Integer villageId, @Validated @ModelAttribute("sayForm") VillageSayForm sayForm, BindingResult result,
-            Model model) {
-        return villageSayAssist.say(villageId, sayForm, result, model);
+    private String say(
+            @PathVariable Integer villageId, //
+            @Validated @ModelAttribute("sayForm") VillageSayForm sayForm, //
+            BindingResult result, //
+            Model model, //
+            UriComponentsBuilder builder
+    ) {
+        return villageSayAssist.say(villageId, sayForm, result, model, builder);
     }
 
     // アクション確認画面へ
     @PostMapping("/village/{villageId}/action-confirm")
     @ResponseBody
     private VillageSayConfirmResultContent actionConfirm(@PathVariable Integer villageId,
-            @Validated @ModelAttribute("actionForm") VillageActionForm actionForm, BindingResult result, Model model) {
+                                                         @Validated @ModelAttribute("actionForm") VillageActionForm actionForm, BindingResult result, Model model) {
         return villageActionAssist.actionConfirm(villageId, actionForm, result, model);
     }
 
     // アクション発言する
     @PostMapping("/village/{villageId}/action")
-    private String action(@PathVariable Integer villageId, @Validated @ModelAttribute("actionForm") VillageActionForm actionForm,
-            BindingResult result, Model model) {
-        return villageActionAssist.action(villageId, actionForm, result, model);
+    private String action(
+            @PathVariable Integer villageId, //
+            @Validated @ModelAttribute("actionForm") VillageActionForm actionForm, //
+            BindingResult result, //
+            Model model, //
+            UriComponentsBuilder builder
+    ) {
+        return villageActionAssist.action(villageId, actionForm, result, model, builder);
     }
 
     // 名前を変更する
     @PostMapping("/village/{villageId}/change-name")
-    private String changeName(@PathVariable Integer villageId,
-            @Validated @ModelAttribute("changeNameForm") VillageChangeNameForm changeNameForm, BindingResult result, Model model) {
-        return villageRpAssist.changeName(villageId, changeNameForm, result, model);
+    private String changeName(
+            @PathVariable Integer villageId, //
+            @Validated @ModelAttribute("changeNameForm") VillageChangeNameForm changeNameForm, //
+            BindingResult result, //
+            Model model, //
+            UriComponentsBuilder builder
+    ) {
+        return villageRpAssist.changeName(villageId, changeNameForm, result, model, builder);
     }
 
     // 簡易メモを変更する
     @PostMapping("/village/{villageId}/memo")
-    private String memo(@PathVariable Integer villageId, @Validated @ModelAttribute("changeNameForm") VillageMemoForm memoForm,
-            BindingResult result, Model model) {
-        return villageRpAssist.memo(villageId, memoForm, result, model);
+    private String memo(
+            @PathVariable Integer villageId, //
+            @Validated @ModelAttribute("changeNameForm") VillageMemoForm memoForm, //
+            BindingResult result, //
+            Model model, //
+            UriComponentsBuilder builder
+    ) {
+        return villageRpAssist.memo(villageId, memoForm, result, model, builder);
     }
 
     // 能力セットする
     @PostMapping("/village/{villageId}/setAbility")
-    private String setAbility(@PathVariable Integer villageId, @Validated @ModelAttribute("abilityForm") VillageAbilityForm abilityForm,
-            BindingResult result, Model model) {
-        return villageAbilityAssist.setAbility(villageId, abilityForm, result, model);
+    private String setAbility(
+            @PathVariable Integer villageId, //
+            @Validated @ModelAttribute("abilityForm") VillageAbilityForm abilityForm, //
+            BindingResult result, //
+            Model model, //
+            UriComponentsBuilder builder
+    ) {
+        return villageAbilityAssist.setAbility(villageId, abilityForm, result, model, builder);
     }
 
     // 投票セットする
     @PostMapping("/village/{villageId}/setVote")
-    private String setVote(@PathVariable Integer villageId, @Validated @ModelAttribute("voteForm") VillageVoteForm voteForm,
-            BindingResult result, Model model) {
-        return villageAbilityAssist.setVote(villageId, voteForm, result, model);
+    private String setVote(
+            @PathVariable Integer villageId, //
+            @Validated @ModelAttribute("voteForm") VillageVoteForm voteForm, //
+            BindingResult result, //
+            Model model,
+            UriComponentsBuilder builder
+    ) {
+        return villageAbilityAssist.setVote(villageId, voteForm, result, model, builder);
     }
 
     // コミットする
     @PostMapping("/village/{villageId}/commit")
-    private String setCommit(@PathVariable Integer villageId, @Validated @ModelAttribute("commitForm") VillageCommitForm commitForm,
-            BindingResult result, Model model) {
-        return villageCommitAssist.setCommit(villageId, commitForm, result, model);
+    private String setCommit(
+            @PathVariable Integer villageId, //
+            @Validated @ModelAttribute("commitForm") VillageCommitForm commitForm, //
+            BindingResult result, //
+            Model model, //
+            UriComponentsBuilder builder
+    ) {
+        return villageCommitAssist.setCommit(villageId, commitForm, result, model, builder);
     }
 
     // 足音候補取得
@@ -264,8 +282,13 @@ public class VillageController {
 
     // 村設定変更
     @PostMapping("/village/{villageId}/settings")
-    private String storeSettings(@PathVariable Integer villageId, @Validated @ModelAttribute("settingsForm") VillageSettingsForm form,
-            BindingResult bindingResult, Model model) {
-        return villageSettingsAssist.updateSettings(villageId, form, bindingResult, model);
+    private String storeSettings(
+            @PathVariable Integer villageId, //
+            @Validated @ModelAttribute("settingsForm") VillageSettingsForm form, //
+            BindingResult bindingResult, //
+            Model model, //
+            UriComponentsBuilder builder
+    ) {
+        return villageSettingsAssist.updateSettings(villageId, form, bindingResult, model, builder);
     }
 }

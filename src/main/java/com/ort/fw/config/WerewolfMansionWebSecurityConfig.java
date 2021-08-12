@@ -1,5 +1,6 @@
 package com.ort.fw.config;
 
+import com.ort.fw.security.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -10,8 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import com.ort.fw.security.UserInfoService;
 
 public class WerewolfMansionWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -50,7 +49,8 @@ public class WerewolfMansionWebSecurityConfig extends WebSecurityConfigurerAdapt
                 .loginProcessingUrl("/login")
                 .loginPage("/")
                 // ログイン成功時の遷移先URL
-                .defaultSuccessUrl("/")
+                .successHandler(new WolfMansionAuthenticationSuccessHandler())
+//                .defaultSuccessUrl("/")
                 // ログイン失敗時の遷移先URL
                 .failureUrl("/login?error=true")
                 // usernameのパラメタ名
@@ -84,7 +84,6 @@ public class WerewolfMansionWebSecurityConfig extends WebSecurityConfigurerAdapt
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //        auth.userDetailsService(userInfoService);
         auth.authenticationProvider(createAuthProvider());
     }
 

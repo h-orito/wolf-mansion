@@ -1,24 +1,5 @@
 package com.ort.app.web.controller;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang3.BooleanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-
 import com.ort.app.web.controller.assist.PlayerAssist;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
 import com.ort.app.web.form.LoginForm;
@@ -29,6 +10,20 @@ import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exentity.Player;
 import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import org.apache.commons.lang3.BooleanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class PlayerController {
@@ -84,9 +79,14 @@ public class PlayerController {
 
     // プレイヤー新規登録
     @PostMapping("/new-player")
-    private String createPlayer(@Validated @ModelAttribute("form") PlayerCreateForm form, BindingResult result,
+    private String createPlayer(
+            @Validated @ModelAttribute("form") PlayerCreateForm form, //
+            BindingResult result, //
             @CookieValue(name = COOKIE_NAME_ID_REGISTER, required = false) Boolean isRecentRegistered, //
-            HttpServletResponse response, Model model) {
+            HttpServletResponse response, //
+            Model model, //
+            UriComponentsBuilder builder
+    ) {
         if (result.hasErrors()) {
             setIndexModel(form, model);
             return "new-player";
@@ -107,7 +107,7 @@ public class PlayerController {
         }
         insertPlayer(form);
         registerCookie(response);
-        return "redirect:/";
+        return "redirect:" + builder.path("/").build().toUri().toString();
     }
 
     // パスワード変更
@@ -119,18 +119,23 @@ public class PlayerController {
 
     // パスワード変更
     @PostMapping("/change-password")
-    private String changePassword(@Validated @ModelAttribute("changePasswordForm") PlayerChangePasswordForm form, BindingResult result,
-            Model model) {
+    private String changePassword(
+            @Validated @ModelAttribute("changePasswordForm") PlayerChangePasswordForm form, //
+            BindingResult result, //
+            Model model, //
+            UriComponentsBuilder builder
+    ) {
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        String redirectUrl = "redirect:" + builder.path("/").build().toUri().toString();
         if (userInfo == null) {
-            return "redirect:/";
+            return redirectUrl;
         }
         if (result.hasErrors()) {
             setChangePasswordIndexModel(form, model);
             return "change-password";
         }
         updatePlayerPassword(form, userInfo);
-        return "redirect:/";
+        return redirectUrl;
     }
 
     // ユーザ情報

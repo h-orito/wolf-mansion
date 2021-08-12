@@ -1,11 +1,5 @@
 package com.ort.app.web.controller.assist;
 
-import org.dbflute.optional.OptionalEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.DayChangeLogic;
 import com.ort.app.logic.MessageLogic;
@@ -19,6 +13,14 @@ import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import org.dbflute.optional.OptionalEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @Component
 public class VillageCommitAssist {
@@ -42,7 +44,7 @@ public class VillageCommitAssist {
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
-    public String setCommit(Integer villageId, VillageCommitForm commitForm, BindingResult result, Model model) {
+    public String setCommit(Integer villageId, VillageCommitForm commitForm, BindingResult result, Model model, UriComponentsBuilder builder) {
         // ログインしていなかったらNG
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
@@ -86,7 +88,8 @@ public class VillageCommitAssist {
                         .build());
             }
         }
-        return "redirect:/village/" + villageId + "#bottom";
+        URI location = builder.path("/village/" + villageId).build().toUri();
+        return "redirect:" + location.toString() + "#bottom";
     }
 
     // ===================================================================================

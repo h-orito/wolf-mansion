@@ -1,21 +1,5 @@
 package com.ort.app.web.controller;
 
-import java.time.LocalDateTime;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.BooleanUtils;
-import org.dbflute.optional.OptionalEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.VillageParticipateLogic;
@@ -36,6 +20,22 @@ import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import org.apache.commons.lang3.BooleanUtils;
+import org.dbflute.optional.OptionalEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 @Controller
 public class CreatorController {
@@ -72,10 +72,15 @@ public class CreatorController {
     //                                                                             =======
     // 村建て機能：強制退村
     @PostMapping("/village/{villageId}/kick")
-    private String kick(@PathVariable Integer villageId, VillageKickForm kickForm) {
+    private String kick(
+            @PathVariable Integer villageId,
+            VillageKickForm kickForm,
+            UriComponentsBuilder builder
+    ) {
         // 村建てでなければNG
+        String redirectUrl = "redirect:" + builder.path("/village/" + villageId).build().toUri().toString() + "#bottom";
         if (!isCreator(villageId)) {
-            return "redirect:/village/" + villageId;
+            return redirectUrl;
         }
 
         Integer charaId = kickForm.getCharaId();
@@ -91,18 +96,22 @@ public class CreatorController {
         });
         // いなかった
         if (!optVPlayer.isPresent()) {
-            return "redirect:/village/" + villageId;
+            return redirectUrl;
         }
         // 退村させる
         villageParticipateLogic.leave(optVPlayer.get());
-
-        return "redirect:/village/" + villageId;
+        return redirectUrl;
     }
 
     // 村建て機能：村建て発言確認画面へ
     @PostMapping("/village/{villageId}/creator-say-confirm")
-    private String confirm(@PathVariable Integer villageId, @Validated @ModelAttribute("creatorSayForm") VillageSayForm creatorSayForm,
-            BindingResult result, Model model) {
+    private String confirm(
+            @PathVariable Integer villageId,
+            @Validated @ModelAttribute("creatorSayForm") VillageSayForm creatorSayForm,
+            BindingResult result,
+            Model model,
+            UriComponentsBuilder builder
+    ) {
         if (result.hasErrors()) {
             String returnView = villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
             model.addAttribute("creatorSayForm", creatorSayForm);
@@ -110,29 +119,36 @@ public class CreatorController {
         }
         // 村建てでなければNG
         if (!isCreator(villageId)) {
-            return "redirect:/village/" + villageId;
+            return "redirect:" + builder.path("/village/" + villageId).build().toUri().toString() + "#bottom";
         }
         model.addAttribute("villageId", villageId);
         Village village = selectVillage(villageId);
         model.addAttribute("villageName", village.getVillageDisplayName());
         model.addAttribute("randomKeywords", String.join(",",
-                randomKeywordBhv.selectList(cb -> {}).stream().map(RandomKeyword::getKeyword).collect(Collectors.toList())));
+                randomKeywordBhv.selectList(cb -> {
+                }).stream().map(RandomKeyword::getKeyword).collect(Collectors.toList())));
 
         return "creator-say-confirm";
     }
 
     // 村建て機能：村建て発言
     @PostMapping("/village/{villageId}/creator-say")
-    private String creatorSay(@PathVariable Integer villageId, @Validated @ModelAttribute("creatorSayForm") VillageSayForm creatorSayForm,
-            BindingResult result, Model model) {
+    private String creatorSay(
+            @PathVariable Integer villageId,
+            @Validated @ModelAttribute("creatorSayForm") VillageSayForm creatorSayForm,
+            BindingResult result,
+            Model model,
+            UriComponentsBuilder builder
+    ) {
         if (result.hasErrors()) {
             String returnView = villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
             model.addAttribute("creatorSayForm", creatorSayForm);
             return returnView;
         }
         // 村建てでなければNG
+        String redirectUrl = "redirect:" + builder.path("/village/" + villageId).build().toUri().toString() + "#bottom";
         if (!isCreator(villageId)) {
-            return "redirect:/village/" + villageId;
+            return redirectUrl;
         }
         int day = villageService.selectLatestDay(villageId);
         messageLogic.saveIgnoreError(new MessageEntity.Builder(villageId, day) //
@@ -141,43 +157,51 @@ public class CreatorController {
                 .isConvertDisable(BooleanUtils.isTrue(creatorSayForm.getIsConvertDisable()))
                 .build());
 
-        return "redirect:/village/" + villageId + "#bottom";
+        return redirectUrl;
     }
 
     // 村建て機能：廃村
     @PostMapping("/village/{villageId}/cancel")
-    private String cancel(@PathVariable Integer villageId, Model model) {
+    private String cancel(
+            @PathVariable Integer villageId,
+            Model model,
+            UriComponentsBuilder builder
+    ) {
         // 村建てでなければNG
+        String redirectUrl = "redirect:" + builder.path("/village/" + villageId).build().toUri().toString() + "#bottom";
         if (!isCreator(villageId)) {
-            return "redirect:/village/" + villageId;
+            return redirectUrl;
         }
         // プロローグでなければNG
         Village village = selectVillage(villageId);
         if (!village.isVillageStatusCode募集中() && !village.isVillageStatusCode開始待ち()) {
-            return "redirect:/village/" + villageId;
+            return redirectUrl;
         }
         // 廃村にする
         updateVillageCancel(villageId);
-
-        return "redirect:/village/" + villageId + "#bottom";
+        return redirectUrl;
     }
 
     // 村建て機能：エピローグ延長
     @PostMapping("/village/{villageId}/extend-epilogue")
-    private String extend(@PathVariable Integer villageId, Model model) {
+    private String extend(
+            @PathVariable Integer villageId,
+            Model model,
+            UriComponentsBuilder builder
+    ) {
         // 村建てでなければNG
+        String redirectUrl = "redirect:" + builder.path("/village/" + villageId).build().toUri().toString() + "#bottom";
         if (!isCreator(villageId)) {
-            return "redirect:/village/" + villageId;
+            return redirectUrl;
         }
         // エピローグでなければNG
         Village village = selectVillage(villageId);
         if (!village.isVillageStatusCodeエピローグ()) {
-            return "redirect:/village/" + villageId;
+            return redirectUrl;
         }
         // エピローグを1日延長する
         extendEpilogue(villageId);
-
-        return "redirect:/village/" + villageId + "#bottom";
+        return redirectUrl;
     }
 
     // ===================================================================================

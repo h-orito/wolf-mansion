@@ -1,13 +1,19 @@
 package com.ort.app.web.controller.assist;
 
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import com.ort.app.logic.MessageLogic;
+import com.ort.app.logic.message.MessageEntity;
+import com.ort.app.util.SkillUtil;
+import com.ort.app.web.controller.assist.impl.VillageForms;
+import com.ort.app.web.exception.WerewolfMansionBusinessException;
+import com.ort.app.web.form.*;
+import com.ort.app.web.model.VillageSettingsResultContent;
+import com.ort.app.web.model.inner.VillageSettingsDto;
+import com.ort.dbflute.allcommon.CDef;
+import com.ort.dbflute.exbhv.*;
+import com.ort.dbflute.exentity.*;
+import com.ort.fw.security.UserInfo;
+import com.ort.fw.util.WerewolfMansionDateUtil;
+import com.ort.fw.util.WerewolfMansionUserInfoUtil;
 import org.apache.commons.lang3.BooleanUtils;
 import org.dbflute.cbean.result.ListResultBean;
 import org.dbflute.optional.OptionalEntity;
@@ -15,40 +21,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import com.ort.app.logic.MessageLogic;
-import com.ort.app.logic.message.MessageEntity;
-import com.ort.app.util.SkillUtil;
-import com.ort.app.web.controller.assist.impl.VillageForms;
-import com.ort.app.web.exception.WerewolfMansionBusinessException;
-import com.ort.app.web.form.NewVillageRandomOrgCampDto;
-import com.ort.app.web.form.NewVillageRandomOrgSkillDto;
-import com.ort.app.web.form.NewVillageRpSayRestrictDto;
-import com.ort.app.web.form.NewVillageSayRestrictDto;
-import com.ort.app.web.form.NewVillageSkillSayRestrictDto;
-import com.ort.app.web.form.VillageSettingsForm;
-import com.ort.app.web.model.VillageSettingsResultContent;
-import com.ort.app.web.model.inner.VillageSettingsDto;
-import com.ort.dbflute.allcommon.CDef;
-import com.ort.dbflute.exbhv.CampAllocationBhv;
-import com.ort.dbflute.exbhv.CharaBhv;
-import com.ort.dbflute.exbhv.NormalSayRestrictionBhv;
-import com.ort.dbflute.exbhv.SkillAllocationBhv;
-import com.ort.dbflute.exbhv.SkillSayRestrictionBhv;
-import com.ort.dbflute.exbhv.VillageDayBhv;
-import com.ort.dbflute.exbhv.VillagePlayerBhv;
-import com.ort.dbflute.exbhv.VillageSettingsBhv;
-import com.ort.dbflute.exentity.CampAllocation;
-import com.ort.dbflute.exentity.Chara;
-import com.ort.dbflute.exentity.NormalSayRestriction;
-import com.ort.dbflute.exentity.SkillAllocation;
-import com.ort.dbflute.exentity.SkillSayRestriction;
-import com.ort.dbflute.exentity.VillageDay;
-import com.ort.dbflute.exentity.VillagePlayer;
-import com.ort.dbflute.exentity.VillageSettings;
-import com.ort.fw.security.UserInfo;
-import com.ort.fw.util.WerewolfMansionDateUtil;
-import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import java.net.URI;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class VillageSettingsAssist {
@@ -99,7 +81,7 @@ public class VillageSettingsAssist {
     }
 
     // 設定変更
-    public String updateSettings(Integer villageId, VillageSettingsForm form, BindingResult bindingResult, Model model) {
+    public String updateSettings(Integer villageId, VillageSettingsForm form, BindingResult bindingResult, Model model, UriComponentsBuilder builder) {
         // ログインしていなかったらNG
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (userInfo == null) {
@@ -119,7 +101,8 @@ public class VillageSettingsAssist {
             setVillageSettingsIndexModel(villageId, form, model);
             return "village-settings";
         }
-        return "redirect:/village/" + villageId + "#bottom";
+        URI location = builder.path("/village/" + villageId).build().toUri();
+        return "redirect:" + location.toString() + "#bottom";
     }
 
     // ===================================================================================
@@ -298,7 +281,7 @@ public class VillageSettingsAssist {
     //                                                                             Mapping
     //                                                                             =======
     private VillageSettingsResultContent mappingToSettingsResultContent(VillageSettings settings, ListResultBean<VillageDay> dayList,
-            Chara dummyChara) {
+                                                                        Chara dummyChara) {
         VillageSettingsResultContent content = new VillageSettingsResultContent();
         content.setVillageId(settings.getVillageId());
         content.setVillageName(settings.getVillage().get().getVillageDisplayName());
@@ -353,9 +336,9 @@ public class VillageSettingsAssist {
     }
 
     private void setVillageSettingsForm(VillageSettingsForm form, VillageSettings settings,
-            List<NormalSayRestriction> normalSayRestrictList, List<SkillSayRestriction> skillSayRestrictList,
-            List<CampAllocation> campAllocationList, List<SkillAllocation> skillAllocationList, ListResultBean<VillageDay> dayList,
-            Model model) {
+                                        List<NormalSayRestriction> normalSayRestrictList, List<SkillSayRestriction> skillSayRestrictList,
+                                        List<CampAllocation> campAllocationList, List<SkillAllocation> skillAllocationList, ListResultBean<VillageDay> dayList,
+                                        Model model) {
         if (form != null) {
             model.addAttribute("settingsForm", form);
             return;
@@ -394,7 +377,7 @@ public class VillageSettingsAssist {
     }
 
     private List<NewVillageRandomOrgCampDto> createCampAllocationList(List<CampAllocation> campAllocationList,
-            List<SkillAllocation> skillAllocationList) {
+                                                                      List<SkillAllocation> skillAllocationList) {
         return campAllocationList.stream().sorted((c1, c2) -> getCampOrder(c1) - getCampOrder(c2)).map(campAllocation -> {
             NewVillageRandomOrgCampDto campDto = new NewVillageRandomOrgCampDto();
             campDto.setCampCode(campAllocation.getCampCode());
@@ -410,16 +393,16 @@ public class VillageSettingsAssist {
     private int getCampOrder(CampAllocation c) {
         CDef.Camp camp = c.getCampCodeAsCamp();
         switch (camp) {
-        case 村人陣営:
-            return 1;
-        case 人狼陣営:
-            return 2;
-        case 狐陣営:
-            return 3;
-        case 恋人陣営:
-            return 4;
-        case 愉快犯陣営:
-            return 5;
+            case 村人陣営:
+                return 1;
+            case 人狼陣営:
+                return 2;
+            case 狐陣営:
+                return 3;
+            case 恋人陣営:
+                return 4;
+            case 愉快犯陣営:
+                return 5;
         }
         return 9;
     }

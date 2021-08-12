@@ -1,17 +1,5 @@
 package com.ort.app.web.controller.assist;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.BooleanUtils;
-import org.dbflute.optional.OptionalEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.message.MessageEntity;
@@ -24,15 +12,23 @@ import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.RandomKeywordBhv;
 import com.ort.dbflute.exbhv.SkillSayRestrictionBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
-import com.ort.dbflute.exentity.Chara;
-import com.ort.dbflute.exentity.Message;
-import com.ort.dbflute.exentity.RandomKeyword;
-import com.ort.dbflute.exentity.SkillSayRestriction;
-import com.ort.dbflute.exentity.Village;
-import com.ort.dbflute.exentity.VillagePlayer;
+import com.ort.dbflute.exentity.*;
 import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionDateUtil;
 import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import org.apache.commons.lang3.BooleanUtils;
+import org.dbflute.optional.OptionalEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class VillageActionAssist {
@@ -96,7 +92,7 @@ public class VillageActionAssist {
         return content;
     }
 
-    public String action(Integer villageId, VillageActionForm actionForm, BindingResult result, Model model) {
+    public String action(Integer villageId, VillageActionForm actionForm, BindingResult result, Model model, UriComponentsBuilder builder) {
         // ログインしていなかったらNG
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
@@ -135,7 +131,8 @@ public class VillageActionAssist {
         }
 
         // 最新の日付を表示
-        return "redirect:/village/" + villageId + "#bottom";
+        URI location = builder.path("/village/" + villageId).build().toUri();
+        return "redirect:" + location.toString() + "#bottom";
     }
 
     // ===================================================================================

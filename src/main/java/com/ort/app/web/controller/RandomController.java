@@ -1,23 +1,5 @@
 package com.ort.app.web.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.dbflute.cbean.result.ListResultBean;
-import org.dbflute.optional.OptionalEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-
 import com.ort.app.web.form.RandomKeywordForm;
 import com.ort.app.web.form.validator.RandomKeywordFormValidator;
 import com.ort.app.web.model.RandomMessageResultContent;
@@ -26,6 +8,20 @@ import com.ort.dbflute.exbhv.RandomContentBhv;
 import com.ort.dbflute.exbhv.RandomKeywordBhv;
 import com.ort.dbflute.exentity.RandomContent;
 import com.ort.dbflute.exentity.RandomKeyword;
+import org.dbflute.cbean.result.ListResultBean;
+import org.dbflute.optional.OptionalEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 public class RandomController {
@@ -63,8 +59,12 @@ public class RandomController {
     }
 
     @PostMapping("/new-random-keyword")
-    private String registerRandomKeyword(@Validated @ModelAttribute("randomKeywordForm") RandomKeywordForm form, BindingResult result,
-            Model model) {
+    private String registerRandomKeyword(
+            @Validated @ModelAttribute("randomKeywordForm") RandomKeywordForm form, //
+            BindingResult result, //
+            Model model, //
+            UriComponentsBuilder builder
+    ) {
         if (result.hasErrors()) {
             model.addAttribute("randomKeywordForm", form);
             return "new-random-keyword";
@@ -80,8 +80,7 @@ public class RandomController {
         }
 
         insertKeywordAndContent(form);
-
-        return "redirect:/random-message";
+        return "redirect:" + builder.path("/random-message").build().toUri().toString();
     }
 
     @GetMapping("/random-keyword/{keywordId}")
@@ -108,19 +107,27 @@ public class RandomController {
     }
 
     @PostMapping("/delete-random-keyword")
-    private String deleteRandomKeyword(RandomKeywordForm form, Model model) {
+    private String deleteRandomKeyword(
+            RandomKeywordForm form,
+            Model model,
+            UriComponentsBuilder builder
+    ) {
         randomContentBhv.queryDelete(cb -> {
             cb.query().queryRandomKeyword().setKeyword_Equal(form.getKeyword());
         });
         randomKeywordBhv.queryDelete(cb -> {
             cb.query().setKeyword_Equal(form.getKeyword());
         });
-        return "redirect:/random-message";
+        return "redirect:" + builder.path("/random-message").build().toUri().toString();
     }
 
     @PostMapping("/update-random-keyword")
-    private String updateRandomKeyword(@Validated @ModelAttribute("randomKeywordForm") RandomKeywordForm form, BindingResult result,
-            Model model) {
+    private String updateRandomKeyword(
+            @Validated @ModelAttribute("randomKeywordForm") RandomKeywordForm form,
+            BindingResult result,
+            Model model,
+            UriComponentsBuilder builder
+    ) {
         if (result.hasErrors()) {
             model.addAttribute("randomKeywordForm", form);
             return "random-keyword";
@@ -142,7 +149,7 @@ public class RandomController {
             randomContentBhv.insert(content);
         });
 
-        return "redirect:/random-message";
+        return "redirect:" + builder.path("/random-message").build().toUri().toString();
     }
 
     // ===================================================================================

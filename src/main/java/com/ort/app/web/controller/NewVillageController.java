@@ -1,19 +1,5 @@
 package com.ort.app.web.controller;
 
-import java.time.LocalDateTime;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.ort.app.logic.VillageParticipateLogic;
 import com.ort.app.web.controller.assist.NewVillageAssist;
 import com.ort.app.web.exception.WerewolfMansionBusinessException;
@@ -26,6 +12,16 @@ import com.ort.dbflute.exentity.CharaGroup;
 import com.ort.dbflute.exentity.Village;
 import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.time.LocalDateTime;
 
 @Controller
 public class NewVillageController {
@@ -70,7 +66,7 @@ public class NewVillageController {
     // 新規村作成確認画面
     @PostMapping("/new-village/confirm")
     private String newVillageConfirm(@Validated @ModelAttribute("villageForm") NewVillageForm villageForm, BindingResult bindingResult,
-            Model model) {
+                                     Model model) {
         if (bindingResult.hasErrors()) {
             newVillageAssist.setIndexModel(villageForm, model);
             return "new-village";
@@ -122,8 +118,12 @@ public class NewVillageController {
 
     // 新規村作成
     @PostMapping("/new-village/create")
-    private String makeVillage(@Validated @ModelAttribute("villageForm") NewVillageForm villageForm, BindingResult bindingResult,
-            Model model) {
+    private String makeVillage(
+            @Validated @ModelAttribute("villageForm") NewVillageForm villageForm,
+            BindingResult bindingResult,
+            Model model,
+            UriComponentsBuilder builder
+    ) {
         if (bindingResult.hasErrors()) {
             newVillageAssist.setIndexModel(villageForm, model);
             return "new-village";
@@ -149,7 +149,7 @@ public class NewVillageController {
             newVillageAssist.setIndexModel(villageForm, model);
             return "new-village";
         }
-        return "redirect:/village/" + village.getVillageId();
+        return "redirect:" + builder.path("/village/" + village.getVillageId()).build().toUri().toString();
     }
 
     // ===================================================================================

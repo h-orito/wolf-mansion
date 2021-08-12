@@ -1,10 +1,5 @@
 package com.ort.app.web.controller.assist;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.message.MessageEntity;
@@ -15,6 +10,13 @@ import com.ort.app.web.form.VillageMemoForm;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.fw.security.UserInfo;
 import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @Component
 public class VillageRpAssist {
@@ -32,7 +34,7 @@ public class VillageRpAssist {
     // ===================================================================================
     //                                                                             Execute
     //                                                                             =======
-    public String changeName(Integer villageId, VillageChangeNameForm form, BindingResult result, Model model) {
+    public String changeName(Integer villageId, VillageChangeNameForm form, BindingResult result, Model model, UriComponentsBuilder builder) {
         // ログインしていなかったらNG
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
@@ -56,10 +58,11 @@ public class VillageRpAssist {
         }
 
         // 最新の日付を表示
-        return "redirect:/village/" + villageId + "#bottom";
+        URI location = builder.path("/village/" + villageId).build().toUri();
+        return "redirect:" + location.toString() + "#bottom";
     }
 
-    public String memo(Integer villageId, VillageMemoForm form, BindingResult result, Model model) {
+    public String memo(Integer villageId, VillageMemoForm form, BindingResult result, Model model, UriComponentsBuilder builder) {
         // ログインしていなかったらNG
         UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
@@ -74,6 +77,7 @@ public class VillageRpAssist {
         villageService.memo(villagePlayer, form.getMemo());
 
         // 最新の日付を表示
-        return "redirect:/village/" + villageId + "#bottom";
+        URI location = builder.path("/village/" + villageId).build().toUri();
+        return "redirect:" + location.toString() + "#bottom";
     }
 }
