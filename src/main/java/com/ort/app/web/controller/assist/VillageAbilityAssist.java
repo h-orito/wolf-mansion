@@ -15,7 +15,7 @@ import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.Vote;
 import com.ort.fw.security.UserInfo;
-import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import com.ort.fw.util.WolfMansionUserInfoUtil;
 import org.dbflute.cbean.result.ListResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -49,7 +49,7 @@ public class VillageAbilityAssist {
     //                                                                             =======
     public String setAbility(Integer villageId, VillageAbilityForm abilityForm, BindingResult result, Model model) {
         // ログインしていなかったらNG
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
@@ -70,7 +70,7 @@ public class VillageAbilityAssist {
 
     public String setVote(Integer villageId, VillageVoteForm voteForm, BindingResult result, Model model) {
         // ログインしていなかったらNG
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
@@ -93,7 +93,7 @@ public class VillageAbilityAssist {
 
     public VillageGetFootstepListResultContent getFootstepList(VillageGetFootstepListForm form, BindingResult result) {
         // ログインしていなかったらNG
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             return null;
         }

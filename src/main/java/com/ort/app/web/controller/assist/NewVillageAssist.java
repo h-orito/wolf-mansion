@@ -23,7 +23,7 @@ import com.ort.app.logic.TwitterLogic;
 import com.ort.app.logic.VillageParticipateLogic;
 import com.ort.app.logic.message.MessageEntity;
 import com.ort.app.util.SkillUtil;
-import com.ort.app.web.exception.WerewolfMansionBusinessException;
+import com.ort.app.web.exception.WolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageForm;
 import com.ort.app.web.form.NewVillageRandomOrgCampDto;
 import com.ort.app.web.form.NewVillageRandomOrgSkillDto;
@@ -50,7 +50,7 @@ import com.ort.dbflute.exentity.SkillSayRestriction;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillageSettings;
-import com.ort.fw.util.WerewolfMansionDateUtil;
+import com.ort.fw.util.WolfMansionDateUtil;
 
 @Component
 public class NewVillageAssist {
@@ -110,7 +110,7 @@ public class NewVillageAssist {
         model.addAttribute("skillListStr", SkillUtil.getSkillListStr());
 
         // 現在の年
-        LocalDate now = WerewolfMansionDateUtil.currentLocalDate();
+        LocalDate now = WolfMansionDateUtil.currentLocalDate();
         model.addAttribute("nowYear", now.getYear());
 
         ListResultBean<CharaGroup> charaGroupList = charaGroupBhv.selectList(cb -> cb.setupSelect_Designer());
@@ -211,7 +211,7 @@ public class NewVillageAssist {
     }
 
     // 村作成
-    public Village createVillage(NewVillageForm villageForm, String userName) throws WerewolfMansionBusinessException {
+    public Village createVillage(NewVillageForm villageForm, String userName) throws WolfMansionBusinessException {
         // 村
         Village village = insertVillage(villageForm, userName);
         // 村設定
@@ -274,7 +274,7 @@ public class NewVillageAssist {
         return village;
     }
 
-    private VillageSettings insertVillageSettings(NewVillageForm villageForm, Village village) throws WerewolfMansionBusinessException {
+    private VillageSettings insertVillageSettings(NewVillageForm villageForm, Village village) throws WolfMansionBusinessException {
         VillageSettings settings = new VillageSettings();
         settings.setVillageId(village.getVillageId());
         settings.setDummyCharaId(villageForm.getDummyCharaId());
@@ -378,12 +378,12 @@ public class NewVillageAssist {
                 villageForm.getDummyJoinMessage(), false, false);
     }
 
-    private LocalDateTime makeStartDateTime(NewVillageForm form) throws WerewolfMansionBusinessException {
+    private LocalDateTime makeStartDateTime(NewVillageForm form) throws WolfMansionBusinessException {
         try {
             return LocalDateTime.of(form.getStartYear(), form.getStartMonth(), form.getStartDay(), form.getStartHour(),
                     form.getStartMinute());
         } catch (DateTimeException e) {
-            throw new WerewolfMansionBusinessException("存在しない日付です");
+            throw new WolfMansionBusinessException("存在しない日付です");
         }
     }
 

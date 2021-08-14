@@ -1,14 +1,14 @@
 package com.ort.app.logic;
 
 import com.ort.app.logic.message.MessageEntity;
-import com.ort.app.web.exception.WerewolfMansionBusinessException;
+import com.ort.app.web.exception.WolfMansionBusinessException;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.MessageBhv;
 import com.ort.dbflute.exbhv.MessageSendtoBhv;
 import com.ort.dbflute.exbhv.RandomKeywordBhv;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
 import com.ort.dbflute.exentity.*;
-import com.ort.fw.util.WerewolfMansionDateUtil;
+import com.ort.fw.util.WolfMansionDateUtil;
 import org.dbflute.cbean.result.ListResultBean;
 import org.dbflute.optional.OptionalEntity;
 import org.slf4j.Logger;
@@ -88,7 +88,7 @@ public class MessageLogic {
     //                                                                             Execute
     //                                                                             =======
     // 秘話など、相手がいる可能性があるのはこれを使う
-    public void save(MessageEntity entity) throws WerewolfMansionBusinessException {
+    public void save(MessageEntity entity) throws WolfMansionBusinessException {
         // ランダム機能などメッセージ関数を置換して登録
         String message = entity.content;
         if (!entity.isConvertDisable) {
@@ -105,7 +105,7 @@ public class MessageLogic {
     public void saveIgnoreError(MessageEntity entity) {
         try {
             save(entity);
-        } catch (WerewolfMansionBusinessException e) {}
+        } catch (WolfMansionBusinessException e) {}
     }
 
     // 次の発言番号を返す
@@ -185,7 +185,7 @@ public class MessageLogic {
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
-    private void insertMessage(MessageEntity entity) throws WerewolfMansionBusinessException {
+    private void insertMessage(MessageEntity entity) throws WolfMansionBusinessException {
         Message message = new Message();
         message.setVillageId(entity.villageId);
         message.setDay(entity.day);
@@ -202,7 +202,7 @@ public class MessageLogic {
         message.setPlayerId(null);
         message.setMessageTypeCodeAsMessageType(entity.messageType);
         message.setMessageContent(entity.content);
-        message.setMessageDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
+        message.setMessageDatetime(WolfMansionDateUtil.currentLocalDateTime());
         message.setIsConvertDisable(entity.isConvertDisable);
         Optional.ofNullable(entity.faceType).ifPresent(faceType -> {
             message.setFaceTypeCodeAsFaceType(faceType);
@@ -221,7 +221,7 @@ public class MessageLogic {
             }
         }
         // ここにきたら発言失敗している
-        throw new WerewolfMansionBusinessException("混み合っているため発言に失敗しました。再度発言してください。");
+        throw new WolfMansionBusinessException("混み合っているため発言に失敗しました。再度発言してください。");
     }
 
     private String replaceMessage(String message, List<VillagePlayer> vPlayerList) {

@@ -16,7 +16,7 @@ import org.springframework.validation.Validator;
 import com.ort.app.util.SkillUtil;
 import com.ort.app.web.form.VillageSettingsForm;
 import com.ort.dbflute.allcommon.CDef;
-import com.ort.fw.util.WerewolfMansionDateUtil;
+import com.ort.fw.util.WolfMansionDateUtil;
 
 @Component
 public class VillageSettingsFormValidator implements Validator {
@@ -58,7 +58,7 @@ public class VillageSettingsFormValidator implements Validator {
         LocalDateTime startDateTime = null;
         try {
             startDateTime = LocalDateTime.of(startYear, startMonth, startDay, startHour, startMinute);
-            if (startDateTime.isBefore(WerewolfMansionDateUtil.currentLocalDateTime())) {
+            if (startDateTime.isBefore(WolfMansionDateUtil.currentLocalDateTime())) {
                 errors.rejectValue("startYear", "NewVillageForm.validator.startYear");
             }
         } catch (DateTimeException e) {

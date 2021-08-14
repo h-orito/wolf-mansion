@@ -1,16 +1,14 @@
 package com.ort.fw;
 
-import java.time.LocalDateTime;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.ort.fw.security.UserInfo;
+import com.ort.fw.util.WolfMansionDateUtil;
+import com.ort.fw.util.WolfMansionUserInfoUtil;
 import org.dbflute.hook.AccessContext;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.ort.fw.security.UserInfo;
-import com.ort.fw.util.WerewolfMansionDateUtil;
-import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
 
 public class SetAccessContextInterceptor extends HandlerInterceptorAdapter {
 
@@ -22,10 +20,10 @@ public class SetAccessContextInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         // [アクセス日時]
-        LocalDateTime accessLocalDateTime = WerewolfMansionDateUtil.currentLocalDateTime();
+        LocalDateTime accessLocalDateTime = WolfMansionDateUtil.currentLocalDateTime();
 
         // [アクセスユーザ]
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         String accessUser = userInfo == null ? "not login user" : userInfo.getUsername();
 
         AccessContext context = new AccessContext();

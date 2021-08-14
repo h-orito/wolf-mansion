@@ -2,7 +2,7 @@ package com.ort.app.web.controller;
 
 import com.ort.app.logic.VillageParticipateLogic;
 import com.ort.app.web.controller.assist.NewVillageAssist;
-import com.ort.app.web.exception.WerewolfMansionBusinessException;
+import com.ort.app.web.exception.WolfMansionBusinessException;
 import com.ort.app.web.form.NewVillageForm;
 import com.ort.app.web.form.validator.NewVillageFormValidator;
 import com.ort.dbflute.exbhv.CharaBhv;
@@ -11,7 +11,7 @@ import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.CharaGroup;
 import com.ort.dbflute.exentity.Village;
 import com.ort.fw.security.UserInfo;
-import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import com.ort.fw.util.WolfMansionUserInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,7 +71,7 @@ public class NewVillageController {
             return "new-village";
         }
         // ログインしていなかったらNG
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         if (userInfo == null) {
             model.addAttribute("errorMessage", "ログインし直してください。");
             newVillageAssist.setIndexModel(villageForm, model);
@@ -127,7 +127,7 @@ public class NewVillageController {
             return "new-village";
         }
         // ログインしていなかったらNG
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         if (userInfo == null) {
             model.addAttribute("errorMessage", "ログインし直してください。");
             newVillageAssist.setIndexModel(villageForm, model);
@@ -142,7 +142,7 @@ public class NewVillageController {
         Village village = null;
         try {
             village = newVillageAssist.createVillage(villageForm, userInfo.getUsername());
-        } catch (WerewolfMansionBusinessException e) {
+        } catch (WolfMansionBusinessException e) {
             model.addAttribute("errorMessage", e.getMessage());
             newVillageAssist.setIndexModel(villageForm, model);
             return "new-village";

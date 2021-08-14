@@ -10,7 +10,7 @@ import com.ort.app.web.form.validator.VillageSayFormValidator;
 import com.ort.app.web.form.validator.VillageSettingsFormValidator;
 import com.ort.app.web.model.*;
 import com.ort.fw.security.UserInfo;
-import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import com.ort.fw.util.WolfMansionUserInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +18,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @Controller
 public class VillageController {
@@ -107,7 +106,7 @@ public class VillageController {
         villageMessageAssist.updateLastAccessDatetime(form.getVillageId());
         // 更新時間が過ぎていたら日付更新
         dayChangeLogic.dayChangeIfNeeded(form.getVillageId());
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         return villageMessageAssist.getMessageList(form, userInfo);
     }
 
@@ -115,7 +114,7 @@ public class VillageController {
     @GetMapping("/village/getLatestMessageDatetime")
     @ResponseBody
     private VillageLatestMessageDatetimeResultContent getLatestMessageDatetime(VillageGetMessageListForm form) {
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         return villageMessageAssist.getLatestMessageDatetime(form, userInfo);
     }
 

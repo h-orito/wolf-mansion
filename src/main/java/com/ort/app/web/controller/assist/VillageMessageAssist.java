@@ -39,8 +39,8 @@ import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillageSettings;
 import com.ort.fw.security.UserInfo;
-import com.ort.fw.util.WerewolfMansionDateUtil;
-import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import com.ort.fw.util.WolfMansionDateUtil;
+import com.ort.fw.util.WolfMansionUserInfoUtil;
 
 @Component
 public class VillageMessageAssist {
@@ -89,7 +89,7 @@ public class VillageMessageAssist {
         if (result.hasErrors()) {
             return null;
         }
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         Village village = villageService.selectVillage(form.getVillageId(), true, true);
         if (!isViewAllowedMessage(form, village, userInfo)) {
             return null;
@@ -104,13 +104,13 @@ public class VillageMessageAssist {
     }
 
     public void updateLastAccessDatetime(Integer villageId) {
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         Optional<VillagePlayer> optVillagePlayer = villageService.selectVillagePlayer(villageId, userInfo, true);
         if (!optVillagePlayer.isPresent()) {
             return;
         }
         VillagePlayer vp = new VillagePlayer();
-        vp.setLastAccessDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
+        vp.setLastAccessDatetime(WolfMansionDateUtil.currentLocalDateTime());
         vp.setVillagePlayerId(optVillagePlayer.get().getVillagePlayerId());
         villagePlayerBhv.update(vp);
     }

@@ -25,7 +25,7 @@ import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillagePlayers;
 import com.ort.dbflute.exentity.VillageSettings;
-import com.ort.fw.util.WerewolfMansionDateUtil;
+import com.ort.fw.util.WolfMansionDateUtil;
 
 @Component
 public class PrologueLogic {
@@ -56,7 +56,7 @@ public class PrologueLogic {
         }
 
         // 24時間アクセスしていなかったら村を出る
-        LocalDateTime yesterday = WerewolfMansionDateUtil.currentLocalDateTime().minusDays(1L);
+        LocalDateTime yesterday = WolfMansionDateUtil.currentLocalDateTime().minusDays(1L);
 
         villagePlayerBhv.selectList(cb -> {
             cb.setupSelect_Chara();

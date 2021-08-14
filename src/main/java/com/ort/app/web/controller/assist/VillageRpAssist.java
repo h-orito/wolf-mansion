@@ -4,12 +4,12 @@ import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.message.MessageEntity;
 import com.ort.app.web.controller.assist.impl.VillageForms;
-import com.ort.app.web.exception.WerewolfMansionBusinessException;
+import com.ort.app.web.exception.WolfMansionBusinessException;
 import com.ort.app.web.form.VillageChangeNameForm;
 import com.ort.app.web.form.VillageMemoForm;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.fw.security.UserInfo;
-import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import com.ort.fw.util.WolfMansionUserInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
@@ -33,7 +33,7 @@ public class VillageRpAssist {
     //                                                                             =======
     public String changeName(Integer villageId, VillageChangeNameForm form, BindingResult result, Model model) {
         // ログインしていなかったらNG
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, new VillageForms.Builder().changeNameForm(form).build(), model);
@@ -50,7 +50,7 @@ public class VillageRpAssist {
             messageLogic.save(MessageEntity.publicSystemBuilder(villageId, day) //
                     .content(String.format("名前を変更しました。\n%s → %s", villagePlayer.name(), afterVPlayer.name()))
                     .build());
-        } catch (WerewolfMansionBusinessException e) {
+        } catch (WolfMansionBusinessException e) {
             model.addAttribute("changeNameErrorMessage", e.getMessage());
         }
 
@@ -60,7 +60,7 @@ public class VillageRpAssist {
 
     public String memo(Integer villageId, VillageMemoForm form, BindingResult result, Model model) {
         // ログインしていなかったらNG
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, new VillageForms.Builder().memoForm(form).build(), model);

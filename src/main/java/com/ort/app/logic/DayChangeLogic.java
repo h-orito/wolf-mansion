@@ -13,7 +13,7 @@ import com.ort.app.web.dto.VillageInfo;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.VillageStatus;
 import com.ort.dbflute.exentity.Village;
-import com.ort.fw.util.WerewolfMansionDateUtil;
+import com.ort.fw.util.WolfMansionDateUtil;
 
 @Component
 public class DayChangeLogic {
@@ -81,7 +81,7 @@ public class DayChangeLogic {
             return true;
         }
         // 最新の村日付の更新時間を過ぎていない
-        if (WerewolfMansionDateUtil.currentLocalDateTime().isBefore(nextDayChangeDatetime)) {
+        if (WolfMansionDateUtil.currentLocalDateTime().isBefore(nextDayChangeDatetime)) {
             return false;
         }
         return true;

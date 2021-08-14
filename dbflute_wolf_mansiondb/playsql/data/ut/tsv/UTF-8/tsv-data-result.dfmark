@@ -1,0 +1,11 @@
+
+* * * * * * * * * *
+*                 *
+* Tsv Data Result *
+*                 *
+* * * * * * * * * *
+data-directory: playsql/data/ut/tsv/UTF-8
+
+00-PLAYER.tsv (102)
+02-CHARA.tsv (370)
+03-CHARA_IMAGE.tsv (1220)

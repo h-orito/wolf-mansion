@@ -19,7 +19,7 @@ import com.ort.app.web.form.NewVillageRandomOrgCampDto;
 import com.ort.app.web.form.NewVillageRandomOrgSkillDto;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Camp;
-import com.ort.fw.util.WerewolfMansionDateUtil;
+import com.ort.fw.util.WolfMansionDateUtil;
 
 @Component
 public class NewVillageFormValidator implements Validator {
@@ -61,11 +61,11 @@ public class NewVillageFormValidator implements Validator {
         LocalDateTime startDateTime = null;
         try {
             startDateTime = LocalDateTime.of(startYear, startMonth, startDay, startHour, startMinute);
-            if (startDateTime.isBefore(WerewolfMansionDateUtil.currentLocalDateTime())) {
+            if (startDateTime.isBefore(WolfMansionDateUtil.currentLocalDateTime())) {
                 errors.rejectValue("startYear", "NewVillageForm.validator.startYear");
             }
             // 二週間先までしか指定できない
-            if (startDateTime.isAfter(WerewolfMansionDateUtil.currentLocalDateTime().plusDays(14L))) {
+            if (startDateTime.isAfter(WolfMansionDateUtil.currentLocalDateTime().plusDays(14L))) {
                 errors.rejectValue("startYear", "NewVillageForm.validator.startYear");
             }
         } catch (DateTimeException e) {

@@ -27,7 +27,7 @@ import com.ort.dbflute.exentity.CharaGroup;
 import com.ort.dbflute.exentity.CharaImage;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.fw.security.UserInfo;
-import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import com.ort.fw.util.WolfMansionUserInfoUtil;
 
 @Controller
 public class CharaController {
@@ -90,7 +90,7 @@ public class CharaController {
     @GetMapping("/getFaceImgUrl/{villageId}/{faceTypeCode}")
     @ResponseBody
     private String getFaceImgUrl(@PathVariable Integer villageId, @PathVariable String faceTypeCode) {
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         OptionalEntity<VillagePlayer> optVillagePlayer = selectVillagePlayer(villageId, userInfo);
         if (!optVillagePlayer.isPresent()) {
             return null;

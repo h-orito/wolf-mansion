@@ -13,7 +13,7 @@ import com.ort.dbflute.exentity.Chara;
 import com.ort.dbflute.exentity.VillageDay;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.Vote;
-import com.ort.fw.util.WerewolfMansionDateUtil;
+import com.ort.fw.util.WolfMansionDateUtil;
 import org.dbflute.cbean.result.ListResultBean;
 import org.dbflute.optional.OptionalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,7 +93,7 @@ public class AdminController {
             cb.fetchFirst(1);
         }).get();
         VillageDay villageDay = new VillageDay();
-        villageDay.setDaychangeDatetime(WerewolfMansionDateUtil.currentLocalDateTime().minusSeconds(1L));
+        villageDay.setDaychangeDatetime(WolfMansionDateUtil.currentLocalDateTime().minusSeconds(1L));
         villageDayBhv.queryUpdate(villageDay, cb -> {
             cb.query().setVillageId_Equal(villageId);
             cb.query().setDay_Equal(latestDay.getDay());
@@ -121,7 +121,7 @@ public class AdminController {
     @PostMapping("/admin/village/{villageId}/access")
     private String leave(@PathVariable Integer villageId) {
         VillagePlayer vp = new VillagePlayer();
-        vp.setLastAccessDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
+        vp.setLastAccessDatetime(WolfMansionDateUtil.currentLocalDateTime());
         villagePlayerBhv.queryUpdate(vp, cb -> {
             cb.query().setVillageId_Equal(villageId);
         });

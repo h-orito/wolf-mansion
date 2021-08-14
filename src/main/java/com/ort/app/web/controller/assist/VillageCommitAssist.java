@@ -12,7 +12,7 @@ import com.ort.dbflute.exentity.Commit;
 import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.fw.security.UserInfo;
-import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import com.ort.fw.util.WolfMansionUserInfoUtil;
 import org.dbflute.optional.OptionalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -43,7 +43,7 @@ public class VillageCommitAssist {
     //                                                                             =======
     public String setCommit(Integer villageId, VillageCommitForm commitForm, BindingResult result, Model model) {
         // ログインしていなかったらNG
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);

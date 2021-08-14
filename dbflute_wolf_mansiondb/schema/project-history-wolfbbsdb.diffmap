@@ -1,0 +1,1168 @@
+map:{
+    ; 2017/12/14 16:00:23 = map:{
+        ; diffDate = 2017/12/14 16:00:23
+        ; tableCount = map:{
+            ; next = 8
+            ; previous = 1
+        }
+        ; tableDiff = map:{
+            ; chara = map:{
+                ; tableName = chara
+                ; diffType = ADD
+            }
+            ; chara_group = map:{
+                ; tableName = chara_group
+                ; diffType = ADD
+            }
+            ; designer = map:{
+                ; tableName = designer
+                ; diffType = ADD
+            }
+            ; message = map:{
+                ; tableName = message
+                ; diffType = ADD
+            }
+            ; message_type = map:{
+                ; tableName = message_type
+                ; diffType = ADD
+            }
+            ; village = map:{
+                ; tableName = village
+                ; diffType = ADD
+            }
+            ; village_player = map:{
+                ; tableName = village_player
+                ; diffType = ADD
+            }
+        }
+    }
+    ; 2017/12/13 16:54:20 = map:{
+        ; diffDate = 2017/12/13 16:54:20
+        ; tableDiff = map:{
+            ; player = map:{
+                ; tableName = player
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; REGISTER_DATETIME = map:{
+                        ; columnName = REGISTER_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; REGISTER_TRACE = map:{
+                        ; columnName = REGISTER_TRACE
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_DATETIME = map:{
+                        ; columnName = UPDATE_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_TRACE = map:{
+                        ; columnName = UPDATE_TRACE
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
+    ; 2017/12/13 16:53:56 = map:{
+        ; diffDate = 2017/12/13 16:53:56
+        ; tableDiff = map:{
+            ; player = map:{
+                ; tableName = player
+                ; diffType = ADD
+            }
+            ; act = map:{
+                ; tableName = act
+                ; diffType = DELETE
+            }
+        }
+    }
+    ; 2017/12/13 16:45:23 = map:{
+        ; diffDate = 2017/12/13 16:45:23
+        ; tableCount = map:{
+            ; next = 1
+            ; previous = 19
+        }
+        ; tableDiff = map:{
+            ; act = map:{
+                ; tableName = act
+                ; diffType = CHANGE
+                ; unifiedSchemaDiff = map:{
+                    ; next = werewolf_mansiondb
+                    ; previous = wolfbbsdb
+                }
+            }
+            ; camp = map:{
+                ; tableName = camp
+                ; diffType = DELETE
+            }
+            ; chara = map:{
+                ; tableName = chara
+                ; diffType = DELETE
+            }
+            ; country = map:{
+                ; tableName = country
+                ; diffType = DELETE
+            }
+            ; notification_setting = map:{
+                ; tableName = notification_setting
+                ; diffType = DELETE
+            }
+            ; organization = map:{
+                ; tableName = organization
+                ; diffType = DELETE
+            }
+            ; organization_camp_rel = map:{
+                ; tableName = organization_camp_rel
+                ; diffType = DELETE
+            }
+            ; organization_camp_stats = map:{
+                ; tableName = organization_camp_stats
+                ; diffType = DELETE
+            }
+            ; organization_detail = map:{
+                ; tableName = organization_detail
+                ; diffType = DELETE
+            }
+            ; player = map:{
+                ; tableName = player
+                ; diffType = DELETE
+            }
+            ; player_character_stats = map:{
+                ; tableName = player_character_stats
+                ; diffType = DELETE
+            }
+            ; player_organization_camp_stats = map:{
+                ; tableName = player_organization_camp_stats
+                ; diffType = DELETE
+            }
+            ; player_skill_stats = map:{
+                ; tableName = player_skill_stats
+                ; diffType = DELETE
+            }
+            ; player_stats = map:{
+                ; tableName = player_stats
+                ; diffType = DELETE
+            }
+            ; skill = map:{
+                ; tableName = skill
+                ; diffType = DELETE
+            }
+            ; stats = map:{
+                ; tableName = stats
+                ; diffType = DELETE
+            }
+            ; village = map:{
+                ; tableName = village
+                ; diffType = DELETE
+            }
+            ; village_detail = map:{
+                ; tableName = village_detail
+                ; diffType = DELETE
+            }
+            ; village_notification = map:{
+                ; tableName = village_notification
+                ; diffType = DELETE
+            }
+        }
+    }
+    ; 2017/12/07 20:23:07 = map:{
+        ; diffDate = 2017/12/07 20:23:07
+        ; tableCount = map:{
+            ; next = 19
+            ; previous = 16
+        }
+        ; tableDiff = map:{
+            ; organization_camp_rel = map:{
+                ; tableName = organization_camp_rel
+                ; diffType = ADD
+            }
+            ; player_character_stats = map:{
+                ; tableName = player_character_stats
+                ; diffType = ADD
+            }
+            ; player_organization_camp_stats = map:{
+                ; tableName = player_organization_camp_stats
+                ; diffType = ADD
+            }
+            ; organization_camp_stats = map:{
+                ; tableName = organization_camp_stats
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; ORGANIZATION_PLAN_REL_ID = map:{
+                        ; columnName = ORGANIZATION_PLAN_REL_ID
+                        ; diffType = ADD
+                    }
+                    ; ORGANIZATION_ID = map:{
+                        ; columnName = ORGANIZATION_ID
+                        ; diffType = DELETE
+                    }
+                    ; CAMP_CODE = map:{
+                        ; columnName = CAMP_CODE
+                        ; diffType = DELETE
+                    }
+                }
+                ; primaryKeyDiff = map:{
+                    ; PRIMARY = map:{
+                        ; constraintName = PRIMARY
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = ORGANIZATION_PLAN_REL_ID
+                            ; previous = ORGANIZATION_ID, CAMP_CODE
+                        }
+                    }
+                }
+                ; foreignKeyDiff = map:{
+                    ; FK_ORGANIZATION_CAMP_STATS_ORGANIZATION_CAMP_REL = map:{
+                        ; constraintName = FK_ORGANIZATION_CAMP_STATS_ORGANIZATION_CAMP_REL
+                        ; diffType = ADD
+                    }
+                    ; FK_ORGANIZATION_CAMP_STATS_CAMP = map:{
+                        ; constraintName = FK_ORGANIZATION_CAMP_STATS_CAMP
+                        ; diffType = DELETE
+                    }
+                    ; FK_ORGANIZATION_CAMP_STATS_ORGANIZATION = map:{
+                        ; constraintName = FK_ORGANIZATION_CAMP_STATS_ORGANIZATION
+                        ; diffType = DELETE
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_ORGANIZATION_CAMP_STATS_CAMP = map:{
+                        ; constraintName = FK_ORGANIZATION_CAMP_STATS_CAMP
+                        ; diffType = DELETE
+                    }
+                }
+            }
+        }
+    }
+    ; 2017/12/06 20:21:50 = map:{
+        ; diffDate = 2017/12/06 20:21:50
+        ; tableDiff = map:{
+            ; village = map:{
+                ; tableName = village
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; VILLAGE_NUMBER = map:{
+                        ; columnName = VILLAGE_NUMBER
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
+    ; 2017/12/06 17:33:49 = map:{
+        ; diffDate = 2017/12/06 17:33:49
+        ; tableDiff = map:{
+            ; player_stats = map:{
+                ; tableName = player_stats
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; POINT = map:{
+                        ; columnName = POINT
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
+    ; 2017/12/06 17:29:06 = map:{
+        ; diffDate = 2017/12/06 17:29:06
+        ; tableDiff = map:{
+            ; player_stats = map:{
+                ; tableName = player_stats
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; SUDDONLY_DEATH_NUM = map:{
+                        ; columnName = SUDDONLY_DEATH_NUM
+                        ; diffType = ADD
+                    }
+                    ; SUDDONLY_DEATH_RATE = map:{
+                        ; columnName = SUDDONLY_DEATH_RATE
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
+    ; 2017/12/01 17:13:03 = map:{
+        ; diffDate = 2017/12/01 17:13:03
+        ; tableDiff = map:{
+            ; act = map:{
+                ; tableName = act
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; DISP_ORDER = map:{
+                        ; columnName = DISP_ORDER
+                        ; diffType = ADD
+                    }
+                }
+            }
+            ; chara = map:{
+                ; tableName = chara
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; DISP_ORDER = map:{
+                        ; columnName = DISP_ORDER
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
+    ; 2017/11/30 20:08:11 = map:{
+        ; diffDate = 2017/11/30 20:08:11
+        ; tableDiff = map:{
+            ; skill = map:{
+                ; tableName = skill
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; DISP_ORDER = map:{
+                        ; columnName = DISP_ORDER
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
+    ; 2017/11/28 12:30:16 = map:{
+        ; diffDate = 2017/11/28 12:30:16
+        ; tableDiff = map:{
+            ; skill = map:{
+                ; tableName = skill
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; SKILL_SHORT_NAME = map:{
+                        ; columnName = SKILL_SHORT_NAME
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
+    ; 2017/11/24 18:07:51 = map:{
+        ; diffDate = 2017/11/24 18:07:51
+        ; tableCount = map:{
+            ; next = 16
+            ; previous = 15
+        }
+        ; tableDiff = map:{
+            ; organization_detail = map:{
+                ; tableName = organization_detail
+                ; diffType = ADD
+            }
+            ; organization = map:{
+                ; tableName = organization
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; ORGANIZATION_NAME = map:{
+                        ; columnName = ORGANIZATION_NAME
+                        ; diffType = ADD
+                    }
+                    ; PERSON_NUM = map:{
+                        ; columnName = PERSON_NUM
+                        ; diffType = ADD
+                    }
+                }
+            }
+            ; player = map:{
+                ; tableName = player
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; REGISTER_DATETIME = map:{
+                        ; columnName = REGISTER_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; REGISTER_TRACE = map:{
+                        ; columnName = REGISTER_TRACE
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_DATETIME = map:{
+                        ; columnName = UPDATE_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_TRACE = map:{
+                        ; columnName = UPDATE_TRACE
+                        ; diffType = ADD
+                    }
+                }
+                ; uniqueKeyDiff = map:{
+                    ; PLAYER_NAME = map:{
+                        ; constraintName = PLAYER_NAME
+                        ; diffType = ADD
+                    }
+                }
+            }
+            ; player_skill_stats = map:{
+                ; tableName = player_skill_stats
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; COUNTRY_CODE = map:{
+                        ; columnName = COUNTRY_CODE
+                        ; diffType = ADD
+                    }
+                }
+                ; primaryKeyDiff = map:{
+                    ; PRIMARY = map:{
+                        ; constraintName = PRIMARY
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = PLAYER_ID, COUNTRY_CODE, SKILL_CODE
+                            ; previous = PLAYER_ID, SKILL_CODE
+                        }
+                    }
+                }
+                ; foreignKeyDiff = map:{
+                    ; FK_PLAYER_SKILL_STATS_COUNTRY = map:{
+                        ; constraintName = FK_PLAYER_SKILL_STATS_COUNTRY
+                        ; diffType = ADD
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_PLAYER_SKILL_STATS_COUNTRY = map:{
+                        ; constraintName = FK_PLAYER_SKILL_STATS_COUNTRY
+                        ; diffType = ADD
+                    }
+                }
+            }
+            ; player_stats = map:{
+                ; tableName = player_stats
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; COUNTRY_CODE = map:{
+                        ; columnName = COUNTRY_CODE
+                        ; diffType = ADD
+                    }
+                }
+                ; primaryKeyDiff = map:{
+                    ; PRIMARY = map:{
+                        ; constraintName = PRIMARY
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = PLAYER_ID, COUNTRY_CODE
+                            ; previous = PLAYER_ID
+                        }
+                    }
+                }
+                ; foreignKeyDiff = map:{
+                    ; FK_PLAYER_STATS_COUNTRY = map:{
+                        ; constraintName = FK_PLAYER_STATS_COUNTRY
+                        ; diffType = ADD
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_PLAYER_STATS_COUNTRY = map:{
+                        ; constraintName = FK_PLAYER_STATS_COUNTRY
+                        ; diffType = ADD
+                    }
+                }
+            }
+            ; stats = map:{
+                ; tableName = stats
+                ; diffType = CHANGE
+                ; uniqueKeyDiff = map:{
+                    ; UQ_stats_village_id_chara_code = map:{
+                        ; constraintName = UQ_stats_village_id_chara_code
+                        ; diffType = ADD
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_STATS_VILLAGE = map:{
+                        ; constraintName = FK_STATS_VILLAGE
+                        ; diffType = DELETE
+                    }
+                }
+            }
+            ; village = map:{
+                ; tableName = village
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; EPILOGUE_DAY = map:{
+                        ; columnName = EPILOGUE_DAY
+                        ; diffType = ADD
+                    }
+                }
+            }
+            ; village_detail = map:{
+                ; tableName = village_detail
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; CHARA_CODE = map:{
+                        ; columnName = CHARA_CODE
+                        ; diffType = ADD
+                    }
+                    ; SKILL_CODE = map:{
+                        ; columnName = SKILL_CODE
+                        ; diffType = ADD
+                    }
+                    ; PLAYER_ID = map:{
+                        ; columnName = PLAYER_ID
+                        ; diffType = ADD
+                    }
+                    ; MY_CHARA_ID = map:{
+                        ; columnName = MY_CHARA_ID
+                        ; diffType = DELETE
+                    }
+                    ; YOUR_CHARA_ID = map:{
+                        ; columnName = YOUR_CHARA_ID
+                        ; diffType = DELETE
+                    }
+                }
+                ; foreignKeyDiff = map:{
+                    ; FK_VILLAGE_DETAIL_MY_CHARACTER = map:{
+                        ; constraintName = FK_VILLAGE_DETAIL_MY_CHARACTER
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = CHARA_CODE
+                            ; previous = MY_CHARA_ID
+                        }
+                    }
+                    ; FK_VILLAGE_DETAIL_PLAYER_MY = map:{
+                        ; constraintName = FK_VILLAGE_DETAIL_PLAYER_MY
+                        ; diffType = ADD
+                    }
+                    ; FK_VILLAGE_DETAIL_SKILL = map:{
+                        ; constraintName = FK_VILLAGE_DETAIL_SKILL
+                        ; diffType = ADD
+                    }
+                    ; FK_VILLAGE_DETAIL_YOUR_CHARACTER = map:{
+                        ; constraintName = FK_VILLAGE_DETAIL_YOUR_CHARACTER
+                        ; diffType = DELETE
+                    }
+                }
+                ; uniqueKeyDiff = map:{
+                    ; UQ_village_detail = map:{
+                        ; constraintName = UQ_village_detail
+                        ; diffType = ADD
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_VILLAGE_DETAIL_MY_CHARACTER = map:{
+                        ; constraintName = FK_VILLAGE_DETAIL_MY_CHARACTER
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = CHARA_CODE
+                            ; previous = MY_CHARA_ID
+                        }
+                    }
+                    ; FK_VILLAGE_DETAIL_PLAYER_MY = map:{
+                        ; constraintName = FK_VILLAGE_DETAIL_PLAYER_MY
+                        ; diffType = ADD
+                    }
+                    ; FK_VILLAGE_DETAIL_SKILL = map:{
+                        ; constraintName = FK_VILLAGE_DETAIL_SKILL
+                        ; diffType = ADD
+                    }
+                    ; FK_VILLAGE_DETAIL_VILLAGE = map:{
+                        ; constraintName = FK_VILLAGE_DETAIL_VILLAGE
+                        ; diffType = DELETE
+                    }
+                    ; FK_VILLAGE_DETAIL_YOUR_CHARACTER = map:{
+                        ; constraintName = FK_VILLAGE_DETAIL_YOUR_CHARACTER
+                        ; diffType = DELETE
+                    }
+                }
+            }
+            ; village_notification = map:{
+                ; tableName = village_notification
+                ; diffType = CHANGE
+                ; foreignKeyDiff = map:{
+                    ; FK_VILLAGE_NOTIFICATION_VILLAGE = map:{
+                        ; constraintName = FK_VILLAGE_NOTIFICATION_VILLAGE
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
+    ; 2017/11/09 14:01:45 = map:{
+        ; diffDate = 2017/11/09 14:01:45
+        ; tableDiff = map:{
+            ; act = map:{
+                ; tableName = act
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; ACT_CODE = map:{
+                        ; columnName = ACT_CODE
+                        ; diffType = ADD
+                    }
+                    ; ACT_ID = map:{
+                        ; columnName = ACT_ID
+                        ; diffType = DELETE
+                    }
+                }
+                ; primaryKeyDiff = map:{
+                    ; PRIMARY = map:{
+                        ; constraintName = PRIMARY
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = ACT_CODE
+                            ; previous = ACT_ID
+                        }
+                    }
+                }
+            }
+            ; camp = map:{
+                ; tableName = camp
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; CAMP_CODE = map:{
+                        ; columnName = CAMP_CODE
+                        ; diffType = ADD
+                    }
+                    ; CAMP_ID = map:{
+                        ; columnName = CAMP_ID
+                        ; diffType = DELETE
+                    }
+                }
+                ; primaryKeyDiff = map:{
+                    ; PRIMARY = map:{
+                        ; constraintName = PRIMARY
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = CAMP_CODE
+                            ; previous = CAMP_ID
+                        }
+                    }
+                }
+            }
+            ; chara = map:{
+                ; tableName = chara
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; CHARA_CODE = map:{
+                        ; columnName = CHARA_CODE
+                        ; diffType = ADD
+                    }
+                    ; CHARA_SHORT_NAME = map:{
+                        ; columnName = CHARA_SHORT_NAME
+                        ; diffType = ADD
+                    }
+                    ; CHARA_ID = map:{
+                        ; columnName = CHARA_ID
+                        ; diffType = DELETE
+                    }
+                }
+                ; primaryKeyDiff = map:{
+                    ; PRIMARY = map:{
+                        ; constraintName = PRIMARY
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = CHARA_CODE
+                            ; previous = CHARA_ID
+                        }
+                    }
+                }
+            }
+            ; country = map:{
+                ; tableName = country
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; COUNTRY_CODE = map:{
+                        ; columnName = COUNTRY_CODE
+                        ; diffType = ADD
+                    }
+                    ; COUNTRY_ID = map:{
+                        ; columnName = COUNTRY_ID
+                        ; diffType = DELETE
+                    }
+                }
+                ; primaryKeyDiff = map:{
+                    ; PRIMARY = map:{
+                        ; constraintName = PRIMARY
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = COUNTRY_CODE
+                            ; previous = COUNTRY_ID
+                        }
+                    }
+                }
+            }
+            ; organization = map:{
+                ; tableName = organization
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; COUNTRY_CODE = map:{
+                        ; columnName = COUNTRY_CODE
+                        ; diffType = ADD
+                    }
+                    ; COUNTRY_ID = map:{
+                        ; columnName = COUNTRY_ID
+                        ; diffType = DELETE
+                    }
+                }
+                ; foreignKeyDiff = map:{
+                    ; FK_ORGANIZATION_COUNTRY = map:{
+                        ; constraintName = FK_ORGANIZATION_COUNTRY
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = COUNTRY_CODE
+                            ; previous = COUNTRY_ID
+                        }
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_ORGANIZATION_COUNTRY = map:{
+                        ; constraintName = FK_ORGANIZATION_COUNTRY
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = COUNTRY_CODE
+                            ; previous = COUNTRY_ID
+                        }
+                    }
+                }
+            }
+            ; organization_camp_stats = map:{
+                ; tableName = organization_camp_stats
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; CAMP_CODE = map:{
+                        ; columnName = CAMP_CODE
+                        ; diffType = ADD
+                    }
+                    ; CAMP_ID = map:{
+                        ; columnName = CAMP_ID
+                        ; diffType = DELETE
+                    }
+                }
+                ; primaryKeyDiff = map:{
+                    ; PRIMARY = map:{
+                        ; constraintName = PRIMARY
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = ORGANIZATION_ID, CAMP_CODE
+                            ; previous = ORGANIZATION_ID, CAMP_ID
+                        }
+                    }
+                }
+                ; foreignKeyDiff = map:{
+                    ; FK_ORGANIZATION_CAMP_STATS_CAMP = map:{
+                        ; constraintName = FK_ORGANIZATION_CAMP_STATS_CAMP
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = CAMP_CODE
+                            ; previous = CAMP_ID
+                        }
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_ORGANIZATION_CAMP_STATS_CAMP = map:{
+                        ; constraintName = FK_ORGANIZATION_CAMP_STATS_CAMP
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = CAMP_CODE
+                            ; previous = CAMP_ID
+                        }
+                    }
+                }
+            }
+            ; player_skill_stats = map:{
+                ; tableName = player_skill_stats
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; SKILL_CODE = map:{
+                        ; columnName = SKILL_CODE
+                        ; diffType = ADD
+                    }
+                    ; SKILL_ID = map:{
+                        ; columnName = SKILL_ID
+                        ; diffType = DELETE
+                    }
+                }
+                ; primaryKeyDiff = map:{
+                    ; PRIMARY = map:{
+                        ; constraintName = PRIMARY
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = PLAYER_ID, SKILL_CODE
+                            ; previous = PLAYER_ID, SKILL_ID
+                        }
+                    }
+                }
+                ; foreignKeyDiff = map:{
+                    ; FK_PLAYER_STATS_SKILL = map:{
+                        ; constraintName = FK_PLAYER_STATS_SKILL
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = SKILL_CODE
+                            ; previous = SKILL_ID
+                        }
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_PLAYER_STATS_SKILL = map:{
+                        ; constraintName = FK_PLAYER_STATS_SKILL
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = SKILL_CODE
+                            ; previous = SKILL_ID
+                        }
+                    }
+                }
+            }
+            ; skill = map:{
+                ; tableName = skill
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; SKILL_CODE = map:{
+                        ; columnName = SKILL_CODE
+                        ; diffType = ADD
+                    }
+                    ; CAMP_CODE = map:{
+                        ; columnName = CAMP_CODE
+                        ; diffType = ADD
+                    }
+                    ; SKILL_ID = map:{
+                        ; columnName = SKILL_ID
+                        ; diffType = DELETE
+                    }
+                    ; CAMP_ID = map:{
+                        ; columnName = CAMP_ID
+                        ; diffType = DELETE
+                    }
+                }
+                ; primaryKeyDiff = map:{
+                    ; PRIMARY = map:{
+                        ; constraintName = PRIMARY
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = SKILL_CODE
+                            ; previous = SKILL_ID
+                        }
+                    }
+                }
+                ; foreignKeyDiff = map:{
+                    ; FK_SKILL_CAMP = map:{
+                        ; constraintName = FK_SKILL_CAMP
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = CAMP_CODE
+                            ; previous = CAMP_ID
+                        }
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_SKILL_CAMP = map:{
+                        ; constraintName = FK_SKILL_CAMP
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = CAMP_CODE
+                            ; previous = CAMP_ID
+                        }
+                    }
+                }
+            }
+            ; stats = map:{
+                ; tableName = stats
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; SKILL_CODE = map:{
+                        ; columnName = SKILL_CODE
+                        ; diffType = ADD
+                    }
+                    ; CHARA_CODE = map:{
+                        ; columnName = CHARA_CODE
+                        ; diffType = ADD
+                    }
+                    ; SKILL_ID = map:{
+                        ; columnName = SKILL_ID
+                        ; diffType = DELETE
+                    }
+                    ; CHARA_ID = map:{
+                        ; columnName = CHARA_ID
+                        ; diffType = DELETE
+                    }
+                }
+                ; foreignKeyDiff = map:{
+                    ; FK_STATS_CHARACTER = map:{
+                        ; constraintName = FK_STATS_CHARACTER
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = CHARA_CODE
+                            ; previous = CHARA_ID
+                        }
+                    }
+                    ; FK_STATS_SKILL = map:{
+                        ; constraintName = FK_STATS_SKILL
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = SKILL_CODE
+                            ; previous = SKILL_ID
+                        }
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_STATS_CHARACTER = map:{
+                        ; constraintName = FK_STATS_CHARACTER
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = CHARA_CODE
+                            ; previous = CHARA_ID
+                        }
+                    }
+                    ; FK_STATS_SKILL = map:{
+                        ; constraintName = FK_STATS_SKILL
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = SKILL_CODE
+                            ; previous = SKILL_ID
+                        }
+                    }
+                }
+            }
+            ; village = map:{
+                ; tableName = village
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; COUNTRY_CODE = map:{
+                        ; columnName = COUNTRY_CODE
+                        ; diffType = ADD
+                    }
+                    ; WIN_CAMP = map:{
+                        ; columnName = WIN_CAMP
+                        ; diffType = CHANGE
+                        ; dbTypeDiff = map:{
+                            ; next = VARCHAR
+                            ; previous = INT UNSIGNED
+                        }
+                    }
+                    ; COUNTRY_ID = map:{
+                        ; columnName = COUNTRY_ID
+                        ; diffType = DELETE
+                    }
+                }
+                ; foreignKeyDiff = map:{
+                    ; FK_VILLAGE_COUNTRY = map:{
+                        ; constraintName = FK_VILLAGE_COUNTRY
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = COUNTRY_CODE
+                            ; previous = COUNTRY_ID
+                        }
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_VILLAGE_COUNTRY = map:{
+                        ; constraintName = FK_VILLAGE_COUNTRY
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = COUNTRY_CODE
+                            ; previous = COUNTRY_ID
+                        }
+                    }
+                }
+            }
+            ; village_detail = map:{
+                ; tableName = village_detail
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; ACT_CODE = map:{
+                        ; columnName = ACT_CODE
+                        ; diffType = ADD
+                    }
+                    ; MY_CHARA_ID = map:{
+                        ; columnName = MY_CHARA_ID
+                        ; diffType = CHANGE
+                        ; dbTypeDiff = map:{
+                            ; next = VARCHAR
+                            ; previous = INT UNSIGNED
+                        }
+                        ; notNullDiff = map:{
+                            ; next = false
+                            ; previous = true
+                        }
+                    }
+                    ; YOUR_CHARA_ID = map:{
+                        ; columnName = YOUR_CHARA_ID
+                        ; diffType = CHANGE
+                        ; dbTypeDiff = map:{
+                            ; next = VARCHAR
+                            ; previous = INT UNSIGNED
+                        }
+                    }
+                    ; ACT_ID = map:{
+                        ; columnName = ACT_ID
+                        ; diffType = DELETE
+                    }
+                }
+                ; foreignKeyDiff = map:{
+                    ; FK_VILLAGE_DETAIL_ACT = map:{
+                        ; constraintName = FK_VILLAGE_DETAIL_ACT
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = ACT_CODE
+                            ; previous = ACT_ID
+                        }
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_VILLAGE_DETAIL_ACT = map:{
+                        ; constraintName = FK_VILLAGE_DETAIL_ACT
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = ACT_CODE
+                            ; previous = ACT_ID
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ; 2017/11/09 12:10:11 = map:{
+        ; diffDate = 2017/11/09 12:10:11
+        ; tableDiff = map:{
+            ; organization = map:{
+                ; tableName = organization
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; REGISTER_DATETIME = map:{
+                        ; columnName = REGISTER_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; REGISTER_TRACE = map:{
+                        ; columnName = REGISTER_TRACE
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_DATETIME = map:{
+                        ; columnName = UPDATE_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_TRACE = map:{
+                        ; columnName = UPDATE_TRACE
+                        ; diffType = ADD
+                    }
+                }
+            }
+            ; organization_camp_stats = map:{
+                ; tableName = organization_camp_stats
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; REGISTER_DATETIME = map:{
+                        ; columnName = REGISTER_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; REGISTER_TRACE = map:{
+                        ; columnName = REGISTER_TRACE
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_DATETIME = map:{
+                        ; columnName = UPDATE_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_TRACE = map:{
+                        ; columnName = UPDATE_TRACE
+                        ; diffType = ADD
+                    }
+                }
+            }
+            ; player_skill_stats = map:{
+                ; tableName = player_skill_stats
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; REGISTER_DATETIME = map:{
+                        ; columnName = REGISTER_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; REGISTER_TRACE = map:{
+                        ; columnName = REGISTER_TRACE
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_DATETIME = map:{
+                        ; columnName = UPDATE_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_TRACE = map:{
+                        ; columnName = UPDATE_TRACE
+                        ; diffType = ADD
+                    }
+                }
+            }
+            ; player_stats = map:{
+                ; tableName = player_stats
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; REGISTER_DATETIME = map:{
+                        ; columnName = REGISTER_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; REGISTER_TRACE = map:{
+                        ; columnName = REGISTER_TRACE
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_DATETIME = map:{
+                        ; columnName = UPDATE_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_TRACE = map:{
+                        ; columnName = UPDATE_TRACE
+                        ; diffType = ADD
+                    }
+                }
+            }
+            ; stats = map:{
+                ; tableName = stats
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; REGISTER_DATETIME = map:{
+                        ; columnName = REGISTER_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; REGISTER_TRACE = map:{
+                        ; columnName = REGISTER_TRACE
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_DATETIME = map:{
+                        ; columnName = UPDATE_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_TRACE = map:{
+                        ; columnName = UPDATE_TRACE
+                        ; diffType = ADD
+                    }
+                }
+            }
+            ; village = map:{
+                ; tableName = village
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; REGISTER_DATETIME = map:{
+                        ; columnName = REGISTER_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; REGISTER_TRACE = map:{
+                        ; columnName = REGISTER_TRACE
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_DATETIME = map:{
+                        ; columnName = UPDATE_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_TRACE = map:{
+                        ; columnName = UPDATE_TRACE
+                        ; diffType = ADD
+                    }
+                }
+            }
+            ; village_detail = map:{
+                ; tableName = village_detail
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; REGISTER_DATETIME = map:{
+                        ; columnName = REGISTER_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; REGISTER_TRACE = map:{
+                        ; columnName = REGISTER_TRACE
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_DATETIME = map:{
+                        ; columnName = UPDATE_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_TRACE = map:{
+                        ; columnName = UPDATE_TRACE
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
+}

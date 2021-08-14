@@ -4,7 +4,7 @@ import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.message.MessageEntity;
 import com.ort.app.util.SkillUtil;
 import com.ort.app.web.controller.assist.impl.VillageForms;
-import com.ort.app.web.exception.WerewolfMansionBusinessException;
+import com.ort.app.web.exception.WolfMansionBusinessException;
 import com.ort.app.web.form.*;
 import com.ort.app.web.model.VillageSettingsResultContent;
 import com.ort.app.web.model.inner.VillageSettingsDto;
@@ -12,8 +12,8 @@ import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.exentity.*;
 import com.ort.fw.security.UserInfo;
-import com.ort.fw.util.WerewolfMansionDateUtil;
-import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import com.ort.fw.util.WolfMansionDateUtil;
+import com.ort.fw.util.WolfMansionUserInfoUtil;
 import org.apache.commons.lang3.BooleanUtils;
 import org.dbflute.cbean.result.ListResultBean;
 import org.dbflute.optional.OptionalEntity;
@@ -69,7 +69,7 @@ public class VillageSettingsAssist {
     // 初期表示
     public String index(Integer villageId, Model model) {
         // ログインしていなかったらNG
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         if (userInfo == null) {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, VillageForms.empty(), model);
@@ -81,7 +81,7 @@ public class VillageSettingsAssist {
     // 設定変更
     public String updateSettings(Integer villageId, VillageSettingsForm form, BindingResult bindingResult, Model model) {
         // ログインしていなかったらNG
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         if (userInfo == null) {
             model.addAttribute("errorMessage", "ログインし直してください。");
             setVillageSettingsIndexModel(villageId, form, model);
@@ -94,7 +94,7 @@ public class VillageSettingsAssist {
         try {
             updateVillageSettings(villageId, form, userInfo);
             messageLogic.save(MessageEntity.publicSystemBuilder(villageId, 0).content("村の設定が変更されました。").build());
-        } catch (WerewolfMansionBusinessException e) {
+        } catch (WolfMansionBusinessException e) {
             model.addAttribute("errorMessage", e.getMessage());
             setVillageSettingsIndexModel(villageId, form, model);
             return "village-settings";
@@ -105,19 +105,19 @@ public class VillageSettingsAssist {
     // ===================================================================================
     //                                                                          Validation
     //                                                                          ==========
-    private void validate(Integer villageId, VillageSettingsForm form, UserInfo userInfo) throws WerewolfMansionBusinessException {
+    private void validate(Integer villageId, VillageSettingsForm form, UserInfo userInfo) throws WolfMansionBusinessException {
         ListResultBean<VillageDay> dayList = selectVillageDayList(villageId);
         if (dayList.size() > 1) {
             // すでに1日目に入っている
-            throw new WerewolfMansionBusinessException("既にプロローグが終了しているため変更できません");
+            throw new WolfMansionBusinessException("既にプロローグが終了しているため変更できません");
         }
         LocalDateTime startDateTime = makeStartDateTime(form);
         VillageSettings villageSettings = selectVillageSettings(villageId);
-        if (startDateTime.isBefore(WerewolfMansionDateUtil.currentLocalDateTime())) {
-            throw new WerewolfMansionBusinessException("開始日時を現在より過去にすることはできません");
+        if (startDateTime.isBefore(WolfMansionDateUtil.currentLocalDateTime())) {
+            throw new WolfMansionBusinessException("開始日時を現在より過去にすることはできません");
         }
         if (startDateTime.isAfter(villageSettings.getRegisterDatetime().plusDays(14L))) {
-            throw new WerewolfMansionBusinessException("開始日時は最初に建てた日時の14日後以降にはできません");
+            throw new WolfMansionBusinessException("開始日時は最初に建てた日時の14日後以降にはできません");
         }
         ListResultBean<VillagePlayer> vPlayerList = villagePlayerBhv.selectList(cb -> {
             cb.query().setVillageId_Equal(villageId);
@@ -125,16 +125,16 @@ public class VillageSettingsAssist {
         });
         long participateCount = vPlayerList.stream().filter(vp -> vp.isIsSpectatorFalse()).count();
         if (form.getPersonMaxNum() < participateCount) {
-            throw new WerewolfMansionBusinessException("定員は既に入村済みの人数未満にすることはできません");
+            throw new WolfMansionBusinessException("定員は既に入村済みの人数未満にすることはできません");
         }
         boolean existsSpectator = vPlayerList.stream().anyMatch(vp -> vp.isIsSpectatorTrue());
         if (existsSpectator && BooleanUtils.isFalse(form.getIsAvailableSpectate())) {
-            throw new WerewolfMansionBusinessException("見学者が既にいるため、見学入村を不可にすることはできません");
+            throw new WolfMansionBusinessException("見学者が既にいるため、見学入村を不可にすることはできません");
         }
 
         if (!"master".equals(userInfo.getUsername())
                 && !userInfo.getUsername().equals(villageSettings.getVillage().get().getCreatePlayerName())) {
-            throw new WerewolfMansionBusinessException("村作成者しか使用できない機能です");
+            throw new WolfMansionBusinessException("村作成者しか使用できない機能です");
         }
     }
 
@@ -156,7 +156,7 @@ public class VillageSettingsAssist {
     // ===================================================================================
     //                                                                              Update
     //                                                                              ======
-    private void updateSettings(Integer villageId, VillageSettingsForm form) throws WerewolfMansionBusinessException {
+    private void updateSettings(Integer villageId, VillageSettingsForm form) throws WolfMansionBusinessException {
         VillageSettings settings = new VillageSettings();
         settings.setVillageId(villageId);
         settings.setStartPersonMinNum(form.getStartPersonMinNum());
@@ -235,7 +235,7 @@ public class VillageSettingsAssist {
         skillSayRestrictionBhv.insert(entity);
     }
 
-    private void updateVillageDay(Integer villageId, VillageSettingsForm form) throws WerewolfMansionBusinessException {
+    private void updateVillageDay(Integer villageId, VillageSettingsForm form) throws WolfMansionBusinessException {
         VillageDay day = new VillageDay();
         day.setVillageId(villageId);
         day.setDay(0);
@@ -313,7 +313,7 @@ public class VillageSettingsAssist {
         // 役職リスト
         model.addAttribute("skillListStr", SkillUtil.getSkillListStr());
         // 現在の年
-        LocalDate now = WerewolfMansionDateUtil.currentLocalDate();
+        LocalDate now = WolfMansionDateUtil.currentLocalDate();
         model.addAttribute("nowYear", now.getYear());
         // 闇鍋
         ListResultBean<CampAllocation> campAllocationList = campAllocationBhv.selectList(cb -> cb.query().setVillageId_Equal(villageId));
@@ -324,7 +324,7 @@ public class VillageSettingsAssist {
 
     // 村設定変更
     private void updateVillageSettings(Integer villageId, VillageSettingsForm form, UserInfo userInfo)
-            throws WerewolfMansionBusinessException {
+            throws WolfMansionBusinessException {
         validate(villageId, form, userInfo);
         updateSettings(villageId, form);
         updateMessageRestrictions(villageId, form);
@@ -480,12 +480,12 @@ public class VillageSettingsAssist {
         }).collect(Collectors.toList());
     }
 
-    private LocalDateTime makeStartDateTime(VillageSettingsForm form) throws WerewolfMansionBusinessException {
+    private LocalDateTime makeStartDateTime(VillageSettingsForm form) throws WolfMansionBusinessException {
         try {
             return LocalDateTime.of(form.getStartYear(), form.getStartMonth(), form.getStartDay(), form.getStartHour(),
                     form.getStartMinute());
         } catch (DateTimeException e) {
-            throw new WerewolfMansionBusinessException("存在しない日付です");
+            throw new WolfMansionBusinessException("存在しない日付です");
         }
     }
 }

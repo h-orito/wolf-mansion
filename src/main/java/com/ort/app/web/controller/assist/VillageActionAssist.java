@@ -4,7 +4,7 @@ import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.MessageLogic;
 import com.ort.app.logic.message.MessageEntity;
 import com.ort.app.web.controller.assist.impl.VillageForms;
-import com.ort.app.web.exception.WerewolfMansionBusinessException;
+import com.ort.app.web.exception.WolfMansionBusinessException;
 import com.ort.app.web.form.VillageActionForm;
 import com.ort.app.web.model.VillageSayConfirmResultContent;
 import com.ort.app.web.model.inner.VillageMessageDto;
@@ -14,8 +14,8 @@ import com.ort.dbflute.exbhv.SkillSayRestrictionBhv;
 import com.ort.dbflute.exbhv.VillageBhv;
 import com.ort.dbflute.exentity.*;
 import com.ort.fw.security.UserInfo;
-import com.ort.fw.util.WerewolfMansionDateUtil;
-import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import com.ort.fw.util.WolfMansionDateUtil;
+import com.ort.fw.util.WolfMansionUserInfoUtil;
 import org.apache.commons.lang3.BooleanUtils;
 import org.dbflute.optional.OptionalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +53,7 @@ public class VillageActionAssist {
     public VillageSayConfirmResultContent actionConfirm(Integer villageId, VillageActionForm actionForm, BindingResult result,
                                                         Model model) {
         // ログインしていなかったらNG
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             return null;
         }
@@ -82,7 +82,7 @@ public class VillageActionAssist {
         String targetMessage = actionForm.getTarget() == null ? "" : actionForm.getTarget();
         String messageContent = actionForm.getMyself() + targetMessage + actionForm.getMessage();
         message.setMessageContent(messageContent);
-        message.setMessageDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
+        message.setMessageDatetime(WolfMansionDateUtil.currentLocalDateTime());
         message.setIsConvertDisable(actionForm.getIsConvertDisable());
         content.setMessage(message);
         content.setRandomKeywords(String.join(",",
@@ -93,7 +93,7 @@ public class VillageActionAssist {
 
     public String action(Integer villageId, VillageActionForm actionForm, BindingResult result, Model model) {
         // ログインしていなかったらNG
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         if (result.hasErrors() || userInfo == null) {
             // 最新の日付を表示
             return villageAssist.setIndexModelAndReturnView(villageId, new VillageForms.Builder().actionForm(actionForm).build(), model);
@@ -125,7 +125,7 @@ public class VillageActionAssist {
                     .villagePlayer(villagePlayer)
                     .isConvertDisable(BooleanUtils.isTrue(actionForm.getIsConvertDisable()))
                     .build());
-        } catch (WerewolfMansionBusinessException e) {
+        } catch (WolfMansionBusinessException e) {
             model.addAttribute("actionErrorMessage", e.getMessage());
         }
 

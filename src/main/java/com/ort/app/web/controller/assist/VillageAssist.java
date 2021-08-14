@@ -93,7 +93,7 @@ import com.ort.dbflute.exentity.VillageSettings;
 import com.ort.dbflute.exentity.Vote;
 import com.ort.dbflute.exentity.Votes;
 import com.ort.fw.security.UserInfo;
-import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import com.ort.fw.util.WolfMansionUserInfoUtil;
 
 @Component
 public class VillageAssist {
@@ -183,7 +183,7 @@ public class VillageAssist {
     //                                                                        ============
     private VillageInfo selectVillageInfo(Integer villageId, int day) {
         Village village = villageService.selectVillage(villageId, false, true);
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo(); // ログインしているか
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo(); // ログインしているか
         Optional<VillagePlayer> optVillagePlayer = villageService.selectVillagePlayer(villageId, userInfo, true);
         Votes votes = voteService.selectVotes(villageId);
         Footsteps footsteps = footstepService.selectFootsteps(villageId);

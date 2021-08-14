@@ -1,7 +1,7 @@
 package com.ort.app.web.controller;
 
 import com.ort.app.web.controller.assist.PlayerAssist;
-import com.ort.app.web.exception.WerewolfMansionBusinessException;
+import com.ort.app.web.exception.WolfMansionBusinessException;
 import com.ort.app.web.form.LoginForm;
 import com.ort.app.web.form.PlayerChangePasswordForm;
 import com.ort.app.web.form.PlayerCreateForm;
@@ -9,7 +9,7 @@ import com.ort.app.web.form.validator.PlayerChangePasswordFormValidator;
 import com.ort.dbflute.exbhv.PlayerBhv;
 import com.ort.dbflute.exentity.Player;
 import com.ort.fw.security.UserInfo;
-import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import com.ort.fw.util.WolfMansionUserInfoUtil;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -20,7 +20,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -99,7 +98,7 @@ public class PlayerController {
 
         try {
             selectPlayer(form);
-        } catch (WerewolfMansionBusinessException e) {
+        } catch (WolfMansionBusinessException e) {
             setIndexModel(form, model);
             model.addAttribute("errorMessage", e.getMessage());
             return "new-player";
@@ -123,7 +122,7 @@ public class PlayerController {
             BindingResult result, //
             Model model
     ) {
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         if (userInfo == null) {
             return "redirect:/";
         }
@@ -145,10 +144,10 @@ public class PlayerController {
     // ===================================================================================
     //                                                                              Select
     //                                                                              ======
-    private void selectPlayer(PlayerCreateForm form) throws WerewolfMansionBusinessException {
+    private void selectPlayer(PlayerCreateForm form) throws WolfMansionBusinessException {
         int count = playerBhv.selectCount(cb -> cb.query().setPlayerName_Equal(form.getUserId()));
         if (count > 0) {
-            throw new WerewolfMansionBusinessException("既に登録されているIDです。");
+            throw new WolfMansionBusinessException("既に登録されているIDです。");
         }
     }
 

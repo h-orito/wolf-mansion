@@ -20,8 +20,8 @@ import com.ort.dbflute.exentity.Village;
 import com.ort.dbflute.exentity.VillagePlayer;
 import com.ort.dbflute.exentity.VillageSettings;
 import com.ort.fw.security.UserInfo;
-import com.ort.fw.util.WerewolfMansionDateUtil;
-import com.ort.fw.util.WerewolfMansionUserInfoUtil;
+import com.ort.fw.util.WolfMansionDateUtil;
+import com.ort.fw.util.WolfMansionUserInfoUtil;
 
 @Component
 public class VillageParticipateLogic {
@@ -122,7 +122,7 @@ public class VillageParticipateLogic {
     }
 
     public boolean isParticipatingOrCreatingVillage() {
-        UserInfo userInfo = WerewolfMansionUserInfoUtil.getUserInfo();
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
         if (userInfo == null) {
             return false;
         }
@@ -177,7 +177,7 @@ public class VillageParticipateLogic {
         villagePlayer.setIsGone_False();
         villagePlayer.setRequestSkillCodeAsSkill(requestSkill);
         villagePlayer.setSecondRequestSkillCodeAsSkill(secondRequestSkill);
-        villagePlayer.setLastAccessDatetime(WerewolfMansionDateUtil.currentLocalDateTime());
+        villagePlayer.setLastAccessDatetime(WolfMansionDateUtil.currentLocalDateTime());
         villagePlayer.setCharaName(chara.getCharaName());
         villagePlayer.setCharaShortName(chara.getCharaShortName());
         villagePlayerBhv.insert(villagePlayer);

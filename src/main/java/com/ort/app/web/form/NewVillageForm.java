@@ -17,7 +17,7 @@ import org.springframework.util.CollectionUtils;
 import com.ort.app.logic.AssignLogic;
 import com.ort.app.util.SkillUtil;
 import com.ort.dbflute.allcommon.CDef;
-import com.ort.fw.util.WerewolfMansionDateUtil;
+import com.ort.fw.util.WolfMansionDateUtil;
 
 public class NewVillageForm implements Serializable {
 
@@ -200,7 +200,7 @@ public class NewVillageForm implements Serializable {
         }
         if (startYear == null) {
             // 一週間後にしておく
-            LocalDateTime oneWeekAfter = WerewolfMansionDateUtil.currentLocalDateTime().plusDays(7L);
+            LocalDateTime oneWeekAfter = WolfMansionDateUtil.currentLocalDateTime().plusDays(7L);
             startYear = oneWeekAfter.getYear();
             startMonth = oneWeekAfter.getMonthValue();
             startDay = oneWeekAfter.getDayOfMonth();
