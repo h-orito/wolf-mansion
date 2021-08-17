@@ -129,22 +129,7 @@ public class VillageParticipateLogic {
         if ("master".equals(userInfo.getUsername())) {
             return false; // masterは参加してない扱い
         }
-        // 終了していない村に参加しているか
         String username = userInfo.getUsername();
-        int participateCount = playerBhv.selectCount(cb -> {
-            cb.query().setPlayerName_Equal(username);
-            // 募集中、開始待ち、進行中の村に参戦している
-            cb.query().existsVillagePlayer(villagePlayerCB -> {
-                villagePlayerCB.query()
-                        .queryVillage()
-                        .setVillageStatusCode_InScope_AsVillageStatus(
-                                Arrays.asList(CDef.VillageStatus.募集中, CDef.VillageStatus.進行中, CDef.VillageStatus.開始待ち));
-                villagePlayerCB.query().setIsGone_Equal_False();
-            });
-        });
-        if (participateCount > 0) {
-            return true;
-        }
         // 自分が建てた村が終了していない
         int progressVillageCount = villageBhv.selectCount(cb -> {
             cb.query().setCreatePlayerName_Equal(username);

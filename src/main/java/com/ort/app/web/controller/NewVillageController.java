@@ -77,7 +77,7 @@ public class NewVillageController {
             newVillageAssist.setIndexModel(villageForm, model);
             return "new-village";
         }
-        // 決着のついていない参加していたり建てた村が終了していなかったらNG
+        // 建てた村が終了していなかったらNG
         if (participateLogic.isParticipatingOrCreatingVillage()) {
             model.addAttribute("errorMessage", "参加/村建てした村の決着がつくまでは村を建てられません。");
             newVillageAssist.setIndexModel(villageForm, model);
@@ -133,7 +133,7 @@ public class NewVillageController {
             newVillageAssist.setIndexModel(villageForm, model);
             return "new-village";
         }
-        // 決着のついていない参加していたり建てた村が終了していなかったらNG
+        // 建てた村が終了していなかったらNG
         if (participateLogic.isParticipatingOrCreatingVillage()) {
             model.addAttribute("errorMessage", "参加/村建てした村の決着がつくまでは村を建てられません。");
             newVillageAssist.setIndexModel(villageForm, model);

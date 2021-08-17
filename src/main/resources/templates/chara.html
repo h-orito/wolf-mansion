@@ -1,36 +1,42 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
-<!--/* 個別ページのタイトル */-->
-<title th:text="${'キャラチップ: ' + content.charaGroupName}"></title>
-<!--/* 個別ページのjs */-->
+    <!--/* 個別ページのタイトル */-->
+    <title th:text="${'キャラチップ: ' + content.charaGroupName}"></title>
+    <!--/* 個別ページのjs */-->
 </head>
 
 <body>
-	<div class="container">
-		<div layout:fragment="content">
-			<div id="wrapper">
-				<div class="col-sm-12 col-xs-12">
-					<h1 class="h4" th:text="${'キャラチップ: ' + content.charaGroupName}"></h1>
-					<div class="row">
-						<div class="col-sm-12 col-xs-12">
-							<p th:text="${'作者: ' + content.designerName + '様'}"></p>
-							<p th:text="'肩書・名称変更: ' + ${content.isAvailableChangeName ? '可能' : '不可'}"></p>
-							<a th:href="${content.descriptionUrl}" target="_blank" th:text="作者様HP" th:if="${content.descriptionUrl}"></a>
-						</div>
-					</div>
-					<div class="col-sm-6 col-xs-12" style="border: 1px solid #464545;" th:if="${content.charaList != null && content.charaList.size() > 0}"
-						th:each="chara : ${content.charaList}">
-						<span style="display: block; text-align: center;"> <img th:each="url : ${chara.charaImgUrlList}" th:src="${url}"
-							th:width="${chara.charaImgWidth}" th:height="${chara.charaImgHeight}" />
-						</span> <span style="display: block; text-align: center;" th:text="${'[' + chara.charaShortName + '] ' + chara.charaName}"></span>
-					</div>
-				</div>
+<div class="container">
+    <div layout:fragment="content">
+        <div id="wrapper">
+            <div class="col-sm-12 col-xs-12">
+                <h1 class="h4" th:text="${'キャラチップ: ' + content.charaGroupName}"></h1>
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <p th:text="${'作者: ' + content.designerName + '様'}"></p>
+                        <p th:text="'肩書・名称変更: ' + ${content.availableChangeName ? '可能' : '不可'}"></p>
+                        <a th:href="${content.descriptionUrl}" target="_blank" th:text="作者様HP"
+                           th:if="${content.descriptionUrl}"></a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xs-12" style="border: 1px solid #464545;"
+                     th:if="${content.charaList != null && content.charaList.size() > 0}"
+                     th:each="chara : ${content.charaList}">
+						<span style="display: block; text-align: center;"> <img th:each="url : ${chara.charaImgUrlList}"
+                                                                                th:src="${url}"
+                                                                                th:width="${chara.charaImgWidth}"
+                                                                                th:height="${chara.charaImgHeight}"/>
+						</span> <span style="display: block; text-align: center;"
+                                      th:text="${'[' + chara.charaShortName + '] ' + chara.charaName}"></span>
+                </div>
+            </div>
 
-				<div class="clearfix"></div>
-			</div>
-		</div>
-		<footer layout:replace="~{layout/footer::footer}"></footer>
-	</div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <footer layout:replace="~{layout/footer::footer}"></footer>
+</div>
 </body>
 </html>
