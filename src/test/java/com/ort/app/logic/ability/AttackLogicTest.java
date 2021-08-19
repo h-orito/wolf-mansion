@@ -1,17 +1,5 @@
 package com.ort.app.logic.ability;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Optional;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.ort.TestAssist;
 import com.ort.WerewolfMansionTest;
 import com.ort.app.datasource.AbilityService;
@@ -23,15 +11,18 @@ import com.ort.app.logic.daychange.DayChangeVillage;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.AbilityBhv;
 import com.ort.dbflute.exbhv.VillageSettingsBhv;
-import com.ort.dbflute.exentity.Abilities;
-import com.ort.dbflute.exentity.Ability;
-import com.ort.dbflute.exentity.Footstep;
-import com.ort.dbflute.exentity.Footsteps;
-import com.ort.dbflute.exentity.Village;
-import com.ort.dbflute.exentity.VillagePlayer;
-import com.ort.dbflute.exentity.VillagePlayers;
-import com.ort.dbflute.exentity.VillageSettings;
-import com.ort.dbflute.exentity.Votes;
+import com.ort.dbflute.exentity.*;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -348,7 +339,7 @@ public class AttackLogicTest extends WerewolfMansionTest {
         Village village = villageService.selectVillage(villageId, false, false);
         Integer charaId = logic.getAttackableWolfs(village, 2).list.stream().findFirst().get().getCharaId();
         VillagePlayer villagePlayer = village.getVillagePlayers().findByCharaId(charaId);
-        Integer targetCharaId = logic.getSelectableTarget(village, 2).list.stream().findFirst().get().getCharaId();
+        Integer targetCharaId = logic.getSelectableTarget(village, 2, villagePlayer).list.stream().findFirst().get().getCharaId();
         String footstep = footstepLogic.getFootstepCandidateList(villageId, villagePlayer, 2, charaId, targetCharaId).get(0);
 
         // ## Act ##
@@ -379,7 +370,7 @@ public class AttackLogicTest extends WerewolfMansionTest {
             return attackableWolfs.list.stream().noneMatch(wolf -> wolf.getVillagePlayerId().equals(vp.getVillagePlayerId()));
         }).getRandom().getCharaId();
         VillagePlayer villagePlayer = village.getVillagePlayers().findByCharaId(charaId);
-        Integer targetCharaId = logic.getSelectableTarget(village, 2).list.stream().findFirst().get().getCharaId();
+        Integer targetCharaId = logic.getSelectableTarget(village, 2, villagePlayer).list.stream().findFirst().get().getCharaId();
         String footstep = "なし";
 
         // ## Act ##
@@ -403,7 +394,7 @@ public class AttackLogicTest extends WerewolfMansionTest {
         Integer charaId = logic.getAttackableWolfs(village, 2).list.stream().findFirst().get().getCharaId();
         VillagePlayer villagePlayer = village.getVillagePlayers().findByCharaId(charaId);
         // 襲撃先に選べない人を襲撃する
-        VillagePlayers selectableTarget = logic.getSelectableTarget(village, 2);
+        VillagePlayers selectableTarget = logic.getSelectableTarget(village, 2, villagePlayer);
         Integer targetCharaId = village.getVillagePlayers().filterBy(vp -> {
             return selectableTarget.list.stream().noneMatch(target -> target.getVillagePlayerId().equals(vp.getVillagePlayerId()));
         }).getRandom().getCharaId();
@@ -429,7 +420,7 @@ public class AttackLogicTest extends WerewolfMansionTest {
         Village village = villageService.selectVillage(villageId, false, false);
         Integer charaId = logic.getAttackableWolfs(village, 2).list.stream().findFirst().get().getCharaId();
         VillagePlayer villagePlayer = village.getVillagePlayers().findByCharaId(charaId);
-        Integer targetCharaId = logic.getSelectableTarget(village, 2).list.stream().findFirst().get().getCharaId();
+        Integer targetCharaId = logic.getSelectableTarget(village, 2, villagePlayer).list.stream().findFirst().get().getCharaId();
         String footstep = "01,02,03,04,05,06";
 
         // ## Act ##
@@ -449,7 +440,8 @@ public class AttackLogicTest extends WerewolfMansionTest {
 
         // ## Act ##
         Village village = villageService.selectVillage(villageId, false, false);
-        VillagePlayers targets = logic.getSelectableTarget(village, 1);
+        VillagePlayer villagePlayer = village.getVillagePlayers().filterBySkill(CDef.Skill.人狼).getRandom();
+        VillagePlayers targets = logic.getSelectableTarget(village, 1, villagePlayer);
 
         // ## Assert ##
         assertTrue(targets.list.size() == 1);
@@ -465,7 +457,8 @@ public class AttackLogicTest extends WerewolfMansionTest {
 
         // ## Act ##
         Village village = villageService.selectVillage(villageId, false, false);
-        VillagePlayers targets = logic.getSelectableTarget(village, 2);
+        VillagePlayer villagePlayer = village.getVillagePlayers().filterBySkill(CDef.Skill.人狼).getRandom();
+        VillagePlayers targets = logic.getSelectableTarget(village, 2, villagePlayer);
 
         // ## Assert ##
         assertTrue(targets.list.stream().noneMatch(vp -> vp.isIsDeadTrue()));
@@ -482,7 +475,8 @@ public class AttackLogicTest extends WerewolfMansionTest {
 
         // ## Act ##
         Village village = villageService.selectVillage(villageId, false, false);
-        VillagePlayers targets = logic.getSelectableTarget(village, 2);
+        VillagePlayer villagePlayer = village.getVillagePlayers().filterBySkill(CDef.Skill.人狼).getRandom();
+        VillagePlayers targets = logic.getSelectableTarget(village, 2, villagePlayer);
 
         // ## Assert ##
         assertTrue(targets.list.isEmpty());

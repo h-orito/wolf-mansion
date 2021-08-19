@@ -1,35 +1,24 @@
 package com.ort.app.logic.ability;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import com.ort.app.datasource.AbilityService;
+import com.ort.app.datasource.FootstepService;
+import com.ort.app.datasource.VillageService;
+import com.ort.app.logic.FootstepLogic;
+import com.ort.app.logic.MessageLogic;
+import com.ort.app.logic.RoomLogic;
+import com.ort.app.logic.daychange.DayChangeVillage;
+import com.ort.app.logic.message.MessageEntity;
+import com.ort.dbflute.allcommon.CDef;
+import com.ort.dbflute.exbhv.CharaImageBhv;
+import com.ort.dbflute.exentity.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.dbflute.optional.OptionalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
-import com.ort.app.datasource.AbilityService;
-import com.ort.app.datasource.FootstepService;
-import com.ort.app.datasource.VillageService;
-import com.ort.app.logic.FootstepLogic;
-import com.ort.app.logic.MessageLogic;
-import com.ort.app.logic.daychange.DayChangeVillage;
-import com.ort.app.logic.message.MessageEntity;
-import com.ort.dbflute.allcommon.CDef;
-import com.ort.dbflute.exbhv.CharaImageBhv;
-import com.ort.dbflute.exentity.Abilities;
-import com.ort.dbflute.exentity.Ability;
-import com.ort.dbflute.exentity.CharaImage;
-import com.ort.dbflute.exentity.Footstep;
-import com.ort.dbflute.exentity.Footsteps;
-import com.ort.dbflute.exentity.Village;
-import com.ort.dbflute.exentity.VillagePlayer;
-import com.ort.dbflute.exentity.VillagePlayers;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class AttackLogic {
@@ -41,6 +30,8 @@ public class AttackLogic {
     private MessageSource messageSource;
     @Autowired
     private FootstepLogic footstepLogic;
+    @Autowired
+    private RoomLogic roomLogic;
     @Autowired
     private MessageLogic messageLogic;
     @Autowired
@@ -107,14 +98,16 @@ public class AttackLogic {
     // デフォルトの噛み先を設定
     public void insertDefaultAttack(Village village, int newDay) {
         Integer villageId = village.getVillageId();
-        // 噛まれる人
-        Integer attackedCharaId = getSelectableTarget(village, newDay).getRandom().getCharaId();
         // 噛む人（生存している狼で、狼が2名以上の場合は昨日噛んだ人は除外）
-        VillagePlayers attackableWolfs = getAttackableWolfs(village, newDay);
+        VillagePlayers attackableWolfs = getAttackableWolfs(village, newDay).shuffled();
         if (attackableWolfs.list.isEmpty()) {
             return; // 全滅
         }
-        Integer attackCharaId = attackableWolfs.getRandom().getCharaId();
+        VillagePlayer wolf = attackableWolfs.getRandom();
+        // 噛まれる人
+        Integer attackedCharaId = getSelectableTarget(village, newDay, wolf).getRandom().getCharaId();
+        // 噛む人
+        Integer attackCharaId = wolf.getCharaId();
         // 能力セット
         abilityService.insertAbility(villageId, newDay, attackCharaId, attackedCharaId, null, CDef.AbilityType.襲撃);
         // 時計回りの足音セット
@@ -125,12 +118,12 @@ public class AttackLogic {
 
     // 能力セット
     public void setAbility( //
-            Village village, //
-            VillagePlayer villagePlayer, //
-            int day, //
-            Integer charaId, //
-            Integer targetCharaId, //
-            String footstep//
+                            Village village, //
+                            VillagePlayer villagePlayer, //
+                            int day, //
+                            Integer charaId, //
+                            Integer targetCharaId, //
+                            String footstep//
     ) {
         if (isInvalidWolfAbility(village, villagePlayer, day, charaId, targetCharaId, footstep)) {
             return;
@@ -144,18 +137,40 @@ public class AttackLogic {
     }
 
     // 能力行使先
-    public VillagePlayers getSelectableTarget(Village village, int day) {
+    public VillagePlayers getSelectableTarget(Village village, int day, VillagePlayer villagePlayer) {
+        VillagePlayers vps = null;
         if (day == 1) {
             // ダミーのみ
             Integer dummyCharaId = village.getVillageSettingsAsOne().get().getDummyCharaId();
-            return new VillagePlayers(Arrays.asList(village.getVillagePlayers().findByCharaId(dummyCharaId)));
+            vps = new VillagePlayers(Arrays.asList(village.getVillagePlayers().findByCharaId(dummyCharaId)));
         } else {
             // 狼以外の生存している人
-            return village.getVillagePlayers() //
+            vps = village.getVillagePlayers() //
                     .filterAlive() //
                     .filterNotSpecatate()
                     .filterBy(vp -> !vp.getSkillCodeAsSkill().isHasAttackAbility())
                     .sortedByRoomNumber();
+        }
+        Integer roomNumber = villagePlayer.getRoomNumber();
+        Integer roomSizeWidth = village.getRoomSizeWidth();
+        if (villagePlayer.getSkillCodeAsSkill() == CDef.Skill.飛狼) {
+            final List<Integer> availableRoomNumberList = roomLogic.detectHishaRoomNumber(roomNumber, village);
+            VillagePlayers targets = vps.filterBy(vp -> availableRoomNumberList.contains(vp.getRoomNumber()));
+            if (targets.isEmpty()) {
+                // 対象がいない場合は人狼と同じ選択肢になる
+                return vps;
+            }
+            return targets;
+        } else if (villagePlayer.getSkillCodeAsSkill() == CDef.Skill.角狼) {
+            final List<Integer> availableRoomNumberList = roomLogic.detectKakuRoomNumber(roomNumber, village);
+            VillagePlayers targets = vps.filterBy(vp -> availableRoomNumberList.contains(vp.getRoomNumber()));
+            if (targets.isEmpty()) {
+                // 対象がいない場合は人狼と同じ選択肢になる
+                return vps;
+            }
+            return targets;
+        } else {
+            return vps;
         }
     }
 
@@ -273,21 +288,18 @@ public class AttackLogic {
     }
 
     private boolean isInvalidWolfAbility(//
-            Village village, //
-            VillagePlayer villagePlayer, //
-            int day, //
-            Integer charaId, //
-            Integer targetCharaId, //
-            String footstep//
+                                         Village village, //
+                                         VillagePlayer villagePlayer, //
+                                         int day, //
+                                         Integer charaId, //
+                                         Integer targetCharaId, //
+                                         String footstep//
     ) {
         if (charaId == null || targetCharaId == null || footstep == null) {
             return true;
         }
-        VillagePlayers attackableWolfs = getAttackableWolfs(village, day);
-        if (attackableWolfs.list.stream().noneMatch(vp -> vp.getCharaId().equals(charaId))) {
-            return true; // 襲撃できない人が襲撃している
-        }
-        if (getSelectableTarget(village, day).list.stream().noneMatch(vp -> vp.getCharaId().equals(targetCharaId))) {
+        VillagePlayer attacker = village.getVillagePlayers().findByCharaId(charaId);
+        if (getSelectableTarget(village, day, attacker).list.stream().noneMatch(vp -> vp.getCharaId().equals(targetCharaId))) {
             return true; // 襲撃できない対象を選んでいる
         }
         // 襲撃者、襲撃対象、足音の整合性がとれていなかったらNG
@@ -301,17 +313,17 @@ public class AttackLogic {
     }
 
     private void insertAbilityMessage( //
-            Village village, //
-            int day, //
-            Integer charaId, //
-            Integer targetCharaId, //
-            String footstep, //
-            boolean isDefault //
+                                       Village village, //
+                                       int day, //
+                                       Integer charaId, //
+                                       Integer targetCharaId, //
+                                       String footstep, //
+                                       boolean isDefault //
     ) {
         VillagePlayer chara = village.getVillagePlayers().findByCharaId(charaId);
         VillagePlayer target = village.getVillagePlayers().findByCharaId(targetCharaId);
         String message = messageSource.getMessage("ability.werewolf.message",
-                new String[] { chara.name(), target.name(), footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
+                new String[]{chara.name(), target.name(), footstep, isDefault ? "（自動設定）" : ""}, Locale.JAPAN);
         messageLogic.insertAbilityMessage(village.getVillageId(), day, message);
     }
 
@@ -319,8 +331,8 @@ public class AttackLogic {
         return abilityService.selectAbilities(villageId) //
                 .filterYesterday(day) //
                 .filterByType(CDef.AbilityType.襲撃).list.stream() //
-                        .findFirst()
-                        .map(a -> a.getCharaId())
-                        .orElse(null);
+                .findFirst()
+                .map(a -> a.getCharaId())
+                .orElse(null);
     }
 }

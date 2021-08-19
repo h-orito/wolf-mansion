@@ -46,16 +46,11 @@
 							<div class="collapse in" aria-expanded="true" style="margin-top: 10px;" id="skill-tab-area">
 								<p layout:replace="~{village/skill-selecting::skill-selecting}"></p>
 
-								<!--/* 人狼、占い師、狩人用能力セット */-->
+								<!--/* 占い師、狩人用能力セット */-->
 								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
 									th:if="${content.form.ability.abilityTargetList != null && content.form.ability.abilityTargetList.size() > 0}" th:object="${abilityForm}"
 									class="form-horizontal">
 									<div class="form-group small">
-										<div class="col-sm-12 col-xs-12" th:if="${content.myself.skill.hasAttackAbility}">
-											襲撃者 <select class="form-control" th:field="*{charaId}" data-attacker-select>
-												<option th:each="chara : ${content.form.ability.attackerList}" th:value="${chara.value}" th:text="${chara.name}"></option>
-											</select>
-										</div>
 										<div class="col-sm-12 col-xs-12" th:unless="${content.myself.skill.code == 'DETECTIVE'}">
 											<span th:if="${content.form.ability.targetPrefixMessage}" th:text="${content.form.ability.targetPrefixMessage}"></span> <select
 												class="form-control" th:field="*{targetCharaId}" data-ability-target-select>
@@ -70,6 +65,33 @@
 										<div class="col-sm-12 col-xs-12" th:if="${content.form.ability.isTargetingAndFootstep}">
 											通過する部屋<select class="form-control" name="footstep" data-footstep-select>
 											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-12 col-xs-12">
+											<input type="submit" class="btn btn-sm btn-success pull-right" value="セット" />
+										</div>
+									</div>
+								</form>
+								<!--/* 人狼用能力セット */-->
+								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
+									  th:if="${content.form.ability.attackerList != null && content.form.ability.attackerList.size() > 0}" th:object="${abilityForm}"
+									  class="form-horizontal">
+									<div class="form-group small">
+										<div class="col-sm-12 col-xs-12">
+											襲撃者 <select class="form-control" th:field="*{charaId}" data-attacker-select>
+											<option th:each="chara : ${content.form.ability.attackerList}" th:value="${chara.value}" th:text="${chara.name}"></option>
+										</select>
+										</div>
+										<div class="col-sm-12 col-xs-12">
+											<span th:if="${content.form.ability.targetPrefixMessage}" th:text="${content.form.ability.targetPrefixMessage}"></span>
+											<select class="form-control" th:field="*{targetCharaId}" data-ability-target-select>
+											</select>
+											<span th:if="${content.form.ability.targetSuffixMessage}" th:text="${content.form.ability.targetSuffixMessage}"></span>
+										</div>
+										<div class="col-sm-12 col-xs-12" th:if="${content.form.ability.isTargetingAndFootstep}">
+											通過する部屋<select class="form-control" name="footstep" data-footstep-select>
+										</select>
 										</div>
 									</div>
 									<div class="form-group">

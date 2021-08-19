@@ -207,6 +207,7 @@ public class VillageAssist {
             abilityForm.setTargetCharaId(ab.getTargetCharaId());
             if (ab.getTargetCharaId() != null) {
                 model.addAttribute("targetCharaName", villageInfo.vPlayers.findByCharaId(ab.getTargetCharaId()).name());
+                model.addAttribute("targetCharaId", ab.getTargetCharaId());
             }
             abilityForm.setFootstep(ab.getTargetFootstep());
             model.addAttribute("footstep", ab.getTargetFootstep());

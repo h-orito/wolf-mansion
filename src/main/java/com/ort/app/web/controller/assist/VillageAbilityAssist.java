@@ -3,10 +3,14 @@ package com.ort.app.web.controller.assist;
 import com.ort.app.datasource.VillageService;
 import com.ort.app.logic.AbilityLogic;
 import com.ort.app.logic.FootstepLogic;
+import com.ort.app.logic.ability.AttackLogic;
 import com.ort.app.web.controller.assist.impl.VillageForms;
 import com.ort.app.web.form.VillageAbilityForm;
+import com.ort.app.web.form.VillageGetAttackTargetListForm;
 import com.ort.app.web.form.VillageGetFootstepListForm;
 import com.ort.app.web.form.VillageVoteForm;
+import com.ort.app.web.model.OptionDto;
+import com.ort.app.web.model.VillageGetAttackTargetListResultContent;
 import com.ort.app.web.model.VillageGetFootstepListResultContent;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exbhv.VillagePlayerBhv;
@@ -37,6 +41,8 @@ public class VillageAbilityAssist {
     private AbilityLogic abilityLogic;
     @Autowired
     private FootstepLogic footstepLogic;
+    @Autowired
+    private AttackLogic attackLogic;
     @Autowired
     private VillageService villageService;
     @Autowired
@@ -113,12 +119,44 @@ public class VillageAbilityAssist {
         return response;
     }
 
+    public VillageGetAttackTargetListResultContent getAttackTargetList(VillageGetAttackTargetListForm form, BindingResult result) {
+        // ログインしていなかったらNG
+        UserInfo userInfo = WolfMansionUserInfoUtil.getUserInfo();
+        if (result.hasErrors() || userInfo == null) {
+            return null;
+        }
+        Optional<VillagePlayer> optVillagePlayer = villageService.selectVillagePlayer(form.getVillageId(), userInfo, false);
+        if (!optVillagePlayer.isPresent()) {
+            return null;
+        }
+        VillagePlayer vPlayer = optVillagePlayer.get();
+        if (isInvalidAttacker(vPlayer, form)) {
+            return null;
+        }
+        Village village = villageService.selectVillage(form.getVillageId(), false, false);
+        VillagePlayer attacker = village.getVillagePlayers().findByCharaId(form.getCharaId());
+        if (!attacker.getSkillCodeAsSkill().isHasAttackAbility()) {
+            return null;
+        }
+        int day = villageService.selectLatestDay(form.getVillageId());
+        List<OptionDto> targetList =
+                attackLogic.getSelectableTarget(village, day, attacker).map(OptionDto::new);
+        VillageGetAttackTargetListResultContent response = new VillageGetAttackTargetListResultContent();
+        response.setAttackTargetList(targetList);
+        return response;
+    }
+
     // ===================================================================================
     //                                                                          Validation
     //                                                                          ==========
     private boolean isInvalidVote(Integer villageId, VillagePlayer villagePlayer, VillageVoteForm voteForm) {
         List<VillagePlayer> villagePlayerList = selectVillagePlayerList(villageId);
         return !villagePlayerList.stream().anyMatch(vp -> vp.isIsDeadFalse() && vp.getCharaId().equals(voteForm.getTargetCharaId()));
+    }
+
+    private boolean isInvalidAttacker(VillagePlayer villagePlayer, VillageGetAttackTargetListForm form) {
+        CDef.Skill skill = villagePlayer.getSkillCodeAsSkill();
+        return !skill.isHasAttackAbility();
     }
 
     private boolean isInvalidFootstep(VillagePlayer villagePlayer, VillageGetFootstepListForm form) {

@@ -257,6 +257,13 @@ public class VillageController {
         return villageCommitAssist.setCommit(villageId, commitForm, result, model);
     }
 
+    // 襲撃対象候補取得
+    @GetMapping("/village/getAttackTargetList")
+    @ResponseBody
+    private VillageGetAttackTargetListResultContent getAttackTargetList(@Validated VillageGetAttackTargetListForm form, BindingResult result) {
+        return villageAbilityAssist.getAttackTargetList(form, result);
+    }
+
     // 足音候補取得
     @GetMapping("/village/getFootstepList")
     @ResponseBody

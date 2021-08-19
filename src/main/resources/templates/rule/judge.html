@@ -1,109 +1,111 @@
-<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html lang="ja" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
 <head>
-<meta charset="utf-8" />
+    <meta charset="utf-8"/>
 </head>
 <body>
-	<div id="judge" class="table-responsive" layout:fragment="judge">
-		<table class="table table-bordered table-condensed small">
-			<thead>
-				<tr>
-					<th>役職</th>
-					<th>占結果</th>
-					<th>霊結果</th>
-					<th>襲撃耐性</th>
-					<th>勝敗判定<br>カウント</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>
-						村人<br>
-						占い師<br>
-						賢者<br>
-						占星術士<br>
-						狩人<br>
-						探偵<br>
-						罠師<br>
-						霊能者<br>
-						導師<br>
-						検死官<br>
-						パン屋<br>
-						共鳴者<br>
-						強運者<br>
-						指揮官<br>
-						妄想癖<br>
-						夢遊病者<br>
-						冤罪者<br>
-						転生者<br>
-						申し子<br>
-						狂人<br>
-						C国狂人<br>
-						魔神官<br>
-						狂信者<br>
-						恋人<br>
-						同棲者<br>
-						求愛者<br>
-						ストーカー<br>
-						絡新婦<br>
-						美人局<br>
-						背徳者<br>
-						果実籠<br>
-					</td>
-					<td>人間</td>
-					<td>人間</td>
-					<td>なし</td>
-					<td>人間</td>
-				</tr>
-				<tr>
-					<td>
-						人狼<br>
-						呪狼<br>
-						智狼<br>
-						絶対人狼<br>
-					</td>
-					<td class="text-danger">人狼</td>
-					<td class="text-danger">人狼</td>
-					<td>なし</td>
-					<td class="text-danger">人狼</td>
-				</tr>
-				<tr>
-					<td>
-						妖狐<br>
-						誑狐<br>
-					</td>
-					<td>人間</td>
-					<td>人間</td>
-					<td class="text-warning">死亡しない</td>
-					<td class="text-warning">カウントしない</td>
-				</tr>
-				<tr>
-					<td>
-						壁殴り代行<br>
-						爆弾魔<br>
-					</td>
-					<td>人間</td>
-					<td>人間</td>
-					<td class="text-warning">死亡しない</td>
-					<td>人間</td>
-				</tr>
-				<tr>
-					<td>梟</td>
-					<td>人間</td>
-					<td>人間</td>
-					<td>なし</td>
-					<td class="text-warning">カウントしない</td>
-				</tr>
-				<tr>
-					<td>一匹狼</td>
-					<td class="text-danger">人狼</td>
-					<td class="text-danger">人狼</td>
-					<td>なし</td>
-					<td class="text-warning">人間</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+<div id="judge" class="table-responsive" layout:fragment="judge">
+    <table class="table table-bordered table-condensed small">
+        <thead>
+        <tr>
+            <th>役職</th>
+            <th>占結果</th>
+            <th>霊結果</th>
+            <th>襲撃耐性</th>
+            <th>勝敗判定<br>カウント</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                村人<br>
+                占い師<br>
+                賢者<br>
+                占星術士<br>
+                狩人<br>
+                探偵<br>
+                罠師<br>
+                霊能者<br>
+                導師<br>
+                検死官<br>
+                パン屋<br>
+                共鳴者<br>
+                強運者<br>
+                指揮官<br>
+                妄想癖<br>
+                夢遊病者<br>
+                冤罪者<br>
+                転生者<br>
+                申し子<br>
+                狂人<br>
+                C国狂人<br>
+                魔神官<br>
+                狂信者<br>
+                恋人<br>
+                同棲者<br>
+                求愛者<br>
+                ストーカー<br>
+                絡新婦<br>
+                美人局<br>
+                背徳者<br>
+                果実籠<br>
+            </td>
+            <td>人間</td>
+            <td>人間</td>
+            <td>なし</td>
+            <td>人間</td>
+        </tr>
+        <tr>
+            <td>
+                人狼<br>
+                呪狼<br>
+                智狼<br>
+                絶対人狼<br>
+                飛狼<br>
+                角狼<br>
+            </td>
+            <td class="text-danger">人狼</td>
+            <td class="text-danger">人狼</td>
+            <td>なし</td>
+            <td class="text-danger">人狼</td>
+        </tr>
+        <tr>
+            <td>
+                妖狐<br>
+                誑狐<br>
+            </td>
+            <td>人間</td>
+            <td>人間</td>
+            <td class="text-warning">死亡しない</td>
+            <td class="text-warning">カウントしない</td>
+        </tr>
+        <tr>
+            <td>
+                壁殴り代行<br>
+                爆弾魔<br>
+            </td>
+            <td>人間</td>
+            <td>人間</td>
+            <td class="text-warning">死亡しない</td>
+            <td>人間</td>
+        </tr>
+        <tr>
+            <td>梟</td>
+            <td>人間</td>
+            <td>人間</td>
+            <td>なし</td>
+            <td class="text-warning">カウントしない</td>
+        </tr>
+        <tr>
+            <td>一匹狼</td>
+            <td class="text-danger">人狼</td>
+            <td class="text-danger">人狼</td>
+            <td>なし</td>
+            <td class="text-warning">人間</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
 

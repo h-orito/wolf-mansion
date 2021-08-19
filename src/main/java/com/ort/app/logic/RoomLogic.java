@@ -1,9 +1,11 @@
 package com.ort.app.logic;
 
+import com.ort.dbflute.exentity.Village;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.springframework.stereotype.Component;
 
 @Component
 public class RoomLogic {
@@ -66,6 +68,89 @@ public class RoomLogic {
             );
         }
     }
+
+    // 対象を除く直線4方向の部屋番号（存在しない部屋番号を含んでいても良い）
+    public List<Integer> detectHishaRoomNumber(Integer targetRoomNumber, Village village) {
+        int width = village.getRoomSizeWidth();
+        int height = village.getRoomSizeHeight();
+        List<Integer> roomNumberList = new ArrayList<>();
+
+        // 上
+        int tempRoomNumber = targetRoomNumber - width;
+        while (tempRoomNumber > 0) {
+            roomNumberList.add(tempRoomNumber);
+            tempRoomNumber -= width;
+        }
+
+        // 右
+        tempRoomNumber = targetRoomNumber;
+        while (!isRightSide(tempRoomNumber, width)) {
+            tempRoomNumber += 1;
+            roomNumberList.add(tempRoomNumber);
+        }
+
+        // 下
+        tempRoomNumber = targetRoomNumber + width;
+        while (tempRoomNumber <= width * height) {
+            roomNumberList.add(tempRoomNumber);
+            tempRoomNumber += width;
+        }
+
+        // 左
+        tempRoomNumber = targetRoomNumber;
+        while (!isLeftSide(tempRoomNumber, width)) {
+            tempRoomNumber -= 1;
+            roomNumberList.add(tempRoomNumber);
+        }
+
+        return roomNumberList;
+    }
+
+    // 対象を除く斜め4方向の部屋番号（存在しない部屋番号を含んでいても良い）
+    public List<Integer> detectKakuRoomNumber(Integer targetRoomNumber, Village village) {
+        int width = village.getRoomSizeWidth();
+        int height = village.getRoomSizeHeight();
+        List<Integer> roomNumberList = new ArrayList<>();
+
+        // 右上
+        int tempRoomNumber = targetRoomNumber - width + 1;
+        while (
+                tempRoomNumber > 0 && !isRightSide(tempRoomNumber + width - 1, width)
+        ) {
+            roomNumberList.add(tempRoomNumber);
+            tempRoomNumber = tempRoomNumber - width + 1;
+        }
+
+        // 右下
+        tempRoomNumber = targetRoomNumber + width + 1;
+        while (
+                !isRightSide(tempRoomNumber - width - 1, width) && targetRoomNumber <= width * height
+        ) {
+            roomNumberList.add(tempRoomNumber);
+            tempRoomNumber = tempRoomNumber + width + 1;
+        }
+
+        // 左下
+        tempRoomNumber = targetRoomNumber + width - 1;
+        while (
+                !isLeftSide(tempRoomNumber - width + 1, width) && tempRoomNumber <= width * height
+        ) {
+            roomNumberList.add(tempRoomNumber);
+            tempRoomNumber = tempRoomNumber + width - 1;
+        }
+
+        // 左上
+        tempRoomNumber = targetRoomNumber - width - 1;
+        while (
+                !isLeftSide(tempRoomNumber + width + 1, width) && tempRoomNumber > 0
+        ) {
+            roomNumberList.add(tempRoomNumber);
+            tempRoomNumber = tempRoomNumber - width - 1;
+        }
+
+        return roomNumberList;
+    }
+
 
     private boolean isLeftSide(int targetRoomNumber, int width) {
         return targetRoomNumber % width == 1;

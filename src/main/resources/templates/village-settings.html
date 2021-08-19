@@ -1,452 +1,543 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
-<!--/* 個別ページのタイトル */-->
-<title>村設定変更</title>
-<!--/* 個別ページのcss,js */-->
-<script src="../static/app/js/new-village.js" th:src="@{/app/js/new-village.js}"></script>
+    <!--/* 個別ページのタイトル */-->
+    <title>村設定変更</title>
+    <!--/* 個別ページのcss,js */-->
+    <script src="../static/app/js/new-village.js" th:src="@{/app/js/new-village.js}"></script>
 </head>
 
 <body>
-	<div class="container">
-		<nav layout:replace="~{layout/header::header}"></nav>
-		<div layout:fragment="content">
-			<div id="wrapper">
-				<div class="col-sm-12 col-xs-12">
-					<h1 class="h4">村設定変更</h1>
-					<span class="text-danger" th:if="${errorMessage}" th:text="${errorMessage}">error</span>
-					<form method="post" id="new-village-form" action="" th:action="@{/village/{villageId}/settings(villageId=${content.villageId})}"
-						th:object="${settingsForm}" class="form-horizontal">
-						<hr />
-						<h2 class="h5">基本設定</h2>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">村名</label>
-							<div class="col-sm-10">
-								<p th:text="${content.villageName}" style="padding-top: 5px;">村名</p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 col-xs-3 control-label">最少開始人数</label>
-							<div class="col-sm-4 col-xs-3">
-								<input type="number" class="form-control" th:field="*{startPersonMinNum}" placeholder="8" />
-								<span th:if="${#fields.hasErrors('startPersonMinNum')}" th:errors="*{startPersonMinNum}" class="help-block text-danger">error!</span>
-							</div>
-							<label class="col-sm-2 col-xs-3 control-label">定員</label>
-							<div class="col-sm-4 col-xs-3">
-								<input type="number" class="form-control" th:field="*{personMaxNum}" placeholder="16" />
-								<span th:if="${#fields.hasErrors('personMaxNum')}" th:errors="*{personMaxNum}" class="help-block text-danger">error!</span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 col-xs-12 control-label">更新間隔</label>
-							<div class="col-sm-2 col-xs-4">
-								<select class="form-control" th:field="*{dayChangeIntervalHours}">
-									<option th:each="i : ${#numbers.sequence(0, 48)}" th:value="${i}" th:text="${i}+ '時間'">0時間</option>
-								</select>
-							</div>
-							<div class="col-sm-2 col-xs-4">
-								<select class="form-control" th:field="*{dayChangeIntervalMinutes}">
-									<option th:each="i : ${#numbers.sequence(0, 59)}" th:value="${i}" th:text="${i}+ '分'">0分</option>
-								</select>
-							</div>
-							<div class="col-sm-2 col-xs-4">
-								<select class="form-control" th:field="*{dayChangeIntervalSeconds}">
-									<option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i*10}" th:text="${i*10}+ '秒'">0秒</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group" th:if="${#fields.hasErrors('dayChangeIntervalHours')}">
-							<div class="col-sm-2"></div>
-							<div class="col-sm-10">
-								<span th:errors="*{dayChangeIntervalHours}" class="help-block text-danger">error!</span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 col-xs-12 control-label">開始日時</label>
-							<!--/* datetimepickerを使う */-->
-							<div class="col-sm-2 col-xs-4">
-								<select class="form-control" th:field="*{startYear}">
-									<option th:each="i : ${#numbers.sequence(nowYear, nowYear+1)}" th:value="${i}" th:text="${i}+ '年'"></option>
-								</select>
-							</div>
-							<div class="col-sm-2 col-xs-4">
-								<select class="form-control" th:field="*{startMonth}">
-									<option th:each="i : ${#numbers.sequence(1,12)}" th:value="${i}" th:text="${i}+ '月'"></option>
-								</select>
-							</div>
-							<div class="col-sm-2 col-xs-4">
-								<select class="form-control" th:field="*{startDay}">
-									<option th:each="i : ${#numbers.sequence(1,31)}" th:value="${i}" th:text="${i}+ '日'"></option>
-								</select>
-							</div>
-							<div class="col-sm-2 col-xs-6">
-								<select class="form-control" th:field="*{startHour}">
-									<option th:each="i : ${#numbers.sequence(0,23)}" th:value="${i}" th:text="${i}+ '時'"></option>
-								</select>
-							</div>
-							<div class="col-sm-2 col-xs-6">
-								<select class="form-control" th:field="*{startMinute}">
-									<option th:each="i : ${#numbers.sequence(0,11)}" th:value="${i*5}" th:text="${i*5}+ '分'"></option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group" th:if="${#fields.hasErrors('startYear')}">
-							<div class="col-sm-2"></div>
-							<div class="col-sm-10">
-								<span th:errors="*{startYear}" class="help-block text-danger">error!</span>
-							</div>
-						</div>
-						<hr />
-						<h2 class="h5">キャラチップ設定</h2>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">キャラセット</label>
-							<div class="col-sm-10 col-xs-12 btn-group" data-toggle="buttons">
-								<p th:text="${content.villageSettings.charaGroupName}" style="padding-top: 5px;"></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">ダミーキャラ</label>
-							<div class="col-sm-10 col-xs-12 btn-group" data-toggle="buttons">
-								<p th:text="${content.villageSettings.dummyCharaName}" style="padding-top: 5px;"></p>
-							</div>
-						</div>
+<div class="container">
+    <nav layout:replace="~{layout/header::header}"></nav>
+    <div layout:fragment="content">
+        <div id="wrapper">
+            <div class="col-sm-12 col-xs-12">
+                <h1 class="h4">村設定変更</h1>
+                <span class="text-danger" th:if="${errorMessage}" th:text="${errorMessage}">error</span>
+                <form method="post" id="new-village-form" action=""
+                      th:action="@{/village/{villageId}/settings(villageId=${content.villageId})}"
+                      th:object="${settingsForm}" class="form-horizontal">
+                    <hr/>
+                    <h2 class="h5">基本設定</h2>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">村名</label>
+                        <div class="col-sm-10">
+                            <p th:text="${content.villageName}" style="padding-top: 5px;">村名</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-xs-3 control-label">最少開始人数</label>
+                        <div class="col-sm-4 col-xs-3">
+                            <input type="number" class="form-control" th:field="*{startPersonMinNum}" placeholder="8"/>
+                            <span th:if="${#fields.hasErrors('startPersonMinNum')}" th:errors="*{startPersonMinNum}"
+                                  class="help-block text-danger">error!</span>
+                        </div>
+                        <label class="col-sm-2 col-xs-3 control-label">定員</label>
+                        <div class="col-sm-4 col-xs-3">
+                            <input type="number" class="form-control" th:field="*{personMaxNum}" placeholder="16"/>
+                            <span th:if="${#fields.hasErrors('personMaxNum')}" th:errors="*{personMaxNum}"
+                                  class="help-block text-danger">error!</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-xs-12 control-label">更新間隔</label>
+                        <div class="col-sm-2 col-xs-4">
+                            <select class="form-control" th:field="*{dayChangeIntervalHours}">
+                                <option th:each="i : ${#numbers.sequence(0, 48)}" th:value="${i}" th:text="${i}+ '時間'">
+                                    0時間
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2 col-xs-4">
+                            <select class="form-control" th:field="*{dayChangeIntervalMinutes}">
+                                <option th:each="i : ${#numbers.sequence(0, 59)}" th:value="${i}" th:text="${i}+ '分'">
+                                    0分
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2 col-xs-4">
+                            <select class="form-control" th:field="*{dayChangeIntervalSeconds}">
+                                <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i*10}"
+                                        th:text="${i*10}+ '秒'">0秒
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" th:if="${#fields.hasErrors('dayChangeIntervalHours')}">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-10">
+                            <span th:errors="*{dayChangeIntervalHours}" class="help-block text-danger">error!</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-xs-12 control-label">開始日時</label>
+                        <!--/* datetimepickerを使う */-->
+                        <div class="col-sm-2 col-xs-4">
+                            <select class="form-control" th:field="*{startYear}">
+                                <option th:each="i : ${#numbers.sequence(nowYear, nowYear+1)}" th:value="${i}"
+                                        th:text="${i}+ '年'"></option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2 col-xs-4">
+                            <select class="form-control" th:field="*{startMonth}">
+                                <option th:each="i : ${#numbers.sequence(1,12)}" th:value="${i}"
+                                        th:text="${i}+ '月'"></option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2 col-xs-4">
+                            <select class="form-control" th:field="*{startDay}">
+                                <option th:each="i : ${#numbers.sequence(1,31)}" th:value="${i}"
+                                        th:text="${i}+ '日'"></option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2 col-xs-6">
+                            <select class="form-control" th:field="*{startHour}">
+                                <option th:each="i : ${#numbers.sequence(0,23)}" th:value="${i}"
+                                        th:text="${i}+ '時'"></option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2 col-xs-6">
+                            <select class="form-control" th:field="*{startMinute}">
+                                <option th:each="i : ${#numbers.sequence(0,11)}" th:value="${i*5}"
+                                        th:text="${i*5}+ '分'"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" th:if="${#fields.hasErrors('startYear')}">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-10">
+                            <span th:errors="*{startYear}" class="help-block text-danger">error!</span>
+                        </div>
+                    </div>
+                    <hr/>
+                    <h2 class="h5">キャラチップ設定</h2>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">キャラセット</label>
+                        <div class="col-sm-10 col-xs-12 btn-group" data-toggle="buttons">
+                            <p th:text="${content.villageSettings.charaGroupName}" style="padding-top: 5px;"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">ダミーキャラ</label>
+                        <div class="col-sm-10 col-xs-12 btn-group" data-toggle="buttons">
+                            <p th:text="${content.villageSettings.dummyCharaName}" style="padding-top: 5px;"></p>
+                        </div>
+                    </div>
 
-						<hr />
-						<h2 class="h5">詳細ルール設定</h2>
-						<div class="form-group">
-							<label class="col-sm-2 col-xs-12 control-label">役職構成</label>
-							<div id="org-check" class="col-sm-10 btn-group" data-toggle="buttons">
-								<label th:class="'btn btn-sm btn-dark-success ' + *{isRandomOrganization ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isRandomOrganization}" value="true" autocomplete="off" checked="checked" />闇鍋
-								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isRandomOrganization ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isRandomOrganization}" value="false" autocomplete="off" />固定
-								</label>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 col-xs-12 control-label"></label>
-							<div class="col-sm-10">
-								<div id="fix-org" class="hidden">
-									<p>固定の役職構成にしたい場合はこちらで入力してください。</p>
-									<textarea class="form-control" th:field="*{organization}" style="min-height: 250px;"></textarea>
-									<p>最少開始人数〜定員までの役職構成を全て入れてください。</p>
-									<p th:text="${skillListStr}"></p>
-									<p>ダミーは必ず村人となるため、村を1名以上入れてください。</p>
-									<span th:if="${#fields.hasErrors('organization')}" th:errors="*{organization}" class="help-block text-danger">error!</span>
-								</div>
-								<div id="random-org" class="hidden">
-									<p>ランダム役職構成にしたい場合はこちらで入力してください。</p>
-									<span th:if="${#fields.hasErrors('campAllocationList')}" th:errors="*{campAllocationList}" class="help-block text-danger">error!</span>
-									<table class="table-bordered table-condensed small">
-										<tbody>
-											<th:block th:each="camp, stat: *{campAllocationList}">
-												<tr>
-													<td class="bg-info text-white" colspan="7">
-														<strong th:text="${camp.campName}"></strong>
-													</td>
-												</tr>
-												<tr>
-													<td colspan="7">陣営全体の配分</td>
-												</tr>
-												<tr>
-													<td>
-														<span th:text="${camp.campName}">村人陣営</span>
-														<input type="hidden" th:field="*{campAllocationList[__${stat.index}__].campCode}" />
-														<input type="hidden" th:field="*{campAllocationList[__${stat.index}__].campName}" />
-													</td>
-													<td>最少人数</td>
-													<td>
-														<input type="number" th:field="*{campAllocationList[__${stat.index}__].minNum}" class="form-control input-sm" placeholder="0" />
-													</td>
-													<td>最大人数</td>
-													<td>
-														<input type="number" th:field="*{campAllocationList[__${stat.index}__].maxNum}" class="form-control input-sm" placeholder="0" />
-													</td>
-													<td>配分（0-100）</td>
-													<td>
-														<input type="number" th:field="*{campAllocationList[__${stat.index}__].allocation}" class="form-control input-sm" placeholder="0" />
-													</td>
-												</tr>
-												<tr>
-													<td colspan="7">役職ごとの配分</td>
-												</tr>
-												<tr th:each="skill, sta: *{campAllocationList[__${stat.index}__].skillAllocation}">
-													<td>
-														<span th:text="${skill.skillName}">村人</span>
-														<input type="hidden" th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].skillCode}" />
-														<input type="hidden" th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].skillName}" />
-													</td>
-													<td>最少人数</td>
-													<td>
-														<input type="number" th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].minNum}"
-															class="form-control input-sm" placeholder="0" />
-													</td>
-													<td>最大人数</td>
-													<td>
-														<input type="number" th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].maxNum}"
-															class="form-control input-sm" placeholder="0" />
-													</td>
-													<td>配分（0-100）</td>
-													<td>
-														<input type="number" th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].allocation}"
-															class="form-control input-sm" placeholder="0" />
-													</td>
-												</tr>
-											</th:block>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 col-xs-12 control-label">役職希望</label>
-							<div class="col-sm-4">
-								<p th:text="${content.villageSettings.skillRequestType}" style="padding-top: 5px;"></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 col-xs-12 control-label">同一人狼による連続襲撃</label>
-							<div class="col-sm-10 btn-group" data-toggle="buttons">
-								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSameWolfAttack ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isAvailableSameWolfAttack}" value="true" autocomplete="off" checked="checked" />可能
-								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSameWolfAttack ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isAvailableSameWolfAttack}" value="false" autocomplete="off" />不可
-								</label>
-							</div>
-							<div class="col-sm-2"></div>
-							<div class="col-xs-12 col-sm-10">
-								<p class="">
-									不可にした場合、LWである場合を除いて襲撃を担当した人狼はその翌日襲撃を担当できなくなります。<br /> なお、「不可」設定で1日目に以降した際、人狼2以下編成の場合は自動で「可能」に変更されます。
-								</p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 col-xs-12 control-label">狩人による連続護衛</label>
-							<div class="col-sm-10 btn-group" data-toggle="buttons">
-								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableGuardSameTarget ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isAvailableGuardSameTarget}" value="true" autocomplete="off" checked="checked" />可能
-								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableGuardSameTarget ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isAvailableGuardSameTarget}" value="false" autocomplete="off" />不可
-								</label>
-							</div>
-							<div class="col-sm-2"></div>
-							<div class="col-xs-12 col-sm-10">
-								<p class="">不可にした場合、同一対象を2日続けて護衛することができなくなります。</p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 col-xs-12 control-label">突然死</label>
-							<div class="col-sm-10 btn-group" data-toggle="buttons">
-								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSuddonlyDeath ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isAvailableSuddonlyDeath}" value="true" autocomplete="off" checked="checked" />あり
-								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSuddonlyDeath ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isAvailableSuddonlyDeath}" value="false" autocomplete="off" />なし
-								</label>
-							</div>
-							<div class="col-sm-2"></div>
-							<div class="col-xs-12 col-sm-10">
-								<p class="">ありにした場合、日付更新までに投票しなかった参加者は突然死します。</p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 col-xs-12 control-label">コミット</label>
-							<div class="col-sm-10 btn-group" data-toggle="buttons">
-								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableCommit ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isAvailableCommit}" value="true" autocomplete="off" checked="checked" />あり
-								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableCommit ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isAvailableCommit}" value="false" autocomplete="off" />なし
-								</label>
-							</div>
-							<div class="col-sm-2"></div>
-							<div class="col-xs-12 col-sm-10">
-								<p class="">
-									ありにした場合、生存者全員がコミットすると日付を更新することができます。<br /> （コミット状況は人数のみ表示されます）
-								</p>
-							</div>
-						</div>
-						<hr />
-						<h2 class="h5">見学、閲覧設定</h2>
-						<div class="form-group">
-							<label class="col-sm-2 col-xs-12 control-label">見学入村</label>
-							<div class="col-sm-10 btn-group" data-toggle="buttons">
-								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSpectate ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isAvailableSpectate}" value="true" autocomplete="off" />可能
-								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSpectate ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isAvailableSpectate}" value="false" autocomplete="off" checked="checked" />不可
-								</label>
-							</div>
-							<div class="col-sm-2"></div>
-							<div class="col-xs-12 col-sm-10">
-								<p class="">可能にした場合、最大で[キャラセットの人数 - 定員]人まで見学としての入村が可能になります。</p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 col-xs-12 control-label">墓下見学役職公開</label>
-							<div class="col-sm-10 btn-group" data-toggle="buttons">
-								<label th:class="'btn btn-sm btn-dark-success ' + *{isOpenSkillInGrave ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isOpenSkillInGrave}" value="true" autocomplete="off" checked="checked" />公開
-								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isOpenSkillInGrave ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isOpenSkillInGrave}" value="false" autocomplete="off" />非公開
-								</label>
-							</div>
-							<div class="col-sm-2"></div>
-							<div class="col-xs-12 col-sm-10">
-								<p class="">公開にした場合、進行中に死亡者や見学者が全員の役職を参照できるようになります。</p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 col-xs-12 control-label">墓下見学会話公開</label>
-							<div class="col-sm-10 btn-group" data-toggle="buttons">
-								<label th:class="'btn btn-sm btn-dark-success ' + *{isVisibleGraveSpectateMessage ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isVisibleGraveSpectateMessage}" value="true" autocomplete="off" checked="checked" />公開
-								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isVisibleGraveSpectateMessage ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isVisibleGraveSpectateMessage}" value="false" autocomplete="off" />非公開
-								</label>
-							</div>
-							<div class="col-sm-2"></div>
-							<div class="col-xs-12 col-sm-10">
-								<p class="">公開にした場合、進行中に生存者が墓下会話や見学会話を参照できるようになります。</p>
-							</div>
-						</div>
-						<hr />
-						<h2 class="h5">身内村向け設定</h2>
-						<div class="form-group">
-							<label class="col-sm-2 col-xs-12 control-label">秘話（1:1の会話）</label>
-							<div class="col-sm-10 btn-group" data-toggle="buttons">
-								<select class="form-control" th:field="*{allowedSecretSayCode}">
-									<option value="NOTHING">なし</option>
-									<option value="EVERYTHING">誰とでも可能</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">入村パスワード</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" th:field="*{joinPassword}" placeholder="3文字以上12文字以下" />
-								<span th:if="${#fields.hasErrors('joinPassword')}" th:errors="*{joinPassword}" class="help-block text-danger">error!</span>
-							</div>
-						</div>
-						<hr />
-						<h2 class="h5">特殊ルール向け</h2>
-						<div class="form-group">
-							<label class="col-sm-2 col-xs-12 control-label">発言制限（通常発言）</label>
-							<div class="col-sm-10">
-								<a href="javascript:void(0);" class="btn btn-xs btn-info" data-restrict-copy>村人の設定を全てにコピー</a>
-								<table id="say-restriction" class="table-bordered table-condensed small">
-									<thead>
-										<tr>
-											<th>役職</th>
-											<th>制限</th>
-											<th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
-										</tr>
-									</thead>
-									<tbody>
-										<th:block th:each="restrict, stat : *{sayRestrictList}">
-											<tr>
-												<td th:text="${restrict.skillName}">村人</td>
-												<td>
-													<input type="checkbox" class="form-control" th:field="*{sayRestrictList[__${stat.index}__].isRestrict}" data-restrict-check>
-												</td>
-												<td>
-													<div class="input-group">
-														<input type="number" class="form-control" placeholder="400" th:field="*{sayRestrictList[__${stat.index}__].length}" data-restrict-length />
-														<span class="input-group-addon">&nbsp;*&nbsp;</span>
-														<input type="number" class="form-control" placeholder="20" th:field="*{sayRestrictList[__${stat.index}__].count}" data-restrict-count />
-														<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].skillCode}" />
-														<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].skillName}" />
-													</div>
-												</td>
-											</tr>
-										</th:block>
-									</tbody>
-								</table>
-								<p>1回の文字数は0~400、1日の回数は0~100で設定してください。</p>
-								<p>チェックなしにすると無制限になります。</p>
-								<span th:if="${#fields.hasErrors('sayRestrictList')}" th:errors="*{sayRestrictList}" class="help-block text-danger">error!</span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 col-xs-12 control-label">発言制限（役職発言）</label>
-							<div class="col-sm-10">
-								<table class="table-bordered table-condensed small">
-									<thead>
-										<tr>
-											<th>発言種別</th>
-											<th>制限</th>
-											<th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
-										</tr>
-									</thead>
-									<tbody>
-										<th:block th:each="restrict, stat : *{skillSayRestrictList}">
-											<tr>
-												<td th:text="${restrict.messageTypeName}">人狼の囁き</td>
-												<td>
-													<input type="checkbox" class="form-control" th:field="*{skillSayRestrictList[__${stat.index}__].isRestrict}" data-restrict-check>
-												</td>
-												<td>
-													<div class="input-group">
-														<input type="number" class="form-control" placeholder="400" th:field="*{skillSayRestrictList[__${stat.index}__].length}"
-															data-restrict-length />
-														<span class="input-group-addon">&nbsp;*&nbsp;</span>
-														<input type="number" class="form-control" placeholder="20" th:field="*{skillSayRestrictList[__${stat.index}__].count}" data-restrict-count />
-														<input type="hidden" th:field="*{skillSayRestrictList[__${stat.index}__].messageTypeCode}" />
-														<input type="hidden" th:field="*{skillSayRestrictList[__${stat.index}__].messageTypeName}" />
-													</div>
-												</td>
-											</tr>
-										</th:block>
-									</tbody>
-								</table>
-								<p>1回の文字数は0~400、1日の回数は0~100で設定してください。</p>
-								<p>チェックなしにすると無制限になります。</p>
-								<span th:if="${#fields.hasErrors('skillSayRestrictList')}" th:errors="*{skillSayRestrictList}" class="help-block text-danger">error!</span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 col-xs-12 control-label">投票</label>
-							<div class="col-sm-10 col-xs-12 btn-group" data-toggle="buttons">
-								<label th:class="'btn btn-sm btn-dark-success ' + *{isOpenVote ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isOpenVote}" value="true" autocomplete="off" checked />記名
-								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isOpenVote ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isOpenVote}" value="false" autocomplete="off" />無記名
-								</label>
-							</div>
-							<div class="col-sm-2"></div>
-							<div class="col-sm-10 col-xs-12">
-								<p class="">基本的に投票と足音で推理するルールであるため、記名投票を推奨します。</p>
-							</div>
-						</div>
-						<hr />
-						<h2 class="h5">RP村向け</h2>
-						<div class="form-group">
-							<label class="col-sm-2 col-xs-12 control-label">アクション</label>
-							<div class="col-sm-10 btn-group" data-toggle="buttons">
-								<label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableAction ? 'active' : ''}"> <input type="radio" class=""
-										th:field="*{isAvailableAction}" value="true" autocomplete="off" checked="checked" />可能
-								</label> <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableAction ? '' : 'active'}"> <input type="radio" class=""
-										th:field="*{isAvailableAction}" value="false" autocomplete="off" />不可
-								</label>
-							</div>
-							<label class="col-sm-2 col-xs-12 control-label">発言制限（RP発言）</label>
-							<div class="col-sm-10">
-								<div layout:replace="~{new-village-rp-say-restriction::table}"></div>
-								<p>1回の文字数は0~400、1日の回数は0~100で設定してください。</p>
-								<p>チェックなしにすると無制限になります。</p>
-								<span th:if="${#fields.hasErrors('rpSayRestrictList')}" th:errors="*{rpSayRestrictList}" class="help-block text-danger">error!</span>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-sm-12 col-xs-12 pull-right">
-								<input type="submit" class="btn btn-sm btn-success pull-right" value="変更する" />
-							</div>
-						</div>
-					</form>
-				</div>
+                    <hr/>
+                    <h2 class="h5">詳細ルール設定</h2>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-xs-12 control-label">役職構成</label>
+                        <div id="org-check" class="col-sm-10 btn-group" data-toggle="buttons">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{isRandomOrganization ? 'active' : ''}">
+                                <input type="radio" class=""
+                                       th:field="*{isRandomOrganization}" value="true" autocomplete="off"
+                                       checked="checked"/>闇鍋
+                            </label> <label
+                                th:class="'btn btn-sm btn-dark-success ' + *{isRandomOrganization ? '' : 'active'}">
+                            <input type="radio" class=""
+                                   th:field="*{isRandomOrganization}" value="false" autocomplete="off"/>固定
+                        </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-xs-12 control-label"></label>
+                        <div class="col-sm-10">
+                            <div id="fix-org" class="hidden">
+                                <p>固定の役職構成にしたい場合はこちらで入力してください。</p>
+                                <textarea class="form-control" th:field="*{organization}"
+                                          style="min-height: 250px;"></textarea>
+                                <p>最少開始人数〜定員までの役職構成を全て入れてください。</p>
+                                <p th:text="${skillListStr}"></p>
+                                <p>ダミーは必ず村人となるため、村を1名以上入れてください。</p>
+                                <span th:if="${#fields.hasErrors('organization')}" th:errors="*{organization}"
+                                      class="help-block text-danger">error!</span>
+                            </div>
+                            <div id="random-org" class="hidden">
+                                <p>ランダム役職構成にしたい場合はこちらで入力してください。</p>
+                                <span th:if="${#fields.hasErrors('campAllocationList')}"
+                                      th:errors="*{campAllocationList}" class="help-block text-danger">error!</span>
+                                <table class="table-bordered table-condensed small">
+                                    <tbody>
+                                    <th:block th:each="camp, stat: *{campAllocationList}">
+                                        <tr>
+                                            <td class="bg-info text-white" colspan="7">
+                                                <strong th:text="${camp.campName}"></strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="7">陣営全体の配分</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span th:text="${camp.campName}">村人陣営</span>
+                                                <input type="hidden"
+                                                       th:field="*{campAllocationList[__${stat.index}__].campCode}"/>
+                                                <input type="hidden"
+                                                       th:field="*{campAllocationList[__${stat.index}__].campName}"/>
+                                            </td>
+                                            <td>最少人数</td>
+                                            <td>
+                                                <input type="number"
+                                                       th:field="*{campAllocationList[__${stat.index}__].minNum}"
+                                                       class="form-control input-sm" placeholder="0"/>
+                                            </td>
+                                            <td>最大人数</td>
+                                            <td>
+                                                <input type="number"
+                                                       th:field="*{campAllocationList[__${stat.index}__].maxNum}"
+                                                       class="form-control input-sm" placeholder="0"/>
+                                            </td>
+                                            <td>配分（0-100）</td>
+                                            <td>
+                                                <input type="number"
+                                                       th:field="*{campAllocationList[__${stat.index}__].allocation}"
+                                                       class="form-control input-sm" placeholder="0"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="7">役職ごとの配分</td>
+                                        </tr>
+                                        <tr th:each="skill, sta: *{campAllocationList[__${stat.index}__].skillAllocation}">
+                                            <td>
+                                                <span th:text="${skill.skillName}">村人</span>
+                                                <input type="hidden"
+                                                       th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].skillCode}"/>
+                                                <input type="hidden"
+                                                       th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].skillName}"/>
+                                            </td>
+                                            <td>最少人数</td>
+                                            <td>
+                                                <input type="number"
+                                                       th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].minNum}"
+                                                       class="form-control input-sm" placeholder="0"/>
+                                            </td>
+                                            <td>最大人数</td>
+                                            <td>
+                                                <input type="number"
+                                                       th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].maxNum}"
+                                                       class="form-control input-sm" placeholder="0"/>
+                                            </td>
+                                            <td>配分（0-100）</td>
+                                            <td>
+                                                <input type="number"
+                                                       th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].allocation}"
+                                                       class="form-control input-sm" placeholder="0"/>
+                                            </td>
+                                        </tr>
+                                    </th:block>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-xs-12 control-label">役職希望</label>
+                        <div class="col-sm-4">
+                            <p th:text="${content.villageSettings.skillRequestType}" style="padding-top: 5px;"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-xs-12 control-label">同一人狼による連続襲撃</label>
+                        <div class="col-sm-10 btn-group" data-toggle="buttons">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSameWolfAttack ? 'active' : ''}">
+                                <input type="radio" class=""
+                                       th:field="*{isAvailableSameWolfAttack}" value="true" autocomplete="off"
+                                       checked="checked"/>可能
+                            </label> <label
+                                th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSameWolfAttack ? '' : 'active'}">
+                            <input type="radio" class=""
+                                   th:field="*{isAvailableSameWolfAttack}" value="false" autocomplete="off"/>不可
+                        </label>
+                        </div>
+                        <div class="col-sm-2"></div>
+                        <div class="col-xs-12 col-sm-10">
+                            <p class="">
+                                不可にした場合、LWである場合を除いて襲撃を担当した人狼はその翌日襲撃を担当できなくなります。<br/>
+                                なお、「不可」設定で1日目に以降した際、人狼2以下編成の場合は自動で「可能」に変更されます。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-xs-12 control-label">狩人による連続護衛</label>
+                        <div class="col-sm-10 btn-group" data-toggle="buttons">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableGuardSameTarget ? 'active' : ''}">
+                                <input type="radio" class=""
+                                       th:field="*{isAvailableGuardSameTarget}" value="true" autocomplete="off"
+                                       checked="checked"/>可能
+                            </label> <label
+                                th:class="'btn btn-sm btn-dark-success ' + *{isAvailableGuardSameTarget ? '' : 'active'}">
+                            <input type="radio" class=""
+                                   th:field="*{isAvailableGuardSameTarget}" value="false" autocomplete="off"/>不可
+                        </label>
+                        </div>
+                        <div class="col-sm-2"></div>
+                        <div class="col-xs-12 col-sm-10">
+                            <p class="">不可にした場合、同一対象を2日続けて護衛することができなくなります。</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-xs-12 control-label">突然死</label>
+                        <div class="col-sm-10 btn-group" data-toggle="buttons">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSuddonlyDeath ? 'active' : ''}">
+                                <input type="radio" class=""
+                                       th:field="*{isAvailableSuddonlyDeath}" value="true" autocomplete="off"
+                                       checked="checked"/>あり
+                            </label> <label
+                                th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSuddonlyDeath ? '' : 'active'}">
+                            <input type="radio" class=""
+                                   th:field="*{isAvailableSuddonlyDeath}" value="false" autocomplete="off"/>なし
+                        </label>
+                        </div>
+                        <div class="col-sm-2"></div>
+                        <div class="col-xs-12 col-sm-10">
+                            <p class="">ありにした場合、日付更新までに投票しなかった参加者は突然死します。</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-xs-12 control-label">コミット</label>
+                        <div class="col-sm-10 btn-group" data-toggle="buttons">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableCommit ? 'active' : ''}">
+                                <input type="radio" class=""
+                                       th:field="*{isAvailableCommit}" value="true" autocomplete="off"
+                                       checked="checked"/>あり
+                            </label> <label
+                                th:class="'btn btn-sm btn-dark-success ' + *{isAvailableCommit ? '' : 'active'}"> <input
+                                type="radio" class=""
+                                th:field="*{isAvailableCommit}" value="false" autocomplete="off"/>なし
+                        </label>
+                        </div>
+                        <div class="col-sm-2"></div>
+                        <div class="col-xs-12 col-sm-10">
+                            <p class="">
+                                ありにした場合、生存者全員がコミットすると日付を更新することができます。<br/> （コミット状況は人数のみ表示されます）
+                            </p>
+                        </div>
+                    </div>
+                    <hr/>
+                    <h2 class="h5">見学、閲覧設定</h2>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-xs-12 control-label">見学入村</label>
+                        <div class="col-sm-10 btn-group" data-toggle="buttons">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSpectate ? 'active' : ''}">
+                                <input type="radio" class=""
+                                       th:field="*{isAvailableSpectate}" value="true" autocomplete="off"/>可能
+                            </label> <label
+                                th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSpectate ? '' : 'active'}">
+                            <input type="radio" class=""
+                                   th:field="*{isAvailableSpectate}" value="false" autocomplete="off"
+                                   checked="checked"/>不可
+                        </label>
+                        </div>
+                        <div class="col-sm-2"></div>
+                        <div class="col-xs-12 col-sm-10">
+                            <p class="">可能にした場合、最大で[キャラセットの人数 - 定員]人まで見学としての入村が可能になります。</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-xs-12 control-label">墓下見学役職公開</label>
+                        <div class="col-sm-10 btn-group" data-toggle="buttons">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{isOpenSkillInGrave ? 'active' : ''}">
+                                <input type="radio" class=""
+                                       th:field="*{isOpenSkillInGrave}" value="true" autocomplete="off"
+                                       checked="checked"/>公開
+                            </label> <label
+                                th:class="'btn btn-sm btn-dark-success ' + *{isOpenSkillInGrave ? '' : 'active'}">
+                            <input type="radio" class=""
+                                   th:field="*{isOpenSkillInGrave}" value="false" autocomplete="off"/>非公開
+                        </label>
+                        </div>
+                        <div class="col-sm-2"></div>
+                        <div class="col-xs-12 col-sm-10">
+                            <p class="">公開にした場合、進行中に死亡者や見学者が全員の役職を参照できるようになります。</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-xs-12 control-label">墓下見学会話公開</label>
+                        <div class="col-sm-10 btn-group" data-toggle="buttons">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{isVisibleGraveSpectateMessage ? 'active' : ''}">
+                                <input type="radio" class=""
+                                       th:field="*{isVisibleGraveSpectateMessage}" value="true" autocomplete="off"
+                                       checked="checked"/>公開
+                            </label> <label
+                                th:class="'btn btn-sm btn-dark-success ' + *{isVisibleGraveSpectateMessage ? '' : 'active'}">
+                            <input type="radio" class=""
+                                   th:field="*{isVisibleGraveSpectateMessage}" value="false" autocomplete="off"/>非公開
+                        </label>
+                        </div>
+                        <div class="col-sm-2"></div>
+                        <div class="col-xs-12 col-sm-10">
+                            <p class="">公開にした場合、進行中に生存者が墓下会話や見学会話を参照できるようになります。</p>
+                        </div>
+                    </div>
+                    <hr/>
+                    <h2 class="h5">身内村向け設定</h2>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-xs-12 control-label">秘話（1:1の会話）</label>
+                        <div class="col-sm-10 btn-group" data-toggle="buttons">
+                            <select class="form-control" th:field="*{allowedSecretSayCode}">
+                                <option value="NOTHING">なし</option>
+                                <option value="EVERYTHING">誰とでも可能</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">入村パスワード</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" th:field="*{joinPassword}"
+                                   placeholder="3文字以上12文字以下"/>
+                            <span th:if="${#fields.hasErrors('joinPassword')}" th:errors="*{joinPassword}"
+                                  class="help-block text-danger">error!</span>
+                        </div>
+                    </div>
+                    <hr/>
+                    <h2 class="h5">特殊ルール向け</h2>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-xs-12 control-label">発言制限（通常発言）</label>
+                        <div class="col-sm-10">
+                            <a href="javascript:void(0);" class="btn btn-xs btn-info"
+                               data-restrict-copy>村人の設定を全てにコピー</a>
+                            <table id="say-restriction" class="table-bordered table-condensed small">
+                                <thead>
+                                <tr>
+                                    <th>役職</th>
+                                    <th>制限</th>
+                                    <th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th:block th:each="restrict, stat : *{sayRestrictList}">
+                                    <tr>
+                                        <td th:text="${restrict.skillName}">村人</td>
+                                        <td>
+                                            <input type="checkbox" class="form-control"
+                                                   th:field="*{sayRestrictList[__${stat.index}__].isRestrict}"
+                                                   data-restrict-check>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" placeholder="400"
+                                                       th:field="*{sayRestrictList[__${stat.index}__].length}"
+                                                       data-restrict-length/>
+                                                <span class="input-group-addon">&nbsp;*&nbsp;</span>
+                                                <input type="number" class="form-control" placeholder="20"
+                                                       th:field="*{sayRestrictList[__${stat.index}__].count}"
+                                                       data-restrict-count/>
+                                                <input type="hidden"
+                                                       th:field="*{sayRestrictList[__${stat.index}__].skillCode}"/>
+                                                <input type="hidden"
+                                                       th:field="*{sayRestrictList[__${stat.index}__].skillName}"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </th:block>
+                                </tbody>
+                            </table>
+                            <p>1回の文字数は0~400、1日の回数は0~100で設定してください。</p>
+                            <p>チェックなしにすると無制限になります。</p>
+                            <span th:if="${#fields.hasErrors('sayRestrictList')}" th:errors="*{sayRestrictList}"
+                                  class="help-block text-danger">error!</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-xs-12 control-label">発言制限（役職発言）</label>
+                        <div class="col-sm-10">
+                            <table class="table-bordered table-condensed small">
+                                <thead>
+                                <tr>
+                                    <th>発言種別</th>
+                                    <th>制限</th>
+                                    <th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th:block th:each="restrict, stat : *{skillSayRestrictList}">
+                                    <tr>
+                                        <td th:text="${restrict.messageTypeName}">人狼の囁き</td>
+                                        <td>
+                                            <input type="checkbox" class="form-control"
+                                                   th:field="*{skillSayRestrictList[__${stat.index}__].isRestrict}"
+                                                   data-restrict-check>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" placeholder="400"
+                                                       th:field="*{skillSayRestrictList[__${stat.index}__].length}"
+                                                       data-restrict-length/>
+                                                <span class="input-group-addon">&nbsp;*&nbsp;</span>
+                                                <input type="number" class="form-control" placeholder="20"
+                                                       th:field="*{skillSayRestrictList[__${stat.index}__].count}"
+                                                       data-restrict-count/>
+                                                <input type="hidden"
+                                                       th:field="*{skillSayRestrictList[__${stat.index}__].messageTypeCode}"/>
+                                                <input type="hidden"
+                                                       th:field="*{skillSayRestrictList[__${stat.index}__].messageTypeName}"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </th:block>
+                                </tbody>
+                            </table>
+                            <p>1回の文字数は0~400、1日の回数は0~100で設定してください。</p>
+                            <p>チェックなしにすると無制限になります。</p>
+                            <span th:if="${#fields.hasErrors('skillSayRestrictList')}"
+                                  th:errors="*{skillSayRestrictList}" class="help-block text-danger">error!</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-xs-12 control-label">投票</label>
+                        <div class="col-sm-10 col-xs-12 btn-group" data-toggle="buttons">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{isOpenVote ? 'active' : ''}"> <input
+                                    type="radio" class=""
+                                    th:field="*{isOpenVote}" value="true" autocomplete="off" checked/>記名
+                            </label> <label th:class="'btn btn-sm btn-dark-success ' + *{isOpenVote ? '' : 'active'}">
+                            <input type="radio" class=""
+                                   th:field="*{isOpenVote}" value="false" autocomplete="off"/>無記名
+                        </label>
+                        </div>
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-10 col-xs-12">
+                            <p class="">基本的に投票と足音で推理するルールであるため、記名投票を推奨します。</p>
+                        </div>
+                    </div>
+                    <hr/>
+                    <h2 class="h5">RP村向け</h2>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-xs-12 control-label">アクション</label>
+                        <div class="col-sm-10 btn-group" data-toggle="buttons">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableAction ? 'active' : ''}">
+                                <input type="radio" class=""
+                                       th:field="*{isAvailableAction}" value="true" autocomplete="off"
+                                       checked="checked"/>可能
+                            </label> <label
+                                th:class="'btn btn-sm btn-dark-success ' + *{isAvailableAction ? '' : 'active'}"> <input
+                                type="radio" class=""
+                                th:field="*{isAvailableAction}" value="false" autocomplete="off"/>不可
+                        </label>
+                        </div>
+                        <label class="col-sm-2 col-xs-12 control-label">発言制限（RP発言）</label>
+                        <div class="col-sm-10">
+                            <div layout:replace="~{new-village-rp-say-restriction::table}"></div>
+                            <p>1回の文字数は0~400、1日の回数は0~100で設定してください。</p>
+                            <p>チェックなしにすると無制限になります。</p>
+                            <span th:if="${#fields.hasErrors('rpSayRestrictList')}" th:errors="*{rpSayRestrictList}"
+                                  class="help-block text-danger">error!</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12 col-xs-12 pull-right">
+                            <input type="submit" class="btn btn-sm btn-success pull-right" value="変更する"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
 
-				<div class="col-sm-12 col-xs-12 clearfix"></div>
-			</div>
-		</div>
-		<footer layout:replace="~{layout/footer::footer}"></footer>
-	</div>
+            <div class="col-sm-12 col-xs-12 clearfix"></div>
+        </div>
+    </div>
+    <footer layout:replace="~{layout/footer::footer}"></footer>
+</div>
 </body>
 </html>

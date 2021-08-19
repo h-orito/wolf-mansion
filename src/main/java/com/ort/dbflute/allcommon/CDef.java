@@ -604,6 +604,9 @@ public interface CDef extends Classification {
         /** 申し子 */
         申し子("HEAVENCHILD", "申し子", emptyStrings())
         ,
+        /** 飛狼 */
+        飛狼("HISHAWOLF", "飛狼", emptyStrings())
+        ,
         /** 狩人 */
         狩人("HUNTER", "狩人", emptyStrings())
         ,
@@ -612,6 +615,9 @@ public interface CDef extends Classification {
         ,
         /** 絡新婦 */
         絡新婦("JOROGUMO", "絡新婦", emptyStrings())
+        ,
+        /** 角狼 */
+        角狼("KAKUWOLF", "角狼", emptyStrings())
         ,
         /** おまかせ */
         おまかせ("LEFTOVER", "おまかせ", emptyStrings())
@@ -870,6 +876,13 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "104");
+                subItemMap.put("campCode", "WEREWOLF");
+                subItemMap.put("skill_short_name", "飛");
+                _subItemMapMap.put(飛狼.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
                 subItemMap.put("order", "8");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "狩");
@@ -888,6 +901,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "LOVERS");
                 subItemMap.put("skill_short_name", "絡");
                 _subItemMapMap.put(絡新婦.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "105");
+                subItemMap.put("campCode", "WEREWOLF");
+                subItemMap.put("skill_short_name", "角");
+                _subItemMapMap.put(角狼.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -1074,11 +1094,11 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * 囁き可能 <br>
-         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, C国狂人]
+         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, C国狂人]
          * @return The determination, true or false.
          */
         public boolean isAvailableWerewolfSay() {
-            return 人狼.equals(this) || 呪狼.equals(this) || 智狼.equals(this) || 絶対人狼.equals(this) || C国狂人.equals(this);
+            return 人狼.equals(this) || 呪狼.equals(this) || 智狼.equals(this) || 絶対人狼.equals(this) || 飛狼.equals(this) || 角狼.equals(this) || C国狂人.equals(this);
         }
 
         /**
@@ -1104,11 +1124,11 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * 襲撃能力を持つ <br>
-         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼]
+         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼]
          * @return The determination, true or false.
          */
         public boolean isHasAttackAbility() {
-            return 人狼.equals(this) || 呪狼.equals(this) || 智狼.equals(this) || 絶対人狼.equals(this);
+            return 人狼.equals(this) || 呪狼.equals(this) || 智狼.equals(this) || 絶対人狼.equals(this) || 飛狼.equals(this) || 角狼.equals(this);
         }
 
         /**
@@ -1144,11 +1164,11 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * 勝敗判定時、人狼にカウントされる <br>
-         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼]
+         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼]
          * @return The determination, true or false.
          */
         public boolean isWolfCount() {
-            return 人狼.equals(this) || 呪狼.equals(this) || 智狼.equals(this) || 絶対人狼.equals(this);
+            return 人狼.equals(this) || 呪狼.equals(this) || 智狼.equals(this) || 絶対人狼.equals(this) || 飛狼.equals(this) || 角狼.equals(this);
         }
 
         /**
@@ -1164,31 +1184,31 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * 人狼が誰かを知ることができる <br>
-         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, C国狂人, 狂信者]
+         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, C国狂人, 狂信者]
          * @return The determination, true or false.
          */
         public boolean isViewableWolfCharaName() {
-            return 人狼.equals(this) || 呪狼.equals(this) || 智狼.equals(this) || 絶対人狼.equals(this) || C国狂人.equals(this) || 狂信者.equals(this);
+            return 人狼.equals(this) || 呪狼.equals(this) || 智狼.equals(this) || 絶対人狼.equals(this) || 飛狼.equals(this) || 角狼.equals(this) || C国狂人.equals(this) || 狂信者.equals(this);
         }
 
         /**
          * Is the classification in the group? <br>
          * 占い結果が人狼となる <br>
-         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, 一匹狼]
          * @return The determination, true or false.
          */
         public boolean isDivineResultWolf() {
-            return 人狼.equals(this) || 呪狼.equals(this) || 智狼.equals(this) || 絶対人狼.equals(this) || 一匹狼.equals(this);
+            return 人狼.equals(this) || 呪狼.equals(this) || 智狼.equals(this) || 絶対人狼.equals(this) || 飛狼.equals(this) || 角狼.equals(this) || 一匹狼.equals(this);
         }
 
         /**
          * Is the classification in the group? <br>
          * 霊能結果が人狼となる <br>
-         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, 一匹狼]
          * @return The determination, true or false.
          */
         public boolean isPsychicResultWolf() {
-            return 人狼.equals(this) || 呪狼.equals(this) || 智狼.equals(this) || 絶対人狼.equals(this) || 一匹狼.equals(this);
+            return 人狼.equals(this) || 呪狼.equals(this) || 智狼.equals(this) || 絶対人狼.equals(this) || 飛狼.equals(this) || 角狼.equals(this) || 一匹狼.equals(this);
         }
 
         /**
@@ -1313,11 +1333,11 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 囁き可能 <br>
-         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, C国狂人]
+         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, C国狂人]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfAvailableWerewolfSay() {
-            return new ArrayList<Skill>(Arrays.asList(人狼, 呪狼, 智狼, 絶対人狼, C国狂人));
+            return new ArrayList<Skill>(Arrays.asList(人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, C国狂人));
         }
 
         /**
@@ -1343,11 +1363,11 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 襲撃能力を持つ <br>
-         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼]
+         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfHasAttackAbility() {
-            return new ArrayList<Skill>(Arrays.asList(人狼, 呪狼, 智狼, 絶対人狼));
+            return new ArrayList<Skill>(Arrays.asList(人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼));
         }
 
         /**
@@ -1383,11 +1403,11 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 勝敗判定時、人狼にカウントされる <br>
-         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼]
+         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfWolfCount() {
-            return new ArrayList<Skill>(Arrays.asList(人狼, 呪狼, 智狼, 絶対人狼));
+            return new ArrayList<Skill>(Arrays.asList(人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼));
         }
 
         /**
@@ -1403,31 +1423,31 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 人狼が誰かを知ることができる <br>
-         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, C国狂人, 狂信者]
+         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, C国狂人, 狂信者]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfViewableWolfCharaName() {
-            return new ArrayList<Skill>(Arrays.asList(人狼, 呪狼, 智狼, 絶対人狼, C国狂人, 狂信者));
+            return new ArrayList<Skill>(Arrays.asList(人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, C国狂人, 狂信者));
         }
 
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 占い結果が人狼となる <br>
-         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, 一匹狼]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfDivineResultWolf() {
-            return new ArrayList<Skill>(Arrays.asList(人狼, 呪狼, 智狼, 絶対人狼, 一匹狼));
+            return new ArrayList<Skill>(Arrays.asList(人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, 一匹狼));
         }
 
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 霊能結果が人狼となる <br>
-         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+         * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, 一匹狼]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfPsychicResultWolf() {
-            return new ArrayList<Skill>(Arrays.asList(人狼, 呪狼, 智狼, 絶対人狼, 一匹狼));
+            return new ArrayList<Skill>(Arrays.asList(人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, 一匹狼));
         }
 
         /**

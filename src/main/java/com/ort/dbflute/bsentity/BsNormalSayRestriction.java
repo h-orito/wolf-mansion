@@ -379,6 +379,14 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
+     * Set the value of skillCode as 飛狼 (HISHAWOLF). <br>
+     * 飛狼
+     */
+    public void setSkillCode_飛狼() {
+        setSkillCodeAsSkill(CDef.Skill.飛狼);
+    }
+
+    /**
      * Set the value of skillCode as 狩人 (HUNTER). <br>
      * 狩人
      */
@@ -400,6 +408,14 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
      */
     public void setSkillCode_絡新婦() {
         setSkillCodeAsSkill(CDef.Skill.絡新婦);
+    }
+
+    /**
+     * Set the value of skillCode as 角狼 (KAKUWOLF). <br>
+     * 角狼
+     */
+    public void setSkillCode_角狼() {
+        setSkillCodeAsSkill(CDef.Skill.角狼);
     }
 
     /**
@@ -1033,6 +1049,17 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
+     * Is the value of skillCode 飛狼? <br>
+     * 飛狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode飛狼() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.飛狼) : false;
+    }
+
+    /**
      * Is the value of skillCode 狩人? <br>
      * 狩人
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1063,6 +1090,17 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     public boolean isSkillCode絡新婦() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.絡新婦) : false;
+    }
+
+    /**
+     * Is the value of skillCode 角狼? <br>
+     * 角狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode角狼() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.角狼) : false;
     }
 
     /**
@@ -1320,7 +1358,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
 
     /**
      * 囁き可能 <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, C国狂人]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, C国狂人]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_AvailableWerewolfSay() {
@@ -1350,7 +1388,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
 
     /**
      * 襲撃能力を持つ <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_HasAttackAbility() {
@@ -1390,7 +1428,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
 
     /**
      * 勝敗判定時、人狼にカウントされる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_WolfCount() {
@@ -1410,7 +1448,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
 
     /**
      * 人狼が誰かを知ることができる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, C国狂人, 狂信者]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, C国狂人, 狂信者]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_ViewableWolfCharaName() {
@@ -1420,7 +1458,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
 
     /**
      * 占い結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, 一匹狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_DivineResultWolf() {
@@ -1430,7 +1468,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
 
     /**
      * 霊能結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, 一匹狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_PsychicResultWolf() {

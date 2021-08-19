@@ -35,7 +35,7 @@ map:{
 	        	; groupingMap = map:{
 	        		; availableWerewolfSay = map:{
 	        			; groupComment=囁き可能
-	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;C国狂人}
+	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;飛狼;角狼;C国狂人}
 	        		}
 	        		; hasDivineAbility = map:{
 	        			; groupComment=占い能力を持つ
@@ -47,7 +47,7 @@ map:{
 	        		}
 	        		; hasAttackAbility = map:{
 	        			; groupComment=襲撃能力を持つ
-	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼}
+	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;飛狼;角狼}
 	        		}
 	        		; hasMadmanAbility = map:{
 	        			; groupComment=狂人能力を持つ
@@ -63,7 +63,7 @@ map:{
 	        		}
 	        		; wolfCount = map:{
 	        			; groupComment=勝敗判定時、人狼にカウントされる
-	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼}
+	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;飛狼;角狼}
 	        		}
 	        		; noCount = map:{
 	        			; groupComment=勝敗判定時、人間にも人狼にもカウントされない
@@ -71,15 +71,15 @@ map:{
 	        		}
 	        		; viewableWolfCharaName = map:{
 	        			; groupComment=人狼が誰かを知ることができる
-	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;C国狂人;狂信者}
+	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;飛狼;角狼;C国狂人;狂信者}
 	        		}
 	        		; divineResultWolf = map:{
 	        			; groupComment=占い結果が人狼となる
-	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;一匹狼}
+	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;飛狼;角狼;一匹狼}
 	        		}
 	        		; psychicResultWolf = map:{
 	        			; groupComment=霊能結果が人狼となる
-	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;一匹狼}
+	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;飛狼;角狼;一匹狼}
 	        		}
 					; someoneSkill = map:{
 						; groupComment=おまかせ系
