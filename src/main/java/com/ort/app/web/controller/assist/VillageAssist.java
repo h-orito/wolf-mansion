@@ -809,6 +809,9 @@ public class VillageAssist {
                 return String.format("%02d人: %s", org.length(), org);
             }).collect(Collectors.toList()));
         } else {
+            if (villageInfo.settings.isIsRandomOrganizeTrue()) {
+                return "";
+            }
             int memberNum = villageInfo.vPlayers.filterNotSpecatate().list.size();
             return String.format("%02d人: %s", memberNum,
                     Stream.of(organize.replaceAll("\r\n", "\n").split("\n")).filter(org -> org.length() == memberNum).findFirst().get());
