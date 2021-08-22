@@ -242,7 +242,7 @@ public class FootstepLogic {
         // 昨日朝時点で生きている人
         List<Integer> livingRoomNumList = vPlayerList.stream()
                 .filter(vp -> vp.isAliveWhen(day + 1))
-                .map(vp -> vp.getRoomNumberWhen(day + 1))
+                .map(vp -> vp.getRoomNumberWhen(day))
                 .collect(Collectors.toList());
         // 足音候補
         List<Footstep> footstepList = footStepBhv.selectList(cb -> {
