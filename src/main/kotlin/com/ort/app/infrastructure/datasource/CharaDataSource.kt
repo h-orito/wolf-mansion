@@ -63,9 +63,23 @@ class CharaDataSource(
         return mapCharachip(group)
     }
 
-    override fun findCharas(id: Int): Charas {
+    override fun findCharas(charachipId: Int): Charas {
         val charaList = charaBhv.selectList {
-            it.query().setCharaGroupId_Equal(id)
+            it.query().setCharaGroupId_Equal(charachipId)
+            it.query().addOrderBy_CharaId_Asc()
+        }
+        charaBhv.load(charaList) {
+            it.loadCharaImage { charaImageCB ->
+                charaImageCB.query().queryFaceType().addOrderBy_DispOrder_Asc()
+            }
+        }
+        return mapCharas(charaList)
+    }
+
+    override fun findCharasByCharaIdList(idList: List<Int>): Charas {
+        if (idList.isEmpty()) return Charas(emptyList())
+        val charaList = charaBhv.selectList {
+            it.query().setCharaId_InScope(idList)
             it.query().addOrderBy_CharaId_Asc()
         }
         charaBhv.load(charaList) {

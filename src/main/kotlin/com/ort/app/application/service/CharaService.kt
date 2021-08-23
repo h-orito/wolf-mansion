@@ -18,5 +18,7 @@ class CharaService(
 
     fun findCharas(charachipId: Int): Charas = charaRepository.findCharas(charachipId)
 
+    fun findCharasByCharachipId(idList: List<Int>): Charas = charaRepository.findCharasByCharaIdList(idList)
+
     fun findChara(charaId: Int): Chara? = charaRepository.findChara(charaId)
 }

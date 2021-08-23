@@ -6,7 +6,9 @@ interface CharaRepository {
 
     fun findCharachip(id: Int): Charachip?
 
-    fun findCharas(id: Int): Charas
+    fun findCharas(charachipId: Int): Charas
+
+    fun findCharasByCharaIdList(idList: List<Int>): Charas
 
     fun findChara(id: Int): Chara?
 }

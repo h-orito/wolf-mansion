@@ -10,6 +10,9 @@ data class VillageStatus(
         // 決着がついていないステータス
         val notSettledStatusList = listOf(CDef.VillageStatus.募集中, CDef.VillageStatus.進行中)
 
+        // 決着がついたステータス
+        val settledStatusList = listOf(CDef.VillageStatus.エピローグ, CDef.VillageStatus.終了)
+
         // 終了していないステータス
         val notFinishedStatusList = listOf(CDef.VillageStatus.募集中, CDef.VillageStatus.進行中, CDef.VillageStatus.エピローグ)
     }
