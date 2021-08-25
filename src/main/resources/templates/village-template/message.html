@@ -1,54 +1,76 @@
-<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="ja" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 </head>
 <body layout:fragment="message">
-	{{#if (neq allPageCount 1) }}
-	<div class="col-sm-12 col-xs-12">
-		<div class="row">
-			<ul class="pagination pagination-sm pull-right" style="margin-top: 10px; margin-bottom: 10px;">
-				<li class="{{#unless isExistPrePage}}disabled{{/unless}}"><a href="javascript:void(0);" data-pagenum="1">&lt;&lt;</a></li>
-				<li class="{{#unless isExistPrePage}}disabled{{/unless}}"><a href="javascript:void(0);" data-prev-page="{{currentPageNum}}">&lt;</a></li> {{#each
-				pageNumList}}
-				<li class="{{#if (eq ../currentPageNum this)}}active{{/if}}"><a href="javascript:void(0);" data-pagenum="{{this}}">{{this}}</a></li> {{/each}}
-				<li class="{{#unless isExistNextPage}}disabled{{/unless}}"><a href="javascript:void(0);" data-next-page="{{currentPageNum}}">&gt;</a></li>
-				<li class="{{#unless isExistNextPage}}disabled{{/unless}}"><a href="javascript:void(0);" data-pagenum="{{allPageCount}}">&gt;&gt;</a></li>
-			</ul>
-		</div>
-	</div>
-	{{/if}} {{#each messageList}} {{> messagePartial}} {{/each}}
-	<div id="message-confirm-area" class="col-sm-12 col-xs-12 well" style="display: none; padding-top: 10px; padding-bottom: 10px; border: 1px solid #ffff00;"></div>
-	<div id="message-confirm-area-bottom" class="col-sm-12 col-xs-12" style="margin-top: -60vh; padding-top: 60vh; z-index: -1;"></div>
-	{{#if suddonlyDeathMessage}}
-	<div class="col-sm-12 col-xs-12">
-		<div class="row">
-			<div class="message col-sm-12 col-xs-12 message-announce">{{{escapeHtmlWithoutBr suddonlyDeathMessage}}}</div>
-		</div>
-	</div>
-	{{/if}} {{#if villageStatusMessage}}
-	<div class="col-sm-12 col-xs-12">
-		<div class="row">
-			<div class="message col-sm-12 col-xs-12 message-announce">{{{escapeHtmlWithoutBr villageStatusMessage}}}</div>
-		</div>
-	</div>
-	{{/if}} {{#if commitStatusMessage}}
-	<div class="col-sm-12 col-xs-12">
-		<div class="row">
-			<div class="message col-sm-12 col-xs-12 message-announce">{{{escapeHtmlWithoutBr commitStatusMessage}}}</div>
-		</div>
-	</div>
-	{{/if}} {{#if (neq allPageCount 1) }}
-	<div class="col-sm-12 col-xs-12">
-		<div class="row">
-			<ul class="pagination pagination-sm pull-right" style="margin-top: 10px; margin-bottom: 10px;">
-				<li class="{{#unless isExistPrePage}}disabled{{/unless}}"><a href="javascript:void(0);" data-pagenum="1">&lt;&lt;</a></li>
-				<li class="{{#unless isExistPrePage}}disabled{{/unless}}"><a href="javascript:void(0);" data-prev-page="{{currentPageNum}}">&lt;</a></li> {{#each
-				pageNumList}}
-				<li class="{{#if (eq ../currentPageNum this)}}active{{/if}}"><a href="javascript:void(0);" data-pagenum="{{this}}">{{this}}</a></li> {{/each}}
-				<li class="{{#unless isExistNextPage}}disabled{{/unless}}"><a href="javascript:void(0);" data-next-page="{{currentPageNum}}">&gt;</a></li>
-				<li class="{{#unless isExistNextPage}}disabled{{/unless}}"><a href="javascript:void(0);" data-pagenum="{{allPageCount}}">&gt;&gt;</a></li>
-			</ul>
-		</div>
-	</div>
-	{{/if}}
+{{#if (neq allPageCount 1) }}
+<div class="col-sm-12 col-xs-12">
+    <div class="row">
+        <ul class="pagination pagination-sm pull-right" style="margin-top: 10px; margin-bottom: 10px;">
+            <li class="{{#unless isExistPrePage}}disabled{{/unless}}"><a href="javascript:void(0);" data-pagenum="1">&lt;&lt;</a>
+            </li>
+            <li class="{{#unless isExistPrePage}}disabled{{/unless}}"><a href="javascript:void(0);"
+                                                                         data-prev-page="{{currentPageNum}}">&lt;</a>
+            </li>
+            {{#each
+            pageNumList}}
+            <li class="{{#if (eq ../currentPageNum this)}}active{{/if}}"><a href="javascript:void(0);"
+                                                                            data-pagenum="{{this}}">{{this}}</a></li>
+            {{/each}}
+            <li class="{{#unless isExistNextPage}}disabled{{/unless}}"><a href="javascript:void(0);"
+                                                                          data-next-page="{{currentPageNum}}">&gt;</a>
+            </li>
+            <li class="{{#unless isExistNextPage}}disabled{{/unless}}"><a href="javascript:void(0);"
+                                                                          data-pagenum="{{allPageCount}}">&gt;&gt;</a>
+            </li>
+        </ul>
+    </div>
+</div>
+{{/if}} {{#each messageList}} {{> messagePartial}} {{/each}}
+<div id="message-confirm-area" class="col-sm-12 col-xs-12 well"
+     style="display: none; padding-top: 10px; padding-bottom: 10px; border: 1px solid #ffff00;"></div>
+<div id="message-confirm-area-bottom" class="col-sm-12 col-xs-12"
+     style="margin-top: -60vh; padding-top: 60vh; z-index: -1;"></div>
+{{#if suddenlyDeathMessage}}
+<div class="col-sm-12 col-xs-12">
+    <div class="row">
+        <div class="message col-sm-12 col-xs-12 message-announce">{{{escapeHtmlWithoutBr suddenlyDeathMessage}}}</div>
+    </div>
+</div>
+{{/if}} {{#if villageStatusMessage}}
+<div class="col-sm-12 col-xs-12">
+    <div class="row">
+        <div class="message col-sm-12 col-xs-12 message-announce">{{{escapeHtmlWithoutBr villageStatusMessage}}}</div>
+    </div>
+</div>
+{{/if}} {{#if commitStatusMessage}}
+<div class="col-sm-12 col-xs-12">
+    <div class="row">
+        <div class="message col-sm-12 col-xs-12 message-announce">{{{escapeHtmlWithoutBr commitStatusMessage}}}</div>
+    </div>
+</div>
+{{/if}} {{#if (neq allPageCount 1) }}
+<div class="col-sm-12 col-xs-12">
+    <div class="row">
+        <ul class="pagination pagination-sm pull-right" style="margin-top: 10px; margin-bottom: 10px;">
+            <li class="{{#unless isExistPrePage}}disabled{{/unless}}"><a href="javascript:void(0);" data-pagenum="1">&lt;&lt;</a>
+            </li>
+            <li class="{{#unless isExistPrePage}}disabled{{/unless}}"><a href="javascript:void(0);"
+                                                                         data-prev-page="{{currentPageNum}}">&lt;</a>
+            </li>
+            {{#each
+            pageNumList}}
+            <li class="{{#if (eq ../currentPageNum this)}}active{{/if}}"><a href="javascript:void(0);"
+                                                                            data-pagenum="{{this}}">{{this}}</a></li>
+            {{/each}}
+            <li class="{{#unless isExistNextPage}}disabled{{/unless}}"><a href="javascript:void(0);"
+                                                                          data-next-page="{{currentPageNum}}">&gt;</a>
+            </li>
+            <li class="{{#unless isExistNextPage}}disabled{{/unless}}"><a href="javascript:void(0);"
+                                                                          data-pagenum="{{allPageCount}}">&gt;&gt;</a>
+            </li>
+        </ul>
+    </div>
+</div>
+{{/if}}
 </body>
 </html>

@@ -1,42 +1,47 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>フッター</title>
-<link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}" />
-<link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" />
-<!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>フッター</title>
+    <link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}"/>
+    <link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css"
+          th:href="@{/lib/bootstrap/css/bootstrap.min.css}"/>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
-	<table id="say-restriction" class="table-bordered table-condensed small" layout:fragment="table">
-		<thead>
-			<tr>
-				<th>役職</th>
-				<th>制限</th>
-				<th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
-			</tr>
-		</thead>
-		<tbody>
-			<th:block th:each="restrict, stat : *{sayRestrictList}">
-				<tr>
-					<td th:text="${restrict.skillName}">村人</td>
-					<td><input type="checkbox" class="form-control" th:field="*{sayRestrictList[__${stat.index}__].isRestrict}"
-						data-restrict-check></td>
-					<td>
-						<div class="input-group">
-							<input type="number" class="form-control" placeholder="400" th:field="*{sayRestrictList[__${stat.index}__].length}"
-								data-restrict-length /> <span class="input-group-addon">&nbsp;*&nbsp;</span> <input type="number" class="form-control" placeholder="20"
-								th:field="*{sayRestrictList[__${stat.index}__].count}" data-restrict-count /> <input type="hidden"
-								th:field="*{sayRestrictList[__${stat.index}__].skillCode}" /> <input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].skillName}" />
-						</div>
-					</td>
-				</tr>
-			</th:block>
-		</tbody>
-	</table>
+<table id="say-restriction" class="table-bordered table-condensed small" layout:fragment="table">
+    <thead>
+    <tr>
+        <th>役職</th>
+        <th>制限</th>
+        <th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="restrict, stat : *{sayRestrictList}">
+        <tr>
+            <td th:text="${restrict.skillName}">村人</td>
+            <td><input type="checkbox" class="form-control" th:field="*{sayRestrictList[__${stat.index}__].restrict}"
+                       data-restrict-check></td>
+            <td>
+                <div class="input-group">
+                    <input type="number" class="form-control" placeholder="400"
+                           th:field="*{sayRestrictList[__${stat.index}__].length}"
+                           data-restrict-length/> <span class="input-group-addon">&nbsp;*&nbsp;</span> <input
+                        type="number" class="form-control" placeholder="20"
+                        th:field="*{sayRestrictList[__${stat.index}__].count}" data-restrict-count/> <input
+                        type="hidden"
+                        th:field="*{sayRestrictList[__${stat.index}__].skillCode}"/> <input type="hidden"
+                                                                                            th:field="*{sayRestrictList[__${stat.index}__].skillName}"/>
+                </div>
+            </td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.ort.app.domain.model.player
 
+import com.ort.app.web.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 
 data class Player(
@@ -17,6 +18,28 @@ data class Player(
         if (isRestrictedParticipation) return false
         return createProgressVillageIdList.isEmpty()
     }
+
+    fun isAvailableParticipateVillage(villageId: Int): Boolean =
+        !participateProgressVillageIdList.contains(villageId) && !isRestrictedParticipation
+
+    fun assertParticipate(villageId: Int) {
+        if (!isAvailableParticipateVillage(villageId)) {
+            throw WolfMansionBusinessException("参加できません")
+        }
+    }
+
+    fun assertSpectate(villageId: Int) {
+        if (!isAvailableParticipateVillage(villageId)) {
+            throw WolfMansionBusinessException("参加できません")
+        }
+    }
+
+    fun isSame(other: Player): Boolean {
+        return id == other.id
+                && isRestrictedParticipation == other.isRestrictedParticipation
+    }
+
+    fun restrictParticipation(): Player = copy(isRestrictedParticipation = true)
 }
 
 fun Player?.canCreateVillage(): Boolean = this?.isAvailableCreateVillage() ?: false

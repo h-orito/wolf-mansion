@@ -1,67 +1,80 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>フッター</title>
-<link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}" />
-<link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" />
-<!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-<script src="../../static/lib/bootstrap/js/bootstrap.min.js" th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
-<script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js" th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
-<script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>フッター</title>
+    <link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}"/>
+    <link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css"
+          th:href="@{/lib/bootstrap/css/bootstrap.min.css}"/>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <script src="../../static/lib/bootstrap/js/bootstrap.min.js"
+            th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+    <script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js"
+            th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
+    <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<div class="col-sm-12 col-xs-12" th:if="${content.form.participate.isDispChangeRequestSkillForm || content.form.participate.isDispChangeRequestNgMessage}"
-		layout:fragment="change-skill-form">
-		<div class="panel-group" id="changeskillform-panel">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<a class="h5" data-toggle="collapse" data-parent="#changeskillform-panel" href="#changeskillform-content" data-changeskillform-tab-open>役職希望</a>
-				</div>
-				<div id="changeskillform-content" class="panel-collapse collapse in">
-					<div class="panel-body">
-						<form method="post" action="" th:action="@{/village/{villageId}/change-skill(villageId=${content.villageId})}"
-							th:object="${changeRequestSkillForm}" class="form-horizontal" th:if="${content.form.participate.isDispChangeRequestSkillForm}">
-							<p class="small" th:text="'現在の役職希望: ' + ${requestSkillName} + '/' + ${secondRequestSkillName}"></p>
-							<div class="form-group">
-								<div class="col-sm-12 col-xs-12">
-									<div class="row">
-										<label class="col-sm-2 control-label">第一役職希望</label>
-										<div class="col-sm-4">
-											<select class="form-control" th:field="*{requestedSkill}">
-												<option th:each="skill : ${content.form.participate.selectableSkillList}" th:value="${skill.code}" th:text="${skill.name}"></option>
-											</select> <span th:if="${#fields.hasErrors('requestedSkill')}" th:errors="*{requestedSkill}" class="help-block text-danger">error!</span>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-12 col-xs-12">
-									<div class="row">
-										<label class="col-sm-2 control-label">第二役職希望</label>
-										<div class="col-sm-4">
-											<select class="form-control" th:field="*{secondRequestedSkill}">
-												<option th:each="skill : ${content.form.participate.selectableSkillList}" th:value="${skill.code}" th:text="${skill.name}"></option>
-											</select> <span th:if="${#fields.hasErrors('secondRequestedSkill')}" th:errors="*{secondRequestedSkill}" class="help-block text-danger">error!</span>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-12 col-xs-12">
-									<input type="submit" class="btn btn-sm btn-success pull-right" value="役職希望を変更する" />
-								</div>
-							</div>
-						</form>
-						<p class="small" th:if="${content.form.participate.isDispChangeRequestNgMessage}">この村は役職希望不可です。</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="col-sm-12 col-xs-12"
+     th:if="${content.form.participate.dispChangeRequestSkillForm || content.form.participate.dispChangeRequestNgMessage}"
+     layout:fragment="change-skill-form">
+    <div class="panel-group" id="changeskillform-panel">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="h5" data-toggle="collapse" data-parent="#changeskillform-panel"
+                   href="#changeskillform-content" data-changeskillform-tab-open>役職希望</a>
+            </div>
+            <div id="changeskillform-content" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <form method="post" action=""
+                          th:action="@{/village/{villageId}/change-skill(villageId=${content.villageId})}"
+                          th:object="${changeRequestSkillForm}" class="form-horizontal"
+                          th:if="${content.form.participate.dispChangeRequestSkillForm}">
+                        <p class="small"
+                           th:text="'現在の役職希望: ' + ${requestSkillName} + '/' + ${secondRequestSkillName}"></p>
+                        <div class="form-group">
+                            <div class="col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <label class="col-sm-2 control-label">第一役職希望</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" th:field="*{requestedSkill}">
+                                            <option th:each="skill : ${content.form.participate.selectableSkillList}"
+                                                    th:value="${skill.code}" th:text="${skill.name}"></option>
+                                        </select> <span th:if="${#fields.hasErrors('requestedSkill')}"
+                                                        th:errors="*{requestedSkill}" class="help-block text-danger">error!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <label class="col-sm-2 control-label">第二役職希望</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" th:field="*{secondRequestedSkill}">
+                                            <option th:each="skill : ${content.form.participate.selectableSkillList}"
+                                                    th:value="${skill.code}" th:text="${skill.name}"></option>
+                                        </select> <span th:if="${#fields.hasErrors('secondRequestedSkill')}"
+                                                        th:errors="*{secondRequestedSkill}"
+                                                        class="help-block text-danger">error!</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12 col-xs-12">
+                                <input type="submit" class="btn btn-sm btn-success pull-right" value="役職希望を変更する"/>
+                            </div>
+                        </div>
+                    </form>
+                    <p class="small" th:if="${content.form.participate.dispChangeRequestNgMessage}">この村は役職希望不可です。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

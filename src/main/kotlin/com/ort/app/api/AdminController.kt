@@ -1,5 +1,7 @@
 package com.ort.app.api
 
+import com.ort.app.application.coordinator.DaychangeCoordinator
+import com.ort.app.application.service.VillageApplicationService
 import com.ort.app.logic.VillageParticipateLogic
 import com.ort.app.web.form.VillageLeaveForm
 import com.ort.app.web.form.VillageParticipateForm
@@ -19,12 +21,10 @@ import com.ort.dbflute.exentity.VillagePlayer
 import com.ort.dbflute.exentity.Vote
 import com.ort.fw.util.WolfMansionDateUtil
 import org.springframework.stereotype.Controller
-import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.ResponseBody
-import org.springframework.web.util.UriComponentsBuilder
 import java.util.function.Consumer
 import java.util.stream.Collectors
 
@@ -34,15 +34,16 @@ class AdminController(
     private val villageDayBhv: VillageDayBhv,
     private val villagePlayerBhv: VillagePlayerBhv,
     private val voteBhv: VoteBhv,
-    private val villageLogic: VillageParticipateLogic
+    private val villageLogic: VillageParticipateLogic,
+    private val villageService: VillageApplicationService,
+    private val daychangeCoordinator: DaychangeCoordinator
 ) {
 
     // 管理者機能：参戦
     @PostMapping("/admin/village/{villageId}/allparticipate")
     private fun allparticipate(
         @PathVariable villageId: Int,
-        participateForm: VillageParticipateForm,
-        model: Model
+        participateForm: VillageParticipateForm
     ): String {
         // 参戦していないキャラを人数分探す
         val charaList = charaBhv.selectList { cb: CharaCB ->
@@ -86,6 +87,8 @@ class AdminController(
             cb.query().setVillageId_Equal(villageId)
             cb.query().setDay_Equal(latestDay.day)
         }
+        val village = villageService.findVillage(villageId)!!
+        daychangeCoordinator.changeDayIfNeeded(village)
         return "redirect:/village/$villageId#bottom"
     }
 
@@ -106,7 +109,7 @@ class AdminController(
 
     // 管理者機能：全員アクセス
     @PostMapping("/admin/village/{villageId}/access")
-    private fun leave(@PathVariable villageId: Int): String {
+    private fun access(@PathVariable villageId: Int): String {
         val vp = VillagePlayer()
         vp.lastAccessDatetime = WolfMansionDateUtil.currentLocalDateTime()
         villagePlayerBhv.queryUpdate(vp) { cb: VillagePlayerCB ->
@@ -117,7 +120,7 @@ class AdminController(
 
     // 管理者機能：全員自分投票
     @PostMapping("/admin/village/{villageId}/vote")
-    private fun vote(@PathVariable villageId: Int, builder: UriComponentsBuilder): String {
+    private fun vote(@PathVariable villageId: Int): String {
         val latestDay = villageDayBhv.selectEntity { cb: VillageDayCB ->
             cb.query().setVillageId_Equal(villageId)
             cb.query().addOrderBy_Day_Desc()
@@ -132,7 +135,7 @@ class AdminController(
             cb.query().setIsGone_Equal_False()
             cb.query().setIsSpectator_Equal_False()
             cb.query().setIsDead_Equal_False()
-            cb.query().setCharaId_NotInScope(voteCharaIdList)
+            if (voteCharaIdList.isNotEmpty()) cb.query().setCharaId_NotInScope(voteCharaIdList)
         }.forEach(Consumer { vp: VillagePlayer ->
             val vote = Vote()
             vote.villageId = villageId

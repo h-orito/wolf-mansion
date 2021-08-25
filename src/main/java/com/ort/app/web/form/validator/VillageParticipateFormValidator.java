@@ -6,7 +6,7 @@ import org.springframework.validation.Validator;
 
 import com.ort.app.web.form.VillageParticipateForm;
 
-@Component
+//@Component
 public class VillageParticipateFormValidator implements Validator {
 
     @Override

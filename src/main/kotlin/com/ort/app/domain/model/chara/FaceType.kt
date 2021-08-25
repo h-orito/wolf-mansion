@@ -10,4 +10,10 @@ data class FaceType(
 
     fun toCdef(): CDef.FaceType =
         CDef.FaceType.codeOf(code) ?: throw IllegalStateException("unknown face: $code")
+
+    companion object {
+        fun codeOf(code: String): FaceType = FaceType(CDef.FaceType.codeOf(code))
+    }
 }
+
+fun CDef.FaceType.toModel(): FaceType = FaceType(this)

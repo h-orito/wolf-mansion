@@ -80,8 +80,7 @@ class RandomController(
 
     @PostMapping("/delete-random-keyword")
     private fun deleteRandomKeyword(
-        form: RandomKeywordForm,
-        model: Model
+        form: RandomKeywordForm
     ): String {
         randomKeywordService.deleteRandomKeyword(form.keyword!!)
         return "redirect:/random-message"

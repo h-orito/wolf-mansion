@@ -1,173 +1,212 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>フッター</title>
-<link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}" />
-<link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" />
-<!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-<script src="../../static/lib/bootstrap/js/bootstrap.min.js" th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
-<script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js" th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
-<script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>フッター</title>
+    <link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}"/>
+    <link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css"
+          th:href="@{/lib/bootstrap/css/bootstrap.min.css}"/>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <script src="../../static/lib/bootstrap/js/bootstrap.min.js"
+            th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+    <script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js"
+            th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
+    <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<div class="col-sm-12 col-xs-12" th:if="${content.myself.skill != null && content.form.say.isDispSayForm}" data-ability layout:fragment="skill-area">
-		<div class="panel-group" id="skillform-panel">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<a class="h5" data-toggle="collapse" data-parent="#skillform-panel" href="#skillform-content" data-skillform-tab-open>役職</a> <a
-						href="javascript:void(0);" class="pull-right" data-bottom-fix>固定</a>
-				</div>
-				<div id="skillform-content" class="panel-collapse collapse in">
-					<div class="panel-body">
-						<div th:if="${content.form.ability.statusList}" th:each="status : ${content.form.ability.statusList}" class="alert alert-status small">
-							<ul>
-								<li th:text="${status.message}"></li>
-							</ul>
-						</div>
-						<div class="alert alert-dead small" th:if="${content.myself.isDead}">
-							<ul>
-								<li>あなたは死亡しました。</li>
-							</ul>
-						</div>
-						<!--/* 役職説明 */-->
-						<div layout:replace="~{village/skill-description::skill-description}"></div>
-						<!--/* 能力行使内容 */-->
-						<div th:if="${abilityForm != null}" style="padding-bottom: 10px;">
-							<hr />
-							<a href="javascript:void(0);" data-toggle="collapse" data-target="#skill-tab-area" class="h5 hidden" aria-expanded="true" data-skill-tab>能力をセットする</a>
-							<!--/* 能力行使フォーム */-->
-							<div class="collapse in" aria-expanded="true" style="margin-top: 10px;" id="skill-tab-area">
-								<p layout:replace="~{village/skill-selecting::skill-selecting}"></p>
+<div class="col-sm-12 col-xs-12"
+     th:if="${content.myself != null && content.myself.skill != null && content.form.say.dispSayForm}"
+     layout:fragment="skill-area" data-ability>
+    <div class="panel-group" id="skillform-panel">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="h5" data-toggle="collapse" data-parent="#skillform-panel" href="#skillform-content"
+                   data-skillform-tab-open>役職</a> <a
+                    href="javascript:void(0);" class="pull-right" data-bottom-fix>固定</a>
+            </div>
+            <div id="skillform-content" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <div th:if="${content.form.ability.statusList}"
+                         th:each="status : ${content.form.ability.statusList}" class="alert alert-status small">
+                        <ul>
+                            <li th:text="${status.message}"></li>
+                        </ul>
+                    </div>
+                    <div class="alert alert-dead small" th:if="${content.myself.dead}">
+                        <ul>
+                            <li>あなたは死亡しました。</li>
+                        </ul>
+                    </div>
+                    <!--/* 役職説明 */-->
+                    <div layout:replace="~{village/skill-description::skill-description}"></div>
+                    <!--/* 能力行使内容 */-->
+                    <div th:if="${abilityForm != null}" style="padding-bottom: 10px;">
+                        <hr/>
+                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#skill-tab-area"
+                           class="h5 hidden" aria-expanded="true" data-skill-tab>能力をセットする</a>
+                        <!--/* 能力行使フォーム */-->
+                        <div class="collapse in" aria-expanded="true" style="margin-top: 10px;" id="skill-tab-area">
+                            <p layout:replace="~{village/skill-selecting::skill-selecting}"></p>
 
-								<!--/* 占い師、狩人用能力セット */-->
-								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
-									th:if="${content.form.ability.abilityTargetList != null && content.form.ability.abilityTargetList.size() > 0}" th:object="${abilityForm}"
-									class="form-horizontal">
-									<div class="form-group small">
-										<div class="col-sm-12 col-xs-12" th:unless="${content.myself.skill.code == 'DETECTIVE'}">
-											<span th:if="${content.form.ability.targetPrefixMessage}" th:text="${content.form.ability.targetPrefixMessage}"></span> <select
-												class="form-control" th:field="*{targetCharaId}" data-ability-target-select>
-												<option th:each="target : ${content.form.ability.abilityTargetList}" th:value="${target.value}" th:text="${target.name}"></option>
-											</select> <span th:if="${content.form.ability.targetSuffixMessage}" th:text="${content.form.ability.targetSuffixMessage}"></span>
-										</div>
-										<div class="col-sm-12 col-xs-12" th:if="${content.myself.skill.code == 'DETECTIVE'}">
-											<select class="form-control" th:field="*{footstep}" data-ability-target-select>
-												<option th:each="target : ${content.form.ability.abilityTargetList}" th:value="${target.value}" th:text="${target.name}"></option>
-											</select> を調査する
-										</div>
-										<div class="col-sm-12 col-xs-12" th:if="${content.form.ability.isTargetingAndFootstep}">
-											通過する部屋<select class="form-control" name="footstep" data-footstep-select>
-											</select>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-sm-12 col-xs-12">
-											<input type="submit" class="btn btn-sm btn-success pull-right" value="セット" />
-										</div>
-									</div>
-								</form>
-								<!--/* 人狼用能力セット */-->
-								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
-									  th:if="${content.form.ability.attackerList != null && content.form.ability.attackerList.size() > 0}" th:object="${abilityForm}"
-									  class="form-horizontal">
-									<div class="form-group small">
-										<div class="col-sm-12 col-xs-12">
-											襲撃者 <select class="form-control" th:field="*{charaId}" data-attacker-select>
-											<option th:each="chara : ${content.form.ability.attackerList}" th:value="${chara.value}" th:text="${chara.name}"></option>
-										</select>
-										</div>
-										<div class="col-sm-12 col-xs-12">
-											<span th:if="${content.form.ability.targetPrefixMessage}" th:text="${content.form.ability.targetPrefixMessage}"></span>
-											<select class="form-control" th:field="*{targetCharaId}" data-ability-target-select>
-											</select>
-											<span th:if="${content.form.ability.targetSuffixMessage}" th:text="${content.form.ability.targetSuffixMessage}"></span>
-										</div>
-										<div class="col-sm-12 col-xs-12" th:if="${content.form.ability.isTargetingAndFootstep}">
-											通過する部屋<select class="form-control" name="footstep" data-footstep-select>
-										</select>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-sm-12 col-xs-12">
-											<input type="submit" class="btn btn-sm btn-success pull-right" value="セット" />
-										</div>
-									</div>
-								</form>
-								<!--/* 探偵で候補なし */-->
-								<p class="small"
-									th:if="${content.myself.skill.code == 'DETECTIVE' && content.form.ability.abilityTargetList != null && content.form.ability.abilityTargetList.size() == 0}">調査対象の足音がないため、本日は能力セットできません。</p>
-								<!--/* 狂人、妖狐用能力セット */-->
-								<form method="post" action="" th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
-									th:if="${content.form.ability.abilityTargetList == null && abilityForm != null && content.myself.skill.hasDisturbAbility}"
-									th:object="${abilityForm}" class="form-horizontal">
-									<p class="small">
-										任意の部屋からその直線上の部屋に向かって徘徊し、徘徊した部屋に足音を響かせることが可能です。部屋を選択してセットしてください。<br>徘徊しない場合は何も選択せずセットしてください。
-									</p>
-									<div class="form-group small">
-										<div class="col-sm-12 col-xs-12 table-responsive" th:if="${content.myself.skill.hasDisturbAbility}">
-											<table class="table-bordered table-condensed small" data-footstep-select-table>
-												<tbody>
-													<tr th:each="row : ${content.roomAssignedRowList}">
-														<td th:each="room: ${row.roomAssignedList}" class="small"
-															th:style="'vertical-align: bottom; text-align: center; width: ' 
+                            <!--/* 占い師、狩人用能力セット */-->
+                            <form method="post" action=""
+                                  th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
+                                  th:if="${content.form.ability.abilityTargetList != null && content.form.ability.abilityTargetList.size() > 0}"
+                                  th:object="${abilityForm}"
+                                  class="form-horizontal">
+                                <div class="form-group small">
+                                    <div class="col-sm-12 col-xs-12"
+                                         th:unless="${content.myself.skill.code == 'DETECTIVE'}">
+                                        <span th:if="${content.form.ability.targetPrefixMessage}"
+                                              th:text="${content.form.ability.targetPrefixMessage}"></span> <select
+                                            class="form-control" th:field="*{targetCharaId}" data-ability-target-select>
+                                        <option th:each="target : ${content.form.ability.abilityTargetList}"
+                                                th:value="${target.value}" th:text="${target.name}"></option>
+                                    </select> <span th:if="${content.form.ability.targetSuffixMessage}"
+                                                    th:text="${content.form.ability.targetSuffixMessage}"></span>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12"
+                                         th:if="${content.myself.skill.code == 'DETECTIVE'}">
+                                        <select class="form-control" th:field="*{footstep}" data-ability-target-select>
+                                            <option th:each="target : ${content.form.ability.abilityTargetList}"
+                                                    th:value="${target.value}" th:text="${target.name}"></option>
+                                        </select> を調査する
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12"
+                                         th:if="${content.form.ability.targetingAndFootstep}">
+                                        通過する部屋<select class="form-control" name="footstep" data-footstep-select>
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-xs-12">
+                                        <input type="submit" class="btn btn-sm btn-success pull-right" value="能力セット"/>
+                                    </div>
+                                </div>
+                            </form>
+                            <!--/* 人狼用能力セット */-->
+                            <form method="post" action=""
+                                  th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
+                                  th:if="${content.form.ability.attackerList != null && content.form.ability.attackerList.size() > 0}"
+                                  th:object="${abilityForm}"
+                                  class="form-horizontal">
+                                <div class="form-group small">
+                                    <div class="col-sm-12 col-xs-12">
+                                        襲撃者 <select class="form-control" th:field="*{charaId}" data-attacker-select>
+                                        <option th:each="chara : ${content.form.ability.attackerList}"
+                                                th:value="${chara.value}" th:text="${chara.name}"></option>
+                                    </select>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12">
+                                        <span th:if="${content.form.ability.targetPrefixMessage}"
+                                              th:text="${content.form.ability.targetPrefixMessage}"></span>
+                                        <select class="form-control" th:field="*{targetCharaId}"
+                                                data-ability-target-select>
+                                        </select>
+                                        <span th:if="${content.form.ability.targetSuffixMessage}"
+                                              th:text="${content.form.ability.targetSuffixMessage}"></span>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12"
+                                         th:if="${content.form.ability.targetingAndFootstep}">
+                                        通過する部屋<select class="form-control" name="footstep" data-footstep-select>
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-xs-12">
+                                        <input type="submit" class="btn btn-sm btn-success pull-right" value="能力セット"/>
+                                    </div>
+                                </div>
+                            </form>
+                            <!--/* 探偵で候補なし */-->
+                            <p class="small"
+                               th:if="${content.myself.skill.code == 'DETECTIVE' && content.form.ability.abilityTargetList != null && content.form.ability.abilityTargetList.size() == 0}">
+                                調査対象の足音がないため、本日は能力セットできません。</p>
+                            <!--/* 狂人、妖狐用能力セット */-->
+                            <form method="post" action=""
+                                  th:action="@{/village/{villageId}/setAbility(villageId=${content.villageId})}"
+                                  th:if="${content.form.ability.abilityTargetList.size() == 0 && abilityForm != null && content.myself.skill.hasDisturbAbility}"
+                                  th:object="${abilityForm}" class="form-horizontal">
+                                <p class="small">
+                                    任意の部屋からその直線上の部屋に向かって徘徊し、徘徊した部屋に足音を響かせることが可能です。部屋を選択してセットしてください。<br>徘徊しない場合は何も選択せずセットしてください。
+                                </p>
+                                <div class="form-group small">
+                                    <div class="col-sm-12 col-xs-12 table-responsive"
+                                         th:if="${content.myself.skill.hasDisturbAbility}">
+                                        <table class="table-bordered table-condensed small" data-footstep-select-table>
+                                            <tbody>
+                                            <tr th:each="row : ${content.roomAssignedRowList}">
+                                                <td th:each="room: ${row.roomAssignedList}" class="small"
+                                                    th:style="'vertical-align: bottom; text-align: center; width: '
 														+ ${room.charaImgWidth != null ? room.charaImgWidth : '50'} + 'px; height: '
 														+ ${room.charaImgHeight != null ? room.charaImgHeight : '77'} + 'px; '
 														 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
-														 + ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}"
-															th:data-footstep-room-number="${room.roomNumber}"><span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-															th:text="${room.roomNumber} + ' ' + ${room.charaShortName != null ? room.charaShortName : ''}">01. 楽</span></td>
-													</tr>
-												</tbody>
-											</table>
-											通過する部屋 : <span data-footstep-input th:text="*{footstep}">なし</span> <input type="hidden" class="form-control" th:field="*{footstep}"
-												data-footstep-hd-input />
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-sm-12 col-xs-12">
-											<input type="submit" class="btn btn-sm btn-success pull-right" value="セット" />
-										</div>
-									</div>
-								</form>
-							</div>
-						</div>
-						<!--/* 狂信者用メッセージ */-->
-						<div th:if="${content.form.ability.werewolfCharaNameList}">
-							<hr />
-							<p class="small" th:text="${'この村の人狼は、 ' + content.form.ability.werewolfCharaNameList + ' です。'}"></p>
-						</div>
-						<!--/* 人狼用メッセージ */-->
-						<div th:if="${content.form.ability.cMadmanCharaNameList != null && content.form.ability.cMadmanCharaNameList != ''}">
-							<hr />
-							<p class="small" th:text="${'この村のC国狂人は、 ' + content.form.ability.cMadmanCharaNameList + ' です。'}"></p>
-						</div>
-						<!--/* 背徳者用メッセージ */-->
-						<div th:if="${content.form.ability.foxCharaNameList != null && content.form.ability.foxCharaNameList != ''}">
-							<hr />
-							<p class="small" th:text="${'この村の妖狐は、 ' + content.form.ability.foxCharaNameList + ' です。'}"></p>
-						</div>
-						<!--/* 恋人用メッセージ */-->
-						<div th:if="${content.form.ability.loversCharaNameList != null && content.form.ability.loversCharaNameList != ''}">
-							<hr />
-							<p class="small" th:text="${content.form.ability.loversCharaNameList}"></p>
-						</div>
-						<!--/* 能力行使履歴 */-->
-						<div th:if="${content.form.ability.skillHistoryList != null && content.form.ability.skillHistoryList.size() > 0}">
-							<hr />
-							<p class="">能力セット履歴</p>
-							<p class="small" th:each="historyStr : ${content.form.ability.skillHistoryList}" th:text="${historyStr}"></p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+														 + ${room.dead == null || room.dead ? 'opacity: 0.3;' : ''}"
+                                                    th:data-footstep-room-number="${room.roomNumber}"><span
+                                                        style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+                                                        th:text="${room.roomNumber} + ' ' + ${room.charaShortName != null ? room.charaShortName : ''}">01. 楽</span>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        通過する部屋 : <span data-footstep-input th:text="*{footstep}">なし</span> <input
+                                            type="hidden" class="form-control" th:field="*{footstep}"
+                                            data-footstep-hd-input/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-xs-12">
+                                        <input type="submit" class="btn btn-sm btn-success pull-right" value="能力セット"/>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!--/* 狂信者用メッセージ */-->
+                    <div th:if="${content.form.ability.werewolfCharaNameList != ''}">
+                        <hr/>
+                        <p class="small"
+                           th:text="${'この村の人狼は、 ' + content.form.ability.werewolfCharaNameList + ' です。'}"></p>
+                    </div>
+                    <!--/* 人狼用メッセージ */-->
+                    <div th:if="${content.form.ability.cMadmanCharaNameList != null && content.form.ability.cMadmanCharaNameList != ''}">
+                        <hr/>
+                        <p class="small"
+                           th:text="${'この村のC国狂人は、 ' + content.form.ability.cMadmanCharaNameList + ' です。'}"></p>
+                    </div>
+                    <!--/* 背徳者用メッセージ */-->
+                    <div th:if="${content.form.ability.foxCharaNameList != null && content.form.ability.foxCharaNameList != ''}">
+                        <hr/>
+                        <p class="small" th:text="${'この村の妖狐は、 ' + content.form.ability.foxCharaNameList + ' です。'}"></p>
+                    </div>
+                    <!--/* 恋人用メッセージ */-->
+                    <div th:if="${content.form.ability.loversCharaNameList != null && content.form.ability.loversCharaNameList != ''}">
+                        <hr/>
+                        <p class="small">
+                            <th:block
+                                    th:each="str, stat : ${content.form.ability.loversCharaNameList.split('\r\n|\r|\n', -1)}">
+                                <th:block th:text="${str}"/>
+                                <br th:if="${!stat.last}"/>
+                            </th:block>
+                        </p>
+                    </div>
+                    <!--/* 能力行使履歴 */-->
+                    <div th:if="${content.form.ability.skillHistoryList != null && content.form.ability.skillHistoryList.size() > 0}">
+                        <hr/>
+                        <p class="">能力セット履歴</p>
+                        <p class="small" th:each="historyStr : ${content.form.ability.skillHistoryList}"
+                           th:text="${historyStr}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

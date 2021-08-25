@@ -26,7 +26,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <a class="h5" data-toggle="collapse" data-parent="#adminform-panel"
-                   href="#adminform-content">管理者メニュー</a>
+                   href="#adminform-content" data-adminform-tab-open>管理者メニュー</a>
             </div>
             <div id="adminform-content" class="panel-collapse collapse in">
                 <div class="panel-body">
@@ -76,7 +76,7 @@
                     </form>
                     <form method="post" action=""
                           th:action="@{/admin/village/{villageId}/leave(villageId=${content.villageId})}"
-                          th:if="${content.form.participate.isDispLeaveVillageForm}" class="form-horizontal">
+                          th:if="${content.form.participate.dispLeaveVillageForm}" class="form-horizontal">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">強制退村</label>
                             <div class="col-sm-8">

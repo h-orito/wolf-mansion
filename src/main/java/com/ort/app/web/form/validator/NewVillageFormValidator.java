@@ -21,7 +21,7 @@ import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.CDef.Camp;
 import com.ort.fw.util.WolfMansionDateUtil;
 
-@Component
+//@Component
 public class NewVillageFormValidator implements Validator {
 
     @Override

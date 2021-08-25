@@ -1,357 +1,393 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
-<!--/* 個別ページのタイトル */-->
-<title>村作成確認</title>
-<!--/* 個別ページのcss,js */-->
-<script src="../static/app/js/new-village-confirm.js" th:src="@{/app/js/new-village-confirm.js}"></script>
+    <!--/* 個別ページのタイトル */-->
+    <title>村作成確認</title>
+    <!--/* 個別ページのcss,js */-->
+    <script src="../static/app/js/new-village-confirm.js" th:src="@{/app/js/new-village-confirm.js}"></script>
 </head>
 
 <body>
-	<div class="container">
-		<nav layout:replace="~{layout/header::header}"></nav>
-		<div layout:fragment="content">
-			<div id="wrapper">
-				<div class="col-sm-12 col-xs-12">
-					<h1 class="h4">村作成確認</h1>
-					<form method="post" id="new-village-confirm-form" action="" th:action="@{/new-village/create}" th:object="${villageForm}" class="form-horizontal">
-						<div class="table-responsive clearfix">
-							<table class="table table-bordered table-condensed">
-								<tr>
-									<th colspan="2"><span class="h4">基本設定</span>
-								</tr>
-								<tr>
-									<th>村名</th>
-									<td th:text="*{villageName}"></td>
-								</tr>
-								<tr>
-									<th>最少開始人数</th>
-									<td th:text="*{startPersonMinNum} + '人'"></td>
-								</tr>
-								<tr>
-									<th>定員</th>
-									<td th:text="*{personMaxNum} + '人'"></td>
-								</tr>
-								<tr>
-									<th>更新間隔</th>
-									<td th:text="${interval}"></td>
-								</tr>
-								<tr>
-									<th>開始日時</th>
-									<td th:text="${#temporals.format(startDateTime, 'yyyy/MM/dd HH:mm')}"></td>
-								</tr>
-								<tr>
-									<th colspan="2"><span class="h4">キャラチップ設定</span>
-								</tr>
-								<tr>
-									<th>キャラクターセット</th>
-									<td th:text="${characterSetName}"></td>
-								</tr>
-								<tr>
-									<th>ダミーキャラ</th>
-									<td th:text="${dummyCharaName}"></td>
-								</tr>
-								<tr>
-									<th>ダミーキャラ入村発言</th>
-									<td>
-										<div class="col-sm-12 col-xs-12">
-											<div class="row" style="display: flex;">
-												<div class="col-sm-12 col-xs-12" style="display: flex;">
-													<div>
-														<img th:src="${characterImgUrl}" th:width="${characterImgWidth}" th:height="${characterImgHeight}">
-													</div>
-													<div class="message message-normal" th:style="'flex: 1; margin-left: 5px; min-height: ' + ${characterImgHeight} + 'px;'">
-														<th:block th:if="*{dummyJoinMessage}">
-															<th:block th:each="str, stat : *{dummyJoinMessage.split('\r\n|\r|\n', -1)}">
-																<th:block th:text="${str}" />
-																<br th:if="${!stat.last}" />
-															</th:block>
-														</th:block>
-													</div>
-												</div>
-											</div>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<th colspan="2"><span class="h4">詳細ルール設定</span>
-								</tr>
-								<tr th:class="*{isRandomOrganization ? 'hidden' : ''}">
-									<th>構成</th>
-									<td id="organize">
-										<th:block th:if="*{organization}">
-											<th:block th:each="str, stat : *{organization.split('\r\n|\r|\n', -1)}">
-												<th:block th:text="${stat.index + 8 + '人：' + str}" />
-												<br th:if="${!stat.last}" />
-											</th:block>
-										</th:block>
-										<input type="hidden" th:field="*{isRandomOrganization}" />
-									</td>
-								</tr>
-								<tr th:class="*{isRandomOrganization ? '' : 'hidden'}">
-									<th>構成</th>
-									<td id="random-organize">
-										<input type="hidden" th:field="*{isRandomOrganization}" />
-										<table class="table-bordered table-condensed small">
-											<tbody>
-												<th:block th:each="camp, stat: *{campAllocationList}">
-													<tr>
-														<td class="bg-info text-white" colspan="7">
-															<strong th:text="${camp.campName}"></strong>
-														</td>
-													</tr>
-													<tr>
-														<td colspan="7">陣営全体の配分</td>
-													</tr>
-													<tr>
-														<td>
-															<span th:text="${camp.campName}">村人陣営</span>
-															<input type="hidden" th:field="*{campAllocationList[__${stat.index}__].campCode}" />
-															<input type="hidden" th:field="*{campAllocationList[__${stat.index}__].campName}" />
-														</td>
-														<td>最少人数</td>
-														<td>
-															<span th:text="*{campAllocationList[__${stat.index}__].minNum}"></span>
-															<input type="hidden" th:field="*{campAllocationList[__${stat.index}__].minNum}" />
-														</td>
-														<td>最大人数</td>
-														<td>
-															<span th:text="*{campAllocationList[__${stat.index}__].maxNum}"></span>
-															<input type="hidden" th:field="*{campAllocationList[__${stat.index}__].maxNum}" />
-														</td>
-														<td>配分（0-100）</td>
-														<td>
-															<span th:text="*{campAllocationList[__${stat.index}__].allocation}"></span>
-															<input type="hidden" th:field="*{campAllocationList[__${stat.index}__].allocation}" />
-														</td>
-													</tr>
-													<tr>
-														<td colspan="7">役職ごとの配分</td>
-													</tr>
-													<tr th:each="skill, sta: *{campAllocationList[__${stat.index}__].skillAllocation}">
-														<td>
-															<span th:text="${skill.skillName}">村人</span>
-															<input type="hidden" th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].skillCode}" />
-															<input type="hidden" th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].skillName}" />
-														</td>
-														<td>最少人数</td>
-														<td>
-															<span th:text="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].minNum}">村人</span>
-															<input type="hidden" th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].minNum}" />
-														</td>
-														<td>最大人数</td>
-														<td>
-															<span th:text="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].maxNum}">村人</span>
-															<input type="hidden" th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].maxNum}" />
-														</td>
-														<td>配分（0-100）</td>
-														<td>
-															<span th:text="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].allocation}">村人</span>
-															<input type="hidden" th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].allocation}" />
-														</td>
-													</tr>
-												</th:block>
-											</tbody>
-										</table>
-									</td>
-								</tr>
-								<tr>
-									<th>役職希望</th>
-									<td th:text="*{isPossibleSkillRequest} ? '有効' : '無効'"></td>
-								</tr>
-								<tr>
-									<th>同一人狼による連続襲撃</th>
-									<td th:text="*{isAvailableSameWolfAttack} ? '可能' : '不可'"></td>
-								</tr>
-								<tr>
-									<th>狩人による連続護衛</th>
-									<td th:text="*{isAvailableGuardSameTarget} ? '可能' : '不可'"></td>
-								</tr>
-								<tr>
-									<th>突然死</th>
-									<td th:text="*{isAvailableSuddonlyDeath} ? 'あり' : 'なし'"></td>
-								</tr>
-								<tr>
-									<th>コミット</th>
-									<td th:text="*{isAvailableCommit} ? 'あり' : 'なし'"></td>
-								</tr>
-								<tr>
-									<th colspan="2"><span class="h4">見学、閲覧設定</span>
-								</tr>
-								<tr>
-									<th>見学入村</th>
-									<td th:text="*{isAvailableSpectate} ? '可能' : '不可'"></td>
-								</tr>
-								<tr>
-									<th>墓下見学役職公開</th>
-									<td th:text="*{isOpenSkillInGrave} ? '公開' : '非公開'"></td>
-								</tr>
-								<tr>
-									<th>墓下見学会話公開</th>
-									<td th:text="*{isVisibleGraveSpectateMessage} ? '公開' : '非公開'"></td>
-								</tr>
-								<tr>
-									<th colspan="2"><span class="h4">身内村設定</span>
-								</tr>
-								<tr th:if="*{joinPassword != null && joinPassword != ''}">
-									<th>入村パスワード</th>
-									<td th:text="*{joinPassword}"></td>
-								</tr>
-								<tr>
-									<th>秘話</th>
-									<td th:text="*{allowedSecretSayCode == 'NOTHING' ? 'なし' : allowedSecretSayCode == 'ONLY_CREATOR' ? '村建てとのみ可能' : '全員可能'}"></td>
-								</tr>
-								<tr>
-									<th colspan="2"><span class="h4">特殊ルール向け</span>
-								</tr>
-								<tr>
-									<th>発言制限（通常発言）</th>
-									<td>
-										<table class="table-bordered table-condensed small">
-											<thead>
-												<tr>
-													<th>役職</th>
-													<th>制限</th>
-													<th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
-												</tr>
-											</thead>
-											<tbody>
-												<th:block th:each="restrict, stat : *{sayRestrictList}">
-													<tr>
-														<td th:text="${restrict.skillName}">村人</td>
-														<td>
-															<span th:text="${restrict.isRestrict ? 'する' : 'しない'}"></span>
-															<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].isRestrict}">
-														</td>
-														<td>
-															<span th:if="${restrict.isRestrict}" th:text="${restrict.length} + ' * ' + ${restrict.count}"></span>
-															<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].length}" />
-															<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].count}" data-restrict-count />
-															<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].skillCode}" />
-															<input type="hidden" th:field="*{sayRestrictList[__${stat.index}__].skillName}" />
-														</td>
-													</tr>
-												</th:block>
-											</tbody>
-										</table>
-									</td>
-								</tr>
-								<tr>
-									<th>発言制限（役職発言）</th>
-									<td>
-										<table class="table-bordered table-condensed small">
-											<thead>
-												<tr>
-													<th>発言種別</th>
-													<th>制限</th>
-													<th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
-												</tr>
-											</thead>
-											<tbody>
-												<th:block th:each="restrict, stat : *{skillSayRestrictList}">
-													<tr>
-														<td th:text="${restrict.messageTypeName}">人狼の囁き</td>
-														<td>
-															<span th:text="${restrict.isRestrict ? 'する' : 'しない'}"></span>
-															<input type="hidden" th:field="*{skillSayRestrictList[__${stat.index}__].isRestrict}">
-														</td>
-														<td>
-															<span th:if="${restrict.isRestrict}" th:text="${restrict.length} + ' * ' + ${restrict.count}"></span>
-															<input type="hidden" th:field="*{skillSayRestrictList[__${stat.index}__].length}" />
-															<input type="hidden" th:field="*{skillSayRestrictList[__${stat.index}__].count}" data-restrict-count />
-															<input type="hidden" th:field="*{skillSayRestrictList[__${stat.index}__].messageTypeCode}" />
-															<input type="hidden" th:field="*{skillSayRestrictList[__${stat.index}__].messageTypeName}" />
-														</td>
-													</tr>
-												</th:block>
-											</tbody>
-										</table>
-									</td>
-								</tr>
-								<tr>
-									<th>投票</th>
-									<td th:text="*{isOpenVote} ? '記名投票' : '無記名投票'"></td>
-								</tr>
-								<tr>
-									<th colspan="2"><span class="h4">RP村向け</span>
-								</tr>
-								<tr>
-									<th>アクション</th>
-									<td th:text="*{isAvailableAction} ? '可能' : '不可'"></td>
-								</tr>
-								<tr>
-									<th>発言制限（RP発言）</th>
-									<td>
-										<table class="table-bordered table-condensed small">
-											<thead>
-												<tr>
-													<th>発言種別</th>
-													<th>制限</th>
-													<th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
-												</tr>
-											</thead>
-											<tbody>
-												<th:block th:each="restrict, stat : *{rpSayRestrictList}">
-													<tr>
-														<td th:text="${restrict.messageTypeName}">人狼の囁き</td>
-														<td>
-															<span th:text="${restrict.isRestrict ? 'する' : 'しない'}"></span>
-															<input type="hidden" th:field="*{skillSayRestrictList[__${stat.index}__].isRestrict}">
-														</td>
-														<td>
-															<span th:if="${restrict.isRestrict}" th:text="${restrict.length} + ' * ' + ${restrict.count}"></span>
-															<input type="hidden" th:field="*{rpSayRestrictList[__${stat.index}__].length}" />
-															<input type="hidden" th:field="*{rpSayRestrictList[__${stat.index}__].count}" data-restrict-count />
-															<input type="hidden" th:field="*{rpSayRestrictList[__${stat.index}__].messageTypeCode}" />
-															<input type="hidden" th:field="*{rpSayRestrictList[__${stat.index}__].messageTypeName}" />
-														</td>
-													</tr>
-												</th:block>
-											</tbody>
-										</table>
-									</td>
-								</tr>
-							</table>
-						</div>
-						<input type="hidden" th:field="*{villageName}" />
-						<input type="hidden" th:field="*{startPersonMinNum}" />
-						<input type="hidden" th:field="*{personMaxNum}" />
-						<input type="hidden" th:field="*{dayChangeIntervalHours}" />
-						<input type="hidden" th:field="*{dayChangeIntervalMinutes}" />
-						<input type="hidden" th:field="*{dayChangeIntervalSeconds}" />
-						<input type="hidden" th:field="*{startYear}" />
-						<input type="hidden" th:field="*{startMonth}" />
-						<input type="hidden" th:field="*{startDay}" />
-						<input type="hidden" th:field="*{startHour}" />
-						<input type="hidden" th:field="*{startMinute}" />
-						<input type="hidden" th:field="*{isOpenVote}" />
-						<input type="hidden" th:field="*{isPossibleSkillRequest}" />
-						<input type="hidden" th:field="*{isAvailableSpectate}" />
-						<input type="hidden" th:field="*{isAvailableSameWolfAttack}" />
-						<input type="hidden" th:field="*{isAvailableGuardSameTarget}" />
-						<input type="hidden" th:field="*{isOpenSkillInGrave}" />
-						<input type="hidden" th:field="*{isVisibleGraveSpectateMessage}" />
-						<input type="hidden" th:field="*{isAvailableSuddonlyDeath}" />
-						<input type="hidden" th:field="*{isAvailableCommit}" />
-						<input type="hidden" th:field="*{isAvailableAction}" />
-						<input type="hidden" th:field="*{characterSetId}" />
-						<input type="hidden" th:field="*{dummyCharaId}" />
-						<input type="hidden" th:field="*{dummyJoinMessage}" />
-						<input type="hidden" th:field="*{joinPassword}" />
-						<input type="hidden" th:field="*{organization}" />
-						<input type="hidden" th:field="*{allowedSecretSayCode}" />
+<div class="container">
+    <nav layout:replace="~{layout/header::header}"></nav>
+    <div layout:fragment="content">
+        <div id="wrapper">
+            <div class="col-sm-12 col-xs-12">
+                <h1 class="h4">村作成確認</h1>
+                <form method="post" id="new-village-confirm-form" action="" th:action="@{/new-village/create}"
+                      th:object="${villageForm}" class="form-horizontal">
+                    <div class="table-responsive clearfix">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <th colspan="2"><span class="h4">基本設定</span>
+                            </tr>
+                            <tr>
+                                <th>村名</th>
+                                <td th:text="*{villageName}"></td>
+                            </tr>
+                            <tr>
+                                <th>最少開始人数</th>
+                                <td th:text="*{startPersonMinNum} + '人'"></td>
+                            </tr>
+                            <tr>
+                                <th>定員</th>
+                                <td th:text="*{personMaxNum} + '人'"></td>
+                            </tr>
+                            <tr>
+                                <th>更新間隔</th>
+                                <td th:text="${interval}"></td>
+                            </tr>
+                            <tr>
+                                <th>開始日時</th>
+                                <td th:text="${startDateTime}"></td>
+                            </tr>
+                            <tr>
+                                <th colspan="2"><span class="h4">キャラチップ設定</span>
+                            </tr>
+                            <tr>
+                                <th>キャラクターセット</th>
+                                <td th:text="${characterSetName}"></td>
+                            </tr>
+                            <tr>
+                                <th>ダミーキャラ</th>
+                                <td th:text="${dummyCharaName}"></td>
+                            </tr>
+                            <tr>
+                                <th>ダミーキャラ入村発言</th>
+                                <td>
+                                    <div class="col-sm-12 col-xs-12">
+                                        <div class="row" style="display: flex;">
+                                            <div class="col-sm-12 col-xs-12" style="display: flex;">
+                                                <div>
+                                                    <img th:src="${characterImgUrl}" th:width="${characterImgWidth}"
+                                                         th:height="${characterImgHeight}">
+                                                </div>
+                                                <div class="message message-normal"
+                                                     th:style="'flex: 1; margin-left: 5px; min-height: ' + ${characterImgHeight} + 'px;'">
+                                                    <th:block th:if="*{dummyJoinMessage}">
+                                                        <th:block
+                                                                th:each="str, stat : *{dummyJoinMessage.split('\r\n|\r|\n', -1)}">
+                                                            <th:block th:text="${str}"/>
+                                                            <br th:if="${!stat.last}"/>
+                                                        </th:block>
+                                                    </th:block>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th colspan="2"><span class="h4">詳細ルール設定</span>
+                            </tr>
+                            <tr th:class="*{randomOrganization ? 'hidden' : ''}">
+                                <th>構成</th>
+                                <td id="organize">
+                                    <th:block th:if="*{organization}">
+                                        <th:block th:each="str, stat : *{organization.split('\r\n|\r|\n', -1)}">
+                                            <th:block th:text="${stat.index + 8 + '人：' + str}"/>
+                                            <br th:if="${!stat.last}"/>
+                                        </th:block>
+                                    </th:block>
+                                    <input type="hidden" th:field="*{randomOrganization}"/>
+                                </td>
+                            </tr>
+                            <tr th:class="*{randomOrganization ? '' : 'hidden'}">
+                                <th>構成</th>
+                                <td id="random-organize">
+                                    <input type="hidden" th:field="*{randomOrganization}"/>
+                                    <table class="table-bordered table-condensed small">
+                                        <tbody>
+                                        <th:block th:each="camp, stat: *{campAllocationList}">
+                                            <tr>
+                                                <td class="bg-info text-white" colspan="7">
+                                                    <strong th:text="${camp.campName}"></strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="7">陣営全体の配分</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span th:text="${camp.campName}">村人陣営</span>
+                                                    <input type="hidden"
+                                                           th:field="*{campAllocationList[__${stat.index}__].campCode}"/>
+                                                    <input type="hidden"
+                                                           th:field="*{campAllocationList[__${stat.index}__].campName}"/>
+                                                </td>
+                                                <td>最少人数</td>
+                                                <td>
+                                                    <span th:text="*{campAllocationList[__${stat.index}__].minNum}"></span>
+                                                    <input type="hidden"
+                                                           th:field="*{campAllocationList[__${stat.index}__].minNum}"/>
+                                                </td>
+                                                <td>最大人数</td>
+                                                <td>
+                                                    <span th:text="*{campAllocationList[__${stat.index}__].maxNum}"></span>
+                                                    <input type="hidden"
+                                                           th:field="*{campAllocationList[__${stat.index}__].maxNum}"/>
+                                                </td>
+                                                <td>配分（0-100）</td>
+                                                <td>
+                                                    <span th:text="*{campAllocationList[__${stat.index}__].allocation}"></span>
+                                                    <input type="hidden"
+                                                           th:field="*{campAllocationList[__${stat.index}__].allocation}"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="7">役職ごとの配分</td>
+                                            </tr>
+                                            <tr th:each="skill, sta: *{campAllocationList[__${stat.index}__].skillAllocation}">
+                                                <td>
+                                                    <span th:text="${skill.skillName}">村人</span>
+                                                    <input type="hidden"
+                                                           th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].skillCode}"/>
+                                                    <input type="hidden"
+                                                           th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].skillName}"/>
+                                                </td>
+                                                <td>最少人数</td>
+                                                <td>
+                                                    <span th:text="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].minNum}">村人</span>
+                                                    <input type="hidden"
+                                                           th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].minNum}"/>
+                                                </td>
+                                                <td>最大人数</td>
+                                                <td>
+                                                    <span th:text="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].maxNum}">村人</span>
+                                                    <input type="hidden"
+                                                           th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].maxNum}"/>
+                                                </td>
+                                                <td>配分（0-100）</td>
+                                                <td>
+                                                    <span th:text="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].allocation}">村人</span>
+                                                    <input type="hidden"
+                                                           th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].allocation}"/>
+                                                </td>
+                                            </tr>
+                                        </th:block>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>役職希望</th>
+                                <td th:text="*{possibleSkillRequest} ? '有効' : '無効'"></td>
+                            </tr>
+                            <tr>
+                                <th>同一人狼による連続襲撃</th>
+                                <td th:text="*{availableSameWolfAttack} ? '可能' : '不可'"></td>
+                            </tr>
+                            <tr>
+                                <th>狩人による連続護衛</th>
+                                <td th:text="*{availableGuardSameTarget} ? '可能' : '不可'"></td>
+                            </tr>
+                            <tr>
+                                <th>突然死</th>
+                                <td th:text="*{availableSuddonlyDeath} ? 'あり' : 'なし'"></td>
+                            </tr>
+                            <tr>
+                                <th>コミット</th>
+                                <td th:text="*{availableCommit} ? 'あり' : 'なし'"></td>
+                            </tr>
+                            <tr>
+                                <th colspan="2"><span class="h4">見学、閲覧設定</span>
+                            </tr>
+                            <tr>
+                                <th>見学入村</th>
+                                <td th:text="*{availableSpectate} ? '可能' : '不可'"></td>
+                            </tr>
+                            <tr>
+                                <th>墓下見学役職公開</th>
+                                <td th:text="*{openSkillInGrave} ? '公開' : '非公開'"></td>
+                            </tr>
+                            <tr>
+                                <th>墓下見学会話公開</th>
+                                <td th:text="*{visibleGraveSpectateMessage} ? '公開' : '非公開'"></td>
+                            </tr>
+                            <tr>
+                                <th colspan="2"><span class="h4">身内村設定</span>
+                            </tr>
+                            <tr th:if="*{joinPassword != null && joinPassword != ''}">
+                                <th>入村パスワード</th>
+                                <td th:text="*{joinPassword}"></td>
+                            </tr>
+                            <tr>
+                                <th>秘話</th>
+                                <td th:text="*{allowedSecretSayCode == 'NOTHING' ? 'なし' : allowedSecretSayCode == 'ONLY_CREATOR' ? '村建てとのみ可能' : '全員可能'}"></td>
+                            </tr>
+                            <tr>
+                                <th colspan="2"><span class="h4">特殊ルール向け</span>
+                            </tr>
+                            <tr>
+                                <th>発言制限（通常発言）</th>
+                                <td>
+                                    <table class="table-bordered table-condensed small">
+                                        <thead>
+                                        <tr>
+                                            <th>役職</th>
+                                            <th>制限</th>
+                                            <th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <th:block th:each="restrict, stat : *{sayRestrictList}">
+                                            <tr>
+                                                <td th:text="${restrict.skillName}">村人</td>
+                                                <td>
+                                                    <span th:text="${restrict.restrict ? 'する' : 'しない'}"></span>
+                                                    <input type="hidden"
+                                                           th:field="*{sayRestrictList[__${stat.index}__].restrict}">
+                                                </td>
+                                                <td>
+                                                    <span th:if="${restrict.restrict}"
+                                                          th:text="${restrict.length} + ' * ' + ${restrict.count}"></span>
+                                                    <input type="hidden"
+                                                           th:field="*{sayRestrictList[__${stat.index}__].length}"/>
+                                                    <input type="hidden"
+                                                           th:field="*{sayRestrictList[__${stat.index}__].count}"
+                                                           data-restrict-count/>
+                                                    <input type="hidden"
+                                                           th:field="*{sayRestrictList[__${stat.index}__].skillCode}"/>
+                                                    <input type="hidden"
+                                                           th:field="*{sayRestrictList[__${stat.index}__].skillName}"/>
+                                                </td>
+                                            </tr>
+                                        </th:block>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>発言制限（役職発言）</th>
+                                <td>
+                                    <table class="table-bordered table-condensed small">
+                                        <thead>
+                                        <tr>
+                                            <th>発言種別</th>
+                                            <th>制限</th>
+                                            <th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <th:block th:each="restrict, stat : *{skillSayRestrictList}">
+                                            <tr>
+                                                <td th:text="${restrict.messageTypeName}">人狼の囁き</td>
+                                                <td>
+                                                    <span th:text="${restrict.restrict ? 'する' : 'しない'}"></span>
+                                                    <input type="hidden"
+                                                           th:field="*{skillSayRestrictList[__${stat.index}__].restrict}">
+                                                </td>
+                                                <td>
+                                                    <span th:if="${restrict.restrict}"
+                                                          th:text="${restrict.length} + ' * ' + ${restrict.count}"></span>
+                                                    <input type="hidden"
+                                                           th:field="*{skillSayRestrictList[__${stat.index}__].length}"/>
+                                                    <input type="hidden"
+                                                           th:field="*{skillSayRestrictList[__${stat.index}__].count}"
+                                                           data-restrict-count/>
+                                                    <input type="hidden"
+                                                           th:field="*{skillSayRestrictList[__${stat.index}__].messageTypeCode}"/>
+                                                    <input type="hidden"
+                                                           th:field="*{skillSayRestrictList[__${stat.index}__].messageTypeName}"/>
+                                                </td>
+                                            </tr>
+                                        </th:block>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>投票</th>
+                                <td th:text="*{openVote} ? '記名投票' : '無記名投票'"></td>
+                            </tr>
+                            <tr>
+                                <th colspan="2"><span class="h4">RP村向け</span>
+                            </tr>
+                            <tr>
+                                <th>アクション</th>
+                                <td th:text="*{availableAction} ? '可能' : '不可'"></td>
+                            </tr>
+                            <tr>
+                                <th>発言制限（RP発言）</th>
+                                <td>
+                                    <table class="table-bordered table-condensed small">
+                                        <thead>
+                                        <tr>
+                                            <th>発言種別</th>
+                                            <th>制限</th>
+                                            <th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <th:block th:each="restrict, stat : *{rpSayRestrictList}">
+                                            <tr>
+                                                <td th:text="${restrict.messageTypeName}">人狼の囁き</td>
+                                                <td>
+                                                    <span th:text="${restrict.restrict ? 'する' : 'しない'}"></span>
+                                                    <input type="hidden"
+                                                           th:field="*{rpSayRestrictList[__${stat.index}__].restrict}">
+                                                </td>
+                                                <td>
+                                                    <span th:if="${restrict.restrict}"
+                                                          th:text="${restrict.length} + ' * ' + ${restrict.count}"></span>
+                                                    <input type="hidden"
+                                                           th:field="*{rpSayRestrictList[__${stat.index}__].length}"/>
+                                                    <input type="hidden"
+                                                           th:field="*{rpSayRestrictList[__${stat.index}__].count}"
+                                                           data-restrict-count/>
+                                                    <input type="hidden"
+                                                           th:field="*{rpSayRestrictList[__${stat.index}__].messageTypeCode}"/>
+                                                    <input type="hidden"
+                                                           th:field="*{rpSayRestrictList[__${stat.index}__].messageTypeName}"/>
+                                                </td>
+                                            </tr>
+                                        </th:block>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <input type="hidden" th:field="*{villageName}"/>
+                    <input type="hidden" th:field="*{startPersonMinNum}"/>
+                    <input type="hidden" th:field="*{personMaxNum}"/>
+                    <input type="hidden" th:field="*{dayChangeIntervalHours}"/>
+                    <input type="hidden" th:field="*{dayChangeIntervalMinutes}"/>
+                    <input type="hidden" th:field="*{dayChangeIntervalSeconds}"/>
+                    <input type="hidden" th:field="*{startYear}"/>
+                    <input type="hidden" th:field="*{startMonth}"/>
+                    <input type="hidden" th:field="*{startDay}"/>
+                    <input type="hidden" th:field="*{startHour}"/>
+                    <input type="hidden" th:field="*{startMinute}"/>
+                    <input type="hidden" th:field="*{openVote}"/>
+                    <input type="hidden" th:field="*{possibleSkillRequest}"/>
+                    <input type="hidden" th:field="*{availableSpectate}"/>
+                    <input type="hidden" th:field="*{availableSameWolfAttack}"/>
+                    <input type="hidden" th:field="*{availableGuardSameTarget}"/>
+                    <input type="hidden" th:field="*{openSkillInGrave}"/>
+                    <input type="hidden" th:field="*{visibleGraveSpectateMessage}"/>
+                    <input type="hidden" th:field="*{availableSuddonlyDeath}"/>
+                    <input type="hidden" th:field="*{availableCommit}"/>
+                    <input type="hidden" th:field="*{availableAction}"/>
+                    <input type="hidden" th:field="*{characterSetId}"/>
+                    <input type="hidden" th:field="*{dummyCharaId}"/>
+                    <input type="hidden" th:field="*{dummyJoinMessage}"/>
+                    <input type="hidden" th:field="*{joinPassword}"/>
+                    <input type="hidden" th:field="*{organization}"/>
+                    <input type="hidden" th:field="*{allowedSecretSayCode}"/>
 
-						<div class="form-group">
-							<div class="col-sm-12 col-xs-12">
-								<input id="back" type="button" class="btn btn-sm btn-default" value="戻る" />
-								<input type="submit" class="btn btn-sm btn-success pull-right" value="作成" />
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		<footer layout:replace="~{layout/footer::footer}"></footer>
-	</div>
+                    <div class="form-group">
+                        <div class="col-sm-12 col-xs-12">
+                            <input id="back" type="button" class="btn btn-sm btn-default" value="戻る"/>
+                            <input type="submit" class="btn btn-sm btn-success pull-right" value="作成"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer layout:replace="~{layout/footer::footer}"></footer>
+</div>
 </body>
 </html>

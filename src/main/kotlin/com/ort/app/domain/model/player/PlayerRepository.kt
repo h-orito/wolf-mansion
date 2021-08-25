@@ -4,7 +4,11 @@ interface PlayerRepository {
 
     fun findPlayers(villageIdList: List<Int>): Players
 
+    fun findPlayers(villageId: Int): Players
+
     fun findPlayer(userName: String): Player?
+
+    fun findPlayer(id: Int): Player
 
     fun registerPlayer(userName: String, password: String): Player
 

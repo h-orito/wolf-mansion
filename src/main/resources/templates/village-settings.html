@@ -413,7 +413,7 @@
                                         <td th:text="${restrict.skillName}">村人</td>
                                         <td>
                                             <input type="checkbox" class="form-control"
-                                                   th:field="*{sayRestrictList[__${stat.index}__].isRestrict}"
+                                                   th:field="*{sayRestrictList[__${stat.index}__].restrict}"
                                                    data-restrict-check>
                                         </td>
                                         <td>
@@ -458,7 +458,7 @@
                                         <td th:text="${restrict.messageTypeName}">人狼の囁き</td>
                                         <td>
                                             <input type="checkbox" class="form-control"
-                                                   th:field="*{skillSayRestrictList[__${stat.index}__].isRestrict}"
+                                                   th:field="*{skillSayRestrictList[__${stat.index}__].restrict}"
                                                    data-restrict-check>
                                         </td>
                                         <td>

@@ -17,7 +17,7 @@
 <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<div class="col-sm-12 col-xs-12" th:if="${content.form.action.isDispActionForm}" layout:fragment="action-form">
+	<div class="col-sm-12 col-xs-12" th:if="${content.form.action.dispActionForm}" layout:fragment="action-form">
 		<div class="panel-group" id="actionform-panel">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -56,11 +56,11 @@
 							<div class="form-group">
 								<div class="col-sm-12 col-xs-12">
 									<span data-action-count
-										th:data-message-restrict-action-max-length="${content.form.action.restrict.actionLength != null ? content.form.action.restrict.actionLength : ''}"
-										th:data-message-restrict-action-max-count="${content.form.action.restrict.actionCount != null ? content.form.action.restrict.actionCount : ''}"
-										th:data-message-restrict-action-left-count="${content.form.action.restrict.actionLeftCount != null ? content.form.action.restrict.actionLeftCount : ''}"></span><br />
-									<input type="checkbox" class="form-check-input" th:field="*{isConvertDisable}" value="true">
-									<label class="form-check-label" for="isConvertDisable">装飾・変換無効</label>
+										th:data-message-restrict-action-max-length="${content.form.say.restrict.actionLength != null ? content.form.say.restrict.actionLength : ''}"
+										th:data-message-restrict-action-max-count="${content.form.say.restrict.actionCount != null ? content.form.say.restrict.actionCount : ''}"
+										th:data-message-restrict-action-left-count="${content.form.say.restrict.actionLeftCount != null ? content.form.say.restrict.actionLeftCount : ''}"></span><br />
+									<input type="checkbox" class="form-check-input" th:field="*{convertDisable}" value="true">
+									<label class="form-check-label" for="convertDisable">装飾・変換無効</label>
 									<input type="submit" class="btn btn-sm btn-success pull-right" disabled value="確認画面へ" data-action-submit-btn />
 								</div>
 							</div>

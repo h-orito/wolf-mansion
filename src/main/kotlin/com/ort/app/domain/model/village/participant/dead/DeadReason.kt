@@ -10,4 +10,13 @@ data class DeadReason(
 
     fun toCdef(): CDef.DeadReason =
         CDef.DeadReason.codeOf(code) ?: throw IllegalStateException("unknown reason: $code")
+
+    fun isMiserable(): Boolean = toCdef().isMiserable
+    fun isExecuted(): Boolean = toCdef() == CDef.DeadReason.処刑
+    fun isAttacked(): Boolean = toCdef() == CDef.DeadReason.襲撃
+    fun isSuicide(): Boolean = toCdef() == CDef.DeadReason.後追
+    fun isSuddenly(): Boolean = toCdef() == CDef.DeadReason.突然
+    fun isPsychicable(): Boolean = isExecuted() || isSuddenly()
 }
+
+fun CDef.DeadReason.toModel(): DeadReason = DeadReason(this)

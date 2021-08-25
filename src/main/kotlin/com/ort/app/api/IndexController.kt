@@ -1,5 +1,6 @@
 package com.ort.app.api
 
+import com.ort.app.api.request.LoginForm
 import com.ort.app.api.view.IndexContent
 import com.ort.app.api.view.RecruitingContent
 import com.ort.app.api.view.SkillListContent
@@ -11,7 +12,6 @@ import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.VillageApplicationService
 import com.ort.app.domain.model.player.canCreateVillage
 import com.ort.app.domain.model.village.VillageStatus
-import com.ort.app.web.form.LoginForm
 import com.ort.app.web.form.VillageRecordListForm
 import com.ort.dbflute.allcommon.CDef
 import com.ort.fw.util.WolfMansionUserInfoUtil

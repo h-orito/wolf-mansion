@@ -13,7 +13,11 @@ class PlayerService(
 
     fun findPlayers(villageIdList: List<Int>): Players = playerRepository.findPlayers(villageIdList)
 
+    fun findPlayers(villageId: Int): Players = playerRepository.findPlayers(villageId)
+
     fun findPlayer(userName: String): Player? = playerRepository.findPlayer(userName)
+
+    fun findPlayer(id: Int): Player = playerRepository.findPlayer(id)
 
     @Throws(WolfMansionBusinessException::class)
     fun registerPlayer(userName: String, password: String): Player {
@@ -23,4 +27,8 @@ class PlayerService(
 
     fun updatePassword(userName: String, password: String) =
         playerRepository.updatePassword(userName, password)
+
+    fun updateDaychangeDifference(players: Players, players1: Players) {
+
+    }
 }
