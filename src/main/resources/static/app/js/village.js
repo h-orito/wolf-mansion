@@ -49,6 +49,12 @@ $(function () {
             const nowSelectedTarget = $('[data-selected-attack-target]').data('selected-attack-target');
             def1.then(function () {
                 $('[data-ability-target-select]').val(nowSelectedTarget);
+                let def2 = replaceFootstepList(); // 画面表示時にも取得して切り替える
+                // 選択していた足音をプルダウンから選択する
+                const nowSelectedFootstep = $('[data-selected-footstep]').data('selected-footstep');
+                def2.then(function () {
+                    $('[data-footstep-select]').val(nowSelectedFootstep);
+                });
             });
         } else if ($('[data-footstep-select]').length > 0) {
             let def2 = replaceFootstepList(); // 画面表示時にも取得して切り替える
