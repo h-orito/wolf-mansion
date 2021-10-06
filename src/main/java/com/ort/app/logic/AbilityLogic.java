@@ -327,11 +327,20 @@ public class AbilityLogic {
     }
 
     public String createFoxCharaNameList(VillageInfo villageInfo) {
-        if (!isAbilityUsable(villageInfo.village, villageInfo.optVillagePlayer, villageInfo.day)) {
+        if (!villageInfo.optVillagePlayer.isPresent()) {
             return null;
         }
-
         VillagePlayer villagePlayer = villageInfo.optVillagePlayer.get();
+        if (villagePlayer.isIsDeadTrue() || villagePlayer.isIsSpectatorTrue()) {
+            return null;
+        }
+        Village village = villageInfo.village;
+        if (!village.isVillageStatusCode進行中()) {
+            return null;
+        }
+        if (!village.getVillageDays().latestDay().getDay().equals(villageInfo.day)) {
+            return null;
+        }
         if (!isFoxCamp(villagePlayer)) {
             return null;
         }
