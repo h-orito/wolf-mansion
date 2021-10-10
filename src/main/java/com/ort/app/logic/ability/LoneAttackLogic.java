@@ -1,14 +1,5 @@
 package com.ort.app.logic.ability;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.stereotype.Component;
-
 import com.ort.app.datasource.AbilityService;
 import com.ort.app.datasource.FootstepService;
 import com.ort.app.datasource.VillageService;
@@ -18,13 +9,15 @@ import com.ort.app.logic.ability.helper.AttackLogicHelper;
 import com.ort.app.logic.daychange.DayChangeVillage;
 import com.ort.app.logic.message.MessageEntity;
 import com.ort.dbflute.allcommon.CDef;
-import com.ort.dbflute.exentity.Abilities;
-import com.ort.dbflute.exentity.Ability;
-import com.ort.dbflute.exentity.Footstep;
-import com.ort.dbflute.exentity.Footsteps;
-import com.ort.dbflute.exentity.Village;
-import com.ort.dbflute.exentity.VillagePlayer;
-import com.ort.dbflute.exentity.VillagePlayers;
+import com.ort.dbflute.exentity.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class LoneAttackLogic {
@@ -91,35 +84,39 @@ public class LoneAttackLogic {
         village.getVillagePlayers() //
                 .filterAlive() //
                 .filterBy(vp -> vp.getSkillCodeAsSkill() == CDef.Skill.一匹狼).list.forEach(loneWolf -> {
-                    Integer loneWolfCharaId = loneWolf.getCharaId();
-                    // 対象
-                    Integer targetCharaId = getSelectableTarget(village, loneWolf).getRandom().getCharaId();
-                    // 能力セット
-                    abilityService.insertAbility(villageId, newDay, loneWolfCharaId, targetCharaId, null, CDef.AbilityType.単独襲撃);
-                    // 時計回りの足音セット
-                    String footStep =
-                            footstepLogic.makeClockwiseFootStep(village, loneWolfCharaId, targetCharaId, village.getVillagePlayerList());
-                    footstepLogic.insertFootStep(villageId, newDay, loneWolfCharaId, footStep);
-                    insertAbilityMessage(village, newDay, loneWolfCharaId, targetCharaId, footStep, true);
-                });
+            Integer loneWolfCharaId = loneWolf.getCharaId();
+            // 対象
+            Integer targetCharaId = getSelectableTarget(village, loneWolf).getRandom().getCharaId();
+            // 能力セット
+            abilityService.insertAbility(villageId, newDay, loneWolfCharaId, targetCharaId, null, CDef.AbilityType.単独襲撃);
+            // 時計回りの足音セット
+            String footStep =
+                    footstepLogic.makeClockwiseFootStep(village, loneWolfCharaId, targetCharaId, village.getVillagePlayerList());
+            footstepLogic.insertFootStep(villageId, newDay, loneWolfCharaId, footStep);
+            insertAbilityMessage(village, newDay, loneWolfCharaId, targetCharaId, footStep, true);
+        });
     }
 
     // 能力セット
     public void setAbility( //
-            Village village, //
-            VillagePlayer villagePlayer, //
-            int day, //
-            Integer targetCharaId, //
-            String footstep//
+                            Village village, //
+                            VillagePlayer villagePlayer, //
+                            int day, //
+                            Integer targetCharaId, //
+                            String footstep//
     ) {
         if (isInvalidWolfAbility(village, villagePlayer, day, targetCharaId, footstep)) {
             return;
         }
         Integer villageId = village.getVillageId();
         Integer charaId = villagePlayer.getCharaId();
-        abilityService.updateAbility(villageId, day, charaId, targetCharaId, CDef.AbilityType.単独襲撃);
         footstepService.deleteFootstep(villageId, day, charaId);
-        footstepService.insertFootstep(villageId, day, charaId, footstep);
+        if (targetCharaId == null) {
+            abilityService.deleteAbility(villageId, day, charaId, CDef.AbilityType.単独襲撃);
+        } else {
+            abilityService.updateAbility(villageId, day, charaId, targetCharaId, CDef.AbilityType.単独襲撃);
+            footstepService.insertFootstep(villageId, day, charaId, footstep);
+        }
         insertAbilityMessage(village, day, charaId, targetCharaId, footstep, false);
     }
 
@@ -156,7 +153,7 @@ public class LoneAttackLogic {
     //                                                                        Assist Logic
     //                                                                        ============
     private void insertAttackMessageIfNeeded(DayChangeVillage dayChangeVillage, Ability attack, VillagePlayer loneWolf,
-            VillagePlayer targetPlayer) {
+                                             VillagePlayer targetPlayer) {
         String attackMessage = String.format("%s！今日がお前の命日だ！", targetPlayer.getCharaName());
         boolean hasWerewolfFace = helper.hasWerewolfFace(loneWolf);
         messageLogic.saveIgnoreError(new MessageEntity.Builder(dayChangeVillage.villageId, dayChangeVillage.day) //
@@ -168,33 +165,35 @@ public class LoneAttackLogic {
                 .build());
     }
 
-    private boolean isInvalidWolfAbility(//
+    private boolean isInvalidWolfAbility(
             Village village, //
             VillagePlayer villagePlayer, //
             int day, //
             Integer targetCharaId, //
             String footstep//
     ) {
-        if (targetCharaId == null || footstep == null) {
+        if (footstep == null) {
             return true;
         }
         if (villagePlayer.isIsDeadTrue()) {
             return true;
         }
-        if (getSelectableTarget(village, villagePlayer).list.stream().noneMatch(vp -> vp.getCharaId().equals(targetCharaId))) {
-            return true; // 襲撃できない対象を選んでいる
-        }
         // 襲撃者、襲撃対象、足音の整合性がとれていなかったらNG
-        List<String> footstepCandidateList = footstepLogic.getFootstepCandidateList(village.getVillageId(), villagePlayer, day,
-                villagePlayer.getCharaId(), targetCharaId);
-        if (!footstepCandidateList.contains(footstep)) {
-            return true;
+        if (targetCharaId != null) {
+            if (getSelectableTarget(village, villagePlayer).list.stream().noneMatch(vp -> vp.getCharaId().equals(targetCharaId))) {
+                return true; // 襲撃できない対象を選んでいる
+            }
+            List<String> footstepCandidateList = footstepLogic.getFootstepCandidateList(village.getVillageId(), villagePlayer, day,
+                    villagePlayer.getCharaId(), targetCharaId);
+            if (!footstepCandidateList.contains(footstep)) {
+                return true;
+            }
         }
 
         return false;
     }
 
-    private void insertAbilityMessage( //
+    private void insertAbilityMessage(
             Village village, //
             int day, //
             Integer charaId, //
@@ -203,9 +202,9 @@ public class LoneAttackLogic {
             boolean isDefault //
     ) {
         VillagePlayer chara = village.getVillagePlayers().findByCharaId(charaId);
-        VillagePlayer target = village.getVillagePlayers().findByCharaId(targetCharaId);
+        String targetName = targetCharaId != null ? village.getVillagePlayers().findByCharaId(targetCharaId).name() : "なし";
         String message = messageSource.getMessage("ability.lonewolf.message",
-                new String[] { chara.name(), target.name(), footstep, isDefault ? "（自動設定）" : "" }, Locale.JAPAN);
+                new String[]{chara.name(), targetName, footstep, isDefault ? "（自動設定）" : ""}, Locale.JAPAN);
         messageLogic.insertAbilityMessage(village.getVillageId(), day, message);
     }
 }
