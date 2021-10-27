@@ -119,8 +119,8 @@ class MessageDomainService(
         text: String
     ): Message {
         val type =
-            if (village.setting.rule.isRandomOrganization) MessageType(CDef.MessageType.公開システムメッセージ) else MessageType(
-                CDef.MessageType.非公開システムメッセージ
+            if (village.setting.rule.isRandomOrganization) MessageType(CDef.MessageType.非公開システムメッセージ) else MessageType(
+                CDef.MessageType.公開システムメッセージ
             )
         return Message.ofSystemMessage(
             day = 1,
