@@ -143,7 +143,7 @@ class ProgressDomainService(
     private fun isAllLivingPlayerCommitted(village: Village, commits: Commits): Boolean {
         if (!village.setting.rule.isAvailableCommit) return false
         // 全員コミットしているか
-        val commitNum: Int = commits.list.size
+        val commitNum: Int = commits.filterByDay(village.latestDay()).list.size
         val livingPersonNum = village.participants
             .filterAlive()
             .filterNotDummy(village.dummyParticipant()).list.size
@@ -176,7 +176,11 @@ class ProgressDomainService(
     }
 
     private fun addFootstepsMessage(daychange: Daychange): Daychange {
-        val text = footstepDomainService.getDisplayFootstepString(daychange.village, daychange.footsteps, daychange.village.latestDay())
+        val text = footstepDomainService.getDisplayFootstepString(
+            daychange.village,
+            daychange.footsteps,
+            daychange.village.latestDay()
+        )
         return daychange.copy(
             messages = daychange.messages.add(
                 Message.ofSystemMessage(
