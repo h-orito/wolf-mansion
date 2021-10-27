@@ -131,14 +131,14 @@
                     <div class="form-group">
                         <label class="col-sm-2 col-xs-12 control-label">役職構成</label>
                         <div id="org-check" class="col-sm-10 btn-group" data-toggle="buttons">
-                            <label th:class="'btn btn-sm btn-dark-success ' + *{isRandomOrganization ? 'active' : ''}">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{randomOrganization ? 'active' : ''}">
                                 <input type="radio" class=""
-                                       th:field="*{isRandomOrganization}" value="true" autocomplete="off"
+                                       th:field="*{randomOrganization}" value="true" autocomplete="off"
                                        checked="checked"/>闇鍋
                             </label> <label
-                                th:class="'btn btn-sm btn-dark-success ' + *{isRandomOrganization ? '' : 'active'}">
+                                th:class="'btn btn-sm btn-dark-success ' + *{randomOrganization ? '' : 'active'}">
                             <input type="radio" class=""
-                                   th:field="*{isRandomOrganization}" value="false" autocomplete="off"/>固定
+                                   th:field="*{randomOrganization}" value="false" autocomplete="off"/>固定
                         </label>
                         </div>
                     </div>
@@ -242,14 +242,14 @@
                     <div class="form-group">
                         <label class="col-sm-2 col-xs-12 control-label">同一人狼による連続襲撃</label>
                         <div class="col-sm-10 btn-group" data-toggle="buttons">
-                            <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSameWolfAttack ? 'active' : ''}">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{availableSameWolfAttack ? 'active' : ''}">
                                 <input type="radio" class=""
-                                       th:field="*{isAvailableSameWolfAttack}" value="true" autocomplete="off"
+                                       th:field="*{availableSameWolfAttack}" value="true" autocomplete="off"
                                        checked="checked"/>可能
                             </label> <label
-                                th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSameWolfAttack ? '' : 'active'}">
+                                th:class="'btn btn-sm btn-dark-success ' + *{availableSameWolfAttack ? '' : 'active'}">
                             <input type="radio" class=""
-                                   th:field="*{isAvailableSameWolfAttack}" value="false" autocomplete="off"/>不可
+                                   th:field="*{availableSameWolfAttack}" value="false" autocomplete="off"/>不可
                         </label>
                         </div>
                         <div class="col-sm-2"></div>
@@ -263,14 +263,14 @@
                     <div class="form-group">
                         <label class="col-sm-2 col-xs-12 control-label">狩人による連続護衛</label>
                         <div class="col-sm-10 btn-group" data-toggle="buttons">
-                            <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableGuardSameTarget ? 'active' : ''}">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{availableGuardSameTarget ? 'active' : ''}">
                                 <input type="radio" class=""
-                                       th:field="*{isAvailableGuardSameTarget}" value="true" autocomplete="off"
+                                       th:field="*{availableGuardSameTarget}" value="true" autocomplete="off"
                                        checked="checked"/>可能
                             </label> <label
-                                th:class="'btn btn-sm btn-dark-success ' + *{isAvailableGuardSameTarget ? '' : 'active'}">
+                                th:class="'btn btn-sm btn-dark-success ' + *{availableGuardSameTarget ? '' : 'active'}">
                             <input type="radio" class=""
-                                   th:field="*{isAvailableGuardSameTarget}" value="false" autocomplete="off"/>不可
+                                   th:field="*{availableGuardSameTarget}" value="false" autocomplete="off"/>不可
                         </label>
                         </div>
                         <div class="col-sm-2"></div>
@@ -281,14 +281,14 @@
                     <div class="form-group">
                         <label class="col-sm-2 col-xs-12 control-label">突然死</label>
                         <div class="col-sm-10 btn-group" data-toggle="buttons">
-                            <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSuddonlyDeath ? 'active' : ''}">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{availableSuddonlyDeath ? 'active' : ''}">
                                 <input type="radio" class=""
-                                       th:field="*{isAvailableSuddonlyDeath}" value="true" autocomplete="off"
+                                       th:field="*{availableSuddonlyDeath}" value="true" autocomplete="off"
                                        checked="checked"/>あり
                             </label> <label
-                                th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSuddonlyDeath ? '' : 'active'}">
+                                th:class="'btn btn-sm btn-dark-success ' + *{availableSuddonlyDeath ? '' : 'active'}">
                             <input type="radio" class=""
-                                   th:field="*{isAvailableSuddonlyDeath}" value="false" autocomplete="off"/>なし
+                                   th:field="*{availableSuddonlyDeath}" value="false" autocomplete="off"/>なし
                         </label>
                         </div>
                         <div class="col-sm-2"></div>
@@ -299,14 +299,14 @@
                     <div class="form-group">
                         <label class="col-sm-2 col-xs-12 control-label">コミット</label>
                         <div class="col-sm-10 btn-group" data-toggle="buttons">
-                            <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableCommit ? 'active' : ''}">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{availableCommit ? 'active' : ''}">
                                 <input type="radio" class=""
-                                       th:field="*{isAvailableCommit}" value="true" autocomplete="off"
+                                       th:field="*{availableCommit}" value="true" autocomplete="off"
                                        checked="checked"/>あり
                             </label> <label
-                                th:class="'btn btn-sm btn-dark-success ' + *{isAvailableCommit ? '' : 'active'}"> <input
+                                th:class="'btn btn-sm btn-dark-success ' + *{availableCommit ? '' : 'active'}"> <input
                                 type="radio" class=""
-                                th:field="*{isAvailableCommit}" value="false" autocomplete="off"/>なし
+                                th:field="*{availableCommit}" value="false" autocomplete="off"/>なし
                         </label>
                         </div>
                         <div class="col-sm-2"></div>
@@ -321,13 +321,13 @@
                     <div class="form-group">
                         <label class="col-sm-2 col-xs-12 control-label">見学入村</label>
                         <div class="col-sm-10 btn-group" data-toggle="buttons">
-                            <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSpectate ? 'active' : ''}">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{availableSpectate ? 'active' : ''}">
                                 <input type="radio" class=""
-                                       th:field="*{isAvailableSpectate}" value="true" autocomplete="off"/>可能
+                                       th:field="*{availableSpectate}" value="true" autocomplete="off"/>可能
                             </label> <label
-                                th:class="'btn btn-sm btn-dark-success ' + *{isAvailableSpectate ? '' : 'active'}">
+                                th:class="'btn btn-sm btn-dark-success ' + *{availableSpectate ? '' : 'active'}">
                             <input type="radio" class=""
-                                   th:field="*{isAvailableSpectate}" value="false" autocomplete="off"
+                                   th:field="*{availableSpectate}" value="false" autocomplete="off"
                                    checked="checked"/>不可
                         </label>
                         </div>
@@ -339,14 +339,14 @@
                     <div class="form-group">
                         <label class="col-sm-2 col-xs-12 control-label">墓下見学役職公開</label>
                         <div class="col-sm-10 btn-group" data-toggle="buttons">
-                            <label th:class="'btn btn-sm btn-dark-success ' + *{isOpenSkillInGrave ? 'active' : ''}">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{openSkillInGrave ? 'active' : ''}">
                                 <input type="radio" class=""
-                                       th:field="*{isOpenSkillInGrave}" value="true" autocomplete="off"
+                                       th:field="*{openSkillInGrave}" value="true" autocomplete="off"
                                        checked="checked"/>公開
                             </label> <label
-                                th:class="'btn btn-sm btn-dark-success ' + *{isOpenSkillInGrave ? '' : 'active'}">
+                                th:class="'btn btn-sm btn-dark-success ' + *{openSkillInGrave ? '' : 'active'}">
                             <input type="radio" class=""
-                                   th:field="*{isOpenSkillInGrave}" value="false" autocomplete="off"/>非公開
+                                   th:field="*{openSkillInGrave}" value="false" autocomplete="off"/>非公開
                         </label>
                         </div>
                         <div class="col-sm-2"></div>
@@ -357,14 +357,14 @@
                     <div class="form-group">
                         <label class="col-sm-2 col-xs-12 control-label">墓下見学会話公開</label>
                         <div class="col-sm-10 btn-group" data-toggle="buttons">
-                            <label th:class="'btn btn-sm btn-dark-success ' + *{isVisibleGraveSpectateMessage ? 'active' : ''}">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{visibleGraveSpectateMessage ? 'active' : ''}">
                                 <input type="radio" class=""
-                                       th:field="*{isVisibleGraveSpectateMessage}" value="true" autocomplete="off"
+                                       th:field="*{visibleGraveSpectateMessage}" value="true" autocomplete="off"
                                        checked="checked"/>公開
                             </label> <label
-                                th:class="'btn btn-sm btn-dark-success ' + *{isVisibleGraveSpectateMessage ? '' : 'active'}">
+                                th:class="'btn btn-sm btn-dark-success ' + *{visibleGraveSpectateMessage ? '' : 'active'}">
                             <input type="radio" class=""
-                                   th:field="*{isVisibleGraveSpectateMessage}" value="false" autocomplete="off"/>非公開
+                                   th:field="*{visibleGraveSpectateMessage}" value="false" autocomplete="off"/>非公開
                         </label>
                         </div>
                         <div class="col-sm-2"></div>
@@ -489,12 +489,12 @@
                     <div class="form-group">
                         <label class="col-sm-2 col-xs-12 control-label">投票</label>
                         <div class="col-sm-10 col-xs-12 btn-group" data-toggle="buttons">
-                            <label th:class="'btn btn-sm btn-dark-success ' + *{isOpenVote ? 'active' : ''}"> <input
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{openVote ? 'active' : ''}"> <input
                                     type="radio" class=""
-                                    th:field="*{isOpenVote}" value="true" autocomplete="off" checked/>記名
-                            </label> <label th:class="'btn btn-sm btn-dark-success ' + *{isOpenVote ? '' : 'active'}">
+                                    th:field="*{openVote}" value="true" autocomplete="off" checked/>記名
+                            </label> <label th:class="'btn btn-sm btn-dark-success ' + *{openVote ? '' : 'active'}">
                             <input type="radio" class=""
-                                   th:field="*{isOpenVote}" value="false" autocomplete="off"/>無記名
+                                   th:field="*{openVote}" value="false" autocomplete="off"/>無記名
                         </label>
                         </div>
                         <div class="col-sm-2"></div>
@@ -507,14 +507,14 @@
                     <div class="form-group">
                         <label class="col-sm-2 col-xs-12 control-label">アクション</label>
                         <div class="col-sm-10 btn-group" data-toggle="buttons">
-                            <label th:class="'btn btn-sm btn-dark-success ' + *{isAvailableAction ? 'active' : ''}">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{availableAction ? 'active' : ''}">
                                 <input type="radio" class=""
-                                       th:field="*{isAvailableAction}" value="true" autocomplete="off"
+                                       th:field="*{availableAction}" value="true" autocomplete="off"
                                        checked="checked"/>可能
                             </label> <label
-                                th:class="'btn btn-sm btn-dark-success ' + *{isAvailableAction ? '' : 'active'}"> <input
+                                th:class="'btn btn-sm btn-dark-success ' + *{availableAction ? '' : 'active'}"> <input
                                 type="radio" class=""
-                                th:field="*{isAvailableAction}" value="false" autocomplete="off"/>不可
+                                th:field="*{availableAction}" value="false" autocomplete="off"/>不可
                         </label>
                         </div>
                         <label class="col-sm-2 col-xs-12 control-label">発言制限（RP発言）</label>

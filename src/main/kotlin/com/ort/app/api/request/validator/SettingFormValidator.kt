@@ -50,7 +50,7 @@ class SettingFormValidator : Validator {
         }
 
         // 入村パスワードが入力されているが3文字以上12文字以下でない
-        if (!form.joinPassword.isNullOrBlank() && form.joinPassword.length !in 3..12) {
+        if (!form.joinPassword.isNullOrBlank() && form.joinPassword!!.length !in 3..12) {
             errors.rejectValue("joinPassword", "VillageSayForm.validator.joinPassword.length")
         }
 
@@ -66,7 +66,7 @@ class SettingFormValidator : Validator {
     }
 
     private fun validateOrganization(errors: Errors, form: VillageSettingForm) {
-        if (form.isRandomOrganization!!) {
+        if (form.randomOrganization!!) {
             validateRandomOrganization(errors, form)
         } else {
             validateFixOrganization(errors, form)
@@ -274,7 +274,7 @@ class SettingFormValidator : Validator {
         val isCountInvalid: Boolean = form.sayRestrictList!!.any {
             it.restrict == true && (it.count == null || it.count!! !in 0..100)
         }
-        val isLengthInvalid: Boolean = form.sayRestrictList.any {
+        val isLengthInvalid: Boolean = form.sayRestrictList!!.any {
             it.restrict == true && (it.length == null || it.length!! !in 0..400)
         }
         if (isCountInvalid || isLengthInvalid) {
@@ -286,7 +286,7 @@ class SettingFormValidator : Validator {
         val isCountInvalid: Boolean = form.skillSayRestrictList!!.any {
             it.restrict == true && (it.count == null || it.count!! !in 0..100)
         }
-        val isLengthInvalid: Boolean = form.skillSayRestrictList.any {
+        val isLengthInvalid: Boolean = form.skillSayRestrictList!!.any {
             it.restrict == true && (it.length == null || it.length!! !in 0..400)
         }
         if (isCountInvalid || isLengthInvalid) {
@@ -298,7 +298,7 @@ class SettingFormValidator : Validator {
         val isCountInvalid: Boolean = form.rpSayRestrictList!!.any {
             it.restrict == true && (it.count == null || it.count!! !in 0..100)
         }
-        val isLengthInvalid: Boolean = form.rpSayRestrictList.any {
+        val isLengthInvalid: Boolean = form.rpSayRestrictList!!.any {
             it.restrict == true && (it.length == null || it.length!! !in 0..400)
         }
         if (isCountInvalid || isLengthInvalid) {

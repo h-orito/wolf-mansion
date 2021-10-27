@@ -17,120 +17,120 @@ data class VillageSettingForm(
     /** 最低開始人数 */
     @field:NotNull
     @field:Min(8)
-    val startPersonMinNum: Int? = null,
+    var startPersonMinNum: Int? = null,
 
     /** 定員 */
     @field:NotNull
     @field:Max(99)
-    val personMaxNum: Int? = null,
+    var personMaxNum: Int? = null,
 
     /** 更新間隔時間 */
     @field:Min(0)
     @field:Max(48)
-    val dayChangeIntervalHours: Int? = null,
+    var dayChangeIntervalHours: Int? = null,
 
     /** 更新間隔分 */
     @field:Min(0)
     @field:Max(59)
-    val dayChangeIntervalMinutes: Int? = null,
+    var dayChangeIntervalMinutes: Int? = null,
 
     /** 更新間隔秒 */
     @field:Min(0)
     @field:Max(59)
-    val dayChangeIntervalSeconds: Int? = null,
+    var dayChangeIntervalSeconds: Int? = null,
 
     /** 開始年 */
     @field:Min(0)
-    val startYear: Int? = null,
+    var startYear: Int? = null,
 
     /** 開始月 */
     @field:Min(1)
     @field:Max(12)
-    val startMonth: Int? = null,
+    var startMonth: Int? = null,
 
     /** 開始日 */
     @field:Min(1)
     @field:Max(31)
-    val startDay: Int? = null,
+    var startDay: Int? = null,
 
     /** 開始時間 */
     @field:Min(0)
     @field:Max(23)
-    val startHour: Int? = null,
+    var startHour: Int? = null,
 
     /** 開始分 */
     @field:Min(0)
     @field:Max(59)
-    val startMinute: Int? = null,
+    var startMinute: Int? = null,
 
     /** 記名投票か */
     @field:NotNull
-    val isOpenVote: Boolean? = null,
+    var openVote: Boolean? = null,
 
     /** 連続襲撃ありか */
     @field:NotNull
-    val isAvailableSameWolfAttack: Boolean? = null,
+    var availableSameWolfAttack: Boolean? = null,
 
     /** 墓下役職公開ありか */
     @field:NotNull
-    val isOpenSkillInGrave: Boolean? = null,
+    var openSkillInGrave: Boolean? = null,
 
     /** 墓下見学発言を地上から見られるか */
     @field:NotNull
-    val isVisibleGraveSpectateMessage: Boolean? = null,
+    var visibleGraveSpectateMessage: Boolean? = null,
 
     /** 秘話可能範囲 */
     @field:NotNull
-    val allowedSecretSayCode: String? = null,
+    var allowedSecretSayCode: String? = null,
 
     /** 観戦を可能にする */
     @field:NotNull
-    val isAvailableSpectate: Boolean? = null,
+    var availableSpectate: Boolean? = null,
 
     /** 突然死ありか */
     @field:NotNull
-    val isAvailableSuddonlyDeath: Boolean? = null,
+    var availableSuddonlyDeath: Boolean? = null,
 
     /** コミット可能か */
     @field:NotNull
-    val isAvailableCommit: Boolean? = null,
+    var availableCommit: Boolean? = null,
 
     /** 連続ガードありか */
     @field:NotNull
-    val isAvailableGuardSameTarget: Boolean? = null,
+    var availableGuardSameTarget: Boolean? = null,
 
     /** アクションありか */
     @field:NotNull
-    val isAvailableAction: Boolean? = null,
+    var availableAction: Boolean? = null,
 
     /** 構成 */
-    val organization: String? = null,
+    var organization: String? = null,
 
     /** 闇鍋か */
     @field:NotNull
-    val isRandomOrganization: Boolean? = null,
+    var randomOrganization: Boolean? = null,
 
     /** 闇鍋編成詳細 */
-    @Valid
-    val campAllocationList: List<RandomOrganizationCampForm>? = null,
+    @field:Valid
+    var campAllocationList: List<RandomOrganizationCampForm>? = null,
 
     /** 入村パスワード */
-    val joinPassword: String? = null,
+    var joinPassword: String? = null,
 
     /** 発言制限 */
     @field:NotNull
     @Valid
-    val sayRestrictList: List<SkillSayRestrictForm>? = null,
+    var sayRestrictList: List<SkillSayRestrictForm>? = null,
 
     /** 役職発言制限 */
     @field:NotNull
     @Valid
-    val skillSayRestrictList: List<MessageTypeSayRestrictForm>? = null,
+    var skillSayRestrictList: List<MessageTypeSayRestrictForm>? = null,
 
     /** RP発言制限 */
     @field:NotNull
     @Valid
-    val rpSayRestrictList: List<MessageTypeSayRestrictForm>? = null
+    var rpSayRestrictList: List<MessageTypeSayRestrictForm>? = null
 ) {
     constructor(village: Village) : this(
         startPersonMinNum = village.setting.personMin,
@@ -143,18 +143,18 @@ data class VillageSettingForm(
         startDay = village.days.list.first().dayChangeDatetime.dayOfMonth,
         startHour = village.days.list.first().dayChangeDatetime.hour,
         startMinute = village.days.list.first().dayChangeDatetime.minute,
-        isOpenVote = village.setting.rule.isOpenVote,
-        isAvailableSameWolfAttack = village.setting.rule.isAvailableSameWolfAttack,
-        isOpenSkillInGrave = village.setting.rule.isOpenSkillInGrave,
-        isVisibleGraveSpectateMessage = village.setting.rule.isVisibleGraveSpectateMessage,
+        openVote = village.setting.rule.isOpenVote,
+        availableSameWolfAttack = village.setting.rule.isAvailableSameWolfAttack,
+        openSkillInGrave = village.setting.rule.isOpenSkillInGrave,
+        visibleGraveSpectateMessage = village.setting.rule.isVisibleGraveSpectateMessage,
         allowedSecretSayCode = if (village.setting.rule.isAvailableSecretSay) "EVERYTHING" else "NOTHING",
-        isAvailableSpectate = village.setting.rule.isAvailableSpectate,
-        isAvailableSuddonlyDeath = village.setting.rule.isAvailableSuddenlyDeath,
-        isAvailableCommit = village.setting.rule.isAvailableCommit,
-        isAvailableGuardSameTarget = village.setting.rule.isAvailableGuardSameTarget,
-        isAvailableAction = village.setting.rule.isAvailableAction,
+        availableSpectate = village.setting.rule.isAvailableSpectate,
+        availableSuddonlyDeath = village.setting.rule.isAvailableSuddenlyDeath,
+        availableCommit = village.setting.rule.isAvailableCommit,
+        availableGuardSameTarget = village.setting.rule.isAvailableGuardSameTarget,
+        availableAction = village.setting.rule.isAvailableAction,
         organization = village.setting.organize.fixedOrganization,
-        isRandomOrganization = village.setting.rule.isRandomOrganization,
+        randomOrganization = village.setting.rule.isRandomOrganization,
         campAllocationList = village.setting.organize.randomOrganization.campAllocation.map {
             RandomOrganizationCampForm(
                 campCode = it.camp.code,

@@ -222,17 +222,17 @@ class CreatorController(
                 dayChangeIntervalSeconds = form.dayChangeIntervalHours!! * 3600 + form.dayChangeIntervalMinutes!! * 60 + form.dayChangeIntervalSeconds!!,
                 startDatetime = startDatetime,
                 rule = village.setting.rule.copy(
-                    isOpenVote = form.isOpenVote!!,
-                    isAvailableSameWolfAttack = form.isAvailableSameWolfAttack!!,
-                    isOpenSkillInGrave = form.isOpenSkillInGrave!!,
-                    isVisibleGraveSpectateMessage = form.isVisibleGraveSpectateMessage!!,
+                    isOpenVote = form.openVote!!,
+                    isAvailableSameWolfAttack = form.availableSameWolfAttack!!,
+                    isOpenSkillInGrave = form.openSkillInGrave!!,
+                    isVisibleGraveSpectateMessage = form.visibleGraveSpectateMessage!!,
                     isAvailableSecretSay = form.allowedSecretSayCode!! != CDef.AllowedSecretSay.なし.code(),
-                    isAvailableSpectate = form.isAvailableSpectate!!,
-                    isAvailableSuddenlyDeath = form.isAvailableSuddonlyDeath!!,
-                    isAvailableCommit = form.isAvailableCommit!!,
-                    isAvailableGuardSameTarget = form.isAvailableGuardSameTarget!!,
-                    isAvailableAction = form.isAvailableAction!!,
-                    isRandomOrganization = form.isRandomOrganization!!
+                    isAvailableSpectate = form.availableSpectate!!,
+                    isAvailableSuddenlyDeath = form.availableSuddonlyDeath!!,
+                    isAvailableCommit = form.availableCommit!!,
+                    isAvailableGuardSameTarget = form.availableGuardSameTarget!!,
+                    isAvailableAction = form.availableAction!!,
+                    isRandomOrganization = form.randomOrganization!!
                 ),
                 organize = VillageOrganize(
                     fixedOrganization = form.organization.orEmpty(),
