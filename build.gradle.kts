@@ -98,7 +98,7 @@ jib {
         jvmFlags = listOf(
             "-server",
             "-Djava.awt.headless=true",
-            "-Dspring.profiles.active=production"
+            "-Dspring.profiles.active=playground"
         )
         creationTime = "USE_CURRENT_TIMESTAMP"
     }
