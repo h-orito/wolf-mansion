@@ -163,7 +163,7 @@ class FootstepDomainService(
                 // 実際鳴った足音
                 val actualFootstep = footstep.roomNumbers.split(",")
                     .map { it.toInt() }
-                    .filter { roomNumberList.contains(it) }.joinToString(separator = ",")
+                    .filter { roomNumberList.contains(it) }.joinToString(separator = ","){ it.toString().padStart(2, '0') }
 
                 targetFootstep == actualFootstep
             }.shuffled().first()
