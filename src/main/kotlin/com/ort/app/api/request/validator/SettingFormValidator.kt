@@ -58,8 +58,6 @@ class SettingFormValidator : Validator {
         validateOrganization(errors, form)
 
         // 発言制限
-
-        // 発言制限
         validateSayRestrict(errors, form)
         validateSkillSayRestrict(errors, form)
         validateRpSayRestrict(errors, form)

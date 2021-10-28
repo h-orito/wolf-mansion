@@ -88,7 +88,7 @@ class CreatorController(
         val charachip = charaService.findCharachip(village.setting.charachipId)
             ?: throw WolfMansionBusinessException("charachip not found.")
         if (bindingResult.hasErrors()) {
-            setSettingsIndexModel(village, charachip, model)
+            setSettingsIndexModel(village, charachip, model, form)
             return "village-settings"
         }
         if (!creatorCoordinator.isCreator(WolfMansionUserInfoUtil.getUserInfo()?.username, villageId)) {
