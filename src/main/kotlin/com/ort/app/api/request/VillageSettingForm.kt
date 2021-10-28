@@ -155,15 +155,23 @@ data class VillageSettingForm(
         availableAction = village.setting.rule.isAvailableAction,
         organization = village.setting.organize.fixedOrganization,
         randomOrganization = village.setting.rule.isRandomOrganization,
-        campAllocationList = village.setting.organize.randomOrganization.campAllocation.map {
+        campAllocationList = listOf(
+            CDef.Camp.村人陣営,
+            CDef.Camp.人狼陣営,
+            CDef.Camp.狐陣営,
+            CDef.Camp.恋人陣営,
+            CDef.Camp.愉快犯陣営
+        ).map { cdefCamp ->
+            val campAllocation =
+                village.setting.organize.randomOrganization.campAllocation.first { it.camp.code == cdefCamp.code() }
             RandomOrganizationCampForm(
-                campCode = it.camp.code,
-                campName = it.camp.name,
-                minNum = it.min,
-                maxNum = it.max,
-                allocation = it.allocation,
+                campCode = campAllocation.camp.code,
+                campName = campAllocation.camp.name,
+                minNum = campAllocation.min,
+                maxNum = campAllocation.max,
+                allocation = campAllocation.allocation,
                 skillAllocation = village.setting.organize.randomOrganization.skillAllocation.filter { s ->
-                    s.skill.camp().code == it.camp.code
+                    s.skill.camp().code == campAllocation.camp.code
                 }.map { s ->
                     RandomOrganizationSkillForm(
                         skillCode = s.skill.code,
