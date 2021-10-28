@@ -70,9 +70,11 @@ class VillagePlayerDataSource(
     fun withNestedVillagePlayer(loader: LoaderOfVillagePlayer) {
         loader.loadVillagePlayerDeadHistory {
             it.query().addOrderBy_Day_Asc()
+            it.query().addOrderBy_VillagePlayerDeadHistoryId_Asc()
         }
         loader.loadVillagePlayerRoomHistory {
             it.query().addOrderBy_Day_Asc()
+            it.query().addOrderBy_VillagePlayerRoomHistoryId_Asc()
         }
         loader.loadVillagePlayerStatusByVillagePlayerId { }
         loader.loadVillagePlayerStatusByToVillagePlayerId { }
