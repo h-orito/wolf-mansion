@@ -138,11 +138,7 @@ class DivineDomainService(
         var messages = daychange.messages.copy()
 
         village.participants.filterAlive().list.filter { it.skill!!.hasDivineAbility() }.forEach {
-            val ability = daychange.abilities
-                .filterByDay(village.latestDay() - 1)
-                .filterByType(abilityType)
-                .filterByCharaId(it.charaId)
-                .list.firstOrNull() ?: return@forEach
+            val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
             messages = messages.add(createDivineMessage(village, it, target))
             village = divineKillIfNeeded(village, it, target)

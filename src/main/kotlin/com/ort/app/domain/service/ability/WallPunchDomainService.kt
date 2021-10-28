@@ -102,11 +102,7 @@ class WallPunchDomainService(
         var guarded = daychange.guarded
         var messages = daychange.messages.copy()
         village.participants.filterAlive().filterBySkill(CDef.Skill.壁殴り代行.toModel()).list.forEach {
-            val ability = daychange.abilities
-                .filterByDay(village.latestDay() - 1)
-                .filterByType(abilityType)
-                .filterByCharaId(it.charaId)
-                .list.firstOrNull() ?: return@forEach
+            val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
             guarded = (guarded + target).distinct()
             messages = messages.add(createWallPunchMessage(village, it, target))

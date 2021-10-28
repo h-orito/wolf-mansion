@@ -108,11 +108,7 @@ class CohabitDomainService(
         val village = daychange.village
         var messages = daychange.messages.copy()
         village.participants.filterAlive().filterBySkill(CDef.Skill.同棲者.toModel()).list.forEach {
-            val ability = daychange.abilities
-                .filterByDay(village.latestDay() - 1)
-                .filterByType(abilityType)
-                .filterByCharaId(it.charaId)
-                .list.firstOrNull() ?: return@forEach
+            val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
             if (target.isDead()) return@forEach
             messages = messages.add(createCohabitMessage(village, it, target))

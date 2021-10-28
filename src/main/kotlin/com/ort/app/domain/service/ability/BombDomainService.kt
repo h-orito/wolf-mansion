@@ -88,13 +88,9 @@ class BombDomainService(
 
     fun addBombMessages(daychange: Daychange): Daychange {
         val village = daychange.village
-        var messages = daychange.messages
+        var messages = daychange.messages.copy()
         village.participants.filterAlive().filterBySkill(CDef.Skill.爆弾魔.toModel()).list.forEach {
-            val ability = daychange.abilities
-                .filterByDay(village.latestDay())
-                .filterByType(abilityType)
-                .filterByCharaId(it.charaId)
-                .list.firstOrNull() ?: return@forEach
+            val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
             val target = daychange.village.participants.chara(ability.targetCharaId!!)
             messages = messages.add(createBombMessage(village, it, target))
         }

@@ -87,13 +87,9 @@ class TrapDomainService(
 
     fun addTrapMessages(daychange: Daychange): Daychange {
         val village = daychange.village
-        var messages = daychange.messages
+        var messages = daychange.messages.copy()
         village.participants.filterAlive().filterBySkill(CDef.Skill.罠師.toModel()).list.forEach {
-            val ability = daychange.abilities
-                .filterByDay(village.latestDay())
-                .filterByType(abilityType)
-                .filterByCharaId(it.charaId)
-                .list.firstOrNull() ?: return@forEach
+            val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
             val target = daychange.village.participants.chara(ability.targetCharaId!!)
             messages = messages.add(createTrapMessage(village, it, target))
         }
@@ -137,7 +133,7 @@ class TrapDomainService(
             }
         }
 
-        return daychange.copy(village = village)
+        return daychange.copy(village = village, messages = messages)
     }
 
     private fun createSuccessMessage(

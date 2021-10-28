@@ -1,12 +1,10 @@
 package com.ort.app.domain.service.ability
 
 import com.ort.app.domain.model.ability.Abilities
-import com.ort.app.domain.model.ability.AbilityType
 import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
-import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
@@ -89,11 +87,7 @@ class CheatDomainService(
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
         village.participants.filterAlive().filterBySkill(CDef.Skill.誑狐.toModel()).list.forEach {
-            val ability = daychange.abilities
-                .filterByDay(village.latestDay() - 1)
-                .filterByType(abilityType)
-                .filterByCharaId(it.charaId)
-                .list.firstOrNull() ?: return@forEach
+            val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
             // 狐憑きにする
             village = village.foxPossessionParticipant(it.id, target.id)
@@ -104,7 +98,11 @@ class CheatDomainService(
         return daychange.copy(village = village, messages = messages)
     }
 
-    private fun createFoxPossessionMessage(village: Village, myself: VillageParticipant, target: VillageParticipant): Message {
+    private fun createFoxPossessionMessage(
+        village: Village,
+        myself: VillageParticipant,
+        target: VillageParticipant
+    ): Message {
         return messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
@@ -113,7 +111,11 @@ class CheatDomainService(
         )
     }
 
-    private fun createFoxPossessionedMessage(village: Village, fox: VillageParticipant, myself: VillageParticipant): Message {
+    private fun createFoxPossessionedMessage(
+        village: Village,
+        fox: VillageParticipant,
+        myself: VillageParticipant
+    ): Message {
         return messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,

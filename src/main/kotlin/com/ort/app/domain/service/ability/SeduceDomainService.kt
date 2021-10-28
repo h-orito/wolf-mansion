@@ -86,11 +86,7 @@ class SeduceDomainService(
         var messages = daychange.messages.copy()
 
         village.participants.filterAlive().filterBySkill(CDef.Skill.絡新婦.toModel()).list.forEach {
-            val ability = daychange.abilities
-                .filterByDay(village.latestDay() - 1)
-                .filterByType(abilityType)
-                .filterByCharaId(it.charaId)
-                .list.firstOrNull() ?: return@forEach
+            val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
             // 恋絆を結ぶ
             village = village.seduceParticipant(it.id, target.id)

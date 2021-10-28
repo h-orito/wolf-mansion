@@ -101,11 +101,7 @@ class CourtDomainService(
         var messages = daychange.messages.copy()
 
         village.participants.filterAlive().filterBySkill(CDef.Skill.求愛者.toModel()).list.forEach {
-            val ability = daychange.abilities
-                .filterByDay(village.latestDay() - 1)
-                .filterByType(abilityType)
-                .filterByCharaId(it.charaId)
-                .list.firstOrNull() ?: return@forEach
+            val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
             // 相互恋絆を結ぶ
             village = village.courtParticipant(it.id, target.id)
