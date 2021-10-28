@@ -94,7 +94,7 @@ data class VillageParticipant(
     }
 
     fun isViewableLoversSay(): Boolean = status.hasLover()
-    fun isSayableLoversSay(): Boolean = isAdmin() || status.hasLover()
+    fun isSayableLoversSay(): Boolean = isAdmin() || (isAlive() && status.hasLover())
 
     fun isSayableSecretSay(): Boolean = true
 
