@@ -432,7 +432,8 @@ class MessageDomainService(
         messageType: CDef.MessageType,
         day: Int
     ): Boolean {
-        return detectMessageTypeDomainService(messageType).isViewable(village, myself, day)
+        return if (messageType == CDef.MessageType.村建て発言) true
+        else detectMessageTypeDomainService(messageType).isViewable(village, myself, day)
     }
 
     private fun detectMessageTypeDomainService(messageType: CDef.MessageType): MessageTypeDomainService {
