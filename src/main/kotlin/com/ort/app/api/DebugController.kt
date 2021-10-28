@@ -4,7 +4,7 @@ import com.ort.app.api.request.VillageParticipateForm
 import com.ort.app.application.coordinator.DaychangeCoordinator
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.PlayerService
-import com.ort.app.application.service.VillageApplicationService
+import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.skill.Skills
 import com.ort.dbflute.cbean.CharaCB
 import com.ort.dbflute.cbean.VillageDayCB
@@ -21,7 +21,7 @@ import java.time.LocalDateTime
 class DebugController(
     private val charaBhv: CharaBhv,
     private val villageDayBhv: VillageDayBhv,
-    private val villageService: VillageApplicationService,
+    private val villageService: VillageService,
     private val playerService: PlayerService,
     private val daychangeCoordinator: DaychangeCoordinator,
     private val villageCoordinator: VillageCoordinator

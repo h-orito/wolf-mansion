@@ -25,8 +25,10 @@ class SuicideDomainService(
             messages = if (loverSuicideTarget != null) {
                 val lover = target.getTargetLovers(village).list.shuffled().first()
                 messages.add(createLoverSuicideMessage(village, target, lover))
-            } else {
+            } else if (findWallPunchSuicideTarget(village) != null) {
                 messages.add(createWallPuncherSuicideMessage(village, target))
+            } else {
+                messages.add(createImmoralSuicideMessage(village, target))
             }
             village = village.suicideParticipant(target.id)
         }
@@ -38,7 +40,9 @@ class SuicideDomainService(
         // 恋絆
         findLoverSuicideTarget(village)?.let { return it }
         // 壁殴り代行
-        return findWallPunchSuicideTarget(village)
+        findWallPunchSuicideTarget(village)?.let { return it }
+        // 背徳者
+        return findImmoralSuicideTarget(village)
     }
 
     private fun existsSuicideTarget(village: Village): Boolean = findSuicideTarget(village) != null
@@ -63,6 +67,19 @@ class SuicideDomainService(
             }
     }
 
+    private fun findImmoralSuicideTarget(village: Village): VillageParticipant? {
+        // 妖狐系が生存していたら後追いしない
+        if (village.participants.filterAlive().list.any {
+                it.skill!!.toCdef() == CDef.Skill.妖狐 || it.skill.toCdef() == CDef.Skill.誑狐
+            }) {
+            return null
+        }
+        // 生存している妖狐陣営(＝恋絆のついていない背徳者、狐憑き)が後追い対象
+        return village.participants
+            .filterAlive().list
+            .firstOrNull { it.camp!!.isFoxs() }
+    }
+
     private fun createLoverSuicideMessage(
         village: Village,
         target: VillageParticipant,
@@ -78,6 +95,13 @@ class SuicideDomainService(
         return Message.ofSystemMessage(
             day = village.latestDay(),
             message = "${target.name()}は、壁殴りを代行する部屋がなくなってしまい、孤独死した。"
+        )
+    }
+
+    private fun createImmoralSuicideMessage(village: Village, target: VillageParticipant): Message {
+        return Message.ofSystemMessage(
+            day = village.latestDay(),
+            message = "${target.name()}は、妖狐の後を追い、いなくなってしまった。"
         )
     }
 }

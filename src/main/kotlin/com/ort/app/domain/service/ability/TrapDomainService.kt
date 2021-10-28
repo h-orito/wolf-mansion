@@ -111,7 +111,9 @@ class TrapDomainService(
     }
 
     fun trap(daychange: Daychange): Daychange {
-        var village = daychange.village
+        var village = daychange.village.copy()
+        var messages = daychange.messages.copy()
+
         village.participants.filterBySkill(CDef.Skill.罠師.toModel()).list.filterNot {
             // 突然死でない限りは発動
             it.dead.isSuddenlyDead()
@@ -121,16 +123,37 @@ class TrapDomainService(
             // 設置された部屋
             val roomNumber = village.participants.chara(ability.targetCharaId!!).room!!.number
             // 設置された部屋を通過した人は死亡
-            footstepDomainService.findPassedParticipants(
+            val passedParticipants = footstepDomainService.findPassedParticipants(
                 village = village,
                 footsteps = daychange.footsteps,
                 day = village.latestDay() - 1,
                 roomNumber = roomNumber
-            ).forEach { participant ->
+            )
+            passedParticipants.forEach { participant ->
                 village = village.trapKillParticipant(participant.id)
+            }
+            if (passedParticipants.isNotEmpty()) {
+                messages = messages.add(createSuccessMessage(village, trapper, passedParticipants))
             }
         }
 
         return daychange.copy(village = village)
+    }
+
+    private fun createSuccessMessage(
+        village: Village,
+        trapper: VillageParticipant,
+        passedParticipants: List<VillageParticipant>
+    ): Message {
+        val message = passedParticipants.joinToString(
+            prefix = "${trapper.name()}の設置した罠が作動し、",
+            separator = "と",
+            postfix = "が罠死した。"
+        ) { it.name() }
+        return Message.ofSystemMessage(
+            day = village.latestDay(),
+            message = message,
+            messageType = CDef.MessageType.非公開システムメッセージ.toModel()
+        )
     }
 }

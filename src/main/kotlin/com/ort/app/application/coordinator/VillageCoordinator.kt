@@ -7,7 +7,7 @@ import com.ort.app.application.service.FootstepApplicationService
 import com.ort.app.application.service.MessageService
 import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.TweetService
-import com.ort.app.application.service.VillageApplicationService
+import com.ort.app.application.service.VillageService
 import com.ort.app.application.service.VoteApplicationService
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.chara.Charachip
@@ -45,7 +45,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class VillageCoordinator(
     // application service
-    private val villageService: VillageApplicationService,
+    private val villageService: VillageService,
     private val playerService: PlayerService,
     private val commitService: CommitService,
     private val messageService: MessageService,

@@ -2,7 +2,7 @@ package com.ort.app.api
 
 import com.ort.app.api.request.VillageLeaveForm
 import com.ort.app.application.coordinator.VillageCoordinator
-import com.ort.app.application.service.VillageApplicationService
+import com.ort.app.application.service.VillageService
 import com.ort.dbflute.cbean.VillageDayCB
 import com.ort.dbflute.cbean.VillagePlayerCB
 import com.ort.dbflute.cbean.VoteCB
@@ -25,7 +25,7 @@ class AdminController(
     private val villageDayBhv: VillageDayBhv,
     private val villagePlayerBhv: VillagePlayerBhv,
     private val voteBhv: VoteBhv,
-    private val villageService: VillageApplicationService,
+    private val villageService: VillageService,
     private val villageCoordinator: VillageCoordinator
 ) {
     // 管理者機能：強制退村

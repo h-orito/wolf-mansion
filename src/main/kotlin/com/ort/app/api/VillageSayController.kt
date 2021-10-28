@@ -11,7 +11,7 @@ import com.ort.app.application.coordinator.MessageCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.RandomKeywordService
-import com.ort.app.application.service.VillageApplicationService
+import com.ort.app.application.service.VillageService
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
@@ -35,7 +35,7 @@ class VillageSayController(
     // service
     private val messageCoordinator: MessageCoordinator,
     private val randomKeywordService: RandomKeywordService,
-    private val villageService: VillageApplicationService,
+    private val villageService: VillageService,
     private val playerService: PlayerService,
     private val charaService: CharaService,
     private val villageControllerHelper: VillageControllerHelper

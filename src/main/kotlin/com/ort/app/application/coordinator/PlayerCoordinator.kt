@@ -1,6 +1,6 @@
 package com.ort.app.application.coordinator
 
-import com.ort.app.application.service.VillageApplicationService
+import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.player.PlayerRecords
 import com.ort.app.domain.model.village.VillageStatus
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class PlayerCoordinator(
-    private val villageService: VillageApplicationService
+    private val villageService: VillageService
 ) {
     fun findPlayerRecords(player: Player): PlayerRecords {
         if (player.participateFinishedVillageIdList.isEmpty()) return PlayerRecords(player, Villages(listOf()))

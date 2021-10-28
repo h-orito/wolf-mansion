@@ -18,7 +18,7 @@ data class Room(
     fun numberWhen(day: Int): Int? {
         val d = if (day <= 1) 1 else day // 0日目を指定すると部屋が取れない
         if (histories.list.isEmpty()) return null
-        val maxDay = histories.list.filter { it.day <= day }.map { it.day }.maxOrNull() ?: return null
+        val maxDay = histories.list.filter { it.day <= d }.map { it.day }.maxOrNull() ?: return null
         return histories.list.lastOrNull { it.day == maxDay }?.number
     }
 

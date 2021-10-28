@@ -11,7 +11,7 @@ import com.ort.app.api.view.VillageSettingsContent
 import com.ort.app.application.coordinator.CreatorCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.RandomKeywordService
-import com.ort.app.application.service.VillageApplicationService
+import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.chara.Charachip
 import com.ort.app.domain.model.message.MessageType
@@ -45,7 +45,7 @@ class CreatorController(
     private val villageControllerHelper: VillageControllerHelper,
     // service
     private val creatorCoordinator: CreatorCoordinator,
-    private val villageService: VillageApplicationService,
+    private val villageService: VillageService,
     private val randomKeywordService: RandomKeywordService,
     private val charaService: CharaService
 ) {

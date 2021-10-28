@@ -7,7 +7,7 @@ import com.ort.app.api.view.OptionContent
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
-import com.ort.app.application.service.VillageApplicationService
+import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.village.VillageStatus
 import com.ort.app.fw.exception.WolfMansionBusinessException
@@ -29,7 +29,7 @@ import java.time.format.DateTimeFormatter
 class NewVillageController(
     private val newVillageFormValidator: NewVillageFormValidator,
     private val villageCoordinator: VillageCoordinator,
-    private val villageService: VillageApplicationService,
+    private val villageService: VillageService,
     private val charaService: CharaService,
     private val playerService: PlayerService
 ) {

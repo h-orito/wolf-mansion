@@ -3,7 +3,7 @@ package com.ort.app.api
 import com.ort.app.api.helper.VillageControllerHelper
 import com.ort.app.api.request.VillageForms
 import com.ort.app.api.view.VillageListContent
-import com.ort.app.application.service.VillageApplicationService
+import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.village.VillageStatus
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 
 @Controller
-class VillageKtController(
+class VillageController(
     private val villageControllerHelper: VillageControllerHelper,
-    private val villageService: VillageApplicationService
+    private val villageService: VillageService
 ) {
     // 村一覧初期表示
     @GetMapping("/village")

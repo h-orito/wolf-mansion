@@ -7,7 +7,7 @@ import com.ort.app.application.service.FootstepApplicationService
 import com.ort.app.application.service.MessageService
 import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.TweetService
-import com.ort.app.application.service.VillageApplicationService
+import com.ort.app.application.service.VillageService
 import com.ort.app.application.service.VoteApplicationService
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.village.Village
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class DaychangeCoordinator(
-    private val villageService: VillageApplicationService,
+    private val villageService: VillageService,
     private val voteService: VoteApplicationService,
     private val abilityService: AbilityApplicationService,
     private val commitService: CommitService,

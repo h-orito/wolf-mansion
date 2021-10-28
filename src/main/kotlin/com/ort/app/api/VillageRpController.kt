@@ -5,7 +5,7 @@ import com.ort.app.api.request.VillageChangeNameForm
 import com.ort.app.api.request.VillageForms
 import com.ort.app.api.request.VillageMemoForm
 import com.ort.app.application.coordinator.VillageCoordinator
-import com.ort.app.application.service.VillageApplicationService
+import com.ort.app.application.service.VillageService
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import org.springframework.stereotype.Controller
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping
 
 @Controller
 class VillageRpController(
-    private val villageService: VillageApplicationService,
+    private val villageService: VillageService,
     private val villageCoordinator: VillageCoordinator,
     private val villageControllerHelper: VillageControllerHelper
 ) {

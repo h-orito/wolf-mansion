@@ -10,7 +10,7 @@ import com.ort.app.api.view.VillageRecordListContent
 import com.ort.app.application.service.CampService
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
-import com.ort.app.application.service.VillageApplicationService
+import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.player.canCreateVillage
 import com.ort.app.domain.model.village.VillageStatus
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
 class IndexController(
-    private val villageService: VillageApplicationService,
+    private val villageService: VillageService,
     private val playerService: PlayerService,
     private val charaService: CharaService,
     private val campService: CampService

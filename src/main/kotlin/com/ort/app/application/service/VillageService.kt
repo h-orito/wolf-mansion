@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
 @Service
-class VillageApplicationService(
+class VillageService(
     private val villageRepository: VillageRepository
 ) {
     // ------------------------

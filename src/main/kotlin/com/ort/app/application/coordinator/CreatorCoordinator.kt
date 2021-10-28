@@ -1,7 +1,7 @@
 package com.ort.app.application.coordinator
 
 import com.ort.app.application.service.PlayerService
-import com.ort.app.application.service.VillageApplicationService
+import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.service.MessageDomainService
 import com.ort.app.fw.exception.WolfMansionBusinessException
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class CreatorCoordinator(
     private val messageCoordinator: MessageCoordinator,
-    private val villageService: VillageApplicationService,
+    private val villageService: VillageService,
     private val playerService: PlayerService,
     private val messageDomainService: MessageDomainService
 ) {

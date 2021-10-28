@@ -4,7 +4,7 @@ import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.MessageService
 import com.ort.app.application.service.RandomKeywordService
 import com.ort.app.application.service.SlackService
-import com.ort.app.application.service.VillageApplicationService
+import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.MessageContent
 import com.ort.app.domain.model.message.MessageTime
@@ -21,7 +21,7 @@ class MessageCoordinator(
     // application service
     private val messageService: MessageService,
     private val charaService: CharaService,
-    private val villageService: VillageApplicationService,
+    private val villageService: VillageService,
     private val randomKeywordService: RandomKeywordService,
     private val slackService: SlackService,
     // domain service

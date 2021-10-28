@@ -10,7 +10,7 @@ import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.CommitService
 import com.ort.app.application.service.MessageService
 import com.ort.app.application.service.PlayerService
-import com.ort.app.application.service.VillageApplicationService
+import com.ort.app.application.service.VillageService
 import com.ort.app.application.service.VoteApplicationService
 import com.ort.app.domain.model.commit.Commits
 import com.ort.app.domain.model.vote.Votes
@@ -25,7 +25,7 @@ import java.time.format.DateTimeFormatter
 
 @Controller
 class VillageMessageController(
-    private val villageService: VillageApplicationService,
+    private val villageService: VillageService,
     private val charaService: CharaService,
     private val playerService: PlayerService,
     private val voteService: VoteApplicationService,

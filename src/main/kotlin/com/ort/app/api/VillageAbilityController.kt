@@ -10,7 +10,7 @@ import com.ort.app.api.request.VillageVoteForm
 import com.ort.app.api.view.VillageGetAttackTargetListContent
 import com.ort.app.api.view.VillageGetFootstepListContent
 import com.ort.app.application.coordinator.VillageCoordinator
-import com.ort.app.application.service.VillageApplicationService
+import com.ort.app.application.service.VillageService
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import org.springframework.stereotype.Controller
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 class VillageAbilityController(
     private val villageControllerHelper: VillageControllerHelper,
     private val villageCoordinator: VillageCoordinator,
-    private val villageService: VillageApplicationService
+    private val villageService: VillageService
 ) {
 
     // 能力セットする

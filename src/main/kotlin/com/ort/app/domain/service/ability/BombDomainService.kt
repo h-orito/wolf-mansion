@@ -112,7 +112,8 @@ class BombDomainService(
     }
 
     fun bomb(daychange: Daychange): Daychange {
-        var village = daychange.village
+        var village = daychange.village.copy()
+        var messages = daychange.messages.copy()
         village.participants.filterBySkill(CDef.Skill.爆弾魔.toModel()).list.filterNot {
             // 突然死でない限りは発動
             it.dead.isSuddenlyDead()
@@ -128,25 +129,60 @@ class BombDomainService(
                 day = village.latestDay() - 1,
                 roomNumber = target.room!!.number
             )
+            // 死亡した人
+            val deadParticipants = mutableListOf<VillageParticipant>()
+
             // 通過した人は死亡
-            passedParticipants.forEach { village = village.trapKillParticipant(it.id) }
+            passedParticipants.forEach {
+                village = village.trapKillParticipant(it.id)
+                deadParticipants.add(it)
+            }
             // 通過した人がいれば設置された部屋の人も死亡、いなければ爆弾魔が死亡
             if (passedParticipants.isNotEmpty()) {
                 // 同棲で不在でなければ設置された部屋の人も死亡
                 if (!cohabitDomainService.isAbsence(daychange, target)) {
                     village = village.bombKillParticipant(target.id)
+                    deadParticipants.add(target)
                 }
                 // 同棲で部屋に同棲者が来ていたら同棲者も死亡
                 if (cohabitDomainService.isCohabiting(daychange, target)) {
                     village = village.bombKillParticipant(target.getTargetCohabitor(village)!!.id)
+                    deadParticipants.add(target)
                 }
+                messages = messages.add(createSuccessMessage(village, bomber, deadParticipants))
             } else {
                 // 誰も通過しなかったので爆弾魔が死亡
                 village = village.bombKillParticipant(bomber.id)
+                messages = messages.add(createFailureMessage(village, bomber))
             }
         }
 
-        return daychange.copy(village = village)
+        return daychange.copy(village = village, messages = messages)
+    }
+
+    private fun createSuccessMessage(
+        village: Village,
+        bomber: VillageParticipant,
+        deadParticipants: MutableList<VillageParticipant>
+    ): Message {
+        val message = deadParticipants.joinToString(
+            prefix = "${bomber.name()}が設置した爆弾が起爆し、",
+            separator = "と",
+            postfix = "が爆死した。"
+        ) { it.name() }
+        return Message.ofSystemMessage(
+            day = village.latestDay(),
+            message = message,
+            messageType = CDef.MessageType.非公開システムメッセージ.toModel()
+        )
+    }
+
+    private fun createFailureMessage(village: Village, bomber: VillageParticipant): Message {
+        return Message.ofSystemMessage(
+            day = village.latestDay(),
+            message = "${bomber.name()}は爆弾が不発だったため、自分の部屋を爆破した。",
+            messageType = CDef.MessageType.非公開システムメッセージ.toModel()
+        )
     }
 
     fun deadByUnexplodedIfNeeded(daychange: Daychange): Daychange {

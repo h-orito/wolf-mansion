@@ -3,7 +3,7 @@ package com.ort.app.api
 import com.ort.app.api.view.CharaGroupContent
 import com.ort.app.api.view.CharaGroupListContent
 import com.ort.app.application.service.CharaService
-import com.ort.app.application.service.VillageApplicationService
+import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 @Controller
 class CharaController(
     private val charaService: CharaService,
-    private val villageService: VillageApplicationService
+    private val villageService: VillageService
 ) {
 
     @GetMapping("/chara-group")

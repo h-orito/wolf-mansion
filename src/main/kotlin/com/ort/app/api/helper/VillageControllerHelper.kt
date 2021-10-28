@@ -20,7 +20,7 @@ import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.FootstepApplicationService
 import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.RandomKeywordService
-import com.ort.app.application.service.VillageApplicationService
+import com.ort.app.application.service.VillageService
 import com.ort.app.application.service.VoteApplicationService
 import com.ort.app.domain.model.chara.Charachip
 import com.ort.app.domain.model.message.MessageType
@@ -38,7 +38,7 @@ import org.springframework.ui.Model
 @Component
 class VillageControllerHelper(
     private val villageCoordinator: VillageCoordinator,
-    private val villageService: VillageApplicationService,
+    private val villageService: VillageService,
     private val voteService: VoteApplicationService,
     private val footstepService: FootstepApplicationService,
     private val abilityService: AbilityApplicationService,
