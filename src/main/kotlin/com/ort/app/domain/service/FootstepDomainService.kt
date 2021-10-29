@@ -21,7 +21,7 @@ class FootstepDomainService(
         day: Int
     ): VillageFootstepSituation {
         return VillageFootstepSituation(
-            list = (2 until village.latestDay()).map {
+            list = (2..village.latestDay()).map {
                 val footstep = if (spoilerDomainService.isViewableSpoilerContent(village, myself)) {
                     getDisplayFootstepStringOpenSkill(village, footsteps, it)
                 } else getDisplayFootstepStringWithoutHeader(village, footsteps, it)
