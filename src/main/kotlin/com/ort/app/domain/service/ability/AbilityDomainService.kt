@@ -28,6 +28,7 @@ class AbilityDomainService(
     private val cheatDomainService: CheatDomainService,
     private val cohabitDomainService: CohabitDomainService,
     private val commandDomainService: CommandDomainService,
+    private val instigateDomainService: InstigateDomainService,
     private val courtDomainService: CourtDomainService,
     private val divineDomainService: DivineDomainService,
     private val badgerGameDomainService: BadgerGameDomainService,
@@ -102,6 +103,7 @@ class AbilityDomainService(
             CDef.AbilityType.誑かす -> cheatDomainService
             CDef.AbilityType.同棲 -> cohabitDomainService
             CDef.AbilityType.指揮 -> commandDomainService
+            CDef.AbilityType.煽動 -> instigateDomainService
             CDef.AbilityType.求愛 -> courtDomainService
             CDef.AbilityType.占い -> divineDomainService
             CDef.AbilityType.美人局 -> badgerGameDomainService
@@ -410,7 +412,8 @@ class AbilityDomainService(
 
         // 梟
         if (village.participants.filterBySkill(Skill(CDef.Skill.梟)).list.isNotEmpty()) {
-            messages = messages.add(messageDomainService.createOpenSkillMessage(daychange.village, "この村には強力な聴力を持つ者がいるようだ。"))
+            messages =
+                messages.add(messageDomainService.createOpenSkillMessage(daychange.village, "この村には強力な聴力を持つ者がいるようだ。"))
         }
 
         return daychange.copy(messages = messages)

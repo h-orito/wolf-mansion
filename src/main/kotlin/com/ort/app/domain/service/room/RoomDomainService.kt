@@ -96,6 +96,111 @@ class RoomDomainService(
         }
     }
 
+    // 周辺8部屋の部屋番号（存在しない部屋番号を含んでいても良い）
+    fun detectKingRoomNumbers(room: Room, size: RoomSize): List<Int> {
+        val targetRoomNumber = room.number
+        val width = size.width
+
+        return when {
+            isLeftSide(targetRoomNumber, width) -> {
+                listOf(
+                    targetRoomNumber - width, // 上
+                    targetRoomNumber - width + 1, // 右上
+                    targetRoomNumber + 1, // 右
+                    targetRoomNumber + width, // 下
+                    targetRoomNumber + width + 1 // 右下
+                )
+            }
+            isRightSide(targetRoomNumber, width) -> {
+                listOf(
+                    targetRoomNumber - width - 1, // 左上
+                    targetRoomNumber - width, // 上
+                    targetRoomNumber - 1, // 左
+                    targetRoomNumber + width - 1, // 左下
+                    targetRoomNumber + width // 下
+                )
+            }
+            else -> {
+                listOf(
+                    targetRoomNumber - width - 1, // 左上
+                    targetRoomNumber - width, // 上
+                    targetRoomNumber - width + 1, // 右上
+                    targetRoomNumber - 1, // 左
+                    targetRoomNumber + 1, // 右
+                    targetRoomNumber + width - 1, // 左下
+                    targetRoomNumber + width, // 下
+                    targetRoomNumber + width + 1 // 右下
+                )
+            }
+        }
+    }
+
+    // 対象の周辺8部屋のうち、銀が移動できる部屋番号（存在しない部屋番号を含んでいても良い）
+    fun detectGinRoomNumbers(room: Room, size: RoomSize): List<Int> {
+        val targetRoomNumber = room.number
+        val width = size.width
+        return when {
+            isLeftSide(targetRoomNumber, width) -> {
+                listOf(
+                    targetRoomNumber - width, // 上
+                    targetRoomNumber - width + 1, // 右上
+                    targetRoomNumber + width + 1 // 右下
+                )
+            }
+            isRightSide(targetRoomNumber, width) -> {
+                listOf(
+                    targetRoomNumber - width - 1, // 左上
+                    targetRoomNumber - width, // 上
+                    targetRoomNumber + width - 1 // 左下
+                )
+            }
+            else -> {
+                listOf(
+                    targetRoomNumber - width - 1, // 左上
+                    targetRoomNumber - width, // 上
+                    targetRoomNumber - width + 1, // 右上
+                    targetRoomNumber + width - 1, // 左下
+                    targetRoomNumber + width + 1 // 右下
+                )
+            }
+        }
+    }
+
+    // 周辺8部屋のうち金が移動できる部屋番号（存在しない部屋番号を含んでいても良い）
+    fun detectKinRoomNumbers(room: Room, size: RoomSize): List<Int> {
+        val targetRoomNumber = room.number
+        val width = size.width
+
+        return when {
+            isLeftSide(targetRoomNumber, width) -> {
+                listOf(
+                    targetRoomNumber - width, // 上
+                    targetRoomNumber - width + 1, // 右上
+                    targetRoomNumber + 1, // 右
+                    targetRoomNumber + width, // 下
+                )
+            }
+            isRightSide(targetRoomNumber, width) -> {
+                listOf(
+                    targetRoomNumber - width - 1, // 左上
+                    targetRoomNumber - width, // 上
+                    targetRoomNumber - 1, // 左
+                    targetRoomNumber + width // 下
+                )
+            }
+            else -> {
+                listOf(
+                    targetRoomNumber - width - 1, // 左上
+                    targetRoomNumber - width, // 上
+                    targetRoomNumber - width + 1, // 右上
+                    targetRoomNumber - 1, // 左
+                    targetRoomNumber + 1, // 右
+                    targetRoomNumber + width // 下
+                )
+            }
+        }
+    }
+
     // 対象を除く周辺4部屋の部屋番号（存在しない部屋番号を含んでいても良い）
     fun detectWasdRoomNumbers(room: Room, size: RoomSize): List<Int> {
         val targetRoomNumber = room.number

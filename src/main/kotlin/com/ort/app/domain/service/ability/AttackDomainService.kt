@@ -41,6 +41,30 @@ class AttackDomainService(
             .filterNot { it.skill!!.hasAttackAbility() }
 
         return when (myself.skill!!.toCdef()) {
+            CDef.Skill.歩狼 -> {
+                val roomList = roomDomainService.detectWasdRoomNumbers(myself.room!!, village.roomSize!!)
+                val targetList = baseTargetList.filter { roomList.contains(it.room!!.number) }
+                if (targetList.isEmpty()) baseTargetList
+                else targetList
+            }
+            CDef.Skill.銀狼 -> {
+                val roomList = roomDomainService.detectGinRoomNumbers(myself.room!!, village.roomSize!!)
+                val targetList = baseTargetList.filter { roomList.contains(it.room!!.number) }
+                if (targetList.isEmpty()) baseTargetList
+                else targetList
+            }
+            CDef.Skill.金狼 -> {
+                val roomList = roomDomainService.detectKinRoomNumbers(myself.room!!, village.roomSize!!)
+                val targetList = baseTargetList.filter { roomList.contains(it.room!!.number) }
+                if (targetList.isEmpty()) baseTargetList
+                else targetList
+            }
+            CDef.Skill.王狼 -> {
+                val roomList = roomDomainService.detectKingRoomNumbers(myself.room!!, village.roomSize!!)
+                val targetList = baseTargetList.filter { roomList.contains(it.room!!.number) }
+                if (targetList.isEmpty()) baseTargetList
+                else targetList
+            }
             CDef.Skill.飛狼 -> {
                 val roomList = roomDomainService.detectHishaRoomNumbers(myself.room!!, village.roomSize!!)
                 val targetList = baseTargetList.filter { roomList.contains(it.room!!.number) }

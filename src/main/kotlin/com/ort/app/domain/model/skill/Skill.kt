@@ -59,6 +59,7 @@ data class Skill(
             CDef.Skill.爆弾魔 to AbilityType(CDef.AbilityType.爆弾設置),
             CDef.Skill.同棲者 to AbilityType(CDef.AbilityType.同棲),
             CDef.Skill.指揮官 to AbilityType(CDef.AbilityType.指揮),
+            CDef.Skill.煽動者 to AbilityType(CDef.AbilityType.煽動),
             CDef.Skill.果実籠 to AbilityType(CDef.AbilityType.フルーツバスケット),
             CDef.Skill.求愛者 to AbilityType(CDef.AbilityType.求愛),
             CDef.Skill.ストーカー to AbilityType(CDef.AbilityType.ストーキング),
@@ -99,7 +100,11 @@ data class Skill(
             CDef.Skill.絶対人狼,
             CDef.Skill.人狼,
             CDef.Skill.角狼,
-            CDef.Skill.飛狼
+            CDef.Skill.飛狼,
+            CDef.Skill.金狼,
+            CDef.Skill.銀狼,
+            CDef.Skill.王狼,
+            CDef.Skill.歩狼
         )
 
         val seerPriorityList = listOf(CDef.Skill.賢者, CDef.Skill.占星術師, CDef.Skill.占い師)

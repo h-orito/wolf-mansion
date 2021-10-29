@@ -57,7 +57,7 @@
        th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を誘惑して脅す'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'CHEATERFOX'}"
        th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を仲間に引き入れる'}"></p>
-    <hr th:unless="${content.myself.skill.code == 'COMMANDER'}"/>
+    <hr th:unless="${content.myself.skill.code == 'COMMANDER' || content.myself.skill.code == 'INSTIGATOR'}"/>
 </div>
 </body>
 </html>

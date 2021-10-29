@@ -12,7 +12,7 @@ data class AbilityType(
     fun toCdef(): CDef.AbilityType = CDef.AbilityType.codeOf(code)
 
     fun getSetMessageType(): MessageType =
-        if (toCdef() == CDef.AbilityType.指揮) MessageType(CDef.MessageType.公開システムメッセージ)
+        if (toCdef() == CDef.AbilityType.指揮 || toCdef() == CDef.AbilityType.煽動) MessageType(CDef.MessageType.公開システムメッセージ)
         else MessageType(CDef.MessageType.非公開システムメッセージ)
 }
 

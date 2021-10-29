@@ -1311,6 +1311,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 歩狼 (FUWOLF). And OnlyOnceRegistered. <br>
+     * 歩狼
+     */
+    public void setSkillCode_Equal_歩狼() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.歩狼);
+    }
+
+    /**
+     * Equal(=). As 銀狼 (GINWOLF). And OnlyOnceRegistered. <br>
+     * 銀狼
+     */
+    public void setSkillCode_Equal_銀狼() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.銀狼);
+    }
+
+    /**
      * Equal(=). As 導師 (GURU). And OnlyOnceRegistered. <br>
      * 導師
      */
@@ -1351,6 +1367,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 煽動者 (INSTIGATOR). And OnlyOnceRegistered. <br>
+     * 煽動者
+     */
+    public void setSkillCode_Equal_煽動者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.煽動者);
+    }
+
+    /**
      * Equal(=). As 絡新婦 (JOROGUMO). And OnlyOnceRegistered. <br>
      * 絡新婦
      */
@@ -1364,6 +1388,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_Equal_角狼() {
         setSkillCode_Equal_AsSkill(CDef.Skill.角狼);
+    }
+
+    /**
+     * Equal(=). As 王狼 (KINGWOLF). And OnlyOnceRegistered. <br>
+     * 王狼
+     */
+    public void setSkillCode_Equal_王狼() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.王狼);
+    }
+
+    /**
+     * Equal(=). As 金狼 (KINWOLF). And OnlyOnceRegistered. <br>
+     * 金狼
+     */
+    public void setSkillCode_Equal_金狼() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.金狼);
     }
 
     /**
@@ -1758,6 +1798,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 歩狼 (FUWOLF). And OnlyOnceRegistered. <br>
+     * 歩狼
+     */
+    public void setSkillCode_NotEqual_歩狼() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.歩狼);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 銀狼 (GINWOLF). And OnlyOnceRegistered. <br>
+     * 銀狼
+     */
+    public void setSkillCode_NotEqual_銀狼() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.銀狼);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 導師 (GURU). And OnlyOnceRegistered. <br>
      * 導師
      */
@@ -1798,6 +1854,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 煽動者 (INSTIGATOR). And OnlyOnceRegistered. <br>
+     * 煽動者
+     */
+    public void setSkillCode_NotEqual_煽動者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.煽動者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 絡新婦 (JOROGUMO). And OnlyOnceRegistered. <br>
      * 絡新婦
      */
@@ -1811,6 +1875,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_角狼() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.角狼);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 王狼 (KINGWOLF). And OnlyOnceRegistered. <br>
+     * 王狼
+     */
+    public void setSkillCode_NotEqual_王狼() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.王狼);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 金狼 (KINWOLF). And OnlyOnceRegistered. <br>
+     * 金狼
+     */
+    public void setSkillCode_NotEqual_金狼() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.金狼);
     }
 
     /**
@@ -2024,7 +2104,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 囁き可能 <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, C国狂人]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, C国狂人]
      */
     public void setSkillCode_InScope_AvailableWerewolfSay() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfAvailableWerewolfSay());
@@ -2054,20 +2134,10 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 襲撃能力を持つ <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼]
      */
     public void setSkillCode_InScope_HasAttackAbility() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasAttackAbility());
-    }
-
-    /**
-     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * 役職 <br>
-     * 狂人能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官]
-     */
-    public void setSkillCode_InScope_HasMadmanAbility() {
-        setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasMadmanAbility());
     }
 
     /**
@@ -2094,7 +2164,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 勝敗判定時、人狼にカウントされる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼]
      */
     public void setSkillCode_InScope_WolfCount() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfWolfCount());
@@ -2114,7 +2184,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 人狼が誰かを知ることができる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, C国狂人, 狂信者]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, C国狂人, 狂信者, 煽動者]
      */
     public void setSkillCode_InScope_ViewableWolfCharaName() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfViewableWolfCharaName());
@@ -2124,7 +2194,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 占い結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 一匹狼]
      */
     public void setSkillCode_InScope_DivineResultWolf() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfDivineResultWolf());
@@ -2134,7 +2204,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 霊能結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 一匹狼]
      */
     public void setSkillCode_InScope_PsychicResultWolf() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfPsychicResultWolf());
@@ -2402,6 +2472,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 歩狼 (FUWOLF). And OnlyOnceRegistered. <br>
+     * 歩狼
+     */
+    public void setRequestSkillCode_Equal_歩狼() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.歩狼);
+    }
+
+    /**
+     * Equal(=). As 銀狼 (GINWOLF). And OnlyOnceRegistered. <br>
+     * 銀狼
+     */
+    public void setRequestSkillCode_Equal_銀狼() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.銀狼);
+    }
+
+    /**
      * Equal(=). As 導師 (GURU). And OnlyOnceRegistered. <br>
      * 導師
      */
@@ -2442,6 +2528,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 煽動者 (INSTIGATOR). And OnlyOnceRegistered. <br>
+     * 煽動者
+     */
+    public void setRequestSkillCode_Equal_煽動者() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.煽動者);
+    }
+
+    /**
      * Equal(=). As 絡新婦 (JOROGUMO). And OnlyOnceRegistered. <br>
      * 絡新婦
      */
@@ -2455,6 +2549,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_Equal_角狼() {
         setRequestSkillCode_Equal_AsSkill(CDef.Skill.角狼);
+    }
+
+    /**
+     * Equal(=). As 王狼 (KINGWOLF). And OnlyOnceRegistered. <br>
+     * 王狼
+     */
+    public void setRequestSkillCode_Equal_王狼() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.王狼);
+    }
+
+    /**
+     * Equal(=). As 金狼 (KINWOLF). And OnlyOnceRegistered. <br>
+     * 金狼
+     */
+    public void setRequestSkillCode_Equal_金狼() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.金狼);
     }
 
     /**
@@ -2849,6 +2959,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 歩狼 (FUWOLF). And OnlyOnceRegistered. <br>
+     * 歩狼
+     */
+    public void setRequestSkillCode_NotEqual_歩狼() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.歩狼);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 銀狼 (GINWOLF). And OnlyOnceRegistered. <br>
+     * 銀狼
+     */
+    public void setRequestSkillCode_NotEqual_銀狼() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.銀狼);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 導師 (GURU). And OnlyOnceRegistered. <br>
      * 導師
      */
@@ -2889,6 +3015,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 煽動者 (INSTIGATOR). And OnlyOnceRegistered. <br>
+     * 煽動者
+     */
+    public void setRequestSkillCode_NotEqual_煽動者() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.煽動者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 絡新婦 (JOROGUMO). And OnlyOnceRegistered. <br>
      * 絡新婦
      */
@@ -2902,6 +3036,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_角狼() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.角狼);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 王狼 (KINGWOLF). And OnlyOnceRegistered. <br>
+     * 王狼
+     */
+    public void setRequestSkillCode_NotEqual_王狼() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.王狼);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 金狼 (KINWOLF). And OnlyOnceRegistered. <br>
+     * 金狼
+     */
+    public void setRequestSkillCode_NotEqual_金狼() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.金狼);
     }
 
     /**
@@ -3115,7 +3265,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 囁き可能 <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, C国狂人]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, C国狂人]
      */
     public void setRequestSkillCode_InScope_AvailableWerewolfSay() {
         setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfAvailableWerewolfSay());
@@ -3145,20 +3295,10 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 襲撃能力を持つ <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼]
      */
     public void setRequestSkillCode_InScope_HasAttackAbility() {
         setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasAttackAbility());
-    }
-
-    /**
-     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * 役職 <br>
-     * 狂人能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官]
-     */
-    public void setRequestSkillCode_InScope_HasMadmanAbility() {
-        setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasMadmanAbility());
     }
 
     /**
@@ -3185,7 +3325,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 勝敗判定時、人狼にカウントされる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼]
      */
     public void setRequestSkillCode_InScope_WolfCount() {
         setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfWolfCount());
@@ -3205,7 +3345,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 人狼が誰かを知ることができる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, C国狂人, 狂信者]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, C国狂人, 狂信者, 煽動者]
      */
     public void setRequestSkillCode_InScope_ViewableWolfCharaName() {
         setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfViewableWolfCharaName());
@@ -3215,7 +3355,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 占い結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 一匹狼]
      */
     public void setRequestSkillCode_InScope_DivineResultWolf() {
         setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfDivineResultWolf());
@@ -3225,7 +3365,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 霊能結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 一匹狼]
      */
     public void setRequestSkillCode_InScope_PsychicResultWolf() {
         setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfPsychicResultWolf());
@@ -3493,6 +3633,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 歩狼 (FUWOLF). And OnlyOnceRegistered. <br>
+     * 歩狼
+     */
+    public void setSecondRequestSkillCode_Equal_歩狼() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.歩狼);
+    }
+
+    /**
+     * Equal(=). As 銀狼 (GINWOLF). And OnlyOnceRegistered. <br>
+     * 銀狼
+     */
+    public void setSecondRequestSkillCode_Equal_銀狼() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.銀狼);
+    }
+
+    /**
      * Equal(=). As 導師 (GURU). And OnlyOnceRegistered. <br>
      * 導師
      */
@@ -3533,6 +3689,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 煽動者 (INSTIGATOR). And OnlyOnceRegistered. <br>
+     * 煽動者
+     */
+    public void setSecondRequestSkillCode_Equal_煽動者() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.煽動者);
+    }
+
+    /**
      * Equal(=). As 絡新婦 (JOROGUMO). And OnlyOnceRegistered. <br>
      * 絡新婦
      */
@@ -3546,6 +3710,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_Equal_角狼() {
         setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.角狼);
+    }
+
+    /**
+     * Equal(=). As 王狼 (KINGWOLF). And OnlyOnceRegistered. <br>
+     * 王狼
+     */
+    public void setSecondRequestSkillCode_Equal_王狼() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.王狼);
+    }
+
+    /**
+     * Equal(=). As 金狼 (KINWOLF). And OnlyOnceRegistered. <br>
+     * 金狼
+     */
+    public void setSecondRequestSkillCode_Equal_金狼() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.金狼);
     }
 
     /**
@@ -3940,6 +4120,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 歩狼 (FUWOLF). And OnlyOnceRegistered. <br>
+     * 歩狼
+     */
+    public void setSecondRequestSkillCode_NotEqual_歩狼() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.歩狼);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 銀狼 (GINWOLF). And OnlyOnceRegistered. <br>
+     * 銀狼
+     */
+    public void setSecondRequestSkillCode_NotEqual_銀狼() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.銀狼);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 導師 (GURU). And OnlyOnceRegistered. <br>
      * 導師
      */
@@ -3980,6 +4176,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 煽動者 (INSTIGATOR). And OnlyOnceRegistered. <br>
+     * 煽動者
+     */
+    public void setSecondRequestSkillCode_NotEqual_煽動者() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.煽動者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 絡新婦 (JOROGUMO). And OnlyOnceRegistered. <br>
      * 絡新婦
      */
@@ -3993,6 +4197,22 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_角狼() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.角狼);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 王狼 (KINGWOLF). And OnlyOnceRegistered. <br>
+     * 王狼
+     */
+    public void setSecondRequestSkillCode_NotEqual_王狼() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.王狼);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 金狼 (KINWOLF). And OnlyOnceRegistered. <br>
+     * 金狼
+     */
+    public void setSecondRequestSkillCode_NotEqual_金狼() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.金狼);
     }
 
     /**
@@ -4206,7 +4426,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 囁き可能 <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, C国狂人]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, C国狂人]
      */
     public void setSecondRequestSkillCode_InScope_AvailableWerewolfSay() {
         setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfAvailableWerewolfSay());
@@ -4236,20 +4456,10 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 襲撃能力を持つ <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼]
      */
     public void setSecondRequestSkillCode_InScope_HasAttackAbility() {
         setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasAttackAbility());
-    }
-
-    /**
-     * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * 役職 <br>
-     * 狂人能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官]
-     */
-    public void setSecondRequestSkillCode_InScope_HasMadmanAbility() {
-        setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasMadmanAbility());
     }
 
     /**
@@ -4276,7 +4486,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 勝敗判定時、人狼にカウントされる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼]
      */
     public void setSecondRequestSkillCode_InScope_WolfCount() {
         setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfWolfCount());
@@ -4296,7 +4506,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 人狼が誰かを知ることができる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, C国狂人, 狂信者]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, C国狂人, 狂信者, 煽動者]
      */
     public void setSecondRequestSkillCode_InScope_ViewableWolfCharaName() {
         setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfViewableWolfCharaName());
@@ -4306,7 +4516,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 占い結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 一匹狼]
      */
     public void setSecondRequestSkillCode_InScope_DivineResultWolf() {
         setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfDivineResultWolf());
@@ -4316,7 +4526,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 霊能結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 飛狼, 角狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 一匹狼]
      */
     public void setSecondRequestSkillCode_InScope_PsychicResultWolf() {
         setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfPsychicResultWolf());
