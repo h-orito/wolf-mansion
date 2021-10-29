@@ -1,0 +1,51 @@
+spring:
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST}:3306/${WOLF_MANSION_DB_NAME}?character_set_server=utf8mb4
+    username: ${WOLF_MANSION_DB_USERNAME}
+    password: ${WOLF_MANSION_DB_PASSWORD}
+    driverClassName: com.mysql.jdbc.Driver
+  thymeleaf:
+    cache: false
+    mode: HTML
+  messages:
+    basename: messages
+    cache-seconds: -1
+    encoding: UTF-8
+server:
+  servlet:
+    contextPath: /wolf-mansion
+    session:
+      timeout: 86400
+  port: 8081
+  tomcat:
+    use-relative-redirects: true
+    basedir: /app/logs/
+    accesslog:
+      enabled: true
+      suffix: .log
+      prefix: wolf-mansion-access_log
+      file-date-format: .yyyy-MM-dd
+      max-days: 30
+      pattern: '%t "%r" %s %b "%{Referer}i" "%{User-Agent}i" %{X-Forwarded-For}i %D %S %I'
+    remoteip.remote-ip-header: true
+    use-forward-headers: true
+
+logging:
+  level:
+    org.springframework: INFO
+    root: INFO
+    org.seasar.dbflute: ERROR
+  file.name: /app/logs/wolf-mansion.log
+
+app:
+  debug: true
+
+twitter:
+  oauth:
+    consumer-key:
+    consumer-secret:
+    access-token:
+    access-token-secret:
+
+slack:
+  webhook-url: ${WOLF_MANSION_SLACK_WEBHOOK_URL}

@@ -1,0 +1,31 @@
+<html lang="ja" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+</head>
+<body layout:fragment="participants">
+<p>館に集まった村人達の正体は、以下の通りだった。</p>
+<div class="table-responsive">
+    <table class="table table-bordered table-condensed small">
+        <thead>
+        <tr>
+            <th>参加者</th>
+            <th>ID</th>
+            <th>役職</th>
+            <th>生死</th>
+            <th>勝敗</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each list}}
+        <tr>
+            <td>{{name}}</td>
+            <td><a href="javascript:void(0);" data-user-page="{{playerName}}">{{playerName}}</a></td>
+            <td>{{skillName}}</td>
+            <td>{{deadStatus}}</td>
+            <td>{{winStatus}}</td>
+        </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

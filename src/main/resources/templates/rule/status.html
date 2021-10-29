@@ -1,41 +1,42 @@
-<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html lang="ja" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
 <head>
-<meta charset="utf-8" />
+    <meta charset="utf-8"/>
 </head>
 <body>
-	<ul id="status" class="announce" layout:fragment="status">
-		<li id="love">恋絆
-			<ul>
-				<li>後追い対象が死亡すると、自身も後追死します。</li>
-				<li>恋絆が付与されている人同士にしか聞こえない恋人会話が可能です。</li>
-				<li>Bさんへの恋絆がAさんに付与されていて、Aさんへの恋絆がBさんに付与されていない場合、Bさんは後追死しませんし、Bさんは恋人会話を使用することもできません。（いわゆる片想い状態）</li>
-				<li>自身の役職にかかわらず、勝利条件が恋人陣営のものに上書きされます。</li>
-				<li>例<br>
-					<div class="alert alert-status small">
-						<ul>
-							<li>あなたは農夫 ヤコブに恋しています。</li>
-						</ul>
-					</div>
-				</li>
-			</ul>
-		</li>
-		<li id="fox_possession">狐憑き
-			<ul>
-				<li>自身の役職にかかわらず、勝利条件が妖狐陣営のものに上書きされます。</li>
-				<li>ただし、恋絆が付与されている場合は勝利条件が恋人陣営のままとなります。</li>
-				<li>妖狐系役職が誰であるかを知ることができます（恋絆が付与されていても知ることができます）。</li>
-				<li>あなたを誑かした妖狐以外からは、あなたが妖狐陣営に与する者だとはわかりません。</li>
-				<li>例<br>
-					<div class="alert alert-status small">
-						<ul>
-							<li>あなたは農夫 ヤコブに誑かされ、妖狐に与するものとなりました。</li>
-						</ul>
-					</div>
-				</li>
-			</ul>
-		</li>
-	</ul>
+<ul id="status" class="announce" layout:fragment="status">
+    <li id="love">恋絆
+        <ul>
+            <li>後追い対象が死亡すると、自身も後追死します。</li>
+            <li>恋絆が付与されている人同士にしか聞こえない恋人会話が可能です。</li>
+            <li>Bさんへの恋絆がAさんに付与されていて、Aさんへの恋絆がBさんに付与されていない場合、Bさんは後追死しませんし、Bさんは恋人会話を使用することもできません。（いわゆる片想い状態）</li>
+            <li>自身の役職にかかわらず、勝利条件が恋人陣営のものに上書きされます。</li>
+            <li>例<br>
+                <div class="alert alert-status small">
+                    <ul>
+                        <li>あなたは農夫 ヤコブに恋しています。</li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </li>
+    <li id="fox_possession">狐憑き
+        <ul>
+            <li>自身の役職にかかわらず、勝利条件が妖狐陣営のものに上書きされます。</li>
+            <li>ただし、恋絆が付与されている場合は勝利条件が恋人陣営のままとなります。</li>
+            <li>妖狐系役職が誰であるかを知ることができます（恋絆が付与されていても知ることができます）。</li>
+            <li>あなたを誑かした妖狐以外からは、あなたが妖狐陣営に与する者だとはわかりません。</li>
+            <li>妖狐系役職が全滅すると、後追いで死亡します（恋絆が付与されている場合は後追いしません）。</li>
+            <li>例<br>
+                <div class="alert alert-status small">
+                    <ul>
+                        <li>あなたは農夫 ヤコブに誑かされ、妖狐に与するものとなりました。</li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </li>
+</ul>
 </body>
 </html>
 

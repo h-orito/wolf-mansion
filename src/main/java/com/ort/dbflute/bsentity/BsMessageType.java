@@ -174,6 +174,14 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of messageTypeCode as 参加者一覧 (PARTICIPANTS). <br>
+     * 参加者一覧
+     */
+    public void setMessageTypeCode_参加者一覧() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.参加者一覧);
+    }
+
+    /**
      * Set the value of messageTypeCode as 検死結果 (PRIVATE_CORONER). <br>
      * 検死結果
      */
@@ -363,6 +371,17 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
     public boolean isMessageTypeCode通常発言() {
         CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
         return cdef != null ? cdef.equals(CDef.MessageType.通常発言) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 参加者一覧? <br>
+     * 参加者一覧
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode参加者一覧() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.参加者一覧) : false;
     }
 
     /**

@@ -14,9 +14,11 @@ $(function () {
     const GET_FACEIMG_URL = contextPath + 'getFaceImgUrl/' + villageId;
     const SAY_CONFIRM_URL = contextPath + 'village/' + villageId + '/confirm';
     const ACTION_CONFIRM_URL = contextPath + 'village/' + villageId + '/action-confirm';
+    const PARTICIPANTS_URL = contextPath + 'village/' + villageId + '/getParticipants';
     const messageTemplate = Handlebars.compile($("#message-template").html());
     const messagePartialTemplate = Handlebars.compile($("#message-partial-template").html());
     Handlebars.registerPartial('messagePartial', messagePartialTemplate);
+    const participantsTemplate = Handlebars.compile($("#participants-template").html());
     const $sayTextarea = $('#sayform [data-say-textarea]');
     const $sayTypeArea = $('[data-say-type]');
     const $abilityArea = $('[data-ability]');
@@ -128,6 +130,9 @@ $(function () {
 
             // 更新通知のために最新メッセージ日時を埋め込む
             storeLatestMessageDatetime(response, day);
+
+            // 参加者一覧があったら追加でメッセージを読み込んで埋め込む
+            loadParticipantsIfNeeded();
         });
     }
 
@@ -177,6 +182,17 @@ $(function () {
             return message.messageContent.replace(/ \(([^\(]*)\)、/g, '(<a href="javascript:void(0);" data-user-page="$1">$1</a>)、');
         }
         return message.messageContent;
+    }
+
+    function loadParticipantsIfNeeded() {
+        if ($('#participants').length === 0) return;
+        $.ajax({
+            type: 'GET',
+            url: PARTICIPANTS_URL
+        }).then(function (response) {
+            console.log(response)
+            $('#participants').find('.message-public-system').html(participantsTemplate(response));
+        });
     }
 
     function storeLatestMessageDatetime(response, day) {
@@ -1167,6 +1183,15 @@ $(function () {
         if (!getDisplaySetting('is_open_leaveform_tab')) {
             $('[data-leaveform-tab-open]').click();
         }
+        if (!getDisplaySetting('is_open_actionform_tab')) {
+            $('[data-actionform-tab-open]').click();
+        }
+        if (!getDisplaySetting('is_open_changenameform_tab')) {
+            $('[data-changenameform-tab-open]').click();
+        }
+        if (!getDisplaySetting('is_open_adminform_tab')) {
+            $('[data-adminform-tab-open]').click();
+        }
         const bottomFixTab = getDisplaySetting('bottom_fix_tab');
         if (bottomFixTab != null && bottomFixTab != '' && $('#' + bottomFixTab).length != 0) {
             $bottomFixTab = $('#' + bottomFixTab);
@@ -1257,6 +1282,21 @@ $(function () {
     $('[data-leaveform-tab-open]').on('click', function () {
         const isOpen = $($(this).attr('href')).hasClass('in');
         saveDisplaySetting('is_open_leaveform_tab', !isOpen); // クリック後は逆になるので、逆を保存
+    });
+
+    $('[data-actionform-tab-open]').on('click', function () {
+        const isOpen = $($(this).attr('href')).hasClass('in');
+        saveDisplaySetting('is_open_actionform_tab', !isOpen); // クリック後は逆になるので、逆を保存
+    });
+
+    $('[data-changenameform-tab-open]').on('click', function () {
+        const isOpen = $($(this).attr('href')).hasClass('in');
+        saveDisplaySetting('is_open_changenameform_tab', !isOpen); // クリック後は逆になるので、逆を保存
+    });
+
+    $('[data-adminform-tab-open]').on('click', function () {
+        const isOpen = $($(this).attr('href')).hasClass('in');
+        saveDisplaySetting('is_open_adminform_tab', !isOpen); // クリック後は逆になるので、逆を保存
     });
 
     $('[data-bottom-fix]').on('click', function () {

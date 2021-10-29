@@ -45,7 +45,7 @@ data class IndexContent(
                 val participateNum = village.participants.count
                 val spectatorNum = village.spectators.count
                 val spectatorStr = if (spectatorNum <= 0) "" else " ($spectatorNum)"
-                return if (village.status.isRecruiting()) {
+                return if (village.status.isPrologue()) {
                     val maxNum = village.setting.personMax
                     "$participateNum/$maxNum${spectatorStr}人"
                 } else {

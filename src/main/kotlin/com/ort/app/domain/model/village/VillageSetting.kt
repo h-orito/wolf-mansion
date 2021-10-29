@@ -1,8 +1,13 @@
 package com.ort.app.domain.model.village
 
-import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skill
+import com.ort.app.domain.model.skill.Skills
+import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.model.village.setting.SayRestriction
+import com.ort.app.domain.model.village.setting.VillageOrganize
+import com.ort.app.domain.model.village.setting.VillageRule
+import com.ort.dbflute.allcommon.CDef
 import java.time.LocalDateTime
 
 data class VillageSetting(
@@ -17,60 +22,22 @@ data class VillageSetting(
     val organize: VillageOrganize,
     val sayRestriction: SayRestriction
 ) {
-    data class VillageRule(
-        val isOpenVote: Boolean,
-        val isPossibleSkillRequest: Boolean,
-        val isAvailableSpectate: Boolean,
-        val isAvailableSameWolfAttack: Boolean,
-        val isOpenSkillInGrave: Boolean,
-        val isVisibleGraveSpectateMessage: Boolean,
-        val isAvailableSuddenlyDeath: Boolean,
-        val isAvailableCommit: Boolean,
-        val isAvailableGuardSameTarget: Boolean,
-        val isAvailableSecretSay: Boolean,
-        val isAvailableAction: Boolean,
-        val isRandomOrganization: Boolean
-    )
-
-    data class VillageOrganize(
-        val fixedOrganization: String,
-        val randomOrganization: VillageRandomOrganize
-    ) {
-        data class VillageRandomOrganize(
-            val skillAllocation: List<SkillAllocation>,
-            val campAllocation: List<CampAllocation>
-        ) {
-            data class SkillAllocation(
-                val skill: Skill,
-                val min: Int,
-                val max: Int?,
-                val allocation: Int
-            )
-
-            data class CampAllocation(
-                val camp: Camp,
-                val min: Int,
-                val max: Int?,
-                val allocation: Int
-            )
-        }
+    fun allRequestableSkillList(): List<Skill> {
+        return if (rule.isRandomOrganization) Skills.all().list
+        else organize.allRequestableSkillList()
     }
 
-    data class SayRestriction(
-        val normalSayRestriction: List<NormalSayRestriction>,
-        val skillSayRestriction: List<SkillSayRestriction>
-    ) {
-        data class NormalSayRestriction(
-            val skill: Skill,
-            val messageType: MessageType,
-            val count: Int,
-            val length: Int
-        )
+    fun findRestrict(myself: VillageParticipant, type: MessageType): SayRestriction.Restriction? =
+        sayRestriction.restrict(myself, type.toCdef())
 
-        data class SkillSayRestriction(
-            val messageType: MessageType,
-            val count: Int,
-            val length: Int
-        )
+    fun isSame(other: VillageSetting): Boolean {
+        return startDatetime == other.startDatetime
+                && rule.isSame(other.rule)
     }
+
+    fun extendPrologue(): VillageSetting = copy(startDatetime = startDatetime.plusDays(1L))
+
+    fun mapToSkillCount(participantsCount: Int): Map<CDef.Skill, Int> =
+        organize.mapToSkillCount(rule.isRandomOrganization, participantsCount)
+
 }

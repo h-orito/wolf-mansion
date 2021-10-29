@@ -25,7 +25,7 @@
 				<tr>
 					<td th:text="${restrict.messageTypeName}">通常発言</td>
 					<td>
-						<input type="checkbox" class="form-control" th:field="*{skillSayRestrictList[__${stat.index}__].isRestrict}" data-restrict-check>
+						<input type="checkbox" class="form-control" th:field="*{skillSayRestrictList[__${stat.index}__].restrict}" data-restrict-check>
 					</td>
 					<td>
 						<div class="input-group">

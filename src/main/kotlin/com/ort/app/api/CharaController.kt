@@ -3,11 +3,11 @@ package com.ort.app.api
 import com.ort.app.api.view.CharaGroupContent
 import com.ort.app.api.view.CharaGroupListContent
 import com.ort.app.application.service.CharaService
-import com.ort.app.application.service.VillageApplicationService
+import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.chara.Chara
-import com.ort.app.web.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
-import com.ort.fw.util.WolfMansionUserInfoUtil
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 @Controller
 class CharaController(
     private val charaService: CharaService,
-    private val villageService: VillageApplicationService
+    private val villageService: VillageService
 ) {
 
     @GetMapping("/chara-group")
@@ -54,7 +54,7 @@ class CharaController(
     @ResponseBody
     private fun getFaceImgUrl(@PathVariable villageId: Int, @PathVariable faceTypeCode: String): String? {
         val userInfo = WolfMansionUserInfoUtil.getUserInfo() ?: return null
-        val participant = villageService.findVillageParticipant(villageId, userInfo) ?: return null
+        val participant = villageService.findVillageParticipant(villageId, userInfo.username) ?: return null
         val chara = charaService.findChara(participant.charaId) ?: return null
         return chara.images.list.firstOrNull { it.faceType.code == faceTypeCode }?.url
     }

@@ -1,41 +1,35 @@
 package com.ort.app.infrastructure.datasource
 
-import com.ort.app.domain.model.message.MessageType
-import com.ort.app.domain.model.skill.RequestSkill
-import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.camp.Camp
+import com.ort.app.domain.model.chara.Chara
+import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.VillageDay
 import com.ort.app.domain.model.village.VillageDays
 import com.ort.app.domain.model.village.VillageRepository
-import com.ort.app.domain.model.village.VillageSetting
 import com.ort.app.domain.model.village.VillageStatus
 import com.ort.app.domain.model.village.Villages
 import com.ort.app.domain.model.village.participant.VillageParticipant
-import com.ort.app.domain.model.village.participant.VillageParticipantName
-import com.ort.app.domain.model.village.participant.VillageParticipantStatus
-import com.ort.app.domain.model.village.participant.VillageParticipants
-import com.ort.app.domain.model.village.participant.dead.Dead
-import com.ort.app.domain.model.village.participant.dead.DeadHistories
-import com.ort.app.domain.model.village.participant.dead.DeadHistory
-import com.ort.app.domain.model.village.participant.dead.DeadReason
-import com.ort.app.domain.model.village.room.Room
-import com.ort.app.domain.model.village.room.RoomHistories
-import com.ort.app.domain.model.village.room.RoomHistory
 import com.ort.app.domain.model.village.room.RoomSize
-import com.ort.dbflute.allcommon.CDef
-import com.ort.dbflute.bsbhv.loader.LoaderOfVillagePlayer
+import com.ort.app.infrastructure.datasource.village.VillageDayDataSource
+import com.ort.app.infrastructure.datasource.village.VillagePlayerDataSource
+import com.ort.app.infrastructure.datasource.village.VillageSettingsDataSource
 import com.ort.dbflute.cbean.VillageCB
 import com.ort.dbflute.exbhv.VillageBhv
+import com.ort.dbflute.exbhv.VillageDayBhv
 import com.ort.dbflute.exbhv.VillagePlayerBhv
-import com.ort.dbflute.exentity.VillagePlayer
 import org.springframework.stereotype.Repository
+import java.time.LocalDateTime
 import com.ort.dbflute.exentity.Village as DbVillage
 
 @Repository
 class VillageDataSource(
     private val villageBhv: VillageBhv,
-    private val villagePlayerBhv: VillagePlayerBhv
+    private val villagePlayerBhv: VillagePlayerBhv,
+    private val villageDayBhv: VillageDayBhv,
+    private val villagePlayerDataSource: VillagePlayerDataSource,
+    private val villageSettingsDataSource: VillageSettingsDataSource,
+    private val villageDayDataSource: VillageDayDataSource
 ) : VillageRepository {
 
     override fun findLatestVillageId(statusList: List<VillageStatus>): Int {
@@ -86,7 +80,8 @@ class VillageDataSource(
             }
             loader.loadVillagePlayer {
                 it.setupSelect_Player()
-            }.withNestedReferrer { withNestedVillagePlayer(it) }
+                if (excludeGone) it.query().setIsGone_Equal_False()
+            }.withNestedReferrer { villagePlayerDataSource.withNestedVillagePlayer(it) }
             loader.loadNormalSayRestriction { }
             loader.loadSkillSayRestriction { }
             loader.loadSkillAllocation { }
@@ -95,47 +90,105 @@ class VillageDataSource(
         return mapVillage(village)
     }
 
+    override fun updateStatus(id: Int, status: VillageStatus) {
+        val v = DbVillage()
+        v.villageStatusCodeAsVillageStatus = status.toCdef()
+        villageBhv.queryUpdate(v) { it.query().setVillageId_Equal(id) }
+    }
+
+    override fun extendDay(id: Int, day: Int, datetime: LocalDateTime) =
+        villageDayDataSource.extendDay(id, day, datetime)
+
     override fun findVillageParticipant(
         id: Int,
         excludeGone: Boolean
-    ): VillageParticipant? {
-        val optVillagePlayer = villagePlayerBhv.selectEntity {
-            it.setupSelect_Player()
-            it.query().setVillagePlayerId_Equal(id)
-            if (excludeGone) it.query().setIsGone_Equal_False()
-        }
-        if (!optVillagePlayer.isPresent) return null
-        val villagePlayer = optVillagePlayer.get()
-        villagePlayerBhv.load(villagePlayer) { withNestedVillagePlayer(it) }
-        return mapVillageParticipant(villagePlayer)
-    }
+    ): VillageParticipant? = villagePlayerDataSource.findVillageParticipant(id, excludeGone)
 
     override fun findVillageParticipant(
         villageId: Int,
         userName: String,
         excludeGone: Boolean
-    ): VillageParticipant? {
-        val optVillagePlayer = villagePlayerBhv.selectEntity {
-            it.setupSelect_Player()
-            it.query().setVillageId_Equal(villageId)
-            it.query().queryPlayer().setPlayerName_Equal(userName)
-            if (excludeGone) it.query().setIsGone_Equal_False()
-        }
-        if (!optVillagePlayer.isPresent) return null
-        val villagePlayer = optVillagePlayer.get()
-        villagePlayerBhv.load(villagePlayer) { withNestedVillagePlayer(it) }
-        return mapVillageParticipant(villagePlayer)
+    ): VillageParticipant? = villagePlayerDataSource.findVillageParticipant(villageId, userName, excludeGone)
+
+    override fun registerVillage(paramVillage: Village): Village {
+        val id = insertVillage(paramVillage)
+        villageSettingsDataSource.insertVillageSettings(id, paramVillage)
+        villageSettingsDataSource.insertAllocation(id, paramVillage)
+        villageSettingsDataSource.insertMessageRestrict(id, paramVillage)
+        villageDayDataSource.insertVillageDays(id, paramVillage)
+        return findVillage(id, true)!!
     }
 
-    private fun withNestedVillagePlayer(loader: LoaderOfVillagePlayer) {
-        loader.loadVillagePlayerDeadHistory {
-            it.query().addOrderBy_Day_Asc()
-        }
-        loader.loadVillagePlayerRoomHistory {
-            it.query().addOrderBy_Day_Asc()
-        }
-        loader.loadVillagePlayerStatusByVillagePlayerId { }
-        loader.loadVillagePlayerStatusByToVillagePlayerId { }
+    override fun updateDaychangeDifference(current: Village, changed: Village) {
+        updateVillageDaychangeDifference(current, changed)
+        villagePlayerDataSource.updateDaychangeDifference(current.allParticipants(), changed.allParticipants())
+        villageDayDataSource.updateDaychangeDifference(changed.id, current.days, changed.days)
+        villageSettingsDataSource.updateDaychangeDifference(changed.id, current.setting, changed.setting)
+    }
+
+    override fun participate(
+        villageId: Int,
+        playerId: Int,
+        chara: Chara,
+        firstRequestSkill: Skill,
+        secondRequestSkill: Skill,
+        spectator: Boolean
+    ): VillageParticipant {
+        val vPlayer = villagePlayerDataSource.insertVillagePlayer(
+            villageId,
+            playerId,
+            chara,
+            spectator,
+            firstRequestSkill,
+            secondRequestSkill
+        )
+        return findVillageParticipant(vPlayer.villagePlayerId, true)!!
+    }
+
+    override fun leave(participant: VillageParticipant) = villagePlayerDataSource.leave(participant)
+
+    override fun changeParticipantName(
+        participant: VillageParticipant,
+        name: String,
+        shortName: String
+    ) = villagePlayerDataSource.changeParticipantName(participant, name, shortName)
+
+    override fun changeRequestSkill(participant: VillageParticipant, first: Skill, second: Skill) =
+        villagePlayerDataSource.changeRequestSkill(participant, first, second)
+
+    override fun changeMemo(participant: VillageParticipant, memo: String) =
+        villagePlayerDataSource.changeMemo(participant, memo)
+
+    override fun updateLastAccessDatetime(participant: VillageParticipant) =
+        villagePlayerDataSource.updateLastAccessDatetime(participant)
+
+    override fun updateSetting(village: Village) {
+        villageSettingsDataSource.updateSetting(village)
+        villageDayDataSource.updateVillageStartDateTime(village.id, village.days)
+    }
+
+    private fun insertVillage(paramVillage: Village): Int {
+        val v = DbVillage()
+        v.villageDisplayName = paramVillage.name
+        v.setVillageStatusCode_募集中()
+        v.createPlayerName = paramVillage.createPlayerName
+        villageBhv.insert(v)
+        return v.villageId
+    }
+
+    private fun updateVillageDaychangeDifference(current: Village, changed: Village) {
+        if (current.status.code == changed.status.code
+            && current.roomSize?.width == changed.roomSize?.width
+            && current.epilogueDay == changed.epilogueDay
+            && current.winCamp?.code == changed.winCamp?.code
+        ) return
+        val v = DbVillage()
+        v.villageStatusCodeAsVillageStatus = changed.status.toCdef()
+        v.roomSizeWidth = changed.roomSize?.width
+        v.roomSizeHeight = changed.roomSize?.height
+        v.epilogueDay = changed.epilogueDay
+        v.winCampCodeAsCamp = changed.winCamp?.toCdef()
+        villageBhv.queryUpdate(v) { it.query().setVillageId_Equal(changed.id) }
     }
 
     private fun mapVillages(villageList: List<DbVillage>): Villages {
@@ -155,10 +208,10 @@ class VillageDataSource(
                 width = village.roomSizeWidth,
                 height = village.roomSizeHeight
             ) else null,
-            participants = mapSimpleVillageParticipants(village.villagePlayerList),
-            spectators = mapSimpleVillageSpectators(village.villagePlayerList),
+            participants = villagePlayerDataSource.mapSimpleVillageParticipants(village.villagePlayerList),
+            spectators = villagePlayerDataSource.mapSimpleVillageSpectators(village.villagePlayerList),
             days = mapVillageDays(village),
-            setting = mapSimpleSetting(village),
+            setting = villageSettingsDataSource.mapSimpleSetting(village),
             epilogueDay = village.epilogueDay,
             winCamp = if (village.winCampCode.isNullOrBlank()) null else Camp(village.winCampCodeAsCamp)
         )
@@ -175,10 +228,10 @@ class VillageDataSource(
                 width = village.roomSizeWidth,
                 height = village.roomSizeHeight
             ) else null,
-            participants = mapVillageParticipants(village.villagePlayerList),
-            spectators = mapVillageSpectators(village.villagePlayerList),
+            participants = villagePlayerDataSource.mapVillageParticipants(village.villagePlayerList),
+            spectators = villagePlayerDataSource.mapVillageSpectators(village.villagePlayerList),
             days = mapVillageDays(village),
-            setting = mapSetting(village),
+            setting = villageSettingsDataSource.mapSetting(village),
             epilogueDay = village.epilogueDay,
             winCamp = if (village.winCampCode.isNullOrBlank()) null else Camp(village.winCampCodeAsCamp)
         )
@@ -192,255 +245,6 @@ class VillageDataSource(
                     dayChangeDatetime = it.daychangeDatetime
                 )
             }
-        )
-    }
-
-    private fun mapSimpleVillageParticipants(villagePlayerList: List<VillagePlayer>): VillageParticipants {
-        val participantList = villagePlayerList.filterNot { it.isSpectator }
-        return VillageParticipants(
-            count = participantList.size,
-            list = participantList.map { mapSimpleVillageParticipant(it) }
-        )
-    }
-
-    private fun mapVillageParticipants(villagePlayerList: List<VillagePlayer>): VillageParticipants {
-        val participantList = villagePlayerList.filterNot { it.isSpectator }
-        return VillageParticipants(
-            count = participantList.size,
-            list = participantList.map { mapVillageParticipant(it) }
-        )
-    }
-
-    private fun mapSimpleVillageSpectators(villagePlayerList: List<VillagePlayer>): VillageParticipants {
-        val spectatorList = villagePlayerList.filter { it.isSpectator }
-        return VillageParticipants(
-            count = spectatorList.size,
-            list = spectatorList.map { mapSimpleVillageParticipant(it) }
-        )
-    }
-
-    private fun mapVillageSpectators(villagePlayerList: List<VillagePlayer>): VillageParticipants {
-        val spectatorList = villagePlayerList.filter { it.isSpectator }
-        return VillageParticipants(
-            count = spectatorList.size,
-            list = spectatorList.map { mapVillageParticipant(it) }
-        )
-    }
-
-    private fun mapSimpleVillageParticipant(villagePlayer: VillagePlayer): VillageParticipant {
-        return VillageParticipant(
-            id = villagePlayer.villagePlayerId,
-            charaName = VillageParticipantName(
-                name = villagePlayer.charaName,
-                shortName = villagePlayer.charaShortName
-            ),
-            playerId = villagePlayer.playerId,
-            charaId = villagePlayer.charaId,
-            skill = if (villagePlayer.skillCode.isNullOrBlank()) null else Skill(villagePlayer.skillCodeAsSkill),
-            requestSkill = if (villagePlayer.requestSkillCode.isNullOrBlank()) null
-            else RequestSkill(
-                first = Skill(villagePlayer.requestSkillCodeAsSkill),
-                second = Skill(villagePlayer.secondRequestSkillCodeAsSkill)
-            ),
-            room = null, // simple
-            status = VillageParticipantStatus( // simple
-                loverIdList = emptyList(),
-                foxPossessionIdList = emptyList(),
-                foxPossessionedIdList = emptyList()
-            ),
-            dead = mapSimpleDead(villagePlayer),
-            isSpectator = villagePlayer.isSpectator,
-            isGone = villagePlayer.isGone,
-            isWin = villagePlayer.isWin,
-            camp = if (villagePlayer.campCode.isNullOrBlank()) null else Camp(CDef.Camp.codeOf(villagePlayer.campCode)),
-            lastAccessDatetime = villagePlayer.lastAccessDatetime,
-            memo = villagePlayer.memo
-        )
-    }
-
-    private fun mapVillageParticipant(villagePlayer: VillagePlayer): VillageParticipant {
-        return VillageParticipant(
-            id = villagePlayer.villagePlayerId,
-            charaName = VillageParticipantName(
-                name = villagePlayer.charaName,
-                shortName = villagePlayer.charaShortName
-            ),
-            playerId = villagePlayer.playerId,
-            charaId = villagePlayer.charaId,
-            skill = if (villagePlayer.skillCode.isNullOrBlank()) null else Skill(villagePlayer.skillCodeAsSkill),
-            requestSkill = if (villagePlayer.requestSkillCode.isNullOrBlank()) null
-            else RequestSkill(
-                first = Skill(villagePlayer.requestSkillCodeAsSkill),
-                second = Skill(villagePlayer.secondRequestSkillCodeAsSkill)
-            ),
-            room = if (villagePlayer.roomNumber == null) null else mapRoom(villagePlayer),
-            status = mapVillageParticipantStatus(villagePlayer),
-            dead = mapDead(villagePlayer),
-            isSpectator = villagePlayer.isSpectator,
-            isGone = villagePlayer.isGone,
-            isWin = villagePlayer.isWin,
-            camp = if (villagePlayer.campCode.isNullOrBlank()) null else Camp(CDef.Camp.codeOf(villagePlayer.campCode)),
-            lastAccessDatetime = villagePlayer.lastAccessDatetime,
-            memo = villagePlayer.memo
-        )
-    }
-
-    private fun mapSimpleDead(villagePlayer: VillagePlayer): Dead {
-        return Dead(
-            isDead = villagePlayer.isDead,
-            deadDay = villagePlayer.deadDay,
-            reason = if (villagePlayer.deadReasonCode.isNullOrBlank()) null else DeadReason(villagePlayer.deadReasonCodeAsDeadReason),
-            histories = DeadHistories( // simple
-                list = emptyList()
-            )
-        )
-    }
-
-    private fun mapDead(villagePlayer: VillagePlayer): Dead {
-        return Dead(
-            isDead = villagePlayer.isDead,
-            deadDay = villagePlayer.deadDay,
-            reason = if (villagePlayer.deadReasonCode.isNullOrBlank()) null else DeadReason(villagePlayer.deadReasonCodeAsDeadReason),
-            histories = DeadHistories(
-                list = villagePlayer.villagePlayerDeadHistoryList.map {
-                    DeadHistory(
-                        day = it.day,
-                        isDead = it.isDead,
-                        reason = if (it.deadReasonCode.isNullOrBlank()) null else DeadReason(it.deadReasonCodeAsDeadReason)
-                    )
-                }
-            )
-        )
-    }
-
-    private fun mapRoom(villagePlayer: VillagePlayer): Room {
-        return Room(
-            number = villagePlayer.roomNumber,
-            histories = RoomHistories(
-                list = villagePlayer.villagePlayerRoomHistoryList.map {
-                    RoomHistory(day = it.day, number = it.roomNumber)
-                }
-            )
-        )
-    }
-
-    private fun mapVillageParticipantStatus(villagePlayer: VillagePlayer): VillageParticipantStatus {
-        // 自分からのステータス
-        val statusList = villagePlayer.villagePlayerStatusByVillagePlayerIdList
-        // 自分へのステータス
-        val toStatusList = villagePlayer.villagePlayerStatusByToVillagePlayerIdList
-
-        return VillageParticipantStatus(
-            loverIdList = statusList.filter { it.isVillagePlayerStatusCode後追い }.map { it.toVillagePlayerId },
-            foxPossessionIdList = statusList.filter { it.isVillagePlayerStatusCode狐憑き }.map { it.toVillagePlayerId },
-            foxPossessionedIdList = toStatusList.filter { it.isVillagePlayerStatusCode狐憑き }.map { it.villagePlayerId }
-        )
-    }
-
-    private fun mapSimpleSetting(village: DbVillage): VillageSetting {
-        val setting = village.villageSettingsAsOne.get()
-        return VillageSetting(
-            dummyCharaId = setting.dummyCharaId,
-            charachipId = setting.characterGroupId,
-            personMin = setting.startPersonMinNum,
-            personMax = setting.personMaxNum,
-            startDatetime = setting.startDatetime,
-            dayChangeIntervalSeconds = setting.dayChangeIntervalSeconds,
-            rule = VillageSetting.VillageRule(
-                isOpenVote = setting.isOpenVote,
-                isPossibleSkillRequest = setting.isPossibleSkillRequest,
-                isAvailableSpectate = setting.isAvailableSpectate,
-                isAvailableSameWolfAttack = setting.isAvailableSameWolfAttack,
-                isOpenSkillInGrave = setting.isOpenSkillInGrave,
-                isVisibleGraveSpectateMessage = setting.isVisibleGraveSpectateMessage,
-                isAvailableSuddenlyDeath = setting.isAvailableSuddonlyDeath,
-                isAvailableCommit = setting.isAvailableCommit,
-                isAvailableGuardSameTarget = setting.isAvailableGuardSameTarget,
-                isAvailableSecretSay = !setting.isAllowedSecretSayCodeなし,
-                isAvailableAction = setting.isAvailableAction,
-                isRandomOrganization = setting.isRandomOrganize
-            ),
-            joinPassword = setting.joinPassword,
-            organize = VillageSetting.VillageOrganize(
-                fixedOrganization = setting.organize,
-                randomOrganization = VillageSetting.VillageOrganize.VillageRandomOrganize(
-                    skillAllocation = emptyList(),
-                    campAllocation = emptyList()
-                )
-            ),
-            sayRestriction = VillageSetting.SayRestriction(
-                normalSayRestriction = emptyList(),
-                skillSayRestriction = emptyList()
-            )
-        )
-    }
-
-    private fun mapSetting(village: DbVillage): VillageSetting {
-        val setting = village.villageSettingsAsOne.get()
-        val skillAllocationList = village.skillAllocationList
-        val campAllocationList = village.campAllocationList
-        val normalSayRestrictionList = village.normalSayRestrictionList
-        val skillSayRestrictionList = village.skillSayRestrictionList
-        return VillageSetting(
-            dummyCharaId = setting.dummyCharaId,
-            charachipId = setting.characterGroupId,
-            personMin = setting.startPersonMinNum,
-            personMax = setting.personMaxNum,
-            startDatetime = setting.startDatetime,
-            dayChangeIntervalSeconds = setting.dayChangeIntervalSeconds,
-            rule = VillageSetting.VillageRule(
-                isOpenVote = setting.isOpenVote,
-                isPossibleSkillRequest = setting.isPossibleSkillRequest,
-                isAvailableSpectate = setting.isAvailableSpectate,
-                isAvailableSameWolfAttack = setting.isAvailableSameWolfAttack,
-                isOpenSkillInGrave = setting.isOpenSkillInGrave,
-                isVisibleGraveSpectateMessage = setting.isVisibleGraveSpectateMessage,
-                isAvailableSuddenlyDeath = setting.isAvailableSuddonlyDeath,
-                isAvailableCommit = setting.isAvailableCommit,
-                isAvailableGuardSameTarget = setting.isAvailableGuardSameTarget,
-                isAvailableSecretSay = !setting.isAllowedSecretSayCodeなし,
-                isAvailableAction = setting.isAvailableAction,
-                isRandomOrganization = setting.isRandomOrganize
-            ),
-            joinPassword = setting.joinPassword,
-            organize = VillageSetting.VillageOrganize(
-                fixedOrganization = setting.organize,
-                randomOrganization = VillageSetting.VillageOrganize.VillageRandomOrganize(
-                    skillAllocation = skillAllocationList.map {
-                        VillageSetting.VillageOrganize.VillageRandomOrganize.SkillAllocation(
-                            skill = Skill(it.skillCodeAsSkill),
-                            min = it.minNum,
-                            max = it.maxNum,
-                            allocation = it.allocation
-                        )
-                    },
-                    campAllocation = campAllocationList.map {
-                        VillageSetting.VillageOrganize.VillageRandomOrganize.CampAllocation(
-                            camp = Camp(it.campCodeAsCamp),
-                            min = it.minNum,
-                            max = it.maxNum,
-                            allocation = it.allocation
-                        )
-                    }
-                )
-            ),
-            sayRestriction = VillageSetting.SayRestriction(
-                normalSayRestriction = normalSayRestrictionList.map {
-                    VillageSetting.SayRestriction.NormalSayRestriction(
-                        skill = Skill(it.skillCodeAsSkill),
-                        messageType = MessageType(it.messageTypeCodeAsMessageType),
-                        count = it.messageMaxNum,
-                        length = it.messageMaxLength
-                    )
-                },
-                skillSayRestriction = skillSayRestrictionList.map {
-                    VillageSetting.SayRestriction.SkillSayRestriction(
-                        messageType = MessageType(it.messageTypeCodeAsMessageType),
-                        count = it.messageMaxNum,
-                        length = it.messageMaxLength
-                    )
-                }
-            )
         )
     }
 }

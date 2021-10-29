@@ -15,6 +15,9 @@ data class VillageStatus(
 
         // 終了していないステータス
         val notFinishedStatusList = listOf(CDef.VillageStatus.募集中, CDef.VillageStatus.進行中, CDef.VillageStatus.エピローグ)
+
+        // 終了したステータス
+        val finishedStatusList = listOf(CDef.VillageStatus.終了, CDef.VillageStatus.廃村)
     }
 
     constructor(cdef: CDef.VillageStatus) : this(code = cdef.code(), name = cdef.alias())
@@ -22,7 +25,14 @@ data class VillageStatus(
     fun toCdef(): CDef.VillageStatus =
         CDef.VillageStatus.codeOf(code) ?: throw IllegalStateException("unknown status: $code")
 
-    fun isRecruiting(): Boolean = toCdef() == CDef.VillageStatus.募集中
+    fun isPrologue(): Boolean = toCdef() == CDef.VillageStatus.募集中
     fun isProgress(): Boolean = toCdef() == CDef.VillageStatus.進行中
     fun isCanceled(): Boolean = toCdef() == CDef.VillageStatus.廃村
+    fun isEpilogue(): Boolean = toCdef() == CDef.VillageStatus.エピローグ
+    fun isSettled(): Boolean = settledStatusList.contains(toCdef())
+    fun isFinished(): Boolean = finishedStatusList.contains(toCdef())
+    fun isSettleOrCanceled(): Boolean = isSettled() || isCanceled()
+    fun isNotFinished(): Boolean = !isFinished()
 }
+
+fun CDef.VillageStatus.toModel(): VillageStatus = VillageStatus(this)

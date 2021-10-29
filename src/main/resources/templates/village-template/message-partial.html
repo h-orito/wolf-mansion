@@ -1,237 +1,280 @@
-<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="ja" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 </head>
 <body layout:fragment="message-partial">
-	{{#if isBigEars }}
-	<div class="col-sm-12 col-xs-12" data-spoiled-content>
-		<div class="row">
-			<div class="col-sm-12 col-xs-12 small">
-				<span style="margin-left: -15px;">地獄耳</span> <span style="margin-left: 10px;">{{timeFormat
-					messageDatetime}}</span>
-			</div>
-			<div class="col-sm-12 col-xs-12">
-				<div class="row" style="display: flex;">
-					<div style="width: {{width}}px; height: {{height}}px; background-color: transparent; border: 1px solid #fff; border-radius: 5px;"></div>
-					<div class="message message-owl" style="flex: 1; margin-left: 5px; {{minHeightCss}}">{{{messageContent}}}</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	{{else if (eq messageType 'NORMAL_SAY')}}
-	<div class="col-sm-12 col-xs-12 say-n{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
-		<div class="row">
-			<div class="col-sm-12 col-xs-12 small">
-				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>{{messageNumber}}</a>. {{characterName}}{{#if
-					playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat
-					messageDatetime}}</span>
-			</div>
-			<div class="col-sm-12 col-xs-12">
-				<div class="row" style="display: flex;">
-					<div>
-						<img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
-					</div>
-					<div class="message message-normal" style="flex: 1; margin-left: 5px; {{minHeightCss}}">{{{messageContent}}}</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	{{else if (eq messageType 'WEREWOLF_SAY')}}
-	<div class="col-sm-12 col-xs-12 say-w{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}" data-spoiled-content>
-		<div class="row">
-			<div class="col-sm-12 col-xs-12 small">
-				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>*{{messageNumber}}</a>. {{characterName}}{{#if
-					playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat
-					messageDatetime}}</span>
-			</div>
-			<div class="col-sm-12 col-xs-12">
-				<div class="row" style="display: flex;">
-					<div>
-						<img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
-					</div>
-					<div class="message message-werewolf" style="flex: 1; margin-left: 5px; {{minHeightCss}}">{{{messageContent}}}</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	{{else if (eq messageType 'MONOLOGUE_SAY')}}
-	<div class="col-sm-12 col-xs-12 {{#if messageNumber}}say-h{{messageNumber}}{{/if}}" data-message="{{messageType}}" data-chara-id="{{characterId}}"
-		data-spoiled-content>
-		<div class="row">
-			<div class="col-sm-12 col-xs-12 small">
-				<span style="margin-left: -15px;">{{#if messageNumber}}<a href="javascript:void(0);" data-copy-anchor>>>-{{messageNumber}}</a>.
-					{{/if}}{{characterName}}{{#if playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}
-				</span> <span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
-			</div>
-			<div class="col-sm-12 col-xs-12">
-				<div class="row" style="display: flex;">
-					<div>
-						<img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
-					</div>
-					<div class="message message-monologue" style="flex: 1; margin-left: 5px; {{minHeightCss}}">{{{messageContent}}}</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	{{else if (eq messageType 'SECRET_SAY')}}
-	<div class="col-sm-12 col-xs-12" data-message="{{messageType}}" data-chara-id="{{characterId}}" data-spoiled-content>
-		<div class="row">
-			<div class="col-sm-12 col-xs-12 small">
-				<span style="margin-left: -15px;">{{characterName}} → {{targetCharacterName}}{{#if playerName}} [<a href="javascript:void(0);"
-					data-user-page>{{playerName}}</a>]{{/if}}
-				</span> <span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
-			</div>
-			<div class="col-sm-12 col-xs-12">
-				<div class="row" style="display: flex;">
-					<div>
-						<img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
-					</div>
-					<div class="message message-secret" style="flex: 1; margin-left: 5px; {{minHeightCss}}">{{{messageContent}}}</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	{{else if (eq messageType 'MASON_SAY')}}
-	<div class="col-sm-12 col-xs-12 say-m{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}" data-spoiled-content>
-		<div class="row">
-			<div class="col-sm-12 col-xs-12 small">
-				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>={{messageNumber}}</a>. {{characterName}}{{#if
-					playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat
-					messageDatetime}}</span>
-			</div>
-			<div class="col-sm-12 col-xs-12">
-				<div class="row" style="display: flex;">
-					<div>
-						<img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
-					</div>
-					<div class="message message-mason" style="flex: 1; margin-left: 5px; {{minHeightCss}}">{{{messageContent}}}</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	{{else if (eq messageType 'LOVERS_SAY')}}
-	<div class="col-sm-12 col-xs-12 say-l{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}" data-spoiled-content>
-		<div class="row">
-			<div class="col-sm-12 col-xs-12 small">
-				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>?{{messageNumber}}</a>. {{characterName}}{{#if
-					playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat
-					messageDatetime}}</span>
-			</div>
-			<div class="col-sm-12 col-xs-12">
-				<div class="row" style="display: flex;">
-					<div>
-						<img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
-					</div>
-					<div class="message message-lover" style="flex: 1; margin-left: 5px; {{minHeightCss}}">{{{messageContent}}}</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	{{else if (eq messageType 'GRAVE_SAY')}}
-	<div class="col-sm-12 col-xs-12 say-g{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}" data-spoiled-content>
-		<div class="row">
-			<div class="col-sm-12 col-xs-12 small">
-				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>+{{messageNumber}}</a>. {{characterName}}{{#if
-					playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat
-					messageDatetime}}</span>
-			</div>
-			<div class="col-sm-12 col-xs-12">
-				<div class="row" style="display: flex;">
-					<div>
-						<img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
-					</div>
-					<div class="message message-grave" style="flex: 1; margin-left: 5px; {{minHeightCss}}">{{{messageContent}}}</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	{{else if (eq messageType 'SPECTATE_SAY')}}
-	<div class="col-sm-12 col-xs-12 say-s{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}" data-spoiled-content>
-		<div class="row">
-			<div class="col-sm-12 col-xs-12 small">
-				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>@{{messageNumber}}</a>. {{characterName}}{{#if
-					playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}</span> <span style="margin-left: 10px;">{{timeFormat
-					messageDatetime}}</span>
-			</div>
-			<div class="col-sm-12 col-xs-12">
-				<div class="row" style="display: flex;">
-					<div>
-						<img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
-					</div>
-					<div class="message message-spectate" style="flex: 1; margin-left: 5px; {{minHeightCss}}">{{{messageContent}}}</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	{{else if (eq messageType 'PUBLIC_SYSTEM')}}
-	<div class="col-sm-12 col-xs-12" data-message>
-		<div class="row">
-			<div class="message col-sm-12 col-xs-12 message-public-system">{{{messageContent}}}</div>
-		</div>
-	</div>
-	{{else if (eq messageType 'CREATOR_SAY')}}
-	<div class="col-sm-12 col-xs-12" data-message>
-		<div class="row">
-			<div class="col-sm-12 col-xs-12 small">
-				<span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>#{{messageNumber}}</a>. 天からのお告げ</span> <span
-					style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
-			</div>
-			<div class="message col-sm-12 col-xs-12 message-creator">{{{messageContent}}}</div>
-		</div>
-	</div>
-	{{else if (eq messageType 'PRIVATE_SYSTEM')}}
-	<div class="col-sm-12 col-xs-12" data-spoiled-content>
-		<div class="row">
-			<div class="message col-sm-12 col-xs-12 message-private-system">{{{messageContent}}}</div>
-		</div>
-	</div>
-	{{else if (or (eq messageType 'PRIVATE_SEER') (eq messageType 'PRIVATE_WISE') )}}
-	<div class="col-sm-12 col-xs-12" data-spoiled-content>
-		<div class="row">
-			<div class="message col-sm-12 col-xs-12 message-private-seer">{{{messageContent}}}</div>
-		</div>
-	</div>
-	{{else if (or (or (eq messageType 'PRIVATE_PSYCHIC') (eq messageType 'PRIVATE_GURU') ) (eq messageType 'PRIVATE_CORONER') )}}
-	<div class="col-sm-12 col-xs-12" data-spoiled-content>
-		<div class="row">
-			<div class="message col-sm-12 col-xs-12 message-private-psychic">{{{messageContent}}}</div>
-		</div>
-	</div>
-	{{else if (eq messageType 'PRIVATE_INVESTIGATE')}}
-	<div class="col-sm-12 col-xs-12" data-spoiled-content>
-		<div class="row">
-			<div class="message col-sm-12 col-xs-12 message-private-investigate">{{{messageContent}}}</div>
-		</div>
-	</div>
-	{{else if (eq messageType 'PRIVATE_WEREWOLF')}}
-	<div class="col-sm-12 col-xs-12" data-spoiled-content>
-		<div class="row">
-			<div class="message col-sm-12 col-xs-12 message-private-werewolf">{{{messageContent}}}</div>
-		</div>
-	</div>
-	{{else if (eq messageType 'PRIVATE_LOVER')}}
-	<div class="col-sm-12 col-xs-12" data-spoiled-content>
-		<div class="row">
-			<div class="message col-sm-12 col-xs-12 message-private-lover">{{{messageContent}}}</div>
-		</div>
-	</div>
-	{{else if (eq messageType 'PRIVATE_FOX')}}
-	<div class="col-sm-12 col-xs-12" data-spoiled-content>
-		<div class="row">
-			<div class="message col-sm-12 col-xs-12 message-private-fox">{{{messageContent}}}</div>
-		</div>
-	</div>
-	{{else if (eq messageType 'ACTION')}}
-	<div class="col-sm-12 col-xs-12" data-message="{{messageType}}" data-chara-id="{{characterId}}">
-		<div class="row">
-			<div class="col-sm-12 col-xs-12 small">
-				<span style="margin-left: -15px;">
-					<a href="javascript:void(0);" data-copy-anchor>>>a{{messageNumber}}</a>. {{#if
+{{#if isBigEars }}
+<div class="col-sm-12 col-xs-12" data-spoiled-content>
+    <div class="row">
+        <div class="col-sm-12 col-xs-12 small">
+            <span style="margin-left: -15px;">地獄耳</span>
+            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+        </div>
+        <div class="col-sm-12 col-xs-12">
+            <div class="row" style="display: flex;">
+                <div style="width: {{width}}px; height: {{height}}px; background-color: transparent; border: 1px solid #fff; border-radius: 5px;"></div>
+                <div class="message message-owl" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
+                    {{{messageContent}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{else if (eq messageType 'NORMAL_SAY')}}
+<div class="col-sm-12 col-xs-12 say-n{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
+    <div class="row">
+        <div class="col-sm-12 col-xs-12 small">
+			<span style="margin-left: -15px;">
+                <a href="javascript:void(0);" data-copy-anchor>>>{{messageNumber}}</a>. {{characterName}}{{#if
+					playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}</span>
+            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+        </div>
+        <div class="col-sm-12 col-xs-12">
+            <div class="row" style="display: flex;">
+                <div>
+                    <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
+                </div>
+                <div class="message message-normal" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
+                    {{{messageContent}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{else if (eq messageType 'WEREWOLF_SAY')}}
+<div class="col-sm-12 col-xs-12 say-w{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}"
+     data-spoiled-content>
+    <div class="row">
+        <div class="col-sm-12 col-xs-12 small">
+            <span style="margin-left: -15px;">
+                <a href="javascript:void(0);" data-copy-anchor>>>*{{messageNumber}}</a>. {{characterName}}{{#if
+                playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}</span>
+            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+        </div>
+        <div class="col-sm-12 col-xs-12">
+            <div class="row" style="display: flex;">
+                <div>
+                    <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
+                </div>
+                <div class="message message-werewolf" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
+                    {{{messageContent}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{else if (eq messageType 'MONOLOGUE_SAY')}}
+<div class="col-sm-12 col-xs-12 {{#if messageNumber}}say-h{{messageNumber}}{{/if}}" data-message="{{messageType}}"
+     data-chara-id="{{characterId}}"
+     data-spoiled-content>
+    <div class="row">
+        <div class="col-sm-12 col-xs-12 small">
+			<span style="margin-left: -15px;">{{#if messageNumber}}
+                <a href="javascript:void(0);" data-copy-anchor>>>-{{messageNumber}}</a>.
+				{{/if}}{{characterName}}{{#if playerName}} [<a href="javascript:void(0);"
+                                                               data-user-page>{{playerName}}</a>]{{/if}}
+			</span>
+            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+        </div>
+        <div class="col-sm-12 col-xs-12">
+            <div class="row" style="display: flex;">
+                <div>
+                    <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
+                </div>
+                <div class="message message-monologue" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
+                    {{{messageContent}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{else if (eq messageType 'SECRET_SAY')}}
+<div class="col-sm-12 col-xs-12" data-message="{{messageType}}" data-chara-id="{{characterId}}" data-spoiled-content>
+    <div class="row">
+        <div class="col-sm-12 col-xs-12 small">
+            <span style="margin-left: -15px;">{{characterName}} → {{targetCharacterName}}{{#if playerName}} [<a
+                    href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}
+            </span>
+            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+        </div>
+        <div class="col-sm-12 col-xs-12">
+            <div class="row" style="display: flex;">
+                <div>
+                    <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
+                </div>
+                <div class="message message-secret" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
+                    {{{messageContent}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{else if (eq messageType 'MASON_SAY')}}
+<div class="col-sm-12 col-xs-12 say-m{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}"
+     data-spoiled-content>
+    <div class="row">
+        <div class="col-sm-12 col-xs-12 small">
+            <span style="margin-left: -15px;">
+                <a href="javascript:void(0);" data-copy-anchor>>>={{messageNumber}}</a>. {{characterName}}{{#if
+                playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}
+            </span>
+            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+        </div>
+        <div class="col-sm-12 col-xs-12">
+            <div class="row" style="display: flex;">
+                <div>
+                    <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
+                </div>
+                <div class="message message-mason" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
+                    {{{messageContent}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{else if (eq messageType 'LOVERS_SAY')}}
+<div class="col-sm-12 col-xs-12 say-l{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}"
+     data-spoiled-content>
+    <div class="row">
+        <div class="col-sm-12 col-xs-12 small">
+            <span style="margin-left: -15px;">
+                <a href="javascript:void(0);" data-copy-anchor>>>?{{messageNumber}}</a>. {{characterName}}{{#if
+                playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}
+            </span>
+            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+        </div>
+        <div class="col-sm-12 col-xs-12">
+            <div class="row" style="display: flex;">
+                <div>
+                    <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
+                </div>
+                <div class="message message-lover" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
+                    {{{messageContent}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{else if (eq messageType 'GRAVE_SAY')}}
+<div class="col-sm-12 col-xs-12 say-g{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}"
+     data-spoiled-content>
+    <div class="row">
+        <div class="col-sm-12 col-xs-12 small">
+            <span style="margin-left: -15px;">
+                <a href="javascript:void(0);" data-copy-anchor>>>+{{messageNumber}}</a>. {{characterName}}{{#if
 					playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}
-				</span><span style="margin-left: 10px;">{{timeFormat messageDatetime}}</span>
-			</div>
-			<div class="message col-sm-12 col-xs-12 message-action">{{{messageContent}}}</div>
-		</div>
-	</div>
-	{{/if}}
+            </span>
+            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+        </div>
+        <div class="col-sm-12 col-xs-12">
+            <div class="row" style="display: flex;">
+                <div>
+                    <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
+                </div>
+                <div class="message message-grave" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
+                    {{{messageContent}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{else if (eq messageType 'SPECTATE_SAY')}}
+<div class="col-sm-12 col-xs-12 say-s{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}"
+     data-spoiled-content>
+    <div class="row">
+        <div class="col-sm-12 col-xs-12 small">
+            <span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>@{{messageNumber}}</a>. {{characterName}}{{#if
+                playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}</span>
+            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+        </div>
+        <div class="col-sm-12 col-xs-12">
+            <div class="row" style="display: flex;">
+                <div>
+                    <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
+                </div>
+                <div class="message message-spectate" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
+                    {{{messageContent}}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{else if (eq messageType 'PUBLIC_SYSTEM')}}
+<div class="col-sm-12 col-xs-12" data-message>
+    <div class="row">
+        <div class="message col-sm-12 col-xs-12 message-public-system">{{{messageContent}}}</div>
+    </div>
+</div>
+{{else if (eq messageType 'CREATOR_SAY')}}
+<div class="col-sm-12 col-xs-12" data-message>
+    <div class="row">
+        <div class="col-sm-12 col-xs-12 small">
+            <span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>#{{messageNumber}}</a>. 天からのお告げ</span>
+            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+        </div>
+        <div class="message col-sm-12 col-xs-12 message-creator">{{{messageContent}}}</div>
+    </div>
+</div>
+{{else if (eq messageType 'PRIVATE_SYSTEM')}}
+<div class="col-sm-12 col-xs-12" data-spoiled-content>
+    <div class="row">
+        <div class="message col-sm-12 col-xs-12 message-private-system">{{{messageContent}}}</div>
+    </div>
+</div>
+{{else if (or (eq messageType 'PRIVATE_SEER') (eq messageType 'PRIVATE_WISE') )}}
+<div class="col-sm-12 col-xs-12" data-spoiled-content>
+    <div class="row">
+        <div class="message col-sm-12 col-xs-12 message-private-seer">{{{messageContent}}}</div>
+    </div>
+</div>
+{{else if (or (or (eq messageType 'PRIVATE_PSYCHIC') (eq messageType 'PRIVATE_GURU') ) (eq messageType
+'PRIVATE_CORONER') )}}
+<div class="col-sm-12 col-xs-12" data-spoiled-content>
+    <div class="row">
+        <div class="message col-sm-12 col-xs-12 message-private-psychic">{{{messageContent}}}</div>
+    </div>
+</div>
+{{else if (eq messageType 'PRIVATE_INVESTIGATE')}}
+<div class="col-sm-12 col-xs-12" data-spoiled-content>
+    <div class="row">
+        <div class="message col-sm-12 col-xs-12 message-private-investigate">{{{messageContent}}}</div>
+    </div>
+</div>
+{{else if (eq messageType 'PRIVATE_WEREWOLF')}}
+<div class="col-sm-12 col-xs-12" data-spoiled-content>
+    <div class="row">
+        <div class="message col-sm-12 col-xs-12 message-private-werewolf">{{{messageContent}}}</div>
+    </div>
+</div>
+{{else if (eq messageType 'PRIVATE_LOVER')}}
+<div class="col-sm-12 col-xs-12" data-spoiled-content>
+    <div class="row">
+        <div class="message col-sm-12 col-xs-12 message-private-lover">{{{messageContent}}}</div>
+    </div>
+</div>
+{{else if (eq messageType 'PRIVATE_FOX')}}
+<div class="col-sm-12 col-xs-12" data-spoiled-content>
+    <div class="row">
+        <div class="message col-sm-12 col-xs-12 message-private-fox">{{{messageContent}}}</div>
+    </div>
+</div>
+{{else if (eq messageType 'ACTION')}}
+<div class="col-sm-12 col-xs-12" data-message="{{messageType}}" data-chara-id="{{characterId}}">
+    <div class="row">
+        <div class="col-sm-12 col-xs-12 small">
+            <span style="margin-left: -15px;">
+                <a href="javascript:void(0);" data-copy-anchor>>>a{{messageNumber}}</a>. {{#if
+					playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}
+            </span><span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+        </div>
+        <div class="message col-sm-12 col-xs-12 message-action">{{{messageContent}}}</div>
+    </div>
+</div>
+{{else if (eq messageType 'PARTICIPANTS')}}
+<div class="col-sm-12 col-xs-12" id="participants">
+    <div class="row">
+        <div class="message col-sm-12 col-xs-12 message-public-system">{{{messageContent}}}</div>
+    </div>
+</div>
+{{/if}}
 </body>
 </html>

@@ -1,228 +1,264 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>フッター</title>
-<link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}" />
-<link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" />
-<!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-<script src="../../static/lib/bootstrap/js/bootstrap.min.js" th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
-<script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js" th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
-<script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>フッター</title>
+    <link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}"/>
+    <link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css"
+          th:href="@{/lib/bootstrap/css/bootstrap.min.css}"/>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <script src="../../static/lib/bootstrap/js/bootstrap.min.js"
+            th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+    <script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js"
+            th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
+    <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<div class="col-sm-12 col-xs-12" layout:fragment="situation">
-		<div class="panel-group" id="situation-panel">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<a class="h5" data-toggle="collapse" data-parent="#situation-panel" href="#situation-content" data-situation-tab-open>状況</a> <a
-						href="javascript:void(0);" class="pull-right" data-bottom-fix>固定</a>
-				</div>
-				<div id="situation-content" class="panel-collapse collapse in">
-					<div class="panel-body">
-						<ul class="nav nav-tabs">
-							<li th:if="${content.roomWidth != null && content.day > 0}" class="active"><a data-toggle="tab" href="#room-on-sayform">部屋割り当て</a></li>
-							<li th:class="${content.roomWidth == null || content.day == 0 ? 'active' : ''}"><a data-toggle="tab" href="#tab-memberlist">参加者</a></li>
-							<li th:if="${content.vote != null}"><a data-toggle="tab" href="#tab-votelist">投票</a></li>
-							<li th:if="${content.villageFootstepList != null}"><a data-toggle="tab" href="#tab-footsteplist">足音</a></li>
-						</ul>
+<div class="col-sm-12 col-xs-12" layout:fragment="situation">
+    <div class="panel-group" id="situation-panel">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="h5" data-toggle="collapse" data-parent="#situation-panel" href="#situation-content"
+                   data-situation-tab-open>状況</a> <a
+                    href="javascript:void(0);" class="pull-right" data-bottom-fix>固定</a>
+            </div>
+            <div id="situation-content" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <ul class="nav nav-tabs">
+                        <li th:if="${content.roomWidth != null && content.day > 0}" class="active"><a data-toggle="tab"
+                                                                                                      href="#room-on-sayform">部屋割り当て</a>
+                        </li>
+                        <li th:class="${content.roomWidth == null || content.day == 0 ? 'active' : ''}"><a
+                                data-toggle="tab" href="#tab-memberlist">参加者</a></li>
+                        <li th:if="${content.vote != null}"><a data-toggle="tab" href="#tab-votelist">投票</a></li>
+                        <li th:if="${content.villageFootstepList != null && content.villageFootstepList.size() > 0}"><a
+                                data-toggle="tab"
+                                href="#tab-footsteplist">足音</a></li>
+                    </ul>
 
-						<div class="tab-content row">
-							<div id="room-on-sayform" th:if="${content.roomWidth != null && content.day > 0}" class="tab-pane fade in active" style="padding-top: 10px; padding-bottom: 10px;">
-								<div class="col-sm-12 col-xs-12 table-responsive">
-									<table class="table-bordered table-condensed small">
-										<tbody>
-											<tr th:each="row, trst : ${content.roomAssignedRowList}">
-												<td th:each="room: ${row.roomAssignedList}" class="small"
-													th:style="'vertical-align: bottom; text-align: center;' 
+                    <div class="tab-content row">
+                        <div id="room-on-sayform" th:if="${content.roomWidth != null && content.day > 0}"
+                             class="tab-pane fade in active" style="padding-top: 10px; padding-bottom: 10px;">
+                            <div class="col-sm-12 col-xs-12 table-responsive">
+                                <table class="table-bordered table-condensed small">
+                                    <tbody>
+                                    <tr th:each="row, trst : ${content.roomAssignedRowList}">
+                                        <td th:each="room: ${row.roomAssignedList}" class="small"
+                                            th:style="'vertical-align: bottom; text-align: center;'
 														+ 'min-width: ' + ${room.charaImgWidth != null ? room.charaImgWidth : '10'} + 'px;'
 														+ 'width: ' + ${room.charaImgWidth != null ? room.charaImgWidth : '10'} + 'px;' 
 														+ 'min-height: '+ ${room.charaImgHeight != null ? room.charaImgHeight : '10'} + 'px; '
 														+ 'height: '+ ${room.charaImgHeight != null ? room.charaImgHeight : '10'} + 'px; '
 														+ 'padding: 0'">
-													<div
-														th:data-toggle="${room.charaName != null ? 'tooltip' : ''}" th:title="${room.charaName}" th:data-placement="${trst.index == 0 ? 'bottom' : 'top'}"
-														th:style="'display: table-cell; vertical-align: bottom; text-align: center;' 
+                                            <div
+                                                    th:data-toggle="${room.charaName != null ? 'tooltip' : ''}"
+                                                    th:title="${room.charaName}"
+                                                    th:data-placement="${trst.index == 0 ? 'bottom' : 'top'}"
+                                                    th:style="'display: table-cell; vertical-align: bottom; text-align: center;'
 														+ 'min-width: ' + ${room.charaImgWidth != null ? room.charaImgWidth : '10'} + 'px;'
 														+ 'width: ' + ${room.charaImgWidth != null ? room.charaImgWidth : '10'} + 'px;' 
 														+ 'min-height: '+ ${room.charaImgHeight != null ? room.charaImgHeight : '10'} + 'px; '
 														+ 'height: '+ ${room.charaImgHeight != null ? room.charaImgHeight : '10'} + 'px; '
 									 					+ ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
-									 					+ ${room.isDead == null || room.isDead ? 'opacity: 0.3;' : ''}">
+									 					+ ${room.dead == null || room.dead ? 'opacity: 0.3;' : ''}">
 														<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-															th:utext="${room.roomNumber} + ' ' + ${room.charaShortName != null ? room.charaShortName : ''}">01. 楽</span> <span
-															style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-															th:if="${room.isDead != null && room.isDead && room.charaShortName != null}"
-															th:utext="'<br />' + ${room.deadDay} + 'd ' + ${room.deadReason == 'ATTACK' || room.deadReason == 'DIVINED' || room.deadReason == 'TRAPPED' || room.deadReason == 'BOMBED' ? '▲' : room.deadReason == 'EXECUTE' ? '▼' : room.deadReason == 'SUICIDE' ? '❤︎' : '凸'}">2d
-															▲</span> <span style="background-color: #222222; opacity: 0.8; white-space: nowrap;" th:if="${room.isDummy != null && room.isDummy}"><br />ダミー</span>
-														<span class="hidden" style="background-color: #222222; opacity: 0.8; white-space: nowrap;" th:if="${room.skillName != null}"
-															th:utext="'<br />' + ${room.skillName}" data-spoiled-content>人狼</span>
-													</div>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								<div class="col-sm-12 col-xs-12" th:if="${content.situationList != null && content.situationList.size() > 0}" style="margin-top: 10px;">
-									<table class="table-bordered table-condensed small">
-										<thead>
-											<tr>
-												<th class="text-center">日付</th>
-												<th>突然死</th>
-												<th>処刑</th>
-												<th>犠牲</th>
-												<th>復活</th>
-												<th>後追</th>
-												<th class="hidden" th:if="${content.isDispSpoilerContent}" data-spoiled-content>襲撃</th>
-												<th class="hidden" th:if="${content.isDispSpoilerContent}" data-spoiled-content>占い</th>
-												<th class="hidden" th:if="${content.isDispSpoilerContent}" data-spoiled-content>護衛</th>
-												<th class="hidden" th:if="${content.isDispSpoilerContent}" data-spoiled-content>調査</th>
-											<tr>
-										</thead>
-										<tbody>
-											<tr th:each="situation: ${content.situationList}">
-												<td class="text-center" th:text="${situation.day + 'd'}"></td>
-												<td th:text="${situation.suddonlyDeathChara}"></td>
-												<td th:text="${situation.executedChara}"></td>
-												<td th:text="${situation.attackedChara}"></td>
-												<td th:text="${situation.revivalChara}"></td>
-												<td th:text="${situation.suicideChara}"></td>
-												<td class="hidden" th:text="${situation.attack}" th:if="${content.isDispSpoilerContent}" data-spoiled-content></td>
-												<td class="hidden" th:if="${content.isDispSpoilerContent}" data-spoiled-content><th:block
-														th:each="str, stat : ${situation.divinedChara.split('\r\n|\r|\n', -1)}">
-														<th:block th:text="${str}" />
-														<br th:if="${!stat.last}" />
-													</th:block></td>
-												<td class="hidden" th:if="${content.isDispSpoilerContent}" data-spoiled-content><th:block
-														th:each="str, stat : ${situation.guardedChara.split('\r\n|\r|\n', -1)}">
-														<th:block th:text="${str}" />
-														<br th:if="${!stat.last}" />
-													</th:block></td>
-												<td class="hidden" th:if="${content.isDispSpoilerContent}" data-spoiled-content><th:block
-														th:each="str, stat : ${situation.investigation.split('\r\n|\r|\n', -1)}">
-														<th:block th:text="${str}" />
-														<br th:if="${!stat.last}" />
-													</th:block></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div id="tab-memberlist" th:class="${content.roomWidth == null || content.day == 0 ? 'tab-pane fade in active' : 'tab-pane fade'}"
-								style="padding-top: 10px; padding-bottom: 10px;">
-								<div class="col-sm-6 col-xs-6">
-									<table class="table table-bordered table-condensed small" th:each="statusDto, s : ${content.memberList}" th:if=${s.first}>
-										<tr>
-											<th th:text="${statusDto.status + ' (' + statusDto.statusMemberList.size() +'人)'}">生存</th>
-										</tr>
-										<tr th:each="member : ${statusDto.statusMemberList}">
-											<td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName} + ${member.memo != null ? '　[' + member.memo + ']' : '' }"></td>
-										</tr>
-										<tr th:if="${statusDto.statusMemberList.size() == 0}">
-											<td>なし</td>
-										</tr>
-									</table>
-								</div>
-								<div class="col-sm-6 col-xs-6">
-									<table class="table table-bordered table-condensed small" th:each="statusDto, s : ${content.memberList}" th:unless=${s.first}>
-										<tr>
-											<th th:text="${statusDto.status + ' (' + statusDto.statusMemberList.size() +'人)'}">生存</th>
-										</tr>
-										<tr th:each="member : ${statusDto.statusMemberList}">
-											<td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName} + ${member.memo != null ? '　[' + member.memo + ']' : '' }"></td>
-										</tr>
-										<tr th:if="${statusDto.statusMemberList.size() == 0}">
-											<td>なし</td>
-										</tr>
-									</table>
-								</div>
-							</div>
-							<div id="tab-votelist" th:if="${content.vote != null}" class="tab-pane fade" style="padding-top: 10px; padding-bottom: 10px;">
-								<div class="col-sm-12 col-xs-12">
-									<table class="table-bordered table-condensed small">
-										<thead>
-											<tr th:if="${content.roomAssignedRowList}">
-												<td th:colspan="${content.vote.maxVoteCount+1}"><th:block th:each="row, s : ${content.roomAssignedRowList}">
-														<th:block th:each="room, st: ${row.roomAssignedList}">
-															<span th:if="${room.isDead == null || room.charaShortName == null}" th:text="${room.roomNumber + '＿'}"></span>
-															<span
-																th:if="${room.isDead != null && room.isDead && (room.deadReason == 'ATTACK' || room.deadReason == 'DIVINED' || room.deadReason == 'TRAPPED' || room.deadReason == 'BOMBED')}"
-																style="color: #ff0000;" th:text="${room.roomNumber + room.charaShortName}"></span>
-															<span th:if="${room.isDead != null && room.isDead && (room.deadReason == 'EXECUTE' || room.deadReason == 'SUDDON')}"
-																style="color: #3498db;" th:text="${room.roomNumber + room.charaShortName}"></span>
-															<span th:if="${room.isDead != null && room.isDead && room.deadReason == 'SUICIDE'}"
-																style="color: #db3498;" th:text="${room.roomNumber + room.charaShortName}"></span>
-															<span th:if="${room.isDead != null && !room.isDead}" th:text="${room.roomNumber + room.charaShortName}"></span>
-															<span th:if="${!st.last}" th:text="'　'"></span>
-														</th:block>
-														<br />
-														<br th:if="${!s.last}" />
-													</th:block></td>
-											</tr>
-											<tr>
-												<th><a href="javascript:void(0);" data-vote-day="0">投票者</a></th>
-												<th th:each="i : ${#numbers.sequence(2, content.vote.maxVoteCount+1)}" class="text-center" th:value="${i}"><a
-													href="javascript:void(0);" th:text="${i + 'd'}" th:data-vote-day="${i-1}"></a></th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr th:each="member : ${content.vote.voteList}">
-												<td th:text="${member.charaName}"></td>
-												<td th:each="target: ${member.voteTargetList}" class="small" th:text="${target}"></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div id="tab-footsteplist" th:if="${content.villageFootstepList != null}" class="tab-pane fade"
-								style="padding-top: 10px; padding-bottom: 10px;">
-								<div class="col-sm-12 col-xs-12">
-									<table class="table-bordered table-condensed small">
-										<tbody>
-											<tr th:if="${content.roomAssignedRowList}">
-												<td colspan="2"><th:block th:each="row, s : ${content.roomAssignedRowList}">
-														<th:block th:each="room, st: ${row.roomAssignedList}">
-															<span th:if="${room.isDead == null || room.charaShortName == null}" th:text="${room.roomNumber + '＿'}"></span>
-															<span
-																th:if="${room.isDead != null && room.isDead && (room.deadReason == 'ATTACK' || room.deadReason == 'DIVINED' || room.deadReason == 'TRAPPED' || room.deadReason == 'BOMBED')}"
-																style="color: #ff0000;" th:text="${room.roomNumber + room.charaShortName}"></span>
-															<span th:if="${room.isDead != null && room.isDead && (room.deadReason == 'EXECUTE' || room.deadReason == 'SUDDON')}"
-																style="color: #3498db;" th:text="${room.roomNumber + room.charaShortName}"></span>
-															<span th:if="${room.isDead != null && room.isDead && room.deadReason == 'SUICIDE'}"
-																style="color: #db3498;" th:text="${room.roomNumber + room.charaShortName}"></span>
-															<span th:if="${room.isDead != null && !room.isDead}" th:text="${room.roomNumber + room.charaShortName}"></span>
-															<span th:if="${!st.last}" th:text="'　'"></span>
-														</th:block>
-														<br />
-														<br th:if="${!s.last}" />
-													</th:block></td>
-											</tr>
-											<tr th:each="day : ${content.villageFootstepList}">
-												<td class="text-center" th:text="${day.day + 'd'}"></td>
-												<td class="small"><span data-spoiled-content> <th:block th:if="${day.footstep}">
-															<th:block th:each="str, stat : ${day.footstep.split('\r\n|\r|\n', -1)}">
-																<th:block th:text="${str}" />
-																<br th:if="${!stat.last}" />
+                                                              th:utext="${room.roomNumber} + ' ' + ${room.charaShortName != null ? room.charaShortName : ''}">01. 楽</span>
+                                                <span
+                                                        style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+                                                        th:if="${room.dead != null && room.dead && room.charaShortName != null}"
+                                                        th:utext="'<br />' + ${room.deadDay} + 'd ' + ${room.deadReason == 'ATTACK' || room.deadReason == 'DIVINED' || room.deadReason == 'TRAPPED' || room.deadReason == 'BOMBED' ? '▲' : room.deadReason == 'EXECUTE' ? '▼' : room.deadReason == 'SUICIDE' ? '❤︎' : '凸'}">2d
+															▲</span> <span
+                                                    style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+                                                    th:if="${room.dummy != null && room.dummy}"><br/>ダミー</span>
+                                                <span class="hidden"
+                                                      style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+                                                      th:if="${room.skillName != null}"
+                                                      th:utext="'<br />' + ${room.skillName}"
+                                                      data-spoiled-content>人狼</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-12 col-xs-12"
+                                 th:if="${content.situationList != null && content.situationList.size() > 0}"
+                                 style="margin-top: 10px;">
+                                <table class="table-bordered table-condensed small">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">日付</th>
+                                        <th>突然死</th>
+                                        <th>処刑</th>
+                                        <th>犠牲</th>
+                                        <th>復活</th>
+                                        <th>後追</th>
+                                        <th class="hidden" th:if="${content.dispSpoilerContent}" data-spoiled-content>
+                                            能力
+                                        </th>
+                                    <tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="situation: ${content.situationList}">
+                                        <td class="text-center" th:text="${situation.day + 'd'}"></td>
+                                        <td th:text="${situation.suddonlyDeathChara}"></td>
+                                        <td th:text="${situation.executedChara}"></td>
+                                        <td th:text="${situation.attackedChara}"></td>
+                                        <td th:text="${situation.revivalChara}"></td>
+                                        <td th:text="${situation.suicideChara}"></td>
+                                        <td class="hidden" th:if="${content.dispSpoilerContent}" data-spoiled-content>
+                                            <th:block
+                                                    th:each="str, stat : ${situation.ability.split('\r\n|\r|\n', -1)}">
+                                                <th:block th:text="${str}"/>
+                                                <br th:if="${!stat.last}"/>
+                                            </th:block>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="tab-memberlist"
+                             th:class="${content.roomWidth == null || content.day == 0 ? 'tab-pane fade in active' : 'tab-pane fade'}"
+                             style="padding-top: 10px; padding-bottom: 10px;">
+                            <div class="col-sm-6 col-xs-6">
+                                <table class="table table-bordered table-condensed small"
+                                       th:each="statusDto, s : ${content.memberList}" th:if=${s.first}>
+                                    <tr>
+                                        <th th:text="${statusDto.status + ' (' + statusDto.statusMemberList.size() +'人)'}">
+                                            生存
+                                        </th>
+                                    </tr>
+                                    <tr th:each="member : ${statusDto.statusMemberList}">
+                                        <td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName} + ${member.memo != null ? '　[' + member.memo + ']' : '' }"></td>
+                                    </tr>
+                                    <tr th:if="${statusDto.statusMemberList.size() == 0}">
+                                        <td>なし</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-sm-6 col-xs-6">
+                                <table class="table table-bordered table-condensed small"
+                                       th:each="statusDto, s : ${content.memberList}" th:unless=${s.first}>
+                                    <tr>
+                                        <th th:text="${statusDto.status + ' (' + statusDto.statusMemberList.size() +'人)'}">
+                                            生存
+                                        </th>
+                                    </tr>
+                                    <tr th:each="member : ${statusDto.statusMemberList}">
+                                        <td th:text="${member.deadDay != null ? member.deadDay + ' ' : ''} + ${member.charaName} + ${member.memo != null ? '　[' + member.memo + ']' : '' }"></td>
+                                    </tr>
+                                    <tr th:if="${statusDto.statusMemberList.size() == 0}">
+                                        <td>なし</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="tab-votelist" th:if="${content.vote != null}" class="tab-pane fade"
+                             style="padding-top: 10px; padding-bottom: 10px;">
+                            <div class="col-sm-12 col-xs-12">
+                                <table class="table-bordered table-condensed small">
+                                    <thead>
+                                    <tr th:if="${content.roomAssignedRowList}">
+                                        <td th:colspan="${content.vote.maxVoteCount+1}">
+                                            <th:block th:each="row, s : ${content.roomAssignedRowList}">
+                                                <th:block th:each="room, st: ${row.roomAssignedList}">
+                                                    <span th:if="${room.dead == null || room.charaShortName == null}"
+                                                          th:text="${room.roomNumber + '＿'}"></span>
+                                                    <span
+                                                            th:if="${room.dead != null && room.dead && (room.deadReason == 'ATTACK' || room.deadReason == 'DIVINED' || room.deadReason == 'TRAPPED' || room.deadReason == 'BOMBED')}"
+                                                            style="color: #ff0000;"
+                                                            th:text="${room.roomNumber + room.charaShortName}"></span>
+                                                    <span th:if="${room.dead != null && room.dead && (room.deadReason == 'EXECUTE' || room.deadReason == 'SUDDON')}"
+                                                          style="color: #3498db;"
+                                                          th:text="${room.roomNumber + room.charaShortName}"></span>
+                                                    <span th:if="${room.dead != null && room.dead && room.deadReason == 'SUICIDE'}"
+                                                          style="color: #db3498;"
+                                                          th:text="${room.roomNumber + room.charaShortName}"></span>
+                                                    <span th:if="${room.dead != null && !room.dead}"
+                                                          th:text="${room.roomNumber + room.charaShortName}"></span>
+                                                    <span th:if="${!st.last}" th:text="'　'"></span>
+                                                </th:block>
+                                                <br/>
+                                                <br th:if="${!s.last}"/>
+                                            </th:block>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th><a href="javascript:void(0);" data-vote-day="0">投票者</a></th>
+                                        <th th:each="i : ${#numbers.sequence(2, content.vote.maxVoteCount+1)}"
+                                            class="text-center" th:value="${i}"><a
+                                                href="javascript:void(0);" th:text="${i + 'd'}"
+                                                th:data-vote-day="${i-1}"></a></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="member : ${content.vote.voteList}">
+                                        <td th:text="${member.charaName}"></td>
+                                        <td th:each="target: ${member.voteTargetList}" class="small"
+                                            th:text="${target}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="tab-footsteplist" th:if="${content.villageFootstepList != null}" class="tab-pane fade"
+                             style="padding-top: 10px; padding-bottom: 10px;">
+                            <div class="col-sm-12 col-xs-12">
+                                <table class="table-bordered table-condensed small">
+                                    <tbody>
+                                    <tr th:if="${content.roomAssignedRowList}">
+                                        <td colspan="2">
+                                            <th:block th:each="row, s : ${content.roomAssignedRowList}">
+                                                <th:block th:each="room, st: ${row.roomAssignedList}">
+                                                    <span th:if="${room.dead == null || room.charaShortName == null}"
+                                                          th:text="${room.roomNumber + '＿'}"></span>
+                                                    <span
+                                                            th:if="${room.dead != null && room.dead && (room.deadReason == 'ATTACK' || room.deadReason == 'DIVINED' || room.deadReason == 'TRAPPED' || room.deadReason == 'BOMBED')}"
+                                                            style="color: #ff0000;"
+                                                            th:text="${room.roomNumber + room.charaShortName}"></span>
+                                                    <span th:if="${room.dead != null && room.dead && (room.deadReason == 'EXECUTE' || room.deadReason == 'SUDDON')}"
+                                                          style="color: #3498db;"
+                                                          th:text="${room.roomNumber + room.charaShortName}"></span>
+                                                    <span th:if="${room.dead != null && room.dead && room.deadReason == 'SUICIDE'}"
+                                                          style="color: #db3498;"
+                                                          th:text="${room.roomNumber + room.charaShortName}"></span>
+                                                    <span th:if="${room.dead != null && !room.dead}"
+                                                          th:text="${room.roomNumber + room.charaShortName}"></span>
+                                                    <span th:if="${!st.last}" th:text="'　'"></span>
+                                                </th:block>
+                                                <br/>
+                                                <br th:if="${!s.last}"/>
+                                            </th:block>
+                                        </td>
+                                    </tr>
+                                    <tr th:each="day : ${content.villageFootstepList}">
+                                        <td class="text-center" th:text="${day.day + 'd'}"></td>
+                                        <td class="small"><span data-spoiled-content> <th:block th:if="${day.footstep}">
+															<th:block
+                                                                    th:each="str, stat : ${day.footstep.split('\r\n|\r|\n', -1)}">
+																<th:block th:text="${str}"/>
+																<br th:if="${!stat.last}"/>
 															</th:block>
 														</th:block>
 												</span> <span class="hidden" data-spoiled-alternative-content> ネタバレ防止のため非表示にしています。<br>
 												</span></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

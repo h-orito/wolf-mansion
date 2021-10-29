@@ -1,104 +1,114 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorate="~{layout/layout}">
+      layout:decorate="~{layout/layout}">
 <head>
-<!--/* 個別ページのタイトル */-->
-<title th:text="${content.villageName}">テスト村</title>
-<!--/* 個別ページのjs */-->
-<script src="../static/app/js/village.js" th:src="@{/app/js/village.js}"></script>
+    <!--/* 個別ページのタイトル */-->
+    <title th:text="${content.villageName}">テスト村</title>
+    <!--/* 個別ページのjs */-->
+    <script src="../static/app/js/village.js" th:src="@{/app/js/village.js}"></script>
 </head>
 
 <body>
-	<div class="container">
-		<nav layout:replace="~{layout/header::header}"></nav>
-		<div layout:fragment="content">
-			<div id="wrapper">
-				<div class="hidden" th:data-village-id="${content.villageId}" th:data-day="${content.day}"></div>
+<div class="container">
+    <nav layout:replace="~{layout/header::header}"></nav>
+    <div layout:fragment="content">
+        <div id="wrapper">
+            <div class="hidden" th:data-village-id="${content.villageId}" th:data-day="${content.day}"></div>
 
-				<!--/* 村タイトル、日付リンク */-->
-				<div class="col-sm-12 col-xs-12">
-					<div style="display: flex;">
-						<h1 class="h5" th:text="${content.villageNumber} + '. ' + ${content.villageName}" style="flex: 1;"></h1>
-						<div class="pull-right" style="margin-top: 10.5px; margin-bottom: 10.5px;">
-							<a
-								th:href="'https://twitter.com/share?text='
+            <!--/* 村タイトル、日付リンク */-->
+            <div class="col-sm-12 col-xs-12">
+                <div style="display: flex;">
+                    <h1 class="h5" th:text="${content.villageNumber} + '. ' + ${content.villageName}"
+                        style="flex: 1;"></h1>
+                    <div class="pull-right" style="margin-top: 10.5px; margin-bottom: 10.5px;">
+                        <a
+                                th:href="'https://twitter.com/share?text='
 								+ ${content.villageName} + '%0a'
 								+ ${content.day == 0 ? '開始予定: ' + #temporals.format(content.settings.startDatetime, 'yyyy/MM/dd HH:mm') + '%0a' : ''}"
-								class="twitter-share-button" data-hashtags="WOLF_MANSION" data-lang="ja" data-show-count="false"></a>
-							<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-						</div>
-					</div>
-					<hr style="margin-top: 5px; margin-bottom: 10px;" />
+                                class="twitter-share-button" data-hashtags="WOLF_MANSION" data-lang="ja"
+                                data-show-count="false"></a>
+                        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                    </div>
+                </div>
+                <hr style="margin-top: 5px; margin-bottom: 10px;"/>
 
-					<!--/* 日付リスト */-->
-					<div layout:replace="~{village/village-day-list::village-day-list}"></div>
-				</div>
+                <!--/* 日付リスト */-->
+                <div layout:replace="~{village/village-day-list::village-day-list}"></div>
+            </div>
 
-				<div class="col-sm-12 col-xs-12">
-					<div class="">
-						<!--/* ログ部分 */-->
-						<div class="col-sm-12 col-xs-12">
-							<div class="row" data-message-area>
-								<div class="message col-sm-12 col-xs-12 text-muted">読み込み中...</div>
-							</div>
-							<div class="row">
-								<div class="col-sm-12 col-xs-12 crearfix" th:unless="${noAd}" style="margin-top: 15px;">
-									<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-									<!-- werewolf-mansion-log-bottom -->
-									<ins class="adsbygoogle" style="display: block" data-ad-client="ca-pub-0917187897820609" data-ad-slot="2768254717" data-ad-format="auto"
-										data-full-width-responsive="true"></ins>
-									<script>
-										(adsbygoogle = window.adsbygoogle || []).push({});
-									</script>
-								</div>
-							</div>
-							<hr style="margin-top: 5px; margin-bottom: 10px; margin-left: -15px;" />
-						</div>
+            <div class="col-sm-12 col-xs-12">
+                <div class="">
+                    <!--/* ログ部分 */-->
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="row" data-message-area>
+                            <div class="message col-sm-12 col-xs-12 text-muted">読み込み中...</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 crearfix" th:unless="${noAd}" style="margin-top: 15px;">
+                                <script async
+                                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <!-- werewolf-mansion-log-bottom -->
+                                <ins class="adsbygoogle" style="display: block" data-ad-client="ca-pub-0917187897820609"
+                                     data-ad-slot="2768254717" data-ad-format="auto"
+                                     data-full-width-responsive="true"></ins>
+                                <script>
+                                    (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </div>
+                        </div>
+                        <hr style="margin-top: 5px; margin-bottom: 10px; margin-left: -15px;"/>
+                    </div>
 
-						<!--/* 画面下部への移動時や発言後ここに遷移させる。ネガティブマージンを指定することでここが下端にしている。 */-->
-						<div id="bottom" class="col-sm-12 col-xs-12" style="margin-top: -100vh; padding-top: 100vh; z-index: -1;"></div>
+                    <!--/* 画面下部への移動時や発言後ここに遷移させる。ネガティブマージンを指定することでここが下端にしている。 */-->
+                    <div id="bottom" class="col-sm-12 col-xs-12"
+                         style="margin-top: -100vh; padding-top: 100vh; z-index: -1;"></div>
 
-						<!--/* フォームエリア */-->
-						<div layout:replace="~{village/form-area::form-area}"></div>
+                    <!--/* フォームエリア */-->
+                    <div layout:replace="~{village/form-area::form-area}"></div>
 
-						<!--/* フッターメニュー */-->
-						<div layout:replace="~{village/footer-menu::footer-menu}"></div>
+                    <!--/* フッターメニュー */-->
+                    <div layout:replace="~{village/footer-menu::footer-menu}"></div>
 
-						<!--/* 日付リスト */-->
-						<div layout:replace="~{village/village-day-list::village-day-list}"></div>
-						<a href="javascript:void(0);" th:href="@{/}" class="btn btn-default btn-sm small" style="margin-bottom: 10px;">サイトトップへ</a>
-					</div>
-				</div>
+                    <!--/* 日付リスト */-->
+                    <div layout:replace="~{village/village-day-list::village-day-list}"></div>
+                    <a href="javascript:void(0);" th:href="@{/}" class="btn btn-default btn-sm small"
+                       style="margin-bottom: 10px;">サイトトップへ</a>
+                </div>
+            </div>
 
-				<!--/* フィルタ */-->
-				<div layout:replace="~{village/modal-filter::modal-filter}"></div>
+            <!--/* フィルタ */-->
+            <div layout:replace="~{village/modal-filter::modal-filter}"></div>
 
-				<!--/* 村情報 */-->
-				<div layout:replace="~{village/modal-village-info::modal-village-info}"></div>
+            <!--/* 村情報 */-->
+            <div layout:replace="~{village/modal-village-info::modal-village-info}"></div>
 
-				<!--/* 表示設定 */-->
-				<div layout:replace="~{village/display-settings::display-settings}"></div>
-			</div>
+            <!--/* 表示設定 */-->
+            <div layout:replace="~{village/display-settings::display-settings}"></div>
+        </div>
 
-			<div class="hidden">
-				<form id="say-confirm-form" th:if="${content.form.say.isDispSayForm}" method="post" action=""
-					th:action="@{/village/{villageId}/say(villageId=${content.villageId})}"></form>
-				<form id="action-confirm-form" th:if="${content.form.action.isDispActionForm}" method="post" action=""
-					th:action="@{/village/{villageId}/action(villageId=${content.villageId})}"></form>
-			</div>
-			<div class="daychange-alert alert alert-success">日付が更新されました。ページを再読み込みしてください。</div>
-			<div id="autorefresh-alert" class="autorefresh-alert alert alert-success">最新発言を読み込みました</div>
-			<div class="hidden" id="daychange-datetime" th:if="${content.dayChangeDatetime}"
-				th:text="${#temporals.format(content.dayChangeDatetime, 'yyyy/MM/dd HH:mm:ss')}"></div>
-			<div class="hidden" id="latest-message-datetime">0</div>
-			<div class="hidden" id="random-keywords" th:text="${content.randomKeywords}"></div>
-			<div id="time-alert" class="hidden time-alert alert alert-info">
-				更新まで <span id="left-time">00:00:00</span>
-			</div>
-			<script id="message-template" type="text/x-handlebars-template" layout:include="~{village-template/message::message}"></script>
-			<script id="message-partial-template" type="text/x-handlebars-template" layout:include="~{village-template/message-partial::message-partial}"></script>
-		</div>
-		<footer layout:replace="~{layout/footer::footer}"></footer>
-	</div>
+        <div class="hidden">
+            <form id="say-confirm-form" th:if="${content.form.say.dispSayForm}" method="post" action=""
+                  th:action="@{/village/{villageId}/say(villageId=${content.villageId})}"></form>
+            <form id="action-confirm-form" th:if="${content.form.action.dispActionForm}" method="post" action=""
+                  th:action="@{/village/{villageId}/action(villageId=${content.villageId})}"></form>
+        </div>
+        <div class="daychange-alert alert alert-success">日付が更新されました。ページを再読み込みしてください。</div>
+        <div id="autorefresh-alert" class="autorefresh-alert alert alert-success">最新発言を読み込みました</div>
+        <div class="hidden" id="daychange-datetime" th:if="${content.dayChangeDatetime}"
+             th:text="${#temporals.format(content.dayChangeDatetime, 'yyyy/MM/dd HH:mm:ss')}"></div>
+        <div class="hidden" id="latest-message-datetime">0</div>
+        <div class="hidden" id="random-keywords" th:text="${content.randomKeywords}"></div>
+        <div id="time-alert" class="hidden time-alert alert alert-info">
+            更新まで <span id="left-time">00:00:00</span>
+        </div>
+        <script id="message-template" type="text/x-handlebars-template"
+                layout:include="~{village-template/message::message}"></script>
+        <script id="message-partial-template" type="text/x-handlebars-template"
+                layout:include="~{village-template/message-partial::message-partial}"></script>
+        <script id="participants-template" type="text/x-handlebars-template"
+                layout:include="~{village-template/participants::participants}"></script>
+    </div>
+    <footer layout:replace="~{layout/footer::footer}"></footer>
+</div>
 </body>
 </html>

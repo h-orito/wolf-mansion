@@ -5,11 +5,11 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 
 data class RandomKeywordForm(
-    @NotNull
-    @Length(min = 3, max = 10)
-    @Pattern(regexp = "[a-zA-Z]*")
+    @field:NotNull
+    @field:Length(min = 3, max = 10)
+    @field:Pattern(regexp = "[a-zA-Z]*")
     val keyword: String? = null,
 
-    @NotNull
+    @field:NotNull
     val message: String? = null
 )

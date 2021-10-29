@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - feature/kotlin
 
 jobs:
   delivery:
@@ -11,8 +12,6 @@ jobs:
     steps:
       - name: clone repository
         uses: actions/checkout@v2
-        with:
-          ref: master
 
       - name: download arm64 JDK 8
         run: |

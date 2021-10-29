@@ -1,100 +1,113 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>フッター</title>
-<link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}" />
-<link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" />
-<!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-<script src="../../static/lib/bootstrap/js/bootstrap.min.js" th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
-<script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js" th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
-<script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>フッター</title>
+    <link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}"/>
+    <link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css"
+          th:href="@{/lib/bootstrap/css/bootstrap.min.css}"/>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <script src="../../static/lib/bootstrap/js/bootstrap.min.js"
+            th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+    <script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js"
+            th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
+    <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<div class="modal fade" id="modal-filter" tabindex="-1" layout:fragment="modal-filter">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-body row">
-					<div class="col-sm-12 col-xs-12">
-						<h4>発言抽出</h4>
-						<div class="col-sm-6 col-xs-6">
-							<strong>キャラクター</strong>
-							<table class="table-bordered table-condensed small" style="margin-top: 5px;">
-								<tbody>
-									<tr th:each="chara : ${content.characterList}">
-										<td class="small bg-info" th:text="${chara.name}" th:data-filter-chara-id="${chara.value}"></td>
-									</tr>
-								</tbody>
-							</table>
-							<a href="javascript:void(0);" data-filter-chara-allon>全てON</a> / <a href="javascript:void(0);" data-filter-chara-alloff>全てOFF</a>
-						</div>
-						<div class="col-sm-6 col-xs-6">
-							発言種別
-							<table class="table-bordered table-condensed small" style="margin-top: 5px;">
-								<tbody>
-									<tr>
-										<td class="small bg-info" data-filter-message-type="NORMAL_SAY">通常発言</td>
-									</tr>
-									<tr>
-										<td class="small bg-info" data-filter-message-type="WEREWOLF_SAY">狼の囁き</td>
-									</tr>
-									<tr>
-										<td class="small bg-info" data-filter-message-type="MASON_SAY">共鳴発言</td>
-									</tr>
-									<tr>
-										<td class="small bg-info" data-filter-message-type="LOVERS_SAY">恋人発言</td>
-									</tr>
-									<tr>
-										<td class="small bg-info" data-filter-message-type="GRAVE_SAY">墓下発言</td>
-									</tr>
-									<tr th:if="${content.settings.isAvailableSpectate}">
-										<td class="small bg-info" data-filter-message-type="SPECTATE_SAY">見学発言</td>
-									</tr>
-									<tr>
-										<td class="small bg-info" data-filter-message-type="MONOLOGUE_SAY">独り言</td>
-									</tr>
-									<tr>
-										<td class="small bg-info" data-filter-message-type="SECRET_SAY">秘話</td>
-									</tr>
-									<tr>
-										<td class="small bg-info" data-filter-message-type="ACTION">アクション</td>
-									</tr>
-								</tbody>
-							</table>
-							<a href="javascript:void(0);" data-filter-type-allon>全てON</a> / <a href="javascript:void(0);" data-filter-type-alloff>全てOFF</a>
-						</div>
-						<div class="col-sm-6 col-xs-6" style="margin-top: 20px;">
-							キーワード
-							<input type="text" class="form-control" data-filter-message-keyword placeholder="スペース区切り" style="margin-top: 5px;" />
-							<a href="javascript:void(0);" data-filter-message-clear>クリア</a>
-						</div>
+<div class="modal fade" id="modal-filter" tabindex="-1" layout:fragment="modal-filter">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body row">
+                <div class="col-sm-12 col-xs-12">
+                    <h4>発言抽出</h4>
+                    <div class="col-sm-6 col-xs-6">
+                        <strong>キャラクター</strong>
+                        <table class="table-bordered table-condensed small" style="margin-top: 5px;">
+                            <tbody>
+                            <tr th:each="chara : ${content.characterList}">
+                                <td class="small bg-info" th:text="${chara.name}"
+                                    th:data-filter-chara-id="${chara.value}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <a href="javascript:void(0);" data-filter-chara-allon>全てON</a> / <a href="javascript:void(0);"
+                                                                                            data-filter-chara-alloff>全てOFF</a>
+                    </div>
+                    <div class="col-sm-6 col-xs-6">
+                        発言種別
+                        <table class="table-bordered table-condensed small" style="margin-top: 5px;">
+                            <tbody>
+                            <tr>
+                                <td class="small bg-info" data-filter-message-type="NORMAL_SAY">通常発言</td>
+                            </tr>
+                            <tr>
+                                <td class="small bg-info" data-filter-message-type="WEREWOLF_SAY">狼の囁き</td>
+                            </tr>
+                            <tr>
+                                <td class="small bg-info" data-filter-message-type="MASON_SAY">共鳴発言</td>
+                            </tr>
+                            <tr>
+                                <td class="small bg-info" data-filter-message-type="LOVERS_SAY">恋人発言</td>
+                            </tr>
+                            <tr>
+                                <td class="small bg-info" data-filter-message-type="GRAVE_SAY">墓下発言</td>
+                            </tr>
+                            <tr th:if="${content.settings.availableSpectate}">
+                                <td class="small bg-info" data-filter-message-type="SPECTATE_SAY">見学発言</td>
+                            </tr>
+                            <tr>
+                                <td class="small bg-info" data-filter-message-type="MONOLOGUE_SAY">独り言</td>
+                            </tr>
+                            <tr>
+                                <td class="small bg-info" data-filter-message-type="SECRET_SAY">秘話</td>
+                            </tr>
+                            <tr>
+                                <td class="small bg-info" data-filter-message-type="ACTION">アクション</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <a href="javascript:void(0);" data-filter-type-allon>全てON</a> / <a href="javascript:void(0);"
+                                                                                           data-filter-type-alloff>全てOFF</a>
+                    </div>
+                    <div class="col-sm-6 col-xs-6" style="margin-top: 20px;">
+                        キーワード
+                        <input type="text" class="form-control" data-filter-message-keyword placeholder="スペース区切り"
+                               style="margin-top: 5px;"/>
+                        <a href="javascript:void(0);" data-filter-message-clear>クリア</a>
+                    </div>
 
-						<div class="col-sm-6 col-xs-6" style="margin-top: 20px;">
-							<input type="checkbox" class="form-check-input" name="dsetting-unspoiled-check" data-dsetting-unspoiled>
-							<label class="form-check-label" for="dsetting-unspoiled-check">エピローグ前同等の表示にする</label>
-						</div>
+                    <div class="col-sm-6 col-xs-6" style="margin-top: 20px;">
+                        <input type="checkbox" class="form-check-input" name="dsetting-unspoiled-check"
+                               data-dsetting-unspoiled>
+                        <label class="form-check-label" for="dsetting-unspoiled-check">エピローグ前同等の表示にする</label>
+                    </div>
 
-						<div class="clearfix col-sm-12 col-xs-12 small">
-							<a href="javascript:void(0);" class="btn btn-success btn-sm pull-right small" data-filter-submit>抽出</a> <a href="javascript:void(0);"
-								class="btn btn-primary btn-sm pull-right small" data-dismiss="modal" style="margin-right: 10px;">閉じる</a>
-						</div>
-					</div>
-					<div class="col-sm-12 col-xs-12">
-						<h4>自分宛発言抽出</h4>
-						<div class="clearfix col-sm-12 col-xs-12 small">
-							<a href="javascript:void(0);" class="btn btn-success btn-sm pull-right small" data-onlytome-submit>自分宛の発言のみ抽出</a> <a href="javascript:void(0);"
-								class="btn btn-primary btn-sm pull-right small" data-onlytome-cancel-submit style="margin-right: 10px;">元に戻す</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                    <div class="clearfix col-sm-12 col-xs-12 small">
+                        <a href="javascript:void(0);" class="btn btn-success btn-sm pull-right small"
+                           data-filter-submit>抽出</a> <a href="javascript:void(0);"
+                                                        class="btn btn-primary btn-sm pull-right small"
+                                                        data-dismiss="modal" style="margin-right: 10px;">閉じる</a>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <h4>自分宛発言抽出</h4>
+                    <div class="clearfix col-sm-12 col-xs-12 small">
+                        <a href="javascript:void(0);" class="btn btn-success btn-sm pull-right small"
+                           data-onlytome-submit>自分宛の発言のみ抽出</a> <a href="javascript:void(0);"
+                                                                  class="btn btn-primary btn-sm pull-right small"
+                                                                  data-onlytome-cancel-submit
+                                                                  style="margin-right: 10px;">元に戻す</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

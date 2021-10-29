@@ -55,7 +55,7 @@ data class RecruitingContent(
         companion object {
             private fun convertToParticipateNum(village: Village): String {
                 val current = village.participants.count
-                return if (village.status.isRecruiting()) {
+                return if (village.status.isPrologue()) {
                     val max = village.setting.personMax
                     "$current/$max"
                 } else {
