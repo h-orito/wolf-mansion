@@ -42,10 +42,10 @@ class SayDomainService(
         CDef.MessageType.恋人発言,
         CDef.MessageType.人狼の囁き,
         CDef.MessageType.共鳴発言,
+        CDef.MessageType.独り言,
         CDef.MessageType.通常発言,
         CDef.MessageType.死者の呻き,
-        CDef.MessageType.見学発言,
-        CDef.MessageType.独り言
+        CDef.MessageType.見学発言
     )
 
     fun convertToSituation(
