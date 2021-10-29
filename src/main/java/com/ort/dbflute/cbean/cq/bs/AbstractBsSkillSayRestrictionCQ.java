@@ -248,6 +248,14 @@ public abstract class AbstractBsSkillSayRestrictionCQ extends AbstractConditionQ
     }
 
     /**
+     * Equal(=). As 参加者一覧 (PARTICIPANTS). And OnlyOnceRegistered. <br>
+     * 参加者一覧
+     */
+    public void setMessageTypeCode_Equal_参加者一覧() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.参加者一覧);
+    }
+
+    /**
      * Equal(=). As 検死結果 (PRIVATE_CORONER). And OnlyOnceRegistered. <br>
      * 検死結果
      */
@@ -436,6 +444,14 @@ public abstract class AbstractBsSkillSayRestrictionCQ extends AbstractConditionQ
      */
     public void setMessageTypeCode_NotEqual_通常発言() {
         setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.通常発言);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 参加者一覧 (PARTICIPANTS). And OnlyOnceRegistered. <br>
+     * 参加者一覧
+     */
+    public void setMessageTypeCode_NotEqual_参加者一覧() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.参加者一覧);
     }
 
     /**

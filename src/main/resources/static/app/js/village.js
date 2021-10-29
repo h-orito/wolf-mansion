@@ -14,9 +14,11 @@ $(function () {
     const GET_FACEIMG_URL = contextPath + 'getFaceImgUrl/' + villageId;
     const SAY_CONFIRM_URL = contextPath + 'village/' + villageId + '/confirm';
     const ACTION_CONFIRM_URL = contextPath + 'village/' + villageId + '/action-confirm';
+    const PARTICIPANTS_URL = contextPath + 'village/' + villageId + '/getParticipants';
     const messageTemplate = Handlebars.compile($("#message-template").html());
     const messagePartialTemplate = Handlebars.compile($("#message-partial-template").html());
     Handlebars.registerPartial('messagePartial', messagePartialTemplate);
+    const participantsTemplate = Handlebars.compile($("#participants-template").html());
     const $sayTextarea = $('#sayform [data-say-textarea]');
     const $sayTypeArea = $('[data-say-type]');
     const $abilityArea = $('[data-ability]');
@@ -128,6 +130,9 @@ $(function () {
 
             // 更新通知のために最新メッセージ日時を埋め込む
             storeLatestMessageDatetime(response, day);
+
+            // 参加者一覧があったら追加でメッセージを読み込んで埋め込む
+            loadParticipantsIfNeeded();
         });
     }
 
@@ -177,6 +182,17 @@ $(function () {
             return message.messageContent.replace(/ \(([^\(]*)\)、/g, '(<a href="javascript:void(0);" data-user-page="$1">$1</a>)、');
         }
         return message.messageContent;
+    }
+
+    function loadParticipantsIfNeeded() {
+        if ($('#participants').length === 0) return;
+        $.ajax({
+            type: 'GET',
+            url: PARTICIPANTS_URL
+        }).then(function (response) {
+            console.log(response)
+            $('#participants').find('.message-public-system').html(participantsTemplate(response));
+        });
     }
 
     function storeLatestMessageDatetime(response, day) {

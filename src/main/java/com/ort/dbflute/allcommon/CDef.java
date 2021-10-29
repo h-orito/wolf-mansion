@@ -1510,6 +1510,9 @@ public interface CDef extends Classification {
         /** 通常発言 */
         通常発言("NORMAL_SAY", "通常発言", emptyStrings())
         ,
+        /** 参加者一覧 */
+        参加者一覧("PARTICIPANTS", "参加者一覧", emptyStrings())
+        ,
         /** 検死結果 */
         検死結果("PRIVATE_CORONER", "検死結果", emptyStrings())
         ,

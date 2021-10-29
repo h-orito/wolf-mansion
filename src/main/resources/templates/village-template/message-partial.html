@@ -269,6 +269,12 @@
         <div class="message col-sm-12 col-xs-12 message-action">{{{messageContent}}}</div>
     </div>
 </div>
+{{else if (eq messageType 'PARTICIPANTS')}}
+<div class="col-sm-12 col-xs-12" id="participants">
+    <div class="row">
+        <div class="message col-sm-12 col-xs-12 message-public-system">{{{messageContent}}}</div>
+    </div>
+</div>
 {{/if}}
 </body>
 </html>

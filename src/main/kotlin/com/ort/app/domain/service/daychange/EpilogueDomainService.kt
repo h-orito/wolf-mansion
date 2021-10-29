@@ -2,8 +2,10 @@ package com.ort.app.domain.service.daychange
 
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.message.Message
+import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.service.ability.BombDomainService
+import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -48,21 +50,10 @@ class EpilogueDomainService(
     }
 
     private fun addPlayersMessage(daychange: Daychange): Daychange {
-        val text = daychange.village.allParticipants()
-            .sortedByRoomNumber().list
-            .joinToString(separator = "\n") {
-                val player = daychange.players.player(it.playerId)
-                if (it.isSpectator) {
-                    "${it.name()} (${player.name})、見学参加だった。"
-                } else {
-                    val dead = if (it.isDead()) "死亡" else "生存"
-                    val win = if (it.isWin!!) "勝利" else "敗北"
-                    "${it.name()} (${player.name})、$dead、$win。${it.skill!!.name}だった。"
-                }
-            }
         val message = Message.ofSystemMessage(
             day = daychange.village.latestDay(),
-            message = text
+            message = "読み込み中..",
+            messageType = CDef.MessageType.参加者一覧.toModel()
         )
         return daychange.copy(messages = daychange.messages.add(message))
     }

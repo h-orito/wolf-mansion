@@ -5,6 +5,7 @@ import com.ort.app.api.request.VillageGetMessageListForm
 import com.ort.app.api.view.VillageAnchorMessageContent
 import com.ort.app.api.view.VillageLatestMessageDatetimeContent
 import com.ort.app.api.view.VillageMessageListContent
+import com.ort.app.api.view.VillageParticipantsContent
 import com.ort.app.application.coordinator.DaychangeCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.CommitService
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.ResponseBody
 import java.time.format.DateTimeFormatter
 
@@ -103,5 +105,17 @@ class VillageMessageController(
         }
         val charas = charaService.findCharas(village.setting.charachipId)
         return VillageAnchorMessageContent(message, village, player, charas)
+    }
+
+    // 参加者一覧取得
+    @GetMapping("/village/{villageId}/getParticipants")
+    @ResponseBody
+    private fun getParticipants(
+        @PathVariable villageId: Int
+    ): VillageParticipantsContent {
+        val village = villageService.findVillage(villageId) ?: throw WolfMansionBusinessException("village not found.")
+        if (!village.status.isSettled()) throw WolfMansionBusinessException("invalid village status.")
+        val players = playerService.findPlayers(villageId)
+        return VillageParticipantsContent(village, players)
     }
 }
