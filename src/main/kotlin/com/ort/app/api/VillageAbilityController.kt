@@ -11,8 +11,8 @@ import com.ort.app.api.view.VillageGetAttackTargetListContent
 import com.ort.app.api.view.VillageGetFootstepListContent
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.VillageApplicationService
-import com.ort.app.web.exception.WolfMansionBusinessException
-import com.ort.fw.util.WolfMansionUserInfoUtil
+import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -45,7 +45,8 @@ class VillageAbilityController(
             return "village"
         }
         val myself =
-            WolfMansionUserInfoUtil.getUserInfo()?.let { villageService.findVillageParticipant(village.id, it) }
+            WolfMansionUserInfoUtil.getUserInfo()
+                ?.let { villageService.findVillageParticipant(village.id, it.username) }
         try {
             villageCoordinator.setAbility(
                 village,
@@ -75,7 +76,8 @@ class VillageAbilityController(
             return "village"
         }
         val myself =
-            WolfMansionUserInfoUtil.getUserInfo()?.let { villageService.findVillageParticipant(village.id, it) }
+            WolfMansionUserInfoUtil.getUserInfo()
+                ?.let { villageService.findVillageParticipant(village.id, it.username) }
         try {
             villageCoordinator.setVote(
                 village,
@@ -103,7 +105,8 @@ class VillageAbilityController(
             return "village"
         }
         val myself =
-            WolfMansionUserInfoUtil.getUserInfo()?.let { villageService.findVillageParticipant(village.id, it) }
+            WolfMansionUserInfoUtil.getUserInfo()
+                ?.let { villageService.findVillageParticipant(village.id, it.username) }
         try {
             villageCoordinator.setCommit(
                 village,
@@ -127,7 +130,8 @@ class VillageAbilityController(
         val village = villageService.findVillage(form.villageId!!)
             ?: throw WolfMansionBusinessException("village not found.")
         val myself =
-            WolfMansionUserInfoUtil.getUserInfo()?.let { villageService.findVillageParticipant(village.id, it) }
+            WolfMansionUserInfoUtil.getUserInfo()
+                ?.let { villageService.findVillageParticipant(village.id, it.username) }
         val targets = villageCoordinator.getAttackableTargets(village, myself, form.charaId!!)
         return VillageGetAttackTargetListContent(targets)
     }
@@ -143,7 +147,8 @@ class VillageAbilityController(
         val village = villageService.findVillage(form.villageId!!)
             ?: throw WolfMansionBusinessException("village not found.")
         val myself =
-            WolfMansionUserInfoUtil.getUserInfo()?.let { villageService.findVillageParticipant(village.id, it) }
+            WolfMansionUserInfoUtil.getUserInfo()
+                ?.let { villageService.findVillageParticipant(village.id, it.username) }
         val footsteps =
             villageCoordinator.getSelectableFootstepList(village, myself, form.charaId, form.targetCharaId)
         return VillageGetFootstepListContent(footsteps)

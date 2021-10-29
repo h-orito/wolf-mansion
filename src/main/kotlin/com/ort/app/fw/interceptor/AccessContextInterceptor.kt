@@ -1,9 +1,9 @@
 package com.ort.app.fw.interceptor
 
-import com.ort.fw.util.WolfMansionDateUtil
-import com.ort.fw.util.WolfMansionUserInfoUtil
+import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import org.dbflute.hook.AccessContext
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter
+import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -16,11 +16,11 @@ class AccessContextInterceptor : HandlerInterceptorAdapter() {
             return true
         }
         // [アクセス日時]
-        val accessLocalDateTime = WolfMansionDateUtil.currentLocalDateTime()
+        val accessLocalDateTime = LocalDateTime.now()
 
         // [アクセスユーザ]
         val userInfo = WolfMansionUserInfoUtil.getUserInfo()
-        val accessUser = if (userInfo == null) "not login user" else userInfo.username
+        val accessUser = userInfo?.username ?: "not login user"
         val context = AccessContext()
         context.accessLocalDateTime = accessLocalDateTime
         context.accessUser = accessUser

@@ -6,7 +6,7 @@ import com.ort.app.domain.model.situation.village.VillageFootstepSituation
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
-import com.ort.app.web.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import org.springframework.stereotype.Service
 
 @Service
@@ -155,7 +155,7 @@ class FootstepDomainService(
     fun getSkillByFootstep(village: Village, day: Int, targetFootstep: String, footsteps: Footsteps): Skill {
         // 足音が鳴った時点で生存している人の部屋番号
         val roomNumberList =
-            village.participants.list.filter { it.isAliveWhen(day + 1) }.map { it.roomNumberWhen(day + 1)!! }
+            village.participants.list.filter { it.isAliveWhen(day + 1) }.map { it.roomNumberWhen(day)!! }
         // 調査対象の足音
         val target = footsteps.filterByDay(day).list
             .filterNot { it.roomNumbers == "なし" }

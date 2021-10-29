@@ -4,7 +4,7 @@ import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
-import com.ort.app.web.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionBusinessException
 
 interface AbilityTypeDomainService {
 

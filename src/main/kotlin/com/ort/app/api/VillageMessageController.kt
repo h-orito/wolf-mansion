@@ -14,8 +14,8 @@ import com.ort.app.application.service.VillageApplicationService
 import com.ort.app.application.service.VoteApplicationService
 import com.ort.app.domain.model.commit.Commits
 import com.ort.app.domain.model.vote.Votes
-import com.ort.app.web.exception.WolfMansionBusinessException
-import com.ort.fw.util.WolfMansionUserInfoUtil
+import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
@@ -45,7 +45,7 @@ class VillageMessageController(
             ?: throw WolfMansionBusinessException("village not found.")
         // 最終アクセス日時を更新
         val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            villageService.findVillageParticipant(village.id, it)
+            villageService.findVillageParticipant(village.id, it.username)
         }?.also { villageService.updateLastAccessDatetime(it) }
         // 更新時間が過ぎていたら日付更新
         daychangeCoordinator.changeDayIfNeeded(village)
@@ -74,7 +74,7 @@ class VillageMessageController(
         val village = villageService.findVillage(form.villageId!!, excludeGone = false)
             ?: throw WolfMansionBusinessException("village not found.")
         val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            villageService.findVillageParticipant(village.id, it)
+            villageService.findVillageParticipant(village.id, it.username)
         }
         val datetime = messageService.findLatestMessageDatetime(village, myself, form.toMessageQuery(village))
         return VillageLatestMessageDatetimeContent(
@@ -94,7 +94,7 @@ class VillageMessageController(
             ?: throw WolfMansionBusinessException("village not found.")
         // 最終アクセス日時を更新
         val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            villageService.findVillageParticipant(village.id, it)
+            villageService.findVillageParticipant(village.id, it.username)
         }
         // 発言取得
         val message = messageService.findMessage(village, myself, form.messageType!!, form.messageNumber!!)

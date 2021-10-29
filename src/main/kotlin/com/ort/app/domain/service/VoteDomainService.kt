@@ -8,7 +8,7 @@ import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.vote.Vote
 import com.ort.app.domain.model.vote.Votes
-import com.ort.app.web.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import org.springframework.stereotype.Service
 
 @Service

@@ -21,7 +21,7 @@ import com.ort.app.domain.service.message.say.SecretSayDomainService
 import com.ort.app.domain.service.message.say.SpectateSayDomainService
 import com.ort.app.domain.service.message.say.SympathizeSayDomainService
 import com.ort.app.domain.service.message.say.WerewolfSayDomainService
-import com.ort.app.web.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 

@@ -37,9 +37,8 @@ import com.ort.app.domain.service.VoteDomainService
 import com.ort.app.domain.service.ability.AbilityDomainService
 import com.ort.app.domain.service.ability.AttackDomainService
 import com.ort.app.domain.service.room.RoomDomainService
-import com.ort.app.web.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
-import com.ort.fw.security.UserInfo
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -237,7 +236,7 @@ class VillageCoordinator(
 
     fun findParticipantSituation(
         village: Village,
-        userInfo: UserInfo?,
+        username: String?,
         myself: VillageParticipant?,
         votes: Votes,
         abilities: Abilities,
@@ -245,7 +244,7 @@ class VillageCoordinator(
         charachip: Charachip,
         day: Int
     ): ParticipantSituation {
-        val player: Player? = userInfo?.let { playerService.findPlayer(it.username) }
+        val player: Player? = username?.let { playerService.findPlayer(it) }
         val commits = commitService.findCommits(village.id)
         val latestDayMessageCountMap = myself?.let {
             messageService.findParticipantDayMessageCount(village, village.latestDay(), it)

@@ -29,17 +29,56 @@
             </div>
             <div id="debugform-content" class="panel-collapse collapse in">
                 <div class="panel-body">
-                    <select class="form-control" id="dummy-login-player">
-                        <option th:each="target : ${dummyLoginPlayerList}" th:value="${target.value}"
-                                th:text="${target.name}"></option>
-                    </select>
-                    <input type="button" class="col-sm-6 col-xs-6 btn btn-xs btn-success" value="ログイン"
-                           data-dummy-login/>
-                    <input type="button" class="col-sm-6 col-xs-6 btn btn-xs btn-warning" value="ログアウト" data-logout/>
-                    <form id="logout-form" method="post" action="" th:action="@{/logout}"></form>
-                    <form id="login-form" method="post" action="" th:action="@{/login}">
+                    <form method="post" th:if="${content.day == 0}" action=""
+                          th:action="@{/village/{villageId}/allparticipate(villageId=${content.villageId})}"
+                          class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">入村させる</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" th:value="16" th:name="personNumber"/>
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="submit" class="btn btn-sm btn-success pull-right" value="人数分入村させる"/>
+                            </div>
+                        </div>
+                    </form>
+                    <form method="post" action=""
+                          th:action="@{/village/{villageId}/dayChange(villageId=${content.villageId})}"
+                          class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">日付を進める</label>
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-2">
+                                <input type="submit" class="btn btn-sm btn-success pull-right" value="日付を進める"/>
+                            </div>
+                        </div>
+                    </form>
+                    <form id="login-form" method="post" th:action="@{/login}" class="form-horizontal">
                         <input type="hidden" name="userId" value="u"/>
                         <input type="hidden" name="password" value="testuser"/>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">ダミーログイン</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="dummy-login-player">
+                                    <option th:each="target : ${dummyLoginPlayerList}" th:value="${target.value}"
+                                            th:text="${target.name}"></option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="submit" class="btn btn-sm btn-success pull-right" value="ログイン"
+                                       data-dummy-login/>
+                            </div>
+                        </div>
+                    </form>
+                    <form id="logout-form" method="post" action="" th:action="@{/logout}" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-2">
+                                <input type="button" class="btn btn-sm btn-warning pull-right" value="ログアウト"
+                                       data-logout/>
+                            </div>
+                        </div>
                     </form>
                     <script type="text/javascript">
                         $(function () {

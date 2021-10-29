@@ -8,7 +8,7 @@ import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.village.participant.VillageParticipants
 import com.ort.app.domain.model.village.room.RoomSize
 import com.ort.app.domain.model.village.setting.SayRestriction
-import com.ort.app.web.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

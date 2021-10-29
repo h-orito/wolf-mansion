@@ -7,9 +7,8 @@ import com.ort.app.domain.model.village.VillageRepository
 import com.ort.app.domain.model.village.VillageStatus
 import com.ort.app.domain.model.village.Villages
 import com.ort.app.domain.model.village.participant.VillageParticipant
-import com.ort.app.web.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
-import com.ort.fw.security.UserInfo
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -46,11 +45,11 @@ class VillageApplicationService(
     // participant
     fun findVillageParticipant(
         villageId: Int,
-        userInfo: UserInfo,
+        username: String,
         excludeGone: Boolean = true
     ): VillageParticipant? = villageRepository.findVillageParticipant(
         villageId = villageId,
-        userName = userInfo.username,
+        userName = username,
         excludeGone = excludeGone
     )
 
@@ -86,7 +85,8 @@ class VillageApplicationService(
         villageRepository.changeMemo(participant, memo)
     }
 
-    fun updateLastAccessDatetime(participant: VillageParticipant) = villageRepository.updateLastAccessDatetime(participant)
+    fun updateLastAccessDatetime(participant: VillageParticipant) =
+        villageRepository.updateLastAccessDatetime(participant)
 
     fun updateDaychangeDifference(current: Village, changed: Village) {
         if (current.isSame(changed)) return

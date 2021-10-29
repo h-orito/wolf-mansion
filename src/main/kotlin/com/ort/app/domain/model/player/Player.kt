@@ -1,6 +1,6 @@
 package com.ort.app.domain.model.player
 
-import com.ort.app.web.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 
 data class Player(

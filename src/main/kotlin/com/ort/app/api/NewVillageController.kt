@@ -10,8 +10,8 @@ import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.VillageApplicationService
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.village.VillageStatus
-import com.ort.app.web.exception.WolfMansionBusinessException
-import com.ort.fw.util.WolfMansionUserInfoUtil
+import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult

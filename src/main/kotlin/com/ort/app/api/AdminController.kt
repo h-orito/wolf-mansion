@@ -1,109 +1,44 @@
 package com.ort.app.api
 
-import com.ort.app.application.coordinator.DaychangeCoordinator
+import com.ort.app.api.request.VillageLeaveForm
+import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.VillageApplicationService
-import com.ort.app.logic.VillageParticipateLogic
-import com.ort.app.web.form.VillageLeaveForm
-import com.ort.app.web.form.VillageParticipateForm
-import com.ort.app.web.model.VillageCharaPlayerResultContent
-import com.ort.dbflute.allcommon.CDef
-import com.ort.dbflute.cbean.CharaCB
 import com.ort.dbflute.cbean.VillageDayCB
 import com.ort.dbflute.cbean.VillagePlayerCB
-import com.ort.dbflute.cbean.VillageSettingsCB
 import com.ort.dbflute.cbean.VoteCB
-import com.ort.dbflute.exbhv.CharaBhv
 import com.ort.dbflute.exbhv.VillageDayBhv
 import com.ort.dbflute.exbhv.VillagePlayerBhv
 import com.ort.dbflute.exbhv.VoteBhv
-import com.ort.dbflute.exentity.VillageDay
 import com.ort.dbflute.exentity.VillagePlayer
 import com.ort.dbflute.exentity.Vote
-import com.ort.fw.util.WolfMansionDateUtil
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.ResponseBody
+import java.time.LocalDateTime
 import java.util.function.Consumer
 import java.util.stream.Collectors
 
 @Controller
 class AdminController(
-    private val charaBhv: CharaBhv,
     private val villageDayBhv: VillageDayBhv,
     private val villagePlayerBhv: VillagePlayerBhv,
     private val voteBhv: VoteBhv,
-    private val villageLogic: VillageParticipateLogic,
     private val villageService: VillageApplicationService,
-    private val daychangeCoordinator: DaychangeCoordinator
+    private val villageCoordinator: VillageCoordinator
 ) {
-
-    // 管理者機能：参戦
-    @PostMapping("/admin/village/{villageId}/allparticipate")
-    private fun allparticipate(
-        @PathVariable villageId: Int,
-        participateForm: VillageParticipateForm
-    ): String {
-        // 参戦していないキャラを人数分探す
-        val charaList = charaBhv.selectList { cb: CharaCB ->
-            cb.query()
-                .queryCharaGroup()
-                .existsVillageSettings { villageSettingsCB: VillageSettingsCB ->
-                    villageSettingsCB.query().setVillageId_Equal(villageId)
-                }
-            cb.query().notExistsVillagePlayer { villagePlayerCB: VillagePlayerCB ->
-                villagePlayerCB.query().setVillageId_Equal(villageId)
-                villagePlayerCB.query().setIsGone_Equal_False()
-            }
-            cb.fetchFirst(participateForm.personNumber)
-        }
-        for (i in charaList.indices) {
-            val playerId = i + 2
-            // 希望役職をランダムに取得
-            val randomSkill = CDef.Skill.values()[(Math.random() * CDef.Skill.values().size - 1).toInt()]
-            val randomSkill2 = CDef.Skill.values()[(Math.random() * CDef.Skill.values().size - 1).toInt()]
-            // 入村
-            villageLogic.participate(
-                villageId, playerId, charaList[i].charaId, randomSkill, randomSkill2,
-                "テストアカウント入村です。playerId：$playerId", false, true
-            )
-        }
-        return "redirect:/village/$villageId#bottom"
-    }
-
-    // 管理者機能：時間を進める
-    @PostMapping("/admin/village/{villageId}/dayChange")
-    private fun daychange(@PathVariable villageId: Int): String {
-        // 最新の日付の更新日時を今にする
-        val latestDay = villageDayBhv.selectEntity { cb: VillageDayCB ->
-            cb.query().setVillageId_Equal(villageId)
-            cb.query().addOrderBy_Day_Desc()
-            cb.fetchFirst(1)
-        }.get()
-        val villageDay = VillageDay()
-        villageDay.daychangeDatetime = WolfMansionDateUtil.currentLocalDateTime().minusSeconds(1L)
-        villageDayBhv.queryUpdate(villageDay) { cb: VillageDayCB ->
-            cb.query().setVillageId_Equal(villageId)
-            cb.query().setDay_Equal(latestDay.day)
-        }
-        val village = villageService.findVillage(villageId)!!
-        daychangeCoordinator.changeDayIfNeeded(village)
-        return "redirect:/village/$villageId#bottom"
-    }
-
     // 管理者機能：強制退村
     @PostMapping("/admin/village/{villageId}/leave")
     private fun leave(@PathVariable villageId: Int, leaveForm: VillageLeaveForm): String {
         if (leaveForm.villagePlayerId == null) {
             return "redirect:/village/$villageId#bottom"
         }
-        val optVPlayer = villagePlayerBhv.selectByPK(leaveForm.villagePlayerId)
-        if (!optVPlayer.isPresent) {
-            return "redirect:/village/$villageId#bottom"
-        }
         // 退村させる
-        villageLogic.leave(optVPlayer.get())
+        val village = villageService.findVillage(villageId) ?: return "redirect:/village/$villageId#bottom"
+        val participant = villageService.findVillageParticipant(leaveForm.villagePlayerId)
+            ?: return "redirect:/village/$villageId#bottom"
+        villageCoordinator.leave(village, participant)
         return "redirect:/village/$villageId#bottom"
     }
 
@@ -111,7 +46,7 @@ class AdminController(
     @PostMapping("/admin/village/{villageId}/access")
     private fun access(@PathVariable villageId: Int): String {
         val vp = VillagePlayer()
-        vp.lastAccessDatetime = WolfMansionDateUtil.currentLocalDateTime()
+        vp.lastAccessDatetime = LocalDateTime.now()
         villagePlayerBhv.queryUpdate(vp) { cb: VillagePlayerCB ->
             cb.query().setVillageId_Equal(villageId)
         }
@@ -150,19 +85,15 @@ class AdminController(
     // 管理者機能：参加プレイヤー
     @GetMapping("/admin/village/{villageId}/player")
     @ResponseBody
-    private fun player(@PathVariable villageId: Int): List<VillageCharaPlayerResultContent> {
+    private fun player(@PathVariable villageId: Int): List<VillageCharaPlayerContent> {
         return villagePlayerBhv.selectList { cb: VillagePlayerCB ->
             cb.setupSelect_Chara()
             cb.setupSelect_Player()
             cb.query().setVillageId_Equal(villageId)
             cb.query().setIsGone_Equal_False()
             cb.query().addOrderBy_VillagePlayerId_Asc()
-        }.stream().map { vp: VillagePlayer ->
-            val charaPlayer = VillageCharaPlayerResultContent()
-            charaPlayer.charaName = vp.charaName
-            charaPlayer.playerName = vp.player.get().playerName
-            charaPlayer
-        }.collect(Collectors.toList())
+        }.map { VillageCharaPlayerContent(charaName = it.charaName, playerName = it.player.get().playerName) }
     }
 
+    data class VillageCharaPlayerContent(val charaName: String, val playerName: String)
 }

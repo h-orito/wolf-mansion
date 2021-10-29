@@ -6,7 +6,7 @@ import com.ort.app.api.view.RandomMessageListContent
 import com.ort.app.application.service.RandomKeywordService
 import com.ort.app.domain.model.randomkeyword.RandomContent
 import com.ort.app.domain.model.randomkeyword.RandomKeyword
-import com.ort.app.web.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult

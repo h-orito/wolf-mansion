@@ -10,9 +10,9 @@ import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.VillageApplicationService
 import com.ort.app.domain.model.skill.Skill
-import com.ort.app.web.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
-import com.ort.fw.util.WolfMansionUserInfoUtil
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -52,7 +52,12 @@ class VillageParticipateController(
             ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         val player = WolfMansionUserInfoUtil.getUserInfo()?.let { playerService.findPlayer(it.username) }
         if (result.hasErrors() || player == null) {
-            villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms(participateForm = participateForm))
+            villageControllerHelper.setIndexModel(
+                village,
+                village.latestDay(),
+                model,
+                VillageForms(participateForm = participateForm)
+            )
             return "village"
         }
         try {
@@ -65,7 +70,12 @@ class VillageParticipateController(
             )
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("participateErrorMessage", e.message)
-            villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms(participateForm = participateForm))
+            villageControllerHelper.setIndexModel(
+                village,
+                village.latestDay(),
+                model,
+                VillageForms(participateForm = participateForm)
+            )
             return "village"
         }
 
@@ -92,7 +102,12 @@ class VillageParticipateController(
             ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         val player = WolfMansionUserInfoUtil.getUserInfo()?.let { playerService.findPlayer(it.username) }
         if (result.hasErrors() || player == null) {
-            villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms(participateForm = participateForm))
+            villageControllerHelper.setIndexModel(
+                village,
+                village.latestDay(),
+                model,
+                VillageForms(participateForm = participateForm)
+            )
             return "village"
         }
         val first = participateForm.requestedSkill?.let {
@@ -115,7 +130,12 @@ class VillageParticipateController(
             )
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("participateErrorMessage", e.message)
-            villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms(participateForm = participateForm))
+            villageControllerHelper.setIndexModel(
+                village,
+                village.latestDay(),
+                model,
+                VillageForms(participateForm = participateForm)
+            )
             return "village"
         }
         // 最新の日へ
@@ -133,7 +153,7 @@ class VillageParticipateController(
         val village = villageService.findVillage(villageId)
             ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            villageService.findVillageParticipant(village.id, it)
+            villageService.findVillageParticipant(village.id, it.username)
         }
         if (result.hasErrors() || myself == null) {
             villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms())
@@ -158,7 +178,7 @@ class VillageParticipateController(
         val village = villageService.findVillage(villageId)
             ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            villageService.findVillageParticipant(village.id, it)
+            villageService.findVillageParticipant(village.id, it.username)
         }
         if (myself == null) {
             villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms())

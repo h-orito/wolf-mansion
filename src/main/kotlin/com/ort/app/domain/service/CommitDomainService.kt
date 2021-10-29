@@ -4,7 +4,7 @@ import com.ort.app.domain.model.commit.Commits
 import com.ort.app.domain.model.situation.participant.ParticipantCommitSituation
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
-import com.ort.app.web.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import org.springframework.stereotype.Service
 
 @Service

@@ -101,25 +101,29 @@ class RoomDomainService(
         val targetRoomNumber = room.number
         val width = size.width
 
-        return if (isLeftSide(targetRoomNumber, width)) {
-            listOf(
-                targetRoomNumber - width,  // 上
-                targetRoomNumber + 1,  // 右
-                targetRoomNumber + width // 下
-            )
-        } else if (isRightSide(targetRoomNumber, width)) {
-            listOf(
-                targetRoomNumber - width,  // 上
-                targetRoomNumber - 1,  // 左
-                targetRoomNumber + width // 下
-            )
-        } else {
-            listOf(
-                targetRoomNumber - width,  // 上
-                targetRoomNumber - 1,  // 左
-                targetRoomNumber + 1,  // 右
-                targetRoomNumber + width // 下
-            )
+        return when {
+            isLeftSide(targetRoomNumber, width) -> {
+                listOf(
+                    targetRoomNumber - width,  // 上
+                    targetRoomNumber + 1,  // 右
+                    targetRoomNumber + width // 下
+                )
+            }
+            isRightSide(targetRoomNumber, width) -> {
+                listOf(
+                    targetRoomNumber - width,  // 上
+                    targetRoomNumber - 1,  // 左
+                    targetRoomNumber + width // 下
+                )
+            }
+            else -> {
+                listOf(
+                    targetRoomNumber - width,  // 上
+                    targetRoomNumber - 1,  // 左
+                    targetRoomNumber + 1,  // 右
+                    targetRoomNumber + width // 下
+                )
+            }
         }
     }
 

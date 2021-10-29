@@ -1,7 +1,6 @@
 package com.ort.app.infrastructure.slack
 
 import com.ort.app.domain.model.slack.SlackRepository
-import com.ort.app.logic.MessageLogic
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity

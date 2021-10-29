@@ -5,7 +5,7 @@ import com.ort.app.api.request.VillageForms
 import com.ort.app.api.view.VillageListContent
 import com.ort.app.application.service.VillageApplicationService
 import com.ort.app.domain.model.village.VillageStatus
-import com.ort.app.web.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model

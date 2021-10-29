@@ -12,7 +12,7 @@ import com.ort.app.application.service.VoteApplicationService
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.service.daychange.DaychangeDomainService
-import com.ort.app.web.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

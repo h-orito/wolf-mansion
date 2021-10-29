@@ -30,19 +30,6 @@
             </div>
             <div id="adminform-content" class="panel-collapse collapse in">
                 <div class="panel-body">
-                    <form method="post" th:if="${content.day == 0}" action=""
-                          th:action="@{/admin/village/{villageId}/allparticipate(villageId=${content.villageId})}"
-                          class="form-horizontal">
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">入村させる</label>
-                            <div class="col-sm-8">
-                                <input class="form-control" type="text" th:value="16" th:name="personNumber"/>
-                            </div>
-                            <div class="col-sm-2">
-                                <input type="submit" class="btn btn-sm btn-success pull-right" value="人数分入村させる"/>
-                            </div>
-                        </div>
-                    </form>
                     <form method="post" action=""
                           th:action="@{/admin/village/{villageId}/access(villageId=${content.villageId})}"
                           class="form-horizontal">
@@ -57,20 +44,9 @@
                           th:action="@{/admin/village/{villageId}/vote(villageId=${content.villageId})}"
                           class="form-horizontal">
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">全員投票</label>
+                            <label class="col-sm-2 control-label">全員自投票</label>
                             <div class="col-sm-10">
                                 <input type="submit" class="btn btn-sm btn-success pull-right" value="全員投票"/>
-                            </div>
-                        </div>
-                    </form>
-                    <form method="post" action=""
-                          th:action="@{/admin/village/{villageId}/dayChange(villageId=${content.villageId})}"
-                          class="form-horizontal">
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">日付を進める</label>
-                            <div class="col-sm-8"></div>
-                            <div class="col-sm-2">
-                                <input type="submit" class="btn btn-sm btn-success pull-right" value="日付を進める"/>
                             </div>
                         </div>
                     </form>

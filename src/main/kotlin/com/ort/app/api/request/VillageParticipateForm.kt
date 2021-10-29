@@ -10,5 +10,6 @@ data class VillageParticipateForm(
     @field:NotNull
     val joinMessage: String? = null,
     val joinPassword: String? = null,
-    val spectator: Boolean? = null
+    val spectator: Boolean? = null,
+    val personNumber: Int? = null
 )

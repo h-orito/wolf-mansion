@@ -28,9 +28,9 @@ import com.ort.app.domain.model.situation.ParticipantSituation
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.service.SpoilerDomainService
-import com.ort.app.web.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
-import com.ort.fw.util.WolfMansionUserInfoUtil
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.ui.Model
@@ -53,7 +53,7 @@ class VillageControllerHelper(
 
     fun setIndexModel(village: Village, day: Int, model: Model, villageForms: VillageForms) {
         val userInfo = WolfMansionUserInfoUtil.getUserInfo()
-        val myself = userInfo?.let { villageService.findVillageParticipant(village.id, it) }
+        val myself = userInfo?.let { villageService.findVillageParticipant(village.id, it.username) }
         val votes = voteService.findVotes(village.id)
         val footsteps = footstepService.findFootsteps(village.id)
         val abilities = abilityService.findAbilities(village.id)
@@ -70,7 +70,7 @@ class VillageControllerHelper(
         )
         val participantSituation = villageCoordinator.findParticipantSituation(
             village = village,
-            userInfo = userInfo,
+            username = userInfo?.username,
             myself = myself,
             votes = votes,
             abilities = abilities,
@@ -284,9 +284,9 @@ class VillageControllerHelper(
         val players = playerService.findPlayers(village.id)
         val participantList = village.allParticipants().sortedByRoomNumber().list.map {
             val name = it.name()
-            val skill = it.skill?.name?.let{ skill ->  ": $skill" } ?: ""
+            val skill = it.skill?.name?.let { skill -> ": $skill" } ?: ""
             val playerName = players.player(it.playerId).name
-            OptionContent(name = "$name$skill",value = playerName)
+            OptionContent(name = "$name$skill", value = playerName)
         }
         model.addAttribute("dummyLoginPlayerList", participantList)
     }

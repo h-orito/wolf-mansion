@@ -6,8 +6,8 @@ import com.ort.app.api.request.VillageForms
 import com.ort.app.api.request.VillageMemoForm
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.VillageApplicationService
-import com.ort.app.web.exception.WolfMansionBusinessException
-import com.ort.fw.util.WolfMansionUserInfoUtil
+import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -41,7 +41,7 @@ class VillageRpController(
             return "village"
         }
         val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            villageService.findVillageParticipant(village.id, it)
+            villageService.findVillageParticipant(village.id, it.username)
         }
         try {
             villageCoordinator.changeName(village, myself, changeNameForm.name!!, changeNameForm.shortName!!)
@@ -69,7 +69,7 @@ class VillageRpController(
             return "village"
         }
         val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            villageService.findVillageParticipant(village.id, it)
+            villageService.findVillageParticipant(village.id, it.username)
         }
         try {
             villageService.changeMemo(myself, memoForm.memo!!)

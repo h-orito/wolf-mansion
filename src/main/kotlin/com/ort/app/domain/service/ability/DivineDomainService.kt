@@ -13,7 +13,7 @@ import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.MessageDomainService
 import com.ort.app.domain.service.room.RoomDomainService
-import com.ort.app.web.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
@@ -181,7 +181,7 @@ class DivineDomainService(
         myself: VillageParticipant,
         target: VillageParticipant
     ): String {
-        val targetRoomNumberList = roomDomainService.detectHishaRoomNumbers(target.room!!, village.roomSize!!)
+        val targetRoomNumberList = roomDomainService.detectAroundRoomNumbers(target.room!!, village.roomSize!!)
         return village.participants.list
             .filter { targetRoomNumberList.contains(it.room!!.number) }
             .groupBy { it.skill!!.name }.entries

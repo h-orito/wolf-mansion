@@ -3,7 +3,6 @@ package com.ort.app.domain.service.ability
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.Ability
 import com.ort.app.domain.model.ability.AbilityType
-import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.chara.Charas
 import com.ort.app.domain.model.chara.toModel
 import com.ort.app.domain.model.daychange.Daychange
@@ -16,7 +15,7 @@ import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.MessageDomainService
 import com.ort.app.domain.service.room.RoomDomainService
-import com.ort.app.web.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 

@@ -3,7 +3,6 @@ package com.ort.app.domain.model.village.setting
 import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.Skills
-import com.ort.app.logic.AssignLogic
 import com.ort.dbflute.allcommon.CDef
 import org.slf4j.LoggerFactory
 import java.util.*

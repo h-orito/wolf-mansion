@@ -3,7 +3,7 @@ package com.ort.app.application.service
 import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.player.PlayerRepository
 import com.ort.app.domain.model.player.Players
-import com.ort.app.web.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import org.springframework.stereotype.Service
 
 @Service

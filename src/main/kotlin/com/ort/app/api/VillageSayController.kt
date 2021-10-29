@@ -12,9 +12,9 @@ import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.RandomKeywordService
 import com.ort.app.application.service.VillageApplicationService
-import com.ort.app.web.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
-import com.ort.fw.util.WolfMansionUserInfoUtil
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -65,7 +65,8 @@ class VillageSayController(
         if (result.hasErrors()) return null
         val village = villageService.findVillage(villageId) ?: return null
         val myself =
-            WolfMansionUserInfoUtil.getUserInfo()?.let { villageService.findVillageParticipant(village.id, it) }
+            WolfMansionUserInfoUtil.getUserInfo()
+                ?.let { villageService.findVillageParticipant(village.id, it.username) }
         try {
             val message = messageCoordinator.confirmToSay(
                 village,
@@ -108,7 +109,7 @@ class VillageSayController(
             return "village"
         }
         val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            villageService.findVillageParticipant(village.id, it)
+            villageService.findVillageParticipant(village.id, it.username)
         }
         try {
             messageCoordinator.say(
@@ -137,7 +138,8 @@ class VillageSayController(
         if (result.hasErrors()) return null
         val village = villageService.findVillage(villageId) ?: return null
         val myself =
-            WolfMansionUserInfoUtil.getUserInfo()?.let { villageService.findVillageParticipant(village.id, it) }
+            WolfMansionUserInfoUtil.getUserInfo()
+                ?.let { villageService.findVillageParticipant(village.id, it.username) }
         try {
             val message = messageCoordinator.confirmToSay(
                 village,
@@ -180,7 +182,7 @@ class VillageSayController(
             return "village"
         }
         val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            villageService.findVillageParticipant(village.id, it)
+            villageService.findVillageParticipant(village.id, it.username)
         }
         try {
             messageCoordinator.say(
