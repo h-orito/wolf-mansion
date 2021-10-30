@@ -180,7 +180,7 @@ class MessageDataSource(
     }
 
     private fun insertMessageSendTo(m: DbMessage) {
-        val splitted = m.messageContent.split("\\>\\>")
+        val splitted = m.messageContent.split(">>")
         if (splitted.size <= 1) {
             return  // >>が含まれていない
         }
@@ -230,35 +230,37 @@ class MessageDataSource(
     ) {
         cb.query().setVillageId_Equal(query.village.id)
         cb.query().setDay_Equal(query.day)
-        if (query.isAllViewable) {
-            // 条件なし
-        } else if (myself == null) {
-            cb.query().setMessageTypeCode_InScope_AsMessageType(query.messageTypeList.map { it.toCdef() })
-        } else {
-            val personalMessageTypeList =
-                query.personalMessageTypeList.map { it.toCdef() } + listOf(
-                    CDef.MessageType.独り言,
-                    CDef.MessageType.秘話
-                )
-            cb.orScopeQuery { orCB ->
-                orCB.query().setMessageTypeCode_InScope_AsMessageType(query.messageTypeList.map { it.toCdef() })
-                orCB.orScopeQueryAndPart { andCB ->
-                    andCB.query()
-                        .setMessageTypeCode_InScope_AsMessageType(personalMessageTypeList)
-                    andCB.query().setVillagePlayerId_Equal(myself.id)
-                }
-                orCB.orScopeQueryAndPart { andCB ->
-                    andCB.query().setMessageTypeCode_Equal_秘話()
-                    andCB.query().setToVillagePlayerId_Equal(myself.id)
+        when {
+            query.isAllViewable -> {
+            } // 条件なし
+            myself == null -> cb.query()
+                .setMessageTypeCode_InScope_AsMessageType(query.messageTypeList.map { it.toCdef() })
+            else -> {
+                val personalMessageTypeList =
+                    query.personalMessageTypeList.map { it.toCdef() } + listOf(
+                        CDef.MessageType.独り言,
+                        CDef.MessageType.秘話
+                    )
+                cb.orScopeQuery { orCB ->
+                    orCB.query().setMessageTypeCode_InScope_AsMessageType(query.messageTypeList.map { it.toCdef() })
+                    orCB.orScopeQueryAndPart { andCB ->
+                        andCB.query()
+                            .setMessageTypeCode_InScope_AsMessageType(personalMessageTypeList)
+                        andCB.query().setVillagePlayerId_Equal(myself.id)
+                    }
+                    orCB.orScopeQueryAndPart { andCB ->
+                        andCB.query().setMessageTypeCode_Equal_秘話()
+                        andCB.query().setToVillagePlayerId_Equal(myself.id)
+                    }
                 }
             }
-            if (query.onlyToMe) {
-                cb.orScopeQuery { orCB ->
-                    orCB.query().existsMessageSendto { sendToCB ->
-                        sendToCB.query().setVillagePlayerId_Equal(myself.id)
-                    }
-                    orCB.query().setToVillagePlayerId_Equal(myself.id)
+        }
+        if (myself != null && query.onlyToMe) {
+            cb.orScopeQuery { orCB ->
+                orCB.query().existsMessageSendto { sendToCB ->
+                    sendToCB.query().setVillagePlayerId_Equal(myself.id)
                 }
+                orCB.query().setToVillagePlayerId_Equal(myself.id)
             }
         }
     }
