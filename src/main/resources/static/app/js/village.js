@@ -190,7 +190,6 @@ $(function () {
             type: 'GET',
             url: PARTICIPANTS_URL
         }).then(function (response) {
-            console.log(response)
             $('#participants').find('.message-public-system').html(participantsTemplate(response));
         });
     }
@@ -1150,8 +1149,8 @@ $(function () {
     }
 
     function restoreDisplaySetting() {
-        if (getDisplaySetting('is_no_paging')) {
-            $('[data-dsetting-nopaging]').prop('checked', true);
+        if (!getDisplaySetting('is_no_paging')) {
+            $('[data-dsetting-paging]').prop('checked', true);
         }
         if (getDisplaySetting('auto_refresh')) {
             $('[data-dsetting-autorefresh]').prop('checked', true);
@@ -1227,15 +1226,15 @@ $(function () {
         saveDisplaySetting('already_skill_confirm', confirmVillages);
     });
 
-    $('[data-dsetting-nopaging]').on('change', function () {
+    $('[data-dsetting-paging]').on('change', function () {
         const isCheck = $(this).prop('checked');
-        saveDisplaySetting('is_no_paging', isCheck ? true : false);
+        saveDisplaySetting('is_no_paging', !isCheck);
         loadAndDisplayMessage();
     });
 
     $('[data-dsetting-autorefresh]').on('change', function () {
         const isCheck = $(this).prop('checked');
-        saveDisplaySetting('auto_refresh', isCheck ? true : false);
+        saveDisplaySetting('auto_refresh', isCheck);
     });
 
     $('[data-dsetting-pagesize]').on('change', function () {
