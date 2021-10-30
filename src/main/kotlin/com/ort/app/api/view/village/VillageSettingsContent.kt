@@ -167,9 +167,11 @@ data class VillageSettingsContent(
             minNum = campAllocation.min,
             maxNum = campAllocation.max,
             allocation = campAllocation.allocation,
-            skillAllocation = skillAllocationList
-                .filter { it.skill.camp().code == campAllocation.camp.code }
-                .map { RandomSkillOrganization(it) }
+            skillAllocation = Skills.all().filterNotSomeone()
+                .filterByCamp(campAllocation.camp.toCdef()).list
+                .mapNotNull { skill ->
+                    skillAllocationList.firstOrNull { it.skill.code == skill.code }?.let { RandomSkillOrganization(it) }
+                }
         )
 
         data class RandomSkillOrganization(

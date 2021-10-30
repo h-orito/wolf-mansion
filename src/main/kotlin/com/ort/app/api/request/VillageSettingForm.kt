@@ -4,6 +4,7 @@ import com.ort.app.api.request.setting.MessageTypeSayRestrictForm
 import com.ort.app.api.request.setting.RandomOrganizationCampForm
 import com.ort.app.api.request.setting.RandomOrganizationSkillForm
 import com.ort.app.api.request.setting.SkillSayRestrictForm
+import com.ort.app.api.view.village.VillageSettingsContent
 import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.village.Village
@@ -170,17 +171,20 @@ data class VillageSettingForm(
                 minNum = campAllocation.min,
                 maxNum = campAllocation.max,
                 allocation = campAllocation.allocation,
-                skillAllocation = village.setting.organize.randomOrganization.skillAllocation.filter { s ->
-                    s.skill.camp().code == campAllocation.camp.code
-                }.map { s ->
-                    RandomOrganizationSkillForm(
-                        skillCode = s.skill.code,
-                        skillName = s.skill.name,
-                        minNum = s.min,
-                        maxNum = s.max,
-                        allocation = s.allocation
-                    )
-                }
+                skillAllocation = Skills.all().filterNotSomeone()
+                    .filterByCamp(cdefCamp).list
+                    .mapNotNull { skill ->
+                        village.setting.organize.randomOrganization.skillAllocation
+                            .firstOrNull { it.skill.code == skill.code }?.let { s ->
+                                RandomOrganizationSkillForm(
+                                    skillCode = s.skill.code,
+                                    skillName = s.skill.name,
+                                    minNum = s.min,
+                                    maxNum = s.max,
+                                    allocation = s.allocation
+                                )
+                            }
+                    }
             )
         },
         joinPassword = village.setting.joinPassword,
