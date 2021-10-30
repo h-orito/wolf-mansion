@@ -18,7 +18,7 @@ class VillageController(
     private val villageService: VillageService
 ) {
     // 村一覧初期表示
-    @GetMapping("/village")
+    @GetMapping("/village-list")
     private fun villageListIndex(model: Model): String {
         val villages = villageService.findVillages(statusList = CDef.VillageStatus.listAll().map { VillageStatus(it) })
         model.addAttribute("content", VillageListContent(villages))

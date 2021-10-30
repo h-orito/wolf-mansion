@@ -1,173 +1,232 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/top-layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/top-layout}">
 <head>
-<!--/* 個別ページのタイトル */-->
-<title></title>
-<!--/* 個別ページのjs */-->
-<script src="../static/app/js/index.js" th:src="@{/app/js/index.js}"></script>
+    <!--/* 個別ページのタイトル */-->
+    <title></title>
+    <!--/* 個別ページのjs */-->
+    <script src="../static/app/js/index.js" th:src="@{/app/js/index.js}"></script>
 </head>
 
 <body>
-	<div class="container">
-		<div layout:fragment="content">
-			<div id="wrapper">
-				<!--/* トップ画像 */-->
-				<div class="col-sm-12 col-xs-12 top-image" data-goto="">
-					<img src="" th:src="@{/app/images/top.jpg}" style="width: 100%;"> <span class="font-anima"
-						style="color: #fff; position: absolute; bottom: 0; left: 20px; font-size: 24px; line-height: 24px;"> <span style="color: #ff0000;">W</span>OLF<br><span
-						style="color: #ff0000;">M</span>ANSION
-					</span> <span th:if="${user != null}" style="color: #fff; position: absolute; bottom: 5px; right: 20px;" th:text="'ユーザID: ' + ${user.username}">ユーザID:
+<div class="container">
+    <div layout:fragment="content">
+        <div id="wrapper">
+            <!--/* トップ画像 */-->
+            <div class="col-sm-12 col-xs-12 top-image" data-goto="">
+                <img src="" th:src="@{/app/images/top.jpg}" style="width: 100%;"> <span class="font-anima"
+                                                                                        style="color: #fff; position: absolute; bottom: 0; left: 20px; font-size: 24px; line-height: 24px;"> <span
+                    style="color: #ff0000;">W</span>OLF<br><span
+                    style="color: #ff0000;">M</span>ANSION
+					</span> <span th:if="${user != null}"
+                                  style="color: #fff; position: absolute; bottom: 5px; right: 20px;"
+                                  th:text="'ユーザID: ' + ${user.username}">ユーザID:
 						hoge</span>
-				</div>
+            </div>
 
-				<div class="col-sm-12 col-xs-12 top-menu">
-					<div class="top-menu-inner h500px" style="display: block; text-align: center;">
-						<div class="row">
-							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
-								<h2 class="h5">状況のみで推理・説得する、新しい人狼</h2>
-							</div>
-							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px"
-								style="padding-left: 40px; padding-right: 40px; word-break: break-word; line-height: 1.5em;">
-								WOLF MANSIONでは、<br class="hidden-xs">占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と<br class="hidden-xs">【投票】 の2つを使って推理・説得する <br class="hidden-xs">「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。
-							</div>
-							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
-								<a href="javascript:void(0);" th:href="@{/about}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
-									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-info-sign"></span> <span class="h6" style="display: block;">本サイトは</span>
+            <div class="col-sm-12 col-xs-12 top-menu">
+                <div class="top-menu-inner h500px" style="display: block; text-align: center;">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
+                            <h2 class="h5">状況のみで推理・説得する、新しい人狼</h2>
+                        </div>
+                        <div class="col-sm-12 col-xs-12 top-menu-inner-row h100px"
+                             style="padding-left: 40px; padding-right: 40px; word-break: break-word; line-height: 1.5em;">
+                            WOLF MANSIONでは、<br class="hidden-xs">占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と<br class="hidden-xs">【投票】
+                            の2つを使って推理・説得する <br class="hidden-xs">「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。
+                        </div>
+                        <div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
+                            <a href="javascript:void(0);" th:href="@{/about}"
+                               class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
+                                    class="top-menu-selectable-inner"> <span
+                                    class="glyphicon glyphicon-info-sign"></span> <span class="h6"
+                                                                                        style="display: block;">本サイトは</span>
 										About
 								</span>
-								</a> <a href="javascript:void(0);" th:href="@{/intro}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
-									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-question-sign"></span> <span class="h6" style="display: block;">人狼館の事件簿村</span>
+                            </a> <a href="javascript:void(0);" th:href="@{/intro}"
+                                    class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
+                                class="top-menu-selectable-inner"> <span
+                                class="glyphicon glyphicon-question-sign"></span> <span class="h6"
+                                                                                        style="display: block;">人狼館の事件簿村</span>
 										Introduction
 								</span>
-								</a>
-							</div>
-							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
-								<a href="javascript:void(0);" th:href="@{/rule}" class="col-sm-4 col-xs-4 top-menu-selectable h100px"> <span
-									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-book"></span> <span class="h6" style="display: block;">ルール</span>
+                        </a>
+                        </div>
+                        <div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
+                            <a href="javascript:void(0);" th:href="@{/rule}"
+                               class="col-sm-4 col-xs-4 top-menu-selectable h100px"> <span
+                                    class="top-menu-selectable-inner"> <span
+                                    class="glyphicon glyphicon-book"></span> <span class="h6" style="display: block;">ルール</span>
 										Rule
 								</span>
-								</a> <a href="javascript:void(0);" th:href="@{/faq}" class="col-sm-4 col-xs-4 top-menu-selectable h100px"> <span
-									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-question-sign"></span> <span class="h6" style="display: block;">よくある質問</span>
+                            </a> <a href="javascript:void(0);" th:href="@{/faq}"
+                                    class="col-sm-4 col-xs-4 top-menu-selectable h100px"> <span
+                                class="top-menu-selectable-inner"> <span
+                                class="glyphicon glyphicon-question-sign"></span> <span class="h6"
+                                                                                        style="display: block;">よくある質問</span>
 										FAQ
 								</span>
-								</a> <a href="javascript:void(0);" th:href="@{/announce}" class="col-sm-4 col-xs-4 top-menu-selectable h100px"> <span
-									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-bullhorn"></span> <span class="h6" style="display: block;">お知らせ</span>
+                        </a> <a href="javascript:void(0);" th:href="@{/announce}"
+                                class="col-sm-4 col-xs-4 top-menu-selectable h100px"> <span
+                                class="top-menu-selectable-inner"> <span
+                                class="glyphicon glyphicon-bullhorn"></span> <span class="h6" style="display: block;">お知らせ</span>
 										Announce
 								</span>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
+                        </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-				<div class="col-sm-12 col-xs-12 top-menu">
-					<div class="top-menu-inner h200px" style="display: block; text-align: center;">
-						<div class="row">
-							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
-								<h2 class="h5">登録/ログイン</h2>
-							</div>
-							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
-								<a href="javascript:void(0);" th:href="@{/new-player}" th:if="${user == null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
-									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-pencil"></span> <span class="h6" style="display: block;">ID登録</span>
+            <div class="col-sm-12 col-xs-12 top-menu">
+                <div class="top-menu-inner h200px" style="display: block; text-align: center;">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
+                            <h2 class="h5">登録/ログイン</h2>
+                        </div>
+                        <div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
+                            <a href="javascript:void(0);" th:href="@{/new-player}" th:if="${user == null}"
+                               class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
+                                    class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-pencil"></span> <span
+                                    class="h6" style="display: block;">ID登録</span>
 										Register
 								</span>
-								</a> <a href="javascript:void(0);" th:href="@{/login}" th:if="${user == null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
-									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-lock"></span> <span class="h6" style="display: block;">ログイン</span>
+                            </a> <a href="javascript:void(0);" th:href="@{/login}" th:if="${user == null}"
+                                    class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
+                                class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-lock"></span> <span
+                                class="h6" style="display: block;">ログイン</span>
 										Login
 								</span>
-								</a> <a href="javascript:void(0);" th:href="@{/change-password}" th:if="${user != null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px">
-									<span class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-wrench"></span> <span class="h6" style="display: block;">パスワード変更</span>
+                        </a> <a href="javascript:void(0);" th:href="@{/change-password}" th:if="${user != null}"
+                                class="col-sm-6 col-xs-6 top-menu-selectable h100px">
+									<span class="top-menu-selectable-inner"> <span
+                                            class="glyphicon glyphicon-wrench"></span> <span class="h6"
+                                                                                             style="display: block;">パスワード変更</span>
 										Change Password
 								</span>
-								</a> <a href="javascript:void(0);" th:if="${user != null}" class="col-sm-6 col-xs-6 top-menu-selectable h100px" data-submit-logout> <span
-									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-lock"></span> <span class="h6" style="display: block;">ログアウト</span>
+                        </a> <a href="javascript:void(0);" th:if="${user != null}"
+                                class="col-sm-6 col-xs-6 top-menu-selectable h100px" data-submit-logout> <span
+                                class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-lock"></span> <span
+                                class="h6" style="display: block;">ログアウト</span>
 										Logout
 								</span>
-								</a>
-								<!--/* 
-								<a href="javascript:void(0);" th:if="${user != null}" class="col-sm-4 col-xs-4 top-menu-selectable h100px"> <span
-									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-signal"></span> <span class="h6" style="display: block;">戦績(未実装)</span>
-										Stats
-								</span>
-								</a>
-								 */-->
-							</div>
-						</div>
-					</div>
-				</div>
-				<form id="logout-form" method="post" action="" th:action="@{/logout}"></form>
+                        </a>
+                            <!--/*
+                            <a href="javascript:void(0);" th:if="${user != null}" class="col-sm-4 col-xs-4 top-menu-selectable h100px"> <span
+                                class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-signal"></span> <span class="h6" style="display: block;">戦績(未実装)</span>
+                                    Stats
+                            </span>
+                            </a>
+                             */-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form id="logout-form" method="post" action="" th:action="@{/logout}"></form>
 
-				<div class="col-sm-12 col-xs-12 top-menu">
-					<div class="top-menu-inner" style="display: block; text-align: center;">
-						<div class="row">
-							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
-								<h2 class="h5">開催中の村</h2>
-							</div>
-							<div class="col-sm-12 col-xs-12 top-menu-inner-row">
-								<div class="col-sm-12 col-xs-12 top-menu-selectable-area">
-									<div class="table-responsive clearfix">
-										<table class="table table-bordered table-condensed" style="margin-bottom: 0px; border-collapse: collapse;">
-											<tbody>
-												<tr th:each="village : ${content.villageList}" class="top-menu-selectable" data-goto-village>
-													<td class="col-sm-1 col-xs-1" th:text="${village.villageNumber}"></td>
-													<td class="text-left" th:data-village-url="@{/village/{villageId}(villageId=${village.villageId})}" th:text="${village.villageName}"></td>
-													<td class="col-sm-2 col-xs-2" th:text="${village.participateNum}"></td>
-													<td class="col-sm-2 col-xs-2" th:text="${village.status}"></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+            <div class="col-sm-12 col-xs-12 top-menu">
+                <div class="top-menu-inner" style="display: block; text-align: center;">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
+                            <h2 class="h5">開催中の村</h2>
+                        </div>
+                        <div class="col-sm-12 col-xs-12 top-menu-inner-row">
+                            <div class="col-sm-12 col-xs-12 top-menu-selectable-area">
+                                <div class="table-responsive clearfix">
+                                    <table class="table table-bordered table-condensed"
+                                           style="margin-bottom: 0px; border-collapse: collapse;">
+                                        <tbody>
+                                        <tr th:each="village : ${content.villageList}" class="top-menu-selectable"
+                                            data-goto-village>
+                                            <td class="col-sm-1 col-xs-1" th:text="${village.villageNumber}"></td>
+                                            <td class="text-left"
+                                                th:data-village-url="@{/village/{villageId}(villageId=${village.villageId})}"
+                                                th:text="${village.villageName}"></td>
+                                            <td class="col-sm-2 col-xs-2" th:text="${village.participateNum}"></td>
+                                            <td class="col-sm-2 col-xs-2" th:text="${village.status}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-				<div class="col-sm-6 col-xs-12 top-menu">
-					<div class="top-menu-inner h200px" style="display: block; text-align: center;">
-						<div class="row">
-							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
-								<h2 class="h5">村一覧/村作成</h2>
-							</div>
-							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
-								<a href="javascript:void(0);" th:href="@{/village}" class="col-sm-6 col-xs-6 top-menu-selectable h100px"
-									th:class="${user == null || content.participate ? 'col-sm-12 col-xs-12' : 'col-sm-6 col-xs-6'} + ' top-menu-selectable h100px'"> <span
-									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-list-alt"></span> <span class="h6" style="display: block;">村一覧</span>
+            <div class="col-sm-6 col-xs-12 top-menu">
+                <div class="top-menu-inner h200px" style="display: block; text-align: center;">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
+                            <h2 class="h5">村一覧/村作成</h2>
+                        </div>
+                        <div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
+                            <a href="javascript:void(0);" th:href="@{/village-list}"
+                               class="col-sm-6 col-xs-6 top-menu-selectable h100px"
+                               th:class="${user == null || content.participate ? 'col-sm-12 col-xs-12' : 'col-sm-6 col-xs-6'} + ' top-menu-selectable h100px'"> <span
+                                    class="top-menu-selectable-inner"> <span
+                                    class="glyphicon glyphicon-list-alt"></span> <span class="h6"
+                                                                                       style="display: block;">村一覧</span>
 										Village list
 								</span>
-								</a> <a href="javascript:void(0);" th:href="@{/new-village}" th:if="${user != null && !content.participate}"
-									class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span class="top-menu-selectable-inner"> <span
-										class="glyphicon glyphicon-plus"></span> <span class="h6" style="display: block;">村を建てる</span> Create Village
+                            </a> <a href="javascript:void(0);" th:href="@{/new-village}"
+                                    th:if="${user != null && !content.participate}"
+                                    class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
+                                class="top-menu-selectable-inner"> <span
+                                class="glyphicon glyphicon-plus"></span> <span class="h6"
+                                                                               style="display: block;">村を建てる</span> Create Village
 								</span>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
+                        </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-				<div class="col-sm-6 col-xs-12 top-menu">
-					<div class="top-menu-inner h200px" style="display: block; text-align: center;">
-						<div class="row">
-							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
-								<h2 class="h5">キャラチップ</h2>
-							</div>
-							<div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
-								<a href="javascript:void(0);" th:href="@{/chara-group}" class="col-sm-12 col-xs-12 top-menu-selectable h100px"
-									th:class="${user == null ? 'col-sm-12 col-xs-12' : 'col-sm-12 col-xs-12'} + ' top-menu-selectable h100px'"> <span
-									class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-list-alt"></span> <span class="h6" style="display: block;">一覧</span>
+            <div class="col-sm-6 col-xs-6 top-menu">
+                <div class="top-menu-inner h200px" style="display: block; text-align: center;">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
+                            <h2 class="h5">ユーザー</h2>
+                        </div>
+                        <div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
+                            <a href="javascript:void(0);" th:href="@{/user-list}"
+                               class="col-sm-12 col-xs-12 top-menu-selectable h100px"> <span
+                                    class="top-menu-selectable-inner"> <span
+                                    class="glyphicon glyphicon-list-alt"></span> <span class="h6"
+                                                                                       style="display: block;">一覧</span>
+										User list
+								</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-xs-6 top-menu">
+                <div class="top-menu-inner h200px" style="display: block; text-align: center;">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
+                            <h2 class="h5">キャラチップ</h2>
+                        </div>
+                        <div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
+                            <a href="javascript:void(0);" th:href="@{/chara-group}"
+                               class="col-sm-12 col-xs-12 top-menu-selectable h100px"> <span
+                                    class="top-menu-selectable-inner"> <span
+                                    class="glyphicon glyphicon-list-alt"></span> <span class="h6"
+                                                                                       style="display: block;">一覧</span>
 										Character list
 								</span>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-				<div class="clearfix"></div>
-			</div>
-		</div>
-		
-		<footer layout:replace="~{layout/footer::footer}"></footer>
-	</div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <footer layout:replace="~{layout/footer::footer}"></footer>
+</div>
 </body>
 </html>

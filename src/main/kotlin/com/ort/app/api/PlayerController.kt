@@ -3,7 +3,9 @@ package com.ort.app.api
 import com.ort.app.api.request.LoginForm
 import com.ort.app.api.request.PlayerChangePasswordForm
 import com.ort.app.api.request.PlayerCreateForm
+import com.ort.app.api.request.UserListForm
 import com.ort.app.api.request.validator.PlayerChangePasswordFormValidator
+import com.ort.app.api.view.PlayerListContent
 import com.ort.app.api.view.PlayerRecordsContent
 import com.ort.app.application.coordinator.PlayerCoordinator
 import com.ort.app.application.service.CharaService
@@ -111,6 +113,15 @@ class PlayerController(
         }
         playerService.updatePassword(userInfo.username, form.password!!)
         return "redirect:/"
+    }
+
+    // ユーザー一覧
+    @GetMapping("/user-list")
+    private fun index(form: UserListForm, model: Model): String {
+        val players = playerService.findAllPlayers(pageSize = 5, pageNum = form.pageNum ?: 1)
+        val content = PlayerListContent(players)
+        model.addAttribute("content", content)
+        return "player-list"
     }
 
     // ユーザ情報

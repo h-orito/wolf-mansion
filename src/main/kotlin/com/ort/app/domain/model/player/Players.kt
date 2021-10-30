@@ -1,6 +1,12 @@
 package com.ort.app.domain.model.player
 
-data class Players(val list: List<Player>) {
+data class Players(
+    val list: List<Player>,
+    val allPageCount: Int = 0,
+    val isExistPrePage: Boolean = false,
+    val isExistNextPage: Boolean = false,
+    val currentPageNum: Int = 0
+) {
     fun player(id: Int): Player = list.first { it.id == id }
 
     fun isSame(other: Players): Boolean {

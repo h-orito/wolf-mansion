@@ -11,6 +11,8 @@ class PlayerService(
     private val playerRepository: PlayerRepository
 ) {
 
+    fun findAllPlayers(pageSize: Int, pageNum: Int): Players = playerRepository.findPlayers(pageSize, pageNum)
+
     fun findPlayers(villageIdList: List<Int>): Players = playerRepository.findPlayers(villageIdList)
 
     fun findPlayers(villageId: Int): Players = playerRepository.findPlayers(villageId)

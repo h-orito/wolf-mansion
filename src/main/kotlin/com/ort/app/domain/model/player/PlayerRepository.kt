@@ -2,6 +2,8 @@ package com.ort.app.domain.model.player
 
 interface PlayerRepository {
 
+    fun findPlayers(pageSize: Int, pageNum: Int): Players
+
     fun findPlayers(villageIdList: List<Int>): Players
 
     fun findPlayers(villageId: Int): Players

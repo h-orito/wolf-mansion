@@ -8,6 +8,7 @@ import com.ort.app.domain.model.village.VillageStatus
 import com.ort.dbflute.exbhv.PlayerBhv
 import com.ort.dbflute.exbhv.VillageBhv
 import com.ort.dbflute.exentity.Village
+import org.dbflute.cbean.result.PagingResultBean
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Repository
 import com.ort.dbflute.exentity.Player as DbPlayer
@@ -18,6 +19,23 @@ class PlayerDataSource(
     private val villageBhv: VillageBhv,
     private val passwordEncoder: PasswordEncoder
 ) : PlayerRepository {
+
+    override fun findPlayers(
+        pageSize: Int,
+        pageNum: Int
+    ): Players {
+        val playerPage = playerBhv.selectPage {
+            // 参加したことがあるプレイヤーのみ
+            it.query().existsVillagePlayer { vpCB ->
+                vpCB.query().setIsGone_Equal_False()
+                vpCB.query().queryVillage()
+                    .setVillageStatusCode_InScope_AsVillageStatus(VillageStatus.settledStatusList)
+            }
+            it.query().addOrderBy_PlayerName_Asc()
+            it.paging(pageSize, pageNum)
+        }
+        return mapPlayersWithPaging(playerPage)
+    }
 
     override fun findPlayers(villageIdList: List<Int>): Players {
         val playerList = playerBhv.selectList {
@@ -88,6 +106,16 @@ class PlayerDataSource(
         playerBhv.queryUpdate(player) {
             it.query().setPlayerName_Equal(userName)
         }
+    }
+
+    private fun mapPlayersWithPaging(playerPage: PagingResultBean<DbPlayer>): Players {
+        return Players(
+            list = playerPage.map { mapSimplePlayer(it) },
+            allPageCount = playerPage.allPageCount,
+            isExistPrePage = playerPage.existsPreviousPage(),
+            isExistNextPage = playerPage.existsNextPage(),
+            currentPageNum = playerPage.currentPageNumber
+        )
     }
 
     private fun mapPlayers(playerList: List<DbPlayer>): Players {
