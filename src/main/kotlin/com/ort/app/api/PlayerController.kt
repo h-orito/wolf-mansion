@@ -118,7 +118,7 @@ class PlayerController(
     // ユーザー一覧
     @GetMapping("/user-list")
     private fun index(form: UserListForm, model: Model): String {
-        val players = playerService.findAllPlayers(pageSize = 5, pageNum = form.pageNum ?: 1)
+        val players = playerService.findAllPlayers(pageSize = 30, pageNum = form.pageNum ?: 1)
         val content = PlayerListContent(players)
         model.addAttribute("content", content)
         return "player-list"

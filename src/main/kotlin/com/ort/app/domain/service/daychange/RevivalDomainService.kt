@@ -6,19 +6,33 @@ import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.service.MessageDomainService
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
 @Service
-class RevivalDomainService {
+class RevivalDomainService(
+    private val messageDomainService: MessageDomainService
+) {
 
     fun revival(orgDaychange: Daychange): Daychange {
+        // 梟が存在するか
+        val existOwl = orgDaychange.village.participants.filterBySkill(CDef.Skill.梟.toModel()).list.isNotEmpty()
         // 絶対人狼
         var daychange = revivalAbsoluteWolf(orgDaychange)
         // 転生者
         daychange = revivalReincarnation(daychange)
         // 申し子
-        return revivalHeavenChild(daychange)
+        daychange = revivalHeavenChild(daychange)
+        // 梟が0→1名以上になった場合、メッセージ追加
+        if (!existOwl && daychange.village.participants.filterBySkill(CDef.Skill.梟.toModel()).list.isNotEmpty()) {
+            daychange = daychange.copy(
+                messages = daychange.messages.add(
+                    messageDomainService.createOpenSkillMessage(daychange.village, "この村には強力な聴力を持つ者がいるようだ。")
+                )
+            )
+        }
+        return daychange
     }
 
     private fun revivalAbsoluteWolf(daychange: Daychange): Daychange {
@@ -46,6 +60,15 @@ class RevivalDomainService {
             val skill = Skills.revivables().list.shuffled().first()
             village = village.assignParticipantSkill(it.id, skill)
             messages = messages.add(createRevivalMessage(village, it))
+            // 絶対人狼に転生した場合、メッセージ追加
+            if (skill.toCdef() == CDef.Skill.絶対人狼) {
+                messages = messages.add(
+                    messageDomainService.createOpenSkillMessage(
+                        village = village,
+                        text = "${it.name()}は絶対人狼のようだ。"
+                    )
+                )
+            }
         }
         return daychange.copy(village = village, messages = messages)
     }
