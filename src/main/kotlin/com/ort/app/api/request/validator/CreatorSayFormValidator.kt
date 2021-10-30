@@ -25,7 +25,7 @@ class CreatorSayFormValidator : Validator {
         val length = message.length
         val lineSeparetorNum = message.split("\r\n").size - 1
         val messageLength = length - lineSeparetorNum
-        if (messageLength !in 1..400) {
+        if (messageLength !in 1..1000) {
             errors.rejectValue("message", "VillageSayForm.validator.creator.message.length")
         }
         // 行数が41以上
