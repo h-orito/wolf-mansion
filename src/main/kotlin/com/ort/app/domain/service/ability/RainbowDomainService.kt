@@ -8,11 +8,15 @@ import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.service.FootstepDomainService
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
 @Service
-class RainbowDomainService : AbilityTypeDomainService {
+class RainbowDomainService(
+    private val footstepDomainService: FootstepDomainService
+) : AbilityTypeDomainService {
 
     private val abilityType = CDef.AbilityType.虹塗り.toModel()
 
@@ -39,6 +43,7 @@ class RainbowDomainService : AbilityTypeDomainService {
     }
 
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+    override fun isTargetingAndFootstep(): Boolean = true
 
     override fun getHistories(
         village: Village,
@@ -53,9 +58,34 @@ class RainbowDomainService : AbilityTypeDomainService {
             .filterByType(abilityType)
             .sortedByDay().list.map {
                 val abilityDay = it.day
+                val footstep = footsteps
+                    .filterByDay(abilityDay)
+                    .filterByCharaId(it.charaId).list
+                    .firstOrNull()
+                    ?.roomNumbers ?: "なし"
                 val target = village.participants.chara(it.targetCharaId!!)
-                "${abilityDay}日目 ${target.nameWhen(abilityDay)} を虹色に塗る"
+                "${abilityDay}日目 ${target.nameWhen(abilityDay)} を虹色に塗る（$footstep）"
             }
+    }
+
+    override fun assertAbility(
+        village: Village,
+        myself: VillageParticipant,
+        charaId: Int?,
+        targetCharaId: Int?,
+        footstep: String?,
+        abilities: Abilities,
+        footsteps: Footsteps
+    ) {
+        if (targetCharaId != null
+            && getSelectableTargetList(village, myself, abilities).none { it.charaId == targetCharaId }
+        ) {
+            throw WolfMansionBusinessException("選択できない対象を指定しています")
+        }
+        if (targetCharaId != null) {
+            // 足音
+            footstepDomainService.assertFootstep(village, myself.charaId, targetCharaId, footstep)
+        }
     }
 
     override fun createSetMessageText(
@@ -65,11 +95,14 @@ class RainbowDomainService : AbilityTypeDomainService {
         targetCharaId: Int?,
         footstep: String?
     ): String {
-        val target = targetCharaId?.let { village.participants.chara(it) }
-        return "${myself.name()}が虹色に塗る対象を${target?.name() ?: "なし"}に設定しました。"
+        return if (targetCharaId == null) "${myself.name()}が虹色に塗る対象をなしに設定しました。"
+        else {
+            val target = village.participants.chara(targetCharaId)
+            "${myself.name()}が虹色に塗る対象を${target.name()}に、通過する部屋を${footstep!!}に設定しました。"
+        }
     }
 
-    override fun getTargetSuffix(): String = "を虹色に塗る"
+    override fun getTargetPrefix(): String = "虹色に塗る対象"
 
     fun rainbow(daychange: Daychange): Daychange {
         val village = daychange.village

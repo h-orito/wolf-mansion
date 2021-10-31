@@ -41,16 +41,10 @@
        th:text="'現在の選択: ' + ${targetCharaName == '' || targetCharaName == null ? '何もしない' : 'フルーツバスケットする！'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'LONEWOLF'}"
        th:text="'現在の選択: ' + ${targetCharaName == null ? '襲撃しない' : targetCharaName + ' を襲う' }"></p>
-    <!--/* 通過する部屋 */-->
-    <p class="small" th:if="${content.myself.skill.hasFootstepAbility}"
-       th:text="'通過する部屋: ' + ${footstep == '' || footstep == null ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"
-       th:data-selected-footstep="${footstep == '' || footstep == null ? 'なし': footstep}"></p>
-    <p class="small" th:if="${content.myself.skill.hasCohabitAbility}"
-       th:text="'現在の選択: ' + ${targetCharaName} + ' の部屋で過ごす'"></p>
     <p class="small" th:if="${content.myself.skill.code == 'COURTSHIP'}"
-       th:text="'現在の選択: ' + ${targetCharaName} + ' に求愛する'"></p>
+       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' に求愛する'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'STALKER'}"
-       th:text="'現在の選択: ' + ${targetCharaName} + ' をストーキングする'"></p>
+       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' をストーキングする'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'JOROGUMO'}"
        th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を誘惑する'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'BADGERGAME'}"
@@ -59,6 +53,12 @@
        th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を仲間に引き入れる'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'RAINBOW'}"
        th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を虹色に塗る'}"></p>
+    <!--/* 通過する部屋 */-->
+    <p class="small" th:if="${content.myself.skill.hasFootstepAbility}"
+       th:text="'通過する部屋: ' + ${footstep == '' || footstep == null ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"
+       th:data-selected-footstep="${footstep == '' || footstep == null ? 'なし': footstep}"></p>
+    <p class="small" th:if="${content.myself.skill.hasCohabitAbility}"
+       th:text="'現在の選択: ' + ${targetCharaName} + ' の部屋で過ごす'"></p>
     <hr th:unless="${content.myself.skill.code == 'COMMANDER' || content.myself.skill.code == 'INSTIGATOR'}"/>
 </div>
 </body>

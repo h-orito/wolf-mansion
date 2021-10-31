@@ -436,10 +436,6 @@ class AbilityDomainService(
         daychange = fantasistDomainService.addDefaultAbilities(daychange)
         // 夢遊病
         daychange = sleepwalkDomainService.addDefaultAbilities(daychange)
-        // 求愛
-        daychange = courtDomainService.addDefaultAbilities(daychange)
-        // ストーキング
-        daychange = stalkingDomainService.addDefaultAbilities(daychange)
         // 護衛
         daychange = guardDomainService.addDefaultAbilities(daychange)
         // 壁殴り代行

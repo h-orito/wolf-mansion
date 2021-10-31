@@ -11,6 +11,7 @@ import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.MessageDomainService
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
@@ -65,9 +66,34 @@ class BombDomainService(
             .filterByType(abilityType)
             .sortedByDay().list.map {
                 val abilityDay = it.day
+                val footstep = footsteps
+                    .filterByDay(abilityDay)
+                    .filterByCharaId(it.charaId).list
+                    .firstOrNull()
+                    ?.roomNumbers ?: "なし"
                 val target = village.participants.chara(it.targetCharaId!!)
-                "${abilityDay}日目 ${target.nameWhen(abilityDay)} の部屋に爆弾を設置する"
+                "${abilityDay}日目 ${target.nameWhen(abilityDay)} の部屋に爆弾を設置する（$footstep）"
             }
+    }
+
+    override fun assertAbility(
+        village: Village,
+        myself: VillageParticipant,
+        charaId: Int?,
+        targetCharaId: Int?,
+        footstep: String?,
+        abilities: Abilities,
+        footsteps: Footsteps
+    ) {
+        if (targetCharaId != null
+            && getSelectableTargetList(village, myself, abilities).none { it.charaId == targetCharaId }
+        ) {
+            throw WolfMansionBusinessException("選択できない対象を指定しています")
+        }
+        if (targetCharaId != null) {
+            // 足音
+            footstepDomainService.assertFootstep(village, myself.charaId, targetCharaId, footstep)
+        }
     }
 
     override fun createSetMessageText(
@@ -79,12 +105,13 @@ class BombDomainService(
     ): String {
         targetCharaId ?: return "${myself.name()}が爆弾を解除しました。"
         val target = village.participants.chara(targetCharaId)
-        return "${myself.name()}が${target.name()}の部屋に爆弾を設置しました。"
+        return "${myself.name()}が爆弾を設置する部屋を${target.name()}に、通過する部屋を${footstep!!}に設定しました。"
     }
 
     override fun getTargetPrefix(): String? = "爆弾を設置する部屋"
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
     override fun canUseDay(day: Int): Boolean = day > 1
+    override fun isTargetingAndFootstep(): Boolean = true
 
     fun addBombMessages(daychange: Daychange): Daychange {
         val village = daychange.village

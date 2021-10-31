@@ -9,13 +9,16 @@ import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.MessageDomainService
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
 @Service
 class SeduceDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
+    private val footstepDomainService: FootstepDomainService
 ) : AbilityTypeDomainService {
 
     private val abilityType = AbilityType(CDef.AbilityType.誘惑)
@@ -62,9 +65,34 @@ class SeduceDomainService(
             .filterByType(abilityType)
             .sortedByDay().list.map {
                 val abilityDay = it.day
+                val footstep = footsteps
+                    .filterByDay(abilityDay)
+                    .filterByCharaId(it.charaId).list
+                    .firstOrNull()
+                    ?.roomNumbers ?: "なし"
                 val target = village.participants.chara(it.targetCharaId!!)
-                "${abilityDay}日目 ${target.nameWhen(abilityDay)} を誘惑する"
+                "${abilityDay}日目 ${target.nameWhen(abilityDay)} を誘惑する（$footstep）"
             }
+    }
+
+    override fun assertAbility(
+        village: Village,
+        myself: VillageParticipant,
+        charaId: Int?,
+        targetCharaId: Int?,
+        footstep: String?,
+        abilities: Abilities,
+        footsteps: Footsteps
+    ) {
+        if (targetCharaId != null
+            && getSelectableTargetList(village, myself, abilities).none { it.charaId == targetCharaId }
+        ) {
+            throw WolfMansionBusinessException("選択できない対象を指定しています")
+        }
+        if (targetCharaId != null) {
+            // 足音
+            footstepDomainService.assertFootstep(village, myself.charaId, targetCharaId, footstep)
+        }
     }
 
     override fun createSetMessageText(
@@ -74,12 +102,17 @@ class SeduceDomainService(
         targetCharaId: Int?,
         footstep: String?
     ): String {
-        val target = village.participants.chara(targetCharaId!!)
-        return "${myself.name()}が誘惑する対象を${target.name()}に設定しました。"
+        return if (targetCharaId == null) {
+            "${myself.name()}が誘惑する対象をなしに設定しました。"
+        } else {
+            val target = village.participants.chara(targetCharaId)
+            "${myself.name()}が誘惑する対象を${target.name()}に、通過する部屋を${footstep!!}に設定しました。"
+        }
     }
 
     override fun getTargetPrefix(): String? = "誘惑する対象"
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+    override fun isTargetingAndFootstep(): Boolean = true
 
     fun seduce(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
