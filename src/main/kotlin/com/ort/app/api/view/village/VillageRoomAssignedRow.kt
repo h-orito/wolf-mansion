@@ -23,6 +23,8 @@ data class VillageRoomAssignedRow(
     data class VillageRoomAssigned(
         /** 部屋番号 0埋めの2桁 */
         var roomNumber: String,
+        /** 参加者ID */
+        val participantId: Int?,
         /** キャラ名 */
         val charaName: String?,
         /** キャラ名略称 */
@@ -52,6 +54,7 @@ data class VillageRoomAssignedRow(
             myself: VillageParticipant?
         ) : this(
             roomNumber = roomNumber.toString().padStart(2, '0'),
+            participantId = participant(village, roomNumber, day)?.id,
             charaName = participant(village, roomNumber, day)?.charaName?.name,
             charaShortName = participant(village, roomNumber, day)?.charaName?.shortName,
             charaImgUrl = participant(village, roomNumber, day)?.let {

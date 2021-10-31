@@ -24,6 +24,7 @@ data class MessageType(
             CDef.MessageType.恋人発言
         )
         val commonSystemTypeList = listOf(
+            CDef.MessageType.非公開システムメッセージ,
             CDef.MessageType.白黒霊視結果,
             CDef.MessageType.役職霊視結果,
             CDef.MessageType.検死結果,

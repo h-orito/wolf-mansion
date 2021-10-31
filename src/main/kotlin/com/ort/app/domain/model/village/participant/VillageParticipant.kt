@@ -70,46 +70,47 @@ data class VillageParticipant(
         return !isSpectator && (isAlive() || isEpilogue)
     }
 
-    fun isViewableGraveSay(): Boolean = isSpectator || (isDead() && !dead.reason!!.isSuddenly())
+    fun isViewableGraveSay(): Boolean = isAdmin() || isSpectator || (isDead() && !dead.reason!!.isSuddenly())
     fun isSayableGraveSay(): Boolean {
         if (isAdmin()) return true
         return isDead() && !isSpectator && !dead.reason!!.isSuddenly()
     }
 
+    fun isViewableMonologueSay(): Boolean = isAdmin()
     fun isSayableMonologueSay(): Boolean = true
 
-    fun isViewableSpectateSay(): Boolean = isSpectator || (isDead() && !dead.reason!!.isSuddenly())
+    fun isViewableSpectateSay(): Boolean = isAdmin() || isSpectator || (isDead() && !dead.reason!!.isSuddenly())
     fun isSayableSpectateSay(): Boolean = isAdmin() || isSpectator
 
-    fun isViewableWerewolfSay(): Boolean = skill?.isViewableWerewolfSay() ?: false
+    fun isViewableWerewolfSay(): Boolean = isAdmin() || skill?.isViewableWerewolfSay() ?: false
     fun isSayableWerewolfSay(): Boolean {
         if (isAdmin()) return true
         return isAlive() && skill?.isSayableWerewolfSay() ?: false
     }
 
-    fun isViewableSympathizeSay(): Boolean = skill?.isViewableSympathizeSay() ?: false
+    fun isViewableSympathizeSay(): Boolean = isAdmin() || skill?.isViewableSympathizeSay() ?: false
     fun isSayableSympathizeSay(): Boolean {
         if (isAdmin()) return true
         return isAlive() && skill?.isSayableSympathizeSay() ?: false
     }
 
-    fun isViewableLoversSay(): Boolean = status.hasLover()
+    fun isViewableLoversSay(): Boolean = isAdmin() || status.hasLover()
     fun isSayableLoversSay(): Boolean = isAdmin() || (isAlive() && status.hasLover())
 
     fun isSayableSecretSay(): Boolean = true
 
-    fun isViewablePsychicMessage(): Boolean = isAlive() && skill?.isViewablePsychicMessage() ?: false
-    fun isViewableGuruMessage(): Boolean = isAlive() && skill?.isViewableGuruMessage() ?: false
-    fun isViewableAttackMessage(): Boolean = isAlive() && skill?.isViewableAttackMessage() ?: false
-    fun isViewableCoronerMessage(): Boolean = isAlive() && skill?.isViewableCoronerMessage() ?: false
-    fun isViewableDivineMessage(): Boolean = isAlive() && skill?.isViewableDivineMessage() ?: false
-    fun isViewableWiseMessage(): Boolean = isAlive() && skill?.isViewableWiseMessage() ?: false
-    fun isViewableInvestigateMessage(): Boolean = isAlive() && skill?.isViewableInvestigateMessage() ?: false
-    fun isViewableLoversMessage(): Boolean = isAlive()
-            && (status.hasLover() || skill?.isViewableLoversMessage() ?: false)
+    fun isViewablePsychicMessage(): Boolean = isAdmin() || skill?.isViewablePsychicMessage() ?: false
+    fun isViewableGuruMessage(): Boolean = isAdmin() || skill?.isViewableGuruMessage() ?: false
+    fun isViewableAttackMessage(): Boolean = isAdmin() || skill?.isViewableAttackMessage() ?: false
+    fun isViewableCoronerMessage(): Boolean = isAdmin() || skill?.isViewableCoronerMessage() ?: false
+    fun isViewableDivineMessage(): Boolean = isAdmin() || skill?.isViewableDivineMessage() ?: false
+    fun isViewableWiseMessage(): Boolean = isAdmin() || skill?.isViewableWiseMessage() ?: false
+    fun isViewableInvestigateMessage(): Boolean = isAdmin() || skill?.isViewableInvestigateMessage() ?: false
+    fun isViewableLoversMessage(): Boolean =
+        isAdmin() || (status.hasLover() || skill?.isViewableLoversMessage() ?: false)
 
-    fun isViewableFoxMessage(): Boolean = isAlive()
-            && (status.isFoxPossessioned() || status.isFoxPossessioning())
+    fun isViewableFoxMessage(): Boolean = isAdmin() || (status.isFoxPossessioned() || status.isFoxPossessioning())
+    fun isViewablePrivateSystemMessage(): Boolean = isAdmin()
 
     fun canUseAbility(): Boolean = isAlive() && !isSpectator
 

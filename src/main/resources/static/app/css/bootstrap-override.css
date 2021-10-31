@@ -357,6 +357,12 @@ tr.top-menu-selectable:hover a {
     border: 2px solid #0ce3ac !important;
 }
 
+.selected-room {
+    border: 2px solid #0ce3ac !important;
+    background-color: #0ce3ac !important;
+    opacity: 0.3;
+}
+
 .daychange-alert {
     display: none; /* ������Ԃ͔�\�� */
     /* ��ʏ㕔�ɕ\�� */
@@ -431,11 +437,11 @@ tr.top-menu-selectable:hover a {
     color: #ffffff;
 }
 
-#sayform .btn-saytypes {
+.btn-saytypes {
     margin-bottom: 5px;
 }
 
-#sayform .btn-saytypes .btn-success {
+.btn-saytypes .btn-success {
     background-color: #222222;
     color: #00bc8c;
     border: 1px solid #00bc8c;
@@ -443,7 +449,7 @@ tr.top-menu-selectable:hover a {
     padding-bottom: 5px;
 }
 
-#sayform .btn-saytypes .btn-success.active {
+.btn-saytypes .btn-success.active {
     background-color: #00bc8c;
     color: #ffffff;
     border: 1px solid #00bc8c;

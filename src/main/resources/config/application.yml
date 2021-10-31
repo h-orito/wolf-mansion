@@ -11,6 +11,7 @@ spring:
     basename: messages
     cache-seconds: -1
     encoding: UTF-8
+
 server:
   servlet:
     contextPath: /wolf-mansion

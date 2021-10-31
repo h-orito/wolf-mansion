@@ -54,7 +54,7 @@ data class VillageParticipantsContent(
                 if (participant.isSpectator) return ""
                 if (participant.isAlive()) return "生存"
                 return participant.dead.let {
-                    val reason = it.reason!!.name.let { reason -> if (reason.endsWith("死")) reason else "${reason}死" }
+                    val reason = it.reason!!.getDisplayName(true)
                     "${it.deadDay}d${reason}"
                 }
             }

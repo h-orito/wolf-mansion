@@ -125,6 +125,7 @@ data class Village(
     fun isViewableLoversMessage(): Boolean = status.isSettled()
     fun isViewableFoxMessage(): Boolean = status.isSettled()
     fun isViewableInvestigateMessage(): Boolean = status.isSettled()
+    fun isViewablePrivateSystemMessage(): Boolean = status.isSettled()
 
     fun canUseAbility(day: Int): Boolean = status.isProgress() && isLatestDay(day)
 

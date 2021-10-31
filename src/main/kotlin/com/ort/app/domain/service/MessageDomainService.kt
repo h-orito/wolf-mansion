@@ -5,6 +5,7 @@ import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.MessageContent
 import com.ort.app.domain.model.message.MessageQuery
 import com.ort.app.domain.model.message.MessageType
+import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.randomkeyword.RandomKeyword
 import com.ort.app.domain.model.randomkeyword.RandomKeywords
 import com.ort.app.domain.model.village.Village
@@ -18,6 +19,7 @@ import com.ort.app.domain.service.message.system.FoxMessageDomainService
 import com.ort.app.domain.service.message.system.GuruMessageDomainService
 import com.ort.app.domain.service.message.system.InvestigateMessageDomainService
 import com.ort.app.domain.service.message.system.LoversMessageDomainService
+import com.ort.app.domain.service.message.system.PrivateSystemMessageDomainService
 import com.ort.app.domain.service.message.system.PsychicMessageDomainService
 import com.ort.app.domain.service.message.system.WiseMessageDomainService
 import com.ort.dbflute.allcommon.CDef
@@ -36,7 +38,8 @@ class MessageDomainService(
     private val wiseMessageDomainService: WiseMessageDomainService,
     private val investigateMessageDomainService: InvestigateMessageDomainService,
     private val loversMessageDomainService: LoversMessageDomainService,
-    private val foxMessageDomainService: FoxMessageDomainService
+    private val foxMessageDomainService: FoxMessageDomainService,
+    private val privateSystemMessageDomainService: PrivateSystemMessageDomainService
 ) {
 
     companion object {
@@ -48,10 +51,8 @@ class MessageDomainService(
     }
 
     fun setViewableQuery(village: Village, myself: VillageParticipant?, query: MessageQuery) {
-        query.isAllViewable = myself?.isAdmin() == true || village.status.isSettled() || village.status.isCanceled()
-        if (query.isAllViewable) return
-        query.messageTypeList = getViewableMessageTypeList(village, myself, query.day)
-        query.personalMessageTypeList = getViewablePersonalMessageTypeList(village, myself, query.day)
+        val availableMessageTypes = getViewableMessageTypeList(village, myself, query)
+        query.setAvailable(availableMessageTypes, myself, village)
     }
 
     fun replaceRandomMessageIfNeeded(
@@ -397,33 +398,28 @@ class MessageDomainService(
         return mes.replace(regex.toRegex(), keyword.contents.random().message + matcher.group(0))
     }
 
-    // 人ごとに能力行使メッセージがあるわけではないメッセージ種別
     private fun getViewableMessageTypeList(
         village: Village,
         myself: VillageParticipant?,
-        day: Int
+        query: MessageQuery
     ): List<MessageType> {
-        val list = MessageType.everyoneViewableTypeList +
-                (MessageType.sayTypeList + MessageType.commonSystemTypeList).filter {
-                    isViewable(village, myself, it, day)
-                }
-        // 梟は追加で見られる
-        return if (myself?.skill?.toCdef() == CDef.Skill.梟) {
-            (list + MessageType.owlViewableSayTypeList).distinct().map { MessageType(it) }
-        } else {
-            list.distinct().map { MessageType(it) }
+        // 村が終了していたり管理人だったら全て見られる
+        if (myself?.isAdmin() == true
+            || village.status.isSettled()
+            || village.status.isCanceled()
+        ) {
+            return CDef.MessageType.listAll().map { it.toModel() }
         }
-    }
-
-    // 人ごとに能力行使メッセージがあるメッセージ種別
-    fun getViewablePersonalMessageTypeList(
-        village: Village,
-        myself: VillageParticipant?,
-        day: Int
-    ): List<MessageType> {
-        return MessageType.personalSystemTypeList.filter {
-            isViewable(village, myself, it, day)
-        }.map { MessageType(it) }
+        val list = MessageType.everyoneViewableTypeList.toMutableList()
+        // 梟は追加で見られる
+        if (myself?.skill?.toCdef() == CDef.Skill.梟) {
+            list += MessageType.owlViewableSayTypeList
+        }
+        // あとは権限に応じて追加
+        list += (MessageType.sayTypeList + MessageType.commonSystemTypeList).filter {
+            isViewable(village, myself, it, query.day)
+        }
+        return list.distinct().map { it.toModel() }
     }
 
     fun isViewable(
@@ -448,6 +444,7 @@ class MessageDomainService(
             CDef.MessageType.役職占い結果 -> wiseMessageDomainService
             CDef.MessageType.妖狐メッセージ -> foxMessageDomainService
             CDef.MessageType.恋人メッセージ -> loversMessageDomainService
+            CDef.MessageType.非公開システムメッセージ -> privateSystemMessageDomainService
             else -> throw IllegalStateException("service not found.")
         }
     }

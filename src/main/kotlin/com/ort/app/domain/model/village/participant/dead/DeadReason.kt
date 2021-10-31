@@ -17,6 +17,14 @@ data class DeadReason(
     fun isSuicide(): Boolean = toCdef() == CDef.DeadReason.後追
     fun isSuddenly(): Boolean = toCdef() == CDef.DeadReason.突然
     fun isPsychicable(): Boolean = isExecuted() || isSuddenly()
+
+    fun getDisplayName(isSettled: Boolean): String {
+        // エピローグを迎えていない場合、無惨の死因は表示しない
+        val reason =
+            if (!isSettled && isMiserable()) "無惨"
+            else name
+        return if (reason.endsWith("死")) reason else "${reason}死"
+    }
 }
 
 fun CDef.DeadReason.toModel(): DeadReason = DeadReason(this)

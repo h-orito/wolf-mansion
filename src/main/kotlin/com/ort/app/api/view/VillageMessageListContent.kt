@@ -64,7 +64,7 @@ data class VillageMessageListContent(
                     )
                 },
                 charas = charas,
-                hasBigEar = myself?.hasBigEar() ?: false
+                hasBigEar = village.status.isProgress() && myself?.hasBigEar() ?: false
             )
         },
         villageStatusMessage = mapVillageStatusMessage(village, myself, day),

@@ -36,13 +36,19 @@ $(function () {
     const smallRegex = /\[\[small\]\](.*?)\[\[\/small\]\]/g;
     let latestDay;
     let canAutoRefresh = true; // 発言確認中はfalseになる
-    let isDispOnlyToMe = getDisplaySetting('filter_onlytome_content');
+    let isDispOnlyToMe = false;
+    let filterParticipantIds = [];
+    let filterTypes = [];
+    let filterKeywords = [];
+    let filterSpoiled = false;
 
     init();
 
     function init() {
+        restoreFilter();
+        restoreDisplaySetting();
         loadAndDisplayMessage().then(function () {
-            restoreDisplaySetting();
+            // filterMessage();
         });
         changeSayTextAreaBackgroundColor(); // 画面表示時にも切り替える
         let def1 = replaceAttackTargetList(); // 画面表示時にも取得して切り替える
@@ -108,7 +114,10 @@ $(function () {
                 'day': day,
                 'pageSize': isNoPaging ? null : pageSize != null ? pageSize : 30,
                 'pageNum': isNoPaging ? null : pageNum,
-                'onlyToMe': isDispOnlyToMe
+                'onlyToMe': isDispOnlyToMe,
+                'types': filterTypes.join(','),
+                'participantIds': filterParticipantIds.join(','),
+                'keywords': filterKeywords.join(' ')
             }
         }).then(function (response) {
             // htmlエスケープと、アンカーの変換を行う
@@ -125,8 +134,8 @@ $(function () {
             }
             latestDay = response.latestDay;
 
-            // フィルタ適用
-            filterMessage();
+            // 必要ならネタバレ防止
+            filterSpoiledContent();
 
             // 更新通知のために最新メッセージ日時を埋め込む
             storeLatestMessageDatetime(response, day);
@@ -198,7 +207,11 @@ $(function () {
         if (!isInLatestPage(day)) {
             return;
         }
-        $('#latest-message-datetime').text(response.latestMessageDatetime);
+        const current = $('#latest-message-datetime').text();
+        const resTime = response.latestMessageDatetime;
+        if (current == null || current === '' || parseInt(current) < resTime) {
+            $('#latest-message-datetime').text(response.latestMessageDatetime);
+        }
         $('.glyphicon-refresh').removeClass('flash');
     }
 
@@ -487,7 +500,7 @@ $(function () {
         if (type === 'NORMAL_SAY') {
             return '発言する';
         } else if (type === 'WEREWOLF_SAY') {
-            return '囁く';
+            return '発言する（囁き）';
         } else if (type === 'MASON_SAY') {
             return '発言する（共鳴）';
         } else if (type === 'LOVERS_SAY') {
@@ -561,7 +574,6 @@ $(function () {
         });
         $confirmForm.submit();
     });
-
 
     // ----------------------------------------------
     // 足音
@@ -842,79 +854,73 @@ $(function () {
         });
     }
 
-    $('[data-filter-chara-id],[data-filter-message-type]').on('click', function () {
-        $(this).toggleClass('bg-info');
-    });
-    $('[data-filter-chara-allon]').on('click', function () {
-        $('#modal-filter').find('[data-filter-chara-id]').each(function () {
-            $(this).addClass('bg-info');
+    // ----------------------------------------------
+    // 抽出
+    // ----------------------------------------------
+    // キャラクター
+    $('[data-filter-participant-allon]').on('click', function () {
+        $('#filter-character').find('input').each((idx, elm) => {
+            $(elm).prop('checked', true);
         });
     });
-    $('[data-filter-chara-alloff]').on('click', function () {
-        $('#modal-filter').find('[data-filter-chara-id]').each(function () {
-            $(this).removeClass('bg-info');
+    $('[data-filter-participant-alloff]').on('click', function () {
+        $('#filter-character').find('input').each((idx, elm) => {
+            $(elm).prop('checked', false);
         });
     });
+    $('[data-filter-participant-reverse]').on('click', function () {
+        $('#filter-character').find('input').each((idx, elm) => {
+            const checked = $(elm).prop('checked');
+            $(elm).prop('checked', !checked);
+        });
+    });
+    // 発言種別
     $('[data-filter-type-allon]').on('click', function () {
-        $('#modal-filter').find('[data-filter-message-type]').each(function () {
-            $(this).addClass('bg-info');
+        $('#filter-type').find('label').each(function () {
+            $(this).addClass('active');
         });
     });
     $('[data-filter-type-alloff]').on('click', function () {
-        $('#modal-filter').find('[data-filter-message-type]').each(function () {
-            $(this).removeClass('bg-info');
+        $('#filter-type').find('label').each(function () {
+            $(this).removeClass('active');
+        });
+    });
+    $('[data-filter-type-reverse]').on('click', function () {
+        $('#filter-type').find('label').each(function () {
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+            } else {
+                $(this).addClass('active');
+            }
         });
     });
     $('[data-filter-message-clear]').on('click', function () {
         $('#modal-filter [data-filter-message-keyword]').val('');
     });
+
     $('[data-filter-submit]').on('click', function () {
-        // 発言抽出
-        filterMessage();
+        filterTypes = $('#filter-type').find('label.active input').map(function () {
+            return $(this).val();
+        }).get();
+        filterParticipantIds = $('#filter-character').find('input').filter((idx, elm) => {
+            return $(elm).prop('checked');
+        }).map((idx, elm) => $(elm).val()).get().sort();
+        filterKeywords = $('#modal-filter [data-filter-message-keyword]').val().replace(/　/g, ' ').split(' ');
+        filterSpoiled = $('[data-dsetting-unspoiled]').prop('checked');
+        isDispOnlyToMe = $('[data-onlytome]').prop('checked');
+        // 発言読み込み
+        loadAndDisplayMessage();
         // 日付を跨いでも維持できるように一時的にcookieに入れておく
-        const charaFilterArr = $('#modal-filter').find('.bg-info[data-filter-chara-id]').map(function () {
-            return String($(this).data('filter-chara-id'));
-        });
-        const typeFilterArr = $('#modal-filter').find('.bg-info[data-filter-message-type]').map(function () {
-            return String($(this).data('filter-message-type'));
-        });
-        const keywordFilterArr = $('#modal-filter [data-filter-message-keyword]').val().replace(/　/g, ' ').split(' ');
         saveDisplaySetting('filter_village_id', villageId);
-        saveDisplaySetting('filter_chara', charaFilterArr.length == 0 ? [] : $(charaFilterArr).get().join(','));
-        saveDisplaySetting('filter_type', typeFilterArr.length == 0 ? [] : $(typeFilterArr).get().join(','));
-        saveDisplaySetting('filter_keyword', keywordFilterArr.length == 0 ? [] : $(keywordFilterArr).get().join(' '));
-        saveDisplaySetting('filter_spoiled_content', $('[data-dsetting-unspoiled]').length != 0 && $('[data-dsetting-unspoiled]').prop('checked'));
+        saveDisplaySetting('filter_participant', filterParticipantIds.join(','));
+        saveDisplaySetting('filter_type', filterTypes.join(','));
+        saveDisplaySetting('filter_keyword', filterKeywords.join(' '));
+        saveDisplaySetting('filter_spoiled_content', filterSpoiled);
+        saveDisplaySetting('filter_onlytome_content', isDispOnlyToMe);
         $('#modal-filter').modal('hide');
     });
 
-    $('[data-onlytome-submit]').on('click', function () {
-        saveDisplaySetting('filter_onlytome_content', true);
-        isDispOnlyToMe = true;
-        loadAndDisplayMessage().then(function () {
-            $('#modal-filter').modal('hide');
-        });
-    });
-
-    $('[data-onlytome-cancel-submit]').on('click', function () {
-        saveDisplaySetting('filter_onlytome_content', false);
-        isDispOnlyToMe = false;
-        loadAndDisplayMessage().then(function () {
-            $('#modal-filter').modal('hide');
-        });
-    });
-
     function filterMessage() {
-        const wholeCharaArr = $('#modal-filter').find('[data-filter-chara-id]').map(function () {
-            return String($(this).data('filter-chara-id'));
-        });
-        const charaFilterArr = $('#modal-filter').find('.bg-info[data-filter-chara-id]').map(function () {
-            return String($(this).data('filter-chara-id'));
-        });
-        const typeFilterArr = $('#modal-filter').find('.bg-info[data-filter-message-type]').map(function () {
-            return String($(this).data('filter-message-type'));
-        });
-        const keywordFilterArr = $('#modal-filter [data-filter-message-keyword]').val().replace(/　/g, ' ').split(' ');
-
         const doFilterSpiledContent = filterSpoiledContent();
         $('[data-message-area] [data-message]').each(function (idx, elm) {
             const type = String($(elm).data('message'));
@@ -923,7 +929,7 @@ $(function () {
                 return true;
             }
             let disp = true;
-            if ($.inArray(type, typeFilterArr) == -1) {
+            if ($.inArray(type, types) == -1) {
                 disp = false;
             }
             const charaId = String($(elm).data('chara-id'));
@@ -956,13 +962,12 @@ $(function () {
     }
 
     function filterSpoiledContent() {
-        const $spoilCheck = $('[data-dsetting-unspoiled]');
-        if ($spoilCheck.length == 0 || !$spoilCheck.prop('checked')) {
+        if (!filterSpoiled) {
             $('[data-spoiled-content]').each(function (idx, elm) {
                 $(elm).removeClass('hidden');
             });
             $('[data-spoiled-alternative-content]').addClass('hidden');
-            return false;
+            return;
         } else {
             // ネタバレ防止する
             // 発言と部屋割り
@@ -971,7 +976,7 @@ $(function () {
             });
             // 足音
             $('[data-spoiled-alternative-content]').removeClass('hidden');
-            return true;
+            return;
         }
     }
 
@@ -982,28 +987,31 @@ $(function () {
             saveDisplaySetting('filter_village_id', 0);
             return;
         }
-        const filterChara = getDisplaySetting('filter_chara');
-        const charaFilterArr = filterChara == null || filterChara.length == 0 ? [] : filterChara.split(',');
+        const filterParticipantId = getDisplaySetting('filter_participant');
+        filterParticipantIds = filterParticipantId == null ? [] : filterParticipantId.split(',');
         const filterType = getDisplaySetting('filter_type');
-        const typeFilterArr = filterType == null || filterType.length == 0 ? [] : filterType.split(',');
+        filterTypes = filterType == null ? [] : filterType.split(',');
+        filterSpoiled = getDisplaySetting('filter_spoiled_content')
+        isDispOnlyToMe = getDisplaySetting('filter_onlytome_content');
         // 復元
-        $('#modal-filter').find('[data-filter-chara-id]').each(function (idx, elm) {
-            const charaId = String($(elm).data('filter-chara-id'));
-            if ($.inArray(charaId, charaFilterArr) == -1) {
-                $(elm).removeClass('bg-info');
+        $('#filter-character').find('input').each(function (idx, elm) {
+            const participantId = $(elm).val();
+            $(elm).prop('checked', true)
+            if ($.inArray(participantId, filterParticipantIds) === -1) {
+                $(elm).prop('checked', false);
             }
         });
-        $('#modal-filter').find('.bg-info[data-filter-message-type]').each(function (idx, elm) {
-            const type = String($(elm).data('filter-message-type'));
-            if ($.inArray(type, typeFilterArr) == -1) {
-                $(elm).removeClass('bg-info');
+        $('#filter-type').find('label').each((idx, elm) => {
+            $(elm).addClass('active');
+            if ($.inArray($(elm).find('input').val(), filterTypes) === -1) {
+                $(elm).removeClass('active');
             }
         });
         $('#modal-filter [data-filter-message-keyword]').val(getDisplaySetting('filter_keyword'));
-        if (getDisplaySetting('filter_spoiled_content') && $('[data-dsetting-unspoiled]').length != 0) {
+        if (filterSpoiled && $('[data-dsetting-unspoiled]').length != 0) {
             $('[data-dsetting-unspoiled]').prop('checked', true);
         }
-        filterMessage();
+        $('[data-onlytome]').prop('checked', isDispOnlyToMe);
     }
 
     // コピー
@@ -1206,7 +1214,6 @@ $(function () {
         if ($.inArray(String(villageId), confirmVillages) == -1) {
             $('#modal-initial-skill-description').modal('show');
         }
-        restoreFilter(); // フィルタを引き継ぐ
     }
 
     $('[data-dsetting-reset]').on('click', function () {

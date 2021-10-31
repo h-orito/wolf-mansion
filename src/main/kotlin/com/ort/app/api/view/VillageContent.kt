@@ -1,5 +1,6 @@
 package com.ort.app.api.view
 
+import com.ort.app.api.view.village.VillageFilterParticipantContent
 import com.ort.app.api.view.village.VillageFormContent
 import com.ort.app.api.view.village.VillageMemberContent
 import com.ort.app.api.view.village.VillageRoomAssignedRow
@@ -38,6 +39,8 @@ data class VillageContent(
     val memberList: List<VillageMemberContent>,
     /** キャラクター一覧 */
     val characterList: List<OptionContent>,
+    /** 発言抽出用キャラクター一覧 */
+    val participantList: List<VillageFilterParticipantContent>,
     /** 参加者部屋割り当て */
     val roomAssignedRowList: List<VillageRoomAssignedRow>?,
     /** 部屋の横サイズ */
@@ -85,6 +88,9 @@ data class VillageContent(
         epilogueDay = village.epilogueDay,
         memberList = mapMemberList(village.allParticipants()),
         characterList = village.allParticipants().sortedByRoomNumber().list.map { OptionContent(it) },
+        participantList = village.allParticipants().sortedByRoomNumber().list.map {
+            VillageFilterParticipantContent(village, it, charachip.charas)
+        },
         roomAssignedRowList = mapRoomAssignRowList(village, day, charachip, myself),
         roomWidth = village.roomSize?.width,
         form = VillageFormContent(village, myself, participantSituation, day),
@@ -274,7 +280,7 @@ data class VillageContent(
     ) {
         constructor(
             situation: VillageWholeDetail
-        ): this(
+        ) : this(
             day = situation.day,
             attackedChara = situation.miserable.mapCharas(situation.day),
             executedChara = situation.executed.mapCharas(situation.day),

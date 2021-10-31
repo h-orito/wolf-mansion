@@ -86,10 +86,10 @@ class AbilityDomainService(
             isAvailableNoTarget = canNoTarget(village, myself, abilities, abilityType),
             attackerList = getAttackerList(village, myself, abilities, day),
             skillHistoryList = getSkillHistoryList(village, myself, abilities, footsteps, day, abilityType),
-            wolfList = getWolfList(village, myself, day),
-            cMadmanList = getCMadmanList(village, myself, day),
-            foxList = getFoxList(village, myself, day),
-            loversList = getLoversList(village, myself, day),
+            wolfList = getWolfList(village, myself),
+            cMadmanList = getCMadmanList(village, myself),
+            foxList = getFoxList(village, myself),
+            loversList = getLoversList(village, myself),
             targetPrefix = getTargetPrefix(village, myself, day, abilityType),
             targetSuffix = getTargetSuffix(village, myself, day, abilityType),
             isTargetingAndFootstep = isTargetingAndFootstep(village, myself, day, abilityType)
@@ -301,30 +301,30 @@ class AbilityDomainService(
         day: Int,
         abilityType: AbilityType?
     ): List<String> {
-        return if (!canUseAbility(village, myself, day)) emptyList()
-        else if (myself!!.skill!!.hasDisturbAbility()) {
-            disturbDomainService.getHistories(village, myself, footsteps, day)
-        } else {
-            abilityType ?: return emptyList()
-            detectAbilityTypeService(abilityType).getHistories(village, myself, abilities, footsteps, day)
+        return when {
+            myself?.skill == null -> emptyList()
+            myself.skill.hasDisturbAbility() -> {
+                disturbDomainService.getHistories(village, myself, footsteps, day)
+            }
+            else -> {
+                abilityType ?: return emptyList()
+                detectAbilityTypeService(abilityType).getHistories(village, myself, abilities, footsteps, day)
+            }
         }
     }
 
-    private fun getWolfList(village: Village, myself: VillageParticipant?, day: Int): List<VillageParticipant> {
-        if (!canUseAbility(village, myself, day)) return emptyList()
-        if (myself!!.skill == null || !myself.skill!!.isViewableWolfCharaName()) return emptyList()
+    private fun getWolfList(village: Village, myself: VillageParticipant?): List<VillageParticipant> {
+        if (myself?.skill == null || !myself.skill.isViewableWolfCharaName()) return emptyList()
         return village.participants.sortedByRoomNumber().list.filter { it.skill!!.hasAttackAbility() }
     }
 
-    private fun getCMadmanList(village: Village, myself: VillageParticipant?, day: Int): List<VillageParticipant> {
-        if (!canUseAbility(village, myself, day)) return emptyList()
-        if (myself!!.skill == null || !myself.skill!!.isSayableWerewolfSay()) return emptyList()
+    private fun getCMadmanList(village: Village, myself: VillageParticipant?): List<VillageParticipant> {
+        if (myself?.skill == null || !myself.skill.isSayableWerewolfSay()) return emptyList()
         return village.participants.sortedByRoomNumber().list.filter { it.skill!!.toCdef() == CDef.Skill.C国狂人 }
     }
 
-    private fun getFoxList(village: Village, myself: VillageParticipant?, day: Int): List<VillageParticipant> {
-        if (!canUseAbility(village, myself, day)) return emptyList()
-        if (myself!!.skill == null || !isFoxCamp(myself)) return emptyList()
+    private fun getFoxList(village: Village, myself: VillageParticipant?): List<VillageParticipant> {
+        if (myself?.skill == null || !isFoxCamp(myself)) return emptyList()
         return village.participants.sortedByRoomNumber().list.filter {
             val skill = it.skill!!.toCdef()
             skill == CDef.Skill.妖狐 || skill == CDef.Skill.誑狐
@@ -337,9 +337,8 @@ class AbilityDomainService(
                 myself.status.isFoxPossessioned()
     }
 
-    private fun getLoversList(village: Village, myself: VillageParticipant?, day: Int): List<VillageParticipant> {
-        if (!canUseAbility(village, myself, day)) return emptyList()
-        if (myself!!.skill == null || !myself.status.hasLover()) return emptyList()
+    private fun getLoversList(village: Village, myself: VillageParticipant?): List<VillageParticipant> {
+        if (myself?.skill == null || !myself.status.hasLover()) return emptyList()
         return village.participants.sortedByRoomNumber().list.filter { it.status.hasLover() }
     }
 
