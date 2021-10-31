@@ -39,7 +39,10 @@ data class VillageMessageListContent(
     val isExistNextPage: Boolean,
 
     /** 現在のページ番号 */
-    val currentPageNum: Int,
+    val currentPageNum: Int?,
+
+    /** 最新を表示か */
+    val isDispLatest: Boolean,
 
     /** 表示するページ番号リスト */
     val pageNumList: List<Int>,
@@ -78,9 +81,10 @@ data class VillageMessageListContent(
         suddenlyDeathMessage = mapSuddenlyDeathMessage(village, votes, day),
         latestDay = village.latestDay(),
         allPageCount = messages.allPageCount,
-        isExistPrePage = messages.isExistPrePage,
-        isExistNextPage = messages.isExistNextPage,
-        currentPageNum = messages.currentPageNum,
+        isExistPrePage = if (messages.isLatest) false else messages.isExistPrePage,
+        isExistNextPage = if (messages.isLatest) false else messages.isExistNextPage,
+        currentPageNum = if (messages.isLatest) null else messages.currentPageNum,
+        isDispLatest = messages.isLatest,
         pageNumList = mapPageNumList(messages),
         latestMessageDatetime = messages.list.lastOrNull()?.time?.datetime?.format(DateTimeFormatter.ofPattern("uuuuMMddHHmmss"))
             ?: "0"
@@ -134,7 +138,11 @@ data class VillageMessageListContent(
 
         private fun mapPageNumList(messages: Messages): List<Int> {
             val allPageCount: Int = messages.allPageCount
-            val currentPageNumber: Int = messages.currentPageNum
+            if (messages.isLatest) {
+                val start = if (allPageCount < 5) 1 else allPageCount - 4
+                return (start..allPageCount).toList()
+            }
+            val currentPageNumber: Int = messages.currentPageNum!!
             var startPage = currentPageNumber - 2
             var endPage = currentPageNumber + 2
             if (startPage < 1) {
@@ -152,7 +160,7 @@ data class VillageMessageListContent(
         }
 
         private fun isRainbow(message: Message, abilities: Abilities, village: Village): Boolean {
-            if (message.fromParticipantId == null) return false
+            message.fromParticipantId ?: return false
             // 対象は発言系メッセージのみ
             if (!message.content.type.isSayType()) return false
             // 虹塗りされている

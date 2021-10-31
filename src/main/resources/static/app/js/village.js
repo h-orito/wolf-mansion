@@ -47,9 +47,12 @@ $(function () {
     function init() {
         restoreFilter();
         restoreDisplaySetting();
-        loadAndDisplayMessage().then(function () {
-            // filterMessage();
-        });
+        // 日付クリックで遷移した場合は1ページ目を表示、そうでなければ最新を表示
+        if (location.href.indexOf('/day') !== -1) {
+            loadAndDisplayMessage(1);
+        } else {
+            loadAndDisplayMessage(null, true);
+        }
         changeSayTextAreaBackgroundColor(); // 画面表示時にも切り替える
         let def1 = replaceAttackTargetList(); // 画面表示時にも取得して切り替える
         if ($('[data-attacker-select]').length > 0) {
@@ -97,11 +100,16 @@ $(function () {
             gotoHead();
         });
     });
+    $('body').on('click', '[data-latest-message]', function () {
+        loadAndDisplayMessage(null, true).then(function () {
+            gotoHead();
+        });
+    });
 
     // ----------------------------------------------
     // メッセージ取得
     // ----------------------------------------------
-    function loadAndDisplayMessage(pageNum) {
+    function loadAndDisplayMessage(pageNum, isDispLatest) {
         canAutoRefresh = true; // 発言確認されたままだと自動更新されないのでここで解除
         $("[data-message-area]").addClass('loading');
         const isNoPaging = getDisplaySetting('is_no_paging');
@@ -112,12 +120,14 @@ $(function () {
             data: {
                 'villageId': villageId,
                 'day': day,
-                'pageSize': isNoPaging ? null : pageSize != null ? pageSize : 30,
+                'pageSize': pageSize != null ? pageSize : 30,
                 'pageNum': isNoPaging ? null : pageNum,
                 'onlyToMe': isDispOnlyToMe,
                 'types': filterTypes.join(','),
                 'participantIds': filterParticipantIds.join(','),
-                'keywords': filterKeywords.join(' ')
+                'keywords': filterKeywords.join(' '),
+                'isPaging': isNoPaging == null ? true : !isNoPaging,
+                'isDispLatest': isDispLatest == null ? false : isDispLatest
             }
         }).then(function (response) {
             // htmlエスケープと、アンカーの変換を行う
@@ -919,47 +929,6 @@ $(function () {
         saveDisplaySetting('filter_onlytome_content', isDispOnlyToMe);
         $('#modal-filter').modal('hide');
     });
-
-    function filterMessage() {
-        const doFilterSpiledContent = filterSpoiledContent();
-        $('[data-message-area] [data-message]').each(function (idx, elm) {
-            const type = String($(elm).data('message'));
-            if (type == '') {
-                $(elm).removeClass('hidden');
-                return true;
-            }
-            let disp = true;
-            if ($.inArray(type, types) == -1) {
-                disp = false;
-            }
-            const charaId = String($(elm).data('chara-id'));
-            // 全員表示の場合は退村した人も表示する
-            if (wholeCharaArr.length != charaFilterArr.length && $.inArray(charaId, charaFilterArr) == -1) {
-                disp = false;
-            }
-            if (keywordFilterArr.length > 0) {
-                const message = String($(elm).find('.message').text());
-                let match = false;
-                $.each(keywordFilterArr, function (idx, keyword) {
-                    if (message.indexOf(keyword) != -1) {
-                        match = true;
-                    }
-                });
-                if (!match) {
-                    disp = false;
-                }
-            }
-            if (doFilterSpiledContent && $(elm).attr('data-spoiled-content') != undefined) {
-                disp = false;
-            }
-
-            if (disp) {
-                $(elm).removeClass('hidden');
-            } else {
-                $(elm).addClass('hidden');
-            }
-        });
-    }
 
     function filterSpoiledContent() {
         if (!filterSpoiled) {

@@ -6,21 +6,25 @@
 <div class="col-sm-12 col-xs-12">
     <div class="row">
         <ul class="pagination pagination-sm pull-right" style="margin-top: 10px; margin-bottom: 10px;">
-            <li class="{{#unless isExistPrePage}}disabled{{/unless}}"><a href="javascript:void(0);" data-pagenum="1">&lt;&lt;</a>
+            <li class="{{#unless isExistPrePage}}disabled{{/unless}}">
+                <a href="javascript:void(0);" data-pagenum="1">&lt;&lt;</a>
             </li>
-            <li class="{{#unless isExistPrePage}}disabled{{/unless}}"><a href="javascript:void(0);"
-                                                                         data-prev-page="{{currentPageNum}}">&lt;</a>
+            <li class="{{#unless isExistPrePage}}disabled{{/unless}}">
+                <a href="javascript:void(0);" data-prev-page="{{currentPageNum}}">&lt;</a>
             </li>
             {{#each
             pageNumList}}
-            <li class="{{#if (eq ../currentPageNum this)}}active{{/if}}"><a href="javascript:void(0);"
-                                                                            data-pagenum="{{this}}">{{this}}</a></li>
+            <li class="{{#if (eq ../currentPageNum this)}}active{{/if}}">
+                <a href="javascript:void(0);" data-pagenum="{{this}}">{{this}}</a></li>
             {{/each}}
-            <li class="{{#unless isExistNextPage}}disabled{{/unless}}"><a href="javascript:void(0);"
-                                                                          data-next-page="{{currentPageNum}}">&gt;</a>
+            <li class="{{#unless isExistNextPage}}disabled{{/unless}}">
+                <a href="javascript:void(0);" data-next-page="{{currentPageNum}}">&gt;</a>
             </li>
-            <li class="{{#unless isExistNextPage}}disabled{{/unless}}"><a href="javascript:void(0);"
-                                                                          data-pagenum="{{allPageCount}}">&gt;&gt;</a>
+            <li class="{{#unless isExistNextPage}}disabled{{/unless}}">
+                <a href="javascript:void(0);" data-pagenum="{{allPageCount}}">&gt;&gt;</a>
+            </li>
+            <li class="{{#if isDispLatest}}active{{/if}}">
+                <a href="javascript:void(0);" data-latest-message>最新</a>
             </li>
         </ul>
     </div>

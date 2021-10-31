@@ -13,6 +13,8 @@ data class MessageQuery(
     val requestTypes: List<MessageType>,
     val participantIds: List<Int>,
     val keywords: String?,
+    val isPaging: Boolean,
+    val isDispLatest: Boolean,
     // 後からセットする
     var messageTypeList: List<MessageType> = emptyList(),
     var includeMonologue: Boolean = false,

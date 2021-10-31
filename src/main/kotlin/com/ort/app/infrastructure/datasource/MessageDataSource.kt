@@ -50,7 +50,11 @@ class MessageDataSource(
         }
         val messagePage = messageBhv.selectPage {
             // paging
-            if (query.pageNum != null && query.pageSize != null) {
+            if (!query.isPaging) {
+                it.paging(100000, 1)
+            } else if (query.isDispLatest) {
+                it.paging(query.pageSize!!, 1)
+            } else if (query.pageNum != null && query.pageSize != null) {
                 it.paging(query.pageSize, query.pageNum)
             } else if (query.pageSize != null) {
                 it.paging(query.pageSize, 10000) // 存在しないページを検索して最新を取得させる
@@ -59,10 +63,16 @@ class MessageDataSource(
             }
             // query
             queryMessage(it, query, myself)
-            it.query().addOrderBy_MessageDatetime_Asc()
-            it.query().addOrderBy_MessageId_Asc()
+            if (query.isDispLatest) {
+                it.query().addOrderBy_MessageDatetime_Desc()
+                it.query().addOrderBy_MessageId_Desc()
+            } else {
+                it.query().addOrderBy_MessageDatetime_Asc()
+                it.query().addOrderBy_MessageId_Asc()
+            }
         }
-        return mapMessagesWithPaging(village, messagePage)
+        return if (query.isDispLatest) mapMessagesWithLatest(village, messagePage)
+        else mapMessagesWithPaging(village, messagePage)
     }
 
     override fun findMessage(
@@ -120,7 +130,18 @@ class MessageDataSource(
             allPageCount = messagePage.allPageCount,
             isExistPrePage = messagePage.existsPreviousPage(),
             isExistNextPage = messagePage.existsNextPage(),
-            currentPageNum = messagePage.currentPageNumber
+            currentPageNum = messagePage.currentPageNumber,
+            isLatest = false
+        )
+
+    private fun mapMessagesWithLatest(village: Village, messagePage: PagingResultBean<DbMessage>): Messages =
+        Messages(
+            list = messagePage.reversed().map { mapMessage(village, it) },
+            allPageCount = messagePage.allPageCount,
+            isExistPrePage = messagePage.existsNextPage(), // 逆順にしているので
+            isExistNextPage = false, // 最新なので次はなし
+            currentPageNum = messagePage.allPageCount, // 必ず最終ページ
+            isLatest = true
         )
 
     private fun mapMessages(village: Village, list: List<DbMessage>): Messages =

@@ -31,7 +31,13 @@ data class VillageGetMessageListForm(
     val participantIds: String? = null,
 
     /** キーワードスペース区切り */
-    val keywords: String? = null
+    val keywords: String? = null,
+
+    /** ページングするか */
+    val isPaging: Boolean? = null,
+
+    /** 最新を表示するか */
+    val isDispLatest: Boolean? = null
 ) {
     fun toMessageQuery(village: Village) = MessageQuery(
         village = village,
@@ -41,7 +47,9 @@ data class VillageGetMessageListForm(
         onlyToMe = onlyToMe ?: false,
         requestTypes = mappingToTypes(),
         participantIds = mappingToParticipantIds(village),
-        keywords = keywords
+        keywords = keywords,
+        isPaging = isPaging ?: false,
+        isDispLatest = isDispLatest ?: false
     )
 
     private fun mappingToTypes(): List<MessageType> {

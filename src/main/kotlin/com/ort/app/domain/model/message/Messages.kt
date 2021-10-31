@@ -5,7 +5,8 @@ data class Messages(
     val allPageCount: Int = 0,
     val isExistPrePage: Boolean = false,
     val isExistNextPage: Boolean = false,
-    val currentPageNum: Int = 0
+    val currentPageNum: Int? = 0,
+    val isLatest: Boolean = false // 最新を表示か
 ) {
 
     fun filterByType(type: MessageType): Messages = copy(list = list.filter { it.content.type.code == type.code })
