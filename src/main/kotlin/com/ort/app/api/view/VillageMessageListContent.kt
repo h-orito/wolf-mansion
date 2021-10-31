@@ -1,12 +1,16 @@
 package com.ort.app.api.view
 
+import com.ort.app.domain.model.ability.Abilities
+import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.chara.Charas
 import com.ort.app.domain.model.commit.Commits
+import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.Messages
 import com.ort.app.domain.model.player.Players
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.vote.Votes
+import com.ort.dbflute.allcommon.CDef
 import java.time.format.DateTimeFormatter
 
 data class VillageMessageListContent(
@@ -51,6 +55,7 @@ data class VillageMessageListContent(
         players: Players,
         votes: Votes,
         commits: Commits,
+        abilities: Abilities,
         day: Int
     ) : this(
         messageList = messages.list.map { message ->
@@ -64,7 +69,8 @@ data class VillageMessageListContent(
                     )
                 },
                 charas = charas,
-                hasBigEar = village.status.isProgress() && myself?.hasBigEar() ?: false
+                hasBigEar = village.status.isProgress() && myself?.hasBigEar() ?: false,
+                isRainbow = isRainbow(message, abilities, village)
             )
         },
         villageStatusMessage = mapVillageStatusMessage(village, myself, day),
@@ -143,6 +149,16 @@ data class VillageMessageListContent(
                 }
             }
             return (startPage..endPage).toList()
+        }
+
+        private fun isRainbow(message: Message, abilities: Abilities, village: Village): Boolean {
+            if (message.fromParticipantId == null) return false
+            // 対象は発言系メッセージのみ
+            if (!message.content.type.isSayType()) return false
+            // 虹塗りされている
+            val charaId = village.allParticipants().member(message.fromParticipantId).charaId
+            return abilities.filterByDay(message.time.day - 1)
+                .filterByType(CDef.AbilityType.虹塗り.toModel()).list.any { it.targetCharaId == charaId }
         }
     }
 }

@@ -168,7 +168,7 @@ data class VillageFormContent(
         ) : this(
             isDispActionForm = situation.say.selectableMessageTypeList.any { it.messageType.toCdef() == CDef.MessageType.アクション },
             targetList = village.allParticipants().sortedByRoomNumber().list.filterNot { it.id == myself?.id }
-                .map { OptionContent(it) }
+                .map { OptionContent(name = it.name(), value = it.name()) }
         )
     }
 

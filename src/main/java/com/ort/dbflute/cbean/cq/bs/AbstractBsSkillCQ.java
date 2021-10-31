@@ -431,6 +431,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 虹職人 (RAINBOW). And OnlyOnceRegistered. <br>
+     * 虹職人
+     */
+    public void setSkillCode_Equal_虹職人() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.虹職人);
+    }
+
+    /**
      * Equal(=). As 転生者 (REINCARNATION). And OnlyOnceRegistered. <br>
      * 転生者
      */
@@ -915,6 +923,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_梟() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.梟);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 虹職人 (RAINBOW). And OnlyOnceRegistered. <br>
+     * 虹職人
+     */
+    public void setSkillCode_NotEqual_虹職人() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.虹職人);
     }
 
     /**

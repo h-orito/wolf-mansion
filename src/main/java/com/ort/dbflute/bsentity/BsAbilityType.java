@@ -222,6 +222,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 虹塗り (RAINBOW). <br>
+     * 虹塗り
+     */
+    public void setAbilityTypeCode_虹塗り() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.虹塗り);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 誘惑 (SEDUCE). <br>
      * 誘惑
      */
@@ -397,6 +405,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode単独襲撃() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.単独襲撃) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 虹塗り? <br>
+     * 虹塗り
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode虹塗り() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.虹塗り) : false;
     }
 
     /**

@@ -42,6 +42,7 @@ class AbilityDomainService(
     private val wallPunchDomainService: WallPunchDomainService,
     private val fantasistDomainService: FantasistDomainService,
     private val sleepwalkDomainService: SleepwalkDomainService,
+    private val rainbowDomainService: RainbowDomainService,
     private val messageDomainService: MessageDomainService
 ) {
 
@@ -115,6 +116,7 @@ class AbilityDomainService(
             CDef.AbilityType.ストーキング -> stalkingDomainService
             CDef.AbilityType.罠設置 -> trapDomainService
             CDef.AbilityType.壁殴り -> wallPunchDomainService
+            CDef.AbilityType.虹塗り -> rainbowDomainService
         }
 
     fun createSetMessage(

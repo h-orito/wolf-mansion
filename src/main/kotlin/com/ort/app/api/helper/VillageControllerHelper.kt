@@ -15,7 +15,7 @@ import com.ort.app.api.request.VillageVoteForm
 import com.ort.app.api.view.OptionContent
 import com.ort.app.api.view.VillageContent
 import com.ort.app.application.coordinator.VillageCoordinator
-import com.ort.app.application.service.AbilityApplicationService
+import com.ort.app.application.service.AbilityService
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.FootstepApplicationService
 import com.ort.app.application.service.PlayerService
@@ -41,7 +41,7 @@ class VillageControllerHelper(
     private val villageService: VillageService,
     private val voteService: VoteApplicationService,
     private val footstepService: FootstepApplicationService,
-    private val abilityService: AbilityApplicationService,
+    private val abilityService: AbilityService,
     private val charaService: CharaService,
     private val randomKeywordService: RandomKeywordService,
     private val spoilerDomainService: SpoilerDomainService,

@@ -35,7 +35,9 @@ data class VillageMessageContent(
     /** 変換無効か */
     val isConvertDisable: Boolean,
     /** 梟による地獄耳か */
-    val isBigEars: Boolean
+    val isBigEars: Boolean,
+    /** 虹色にするか */
+    val isRainbow: Boolean
 ) {
     /** css指定用  */
     fun getMinHeightCss(): String = "min-height: ${height}px;"
@@ -46,7 +48,8 @@ data class VillageMessageContent(
         fromParticipant: VillageParticipant?,
         player: Player?,
         charas: Charas,
-        hasBigEar: Boolean
+        hasBigEar: Boolean,
+        isRainbow: Boolean
     ) : this(
         playerName = if (village.status.isSettleOrCanceled()) player?.name else null,
         characterName = message.fromCharacterName,
@@ -62,6 +65,7 @@ data class VillageMessageContent(
         height = if (fromParticipant != null) charas.chara(fromParticipant.charaId).size.height else null,
         targetCharacterName = message.toCharacterName,
         isConvertDisable = message.content.isConvertDisable,
-        isBigEars = hasBigEar && MessageType(CDef.MessageType.codeOf(message.content.type.code)).isOwlViewableType()
+        isBigEars = hasBigEar && MessageType(CDef.MessageType.codeOf(message.content.type.code)).isOwlViewableType(),
+        isRainbow = isRainbow
     )
 }

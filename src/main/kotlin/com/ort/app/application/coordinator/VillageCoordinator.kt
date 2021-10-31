@@ -1,6 +1,6 @@
 package com.ort.app.application.coordinator
 
-import com.ort.app.application.service.AbilityApplicationService
+import com.ort.app.application.service.AbilityService
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.CommitService
 import com.ort.app.application.service.FootstepApplicationService
@@ -51,7 +51,7 @@ class VillageCoordinator(
     private val messageService: MessageService,
     private val charaService: CharaService,
     private val tweetService: TweetService,
-    private val abilityService: AbilityApplicationService,
+    private val abilityService: AbilityService,
     private val footstepService: FootstepApplicationService,
     private val voteService: VoteApplicationService,
     // domain service

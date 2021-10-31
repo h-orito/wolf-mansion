@@ -22,6 +22,7 @@ import com.ort.app.domain.service.ability.FruitsBasketDomainService
 import com.ort.app.domain.service.ability.GuardDomainService
 import com.ort.app.domain.service.ability.InvestigateDomainService
 import com.ort.app.domain.service.ability.LoneAttackDomainService
+import com.ort.app.domain.service.ability.RainbowDomainService
 import com.ort.app.domain.service.ability.SeduceDomainService
 import com.ort.app.domain.service.ability.StalkingDomainService
 import com.ort.app.domain.service.ability.TrapDomainService
@@ -50,6 +51,7 @@ class ProgressDomainService(
     private val autopsyDomainService: AutopsyDomainService,
     private val bakeryDomainService: BakeryDomainService,
     private val falseChargesDomainService: FalseChargesDomainService,
+    private val rainbowDomainService: RainbowDomainService,
     private val revivalDomainService: RevivalDomainService,
     private val suicideDomainService: SuicideDomainService,
     private val epilogueDomainService: EpilogueDomainService,
@@ -66,8 +68,10 @@ class ProgressDomainService(
     }
 
     fun changeDay(beforeDaychange: Daychange, charas: Charas): Daychange {
+        // 虹塗り
+        var daychange = rainbowDomainService.rainbow(beforeDaychange)
         // 突然死
-        var daychange = suddenlyDeathDomainService.deadIfNeeded(beforeDaychange)
+        daychange = suddenlyDeathDomainService.deadIfNeeded(daychange)
         // 誑かす
         daychange = cheatDomainService.cheat(daychange)
         // 求愛

@@ -667,6 +667,9 @@ public interface CDef extends Classification {
         /** 梟 */
         梟("OWL", "梟", emptyStrings())
         ,
+        /** 虹職人 */
+        虹職人("RAINBOW", "虹職人", emptyStrings())
+        ,
         /** 転生者 */
         転生者("REINCARNATION", "転生者", emptyStrings())
         ,
@@ -1035,6 +1038,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "梟");
                 _subItemMapMap.put(梟.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "504");
+                subItemMap.put("campCode", "CRIMINAL");
+                subItemMap.put("skill_short_name", "虹");
+                _subItemMapMap.put(虹職人.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -1896,6 +1906,9 @@ public interface CDef extends Classification {
         ,
         /** 単独襲撃 */
         単独襲撃("LONEATTACK", "単独襲撃", emptyStrings())
+        ,
+        /** 虹塗り */
+        虹塗り("RAINBOW", "虹塗り", emptyStrings())
         ,
         /** 誘惑 */
         誘惑("SEDUCE", "誘惑", emptyStrings())

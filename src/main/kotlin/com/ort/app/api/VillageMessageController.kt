@@ -7,6 +7,7 @@ import com.ort.app.api.view.VillageLatestMessageDatetimeContent
 import com.ort.app.api.view.VillageMessageListContent
 import com.ort.app.api.view.VillageParticipantsContent
 import com.ort.app.application.coordinator.DaychangeCoordinator
+import com.ort.app.application.service.AbilityService
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.CommitService
 import com.ort.app.application.service.MessageService
@@ -33,6 +34,7 @@ class VillageMessageController(
     private val voteService: VoteApplicationService,
     private val commitService: CommitService,
     private val messageService: MessageService,
+    private val abilityService: AbilityService,
     private val daychangeCoordinator: DaychangeCoordinator
 ) {
     // 発言取得
@@ -62,7 +64,18 @@ class VillageMessageController(
         val commits = if (VillageMessageListContent.isDispCommitMessage(village, query.day)) {
             commitService.findCommits(village.id).filterByDay(village.latestDay())
         } else Commits(emptyList())
-        return VillageMessageListContent(messages, village, myself, charas, players, votes, commits, query.day)
+        val abilities = abilityService.findAbilities(village.id).filterByDay(query.day - 1)
+        return VillageMessageListContent(
+            messages,
+            village,
+            myself,
+            charas,
+            players,
+            votes,
+            commits,
+            abilities,
+            query.day
+        )
     }
 
     // 最終発言時間取得
@@ -104,7 +117,8 @@ class VillageMessageController(
             playerService.findPlayer(village.allParticipants().member(it).playerId)
         }
         val charas = charaService.findCharas(village.setting.charachipId)
-        return VillageAnchorMessageContent(message, village, player, charas)
+        val abilities = abilityService.findAbilities(village.id)
+        return VillageAnchorMessageContent(message, village, player, charas, abilities)
     }
 
     // 参加者一覧取得

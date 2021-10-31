@@ -8,7 +8,7 @@ import com.ort.app.domain.model.village.participant.VillageParticipant
 import org.springframework.stereotype.Service
 
 @Service
-class AbilityApplicationService(
+class AbilityService(
     private val abilityRepository: AbilityRepository
 ) {
 

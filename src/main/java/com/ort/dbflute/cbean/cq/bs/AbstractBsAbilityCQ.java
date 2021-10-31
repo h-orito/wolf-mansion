@@ -836,6 +836,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 虹塗り (RAINBOW). And OnlyOnceRegistered. <br>
+     * 虹塗り
+     */
+    public void setAbilityTypeCode_Equal_虹塗り() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.虹塗り);
+    }
+
+    /**
      * Equal(=). As 誘惑 (SEDUCE). And OnlyOnceRegistered. <br>
      * 誘惑
      */
@@ -992,6 +1000,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_単独襲撃() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.単独襲撃);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 虹塗り (RAINBOW). And OnlyOnceRegistered. <br>
+     * 虹塗り
+     */
+    public void setAbilityTypeCode_NotEqual_虹塗り() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.虹塗り);
     }
 
     /**

@@ -27,7 +27,8 @@ data class VillageSayConfirmContent(
             fromParticipant = fromParticipant,
             player = player,
             charas = charas,
-            hasBigEar = false
+            hasBigEar = false,
+            isRainbow = false
         ),
         randomKeywords = keywords.list.joinToString(",") { it.keyword }
     )
