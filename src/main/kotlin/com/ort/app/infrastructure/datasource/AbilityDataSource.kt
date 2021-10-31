@@ -43,6 +43,7 @@ class AbilityDataSource(
         val type = ability.type.toCdef()
         abilityBhv.queryDelete {
             it.query().setVillageId_Equal(village.id)
+            it.query().setDay_Equal(ability.day)
             it.query().setAbilityTypeCode_Equal_AsAbilityType(ability.type.toCdef())
             if (type == CDef.AbilityType.同棲) {
                 val target = village.participants.chara(ability.targetCharaId!!)
