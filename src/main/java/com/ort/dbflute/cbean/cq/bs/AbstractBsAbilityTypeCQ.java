@@ -167,6 +167,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 拡声 (LOUDSPEAK). And OnlyOnceRegistered. <br>
+     * 拡声
+     */
+    public void setAbilityTypeCode_Equal_拡声() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.拡声);
+    }
+
+    /**
      * Equal(=). As 虹塗り (RAINBOW). And OnlyOnceRegistered. <br>
      * 虹塗り
      */
@@ -339,6 +347,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_単独襲撃() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.単独襲撃);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 拡声 (LOUDSPEAK). And OnlyOnceRegistered. <br>
+     * 拡声
+     */
+    public void setAbilityTypeCode_NotEqual_拡声() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.拡声);
     }
 
     /**

@@ -68,7 +68,8 @@ data class Skill(
             CDef.Skill.美人局 to AbilityType(CDef.AbilityType.美人局),
             CDef.Skill.誑狐 to AbilityType(CDef.AbilityType.誑かす),
             CDef.Skill.一匹狼 to AbilityType(CDef.AbilityType.単独襲撃),
-            CDef.Skill.虹職人 to AbilityType(CDef.AbilityType.虹塗り)
+            CDef.Skill.虹職人 to AbilityType(CDef.AbilityType.虹塗り),
+            CDef.Skill.拡声者 to AbilityType(CDef.AbilityType.拡声)
         )
 
         private val shortNameToSkill = Skills.all().filterNotSomeone().list.map {
@@ -99,7 +100,8 @@ data class Skill(
                 CDef.Skill.美人局,
                 CDef.Skill.絡新婦,
                 CDef.Skill.ストーカー,
-                CDef.Skill.虹職人
+                CDef.Skill.虹職人,
+                CDef.Skill.拡声者
             ).contains(it.toCdef())
         }
 

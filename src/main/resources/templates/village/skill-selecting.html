@@ -53,6 +53,8 @@
        th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を仲間に引き入れる'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'RAINBOW'}"
        th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を虹色に塗る'}"></p>
+    <p class="small" th:if="${content.myself.skill.code == 'LOUDSPEAKER'}"
+       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' に拡声器を渡す'}"></p>
     <!--/* 通過する部屋 */-->
     <p class="small" th:if="${content.myself.skill.hasFootstepAbility}"
        th:text="'通過する部屋: ' + ${footstep == '' || footstep == null ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"

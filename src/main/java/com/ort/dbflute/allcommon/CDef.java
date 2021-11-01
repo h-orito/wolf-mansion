@@ -640,6 +640,9 @@ public interface CDef extends Classification {
         /** 一匹狼 */
         一匹狼("LONEWOLF", "一匹狼", emptyStrings())
         ,
+        /** 拡声者 */
+        拡声者("LOUDSPEAKER", "拡声者", emptyStrings())
+        ,
         /** 恋人 */
         恋人("LOVER", "恋人", emptyStrings())
         ,
@@ -978,6 +981,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "匹");
                 _subItemMapMap.put(一匹狼.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "505");
+                subItemMap.put("campCode", "CRIMINAL");
+                subItemMap.put("skill_short_name", "拡");
+                _subItemMapMap.put(拡声者.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -1916,6 +1926,9 @@ public interface CDef extends Classification {
         ,
         /** 単独襲撃 */
         単独襲撃("LONEATTACK", "単独襲撃", emptyStrings())
+        ,
+        /** 拡声 */
+        拡声("LOUDSPEAK", "拡声", emptyStrings())
         ,
         /** 虹塗り */
         虹塗り("RAINBOW", "虹塗り", emptyStrings())

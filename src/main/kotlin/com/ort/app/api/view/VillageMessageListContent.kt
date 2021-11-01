@@ -73,7 +73,8 @@ data class VillageMessageListContent(
                 },
                 charas = charas,
                 hasBigEar = village.status.isProgress() && myself?.hasBigEar() ?: false,
-                isRainbow = isRainbow(message, abilities, village)
+                isRainbow = isRainbow(message, abilities, village),
+                isLoud = isLoud(message, abilities, village)
             )
         },
         villageStatusMessage = mapVillageStatusMessage(village, myself, day),
@@ -167,6 +168,16 @@ data class VillageMessageListContent(
             val charaId = village.allParticipants().member(message.fromParticipantId).charaId
             return abilities.filterByDay(message.time.day - 1)
                 .filterByType(CDef.AbilityType.虹塗り.toModel()).list.any { it.targetCharaId == charaId }
+        }
+
+        private fun isLoud(message: Message, abilities: Abilities, village: Village): Boolean {
+            message.fromParticipantId ?: return false
+            // 対象は発言系メッセージのみ
+            if (!message.content.type.isSayType()) return false
+            // 大声にされている
+            val charaId = village.allParticipants().member(message.fromParticipantId).charaId
+            return abilities.filterByDay(message.time.day - 1)
+                .filterByType(CDef.AbilityType.拡声.toModel()).list.any { it.targetCharaId == charaId }
         }
     }
 }

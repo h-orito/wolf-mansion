@@ -35,12 +35,14 @@
                             </div>
                             <div class="col-sm-12 col-xs-12 form-check"
                                  style="padding-top: 10px; padding-bottom: 10px;">
-                                <input type="checkbox" id="agree-rule" class="form-check-input" value="1">
-                                <label class="form-check-label" for="agree-rule"> <a th:href="@{/rule}">ルール</a>を確認し、人狼館の事件簿村ルール特有の禁止事項について理解しました。
+                                <label class="form-check-label" for="agree-rule">
+                                    <input type="checkbox" id="agree-rule" class="form-check-input" value="1">
+                                    <a th:href="@{/rule}">ルール</a>を確認し、人狼館の事件簿村ルール特有の禁止事項について理解しました。
                                 </label> <br/>
-                                <input type="checkbox" id="agree-mind" class="form-check-input" value="1">
                                 <label class="form-check-label" for="agree-mind">
-                                    他者への礼節を欠いたり、正常な運営を妨げるような行為を行なった場合、管理人の裁量により処罰される可能性があることについて理解しました。 </label>
+                                    <input type="checkbox" id="agree-mind" class="form-check-input" value="1">
+                                    他者への礼節を欠いたり、正常な運営を妨げるような行為を行なった場合、管理人の裁量により処罰される可能性があることについて理解しました。
+                                </label>
                             </div>
                         </div>
                         <input type="hidden" th:field="*{spectator}"/>

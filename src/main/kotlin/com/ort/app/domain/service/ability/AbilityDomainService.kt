@@ -44,6 +44,7 @@ class AbilityDomainService(
     private val fantasistDomainService: FantasistDomainService,
     private val sleepwalkDomainService: SleepwalkDomainService,
     private val rainbowDomainService: RainbowDomainService,
+    private val loudSpeakDomainService: LoudSpeakDomainService,
     private val messageDomainService: MessageDomainService
 ) {
 
@@ -119,6 +120,7 @@ class AbilityDomainService(
             CDef.AbilityType.罠設置 -> trapDomainService
             CDef.AbilityType.壁殴り -> wallPunchDomainService
             CDef.AbilityType.虹塗り -> rainbowDomainService
+            CDef.AbilityType.拡声 -> loudSpeakDomainService
         }
 
     fun createSetMessage(

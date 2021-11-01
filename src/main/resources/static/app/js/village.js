@@ -109,6 +109,15 @@ $(function () {
     // ----------------------------------------------
     // メッセージ取得
     // ----------------------------------------------
+    function loadAndDisplayMessageWithCurrentSetting() {
+        const $latest = $('[data-latest-message]')
+        if ($latest.length === 0) {
+            return loadAndDisplayMessage();
+        }
+        const isDispLatest = $latest.closest('li').hasClass('active');
+        return loadAndDisplayMessage(null, isDispLatest);
+    }
+
     function loadAndDisplayMessage(pageNum, isDispLatest) {
         canAutoRefresh = true; // 発言確認されたままだと自動更新されないのでここで解除
         $("[data-message-area]").addClass('loading');
@@ -190,8 +199,8 @@ $(function () {
             mes = mes.replace(colorRegex, '<span style="color: $1">$2</span>');
             mes = mes.replace(boldRegex, '<strong>$1</strong>');
             mes = mes.replace(strikeRegex, '<span style="text-decoration: line-through;">$1</span>');
-            mes = mes.replace(largeRegex, '<span style="font-size: 16px;">$1</span>');
-            mes = mes.replace(smallRegex, '<span style="font-size: 10px;">$1</span>');
+            mes = mes.replace(largeRegex, '<span style="font-size: 150%;">$1</span>');
+            mes = mes.replace(smallRegex, '<span style="font-size: 80%;">$1</span>');
         }
         return mes;
     }
@@ -819,7 +828,7 @@ $(function () {
 
     // 更新
     $('body').on('click', '[data-refresh]', function () {
-        loadAndDisplayMessage();
+        loadAndDisplayMessageWithCurrentSetting();
     });
 
     // 足音選択
@@ -919,7 +928,7 @@ $(function () {
         filterSpoiled = $('[data-dsetting-unspoiled]').prop('checked');
         isDispOnlyToMe = $('[data-onlytome]').prop('checked');
         // 発言読み込み
-        loadAndDisplayMessage();
+        loadAndDisplayMessageWithCurrentSetting();
         // 日付を跨いでも維持できるように一時的にcookieに入れておく
         saveDisplaySetting('filter_village_id', villageId);
         saveDisplaySetting('filter_participant', filterParticipantIds.join(','));
@@ -1205,7 +1214,7 @@ $(function () {
     $('[data-dsetting-paging]').on('change', function () {
         const isCheck = $(this).prop('checked');
         saveDisplaySetting('is_no_paging', !isCheck);
-        loadAndDisplayMessage();
+        loadAndDisplayMessage(null, true);
     });
 
     $('[data-dsetting-autorefresh]').on('change', function () {
@@ -1216,7 +1225,7 @@ $(function () {
     $('[data-dsetting-pagesize]').on('change', function () {
         const pageSize = $(this).val();
         saveDisplaySetting('page_size', pageSize);
-        loadAndDisplayMessage();
+        loadAndDisplayMessageWithCurrentSetting();
     });
 
     $('[data-situation-tab-open]').on('click', function () {
@@ -1361,7 +1370,7 @@ $(function () {
                 if (beforeLatestMessageDatetimeNum < afterLatestMessageDatetimeNum) {
                     $('.glyphicon-refresh').addClass('flash');
                     if (isInLatestPage(day) && getDisplaySetting('auto_refresh') && canAutoRefresh) {
-                        loadAndDisplayMessage().then(function () {
+                        loadAndDisplayMessageWithCurrentSetting().then(function () {
                             $('#autorefresh-alert').show();
                             $('#autorefresh-alert').fadeIn(1000).delay(2000).fadeOut(2000);
                         });

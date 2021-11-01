@@ -33,7 +33,8 @@
                 <div>
                     <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
                 </div>
-                <div class="message message-normal" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
+                <div class="message message-normal{{#if isLoud}} loud{{/if}}"
+                     style="flex: 1; margin-left: 5px; {{minHeightCss}}">
                     {{#if isRainbow}}<span class="rainbow">{{/if}}
                     {{{messageContent}}}
                     {{#if isRainbow}}</span>{{/if}}
@@ -57,7 +58,8 @@
                 <div>
                     <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
                 </div>
-                <div class="message message-werewolf" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
+                <div class="message message-werewolf{{#if isLoud}} loud{{/if}}"
+                     style="flex: 1; margin-left: 5px; {{minHeightCss}}">
                     {{#if isRainbow}}<span class="rainbow">{{/if}}
                     {{{messageContent}}}
                     {{#if isRainbow}}</span>{{/if}}
@@ -84,7 +86,8 @@
                 <div>
                     <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
                 </div>
-                <div class="message message-monologue" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
+                <div class="message message-monologue{{#if isLoud}} loud{{/if}}"
+                     style="flex: 1; margin-left: 5px; {{minHeightCss}}">
                     {{#if isRainbow}}<span class="rainbow">{{/if}}
                     {{{messageContent}}}
                     {{#if isRainbow}}</span>{{/if}}
@@ -107,7 +110,8 @@
                 <div>
                     <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
                 </div>
-                <div class="message message-secret" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
+                <div class="message message-secret{{#if isLoud}} loud{{/if}}"
+                     style="flex: 1; margin-left: 5px; {{minHeightCss}}">
                     {{#if isRainbow}}<span class="rainbow">{{/if}}
                     {{{messageContent}}}
                     {{#if isRainbow}}</span>{{/if}}
@@ -132,7 +136,7 @@
                 <div>
                     <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
                 </div>
-                <div class="message message-mason"
+                <div class="message message-mason{{#if isLoud}} loud{{/if}}"
                      style="flex: 1; margin-left: 5px; {{minHeightCss}}">
                     {{#if isRainbow}}<span class="rainbow">{{/if}}
                     {{{messageContent}}}
@@ -158,7 +162,8 @@
                 <div>
                     <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
                 </div>
-                <div class="message message-lover" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
+                <div class="message message-lover{{#if isLoud}} loud{{/if}}"
+                     style="flex: 1; margin-left: 5px; {{minHeightCss}}">
                     {{#if isRainbow}}<span class="rainbow">{{/if}}
                     {{{messageContent}}}
                     {{#if isRainbow}}</span>{{/if}}
@@ -183,7 +188,8 @@
                 <div>
                     <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
                 </div>
-                <div class="message message-grave" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
+                <div class="message message-grave{{#if isLoud}} loud{{/if}}"
+                     style="flex: 1; margin-left: 5px; {{minHeightCss}}">
                     {{#if isRainbow}}<span class="rainbow">{{/if}}
                     {{{messageContent}}}
                     {{#if isRainbow}}</span>{{/if}}

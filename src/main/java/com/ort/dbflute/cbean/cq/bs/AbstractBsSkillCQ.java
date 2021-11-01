@@ -359,6 +359,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 拡声者 (LOUDSPEAKER). And OnlyOnceRegistered. <br>
+     * 拡声者
+     */
+    public void setSkillCode_Equal_拡声者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.拡声者);
+    }
+
+    /**
      * Equal(=). As 恋人 (LOVER). And OnlyOnceRegistered. <br>
      * 恋人
      */
@@ -859,6 +867,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_一匹狼() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.一匹狼);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 拡声者 (LOUDSPEAKER). And OnlyOnceRegistered. <br>
+     * 拡声者
+     */
+    public void setSkillCode_NotEqual_拡声者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.拡声者);
     }
 
     /**

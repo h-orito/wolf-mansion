@@ -584,3 +584,7 @@ ul.announce > li {
         background-position-x: 200%;
     }
 }
+
+.loud {
+    font-size: 300%;
+}
