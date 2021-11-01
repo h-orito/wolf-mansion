@@ -49,19 +49,7 @@ class MessageDataSource(
             return Messages(listOf())
         }
         val messagePage = messageBhv.selectPage {
-            // paging
-            if (!query.isPaging) {
-                it.paging(100000, 1)
-            } else if (query.isDispLatest) {
-                it.paging(query.pageSize!!, 1)
-            } else if (query.pageNum != null && query.pageSize != null) {
-                it.paging(query.pageSize, query.pageNum)
-            } else if (query.pageSize != null) {
-                it.paging(query.pageSize, 10000) // 存在しないページを検索して最新を取得させる
-            } else {
-                it.paging(100000, 1)
-            }
-            // query
+            queryPaging(it, query)
             queryMessage(it, query, myself)
             if (query.isDispLatest) {
                 it.query().addOrderBy_MessageDatetime_Desc()
@@ -250,6 +238,16 @@ class MessageDataSource(
         return maxNessageNumber + 1
     }
 
+    private fun queryPaging(cb: MessageCB, query: MessageQuery) {
+        when {
+            !query.isPaging -> cb.paging(100000, 1)
+            query.isDispLatest -> cb.paging(query.pageSize!!, 1)
+            query.pageNum != null && query.pageSize != null -> cb.paging(query.pageSize, query.pageNum)
+            query.pageSize != null -> cb.paging(query.pageSize, 10000) // 存在しないページを検索して最新を取得させる
+            else -> cb.paging(100000, 1)
+        }
+    }
+
     private fun queryMessage(
         cb: MessageCB,
         query: MessageQuery,
@@ -259,7 +257,12 @@ class MessageDataSource(
         cb.query().setDay_Equal(query.day)
         queryMessageType(cb, query, myself)
         // 参加者で絞る
-        if (query.participantIds.isNotEmpty()) cb.query().setVillagePlayerId_InScope(query.participantIds)
+        if (query.participantIds.isNotEmpty()) {
+            cb.orScopeQuery { orCB ->
+                orCB.query().setVillagePlayerId_InScope(query.participantIds)
+                orCB.query().setVillagePlayerId_IsNull()
+            }
+        }
         // キーワードで絞る
         if (!query.keywords.isNullOrEmpty()) {
             cb.query().setMessageContent_LikeSearch(query.keywords) { op ->
