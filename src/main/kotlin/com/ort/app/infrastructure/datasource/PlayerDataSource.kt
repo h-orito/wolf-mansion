@@ -40,7 +40,9 @@ class PlayerDataSource(
     override fun findPlayers(villageIdList: List<Int>): Players {
         val playerList = playerBhv.selectList {
             it.query().existsVillagePlayer { vpCB ->
-                vpCB.query().setVillageId_InScope(villageIdList)
+                if (villageIdList.isNotEmpty()) {
+                    vpCB.query().setVillageId_InScope(villageIdList)
+                }
                 vpCB.query().setIsGone_Equal_False()
             }
         }
