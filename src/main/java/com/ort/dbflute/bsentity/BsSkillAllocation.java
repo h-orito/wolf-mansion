@@ -597,6 +597,14 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     }
 
     /**
+     * Set the value of skillCode as 風来狩人 (WANDERER). <br>
+     * 風来狩人
+     */
+    public void setSkillCode_風来狩人() {
+        setSkillCodeAsSkill(CDef.Skill.風来狩人);
+    }
+
+    /**
      * Set the value of skillCode as 人狼 (WEREWOLF). <br>
      * 人狼
      */
@@ -1234,6 +1242,17 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     public boolean isSkillCode壁殴り代行() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.壁殴り代行) : false;
+    }
+
+    /**
+     * Is the value of skillCode 風来狩人? <br>
+     * 風来狩人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode風来狩人() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.風来狩人) : false;
     }
 
     /**

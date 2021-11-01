@@ -27,6 +27,7 @@ import com.ort.app.domain.service.ability.SeduceDomainService
 import com.ort.app.domain.service.ability.StalkingDomainService
 import com.ort.app.domain.service.ability.TrapDomainService
 import com.ort.app.domain.service.ability.WallPunchDomainService
+import com.ort.app.domain.service.ability.WandererDomainService
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -41,6 +42,7 @@ class ProgressDomainService(
     private val badgerGameDomainService: BadgerGameDomainService,
     private val fruitsBasketDomainService: FruitsBasketDomainService,
     private val guardDomainService: GuardDomainService,
+    private val wandererDomainService: WandererDomainService,
     private val investigateDomainService: InvestigateDomainService,
     private val loneAttackDomainService: LoneAttackDomainService,
     private val seduceDomainService: SeduceDomainService,
@@ -89,6 +91,7 @@ class ProgressDomainService(
         daychange = executeDomainService.execute(daychange)
         // 護衛
         daychange = guardDomainService.guard(daychange)
+        daychange = wandererDomainService.wandererGuard(daychange)
         // 壁殴り
         daychange = wallPunchDomainService.wallPunch(daychange)
         // 占い、呪殺、逆呪殺

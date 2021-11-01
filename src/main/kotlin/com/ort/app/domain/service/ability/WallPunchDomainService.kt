@@ -1,7 +1,6 @@
 package com.ort.app.domain.service.ability
 
 import com.ort.app.domain.model.ability.Abilities
-import com.ort.app.domain.model.ability.Ability
 import com.ort.app.domain.model.ability.AbilityType
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.footstep.Footsteps
@@ -29,12 +28,21 @@ class WallPunchDomainService(
         abilities: Abilities
     ): List<VillageParticipant> {
         if (village.latestDay() < 2) return emptyList()
+        // 四方の部屋
         val candidateRoomNumbers = roomDomainService.detectWasdRoomNumbers(
             room = myself.room!!,
             size = village.roomSize!!
         )
-        return village.participants.filterAlive().sortedByRoomNumber()
-            .list.filter { candidateRoomNumbers.contains(it.room!!.number) }
+        // 過去に殴った部屋は殴れない
+        val pastTargetCharaIds = abilities
+            .filterPastDay(village.latestDay())
+            .filterByCharaId(myself.charaId)
+            .filterByType(abilityType).list.map { it.targetCharaId }
+        return village.participants
+            .filterAlive()
+            .sortedByRoomNumber().list
+            .filter { candidateRoomNumbers.contains(it.room!!.number) }
+            .filterNot { pastTargetCharaIds.contains(it.charaId) }
     }
 
     override fun getSelectingTarget(
@@ -74,28 +82,13 @@ class WallPunchDomainService(
         targetCharaId: Int?,
         footstep: String?
     ): String {
-        val target = village.participants.chara(targetCharaId!!)
+        targetCharaId ?: return "${myself.name()}が壁殴り対象をなしに設定しました。"
+        val target = village.participants.chara(targetCharaId)
         return "${myself.name()}が壁殴り対象を${target.name()}に設定しました。"
     }
 
     override fun canUseDay(day: Int): Boolean = day > 1
-
-    fun addDefaultAbilities(daychange: Daychange): Daychange {
-        val village = daychange.village
-        var abilities = daychange.abilities.copy()
-        if (!canUseDay(village.latestDay())) return daychange
-        village.participants.filterAlive().filterBySkill(CDef.Skill.壁殴り代行.toModel()).list.forEach {
-            val target = getSelectableTargetList(village, it, abilities).shuffled().first()
-            val ability = Ability(
-                day = village.latestDay(),
-                type = abilityType,
-                charaId = it.charaId,
-                targetCharaId = target.charaId
-            )
-            abilities = abilities.add(ability)
-        }
-        return daychange.copy(abilities = abilities)
-    }
+    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
 
     fun wallPunch(daychange: Daychange): Daychange {
         val village = daychange.village
@@ -108,7 +101,7 @@ class WallPunchDomainService(
             messages = messages.add(createWallPunchMessage(village, it, target))
         }
 
-        return daychange.copy(village = village, messages = messages)
+        return daychange.copy(village = village, messages = messages, guarded = guarded)
     }
 
     private fun createWallPunchMessage(

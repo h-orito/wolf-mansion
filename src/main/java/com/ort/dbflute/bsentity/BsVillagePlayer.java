@@ -813,6 +813,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 風来狩人 (WANDERER). <br>
+     * 風来狩人
+     */
+    public void setSkillCode_風来狩人() {
+        setSkillCodeAsSkill(CDef.Skill.風来狩人);
+    }
+
+    /**
      * Set the value of skillCode as 人狼 (WEREWOLF). <br>
      * 人狼
      */
@@ -1285,6 +1293,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 風来狩人 (WANDERER). <br>
+     * 風来狩人
+     */
+    public void setRequestSkillCode_風来狩人() {
+        setRequestSkillCodeAsSkill(CDef.Skill.風来狩人);
+    }
+
+    /**
      * Set the value of requestSkillCode as 人狼 (WEREWOLF). <br>
      * 人狼
      */
@@ -1754,6 +1770,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_壁殴り代行() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.壁殴り代行);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 風来狩人 (WANDERER). <br>
+     * 風来狩人
+     */
+    public void setSecondRequestSkillCode_風来狩人() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.風来狩人);
     }
 
     /**
@@ -2514,6 +2538,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode壁殴り代行() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.壁殴り代行) : false;
+    }
+
+    /**
+     * Is the value of skillCode 風来狩人? <br>
+     * 風来狩人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode風来狩人() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.風来狩人) : false;
     }
 
     /**
@@ -3286,6 +3321,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 風来狩人? <br>
+     * 風来狩人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode風来狩人() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.風来狩人) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 人狼? <br>
      * 人狼
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -4052,6 +4098,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode壁殴り代行() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.壁殴り代行) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 風来狩人? <br>
+     * 風来狩人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode風来狩人() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.風来狩人) : false;
     }
 
     /**

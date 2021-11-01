@@ -875,6 +875,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
         setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.壁殴り);
     }
 
+    /**
+     * Equal(=). As 風来護衛 (WANDERERGUARD). And OnlyOnceRegistered. <br>
+     * 風来護衛
+     */
+    public void setAbilityTypeCode_Equal_風来護衛() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.風来護衛);
+    }
+
     protected void doSetAbilityTypeCode_Equal(String abilityTypeCode) {
         regAbilityTypeCode(CK_EQ, abilityTypeCode);
     }
@@ -1040,6 +1048,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_壁殴り() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.壁殴り);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 風来護衛 (WANDERERGUARD). And OnlyOnceRegistered. <br>
+     * 風来護衛
+     */
+    public void setAbilityTypeCode_NotEqual_風来護衛() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.風来護衛);
     }
 
     protected void doSetAbilityTypeCode_NotEqual(String abilityTypeCode) {

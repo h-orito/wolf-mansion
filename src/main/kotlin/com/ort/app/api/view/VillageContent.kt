@@ -209,34 +209,11 @@ data class VillageContent(
                 code = skill.code,
                 hasAttackAbility = skill.toCdef().isHasAttackAbility,
                 hasDivineAbility = skill.toCdef().isHasDivineAbility,
-                hasGuardAbility = skill.toCdef() == CDef.Skill.狩人,
+                hasGuardAbility = skill.toCdef() == CDef.Skill.狩人 || skill.toCdef() == CDef.Skill.風来狩人,
                 hasDisturbAbility = skill.toCdef().isHasDisturbAbility,
-                hasFootstepAbility = hasFootstepAbility(skill),
+                hasFootstepAbility = Skill.footstepSkills.any { it.code == skill.code },
                 hasCohabitAbility = skill.toCdef() == CDef.Skill.同棲者
             )
-
-            companion object {
-                private val hasFootstepSkills = listOf(
-                    CDef.Skill.狩人,
-                    CDef.Skill.一匹狼,
-                    CDef.Skill.爆弾魔,
-                    CDef.Skill.罠師,
-                    CDef.Skill.誑狐,
-                    CDef.Skill.求愛者,
-                    CDef.Skill.美人局,
-                    CDef.Skill.絡新婦,
-                    CDef.Skill.ストーカー,
-                    CDef.Skill.虹職人
-                )
-
-                private fun hasFootstepAbility(skill: Skill): Boolean {
-                    val cdef = skill.toCdef()
-                    return cdef.isHasAttackAbility ||
-                            cdef.isHasDivineAbility ||
-                            cdef.isHasDisturbAbility ||
-                            hasFootstepSkills.contains(cdef)
-                }
-            }
         }
     }
 

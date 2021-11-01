@@ -34,6 +34,7 @@ class AbilityDomainService(
     private val badgerGameDomainService: BadgerGameDomainService,
     private val fruitsBasketDomainService: FruitsBasketDomainService,
     private val guardDomainService: GuardDomainService,
+    private val wandererDomainService: WandererDomainService,
     private val investigateDomainService: InvestigateDomainService,
     private val loneAttackDomainService: LoneAttackDomainService,
     private val seduceDomainService: SeduceDomainService,
@@ -110,6 +111,7 @@ class AbilityDomainService(
             CDef.AbilityType.美人局 -> badgerGameDomainService
             CDef.AbilityType.フルーツバスケット -> fruitsBasketDomainService
             CDef.AbilityType.護衛 -> guardDomainService
+            CDef.AbilityType.風来護衛 -> wandererDomainService
             CDef.AbilityType.捜査 -> investigateDomainService
             CDef.AbilityType.単独襲撃 -> loneAttackDomainService
             CDef.AbilityType.誘惑 -> seduceDomainService
@@ -438,8 +440,6 @@ class AbilityDomainService(
         daychange = sleepwalkDomainService.addDefaultAbilities(daychange)
         // 護衛
         daychange = guardDomainService.addDefaultAbilities(daychange)
-        // 壁殴り代行
-        daychange = wallPunchDomainService.addDefaultAbilities(daychange)
         // 捜査
         daychange = investigateDomainService.addDefaultAbilities(daychange)
 

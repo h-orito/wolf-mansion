@@ -1,10 +1,8 @@
 package com.ort.app.domain.service.ability
 
 import com.ort.app.domain.model.ability.Abilities
-import com.ort.app.domain.model.ability.Ability
 import com.ort.app.domain.model.ability.AbilityType
 import com.ort.app.domain.model.daychange.Daychange
-import com.ort.app.domain.model.footstep.Footstep
 import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
@@ -18,12 +16,12 @@ import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
 @Service
-class GuardDomainService(
+class WandererDomainService(
     private val footstepDomainService: FootstepDomainService,
     private val messageDomainService: MessageDomainService
 ) : AbilityTypeDomainService {
 
-    private val abilityType = AbilityType(CDef.AbilityType.護衛)
+    private val abilityType = AbilityType(CDef.AbilityType.風来護衛)
 
     override fun getSelectableTargetList(
         village: Village,
@@ -32,14 +30,16 @@ class GuardDomainService(
     ): List<VillageParticipant> {
         val day = village.latestDay()
         if (day < 2) return emptyList()
-        val targets = village.participants
+        // 一度守った人は守れない
+        val pastTargetCharaIds = abilities
+            .filterPastDay(village.latestDay())
+            .filterByCharaId(myself.charaId)
+            .filterByType(abilityType).list.map { it.targetCharaId }
+        return village.participants
             .filterAlive()
             .filterNotParticipant(myself)
             .sortedByRoomNumber()
-        if (village.setting.rule.isAvailableGuardSameTarget) return targets.list
-        val yesterdayAbility =
-            abilities.filterByType(abilityType).filterByCharaId(myself.charaId).filterByDay(day - 1).list.firstOrNull()
-        return targets.list.filterNot { it.charaId == yesterdayAbility?.targetCharaId }
+            .list.filterNot { pastTargetCharaIds.contains(it.charaId) }
     }
 
     override fun getSelectingTarget(
@@ -86,6 +86,7 @@ class GuardDomainService(
         abilities: Abilities,
         footsteps: Footsteps
     ) {
+        targetCharaId ?: return // 対象なしを選べる
         // 対象
         if (getSelectableTargetList(village, myself, abilities).none { it.charaId == targetCharaId }) {
             throw WolfMansionBusinessException("選択できない対象を指定しています")
@@ -101,6 +102,7 @@ class GuardDomainService(
         targetCharaId: Int?,
         footstep: String?
     ): String {
+        targetCharaId ?: return "${myself.name()}が護衛対象をなしに設定しました。" // 護衛なしを選べる
         val target = village.participants.chara(targetCharaId!!)
         return "${myself.name()}が護衛対象を${target.name()}に、通過する部屋を${footstep!!}に設定しました。"
     }
@@ -109,39 +111,14 @@ class GuardDomainService(
     override fun isTargetingAndFootstep(): Boolean = true
     override fun canUseDay(day: Int): Boolean = day > 1
 
-    fun addDefaultAbilities(daychange: Daychange): Daychange {
-        val village = daychange.village
-        if (!canUseDay(village.latestDay())) return daychange
-        var abilities = daychange.abilities.copy()
-        var footsteps = daychange.footsteps.copy()
-        village.participants.filterAlive().filterBySkill(CDef.Skill.狩人.toModel()).list.forEach {
-            val target = getSelectableTargetList(village, it, abilities).shuffled().first()
-            val ability = Ability(
-                day = village.latestDay(),
-                type = abilityType,
-                charaId = it.charaId,
-                targetCharaId = target.charaId
-            )
-            abilities = abilities.add(ability)
-            val footstep = Footstep(
-                day = village.latestDay(),
-                charaId = it.charaId,
-                roomNumbers = footstepDomainService.getCandidateList(village, it.charaId, target.charaId).shuffled()
-                    .first()
-            )
-            footsteps = footsteps.add(footstep)
-        }
-        return daychange.copy(
-            abilities = abilities,
-            footsteps = footsteps
-        )
-    }
+    // 護衛なしを選べる
+    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
 
-    fun guard(daychange: Daychange): Daychange {
+    fun wandererGuard(daychange: Daychange): Daychange {
         val village = daychange.village
         var guarded = daychange.guarded
         var messages = daychange.messages.copy()
-        village.participants.filterAlive().filterBySkill(CDef.Skill.狩人.toModel()).list.forEach {
+        village.participants.filterAlive().filterBySkill(CDef.Skill.風来狩人.toModel()).list.forEach {
             val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
             guarded = (guarded + target).distinct()

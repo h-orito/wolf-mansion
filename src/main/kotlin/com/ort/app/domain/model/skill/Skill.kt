@@ -53,6 +53,7 @@ data class Skill(
             it to AbilityType(CDef.AbilityType.占い)
         }.toMap() + mapOf(
             CDef.Skill.狩人 to AbilityType(CDef.AbilityType.護衛),
+            CDef.Skill.風来狩人 to AbilityType(CDef.AbilityType.風来護衛),
             CDef.Skill.壁殴り代行 to AbilityType(CDef.AbilityType.壁殴り),
             CDef.Skill.探偵 to AbilityType(CDef.AbilityType.捜査),
             CDef.Skill.罠師 to AbilityType(CDef.AbilityType.罠設置),
@@ -85,8 +86,21 @@ data class Skill(
         }
         private val notSayableSkills =
             Skills.all().filterNotSomeone().list.filter { !sayableSkills.map { it.code }.contains(it.code) }
-        private val footstepSkills = Skills.all().list.filter {
-            it.hasAttackAbility() || it.hasDisturbAbility() || it.hasDivineAbility() || it.toCdef() == CDef.Skill.狩人
+        val footstepSkills = Skills.all().list.filter {
+            it.hasAttackAbility() || it.hasDisturbAbility() || it.hasDivineAbility() || listOf(
+                CDef.Skill.狩人,
+                CDef.Skill.風来狩人,
+                CDef.Skill.壁殴り代行,
+                CDef.Skill.一匹狼,
+                CDef.Skill.爆弾魔,
+                CDef.Skill.罠師,
+                CDef.Skill.誑狐,
+                CDef.Skill.求愛者,
+                CDef.Skill.美人局,
+                CDef.Skill.絡新婦,
+                CDef.Skill.ストーカー,
+                CDef.Skill.虹職人
+            ).contains(it.toCdef())
         }
 
         val madmanPriorityList = listOf(

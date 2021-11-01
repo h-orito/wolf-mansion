@@ -28,9 +28,9 @@
        th:text="'現在の選択: ' + ${charaName} + ' が ' + ${targetCharaName} + ' を襲う'"
        th:data-selected-attack-target="${targetCharaId}"></p>
     <p class="small" th:if="${content.myself.skill.hasGuardAbility}"
-       th:text="'現在の選択: ' + ${targetCharaName} + ' を護衛する'"></p>
+       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を護衛する'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'WALLPUNCHER'}"
-       th:text="'現在の選択: ' + ${targetCharaName} + ' の部屋の壁を殴る'"></p>
+       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' の部屋の壁を殴る'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'DETECTIVE'}"
        th:text="${'現在の選択: ' + (footstep == null ? 'なし' : (footstep + ' を調査する'))}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'TRAPPER'}"

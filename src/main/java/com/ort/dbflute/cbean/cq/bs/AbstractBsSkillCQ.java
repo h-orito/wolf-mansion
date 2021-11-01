@@ -503,6 +503,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 風来狩人 (WANDERER). And OnlyOnceRegistered. <br>
+     * 風来狩人
+     */
+    public void setSkillCode_Equal_風来狩人() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.風来狩人);
+    }
+
+    /**
      * Equal(=). As 人狼 (WEREWOLF). And OnlyOnceRegistered. <br>
      * 人狼
      */
@@ -995,6 +1003,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_壁殴り代行() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.壁殴り代行);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 風来狩人 (WANDERER). And OnlyOnceRegistered. <br>
+     * 風来狩人
+     */
+    public void setSkillCode_NotEqual_風来狩人() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.風来狩人);
     }
 
     /**

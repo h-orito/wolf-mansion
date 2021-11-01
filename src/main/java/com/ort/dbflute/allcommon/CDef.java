@@ -694,6 +694,9 @@ public interface CDef extends Classification {
         /** 壁殴り代行 */
         壁殴り代行("WALLPUNCHER", "壁殴り代行", emptyStrings())
         ,
+        /** 風来狩人 */
+        風来狩人("WANDERER", "風来狩人", emptyStrings())
+        ,
         /** 人狼 */
         人狼("WEREWOLF", "人狼", emptyStrings())
         ,
@@ -740,7 +743,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "12");
+                subItemMap.put("order", "13");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "パ");
                 _subItemMapMap.put(パン屋.code(), Collections.unmodifiableMap(subItemMap));
@@ -775,7 +778,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "14");
+                subItemMap.put("order", "15");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "指");
                 _subItemMapMap.put(指揮官.code(), Collections.unmodifiableMap(subItemMap));
@@ -810,7 +813,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "10");
+                subItemMap.put("order", "11");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "探");
                 _subItemMapMap.put(探偵.code(), Collections.unmodifiableMap(subItemMap));
@@ -824,7 +827,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "17");
+                subItemMap.put("order", "18");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "冤");
                 _subItemMapMap.put(冤罪者.code(), Collections.unmodifiableMap(subItemMap));
@@ -838,7 +841,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "15");
+                subItemMap.put("order", "16");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "妄");
                 _subItemMapMap.put(妄想癖.code(), Collections.unmodifiableMap(subItemMap));
@@ -901,7 +904,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "19");
+                subItemMap.put("order", "20");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "申");
                 _subItemMapMap.put(申し子.code(), Collections.unmodifiableMap(subItemMap));
@@ -992,7 +995,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "13");
+                subItemMap.put("order", "14");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "運");
                 _subItemMapMap.put(強運者.code(), Collections.unmodifiableMap(subItemMap));
@@ -1006,7 +1009,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "9");
+                subItemMap.put("order", "10");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "共");
                 _subItemMapMap.put(共鳴者.code(), Collections.unmodifiableMap(subItemMap));
@@ -1048,7 +1051,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "18");
+                subItemMap.put("order", "19");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "転");
                 _subItemMapMap.put(転生者.code(), Collections.unmodifiableMap(subItemMap));
@@ -1062,7 +1065,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "16");
+                subItemMap.put("order", "17");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "夢");
                 _subItemMapMap.put(夢遊病者.code(), Collections.unmodifiableMap(subItemMap));
@@ -1076,7 +1079,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "11");
+                subItemMap.put("order", "12");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "罠");
                 _subItemMapMap.put(罠師.code(), Collections.unmodifiableMap(subItemMap));
@@ -1097,10 +1100,17 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "20");
+                subItemMap.put("order", "21");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "壁");
                 _subItemMapMap.put(壁殴り代行.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "9");
+                subItemMap.put("campCode", "VILLAGER");
+                subItemMap.put("skill_short_name", "風");
+                _subItemMapMap.put(風来狩人.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -1921,6 +1931,9 @@ public interface CDef extends Classification {
         ,
         /** 壁殴り */
         壁殴り("WALLPUNCH", "壁殴り", emptyStrings())
+        ,
+        /** 風来護衛 */
+        風来護衛("WANDERERGUARD", "風来護衛", emptyStrings())
         ;
         private static final Map<String, AbilityType> _codeClsMap = new HashMap<String, AbilityType>();
         private static final Map<String, AbilityType> _nameClsMap = new HashMap<String, AbilityType>();

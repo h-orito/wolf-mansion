@@ -2,6 +2,7 @@ ability_type_code	ability_type_name
 ATTACK	襲撃
 DIVINE	占い
 GUARD	護衛
+WANDERERGUARD	風来護衛
 INVESTIGATE	捜査
 TRAP	罠設置
 BOMB	爆弾設置
