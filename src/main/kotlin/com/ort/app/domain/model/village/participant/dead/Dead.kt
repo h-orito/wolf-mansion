@@ -43,6 +43,7 @@ data class Dead(
     fun trapKill(day: Int): Dead = dead(day, CDef.DeadReason.罠死.toModel())
     fun bombKill(day: Int): Dead = dead(day, CDef.DeadReason.爆死.toModel())
     fun suicide(day: Int): Dead = dead(day, CDef.DeadReason.後追.toModel())
+    fun forceReincarnation(day: Int): Dead = attacked(day).revive(day)
     fun revive(day: Int): Dead {
         if (!isDead) return this
         return copy(

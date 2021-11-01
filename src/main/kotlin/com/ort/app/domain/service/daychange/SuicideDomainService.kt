@@ -69,9 +69,7 @@ class SuicideDomainService(
 
     private fun findImmoralSuicideTarget(village: Village): VillageParticipant? {
         // 妖狐系が生存していたら後追いしない
-        if (village.participants.filterAlive().list.any {
-                it.skill!!.toCdef() == CDef.Skill.妖狐 || it.skill.toCdef() == CDef.Skill.誑狐
-            }) {
+        if (village.participants.filterAlive().list.any { it.skill!!.isFoxCount() }) {
             return null
         }
         // 生存している妖狐陣営(＝恋絆のついていない背徳者、狐憑き)が後追い対象

@@ -182,6 +182,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 強制転生 (FORCE_REINCARNATION). <br>
+     * 強制転生
+     */
+    public void setAbilityTypeCode_強制転生() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.強制転生);
+    }
+
+    /**
      * Set the value of abilityTypeCode as フルーツバスケット (FRUITSBASKET). <br>
      * フルーツバスケット
      */
@@ -366,6 +374,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode占い() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.占い) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 強制転生? <br>
+     * 強制転生
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode強制転生() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.強制転生) : false;
     }
 
     /**

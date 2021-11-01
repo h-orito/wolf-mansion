@@ -164,6 +164,10 @@ data class VillageParticipants(
         return copy(list = list.map { if (it.id == id) it.suicide(day) else it.copy() })
     }
 
+    fun forceReincarnation(id: Int, day: Int, skill: Skill): VillageParticipants {
+        return copy(list = list.map { if (it.id == id) it.forceReincarnation(day, skill) else it.copy() })
+    }
+
     fun revive(id: Int, day: Int): VillageParticipants {
         return copy(list = list.map { if (it.id == id) it.revive(day) else it.copy() })
     }

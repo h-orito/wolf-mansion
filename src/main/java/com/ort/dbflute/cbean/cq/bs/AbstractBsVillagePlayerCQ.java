@@ -1327,6 +1327,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As ごん (GONFOX). And OnlyOnceRegistered. <br>
+     * ごん
+     */
+    public void setSkillCode_Equal_ごん() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.ごん);
+    }
+
+    /**
      * Equal(=). As 導師 (GURU). And OnlyOnceRegistered. <br>
      * 導師
      */
@@ -1548,6 +1556,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_Equal_罠師() {
         setSkillCode_Equal_AsSkill(CDef.Skill.罠師);
+    }
+
+    /**
+     * Equal(=). As トラック (TRUCK). And OnlyOnceRegistered. <br>
+     * トラック
+     */
+    public void setSkillCode_Equal_トラック() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.トラック);
     }
 
     /**
@@ -1838,6 +1854,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As ごん (GONFOX). And OnlyOnceRegistered. <br>
+     * ごん
+     */
+    public void setSkillCode_NotEqual_ごん() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.ごん);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 導師 (GURU). And OnlyOnceRegistered. <br>
      * 導師
      */
@@ -2062,6 +2086,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As トラック (TRUCK). And OnlyOnceRegistered. <br>
+     * トラック
+     */
+    public void setSkillCode_NotEqual_トラック() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.トラック);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 村人 (VILLAGER). And OnlyOnceRegistered. <br>
      * 村人
      */
@@ -2202,7 +2234,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 襲撃されても死なない <br>
-     * The group elements:[壁殴り代行, 妖狐, 誑狐, 爆弾魔]
+     * The group elements:[壁殴り代行, 妖狐, 誑狐, ごん, 爆弾魔]
      */
     public void setSkillCode_InScope_NoDeadByAttack() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfNoDeadByAttack());
@@ -2222,7 +2254,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 勝敗判定時、人間にも人狼にもカウントされない <br>
-     * The group elements:[妖狐, 誑狐, 梟]
+     * The group elements:[妖狐, 誑狐, ごん, 梟]
      */
     public void setSkillCode_InScope_NoCount() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfNoCount());
@@ -2536,6 +2568,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As ごん (GONFOX). And OnlyOnceRegistered. <br>
+     * ごん
+     */
+    public void setRequestSkillCode_Equal_ごん() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.ごん);
+    }
+
+    /**
      * Equal(=). As 導師 (GURU). And OnlyOnceRegistered. <br>
      * 導師
      */
@@ -2757,6 +2797,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_Equal_罠師() {
         setRequestSkillCode_Equal_AsSkill(CDef.Skill.罠師);
+    }
+
+    /**
+     * Equal(=). As トラック (TRUCK). And OnlyOnceRegistered. <br>
+     * トラック
+     */
+    public void setRequestSkillCode_Equal_トラック() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.トラック);
     }
 
     /**
@@ -3047,6 +3095,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As ごん (GONFOX). And OnlyOnceRegistered. <br>
+     * ごん
+     */
+    public void setRequestSkillCode_NotEqual_ごん() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.ごん);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 導師 (GURU). And OnlyOnceRegistered. <br>
      * 導師
      */
@@ -3271,6 +3327,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As トラック (TRUCK). And OnlyOnceRegistered. <br>
+     * トラック
+     */
+    public void setRequestSkillCode_NotEqual_トラック() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.トラック);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 村人 (VILLAGER). And OnlyOnceRegistered. <br>
      * 村人
      */
@@ -3411,7 +3475,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 襲撃されても死なない <br>
-     * The group elements:[壁殴り代行, 妖狐, 誑狐, 爆弾魔]
+     * The group elements:[壁殴り代行, 妖狐, 誑狐, ごん, 爆弾魔]
      */
     public void setRequestSkillCode_InScope_NoDeadByAttack() {
         setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfNoDeadByAttack());
@@ -3431,7 +3495,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 勝敗判定時、人間にも人狼にもカウントされない <br>
-     * The group elements:[妖狐, 誑狐, 梟]
+     * The group elements:[妖狐, 誑狐, ごん, 梟]
      */
     public void setRequestSkillCode_InScope_NoCount() {
         setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfNoCount());
@@ -3745,6 +3809,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As ごん (GONFOX). And OnlyOnceRegistered. <br>
+     * ごん
+     */
+    public void setSecondRequestSkillCode_Equal_ごん() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.ごん);
+    }
+
+    /**
      * Equal(=). As 導師 (GURU). And OnlyOnceRegistered. <br>
      * 導師
      */
@@ -3966,6 +4038,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_Equal_罠師() {
         setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.罠師);
+    }
+
+    /**
+     * Equal(=). As トラック (TRUCK). And OnlyOnceRegistered. <br>
+     * トラック
+     */
+    public void setSecondRequestSkillCode_Equal_トラック() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.トラック);
     }
 
     /**
@@ -4256,6 +4336,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As ごん (GONFOX). And OnlyOnceRegistered. <br>
+     * ごん
+     */
+    public void setSecondRequestSkillCode_NotEqual_ごん() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.ごん);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 導師 (GURU). And OnlyOnceRegistered. <br>
      * 導師
      */
@@ -4480,6 +4568,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As トラック (TRUCK). And OnlyOnceRegistered. <br>
+     * トラック
+     */
+    public void setSecondRequestSkillCode_NotEqual_トラック() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.トラック);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 村人 (VILLAGER). And OnlyOnceRegistered. <br>
      * 村人
      */
@@ -4620,7 +4716,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 襲撃されても死なない <br>
-     * The group elements:[壁殴り代行, 妖狐, 誑狐, 爆弾魔]
+     * The group elements:[壁殴り代行, 妖狐, 誑狐, ごん, 爆弾魔]
      */
     public void setSecondRequestSkillCode_InScope_NoDeadByAttack() {
         setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfNoDeadByAttack());
@@ -4640,7 +4736,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 勝敗判定時、人間にも人狼にもカウントされない <br>
-     * The group elements:[妖狐, 誑狐, 梟]
+     * The group elements:[妖狐, 誑狐, ごん, 梟]
      */
     public void setSecondRequestSkillCode_InScope_NoCount() {
         setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfNoCount());

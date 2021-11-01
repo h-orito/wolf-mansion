@@ -796,6 +796,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 強制転生 (FORCE_REINCARNATION). And OnlyOnceRegistered. <br>
+     * 強制転生
+     */
+    public void setAbilityTypeCode_Equal_強制転生() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.強制転生);
+    }
+
+    /**
      * Equal(=). As フルーツバスケット (FRUITSBASKET). And OnlyOnceRegistered. <br>
      * フルーツバスケット
      */
@@ -976,6 +984,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_占い() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.占い);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 強制転生 (FORCE_REINCARNATION). And OnlyOnceRegistered. <br>
+     * 強制転生
+     */
+    public void setAbilityTypeCode_NotEqual_強制転生() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.強制転生);
     }
 
     /**

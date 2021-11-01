@@ -247,6 +247,10 @@ data class Village(
         return copy(participants = participants.suicide(participantId, latestDay()))
     }
 
+    fun forceReincarnation(participantId: Int, skill: Skill): Village {
+        return copy(participants = participants.forceReincarnation(participantId, latestDay(), skill))
+    }
+
     fun reviveParticipant(participantId: Int): Village {
         return copy(participants = participants.revive(participantId, latestDay()))
     }

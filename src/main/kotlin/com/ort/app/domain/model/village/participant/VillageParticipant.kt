@@ -169,6 +169,8 @@ data class VillageParticipant(
     fun bombKill(day: Int): VillageParticipant = copy(dead = dead.bombKill(day))
     fun suicide(day: Int): VillageParticipant = copy(dead = dead.suicide(day))
     fun revive(day: Int): VillageParticipant = copy(dead = dead.revive(day))
+    fun forceReincarnation(day: Int, skill: Skill): VillageParticipant =
+        assignSkill(skill).copy(dead = dead.forceReincarnation(day))
 
     fun foxPossession(targetParticipantId: Int): VillageParticipant =
         copy(status = status.foxPossession(targetParticipantId))

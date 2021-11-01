@@ -45,6 +45,7 @@ class AbilityDomainService(
     private val sleepwalkDomainService: SleepwalkDomainService,
     private val rainbowDomainService: RainbowDomainService,
     private val loudSpeakDomainService: LoudSpeakDomainService,
+    private val forceReincarnationDomainService: ForceReincarnationDomainService,
     private val messageDomainService: MessageDomainService
 ) {
 
@@ -121,6 +122,7 @@ class AbilityDomainService(
             CDef.AbilityType.壁殴り -> wallPunchDomainService
             CDef.AbilityType.虹塗り -> rainbowDomainService
             CDef.AbilityType.拡声 -> loudSpeakDomainService
+            CDef.AbilityType.強制転生 -> forceReincarnationDomainService
         }
 
     fun createSetMessage(
@@ -332,15 +334,12 @@ class AbilityDomainService(
     private fun getFoxList(village: Village, myself: VillageParticipant?): List<VillageParticipant> {
         if (myself?.skill == null || !isFoxCamp(myself)) return emptyList()
         return village.participants.sortedByRoomNumber().list.filter {
-            val skill = it.skill!!.toCdef()
-            skill == CDef.Skill.妖狐 || skill == CDef.Skill.誑狐
+            it.skill!!.isFoxCount()
         }
     }
 
     private fun isFoxCamp(myself: VillageParticipant): Boolean {
-        val skill = myself.skill!!.toCdef()
-        return listOf(CDef.Skill.背徳者, CDef.Skill.妖狐, CDef.Skill.誑狐).contains(skill) ||
-                myself.status.isFoxPossessioned()
+        return myself.skill!!.camp().isFoxs() || myself.status.isFoxPossessioned()
     }
 
     private fun getLoversList(village: Village, myself: VillageParticipant?): List<VillageParticipant> {

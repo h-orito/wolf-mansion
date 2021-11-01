@@ -18,7 +18,9 @@ import com.ort.app.domain.service.ability.CohabitDomainService
 import com.ort.app.domain.service.ability.CourtDomainService
 import com.ort.app.domain.service.ability.DivineDomainService
 import com.ort.app.domain.service.ability.FalseChargesDomainService
+import com.ort.app.domain.service.ability.ForceReincarnationDomainService
 import com.ort.app.domain.service.ability.FruitsBasketDomainService
+import com.ort.app.domain.service.ability.GonfoxDomainService
 import com.ort.app.domain.service.ability.GuardDomainService
 import com.ort.app.domain.service.ability.InvestigateDomainService
 import com.ort.app.domain.service.ability.LoneAttackDomainService
@@ -53,9 +55,11 @@ class ProgressDomainService(
     private val psychicDomainService: PsychicDomainService,
     private val autopsyDomainService: AutopsyDomainService,
     private val bakeryDomainService: BakeryDomainService,
+    private val gonfoxDomainService: GonfoxDomainService,
     private val falseChargesDomainService: FalseChargesDomainService,
     private val rainbowDomainService: RainbowDomainService,
     private val loudSpeakDomainService: LoudSpeakDomainService,
+    private val forceReincarnationDomainService: ForceReincarnationDomainService,
     private val revivalDomainService: RevivalDomainService,
     private val suicideDomainService: SuicideDomainService,
     private val epilogueDomainService: EpilogueDomainService,
@@ -120,6 +124,8 @@ class ProgressDomainService(
         daychange = miserableDomainService.addMiserableMessages(daychange)
         // 検死
         daychange = autopsyDomainService.autopsy(daychange)
+        // 強制転生
+        daychange = forceReincarnationDomainService.forceReincarnation(daychange)
         // 復活
         daychange = revivalDomainService.revival(daychange)
         // 後追い
@@ -131,6 +137,8 @@ class ProgressDomainService(
         if (daychange.village.status.isEpilogue()) return daychange
         // パン屋
         daychange = bakeryDomainService.addBakeryMessage(daychange)
+        // ごん
+        daychange = gonfoxDomainService.addGonfoxMessage(daychange)
         // 冤罪者の足音発生
         daychange = falseChargesDomainService.falseCharges(daychange)
         // 生存者と足音メッセージ

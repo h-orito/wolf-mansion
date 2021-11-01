@@ -36,10 +36,10 @@ data class Skill(
     fun isViewableLoversMessage(): Boolean = camp().code == CDef.Camp.恋人陣営.code()
     fun isWolfCount(): Boolean = toCdef().isWolfCount
     fun isNoCount(): Boolean = toCdef().isNoCount
-    fun isFoxCount(): Boolean = toCdef() == CDef.Skill.妖狐 || toCdef() == CDef.Skill.誑狐
+    fun isFoxCount(): Boolean = toCdef() == CDef.Skill.妖狐 || toCdef() == CDef.Skill.誑狐 || toCdef() == CDef.Skill.ごん
     fun isDivineResultWolf(): Boolean = toCdef().isDivineResultWolf
     fun isPsychicResultWolf(): Boolean = toCdef().isPsychicResultWolf
-    fun isDeadByDivine(): Boolean = toCdef() == CDef.Skill.妖狐 || toCdef() == CDef.Skill.誑狐
+    fun isDeadByDivine(): Boolean = isFoxCount()
     fun isCounterDeadByDivine(): Boolean = toCdef() == CDef.Skill.呪狼
     fun isNoDeadByAttack(): Boolean = toCdef().isNoDeadByAttack
 
@@ -69,7 +69,8 @@ data class Skill(
             CDef.Skill.誑狐 to AbilityType(CDef.AbilityType.誑かす),
             CDef.Skill.一匹狼 to AbilityType(CDef.AbilityType.単独襲撃),
             CDef.Skill.虹職人 to AbilityType(CDef.AbilityType.虹塗り),
-            CDef.Skill.拡声者 to AbilityType(CDef.AbilityType.拡声)
+            CDef.Skill.拡声者 to AbilityType(CDef.AbilityType.拡声),
+            CDef.Skill.トラック to AbilityType(CDef.AbilityType.強制転生)
         )
 
         private val shortNameToSkill = Skills.all().filterNotSomeone().list.map {
@@ -101,7 +102,8 @@ data class Skill(
                 CDef.Skill.絡新婦,
                 CDef.Skill.ストーカー,
                 CDef.Skill.虹職人,
-                CDef.Skill.拡声者
+                CDef.Skill.拡声者,
+                CDef.Skill.トラック
             ).contains(it.toCdef())
         }
 

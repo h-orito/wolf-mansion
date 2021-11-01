@@ -203,10 +203,11 @@ data class VillageRandomOrganize(
         }
 
         // 勝利できない役職がいたらやり直し（妖狐系なしの背徳者）
-        val foxCount = countMap.getOrDefault(CDef.Skill.妖狐, 0)
-        val cheaterFoxCount = countMap.getOrDefault(CDef.Skill.誑狐, 0)
+        val foxCount = Skills.all().list.filter { it.isFoxCount() }.sumBy {
+            countMap.getOrDefault(it.toCdef(), 0)
+        }
         val immoralCount = countMap.getOrDefault(CDef.Skill.背徳者, 0)
-        if (foxCount + cheaterFoxCount == 0 && 0 < immoralCount) {
+        if (foxCount == 0 && 0 < immoralCount) {
             logger.info("妖狐系がいないのに背徳者がいるのでやり直し")
             return true
         }

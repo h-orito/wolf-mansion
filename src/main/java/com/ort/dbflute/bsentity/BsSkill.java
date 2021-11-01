@@ -356,6 +356,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Set the value of skillCode as ごん (GONFOX). <br>
+     * ごん
+     */
+    public void setSkillCode_ごん() {
+        setSkillCodeAsSkill(CDef.Skill.ごん);
+    }
+
+    /**
      * Set the value of skillCode as 導師 (GURU). <br>
      * 導師
      */
@@ -577,6 +585,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
      */
     public void setSkillCode_罠師() {
         setSkillCodeAsSkill(CDef.Skill.罠師);
+    }
+
+    /**
+     * Set the value of skillCode as トラック (TRUCK). <br>
+     * トラック
+     */
+    public void setSkillCode_トラック() {
+        setSkillCodeAsSkill(CDef.Skill.トラック);
     }
 
     /**
@@ -962,6 +978,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Is the value of skillCode ごん? <br>
+     * ごん
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCodeごん() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.ごん) : false;
+    }
+
+    /**
      * Is the value of skillCode 導師? <br>
      * 導師
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1270,6 +1297,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Is the value of skillCode トラック? <br>
+     * トラック
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCodeトラック() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.トラック) : false;
+    }
+
+    /**
      * Is the value of skillCode 村人? <br>
      * 村人
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1409,7 +1447,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * 襲撃されても死なない <br>
-     * The group elements:[壁殴り代行, 妖狐, 誑狐, 爆弾魔]
+     * The group elements:[壁殴り代行, 妖狐, 誑狐, ごん, 爆弾魔]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_NoDeadByAttack() {
@@ -1429,7 +1467,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * 勝敗判定時、人間にも人狼にもカウントされない <br>
-     * The group elements:[妖狐, 誑狐, 梟]
+     * The group elements:[妖狐, 誑狐, ごん, 梟]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_NoCount() {
