@@ -969,6 +969,8 @@ $(function () {
         filterParticipantIds = filterParticipantId == null ? [] : filterParticipantId.split(',');
         const filterType = getDisplaySetting('filter_type');
         filterTypes = filterType == null ? [] : filterType.split(',');
+        const filterKeyword = getDisplaySetting('filter_keyword');
+        filterKeywords = filterKeyword.split(' ')
         filterSpoiled = getDisplaySetting('filter_spoiled_content')
         isDispOnlyToMe = getDisplaySetting('filter_onlytome_content');
         // 復元
@@ -985,7 +987,7 @@ $(function () {
                 $(elm).removeClass('active');
             }
         });
-        $('#modal-filter [data-filter-message-keyword]').val(getDisplaySetting('filter_keyword'));
+        $('#modal-filter [data-filter-message-keyword]').val(filterKeyword);
         if (filterSpoiled && $('[data-dsetting-unspoiled]').length != 0) {
             $('[data-dsetting-unspoiled]').prop('checked', true);
         }
