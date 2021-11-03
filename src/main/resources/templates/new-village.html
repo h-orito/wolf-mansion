@@ -363,6 +363,27 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-3 col-xs-12 control-label">転生時の役職</label>
+                        <div class="col-sm-9 btn-group" data-toggle="buttons">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{reincarnationSkillAll ? 'active' : ''}">
+                                <input type="radio" class=""
+                                       th:field="*{reincarnationSkillAll}" value="true" autocomplete="off"
+                                       checked="checked"/>全役職
+                            </label> <label
+                                th:class="'btn btn-sm btn-dark-success ' + *{reincarnationSkillAll ? '' : 'active'}">
+                            <input type="radio" class=""
+                                   th:field="*{reincarnationSkillAll}" value="false" autocomplete="off"/>編成に含まれる役職のみ
+                        </label>
+                        </div>
+                        <div class="col-sm-3"></div>
+                        <div class="col-xs-12 col-sm-9">
+                            <p>
+                                「編成に含まれる役職のみ」にした場合、転生時の役職は編成に含まれる役職から選ばれます。<br>
+                                詳細は<a th:href="@{/rule#tensei}" target="_blank">ルール - 転生</a>を参照ください。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-sm-3 col-xs-12 control-label">突然死</label>
                         <div class="col-sm-9 btn-group" data-toggle="buttons">
                             <label th:class="'btn btn-sm btn-dark-success ' + *{availableSuddonlyDeath ? 'active' : ''}">

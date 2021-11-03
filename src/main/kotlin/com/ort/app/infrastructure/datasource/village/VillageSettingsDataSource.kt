@@ -59,6 +59,7 @@ class VillageSettingsDataSource(
                 if (it.rule.isAvailableSecretSay) CDef.AllowedSecretSay.全員
                 else CDef.AllowedSecretSay.なし
             settings.isRandomOrganize = it.rule.isRandomOrganization
+            settings.isReincarnationSkillAll = it.rule.isReincarnationSkillAll
         }
         villageSettingsBhv.insert(settings)
     }
@@ -116,7 +117,8 @@ class VillageSettingsDataSource(
                 isAvailableGuardSameTarget = setting.isAvailableGuardSameTarget,
                 isAvailableSecretSay = !setting.isAllowedSecretSayCodeなし,
                 isAvailableAction = setting.isAvailableAction,
-                isRandomOrganization = setting.isRandomOrganize
+                isRandomOrganization = setting.isRandomOrganize,
+                isReincarnationSkillAll = setting.isReincarnationSkillAll
             ),
             joinPassword = setting.joinPassword,
             organize = VillageOrganize(
@@ -158,7 +160,8 @@ class VillageSettingsDataSource(
                 isAvailableGuardSameTarget = setting.isAvailableGuardSameTarget,
                 isAvailableSecretSay = !setting.isAllowedSecretSayCodeなし,
                 isAvailableAction = setting.isAvailableAction,
-                isRandomOrganization = setting.isRandomOrganize
+                isRandomOrganization = setting.isRandomOrganize,
+                isReincarnationSkillAll = setting.isReincarnationSkillAll
             ),
             joinPassword = setting.joinPassword,
             organize = VillageOrganize(
@@ -220,6 +223,7 @@ class VillageSettingsDataSource(
         s.isAvailableAction = setting.rule.isAvailableAction
         s.organize = setting.organize.fixedOrganization
         s.isRandomOrganize = setting.rule.isRandomOrganization
+        s.isReincarnationSkillAll = setting.rule.isReincarnationSkillAll
         s.joinPassword = setting.joinPassword
         s.allowedSecretSayCodeAsAllowedSecretSay = if (setting.rule.isAvailableSecretSay) CDef.AllowedSecretSay.全員
         else CDef.AllowedSecretSay.なし

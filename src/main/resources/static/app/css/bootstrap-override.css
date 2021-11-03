@@ -576,10 +576,17 @@ ul.announce > li {
 
     /* アニメーション指定 */
     animation: rainbow 4s linear infinite;
+    -webkit-animation: rainbow 4s linear infinite;
 }
 
 /* 背景の横位置をズラす */
 @keyframes rainbow {
+    to {
+        background-position-x: 200%;
+    }
+}
+
+@-webkit-keyframes rainbow {
     to {
         background-position-x: 200%;
     }

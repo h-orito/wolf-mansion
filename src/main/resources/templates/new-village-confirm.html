@@ -183,6 +183,10 @@
                                 <td th:text="*{availableGuardSameTarget} ? '可能' : '不可'"></td>
                             </tr>
                             <tr>
+                                <th>転生時の役職候補</th>
+                                <td th:text="*{reincarnationSkillAll} ? '全役職' : '編成に含まれる役職のみ'"></td>
+                            </tr>
+                            <tr>
                                 <th>突然死</th>
                                 <td th:text="*{availableSuddonlyDeath} ? 'あり' : 'なし'"></td>
                             </tr>
@@ -365,6 +369,7 @@
                     <input type="hidden" th:field="*{availableSpectate}"/>
                     <input type="hidden" th:field="*{availableSameWolfAttack}"/>
                     <input type="hidden" th:field="*{availableGuardSameTarget}"/>
+                    <input type="hidden" th:field="*{reincarnationSkillAll}"/>
                     <input type="hidden" th:field="*{openSkillInGrave}"/>
                     <input type="hidden" th:field="*{visibleGraveSpectateMessage}"/>
                     <input type="hidden" th:field="*{availableSuddonlyDeath}"/>

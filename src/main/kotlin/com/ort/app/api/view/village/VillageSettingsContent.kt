@@ -40,6 +40,8 @@ data class VillageSettingsContent(
     val isAvailableSameWolfAttack: Boolean,
     /** 連続護衛可能か */
     val isAvailableGuardSameTarget: Boolean,
+    /** 転生時に全役職を候補とするか */
+    val isReincarnationSkillAll: Boolean,
     /** 墓下役職公開ありか */
     val isOpenSkillInGrave: Boolean,
     /** 墓下見学発言を地上から見られるか */
@@ -82,6 +84,7 @@ data class VillageSettingsContent(
         isSkillRequestAvailable = village.setting.rule.isPossibleSkillRequest,
         isAvailableSameWolfAttack = village.setting.rule.isAvailableSameWolfAttack,
         isAvailableGuardSameTarget = village.setting.rule.isAvailableGuardSameTarget,
+        isReincarnationSkillAll = village.setting.rule.isReincarnationSkillAll,
         isOpenSkillInGrave = village.setting.rule.isOpenSkillInGrave,
         isVisibleGraveSpectateMessage = village.setting.rule.isVisibleGraveSpectateMessage,
         allowedSecretSayCode = if (village.setting.rule.isAvailableSecretSay) "EVERYTHING" else "NOTHING",

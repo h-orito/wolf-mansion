@@ -232,7 +232,8 @@ class CreatorController(
                     isAvailableCommit = form.availableCommit!!,
                     isAvailableGuardSameTarget = form.availableGuardSameTarget!!,
                     isAvailableAction = form.availableAction!!,
-                    isRandomOrganization = form.randomOrganization!!
+                    isRandomOrganization = form.randomOrganization!!,
+                    isReincarnationSkillAll = form.reincarnationSkillAll!!
                 ),
                 organize = VillageOrganize(
                     fixedOrganization = form.organization.orEmpty(),

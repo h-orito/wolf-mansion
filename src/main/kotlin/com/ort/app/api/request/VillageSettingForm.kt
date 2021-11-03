@@ -111,6 +111,10 @@ data class VillageSettingForm(
     @field:NotNull
     var randomOrganization: Boolean? = null,
 
+    /** 転生時に全役職を候補とするか */
+    @field:NotNull
+    var reincarnationSkillAll: Boolean? = null,
+
     /** 闇鍋編成詳細 */
     @field:Valid
     var campAllocationList: List<RandomOrganizationCampForm>? = null,
@@ -156,6 +160,7 @@ data class VillageSettingForm(
         availableAction = village.setting.rule.isAvailableAction,
         organization = village.setting.organize.fixedOrganization,
         randomOrganization = village.setting.rule.isRandomOrganization,
+        reincarnationSkillAll = village.setting.rule.isReincarnationSkillAll,
         campAllocationList = listOf(
             CDef.Camp.村人陣営,
             CDef.Camp.人狼陣営,

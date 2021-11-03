@@ -11,13 +11,13 @@ import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.VillageDay
 import com.ort.app.domain.model.village.VillageDays
-import com.ort.app.domain.model.village.setting.VillageRule
 import com.ort.app.domain.model.village.VillageSetting
 import com.ort.app.domain.model.village.VillageStatus
 import com.ort.app.domain.model.village.participant.VillageParticipants
 import com.ort.app.domain.model.village.setting.SayRestriction
 import com.ort.app.domain.model.village.setting.VillageOrganize
 import com.ort.app.domain.model.village.setting.VillageRandomOrganize
+import com.ort.app.domain.model.village.setting.VillageRule
 import com.ort.dbflute.allcommon.CDef
 import org.hibernate.validator.constraints.Length
 import java.time.LocalDate
@@ -145,6 +145,10 @@ data class NewVillageForm(
     @field:NotNull
     var randomOrganization: Boolean? = null,
 
+    /** 転生時に全役職を候補とするか */
+    @field:NotNull
+    var reincarnationSkillAll: Boolean? = null,
+
     /** 闇鍋編成詳細 */
     @field:Valid
     var campAllocationList: List<RandomOrganizationCampForm>? = null,
@@ -189,6 +193,7 @@ data class NewVillageForm(
             }
         }
         if (randomOrganization == null) randomOrganization = false
+        if (reincarnationSkillAll == null) reincarnationSkillAll = false
         if (campAllocationList == null) campAllocationList = initializeCampAllocationList()
         if (organization == null) organization = VillageOrganize.defaultFixedOrganization
         if (allowedSecretSayCode == null) allowedSecretSayCode = CDef.AllowedSecretSay.なし.code()
@@ -241,6 +246,7 @@ data class NewVillageForm(
         availableAction = village.setting.rule.isAvailableAction
         organization = village.setting.organize.fixedOrganization
         randomOrganization = village.setting.rule.isRandomOrganization
+        reincarnationSkillAll = village.setting.rule.isReincarnationSkillAll
         val dbCampAllocationList = village.setting.organize.randomOrganization.campAllocation
         val dbSkillAllocationList = village.setting.organize.randomOrganization.skillAllocation
         campAllocationList = campAllocationList!!.map { campAllocation ->
@@ -321,7 +327,8 @@ data class NewVillageForm(
                     isAvailableGuardSameTarget = availableGuardSameTarget!!,
                     isAvailableAction = availableAction!!,
                     isRandomOrganization = randomOrganization!!,
-                    isPossibleSkillRequest = possibleSkillRequest!!
+                    isPossibleSkillRequest = possibleSkillRequest!!,
+                    isReincarnationSkillAll = reincarnationSkillAll!!
                 ),
                 organize = VillageOrganize(
                     fixedOrganization = organization.orEmpty(),
