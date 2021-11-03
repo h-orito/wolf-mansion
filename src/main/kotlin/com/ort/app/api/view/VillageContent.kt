@@ -93,7 +93,7 @@ data class VillageContent(
         },
         roomAssignedRowList = mapRoomAssignRowList(village, day, charachip, myself),
         roomWidth = village.roomSize?.width,
-        form = VillageFormContent(village, myself, participantSituation, day),
+        form = VillageFormContent(village, myself, participantSituation, day, charachip),
         myself = myself?.let { VillageParticipateContent(it, charachip) },
         isAvailableSettingsUpdate = participantSituation.creator.isAvailableModifySetting,
         vote = if (day > 2) VillageVoteContent(village, villageSituation) else null,

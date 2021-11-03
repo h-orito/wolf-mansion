@@ -429,6 +429,13 @@ $(function () {
         changeFace($(this).val());
     });
 
+    // 秘話モーダルでキャラ選択
+    $('[data-select-secretsay-chara]').on('click', function () {
+        const charaId = $(this).data('select-secretsay-chara');
+        $('#secretSayTargetCharaId').val(charaId);
+        $('#modal-select-secretsay-target-chara').modal('hide');
+    });
+
     // 発言確認を表示
     let sayFormParam = null;
     $('#sayform').on('submit', function () {

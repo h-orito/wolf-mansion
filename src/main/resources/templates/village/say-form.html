@@ -86,11 +86,48 @@
                             </div>
                             <div class="col-sm-12 col-xs-12 hidden" style="margin-top: 10px; margin-bottom: 10px;"
                                  data-secret-say-target>
-                                秘話相手： <select class="form-control" th:field="*{secretSayTargetCharaId}"
-                                              th:if="${content.form.say.availableSecretSay}">
-                                <option th:each="chara : ${content.form.say.secretSayTargetList}"
-                                        th:value="${chara.value}" th:text="${chara.name}"></option>
-                            </select>
+                                <label class="control-label">秘話相手</label>
+                                <select class="form-control" th:field="*{secretSayTargetCharaId}"
+                                        th:if="${content.form.say.availableSecretSay}">
+                                    <option th:each="chara : ${content.form.say.secretSayTargetList}"
+                                            th:value="${chara.value}" th:text="${chara.name}"></option>
+                                </select>
+                                <a href="javascript:void(0);" data-toggle="modal"
+                                   data-target="#modal-select-secretsay-target-chara"
+                                   class="btn btn-sm btn-success">画像から選択</a>
+                                <div class="modal fade" th:if="${content.form.say.availableSecretSay}"
+                                     id="modal-select-secretsay-target-chara" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body row">
+                                                <div class="col-sm-12 col-xs-12">
+                                                    <h4>キャラクター選択</h4>
+                                                    <div class="col-sm-4 col-xs-6"
+                                                         style="border: 1px solid #464545; padding: 5px;"
+                                                         th:if="${content.form.say.secretSayTargetList}"
+                                                         th:each="chara : ${content.form.say.secretSayTargetList}">
+								                        <span style="display: block; text-align: center;">
+                                                            <img src="" th:src="${chara.url}"
+                                                                 th:width="${chara.width}"
+                                                                 th:height="${chara.height}"/>
+                                                        </span>
+                                                        <span style="display: block; text-align: center;"
+                                                              th:text="${chara.name}"></span>
+                                                        <a href="javascript:void(0);" class="btn btn-xs btn-success"
+                                                           style="display: block; text-align: center;"
+                                                           th:data-select-secretsay-chara="${chara.value}">選択</a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-xs-12 small">
+                                                    <a href="javascript:void(0);"
+                                                       class="btn btn-primary pull-right small"
+                                                       data-dismiss="modal"
+                                                       style="margin-top: 10px;">閉じる</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-sm-12 col-xs-12" style="display: flex;">
                                 <div>

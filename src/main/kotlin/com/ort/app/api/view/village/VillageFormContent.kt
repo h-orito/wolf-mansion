@@ -2,6 +2,7 @@ package com.ort.app.api.view.village
 
 import com.ort.app.api.view.OptionContent
 import com.ort.app.domain.model.chara.Chara
+import com.ort.app.domain.model.chara.Charachip
 import com.ort.app.domain.model.situation.ParticipantSituation
 import com.ort.app.domain.model.situation.participant.ParticipantAbilitySituation
 import com.ort.app.domain.model.skill.Skill
@@ -31,11 +32,12 @@ data class VillageFormContent(
         village: Village,
         myself: VillageParticipant?,
         situation: ParticipantSituation,
-        day: Int
+        day: Int,
+        charachip: Charachip
     ) : this(
         participate = VillageParticipateFormContent(village, myself, situation),
         commit = VillageCommitFormContent(situation),
-        say = VillageSayFormContent(myself, situation),
+        say = VillageSayFormContent(myself, situation, charachip),
         action = VillageActionFormContent(village, myself, situation),
         changeName = VillageChangeNameFormContent(situation),
         memo = VillageMemoFormContent(situation),
@@ -129,9 +131,9 @@ data class VillageFormContent(
         /** 選択可能な表情区分 */
         val faceTypeList: List<OptionContent>,
         /** 秘話相手 */
-        val secretSayTargetList: List<OptionContent>
+        val secretSayTargetList: List<SecretSayTarget>
     ) {
-        constructor(myself: VillageParticipant?, situation: ParticipantSituation) : this(
+        constructor(myself: VillageParticipant?, situation: ParticipantSituation, charachip: Charachip) : this(
             isDispSayForm = situation.say.isAvailableSay,
             isAvailableNormalSay = situation.say.selectableMessageTypeList.any { it.messageType.toCdef() == CDef.MessageType.通常発言 },
             isAvailableWerewolfSay = situation.say.selectableMessageTypeList.any { it.messageType.toCdef() == CDef.MessageType.人狼の囁き },
@@ -151,8 +153,24 @@ data class VillageFormContent(
             },
             secretSayTargetList = situation.say.selectableMessageTypeList
                 .firstOrNull { it.messageType.toCdef() == CDef.MessageType.秘話 }?.targetList
-                ?.map { OptionContent(it) } ?: emptyList()
+                ?.map { SecretSayTarget(it, charachip) } ?: emptyList()
         )
+
+        data class SecretSayTarget(
+            val name: String,
+            val value: String,
+            val url: String,
+            val width: Int,
+            val height: Int
+        ) {
+            constructor(participant: VillageParticipant, charachip: Charachip) : this(
+                name = participant.name(),
+                value = participant.charaId.toString(),
+                url = charachip.charas.chara(participant.charaId).defaultImage().url,
+                width = charachip.charas.chara(participant.charaId).size.width,
+                height = charachip.charas.chara(participant.charaId).size.height
+            )
+        }
     }
 
     data class VillageActionFormContent(
@@ -235,7 +253,7 @@ data class VillageFormContent(
                     ability.targetFootstepList.map { OptionContent(it, it) }
                 } else {
                     if (ability.isAvailableNoTarget) {
-                        listOf(OptionContent(name="なし", value="")) + ability.targetList.map { OptionContent(it) }
+                        listOf(OptionContent(name = "なし", value = "")) + ability.targetList.map { OptionContent(it) }
                     } else ability.targetList.map { OptionContent(it) }
                 }
             }
