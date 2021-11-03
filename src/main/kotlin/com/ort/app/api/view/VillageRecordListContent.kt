@@ -130,7 +130,7 @@ data class VillageRecordListContent(
             ) : this(
                 userId = players.list.first { it.id == participant.playerId }.name,
                 characterName = participant.charaName.name,
-                skillName = participant.skill?.name,
+                skillName = participant.skillWhen(1)?.name,
                 isSpectator = participant.isSpectator,
                 isWin = participant.isWin,
                 isDead = participant.dead.isDead,

@@ -2,7 +2,6 @@ package com.ort.app.domain.service.daychange
 
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.message.Message
-import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
@@ -57,7 +56,7 @@ class RevivalDomainService(
         village.participants.filterDead().filterBySkill(CDef.Skill.転生者.toModel()).list.forEach {
             village = village.reviveParticipant(it.id)
             // ランダム役職で転生
-            val skill = Skills.revivables().list.shuffled().first()
+            val skill = village.getRevivableSkills().shuffled().first()
             village = village.assignParticipantSkill(it.id, skill)
             messages = messages.add(createRevivalMessage(village, it))
             // 絶対人狼に転生した場合、メッセージ追加
@@ -76,12 +75,12 @@ class RevivalDomainService(
     private fun revivalHeavenChild(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
-        village.participants.filterDead().filterBySkill(CDef.Skill.申し子.toModel()).list.forEach {
-            village = village.reviveParticipant(it.id)
+        village.participants.filterDead().filterBySkill(CDef.Skill.申し子.toModel()).list.forEach { heavenChild ->
+            village = village.reviveParticipant(heavenChild.id)
             // 村陣営のランダム役職で転生
-            val skill = Skills.revivables().filterByCamp(CDef.Camp.村人陣営).list.shuffled().first()
-            village = village.assignParticipantSkill(it.id, skill)
-            messages = messages.add(createRevivalMessage(village, it))
+            val skill = village.getRevivableSkills().filter { it.camp().toCdef() == CDef.Camp.村人陣営 }.shuffled().first()
+            village = village.assignParticipantSkill(heavenChild.id, skill)
+            messages = messages.add(createRevivalMessage(village, heavenChild))
         }
         return daychange.copy(village = village, messages = messages)
     }

@@ -130,7 +130,7 @@ class ForceReincarnationDomainService(
             // 対象が同棲者で、不在の場合は転生しない
             if (cohabitDomainService.isAbsence(daychange, target)) return@forEach
             // ランダム役職で転生
-            val skill = Skills.revivables().list.shuffled().first()
+            val skill = village.getRevivableSkills().shuffled().first()
             village = village.forceReincarnation(target.id, skill)
             messages = messages.add(createForceReincarnationMessage(village, target))
             // 絶対人狼に転生した場合、メッセージ追加

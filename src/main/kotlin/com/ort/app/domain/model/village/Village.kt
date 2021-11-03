@@ -4,6 +4,8 @@ import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.camp.toModel
 import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skill
+import com.ort.app.domain.model.skill.Skills
+import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.village.participant.VillageParticipants
 import com.ort.app.domain.model.village.room.RoomSize
@@ -312,4 +314,28 @@ data class Village(
     }
 
     fun judgeParticipantsWin(): Village = copy(participants = participants.judgeWin(winCamp!!))
+
+    fun getRevivableSkills(): List<Skill> {
+        val revivableSkills = Skills.revivables().list
+        return when {
+            // 全役職可
+            setting.rule.isReincarnationSkillAll -> revivableSkills
+            // 闇鍋 編成にいる役職のみ
+            setting.rule.isRandomOrganization -> {
+                // 配分が0でない役職
+                val allocatableSkills = setting.organize.randomOrganization.skillAllocation
+                    .filterNot { it.allocation <= 0 }
+                    .map { it.skill }
+                val list = revivableSkills.filter { r -> allocatableSkills.any { r.code == it.code } }
+                if (list.isNotEmpty()) list else listOf(CDef.Skill.村人.toModel())
+            }
+            else -> {
+                // 1日目時点でこの村に含まれる役職
+                val allocatableSkills = participants.list.map { it.skillWhen(1)!! }.distinctBy { it.code }
+                val list = revivableSkills.filter { r -> allocatableSkills.any { r.code == it.code } }
+                if (list.isNotEmpty()) list else listOf(CDef.Skill.村人.toModel())
+            }
+        }
+
+    }
 }
