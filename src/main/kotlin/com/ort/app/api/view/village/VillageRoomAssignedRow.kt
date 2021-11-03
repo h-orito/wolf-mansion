@@ -78,8 +78,8 @@ data class VillageRoomAssignedRow(
         ) {
             participant(village, roomNumber, day)?.let {
                 if (it.isDeadWhen(day)) {
-                    deadDay = it.dead.deadDay
-                    deadReason = it.dead.reason!!.code
+                    deadDay = it.dead.deadDayWhen(day)
+                    deadReason = it.dead.deadReasonWhen(day)!!.code
                 }
             }
         }

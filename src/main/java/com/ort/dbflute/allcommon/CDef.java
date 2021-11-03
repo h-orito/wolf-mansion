@@ -664,6 +664,9 @@ public interface CDef extends Classification {
         /** 霊能者 */
         霊能者("MEDIUM", "霊能者", emptyStrings())
         ,
+        /** 死霊術師 */
+        死霊術師("NECROMANCER", "死霊術師", emptyStrings())
+        ,
         /** おまかせ（役職窓なし） */
         おまかせ役職窓なし("NOFRIENDS", "おまかせ（役職窓なし）", emptyStrings())
         ,
@@ -678,6 +681,9 @@ public interface CDef extends Classification {
         ,
         /** 転生者 */
         転生者("REINCARNATION", "転生者", emptyStrings())
+        ,
+        /** 蘇生者 */
+        蘇生者("RESUSCITATOR", "蘇生者", emptyStrings())
         ,
         /** 占い師 */
         占い師("SEER", "占い師", emptyStrings())
@@ -1046,6 +1052,13 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "205");
+                subItemMap.put("campCode", "WEREWOLF");
+                subItemMap.put("skill_short_name", "死");
+                _subItemMapMap.put(死霊術師.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
                 subItemMap.put("order", "1009");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "お");
@@ -1078,6 +1091,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "転");
                 _subItemMapMap.put(転生者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "22");
+                subItemMap.put("campCode", "VILLAGER");
+                subItemMap.put("skill_short_name", "蘇");
+                _subItemMapMap.put(蘇生者.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -1953,8 +1973,14 @@ public interface CDef extends Classification {
         /** 拡声 */
         拡声("LOUDSPEAK", "拡声", emptyStrings())
         ,
+        /** 死霊蘇生 */
+        死霊蘇生("NECROMANCE", "死霊蘇生", emptyStrings())
+        ,
         /** 虹塗り */
         虹塗り("RAINBOW", "虹塗り", emptyStrings())
+        ,
+        /** 蘇生 */
+        蘇生("RESUSCITATE", "蘇生", emptyStrings())
         ,
         /** 誘惑 */
         誘惑("SEDUCE", "誘惑", emptyStrings())

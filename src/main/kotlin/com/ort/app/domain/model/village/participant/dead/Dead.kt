@@ -29,6 +29,16 @@ data class Dead(
         }
     }
 
+    fun deadDayWhen(day: Int): Int? {
+        return if (!isDeadWhen(day)) null
+        else histories.list.filter { it.isDead && it.day <= day }.maxBy { it.day }!!.day
+    }
+
+    fun deadReasonWhen(day: Int): DeadReason? {
+        return if (!isDeadWhen(day)) null
+        else histories.list.filter { it.isDead && it.day <= day }.maxBy { it.day }!!.reason
+    }
+
     fun isSame(other: Dead): Boolean {
         return isDead == other.isDead
                 && deadDay == other.deadDay

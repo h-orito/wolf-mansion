@@ -539,6 +539,14 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
+     * Set the value of skillCode as 死霊術師 (NECROMANCER). <br>
+     * 死霊術師
+     */
+    public void setSkillCode_死霊術師() {
+        setSkillCodeAsSkill(CDef.Skill.死霊術師);
+    }
+
+    /**
      * Set the value of skillCode as おまかせ役職窓なし (NOFRIENDS). <br>
      * おまかせ（役職窓なし）
      */
@@ -576,6 +584,14 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
      */
     public void setSkillCode_転生者() {
         setSkillCodeAsSkill(CDef.Skill.転生者);
+    }
+
+    /**
+     * Set the value of skillCode as 蘇生者 (RESUSCITATOR). <br>
+     * 蘇生者
+     */
+    public void setSkillCode_蘇生者() {
+        setSkillCodeAsSkill(CDef.Skill.蘇生者);
     }
 
     /**
@@ -1357,6 +1373,17 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
+     * Is the value of skillCode 死霊術師? <br>
+     * 死霊術師
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode死霊術師() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.死霊術師) : false;
+    }
+
+    /**
      * Is the value of skillCode おまかせ役職窓なし? <br>
      * おまかせ（役職窓なし）
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1409,6 +1436,17 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     public boolean isSkillCode転生者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.転生者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 蘇生者? <br>
+     * 蘇生者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode蘇生者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.蘇生者) : false;
     }
 
     /**

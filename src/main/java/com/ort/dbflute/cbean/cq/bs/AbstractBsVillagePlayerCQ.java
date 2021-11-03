@@ -1487,6 +1487,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 死霊術師 (NECROMANCER). And OnlyOnceRegistered. <br>
+     * 死霊術師
+     */
+    public void setSkillCode_Equal_死霊術師() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.死霊術師);
+    }
+
+    /**
      * Equal(=). As おまかせ役職窓なし (NOFRIENDS). And OnlyOnceRegistered. <br>
      * おまかせ（役職窓なし）
      */
@@ -1524,6 +1532,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_Equal_転生者() {
         setSkillCode_Equal_AsSkill(CDef.Skill.転生者);
+    }
+
+    /**
+     * Equal(=). As 蘇生者 (RESUSCITATOR). And OnlyOnceRegistered. <br>
+     * 蘇生者
+     */
+    public void setSkillCode_Equal_蘇生者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.蘇生者);
     }
 
     /**
@@ -2014,6 +2030,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 死霊術師 (NECROMANCER). And OnlyOnceRegistered. <br>
+     * 死霊術師
+     */
+    public void setSkillCode_NotEqual_死霊術師() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.死霊術師);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As おまかせ役職窓なし (NOFRIENDS). And OnlyOnceRegistered. <br>
      * おまかせ（役職窓なし）
      */
@@ -2051,6 +2075,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_転生者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.転生者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 蘇生者 (RESUSCITATOR). And OnlyOnceRegistered. <br>
+     * 蘇生者
+     */
+    public void setSkillCode_NotEqual_蘇生者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.蘇生者);
     }
 
     /**
@@ -2728,6 +2760,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 死霊術師 (NECROMANCER). And OnlyOnceRegistered. <br>
+     * 死霊術師
+     */
+    public void setRequestSkillCode_Equal_死霊術師() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.死霊術師);
+    }
+
+    /**
      * Equal(=). As おまかせ役職窓なし (NOFRIENDS). And OnlyOnceRegistered. <br>
      * おまかせ（役職窓なし）
      */
@@ -2765,6 +2805,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_Equal_転生者() {
         setRequestSkillCode_Equal_AsSkill(CDef.Skill.転生者);
+    }
+
+    /**
+     * Equal(=). As 蘇生者 (RESUSCITATOR). And OnlyOnceRegistered. <br>
+     * 蘇生者
+     */
+    public void setRequestSkillCode_Equal_蘇生者() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.蘇生者);
     }
 
     /**
@@ -3255,6 +3303,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 死霊術師 (NECROMANCER). And OnlyOnceRegistered. <br>
+     * 死霊術師
+     */
+    public void setRequestSkillCode_NotEqual_死霊術師() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.死霊術師);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As おまかせ役職窓なし (NOFRIENDS). And OnlyOnceRegistered. <br>
      * おまかせ（役職窓なし）
      */
@@ -3292,6 +3348,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_転生者() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.転生者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 蘇生者 (RESUSCITATOR). And OnlyOnceRegistered. <br>
+     * 蘇生者
+     */
+    public void setRequestSkillCode_NotEqual_蘇生者() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.蘇生者);
     }
 
     /**
@@ -3969,6 +4033,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 死霊術師 (NECROMANCER). And OnlyOnceRegistered. <br>
+     * 死霊術師
+     */
+    public void setSecondRequestSkillCode_Equal_死霊術師() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.死霊術師);
+    }
+
+    /**
      * Equal(=). As おまかせ役職窓なし (NOFRIENDS). And OnlyOnceRegistered. <br>
      * おまかせ（役職窓なし）
      */
@@ -4006,6 +4078,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_Equal_転生者() {
         setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.転生者);
+    }
+
+    /**
+     * Equal(=). As 蘇生者 (RESUSCITATOR). And OnlyOnceRegistered. <br>
+     * 蘇生者
+     */
+    public void setSecondRequestSkillCode_Equal_蘇生者() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.蘇生者);
     }
 
     /**
@@ -4496,6 +4576,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 死霊術師 (NECROMANCER). And OnlyOnceRegistered. <br>
+     * 死霊術師
+     */
+    public void setSecondRequestSkillCode_NotEqual_死霊術師() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.死霊術師);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As おまかせ役職窓なし (NOFRIENDS). And OnlyOnceRegistered. <br>
      * おまかせ（役職窓なし）
      */
@@ -4533,6 +4621,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_転生者() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.転生者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 蘇生者 (RESUSCITATOR). And OnlyOnceRegistered. <br>
+     * 蘇生者
+     */
+    public void setSecondRequestSkillCode_NotEqual_蘇生者() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.蘇生者);
     }
 
     /**

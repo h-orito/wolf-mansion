@@ -183,11 +183,27 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 死霊蘇生 (NECROMANCE). And OnlyOnceRegistered. <br>
+     * 死霊蘇生
+     */
+    public void setAbilityTypeCode_Equal_死霊蘇生() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.死霊蘇生);
+    }
+
+    /**
      * Equal(=). As 虹塗り (RAINBOW). And OnlyOnceRegistered. <br>
      * 虹塗り
      */
     public void setAbilityTypeCode_Equal_虹塗り() {
         setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.虹塗り);
+    }
+
+    /**
+     * Equal(=). As 蘇生 (RESUSCITATE). And OnlyOnceRegistered. <br>
+     * 蘇生
+     */
+    public void setAbilityTypeCode_Equal_蘇生() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.蘇生);
     }
 
     /**
@@ -374,11 +390,27 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 死霊蘇生 (NECROMANCE). And OnlyOnceRegistered. <br>
+     * 死霊蘇生
+     */
+    public void setAbilityTypeCode_NotEqual_死霊蘇生() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.死霊蘇生);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 虹塗り (RAINBOW). And OnlyOnceRegistered. <br>
      * 虹塗り
      */
     public void setAbilityTypeCode_NotEqual_虹塗り() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.虹塗り);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 蘇生 (RESUSCITATE). And OnlyOnceRegistered. <br>
+     * 蘇生
+     */
+    public void setAbilityTypeCode_NotEqual_蘇生() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.蘇生);
     }
 
     /**

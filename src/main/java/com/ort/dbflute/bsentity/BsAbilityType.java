@@ -238,11 +238,27 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 死霊蘇生 (NECROMANCE). <br>
+     * 死霊蘇生
+     */
+    public void setAbilityTypeCode_死霊蘇生() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.死霊蘇生);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 虹塗り (RAINBOW). <br>
      * 虹塗り
      */
     public void setAbilityTypeCode_虹塗り() {
         setAbilityTypeCodeAsAbilityType(CDef.AbilityType.虹塗り);
+    }
+
+    /**
+     * Set the value of abilityTypeCode as 蘇生 (RESUSCITATE). <br>
+     * 蘇生
+     */
+    public void setAbilityTypeCode_蘇生() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.蘇生);
     }
 
     /**
@@ -454,6 +470,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Is the value of abilityTypeCode 死霊蘇生? <br>
+     * 死霊蘇生
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode死霊蘇生() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.死霊蘇生) : false;
+    }
+
+    /**
      * Is the value of abilityTypeCode 虹塗り? <br>
      * 虹塗り
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -462,6 +489,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode虹塗り() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.虹塗り) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 蘇生? <br>
+     * 蘇生
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode蘇生() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.蘇生) : false;
     }
 
     /**

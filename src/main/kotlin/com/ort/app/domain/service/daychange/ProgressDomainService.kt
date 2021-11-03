@@ -25,7 +25,9 @@ import com.ort.app.domain.service.ability.GuardDomainService
 import com.ort.app.domain.service.ability.InvestigateDomainService
 import com.ort.app.domain.service.ability.LoneAttackDomainService
 import com.ort.app.domain.service.ability.LoudSpeakDomainService
+import com.ort.app.domain.service.ability.NecromanceDomainService
 import com.ort.app.domain.service.ability.RainbowDomainService
+import com.ort.app.domain.service.ability.ResuscitateDomainService
 import com.ort.app.domain.service.ability.SeduceDomainService
 import com.ort.app.domain.service.ability.StalkingDomainService
 import com.ort.app.domain.service.ability.TrapDomainService
@@ -60,6 +62,8 @@ class ProgressDomainService(
     private val rainbowDomainService: RainbowDomainService,
     private val loudSpeakDomainService: LoudSpeakDomainService,
     private val forceReincarnationDomainService: ForceReincarnationDomainService,
+    private val resuscitateDomainService: ResuscitateDomainService,
+    private val necromanceDomainService: NecromanceDomainService,
     private val revivalDomainService: RevivalDomainService,
     private val suicideDomainService: SuicideDomainService,
     private val epilogueDomainService: EpilogueDomainService,
@@ -126,6 +130,10 @@ class ProgressDomainService(
         daychange = autopsyDomainService.autopsy(daychange)
         // 強制転生
         daychange = forceReincarnationDomainService.forceReincarnation(daychange)
+        // 蘇生
+        daychange = resuscitateDomainService.resuscitate(daychange)
+        // 死霊蘇生
+        daychange = necromanceDomainService.necromance(daychange)
         // 復活
         daychange = revivalDomainService.revival(daychange)
         // 後追い
