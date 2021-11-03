@@ -4,6 +4,8 @@ import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.camp.toModel
 import com.ort.app.domain.model.skill.RequestSkill
 import com.ort.app.domain.model.skill.Skill
+import com.ort.app.domain.model.skill.SkillHistories
+import com.ort.app.domain.model.skill.SkillHistory
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.dead.Dead
 import com.ort.app.domain.model.village.room.Room
@@ -49,6 +51,8 @@ data class VillageParticipant(
     }
 
     fun roomNumberWhen(day: Int): Int? = room?.numberWhen(day)
+
+    fun skillWhen(day: Int): Skill? = skill?.skillWhen(day)
 
     fun isDead(): Boolean = dead.isDead
     fun isDeadWhen(day: Int): Boolean = dead.isDeadWhen(day)
@@ -142,8 +146,12 @@ data class VillageParticipant(
 
     fun gone(): VillageParticipant = copy(isGone = true)
 
-    fun assignSkill(skill: Skill): VillageParticipant = copy(
-        skill = skill,
+    fun assignSkill(skill: Skill, day: Int): VillageParticipant = copy(
+        skill = if (this.skill == null) {
+            skill.copy(histories = SkillHistories(list = listOf(SkillHistory(skill = skill, day = day))))
+        } else {
+            this.skill.assignSkill(skill, day)
+        },
         camp = when {
             status.hasLover() -> CDef.Camp.恋人陣営.toModel()
             status.isFoxPossessioned() -> CDef.Camp.狐陣営.toModel()
@@ -170,7 +178,7 @@ data class VillageParticipant(
     fun suicide(day: Int): VillageParticipant = copy(dead = dead.suicide(day))
     fun revive(day: Int): VillageParticipant = copy(dead = dead.revive(day))
     fun forceReincarnation(day: Int, skill: Skill): VillageParticipant =
-        assignSkill(skill).copy(dead = dead.forceReincarnation(day))
+        assignSkill(skill, day).copy(dead = dead.forceReincarnation(day))
 
     fun foxPossession(targetParticipantId: Int): VillageParticipant =
         copy(status = status.foxPossession(targetParticipantId))

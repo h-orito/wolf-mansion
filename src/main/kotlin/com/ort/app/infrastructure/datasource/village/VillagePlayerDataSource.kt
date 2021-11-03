@@ -4,6 +4,9 @@ import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.skill.RequestSkill
 import com.ort.app.domain.model.skill.Skill
+import com.ort.app.domain.model.skill.SkillHistories
+import com.ort.app.domain.model.skill.SkillHistory
+import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.village.participant.VillageParticipantName
 import com.ort.app.domain.model.village.participant.VillageParticipantStatus
@@ -20,10 +23,12 @@ import com.ort.dbflute.bsbhv.loader.LoaderOfVillagePlayer
 import com.ort.dbflute.exbhv.VillagePlayerBhv
 import com.ort.dbflute.exbhv.VillagePlayerDeadHistoryBhv
 import com.ort.dbflute.exbhv.VillagePlayerRoomHistoryBhv
+import com.ort.dbflute.exbhv.VillagePlayerSkillHistoryBhv
 import com.ort.dbflute.exbhv.VillagePlayerStatusBhv
 import com.ort.dbflute.exentity.VillagePlayer
 import com.ort.dbflute.exentity.VillagePlayerDeadHistory
 import com.ort.dbflute.exentity.VillagePlayerRoomHistory
+import com.ort.dbflute.exentity.VillagePlayerSkillHistory
 import com.ort.dbflute.exentity.VillagePlayerStatus
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
@@ -33,7 +38,8 @@ class VillagePlayerDataSource(
     private val villagePlayerBhv: VillagePlayerBhv,
     private val villagePlayerStatusBhv: VillagePlayerStatusBhv,
     private val villagePlayerRoomHistoryBhv: VillagePlayerRoomHistoryBhv,
-    private val villagePlayerDeadHistoryBhv: VillagePlayerDeadHistoryBhv
+    private val villagePlayerDeadHistoryBhv: VillagePlayerDeadHistoryBhv,
+    private val villagePlayerSkillHistoryBhv: VillagePlayerSkillHistoryBhv
 ) {
     fun findVillageParticipant(
         id: Int,
@@ -75,6 +81,10 @@ class VillagePlayerDataSource(
         loader.loadVillagePlayerRoomHistory {
             it.query().addOrderBy_Day_Asc()
             it.query().addOrderBy_VillagePlayerRoomHistoryId_Asc()
+        }
+        loader.loadVillagePlayerSkillHistory {
+            it.query().addOrderBy_Day_Asc()
+            it.query().addOrderBy_VillagePlayerSkillHistoryId_Asc()
         }
         loader.loadVillagePlayerStatusByVillagePlayerId { }
         loader.loadVillagePlayerStatusByToVillagePlayerId { }
@@ -162,6 +172,11 @@ class VillagePlayerDataSource(
                     currentParticipant.dead.histories,
                     changedParticipant.dead.histories
                 )
+                updateSkillHistoryDaychangeDifference(
+                    changedParticipant.id,
+                    currentParticipant.skill?.histories,
+                    changedParticipant.skill?.histories
+                )
             }
         }
     }
@@ -237,9 +252,7 @@ class VillagePlayerDataSource(
     ) {
         val currentList = current?.list ?: emptyList()
         val changedList = changed?.list ?: emptyList()
-        changedList.filterNot { changedHistory ->
-            currentList.any { currentHistory -> changedHistory.isSame(currentHistory) }
-        }.forEach { insertRoomHistory(participantId, it) }
+        changedList.drop(currentList.size).forEach { insertRoomHistory(participantId, it) }
     }
 
     private fun insertRoomHistory(participantId: Int, history: RoomHistory) {
@@ -255,9 +268,7 @@ class VillagePlayerDataSource(
         current: DeadHistories,
         changed: DeadHistories
     ) {
-        changed.list.filterNot { changedHistory ->
-            current.list.any { currentHistory -> changedHistory.isSame(currentHistory) }
-        }.forEach { insertDeadHistory(participantId, it) }
+        changed.list.drop(current.list.size).forEach { insertDeadHistory(participantId, it) }
     }
 
     private fun insertDeadHistory(participantId: Int, history: DeadHistory) {
@@ -268,6 +279,25 @@ class VillagePlayerDataSource(
         h.deadReasonCodeAsDeadReason = history.reason?.toCdef()
         villagePlayerDeadHistoryBhv.insert(h)
     }
+
+    private fun updateSkillHistoryDaychangeDifference(
+        participantId: Int,
+        current: SkillHistories?,
+        changed: SkillHistories?
+    ) {
+        val currentList = current?.list ?: emptyList()
+        val changedList = changed?.list ?: emptyList()
+        changedList.drop(currentList.size).forEach { insertSkillHistory(participantId, it) }
+    }
+
+    private fun insertSkillHistory(id: Int, history: SkillHistory) {
+        val h = VillagePlayerSkillHistory()
+        h.villagePlayerId = id
+        h.day = history.day
+        h.skillCodeAsSkill = history.skill.toCdef()
+        villagePlayerSkillHistoryBhv.insert(h)
+    }
+
 
     fun mapSimpleVillageParticipants(villagePlayerList: List<VillagePlayer>): VillageParticipants {
         val participantList = villagePlayerList.filterNot { it.isSpectator }
@@ -341,7 +371,7 @@ class VillagePlayerDataSource(
             ),
             playerId = villagePlayer.playerId,
             charaId = villagePlayer.charaId,
-            skill = if (villagePlayer.skillCode.isNullOrBlank()) null else Skill(villagePlayer.skillCodeAsSkill),
+            skill = if (villagePlayer.skillCode.isNullOrBlank()) null else mapSkill(villagePlayer),
             requestSkill = if (villagePlayer.requestSkillCode.isNullOrBlank()) null
             else RequestSkill(
                 first = Skill(villagePlayer.requestSkillCodeAsSkill),
@@ -356,6 +386,19 @@ class VillagePlayerDataSource(
             camp = if (villagePlayer.campCode.isNullOrBlank()) null else Camp(CDef.Camp.codeOf(villagePlayer.campCode)),
             lastAccessDatetime = villagePlayer.lastAccessDatetime,
             memo = villagePlayer.memo
+        )
+    }
+
+    private fun mapSkill(villagePlayer: VillagePlayer): Skill {
+        return villagePlayer.skillCodeAsSkill.toModel().copy(
+            histories = SkillHistories(
+                list = villagePlayer.villagePlayerSkillHistoryList.map {
+                    SkillHistory(
+                        skill = it.skillCodeAsSkill.toModel(),
+                        day = it.day
+                    )
+                }
+            )
         )
     }
 

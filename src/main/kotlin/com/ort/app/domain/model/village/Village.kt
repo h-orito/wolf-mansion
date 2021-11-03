@@ -272,7 +272,7 @@ data class Village(
     }
 
     fun assignParticipantSkill(participantId: Int, skill: Skill): Village {
-        return this.copy(participants = participants.assignSkill(participantId, skill))
+        return this.copy(participants = participants.assignSkill(participantId, skill, latestDay()))
     }
 
     fun extendPrologue(): Village = copy(

@@ -44,7 +44,7 @@ data class RecruitingContent(
             villageName = village.name,
             participateNum = convertToParticipateNum(village),
             spectateNum = village.spectators.count.toString(),
-            daychangeDatetime = village.days.latestDay().dayChangeDatetime.format(DateTimeFormatter.ofPattern("hh:mm")),
+            daychangeDatetime = village.days.latestDay().dayChangeDatetime.format(DateTimeFormatter.ofPattern("HH:mm")),
             daychangeInterval = convertToDaychangeInterval(village),
             charaset = charachips.list.first { it.id == village.setting.charachipId }.name,
             restrict = "",

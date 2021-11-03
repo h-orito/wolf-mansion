@@ -102,7 +102,7 @@ class SkillAssignDomainService(
             var count = 0
             for (requestPlayer in requestPlayerList.shuffled()) {
                 if (count >= left) break
-                participants = participants.assignSkill(requestPlayer.id, Skill(cdefSkill))
+                participants = participants.assignSkill(requestPlayer.id, Skill(cdefSkill), village.latestDay())
                 count++
             }
         }
@@ -129,7 +129,7 @@ class SkillAssignDomainService(
                     val capacity = skillPersonCountMap[cdef] ?: 0
                     val left = capacity - participants.filterBySkill(Skill(cdef)).list.size
                     if (left <= 0) continue
-                    participants = participants.assignSkill(it.id, Skill(cdef))
+                    participants = participants.assignSkill(it.id, Skill(cdef), village.latestDay())
                     break
                 }
             }
@@ -156,7 +156,7 @@ class SkillAssignDomainService(
             var count = 0
             for (requestPlayer in requestPlayerList.shuffled()) {
                 if (count >= left) break
-                participants = participants.assignSkill(requestPlayer.id, Skill(cdefSkill))
+                participants = participants.assignSkill(requestPlayer.id, Skill(cdefSkill), village.latestDay())
                 count++
             }
         }
@@ -183,7 +183,7 @@ class SkillAssignDomainService(
                     val capacity = skillPersonCountMap[cdef] ?: 0
                     val left = capacity - participants.filterBySkill(Skill(cdef)).list.size
                     if (left <= 0) continue
-                    participants = participants.assignSkill(it.id, Skill(cdef))
+                    participants = participants.assignSkill(it.id, Skill(cdef), village.latestDay())
                     break
                 }
             }
@@ -200,7 +200,7 @@ class SkillAssignDomainService(
                 // 空いている枠数
                 val left = capacity - participants.filterBySkill(Skill(cdefSkill)).list.size
                 if (left <= 0) continue
-                participants = participants.assignSkill(member.id, Skill(cdefSkill))
+                participants = participants.assignSkill(member.id, Skill(cdefSkill), village.latestDay())
                 break
             }
         }

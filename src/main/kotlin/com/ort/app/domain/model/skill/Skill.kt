@@ -7,7 +7,8 @@ import com.ort.dbflute.allcommon.CDef
 data class Skill(
     val code: String,
     val name: String,
-    val shortName: String
+    val shortName: String,
+    val histories: SkillHistories = SkillHistories(list = emptyList())
 ) {
     constructor(cdef: CDef.Skill) : this(code = cdef.code(), name = cdef.alias(), shortName = cdef.skill_short_name())
 
@@ -15,6 +16,12 @@ data class Skill(
         CDef.Skill.codeOf(code) ?: throw IllegalStateException("unknown skill: $code")
 
     fun camp(): Camp = Camp(CDef.Camp.codeOf(toCdef().campCode()))
+
+    // その日の変化後が取得される
+    fun skillWhen(day: Int): Skill {
+        val maxDay = histories.list.filter { it.day <= day }.map { it.day }.maxOrNull() ?: return this
+        return histories.list.lastOrNull { it.day == maxDay }!!.skill
+    }
 
     // TODO 見られるのと話せるのを分けた方が良さそう
     fun isViewableWerewolfSay(): Boolean = toCdef().isAvailableWerewolfSay
@@ -44,6 +51,15 @@ data class Skill(
     fun isNoDeadByAttack(): Boolean = toCdef().isNoDeadByAttack
 
     fun getAbility(): AbilityType? = skillToAbility[toCdef()]
+
+    fun assignSkill(skill: Skill, day: Int): Skill = copy(
+        code = skill.code,
+        name = skill.name,
+        shortName = skill.shortName,
+        histories = histories.copy(
+            list = histories.list + SkillHistory(skill = skill, day = day)
+        )
+    )
 
     companion object {
 

@@ -74,7 +74,7 @@ data class VillageRoomAssignedRow(
             isDead = participant(village, roomNumber, day)?.isDeadWhen(day),
             deadDay = null,
             deadReason = null,
-            skillName = mapSkillName(village, myself, participant(village, roomNumber, day))
+            skillName = mapSkillName(village, myself, participant(village, roomNumber, day), day)
         ) {
             participant(village, roomNumber, day)?.let {
                 if (it.isDeadWhen(day)) {
@@ -91,11 +91,12 @@ data class VillageRoomAssignedRow(
             private fun mapSkillName(
                 village: Village,
                 myself: VillageParticipant?,
-                participant: VillageParticipant?
+                participant: VillageParticipant?,
+                day: Int
             ): String? {
                 participant ?: return null
                 if (!isViewableMemberSkill(village, myself)) return null
-                return participant.skill?.name
+                return participant.skillWhen(day)?.name
             }
 
             private fun isViewableMemberSkill(village: Village, myself: VillageParticipant?): Boolean {

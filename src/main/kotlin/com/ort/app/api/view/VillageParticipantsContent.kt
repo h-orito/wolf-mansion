@@ -44,7 +44,9 @@ data class VillageParticipantsContent(
         companion object {
             private fun mappingToSkillName(participant: VillageParticipant): String {
                 if (participant.isSpectator) return "見学参加"
-                val skill = participant.skill!!.name
+                val skill = participant.skill!!.histories.list.joinToString(separator = " → ") {
+                    if (it.day == 1) it.skill.name else "${it.day}d${it.skill.name}"
+                }
                 val statuses = mappingToStatuses(participant.status)
                 return if (statuses.isEmpty()) skill
                 else "$skill（${statuses.joinToString(separator = "、")}）"

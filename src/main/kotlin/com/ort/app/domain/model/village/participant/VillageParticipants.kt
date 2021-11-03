@@ -88,10 +88,10 @@ data class VillageParticipants(
         )
     }
 
-    fun assignSkill(id: Int, skill: Skill): VillageParticipants {
+    fun assignSkill(id: Int, skill: Skill, day: Int): VillageParticipants {
         return this.copy(
             list = list.map {
-                if (it.id == id) it.assignSkill(skill) else it.copy()
+                if (it.id == id) it.assignSkill(skill, day) else it.copy()
             }
         )
     }

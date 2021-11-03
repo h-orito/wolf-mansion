@@ -136,7 +136,7 @@ class NewVillageController(
         return LocalDateTime.of(
             villageForm.startYear!!, villageForm.startMonth!!, villageForm.startDay!!,
             villageForm.startHour!!, villageForm.startMinute!!, 0
-        ).format(DateTimeFormatter.ofPattern("uuuu/MM/dd hh:mm"))
+        ).format(DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm"))
     }
 
     private fun setIndexModel(form: NewVillageForm, model: Model) {
