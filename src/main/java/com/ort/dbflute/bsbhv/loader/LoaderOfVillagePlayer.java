@@ -30,13 +30,13 @@ import com.ort.dbflute.cbean.*;
  *     CHARA, DEAD_REASON, PLAYER, SKILL, VILLAGE
  *
  * [referrer table]
- *     COMMIT, MESSAGE, MESSAGE_SENDTO, VILLAGE_PLAYER_DEAD_HISTORY, VILLAGE_PLAYER_ROOM_HISTORY, VILLAGE_PLAYER_STATUS
+ *     COMMIT, MESSAGE, MESSAGE_SENDTO, VILLAGE_PLAYER_DEAD_HISTORY, VILLAGE_PLAYER_ROOM_HISTORY, VILLAGE_PLAYER_SKILL_HISTORY, VILLAGE_PLAYER_STATUS
  *
  * [foreign property]
  *     chara, deadReason, player, skillByRequestSkillCode, skillBySecondRequestSkillCode, skillBySkillCode, village
  *
  * [referrer property]
- *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList, messageSendtoList, villagePlayerDeadHistoryList, villagePlayerRoomHistoryList, villagePlayerStatusByToVillagePlayerIdList, villagePlayerStatusByVillagePlayerIdList
+ *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList, messageSendtoList, villagePlayerDeadHistoryList, villagePlayerRoomHistoryList, villagePlayerSkillHistoryList, villagePlayerStatusByToVillagePlayerIdList, villagePlayerStatusByVillagePlayerIdList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -263,6 +263,40 @@ public class LoaderOfVillagePlayer {
     public NestedReferrerLoaderGateway<LoaderOfVillagePlayerRoomHistory> loadVillagePlayerRoomHistory(ReferrerConditionSetupper<VillagePlayerRoomHistoryCB> refCBLambda) {
         myBhv().loadVillagePlayerRoomHistory(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerVillagePlayerRoomHistory = refLs);
         return hd -> hd.handle(new LoaderOfVillagePlayerRoomHistory().ready(_referrerVillagePlayerRoomHistory, _selector));
+    }
+
+    protected List<VillagePlayerSkillHistory> _referrerVillagePlayerSkillHistory;
+
+    /**
+     * Load referrer of villagePlayerSkillHistoryList by the set-upper of referrer. <br>
+     * VILLAGE_PLAYER_SKILL_HISTORY by VILLAGE_PLAYER_ID, named 'villagePlayerSkillHistoryList'.
+     * <pre>
+     * <span style="color: #0000C0">villagePlayerBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">villagePlayerList</span>, <span style="color: #553000">playerLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">playerLoader</span>.<span style="color: #CC4747">loadVillagePlayerSkillHistory</span>(<span style="color: #553000">historyCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *         <span style="color: #553000">historyCB</span>.setupSelect...
+     *         <span style="color: #553000">historyCB</span>.query().set...
+     *         <span style="color: #553000">historyCB</span>.query().addOrderBy...
+     *     }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     *     <span style="color: #3F7E5E">//}).withNestedReferrer(<span style="color: #553000">historyLoader</span> -&gt; {</span>
+     *     <span style="color: #3F7E5E">//    historyLoader.load...</span>
+     *     <span style="color: #3F7E5E">//});</span>
+     * });
+     * for (VillagePlayer villagePlayer : <span style="color: #553000">villagePlayerList</span>) {
+     *     ... = villagePlayer.<span style="color: #CC4747">getVillagePlayerSkillHistoryList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setVillagePlayerId_InScope(pkList);
+     * cb.query().addOrderBy_VillagePlayerId_Asc();
+     * </pre>
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerLoaderGateway<LoaderOfVillagePlayerSkillHistory> loadVillagePlayerSkillHistory(ReferrerConditionSetupper<VillagePlayerSkillHistoryCB> refCBLambda) {
+        myBhv().loadVillagePlayerSkillHistory(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerVillagePlayerSkillHistory = refLs);
+        return hd -> hd.handle(new LoaderOfVillagePlayerSkillHistory().ready(_referrerVillagePlayerSkillHistory, _selector));
     }
 
     protected List<VillagePlayerStatus> _referrerVillagePlayerStatusByToVillagePlayerId;

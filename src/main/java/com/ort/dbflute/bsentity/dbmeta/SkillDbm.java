@@ -94,7 +94,7 @@ public class SkillDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnSkillCode = cci("SKILL_CODE", "SKILL_CODE", null, null, String.class, "skillCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "normalSayRestrictionList,skillAllocationList,villagePlayerByRequestSkillCodeList,villagePlayerBySecondRequestSkillCodeList,villagePlayerBySkillCodeList", CDef.DefMeta.Skill, false);
+    protected final ColumnInfo _columnSkillCode = cci("SKILL_CODE", "SKILL_CODE", null, null, String.class, "skillCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "normalSayRestrictionList,skillAllocationList,villagePlayerByRequestSkillCodeList,villagePlayerBySecondRequestSkillCodeList,villagePlayerBySkillCodeList,villagePlayerSkillHistoryList", CDef.DefMeta.Skill, false);
     protected final ColumnInfo _columnSkillName = cci("SKILL_NAME", "SKILL_NAME", null, null, String.class, "skillName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnSkillShortName = cci("SKILL_SHORT_NAME", "SKILL_SHORT_NAME", null, null, String.class, "skillShortName", null, false, false, true, "CHAR", 1, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnCampCode = cci("CAMP_CODE", "CAMP_CODE", null, null, String.class, "campCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "camp", null, CDef.DefMeta.Camp, false);
@@ -207,6 +207,14 @@ public class SkillDbm extends AbstractDBMeta {
     public ReferrerInfo referrerVillagePlayerBySkillCodeList() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnSkillCode(), VillagePlayerDbm.getInstance().columnSkillCode());
         return cri("FK_VILLAGE_PLAYER_SKILL", "villagePlayerBySkillCodeList", this, VillagePlayerDbm.getInstance(), mp, false, "skillBySkillCode");
+    }
+    /**
+     * VILLAGE_PLAYER_SKILL_HISTORY by SKILL_CODE, named 'villagePlayerSkillHistoryList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerVillagePlayerSkillHistoryList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnSkillCode(), VillagePlayerSkillHistoryDbm.getInstance().columnSkillCode());
+        return cri("FK_VILLAGE_PLAYER_SKILL_HISTORY_SKILL", "villagePlayerSkillHistoryList", this, VillagePlayerSkillHistoryDbm.getInstance(), mp, false, "skill");
     }
 
     // ===================================================================================

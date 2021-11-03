@@ -918,6 +918,44 @@
             <index-column name="VILLAGE_PLAYER_ID" position="1"/>
         </index>
     </table>
+    <table comment="村参加者役職履歴" name="VILLAGE_PLAYER_SKILL_HISTORY"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column autoIncrement="true" comment="村参加者役職履歴ID"
+            dbType="INT UNSIGNED" javaType="Integer"
+            name="VILLAGE_PLAYER_SKILL_HISTORY_ID" pkName="PRIMARY"
+            pkPosition="1" primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="村参加者ID" dbType="INT UNSIGNED"
+            javaType="Integer" name="VILLAGE_PLAYER_ID" required="true"
+            size="10" type="INTEGER"/>
+        <column comment="何日目か" dbType="INT UNSIGNED" javaType="Integer"
+            name="DAY" required="true" size="10" type="INTEGER"/>
+        <column comment="役職コード" dbType="VARCHAR" javaType="String"
+            name="SKILL_CODE" required="true" size="20" type="VARCHAR"/>
+        <column comment="登録日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="登録トレース" dbType="VARCHAR" javaType="String"
+            name="REGISTER_TRACE" required="true" size="64" type="VARCHAR"/>
+        <column comment="更新日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="UPDATE_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="更新トレース" dbType="VARCHAR" javaType="String"
+            name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="SKILL" name="FK_VILLAGE_PLAYER_SKILL_HISTORY_SKILL">
+            <reference foreign="SKILL_CODE" local="SKILL_CODE"/>
+        </foreign-key>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="VILLAGE_PLAYER" name="FK_VILLAGE_PLAYER_SKILL_HISTORY_VILLAGE_PLAYER">
+            <reference foreign="VILLAGE_PLAYER_ID" local="VILLAGE_PLAYER_ID"/>
+        </foreign-key>
+        <index name="FK_VILLAGE_PLAYER_SKILL_HISTORY_SKILL">
+            <index-column name="SKILL_CODE" position="1"/>
+        </index>
+        <index name="FK_VILLAGE_PLAYER_SKILL_HISTORY_VILLAGE_PLAYER">
+            <index-column name="VILLAGE_PLAYER_ID" position="1"/>
+        </index>
+    </table>
     <table comment="村参加者ステータス" name="VILLAGE_PLAYER_STATUS"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
         <column autoIncrement="true" comment="村参加者ステータスID"

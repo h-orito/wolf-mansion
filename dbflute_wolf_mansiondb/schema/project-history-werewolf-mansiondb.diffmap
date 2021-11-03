@@ -1,4 +1,19 @@
 map:{
+    ; 2021/11/03 11:52:08 = map:{
+        ; diffDate = 2021/11/03 11:52:08
+        ; tableCount = map:{
+            ; next = 35
+            ; previous = 34
+        }
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; VILLAGE_PLAYER_SKILL_HISTORY = map:{
+                ; tableName = VILLAGE_PLAYER_SKILL_HISTORY
+                ; diffType = ADD
+            }
+        }
+    }
     ; 2021/07/27 22:16:09 = map:{
         ; diffDate = 2021/07/27 22:16:09
         ; tableCount = map:{

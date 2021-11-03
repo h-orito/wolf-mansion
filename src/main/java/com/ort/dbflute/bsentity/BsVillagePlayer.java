@@ -36,13 +36,13 @@ import com.ort.dbflute.exentity.*;
  *     CHARA, DEAD_REASON, PLAYER, SKILL, VILLAGE
  *
  * [referrer table]
- *     COMMIT, MESSAGE, MESSAGE_SENDTO, VILLAGE_PLAYER_DEAD_HISTORY, VILLAGE_PLAYER_ROOM_HISTORY, VILLAGE_PLAYER_STATUS
+ *     COMMIT, MESSAGE, MESSAGE_SENDTO, VILLAGE_PLAYER_DEAD_HISTORY, VILLAGE_PLAYER_ROOM_HISTORY, VILLAGE_PLAYER_SKILL_HISTORY, VILLAGE_PLAYER_STATUS
  *
  * [foreign property]
  *     chara, deadReason, player, skillByRequestSkillCode, skillBySecondRequestSkillCode, skillBySkillCode, village
  *
  * [referrer property]
- *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList, messageSendtoList, villagePlayerDeadHistoryList, villagePlayerRoomHistoryList, villagePlayerStatusByToVillagePlayerIdList, villagePlayerStatusByVillagePlayerIdList
+ *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList, messageSendtoList, villagePlayerDeadHistoryList, villagePlayerRoomHistoryList, villagePlayerSkillHistoryList, villagePlayerStatusByToVillagePlayerIdList, villagePlayerStatusByVillagePlayerIdList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -5047,6 +5047,26 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         _villagePlayerRoomHistoryList = villagePlayerRoomHistoryList;
     }
 
+    /** VILLAGE_PLAYER_SKILL_HISTORY by VILLAGE_PLAYER_ID, named 'villagePlayerSkillHistoryList'. */
+    protected List<VillagePlayerSkillHistory> _villagePlayerSkillHistoryList;
+
+    /**
+     * [get] VILLAGE_PLAYER_SKILL_HISTORY by VILLAGE_PLAYER_ID, named 'villagePlayerSkillHistoryList'.
+     * @return The entity list of referrer property 'villagePlayerSkillHistoryList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<VillagePlayerSkillHistory> getVillagePlayerSkillHistoryList() {
+        if (_villagePlayerSkillHistoryList == null) { _villagePlayerSkillHistoryList = newReferrerList(); }
+        return _villagePlayerSkillHistoryList;
+    }
+
+    /**
+     * [set] VILLAGE_PLAYER_SKILL_HISTORY by VILLAGE_PLAYER_ID, named 'villagePlayerSkillHistoryList'.
+     * @param villagePlayerSkillHistoryList The entity list of referrer property 'villagePlayerSkillHistoryList'. (NullAllowed)
+     */
+    public void setVillagePlayerSkillHistoryList(List<VillagePlayerSkillHistory> villagePlayerSkillHistoryList) {
+        _villagePlayerSkillHistoryList = villagePlayerSkillHistoryList;
+    }
+
     /** VILLAGE_PLAYER_STATUS by TO_VILLAGE_PLAYER_ID, named 'villagePlayerStatusByToVillagePlayerIdList'. */
     protected List<VillagePlayerStatus> _villagePlayerStatusByToVillagePlayerIdList;
 
@@ -5142,6 +5162,8 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerDeadHistoryList")); } } }
         if (_villagePlayerRoomHistoryList != null) { for (VillagePlayerRoomHistory et : _villagePlayerRoomHistoryList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerRoomHistoryList")); } } }
+        if (_villagePlayerSkillHistoryList != null) { for (VillagePlayerSkillHistory et : _villagePlayerSkillHistoryList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerSkillHistoryList")); } } }
         if (_villagePlayerStatusByToVillagePlayerIdList != null) { for (VillagePlayerStatus et : _villagePlayerStatusByToVillagePlayerIdList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerStatusByToVillagePlayerIdList")); } } }
         if (_villagePlayerStatusByVillagePlayerIdList != null) { for (VillagePlayerStatus et : _villagePlayerStatusByVillagePlayerIdList)
@@ -5214,6 +5236,8 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         { sb.append(dm).append("villagePlayerDeadHistoryList"); }
         if (_villagePlayerRoomHistoryList != null && !_villagePlayerRoomHistoryList.isEmpty())
         { sb.append(dm).append("villagePlayerRoomHistoryList"); }
+        if (_villagePlayerSkillHistoryList != null && !_villagePlayerSkillHistoryList.isEmpty())
+        { sb.append(dm).append("villagePlayerSkillHistoryList"); }
         if (_villagePlayerStatusByToVillagePlayerIdList != null && !_villagePlayerStatusByToVillagePlayerIdList.isEmpty())
         { sb.append(dm).append("villagePlayerStatusByToVillagePlayerIdList"); }
         if (_villagePlayerStatusByVillagePlayerIdList != null && !_villagePlayerStatusByVillagePlayerIdList.isEmpty())

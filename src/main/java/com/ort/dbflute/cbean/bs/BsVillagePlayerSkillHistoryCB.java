@@ -12,29 +12,29 @@ import org.dbflute.cbean.scoping.*;
 import org.dbflute.dbmeta.DBMetaProvider;
 import org.dbflute.twowaysql.factory.SqlAnalyzerFactory;
 import org.dbflute.twowaysql.style.BoundDateDisplayTimeZoneProvider;
-import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.allcommon.DBFluteConfig;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.allcommon.ImplementedInvokerAssistant;
 import com.ort.dbflute.allcommon.ImplementedSqlClauseCreator;
 import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
+import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of SKILL.
+ * The base condition-bean of VILLAGE_PLAYER_SKILL_HISTORY.
  * @author DBFlute(AutoGenerator)
  */
-public class BsSkillCB extends AbstractConditionBean {
+public class BsVillagePlayerSkillHistoryCB extends AbstractConditionBean {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected SkillCQ _conditionQuery;
+    protected VillagePlayerSkillHistoryCQ _conditionQuery;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public BsSkillCB() {
+    public BsVillagePlayerSkillHistoryCB() {
         if (DBFluteConfig.getInstance().isPagingCountLater()) {
             enablePagingCountLater();
         }
@@ -77,7 +77,7 @@ public class BsSkillCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "SKILL";
+        return "VILLAGE_PLAYER_SKILL_HISTORY";
     }
 
     // ===================================================================================
@@ -85,23 +85,23 @@ public class BsSkillCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param skillCode : PK, NotNull, VARCHAR(20), classification=Skill. (NotNull)
+     * @param villagePlayerSkillHistoryId : PK, ID, NotNull, INT UNSIGNED(10). (NotNull)
      * @return this. (NotNull)
      */
-    public SkillCB acceptPK(CDef.Skill skillCode) {
-        assertObjectNotNull("skillCode", skillCode);
-        BsSkillCB cb = this;
-        cb.query().setSkillCode_Equal_AsSkill(skillCode);
-        return (SkillCB)this;
+    public VillagePlayerSkillHistoryCB acceptPK(Integer villagePlayerSkillHistoryId) {
+        assertObjectNotNull("villagePlayerSkillHistoryId", villagePlayerSkillHistoryId);
+        BsVillagePlayerSkillHistoryCB cb = this;
+        cb.query().setVillagePlayerSkillHistoryId_Equal(villagePlayerSkillHistoryId);
+        return (VillagePlayerSkillHistoryCB)this;
     }
 
     public ConditionBean addOrderBy_PK_Asc() {
-        query().addOrderBy_SkillCode_Asc();
+        query().addOrderBy_VillagePlayerSkillHistoryId_Asc();
         return this;
     }
 
     public ConditionBean addOrderBy_PK_Desc() {
-        query().addOrderBy_SkillCode_Desc();
+        query().addOrderBy_VillagePlayerSkillHistoryId_Desc();
         return this;
     }
 
@@ -165,34 +165,34 @@ public class BsSkillCB extends AbstractConditionBean {
      * </pre>
      * @return The instance of condition-query for base-point table to set up query. (NotNull)
      */
-    public SkillCQ query() {
+    public VillagePlayerSkillHistoryCQ query() {
         assertQueryPurpose(); // assert only when user-public query
         return doGetConditionQuery();
     }
 
-    public SkillCQ xdfgetConditionQuery() { // public for parameter comment and internal
+    public VillagePlayerSkillHistoryCQ xdfgetConditionQuery() { // public for parameter comment and internal
         return doGetConditionQuery();
     }
 
-    protected SkillCQ doGetConditionQuery() {
+    protected VillagePlayerSkillHistoryCQ doGetConditionQuery() {
         if (_conditionQuery == null) {
             _conditionQuery = createLocalCQ();
         }
         return _conditionQuery;
     }
 
-    protected SkillCQ createLocalCQ() {
+    protected VillagePlayerSkillHistoryCQ createLocalCQ() {
         return xcreateCQ(null, getSqlClause(), getSqlClause().getBasePointAliasName(), 0);
     }
 
-    protected SkillCQ xcreateCQ(ConditionQuery childQuery, SqlClause sqlClause, String aliasName, int nestLevel) {
-        SkillCQ cq = xnewCQ(childQuery, sqlClause, aliasName, nestLevel);
+    protected VillagePlayerSkillHistoryCQ xcreateCQ(ConditionQuery childQuery, SqlClause sqlClause, String aliasName, int nestLevel) {
+        VillagePlayerSkillHistoryCQ cq = xnewCQ(childQuery, sqlClause, aliasName, nestLevel);
         cq.xsetBaseCB(this);
         return cq;
     }
 
-    protected SkillCQ xnewCQ(ConditionQuery childQuery, SqlClause sqlClause, String aliasName, int nestLevel) {
-        return new SkillCQ(childQuery, sqlClause, aliasName, nestLevel);
+    protected VillagePlayerSkillHistoryCQ xnewCQ(ConditionQuery childQuery, SqlClause sqlClause, String aliasName, int nestLevel) {
+        return new VillagePlayerSkillHistoryCQ(childQuery, sqlClause, aliasName, nestLevel);
     }
 
     /**
@@ -216,10 +216,10 @@ public class BsSkillCB extends AbstractConditionBean {
      * </pre>
      * @param unionCBLambda The callback for query of 'union'. (NotNull)
      */
-    public void union(UnionQuery<SkillCB> unionCBLambda) {
-        final SkillCB cb = new SkillCB(); cb.xsetupForUnion(this); xsyncUQ(cb);
+    public void union(UnionQuery<VillagePlayerSkillHistoryCB> unionCBLambda) {
+        final VillagePlayerSkillHistoryCB cb = new VillagePlayerSkillHistoryCB(); cb.xsetupForUnion(this); xsyncUQ(cb);
         try { lock(); unionCBLambda.query(cb); } finally { unlock(); } xsaveUCB(cb);
-        final SkillCQ cq = cb.query(); query().xsetUnionQuery(cq);
+        final VillagePlayerSkillHistoryCQ cq = cb.query(); query().xsetUnionQuery(cq);
     }
 
     /**
@@ -233,33 +233,71 @@ public class BsSkillCB extends AbstractConditionBean {
      * </pre>
      * @param unionCBLambda The callback for query of 'union all'. (NotNull)
      */
-    public void unionAll(UnionQuery<SkillCB> unionCBLambda) {
-        final SkillCB cb = new SkillCB(); cb.xsetupForUnion(this); xsyncUQ(cb);
+    public void unionAll(UnionQuery<VillagePlayerSkillHistoryCB> unionCBLambda) {
+        final VillagePlayerSkillHistoryCB cb = new VillagePlayerSkillHistoryCB(); cb.xsetupForUnion(this); xsyncUQ(cb);
         try { lock(); unionCBLambda.query(cb); } finally { unlock(); } xsaveUCB(cb);
-        final SkillCQ cq = cb.query(); query().xsetUnionAllQuery(cq);
+        final VillagePlayerSkillHistoryCQ cq = cb.query(); query().xsetUnionAllQuery(cq);
     }
 
     // ===================================================================================
     //                                                                         SetupSelect
     //                                                                         ===========
+    protected SkillNss _nssSkill;
+    public SkillNss xdfgetNssSkill() {
+        if (_nssSkill == null) { _nssSkill = new SkillNss(null); }
+        return _nssSkill;
+    }
     /**
      * Set up relation columns to select clause. <br>
-     * CAMP by my CAMP_CODE, named 'camp'.
+     * SKILL by my SKILL_CODE, named 'skill'.
      * <pre>
-     * <span style="color: #0000C0">skillBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_Camp()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     * <span style="color: #0000C0">villagePlayerSkillHistoryBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_Skill()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
      *     <span style="color: #553000">cb</span>.query().set...
-     * }).alwaysPresent(<span style="color: #553000">skill</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     ... = <span style="color: #553000">skill</span>.<span style="color: #CC4747">getCamp()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
+     * }).alwaysPresent(<span style="color: #553000">villagePlayerSkillHistory</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     ... = <span style="color: #553000">villagePlayerSkillHistory</span>.<span style="color: #CC4747">getSkill()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
      * });
      * </pre>
+     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
      */
-    public void setupSelect_Camp() {
-        assertSetupSelectPurpose("camp");
+    public SkillNss setupSelect_Skill() {
+        assertSetupSelectPurpose("skill");
         if (hasSpecifiedLocalColumn()) {
-            specify().columnCampCode();
+            specify().columnSkillCode();
         }
-        doSetupSelect(() -> query().queryCamp());
+        doSetupSelect(() -> query().querySkill());
+        if (_nssSkill == null || !_nssSkill.hasConditionQuery())
+        { _nssSkill = new SkillNss(query().querySkill()); }
+        return _nssSkill;
+    }
+
+    protected VillagePlayerNss _nssVillagePlayer;
+    public VillagePlayerNss xdfgetNssVillagePlayer() {
+        if (_nssVillagePlayer == null) { _nssVillagePlayer = new VillagePlayerNss(null); }
+        return _nssVillagePlayer;
+    }
+    /**
+     * Set up relation columns to select clause. <br>
+     * VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayer'.
+     * <pre>
+     * <span style="color: #0000C0">villagePlayerSkillHistoryBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_VillagePlayer()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     *     <span style="color: #553000">cb</span>.query().set...
+     * }).alwaysPresent(<span style="color: #553000">villagePlayerSkillHistory</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     ... = <span style="color: #553000">villagePlayerSkillHistory</span>.<span style="color: #CC4747">getVillagePlayer()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
+     * });
+     * </pre>
+     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
+     */
+    public VillagePlayerNss setupSelect_VillagePlayer() {
+        assertSetupSelectPurpose("villagePlayer");
+        if (hasSpecifiedLocalColumn()) {
+            specify().columnVillagePlayerId();
+        }
+        doSetupSelect(() -> query().queryVillagePlayer());
+        if (_nssVillagePlayer == null || !_nssVillagePlayer.hasConditionQuery())
+        { _nssVillagePlayer = new VillagePlayerNss(query().queryVillagePlayer()); }
+        return _nssVillagePlayer;
     }
 
     // [DBFlute-0.7.4]
@@ -302,178 +340,116 @@ public class BsSkillCB extends AbstractConditionBean {
         return _specification != null && _specification.hasSpecifiedColumn();
     }
 
-    public static class HpSpecification extends HpAbstractSpecification<SkillCQ> {
-        protected CampCB.HpSpecification _camp;
-        public HpSpecification(ConditionBean baseCB, HpSpQyCall<SkillCQ> qyCall
+    public static class HpSpecification extends HpAbstractSpecification<VillagePlayerSkillHistoryCQ> {
+        protected SkillCB.HpSpecification _skill;
+        protected VillagePlayerCB.HpSpecification _villagePlayer;
+        public HpSpecification(ConditionBean baseCB, HpSpQyCall<VillagePlayerSkillHistoryCQ> qyCall
                              , HpCBPurpose purpose, DBMetaProvider dbmetaProvider
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * SKILL_CODE: {PK, NotNull, VARCHAR(20), classification=Skill}
+         * VILLAGE_PLAYER_SKILL_HISTORY_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnVillagePlayerSkillHistoryId() { return doColumn("VILLAGE_PLAYER_SKILL_HISTORY_ID"); }
+        /**
+         * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnVillagePlayerId() { return doColumn("VILLAGE_PLAYER_ID"); }
+        /**
+         * DAY: {NotNull, INT UNSIGNED(10)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnDay() { return doColumn("DAY"); }
+        /**
+         * SKILL_CODE: {IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnSkillCode() { return doColumn("SKILL_CODE"); }
         /**
-         * SKILL_NAME: {NotNull, VARCHAR(20)}
+         * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
          */
-        public SpecifiedColumn columnSkillName() { return doColumn("SKILL_NAME"); }
+        public SpecifiedColumn columnRegisterDatetime() { return doColumn("REGISTER_DATETIME"); }
         /**
-         * SKILL_SHORT_NAME: {NotNull, CHAR(1)}
+         * REGISTER_TRACE: {NotNull, VARCHAR(64)}
          * @return The information object of specified column. (NotNull)
          */
-        public SpecifiedColumn columnSkillShortName() { return doColumn("SKILL_SHORT_NAME"); }
+        public SpecifiedColumn columnRegisterTrace() { return doColumn("REGISTER_TRACE"); }
         /**
-         * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
+         * UPDATE_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
          */
-        public SpecifiedColumn columnCampCode() { return doColumn("CAMP_CODE"); }
+        public SpecifiedColumn columnUpdateDatetime() { return doColumn("UPDATE_DATETIME"); }
         /**
-         * DISP_ORDER: {NotNull, INT UNSIGNED(10)}
+         * UPDATE_TRACE: {NotNull, VARCHAR(64)}
          * @return The information object of specified column. (NotNull)
          */
-        public SpecifiedColumn columnDispOrder() { return doColumn("DISP_ORDER"); }
+        public SpecifiedColumn columnUpdateTrace() { return doColumn("UPDATE_TRACE"); }
         public void everyColumn() { doEveryColumn(); }
         public void exceptRecordMetaColumn() { doExceptRecordMetaColumn(); }
         @Override
         protected void doSpecifyRequiredColumn() {
-            columnSkillCode(); // PK
-            if (qyCall().qy().hasConditionQueryCamp()
-                    || qyCall().qy().xgetReferrerQuery() instanceof CampCQ) {
-                columnCampCode(); // FK or one-to-one referrer
+            columnVillagePlayerSkillHistoryId(); // PK
+            if (qyCall().qy().hasConditionQuerySkill()
+                    || qyCall().qy().xgetReferrerQuery() instanceof SkillCQ) {
+                columnSkillCode(); // FK or one-to-one referrer
+            }
+            if (qyCall().qy().hasConditionQueryVillagePlayer()
+                    || qyCall().qy().xgetReferrerQuery() instanceof VillagePlayerCQ) {
+                columnVillagePlayerId(); // FK or one-to-one referrer
             }
         }
         @Override
-        protected String getTableDbName() { return "SKILL"; }
+        protected String getTableDbName() { return "VILLAGE_PLAYER_SKILL_HISTORY"; }
         /**
          * Prepare to specify functions about relation table. <br>
-         * CAMP by my CAMP_CODE, named 'camp'.
+         * SKILL by my SKILL_CODE, named 'skill'.
          * @return The instance for specification for relation table to specify. (NotNull)
          */
-        public CampCB.HpSpecification specifyCamp() {
-            assertRelation("camp");
-            if (_camp == null) {
-                _camp = new CampCB.HpSpecification(_baseCB
-                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryCamp()
-                                    , () -> _qyCall.qy().queryCamp())
+        public SkillCB.HpSpecification specifySkill() {
+            assertRelation("skill");
+            if (_skill == null) {
+                _skill = new SkillCB.HpSpecification(_baseCB
+                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQuerySkill()
+                                    , () -> _qyCall.qy().querySkill())
                     , _purpose, _dbmetaProvider, xgetSDRFnFc());
                 if (xhasSyncQyCall()) { // inherits it
-                    _camp.xsetSyncQyCall(xcreateSpQyCall(
-                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryCamp()
-                      , () -> xsyncQyCall().qy().queryCamp()));
+                    _skill.xsetSyncQyCall(xcreateSpQyCall(
+                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQuerySkill()
+                      , () -> xsyncQyCall().qy().querySkill()));
                 }
             }
-            return _camp;
+            return _skill;
         }
         /**
-         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from NORMAL_SAY_RESTRICTION where ...) as FOO_MAX} <br>
-         * NORMAL_SAY_RESTRICTION by SKILL_CODE, named 'normalSayRestrictionList'.
-         * <pre>
-         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(restrictionCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-         *     restrictionCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
-         *     restrictionCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
-         * }, NormalSayRestriction.<span style="color: #CC4747">ALIAS_foo...</span>);
-         * </pre>
-         * @return The object to set up a function for referrer table. (NotNull)
+         * Prepare to specify functions about relation table. <br>
+         * VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayer'.
+         * @return The instance for specification for relation table to specify. (NotNull)
          */
-        public HpSDRFunction<NormalSayRestrictionCB, SkillCQ> derivedNormalSayRestriction() {
-            assertDerived("normalSayRestrictionList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<NormalSayRestrictionCB> sq, SkillCQ cq, String al, DerivedReferrerOption op)
-                    -> cq.xsderiveNormalSayRestrictionList(fn, sq, al, op), _dbmetaProvider);
-        }
-        /**
-         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from SKILL_ALLOCATION where ...) as FOO_MAX} <br>
-         * SKILL_ALLOCATION by SKILL_CODE, named 'skillAllocationList'.
-         * <pre>
-         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(allocationCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-         *     allocationCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
-         *     allocationCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
-         * }, SkillAllocation.<span style="color: #CC4747">ALIAS_foo...</span>);
-         * </pre>
-         * @return The object to set up a function for referrer table. (NotNull)
-         */
-        public HpSDRFunction<SkillAllocationCB, SkillCQ> derivedSkillAllocation() {
-            assertDerived("skillAllocationList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<SkillAllocationCB> sq, SkillCQ cq, String al, DerivedReferrerOption op)
-                    -> cq.xsderiveSkillAllocationList(fn, sq, al, op), _dbmetaProvider);
-        }
-        /**
-         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from VILLAGE_PLAYER where ...) as FOO_MAX} <br>
-         * VILLAGE_PLAYER by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeList'.
-         * <pre>
-         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-         *     playerCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
-         *     playerCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
-         * }, VillagePlayer.<span style="color: #CC4747">ALIAS_foo...</span>);
-         * </pre>
-         * @return The object to set up a function for referrer table. (NotNull)
-         */
-        public HpSDRFunction<VillagePlayerCB, SkillCQ> derivedVillagePlayerByRequestSkillCode() {
-            assertDerived("villagePlayerByRequestSkillCodeList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillagePlayerCB> sq, SkillCQ cq, String al, DerivedReferrerOption op)
-                    -> cq.xsderiveVillagePlayerByRequestSkillCodeList(fn, sq, al, op), _dbmetaProvider);
-        }
-        /**
-         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from VILLAGE_PLAYER where ...) as FOO_MAX} <br>
-         * VILLAGE_PLAYER by SECOND_REQUEST_SKILL_CODE, named 'villagePlayerBySecondRequestSkillCodeList'.
-         * <pre>
-         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-         *     playerCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
-         *     playerCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
-         * }, VillagePlayer.<span style="color: #CC4747">ALIAS_foo...</span>);
-         * </pre>
-         * @return The object to set up a function for referrer table. (NotNull)
-         */
-        public HpSDRFunction<VillagePlayerCB, SkillCQ> derivedVillagePlayerBySecondRequestSkillCode() {
-            assertDerived("villagePlayerBySecondRequestSkillCodeList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillagePlayerCB> sq, SkillCQ cq, String al, DerivedReferrerOption op)
-                    -> cq.xsderiveVillagePlayerBySecondRequestSkillCodeList(fn, sq, al, op), _dbmetaProvider);
-        }
-        /**
-         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from VILLAGE_PLAYER where ...) as FOO_MAX} <br>
-         * VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerBySkillCodeList'.
-         * <pre>
-         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-         *     playerCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
-         *     playerCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
-         * }, VillagePlayer.<span style="color: #CC4747">ALIAS_foo...</span>);
-         * </pre>
-         * @return The object to set up a function for referrer table. (NotNull)
-         */
-        public HpSDRFunction<VillagePlayerCB, SkillCQ> derivedVillagePlayerBySkillCode() {
-            assertDerived("villagePlayerBySkillCodeList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillagePlayerCB> sq, SkillCQ cq, String al, DerivedReferrerOption op)
-                    -> cq.xsderiveVillagePlayerBySkillCodeList(fn, sq, al, op), _dbmetaProvider);
-        }
-        /**
-         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from VILLAGE_PLAYER_SKILL_HISTORY where ...) as FOO_MAX} <br>
-         * VILLAGE_PLAYER_SKILL_HISTORY by SKILL_CODE, named 'villagePlayerSkillHistoryList'.
-         * <pre>
-         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(historyCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-         *     historyCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
-         *     historyCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
-         * }, VillagePlayerSkillHistory.<span style="color: #CC4747">ALIAS_foo...</span>);
-         * </pre>
-         * @return The object to set up a function for referrer table. (NotNull)
-         */
-        public HpSDRFunction<VillagePlayerSkillHistoryCB, SkillCQ> derivedVillagePlayerSkillHistory() {
-            assertDerived("villagePlayerSkillHistoryList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillagePlayerSkillHistoryCB> sq, SkillCQ cq, String al, DerivedReferrerOption op)
-                    -> cq.xsderiveVillagePlayerSkillHistoryList(fn, sq, al, op), _dbmetaProvider);
+        public VillagePlayerCB.HpSpecification specifyVillagePlayer() {
+            assertRelation("villagePlayer");
+            if (_villagePlayer == null) {
+                _villagePlayer = new VillagePlayerCB.HpSpecification(_baseCB
+                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryVillagePlayer()
+                                    , () -> _qyCall.qy().queryVillagePlayer())
+                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
+                if (xhasSyncQyCall()) { // inherits it
+                    _villagePlayer.xsetSyncQyCall(xcreateSpQyCall(
+                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryVillagePlayer()
+                      , () -> xsyncQyCall().qy().queryVillagePlayer()));
+                }
+            }
+            return _villagePlayer;
         }
         /**
          * Prepare for (Specify)MyselfDerived (SubQuery).
          * @return The object to set up a function for myself table. (NotNull)
          */
-        public HpSDRFunction<SkillCB, SkillCQ> myselfDerived() {
+        public HpSDRFunction<VillagePlayerSkillHistoryCB, VillagePlayerSkillHistoryCQ> myselfDerived() {
             assertDerived("myselfDerived"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<SkillCB> sq, SkillCQ cq, String al, DerivedReferrerOption op)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillagePlayerSkillHistoryCB> sq, VillagePlayerSkillHistoryCQ cq, String al, DerivedReferrerOption op)
                     -> cq.xsmyselfDerive(fn, sq, al, op), _dbmetaProvider);
         }
     }
@@ -486,9 +462,9 @@ public class BsSkillCB extends AbstractConditionBean {
      * This is very specialty so you can get the frontier spirit. Bon voyage!
      * @return The condition-bean for dream cruise, which is linked to main condition-bean.
      */
-    public SkillCB dreamCruiseCB() {
-        SkillCB cb = new SkillCB();
-        cb.xsetupForDreamCruise((SkillCB) this);
+    public VillagePlayerSkillHistoryCB dreamCruiseCB() {
+        VillagePlayerSkillHistoryCB cb = new VillagePlayerSkillHistoryCB();
+        cb.xsetupForDreamCruise((VillagePlayerSkillHistoryCB) this);
         return cb;
     }
 
@@ -513,15 +489,15 @@ public class BsSkillCB extends AbstractConditionBean {
      * @param colCBLambda The callback for specify-query of left column. (NotNull)
      * @return The object for setting up operand and right column. (NotNull)
      */
-    public HpColQyOperand<SkillCB> columnQuery(final SpecifyQuery<SkillCB> colCBLambda) {
+    public HpColQyOperand<VillagePlayerSkillHistoryCB> columnQuery(final SpecifyQuery<VillagePlayerSkillHistoryCB> colCBLambda) {
         return xcreateColQyOperand((rightSp, operand) -> {
             return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), colCBLambda, rightSp, operand);
         });
     }
 
-    protected SkillCB xcreateColumnQueryCB() {
-        SkillCB cb = new SkillCB();
-        cb.xsetupForColumnQuery((SkillCB)this);
+    protected VillagePlayerSkillHistoryCB xcreateColumnQueryCB() {
+        VillagePlayerSkillHistoryCB cb = new VillagePlayerSkillHistoryCB();
+        cb.xsetupForColumnQuery((VillagePlayerSkillHistoryCB)this);
         return cb;
     }
 
@@ -541,8 +517,8 @@ public class BsSkillCB extends AbstractConditionBean {
      * </pre>
      * @param orCBLambda The callback for query of or-condition. (NotNull)
      */
-    public void orScopeQuery(OrQuery<SkillCB> orCBLambda) {
-        xorSQ((SkillCB)this, orCBLambda);
+    public void orScopeQuery(OrQuery<VillagePlayerSkillHistoryCB> orCBLambda) {
+        xorSQ((VillagePlayerSkillHistoryCB)this, orCBLambda);
     }
 
     /**
@@ -560,8 +536,8 @@ public class BsSkillCB extends AbstractConditionBean {
      * </pre>
      * @param andCBLambda The callback for query of and-condition. (NotNull)
      */
-    public void orScopeQueryAndPart(AndQuery<SkillCB> andCBLambda) {
-        xorSQAP((SkillCB)this, andCBLambda);
+    public void orScopeQueryAndPart(AndQuery<VillagePlayerSkillHistoryCB> andCBLambda) {
+        xorSQAP((VillagePlayerSkillHistoryCB)this, andCBLambda);
     }
 
     // ===================================================================================
@@ -591,11 +567,11 @@ public class BsSkillCB extends AbstractConditionBean {
     //                                                                        ============
     @Override
     protected void xprepareSyncQyCall(ConditionBean mainCB) {
-        final SkillCB cb;
+        final VillagePlayerSkillHistoryCB cb;
         if (mainCB != null) {
-            cb = (SkillCB)mainCB;
+            cb = (VillagePlayerSkillHistoryCB)mainCB;
         } else {
-            cb = new SkillCB();
+            cb = new VillagePlayerSkillHistoryCB();
         }
         specify().xsetSyncQyCall(xcreateSpQyCall(() -> true, () -> cb.query()));
     }
@@ -604,8 +580,8 @@ public class BsSkillCB extends AbstractConditionBean {
     //                                                                            Internal
     //                                                                            ========
     // very internal (for suppressing warn about 'Not Use Import')
-    protected String xgetConditionBeanClassNameInternally() { return SkillCB.class.getName(); }
-    protected String xgetConditionQueryClassNameInternally() { return SkillCQ.class.getName(); }
+    protected String xgetConditionBeanClassNameInternally() { return VillagePlayerSkillHistoryCB.class.getName(); }
+    protected String xgetConditionQueryClassNameInternally() { return VillagePlayerSkillHistoryCQ.class.getName(); }
     protected String xgetSubQueryClassNameInternally() { return SubQuery.class.getName(); }
     protected String xgetConditionOptionClassNameInternally() { return ConditionOption.class.getName(); }
 }

@@ -8,58 +8,65 @@ import org.dbflute.dbmeta.DBMeta;
 import org.dbflute.dbmeta.AbstractEntity;
 import org.dbflute.dbmeta.accessory.DomainEntity;
 import org.dbflute.optional.OptionalEntity;
+import com.ort.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
 import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The entity of SKILL as TABLE. <br>
- * 役職
+ * The entity of VILLAGE_PLAYER_SKILL_HISTORY as TABLE. <br>
+ * 村参加者役職履歴
  * <pre>
  * [primary-key]
- *     SKILL_CODE
+ *     VILLAGE_PLAYER_SKILL_HISTORY_ID
  *
  * [column]
- *     SKILL_CODE, SKILL_NAME, SKILL_SHORT_NAME, CAMP_CODE, DISP_ORDER
+ *     VILLAGE_PLAYER_SKILL_HISTORY_ID, VILLAGE_PLAYER_ID, DAY, SKILL_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
  *
  * [identity]
- *     
+ *     VILLAGE_PLAYER_SKILL_HISTORY_ID
  *
  * [version-no]
  *     
  *
  * [foreign table]
- *     CAMP
+ *     SKILL, VILLAGE_PLAYER
  *
  * [referrer table]
- *     NORMAL_SAY_RESTRICTION, SKILL_ALLOCATION, VILLAGE_PLAYER, VILLAGE_PLAYER_SKILL_HISTORY
+ *     
  *
  * [foreign property]
- *     camp
+ *     skill, villagePlayer
  *
  * [referrer property]
- *     normalSayRestrictionList, skillAllocationList, villagePlayerByRequestSkillCodeList, villagePlayerBySecondRequestSkillCodeList, villagePlayerBySkillCodeList, villagePlayerSkillHistoryList
+ *     
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * Integer villagePlayerSkillHistoryId = entity.getVillagePlayerSkillHistoryId();
+ * Integer villagePlayerId = entity.getVillagePlayerId();
+ * Integer day = entity.getDay();
  * String skillCode = entity.getSkillCode();
- * String skillName = entity.getSkillName();
- * String skillShortName = entity.getSkillShortName();
- * String campCode = entity.getCampCode();
- * Integer dispOrder = entity.getDispOrder();
+ * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
+ * String registerTrace = entity.getRegisterTrace();
+ * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
+ * String updateTrace = entity.getUpdateTrace();
+ * entity.setVillagePlayerSkillHistoryId(villagePlayerSkillHistoryId);
+ * entity.setVillagePlayerId(villagePlayerId);
+ * entity.setDay(day);
  * entity.setSkillCode(skillCode);
- * entity.setSkillName(skillName);
- * entity.setSkillShortName(skillShortName);
- * entity.setCampCode(campCode);
- * entity.setDispOrder(dispOrder);
+ * entity.setRegisterDatetime(registerDatetime);
+ * entity.setRegisterTrace(registerTrace);
+ * entity.setUpdateDatetime(updateDatetime);
+ * entity.setUpdateTrace(updateTrace);
  * = = = = = = = = = =/
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-public abstract class BsSkill extends AbstractEntity implements DomainEntity {
+public abstract class BsVillagePlayerSkillHistory extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {
 
     // ===================================================================================
     //                                                                          Definition
@@ -70,20 +77,29 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** SKILL_CODE: {PK, NotNull, VARCHAR(20), classification=Skill} */
+    /** VILLAGE_PLAYER_SKILL_HISTORY_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
+    protected Integer _villagePlayerSkillHistoryId;
+
+    /** VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} */
+    protected Integer _villagePlayerId;
+
+    /** DAY: {NotNull, INT UNSIGNED(10)} */
+    protected Integer _day;
+
+    /** SKILL_CODE: {IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} */
     protected String _skillCode;
 
-    /** SKILL_NAME: {NotNull, VARCHAR(20)} */
-    protected String _skillName;
+    /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
+    protected java.time.LocalDateTime _registerDatetime;
 
-    /** SKILL_SHORT_NAME: {NotNull, CHAR(1)} */
-    protected String _skillShortName;
+    /** REGISTER_TRACE: {NotNull, VARCHAR(64)} */
+    protected String _registerTrace;
 
-    /** CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} */
-    protected String _campCode;
+    /** UPDATE_DATETIME: {NotNull, DATETIME(19)} */
+    protected java.time.LocalDateTime _updateDatetime;
 
-    /** DISP_ORDER: {NotNull, INT UNSIGNED(10)} */
-    protected Integer _dispOrder;
+    /** UPDATE_TRACE: {NotNull, VARCHAR(64)} */
+    protected String _updateTrace;
 
     // ===================================================================================
     //                                                                             DB Meta
@@ -95,7 +111,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "SKILL";
+        return "VILLAGE_PLAYER_SKILL_HISTORY";
     }
 
     // ===================================================================================
@@ -103,7 +119,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     //                                                                        ============
     /** {@inheritDoc} */
     public boolean hasPrimaryKeyValue() {
-        if (_skillCode == null) { return false; }
+        if (_villagePlayerSkillHistoryId == null) { return false; }
         return true;
     }
 
@@ -112,7 +128,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     //                                                             =======================
     /**
      * Get the value of skillCode as the classification of Skill. <br>
-     * SKILL_CODE: {PK, NotNull, VARCHAR(20), classification=Skill} <br>
+     * SKILL_CODE: {IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -123,33 +139,12 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * Set the value of skillCode as the classification of Skill. <br>
-     * SKILL_CODE: {PK, NotNull, VARCHAR(20), classification=Skill} <br>
+     * SKILL_CODE: {IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
     public void setSkillCodeAsSkill(CDef.Skill cdef) {
         setSkillCode(cdef != null ? cdef.code() : null);
-    }
-
-    /**
-     * Get the value of campCode as the classification of Camp. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
-     * 陣営
-     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
-     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
-     */
-    public CDef.Camp getCampCodeAsCamp() {
-        return CDef.Camp.codeOf(getCampCode());
-    }
-
-    /**
-     * Set the value of campCode as the classification of Camp. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
-     * 陣営
-     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
-     */
-    public void setCampCodeAsCamp(CDef.Camp cdef) {
-        setCampCode(cdef != null ? cdef.code() : null);
     }
 
     // ===================================================================================
@@ -673,46 +668,6 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
      */
     public void setSkillCode_智狼() {
         setSkillCodeAsSkill(CDef.Skill.智狼);
-    }
-
-    /**
-     * Set the value of campCode as 愉快犯陣営 (CRIMINAL). <br>
-     * 愉快犯陣営
-     */
-    public void setCampCode_愉快犯陣営() {
-        setCampCodeAsCamp(CDef.Camp.愉快犯陣営);
-    }
-
-    /**
-     * Set the value of campCode as 狐陣営 (FOX). <br>
-     * 狐陣営
-     */
-    public void setCampCode_狐陣営() {
-        setCampCodeAsCamp(CDef.Camp.狐陣営);
-    }
-
-    /**
-     * Set the value of campCode as 恋人陣営 (LOVERS). <br>
-     * 恋人陣営
-     */
-    public void setCampCode_恋人陣営() {
-        setCampCodeAsCamp(CDef.Camp.恋人陣営);
-    }
-
-    /**
-     * Set the value of campCode as 村人陣営 (VILLAGER). <br>
-     * 村人陣営
-     */
-    public void setCampCode_村人陣営() {
-        setCampCodeAsCamp(CDef.Camp.村人陣営);
-    }
-
-    /**
-     * Set the value of campCode as 人狼陣営 (WEREWOLF). <br>
-     * 人狼陣営
-     */
-    public void setCampCode_人狼陣営() {
-        setCampCodeAsCamp(CDef.Camp.人狼陣営);
     }
 
     // ===================================================================================
@@ -1553,208 +1508,54 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
         return cdef != null && cdef.isSomeoneSkill();
     }
 
-    /**
-     * Is the value of campCode 愉快犯陣営? <br>
-     * 愉快犯陣営
-     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
-     * @return The determination, true or false.
-     */
-    public boolean isCampCode愉快犯陣営() {
-        CDef.Camp cdef = getCampCodeAsCamp();
-        return cdef != null ? cdef.equals(CDef.Camp.愉快犯陣営) : false;
-    }
-
-    /**
-     * Is the value of campCode 狐陣営? <br>
-     * 狐陣営
-     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
-     * @return The determination, true or false.
-     */
-    public boolean isCampCode狐陣営() {
-        CDef.Camp cdef = getCampCodeAsCamp();
-        return cdef != null ? cdef.equals(CDef.Camp.狐陣営) : false;
-    }
-
-    /**
-     * Is the value of campCode 恋人陣営? <br>
-     * 恋人陣営
-     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
-     * @return The determination, true or false.
-     */
-    public boolean isCampCode恋人陣営() {
-        CDef.Camp cdef = getCampCodeAsCamp();
-        return cdef != null ? cdef.equals(CDef.Camp.恋人陣営) : false;
-    }
-
-    /**
-     * Is the value of campCode 村人陣営? <br>
-     * 村人陣営
-     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
-     * @return The determination, true or false.
-     */
-    public boolean isCampCode村人陣営() {
-        CDef.Camp cdef = getCampCodeAsCamp();
-        return cdef != null ? cdef.equals(CDef.Camp.村人陣営) : false;
-    }
-
-    /**
-     * Is the value of campCode 人狼陣営? <br>
-     * 人狼陣営
-     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
-     * @return The determination, true or false.
-     */
-    public boolean isCampCode人狼陣営() {
-        CDef.Camp cdef = getCampCodeAsCamp();
-        return cdef != null ? cdef.equals(CDef.Camp.人狼陣営) : false;
-    }
-
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
-    /** CAMP by my CAMP_CODE, named 'camp'. */
-    protected OptionalEntity<Camp> _camp;
+    /** SKILL by my SKILL_CODE, named 'skill'. */
+    protected OptionalEntity<Skill> _skill;
 
     /**
-     * [get] CAMP by my CAMP_CODE, named 'camp'. <br>
+     * [get] SKILL by my SKILL_CODE, named 'skill'. <br>
      * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
-     * @return The entity of foreign property 'camp'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
+     * @return The entity of foreign property 'skill'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
-    public OptionalEntity<Camp> getCamp() {
-        if (_camp == null) { _camp = OptionalEntity.relationEmpty(this, "camp"); }
-        return _camp;
+    public OptionalEntity<Skill> getSkill() {
+        if (_skill == null) { _skill = OptionalEntity.relationEmpty(this, "skill"); }
+        return _skill;
     }
 
     /**
-     * [set] CAMP by my CAMP_CODE, named 'camp'.
-     * @param camp The entity of foreign property 'camp'. (NullAllowed)
+     * [set] SKILL by my SKILL_CODE, named 'skill'.
+     * @param skill The entity of foreign property 'skill'. (NullAllowed)
      */
-    public void setCamp(OptionalEntity<Camp> camp) {
-        _camp = camp;
+    public void setSkill(OptionalEntity<Skill> skill) {
+        _skill = skill;
+    }
+
+    /** VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayer'. */
+    protected OptionalEntity<VillagePlayer> _villagePlayer;
+
+    /**
+     * [get] VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayer'. <br>
+     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
+     * @return The entity of foreign property 'villagePlayer'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
+     */
+    public OptionalEntity<VillagePlayer> getVillagePlayer() {
+        if (_villagePlayer == null) { _villagePlayer = OptionalEntity.relationEmpty(this, "villagePlayer"); }
+        return _villagePlayer;
+    }
+
+    /**
+     * [set] VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayer'.
+     * @param villagePlayer The entity of foreign property 'villagePlayer'. (NullAllowed)
+     */
+    public void setVillagePlayer(OptionalEntity<VillagePlayer> villagePlayer) {
+        _villagePlayer = villagePlayer;
     }
 
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    /** NORMAL_SAY_RESTRICTION by SKILL_CODE, named 'normalSayRestrictionList'. */
-    protected List<NormalSayRestriction> _normalSayRestrictionList;
-
-    /**
-     * [get] NORMAL_SAY_RESTRICTION by SKILL_CODE, named 'normalSayRestrictionList'.
-     * @return The entity list of referrer property 'normalSayRestrictionList'. (NotNull: even if no loading, returns empty list)
-     */
-    public List<NormalSayRestriction> getNormalSayRestrictionList() {
-        if (_normalSayRestrictionList == null) { _normalSayRestrictionList = newReferrerList(); }
-        return _normalSayRestrictionList;
-    }
-
-    /**
-     * [set] NORMAL_SAY_RESTRICTION by SKILL_CODE, named 'normalSayRestrictionList'.
-     * @param normalSayRestrictionList The entity list of referrer property 'normalSayRestrictionList'. (NullAllowed)
-     */
-    public void setNormalSayRestrictionList(List<NormalSayRestriction> normalSayRestrictionList) {
-        _normalSayRestrictionList = normalSayRestrictionList;
-    }
-
-    /** SKILL_ALLOCATION by SKILL_CODE, named 'skillAllocationList'. */
-    protected List<SkillAllocation> _skillAllocationList;
-
-    /**
-     * [get] SKILL_ALLOCATION by SKILL_CODE, named 'skillAllocationList'.
-     * @return The entity list of referrer property 'skillAllocationList'. (NotNull: even if no loading, returns empty list)
-     */
-    public List<SkillAllocation> getSkillAllocationList() {
-        if (_skillAllocationList == null) { _skillAllocationList = newReferrerList(); }
-        return _skillAllocationList;
-    }
-
-    /**
-     * [set] SKILL_ALLOCATION by SKILL_CODE, named 'skillAllocationList'.
-     * @param skillAllocationList The entity list of referrer property 'skillAllocationList'. (NullAllowed)
-     */
-    public void setSkillAllocationList(List<SkillAllocation> skillAllocationList) {
-        _skillAllocationList = skillAllocationList;
-    }
-
-    /** VILLAGE_PLAYER by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeList'. */
-    protected List<VillagePlayer> _villagePlayerByRequestSkillCodeList;
-
-    /**
-     * [get] VILLAGE_PLAYER by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeList'.
-     * @return The entity list of referrer property 'villagePlayerByRequestSkillCodeList'. (NotNull: even if no loading, returns empty list)
-     */
-    public List<VillagePlayer> getVillagePlayerByRequestSkillCodeList() {
-        if (_villagePlayerByRequestSkillCodeList == null) { _villagePlayerByRequestSkillCodeList = newReferrerList(); }
-        return _villagePlayerByRequestSkillCodeList;
-    }
-
-    /**
-     * [set] VILLAGE_PLAYER by REQUEST_SKILL_CODE, named 'villagePlayerByRequestSkillCodeList'.
-     * @param villagePlayerByRequestSkillCodeList The entity list of referrer property 'villagePlayerByRequestSkillCodeList'. (NullAllowed)
-     */
-    public void setVillagePlayerByRequestSkillCodeList(List<VillagePlayer> villagePlayerByRequestSkillCodeList) {
-        _villagePlayerByRequestSkillCodeList = villagePlayerByRequestSkillCodeList;
-    }
-
-    /** VILLAGE_PLAYER by SECOND_REQUEST_SKILL_CODE, named 'villagePlayerBySecondRequestSkillCodeList'. */
-    protected List<VillagePlayer> _villagePlayerBySecondRequestSkillCodeList;
-
-    /**
-     * [get] VILLAGE_PLAYER by SECOND_REQUEST_SKILL_CODE, named 'villagePlayerBySecondRequestSkillCodeList'.
-     * @return The entity list of referrer property 'villagePlayerBySecondRequestSkillCodeList'. (NotNull: even if no loading, returns empty list)
-     */
-    public List<VillagePlayer> getVillagePlayerBySecondRequestSkillCodeList() {
-        if (_villagePlayerBySecondRequestSkillCodeList == null) { _villagePlayerBySecondRequestSkillCodeList = newReferrerList(); }
-        return _villagePlayerBySecondRequestSkillCodeList;
-    }
-
-    /**
-     * [set] VILLAGE_PLAYER by SECOND_REQUEST_SKILL_CODE, named 'villagePlayerBySecondRequestSkillCodeList'.
-     * @param villagePlayerBySecondRequestSkillCodeList The entity list of referrer property 'villagePlayerBySecondRequestSkillCodeList'. (NullAllowed)
-     */
-    public void setVillagePlayerBySecondRequestSkillCodeList(List<VillagePlayer> villagePlayerBySecondRequestSkillCodeList) {
-        _villagePlayerBySecondRequestSkillCodeList = villagePlayerBySecondRequestSkillCodeList;
-    }
-
-    /** VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerBySkillCodeList'. */
-    protected List<VillagePlayer> _villagePlayerBySkillCodeList;
-
-    /**
-     * [get] VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerBySkillCodeList'.
-     * @return The entity list of referrer property 'villagePlayerBySkillCodeList'. (NotNull: even if no loading, returns empty list)
-     */
-    public List<VillagePlayer> getVillagePlayerBySkillCodeList() {
-        if (_villagePlayerBySkillCodeList == null) { _villagePlayerBySkillCodeList = newReferrerList(); }
-        return _villagePlayerBySkillCodeList;
-    }
-
-    /**
-     * [set] VILLAGE_PLAYER by SKILL_CODE, named 'villagePlayerBySkillCodeList'.
-     * @param villagePlayerBySkillCodeList The entity list of referrer property 'villagePlayerBySkillCodeList'. (NullAllowed)
-     */
-    public void setVillagePlayerBySkillCodeList(List<VillagePlayer> villagePlayerBySkillCodeList) {
-        _villagePlayerBySkillCodeList = villagePlayerBySkillCodeList;
-    }
-
-    /** VILLAGE_PLAYER_SKILL_HISTORY by SKILL_CODE, named 'villagePlayerSkillHistoryList'. */
-    protected List<VillagePlayerSkillHistory> _villagePlayerSkillHistoryList;
-
-    /**
-     * [get] VILLAGE_PLAYER_SKILL_HISTORY by SKILL_CODE, named 'villagePlayerSkillHistoryList'.
-     * @return The entity list of referrer property 'villagePlayerSkillHistoryList'. (NotNull: even if no loading, returns empty list)
-     */
-    public List<VillagePlayerSkillHistory> getVillagePlayerSkillHistoryList() {
-        if (_villagePlayerSkillHistoryList == null) { _villagePlayerSkillHistoryList = newReferrerList(); }
-        return _villagePlayerSkillHistoryList;
-    }
-
-    /**
-     * [set] VILLAGE_PLAYER_SKILL_HISTORY by SKILL_CODE, named 'villagePlayerSkillHistoryList'.
-     * @param villagePlayerSkillHistoryList The entity list of referrer property 'villagePlayerSkillHistoryList'. (NullAllowed)
-     */
-    public void setVillagePlayerSkillHistoryList(List<VillagePlayerSkillHistory> villagePlayerSkillHistoryList) {
-        _villagePlayerSkillHistoryList = villagePlayerSkillHistoryList;
-    }
-
     protected <ELEMENT> List<ELEMENT> newReferrerList() { // overriding to import
         return new ArrayList<ELEMENT>();
     }
@@ -1764,9 +1565,9 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     //                                                                      ==============
     @Override
     protected boolean doEquals(Object obj) {
-        if (obj instanceof BsSkill) {
-            BsSkill other = (BsSkill)obj;
-            if (!xSV(_skillCode, other._skillCode)) { return false; }
+        if (obj instanceof BsVillagePlayerSkillHistory) {
+            BsVillagePlayerSkillHistory other = (BsVillagePlayerSkillHistory)obj;
+            if (!xSV(_villagePlayerSkillHistoryId, other._villagePlayerSkillHistoryId)) { return false; }
             return true;
         } else {
             return false;
@@ -1777,27 +1578,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     protected int doHashCode(int initial) {
         int hs = initial;
         hs = xCH(hs, asTableDbName());
-        hs = xCH(hs, _skillCode);
+        hs = xCH(hs, _villagePlayerSkillHistoryId);
         return hs;
     }
 
     @Override
     protected String doBuildStringWithRelation(String li) {
         StringBuilder sb = new StringBuilder();
-        if (_camp != null && _camp.isPresent())
-        { sb.append(li).append(xbRDS(_camp, "camp")); }
-        if (_normalSayRestrictionList != null) { for (NormalSayRestriction et : _normalSayRestrictionList)
-        { if (et != null) { sb.append(li).append(xbRDS(et, "normalSayRestrictionList")); } } }
-        if (_skillAllocationList != null) { for (SkillAllocation et : _skillAllocationList)
-        { if (et != null) { sb.append(li).append(xbRDS(et, "skillAllocationList")); } } }
-        if (_villagePlayerByRequestSkillCodeList != null) { for (VillagePlayer et : _villagePlayerByRequestSkillCodeList)
-        { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerByRequestSkillCodeList")); } } }
-        if (_villagePlayerBySecondRequestSkillCodeList != null) { for (VillagePlayer et : _villagePlayerBySecondRequestSkillCodeList)
-        { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerBySecondRequestSkillCodeList")); } } }
-        if (_villagePlayerBySkillCodeList != null) { for (VillagePlayer et : _villagePlayerBySkillCodeList)
-        { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerBySkillCodeList")); } } }
-        if (_villagePlayerSkillHistoryList != null) { for (VillagePlayerSkillHistory et : _villagePlayerSkillHistoryList)
-        { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerSkillHistoryList")); } } }
+        if (_skill != null && _skill.isPresent())
+        { sb.append(li).append(xbRDS(_skill, "skill")); }
+        if (_villagePlayer != null && _villagePlayer.isPresent())
+        { sb.append(li).append(xbRDS(_villagePlayer, "villagePlayer")); }
         return sb.toString();
     }
     protected <ET extends Entity> String xbRDS(org.dbflute.optional.OptionalEntity<ET> et, String name) { // buildRelationDisplayString()
@@ -1807,11 +1598,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     @Override
     protected String doBuildColumnString(String dm) {
         StringBuilder sb = new StringBuilder();
+        sb.append(dm).append(xfND(_villagePlayerSkillHistoryId));
+        sb.append(dm).append(xfND(_villagePlayerId));
+        sb.append(dm).append(xfND(_day));
         sb.append(dm).append(xfND(_skillCode));
-        sb.append(dm).append(xfND(_skillName));
-        sb.append(dm).append(xfND(_skillShortName));
-        sb.append(dm).append(xfND(_campCode));
-        sb.append(dm).append(xfND(_dispOrder));
+        sb.append(dm).append(xfND(_registerDatetime));
+        sb.append(dm).append(xfND(_registerTrace));
+        sb.append(dm).append(xfND(_updateDatetime));
+        sb.append(dm).append(xfND(_updateTrace));
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length());
         }
@@ -1822,20 +1616,10 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     @Override
     protected String doBuildRelationString(String dm) {
         StringBuilder sb = new StringBuilder();
-        if (_camp != null && _camp.isPresent())
-        { sb.append(dm).append("camp"); }
-        if (_normalSayRestrictionList != null && !_normalSayRestrictionList.isEmpty())
-        { sb.append(dm).append("normalSayRestrictionList"); }
-        if (_skillAllocationList != null && !_skillAllocationList.isEmpty())
-        { sb.append(dm).append("skillAllocationList"); }
-        if (_villagePlayerByRequestSkillCodeList != null && !_villagePlayerByRequestSkillCodeList.isEmpty())
-        { sb.append(dm).append("villagePlayerByRequestSkillCodeList"); }
-        if (_villagePlayerBySecondRequestSkillCodeList != null && !_villagePlayerBySecondRequestSkillCodeList.isEmpty())
-        { sb.append(dm).append("villagePlayerBySecondRequestSkillCodeList"); }
-        if (_villagePlayerBySkillCodeList != null && !_villagePlayerBySkillCodeList.isEmpty())
-        { sb.append(dm).append("villagePlayerBySkillCodeList"); }
-        if (_villagePlayerSkillHistoryList != null && !_villagePlayerSkillHistoryList.isEmpty())
-        { sb.append(dm).append("villagePlayerSkillHistoryList"); }
+        if (_skill != null && _skill.isPresent())
+        { sb.append(dm).append("skill"); }
+        if (_villagePlayer != null && _villagePlayer.isPresent())
+        { sb.append(dm).append("villagePlayer"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }
@@ -1843,15 +1627,75 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     @Override
-    public Skill clone() {
-        return (Skill)super.clone();
+    public VillagePlayerSkillHistory clone() {
+        return (VillagePlayerSkillHistory)super.clone();
     }
 
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] SKILL_CODE: {PK, NotNull, VARCHAR(20), classification=Skill} <br>
+     * [get] VILLAGE_PLAYER_SKILL_HISTORY_ID: {PK, ID, NotNull, INT UNSIGNED(10)} <br>
+     * 村参加者役職履歴ID
+     * @return The value of the column 'VILLAGE_PLAYER_SKILL_HISTORY_ID'. (basically NotNull if selected: for the constraint)
+     */
+    public Integer getVillagePlayerSkillHistoryId() {
+        checkSpecifiedProperty("villagePlayerSkillHistoryId");
+        return _villagePlayerSkillHistoryId;
+    }
+
+    /**
+     * [set] VILLAGE_PLAYER_SKILL_HISTORY_ID: {PK, ID, NotNull, INT UNSIGNED(10)} <br>
+     * 村参加者役職履歴ID
+     * @param villagePlayerSkillHistoryId The value of the column 'VILLAGE_PLAYER_SKILL_HISTORY_ID'. (basically NotNull if update: for the constraint)
+     */
+    public void setVillagePlayerSkillHistoryId(Integer villagePlayerSkillHistoryId) {
+        registerModifiedProperty("villagePlayerSkillHistoryId");
+        _villagePlayerSkillHistoryId = villagePlayerSkillHistoryId;
+    }
+
+    /**
+     * [get] VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
+     * 村参加者ID
+     * @return The value of the column 'VILLAGE_PLAYER_ID'. (basically NotNull if selected: for the constraint)
+     */
+    public Integer getVillagePlayerId() {
+        checkSpecifiedProperty("villagePlayerId");
+        return _villagePlayerId;
+    }
+
+    /**
+     * [set] VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
+     * 村参加者ID
+     * @param villagePlayerId The value of the column 'VILLAGE_PLAYER_ID'. (basically NotNull if update: for the constraint)
+     */
+    public void setVillagePlayerId(Integer villagePlayerId) {
+        registerModifiedProperty("villagePlayerId");
+        _villagePlayerId = villagePlayerId;
+    }
+
+    /**
+     * [get] DAY: {NotNull, INT UNSIGNED(10)} <br>
+     * 何日目か
+     * @return The value of the column 'DAY'. (basically NotNull if selected: for the constraint)
+     */
+    public Integer getDay() {
+        checkSpecifiedProperty("day");
+        return _day;
+    }
+
+    /**
+     * [set] DAY: {NotNull, INT UNSIGNED(10)} <br>
+     * 何日目か
+     * @param day The value of the column 'DAY'. (basically NotNull if update: for the constraint)
+     */
+    public void setDay(Integer day) {
+        registerModifiedProperty("day");
+        _day = day;
+    }
+
+    /**
+     * [get] SKILL_CODE: {IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職コード
      * @return The value of the column 'SKILL_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -1861,7 +1705,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
-     * [set] SKILL_CODE: {PK, NotNull, VARCHAR(20), classification=Skill} <br>
+     * [set] SKILL_CODE: {IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職コード
      * @param skillCode The value of the column 'SKILL_CODE'. (basically NotNull if update: for the constraint)
      */
@@ -1872,84 +1716,83 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
-     * [get] SKILL_NAME: {NotNull, VARCHAR(20)} <br>
-     * 役職名
-     * @return The value of the column 'SKILL_NAME'. (basically NotNull if selected: for the constraint)
+     * [get] REGISTER_DATETIME: {NotNull, DATETIME(19)} <br>
+     * 登録日時
+     * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    public String getSkillName() {
-        checkSpecifiedProperty("skillName");
-        return convertEmptyToNull(_skillName);
+    public java.time.LocalDateTime getRegisterDatetime() {
+        checkSpecifiedProperty("registerDatetime");
+        return _registerDatetime;
     }
 
     /**
-     * [set] SKILL_NAME: {NotNull, VARCHAR(20)} <br>
-     * 役職名
-     * @param skillName The value of the column 'SKILL_NAME'. (basically NotNull if update: for the constraint)
+     * [set] REGISTER_DATETIME: {NotNull, DATETIME(19)} <br>
+     * 登録日時
+     * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    public void setSkillName(String skillName) {
-        registerModifiedProperty("skillName");
-        _skillName = skillName;
+    public void setRegisterDatetime(java.time.LocalDateTime registerDatetime) {
+        registerModifiedProperty("registerDatetime");
+        _registerDatetime = registerDatetime;
     }
 
     /**
-     * [get] SKILL_SHORT_NAME: {NotNull, CHAR(1)} <br>
-     * 役職名略称
-     * @return The value of the column 'SKILL_SHORT_NAME'. (basically NotNull if selected: for the constraint)
+     * [get] REGISTER_TRACE: {NotNull, VARCHAR(64)} <br>
+     * 登録トレース
+     * @return The value of the column 'REGISTER_TRACE'. (basically NotNull if selected: for the constraint)
      */
-    public String getSkillShortName() {
-        checkSpecifiedProperty("skillShortName");
-        return convertEmptyToNull(_skillShortName);
+    public String getRegisterTrace() {
+        checkSpecifiedProperty("registerTrace");
+        return convertEmptyToNull(_registerTrace);
     }
 
     /**
-     * [set] SKILL_SHORT_NAME: {NotNull, CHAR(1)} <br>
-     * 役職名略称
-     * @param skillShortName The value of the column 'SKILL_SHORT_NAME'. (basically NotNull if update: for the constraint)
+     * [set] REGISTER_TRACE: {NotNull, VARCHAR(64)} <br>
+     * 登録トレース
+     * @param registerTrace The value of the column 'REGISTER_TRACE'. (basically NotNull if update: for the constraint)
      */
-    public void setSkillShortName(String skillShortName) {
-        registerModifiedProperty("skillShortName");
-        _skillShortName = skillShortName;
+    public void setRegisterTrace(String registerTrace) {
+        registerModifiedProperty("registerTrace");
+        _registerTrace = registerTrace;
     }
 
     /**
-     * [get] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
-     * 陣営コード
-     * @return The value of the column 'CAMP_CODE'. (basically NotNull if selected: for the constraint)
+     * [get] UPDATE_DATETIME: {NotNull, DATETIME(19)} <br>
+     * 更新日時
+     * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    public String getCampCode() {
-        checkSpecifiedProperty("campCode");
-        return convertEmptyToNull(_campCode);
+    public java.time.LocalDateTime getUpdateDatetime() {
+        checkSpecifiedProperty("updateDatetime");
+        return _updateDatetime;
     }
 
     /**
-     * [set] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
-     * 陣営コード
-     * @param campCode The value of the column 'CAMP_CODE'. (basically NotNull if update: for the constraint)
+     * [set] UPDATE_DATETIME: {NotNull, DATETIME(19)} <br>
+     * 更新日時
+     * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    protected void setCampCode(String campCode) {
-        checkClassificationCode("CAMP_CODE", CDef.DefMeta.Camp, campCode);
-        registerModifiedProperty("campCode");
-        _campCode = campCode;
+    public void setUpdateDatetime(java.time.LocalDateTime updateDatetime) {
+        registerModifiedProperty("updateDatetime");
+        _updateDatetime = updateDatetime;
     }
 
     /**
-     * [get] DISP_ORDER: {NotNull, INT UNSIGNED(10)} <br>
-     * 並び順
-     * @return The value of the column 'DISP_ORDER'. (basically NotNull if selected: for the constraint)
+     * [get] UPDATE_TRACE: {NotNull, VARCHAR(64)} <br>
+     * 更新トレース
+     * @return The value of the column 'UPDATE_TRACE'. (basically NotNull if selected: for the constraint)
      */
-    public Integer getDispOrder() {
-        checkSpecifiedProperty("dispOrder");
-        return _dispOrder;
+    public String getUpdateTrace() {
+        checkSpecifiedProperty("updateTrace");
+        return convertEmptyToNull(_updateTrace);
     }
 
     /**
-     * [set] DISP_ORDER: {NotNull, INT UNSIGNED(10)} <br>
-     * 並び順
-     * @param dispOrder The value of the column 'DISP_ORDER'. (basically NotNull if update: for the constraint)
+     * [set] UPDATE_TRACE: {NotNull, VARCHAR(64)} <br>
+     * 更新トレース
+     * @param updateTrace The value of the column 'UPDATE_TRACE'. (basically NotNull if update: for the constraint)
      */
-    public void setDispOrder(Integer dispOrder) {
-        registerModifiedProperty("dispOrder");
-        _dispOrder = dispOrder;
+    public void setUpdateTrace(String updateTrace) {
+        registerModifiedProperty("updateTrace");
+        _updateTrace = updateTrace;
     }
 
     /**
@@ -1958,13 +1801,5 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
      */
     public void mynativeMappingSkillCode(String skillCode) {
         setSkillCode(skillCode);
-    }
-
-    /**
-     * For framework so basically DON'T use this method.
-     * @param campCode The value of the column 'CAMP_CODE'. (basically NotNull if update: for the constraint)
-     */
-    public void mynativeMappingCampCode(String campCode) {
-        setCampCode(campCode);
     }
 }
