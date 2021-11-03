@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID
  *
  * [column]
- *     VILLAGE_ID, DUMMY_CHARA_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, CHARACTER_GROUP_ID, JOIN_PASSWORD, ORGANIZE, ALLOWED_SECRET_SAY_CODE, IS_AVAILABLE_ACTION, IS_RANDOM_ORGANIZE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, DUMMY_CHARA_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, CHARACTER_GROUP_ID, JOIN_PASSWORD, ORGANIZE, ALLOWED_SECRET_SAY_CODE, IS_AVAILABLE_ACTION, IS_RANDOM_ORGANIZE, IS_REINCARNATION_SKILL_ALL, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -67,6 +67,7 @@ import com.ort.dbflute.exentity.*;
  * String allowedSecretSayCode = entity.getAllowedSecretSayCode();
  * Boolean isAvailableAction = entity.getIsAvailableAction();
  * Boolean isRandomOrganize = entity.getIsRandomOrganize();
+ * Boolean isReincarnationSkillAll = entity.getIsReincarnationSkillAll();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -92,6 +93,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setAllowedSecretSayCode(allowedSecretSayCode);
  * entity.setIsAvailableAction(isAvailableAction);
  * entity.setIsRandomOrganize(isRandomOrganize);
+ * entity.setIsReincarnationSkillAll(isReincarnationSkillAll);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -173,6 +175,9 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /** IS_RANDOM_ORGANIZE: {NotNull, BIT, classification=Flg} */
     protected Boolean _isRandomOrganize;
+
+    /** IS_REINCARNATION_SKILL_ALL: {NotNull, BIT, classification=Flg} */
+    protected Boolean _isReincarnationSkillAll;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -463,6 +468,27 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         setIsRandomOrganize(cdef != null ? toBoolean(cdef.code()) : null);
     }
 
+    /**
+     * Get the value of isReincarnationSkillAll as the classification of Flg. <br>
+     * IS_REINCARNATION_SKILL_ALL: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Flg getIsReincarnationSkillAllAsFlg() {
+        return CDef.Flg.codeOf(getIsReincarnationSkillAll());
+    }
+
+    /**
+     * Set the value of isReincarnationSkillAll as the classification of Flg. <br>
+     * IS_REINCARNATION_SKILL_ALL: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setIsReincarnationSkillAllAsFlg(CDef.Flg cdef) {
+        setIsReincarnationSkillAll(cdef != null ? toBoolean(cdef.code()) : null);
+    }
+
     // ===================================================================================
     //                                                              Classification Setting
     //                                                              ======================
@@ -664,6 +690,22 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      */
     public void setIsRandomOrganize_False() {
         setIsRandomOrganizeAsFlg(CDef.Flg.False);
+    }
+
+    /**
+     * Set the value of isReincarnationSkillAll as True (true). <br>
+     * はい: 有効を示す
+     */
+    public void setIsReincarnationSkillAll_True() {
+        setIsReincarnationSkillAllAsFlg(CDef.Flg.True);
+    }
+
+    /**
+     * Set the value of isReincarnationSkillAll as False (false). <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsReincarnationSkillAll_False() {
+        setIsReincarnationSkillAllAsFlg(CDef.Flg.False);
     }
 
     // ===================================================================================
@@ -944,6 +986,28 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         return cdef != null ? cdef.equals(CDef.Flg.False) : false;
     }
 
+    /**
+     * Is the value of isReincarnationSkillAll True? <br>
+     * はい: 有効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsReincarnationSkillAllTrue() {
+        CDef.Flg cdef = getIsReincarnationSkillAllAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
+    }
+
+    /**
+     * Is the value of isReincarnationSkillAll False? <br>
+     * いいえ: 無効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsReincarnationSkillAllFalse() {
+        CDef.Flg cdef = getIsReincarnationSkillAllAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
     // ===================================================================================
     //                                                           Classification Name/Alias
     //                                                           =========================
@@ -1043,6 +1107,15 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      */
     public String getIsRandomOrganizeAlias() {
         CDef.Flg cdef = getIsRandomOrganizeAsFlg();
+        return cdef != null ? cdef.alias() : null;
+    }
+
+    /**
+     * Get the value of the column 'isReincarnationSkillAll' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     */
+    public String getIsReincarnationSkillAllAlias() {
+        CDef.Flg cdef = getIsReincarnationSkillAllAsFlg();
         return cdef != null ? cdef.alias() : null;
     }
 
@@ -1180,6 +1253,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         sb.append(dm).append(xfND(_allowedSecretSayCode));
         sb.append(dm).append(xfND(_isAvailableAction));
         sb.append(dm).append(xfND(_isRandomOrganize));
+        sb.append(dm).append(xfND(_isReincarnationSkillAll));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -1644,6 +1718,27 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         checkClassificationCode("IS_RANDOM_ORGANIZE", CDef.DefMeta.Flg, isRandomOrganize);
         registerModifiedProperty("isRandomOrganize");
         _isRandomOrganize = isRandomOrganize;
+    }
+
+    /**
+     * [get] IS_REINCARNATION_SKILL_ALL: {NotNull, BIT, classification=Flg} <br>
+     * 全ての役職に転生可能か
+     * @return The value of the column 'IS_REINCARNATION_SKILL_ALL'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getIsReincarnationSkillAll() {
+        checkSpecifiedProperty("isReincarnationSkillAll");
+        return _isReincarnationSkillAll;
+    }
+
+    /**
+     * [set] IS_REINCARNATION_SKILL_ALL: {NotNull, BIT, classification=Flg} <br>
+     * 全ての役職に転生可能か
+     * @param isReincarnationSkillAll The value of the column 'IS_REINCARNATION_SKILL_ALL'. (basically NotNull if update: for the constraint)
+     */
+    public void setIsReincarnationSkillAll(Boolean isReincarnationSkillAll) {
+        checkClassificationCode("IS_REINCARNATION_SKILL_ALL", CDef.DefMeta.Flg, isReincarnationSkillAll);
+        registerModifiedProperty("isReincarnationSkillAll");
+        _isReincarnationSkillAll = isReincarnationSkillAll;
     }
 
     /**

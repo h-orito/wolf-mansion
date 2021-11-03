@@ -471,6 +471,11 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnIsRandomOrganize() { return doColumn("IS_RANDOM_ORGANIZE"); }
         /**
+         * IS_REINCARNATION_SKILL_ALL: {NotNull, BIT, classification=Flg}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnIsReincarnationSkillAll() { return doColumn("IS_REINCARNATION_SKILL_ALL"); }
+        /**
          * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
          */

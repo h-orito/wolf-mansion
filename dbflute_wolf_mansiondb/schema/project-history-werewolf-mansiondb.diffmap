@@ -1,4 +1,21 @@
 map:{
+    ; 2021/11/03 19:50:35 = map:{
+        ; diffDate = 2021/11/03 19:50:35
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; VILLAGE_SETTINGS = map:{
+                ; tableName = VILLAGE_SETTINGS
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; IS_REINCARNATION_SKILL_ALL = map:{
+                        ; columnName = IS_REINCARNATION_SKILL_ALL
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2021/11/03 11:52:08 = map:{
         ; diffDate = 2021/11/03 11:52:08
         ; tableCount = map:{

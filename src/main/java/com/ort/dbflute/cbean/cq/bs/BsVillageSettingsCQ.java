@@ -493,6 +493,26 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
      */
     public BsVillageSettingsCQ addOrderBy_IsRandomOrganize_Desc() { regOBD("IS_RANDOM_ORGANIZE"); return this; }
 
+    protected ConditionValue _isReincarnationSkillAll;
+    public ConditionValue xdfgetIsReincarnationSkillAll()
+    { if (_isReincarnationSkillAll == null) { _isReincarnationSkillAll = nCV(); }
+      return _isReincarnationSkillAll; }
+    protected ConditionValue xgetCValueIsReincarnationSkillAll() { return xdfgetIsReincarnationSkillAll(); }
+
+    /**
+     * Add order-by as ascend. <br>
+     * IS_REINCARNATION_SKILL_ALL: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_IsReincarnationSkillAll_Asc() { regOBA("IS_REINCARNATION_SKILL_ALL"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * IS_REINCARNATION_SKILL_ALL: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_IsReincarnationSkillAll_Desc() { regOBD("IS_REINCARNATION_SKILL_ALL"); return this; }
+
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
     { if (_registerDatetime == null) { _registerDatetime = nCV(); }

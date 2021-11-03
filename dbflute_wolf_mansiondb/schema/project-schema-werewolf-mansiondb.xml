@@ -1062,6 +1062,8 @@
             name="IS_AVAILABLE_ACTION" required="true" type="BIT"/>
         <column comment="闇鍋構成か" dbType="BIT" javaType="Boolean"
             name="IS_RANDOM_ORGANIZE" required="true" type="BIT"/>
+        <column comment="全ての役職に転生可能か" dbType="BIT" javaType="Boolean"
+            name="IS_REINCARNATION_SKILL_ALL" required="true" type="BIT"/>
         <column comment="登録日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>

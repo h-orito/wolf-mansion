@@ -93,6 +93,9 @@ public class VillageSettingsDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((VillageSettings)et).getIsRandomOrganize(), (et, vl) -> {
             ((VillageSettings)et).setIsRandomOrganize((Boolean)vl);
         }, "isRandomOrganize");
+        setupEpg(_epgMap, et -> ((VillageSettings)et).getIsReincarnationSkillAll(), (et, vl) -> {
+            ((VillageSettings)et).setIsReincarnationSkillAll((Boolean)vl);
+        }, "isReincarnationSkillAll");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getRegisterDatetime(), (et, vl) -> ((VillageSettings)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getRegisterTrace(), (et, vl) -> ((VillageSettings)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getUpdateDatetime(), (et, vl) -> ((VillageSettings)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -152,6 +155,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnAllowedSecretSayCode = cci("ALLOWED_SECRET_SAY_CODE", "ALLOWED_SECRET_SAY_CODE", null, null, String.class, "allowedSecretSayCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "allowedSecretSay", null, CDef.DefMeta.AllowedSecretSay, false);
     protected final ColumnInfo _columnIsAvailableAction = cci("IS_AVAILABLE_ACTION", "IS_AVAILABLE_ACTION", null, null, Boolean.class, "isAvailableAction", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnIsRandomOrganize = cci("IS_RANDOM_ORGANIZE", "IS_RANDOM_ORGANIZE", null, null, Boolean.class, "isRandomOrganize", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
+    protected final ColumnInfo _columnIsReincarnationSkillAll = cci("IS_REINCARNATION_SKILL_ALL", "IS_REINCARNATION_SKILL_ALL", null, null, Boolean.class, "isReincarnationSkillAll", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -263,6 +267,11 @@ public class VillageSettingsDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnIsRandomOrganize() { return _columnIsRandomOrganize; }
     /**
+     * IS_REINCARNATION_SKILL_ALL: {NotNull, BIT, classification=Flg}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnIsReincarnationSkillAll() { return _columnIsReincarnationSkillAll; }
+    /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
      */
@@ -306,6 +315,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
         ls.add(columnAllowedSecretSayCode());
         ls.add(columnIsAvailableAction());
         ls.add(columnIsRandomOrganize());
+        ls.add(columnIsReincarnationSkillAll());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());
