@@ -575,8 +575,8 @@ ul.announce > li {
     -webkit-text-fill-color: transparent;
 
     /* アニメーション指定 */
-    animation: rainbow 4s linear infinite;
-    -webkit-animation: rainbow 4s linear infinite;
+    animation: rainbow 10s linear infinite;
+    -webkit-animation: rainbow 10s linear infinite;
 }
 
 /* 背景の横位置をズラす */

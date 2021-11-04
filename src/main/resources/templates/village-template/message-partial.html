@@ -93,14 +93,9 @@
                 <div>
                     <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
                 </div>
-                <div class="message message-monologue{{#if isLoud}} loud{{/if}}"
+                <div class="message message-monologue"
                      style="flex: 1; margin-left: 5px; {{minHeightCss}}">
-                    {{#if isRainbow}}
-                    <div class="rainbow">{{/if}}
-                        {{{messageContent}}}
-                        {{#if isRainbow}}
-                    </div>
-                    {{/if}}
+                    {{{messageContent}}}
                 </div>
             </div>
         </div>
@@ -120,14 +115,8 @@
                 <div>
                     <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
                 </div>
-                <div class="message message-secret{{#if isLoud}} loud{{/if}}"
-                     style="flex: 1; margin-left: 5px; {{minHeightCss}}">
-                    {{#if isRainbow}}
-                    <div class="rainbow">{{/if}}
-                        {{{messageContent}}}
-                        {{#if isRainbow}}
-                    </div>
-                    {{/if}}
+                <div class="message message-secret" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
+                    {{{messageContent}}}
                 </div>
             </div>
         </div>
