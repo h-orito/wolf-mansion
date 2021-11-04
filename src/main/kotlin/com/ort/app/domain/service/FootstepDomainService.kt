@@ -152,7 +152,7 @@ class FootstepDomainService(
 
     // day: セットした日
     // day+1: 足音が鳴った日
-    fun getSkillByFootstep(village: Village, day: Int, targetFootstep: String, footsteps: Footsteps): Skill {
+    fun getParticipantByFootstep(village: Village, day: Int, targetFootstep: String, footsteps: Footsteps): VillageParticipant {
         // 足音が鳴った時点で生存している人の部屋番号
         val roomNumberList =
             village.participants.list.filter { it.isAliveWhen(day + 1) }.map { it.roomNumberWhen(day)!! }
@@ -169,7 +169,7 @@ class FootstepDomainService(
                 targetFootstep == actualFootstep
             }.shuffled().first()
 
-        return village.participants.chara(target.charaId).skill!!
+        return village.participants.chara(target.charaId)
     }
 
     // day: セットした日

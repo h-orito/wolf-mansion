@@ -37,9 +37,9 @@ data class Skill(
     fun isViewableGuruMessage(): Boolean = toCdef().isHasSkillPsychicAbility
     fun isViewableAttackMessage(): Boolean = toCdef().isHasAttackAbility
     fun isViewableCoronerMessage(): Boolean = toCdef() == CDef.Skill.検死官
-    fun isViewableDivineMessage(): Boolean = toCdef() == CDef.Skill.占い師 || toCdef() == CDef.Skill.占星術師
+    fun isViewableDivineMessage(): Boolean = listOf(CDef.Skill.占い師, CDef.Skill.占星術師, CDef.Skill.花占い師).contains(toCdef())
     fun isViewableWiseMessage(): Boolean = toCdef() == CDef.Skill.賢者
-    fun isViewableInvestigateMessage(): Boolean = toCdef() == CDef.Skill.探偵
+    fun isViewableInvestigateMessage(): Boolean = toCdef() == CDef.Skill.探偵 || toCdef() == CDef.Skill.監視者
     fun isViewableLoversMessage(): Boolean = camp().code == CDef.Camp.恋人陣営.code()
     fun isWolfCount(): Boolean = toCdef().isWolfCount
     fun isNoCount(): Boolean = toCdef().isNoCount
@@ -72,6 +72,7 @@ data class Skill(
             CDef.Skill.風来狩人 to AbilityType(CDef.AbilityType.風来護衛),
             CDef.Skill.壁殴り代行 to AbilityType(CDef.AbilityType.壁殴り),
             CDef.Skill.探偵 to AbilityType(CDef.AbilityType.捜査),
+            CDef.Skill.監視者 to AbilityType(CDef.AbilityType.捜査),
             CDef.Skill.罠師 to AbilityType(CDef.AbilityType.罠設置),
             CDef.Skill.爆弾魔 to AbilityType(CDef.AbilityType.爆弾設置),
             CDef.Skill.同棲者 to AbilityType(CDef.AbilityType.同棲),

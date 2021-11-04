@@ -7,7 +7,6 @@ import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
-import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.service.FootstepDomainService
@@ -98,28 +97,34 @@ class InvestigateDomainService(
         val village = daychange.village
         var abilities = daychange.abilities.copy()
         if (!canUseDay(village.latestDay())) return daychange
-        village.participants.filterAlive().filterBySkill(CDef.Skill.探偵.toModel()).list.forEach {
-            val target =
-                getSelectableFootstepList(village, it, daychange.footsteps).shuffled().firstOrNull() ?: return@forEach
-            val ability = Ability(
-                day = village.latestDay(),
-                type = abilityType,
-                charaId = it.charaId,
-                targetFootstep = target
-            )
-            abilities = abilities.add(ability)
-        }
+        village.participants.filterAlive().list
+            .filter { it.skill!!.getAbility()?.toCdef() == abilityType.toCdef() }
+            .forEach {
+                val target =
+                    getSelectableFootstepList(village, it, daychange.footsteps).shuffled().firstOrNull()
+                        ?: return@forEach
+                val ability = Ability(
+                    day = village.latestDay(),
+                    type = abilityType,
+                    charaId = it.charaId,
+                    targetFootstep = target
+                )
+                abilities = abilities.add(ability)
+            }
         return daychange.copy(abilities = abilities)
     }
 
     fun investigate(daychange: Daychange): Daychange {
         val village = daychange.village
         var messages = daychange.messages.copy()
-        village.participants.filterAlive().filterBySkill(CDef.Skill.探偵.toModel()).list.forEach {
-            val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
-            val targetFootstep = ability.targetFootstep!!
-            messages = messages.add(createInvestigateResultMessage(village, it, targetFootstep, daychange.footsteps))
-        }
+        village.participants.filterAlive().list
+            .filter { it.skill!!.getAbility()?.toCdef() == abilityType.toCdef() }
+            .forEach {
+                val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
+                val targetFootstep = ability.targetFootstep!!
+                messages =
+                    messages.add(createInvestigateResultMessage(village, it, targetFootstep, daychange.footsteps))
+            }
 
         return daychange.copy(messages = messages)
     }
@@ -130,9 +135,12 @@ class InvestigateDomainService(
         targetFootstep: String,
         footsteps: Footsteps
     ): Message {
-        val skill =
-            footstepDomainService.getSkillByFootstep(village, village.latestDay() - 2, targetFootstep, footsteps)
-        val text = "${myself.name()}は、昨日響いた足音${targetFootstep}について調査した。\n${targetFootstep}の足音を響かせたのは${skill.name}のようだ。"
+        val participant =
+            footstepDomainService.getParticipantByFootstep(village, village.latestDay() - 2, targetFootstep, footsteps)
+        val result =
+            if (myself.skill?.toCdef() == CDef.Skill.探偵) participant.skill!!.name
+            else participant.name()
+        val text = "${myself.name()}は、昨日響いた足音${targetFootstep}について調査した。\n${targetFootstep}の足音を響かせたのは${result}のようだ。"
         return messageDomainService.createPrivateAbilityMessage(
             village,
             myself,
