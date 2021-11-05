@@ -436,6 +436,14 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
+     * Set the value of messageTypeCode as 念話 (TELEPATHY). <br>
+     * 念話
+     */
+    public void setMessageTypeCode_念話() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.念話);
+    }
+
+    /**
      * Set the value of messageTypeCode as 人狼の囁き (WEREWOLF_SAY). <br>
      * 人狼の囁き
      */
@@ -739,6 +747,17 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     public boolean isMessageTypeCode見学発言() {
         CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
         return cdef != null ? cdef.equals(CDef.MessageType.見学発言) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 念話? <br>
+     * 念話
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode念話() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.念話) : false;
     }
 
     /**

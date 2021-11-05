@@ -69,6 +69,7 @@ data class VillageGetMessageListForm(
             CDef.MessageType.村建て発言.code() to listOf(CDef.MessageType.村建て発言.toModel()),
             CDef.MessageType.人狼の囁き.code() to listOf(CDef.MessageType.人狼の囁き.toModel()),
             CDef.MessageType.恋人発言.code() to listOf(CDef.MessageType.恋人発言.toModel()),
+            CDef.MessageType.念話.code() to listOf(CDef.MessageType.念話.toModel()),
             CDef.MessageType.共鳴発言.code() to listOf(CDef.MessageType.共鳴発言.toModel()),
             "GRAVE_SPECTATE_SAY" to listOf(CDef.MessageType.死者の呻き.toModel(), CDef.MessageType.見学発言.toModel()),
             CDef.MessageType.独り言.code() to listOf(CDef.MessageType.独り言.toModel()),

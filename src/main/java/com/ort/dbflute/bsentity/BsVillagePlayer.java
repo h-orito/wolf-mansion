@@ -605,6 +605,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 仙狐 (HERMITFOX). <br>
+     * 仙狐
+     */
+    public void setSkillCode_仙狐() {
+        setSkillCodeAsSkill(CDef.Skill.仙狐);
+    }
+
+    /**
      * Set the value of skillCode as 飛狼 (HISHAWOLF). <br>
      * 飛狼
      */
@@ -1141,6 +1149,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 仙狐 (HERMITFOX). <br>
+     * 仙狐
+     */
+    public void setRequestSkillCode_仙狐() {
+        setRequestSkillCodeAsSkill(CDef.Skill.仙狐);
+    }
+
+    /**
      * Set the value of requestSkillCode as 飛狼 (HISHAWOLF). <br>
      * 飛狼
      */
@@ -1674,6 +1690,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_申し子() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.申し子);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 仙狐 (HERMITFOX). <br>
+     * 仙狐
+     */
+    public void setSecondRequestSkillCode_仙狐() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.仙狐);
     }
 
     /**
@@ -2423,6 +2447,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of skillCode 仙狐? <br>
+     * 仙狐
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode仙狐() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.仙狐) : false;
+    }
+
+    /**
      * Is the value of skillCode 飛狼? <br>
      * 飛狼
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -2882,7 +2917,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 徘徊能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 背徳者]
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 仙狐, 背徳者]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_HasDisturbAbility() {
@@ -3277,6 +3312,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isRequestSkillCode申し子() {
         CDef.Skill cdef = getRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.申し子) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 仙狐? <br>
+     * 仙狐
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode仙狐() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.仙狐) : false;
     }
 
     /**
@@ -3739,7 +3785,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 徘徊能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 背徳者]
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 仙狐, 背徳者]
      * @return The determination, true or false.
      */
     public boolean isRequestSkillCode_HasDisturbAbility() {
@@ -4134,6 +4180,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode申し子() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.申し子) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 仙狐? <br>
+     * 仙狐
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode仙狐() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.仙狐) : false;
     }
 
     /**
@@ -4596,7 +4653,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 徘徊能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 背徳者]
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 仙狐, 背徳者]
      * @return The determination, true or false.
      */
     public boolean isSecondRequestSkillCode_HasDisturbAbility() {

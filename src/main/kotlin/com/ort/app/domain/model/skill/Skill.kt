@@ -28,6 +28,8 @@ data class Skill(
     fun isSayableWerewolfSay(): Boolean = toCdef().isAvailableWerewolfSay
     fun isViewableSympathizeSay(): Boolean = toCdef() == CDef.Skill.共鳴者
     fun isSayableSympathizeSay(): Boolean = toCdef() == CDef.Skill.共鳴者
+    fun isViewableTelepathy(): Boolean = camp().isFoxs()
+    fun isSayableTelepathy(): Boolean = toCdef() == CDef.Skill.仙狐
     fun hasAttackAbility(): Boolean = toCdef().isHasAttackAbility
     fun hasDivineAbility(): Boolean = toCdef().isHasDivineAbility
     fun hasDisturbAbility(): Boolean = toCdef().isHasDisturbAbility
@@ -43,7 +45,7 @@ data class Skill(
     fun isViewableLoversMessage(): Boolean = camp().code == CDef.Camp.恋人陣営.code()
     fun isWolfCount(): Boolean = toCdef().isWolfCount
     fun isNoCount(): Boolean = toCdef().isNoCount
-    fun isFoxCount(): Boolean = toCdef() == CDef.Skill.妖狐 || toCdef() == CDef.Skill.誑狐 || toCdef() == CDef.Skill.ごん
+    fun isFoxCount(): Boolean = listOf(CDef.Skill.妖狐, CDef.Skill.誑狐, CDef.Skill.ごん, CDef.Skill.仙狐).contains(toCdef())
     fun isDivineResultWolf(): Boolean = toCdef().isDivineResultWolf
     fun isPsychicResultWolf(): Boolean = toCdef().isPsychicResultWolf
     fun isDeadByDivine(): Boolean = isFoxCount()

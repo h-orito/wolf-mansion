@@ -424,6 +424,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
     }
 
     /**
+     * Equal(=). As 仙狐 (HERMITFOX). And OnlyOnceRegistered. <br>
+     * 仙狐
+     */
+    public void setSkillCode_Equal_仙狐() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.仙狐);
+    }
+
+    /**
      * Equal(=). As 飛狼 (HISHAWOLF). And OnlyOnceRegistered. <br>
      * 飛狼
      */
@@ -983,6 +991,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 仙狐 (HERMITFOX). And OnlyOnceRegistered. <br>
+     * 仙狐
+     */
+    public void setSkillCode_NotEqual_仙狐() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.仙狐);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 飛狼 (HISHAWOLF). And OnlyOnceRegistered. <br>
      * 飛狼
      */
@@ -1353,7 +1369,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 徘徊能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 背徳者]
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 仙狐, 背徳者]
      */
     public void setSkillCode_InScope_HasDisturbAbility() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDisturbAbility());

@@ -411,6 +411,14 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
+     * Set the value of skillCode as 仙狐 (HERMITFOX). <br>
+     * 仙狐
+     */
+    public void setSkillCode_仙狐() {
+        setSkillCodeAsSkill(CDef.Skill.仙狐);
+    }
+
+    /**
      * Set the value of skillCode as 飛狼 (HISHAWOLF). <br>
      * 飛狼
      */
@@ -883,6 +891,14 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
+     * Set the value of messageTypeCode as 念話 (TELEPATHY). <br>
+     * 念話
+     */
+    public void setMessageTypeCode_念話() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.念話);
+    }
+
+    /**
      * Set the value of messageTypeCode as 人狼の囁き (WEREWOLF_SAY). <br>
      * 人狼の囁き
      */
@@ -1210,6 +1226,17 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     public boolean isSkillCode申し子() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.申し子) : false;
+    }
+
+    /**
+     * Is the value of skillCode 仙狐? <br>
+     * 仙狐
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode仙狐() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.仙狐) : false;
     }
 
     /**
@@ -1672,7 +1699,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
 
     /**
      * 徘徊能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 背徳者]
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 仙狐, 背徳者]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_HasDisturbAbility() {
@@ -1979,6 +2006,17 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     public boolean isMessageTypeCode見学発言() {
         CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
         return cdef != null ? cdef.equals(CDef.MessageType.見学発言) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 念話? <br>
+     * 念話
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode念話() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.念話) : false;
     }
 
     /**

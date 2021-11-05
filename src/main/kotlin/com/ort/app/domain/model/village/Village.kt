@@ -107,6 +107,9 @@ data class Village(
     fun isViewableSympathizeSay(): Boolean = status.isSettled()
     fun isSayableSympathizeSay(): Boolean = status.isProgress()
 
+    fun isViewableTelepathy(): Boolean = status.isSettled()
+    fun isSayableTelepathy(): Boolean = status.isProgress()
+
     fun isViewableLoversSay(): Boolean = status.isSettled()
     fun isSayableLoversSay(): Boolean = status.isProgress()
 

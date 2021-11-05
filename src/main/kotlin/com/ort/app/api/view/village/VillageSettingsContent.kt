@@ -140,7 +140,8 @@ data class VillageSettingsContent(
             listOf(
                 MessageType(CDef.MessageType.人狼の囁き),
                 MessageType(CDef.MessageType.共鳴発言),
-                MessageType(CDef.MessageType.恋人発言)
+                MessageType(CDef.MessageType.恋人発言),
+                MessageType(CDef.MessageType.念話),
             ).map { SkillSayRestriction(it, village) }
 
         private fun mapRpSayRestrictList(village: Village): List<RpSayRestriction> =

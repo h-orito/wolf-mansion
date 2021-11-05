@@ -180,6 +180,35 @@
         </div>
     </div>
 </div>
+{{else if (eq messageType 'TELEPATHY')}}
+<div class="col-sm-12 col-xs-12 say-l{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}"
+     data-spoiled-content>
+    <div class="row">
+        <div class="col-sm-12 col-xs-12 small">
+            <span style="margin-left: -15px;">
+                <a href="javascript:void(0);" data-copy-anchor>>>_{{messageNumber}}</a>. {{characterName}}{{#if
+                playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}
+            </span>
+            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+        </div>
+        <div class="col-sm-12 col-xs-12">
+            <div class="row" style="display: flex;">
+                <div>
+                    <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
+                </div>
+                <div class="message message-telepathy{{#if isLoud}} loud{{/if}}"
+                     style="flex: 1; margin-left: 5px; {{minHeightCss}}">
+                    {{#if isRainbow}}
+                    <div class="rainbow">{{/if}}
+                        {{{messageContent}}}
+                        {{#if isRainbow}}
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {{else if (eq messageType 'GRAVE_SAY')}}
 <div class="col-sm-12 col-xs-12 say-g{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}"
      data-spoiled-content>

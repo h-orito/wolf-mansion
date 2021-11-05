@@ -215,7 +215,7 @@ data class NewVillageForm(
     }
 
     private fun initializeSkillSayRestrictList(): List<MessageTypeSayRestrictForm> {
-        return listOf(CDef.MessageType.人狼の囁き, CDef.MessageType.共鳴発言, CDef.MessageType.恋人発言).map {
+        return listOf(CDef.MessageType.人狼の囁き, CDef.MessageType.共鳴発言, CDef.MessageType.恋人発言, CDef.MessageType.念話).map {
             MessageTypeSayRestrictForm(it)
         }
     }

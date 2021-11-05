@@ -14,6 +14,7 @@ data class MessageType(
             CDef.MessageType.人狼の囁き,
             CDef.MessageType.共鳴発言,
             CDef.MessageType.恋人発言,
+            CDef.MessageType.念話,
             CDef.MessageType.通常発言,
             CDef.MessageType.秘話,
             CDef.MessageType.アクション
@@ -21,7 +22,8 @@ data class MessageType(
         val owlViewableSayTypeList = listOf(
             CDef.MessageType.人狼の囁き,
             CDef.MessageType.共鳴発言,
-            CDef.MessageType.恋人発言
+            CDef.MessageType.恋人発言,
+            CDef.MessageType.念話
         )
         val commonSystemTypeList = listOf(
             CDef.MessageType.非公開システムメッセージ,

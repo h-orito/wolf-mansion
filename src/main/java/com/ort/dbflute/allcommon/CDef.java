@@ -616,6 +616,9 @@ public interface CDef extends Classification {
         /** 申し子 */
         申し子("HEAVENCHILD", "申し子", emptyStrings())
         ,
+        /** 仙狐 */
+        仙狐("HERMITFOX", "仙狐", emptyStrings())
+        ,
         /** 飛狼 */
         飛狼("HISHAWOLF", "飛狼", emptyStrings())
         ,
@@ -946,6 +949,13 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "403");
+                subItemMap.put("campCode", "FOX");
+                subItemMap.put("skill_short_name", "仙");
+                _subItemMapMap.put(仙狐.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
                 subItemMap.put("order", "104");
                 subItemMap.put("campCode", "WEREWOLF");
                 subItemMap.put("skill_short_name", "飛");
@@ -960,7 +970,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "403");
+                subItemMap.put("order", "404");
                 subItemMap.put("campCode", "FOX");
                 subItemMap.put("skill_short_name", "背");
                 _subItemMapMap.put(背徳者.code(), Collections.unmodifiableMap(subItemMap));
@@ -1274,11 +1284,11 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * 徘徊能力を持つ <br>
-         * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 背徳者]
+         * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 仙狐, 背徳者]
          * @return The determination, true or false.
          */
         public boolean isHasDisturbAbility() {
-            return C国狂人.equals(this) || 狂人.equals(this) || 狂信者.equals(this) || 魔神官.equals(this) || 妖狐.equals(this) || 背徳者.equals(this);
+            return C国狂人.equals(this) || 狂人.equals(this) || 狂信者.equals(this) || 魔神官.equals(this) || 妖狐.equals(this) || 仙狐.equals(this) || 背徳者.equals(this);
         }
 
         /**
@@ -1501,11 +1511,11 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 徘徊能力を持つ <br>
-         * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 背徳者]
+         * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 仙狐, 背徳者]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfHasDisturbAbility() {
-            return new ArrayList<Skill>(Arrays.asList(C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 背徳者));
+            return new ArrayList<Skill>(Arrays.asList(C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 仙狐, 背徳者));
         }
 
         /**
@@ -1668,6 +1678,9 @@ public interface CDef extends Classification {
         ,
         /** 見学発言 */
         見学発言("SPECTATE_SAY", "見学発言", emptyStrings())
+        ,
+        /** 念話 */
+        念話("TELEPATHY", "念話", emptyStrings())
         ,
         /** 人狼の囁き */
         人狼の囁き("WEREWOLF_SAY", "人狼の囁き", emptyStrings())

@@ -389,6 +389,14 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     }
 
     /**
+     * Set the value of skillCode as 仙狐 (HERMITFOX). <br>
+     * 仙狐
+     */
+    public void setSkillCode_仙狐() {
+        setSkillCodeAsSkill(CDef.Skill.仙狐);
+    }
+
+    /**
      * Set the value of skillCode as 飛狼 (HISHAWOLF). <br>
      * 飛狼
      */
@@ -1015,6 +1023,17 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     }
 
     /**
+     * Is the value of skillCode 仙狐? <br>
+     * 仙狐
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode仙狐() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.仙狐) : false;
+    }
+
+    /**
      * Is the value of skillCode 飛狼? <br>
      * 飛狼
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1474,7 +1493,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
 
     /**
      * 徘徊能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 背徳者]
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 妖狐, 仙狐, 背徳者]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_HasDisturbAbility() {

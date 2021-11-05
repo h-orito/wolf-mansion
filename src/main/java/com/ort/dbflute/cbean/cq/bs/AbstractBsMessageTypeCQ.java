@@ -231,6 +231,14 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 念話 (TELEPATHY). And OnlyOnceRegistered. <br>
+     * 念話
+     */
+    public void setMessageTypeCode_Equal_念話() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.念話);
+    }
+
+    /**
      * Equal(=). As 人狼の囁き (WEREWOLF_SAY). And OnlyOnceRegistered. <br>
      * 人狼の囁き
      */
@@ -427,6 +435,14 @@ public abstract class AbstractBsMessageTypeCQ extends AbstractConditionQuery {
      */
     public void setMessageTypeCode_NotEqual_見学発言() {
         setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.見学発言);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 念話 (TELEPATHY). And OnlyOnceRegistered. <br>
+     * 念話
+     */
+    public void setMessageTypeCode_NotEqual_念話() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.念話);
     }
 
     /**

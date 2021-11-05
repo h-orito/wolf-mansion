@@ -187,6 +187,7 @@ $(function () {
             item = item.replace(/&gt;&gt;\+(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-grave-anchor=\"$1\">&gt;&gt;\+$1<\/a>');
             item = item.replace(/&gt;&gt;=(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-mason-anchor=\"$1\">&gt;&gt;=$1<\/a>');
             item = item.replace(/&gt;&gt;\?(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-lover-anchor=\"$1\">&gt;&gt;\?$1<\/a>');
+            item = item.replace(/&gt;&gt;_(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-telepathy-anchor=\"$1\">&gt;&gt;\?$1<\/a>');
             item = item.replace(/&gt;&gt;@(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-spectate-anchor=\"$1\">&gt;&gt;@$1<\/a>');
             item = item.replace(/&gt;&gt;\-(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-monologue-anchor=\"$1\">&gt;&gt;\-$1<\/a>');
             item = item.replace(/&gt;&gt;\*(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-whisper-anchor=\"$1\">&gt;&gt;\*$1<\/a>');
@@ -265,6 +266,10 @@ $(function () {
     $('body').on('click', '[data-message-lover-anchor]', function () {
         const messageNumber = $(this).data('message-lover-anchor');
         handlingNumberAnchor($(this), 'LOVERS_SAY', messageNumber);
+    });
+    $('body').on('click', '[data-message-telepathy-anchor]', function () {
+        const messageNumber = $(this).data('message-telepathy-anchor');
+        handlingNumberAnchor($(this), 'TELEPATHY', messageNumber);
     });
     $('body').on('click', '[data-message-spectate-anchor]', function () {
         const messageNumber = $(this).data('message-spectate-anchor');
@@ -369,6 +374,10 @@ $(function () {
                         break;
                     case 'LOVERS_SAY':
                         $sayTextarea.addClass('message-lover');
+                        changeFaceTypeIfNeeded('SECRET');
+                        break;
+                    case 'TELEPATHY':
+                        $sayTextarea.addClass('message-telepathy');
                         changeFaceTypeIfNeeded('SECRET');
                         break;
                     case 'MONOLOGUE_SAY':
@@ -531,6 +540,8 @@ $(function () {
             return '発言する（共鳴）';
         } else if (type === 'LOVERS_SAY') {
             return '発言する（恋人）';
+        } else if (type === 'TELEPATHY') {
+            return '発言する（念話）';
         } else if (type === 'MONOLOGUE_SAY') {
             return '発言する（独り言）';
         } else if (type === 'SECRET_SAY') {
@@ -731,6 +742,10 @@ $(function () {
             length = $countspan.data('message-restrict-lovers-max-length');
             count = $countspan.data('message-restrict-lovers-max-count');
             leftCount = $countspan.data('message-restrict-lovers-left-count');
+        } else if (messageType === 'TELEPATHY') {
+            length = $countspan.data('message-restrict-telepathy-max-length');
+            count = $countspan.data('message-restrict-telepathy-max-count');
+            leftCount = $countspan.data('message-restrict-telepathy-left-count');
         }
         return {
             length: length != null ? length : 400,

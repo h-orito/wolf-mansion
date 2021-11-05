@@ -116,6 +116,8 @@ data class VillageFormContent(
         val isAvailableMasonSay: Boolean,
         /** 恋人発言可能か */
         val isAvailableLoversSay: Boolean,
+        /** 念話可能か */
+        val isAvailableTelepathy: Boolean,
         /** 墓下発言可能か */
         val isAvailableGraveSay: Boolean,
         /** 見学発言可能か */
@@ -139,6 +141,7 @@ data class VillageFormContent(
             isAvailableWerewolfSay = situation.say.selectableMessageTypeList.any { it.messageType.toCdef() == CDef.MessageType.人狼の囁き },
             isAvailableMasonSay = situation.say.selectableMessageTypeList.any { it.messageType.toCdef() == CDef.MessageType.共鳴発言 },
             isAvailableLoversSay = situation.say.selectableMessageTypeList.any { it.messageType.toCdef() == CDef.MessageType.恋人発言 },
+            isAvailableTelepathy = situation.say.selectableMessageTypeList.any { it.messageType.toCdef() == CDef.MessageType.念話 },
             isAvailableGraveSay = situation.say.selectableMessageTypeList.any { it.messageType.toCdef() == CDef.MessageType.死者の呻き },
             isAvailableSpectateSay = situation.say.selectableMessageTypeList.any { it.messageType.toCdef() == CDef.MessageType.見学発言 },
             isAvailableMonologueSay = situation.say.selectableMessageTypeList.any { it.messageType.toCdef() == CDef.MessageType.独り言 },
@@ -329,6 +332,9 @@ data class VillageFormContent(
         var loversCount: Int? = null,
         var loversLeftCount: Int? = null,
         var loversLength: Int? = null,
+        var telepathyCount: Int? = null,
+        var telepathyLeftCount: Int? = null,
+        var telepathyLength: Int? = null,
         var actionCount: Int? = null,
         var actionLeftCount: Int? = null,
         var actionLength: Int? = null
@@ -360,6 +366,11 @@ data class VillageFormContent(
                         loversCount = restrict.maxCount
                         loversLength = restrict.maxLength
                         loversLeftCount = restrict.remainingCount
+                    }
+                    CDef.MessageType.念話 -> {
+                        telepathyCount = restrict.maxCount
+                        telepathyCount = restrict.maxLength
+                        telepathyLeftCount = restrict.remainingCount
                     }
                     CDef.MessageType.アクション -> {
                         actionCount = restrict.maxCount

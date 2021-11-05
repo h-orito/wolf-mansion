@@ -20,6 +20,7 @@ import com.ort.app.domain.service.message.say.SayTypeDomainService
 import com.ort.app.domain.service.message.say.SecretSayDomainService
 import com.ort.app.domain.service.message.say.SpectateSayDomainService
 import com.ort.app.domain.service.message.say.SympathizeSayDomainService
+import com.ort.app.domain.service.message.say.TelepathyDomainService
 import com.ort.app.domain.service.message.say.WerewolfSayDomainService
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
@@ -33,6 +34,7 @@ class SayDomainService(
     private val spectateSayDomainService: SpectateSayDomainService,
     private val werewolfSayDomainService: WerewolfSayDomainService,
     private val sympathizeSayDomainService: SympathizeSayDomainService,
+    private val telepathyDomainService: TelepathyDomainService,
     private val loversSayDomainService: LoversSayDomainService,
     private val secretSayDomainService: SecretSayDomainService,
     private val actionSayDomainService: ActionSayDomainService
@@ -40,6 +42,7 @@ class SayDomainService(
 
     private val defaultMessageTypeOrder = listOf(
         CDef.MessageType.恋人発言,
+        CDef.MessageType.念話,
         CDef.MessageType.人狼の囁き,
         CDef.MessageType.共鳴発言,
         CDef.MessageType.独り言,
@@ -144,6 +147,7 @@ class SayDomainService(
             CDef.MessageType.独り言 -> monologueSayDomainService
             CDef.MessageType.見学発言 -> spectateSayDomainService
             CDef.MessageType.恋人発言 -> loversSayDomainService
+            CDef.MessageType.念話 -> telepathyDomainService
             CDef.MessageType.秘話 -> secretSayDomainService
             CDef.MessageType.アクション -> actionSayDomainService
             else -> throw IllegalStateException("service not found.")
