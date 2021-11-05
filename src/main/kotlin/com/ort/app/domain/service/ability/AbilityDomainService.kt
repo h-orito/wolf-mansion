@@ -48,6 +48,7 @@ class AbilityDomainService(
     private val resuscitateDomainService: ResuscitateDomainService,
     private val necromanceDomainService: NecromanceDomainService,
     private val forceReincarnationDomainService: ForceReincarnationDomainService,
+    private val giveBabaDomainService: GiveBabaDomainService,
     private val messageDomainService: MessageDomainService
 ) {
 
@@ -127,6 +128,7 @@ class AbilityDomainService(
             CDef.AbilityType.強制転生 -> forceReincarnationDomainService
             CDef.AbilityType.蘇生 -> resuscitateDomainService
             CDef.AbilityType.死霊蘇生 -> necromanceDomainService
+            CDef.AbilityType.ババを渡す -> giveBabaDomainService
         }
 
     fun createSetMessage(

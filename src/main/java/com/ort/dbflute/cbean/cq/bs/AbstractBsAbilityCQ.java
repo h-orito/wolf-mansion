@@ -740,6 +740,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As ババを渡す (BABAGIVE). And OnlyOnceRegistered. <br>
+     * ババを渡す
+     */
+    public void setAbilityTypeCode_Equal_ババを渡す() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.ババを渡す);
+    }
+
+    /**
      * Equal(=). As 美人局 (BADGERGAME). And OnlyOnceRegistered. <br>
      * 美人局
      */
@@ -944,6 +952,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_襲撃() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.襲撃);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As ババを渡す (BABAGIVE). And OnlyOnceRegistered. <br>
+     * ババを渡す
+     */
+    public void setAbilityTypeCode_NotEqual_ババを渡す() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.ババを渡す);
     }
 
     /**

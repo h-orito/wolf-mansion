@@ -20,6 +20,7 @@ import com.ort.app.domain.service.ability.DivineDomainService
 import com.ort.app.domain.service.ability.FalseChargesDomainService
 import com.ort.app.domain.service.ability.ForceReincarnationDomainService
 import com.ort.app.domain.service.ability.FruitsBasketDomainService
+import com.ort.app.domain.service.ability.GiveBabaDomainService
 import com.ort.app.domain.service.ability.GonfoxDomainService
 import com.ort.app.domain.service.ability.GuardDomainService
 import com.ort.app.domain.service.ability.InvestigateDomainService
@@ -62,6 +63,7 @@ class ProgressDomainService(
     private val rainbowDomainService: RainbowDomainService,
     private val loudSpeakDomainService: LoudSpeakDomainService,
     private val forceReincarnationDomainService: ForceReincarnationDomainService,
+    private val giveBabaDomainService: GiveBabaDomainService,
     private val resuscitateDomainService: ResuscitateDomainService,
     private val necromanceDomainService: NecromanceDomainService,
     private val revivalDomainService: RevivalDomainService,
@@ -130,6 +132,8 @@ class ProgressDomainService(
         daychange = autopsyDomainService.autopsy(daychange)
         // 強制転生
         daychange = forceReincarnationDomainService.forceReincarnation(daychange)
+        // ババを渡す
+        daychange = giveBabaDomainService.giveBaba(daychange)
         // 蘇生
         daychange = resuscitateDomainService.resuscitate(daychange)
         // 死霊蘇生

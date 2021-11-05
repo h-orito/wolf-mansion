@@ -61,6 +61,8 @@
        th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を蘇生する'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'NECROMANCER'}"
        th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を死霊蘇生する'}"></p>
+    <p class="small" th:if="${content.myself.skill.code == 'BABA'}"
+       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' にババを押し付ける'}"></p>
     <!--/* 通過する部屋 */-->
     <p class="small" th:if="${content.myself.skill.hasFootstepAbility}"
        th:text="'通過する部屋: ' + ${footstep == '' || footstep == null ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"

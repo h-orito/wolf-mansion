@@ -79,6 +79,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As ババ (BABA). And OnlyOnceRegistered. <br>
+     * ババ
+     */
+    public void setSkillCode_Equal_ババ() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.ババ);
+    }
+
+    /**
      * Equal(=). As 美人局 (BADGERGAME). And OnlyOnceRegistered. <br>
      * 美人局
      */
@@ -643,6 +651,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_占星術師() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.占星術師);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As ババ (BABA). And OnlyOnceRegistered. <br>
+     * ババ
+     */
+    public void setSkillCode_NotEqual_ババ() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.ババ);
     }
 
     /**

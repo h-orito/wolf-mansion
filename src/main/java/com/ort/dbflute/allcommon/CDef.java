@@ -535,6 +535,9 @@ public interface CDef extends Classification {
         /** 占星術師 */
         占星術師("ASTROLOGER", "占星術師", emptyStrings())
         ,
+        /** ババ */
+        ババ("BABA", "ババ", emptyStrings())
+        ,
         /** 美人局 */
         美人局("BADGERGAME", "美人局", emptyStrings())
         ,
@@ -757,6 +760,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "星");
                 _subItemMapMap.put(占星術師.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "507");
+                subItemMap.put("campCode", "CRIMINAL");
+                subItemMap.put("skill_short_name", "バ");
+                _subItemMapMap.put(ババ.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -1963,6 +1973,9 @@ public interface CDef extends Classification {
     public enum AbilityType implements CDef {
         /** 襲撃 */
         襲撃("ATTACK", "襲撃", emptyStrings())
+        ,
+        /** ババを渡す */
+        ババを渡す("BABAGIVE", "ババを渡す", emptyStrings())
         ,
         /** 美人局 */
         美人局("BADGERGAME", "美人局", emptyStrings())
