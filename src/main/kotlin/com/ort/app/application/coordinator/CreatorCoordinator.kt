@@ -60,6 +60,18 @@ class CreatorCoordinator(
         )
     }
 
+    fun shortenEpilogue(villageId: Int) {
+        val village = villageService.findVillage(villageId)
+            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        if (!village.canShortenEpilogue()) throw WolfMansionBusinessException("エピローグ中でなければ短縮できません")
+        // エピローグを1日短縮する
+        villageService.shortenDay(
+            villageId,
+            village.days.latestDay().day,
+            village.days.latestDay().dayChangeDatetime.minusDays(1L)
+        )
+    }
+
     fun saveSettings(village: Village) {
         // 設定変更
         village.assertModifySetting()

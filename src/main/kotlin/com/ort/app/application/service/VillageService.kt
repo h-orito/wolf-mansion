@@ -39,6 +39,9 @@ class VillageService(
     fun extendDay(villageId: Int, day: Int, datetime: LocalDateTime) =
         villageRepository.extendDay(villageId, day, datetime)
 
+    fun shortenDay(villageId: Int, day: Int, datetime: LocalDateTime) =
+        villageRepository.shortenDay(villageId, day, datetime)
+
     fun updateSetting(village: Village) = villageRepository.updateSetting(village)
 
     // ------------------------

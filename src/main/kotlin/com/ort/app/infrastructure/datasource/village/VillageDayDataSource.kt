@@ -24,6 +24,15 @@ class VillageDayDataSource(
         }
     }
 
+    fun shortenDay(id: Int, day: Int, datetime: LocalDateTime) {
+        val vd = DbVillageDay()
+        vd.daychangeDatetime = datetime
+        villageDayBhv.queryUpdate(vd) {
+            it.query().setVillageId_Equal(id)
+            it.query().setDay_Equal(day)
+        }
+    }
+
     fun insertVillageDays(id: Int, paramVillage: Village) {
         paramVillage.days.list.forEach { insertVillageDay(id, it) }
     }

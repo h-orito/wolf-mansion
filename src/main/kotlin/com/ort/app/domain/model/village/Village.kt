@@ -47,6 +47,12 @@ data class Village(
     fun canKick(): Boolean = status.isPrologue()
     fun canModifySetting(): Boolean = status.isPrologue()
     fun canExtendEpilogue(): Boolean = status.isEpilogue()
+    fun canShortenEpilogue(): Boolean {
+        val tomorrow = LocalDateTime.now().plusDays(1L)
+        // まだ1日以上エピローグがある
+        return status.isEpilogue() && days.latestDay().dayChangeDatetime.isAfter(tomorrow)
+    }
+
     fun isSettled(): Boolean = getAliveWolfCount() <= 0 || getAliveVillagerCount() <= getAliveWolfCount()
 
     fun canParticipate(): Boolean = status.isPrologue() && participants.count < setting.personMax

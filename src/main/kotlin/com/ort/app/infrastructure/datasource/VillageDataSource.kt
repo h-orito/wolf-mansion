@@ -99,6 +99,9 @@ class VillageDataSource(
     override fun extendDay(id: Int, day: Int, datetime: LocalDateTime) =
         villageDayDataSource.extendDay(id, day, datetime)
 
+    override fun shortenDay(id: Int, day: Int, datetime: LocalDateTime) =
+        villageDayDataSource.shortenDay(id, day, datetime)
+
     override fun findVillageParticipant(
         id: Int,
         excludeGone: Boolean

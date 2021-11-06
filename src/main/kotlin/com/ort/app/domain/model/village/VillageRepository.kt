@@ -28,6 +28,8 @@ interface VillageRepository {
 
     fun extendDay(id: Int, day: Int, datetime: LocalDateTime)
 
+    fun shortenDay(id: Int, day: Int, datetime: LocalDateTime)
+
     fun updateSetting(village: Village)
 
     fun updateDaychangeDifference(current: Village, changed: Village)

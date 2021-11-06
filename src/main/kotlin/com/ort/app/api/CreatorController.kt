@@ -186,6 +186,18 @@ class CreatorController(
         return "redirect:/village/$villageId#bottom"
     }
 
+    // 村建て機能：エピローグ短縮
+    @PostMapping("/village/{villageId}/shorten-epilogue")
+    private fun shorten(
+        @PathVariable villageId: Int
+    ): String {
+        if (!creatorCoordinator.isCreator(WolfMansionUserInfoUtil.getUserInfo()?.username, villageId)) {
+            return "redirect:/village/$villageId#bottom"
+        }
+        creatorCoordinator.shortenEpilogue(villageId)
+        return "redirect:/village/$villageId#bottom"
+    }
+
     private fun setSettingsIndexModel(
         village: Village,
         charachip: Charachip,

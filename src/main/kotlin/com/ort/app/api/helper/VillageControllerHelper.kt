@@ -90,12 +90,13 @@ class VillageControllerHelper(
             isDispSpoilerContent = isDispSpoilerContent
         )
         model.addAttribute("content", content)
-        setForm(model, myself, participantSituation, villageForms, charachip)
+        setForm(model, village, myself, participantSituation, villageForms, charachip)
         setDebug(village, model)
     }
 
     private fun setForm(
         model: Model,
+        village: Village,
         myself: VillageParticipant?,
         situation: ParticipantSituation,
         forms: VillageForms,
@@ -111,7 +112,7 @@ class VillageControllerHelper(
         setMemoFormIfNeeded(situation, myself, model, forms)
         setAbilityFormIfNeeded(situation, myself, model)
         setVoteFormIfNeeded(situation, model)
-        setCreatorFormIfNeeded(situation, model)
+        setCreatorFormIfNeeded(village, situation, model)
     }
 
     private fun setParticipateFormIfNeeded(
@@ -271,8 +272,9 @@ class VillageControllerHelper(
         model.addAttribute("voteTarget", situation.vote.target?.name())
     }
 
-    private fun setCreatorFormIfNeeded(situation: ParticipantSituation, model: Model) {
+    private fun setCreatorFormIfNeeded(village: Village, situation: ParticipantSituation, model: Model) {
         if (!situation.creator.isCreator) return
+        model.addAttribute("canShortenEpilogue", village.canShortenEpilogue())
         model.addAttribute("kickForm", VillageKickForm())
         model.addAttribute("creatorSayForm", VillageSayForm())
     }
