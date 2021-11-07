@@ -192,7 +192,8 @@ $(function () {
             item = item.replace(/&gt;&gt;\-(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-monologue-anchor=\"$1\">&gt;&gt;\-$1<\/a>');
             item = item.replace(/&gt;&gt;\*(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-whisper-anchor=\"$1\">&gt;&gt;\*$1<\/a>');
             item = item.replace(/&gt;&gt;\#(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-creator-anchor=\"$1\">&gt;&gt;\#$1<\/a>');
-            item = item.replace(/&gt;&gt;\a(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-action-anchor=\"$1\">&gt;&gt;\a$1<\/a>');
+            item = item.replace(/&gt;&gt;a(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-action-anchor=\"$1\">&gt;&gt;a$1<\/a>');
+            item = item.replace(/&gt;&gt;s(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-secret-anchor=\"$1\">&gt;&gt;s$1<\/a>');
             return item;
         }).join('<br>');
         // 文字装飾
@@ -290,6 +291,10 @@ $(function () {
     $('body').on('click', '[data-message-action-anchor]', function () {
         const messageNumber = $(this).data('message-action-anchor');
         handlingNumberAnchor($(this), 'ACTION', messageNumber);
+    });
+    $('body').on('click', '[data-message-secret-anchor]', function () {
+        const messageNumber = $(this).data('message-secret-anchor');
+        handlingNumberAnchor($(this), 'SECRET_SAY', messageNumber);
     });
 
     function handlingNumberAnchor($anchor, messageType, messageNumber) {

@@ -105,8 +105,10 @@
 <div class="col-sm-12 col-xs-12" data-message="{{messageType}}" data-chara-id="{{characterId}}" data-spoiled-content>
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
-            <span style="margin-left: -15px;">{{characterName}} → {{targetCharacterName}}{{#if playerName}} [<a
-                    href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}
+            <span style="margin-left: -15px;">{{#if messageNumber}}
+                <a href="javascript:void(0);" data-copy-anchor>>>s{{messageNumber}}</a>.
+				{{/if}}{{characterName}} → {{targetCharacterName}}{{#if playerName}} [<a
+                        href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}
             </span>
             <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
         </div>
