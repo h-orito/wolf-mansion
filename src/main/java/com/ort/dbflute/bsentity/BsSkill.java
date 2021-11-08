@@ -276,6 +276,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Set the value of skillCode as 不止者 (DYINGPOINTER). <br>
+     * 不止者
+     */
+    public void setSkillCode_不止者() {
+        setSkillCodeAsSkill(CDef.Skill.不止者);
+    }
+
+    /**
      * Set the value of skillCode as 魔神官 (EVILMEDIUM). <br>
      * 魔神官
      */
@@ -569,14 +577,6 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
      */
     public void setSkillCode_監視者() {
         setSkillCodeAsSkill(CDef.Skill.監視者);
-    }
-
-    /**
-     * Set the value of skillCode as オルガ (ORGA). <br>
-     * オルガ
-     */
-    public void setSkillCode_オルガ() {
-        setSkillCodeAsSkill(CDef.Skill.オルガ);
     }
 
     /**
@@ -921,6 +921,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isSkillCode探偵() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.探偵) : false;
+    }
+
+    /**
+     * Is the value of skillCode 不止者? <br>
+     * 不止者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode不止者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.不止者) : false;
     }
 
     /**
@@ -1328,17 +1339,6 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isSkillCode監視者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.監視者) : false;
-    }
-
-    /**
-     * Is the value of skillCode オルガ? <br>
-     * オルガ
-     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
-     * @return The determination, true or false.
-     */
-    public boolean isSkillCodeオルガ() {
-        CDef.Skill cdef = getSkillCodeAsSkill();
-        return cdef != null ? cdef.equals(CDef.Skill.オルガ) : false;
     }
 
     /**

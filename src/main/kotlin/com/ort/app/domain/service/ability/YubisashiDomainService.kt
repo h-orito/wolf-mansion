@@ -83,7 +83,7 @@ class YubisashiDomainService(
         val village = daychange.village
         var messages = daychange.messages.copy()
         village.participants
-            .filterBySkill(CDef.Skill.オルガ.toModel())
+            .filterBySkill(CDef.Skill.不止者.toModel())
             .filterDeadDay(village.latestDay()).list.forEach {
                 val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
                 val target = village.participants.chara(ability.targetCharaId!!)
