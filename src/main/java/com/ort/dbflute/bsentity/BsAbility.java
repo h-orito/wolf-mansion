@@ -355,6 +355,14 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
         setAbilityTypeCodeAsAbilityType(CDef.AbilityType.風来護衛);
     }
 
+    /**
+     * Set the value of abilityTypeCode as 指差死 (YUBISASHI). <br>
+     * 指差死
+     */
+    public void setAbilityTypeCode_指差死() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.指差死);
+    }
+
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
@@ -620,6 +628,17 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public boolean isAbilityTypeCode風来護衛() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.風来護衛) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 指差死? <br>
+     * 指差死
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode指差死() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.指差死) : false;
     }
 
     // ===================================================================================

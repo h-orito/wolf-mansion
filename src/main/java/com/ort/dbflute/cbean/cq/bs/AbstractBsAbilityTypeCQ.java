@@ -254,6 +254,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
         setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.風来護衛);
     }
 
+    /**
+     * Equal(=). As 指差死 (YUBISASHI). And OnlyOnceRegistered. <br>
+     * 指差死
+     */
+    public void setAbilityTypeCode_Equal_指差死() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.指差死);
+    }
+
     protected void doSetAbilityTypeCode_Equal(String abilityTypeCode) {
         regAbilityTypeCode(CK_EQ, abilityTypeCode);
     }
@@ -467,6 +475,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_風来護衛() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.風来護衛);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 指差死 (YUBISASHI). And OnlyOnceRegistered. <br>
+     * 指差死
+     */
+    public void setAbilityTypeCode_NotEqual_指差死() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.指差死);
     }
 
     protected void doSetAbilityTypeCode_NotEqual(String abilityTypeCode) {

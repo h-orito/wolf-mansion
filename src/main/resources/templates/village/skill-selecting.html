@@ -63,6 +63,8 @@
        th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を死霊蘇生する'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'BABA'}"
        th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' にババを押し付ける'}"></p>
+    <p class="small" th:if="${content.myself.skill.code == 'ORGA'}"
+       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : '死に際に ' + targetCharaName + ' を指差す'}"></p>
     <!--/* 通過する部屋 */-->
     <p class="small" th:if="${content.myself.skill.hasFootstepAbility}"
        th:text="'通過する部屋: ' + ${footstep == '' || footstep == null ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"

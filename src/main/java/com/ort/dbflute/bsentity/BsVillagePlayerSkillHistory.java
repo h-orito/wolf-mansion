@@ -567,6 +567,14 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     }
 
     /**
+     * Set the value of skillCode as オルガ (ORGA). <br>
+     * オルガ
+     */
+    public void setSkillCode_オルガ() {
+        setSkillCodeAsSkill(CDef.Skill.オルガ);
+    }
+
+    /**
      * Set the value of skillCode as 梟 (OWL). <br>
      * 梟
      */
@@ -1275,6 +1283,17 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     public boolean isSkillCode監視者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.監視者) : false;
+    }
+
+    /**
+     * Is the value of skillCode オルガ? <br>
+     * オルガ
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCodeオルガ() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.オルガ) : false;
     }
 
     /**

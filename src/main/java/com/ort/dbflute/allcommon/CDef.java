@@ -685,6 +685,9 @@ public interface CDef extends Classification {
         /** 監視者 */
         監視者("OBSERVER", "監視者", emptyStrings())
         ,
+        /** オルガ */
+        オルガ("ORGA", "オルガ", emptyStrings())
+        ,
         /** 梟 */
         梟("OWL", "梟", emptyStrings())
         ,
@@ -1110,6 +1113,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "監");
                 _subItemMapMap.put(監視者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "25");
+                subItemMap.put("campCode", "VILLAGER");
+                subItemMap.put("skill_short_name", "止");
+                _subItemMapMap.put(オルガ.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -2042,6 +2052,9 @@ public interface CDef extends Classification {
         ,
         /** 風来護衛 */
         風来護衛("WANDERERGUARD", "風来護衛", emptyStrings())
+        ,
+        /** 指差死 */
+        指差死("YUBISASHI", "指差死", emptyStrings())
         ;
         private static final Map<String, AbilityType> _codeClsMap = new HashMap<String, AbilityType>();
         private static final Map<String, AbilityType> _nameClsMap = new HashMap<String, AbilityType>();

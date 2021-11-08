@@ -1616,6 +1616,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As オルガ (ORGA). And OnlyOnceRegistered. <br>
+     * オルガ
+     */
+    public void setSkillCode_Equal_オルガ() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.オルガ);
+    }
+
+    /**
      * Equal(=). As 梟 (OWL). And OnlyOnceRegistered. <br>
      * 梟
      */
@@ -2188,6 +2196,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_監視者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.監視者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As オルガ (ORGA). And OnlyOnceRegistered. <br>
+     * オルガ
+     */
+    public void setSkillCode_NotEqual_オルガ() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.オルガ);
     }
 
     /**
@@ -2953,6 +2969,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As オルガ (ORGA). And OnlyOnceRegistered. <br>
+     * オルガ
+     */
+    public void setRequestSkillCode_Equal_オルガ() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.オルガ);
+    }
+
+    /**
      * Equal(=). As 梟 (OWL). And OnlyOnceRegistered. <br>
      * 梟
      */
@@ -3525,6 +3549,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_監視者() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.監視者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As オルガ (ORGA). And OnlyOnceRegistered. <br>
+     * オルガ
+     */
+    public void setRequestSkillCode_NotEqual_オルガ() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.オルガ);
     }
 
     /**
@@ -4290,6 +4322,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As オルガ (ORGA). And OnlyOnceRegistered. <br>
+     * オルガ
+     */
+    public void setSecondRequestSkillCode_Equal_オルガ() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.オルガ);
+    }
+
+    /**
      * Equal(=). As 梟 (OWL). And OnlyOnceRegistered. <br>
      * 梟
      */
@@ -4862,6 +4902,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_監視者() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.監視者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As オルガ (ORGA). And OnlyOnceRegistered. <br>
+     * オルガ
+     */
+    public void setSecondRequestSkillCode_NotEqual_オルガ() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.オルガ);
     }
 
     /**

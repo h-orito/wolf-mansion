@@ -789,6 +789,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as オルガ (ORGA). <br>
+     * オルガ
+     */
+    public void setSkillCode_オルガ() {
+        setSkillCodeAsSkill(CDef.Skill.オルガ);
+    }
+
+    /**
      * Set the value of skillCode as 梟 (OWL). <br>
      * 梟
      */
@@ -1341,6 +1349,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as オルガ (ORGA). <br>
+     * オルガ
+     */
+    public void setRequestSkillCode_オルガ() {
+        setRequestSkillCodeAsSkill(CDef.Skill.オルガ);
+    }
+
+    /**
      * Set the value of requestSkillCode as 梟 (OWL). <br>
      * 梟
      */
@@ -1890,6 +1906,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_監視者() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.監視者);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as オルガ (ORGA). <br>
+     * オルガ
+     */
+    public void setSecondRequestSkillCode_オルガ() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.オルガ);
     }
 
     /**
@@ -2721,6 +2745,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode監視者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.監視者) : false;
+    }
+
+    /**
+     * Is the value of skillCode オルガ? <br>
+     * オルガ
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCodeオルガ() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.オルガ) : false;
     }
 
     /**
@@ -3603,6 +3638,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode オルガ? <br>
+     * オルガ
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCodeオルガ() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.オルガ) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 梟? <br>
      * 梟
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -4479,6 +4525,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode監視者() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.監視者) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode オルガ? <br>
+     * オルガ
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCodeオルガ() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.オルガ) : false;
     }
 
     /**

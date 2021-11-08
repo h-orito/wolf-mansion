@@ -842,6 +842,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
     }
 
     /**
+     * Equal(=). As オルガ (ORGA). And OnlyOnceRegistered. <br>
+     * オルガ
+     */
+    public void setSkillCode_Equal_オルガ() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.オルガ);
+    }
+
+    /**
      * Equal(=). As 梟 (OWL). And OnlyOnceRegistered. <br>
      * 梟
      */
@@ -1414,6 +1422,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      */
     public void setSkillCode_NotEqual_監視者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.監視者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As オルガ (ORGA). And OnlyOnceRegistered. <br>
+     * オルガ
+     */
+    public void setSkillCode_NotEqual_オルガ() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.オルガ);
     }
 
     /**

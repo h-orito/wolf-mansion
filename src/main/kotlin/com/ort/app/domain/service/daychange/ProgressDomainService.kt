@@ -34,6 +34,7 @@ import com.ort.app.domain.service.ability.StalkingDomainService
 import com.ort.app.domain.service.ability.TrapDomainService
 import com.ort.app.domain.service.ability.WallPunchDomainService
 import com.ort.app.domain.service.ability.WandererDomainService
+import com.ort.app.domain.service.ability.YubisashiDomainService
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -66,6 +67,7 @@ class ProgressDomainService(
     private val giveBabaDomainService: GiveBabaDomainService,
     private val resuscitateDomainService: ResuscitateDomainService,
     private val necromanceDomainService: NecromanceDomainService,
+    private val yubisashiDomainService: YubisashiDomainService,
     private val revivalDomainService: RevivalDomainService,
     private val suicideDomainService: SuicideDomainService,
     private val epilogueDomainService: EpilogueDomainService,
@@ -151,6 +153,8 @@ class ProgressDomainService(
         daychange = bakeryDomainService.addBakeryMessage(daychange)
         // ごん
         daychange = gonfoxDomainService.addGonfoxMessage(daychange)
+        // 指差死
+        daychange = yubisashiDomainService.yubisashi(daychange)
         // 冤罪者の足音発生
         daychange = falseChargesDomainService.falseCharges(daychange)
         // 生存者と足音メッセージ
