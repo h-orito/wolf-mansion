@@ -278,6 +278,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 叫び (SHOUT). <br>
+     * 叫び
+     */
+    public void setAbilityTypeCode_叫び() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.叫び);
+    }
+
+    /**
      * Set the value of abilityTypeCode as ストーキング (STALKING). <br>
      * ストーキング
      */
@@ -538,6 +546,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode誘惑() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.誘惑) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 叫び? <br>
+     * 叫び
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode叫び() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.叫び) : false;
     }
 
     /**

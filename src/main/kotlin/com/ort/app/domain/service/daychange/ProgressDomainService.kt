@@ -30,6 +30,7 @@ import com.ort.app.domain.service.ability.NecromanceDomainService
 import com.ort.app.domain.service.ability.RainbowDomainService
 import com.ort.app.domain.service.ability.ResuscitateDomainService
 import com.ort.app.domain.service.ability.SeduceDomainService
+import com.ort.app.domain.service.ability.ShoutDomainService
 import com.ort.app.domain.service.ability.StalkingDomainService
 import com.ort.app.domain.service.ability.TrapDomainService
 import com.ort.app.domain.service.ability.WallPunchDomainService
@@ -63,6 +64,7 @@ class ProgressDomainService(
     private val falseChargesDomainService: FalseChargesDomainService,
     private val rainbowDomainService: RainbowDomainService,
     private val loudSpeakDomainService: LoudSpeakDomainService,
+    private val shoutDomainService: ShoutDomainService,
     private val forceReincarnationDomainService: ForceReincarnationDomainService,
     private val giveBabaDomainService: GiveBabaDomainService,
     private val resuscitateDomainService: ResuscitateDomainService,
@@ -88,6 +90,8 @@ class ProgressDomainService(
         var daychange = rainbowDomainService.rainbow(beforeDaychange)
         // 拡声
         daychange = loudSpeakDomainService.loudSpeak(daychange)
+        // 叫び
+        daychange = shoutDomainService.shout(daychange)
         // 突然死
         daychange = suddenlyDeathDomainService.deadIfNeeded(daychange)
         // 誑かす

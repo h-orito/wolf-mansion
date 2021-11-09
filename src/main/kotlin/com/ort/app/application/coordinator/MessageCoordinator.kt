@@ -1,10 +1,12 @@
 package com.ort.app.application.coordinator
 
+import com.ort.app.application.service.AbilityService
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.MessageService
 import com.ort.app.application.service.RandomKeywordService
 import com.ort.app.application.service.SlackService
 import com.ort.app.application.service.VillageService
+import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.MessageContent
 import com.ort.app.domain.model.message.MessageTime
@@ -13,6 +15,7 @@ import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.service.MessageDomainService
 import com.ort.app.domain.service.SayDomainService
 import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -22,6 +25,7 @@ class MessageCoordinator(
     private val messageService: MessageService,
     private val charaService: CharaService,
     private val villageService: VillageService,
+    private val abilityService: AbilityService,
     private val randomKeywordService: RandomKeywordService,
     private val slackService: SlackService,
     // domain service
@@ -76,13 +80,17 @@ class MessageCoordinator(
         val messageContent = MessageContent.invoke(messageType, message, faceType, convertDisable)
         assertSay(village, myself, messageContent)
         val toParticipant = targetCharaId?.let { village.allParticipants().chara(it) }
+        val abilities = abilityService.findAbilities(village.id)
+        val shouldDakuten = abilities.filterByDay(village.latestDay() - 1)
+            .filterByType(CDef.AbilityType.叫び.toModel()).list.any { it.targetCharaId == myself.charaId }
         registerMessage(
             village.id,
             messageDomainService.createSayMessage(
                 village = village,
                 myself = myself,
                 target = toParticipant,
-                messageContent = messageContent
+                messageContent = messageContent,
+                shouldDakuten = shouldDakuten
             )
         )
     }

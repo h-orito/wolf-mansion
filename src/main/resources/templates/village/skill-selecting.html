@@ -55,6 +55,8 @@
        th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を虹色に塗る'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'LOUDSPEAKER'}"
        th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' に拡声器を渡す'}"></p>
+    <p class="small" th:if="${content.myself.skill.code == 'TATSUYA'}"
+       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を叫ばせる'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'TRUCK'}"
        th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を強制転生させる'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'RESUSCITATOR'}"

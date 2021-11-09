@@ -1680,6 +1680,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 濁点者 (TATSUYA). And OnlyOnceRegistered. <br>
+     * 濁点者
+     */
+    public void setSkillCode_Equal_濁点者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.濁点者);
+    }
+
+    /**
      * Equal(=). As 罠師 (TRAPPER). And OnlyOnceRegistered. <br>
      * 罠師
      */
@@ -2260,6 +2268,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_ストーカー() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.ストーカー);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 濁点者 (TATSUYA). And OnlyOnceRegistered. <br>
+     * 濁点者
+     */
+    public void setSkillCode_NotEqual_濁点者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.濁点者);
     }
 
     /**
@@ -3033,6 +3049,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 濁点者 (TATSUYA). And OnlyOnceRegistered. <br>
+     * 濁点者
+     */
+    public void setRequestSkillCode_Equal_濁点者() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.濁点者);
+    }
+
+    /**
      * Equal(=). As 罠師 (TRAPPER). And OnlyOnceRegistered. <br>
      * 罠師
      */
@@ -3613,6 +3637,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_ストーカー() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.ストーカー);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 濁点者 (TATSUYA). And OnlyOnceRegistered. <br>
+     * 濁点者
+     */
+    public void setRequestSkillCode_NotEqual_濁点者() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.濁点者);
     }
 
     /**
@@ -4386,6 +4418,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 濁点者 (TATSUYA). And OnlyOnceRegistered. <br>
+     * 濁点者
+     */
+    public void setSecondRequestSkillCode_Equal_濁点者() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.濁点者);
+    }
+
+    /**
      * Equal(=). As 罠師 (TRAPPER). And OnlyOnceRegistered. <br>
      * 罠師
      */
@@ -4966,6 +5006,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_ストーカー() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.ストーカー);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 濁点者 (TATSUYA). And OnlyOnceRegistered. <br>
+     * 濁点者
+     */
+    public void setSecondRequestSkillCode_NotEqual_濁点者() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.濁点者);
     }
 
     /**

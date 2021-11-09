@@ -709,6 +709,9 @@ public interface CDef extends Classification {
         /** ストーカー */
         ストーカー("STALKER", "ストーカー", emptyStrings())
         ,
+        /** 濁点者 */
+        濁点者("TATSUYA", "濁点者", emptyStrings())
+        ,
         /** 罠師 */
         罠師("TRAPPER", "罠師", emptyStrings())
         ,
@@ -766,7 +769,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "507");
+                subItemMap.put("order", "508");
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "バ");
                 _subItemMapMap.put(ババ.code(), Collections.unmodifiableMap(subItemMap));
@@ -1172,6 +1175,13 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "506");
+                subItemMap.put("campCode", "CRIMINAL");
+                subItemMap.put("skill_short_name", "濁");
+                _subItemMapMap.put(濁点者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
                 subItemMap.put("order", "14");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "罠");
@@ -1179,7 +1189,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "506");
+                subItemMap.put("order", "507");
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "ト");
                 _subItemMapMap.put(トラック.code(), Collections.unmodifiableMap(subItemMap));
@@ -2040,6 +2050,9 @@ public interface CDef extends Classification {
         ,
         /** 誘惑 */
         誘惑("SEDUCE", "誘惑", emptyStrings())
+        ,
+        /** 叫び */
+        叫び("SHOUT", "叫び", emptyStrings())
         ,
         /** ストーキング */
         ストーキング("STALKING", "ストーキング", emptyStrings())

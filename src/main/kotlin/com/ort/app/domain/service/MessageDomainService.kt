@@ -1,5 +1,6 @@
 package com.ort.app.domain.service
 
+import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.chara.FaceType
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.MessageContent
@@ -312,13 +313,18 @@ class MessageDomainService(
         village: Village,
         myself: VillageParticipant,
         target: VillageParticipant?,
-        messageContent: MessageContent
+        messageContent: MessageContent,
+        shouldDakuten: Boolean = false
     ): Message {
         return Message.ofSayMessage(
             day = village.latestDay(),
             participantId = myself.id,
             targetParticipantId = target?.id,
-            messageContent = messageContent
+            messageContent = if (shouldDakuten) {
+                messageContent.copy(
+                    text = messageContent.text.map { "${it}゛" }.joinToString(separator = "", prefix = "[[large]][[b]]", postfix = "[[/b]][[/large]]")
+                )
+            } else messageContent
         )
     }
 

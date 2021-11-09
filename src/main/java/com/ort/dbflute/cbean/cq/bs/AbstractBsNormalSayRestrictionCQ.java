@@ -672,6 +672,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
     }
 
     /**
+     * Equal(=). As 濁点者 (TATSUYA). And OnlyOnceRegistered. <br>
+     * 濁点者
+     */
+    public void setSkillCode_Equal_濁点者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.濁点者);
+    }
+
+    /**
      * Equal(=). As 罠師 (TRAPPER). And OnlyOnceRegistered. <br>
      * 罠師
      */
@@ -1252,6 +1260,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
      */
     public void setSkillCode_NotEqual_ストーカー() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.ストーカー);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 濁点者 (TATSUYA). And OnlyOnceRegistered. <br>
+     * 濁点者
+     */
+    public void setSkillCode_NotEqual_濁点者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.濁点者);
     }
 
     /**
