@@ -144,7 +144,7 @@ class BadgerGameDomainService(
                 val cohabitor = target.getTargetCohabitor(village)!!
                 village = village.attackedParticipant(cohabitor.id)
             }
-            village.attackedParticipant(target.id)
+            village = village.attackedParticipant(target.id)
         }
 
         return daychange.copy(village = village)
