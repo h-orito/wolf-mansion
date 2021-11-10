@@ -1141,6 +1141,7 @@ $(function () {
             'is_no_paging': false,
             'page_size': 30,
             'auto_refresh': false,
+            'is_disp_random_tag_area': false,
             'already_skill_confirm': ''
         };
     }
@@ -1172,6 +1173,10 @@ $(function () {
         }
         if (getDisplaySetting('page_size')) {
             $('[data-dsetting-pagesize]').val(getDisplaySetting('page_size'));
+        }
+        if (getDisplaySetting('is_disp_random_tag_area')) {
+            $('[data-dsetting-disp-random-tag-area]').prop('checked', true);
+            $('[data-random-tag-area]').removeClass('hidden');
         }
         if (!getDisplaySetting('is_open_situation_tab')) {
             $('[data-situation-tab-open]').click();
@@ -1255,6 +1260,16 @@ $(function () {
         const pageSize = $(this).val();
         saveDisplaySetting('page_size', pageSize);
         loadAndDisplayMessageWithCurrentSetting();
+    });
+
+    $('[data-dsetting-disp-random-tag-area]').on('change', function () {
+        const isCheck = $(this).prop('checked');
+        saveDisplaySetting('is_disp_random_tag_area', isCheck);
+        if (isCheck) {
+            $('[data-random-tag-area]').removeClass('hidden');
+        } else {
+            $('[data-random-tag-area]').addClass('hidden');
+        }
     });
 
     $('[data-situation-tab-open]').on('click', function () {
@@ -1417,5 +1432,31 @@ $(function () {
     $('body').on('click', '[data-user-page]', function () {
         const userName = $(this).text();
         window.open(contextPath + 'user/' + userName);
+    });
+
+    // ----------------------------------------------
+    // 文字装飾
+    // ----------------------------------------------
+    $('body').on('click', '[data-random-tag-area] label', function(){
+        const $textarea = $('[data-say-textarea]');
+        const type = $(this).data('tag-type');
+        const tagName = $(this).data('tag-name');
+        const currentText = $textarea.val();
+        const selectionStart = $textarea.get(0).selectionStart;
+        const selectionEnd = $textarea.get(0).selectionEnd;
+        if (type === 'single') {
+            const value = currentText.substr(0, selectionStart)
+                + '[[' + tagName + ']]'
+                + currentText.substr(selectionStart);
+            $textarea.val(value);
+        } else {
+            const end = tagName.startsWith('#') ? '[[/#]]' : '[[/' + tagName + ']]';
+            const value = currentText.substr(0, selectionStart)
+                + '[[' + tagName + ']]'
+                + currentText.substr(selectionStart, selectionEnd - selectionStart)
+                + end
+                + currentText.substr(selectionEnd);
+            $textarea.val(value);
+        }
     });
 });

@@ -101,6 +101,45 @@
                                    data-target="#modal-select-secretsay-target-chara"
                                    class="btn btn-sm btn-success">画像から選択</a>
                             </div>
+                            <div class="col-sm-12 col-xs-12 btn-group btn-saytypes hidden" data-toggle="buttons"
+                                 data-random-tag-area>
+                                <label class="btn btn-sm btn-success" data-tag-type="double" data-tag-name="b">
+                                    <strong>B</strong>
+                                </label>
+                                <label class="btn btn-sm btn-success" data-tag-type="double" data-tag-name="s">
+                                    <span style="text-decoration: line-through;">あ</span>
+                                </label>
+                                <label class="btn btn-sm btn-success" data-tag-type="double" data-tag-name="large">
+                                    大
+                                </label>
+                                <label class="btn btn-sm btn-success" data-tag-type="double" data-tag-name="small">
+                                    <span style="font-size: 80%;">小</span>
+                                </label>
+                                <label class="btn btn-sm btn-success" data-tag-type="double" data-tag-name="#ff0000">
+                                    <span style="color: #ff0000;">■</span>
+                                </label>
+                                <label class="btn btn-sm btn-success" data-tag-type="double" data-tag-name="#ff8800">
+                                    <span style="color: #ff8800;">■</span>
+                                </label>
+                                <label class="btn btn-sm btn-success" data-tag-type="double" data-tag-name="#dddd00">
+                                    <span style="color: #dddd00;">■</span>
+                                </label>
+                                <label class="btn btn-sm btn-success" data-tag-type="double" data-tag-name="#00dd00">
+                                    <span style="color: #00dd00;">■</span>
+                                </label>
+                                <label class="btn btn-sm btn-success" data-tag-type="double" data-tag-name="#00dddd">
+                                    <span style="color: #00dddd;">■</span>
+                                </label>
+                                <label class="btn btn-sm btn-success" data-tag-type="double" data-tag-name="#0000ff">
+                                    <span style="color: #0000ff;">■</span>
+                                </label>
+                                <label class="btn btn-sm btn-success" data-tag-type="double" data-tag-name="#ee00ee">
+                                    <span style="color: #ee00ee;">■</span>
+                                </label>
+                                <label class="btn btn-sm btn-success" data-tag-type="single" data-tag-name="">
+                                    <span th:text="'[[]]'"></span>
+                                </label>
+                            </div>
                             <div class="col-sm-12 col-xs-12" style="display: flex;">
                                 <div>
                                     <img id="say-face-img" th:src="${content.myself.charaImageUrl}"
