@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 class SecretSayDomainService : SayTypeDomainService {
 
     override fun isViewable(village: Village, myself: VillageParticipant?, day: Int): Boolean =
-        village.isViewableSecretSay()
+        village.isViewableSecretSay() || myself?.isViewableSecretSay() ?: false
 
     override fun isSayable(village: Village, myself: VillageParticipant?): Boolean {
         return if (myself?.isAdmin() == true) true

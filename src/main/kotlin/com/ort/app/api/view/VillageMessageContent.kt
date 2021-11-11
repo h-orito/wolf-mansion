@@ -61,7 +61,7 @@ data class VillageMessageContent(
             charas.chara(fromParticipant.charaId).images.findByFaceType(message.content.faceTypeCode)?.url
         } else null,
         messageType = message.content.type.code,
-        messageNumber = if (message.content.type.toCdef() == CDef.MessageType.独り言 && !village.status.isSettleOrCanceled()) null else message.content.num,
+        messageNumber = if (shouldDispMessageNumber(message, village)) message.content.num else null,
         messageContent = message.content.text,
         messageDatetime = message.time.datetime,
         width = if (fromParticipant != null) charas.chara(fromParticipant.charaId).size.width else null,
@@ -72,4 +72,12 @@ data class VillageMessageContent(
         isRainbow = isRainbow,
         isLoud = isLoud
     )
+
+    companion object {
+
+        fun shouldDispMessageNumber(message: Message, village: Village): Boolean {
+            return if (village.status.isSettleOrCanceled()) true
+            else message.content.type.toCdef().let { it != CDef.MessageType.独り言 && it != CDef.MessageType.秘話 }
+        }
+    }
 }
