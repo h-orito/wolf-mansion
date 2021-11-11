@@ -102,7 +102,9 @@ class SayDomainService(
         return MessageType.sayTypeList
             .filter { detectSayTypeService(it).isSayable(village, myself!!) }
             .map {
-                val restrict = village.setting.sayRestriction.restrict(myself!!, it)
+                val restrict =
+                    if (village.status.isProgress()) village.setting.sayRestriction.restrict(myself!!, it)
+                    else null
 
                 ParticipantSayMessageTypeSituation(
                     messageType = MessageType(it),
@@ -116,7 +118,7 @@ class SayDomainService(
                         maxLength = restrict?.length ?: MessageContent.defaultLengthMax,
                         maxLine = MessageContent.defaultLineMax
                     ),
-                    targetList = getSecretSayTargetList(it, village, myself)
+                    targetList = getSecretSayTargetList(it, village, myself!!)
                 )
             }
     }
