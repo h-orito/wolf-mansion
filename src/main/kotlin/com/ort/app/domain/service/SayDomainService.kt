@@ -176,8 +176,9 @@ class SayDomainService(
         messageContent: MessageContent,
         latestDayMessageCountMap: Map<CDef.MessageType, Int>
     ) {
-        val restrict = village.findRestrict(myself, messageContent.type) ?: return
+        if (!village.status.isProgress()) return
         if (myself.isAdmin()) return
+        val restrict = village.findRestrict(myself, messageContent.type) ?: return
         // 回数
         if (remainingCount(
                 village,
