@@ -66,6 +66,7 @@ class CharaDataSource(
     override fun findCharas(charachipId: Int): Charas {
         val charaList = charaBhv.selectList {
             it.query().setCharaGroupId_Equal(charachipId)
+            it.query().addOrderBy_DefaultJoinMessage_Desc()
             it.query().addOrderBy_CharaId_Asc()
         }
         charaBhv.load(charaList) {
