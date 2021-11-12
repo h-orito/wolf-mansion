@@ -26,6 +26,7 @@ class AbilityDomainService(
     private val attackDomainService: AttackDomainService,
     private val bombDomainService: BombDomainService,
     private val cheatDomainService: CheatDomainService,
+    private val insuranceDomainService: InsuranceDomainService,
     private val cohabitDomainService: CohabitDomainService,
     private val commandDomainService: CommandDomainService,
     private val instigateDomainService: InstigateDomainService,
@@ -133,6 +134,7 @@ class AbilityDomainService(
             CDef.AbilityType.死霊蘇生 -> necromanceDomainService
             CDef.AbilityType.ババを渡す -> giveBabaDomainService
             CDef.AbilityType.指差死 -> yubisashiDomainService
+            CDef.AbilityType.保険 -> insuranceDomainService
         }
 
     fun createSetMessage(

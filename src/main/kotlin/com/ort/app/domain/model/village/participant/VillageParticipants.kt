@@ -212,5 +212,21 @@ data class VillageParticipants(
         )
     }
 
+    fun insurance(fromParticipantId: Int, toParticipantId: Int): VillageParticipants {
+        return copy(
+            list = list.map {
+                if (it.id == toParticipantId) it.insurance(fromParticipantId) else it.copy()
+            }
+        )
+    }
+
+    fun useInsurance(participantId: Int): VillageParticipants {
+        return copy(
+            list = list.map {
+                if (it.id == participantId) it.useInsurance() else it.copy()
+            }
+        )
+    }
+
     fun judgeWin(winCamp: Camp): VillageParticipants = copy(list = list.map { it.judgeWin(winCamp) })
 }

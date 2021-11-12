@@ -121,6 +121,7 @@ data class VillageParticipant(
 
     fun isViewableFoxMessage(): Boolean = isAdmin() || (status.isFoxPossessioned() || status.isFoxPossessioning())
     fun isViewablePrivateSystemMessage(): Boolean = isAdmin()
+    fun isViewablePrivateAbilityMessage(): Boolean = isAdmin()
 
     fun canUseAbility(): Boolean = isAlive() && !isSpectator
 
@@ -198,6 +199,11 @@ data class VillageParticipant(
     fun courted(participantId: Int): VillageParticipant = love(participantId)
     fun stalking(participantId: Int): VillageParticipant = love(participantId)
     fun seduced(participantId: Int): VillageParticipant = love(participantId)
+
+    fun insurance(participantId: Int): VillageParticipant =
+        copy(status = status.insurance(participantId))
+
+    fun useInsurance(): VillageParticipant = copy(status = status.useInsurance())
 
     fun judgeWin(winCamp: Camp): VillageParticipant = copy(
         isWin = when {

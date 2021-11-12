@@ -133,6 +133,14 @@ public abstract class BsVillagePlayerStatusType extends AbstractEntity implement
         setVillagePlayerStatusTypeCodeAsVillagePlayerStatusType(CDef.VillagePlayerStatusType.狐憑き);
     }
 
+    /**
+     * Set the value of villagePlayerStatusTypeCode as 保険 (INSURANCE). <br>
+     * 保険
+     */
+    public void setVillagePlayerStatusTypeCode_保険() {
+        setVillagePlayerStatusTypeCodeAsVillagePlayerStatusType(CDef.VillagePlayerStatusType.保険);
+    }
+
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
@@ -156,6 +164,17 @@ public abstract class BsVillagePlayerStatusType extends AbstractEntity implement
     public boolean isVillagePlayerStatusTypeCode狐憑き() {
         CDef.VillagePlayerStatusType cdef = getVillagePlayerStatusTypeCodeAsVillagePlayerStatusType();
         return cdef != null ? cdef.equals(CDef.VillagePlayerStatusType.狐憑き) : false;
+    }
+
+    /**
+     * Is the value of villagePlayerStatusTypeCode 保険? <br>
+     * 保険
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isVillagePlayerStatusTypeCode保険() {
+        CDef.VillagePlayerStatusType cdef = getVillagePlayerStatusTypeCodeAsVillagePlayerStatusType();
+        return cdef != null ? cdef.equals(CDef.VillagePlayerStatusType.保険) : false;
     }
 
     // ===================================================================================

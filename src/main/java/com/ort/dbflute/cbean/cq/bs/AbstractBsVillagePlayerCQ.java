@@ -1488,6 +1488,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 保険屋 (INSURANCER). And OnlyOnceRegistered. <br>
+     * 保険屋
+     */
+    public void setSkillCode_Equal_保険屋() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.保険屋);
+    }
+
+    /**
      * Equal(=). As 絡新婦 (JOROGUMO). And OnlyOnceRegistered. <br>
      * 絡新婦
      */
@@ -2076,6 +2084,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_煽動者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.煽動者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 保険屋 (INSURANCER). And OnlyOnceRegistered. <br>
+     * 保険屋
+     */
+    public void setSkillCode_NotEqual_保険屋() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.保険屋);
     }
 
     /**
@@ -2857,6 +2873,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 保険屋 (INSURANCER). And OnlyOnceRegistered. <br>
+     * 保険屋
+     */
+    public void setRequestSkillCode_Equal_保険屋() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.保険屋);
+    }
+
+    /**
      * Equal(=). As 絡新婦 (JOROGUMO). And OnlyOnceRegistered. <br>
      * 絡新婦
      */
@@ -3445,6 +3469,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_煽動者() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.煽動者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 保険屋 (INSURANCER). And OnlyOnceRegistered. <br>
+     * 保険屋
+     */
+    public void setRequestSkillCode_NotEqual_保険屋() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.保険屋);
     }
 
     /**
@@ -4226,6 +4258,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 保険屋 (INSURANCER). And OnlyOnceRegistered. <br>
+     * 保険屋
+     */
+    public void setSecondRequestSkillCode_Equal_保険屋() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.保険屋);
+    }
+
+    /**
      * Equal(=). As 絡新婦 (JOROGUMO). And OnlyOnceRegistered. <br>
      * 絡新婦
      */
@@ -4814,6 +4854,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_煽動者() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.煽動者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 保険屋 (INSURANCER). And OnlyOnceRegistered. <br>
+     * 保険屋
+     */
+    public void setSecondRequestSkillCode_NotEqual_保険屋() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.保険屋);
     }
 
     /**

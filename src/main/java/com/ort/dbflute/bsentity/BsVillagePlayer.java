@@ -661,6 +661,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 保険屋 (INSURANCER). <br>
+     * 保険屋
+     */
+    public void setSkillCode_保険屋() {
+        setSkillCodeAsSkill(CDef.Skill.保険屋);
+    }
+
+    /**
      * Set the value of skillCode as 絡新婦 (JOROGUMO). <br>
      * 絡新婦
      */
@@ -1229,6 +1237,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 保険屋 (INSURANCER). <br>
+     * 保険屋
+     */
+    public void setRequestSkillCode_保険屋() {
+        setRequestSkillCodeAsSkill(CDef.Skill.保険屋);
+    }
+
+    /**
      * Set the value of requestSkillCode as 絡新婦 (JOROGUMO). <br>
      * 絡新婦
      */
@@ -1794,6 +1810,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_煽動者() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.煽動者);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 保険屋 (INSURANCER). <br>
+     * 保険屋
+     */
+    public void setSecondRequestSkillCode_保険屋() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.保険屋);
     }
 
     /**
@@ -2593,6 +2617,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode煽動者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.煽動者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 保険屋? <br>
+     * 保険屋
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode保険屋() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.保険屋) : false;
     }
 
     /**
@@ -3497,6 +3532,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 保険屋? <br>
+     * 保険屋
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode保険屋() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.保険屋) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 絡新婦? <br>
      * 絡新婦
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -4395,6 +4441,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode煽動者() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.煽動者) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 保険屋? <br>
+     * 保険屋
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode保険屋() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.保険屋) : false;
     }
 
     /**

@@ -320,6 +320,12 @@
         <div class="message col-sm-12 col-xs-12 message-private-fox">{{{messageContent}}}</div>
     </div>
 </div>
+{{else if (eq messageType 'PRIVATE_ABILITY')}}
+<div class="col-sm-12 col-xs-12" data-spoiled-content>
+    <div class="row">
+        <div class="message col-sm-12 col-xs-12 message-private-ability">{{{messageContent}}}</div>
+    </div>
+</div>
 {{else if (eq messageType 'ACTION')}}
 <div class="col-sm-12 col-xs-12" data-message="{{messageType}}" data-chara-id="{{characterId}}">
     <div class="row">

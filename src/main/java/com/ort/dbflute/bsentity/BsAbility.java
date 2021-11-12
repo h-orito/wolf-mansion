@@ -268,6 +268,14 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
+     * Set the value of abilityTypeCode as 保険 (INSURANCE). <br>
+     * 保険
+     */
+    public void setAbilityTypeCode_保険() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.保険);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 捜査 (INVESTIGATE). <br>
      * 捜査
      */
@@ -515,6 +523,17 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public boolean isAbilityTypeCode煽動() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.煽動) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 保険? <br>
+     * 保険
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode保険() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.保険) : false;
     }
 
     /**

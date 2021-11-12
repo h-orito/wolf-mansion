@@ -20,6 +20,7 @@ import com.ort.app.domain.service.message.system.FoxMessageDomainService
 import com.ort.app.domain.service.message.system.GuruMessageDomainService
 import com.ort.app.domain.service.message.system.InvestigateMessageDomainService
 import com.ort.app.domain.service.message.system.LoversMessageDomainService
+import com.ort.app.domain.service.message.system.PrivateAbilityMessageDomainService
 import com.ort.app.domain.service.message.system.PrivateSystemMessageDomainService
 import com.ort.app.domain.service.message.system.PsychicMessageDomainService
 import com.ort.app.domain.service.message.system.WiseMessageDomainService
@@ -40,6 +41,7 @@ class MessageDomainService(
     private val investigateMessageDomainService: InvestigateMessageDomainService,
     private val loversMessageDomainService: LoversMessageDomainService,
     private val foxMessageDomainService: FoxMessageDomainService,
+    private val privateAbilityMessageDomainService: PrivateAbilityMessageDomainService,
     private val privateSystemMessageDomainService: PrivateSystemMessageDomainService
 ) {
 
@@ -450,6 +452,7 @@ class MessageDomainService(
             CDef.MessageType.役職占い結果 -> wiseMessageDomainService
             CDef.MessageType.妖狐メッセージ -> foxMessageDomainService
             CDef.MessageType.恋人メッセージ -> loversMessageDomainService
+            CDef.MessageType.能力行使メッセージ -> privateAbilityMessageDomainService
             CDef.MessageType.非公開システムメッセージ -> privateSystemMessageDomainService
             else -> throw IllegalStateException("service not found.")
         }

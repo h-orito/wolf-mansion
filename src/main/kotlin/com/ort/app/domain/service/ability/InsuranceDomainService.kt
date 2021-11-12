@@ -1,7 +1,7 @@
 package com.ort.app.domain.service.ability
 
 import com.ort.app.domain.model.ability.Abilities
-import com.ort.app.domain.model.ability.AbilityType
+import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
@@ -16,30 +16,29 @@ import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
 @Service
-class WandererDomainService(
-    private val footstepDomainService: FootstepDomainService,
-    private val messageDomainService: MessageDomainService
+class InsuranceDomainService(
+    private val messageDomainService: MessageDomainService,
+    private val footstepDomainService: FootstepDomainService
 ) : AbilityTypeDomainService {
 
-    private val abilityType = AbilityType(CDef.AbilityType.風来護衛)
+    private val abilityType = CDef.AbilityType.保険.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities
     ): List<VillageParticipant> {
-        val day = village.latestDay()
-        if (day < 2) return emptyList()
-        // 一度守った人は守れない
-        val pastTargetCharaIds = abilities
-            .filterPastDay(village.latestDay())
-            .filterByCharaId(myself.charaId)
-            .filterByType(abilityType).list.map { it.targetCharaId }
+        // 前日以前に能力行使していたらもう使えない
+        if (abilities.filterPastDay(village.latestDay()).filterByType(abilityType)
+                .filterByCharaId(myself.charaId).list.isNotEmpty()
+        ) {
+            return emptyList()
+        }
         return village.participants
             .filterAlive()
+            .filterNotDummy(village.dummyParticipant())
             .filterNotParticipant(myself)
-            .sortedByRoomNumber()
-            .list.filterNot { pastTargetCharaIds.contains(it.charaId) }
+            .sortedByRoomNumber().list
     }
 
     override fun getSelectingTarget(
@@ -53,6 +52,10 @@ class WandererDomainService(
             .filterByCharaId(myself.charaId).list.firstOrNull()
             ?.let { village.participants.chara(it.targetCharaId!!) }
     }
+
+    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+    override fun isTargetingAndFootstep(): Boolean = true
+    override fun canUseDay(day: Int): Boolean = day > 1
 
     override fun getHistories(
         village: Village,
@@ -73,7 +76,7 @@ class WandererDomainService(
                     .firstOrNull()
                     ?.roomNumbers ?: "なし"
                 val target = village.participants.chara(it.targetCharaId!!)
-                "${abilityDay}日目 ${target.nameWhen(abilityDay)} を護衛する（${footstep}）"
+                "${abilityDay}日目 ${target.nameWhen(abilityDay)} に保険を勧める（$footstep）"
             }
     }
 
@@ -86,13 +89,15 @@ class WandererDomainService(
         abilities: Abilities,
         footsteps: Footsteps
     ) {
-        targetCharaId ?: return // 対象なしを選べる
-        // 対象
-        if (getSelectableTargetList(village, myself, abilities).none { it.charaId == targetCharaId }) {
+        if (targetCharaId != null
+            && getSelectableTargetList(village, myself, abilities).none { it.charaId == targetCharaId }
+        ) {
             throw WolfMansionBusinessException("選択できない対象を指定しています")
         }
-        // 足音
-        footstepDomainService.assertFootstep(village, myself.charaId, targetCharaId, footstep)
+        if (targetCharaId != null) {
+            // 足音
+            footstepDomainService.assertFootstep(village, myself.charaId, targetCharaId, footstep)
+        }
     }
 
     override fun createSetMessageText(
@@ -102,37 +107,53 @@ class WandererDomainService(
         targetCharaId: Int?,
         footstep: String?
     ): String {
-        targetCharaId ?: return "${myself.name()}が護衛対象をなしに設定しました。" // 護衛なしを選べる
-        val target = village.participants.chara(targetCharaId!!)
-        return "${myself.name()}が護衛対象を${target.name()}に、通過する部屋を${footstep!!}に設定しました。"
+        return if (targetCharaId == null) {
+            "${myself.name()}が保険を勧める対象をなしに設定しました。"
+        } else {
+            val target = village.participants.chara(targetCharaId)
+            "${myself.name()}が保険を勧める対象を${target.name()}に、通過する部屋を${footstep!!}に設定しました。"
+        }
     }
 
-    override fun getTargetSuffix(): String? = "を護衛する"
-    override fun isTargetingAndFootstep(): Boolean = true
-    override fun canUseDay(day: Int): Boolean = day > 1
+    override fun getTargetPrefix(): String? = "保険を勧める対象"
 
-    // 護衛なしを選べる
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
-
-    fun wandererGuard(daychange: Daychange): Daychange {
-        val village = daychange.village
-        var guarded = daychange.guarded
+    fun insurance(daychange: Daychange): Daychange {
+        var village = daychange.village.copy()
         var messages = daychange.messages.copy()
-        village.participants.filterAlive().filterBySkill(CDef.Skill.風来狩人.toModel()).list.forEach {
+        village.participants.filterAlive().filterBySkill(CDef.Skill.保険屋.toModel()).list.forEach {
             val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
-            guarded = (guarded + target).distinct()
-            messages = messages.add(createGuardMessage(village, it, target))
+            // 保険を付与する
+            village = village.insuranceParticipant(it.id, target.id)
+            messages = messages.add(createInsuranceMessage(village, it, target))
+            messages = messages.add(createInsurancedMessage(village, it, target))
         }
 
-        return daychange.copy(village = village, messages = messages, guarded = guarded)
+        return daychange.copy(village = village, messages = messages)
     }
 
-    private fun createGuardMessage(village: Village, myself: VillageParticipant, target: VillageParticipant): Message {
+    private fun createInsuranceMessage(
+        village: Village,
+        myself: VillageParticipant,
+        target: VillageParticipant
+    ): Message {
         return messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
-            text = "${myself.name()}は、${target.name()}を護衛している。",
+            text = "${myself.name()}は、${target.name()}に保険を勧めた。",
+            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+        )
+    }
+
+    private fun createInsurancedMessage(
+        village: Village,
+        insurancer: VillageParticipant,
+        myself: VillageParticipant
+    ): Message {
+        return messageDomainService.createPrivateAbilityMessage(
+            village = village,
+            myself = myself,
+            text = "あなたは、${insurancer.name()}に保険を勧められた。",
             messageType = CDef.MessageType.能力行使メッセージ.toModel()
         )
     }

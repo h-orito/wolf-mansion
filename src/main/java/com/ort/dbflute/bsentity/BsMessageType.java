@@ -182,6 +182,14 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of messageTypeCode as 能力行使メッセージ (PRIVATE_ABILITY). <br>
+     * 能力行使メッセージ
+     */
+    public void setMessageTypeCode_能力行使メッセージ() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.能力行使メッセージ);
+    }
+
+    /**
      * Set the value of messageTypeCode as 検死結果 (PRIVATE_CORONER). <br>
      * 検死結果
      */
@@ -390,6 +398,17 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
     public boolean isMessageTypeCode参加者一覧() {
         CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
         return cdef != null ? cdef.equals(CDef.MessageType.参加者一覧) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 能力行使メッセージ? <br>
+     * 能力行使メッセージ
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode能力行使メッセージ() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.能力行使メッセージ) : false;
     }
 
     /**

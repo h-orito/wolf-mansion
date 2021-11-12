@@ -256,6 +256,14 @@ public abstract class AbstractBsSkillSayRestrictionCQ extends AbstractConditionQ
     }
 
     /**
+     * Equal(=). As 能力行使メッセージ (PRIVATE_ABILITY). And OnlyOnceRegistered. <br>
+     * 能力行使メッセージ
+     */
+    public void setMessageTypeCode_Equal_能力行使メッセージ() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.能力行使メッセージ);
+    }
+
+    /**
      * Equal(=). As 検死結果 (PRIVATE_CORONER). And OnlyOnceRegistered. <br>
      * 検死結果
      */
@@ -460,6 +468,14 @@ public abstract class AbstractBsSkillSayRestrictionCQ extends AbstractConditionQ
      */
     public void setMessageTypeCode_NotEqual_参加者一覧() {
         setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.参加者一覧);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 能力行使メッセージ (PRIVATE_ABILITY). And OnlyOnceRegistered. <br>
+     * 能力行使メッセージ
+     */
+    public void setMessageTypeCode_NotEqual_能力行使メッセージ() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.能力行使メッセージ);
     }
 
     /**

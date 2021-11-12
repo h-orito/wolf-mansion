@@ -222,11 +222,16 @@ class VillagePlayerDataSource(
             .forEach { deleteVillagePlayerStatus(participantId, it, CDef.VillagePlayerStatusType.後追い) }
         current.foxPossessionIdList.filterNot { changed.foxPossessionIdList.contains(it) }
             .forEach { deleteVillagePlayerStatus(participantId, it, CDef.VillagePlayerStatusType.狐憑き) }
+        current.insuranceIdList.filterNot { changed.insuranceIdList.contains(it) }
+            .forEach { deleteVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.保険) }
+
         // 追加
         changed.loverIdList.filterNot { current.loverIdList.contains(it) }
             .forEach { insertVillagePlayerStatus(participantId, it, CDef.VillagePlayerStatusType.後追い) }
         changed.foxPossessionIdList.filterNot { current.foxPossessionIdList.contains(it) }
             .forEach { insertVillagePlayerStatus(participantId, it, CDef.VillagePlayerStatusType.狐憑き) }
+        changed.insuranceIdList.filterNot { current.insuranceIdList.contains(it) }
+            .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.保険) }
     }
 
     private fun insertVillagePlayerStatus(from: Int, to: Int, type: CDef.VillagePlayerStatusType) {
@@ -350,7 +355,8 @@ class VillagePlayerDataSource(
             status = VillageParticipantStatus( // simple
                 loverIdList = emptyList(),
                 foxPossessionIdList = emptyList(),
-                foxPossessionedIdList = emptyList()
+                foxPossessionedIdList = emptyList(),
+                insuranceIdList = emptyList()
             ),
             dead = mapSimpleDead(villagePlayer),
             isSpectator = villagePlayer.isSpectator,
@@ -450,7 +456,8 @@ class VillagePlayerDataSource(
         return VillageParticipantStatus(
             loverIdList = statusList.filter { it.isVillagePlayerStatusCode後追い }.map { it.toVillagePlayerId },
             foxPossessionIdList = statusList.filter { it.isVillagePlayerStatusCode狐憑き }.map { it.toVillagePlayerId },
-            foxPossessionedIdList = toStatusList.filter { it.isVillagePlayerStatusCode狐憑き }.map { it.villagePlayerId }
+            foxPossessionedIdList = toStatusList.filter { it.isVillagePlayerStatusCode狐憑き }.map { it.villagePlayerId },
+            insuranceIdList = toStatusList.filter { it.isVillagePlayerStatusCode保険 }.map { it.villagePlayerId }
         )
     }
 }

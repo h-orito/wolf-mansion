@@ -836,6 +836,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 保険 (INSURANCE). And OnlyOnceRegistered. <br>
+     * 保険
+     */
+    public void setAbilityTypeCode_Equal_保険() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.保険);
+    }
+
+    /**
      * Equal(=). As 捜査 (INVESTIGATE). And OnlyOnceRegistered. <br>
      * 捜査
      */
@@ -1064,6 +1072,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_煽動() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.煽動);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 保険 (INSURANCE). And OnlyOnceRegistered. <br>
+     * 保険
+     */
+    public void setAbilityTypeCode_NotEqual_保険() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.保険);
     }
 
     /**

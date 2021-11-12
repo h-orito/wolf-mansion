@@ -300,7 +300,16 @@ data class VillageFormContent(
                         )
                     )
                 } else emptyList()
-                return loversStatusList + foxPossessionedStatusList
+                // 保険
+                val insuranceStatusList = myself.status.insuranceIdList.firstOrNull()?.let {
+                    listOf(
+                        VillagePlayerStatusContent(
+                            statusCode = CDef.VillagePlayerStatusType.保険.code(),
+                            message = "あなたは保険を勧められました。"
+                        )
+                    )
+                } ?: emptyList()
+                return loversStatusList + foxPossessionedStatusList + insuranceStatusList
             }
         }
 

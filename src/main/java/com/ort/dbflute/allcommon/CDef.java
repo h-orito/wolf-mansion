@@ -637,6 +637,9 @@ public interface CDef extends Classification {
         /** 煽動者 */
         煽動者("INSTIGATOR", "煽動者", emptyStrings())
         ,
+        /** 保険屋 */
+        保険屋("INSURANCER", "保険屋", emptyStrings())
+        ,
         /** 絡新婦 */
         絡新婦("JOROGUMO", "絡新婦", emptyStrings())
         ,
@@ -1004,6 +1007,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "WEREWOLF");
                 subItemMap.put("skill_short_name", "煽");
                 _subItemMapMap.put(煽動者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "26");
+                subItemMap.put("campCode", "VILLAGER");
+                subItemMap.put("skill_short_name", "保");
+                _subItemMapMap.put(保険屋.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -1670,6 +1680,9 @@ public interface CDef extends Classification {
         /** 参加者一覧 */
         参加者一覧("PARTICIPANTS", "参加者一覧", emptyStrings())
         ,
+        /** 能力行使メッセージ */
+        能力行使メッセージ("PRIVATE_ABILITY", "能力行使メッセージ", emptyStrings())
+        ,
         /** 検死結果 */
         検死結果("PRIVATE_CORONER", "検死結果", emptyStrings())
         ,
@@ -2029,6 +2042,9 @@ public interface CDef extends Classification {
         ,
         /** 煽動 */
         煽動("INSTIGATE", "煽動", emptyStrings())
+        ,
+        /** 保険 */
+        保険("INSURANCE", "保険", emptyStrings())
         ,
         /** 捜査 */
         捜査("INVESTIGATE", "捜査", emptyStrings())
@@ -2449,6 +2465,9 @@ public interface CDef extends Classification {
         ,
         /** 狐憑き */
         狐憑き("FOX_POSSESSION", "狐憑き", emptyStrings())
+        ,
+        /** 保険 */
+        保険("INSURANCE", "保険", emptyStrings())
         ;
         private static final Map<String, VillagePlayerStatusType> _codeClsMap = new HashMap<String, VillagePlayerStatusType>();
         private static final Map<String, VillagePlayerStatusType> _nameClsMap = new HashMap<String, VillagePlayerStatusType>();

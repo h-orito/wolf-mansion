@@ -37,7 +37,8 @@ data class MessageType(
             CDef.MessageType.白黒占い結果,
             CDef.MessageType.役職占い結果,
             CDef.MessageType.恋人メッセージ,
-            CDef.MessageType.妖狐メッセージ
+            CDef.MessageType.妖狐メッセージ,
+            CDef.MessageType.能力行使メッセージ
         )
         val everyoneViewableTypeList = listOf(
             CDef.MessageType.通常発言,

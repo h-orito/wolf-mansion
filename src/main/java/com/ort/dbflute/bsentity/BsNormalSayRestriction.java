@@ -467,6 +467,14 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
+     * Set the value of skillCode as 保険屋 (INSURANCER). <br>
+     * 保険屋
+     */
+    public void setSkillCode_保険屋() {
+        setSkillCodeAsSkill(CDef.Skill.保険屋);
+    }
+
+    /**
      * Set the value of skillCode as 絡新婦 (JOROGUMO). <br>
      * 絡新婦
      */
@@ -808,6 +816,14 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
      */
     public void setMessageTypeCode_参加者一覧() {
         setMessageTypeCodeAsMessageType(CDef.MessageType.参加者一覧);
+    }
+
+    /**
+     * Set the value of messageTypeCode as 能力行使メッセージ (PRIVATE_ABILITY). <br>
+     * 能力行使メッセージ
+     */
+    public void setMessageTypeCode_能力行使メッセージ() {
+        setMessageTypeCodeAsMessageType(CDef.MessageType.能力行使メッセージ);
     }
 
     /**
@@ -1327,6 +1343,17 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     public boolean isSkillCode煽動者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.煽動者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 保険屋? <br>
+     * 保険屋
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode保険屋() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.保険屋) : false;
     }
 
     /**
@@ -1920,6 +1947,17 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     public boolean isMessageTypeCode参加者一覧() {
         CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
         return cdef != null ? cdef.equals(CDef.MessageType.参加者一覧) : false;
+    }
+
+    /**
+     * Is the value of messageTypeCode 能力行使メッセージ? <br>
+     * 能力行使メッセージ
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isMessageTypeCode能力行使メッセージ() {
+        CDef.MessageType cdef = getMessageTypeCodeAsMessageType();
+        return cdef != null ? cdef.equals(CDef.MessageType.能力行使メッセージ) : false;
     }
 
     /**

@@ -130,7 +130,7 @@ class BombDomainService(
             village = village,
             myself = myself,
             text = "${myself.name()}は、${target.name()}の部屋に爆弾を設置した。",
-            messageType = CDef.MessageType.非公開システムメッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel()
         )
     }
 

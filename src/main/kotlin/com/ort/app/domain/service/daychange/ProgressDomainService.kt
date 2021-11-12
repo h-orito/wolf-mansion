@@ -23,6 +23,7 @@ import com.ort.app.domain.service.ability.FruitsBasketDomainService
 import com.ort.app.domain.service.ability.GiveBabaDomainService
 import com.ort.app.domain.service.ability.GonfoxDomainService
 import com.ort.app.domain.service.ability.GuardDomainService
+import com.ort.app.domain.service.ability.InsuranceDomainService
 import com.ort.app.domain.service.ability.InvestigateDomainService
 import com.ort.app.domain.service.ability.LoneAttackDomainService
 import com.ort.app.domain.service.ability.LoudSpeakDomainService
@@ -44,6 +45,7 @@ class ProgressDomainService(
     private val attackDomainService: AttackDomainService,
     private val bombDomainService: BombDomainService,
     private val cheatDomainService: CheatDomainService,
+    private val insuranceDomainService: InsuranceDomainService,
     private val cohabitDomainService: CohabitDomainService,
     private val courtDomainService: CourtDomainService,
     private val divineDomainService: DivineDomainService,
@@ -104,6 +106,8 @@ class ProgressDomainService(
         daychange = seduceDomainService.seduce(daychange)
         // 美人局
         daychange = badgerGameDomainService.badgerGame(daychange)
+        // 保険屋
+        daychange = insuranceDomainService.insurance(daychange)
         // 罠、爆弾メッセージ
         daychange = trapDomainService.addTrapMessages(daychange)
         daychange = bombDomainService.addBombMessages(daychange)

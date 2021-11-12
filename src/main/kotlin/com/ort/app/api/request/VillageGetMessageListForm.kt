@@ -89,7 +89,8 @@ data class VillageGetMessageListForm(
                 CDef.MessageType.襲撃結果.toModel(),
                 CDef.MessageType.足音調査結果.toModel(),
                 CDef.MessageType.恋人メッセージ.toModel(),
-                CDef.MessageType.妖狐メッセージ.toModel()
+                CDef.MessageType.妖狐メッセージ.toModel(),
+                CDef.MessageType.能力行使メッセージ.toModel()
             )
         )
     }

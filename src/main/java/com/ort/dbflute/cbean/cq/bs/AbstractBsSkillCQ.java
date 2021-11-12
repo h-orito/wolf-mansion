@@ -351,6 +351,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 保険屋 (INSURANCER). And OnlyOnceRegistered. <br>
+     * 保険屋
+     */
+    public void setSkillCode_Equal_保険屋() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.保険屋);
+    }
+
+    /**
      * Equal(=). As 絡新婦 (JOROGUMO). And OnlyOnceRegistered. <br>
      * 絡新婦
      */
@@ -939,6 +947,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_煽動者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.煽動者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 保険屋 (INSURANCER). And OnlyOnceRegistered. <br>
+     * 保険屋
+     */
+    public void setSkillCode_NotEqual_保険屋() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.保険屋);
     }
 
     /**

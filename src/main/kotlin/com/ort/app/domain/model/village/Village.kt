@@ -137,6 +137,7 @@ data class Village(
     fun isViewableFoxMessage(): Boolean = status.isSettled()
     fun isViewableInvestigateMessage(): Boolean = status.isSettled()
     fun isViewablePrivateSystemMessage(): Boolean = status.isSettled()
+    fun isViewablePrivateAbilityMessage(): Boolean = status.isSettled()
 
     fun canUseAbility(day: Int): Boolean = status.isProgress() && isLatestDay(day)
 
@@ -281,6 +282,15 @@ data class Village(
     fun seduceParticipant(fromParticipantId: Int, toParticipantId: Int): Village {
         return copy(participants = participants.seduce(fromParticipantId, toParticipantId))
     }
+
+    fun insuranceParticipant(fromParticipantId: Int, toParticipantId: Int): Village {
+        return copy(participants = participants.insurance(fromParticipantId, toParticipantId))
+    }
+
+    fun useInsurance(participantId: Int): Village {
+        return copy(participants = participants.useInsurance(participantId))
+    }
+
 
     fun assignParticipantSkill(participantId: Int, skill: Skill): Village {
         return this.copy(participants = participants.assignSkill(participantId, skill, latestDay()))

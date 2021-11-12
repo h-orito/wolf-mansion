@@ -480,6 +480,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
     }
 
     /**
+     * Equal(=). As 保険屋 (INSURANCER). And OnlyOnceRegistered. <br>
+     * 保険屋
+     */
+    public void setSkillCode_Equal_保険屋() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.保険屋);
+    }
+
+    /**
      * Equal(=). As 絡新婦 (JOROGUMO). And OnlyOnceRegistered. <br>
      * 絡新婦
      */
@@ -1071,6 +1079,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 保険屋 (INSURANCER). And OnlyOnceRegistered. <br>
+     * 保険屋
+     */
+    public void setSkillCode_NotEqual_保険屋() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.保険屋);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 絡新婦 (JOROGUMO). And OnlyOnceRegistered. <br>
      * 絡新婦
      */
@@ -1619,6 +1635,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
     }
 
     /**
+     * Equal(=). As 能力行使メッセージ (PRIVATE_ABILITY). And OnlyOnceRegistered. <br>
+     * 能力行使メッセージ
+     */
+    public void setMessageTypeCode_Equal_能力行使メッセージ() {
+        setMessageTypeCode_Equal_AsMessageType(CDef.MessageType.能力行使メッセージ);
+    }
+
+    /**
      * Equal(=). As 検死結果 (PRIVATE_CORONER). And OnlyOnceRegistered. <br>
      * 検死結果
      */
@@ -1823,6 +1847,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
      */
     public void setMessageTypeCode_NotEqual_参加者一覧() {
         setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.参加者一覧);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 能力行使メッセージ (PRIVATE_ABILITY). And OnlyOnceRegistered. <br>
+     * 能力行使メッセージ
+     */
+    public void setMessageTypeCode_NotEqual_能力行使メッセージ() {
+        setMessageTypeCode_NotEqual_AsMessageType(CDef.MessageType.能力行使メッセージ);
     }
 
     /**

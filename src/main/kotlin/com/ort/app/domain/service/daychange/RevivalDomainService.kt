@@ -31,6 +31,9 @@ class RevivalDomainService(
                 )
             )
         }
+        // 保険による復活
+        daychange = revivalByInsurance(daychange)
+
         return daychange
     }
 
@@ -85,10 +88,28 @@ class RevivalDomainService(
         return daychange.copy(village = village, messages = messages)
     }
 
+    private fun revivalByInsurance(daychange: Daychange): Daychange {
+        var village = daychange.village.copy()
+        var messages = daychange.messages.copy()
+        village.participants.filterDead().list.filter { it.status.hasInsurance() }.forEach {
+            village = village.reviveParticipant(it.id)
+            village = village.useInsurance(it.id)
+            messages = messages.add(createInsuranceReviveMessage(village, it))
+        }
+        return daychange.copy(village = village, messages = messages)
+    }
+
     private fun createRevivalMessage(village: Village, participant: VillageParticipant): Message {
         return Message.ofSystemMessage(
             day = village.latestDay(),
             message = "不思議なことに、${participant.name()}が生き返った。"
+        )
+    }
+
+    private fun createInsuranceReviveMessage(village: Village, participant: VillageParticipant): Message {
+        return Message.ofSystemMessage(
+            day = village.latestDay(),
+            message = "今からでも入れる保険があるんですか！？\n不思議なことに、${participant.name()}が生き返った。"
         )
     }
 }

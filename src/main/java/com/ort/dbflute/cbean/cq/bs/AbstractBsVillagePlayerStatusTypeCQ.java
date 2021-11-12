@@ -78,6 +78,14 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
         setVillagePlayerStatusTypeCode_Equal_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.狐憑き);
     }
 
+    /**
+     * Equal(=). As 保険 (INSURANCE). And OnlyOnceRegistered. <br>
+     * 保険
+     */
+    public void setVillagePlayerStatusTypeCode_Equal_保険() {
+        setVillagePlayerStatusTypeCode_Equal_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.保険);
+    }
+
     protected void doSetVillagePlayerStatusTypeCode_Equal(String villagePlayerStatusTypeCode) {
         regVillagePlayerStatusTypeCode(CK_EQ, villagePlayerStatusTypeCode);
     }
@@ -115,6 +123,14 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
      */
     public void setVillagePlayerStatusTypeCode_NotEqual_狐憑き() {
         setVillagePlayerStatusTypeCode_NotEqual_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.狐憑き);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 保険 (INSURANCE). And OnlyOnceRegistered. <br>
+     * 保険
+     */
+    public void setVillagePlayerStatusTypeCode_NotEqual_保険() {
+        setVillagePlayerStatusTypeCode_NotEqual_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.保険);
     }
 
     protected void doSetVillagePlayerStatusTypeCode_NotEqual(String villagePlayerStatusTypeCode) {
