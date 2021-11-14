@@ -76,7 +76,6 @@ public class VillageSettingsDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((VillageSettings)et).getIsAvailableGuardSameTarget(), (et, vl) -> {
             ((VillageSettings)et).setIsAvailableGuardSameTarget((Boolean)vl);
         }, "isAvailableGuardSameTarget");
-        setupEpg(_epgMap, et -> ((VillageSettings)et).getCharacterGroupId(), (et, vl) -> ((VillageSettings)et).setCharacterGroupId(cti(vl)), "characterGroupId");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getJoinPassword(), (et, vl) -> ((VillageSettings)et).setJoinPassword((String)vl), "joinPassword");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getOrganize(), (et, vl) -> ((VillageSettings)et).setOrganize((String)vl), "organize");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getAllowedSecretSayCode(), (et, vl) -> {
@@ -112,7 +111,6 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     @SuppressWarnings("unchecked")
     protected void xsetupEfpg() {
         setupEfpg(_efpgMap, et -> ((VillageSettings)et).getAllowedSecretSay(), (et, vl) -> ((VillageSettings)et).setAllowedSecretSay((OptionalEntity<AllowedSecretSay>)vl), "allowedSecretSay");
-        setupEfpg(_efpgMap, et -> ((VillageSettings)et).getCharaGroup(), (et, vl) -> ((VillageSettings)et).setCharaGroup((OptionalEntity<CharaGroup>)vl), "charaGroup");
         setupEfpg(_efpgMap, et -> ((VillageSettings)et).getVillage(), (et, vl) -> ((VillageSettings)et).setVillage((OptionalEntity<Village>)vl), "village");
     }
     public PropertyGateway findForeignPropertyGateway(String prop)
@@ -149,7 +147,6 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnIsAvailableSuddonlyDeath = cci("IS_AVAILABLE_SUDDONLY_DEATH", "IS_AVAILABLE_SUDDONLY_DEATH", null, null, Boolean.class, "isAvailableSuddonlyDeath", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnIsAvailableCommit = cci("IS_AVAILABLE_COMMIT", "IS_AVAILABLE_COMMIT", null, null, Boolean.class, "isAvailableCommit", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnIsAvailableGuardSameTarget = cci("IS_AVAILABLE_GUARD_SAME_TARGET", "IS_AVAILABLE_GUARD_SAME_TARGET", null, null, Boolean.class, "isAvailableGuardSameTarget", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
-    protected final ColumnInfo _columnCharacterGroupId = cci("CHARACTER_GROUP_ID", "CHARACTER_GROUP_ID", null, null, Integer.class, "characterGroupId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "charaGroup", null, null, false);
     protected final ColumnInfo _columnJoinPassword = cci("JOIN_PASSWORD", "JOIN_PASSWORD", null, null, String.class, "joinPassword", null, false, false, false, "VARCHAR", 12, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnOrganize = cci("ORGANIZE", "ORGANIZE", null, null, String.class, "organize", null, false, false, true, "VARCHAR", 10000, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnAllowedSecretSayCode = cci("ALLOWED_SECRET_SAY_CODE", "ALLOWED_SECRET_SAY_CODE", null, null, String.class, "allowedSecretSayCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "allowedSecretSay", null, CDef.DefMeta.AllowedSecretSay, false);
@@ -237,11 +234,6 @@ public class VillageSettingsDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnIsAvailableGuardSameTarget() { return _columnIsAvailableGuardSameTarget; }
     /**
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
-     * @return The information object of specified column. (NotNull)
-     */
-    public ColumnInfo columnCharacterGroupId() { return _columnCharacterGroupId; }
-    /**
      * JOIN_PASSWORD: {VARCHAR(12)}
      * @return The information object of specified column. (NotNull)
      */
@@ -309,7 +301,6 @@ public class VillageSettingsDbm extends AbstractDBMeta {
         ls.add(columnIsAvailableSuddonlyDeath());
         ls.add(columnIsAvailableCommit());
         ls.add(columnIsAvailableGuardSameTarget());
-        ls.add(columnCharacterGroupId());
         ls.add(columnJoinPassword());
         ls.add(columnOrganize());
         ls.add(columnAllowedSecretSayCode());
@@ -352,20 +343,12 @@ public class VillageSettingsDbm extends AbstractDBMeta {
         return cfi("FK_VILLAGE_SETTINGS_ALLOWED_SECRET_SAY", "allowedSecretSay", this, AllowedSecretSayDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villageSettingsList", false);
     }
     /**
-     * CHARA_GROUP by my CHARACTER_GROUP_ID, named 'charaGroup'.
-     * @return The information object of foreign property. (NotNull)
-     */
-    public ForeignInfo foreignCharaGroup() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharacterGroupId(), CharaGroupDbm.getInstance().columnCharaGroupId());
-        return cfi("FK_VILLAGE_SETTINGS_CHARA_GROUP", "charaGroup", this, CharaGroupDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villageSettingsList", false);
-    }
-    /**
      * VILLAGE by my VILLAGE_ID, named 'village'.
      * @return The information object of foreign property. (NotNull)
      */
     public ForeignInfo foreignVillage() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillageId(), VillageDbm.getInstance().columnVillageId());
-        return cfi("FK_VILLAGE_SETTINGS_VILLAGE", "village", this, VillageDbm.getInstance(), mp, 2, org.dbflute.optional.OptionalEntity.class, true, false, false, false, null, null, false, "villageSettingsAsOne", false);
+        return cfi("FK_VILLAGE_SETTINGS_VILLAGE", "village", this, VillageDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, true, false, false, false, null, null, false, "villageSettingsAsOne", false);
     }
 
     // -----------------------------------------------------

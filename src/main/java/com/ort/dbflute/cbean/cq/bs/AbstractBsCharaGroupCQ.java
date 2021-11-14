@@ -178,22 +178,22 @@ public abstract class AbstractBsCharaGroupCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select CHARACTER_GROUP_ID from VILLAGE_SETTINGS where ...)} <br>
-     * VILLAGE_SETTINGS by CHARACTER_GROUP_ID, named 'villageSettingsAsOne'.
+     * {exists (select CHARA_GROUP_ID from VILLAGE_CHARA_GROUP where ...)} <br>
+     * VILLAGE_CHARA_GROUP by CHARA_GROUP_ID, named 'villageCharaGroupAsOne'.
      * <pre>
-     * cb.query().<span style="color: #CC4747">existsVillageSettings</span>(settingsCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     settingsCB.query().set...
+     * cb.query().<span style="color: #CC4747">existsVillageCharaGroup</span>(groupCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     groupCB.query().set...
      * });
      * </pre>
-     * @param subCBLambda The callback for sub-query of VillageSettingsList for 'exists'. (NotNull)
+     * @param subCBLambda The callback for sub-query of VillageCharaGroupList for 'exists'. (NotNull)
      */
-    public void existsVillageSettings(SubQuery<VillageSettingsCB> subCBLambda) {
+    public void existsVillageCharaGroup(SubQuery<VillageCharaGroupCB> subCBLambda) {
         assertObjectNotNull("subCBLambda", subCBLambda);
-        VillageSettingsCB cb = new VillageSettingsCB(); cb.xsetupForExistsReferrer(this);
-        lockCall(() -> subCBLambda.query(cb)); String pp = keepCharaGroupId_ExistsReferrer_VillageSettingsList(cb.query());
-        registerExistsReferrer(cb.query(), "CHARA_GROUP_ID", "CHARACTER_GROUP_ID", pp, "villageSettingsList");
+        VillageCharaGroupCB cb = new VillageCharaGroupCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepCharaGroupId_ExistsReferrer_VillageCharaGroupList(cb.query());
+        registerExistsReferrer(cb.query(), "CHARA_GROUP_ID", "CHARA_GROUP_ID", pp, "villageCharaGroupList");
     }
-    public abstract String keepCharaGroupId_ExistsReferrer_VillageSettingsList(VillageSettingsCQ sq);
+    public abstract String keepCharaGroupId_ExistsReferrer_VillageCharaGroupList(VillageCharaGroupCQ sq);
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
@@ -216,22 +216,22 @@ public abstract class AbstractBsCharaGroupCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select CHARACTER_GROUP_ID from VILLAGE_SETTINGS where ...)} <br>
-     * VILLAGE_SETTINGS by CHARACTER_GROUP_ID, named 'villageSettingsAsOne'.
+     * {not exists (select CHARA_GROUP_ID from VILLAGE_CHARA_GROUP where ...)} <br>
+     * VILLAGE_CHARA_GROUP by CHARA_GROUP_ID, named 'villageCharaGroupAsOne'.
      * <pre>
-     * cb.query().<span style="color: #CC4747">notExistsVillageSettings</span>(settingsCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     settingsCB.query().set...
+     * cb.query().<span style="color: #CC4747">notExistsVillageCharaGroup</span>(groupCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     groupCB.query().set...
      * });
      * </pre>
-     * @param subCBLambda The callback for sub-query of CharaGroupId_NotExistsReferrer_VillageSettingsList for 'not exists'. (NotNull)
+     * @param subCBLambda The callback for sub-query of CharaGroupId_NotExistsReferrer_VillageCharaGroupList for 'not exists'. (NotNull)
      */
-    public void notExistsVillageSettings(SubQuery<VillageSettingsCB> subCBLambda) {
+    public void notExistsVillageCharaGroup(SubQuery<VillageCharaGroupCB> subCBLambda) {
         assertObjectNotNull("subCBLambda", subCBLambda);
-        VillageSettingsCB cb = new VillageSettingsCB(); cb.xsetupForExistsReferrer(this);
-        lockCall(() -> subCBLambda.query(cb)); String pp = keepCharaGroupId_NotExistsReferrer_VillageSettingsList(cb.query());
-        registerNotExistsReferrer(cb.query(), "CHARA_GROUP_ID", "CHARACTER_GROUP_ID", pp, "villageSettingsList");
+        VillageCharaGroupCB cb = new VillageCharaGroupCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepCharaGroupId_NotExistsReferrer_VillageCharaGroupList(cb.query());
+        registerNotExistsReferrer(cb.query(), "CHARA_GROUP_ID", "CHARA_GROUP_ID", pp, "villageCharaGroupList");
     }
-    public abstract String keepCharaGroupId_NotExistsReferrer_VillageSettingsList(VillageSettingsCQ sq);
+    public abstract String keepCharaGroupId_NotExistsReferrer_VillageCharaGroupList(VillageCharaGroupCQ sq);
 
     public void xsderiveCharaList(String fn, SubQuery<CharaCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
@@ -241,13 +241,13 @@ public abstract class AbstractBsCharaGroupCQ extends AbstractConditionQuery {
     }
     public abstract String keepCharaGroupId_SpecifyDerivedReferrer_CharaList(CharaCQ sq);
 
-    public void xsderiveVillageSettingsList(String fn, SubQuery<VillageSettingsCB> sq, String al, DerivedReferrerOption op) {
+    public void xsderiveVillageCharaGroupList(String fn, SubQuery<VillageCharaGroupCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
-        VillageSettingsCB cb = new VillageSettingsCB(); cb.xsetupForDerivedReferrer(this);
-        lockCall(() -> sq.query(cb)); String pp = keepCharaGroupId_SpecifyDerivedReferrer_VillageSettingsList(cb.query());
-        registerSpecifyDerivedReferrer(fn, cb.query(), "CHARA_GROUP_ID", "CHARACTER_GROUP_ID", pp, "villageSettingsList", al, op);
+        VillageCharaGroupCB cb = new VillageCharaGroupCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepCharaGroupId_SpecifyDerivedReferrer_VillageCharaGroupList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "CHARA_GROUP_ID", "CHARA_GROUP_ID", pp, "villageCharaGroupList", al, op);
     }
-    public abstract String keepCharaGroupId_SpecifyDerivedReferrer_VillageSettingsList(VillageSettingsCQ sq);
+    public abstract String keepCharaGroupId_SpecifyDerivedReferrer_VillageCharaGroupList(VillageCharaGroupCQ sq);
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
@@ -278,30 +278,30 @@ public abstract class AbstractBsCharaGroupCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from VILLAGE_SETTINGS where ...)} <br>
-     * VILLAGE_SETTINGS by CHARACTER_GROUP_ID, named 'villageSettingsAsOne'.
+     * {FOO &lt;= (select max(BAR) from VILLAGE_CHARA_GROUP where ...)} <br>
+     * VILLAGE_CHARA_GROUP by CHARA_GROUP_ID, named 'villageCharaGroupAsOne'.
      * <pre>
-     * cb.query().<span style="color: #CC4747">derivedVillageSettings()</span>.<span style="color: #CC4747">max</span>(settingsCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     settingsCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
-     *     settingsCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * cb.query().<span style="color: #CC4747">derivedVillageCharaGroup()</span>.<span style="color: #CC4747">max</span>(groupCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     groupCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     groupCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
      * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
      * </pre>
      * @return The object to set up a function for referrer table. (NotNull)
      */
-    public HpQDRFunction<VillageSettingsCB> derivedVillageSettings() {
-        return xcreateQDRFunctionVillageSettingsList();
+    public HpQDRFunction<VillageCharaGroupCB> derivedVillageCharaGroup() {
+        return xcreateQDRFunctionVillageCharaGroupList();
     }
-    protected HpQDRFunction<VillageSettingsCB> xcreateQDRFunctionVillageSettingsList() {
-        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveVillageSettingsList(fn, sq, rd, vl, op));
+    protected HpQDRFunction<VillageCharaGroupCB> xcreateQDRFunctionVillageCharaGroupList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveVillageCharaGroupList(fn, sq, rd, vl, op));
     }
-    public void xqderiveVillageSettingsList(String fn, SubQuery<VillageSettingsCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+    public void xqderiveVillageCharaGroupList(String fn, SubQuery<VillageCharaGroupCB> sq, String rd, Object vl, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
-        VillageSettingsCB cb = new VillageSettingsCB(); cb.xsetupForDerivedReferrer(this);
-        lockCall(() -> sq.query(cb)); String sqpp = keepCharaGroupId_QueryDerivedReferrer_VillageSettingsList(cb.query()); String prpp = keepCharaGroupId_QueryDerivedReferrer_VillageSettingsListParameter(vl);
-        registerQueryDerivedReferrer(fn, cb.query(), "CHARA_GROUP_ID", "CHARACTER_GROUP_ID", sqpp, "villageSettingsList", rd, vl, prpp, op);
+        VillageCharaGroupCB cb = new VillageCharaGroupCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepCharaGroupId_QueryDerivedReferrer_VillageCharaGroupList(cb.query()); String prpp = keepCharaGroupId_QueryDerivedReferrer_VillageCharaGroupListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "CHARA_GROUP_ID", "CHARA_GROUP_ID", sqpp, "villageCharaGroupList", rd, vl, prpp, op);
     }
-    public abstract String keepCharaGroupId_QueryDerivedReferrer_VillageSettingsList(VillageSettingsCQ sq);
-    public abstract String keepCharaGroupId_QueryDerivedReferrer_VillageSettingsListParameter(Object vl);
+    public abstract String keepCharaGroupId_QueryDerivedReferrer_VillageCharaGroupList(VillageCharaGroupCQ sq);
+    public abstract String keepCharaGroupId_QueryDerivedReferrer_VillageCharaGroupListParameter(Object vl);
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>

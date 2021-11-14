@@ -36,13 +36,13 @@ import com.ort.dbflute.exentity.*;
  *     DESIGNER
  *
  * [referrer table]
- *     CHARA, VILLAGE_SETTINGS
+ *     CHARA, VILLAGE_CHARA_GROUP
  *
  * [foreign property]
  *     designer
  *
  * [referrer property]
- *     charaList, villageSettingsList
+ *     charaList, villageCharaGroupList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -255,24 +255,24 @@ public abstract class BsCharaGroup extends AbstractEntity implements DomainEntit
         _charaList = charaList;
     }
 
-    /** VILLAGE_SETTINGS by CHARACTER_GROUP_ID, named 'villageSettingsList'. */
-    protected List<VillageSettings> _villageSettingsList;
+    /** VILLAGE_CHARA_GROUP by CHARA_GROUP_ID, named 'villageCharaGroupList'. */
+    protected List<VillageCharaGroup> _villageCharaGroupList;
 
     /**
-     * [get] VILLAGE_SETTINGS by CHARACTER_GROUP_ID, named 'villageSettingsList'.
-     * @return The entity list of referrer property 'villageSettingsList'. (NotNull: even if no loading, returns empty list)
+     * [get] VILLAGE_CHARA_GROUP by CHARA_GROUP_ID, named 'villageCharaGroupList'.
+     * @return The entity list of referrer property 'villageCharaGroupList'. (NotNull: even if no loading, returns empty list)
      */
-    public List<VillageSettings> getVillageSettingsList() {
-        if (_villageSettingsList == null) { _villageSettingsList = newReferrerList(); }
-        return _villageSettingsList;
+    public List<VillageCharaGroup> getVillageCharaGroupList() {
+        if (_villageCharaGroupList == null) { _villageCharaGroupList = newReferrerList(); }
+        return _villageCharaGroupList;
     }
 
     /**
-     * [set] VILLAGE_SETTINGS by CHARACTER_GROUP_ID, named 'villageSettingsList'.
-     * @param villageSettingsList The entity list of referrer property 'villageSettingsList'. (NullAllowed)
+     * [set] VILLAGE_CHARA_GROUP by CHARA_GROUP_ID, named 'villageCharaGroupList'.
+     * @param villageCharaGroupList The entity list of referrer property 'villageCharaGroupList'. (NullAllowed)
      */
-    public void setVillageSettingsList(List<VillageSettings> villageSettingsList) {
-        _villageSettingsList = villageSettingsList;
+    public void setVillageCharaGroupList(List<VillageCharaGroup> villageCharaGroupList) {
+        _villageCharaGroupList = villageCharaGroupList;
     }
 
     protected <ELEMENT> List<ELEMENT> newReferrerList() { // overriding to import
@@ -308,8 +308,8 @@ public abstract class BsCharaGroup extends AbstractEntity implements DomainEntit
         { sb.append(li).append(xbRDS(_designer, "designer")); }
         if (_charaList != null) { for (Chara et : _charaList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "charaList")); } } }
-        if (_villageSettingsList != null) { for (VillageSettings et : _villageSettingsList)
-        { if (et != null) { sb.append(li).append(xbRDS(et, "villageSettingsList")); } } }
+        if (_villageCharaGroupList != null) { for (VillageCharaGroup et : _villageCharaGroupList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "villageCharaGroupList")); } } }
         return sb.toString();
     }
     protected <ET extends Entity> String xbRDS(org.dbflute.optional.OptionalEntity<ET> et, String name) { // buildRelationDisplayString()
@@ -342,8 +342,8 @@ public abstract class BsCharaGroup extends AbstractEntity implements DomainEntit
         { sb.append(dm).append("designer"); }
         if (_charaList != null && !_charaList.isEmpty())
         { sb.append(dm).append("charaList"); }
-        if (_villageSettingsList != null && !_villageSettingsList.isEmpty())
-        { sb.append(dm).append("villageSettingsList"); }
+        if (_villageCharaGroupList != null && !_villageCharaGroupList.isEmpty())
+        { sb.append(dm).append("villageCharaGroupList"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }

@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID
  *
  * [column]
- *     VILLAGE_ID, DUMMY_CHARA_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, CHARACTER_GROUP_ID, JOIN_PASSWORD, ORGANIZE, ALLOWED_SECRET_SAY_CODE, IS_AVAILABLE_ACTION, IS_RANDOM_ORGANIZE, IS_REINCARNATION_SKILL_ALL, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, DUMMY_CHARA_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, JOIN_PASSWORD, ORGANIZE, ALLOWED_SECRET_SAY_CODE, IS_AVAILABLE_ACTION, IS_RANDOM_ORGANIZE, IS_REINCARNATION_SKILL_ALL, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -33,13 +33,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     ALLOWED_SECRET_SAY, CHARA_GROUP, VILLAGE
+ *     ALLOWED_SECRET_SAY, VILLAGE
  *
  * [referrer table]
  *     
  *
  * [foreign property]
- *     allowedSecretSay, charaGroup, village
+ *     allowedSecretSay, village
  *
  * [referrer property]
  *     
@@ -61,7 +61,6 @@ import com.ort.dbflute.exentity.*;
  * Boolean isAvailableSuddonlyDeath = entity.getIsAvailableSuddonlyDeath();
  * Boolean isAvailableCommit = entity.getIsAvailableCommit();
  * Boolean isAvailableGuardSameTarget = entity.getIsAvailableGuardSameTarget();
- * Integer characterGroupId = entity.getCharacterGroupId();
  * String joinPassword = entity.getJoinPassword();
  * String organize = entity.getOrganize();
  * String allowedSecretSayCode = entity.getAllowedSecretSayCode();
@@ -87,7 +86,6 @@ import com.ort.dbflute.exentity.*;
  * entity.setIsAvailableSuddonlyDeath(isAvailableSuddonlyDeath);
  * entity.setIsAvailableCommit(isAvailableCommit);
  * entity.setIsAvailableGuardSameTarget(isAvailableGuardSameTarget);
- * entity.setCharacterGroupId(characterGroupId);
  * entity.setJoinPassword(joinPassword);
  * entity.setOrganize(organize);
  * entity.setAllowedSecretSayCode(allowedSecretSayCode);
@@ -157,9 +155,6 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /** IS_AVAILABLE_GUARD_SAME_TARGET: {NotNull, BIT, classification=Flg} */
     protected Boolean _isAvailableGuardSameTarget;
-
-    /** CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} */
-    protected Integer _characterGroupId;
 
     /** JOIN_PASSWORD: {VARCHAR(12)} */
     protected String _joinPassword;
@@ -1143,27 +1138,6 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         _allowedSecretSay = allowedSecretSay;
     }
 
-    /** CHARA_GROUP by my CHARACTER_GROUP_ID, named 'charaGroup'. */
-    protected OptionalEntity<CharaGroup> _charaGroup;
-
-    /**
-     * [get] CHARA_GROUP by my CHARACTER_GROUP_ID, named 'charaGroup'. <br>
-     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
-     * @return The entity of foreign property 'charaGroup'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
-     */
-    public OptionalEntity<CharaGroup> getCharaGroup() {
-        if (_charaGroup == null) { _charaGroup = OptionalEntity.relationEmpty(this, "charaGroup"); }
-        return _charaGroup;
-    }
-
-    /**
-     * [set] CHARA_GROUP by my CHARACTER_GROUP_ID, named 'charaGroup'.
-     * @param charaGroup The entity of foreign property 'charaGroup'. (NullAllowed)
-     */
-    public void setCharaGroup(OptionalEntity<CharaGroup> charaGroup) {
-        _charaGroup = charaGroup;
-    }
-
     /** VILLAGE by my VILLAGE_ID, named 'village'. */
     protected OptionalEntity<Village> _village;
 
@@ -1219,8 +1193,6 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         StringBuilder sb = new StringBuilder();
         if (_allowedSecretSay != null && _allowedSecretSay.isPresent())
         { sb.append(li).append(xbRDS(_allowedSecretSay, "allowedSecretSay")); }
-        if (_charaGroup != null && _charaGroup.isPresent())
-        { sb.append(li).append(xbRDS(_charaGroup, "charaGroup")); }
         if (_village != null && _village.isPresent())
         { sb.append(li).append(xbRDS(_village, "village")); }
         return sb.toString();
@@ -1247,7 +1219,6 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         sb.append(dm).append(xfND(_isAvailableSuddonlyDeath));
         sb.append(dm).append(xfND(_isAvailableCommit));
         sb.append(dm).append(xfND(_isAvailableGuardSameTarget));
-        sb.append(dm).append(xfND(_characterGroupId));
         sb.append(dm).append(xfND(_joinPassword));
         sb.append(dm).append(xfND(_organize));
         sb.append(dm).append(xfND(_allowedSecretSayCode));
@@ -1270,8 +1241,6 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         StringBuilder sb = new StringBuilder();
         if (_allowedSecretSay != null && _allowedSecretSay.isPresent())
         { sb.append(dm).append("allowedSecretSay"); }
-        if (_charaGroup != null && _charaGroup.isPresent())
-        { sb.append(dm).append("charaGroup"); }
         if (_village != null && _village.isPresent())
         { sb.append(dm).append("village"); }
         if (sb.length() > dm.length()) {
@@ -1595,26 +1564,6 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         checkClassificationCode("IS_AVAILABLE_GUARD_SAME_TARGET", CDef.DefMeta.Flg, isAvailableGuardSameTarget);
         registerModifiedProperty("isAvailableGuardSameTarget");
         _isAvailableGuardSameTarget = isAvailableGuardSameTarget;
-    }
-
-    /**
-     * [get] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
-     * キャラクターグループID
-     * @return The value of the column 'CHARACTER_GROUP_ID'. (basically NotNull if selected: for the constraint)
-     */
-    public Integer getCharacterGroupId() {
-        checkSpecifiedProperty("characterGroupId");
-        return _characterGroupId;
-    }
-
-    /**
-     * [set] CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
-     * キャラクターグループID
-     * @param characterGroupId The value of the column 'CHARACTER_GROUP_ID'. (basically NotNull if update: for the constraint)
-     */
-    public void setCharacterGroupId(Integer characterGroupId) {
-        registerModifiedProperty("characterGroupId");
-        _characterGroupId = characterGroupId;
     }
 
     /**

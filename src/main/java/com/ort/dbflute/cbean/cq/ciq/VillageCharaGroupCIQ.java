@@ -12,21 +12,21 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of CHARA_GROUP.
+ * The condition-query for in-line of VILLAGE_CHARA_GROUP.
  * @author DBFlute(AutoGenerator)
  */
-public class CharaGroupCIQ extends AbstractBsCharaGroupCQ {
+public class VillageCharaGroupCIQ extends AbstractBsVillageCharaGroupCQ {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected BsCharaGroupCQ _myCQ;
+    protected BsVillageCharaGroupCQ _myCQ;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public CharaGroupCIQ(ConditionQuery referrerQuery, SqlClause sqlClause
-                        , String aliasName, int nestLevel, BsCharaGroupCQ myCQ) {
+    public VillageCharaGroupCIQ(ConditionQuery referrerQuery, SqlClause sqlClause
+                        , String aliasName, int nestLevel, BsVillageCharaGroupCQ myCQ) {
         super(referrerQuery, sqlClause, aliasName, nestLevel);
         _myCQ = myCQ;
         _foreignPropertyName = _myCQ.xgetForeignPropertyName(); // accept foreign property name
@@ -61,45 +61,23 @@ public class CharaGroupCIQ extends AbstractBsCharaGroupCQ {
     // ===================================================================================
     //                                                                Override about Query
     //                                                                ====================
+    protected ConditionValue xgetCValueVillageCharaGroupId() { return _myCQ.xdfgetVillageCharaGroupId(); }
+    protected ConditionValue xgetCValueVillageId() { return _myCQ.xdfgetVillageId(); }
     protected ConditionValue xgetCValueCharaGroupId() { return _myCQ.xdfgetCharaGroupId(); }
-    public String keepCharaGroupId_ExistsReferrer_CharaList(CharaCQ sq)
-    { throwIICBOE("ExistsReferrer"); return null; }
-    public String keepCharaGroupId_ExistsReferrer_VillageCharaGroupList(VillageCharaGroupCQ sq)
-    { throwIICBOE("ExistsReferrer"); return null; }
-    public String keepCharaGroupId_NotExistsReferrer_CharaList(CharaCQ sq)
-    { throwIICBOE("NotExistsReferrer"); return null; }
-    public String keepCharaGroupId_NotExistsReferrer_VillageCharaGroupList(VillageCharaGroupCQ sq)
-    { throwIICBOE("NotExistsReferrer"); return null; }
-    public String keepCharaGroupId_SpecifyDerivedReferrer_CharaList(CharaCQ sq)
-    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
-    public String keepCharaGroupId_SpecifyDerivedReferrer_VillageCharaGroupList(VillageCharaGroupCQ sq)
-    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
-    public String keepCharaGroupId_QueryDerivedReferrer_CharaList(CharaCQ sq)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepCharaGroupId_QueryDerivedReferrer_CharaListParameter(Object vl)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepCharaGroupId_QueryDerivedReferrer_VillageCharaGroupList(VillageCharaGroupCQ sq)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepCharaGroupId_QueryDerivedReferrer_VillageCharaGroupListParameter(Object vl)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    protected ConditionValue xgetCValueCharaGroupName() { return _myCQ.xdfgetCharaGroupName(); }
-    protected ConditionValue xgetCValueDesignerId() { return _myCQ.xdfgetDesignerId(); }
-    protected ConditionValue xgetCValueDescriptionUrl() { return _myCQ.xdfgetDescriptionUrl(); }
-    protected ConditionValue xgetCValueIsAvailableChangeName() { return _myCQ.xdfgetIsAvailableChangeName(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
     protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }
     protected ConditionValue xgetCValueUpdateDatetime() { return _myCQ.xdfgetUpdateDatetime(); }
     protected ConditionValue xgetCValueUpdateTrace() { return _myCQ.xdfgetUpdateTrace(); }
     protected Map<String, Object> xfindFixedConditionDynamicParameterMap(String pp) { return null; }
-    public String keepScalarCondition(CharaGroupCQ sq)
+    public String keepScalarCondition(VillageCharaGroupCQ sq)
     { throwIICBOE("ScalarCondition"); return null; }
-    public String keepSpecifyMyselfDerived(CharaGroupCQ sq)
+    public String keepSpecifyMyselfDerived(VillageCharaGroupCQ sq)
     { throwIICBOE("(Specify)MyselfDerived"); return null;}
-    public String keepQueryMyselfDerived(CharaGroupCQ sq)
+    public String keepQueryMyselfDerived(VillageCharaGroupCQ sq)
     { throwIICBOE("(Query)MyselfDerived"); return null;}
     public String keepQueryMyselfDerivedParameter(Object vl)
     { throwIICBOE("(Query)MyselfDerived"); return null;}
-    public String keepMyselfExists(CharaGroupCQ sq)
+    public String keepMyselfExists(VillageCharaGroupCQ sq)
     { throwIICBOE("MyselfExists"); return null;}
 
     protected void throwIICBOE(String name)
@@ -109,6 +87,6 @@ public class CharaGroupCIQ extends AbstractBsCharaGroupCQ {
     //                                                                       Very Internal
     //                                                                       =============
     // very internal (for suppressing warn about 'Not Use Import')
-    protected String xinCB() { return CharaGroupCB.class.getName(); }
-    protected String xinCQ() { return CharaGroupCQ.class.getName(); }
+    protected String xinCB() { return VillageCharaGroupCB.class.getName(); }
+    protected String xinCQ() { return VillageCharaGroupCQ.class.getName(); }
 }

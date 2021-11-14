@@ -1,18 +1,18 @@
 package com.ort.dbflute.cbean.nss;
 
-import com.ort.dbflute.cbean.cq.VillageSettingsCQ;
+import com.ort.dbflute.cbean.cq.VillageCharaGroupCQ;
 
 /**
- * The nest select set-upper of VILLAGE_SETTINGS.
+ * The nest select set-upper of VILLAGE_CHARA_GROUP.
  * @author DBFlute(AutoGenerator)
  */
-public class VillageSettingsNss {
+public class VillageCharaGroupNss {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected final VillageSettingsCQ _query;
-    public VillageSettingsNss(VillageSettingsCQ query) { _query = query; }
+    protected final VillageCharaGroupCQ _query;
+    public VillageCharaGroupNss(VillageCharaGroupCQ query) { _query = query; }
     public boolean hasConditionQuery() { return _query != null; }
 
     // ===================================================================================
@@ -20,10 +20,12 @@ public class VillageSettingsNss {
     //                                                                     ===============
     /**
      * With nested relation columns to select clause. <br>
-     * ALLOWED_SECRET_SAY by my ALLOWED_SECRET_SAY_CODE, named 'allowedSecretSay'.
+     * CHARA_GROUP by my CHARA_GROUP_ID, named 'charaGroup'.
+     * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
      */
-    public void withAllowedSecretSay() {
-        _query.xdoNss(() -> _query.queryAllowedSecretSay());
+    public CharaGroupNss withCharaGroup() {
+        _query.xdoNss(() -> _query.queryCharaGroup());
+        return new CharaGroupNss(_query.queryCharaGroup());
     }
     /**
      * With nested relation columns to select clause. <br>

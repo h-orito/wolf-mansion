@@ -22,38 +22,38 @@ import com.ort.dbflute.bsentity.dbmeta.*;
 import com.ort.dbflute.cbean.*;
 
 /**
- * The behavior of VILLAGE_SETTINGS as TABLE. <br>
+ * The behavior of VILLAGE_CHARA_GROUP as TABLE. <br>
  * <pre>
  * [primary key]
- *     VILLAGE_ID
+ *     VILLAGE_CHARA_GROUP_ID
  *
  * [column]
- *     VILLAGE_ID, DUMMY_CHARA_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, JOIN_PASSWORD, ORGANIZE, ALLOWED_SECRET_SAY_CODE, IS_AVAILABLE_ACTION, IS_RANDOM_ORGANIZE, IS_REINCARNATION_SKILL_ALL, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_CHARA_GROUP_ID, VILLAGE_ID, CHARA_GROUP_ID, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
  *
  * [identity]
- *     
+ *     VILLAGE_CHARA_GROUP_ID
  *
  * [version-no]
  *     
  *
  * [foreign table]
- *     ALLOWED_SECRET_SAY, VILLAGE
+ *     CHARA_GROUP, VILLAGE
  *
  * [referrer table]
  *     
  *
  * [foreign property]
- *     allowedSecretSay, village
+ *     charaGroup, village
  *
  * [referrer property]
  *     
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<VillageSettings, VillageSettingsCB> {
+public abstract class BsVillageCharaGroupBhv extends AbstractBehaviorWritable<VillageCharaGroup, VillageCharaGroupCB> {
 
     // ===================================================================================
     //                                                                          Definition
@@ -65,15 +65,15 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
     //                                                                             DB Meta
     //                                                                             =======
     /** {@inheritDoc} */
-    public VillageSettingsDbm asDBMeta() { return VillageSettingsDbm.getInstance(); }
+    public VillageCharaGroupDbm asDBMeta() { return VillageCharaGroupDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "VILLAGE_SETTINGS"; }
+    public String asTableDbName() { return "VILLAGE_CHARA_GROUP"; }
 
     // ===================================================================================
     //                                                                        New Instance
     //                                                                        ============
     /** {@inheritDoc} */
-    public VillageSettingsCB newConditionBean() { return new VillageSettingsCB(); }
+    public VillageCharaGroupCB newConditionBean() { return new VillageCharaGroupCB(); }
 
     // ===================================================================================
     //                                                                        Count Select
@@ -82,14 +82,14 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * Select the count of uniquely-selected records by the condition-bean. {IgnorePagingCondition, IgnoreSpecifyColumn}<br>
      * SpecifyColumn is ignored but you can use it only to remove text type column for union's distinct.
      * <pre>
-     * <span style="color: #70226C">int</span> count = <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">selectCount</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #70226C">int</span> count = <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">selectCount</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().set...
      * });
      * </pre>
-     * @param cbLambda The callback for condition-bean of VillageSettings. (NotNull)
+     * @param cbLambda The callback for condition-bean of VillageCharaGroup. (NotNull)
      * @return The count for the condition. (NotMinus)
      */
-    public int selectCount(CBCall<VillageSettingsCB> cbLambda) {
+    public int selectCount(CBCall<VillageCharaGroupCB> cbLambda) {
         return facadeSelectCount(createCB(cbLambda));
     }
 
@@ -103,38 +103,38 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * <span style="color: #AD4747; font-size: 120%">If it might be no data, isPresent() and orElse(), ...</span>
      * <pre>
      * <span style="color: #3F7E5E">// if the data always exists as your business rule</span>
-     * <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">selectEntity</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">selectEntity</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().set...
-     * }).<span style="color: #CC4747">alwaysPresent</span>(<span style="color: #553000">villageSettings</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * }).<span style="color: #CC4747">alwaysPresent</span>(<span style="color: #553000">villageCharaGroup</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #3F7E5E">// called if present, or exception</span>
-     *     ... = <span style="color: #553000">villageSettings</span>.get...
+     *     ... = <span style="color: #553000">villageCharaGroup</span>.get...
      * });
      *
      * <span style="color: #3F7E5E">// if it might be no data, ...</span>
-     * <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">selectEntity</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">selectEntity</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().set...
-     * }).<span style="color: #CC4747">ifPresent</span>(<span style="color: #553000">villageSettings</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * }).<span style="color: #CC4747">ifPresent</span>(<span style="color: #553000">villageCharaGroup</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #3F7E5E">// called if present</span>
-     *     ... = <span style="color: #553000">villageSettings</span>.get...
+     *     ... = <span style="color: #553000">villageCharaGroup</span>.get...
      * }).<span style="color: #994747">orElse</span>(() <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #3F7E5E">// called if not present</span>
      * });
      * </pre>
-     * @param cbLambda The callback for condition-bean of VillageSettings. (NotNull)
+     * @param cbLambda The callback for condition-bean of VillageCharaGroup. (NotNull)
      * @return The optional entity selected by the condition. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    public OptionalEntity<VillageSettings> selectEntity(CBCall<VillageSettingsCB> cbLambda) {
+    public OptionalEntity<VillageCharaGroup> selectEntity(CBCall<VillageCharaGroupCB> cbLambda) {
         return facadeSelectEntity(createCB(cbLambda));
     }
 
-    protected OptionalEntity<VillageSettings> facadeSelectEntity(VillageSettingsCB cb) {
+    protected OptionalEntity<VillageCharaGroup> facadeSelectEntity(VillageCharaGroupCB cb) {
         return doSelectOptionalEntity(cb, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends VillageSettings> OptionalEntity<ENTITY> doSelectOptionalEntity(VillageSettingsCB cb, Class<? extends ENTITY> tp) {
+    protected <ENTITY extends VillageCharaGroup> OptionalEntity<ENTITY> doSelectOptionalEntity(VillageCharaGroupCB cb, Class<? extends ENTITY> tp) {
         return createOptionalEntity(doSelectEntity(cb, tp), cb);
     }
 
@@ -144,46 +144,46 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * Select the entity by the condition-bean with deleted check. <br>
      * <span style="color: #AD4747; font-size: 120%">If the data is always present as your business rule, this method is good.</span>
      * <pre>
-     * VillageSettings <span style="color: #553000">villageSettings</span> = <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">selectEntityWithDeletedCheck</span>(cb <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> cb.acceptPK(1));
-     * ... = <span style="color: #553000">villageSettings</span>.get...(); <span style="color: #3F7E5E">// the entity always be not null</span>
+     * VillageCharaGroup <span style="color: #553000">villageCharaGroup</span> = <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">selectEntityWithDeletedCheck</span>(cb <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> cb.acceptPK(1));
+     * ... = <span style="color: #553000">villageCharaGroup</span>.get...(); <span style="color: #3F7E5E">// the entity always be not null</span>
      * </pre>
-     * @param cbLambda The callback for condition-bean of VillageSettings. (NotNull)
+     * @param cbLambda The callback for condition-bean of VillageCharaGroup. (NotNull)
      * @return The entity selected by the condition. (NotNull: if no data, throws exception)
      * @throws EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    public VillageSettings selectEntityWithDeletedCheck(CBCall<VillageSettingsCB> cbLambda) {
+    public VillageCharaGroup selectEntityWithDeletedCheck(CBCall<VillageCharaGroupCB> cbLambda) {
         return facadeSelectEntityWithDeletedCheck(createCB(cbLambda));
     }
 
     /**
      * Select the entity by the primary-key value.
-     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
+     * @param villageCharaGroupId : PK, ID, NotNull, INT UNSIGNED(10). (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    public OptionalEntity<VillageSettings> selectByPK(Integer villageId) {
-        return facadeSelectByPK(villageId);
+    public OptionalEntity<VillageCharaGroup> selectByPK(Integer villageCharaGroupId) {
+        return facadeSelectByPK(villageCharaGroupId);
     }
 
-    protected OptionalEntity<VillageSettings> facadeSelectByPK(Integer villageId) {
-        return doSelectOptionalByPK(villageId, typeOfSelectedEntity());
+    protected OptionalEntity<VillageCharaGroup> facadeSelectByPK(Integer villageCharaGroupId) {
+        return doSelectOptionalByPK(villageCharaGroupId, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends VillageSettings> ENTITY doSelectByPK(Integer villageId, Class<? extends ENTITY> tp) {
-        return doSelectEntity(xprepareCBAsPK(villageId), tp);
+    protected <ENTITY extends VillageCharaGroup> ENTITY doSelectByPK(Integer villageCharaGroupId, Class<? extends ENTITY> tp) {
+        return doSelectEntity(xprepareCBAsPK(villageCharaGroupId), tp);
     }
 
-    protected <ENTITY extends VillageSettings> OptionalEntity<ENTITY> doSelectOptionalByPK(Integer villageId, Class<? extends ENTITY> tp) {
-        return createOptionalEntity(doSelectByPK(villageId, tp), villageId);
+    protected <ENTITY extends VillageCharaGroup> OptionalEntity<ENTITY> doSelectOptionalByPK(Integer villageCharaGroupId, Class<? extends ENTITY> tp) {
+        return createOptionalEntity(doSelectByPK(villageCharaGroupId, tp), villageCharaGroupId);
     }
 
-    protected VillageSettingsCB xprepareCBAsPK(Integer villageId) {
-        assertObjectNotNull("villageId", villageId);
-        return newConditionBean().acceptPK(villageId);
+    protected VillageCharaGroupCB xprepareCBAsPK(Integer villageCharaGroupId) {
+        assertObjectNotNull("villageCharaGroupId", villageCharaGroupId);
+        return newConditionBean().acceptPK(villageCharaGroupId);
     }
 
     // ===================================================================================
@@ -192,19 +192,19 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
     /**
      * Select the list as result bean.
      * <pre>
-     * ListResultBean&lt;VillageSettings&gt; <span style="color: #553000">villageSettingsList</span> = <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">selectList</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * ListResultBean&lt;VillageCharaGroup&gt; <span style="color: #553000">villageCharaGroupList</span> = <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">selectList</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().set...;
      *     <span style="color: #553000">cb</span>.query().addOrderBy...;
      * });
-     * <span style="color: #70226C">for</span> (VillageSettings <span style="color: #553000">villageSettings</span> : <span style="color: #553000">villageSettingsList</span>) {
-     *     ... = <span style="color: #553000">villageSettings</span>.get...;
+     * <span style="color: #70226C">for</span> (VillageCharaGroup <span style="color: #553000">villageCharaGroup</span> : <span style="color: #553000">villageCharaGroupList</span>) {
+     *     ... = <span style="color: #553000">villageCharaGroup</span>.get...;
      * }
      * </pre>
-     * @param cbLambda The callback for condition-bean of VillageSettings. (NotNull)
+     * @param cbLambda The callback for condition-bean of VillageCharaGroup. (NotNull)
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @throws DangerousResultSizeException When the result size is over the specified safety size.
      */
-    public ListResultBean<VillageSettings> selectList(CBCall<VillageSettingsCB> cbLambda) {
+    public ListResultBean<VillageCharaGroup> selectList(CBCall<VillageCharaGroupCB> cbLambda) {
         return facadeSelectList(createCB(cbLambda));
     }
 
@@ -218,7 +218,7 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * Select the page as result bean. <br>
      * (both count-select and paging-select are executed)
      * <pre>
-     * PagingResultBean&lt;VillageSettings&gt; <span style="color: #553000">page</span> = <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">selectPage</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * PagingResultBean&lt;VillageCharaGroup&gt; <span style="color: #553000">page</span> = <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">selectPage</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().set...
      *     <span style="color: #553000">cb</span>.query().addOrderBy...
      *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">paging</span>(20, 3); <span style="color: #3F7E5E">// 20 records per a page and current page number is 3</span>
@@ -228,15 +228,15 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * <span style="color: #70226C">boolean</span> isExistPrePage = <span style="color: #553000">page</span>.isExistPrePage();
      * <span style="color: #70226C">boolean</span> isExistNextPage = <span style="color: #553000">page</span>.isExistNextPage();
      * ...
-     * <span style="color: #70226C">for</span> (VillageSettings villageSettings : <span style="color: #553000">page</span>) {
-     *     ... = villageSettings.get...;
+     * <span style="color: #70226C">for</span> (VillageCharaGroup villageCharaGroup : <span style="color: #553000">page</span>) {
+     *     ... = villageCharaGroup.get...;
      * }
      * </pre>
-     * @param cbLambda The callback for condition-bean of VillageSettings. (NotNull)
+     * @param cbLambda The callback for condition-bean of VillageCharaGroup. (NotNull)
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @throws DangerousResultSizeException When the result size is over the specified safety size.
      */
-    public PagingResultBean<VillageSettings> selectPage(CBCall<VillageSettingsCB> cbLambda) {
+    public PagingResultBean<VillageCharaGroup> selectPage(CBCall<VillageCharaGroupCB> cbLambda) {
         return facadeSelectPage(createCB(cbLambda));
     }
 
@@ -246,16 +246,16 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
     /**
      * Select the cursor by the condition-bean.
      * <pre>
-     * <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">selectCursor</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">selectCursor</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().set...
      * }, <span style="color: #553000">member</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     ... = <span style="color: #553000">member</span>.getMemberName();
      * });
      * </pre>
-     * @param cbLambda The callback for condition-bean of VillageSettings. (NotNull)
-     * @param entityLambda The handler of entity row of VillageSettings. (NotNull)
+     * @param cbLambda The callback for condition-bean of VillageCharaGroup. (NotNull)
+     * @param entityLambda The handler of entity row of VillageCharaGroup. (NotNull)
      */
-    public void selectCursor(CBCall<VillageSettingsCB> cbLambda, EntityRowHandler<VillageSettings> entityLambda) {
+    public void selectCursor(CBCall<VillageCharaGroupCB> cbLambda, EntityRowHandler<VillageCharaGroup> entityLambda) {
         facadeSelectCursor(createCB(cbLambda), entityLambda);
     }
 
@@ -266,7 +266,7 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * Select the scalar value derived by a function from uniquely-selected records. <br>
      * You should call a function method after this method called like as follows:
      * <pre>
-     * <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">selectScalar</span>(Date.class).max(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">selectScalar</span>(Date.class).max(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.specify().<span style="color: #CC4747">column...</span>; <span style="color: #3F7E5E">// required for the function</span>
      *     <span style="color: #553000">cb</span>.query().set...
      * });
@@ -275,7 +275,7 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * @param resultType The type of result. (NotNull)
      * @return The scalar function object to specify function for scalar value. (NotNull)
      */
-    public <RESULT> HpSLSFunction<VillageSettingsCB, RESULT> selectScalar(Class<RESULT> resultType) {
+    public <RESULT> HpSLSFunction<VillageCharaGroupCB, RESULT> selectScalar(Class<RESULT> resultType) {
         return facadeScalarSelect(resultType);
     }
 
@@ -320,12 +320,12 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * </pre>
      * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
      * The condition-bean, which the set-upper provides, has order by FK before callback.
-     * @param villageSettingsList The entity list of villageSettings. (NotNull)
+     * @param villageCharaGroupList The entity list of villageCharaGroup. (NotNull)
      * @param loaderLambda The callback to handle the referrer loader for actually loading referrer. (NotNull)
      */
-    public void load(List<VillageSettings> villageSettingsList, ReferrerLoaderHandler<LoaderOfVillageSettings> loaderLambda) {
-        xassLRArg(villageSettingsList, loaderLambda);
-        loaderLambda.handle(new LoaderOfVillageSettings().ready(villageSettingsList, _behaviorSelector));
+    public void load(List<VillageCharaGroup> villageCharaGroupList, ReferrerLoaderHandler<LoaderOfVillageCharaGroup> loaderLambda) {
+        xassLRArg(villageCharaGroupList, loaderLambda);
+        loaderLambda.handle(new LoaderOfVillageCharaGroup().ready(villageCharaGroupList, _behaviorSelector));
     }
 
     /**
@@ -353,43 +353,43 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * </pre>
      * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
      * The condition-bean, which the set-upper provides, has order by FK before callback.
-     * @param villageSettings The entity of villageSettings. (NotNull)
+     * @param villageCharaGroup The entity of villageCharaGroup. (NotNull)
      * @param loaderLambda The callback to handle the referrer loader for actually loading referrer. (NotNull)
      */
-    public void load(VillageSettings villageSettings, ReferrerLoaderHandler<LoaderOfVillageSettings> loaderLambda) {
-        xassLRArg(villageSettings, loaderLambda);
-        loaderLambda.handle(new LoaderOfVillageSettings().ready(xnewLRAryLs(villageSettings), _behaviorSelector));
+    public void load(VillageCharaGroup villageCharaGroup, ReferrerLoaderHandler<LoaderOfVillageCharaGroup> loaderLambda) {
+        xassLRArg(villageCharaGroup, loaderLambda);
+        loaderLambda.handle(new LoaderOfVillageCharaGroup().ready(xnewLRAryLs(villageCharaGroup), _behaviorSelector));
     }
 
     // ===================================================================================
     //                                                                   Pull out Relation
     //                                                                   =================
     /**
-     * Pull out the list of foreign table 'AllowedSecretSay'.
-     * @param villageSettingsList The list of villageSettings. (NotNull, EmptyAllowed)
+     * Pull out the list of foreign table 'CharaGroup'.
+     * @param villageCharaGroupList The list of villageCharaGroup. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    public List<AllowedSecretSay> pulloutAllowedSecretSay(List<VillageSettings> villageSettingsList)
-    { return helpPulloutInternally(villageSettingsList, "allowedSecretSay"); }
+    public List<CharaGroup> pulloutCharaGroup(List<VillageCharaGroup> villageCharaGroupList)
+    { return helpPulloutInternally(villageCharaGroupList, "charaGroup"); }
 
     /**
      * Pull out the list of foreign table 'Village'.
-     * @param villageSettingsList The list of villageSettings. (NotNull, EmptyAllowed)
+     * @param villageCharaGroupList The list of villageCharaGroup. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    public List<Village> pulloutVillage(List<VillageSettings> villageSettingsList)
-    { return helpPulloutInternally(villageSettingsList, "village"); }
+    public List<Village> pulloutVillage(List<VillageCharaGroup> villageCharaGroupList)
+    { return helpPulloutInternally(villageCharaGroupList, "village"); }
 
     // ===================================================================================
     //                                                                      Extract Column
     //                                                                      ==============
     /**
-     * Extract the value list of (single) primary key villageId.
-     * @param villageSettingsList The list of villageSettings. (NotNull, EmptyAllowed)
+     * Extract the value list of (single) primary key villageCharaGroupId.
+     * @param villageCharaGroupList The list of villageCharaGroup. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    public List<Integer> extractVillageIdList(List<VillageSettings> villageSettingsList)
-    { return helpExtractListInternally(villageSettingsList, "villageId"); }
+    public List<Integer> extractVillageCharaGroupIdList(List<VillageCharaGroup> villageCharaGroupList)
+    { return helpExtractListInternally(villageCharaGroupList, "villageCharaGroupId"); }
 
     // ===================================================================================
     //                                                                       Entity Update
@@ -397,80 +397,80 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
     /**
      * Insert the entity modified-only. (DefaultConstraintsEnabled)
      * <pre>
-     * VillageSettings villageSettings = <span style="color: #70226C">new</span> VillageSettings();
+     * VillageCharaGroup villageCharaGroup = <span style="color: #70226C">new</span> VillageCharaGroup();
      * <span style="color: #3F7E5E">// if auto-increment, you don't need to set the PK value</span>
-     * villageSettings.setFoo...(value);
-     * villageSettings.setBar...(value);
+     * villageCharaGroup.setFoo...(value);
+     * villageCharaGroup.setBar...(value);
      * <span style="color: #3F7E5E">// you don't need to set values of common columns</span>
-     * <span style="color: #3F7E5E">//villageSettings.setRegisterUser(value);</span>
-     * <span style="color: #3F7E5E">//villageSettings.set...;</span>
-     * <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">insert</span>(villageSettings);
-     * ... = villageSettings.getPK...(); <span style="color: #3F7E5E">// if auto-increment, you can get the value after</span>
+     * <span style="color: #3F7E5E">//villageCharaGroup.setRegisterUser(value);</span>
+     * <span style="color: #3F7E5E">//villageCharaGroup.set...;</span>
+     * <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">insert</span>(villageCharaGroup);
+     * ... = villageCharaGroup.getPK...(); <span style="color: #3F7E5E">// if auto-increment, you can get the value after</span>
      * </pre>
      * <p>While, when the entity is created by select, all columns are registered.</p>
-     * @param villageSettings The entity of insert. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
+     * @param villageCharaGroup The entity of insert. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
      * @throws EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    public void insert(VillageSettings villageSettings) {
-        doInsert(villageSettings, null);
+    public void insert(VillageCharaGroup villageCharaGroup) {
+        doInsert(villageCharaGroup, null);
     }
 
     /**
      * Update the entity modified-only. (ZeroUpdateException, NonExclusiveControl) <br>
      * By PK as default, and also you can update by unique keys using entity's uniqueOf().
      * <pre>
-     * VillageSettings villageSettings = <span style="color: #70226C">new</span> VillageSettings();
-     * villageSettings.setPK...(value); <span style="color: #3F7E5E">// required</span>
-     * villageSettings.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
+     * VillageCharaGroup villageCharaGroup = <span style="color: #70226C">new</span> VillageCharaGroup();
+     * villageCharaGroup.setPK...(value); <span style="color: #3F7E5E">// required</span>
+     * villageCharaGroup.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// you don't need to set values of common columns</span>
-     * <span style="color: #3F7E5E">//villageSettings.setRegisterUser(value);</span>
-     * <span style="color: #3F7E5E">//villageSettings.set...;</span>
+     * <span style="color: #3F7E5E">//villageCharaGroup.setRegisterUser(value);</span>
+     * <span style="color: #3F7E5E">//villageCharaGroup.set...;</span>
      * <span style="color: #3F7E5E">// if exclusive control, the value of concurrency column is required</span>
-     * villageSettings.<span style="color: #CC4747">setVersionNo</span>(value);
-     * <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">update</span>(villageSettings);
+     * villageCharaGroup.<span style="color: #CC4747">setVersionNo</span>(value);
+     * <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">update</span>(villageCharaGroup);
      * </pre>
-     * @param villageSettings The entity of update. (NotNull, PrimaryKeyNotNull)
+     * @param villageCharaGroup The entity of update. (NotNull, PrimaryKeyNotNull)
      * @throws EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    public void update(VillageSettings villageSettings) {
-        doUpdate(villageSettings, null);
+    public void update(VillageCharaGroup villageCharaGroup) {
+        doUpdate(villageCharaGroup, null);
     }
 
     /**
      * Insert or update the entity modified-only. (DefaultConstraintsEnabled, NonExclusiveControl) <br>
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() } <br>
      * <p><span style="color: #994747; font-size: 120%">Also you can update by unique keys using entity's uniqueOf().</span></p>
-     * @param villageSettings The entity of insert or update. (NotNull, ...depends on insert or update)
+     * @param villageCharaGroup The entity of insert or update. (NotNull, ...depends on insert or update)
      * @throws EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    public void insertOrUpdate(VillageSettings villageSettings) {
-        doInsertOrUpdate(villageSettings, null, null);
+    public void insertOrUpdate(VillageCharaGroup villageCharaGroup) {
+        doInsertOrUpdate(villageCharaGroup, null, null);
     }
 
     /**
      * Delete the entity. (ZeroUpdateException, NonExclusiveControl) <br>
      * By PK as default, and also you can delete by unique keys using entity's uniqueOf().
      * <pre>
-     * VillageSettings villageSettings = <span style="color: #70226C">new</span> VillageSettings();
-     * villageSettings.setPK...(value); <span style="color: #3F7E5E">// required</span>
+     * VillageCharaGroup villageCharaGroup = <span style="color: #70226C">new</span> VillageCharaGroup();
+     * villageCharaGroup.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * <span style="color: #3F7E5E">// if exclusive control, the value of concurrency column is required</span>
-     * villageSettings.<span style="color: #CC4747">setVersionNo</span>(value);
+     * villageCharaGroup.<span style="color: #CC4747">setVersionNo</span>(value);
      * <span style="color: #70226C">try</span> {
-     *     <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">delete</span>(villageSettings);
+     *     <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">delete</span>(villageCharaGroup);
      * } <span style="color: #70226C">catch</span> (EntityAlreadyUpdatedException e) { <span style="color: #3F7E5E">// if concurrent update</span>
      *     ...
      * }
      * </pre>
-     * @param villageSettings The entity of delete. (NotNull, PrimaryKeyNotNull)
+     * @param villageCharaGroup The entity of delete. (NotNull, PrimaryKeyNotNull)
      * @throws EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @throws EntityDuplicatedException When the entity has been duplicated.
      */
-    public void delete(VillageSettings villageSettings) {
-        doDelete(villageSettings, null);
+    public void delete(VillageCharaGroup villageCharaGroup) {
+        doDelete(villageCharaGroup, null);
     }
 
     // ===================================================================================
@@ -482,26 +482,26 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * <p><span style="color: #CC4747; font-size: 120%">The columns of least common multiple are registered like this:</span></p>
      * <pre>
      * <span style="color: #70226C">for</span> (... : ...) {
-     *     VillageSettings villageSettings = <span style="color: #70226C">new</span> VillageSettings();
-     *     villageSettings.setFooName("foo");
+     *     VillageCharaGroup villageCharaGroup = <span style="color: #70226C">new</span> VillageCharaGroup();
+     *     villageCharaGroup.setFooName("foo");
      *     <span style="color: #70226C">if</span> (...) {
-     *         villageSettings.setFooPrice(123);
+     *         villageCharaGroup.setFooPrice(123);
      *     }
      *     <span style="color: #3F7E5E">// FOO_NAME and FOO_PRICE (and record meta columns) are registered</span>
      *     <span style="color: #3F7E5E">// FOO_PRICE not-called in any entities are registered as null without default value</span>
      *     <span style="color: #3F7E5E">// columns not-called in all entities are registered as null or default value</span>
-     *     villageSettingsList.add(villageSettings);
+     *     villageCharaGroupList.add(villageCharaGroup);
      * }
-     * <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">batchInsert</span>(villageSettingsList);
+     * <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">batchInsert</span>(villageCharaGroupList);
      * </pre>
      * <p>While, when the entities are created by select, all columns are registered.</p>
      * <p>And if the table has an identity, entities after the process don't have incremented values.
      * (When you use the (normal) insert(), you can get the incremented value from your entity)</p>
-     * @param villageSettingsList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
+     * @param villageCharaGroupList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
      * @return The array of inserted count. (NotNull, EmptyAllowed)
      */
-    public int[] batchInsert(List<VillageSettings> villageSettingsList) {
-        return doBatchInsert(villageSettingsList, null);
+    public int[] batchInsert(List<VillageCharaGroup> villageCharaGroupList) {
+        return doBatchInsert(villageCharaGroupList, null);
     }
 
     /**
@@ -510,37 +510,37 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * <span style="color: #CC4747; font-size: 120%">You should specify same-set columns to all entities like this:</span>
      * <pre>
      * for (... : ...) {
-     *     VillageSettings villageSettings = <span style="color: #70226C">new</span> VillageSettings();
-     *     villageSettings.setFooName("foo");
+     *     VillageCharaGroup villageCharaGroup = <span style="color: #70226C">new</span> VillageCharaGroup();
+     *     villageCharaGroup.setFooName("foo");
      *     <span style="color: #70226C">if</span> (...) {
-     *         villageSettings.setFooPrice(123);
+     *         villageCharaGroup.setFooPrice(123);
      *     } <span style="color: #70226C">else</span> {
-     *         villageSettings.setFooPrice(null); <span style="color: #3F7E5E">// updated as null</span>
-     *         <span style="color: #3F7E5E">//villageSettings.setFooDate(...); // *not allowed, fragmented</span>
+     *         villageCharaGroup.setFooPrice(null); <span style="color: #3F7E5E">// updated as null</span>
+     *         <span style="color: #3F7E5E">//villageCharaGroup.setFooDate(...); // *not allowed, fragmented</span>
      *     }
      *     <span style="color: #3F7E5E">// FOO_NAME and FOO_PRICE (and record meta columns) are updated</span>
      *     <span style="color: #3F7E5E">// (others are not updated: their values are kept)</span>
-     *     villageSettingsList.add(villageSettings);
+     *     villageCharaGroupList.add(villageCharaGroup);
      * }
-     * <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">batchUpdate</span>(villageSettingsList);
+     * <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">batchUpdate</span>(villageCharaGroupList);
      * </pre>
-     * @param villageSettingsList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
+     * @param villageCharaGroupList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @throws EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    public int[] batchUpdate(List<VillageSettings> villageSettingsList) {
-        return doBatchUpdate(villageSettingsList, null);
+    public int[] batchUpdate(List<VillageCharaGroup> villageCharaGroupList) {
+        return doBatchUpdate(villageCharaGroupList, null);
     }
 
     /**
      * Batch-delete the entity list. (NonExclusiveControl) <br>
      * This method uses executeBatch() of java.sql.PreparedStatement.
-     * @param villageSettingsList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
+     * @param villageCharaGroupList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @throws EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    public int[] batchDelete(List<VillageSettings> villageSettingsList) {
-        return doBatchDelete(villageSettingsList, null);
+    public int[] batchDelete(List<VillageCharaGroup> villageCharaGroupList) {
+        return doBatchDelete(villageCharaGroupList, null);
     }
 
     // ===================================================================================
@@ -549,8 +549,8 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
     /**
      * Insert the several entities by query (modified-only for fixed value).
      * <pre>
-     * <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">queryInsert</span>(new QueryInsertSetupper&lt;VillageSettings, VillageSettingsCB&gt;() {
-     *     public ConditionBean setup(VillageSettings entity, VillageSettingsCB intoCB) {
+     * <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">queryInsert</span>(new QueryInsertSetupper&lt;VillageCharaGroup, VillageCharaGroupCB&gt;() {
+     *     public ConditionBean setup(VillageCharaGroup entity, VillageCharaGroupCB intoCB) {
      *         FooCB cb = FooCB();
      *         cb.setupSelect_Bar();
      *
@@ -572,48 +572,48 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * @param manyArgLambda The callback to set up query-insert. (NotNull)
      * @return The inserted count.
      */
-    public int queryInsert(QueryInsertSetupper<VillageSettings, VillageSettingsCB> manyArgLambda) {
+    public int queryInsert(QueryInsertSetupper<VillageCharaGroup, VillageCharaGroupCB> manyArgLambda) {
         return doQueryInsert(manyArgLambda, null);
     }
 
     /**
      * Update the several entities by query non-strictly modified-only. (NonExclusiveControl)
      * <pre>
-     * VillageSettings villageSettings = <span style="color: #70226C">new</span> VillageSettings();
+     * VillageCharaGroup villageCharaGroup = <span style="color: #70226C">new</span> VillageCharaGroup();
      * <span style="color: #3F7E5E">// you don't need to set PK value</span>
-     * <span style="color: #3F7E5E">//villageSettings.setPK...(value);</span>
-     * villageSettings.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
+     * <span style="color: #3F7E5E">//villageCharaGroup.setPK...(value);</span>
+     * villageCharaGroup.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// you don't need to set values of common columns</span>
-     * <span style="color: #3F7E5E">//villageSettings.setRegisterUser(value);</span>
-     * <span style="color: #3F7E5E">//villageSettings.set...;</span>
+     * <span style="color: #3F7E5E">//villageCharaGroup.setRegisterUser(value);</span>
+     * <span style="color: #3F7E5E">//villageCharaGroup.set...;</span>
      * <span style="color: #3F7E5E">// you don't need to set a value of concurrency column</span>
      * <span style="color: #3F7E5E">// (auto-increment for version number is valid though non-exclusive control)</span>
-     * <span style="color: #3F7E5E">//villageSettings.setVersionNo(value);</span>
-     * <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">queryUpdate</span>(villageSettings, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #3F7E5E">//villageCharaGroup.setVersionNo(value);</span>
+     * <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">queryUpdate</span>(villageCharaGroup, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().setFoo...
      * });
      * </pre>
-     * @param villageSettings The entity that contains update values. (NotNull, PrimaryKeyNullAllowed)
-     * @param cbLambda The callback for condition-bean of VillageSettings. (NotNull)
+     * @param villageCharaGroup The entity that contains update values. (NotNull, PrimaryKeyNullAllowed)
+     * @param cbLambda The callback for condition-bean of VillageCharaGroup. (NotNull)
      * @return The updated count.
      * @throws NonQueryUpdateNotAllowedException When the query has no condition.
      */
-    public int queryUpdate(VillageSettings villageSettings, CBCall<VillageSettingsCB> cbLambda) {
-        return doQueryUpdate(villageSettings, createCB(cbLambda), null);
+    public int queryUpdate(VillageCharaGroup villageCharaGroup, CBCall<VillageCharaGroupCB> cbLambda) {
+        return doQueryUpdate(villageCharaGroup, createCB(cbLambda), null);
     }
 
     /**
      * Delete the several entities by query. (NonExclusiveControl)
      * <pre>
-     * <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">queryDelete</span>(villageSettings, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">queryDelete</span>(villageCharaGroup, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().setFoo...
      * });
      * </pre>
-     * @param cbLambda The callback for condition-bean of VillageSettings. (NotNull)
+     * @param cbLambda The callback for condition-bean of VillageCharaGroup. (NotNull)
      * @return The deleted count.
      * @throws NonQueryDeleteNotAllowedException When the query has no condition.
      */
-    public int queryDelete(CBCall<VillageSettingsCB> cbLambda) {
+    public int queryDelete(CBCall<VillageCharaGroupCB> cbLambda) {
         return doQueryDelete(createCB(cbLambda), null);
     }
 
@@ -628,22 +628,22 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * For example, disableCommonColumnAutoSetup(), disablePrimaryKeyIdentity(). <br>
      * Other specifications are same as insert(entity).
      * <pre>
-     * VillageSettings villageSettings = <span style="color: #70226C">new</span> VillageSettings();
+     * VillageCharaGroup villageCharaGroup = <span style="color: #70226C">new</span> VillageCharaGroup();
      * <span style="color: #3F7E5E">// if auto-increment, you don't need to set the PK value</span>
-     * villageSettings.setFoo...(value);
-     * villageSettings.setBar...(value);
-     * <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">varyingInsert</span>(villageSettings, <span style="color: #553000">op</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * villageCharaGroup.setFoo...(value);
+     * villageCharaGroup.setBar...(value);
+     * <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">varyingInsert</span>(villageCharaGroup, <span style="color: #553000">op</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #3F7E5E">// you can insert by your values for common columns</span>
      *     <span style="color: #553000">op</span>.disableCommonColumnAutoSetup();
      * });
-     * ... = villageSettings.getPK...(); <span style="color: #3F7E5E">// if auto-increment, you can get the value after</span>
+     * ... = villageCharaGroup.getPK...(); <span style="color: #3F7E5E">// if auto-increment, you can get the value after</span>
      * </pre>
-     * @param villageSettings The entity of insert. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
+     * @param villageCharaGroup The entity of insert. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
      * @param opLambda The callback for option of insert for varying requests. (NotNull)
      * @throws EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    public void varyingInsert(VillageSettings villageSettings, WritableOptionCall<VillageSettingsCB, InsertOption<VillageSettingsCB>> opLambda) {
-        doInsert(villageSettings, createInsertOption(opLambda));
+    public void varyingInsert(VillageCharaGroup villageCharaGroup, WritableOptionCall<VillageCharaGroupCB, InsertOption<VillageCharaGroupCB>> opLambda) {
+        doInsert(villageCharaGroup, createInsertOption(opLambda));
     }
 
     /**
@@ -651,53 +651,53 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * For example, self(selfCalculationSpecification), specify(updateColumnSpecification), disableCommonColumnAutoSetup(). <br>
      * Other specifications are same as update(entity).
      * <pre>
-     * VillageSettings villageSettings = <span style="color: #70226C">new</span> VillageSettings();
-     * villageSettings.setPK...(value); <span style="color: #3F7E5E">// required</span>
-     * villageSettings.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
+     * VillageCharaGroup villageCharaGroup = <span style="color: #70226C">new</span> VillageCharaGroup();
+     * villageCharaGroup.setPK...(value); <span style="color: #3F7E5E">// required</span>
+     * villageCharaGroup.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// if exclusive control, the value of concurrency column is required</span>
-     * villageSettings.<span style="color: #CC4747">setVersionNo</span>(value);
+     * villageCharaGroup.<span style="color: #CC4747">setVersionNo</span>(value);
      * <span style="color: #3F7E5E">// you can update by self calculation values</span>
-     * <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">varyingUpdate</span>(villageSettings, <span style="color: #553000">op</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">varyingUpdate</span>(villageCharaGroup, <span style="color: #553000">op</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">op</span>.self(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *         <span style="color: #553000">cb</span>.specify().<span style="color: #CC4747">columnXxxCount()</span>;
      *     }).plus(1); <span style="color: #3F7E5E">// XXX_COUNT = XXX_COUNT + 1</span>
      * });
      * </pre>
-     * @param villageSettings The entity of update. (NotNull, PrimaryKeyNotNull)
+     * @param villageCharaGroup The entity of update. (NotNull, PrimaryKeyNotNull)
      * @param opLambda The callback for option of update for varying requests. (NotNull)
      * @throws EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    public void varyingUpdate(VillageSettings villageSettings, WritableOptionCall<VillageSettingsCB, UpdateOption<VillageSettingsCB>> opLambda) {
-        doUpdate(villageSettings, createUpdateOption(opLambda));
+    public void varyingUpdate(VillageCharaGroup villageCharaGroup, WritableOptionCall<VillageCharaGroupCB, UpdateOption<VillageCharaGroupCB>> opLambda) {
+        doUpdate(villageCharaGroup, createUpdateOption(opLambda));
     }
 
     /**
      * Insert or update the entity with varying requests. (ExclusiveControl: when update) <br>
      * Other specifications are same as insertOrUpdate(entity).
-     * @param villageSettings The entity of insert or update. (NotNull)
+     * @param villageCharaGroup The entity of insert or update. (NotNull)
      * @param insertOpLambda The callback for option of insert for varying requests. (NotNull)
      * @param updateOpLambda The callback for option of update for varying requests. (NotNull)
      * @throws EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    public void varyingInsertOrUpdate(VillageSettings villageSettings, WritableOptionCall<VillageSettingsCB, InsertOption<VillageSettingsCB>> insertOpLambda, WritableOptionCall<VillageSettingsCB, UpdateOption<VillageSettingsCB>> updateOpLambda) {
-        doInsertOrUpdate(villageSettings, createInsertOption(insertOpLambda), createUpdateOption(updateOpLambda));
+    public void varyingInsertOrUpdate(VillageCharaGroup villageCharaGroup, WritableOptionCall<VillageCharaGroupCB, InsertOption<VillageCharaGroupCB>> insertOpLambda, WritableOptionCall<VillageCharaGroupCB, UpdateOption<VillageCharaGroupCB>> updateOpLambda) {
+        doInsertOrUpdate(villageCharaGroup, createInsertOption(insertOpLambda), createUpdateOption(updateOpLambda));
     }
 
     /**
      * Delete the entity with varying requests. (ZeroUpdateException, NonExclusiveControl) <br>
      * Now a valid option does not exist. <br>
      * Other specifications are same as delete(entity).
-     * @param villageSettings The entity of delete. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnNotNull)
+     * @param villageCharaGroup The entity of delete. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnNotNull)
      * @param opLambda The callback for option of delete for varying requests. (NotNull)
      * @throws EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @throws EntityDuplicatedException When the entity has been duplicated.
      */
-    public void varyingDelete(VillageSettings villageSettings, WritableOptionCall<VillageSettingsCB, DeleteOption<VillageSettingsCB>> opLambda) {
-        doDelete(villageSettings, createDeleteOption(opLambda));
+    public void varyingDelete(VillageCharaGroup villageCharaGroup, WritableOptionCall<VillageCharaGroupCB, DeleteOption<VillageCharaGroupCB>> opLambda) {
+        doDelete(villageCharaGroup, createDeleteOption(opLambda));
     }
 
     // -----------------------------------------------------
@@ -708,12 +708,12 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * For example, disableCommonColumnAutoSetup()
      * , disablePrimaryKeyIdentity(), limitBatchInsertLogging(). <br>
      * Other specifications are same as batchInsert(entityList).
-     * @param villageSettingsList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
+     * @param villageCharaGroupList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
      * @param opLambda The callback for option of insert for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    public int[] varyingBatchInsert(List<VillageSettings> villageSettingsList, WritableOptionCall<VillageSettingsCB, InsertOption<VillageSettingsCB>> opLambda) {
-        return doBatchInsert(villageSettingsList, createInsertOption(opLambda));
+    public int[] varyingBatchInsert(List<VillageCharaGroup> villageCharaGroupList, WritableOptionCall<VillageCharaGroupCB, InsertOption<VillageCharaGroupCB>> opLambda) {
+        return doBatchInsert(villageCharaGroupList, createInsertOption(opLambda));
     }
 
     /**
@@ -721,24 +721,24 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * For example, self(selfCalculationSpecification), specify(updateColumnSpecification)
      * , disableCommonColumnAutoSetup(), limitBatchUpdateLogging(). <br>
      * Other specifications are same as batchUpdate(entityList).
-     * @param villageSettingsList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
+     * @param villageCharaGroupList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
      * @param opLambda The callback for option of update for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    public int[] varyingBatchUpdate(List<VillageSettings> villageSettingsList, WritableOptionCall<VillageSettingsCB, UpdateOption<VillageSettingsCB>> opLambda) {
-        return doBatchUpdate(villageSettingsList, createUpdateOption(opLambda));
+    public int[] varyingBatchUpdate(List<VillageCharaGroup> villageCharaGroupList, WritableOptionCall<VillageCharaGroupCB, UpdateOption<VillageCharaGroupCB>> opLambda) {
+        return doBatchUpdate(villageCharaGroupList, createUpdateOption(opLambda));
     }
 
     /**
      * Batch-delete the list with varying requests. <br>
      * For example, limitBatchDeleteLogging(). <br>
      * Other specifications are same as batchDelete(entityList).
-     * @param villageSettingsList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
+     * @param villageCharaGroupList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
      * @param opLambda The callback for option of delete for varying requests. (NotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      */
-    public int[] varyingBatchDelete(List<VillageSettings> villageSettingsList, WritableOptionCall<VillageSettingsCB, DeleteOption<VillageSettingsCB>> opLambda) {
-        return doBatchDelete(villageSettingsList, createDeleteOption(opLambda));
+    public int[] varyingBatchDelete(List<VillageCharaGroup> villageCharaGroupList, WritableOptionCall<VillageCharaGroupCB, DeleteOption<VillageCharaGroupCB>> opLambda) {
+        return doBatchDelete(villageCharaGroupList, createDeleteOption(opLambda));
     }
 
     // -----------------------------------------------------
@@ -752,7 +752,7 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * @param opLambda The callback for option of insert for varying requests. (NotNull)
      * @return The inserted count.
      */
-    public int varyingQueryInsert(QueryInsertSetupper<VillageSettings, VillageSettingsCB> manyArgLambda, WritableOptionCall<VillageSettingsCB, InsertOption<VillageSettingsCB>> opLambda) {
+    public int varyingQueryInsert(QueryInsertSetupper<VillageCharaGroup, VillageCharaGroupCB> manyArgLambda, WritableOptionCall<VillageCharaGroupCB, InsertOption<VillageCharaGroupCB>> opLambda) {
         return doQueryInsert(manyArgLambda, createInsertOption(opLambda));
     }
 
@@ -763,14 +763,14 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * Other specifications are same as queryUpdate(entity, cb).
      * <pre>
      * <span style="color: #3F7E5E">// ex) you can update by self calculation values</span>
-     * VillageSettings villageSettings = <span style="color: #70226C">new</span> VillageSettings();
+     * VillageCharaGroup villageCharaGroup = <span style="color: #70226C">new</span> VillageCharaGroup();
      * <span style="color: #3F7E5E">// you don't need to set PK value</span>
-     * <span style="color: #3F7E5E">//villageSettings.setPK...(value);</span>
-     * villageSettings.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
+     * <span style="color: #3F7E5E">//villageCharaGroup.setPK...(value);</span>
+     * villageCharaGroup.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// you don't need to set a value of concurrency column</span>
      * <span style="color: #3F7E5E">// (auto-increment for version number is valid though non-exclusive control)</span>
-     * <span style="color: #3F7E5E">//villageSettings.setVersionNo(value);</span>
-     * <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">varyingQueryUpdate</span>(villageSettings, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #3F7E5E">//villageCharaGroup.setVersionNo(value);</span>
+     * <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">varyingQueryUpdate</span>(villageCharaGroup, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().setFoo...
      * }, <span style="color: #553000">op</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">op</span>.self(<span style="color: #553000">colCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -778,14 +778,14 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      *     }).plus(1); <span style="color: #3F7E5E">// FOO_COUNT = FOO_COUNT + 1</span>
      * });
      * </pre>
-     * @param villageSettings The entity that contains update values. (NotNull) {PrimaryKeyNotRequired}
-     * @param cbLambda The callback for condition-bean of VillageSettings. (NotNull)
+     * @param villageCharaGroup The entity that contains update values. (NotNull) {PrimaryKeyNotRequired}
+     * @param cbLambda The callback for condition-bean of VillageCharaGroup. (NotNull)
      * @param opLambda The callback for option of update for varying requests. (NotNull)
      * @return The updated count.
      * @throws NonQueryUpdateNotAllowedException When the query has no condition (if not allowed).
      */
-    public int varyingQueryUpdate(VillageSettings villageSettings, CBCall<VillageSettingsCB> cbLambda, WritableOptionCall<VillageSettingsCB, UpdateOption<VillageSettingsCB>> opLambda) {
-        return doQueryUpdate(villageSettings, createCB(cbLambda), createUpdateOption(opLambda));
+    public int varyingQueryUpdate(VillageCharaGroup villageCharaGroup, CBCall<VillageCharaGroupCB> cbLambda, WritableOptionCall<VillageCharaGroupCB, UpdateOption<VillageCharaGroupCB>> opLambda) {
+        return doQueryUpdate(villageCharaGroup, createCB(cbLambda), createUpdateOption(opLambda));
     }
 
     /**
@@ -793,18 +793,18 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * For example, allowNonQueryDelete(). <br>
      * Other specifications are same as queryDelete(cb).
      * <pre>
-     * <span style="color: #0000C0">villageSettingsBhv</span>.<span style="color: #CC4747">queryDelete</span>(villageSettings, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #0000C0">villageCharaGroupBhv</span>.<span style="color: #CC4747">queryDelete</span>(villageCharaGroup, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().setFoo...
      * }, <span style="color: #553000">op</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">op</span>...
      * });
      * </pre>
-     * @param cbLambda The callback for condition-bean of VillageSettings. (NotNull)
+     * @param cbLambda The callback for condition-bean of VillageCharaGroup. (NotNull)
      * @param opLambda The callback for option of delete for varying requests. (NotNull)
      * @return The deleted count.
      * @throws NonQueryDeleteNotAllowedException When the query has no condition (if not allowed).
      */
-    public int varyingQueryDelete(CBCall<VillageSettingsCB> cbLambda, WritableOptionCall<VillageSettingsCB, DeleteOption<VillageSettingsCB>> opLambda) {
+    public int varyingQueryDelete(CBCall<VillageCharaGroupCB> cbLambda, WritableOptionCall<VillageCharaGroupCB, DeleteOption<VillageCharaGroupCB>> opLambda) {
         return doQueryDelete(createCB(cbLambda), createDeleteOption(opLambda));
     }
 
@@ -815,40 +815,40 @@ public abstract class BsVillageSettingsBhv extends AbstractBehaviorWritable<Vill
      * Prepare the all facade executor of outside-SQL to execute it.
      * <pre>
      * <span style="color: #3F7E5E">// main style</span>
-     * villageSettingsBhv.outideSql().selectEntity(pmb); <span style="color: #3F7E5E">// optional</span>
-     * villageSettingsBhv.outideSql().selectList(pmb); <span style="color: #3F7E5E">// ListResultBean</span>
-     * villageSettingsBhv.outideSql().selectPage(pmb); <span style="color: #3F7E5E">// PagingResultBean</span>
-     * villageSettingsBhv.outideSql().selectPagedListOnly(pmb); <span style="color: #3F7E5E">// ListResultBean</span>
-     * villageSettingsBhv.outideSql().selectCursor(pmb, handler); <span style="color: #3F7E5E">// (by handler)</span>
-     * villageSettingsBhv.outideSql().execute(pmb); <span style="color: #3F7E5E">// int (updated count)</span>
-     * villageSettingsBhv.outideSql().call(pmb); <span style="color: #3F7E5E">// void (pmb has OUT parameters)</span>
+     * villageCharaGroupBhv.outideSql().selectEntity(pmb); <span style="color: #3F7E5E">// optional</span>
+     * villageCharaGroupBhv.outideSql().selectList(pmb); <span style="color: #3F7E5E">// ListResultBean</span>
+     * villageCharaGroupBhv.outideSql().selectPage(pmb); <span style="color: #3F7E5E">// PagingResultBean</span>
+     * villageCharaGroupBhv.outideSql().selectPagedListOnly(pmb); <span style="color: #3F7E5E">// ListResultBean</span>
+     * villageCharaGroupBhv.outideSql().selectCursor(pmb, handler); <span style="color: #3F7E5E">// (by handler)</span>
+     * villageCharaGroupBhv.outideSql().execute(pmb); <span style="color: #3F7E5E">// int (updated count)</span>
+     * villageCharaGroupBhv.outideSql().call(pmb); <span style="color: #3F7E5E">// void (pmb has OUT parameters)</span>
      *
      * <span style="color: #3F7E5E">// traditional style</span>
-     * villageSettingsBhv.outideSql().traditionalStyle().selectEntity(path, pmb, entityType);
-     * villageSettingsBhv.outideSql().traditionalStyle().selectList(path, pmb, entityType);
-     * villageSettingsBhv.outideSql().traditionalStyle().selectPage(path, pmb, entityType);
-     * villageSettingsBhv.outideSql().traditionalStyle().selectPagedListOnly(path, pmb, entityType);
-     * villageSettingsBhv.outideSql().traditionalStyle().selectCursor(path, pmb, handler);
-     * villageSettingsBhv.outideSql().traditionalStyle().execute(path, pmb);
+     * villageCharaGroupBhv.outideSql().traditionalStyle().selectEntity(path, pmb, entityType);
+     * villageCharaGroupBhv.outideSql().traditionalStyle().selectList(path, pmb, entityType);
+     * villageCharaGroupBhv.outideSql().traditionalStyle().selectPage(path, pmb, entityType);
+     * villageCharaGroupBhv.outideSql().traditionalStyle().selectPagedListOnly(path, pmb, entityType);
+     * villageCharaGroupBhv.outideSql().traditionalStyle().selectCursor(path, pmb, handler);
+     * villageCharaGroupBhv.outideSql().traditionalStyle().execute(path, pmb);
      *
      * <span style="color: #3F7E5E">// options</span>
-     * villageSettingsBhv.outideSql().removeBlockComment().selectList()
-     * villageSettingsBhv.outideSql().removeLineComment().selectList()
-     * villageSettingsBhv.outideSql().formatSql().selectList()
+     * villageCharaGroupBhv.outideSql().removeBlockComment().selectList()
+     * villageCharaGroupBhv.outideSql().removeLineComment().selectList()
+     * villageCharaGroupBhv.outideSql().formatSql().selectList()
      * </pre>
      * <p>The invoker of behavior command should be not null when you call this method.</p>
      * @return The new-created all facade executor of outside-SQL. (NotNull)
      */
-    public OutsideSqlAllFacadeExecutor<VillageSettingsBhv> outsideSql() {
+    public OutsideSqlAllFacadeExecutor<VillageCharaGroupBhv> outsideSql() {
         return doOutsideSql();
     }
 
     // ===================================================================================
     //                                                                         Type Helper
     //                                                                         ===========
-    protected Class<? extends VillageSettings> typeOfSelectedEntity() { return VillageSettings.class; }
-    protected Class<VillageSettings> typeOfHandlingEntity() { return VillageSettings.class; }
-    protected Class<VillageSettingsCB> typeOfHandlingConditionBean() { return VillageSettingsCB.class; }
+    protected Class<? extends VillageCharaGroup> typeOfSelectedEntity() { return VillageCharaGroup.class; }
+    protected Class<VillageCharaGroup> typeOfHandlingEntity() { return VillageCharaGroup.class; }
+    protected Class<VillageCharaGroupCB> typeOfHandlingConditionBean() { return VillageCharaGroupCB.class; }
 
     // ===================================================================================
     //                                                                            Accessor

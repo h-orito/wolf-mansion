@@ -1,4 +1,41 @@
 map:{
+    ; 2021/11/14 10:58:30 = map:{
+        ; diffDate = 2021/11/14 10:58:30
+        ; tableCount = map:{
+            ; next = 36
+            ; previous = 35
+        }
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; VILLAGE_CHARA_GROUP = map:{
+                ; tableName = VILLAGE_CHARA_GROUP
+                ; diffType = ADD
+            }
+            ; VILLAGE_SETTINGS = map:{
+                ; tableName = VILLAGE_SETTINGS
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; CHARACTER_GROUP_ID = map:{
+                        ; columnName = CHARACTER_GROUP_ID
+                        ; diffType = DELETE
+                    }
+                }
+                ; foreignKeyDiff = map:{
+                    ; FK_VILLAGE_SETTINGS_CHARA_GROUP = map:{
+                        ; constraintName = FK_VILLAGE_SETTINGS_CHARA_GROUP
+                        ; diffType = DELETE
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_VILLAGE_SETTINGS_CHARA_GROUP = map:{
+                        ; constraintName = FK_VILLAGE_SETTINGS_CHARA_GROUP
+                        ; diffType = DELETE
+                    }
+                }
+            }
+        }
+    }
     ; 2021/11/03 19:50:35 = map:{
         ; diffDate = 2021/11/03 19:50:35
         ; diffAuthor = h-orito

@@ -213,6 +213,38 @@ dl.column-content dd span {
 <p class="sisterlink"><a href="./schema-werewolf-mansiondb.html">to SchemaHTML</a></p>
 </div>
 
+<div class="section diffCode_20211114105830">
+	<h2>
+		<span class="titlediffno">diffNo. 73:</span> <span class="titlediffdatepart">2021/11/14</span> <span class="titledifftimepart">10:58:30</span>
+		<span class="titlediffauthor">by h-orito</span>
+		<span class="titlediffgitbranch">on master</span>
+	</h2>
+	<pre class="diffcomment"></pre>
+	<p class="tablecount">table count: 35&nbsp;-&gt;&nbsp;36</p>
+
+	<h3>Add Table</h3>
+	<ul class="table-content">
+		<li><a href="./schema-werewolf-mansiondb.html#village_chara_group">VILLAGE_CHARA_GROUP</a></li>
+	</ul>
+	<h3>Change Table</h3>
+	<div class="table-content">
+		<h4><a href="./schema-werewolf-mansiondb.html#village_settings">VILLAGE_SETTINGS</a></h4>
+		<div class="change-table-content">
+			<h5>Delete Column</h5>
+			<ul class="column-content">
+				<li>CHARACTER_GROUP_ID</li>
+			</ul>
+			<h5>Delete FK</h5>
+			<ul class="column-content">
+				<li>FK_VILLAGE_SETTINGS_CHARA_GROUP</li>
+			</ul>
+			<h5>Delete Index</h5>
+			<ul class="column-content">
+				<li>FK_VILLAGE_SETTINGS_CHARA_GROUP</li>
+			</ul>
+		</div>
+	</div>
+</div>
 <div class="section diffCode_20211103195035">
 	<h2>
 		<span class="titlediffno">diffNo. 72:</span> <span class="titlediffdatepart">2021/11/03</span> <span class="titledifftimepart">19:50:35</span>
@@ -223,7 +255,7 @@ dl.column-content dd span {
 
 	<h3>Change Table</h3>
 	<div class="table-content">
-		<h4><a href="./schema-werewolf-mansiondb.html#village_settings">VILLAGE_SETTINGS</a></h4>
+		<h4>VILLAGE_SETTINGS</h4>
 		<div class="change-table-content">
 			<h5>Add Column</h5>
 			<ul class="column-content">
@@ -2792,7 +2824,11 @@ dl.column-content dd span {
             ]
         };
         this.pickupStore = {
-            '20211103195035' : {
+            '20211114105830' : {
+                'diffDate' : '2021/11/14 10:58:30',
+                'diffComment' : ''
+            }
+            , '20211103195035' : {
                 'diffDate' : '2021/11/03 19:50:35',
                 'diffComment' : ''
             }

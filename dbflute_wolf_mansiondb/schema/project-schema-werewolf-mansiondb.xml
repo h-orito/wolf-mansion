@@ -717,6 +717,42 @@
             <index-column name="VILLAGE_STATUS_CODE" position="1"/>
         </index>
     </table>
+    <table comment="村キャラクターグループ" name="VILLAGE_CHARA_GROUP"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column autoIncrement="true" comment="村キャラクターグループID"
+            dbType="INT UNSIGNED" javaType="Integer"
+            name="VILLAGE_CHARA_GROUP_ID" pkName="PRIMARY"
+            pkPosition="1" primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="村ID" dbType="INT UNSIGNED" javaType="Integer"
+            name="VILLAGE_ID" required="true" size="10" type="INTEGER"/>
+        <column comment="キャラクターグループID" dbType="INT UNSIGNED"
+            javaType="Integer" name="CHARA_GROUP_ID" required="true"
+            size="10" type="INTEGER"/>
+        <column comment="登録日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="登録トレース" dbType="VARCHAR" javaType="String"
+            name="REGISTER_TRACE" required="true" size="64" type="VARCHAR"/>
+        <column comment="更新日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="UPDATE_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="更新トレース" dbType="VARCHAR" javaType="String"
+            name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="CHARA_GROUP" name="FK_VILLAGE_CHARA_GROUP_CHARA_GROUP_ID">
+            <reference foreign="CHARA_GROUP_ID" local="CHARA_GROUP_ID"/>
+        </foreign-key>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="VILLAGE" name="FK_VILLAGE_CHARA_GROUP_VILLAGE_ID">
+            <reference foreign="VILLAGE_ID" local="VILLAGE_ID"/>
+        </foreign-key>
+        <index name="FK_VILLAGE_CHARA_GROUP_CHARA_GROUP_ID">
+            <index-column name="CHARA_GROUP_ID" position="1"/>
+        </index>
+        <index name="FK_VILLAGE_CHARA_GROUP_VILLAGE_ID">
+            <index-column name="VILLAGE_ID" position="1"/>
+        </index>
+    </table>
     <table comment="村日付" name="VILLAGE_DAY"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
         <column comment="村ID" dbType="INT UNSIGNED" javaType="Integer"
@@ -1049,9 +1085,6 @@
             name="IS_AVAILABLE_COMMIT" required="true" type="BIT"/>
         <column comment="連続護衛可能か" dbType="BIT" javaType="Boolean"
             name="IS_AVAILABLE_GUARD_SAME_TARGET" required="true" type="BIT"/>
-        <column comment="キャラクターグループID" dbType="INT UNSIGNED"
-            javaType="Integer" name="CHARACTER_GROUP_ID" required="true"
-            size="10" type="INTEGER"/>
         <column comment="入村パスワード" dbType="VARCHAR" javaType="String"
             name="JOIN_PASSWORD" size="12" type="VARCHAR"/>
         <column comment="構成" dbType="VARCHAR" javaType="String"
@@ -1079,18 +1112,11 @@
             <reference foreign="ALLOWED_SECRET_SAY_CODE" local="ALLOWED_SECRET_SAY_CODE"/>
         </foreign-key>
         <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
-            foreignTable="CHARA_GROUP" name="FK_VILLAGE_SETTINGS_CHARA_GROUP">
-            <reference foreign="CHARA_GROUP_ID" local="CHARACTER_GROUP_ID"/>
-        </foreign-key>
-        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
             foreignTable="VILLAGE" name="FK_VILLAGE_SETTINGS_VILLAGE">
             <reference foreign="VILLAGE_ID" local="VILLAGE_ID"/>
         </foreign-key>
         <index name="FK_VILLAGE_SETTINGS_ALLOWED_SECRET_SAY">
             <index-column name="ALLOWED_SECRET_SAY_CODE" position="1"/>
-        </index>
-        <index name="FK_VILLAGE_SETTINGS_CHARA_GROUP">
-            <index-column name="CHARACTER_GROUP_ID" position="1"/>
         </index>
     </table>
     <table comment="村ステータス" name="VILLAGE_STATUS"

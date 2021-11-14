@@ -14,17 +14,17 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of CHARA_GROUP. (Singleton)
+ * The DB meta of VILLAGE_CHARA_GROUP. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
-public class CharaGroupDbm extends AbstractDBMeta {
+public class VillageCharaGroupDbm extends AbstractDBMeta {
 
     // ===================================================================================
     //                                                                           Singleton
     //                                                                           =========
-    private static final CharaGroupDbm _instance = new CharaGroupDbm();
-    private CharaGroupDbm() {}
-    public static CharaGroupDbm getInstance() { return _instance; }
+    private static final VillageCharaGroupDbm _instance = new VillageCharaGroupDbm();
+    private VillageCharaGroupDbm() {}
+    public static VillageCharaGroupDbm getInstance() { return _instance; }
 
     // ===================================================================================
     //                                                                       Current DBDef
@@ -43,17 +43,13 @@ public class CharaGroupDbm extends AbstractDBMeta {
     protected final Map<String, PropertyGateway> _epgMap = newHashMap();
     { xsetupEpg(); }
     protected void xsetupEpg() {
-        setupEpg(_epgMap, et -> ((CharaGroup)et).getCharaGroupId(), (et, vl) -> ((CharaGroup)et).setCharaGroupId(cti(vl)), "charaGroupId");
-        setupEpg(_epgMap, et -> ((CharaGroup)et).getCharaGroupName(), (et, vl) -> ((CharaGroup)et).setCharaGroupName((String)vl), "charaGroupName");
-        setupEpg(_epgMap, et -> ((CharaGroup)et).getDesignerId(), (et, vl) -> ((CharaGroup)et).setDesignerId(cti(vl)), "designerId");
-        setupEpg(_epgMap, et -> ((CharaGroup)et).getDescriptionUrl(), (et, vl) -> ((CharaGroup)et).setDescriptionUrl((String)vl), "descriptionUrl");
-        setupEpg(_epgMap, et -> ((CharaGroup)et).getIsAvailableChangeName(), (et, vl) -> {
-            ((CharaGroup)et).setIsAvailableChangeName((Boolean)vl);
-        }, "isAvailableChangeName");
-        setupEpg(_epgMap, et -> ((CharaGroup)et).getRegisterDatetime(), (et, vl) -> ((CharaGroup)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
-        setupEpg(_epgMap, et -> ((CharaGroup)et).getRegisterTrace(), (et, vl) -> ((CharaGroup)et).setRegisterTrace((String)vl), "registerTrace");
-        setupEpg(_epgMap, et -> ((CharaGroup)et).getUpdateDatetime(), (et, vl) -> ((CharaGroup)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
-        setupEpg(_epgMap, et -> ((CharaGroup)et).getUpdateTrace(), (et, vl) -> ((CharaGroup)et).setUpdateTrace((String)vl), "updateTrace");
+        setupEpg(_epgMap, et -> ((VillageCharaGroup)et).getVillageCharaGroupId(), (et, vl) -> ((VillageCharaGroup)et).setVillageCharaGroupId(cti(vl)), "villageCharaGroupId");
+        setupEpg(_epgMap, et -> ((VillageCharaGroup)et).getVillageId(), (et, vl) -> ((VillageCharaGroup)et).setVillageId(cti(vl)), "villageId");
+        setupEpg(_epgMap, et -> ((VillageCharaGroup)et).getCharaGroupId(), (et, vl) -> ((VillageCharaGroup)et).setCharaGroupId(cti(vl)), "charaGroupId");
+        setupEpg(_epgMap, et -> ((VillageCharaGroup)et).getRegisterDatetime(), (et, vl) -> ((VillageCharaGroup)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
+        setupEpg(_epgMap, et -> ((VillageCharaGroup)et).getRegisterTrace(), (et, vl) -> ((VillageCharaGroup)et).setRegisterTrace((String)vl), "registerTrace");
+        setupEpg(_epgMap, et -> ((VillageCharaGroup)et).getUpdateDatetime(), (et, vl) -> ((VillageCharaGroup)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
+        setupEpg(_epgMap, et -> ((VillageCharaGroup)et).getUpdateTrace(), (et, vl) -> ((VillageCharaGroup)et).setUpdateTrace((String)vl), "updateTrace");
     }
     public PropertyGateway findPropertyGateway(String prop)
     { return doFindEpg(_epgMap, prop); }
@@ -65,7 +61,8 @@ public class CharaGroupDbm extends AbstractDBMeta {
     { xsetupEfpg(); }
     @SuppressWarnings("unchecked")
     protected void xsetupEfpg() {
-        setupEfpg(_efpgMap, et -> ((CharaGroup)et).getDesigner(), (et, vl) -> ((CharaGroup)et).setDesigner((OptionalEntity<Designer>)vl), "designer");
+        setupEfpg(_efpgMap, et -> ((VillageCharaGroup)et).getCharaGroup(), (et, vl) -> ((VillageCharaGroup)et).setCharaGroup((OptionalEntity<CharaGroup>)vl), "charaGroup");
+        setupEfpg(_efpgMap, et -> ((VillageCharaGroup)et).getVillage(), (et, vl) -> ((VillageCharaGroup)et).setVillage((OptionalEntity<Village>)vl), "village");
     }
     public PropertyGateway findForeignPropertyGateway(String prop)
     { return doFindEfpg(_efpgMap, prop); }
@@ -73,10 +70,10 @@ public class CharaGroupDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "CHARA_GROUP";
-    protected final String _tableDispName = "CHARA_GROUP";
-    protected final String _tablePropertyName = "charaGroup";
-    protected final TableSqlName _tableSqlName = new TableSqlName("CHARA_GROUP", _tableDbName);
+    protected final String _tableDbName = "VILLAGE_CHARA_GROUP";
+    protected final String _tableDispName = "VILLAGE_CHARA_GROUP";
+    protected final String _tablePropertyName = "villageCharaGroup";
+    protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_CHARA_GROUP", _tableDbName);
     { _tableSqlName.xacceptFilter(DBFluteConfig.getInstance().getTableSqlNameFilter()); }
     public String getTableDbName() { return _tableDbName; }
     public String getTableDispName() { return _tableDispName; }
@@ -86,41 +83,29 @@ public class CharaGroupDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnCharaGroupId = cci("CHARA_GROUP_ID", "CHARA_GROUP_ID", null, null, Integer.class, "charaGroupId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "charaList,villageCharaGroupList", null, false);
-    protected final ColumnInfo _columnCharaGroupName = cci("CHARA_GROUP_NAME", "CHARA_GROUP_NAME", null, null, String.class, "charaGroupName", null, false, false, true, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnDesignerId = cci("DESIGNER_ID", "DESIGNER_ID", null, null, Integer.class, "designerId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "designer", null, null, false);
-    protected final ColumnInfo _columnDescriptionUrl = cci("DESCRIPTION_URL", "DESCRIPTION_URL", null, null, String.class, "descriptionUrl", null, false, false, false, "TEXT", 65535, 0, null, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnIsAvailableChangeName = cci("IS_AVAILABLE_CHANGE_NAME", "IS_AVAILABLE_CHANGE_NAME", null, null, Boolean.class, "isAvailableChangeName", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
+    protected final ColumnInfo _columnVillageCharaGroupId = cci("VILLAGE_CHARA_GROUP_ID", "VILLAGE_CHARA_GROUP_ID", null, null, Integer.class, "villageCharaGroupId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnVillageId = cci("VILLAGE_ID", "VILLAGE_ID", null, null, Integer.class, "villageId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "village", null, null, false);
+    protected final ColumnInfo _columnCharaGroupId = cci("CHARA_GROUP_ID", "CHARA_GROUP_ID", null, null, Integer.class, "charaGroupId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "charaGroup", null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
-     * CHARA_GROUP_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * VILLAGE_CHARA_GROUP_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnVillageCharaGroupId() { return _columnVillageCharaGroupId; }
+    /**
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnVillageId() { return _columnVillageId; }
+    /**
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharaGroupId() { return _columnCharaGroupId; }
-    /**
-     * CHARA_GROUP_NAME: {NotNull, VARCHAR(40)}
-     * @return The information object of specified column. (NotNull)
-     */
-    public ColumnInfo columnCharaGroupName() { return _columnCharaGroupName; }
-    /**
-     * DESIGNER_ID: {IX, NotNull, INT UNSIGNED(10), FK to DESIGNER}
-     * @return The information object of specified column. (NotNull)
-     */
-    public ColumnInfo columnDesignerId() { return _columnDesignerId; }
-    /**
-     * DESCRIPTION_URL: {TEXT(65535)}
-     * @return The information object of specified column. (NotNull)
-     */
-    public ColumnInfo columnDescriptionUrl() { return _columnDescriptionUrl; }
-    /**
-     * IS_AVAILABLE_CHANGE_NAME: {NotNull, BIT, classification=Flg}
-     * @return The information object of specified column. (NotNull)
-     */
-    public ColumnInfo columnIsAvailableChangeName() { return _columnIsAvailableChangeName; }
     /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
@@ -144,11 +129,9 @@ public class CharaGroupDbm extends AbstractDBMeta {
 
     protected List<ColumnInfo> ccil() {
         List<ColumnInfo> ls = newArrayList();
+        ls.add(columnVillageCharaGroupId());
+        ls.add(columnVillageId());
         ls.add(columnCharaGroupId());
-        ls.add(columnCharaGroupName());
-        ls.add(columnDesignerId());
-        ls.add(columnDescriptionUrl());
-        ls.add(columnIsAvailableChangeName());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());
@@ -164,7 +147,7 @@ public class CharaGroupDbm extends AbstractDBMeta {
     // -----------------------------------------------------
     //                                       Primary Element
     //                                       ---------------
-    protected UniqueInfo cpui() { return hpcpui(columnCharaGroupId()); }
+    protected UniqueInfo cpui() { return hpcpui(columnVillageCharaGroupId()); }
     public boolean hasPrimaryKey() { return true; }
     public boolean hasCompoundPrimaryKey() { return false; }
 
@@ -177,33 +160,25 @@ public class CharaGroupDbm extends AbstractDBMeta {
     //                                      Foreign Property
     //                                      ----------------
     /**
-     * DESIGNER by my DESIGNER_ID, named 'designer'.
+     * CHARA_GROUP by my CHARA_GROUP_ID, named 'charaGroup'.
      * @return The information object of foreign property. (NotNull)
      */
-    public ForeignInfo foreignDesigner() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnDesignerId(), DesignerDbm.getInstance().columnDesignerId());
-        return cfi("FK_CHARA_GROUP_DESIGNER", "designer", this, DesignerDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "charaGroupList", false);
+    public ForeignInfo foreignCharaGroup() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaGroupId(), CharaGroupDbm.getInstance().columnCharaGroupId());
+        return cfi("FK_VILLAGE_CHARA_GROUP_CHARA_GROUP_ID", "charaGroup", this, CharaGroupDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villageCharaGroupList", false);
+    }
+    /**
+     * VILLAGE by my VILLAGE_ID, named 'village'.
+     * @return The information object of foreign property. (NotNull)
+     */
+    public ForeignInfo foreignVillage() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillageId(), VillageDbm.getInstance().columnVillageId());
+        return cfi("FK_VILLAGE_CHARA_GROUP_VILLAGE_ID", "village", this, VillageDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villageCharaGroupList", false);
     }
 
     // -----------------------------------------------------
     //                                     Referrer Property
     //                                     -----------------
-    /**
-     * CHARA by CHARA_GROUP_ID, named 'charaList'.
-     * @return The information object of referrer property. (NotNull)
-     */
-    public ReferrerInfo referrerCharaList() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaGroupId(), CharaDbm.getInstance().columnCharaGroupId());
-        return cri("FK_CHARA_CHARA_GROUP", "charaList", this, CharaDbm.getInstance(), mp, false, "charaGroup");
-    }
-    /**
-     * VILLAGE_CHARA_GROUP by CHARA_GROUP_ID, named 'villageCharaGroupList'.
-     * @return The information object of referrer property. (NotNull)
-     */
-    public ReferrerInfo referrerVillageCharaGroupList() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaGroupId(), VillageCharaGroupDbm.getInstance().columnCharaGroupId());
-        return cri("FK_VILLAGE_CHARA_GROUP_CHARA_GROUP_ID", "villageCharaGroupList", this, VillageCharaGroupDbm.getInstance(), mp, false, "charaGroup");
-    }
 
     // ===================================================================================
     //                                                                        Various Info
@@ -220,27 +195,27 @@ public class CharaGroupDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                           Type Name
     //                                                                           =========
-    public String getEntityTypeName() { return "com.ort.dbflute.exentity.CharaGroup"; }
-    public String getConditionBeanTypeName() { return "com.ort.dbflute.cbean.CharaGroupCB"; }
-    public String getBehaviorTypeName() { return "com.ort.dbflute.exbhv.CharaGroupBhv"; }
+    public String getEntityTypeName() { return "com.ort.dbflute.exentity.VillageCharaGroup"; }
+    public String getConditionBeanTypeName() { return "com.ort.dbflute.cbean.VillageCharaGroupCB"; }
+    public String getBehaviorTypeName() { return "com.ort.dbflute.exbhv.VillageCharaGroupBhv"; }
 
     // ===================================================================================
     //                                                                         Object Type
     //                                                                         ===========
-    public Class<CharaGroup> getEntityType() { return CharaGroup.class; }
+    public Class<VillageCharaGroup> getEntityType() { return VillageCharaGroup.class; }
 
     // ===================================================================================
     //                                                                     Object Instance
     //                                                                     ===============
-    public CharaGroup newEntity() { return new CharaGroup(); }
+    public VillageCharaGroup newEntity() { return new VillageCharaGroup(); }
 
     // ===================================================================================
     //                                                                   Map Communication
     //                                                                   =================
     public void acceptPrimaryKeyMap(Entity et, Map<String, ? extends Object> mp)
-    { doAcceptPrimaryKeyMap((CharaGroup)et, mp); }
+    { doAcceptPrimaryKeyMap((VillageCharaGroup)et, mp); }
     public void acceptAllColumnMap(Entity et, Map<String, ? extends Object> mp)
-    { doAcceptAllColumnMap((CharaGroup)et, mp); }
+    { doAcceptAllColumnMap((VillageCharaGroup)et, mp); }
     public Map<String, Object> extractPrimaryKeyMap(Entity et) { return doExtractPrimaryKeyMap(et); }
     public Map<String, Object> extractAllColumnMap(Entity et) { return doExtractAllColumnMap(et); }
 }

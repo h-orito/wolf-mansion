@@ -262,35 +262,6 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
         doSetupSelect(() -> query().queryAllowedSecretSay());
     }
 
-    protected CharaGroupNss _nssCharaGroup;
-    public CharaGroupNss xdfgetNssCharaGroup() {
-        if (_nssCharaGroup == null) { _nssCharaGroup = new CharaGroupNss(null); }
-        return _nssCharaGroup;
-    }
-    /**
-     * Set up relation columns to select clause. <br>
-     * CHARA_GROUP by my CHARACTER_GROUP_ID, named 'charaGroup'.
-     * <pre>
-     * <span style="color: #0000C0">villageSettingsBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_CharaGroup()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
-     *     <span style="color: #553000">cb</span>.query().set...
-     * }).alwaysPresent(<span style="color: #553000">villageSettings</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     ... = <span style="color: #553000">villageSettings</span>.<span style="color: #CC4747">getCharaGroup()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
-     * });
-     * </pre>
-     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
-     */
-    public CharaGroupNss setupSelect_CharaGroup() {
-        assertSetupSelectPurpose("charaGroup");
-        if (hasSpecifiedLocalColumn()) {
-            specify().columnCharacterGroupId();
-        }
-        doSetupSelect(() -> query().queryCharaGroup());
-        if (_nssCharaGroup == null || !_nssCharaGroup.hasConditionQuery())
-        { _nssCharaGroup = new CharaGroupNss(query().queryCharaGroup()); }
-        return _nssCharaGroup;
-    }
-
     protected VillageNss _nssVillage;
     public VillageNss xdfgetNssVillage() {
         if (_nssVillage == null) { _nssVillage = new VillageNss(null); }
@@ -359,7 +330,6 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
 
     public static class HpSpecification extends HpAbstractSpecification<VillageSettingsCQ> {
         protected AllowedSecretSayCB.HpSpecification _allowedSecretSay;
-        protected CharaGroupCB.HpSpecification _charaGroup;
         protected VillageCB.HpSpecification _village;
         public HpSpecification(ConditionBean baseCB, HpSpQyCall<VillageSettingsCQ> qyCall
                              , HpCBPurpose purpose, DBMetaProvider dbmetaProvider
@@ -441,11 +411,6 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnIsAvailableGuardSameTarget() { return doColumn("IS_AVAILABLE_GUARD_SAME_TARGET"); }
         /**
-         * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
-         * @return The information object of specified column. (NotNull)
-         */
-        public SpecifiedColumn columnCharacterGroupId() { return doColumn("CHARACTER_GROUP_ID"); }
-        /**
          * JOIN_PASSWORD: {VARCHAR(12)}
          * @return The information object of specified column. (NotNull)
          */
@@ -504,10 +469,6 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
                     || qyCall().qy().xgetReferrerQuery() instanceof AllowedSecretSayCQ) {
                 columnAllowedSecretSayCode(); // FK or one-to-one referrer
             }
-            if (qyCall().qy().hasConditionQueryCharaGroup()
-                    || qyCall().qy().xgetReferrerQuery() instanceof CharaGroupCQ) {
-                columnCharacterGroupId(); // FK or one-to-one referrer
-            }
         }
         @Override
         protected String getTableDbName() { return "VILLAGE_SETTINGS"; }
@@ -530,26 +491,6 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
                 }
             }
             return _allowedSecretSay;
-        }
-        /**
-         * Prepare to specify functions about relation table. <br>
-         * CHARA_GROUP by my CHARACTER_GROUP_ID, named 'charaGroup'.
-         * @return The instance for specification for relation table to specify. (NotNull)
-         */
-        public CharaGroupCB.HpSpecification specifyCharaGroup() {
-            assertRelation("charaGroup");
-            if (_charaGroup == null) {
-                _charaGroup = new CharaGroupCB.HpSpecification(_baseCB
-                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryCharaGroup()
-                                    , () -> _qyCall.qy().queryCharaGroup())
-                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
-                if (xhasSyncQyCall()) { // inherits it
-                    _charaGroup.xsetSyncQyCall(xcreateSpQyCall(
-                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryCharaGroup()
-                      , () -> xsyncQyCall().qy().queryCharaGroup()));
-                }
-            }
-            return _charaGroup;
         }
         /**
          * Prepare to specify functions about relation table. <br>

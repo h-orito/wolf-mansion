@@ -373,26 +373,6 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
      */
     public BsVillageSettingsCQ addOrderBy_IsAvailableGuardSameTarget_Desc() { regOBD("IS_AVAILABLE_GUARD_SAME_TARGET"); return this; }
 
-    protected ConditionValue _characterGroupId;
-    public ConditionValue xdfgetCharacterGroupId()
-    { if (_characterGroupId == null) { _characterGroupId = nCV(); }
-      return _characterGroupId; }
-    protected ConditionValue xgetCValueCharacterGroupId() { return xdfgetCharacterGroupId(); }
-
-    /**
-     * Add order-by as ascend. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
-     * @return this. (NotNull)
-     */
-    public BsVillageSettingsCQ addOrderBy_CharacterGroupId_Asc() { regOBA("CHARACTER_GROUP_ID"); return this; }
-
-    /**
-     * Add order-by as descend. <br>
-     * CHARACTER_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
-     * @return this. (NotNull)
-     */
-    public BsVillageSettingsCQ addOrderBy_CharacterGroupId_Desc() { regOBD("CHARACTER_GROUP_ID"); return this; }
-
     protected ConditionValue _joinPassword;
     public ConditionValue xdfgetJoinPassword()
     { if (_joinPassword == null) { _joinPassword = nCV(); }
@@ -637,9 +617,6 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
         if (bq.hasConditionQueryAllowedSecretSay()) {
             uq.queryAllowedSecretSay().reflectRelationOnUnionQuery(bq.queryAllowedSecretSay(), uq.queryAllowedSecretSay());
         }
-        if (bq.hasConditionQueryCharaGroup()) {
-            uq.queryCharaGroup().reflectRelationOnUnionQuery(bq.queryCharaGroup(), uq.queryCharaGroup());
-        }
         if (bq.hasConditionQueryVillage()) {
             uq.queryVillage().reflectRelationOnUnionQuery(bq.queryVillage(), uq.queryVillage());
         }
@@ -667,26 +644,6 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
     }
     protected void xsetupOuterJoinAllowedSecretSay() { xregOutJo("allowedSecretSay"); }
     public boolean hasConditionQueryAllowedSecretSay() { return xhasQueRlMap("allowedSecretSay"); }
-
-    /**
-     * Get the condition-query for relation table. <br>
-     * CHARA_GROUP by my CHARACTER_GROUP_ID, named 'charaGroup'.
-     * @return The instance of condition-query. (NotNull)
-     */
-    public CharaGroupCQ queryCharaGroup() {
-        return xdfgetConditionQueryCharaGroup();
-    }
-    public CharaGroupCQ xdfgetConditionQueryCharaGroup() {
-        String prop = "charaGroup";
-        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryCharaGroup()); xsetupOuterJoinCharaGroup(); }
-        return xgetQueRlMap(prop);
-    }
-    protected CharaGroupCQ xcreateQueryCharaGroup() {
-        String nrp = xresolveNRP("VILLAGE_SETTINGS", "charaGroup"); String jan = xresolveJAN(nrp, xgetNNLvl());
-        return xinitRelCQ(new CharaGroupCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "charaGroup", nrp);
-    }
-    protected void xsetupOuterJoinCharaGroup() { xregOutJo("charaGroup"); }
-    public boolean hasConditionQueryCharaGroup() { return xhasQueRlMap("charaGroup"); }
 
     /**
      * Get the condition-query for relation table. <br>
