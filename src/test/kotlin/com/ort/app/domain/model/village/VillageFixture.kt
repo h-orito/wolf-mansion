@@ -70,7 +70,7 @@ fun createVillageSetting(
     organize: String = "村狼狼狼魔狐賢導狩共共霊霊霊霊霊霊"
 ): VillageSetting = VillageSetting(
     dummyCharaId = 1,
-    charachipId = 1,
+    charachipIds = listOf(1),
     personMin = 8,
     personMax = 99,
     startDatetime = LocalDateTime.now(),
@@ -96,7 +96,8 @@ fun createVillageRule(): VillageRule = VillageRule(
     isAvailableGuardSameTarget = false,
     isAvailableSecretSay = false,
     isAvailableAction = false,
-    isRandomOrganization = false
+    isRandomOrganization = false,
+    isReincarnationSkillAll = false
 )
 
 fun createVillageOrganize(organize: String): VillageOrganize = VillageOrganize(
@@ -115,7 +116,7 @@ fun createVillageParticipant(skill: Skill, id: Int): VillageParticipant = Villag
     skill = null,
     requestSkill = RequestSkill(first = skill, second = skill),
     room = null,
-    status = VillageParticipantStatus(emptyList(), emptyList(), emptyList()),
+    status = VillageParticipantStatus(emptyList(), emptyList(), emptyList(), emptyList()),
     dead = Dead(isDead = false, deadDay = null, reason = null, histories = DeadHistories(emptyList())),
     isSpectator = false,
     isGone = false,
@@ -123,4 +124,4 @@ fun createVillageParticipant(skill: Skill, id: Int): VillageParticipant = Villag
     camp = null,
     lastAccessDatetime = LocalDateTime.now(),
     memo = null
-).assignSkill(skill).assignRoom(roomNumber = id, day = 1)
+).assignSkill(skill, 1).assignRoom(roomNumber = id, day = 1)
