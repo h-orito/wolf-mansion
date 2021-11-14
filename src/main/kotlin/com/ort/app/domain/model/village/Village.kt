@@ -161,14 +161,18 @@ data class Village(
         if (!setting.rule.isAvailableSpectate && spectators.count > 0) throw WolfMansionBusinessException("見学者が既にいるため、見学入村を不可にすることはできません")
     }
 
-    fun statusMessage(isParticipating: Boolean): String {
+    fun statusMessage(isLogin: Boolean, isParticipating: Boolean): String {
         val daychangeDatetime = days.latestDay().dayChangeDatetime.format(DateTimeFormatter.ofPattern("MM/dd HH:mm"))
         return when {
             status.isPrologue() -> {
-                if (!isParticipating) {
-                    "演じたいキャラクターを選び、発言してください。\n${daychangeDatetime} に${setting.personMin}名以上がエントリーしていれば進行します。\n最大${setting.personMax}名まで参加可能です。"
+                val base =
+                    "$daychangeDatetime に${setting.personMin}名以上がエントリーしていれば進行します。\n最大${setting.personMax}名まで参加可能です。"
+                if (!isLogin) {
+                    "ゲーム参加者希望者はトップページよりID登録し、ログインしてください。\n$base"
+                } else if (!isParticipating) {
+                    "演じたいキャラクターを選び、発言してください。\n$base"
                 } else {
-                    "$daychangeDatetime に${setting.personMin}名以上がエントリーしていれば進行します。\n最大${setting.personMax}名まで参加可能です。\n\nプロローグ中は24時間アクセスなしで自動退村となるため、定期的にアクセスしてください。"
+                    "$base\n\nプロローグ中は24時間アクセスなしで自動退村となるため、定期的にアクセスしてください。"
                 }
             }
             status.isProgress() -> {

@@ -48,7 +48,8 @@ class VillageMessageController(
         val village = villageService.findVillage(form.villageId!!, excludeGone = false)
             ?: throw WolfMansionBusinessException("village not found.")
         // 最終アクセス日時を更新
-        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
+        val user = WolfMansionUserInfoUtil.getUserInfo()
+        val myself = user?.let {
             villageService.findVillageParticipant(village.id, it.username)
         }?.also { villageService.updateLastAccessDatetime(it) }
         // 更新時間が過ぎていたら日付更新
@@ -68,6 +69,7 @@ class VillageMessageController(
         return VillageMessageListContent(
             messages,
             village,
+            user,
             myself,
             charas,
             players,

@@ -10,6 +10,7 @@ import com.ort.app.domain.model.player.Players
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.vote.Votes
+import com.ort.app.fw.security.UserInfo
 import com.ort.dbflute.allcommon.CDef
 import java.time.format.DateTimeFormatter
 
@@ -53,6 +54,7 @@ data class VillageMessageListContent(
     constructor(
         messages: Messages,
         village: Village,
+        user: UserInfo?,
         myself: VillageParticipant?,
         charas: Charas,
         players: Players,
@@ -77,7 +79,7 @@ data class VillageMessageListContent(
                 isLoud = isLoud(message, abilities, village)
             )
         },
-        villageStatusMessage = mapVillageStatusMessage(village, myself, day),
+        villageStatusMessage = mapVillageStatusMessage(village, user, myself, day),
         commitStatusMessage = mapCommitStatusMessage(village, day, commits),
         suddenlyDeathMessage = mapSuddenlyDeathMessage(village, votes, day),
         latestDay = village.latestDay(),
@@ -92,9 +94,14 @@ data class VillageMessageListContent(
     )
 
     companion object {
-        private fun mapVillageStatusMessage(village: Village, myself: VillageParticipant?, day: Int): String? {
+        private fun mapVillageStatusMessage(
+            village: Village,
+            user: UserInfo?,
+            myself: VillageParticipant?,
+            day: Int
+        ): String? {
             return if (day != village.latestDay()) null
-            else village.statusMessage(myself != null)
+            else village.statusMessage(user != null, myself != null)
         }
 
         private fun mapSuddenlyDeathMessage(village: Village, votes: Votes, day: Int): String? {
