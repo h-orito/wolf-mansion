@@ -12,6 +12,7 @@ import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.player.canCreateVillage
+import com.ort.app.domain.model.village.VillageQuery
 import com.ort.app.domain.model.village.VillageStatus
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
@@ -32,7 +33,7 @@ class IndexController(
     private fun index(form: LoginForm, model: Model): String {
         model.addAttribute("form", form)
         val villages = villageService.findVillages(
-            statusList = VillageStatus.notFinishedStatusList.map { VillageStatus(it) }
+            query = VillageQuery(statuses = VillageStatus.notFinishedStatusList.map { VillageStatus(it) })
         )
         val userInfo = WolfMansionUserInfoUtil.getUserInfo()
         val player = userInfo?.let {
@@ -47,7 +48,9 @@ class IndexController(
     @GetMapping("/recruiting")
     @ResponseBody
     private fun recruiting(): RecruitingContent {
-        var villages = villageService.findVillages(VillageStatus.notFinishedStatusList.map { VillageStatus(it) })
+        var villages = villageService.findVillages(
+            query = VillageQuery(statuses = VillageStatus.notFinishedStatusList.map { VillageStatus(it) })
+        )
         villages = villages.copy(
             list = villages.list.filterNot { it.name == "【サンプル】インターフェース確認用" }
         )
@@ -61,12 +64,14 @@ class IndexController(
         form: VillageRecordListForm //
     ): VillageRecordListContent {
         var villages = villageService.findVillages(
-            statusList = listOf(
-                VillageStatus(CDef.VillageStatus.エピローグ),
-                VillageStatus(CDef.VillageStatus.終了),
-                VillageStatus(CDef.VillageStatus.廃村)
-            ),
-            idList = form.vid ?: listOf()
+            query = VillageQuery(
+                statuses = listOf(
+                    VillageStatus(CDef.VillageStatus.エピローグ),
+                    VillageStatus(CDef.VillageStatus.終了),
+                    VillageStatus(CDef.VillageStatus.廃村)
+                ),
+                ids = form.vid ?: emptyList()
+            )
         )
         villages = villages.copy(list = villages.list.reversed())
         val players = playerService.findPlayers(

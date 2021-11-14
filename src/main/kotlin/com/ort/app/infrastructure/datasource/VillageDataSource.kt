@@ -6,6 +6,7 @@ import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.VillageDay
 import com.ort.app.domain.model.village.VillageDays
+import com.ort.app.domain.model.village.VillageQuery
 import com.ort.app.domain.model.village.VillageRepository
 import com.ort.app.domain.model.village.VillageStatus
 import com.ort.app.domain.model.village.Villages
@@ -39,17 +40,34 @@ class VillageDataSource(
     }
 
     override fun findVillages(
-        statusList: List<VillageStatus>,
-        idList: List<Int>
+        query: VillageQuery
     ): Villages {
         val villageList = villageBhv.selectList {
             it.setupSelect_VillageSettingsAsOne()
-            it.query()
-                .setVillageStatusCode_InScope_AsVillageStatus(
-                    statusList.map { status -> status.toCdef() }
+            if (query.statuses.isNotEmpty()) {
+                it.query()
+                    .setVillageStatusCode_InScope_AsVillageStatus(
+                        query.statuses.map { status -> status.toCdef() }
+                    )
+            } else if (query.skills.isNotEmpty()) {
+                it.query().setVillageStatusCode_InScope_AsVillageStatus(
+                    VillageStatus.notProgressStatusLsit
                 )
-            if (idList.isNotEmpty()) {
-                it.query().setVillageId_InScope(idList)
+                it.query().existsVillagePlayer {
+                    it.query().setSkillCode_InScope_AsSkill(query.skills.map { it.toCdef() })
+                    it.query().setIsGone_Equal_False()
+                }
+            }
+            if (query.ids.isNotEmpty()) {
+                it.query().setVillageId_InScope(query.ids)
+            }
+            if (query.charachipIds.isNotEmpty()) {
+                it.query().existsVillageCharaGroup {
+                    it.query().setCharaGroupId_InScope(query.charachipIds)
+                }
+            }
+            query.isRandomOrg?.let { isRandomOrg ->
+                it.query().queryVillageSettingsAsOne().setIsRandomOrganize_Equal(isRandomOrg)
             }
             it.query().addOrderBy_VillageId_Asc()
         }

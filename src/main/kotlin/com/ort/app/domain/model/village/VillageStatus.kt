@@ -18,6 +18,9 @@ data class VillageStatus(
 
         // 終了したステータス
         val finishedStatusList = listOf(CDef.VillageStatus.終了, CDef.VillageStatus.廃村)
+
+        // 進行中でないステータス
+        val notProgressStatusLsit = listOf(CDef.VillageStatus.エピローグ, CDef.VillageStatus.終了, CDef.VillageStatus.廃村)
     }
 
     constructor(cdef: CDef.VillageStatus) : this(code = cdef.code(), name = cdef.alias())

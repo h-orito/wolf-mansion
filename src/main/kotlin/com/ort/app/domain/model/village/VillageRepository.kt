@@ -15,8 +15,7 @@ interface VillageRepository {
     ): Int
 
     fun findVillages(
-        statusList: List<VillageStatus>,
-        idList: List<Int>
+        query: VillageQuery
     ): Villages
 
     fun findVillage(

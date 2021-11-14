@@ -1,12 +1,26 @@
 package com.ort.app.api.view
 
+import com.ort.app.domain.model.chara.Charachip
+import com.ort.app.domain.model.chara.Charachips
+import com.ort.app.domain.model.skill.Skill
+import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.Villages
 
 data class VillageListContent(
-    val villageList: List<VillageListVillage>
+    val villageList: List<VillageListVillage>,
+    val charachipList: List<CharachipContent>,
+    val skillList: List<SkillContent>
 ) {
-    constructor(villages: Villages) : this(villageList = villages.list.reversed().map { VillageListVillage(it) })
+    constructor(
+        villages: Villages,
+        charachips: Charachips,
+        skills: Skills
+    ) : this(
+        villageList = villages.list.reversed().map { VillageListVillage(it) },
+        charachipList = charachips.list.map { CharachipContent(it) },
+        skillList = skills.list.map { SkillContent(it) }
+    )
 
     data class VillageListVillage(
         val villageId: Int,
@@ -34,5 +48,29 @@ data class VillageListContent(
                 }
             }
         }
+    }
+
+    data class CharachipContent(
+        val id: Int,
+        val name: String
+    ) {
+        constructor(
+            charachip: Charachip
+        ) : this(
+            id = charachip.id,
+            name = charachip.name
+        )
+    }
+
+    data class SkillContent(
+        val code: String,
+        val name: String
+    ) {
+        constructor(
+            skill: Skill
+        ) : this(
+            code = skill.code,
+            name = skill.name
+        )
     }
 }

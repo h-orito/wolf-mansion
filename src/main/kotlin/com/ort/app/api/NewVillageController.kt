@@ -9,6 +9,7 @@ import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.skill.Skill
+import com.ort.app.domain.model.village.VillageQuery
 import com.ort.app.domain.model.village.VillageStatus
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
@@ -146,9 +147,10 @@ class NewVillageController(
     private fun setIndexModel(form: NewVillageForm, model: Model) {
         form.initialize()
         model.addAttribute("villageForm", form)
-
         val finishedVillages = villageService.findVillages(
-            (VillageStatus.settledStatusList + VillageStatus.finishedStatusList).distinct().map { VillageStatus(it) }
+            query = VillageQuery(
+                statuses = VillageStatus.notProgressStatusLsit.map { VillageStatus(it) }
+            )
         ).list.map { NewVillageDivertContent(it.id, it.id.toString().padStart(4, '0'), it.name) }
         model.addAttribute("villageList", finishedVillages)
         model.addAttribute("skillListStr", Skill.getSkillListStr())

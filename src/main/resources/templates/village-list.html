@@ -1,46 +1,99 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
-<!--/* 個別ページのタイトル */-->
-<title>村一覧</title>
-<!--/* 個別ページのjs */-->
+    <!--/* 個別ページのタイトル */-->
+    <title>村一覧</title>
+    <!--/* 個別ページのjs */-->
 </head>
 
 <body>
-	<div class="container">
-		<div layout:fragment="content">
-			<div id="wrapper">
-				<div class="col-sm-12 col-xs-12">
-					<h1 class="h4">村一覧</h1>
-					<div class="table-responsive">
-						<table class="table table-bordered table-condensed small" th:if="${content.villageList != null && content.villageList.size() > 0}">
-							<thead>
-								<tr>
-									<th>村番号</th>
-									<th>村名</th>
-									<th>人数</th>
-									<th>状態</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="village : ${content.villageList}">
-									<td th:text="${village.villageNumber}"></td>
-									<td>
-										<a href="javascript:void(0);" th:href="@{/village/{villageId}(villageId=${village.villageId})}" th:text="${village.villageName}"></a>
-									</td>
-									<td th:text="${village.participateNum}"></td>
-									<td th:text="${village.status}"></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
+<div class="container">
+    <div layout:fragment="content">
+        <div id="wrapper">
+            <div class="col-sm-12 col-xs-12">
+                <h1 class="h4">村一覧</h1>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a class="h5" data-toggle="collapse" data-parent="#form-panel" href="#form-content">検索</a>
+                    </div>
+                    <div id="form-content" class="panel-collapse collapse" style="padding: 15px;">
+                        <form method="get" th:action="@{/village-list}" th:object="${form}"
+                              class="form-horizontal" aria-expanded="true" style="margin-bottom: 10px;">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">キャラセット</label>
+                                <div class="col-sm-9 col-xs-12">
+                                    <select multiple class="form-control" th:field="*{charachipIds}">
+                                        <option th:each="charachip: ${content.charachipList}" th:value="${charachip.id}"
+                                                th:text="${charachip.name}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">役職</label>
+                                <div class="col-sm-9 col-xs-12">
+                                    <select multiple class="form-control" th:field="*{skillCodes}">
+                                        <option th:each="skill: ${content.skillList}" th:value="${skill.code}"
+                                                th:text="${skill.name}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">編成</label>
+                                <div class="col-sm-9 col-xs-12 btn-group btn-saytypes" data-toggle="buttons">
+                                    <label th:class="'btn btn-sm btn-success ' + *{random == null ? 'active' : ''}">
+                                        <input type="radio" class="" th:field="*{random}" value="" autocomplete="off"/>両方
+                                    </label>
+                                    <label th:class="'btn btn-sm btn-success ' + *{random != null && random ? 'active' : ''}">
+                                        <input type="radio" class="" th:field="*{random}" value="true"
+                                               autocomplete="off"/>闇鍋
+                                    </label>
+                                    <label th:class="'btn btn-sm btn-success ' + *{random != null && !random ? 'active' : ''}">
+                                        <input type="radio" class="" th:field="*{random}" value="false"
+                                               autocomplete="off"/>固定
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12 col-xs-12">
+                                    <input type="submit" class="btn btn-sm btn-success pull-right" value="検索"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-condensed small"
+                           th:if="${content.villageList != null && content.villageList.size() > 0}">
+                        <thead>
+                        <tr>
+                            <th>村番号</th>
+                            <th>村名</th>
+                            <th>人数</th>
+                            <th>状態</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="village : ${content.villageList}">
+                            <td th:text="${village.villageNumber}"></td>
+                            <td>
+                                <a href="javascript:void(0);"
+                                   th:href="@{/village/{villageId}(villageId=${village.villageId})}"
+                                   th:text="${village.villageName}"></a>
+                            </td>
+                            <td th:text="${village.participateNum}"></td>
+                            <td th:text="${village.status}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-				<div class="clearfix"></div>
-			</div>
-		</div>
-		<footer layout:replace="~{layout/footer::footer}"></footer>
-	</div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <footer layout:replace="~{layout/footer::footer}"></footer>
+</div>
 </body>
 </html>
 

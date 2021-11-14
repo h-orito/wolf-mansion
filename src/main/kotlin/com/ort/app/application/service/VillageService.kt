@@ -3,6 +3,7 @@ package com.ort.app.application.service
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.village.Village
+import com.ort.app.domain.model.village.VillageQuery
 import com.ort.app.domain.model.village.VillageRepository
 import com.ort.app.domain.model.village.VillageStatus
 import com.ort.app.domain.model.village.Villages
@@ -23,9 +24,8 @@ class VillageService(
     ): Int = villageRepository.findLatestVillageId(statusList)
 
     fun findVillages(
-        statusList: List<VillageStatus>,
-        idList: List<Int> = listOf()
-    ): Villages = villageRepository.findVillages(statusList, idList)
+        query: VillageQuery
+    ): Villages = villageRepository.findVillages(query)
 
     fun findVillage(
         villageId: Int,
