@@ -14,8 +14,8 @@ data class RoomSize(
                 in 18..20 -> RoomSize(6, 4)
                 else -> {
                     for (width in 6..100) {
-                        for (height in width - 1..width) {
-                            if (width * height - 13 <= personNum && personNum <= width * height - 4) {
+                        for (height in (width - 1)..width) {
+                            if (personNum <= width * height - 4) {
                                 return RoomSize(width, height)
                             }
                         }

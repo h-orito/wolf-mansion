@@ -40,7 +40,7 @@ data class NewVillageForm(
 
     /** 定員 */
     @field:NotNull
-    @field:Max(99)
+    @field:Max(999)
     var personMaxNum: Int? = null,
 
     /** 更新間隔時間 */
