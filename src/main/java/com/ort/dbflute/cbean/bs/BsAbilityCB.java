@@ -420,7 +420,7 @@ public class BsAbilityCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnTargetCharaId() { return doColumn("TARGET_CHARA_ID"); }
         /**
-         * TARGET_FOOTSTEP: {VARCHAR(100)}
+         * TARGET_FOOTSTEP: {VARCHAR(1000)}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnTargetFootstep() { return doColumn("TARGET_FOOTSTEP"); }

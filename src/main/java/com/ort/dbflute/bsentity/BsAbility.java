@@ -93,7 +93,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     /** TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to CHARA} */
     protected Integer _targetCharaId;
 
-    /** TARGET_FOOTSTEP: {VARCHAR(100)} */
+    /** TARGET_FOOTSTEP: {VARCHAR(1000)} */
     protected String _targetFootstep;
 
     /** ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ABILITY_TYPE, classification=AbilityType} */
@@ -944,7 +944,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] TARGET_FOOTSTEP: {VARCHAR(100)} <br>
+     * [get] TARGET_FOOTSTEP: {VARCHAR(1000)} <br>
      * 行使対象の足音
      * @return The value of the column 'TARGET_FOOTSTEP'. (NullAllowed even if selected: for no constraint)
      */
@@ -954,7 +954,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] TARGET_FOOTSTEP: {VARCHAR(100)} <br>
+     * [set] TARGET_FOOTSTEP: {VARCHAR(1000)} <br>
      * 行使対象の足音
      * @param targetFootstep The value of the column 'TARGET_FOOTSTEP'. (NullAllowed: null update allowed for no constraint)
      */

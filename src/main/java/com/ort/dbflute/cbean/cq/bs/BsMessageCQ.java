@@ -255,14 +255,14 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * MESSAGE_CONTENT: {NotNull, VARCHAR(10000)}
+     * MESSAGE_CONTENT: {NotNull, TEXT(65535)}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_MessageContent_Asc() { regOBA("MESSAGE_CONTENT"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * MESSAGE_CONTENT: {NotNull, VARCHAR(10000)}
+     * MESSAGE_CONTENT: {NotNull, TEXT(65535)}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_MessageContent_Desc() { regOBD("MESSAGE_CONTENT"); return this; }

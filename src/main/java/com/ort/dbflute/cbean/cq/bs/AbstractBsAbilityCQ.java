@@ -561,7 +561,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * TARGET_FOOTSTEP: {VARCHAR(1000)}
      * @param targetFootstep The value of targetFootstep as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setTargetFootstep_Equal(String targetFootstep) {
@@ -574,7 +574,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * TARGET_FOOTSTEP: {VARCHAR(1000)}
      * @param targetFootstep The value of targetFootstep as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setTargetFootstep_NotEqual(String targetFootstep) {
@@ -587,7 +587,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * TARGET_FOOTSTEP: {VARCHAR(1000)}
      * @param targetFootstep The value of targetFootstep as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setTargetFootstep_GreaterThan(String targetFootstep) {
@@ -596,7 +596,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * TARGET_FOOTSTEP: {VARCHAR(1000)}
      * @param targetFootstep The value of targetFootstep as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setTargetFootstep_LessThan(String targetFootstep) {
@@ -605,7 +605,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * TARGET_FOOTSTEP: {VARCHAR(1000)}
      * @param targetFootstep The value of targetFootstep as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setTargetFootstep_GreaterEqual(String targetFootstep) {
@@ -614,7 +614,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * TARGET_FOOTSTEP: {VARCHAR(1000)}
      * @param targetFootstep The value of targetFootstep as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setTargetFootstep_LessEqual(String targetFootstep) {
@@ -623,7 +623,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * TARGET_FOOTSTEP: {VARCHAR(1000)}
      * @param targetFootstepList The collection of targetFootstep as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setTargetFootstep_InScope(Collection<String> targetFootstepList) {
@@ -636,7 +636,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * TARGET_FOOTSTEP: {VARCHAR(1000)}
      * @param targetFootstepList The collection of targetFootstep as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setTargetFootstep_NotInScope(Collection<String> targetFootstepList) {
@@ -649,7 +649,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * TARGET_FOOTSTEP: {VARCHAR(100)} <br>
+     * TARGET_FOOTSTEP: {VARCHAR(1000)} <br>
      * <pre>e.g. setTargetFootstep_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
      * @param targetFootstep The value of targetFootstep as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param opLambda The callback for option of like-search. (NotNull)
@@ -660,7 +660,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * TARGET_FOOTSTEP: {VARCHAR(100)} <br>
+     * TARGET_FOOTSTEP: {VARCHAR(1000)} <br>
      * <pre>e.g. setTargetFootstep_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
      * @param targetFootstep The value of targetFootstep as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param likeSearchOption The option of like-search. (NotNull)
@@ -672,7 +672,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     /**
      * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
      * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * TARGET_FOOTSTEP: {VARCHAR(1000)}
      * @param targetFootstep The value of targetFootstep as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param opLambda The callback for option of like-search. (NotNull)
      */
@@ -683,7 +683,7 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     /**
      * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
      * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * TARGET_FOOTSTEP: {VARCHAR(1000)}
      * @param targetFootstep The value of targetFootstep as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param likeSearchOption The option of not-like-search. (NotNull)
      */
@@ -693,19 +693,19 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * TARGET_FOOTSTEP: {VARCHAR(1000)}
      */
     public void setTargetFootstep_IsNull() { regTargetFootstep(CK_ISN, DOBJ); }
 
     /**
      * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
-     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * TARGET_FOOTSTEP: {VARCHAR(1000)}
      */
     public void setTargetFootstep_IsNullOrEmpty() { regTargetFootstep(CK_ISNOE, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * TARGET_FOOTSTEP: {VARCHAR(1000)}
      */
     public void setTargetFootstep_IsNotNull() { regTargetFootstep(CK_ISNN, DOBJ); }
 

@@ -99,7 +99,7 @@ public class AbilityDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnDay = cci("DAY", "DAY", null, null, Integer.class, "day", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villageDay", null, null, false);
     protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "charaByCharaId", null, null, false);
     protected final ColumnInfo _columnTargetCharaId = cci("TARGET_CHARA_ID", "TARGET_CHARA_ID", null, null, Integer.class, "targetCharaId", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, "charaByTargetCharaId", null, null, false);
-    protected final ColumnInfo _columnTargetFootstep = cci("TARGET_FOOTSTEP", "TARGET_FOOTSTEP", null, null, String.class, "targetFootstep", null, false, false, false, "VARCHAR", 100, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnTargetFootstep = cci("TARGET_FOOTSTEP", "TARGET_FOOTSTEP", null, null, String.class, "targetFootstep", null, false, false, false, "VARCHAR", 1000, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnAbilityTypeCode = cci("ABILITY_TYPE_CODE", "ABILITY_TYPE_CODE", null, null, String.class, "abilityTypeCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "abilityType", null, CDef.DefMeta.AbilityType, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
@@ -127,7 +127,7 @@ public class AbilityDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnTargetCharaId() { return _columnTargetCharaId; }
     /**
-     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * TARGET_FOOTSTEP: {VARCHAR(1000)}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnTargetFootstep() { return _columnTargetFootstep; }

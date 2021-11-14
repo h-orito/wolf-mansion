@@ -1,4 +1,64 @@
 map:{
+    ; 2021/11/14 19:11:12 = map:{
+        ; diffDate = 2021/11/14 19:11:12
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; ABILITY = map:{
+                ; tableName = ABILITY
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; TARGET_FOOTSTEP = map:{
+                        ; columnName = TARGET_FOOTSTEP
+                        ; diffType = CHANGE
+                        ; columnSizeDiff = map:{
+                            ; next = 1000
+                            ; previous = 100
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ; 2021/11/14 18:43:11 = map:{
+        ; diffDate = 2021/11/14 18:43:11
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; FOOTSTEP = map:{
+                ; tableName = FOOTSTEP
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; FOOTSTEP_ROOM_NUMBERS = map:{
+                        ; columnName = FOOTSTEP_ROOM_NUMBERS
+                        ; diffType = CHANGE
+                        ; columnSizeDiff = map:{
+                            ; next = 1000
+                            ; previous = 100
+                        }
+                    }
+                }
+            }
+            ; MESSAGE = map:{
+                ; tableName = MESSAGE
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; MESSAGE_CONTENT = map:{
+                        ; columnName = MESSAGE_CONTENT
+                        ; diffType = CHANGE
+                        ; dbTypeDiff = map:{
+                            ; next = TEXT
+                            ; previous = VARCHAR
+                        }
+                        ; columnSizeDiff = map:{
+                            ; next = 65535
+                            ; previous = 10000
+                        }
+                    }
+                }
+            }
+        }
+    }
     ; 2021/11/14 10:58:30 = map:{
         ; diffDate = 2021/11/14 10:58:30
         ; tableCount = map:{

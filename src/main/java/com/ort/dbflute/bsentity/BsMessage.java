@@ -125,7 +125,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     /** MESSAGE_NUMBER: {+UQ, INT UNSIGNED(10)} */
     protected Integer _messageNumber;
 
-    /** MESSAGE_CONTENT: {NotNull, VARCHAR(10000)} */
+    /** MESSAGE_CONTENT: {NotNull, TEXT(65535)} */
     protected String _messageContent;
 
     /** MESSAGE_DATETIME: {NotNull, DATETIME(19)} */
@@ -1314,7 +1314,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] MESSAGE_CONTENT: {NotNull, VARCHAR(10000)} <br>
+     * [get] MESSAGE_CONTENT: {NotNull, TEXT(65535)} <br>
      * メッセージ内容
      * @return The value of the column 'MESSAGE_CONTENT'. (basically NotNull if selected: for the constraint)
      */
@@ -1324,7 +1324,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] MESSAGE_CONTENT: {NotNull, VARCHAR(10000)} <br>
+     * [set] MESSAGE_CONTENT: {NotNull, TEXT(65535)} <br>
      * メッセージ内容
      * @param messageContent The value of the column 'MESSAGE_CONTENT'. (basically NotNull if update: for the constraint)
      */

@@ -124,7 +124,7 @@ public class MessageDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnDay = cci("DAY", "DAY", null, null, Integer.class, "day", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villageDay", null, null, false);
     protected final ColumnInfo _columnMessageTypeCode = cci("MESSAGE_TYPE_CODE", "MESSAGE_TYPE_CODE", null, null, String.class, "messageTypeCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "messageType", null, CDef.DefMeta.MessageType, false);
     protected final ColumnInfo _columnMessageNumber = cci("MESSAGE_NUMBER", "MESSAGE_NUMBER", null, null, Integer.class, "messageNumber", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnMessageContent = cci("MESSAGE_CONTENT", "MESSAGE_CONTENT", null, null, String.class, "messageContent", null, false, false, true, "VARCHAR", 10000, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnMessageContent = cci("MESSAGE_CONTENT", "MESSAGE_CONTENT", null, null, String.class, "messageContent", null, false, false, true, "TEXT", 65535, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnMessageDatetime = cci("MESSAGE_DATETIME", "MESSAGE_DATETIME", null, null, java.time.LocalDateTime.class, "messageDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnIsConvertDisable = cci("IS_CONVERT_DISABLE", "IS_CONVERT_DISABLE", null, null, Boolean.class, "isConvertDisable", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnFaceTypeCode = cci("FACE_TYPE_CODE", "FACE_TYPE_CODE", null, null, String.class, "faceTypeCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, "faceType", null, CDef.DefMeta.FaceType, false);
@@ -178,7 +178,7 @@ public class MessageDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnMessageNumber() { return _columnMessageNumber; }
     /**
-     * MESSAGE_CONTENT: {NotNull, VARCHAR(10000)}
+     * MESSAGE_CONTENT: {NotNull, TEXT(65535)}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnMessageContent() { return _columnMessageContent; }

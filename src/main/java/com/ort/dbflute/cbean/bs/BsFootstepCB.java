@@ -363,7 +363,7 @@ public class BsFootstepCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnCharaId() { return doColumn("CHARA_ID"); }
         /**
-         * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)}
+         * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnFootstepRoomNumbers() { return doColumn("FOOTSTEP_ROOM_NUMBERS"); }

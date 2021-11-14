@@ -1476,7 +1476,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_CONTENT: {NotNull, VARCHAR(10000)}
+     * MESSAGE_CONTENT: {NotNull, TEXT(65535)}
      * @param messageContent The value of messageContent as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setMessageContent_Equal(String messageContent) {
@@ -1489,7 +1489,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_CONTENT: {NotNull, VARCHAR(10000)}
+     * MESSAGE_CONTENT: {NotNull, TEXT(65535)}
      * @param messageContent The value of messageContent as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setMessageContent_NotEqual(String messageContent) {
@@ -1502,7 +1502,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_CONTENT: {NotNull, VARCHAR(10000)}
+     * MESSAGE_CONTENT: {NotNull, TEXT(65535)}
      * @param messageContent The value of messageContent as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setMessageContent_GreaterThan(String messageContent) {
@@ -1511,7 +1511,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_CONTENT: {NotNull, VARCHAR(10000)}
+     * MESSAGE_CONTENT: {NotNull, TEXT(65535)}
      * @param messageContent The value of messageContent as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setMessageContent_LessThan(String messageContent) {
@@ -1520,7 +1520,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_CONTENT: {NotNull, VARCHAR(10000)}
+     * MESSAGE_CONTENT: {NotNull, TEXT(65535)}
      * @param messageContent The value of messageContent as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setMessageContent_GreaterEqual(String messageContent) {
@@ -1529,7 +1529,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_CONTENT: {NotNull, VARCHAR(10000)}
+     * MESSAGE_CONTENT: {NotNull, TEXT(65535)}
      * @param messageContent The value of messageContent as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setMessageContent_LessEqual(String messageContent) {
@@ -1538,7 +1538,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * MESSAGE_CONTENT: {NotNull, VARCHAR(10000)}
+     * MESSAGE_CONTENT: {NotNull, TEXT(65535)}
      * @param messageContentList The collection of messageContent as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setMessageContent_InScope(Collection<String> messageContentList) {
@@ -1551,7 +1551,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * MESSAGE_CONTENT: {NotNull, VARCHAR(10000)}
+     * MESSAGE_CONTENT: {NotNull, TEXT(65535)}
      * @param messageContentList The collection of messageContent as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setMessageContent_NotInScope(Collection<String> messageContentList) {
@@ -1564,7 +1564,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * MESSAGE_CONTENT: {NotNull, VARCHAR(10000)} <br>
+     * MESSAGE_CONTENT: {NotNull, TEXT(65535)} <br>
      * <pre>e.g. setMessageContent_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
      * @param messageContent The value of messageContent as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param opLambda The callback for option of like-search. (NotNull)
@@ -1575,7 +1575,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * MESSAGE_CONTENT: {NotNull, VARCHAR(10000)} <br>
+     * MESSAGE_CONTENT: {NotNull, TEXT(65535)} <br>
      * <pre>e.g. setMessageContent_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
      * @param messageContent The value of messageContent as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param likeSearchOption The option of like-search. (NotNull)
@@ -1587,7 +1587,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
     /**
      * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
      * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * MESSAGE_CONTENT: {NotNull, VARCHAR(10000)}
+     * MESSAGE_CONTENT: {NotNull, TEXT(65535)}
      * @param messageContent The value of messageContent as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param opLambda The callback for option of like-search. (NotNull)
      */
@@ -1598,7 +1598,7 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
     /**
      * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
      * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * MESSAGE_CONTENT: {NotNull, VARCHAR(10000)}
+     * MESSAGE_CONTENT: {NotNull, TEXT(65535)}
      * @param messageContent The value of messageContent as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param likeSearchOption The option of not-like-search. (NotNull)
      */

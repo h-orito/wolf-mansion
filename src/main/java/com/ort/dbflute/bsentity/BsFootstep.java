@@ -85,7 +85,7 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     /** CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA} */
     protected Integer _charaId;
 
-    /** FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)} */
+    /** FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)} */
     protected String _footstepRoomNumbers;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
@@ -315,7 +315,7 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     }
 
     /**
-     * [get] FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)} <br>
+     * [get] FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)} <br>
      * 足音のした部屋 : カンマ区切り
      * @return The value of the column 'FOOTSTEP_ROOM_NUMBERS'. (NullAllowed even if selected: for no constraint)
      */
@@ -325,7 +325,7 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     }
 
     /**
-     * [set] FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)} <br>
+     * [set] FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)} <br>
      * 足音のした部屋 : カンマ区切り
      * @param footstepRoomNumbers The value of the column 'FOOTSTEP_ROOM_NUMBERS'. (NullAllowed: null update allowed for no constraint)
      */

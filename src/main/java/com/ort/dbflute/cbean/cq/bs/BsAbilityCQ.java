@@ -161,14 +161,14 @@ public class BsAbilityCQ extends AbstractBsAbilityCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * TARGET_FOOTSTEP: {VARCHAR(1000)}
      * @return this. (NotNull)
      */
     public BsAbilityCQ addOrderBy_TargetFootstep_Asc() { regOBA("TARGET_FOOTSTEP"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * TARGET_FOOTSTEP: {VARCHAR(100)}
+     * TARGET_FOOTSTEP: {VARCHAR(1000)}
      * @return this. (NotNull)
      */
     public BsAbilityCQ addOrderBy_TargetFootstep_Desc() { regOBD("TARGET_FOOTSTEP"); return this; }

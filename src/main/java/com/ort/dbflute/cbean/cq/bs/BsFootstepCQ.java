@@ -141,14 +141,14 @@ public class BsFootstepCQ extends AbstractBsFootstepCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)}
+     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)}
      * @return this. (NotNull)
      */
     public BsFootstepCQ addOrderBy_FootstepRoomNumbers_Asc() { regOBA("FOOTSTEP_ROOM_NUMBERS"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)}
+     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)}
      * @return this. (NotNull)
      */
     public BsFootstepCQ addOrderBy_FootstepRoomNumbers_Desc() { regOBD("FOOTSTEP_ROOM_NUMBERS"); return this; }

@@ -16,7 +16,7 @@
         <column comment="行使対象キャラID" dbType="INT UNSIGNED"
             javaType="Integer" name="TARGET_CHARA_ID" size="10" type="INTEGER"/>
         <column comment="行使対象の足音" dbType="VARCHAR" javaType="String"
-            name="TARGET_FOOTSTEP" size="100" type="VARCHAR"/>
+            name="TARGET_FOOTSTEP" size="1000" type="VARCHAR"/>
         <column comment="能力種別コード" dbType="VARCHAR" javaType="String"
             name="ABILITY_TYPE_CODE" pkName="PRIMARY" pkPosition="4"
             primaryKey="true" required="true" size="20" type="VARCHAR"/>
@@ -303,7 +303,7 @@
             javaType="Integer" name="CHARA_ID" pkName="PRIMARY"
             pkPosition="3" primaryKey="true" required="true" size="10" type="INTEGER"/>
         <column comment="足音のした部屋 : カンマ区切り" dbType="VARCHAR"
-            javaType="String" name="FOOTSTEP_ROOM_NUMBERS" size="100" type="VARCHAR"/>
+            javaType="String" name="FOOTSTEP_ROOM_NUMBERS" size="1000" type="VARCHAR"/>
         <column comment="登録日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>
@@ -347,8 +347,8 @@
             name="MESSAGE_TYPE_CODE" required="true" size="20" type="VARCHAR"/>
         <column comment="メッセージ番号" dbType="INT UNSIGNED"
             javaType="Integer" name="MESSAGE_NUMBER" size="10" type="INTEGER"/>
-        <column comment="メッセージ内容" dbType="VARCHAR" javaType="String"
-            name="MESSAGE_CONTENT" required="true" size="10000" type="VARCHAR"/>
+        <column comment="メッセージ内容" dbType="TEXT" javaType="String"
+            name="MESSAGE_CONTENT" required="true" size="65535" type="LONGVARCHAR"/>
         <column comment="メッセージ日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="MESSAGE_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>

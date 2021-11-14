@@ -87,7 +87,7 @@ public class FootstepDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnVillageId = cci("VILLAGE_ID", "VILLAGE_ID", null, null, Integer.class, "villageId", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villageDay", null, null, false);
     protected final ColumnInfo _columnDay = cci("DAY", "DAY", null, null, Integer.class, "day", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villageDay", null, null, false);
     protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "chara", null, null, false);
-    protected final ColumnInfo _columnFootstepRoomNumbers = cci("FOOTSTEP_ROOM_NUMBERS", "FOOTSTEP_ROOM_NUMBERS", null, null, String.class, "footstepRoomNumbers", null, false, false, false, "VARCHAR", 100, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnFootstepRoomNumbers = cci("FOOTSTEP_ROOM_NUMBERS", "FOOTSTEP_ROOM_NUMBERS", null, null, String.class, "footstepRoomNumbers", null, false, false, false, "VARCHAR", 1000, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -109,7 +109,7 @@ public class FootstepDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnCharaId() { return _columnCharaId; }
     /**
-     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)}
+     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnFootstepRoomNumbers() { return _columnFootstepRoomNumbers; }

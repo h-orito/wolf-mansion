@@ -432,7 +432,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)}
+     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)}
      * @param footstepRoomNumbers The value of footstepRoomNumbers as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setFootstepRoomNumbers_Equal(String footstepRoomNumbers) {
@@ -445,7 +445,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)}
+     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)}
      * @param footstepRoomNumbers The value of footstepRoomNumbers as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setFootstepRoomNumbers_NotEqual(String footstepRoomNumbers) {
@@ -458,7 +458,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)}
+     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)}
      * @param footstepRoomNumbers The value of footstepRoomNumbers as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setFootstepRoomNumbers_GreaterThan(String footstepRoomNumbers) {
@@ -467,7 +467,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)}
+     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)}
      * @param footstepRoomNumbers The value of footstepRoomNumbers as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setFootstepRoomNumbers_LessThan(String footstepRoomNumbers) {
@@ -476,7 +476,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)}
+     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)}
      * @param footstepRoomNumbers The value of footstepRoomNumbers as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setFootstepRoomNumbers_GreaterEqual(String footstepRoomNumbers) {
@@ -485,7 +485,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)}
+     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)}
      * @param footstepRoomNumbers The value of footstepRoomNumbers as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setFootstepRoomNumbers_LessEqual(String footstepRoomNumbers) {
@@ -494,7 +494,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)}
+     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)}
      * @param footstepRoomNumbersList The collection of footstepRoomNumbers as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setFootstepRoomNumbers_InScope(Collection<String> footstepRoomNumbersList) {
@@ -507,7 +507,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)}
+     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)}
      * @param footstepRoomNumbersList The collection of footstepRoomNumbers as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setFootstepRoomNumbers_NotInScope(Collection<String> footstepRoomNumbersList) {
@@ -520,7 +520,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)} <br>
+     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)} <br>
      * <pre>e.g. setFootstepRoomNumbers_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
      * @param footstepRoomNumbers The value of footstepRoomNumbers as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param opLambda The callback for option of like-search. (NotNull)
@@ -531,7 +531,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)} <br>
+     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)} <br>
      * <pre>e.g. setFootstepRoomNumbers_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
      * @param footstepRoomNumbers The value of footstepRoomNumbers as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param likeSearchOption The option of like-search. (NotNull)
@@ -543,7 +543,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
     /**
      * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
      * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)}
+     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)}
      * @param footstepRoomNumbers The value of footstepRoomNumbers as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param opLambda The callback for option of like-search. (NotNull)
      */
@@ -554,7 +554,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
     /**
      * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
      * And NullOrEmptyIgnored, SeveralRegistered. <br>
-     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)}
+     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)}
      * @param footstepRoomNumbers The value of footstepRoomNumbers as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
      * @param likeSearchOption The option of not-like-search. (NotNull)
      */
@@ -564,19 +564,19 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)}
+     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)}
      */
     public void setFootstepRoomNumbers_IsNull() { regFootstepRoomNumbers(CK_ISN, DOBJ); }
 
     /**
      * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
-     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)}
+     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)}
      */
     public void setFootstepRoomNumbers_IsNullOrEmpty() { regFootstepRoomNumbers(CK_ISNOE, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(100)}
+     * FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)}
      */
     public void setFootstepRoomNumbers_IsNotNull() { regFootstepRoomNumbers(CK_ISNN, DOBJ); }
 

@@ -506,7 +506,7 @@ public class BsMessageCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnMessageNumber() { return doColumn("MESSAGE_NUMBER"); }
         /**
-         * MESSAGE_CONTENT: {NotNull, VARCHAR(10000)}
+         * MESSAGE_CONTENT: {NotNull, TEXT(65535)}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnMessageContent() { return doColumn("MESSAGE_CONTENT"); }
