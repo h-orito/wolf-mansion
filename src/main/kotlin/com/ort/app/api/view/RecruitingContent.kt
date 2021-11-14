@@ -46,7 +46,8 @@ data class RecruitingContent(
             spectateNum = village.spectators.count.toString(),
             daychangeDatetime = village.days.latestDay().dayChangeDatetime.format(DateTimeFormatter.ofPattern("HH:mm")),
             daychangeInterval = convertToDaychangeInterval(village),
-            charaset = charachips.list.first { it.id == village.setting.charachipId }.name,
+            charaset = charachips.list.filter { village.setting.charachipIds.contains(it.id) }
+                .joinToString(separator = "、") { it.name },
             restrict = "",
             status = village.status.name,
             url = "https://wolfort.net/wolf-mansion/village/${village.id}"

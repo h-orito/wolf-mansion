@@ -148,7 +148,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">キャラセット <span class="text-danger">*</span></label>
                         <div class="col-sm-9 col-xs-12 btn-group" data-toggle="buttons">
-                            <select class="form-control" th:field="*{characterSetId}">
+                            <select multiple class="form-control" th:field="*{characterSetId}">
                                 <option th:each="charaGroup : ${characterSetList}" th:value="${charaGroup.value}"
                                         th:text="${charaGroup.name}"></option>
                             </select> <span th:if="${#fields.hasErrors('characterSetId')}" th:errors="*{characterSetId}"

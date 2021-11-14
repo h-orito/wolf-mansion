@@ -3,22 +3,24 @@ package com.ort.app.infrastructure.datasource.village
 import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skill
-import com.ort.app.domain.model.village.setting.VillageRule
 import com.ort.app.domain.model.village.VillageSetting
 import com.ort.app.domain.model.village.setting.SayRestriction
 import com.ort.app.domain.model.village.setting.VillageOrganize
 import com.ort.app.domain.model.village.setting.VillageRandomOrganize
+import com.ort.app.domain.model.village.setting.VillageRule
 import com.ort.dbflute.allcommon.CDef
 import com.ort.dbflute.exbhv.CampAllocationBhv
 import com.ort.dbflute.exbhv.NormalSayRestrictionBhv
 import com.ort.dbflute.exbhv.SkillAllocationBhv
 import com.ort.dbflute.exbhv.SkillSayRestrictionBhv
+import com.ort.dbflute.exbhv.VillageCharaGroupBhv
 import com.ort.dbflute.exbhv.VillageSettingsBhv
 import com.ort.dbflute.exentity.CampAllocation
 import com.ort.dbflute.exentity.NormalSayRestriction
 import com.ort.dbflute.exentity.SkillAllocation
 import com.ort.dbflute.exentity.SkillSayRestriction
 import com.ort.dbflute.exentity.Village
+import com.ort.dbflute.exentity.VillageCharaGroup
 import com.ort.dbflute.exentity.VillageSettings
 import org.springframework.stereotype.Repository
 import java.time.format.DateTimeFormatter
@@ -26,6 +28,7 @@ import java.time.format.DateTimeFormatter
 @Repository
 class VillageSettingsDataSource(
     private val villageSettingsBhv: VillageSettingsBhv,
+    private val villageCharaGroupBhv: VillageCharaGroupBhv,
     private val normalSayRestrictionBhv: NormalSayRestrictionBhv,
     private val skillSayRestrictionBhv: SkillSayRestrictionBhv,
     private val campAllocationBhv: CampAllocationBhv,
@@ -45,7 +48,6 @@ class VillageSettingsDataSource(
             settings.isOpenVote = it.rule.isOpenVote
             settings.isPossibleSkillRequest = it.rule.isPossibleSkillRequest
             settings.isAvailableSpectate = it.rule.isAvailableSpectate
-            settings.characterGroupId = it.charachipId
             settings.joinPassword = it.joinPassword
             settings.isAvailableSameWolfAttack = it.rule.isAvailableSameWolfAttack
             settings.isAvailableGuardSameTarget = it.rule.isAvailableGuardSameTarget
@@ -62,6 +64,15 @@ class VillageSettingsDataSource(
             settings.isReincarnationSkillAll = it.rule.isReincarnationSkillAll
         }
         villageSettingsBhv.insert(settings)
+    }
+
+    fun insertVillageCharaGroups(villageId: Int, paramVillage: com.ort.app.domain.model.village.Village) {
+        paramVillage.setting.charachipIds.forEach {
+            val v = VillageCharaGroup()
+            v.villageId = villageId
+            v.charaGroupId = it
+            villageCharaGroupBhv.insert(v)
+        }
     }
 
     fun insertAllocation(id: Int, paramVillage: com.ort.app.domain.model.village.Village) {
@@ -100,7 +111,7 @@ class VillageSettingsDataSource(
         val setting = village.villageSettingsAsOne.get()
         return VillageSetting(
             dummyCharaId = setting.dummyCharaId,
-            charachipId = setting.characterGroupId,
+            charachipIds = village.villageCharaGroupList.map { it.charaGroupId },
             personMin = setting.startPersonMinNum,
             personMax = setting.personMaxNum,
             startDatetime = setting.startDatetime,
@@ -143,7 +154,7 @@ class VillageSettingsDataSource(
         val skillSayRestrictionList = village.skillSayRestrictionList
         return VillageSetting(
             dummyCharaId = setting.dummyCharaId,
-            charachipId = setting.characterGroupId,
+            charachipIds = village.villageCharaGroupList.map { it.charaGroupId },
             personMin = setting.startPersonMinNum,
             personMax = setting.personMaxNum,
             startDatetime = setting.startDatetime,

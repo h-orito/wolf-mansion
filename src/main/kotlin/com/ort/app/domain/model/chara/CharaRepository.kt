@@ -4,6 +4,8 @@ interface CharaRepository {
 
     fun findCharachips(): Charachips
 
+    fun findCharachips(ids: List<Int>): Charachips
+
     fun findCharachip(id: Int): Charachip?
 
     fun findCharas(charachipId: Int): Charas

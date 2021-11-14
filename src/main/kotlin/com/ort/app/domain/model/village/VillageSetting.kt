@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 
 data class VillageSetting(
     val dummyCharaId: Int,
-    val charachipId: Int,
+    val charachipIds: List<Int>,
     val personMin: Int,
     val personMax: Int,
     val startDatetime: LocalDateTime,

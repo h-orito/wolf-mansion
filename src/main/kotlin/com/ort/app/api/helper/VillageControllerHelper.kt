@@ -22,13 +22,12 @@ import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.RandomKeywordService
 import com.ort.app.application.service.VillageService
 import com.ort.app.application.service.VoteApplicationService
-import com.ort.app.domain.model.chara.Charachip
+import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.situation.ParticipantSituation
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.service.SpoilerDomainService
-import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.beans.factory.annotation.Value
@@ -57,8 +56,7 @@ class VillageControllerHelper(
         val votes = voteService.findVotes(village.id)
         val footsteps = footstepService.findFootsteps(village.id)
         val abilities = abilityService.findAbilities(village.id)
-        val charachip = charaService.findCharachip(village.setting.charachipId)
-            ?: throw WolfMansionBusinessException("charachip not found")
+        val charachips = charaService.findCharachips(village.setting.charachipIds)
         val keywords = randomKeywordService.findRandomKeywords()
         val villageSituation = villageCoordinator.findVillageSituation(
             village = village,
@@ -75,7 +73,7 @@ class VillageControllerHelper(
             votes = votes,
             abilities = abilities,
             footsteps = footsteps,
-            charachip = charachip,
+            charachips = charachips,
             day = day
         )
         val isDispSpoilerContent = spoilerDomainService.isViewableSpoilerContent(village, myself)
@@ -83,14 +81,14 @@ class VillageControllerHelper(
             village = village,
             day = day,
             myself = myself,
-            charachip = charachip,
+            charachips = charachips,
             keywords = keywords,
             villageSituation = villageSituation,
             participantSituation = participantSituation,
             isDispSpoilerContent = isDispSpoilerContent
         )
         model.addAttribute("content", content)
-        setForm(model, village, myself, participantSituation, villageForms, charachip)
+        setForm(model, village, myself, participantSituation, villageForms, charachips)
         setDebug(village, model)
     }
 
@@ -100,13 +98,13 @@ class VillageControllerHelper(
         myself: VillageParticipant?,
         situation: ParticipantSituation,
         forms: VillageForms,
-        charachip: Charachip
+        charachips: Charachips
     ) {
         setParticipateFormIfNeeded(situation, model, forms)
         setChangeRequestSkillFormIfNeeded(situation, myself, model, forms)
         setLeaveFormIfNeeded(situation, model)
         setCommitFormIfNeeded(situation, model)
-        setSayFormIfNeeded(situation, myself, model, forms, charachip)
+        setSayFormIfNeeded(situation, myself, model, forms, charachips)
         setActionFormIfNeeded(situation, myself, model, forms)
         setChangeNameFormIfNeeded(situation, myself, model, forms)
         setMemoFormIfNeeded(situation, myself, model, forms)
@@ -168,7 +166,7 @@ class VillageControllerHelper(
         myself: VillageParticipant?,
         model: Model,
         forms: VillageForms,
-        charachip: Charachip
+        charachips: Charachips
     ) {
         forms.sayForm?.let { model.addAttribute("sayForm", it) }
         if (!situation.say.isAvailableSay) return
@@ -177,7 +175,7 @@ class VillageControllerHelper(
             "sayForm",
             VillageSayForm(
                 messageType = defaultMessageType.code,
-                faceType = charachip.charas.chara(myself!!.charaId).detectDefaultFaceTypeCode(defaultMessageType)
+                faceType = charachips.chara(myself!!.charaId).detectDefaultFaceTypeCode(defaultMessageType)
             )
         )
     }

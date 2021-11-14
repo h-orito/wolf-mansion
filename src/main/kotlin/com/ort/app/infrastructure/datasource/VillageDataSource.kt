@@ -25,8 +25,6 @@ import com.ort.dbflute.exentity.Village as DbVillage
 @Repository
 class VillageDataSource(
     private val villageBhv: VillageBhv,
-    private val villagePlayerBhv: VillagePlayerBhv,
-    private val villageDayBhv: VillageDayBhv,
     private val villagePlayerDataSource: VillagePlayerDataSource,
     private val villageSettingsDataSource: VillageSettingsDataSource,
     private val villageDayDataSource: VillageDayDataSource
@@ -56,6 +54,9 @@ class VillageDataSource(
             it.query().addOrderBy_VillageId_Asc()
         }
         villageBhv.load(villageList) { loader ->
+            loader.loadVillageCharaGroup {
+                it.addOrderBy_PK_Asc()
+            }
             loader.loadVillagePlayer {
                 it.query().setIsGone_Equal_False()
             }
@@ -75,6 +76,9 @@ class VillageDataSource(
         if (!optVillage.isPresent) return null
         val village = optVillage.get()
         villageBhv.load(village) { loader ->
+            loader.loadVillageCharaGroup {
+                it.addOrderBy_PK_Asc()
+            }
             loader.loadVillageDay {
                 it.query().addOrderBy_Day_Asc()
             }
@@ -116,6 +120,7 @@ class VillageDataSource(
     override fun registerVillage(paramVillage: Village): Village {
         val id = insertVillage(paramVillage)
         villageSettingsDataSource.insertVillageSettings(id, paramVillage)
+        villageSettingsDataSource.insertVillageCharaGroups(id, paramVillage)
         villageSettingsDataSource.insertAllocation(id, paramVillage)
         villageSettingsDataSource.insertMessageRestrict(id, paramVillage)
         villageDayDataSource.insertVillageDays(id, paramVillage)

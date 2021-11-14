@@ -13,7 +13,7 @@ import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.RandomKeywordService
 import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.camp.Camp
-import com.ort.app.domain.model.chara.Charachip
+import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.village.Village
@@ -70,9 +70,8 @@ class CreatorController(
             return "redirect:/village/$villageId#bottom"
         }
         val village = villageService.findVillage(villageId) ?: throw WolfMansionBusinessException("village not found.")
-        val charachip = charaService.findCharachip(village.setting.charachipId)
-            ?: throw WolfMansionBusinessException("charachip not found.")
-        setSettingsIndexModel(village, charachip, model)
+        val charachips = charaService.findCharachips(village.setting.charachipIds)
+        setSettingsIndexModel(village, charachips, model)
         return "village-settings"
     }
 
@@ -85,10 +84,9 @@ class CreatorController(
         model: Model
     ): String {
         val village = villageService.findVillage(villageId) ?: throw WolfMansionBusinessException("village not found.")
-        val charachip = charaService.findCharachip(village.setting.charachipId)
-            ?: throw WolfMansionBusinessException("charachip not found.")
+        val charachips = charaService.findCharachips(village.setting.charachipIds)
         if (bindingResult.hasErrors()) {
-            setSettingsIndexModel(village, charachip, model, form)
+            setSettingsIndexModel(village, charachips, model, form)
             return "village-settings"
         }
         if (!creatorCoordinator.isCreator(WolfMansionUserInfoUtil.getUserInfo()?.username, villageId)) {
@@ -98,7 +96,7 @@ class CreatorController(
             creatorCoordinator.saveSettings(merge(village, form))
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("errorMessage", e.message)
-            setSettingsIndexModel(village, charachip, model)
+            setSettingsIndexModel(village, charachips, model)
             return "village-settings"
         }
         return "redirect:/village/$villageId#bottom"
@@ -200,11 +198,11 @@ class CreatorController(
 
     private fun setSettingsIndexModel(
         village: Village,
-        charachip: Charachip,
+        charachips: Charachips,
         model: Model,
         form: VillageSettingForm? = null
     ) {
-        model.addAttribute("content", VillageSettingsContent(village, charachip))
+        model.addAttribute("content", VillageSettingsContent(village, charachips))
         model.addAttribute("skillListStr", Skill.getSkillListStr())
         model.addAttribute("nowYear", LocalDate.now().year)
         model.addAttribute(

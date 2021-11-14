@@ -6,6 +6,7 @@ import com.ort.app.api.view.village.VillageMemberContent
 import com.ort.app.api.view.village.VillageRoomAssignedRow
 import com.ort.app.api.view.village.VillageSettingsContent
 import com.ort.app.domain.model.chara.Charachip
+import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.randomkeyword.RandomKeywords
 import com.ort.app.domain.model.situation.ParticipantSituation
 import com.ort.app.domain.model.situation.VillageSituation
@@ -72,7 +73,7 @@ data class VillageContent(
         village: Village,
         day: Int,
         myself: VillageParticipant?,
-        charachip: Charachip,
+        charachips: Charachips,
         keywords: RandomKeywords,
         villageSituation: VillageSituation,
         participantSituation: ParticipantSituation,
@@ -82,19 +83,19 @@ data class VillageContent(
         villageNumber = village.id.toString().padStart(4, '0'),
         villageName = village.name,
         villageStatusCode = village.status.code,
-        settings = VillageSettingsContent(village, charachip),
+        settings = VillageSettingsContent(village, charachips),
         day = day,
         dayList = village.days.list.map { it.day },
         epilogueDay = village.epilogueDay,
         memberList = mapMemberList(village.allParticipants()),
         characterList = village.allParticipants().sortedByRoomNumber().list.map { OptionContent(it) },
         participantList = village.allParticipants().sortedByRoomNumber().list.map {
-            VillageFilterParticipantContent(village, it, charachip.charas)
+            VillageFilterParticipantContent(village, it, charachips)
         },
-        roomAssignedRowList = mapRoomAssignRowList(village, day, charachip, myself),
+        roomAssignedRowList = mapRoomAssignRowList(village, day, charachips, myself),
         roomWidth = village.roomSize?.width,
-        form = VillageFormContent(village, myself, participantSituation, day, charachip),
-        myself = myself?.let { VillageParticipateContent(it, charachip) },
+        form = VillageFormContent(village, myself, participantSituation, day, charachips),
+        myself = myself?.let { VillageParticipateContent(it, charachips) },
         isAvailableSettingsUpdate = participantSituation.creator.isAvailableModifySetting,
         vote = if (day > 2) VillageVoteContent(village, villageSituation) else null,
         villageFootstepList = villageSituation.footstep.list.map { VillageFootstepContent(it.day, it.footstep) },
@@ -148,12 +149,12 @@ data class VillageContent(
         private fun mapRoomAssignRowList(
             village: Village,
             day: Int,
-            charachip: Charachip,
+            charachips: Charachips,
             myself: VillageParticipant?
         ): List<VillageRoomAssignedRow>? {
             village.roomSize ?: return null
             return List(village.roomSize.height) { columnIndex ->
-                VillageRoomAssignedRow(village, day, columnIndex, charachip, myself)
+                VillageRoomAssignedRow(village, day, columnIndex, charachips, myself)
             }
         }
 
@@ -179,12 +180,12 @@ data class VillageContent(
     ) {
         constructor(
             myself: VillageParticipant,
-            charachip: Charachip
+            charachips: Charachips
         ) : this(
             charaName = myself.name(),
-            charaImageUrl = charachip.charas.chara(myself.charaId).defaultImage().url,
-            charaImageWidth = charachip.charas.chara(myself.charaId).size.width,
-            charaImageHeight = charachip.charas.chara(myself.charaId).size.height,
+            charaImageUrl = charachips.chara(myself.charaId).defaultImage().url,
+            charaImageWidth = charachips.chara(myself.charaId).size.width,
+            charaImageHeight = charachips.chara(myself.charaId).size.height,
             skill = myself.skill?.let { VillageParticipateSkillContent(it) },
             isDead = myself.dead.isDead
         )

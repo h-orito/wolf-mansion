@@ -14,6 +14,8 @@ class CharaService(
 
     fun findCharachips(): Charachips = charaRepository.findCharachips()
 
+    fun findCharachips(ids: List<Int>): Charachips = charaRepository.findCharachips(ids)
+
     fun findCharachip(charachipId: Int): Charachip? = charaRepository.findCharachip(charachipId)
 
     fun findCharas(charachipId: Int): Charas = charaRepository.findCharas(charachipId)

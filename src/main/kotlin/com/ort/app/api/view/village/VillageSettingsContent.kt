@@ -2,6 +2,7 @@ package com.ort.app.api.view.village
 
 import com.ort.app.domain.model.camp.Camps
 import com.ort.app.domain.model.chara.Charachip
+import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.Skills
@@ -24,10 +25,8 @@ data class VillageSettingsContent(
     val voteType: String,
     /** 役職希望 */
     val skillRequestType: String,
-    /** キャラクターグループID */
-    val charaGroupId: Int,
-    /** キャラセット名 */
-    val charaGroupName: String,
+    /** キャラクターグループ */
+    val charachips: List<CharachipContent>,
     /** ダミーキャラ名 */
     val dummyCharaName: String,
     /** 入村パスワードを必要とするか */
@@ -69,15 +68,14 @@ data class VillageSettingsContent(
     /** 村建てしたプレイヤー名 */
     val createPlayerName: String
 ) {
-    constructor(village: Village, charachip: Charachip) : this(
+    constructor(village: Village, charachips: Charachips) : this(
         startPersonMinNum = village.setting.personMin,
         personMaxNum = village.setting.personMax,
         startDatetime = village.days.list.first().dayChangeDatetime,
         dayChangeInterval = mapDayChangeInterval(village.setting),
         voteType = if (village.setting.rule.isOpenVote) "記名投票" else "無記名投票",
         skillRequestType = if (village.setting.rule.isPossibleSkillRequest) "有効" else "無効",
-        charaGroupId = charachip.id,
-        charaGroupName = charachip.name,
+        charachips = charachips.list.map { CharachipContent(it) },
         dummyCharaName = village.dummyParticipant().name(),
         isRequiredJoinPassword = !village.setting.joinPassword.isNullOrBlank(),
         isAvailableSpectate = village.setting.rule.isAvailableSpectate,
@@ -146,6 +144,18 @@ data class VillageSettingsContent(
 
         private fun mapRpSayRestrictList(village: Village): List<RpSayRestriction> =
             listOf(RpSayRestriction(MessageType(CDef.MessageType.アクション), village))
+    }
+
+    data class CharachipContent(
+        val id: Int,
+        val name: String
+    ) {
+        constructor(
+            charachip: Charachip
+        ): this(
+            id = charachip.id,
+            name = charachip.name
+        )
     }
 
     data class RandomCampOrganization(

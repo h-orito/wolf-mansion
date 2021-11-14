@@ -1,7 +1,7 @@
 package com.ort.app.domain.service
 
 import com.ort.app.domain.model.chara.Chara
-import com.ort.app.domain.model.chara.Charachip
+import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.situation.participant.ParticipantParticipateSituation
 import com.ort.app.domain.model.village.Village
@@ -15,13 +15,13 @@ class ParticipateDomainService {
         village: Village,
         myself: VillageParticipant?,
         player: Player?,
-        charachip: Charachip
+        charachips: Charachips
     ): ParticipantParticipateSituation {
         return ParticipantParticipateSituation(
             isParticipating = myself != null,
             isAvailableParticipate = isAvailableParticipate(player, village),
-            isAvailableSpectate = isAvailableSpectate(player, village, charachip),
-            selectableCharaList = getSelectableCharaList(village, charachip),
+            isAvailableSpectate = isAvailableSpectate(player, village, charachips),
+            selectableCharaList = getSelectableCharaList(village, charachips),
             isAvailableLeave = isAvailableLeave(village, myself),
             myself = myself
         )
@@ -33,14 +33,14 @@ class ParticipateDomainService {
                 village.canParticipate()
     }
 
-    private fun isAvailableSpectate(player: Player?, village: Village, charachip: Charachip): Boolean {
+    private fun isAvailableSpectate(player: Player?, village: Village, charachips: Charachips): Boolean {
         player ?: return false
         return player.isAvailableParticipateVillage(village.id) &&
-                village.canSpectate(charachip.charas.list.size)
+                village.canSpectate(charachips.list.sumBy { it.charas.list.size })
     }
 
-    private fun getSelectableCharaList(village: Village, charachip: Charachip): List<Chara> {
-        return charachip.charas.list.filterNot { chara ->
+    private fun getSelectableCharaList(village: Village, charachips: Charachips): List<Chara> {
+        return charachips.list.flatMap { it.charas.list }.filterNot { chara ->
             village.allParticipants().list.any { it.charaId == chara.id }
         }
     }
@@ -64,10 +64,10 @@ class ParticipateDomainService {
         player: Player,
         charaId: Int,
         joinPassword: String?,
-        charachip: Charachip
+        charachips: Charachips
     ) {
         player.assertSpectate(village.id)
-        village.assertSpectate(charaId, joinPassword, charachip.charas.list.size)
+        village.assertSpectate(charaId, joinPassword, charachips.list.sumBy { it.charas.list.size })
     }
 
     fun assertLeave(village: Village, myself: VillageParticipant) = village.assertLeave()

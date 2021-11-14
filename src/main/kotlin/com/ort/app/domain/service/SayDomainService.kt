@@ -2,6 +2,7 @@ package com.ort.app.domain.service
 
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.Charachip
+import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.chara.FaceType
 import com.ort.app.domain.model.message.MessageContent
 import com.ort.app.domain.model.message.MessageType
@@ -54,14 +55,14 @@ class SayDomainService(
     fun convertToSituation(
         village: Village,
         myself: VillageParticipant?,
-        charachip: Charachip,
+        charachips: Charachips,
         day: Int,
         latestDayMessageCountMap: Map<CDef.MessageType, Int>?
     ): ParticipantSaySituation {
         return ParticipantSaySituation(
             isAvailableSay = isAvailableSay(village, myself, day),
             selectableMessageTypeList = getSelectableMessageTypeList(village, myself, latestDayMessageCountMap, day),
-            selectableFaceTypeList = getSelectableFaceTypeList(myself, charachip),
+            selectableFaceTypeList = getSelectableFaceTypeList(myself, charachips),
             defaultMessageType = detectDefaultMessageType(
                 isAvailableSay(village, myself, day),
                 getSelectableMessageTypeList(village, myself, latestDayMessageCountMap, day)
@@ -123,9 +124,9 @@ class SayDomainService(
             }
     }
 
-    private fun getSelectableFaceTypeList(myself: VillageParticipant?, charachip: Charachip): List<FaceType> {
+    private fun getSelectableFaceTypeList(myself: VillageParticipant?, charachips: Charachips): List<FaceType> {
         myself ?: return listOf()
-        return charachip.charas.chara(myself.charaId).images.list.map { it.faceType }
+        return charachips.list.flatMap { it.charas.list }.first { it.id == myself.charaId}.images.list.map { it.faceType }
     }
 
     private fun detectDefaultMessageType(

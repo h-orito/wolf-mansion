@@ -71,20 +71,20 @@ class NewVillageController(
         val player = WolfMansionUserInfoUtil.getUserInfo()?.let {
             playerService.findPlayer(it.username)
         }
-        val charachip = charaService.findCharachip(villageForm.characterSetId!!)
-        if (result.hasErrors() || player == null || charachip == null) {
+        val charachips = charaService.findCharachips(villageForm.characterSetId!!)
+        if (result.hasErrors() || player == null || charachips.list.size != villageForm.characterSetId!!.size) {
             setIndexModel(villageForm, model)
             return "new-village"
         }
         try {
-            villageCoordinator.assertCreateVillage(player, villageForm.personMaxNum!!, charachip)
+            villageCoordinator.assertCreateVillage(player, villageForm.personMaxNum!!, charachips)
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("errorMessage", e.message)
             setIndexModel(villageForm, model)
             return "new-village"
         }
-        model.addAttribute("characterSetName", charachip.name)
-        val dummyChara = charachip.charas.chara(villageForm.dummyCharaId!!)
+        model.addAttribute("characterSetName", charachips.list.joinToString(separator = "、") { it.name })
+        val dummyChara = charachips.list.flatMap { it.charas.list }.first { it.id == villageForm.dummyCharaId!! }
         model.addAttribute("dummyCharaName", dummyChara.name)
         model.addAttribute("characterImgUrl", dummyChara.defaultImage().url)
         model.addAttribute("characterImgWidth", dummyChara.size.width)
@@ -106,13 +106,17 @@ class NewVillageController(
         val player = WolfMansionUserInfoUtil.getUserInfo()?.let {
             playerService.findPlayer(it.username)
         }
-        val charachip = charaService.findCharachip(villageForm.characterSetId!!)
-        if (result.hasErrors() || player == null || charachip == null) {
+        if (result.hasErrors() || player == null) {
+            setIndexModel(villageForm, model)
+            return "new-village"
+        }
+        val charachips = charaService.findCharachips(villageForm.characterSetId!!)
+        if (charachips.list.size != villageForm.characterSetId!!.size) {
             setIndexModel(villageForm, model)
             return "new-village"
         }
         val village = try {
-            villageCoordinator.assertCreateVillage(player, villageForm.personMaxNum!!, charachip)
+            villageCoordinator.assertCreateVillage(player, villageForm.personMaxNum!!, charachips)
             villageCoordinator.registerVillage(villageForm.toVillage(player), villageForm.dummyJoinMessage!!)
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("errorMessage", e.message)

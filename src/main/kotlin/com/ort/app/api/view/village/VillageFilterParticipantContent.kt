@@ -1,6 +1,6 @@
 package com.ort.app.api.view.village
 
-import com.ort.app.domain.model.chara.Charas
+import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 
@@ -15,13 +15,13 @@ data class VillageFilterParticipantContent(
     constructor(
         village: Village,
         participant: VillageParticipant,
-        charas: Charas
+        charachips: Charachips
     ) : this(
         id = participant.id,
         name = participant.name(),
-        imgWidth = charas.chara(participant.charaId).size.width,
-        imgHeight = charas.chara(participant.charaId).size.height,
-        imgUrl = charas.chara(participant.charaId).defaultImage().url,
+        imgWidth = charachips.chara(participant.charaId).size.width,
+        imgHeight = charachips.chara(participant.charaId).size.height,
+        imgUrl = charachips.chara(participant.charaId).defaultImage().url,
         deadStatus = mappingToDeadStatus(village, participant)
     )
 

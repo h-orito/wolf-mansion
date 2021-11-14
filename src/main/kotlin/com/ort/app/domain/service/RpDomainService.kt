@@ -1,6 +1,6 @@
 package com.ort.app.domain.service
 
-import com.ort.app.domain.model.chara.Charachip
+import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.situation.participant.ParticipantRpSituation
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
@@ -12,22 +12,22 @@ class RpDomainService {
     fun convertToSituation(
         village: Village,
         myself: VillageParticipant?,
-        charachip: Charachip,
+        charachips: Charachips,
         day: Int
     ): ParticipantRpSituation = ParticipantRpSituation(
-        isAvailableChangeName = isAvailableChangeName(village, myself, charachip, day),
+        isAvailableChangeName = isAvailableChangeName(village, myself, charachips, day),
         isAvailableMemo = isAvailableMemo(village, myself, day)
     )
 
     private fun isAvailableChangeName(
         village: Village,
         myself: VillageParticipant?,
-        charachip: Charachip,
+        charachips: Charachips,
         day: Int
     ): Boolean =
         village.canChangeName(day) &&
                 myself?.canChangeName(village.status.isEpilogue()) ?: false &&
-                charachip.isAvailableChangeName
+                charachips.list.all { it.isAvailableChangeName }
 
     private fun isAvailableMemo(
         village: Village,

@@ -42,7 +42,7 @@ class DebugController(
         val charaList = charaBhv.selectList { cb: CharaCB ->
             cb.query()
                 .queryCharaGroup()
-                .existsVillageSettings { it.query().setVillageId_Equal(villageId) }
+                .existsVillageCharaGroup { it.query().setVillageId_Equal(villageId) }
             cb.query().notExistsVillagePlayer {
                 it.query().setVillageId_Equal(villageId)
                 it.query().setIsGone_Equal_False()

@@ -1,21 +1,23 @@
 $(function () {
 
-    const GET_DUMMY_CHARA_INFO_URL = contextPath + 'getCharacterList/';
+    const GET_DUMMY_CHARA_INFO_URL = contextPath + 'getCharacterList';
     let characterList = null;
 
     $('#characterSetId').on('change', function () {
-        const charaGroupId = $(this).val();
-        replaceCharaSet(charaGroupId, true);
+        const charaGroupIds = $(this).val();
+        replaceCharaSet(charaGroupIds, true);
     });
 
     if ($('#characterSetId').length != 0) {
         replaceCharaSet($('#characterSetId').val(), false);
     }
 
-    function replaceCharaSet(charaGroupId, manualChanged) {
+    function replaceCharaSet(charaGroupIds, manualChanged) {
         $.ajax({
             type: 'GET',
-            url: GET_DUMMY_CHARA_INFO_URL + charaGroupId
+            url: GET_DUMMY_CHARA_INFO_URL + '?' + $.param({
+                charaGroupId: charaGroupIds
+            }, true)
         }).then(function (response) {
             characterList = response;
             // 発言欄
@@ -48,13 +50,11 @@ $(function () {
             width: dummyChara.size.width,
             height: dummyChara.size.height
         }));
-        if (dummyChara.defaultJoinMessage != null && dummyChara.defaultJoinMessage !== '') {
+        if (dummyChara.defaultJoinMessage != null && $('#characterSetId').val().length < 2 && dummyChara.defaultJoinMessage !== '') {
             if ($('#dummy-chara-join-message').val() === '') {
                 $('#dummy-chara-join-message').val(dummyChara.defaultJoinMessage);
-            } else {
-                if (manualChanged && window.confirm('ダミーキャラの入村発言を上書きしてもよろしいですか？')) {
-                    $('#dummy-chara-join-message').val(dummyChara.defaultJoinMessage);
-                }
+            } else if (manualChanged && window.confirm('ダミーキャラの入村発言を上書きしてもよろしいですか？')) {
+                $('#dummy-chara-join-message').val(dummyChara.defaultJoinMessage);
             }
         }
     }

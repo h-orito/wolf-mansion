@@ -375,7 +375,7 @@
                     <input type="hidden" th:field="*{availableSuddonlyDeath}"/>
                     <input type="hidden" th:field="*{availableCommit}"/>
                     <input type="hidden" th:field="*{availableAction}"/>
-                    <input type="hidden" th:field="*{characterSetId}"/>
+                    <input type="hidden" th:each="charachipId: *{characterSetId}" name="characterSetId" th:value="${charachipId}"/>
                     <input type="hidden" th:field="*{dummyCharaId}"/>
                     <input type="hidden" th:field="*{dummyJoinMessage}"/>
                     <input type="hidden" th:field="*{joinPassword}"/>

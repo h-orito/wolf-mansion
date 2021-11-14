@@ -11,6 +11,7 @@ import com.ort.app.application.service.VillageService
 import com.ort.app.application.service.VoteApplicationService
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.chara.Charachip
+import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.commit.Commit
 import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
@@ -112,9 +113,8 @@ class VillageCoordinator(
         isSpectator: Boolean
     ) {
         if (isSpectator) {
-            val charachip = charaService.findCharachip(village.setting.charachipId)
-                ?: throw IllegalStateException("charachip not found.")
-            participateDomainService.assertSpectate(village, player, charaId, joinPassword, charachip)
+            val charachips = charaService.findCharachips(village.setting.charachipIds)
+            participateDomainService.assertSpectate(village, player, charaId, joinPassword, charachips)
         } else {
             participateDomainService.assertParticipate(village, player, charaId, joinPassword)
         }
@@ -192,11 +192,11 @@ class VillageCoordinator(
         commitService.setCommit(village, Commit(day = village.latestDay(), myselfId = myself.id))
     }
 
-    fun assertCreateVillage(player: Player, max: Int, charachip: Charachip) {
+    fun assertCreateVillage(player: Player, max: Int, charachips: Charachips) {
         if (!player.isAvailableCreateVillage()) {
             throw WolfMansionBusinessException("村建てした村の決着がつくまでは村を建てられません。")
         }
-        if (charachip.charas.list.size < max) {
+        if (charachips.list.sumBy { it.charas.list.size } < max) {
             throw WolfMansionBusinessException("定員に対してキャラ数が不足しています。")
         }
     }
@@ -241,7 +241,7 @@ class VillageCoordinator(
         votes: Votes,
         abilities: Abilities,
         footsteps: Footsteps,
-        charachip: Charachip,
+        charachips: Charachips,
         day: Int
     ): ParticipantSituation {
         val player: Player? = username?.let { playerService.findPlayer(it) }
@@ -251,11 +251,11 @@ class VillageCoordinator(
         }
 
         return ParticipantSituation(
-            participate = participateDomainService.convertToSituation(village, myself, player, charachip),
+            participate = participateDomainService.convertToSituation(village, myself, player, charachips),
             skillRequest = skillRequestDomainService.convertToSituation(village, myself, myself?.requestSkill),
             commit = commitDomainService.convertToSituation(village, myself, commits),
-            say = sayDomainService.convertToSituation(village, myself, charachip, day, latestDayMessageCountMap),
-            rp = rpDomainService.convertToSituation(village, myself, charachip, day),
+            say = sayDomainService.convertToSituation(village, myself, charachips, day, latestDayMessageCountMap),
+            rp = rpDomainService.convertToSituation(village, myself, charachips, day),
             ability = abilityDomainService.convertToParticipantSituation(village, myself, abilities, footsteps, day),
             vote = voteDomainService.convertToParticipantSituation(village, myself, votes),
             admin = adminDomainService.convertToSituation(village, myself),

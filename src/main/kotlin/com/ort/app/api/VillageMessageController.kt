@@ -56,7 +56,7 @@ class VillageMessageController(
         // 発言取得
         val query = form.toMessageQuery(village)
         val messages = messageService.findMeesages(village, myself, query)
-        val charas = charaService.findCharas(village.setting.charachipId)
+        val charas = charaService.findCharachips(village.setting.charachipIds).charas()
         val players = playerService.findPlayers(village.id)
         val votes = if (VillageMessageListContent.isDispSuddenlyDeathWarnMessage(village, query.day)) {
             voteService.findVotes(village.id).filterByDay(village.latestDay())
@@ -116,7 +116,7 @@ class VillageMessageController(
         val player = message?.fromParticipantId?.let {
             playerService.findPlayer(village.allParticipants().member(it).playerId)
         }
-        val charas = charaService.findCharas(village.setting.charachipId)
+        val charas = charaService.findCharachips(village.setting.charachipIds).charas()
         val abilities = abilityService.findAbilities(village.id)
         return VillageAnchorMessageContent(message, village, player, charas, abilities)
     }

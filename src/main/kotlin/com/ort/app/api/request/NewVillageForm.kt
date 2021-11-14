@@ -104,7 +104,7 @@ data class NewVillageForm(
 
     /** キャラセットID */
     @field:NotNull
-    var characterSetId: Int? = null,
+    var characterSetId: List<Int>? = null,
 
     /** ダミーキャラID */
     @field:NotNull
@@ -192,6 +192,7 @@ data class NewVillageForm(
                 startMinute = 0
             }
         }
+        if (characterSetId == null) characterSetId = listOf(1)
         if (randomOrganization == null) randomOrganization = false
         if (reincarnationSkillAll == null) reincarnationSkillAll = false
         if (campAllocationList == null) campAllocationList = initializeCampAllocationList()
@@ -232,7 +233,7 @@ data class NewVillageForm(
         dayChangeIntervalHours = village.setting.dayChangeIntervalSeconds / 3600
         dayChangeIntervalMinutes = (village.setting.dayChangeIntervalSeconds % 3600) / 60
         dayChangeIntervalSeconds = village.setting.dayChangeIntervalSeconds % 60
-        characterSetId = village.setting.charachipId
+        characterSetId = village.setting.charachipIds
         dummyCharaId = village.setting.dummyCharaId
         openVote = village.setting.rule.isOpenVote
         availableSameWolfAttack = village.setting.rule.isAvailableSameWolfAttack
@@ -310,7 +311,7 @@ data class NewVillageForm(
             ),
             setting = VillageSetting(
                 dummyCharaId = dummyCharaId!!,
-                charachipId = characterSetId!!,
+                charachipIds = characterSetId!!,
                 personMin = startPersonMinNum!!,
                 personMax = personMaxNum!!,
                 dayChangeIntervalSeconds = dayChangeIntervalHours!! * 3600 + dayChangeIntervalMinutes!! * 60 + dayChangeIntervalSeconds!!,

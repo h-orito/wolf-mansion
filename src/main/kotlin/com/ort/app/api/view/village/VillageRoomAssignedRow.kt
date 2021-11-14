@@ -1,6 +1,6 @@
 package com.ort.app.api.view.village
 
-import com.ort.app.domain.model.chara.Charachip
+import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 
@@ -11,12 +11,12 @@ data class VillageRoomAssignedRow(
         village: Village,
         day: Int,
         columnIndex: Int,
-        charachip: Charachip,
+        charachips: Charachips,
         myself: VillageParticipant?
     ) : this(
         roomAssignedList = List(village.roomSize!!.width) { rowIndex ->
             val roomNumber = columnIndex * village.roomSize.width + rowIndex + 1
-            VillageRoomAssigned(village, day, roomNumber, charachip, myself)
+            VillageRoomAssigned(village, day, roomNumber, charachips, myself)
         }
     )
 
@@ -50,7 +50,7 @@ data class VillageRoomAssignedRow(
             village: Village,
             day: Int,
             roomNumber: Int,
-            charachip: Charachip,
+            charachips: Charachips,
             myself: VillageParticipant?
         ) : this(
             roomNumber = roomNumber.toString().padStart(2, '0'),
@@ -58,18 +58,18 @@ data class VillageRoomAssignedRow(
             charaName = participant(village, roomNumber, day)?.charaName?.name,
             charaShortName = participant(village, roomNumber, day)?.charaName?.shortName,
             charaImgUrl = participant(village, roomNumber, day)?.let {
-                charachip.charas.chara(it.charaId).defaultImage().url
+                charachips.chara(it.charaId).defaultImage().url
             },
             charaImgWidth = participant(
                 village,
                 roomNumber,
                 day
-            )?.let { charachip.charas.chara(it.charaId).size.width },
+            )?.let { charachips.chara(it.charaId).size.width },
             charaImgHeight = participant(
                 village,
                 roomNumber,
                 day
-            )?.let { charachip.charas.chara(it.charaId).size.height },
+            )?.let { charachips.chara(it.charaId).size.height },
             isDummy = village.dummyParticipant().id == participant(village, roomNumber, day)?.id,
             isDead = participant(village, roomNumber, day)?.isDeadWhen(day),
             deadDay = null,

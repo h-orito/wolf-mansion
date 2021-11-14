@@ -43,6 +43,22 @@ class CharaDataSource(
         return mapCharachips(groupList)
     }
 
+    override fun findCharachips(ids: List<Int>): Charachips {
+        val groupList = charaGroupBhv.selectList {
+            it.setupSelect_Designer()
+            it.query().setCharaGroupId_InScope(ids)
+            it.query().addOrderBy_CharaGroupId_Asc()
+        }
+        charaGroupBhv.load(groupList) { loader ->
+            loader.loadChara {
+                it.query().addOrderBy_DefaultJoinMessage_Asc().withNullsLast()
+            }.withNestedReferrer { charaLoader ->
+                charaLoader.loadCharaImage {}
+            }
+        }
+        return mapCharachips(groupList)
+    }
+
     override fun findCharachip(id: Int): Charachip? {
         val optGroup = charaGroupBhv.selectEntity {
             it.setupSelect_Designer()

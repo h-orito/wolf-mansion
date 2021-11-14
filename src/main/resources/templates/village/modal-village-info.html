@@ -89,10 +89,13 @@
                         <tr>
                             <th>キャラセット</th>
                             <td>
-                                <a href="javascript:void(0);"
-                                   th:href="@{/chara-group/{charaGroupId}(charaGroupId=*{charaGroupId})}"
-                                   th:text="*{charaGroupName}"
-                                   target="_blank"></a>
+                                <th:block th:each="charachip,s: *{charachips}">
+                                    <a href="javascript:void(0);"
+                                       th:href="@{/chara-group/{charaGroupId}(charaGroupId=${charachip.id})}"
+                                       th:text="${charachip.name}"
+                                       target="_blank"></a>
+                                    <span th:unless="${s.last}">、</span>
+                                </th:block>
                             </td>
                         </tr>
                         <tr>

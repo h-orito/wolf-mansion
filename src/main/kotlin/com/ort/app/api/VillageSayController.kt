@@ -78,7 +78,7 @@ class VillageSayController(
                 sayForm.secretSayTargetCharaId
             )
             val player = playerService.findPlayer(myself!!.playerId)
-            val charas = charaService.findCharas(village.setting.charachipId)
+            val charas = charaService.findCharachips(village.setting.charachipIds).charas()
             val randomKeywords = randomKeywordService.findRandomKeywords()
             return VillageSayConfirmContent(
                 village = village,
@@ -151,7 +151,7 @@ class VillageSayController(
                 null
             )
             val player = playerService.findPlayer(myself!!.playerId)
-            val charas = charaService.findCharas(village.setting.charachipId)
+            val charas = charaService.findCharachips(village.setting.charachipIds).charas()
             val randomKeywords = randomKeywordService.findRandomKeywords()
             return VillageSayConfirmContent(
                 village = village,

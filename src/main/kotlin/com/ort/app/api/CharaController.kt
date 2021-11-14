@@ -1,5 +1,6 @@
 package com.ort.app.api
 
+import com.ort.app.api.request.CharacterListForm
 import com.ort.app.api.view.CharaGroupContent
 import com.ort.app.api.view.CharaGroupListContent
 import com.ort.app.application.service.CharaService
@@ -37,10 +38,10 @@ class CharaController(
         return "chara"
     }
 
-    @GetMapping("/getCharacterList/{charaGroupId}")
+    @GetMapping("/getCharacterList")
     @ResponseBody
-    private fun getCharacterList(@PathVariable charaGroupId: Int): List<Chara> {
-        val charas = charaService.findCharas(charaGroupId)
+    private fun getCharacterList(form: CharacterListForm): List<Chara> {
+        val charas = charaService.findCharachips(form.charaGroupId!!).charas()
         return charas.list.map {
             it.copy(
                 images = it.images.copy(
