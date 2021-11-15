@@ -1424,6 +1424,9 @@ $(function () {
         } else {
             timeIntervalMilliSecond = 24 * 60 * 60 * 1000;
         }
+        if ($('#sayform-content').length > 0 && $('#log-ad-area').length > 0 && $('#log-ad-area').height() <= 10) {
+            alert('当サイトは広告料でサーバー代を賄っています。広告表示にご協力ください。');
+        }
     }, timeIntervalMilliSecondToRefresh);
 
     // ----------------------------------------------
