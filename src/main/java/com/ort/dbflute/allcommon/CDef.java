@@ -1344,11 +1344,11 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * 襲撃されても死なない <br>
-         * The group elements:[壁殴り代行, 妖狐, 誑狐, ごん, 爆弾魔]
+         * The group elements:[壁殴り代行, 妖狐, 誑狐, ごん, 仙狐, 爆弾魔]
          * @return The determination, true or false.
          */
         public boolean isNoDeadByAttack() {
-            return 壁殴り代行.equals(this) || 妖狐.equals(this) || 誑狐.equals(this) || ごん.equals(this) || 爆弾魔.equals(this);
+            return 壁殴り代行.equals(this) || 妖狐.equals(this) || 誑狐.equals(this) || ごん.equals(this) || 仙狐.equals(this) || 爆弾魔.equals(this);
         }
 
         /**
@@ -1364,11 +1364,11 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * 勝敗判定時、人間にも人狼にもカウントされない <br>
-         * The group elements:[妖狐, 誑狐, ごん, 梟]
+         * The group elements:[妖狐, 誑狐, ごん, 仙狐, 梟]
          * @return The determination, true or false.
          */
         public boolean isNoCount() {
-            return 妖狐.equals(this) || 誑狐.equals(this) || ごん.equals(this) || 梟.equals(this);
+            return 妖狐.equals(this) || 誑狐.equals(this) || ごん.equals(this) || 仙狐.equals(this) || 梟.equals(this);
         }
 
         /**
@@ -1571,11 +1571,11 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 襲撃されても死なない <br>
-         * The group elements:[壁殴り代行, 妖狐, 誑狐, ごん, 爆弾魔]
+         * The group elements:[壁殴り代行, 妖狐, 誑狐, ごん, 仙狐, 爆弾魔]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfNoDeadByAttack() {
-            return new ArrayList<Skill>(Arrays.asList(壁殴り代行, 妖狐, 誑狐, ごん, 爆弾魔));
+            return new ArrayList<Skill>(Arrays.asList(壁殴り代行, 妖狐, 誑狐, ごん, 仙狐, 爆弾魔));
         }
 
         /**
@@ -1591,11 +1591,11 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 勝敗判定時、人間にも人狼にもカウントされない <br>
-         * The group elements:[妖狐, 誑狐, ごん, 梟]
+         * The group elements:[妖狐, 誑狐, ごん, 仙狐, 梟]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfNoCount() {
-            return new ArrayList<Skill>(Arrays.asList(妖狐, 誑狐, ごん, 梟));
+            return new ArrayList<Skill>(Arrays.asList(妖狐, 誑狐, ごん, 仙狐, 梟));
         }
 
         /**

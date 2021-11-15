@@ -1637,7 +1637,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * 襲撃されても死なない <br>
-     * The group elements:[壁殴り代行, 妖狐, 誑狐, ごん, 爆弾魔]
+     * The group elements:[壁殴り代行, 妖狐, 誑狐, ごん, 仙狐, 爆弾魔]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_NoDeadByAttack() {
@@ -1657,7 +1657,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * 勝敗判定時、人間にも人狼にもカウントされない <br>
-     * The group elements:[妖狐, 誑狐, ごん, 梟]
+     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 梟]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_NoCount() {

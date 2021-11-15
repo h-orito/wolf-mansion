@@ -1,5 +1,7 @@
 package com.ort.app.api
 
+import com.ort.app.api.view.RuleContent
+import com.ort.app.domain.model.skill.Skills
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -8,20 +10,23 @@ import org.springframework.web.bind.annotation.GetMapping
 class AboutController {
 
     @GetMapping("/about")
-    fun about(model: Model): String = "about"
+    fun about(): String = "about"
 
     @GetMapping("/announce")
-    fun announce(model: Model): String = "announce"
+    fun announce(): String = "announce"
 
     @GetMapping("/rule")
-    fun rule(model: Model): String = "rule"
+    fun rule(model: Model): String {
+        model.addAttribute("content", RuleContent())
+        return "rule"
+    }
 
     @GetMapping("/intro")
-    fun intro(model: Model): String = "intro"
+    fun intro(): String = "intro"
 
     @GetMapping("/practice")
-    fun practice(model: Model): String = "practice"
+    fun practice(): String = "practice"
 
     @GetMapping("/faq")
-    fun faq(model: Model): String = "faq"
+    fun faq(): String = "faq"
 }

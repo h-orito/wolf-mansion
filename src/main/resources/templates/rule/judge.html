@@ -1,4 +1,6 @@
-<html lang="ja" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 >
 <head>
     <meta charset="utf-8"/>
@@ -16,112 +18,21 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr th:each="judge: ${content.judgeList}">
             <td>
-                村人<br>
-                占い師<br>
-                賢者<br>
-                占星術士<br>
-                花占い師<br>
-                狩人<br>
-                風来狩人<br>
-                探偵<br>
-                監視者<br>
-                罠師<br>
-                霊能者<br>
-                導師<br>
-                検死官<br>
-                パン屋<br>
-                共鳴者<br>
-                強運者<br>
-                指揮官<br>
-                妄想癖<br>
-                夢遊病者<br>
-                冤罪者<br>
-                転生者<br>
-                申し子<br>
-                蘇生者<br>
-                不止者<br>
-                保険屋<br>
-                執行人<br>
-                狂人<br>
-                C国狂人<br>
-                魔神官<br>
-                狂信者<br>
-                煽動者<br>
-                死霊術師<br>
-                恋人<br>
-                同棲者<br>
-                求愛者<br>
-                ストーカー<br>
-                絡新婦<br>
-                美人局<br>
-                背徳者<br>
-                果実籠<br>
-                虹職人<br>
-                拡声者<br>
-                濁点者<br>
-                トラック<br>
-                ババ<br>
+                <th:block th:each="skill: ${judge.skillList}">
+                    <span th:text="${skill.name}"></span><br>
+                </th:block>
             </td>
-            <td>人間</td>
-            <td>人間</td>
-            <td>なし</td>
-            <td>人間</td>
-        </tr>
-        <tr>
-            <td>
-                人狼<br>
-                呪狼<br>
-                智狼<br>
-                絶対人狼<br>
-                歩狼<br>
-                銀狼<br>
-                金狼<br>
-                飛狼<br>
-                角狼<br>
-                王狼<br>
-            </td>
-            <td class="text-danger">人狼</td>
-            <td class="text-danger">人狼</td>
-            <td>なし</td>
-            <td class="text-danger">人狼</td>
-        </tr>
-        <tr>
-            <td>
-                妖狐<br>
-                誑狐<br>
-                ごん<br>
-                仙狐<br>
-            </td>
-            <td>人間</td>
-            <td>人間</td>
-            <td class="text-warning">死亡しない</td>
-            <td class="text-warning">カウントしない</td>
-        </tr>
-        <tr>
-            <td>
-                壁殴り代行<br>
-                爆弾魔<br>
-            </td>
-            <td>人間</td>
-            <td>人間</td>
-            <td class="text-warning">死亡しない</td>
-            <td>人間</td>
-        </tr>
-        <tr>
-            <td>梟</td>
-            <td>人間</td>
-            <td>人間</td>
-            <td>なし</td>
-            <td class="text-warning">カウントしない</td>
-        </tr>
-        <tr>
-            <td>一匹狼</td>
-            <td class="text-danger">人狼</td>
-            <td class="text-danger">人狼</td>
-            <td>なし</td>
-            <td class="text-warning">人間</td>
+            <td th:text="${judge.divineResultWolf ? '人狼' : '人間'}"
+                th:class="${judge.divineResultWolf ? 'text-danger' : ''}"></td>
+            <td th:text="${judge.psychicResultWolf ? '人狼' : '人間'}"
+                th:class="${judge.psychicResultWolf ? 'text-danger' : ''}"></td>
+            <td th:text="${judge.noDeadByAttack ? '死亡しない' : 'なし'}"
+                th:class="${judge.noDeadByAttack ? 'text-warning' : ''}"></td>
+            <td th:text="${judge.count}"
+                th:class="${judge.count == '人狼' ? 'text-danger' : judge.count == 'カウントしない'
+                    ? 'text-warning' : ''}"></td>
         </tr>
         </tbody>
     </table>

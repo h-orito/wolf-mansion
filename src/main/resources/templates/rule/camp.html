@@ -1,4 +1,6 @@
-<html lang="ja" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 >
 <head>
     <meta charset="utf-8"/>
@@ -14,37 +16,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td class="vertical-middle">村人陣営</td>
+            <tr th:each="camp: ${content.campList}">
+                <td class="vertical-middle" th:text="${camp.name}">村人陣営</td>
                 <td class="vertical-middle">
-                    村人<br>占い師<br>賢者<br>占星術師<br>花占い師<br>狩人<br>風来狩人<br>霊能者<br>導師<br>共鳴者<br>探偵<br>監視者<br>
-                    罠師<br>パン屋<br>強運者<br>指揮官<br>妄想癖<br>夢遊病者<br>冤罪者<br>転生者<br>申し子<br>壁殴り代行<br>蘇生者<br>
-                    不止者<br>保険屋<br>執行人
-                </td>
-            </tr>
-            <tr>
-                <td class="vertical-middle">人狼陣営</td>
-                <td class="vertical-middle">
-                    人狼<br>呪狼<br>智狼<br>絶対人狼<br>歩狼<br>銀狼<br>金狼<br>飛狼<br>角狼<br>王狼<br>
-                    狂人<br>C国狂人<br>魔神官<br>狂信者<br>煽動者<br>死霊術師
-                </td>
-            </tr>
-            <tr>
-                <td class="vertical-middle">恋人陣営</td>
-                <td class="vertical-middle">
-                    恋人<br>同棲者<br>求愛者<br>ストーカー<br>絡新婦<br>美人局
-                </td>
-            </tr>
-            <tr>
-                <td class="vertical-middle">妖狐陣営</td>
-                <td class="vertical-middle">
-                    妖狐<br>誑狐<br>ごん<br>仙狐<br>背徳者
-                </td>
-            </tr>
-            <tr>
-                <td class="vertical-middle">愉快犯陣営</td>
-                <td class="vertical-middle">
-                    爆弾魔<br>梟<br>果実籠<br>一匹狼<br>虹職人<br>拡声者<br>濁点者<br>トラック<br>ババ
+                    <th:block th:each="skill: ${camp.skillList}">
+                        <span th:text="${skill.name}"></span><br>
+                    </th:block>
                 </td>
             </tr>
             </tbody>
@@ -96,6 +73,3 @@
 </div>
 </body>
 </html>
-
-
-
