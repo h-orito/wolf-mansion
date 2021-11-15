@@ -580,6 +580,9 @@ public interface CDef extends Classification {
         /** 魔神官 */
         魔神官("EVILMEDIUM", "魔神官", emptyStrings())
         ,
+        /** 執行人 */
+        執行人("EXECUTIONER", "執行人", emptyStrings())
+        ,
         /** 冤罪者 */
         冤罪者("FALSECHARGES", "冤罪者", emptyStrings())
         ,
@@ -874,6 +877,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "WEREWOLF");
                 subItemMap.put("skill_short_name", "魔");
                 _subItemMapMap.put(魔神官.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "27");
+                subItemMap.put("campCode", "VILLAGER");
+                subItemMap.put("skill_short_name", "執");
+                _subItemMapMap.put(執行人.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();

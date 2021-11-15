@@ -328,6 +328,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
     }
 
     /**
+     * Equal(=). As 執行人 (EXECUTIONER). And OnlyOnceRegistered. <br>
+     * 執行人
+     */
+    public void setSkillCode_Equal_執行人() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.執行人);
+    }
+
+    /**
      * Equal(=). As 冤罪者 (FALSECHARGES). And OnlyOnceRegistered. <br>
      * 冤罪者
      */
@@ -924,6 +932,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
      */
     public void setSkillCode_NotEqual_魔神官() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.魔神官);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 執行人 (EXECUTIONER). And OnlyOnceRegistered. <br>
+     * 執行人
+     */
+    public void setSkillCode_NotEqual_執行人() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.執行人);
     }
 
     /**

@@ -293,6 +293,14 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     }
 
     /**
+     * Set the value of skillCode as 執行人 (EXECUTIONER). <br>
+     * 執行人
+     */
+    public void setSkillCode_執行人() {
+        setSkillCodeAsSkill(CDef.Skill.執行人);
+    }
+
+    /**
      * Set the value of skillCode as 冤罪者 (FALSECHARGES). <br>
      * 冤罪者
      */
@@ -920,6 +928,17 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     public boolean isSkillCode魔神官() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.魔神官) : false;
+    }
+
+    /**
+     * Is the value of skillCode 執行人? <br>
+     * 執行人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode執行人() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.執行人) : false;
     }
 
     /**

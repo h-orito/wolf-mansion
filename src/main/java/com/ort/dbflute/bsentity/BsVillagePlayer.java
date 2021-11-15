@@ -509,6 +509,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 執行人 (EXECUTIONER). <br>
+     * 執行人
+     */
+    public void setSkillCode_執行人() {
+        setSkillCodeAsSkill(CDef.Skill.執行人);
+    }
+
+    /**
      * Set the value of skillCode as 冤罪者 (FALSECHARGES). <br>
      * 冤罪者
      */
@@ -1085,6 +1093,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 執行人 (EXECUTIONER). <br>
+     * 執行人
+     */
+    public void setRequestSkillCode_執行人() {
+        setRequestSkillCodeAsSkill(CDef.Skill.執行人);
+    }
+
+    /**
      * Set the value of requestSkillCode as 冤罪者 (FALSECHARGES). <br>
      * 冤罪者
      */
@@ -1658,6 +1674,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_魔神官() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.魔神官);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 執行人 (EXECUTIONER). <br>
+     * 執行人
+     */
+    public void setSecondRequestSkillCode_執行人() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.執行人);
     }
 
     /**
@@ -2408,6 +2432,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode魔神官() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.魔神官) : false;
+    }
+
+    /**
+     * Is the value of skillCode 執行人? <br>
+     * 執行人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode執行人() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.執行人) : false;
     }
 
     /**
@@ -3323,6 +3358,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 執行人? <br>
+     * 執行人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode執行人() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.執行人) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 冤罪者? <br>
      * 冤罪者
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -4232,6 +4278,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode魔神官() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.魔神官) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 執行人? <br>
+     * 執行人
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode執行人() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.執行人) : false;
     }
 
     /**
