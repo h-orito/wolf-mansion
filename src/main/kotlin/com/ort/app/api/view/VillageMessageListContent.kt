@@ -74,7 +74,7 @@ data class VillageMessageListContent(
                     )
                 },
                 charas = charas,
-                hasBigEar = village.status.isProgress() && myself?.hasBigEar() ?: false,
+                hasBigEar = hasBigEar(village, myself, message),
                 isRainbow = isRainbow(message, abilities, village),
                 isLoud = isLoud(message, abilities, village)
             )
@@ -165,6 +165,16 @@ data class VillageMessageListContent(
                 }
             }
             return (startPage..endPage).toList()
+        }
+
+        private fun hasBigEar(village: Village, myself: VillageParticipant?, message: Message): Boolean {
+            if (!village.status.isProgress()) return false
+            if (myself?.hasBigEar() != true) return false
+            return when (message.content.type.toCdef()) {
+                CDef.MessageType.恋人発言 -> !myself.isViewableLoversSay() // 恋窓にいたら普通に見える
+                CDef.MessageType.念話 -> !myself.isViewableTelepathy() // 念話が見えるなら普通に見える
+                else -> true
+            }
         }
 
         private fun isRainbow(message: Message, abilities: Abilities, village: Village): Boolean {

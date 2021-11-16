@@ -25,7 +25,7 @@ class TweetService(
     }
 
     fun tweetCreateVillageIfNeeded(village: Village) {
-        if (village.setting.joinPassword.isNullOrEmpty()) return
+        if (!village.setting.joinPassword.isNullOrEmpty()) return
         val startDatetime = village.setting.startDatetime.format(format)
         tweetRepository.tweet(
             msg = """

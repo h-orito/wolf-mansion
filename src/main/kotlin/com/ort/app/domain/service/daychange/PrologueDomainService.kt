@@ -110,7 +110,7 @@ class PrologueDomainService(
     }
 
     private fun addStartTweet(daychange: Daychange): Daychange {
-        if (daychange.village.setting.joinPassword.isNullOrEmpty()) return daychange
+        if (!daychange.village.setting.joinPassword.isNullOrEmpty()) return daychange
         return daychange.copy(tweets = daychange.tweets + "${daychange.village.name}が開始されました。")
     }
 }
