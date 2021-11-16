@@ -9,12 +9,18 @@ import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.village.Village
 import com.ort.dbflute.allcommon.CDef
+import org.hibernate.validator.constraints.Length
 import javax.validation.Valid
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
 
 data class VillageSettingForm(
+    /** 村表示名 */
+    @field:NotNull
+    @field:Length(min = 5, max = 40)
+    var villageName: String? = null,
+
     /** 最低開始人数 */
     @field:NotNull
     @field:Min(8)
@@ -138,6 +144,7 @@ data class VillageSettingForm(
     var rpSayRestrictList: List<MessageTypeSayRestrictForm>? = null
 ) {
     constructor(village: Village) : this(
+        villageName = village.name,
         startPersonMinNum = village.setting.personMin,
         personMaxNum = village.setting.personMax,
         dayChangeIntervalHours = village.setting.dayChangeIntervalSeconds / 3600,

@@ -5,13 +5,11 @@ import com.ort.app.domain.model.village.Village
 
 data class VillageSettingsContent(
     val villageId: Int,
-    val villageName: String,
     val villageSettings: SettingsContent
 ) {
 
     constructor(village: Village, charachips: Charachips) : this(
         villageId = village.id,
-        villageName = village.name,
         villageSettings = SettingsContent(village, charachips)
     )
 

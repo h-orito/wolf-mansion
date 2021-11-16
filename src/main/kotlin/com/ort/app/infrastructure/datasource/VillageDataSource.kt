@@ -189,6 +189,10 @@ class VillageDataSource(
         villagePlayerDataSource.updateLastAccessDatetime(participant)
 
     override fun updateSetting(village: Village) {
+        val v = DbVillage()
+        v.villageId = village.id
+        v.villageDisplayName = village.name
+        villageBhv.update(v)
         villageSettingsDataSource.updateSetting(village)
         villageDayDataSource.updateVillageStartDateTime(village.id, village.days)
     }

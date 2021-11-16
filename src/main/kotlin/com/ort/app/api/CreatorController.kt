@@ -220,6 +220,7 @@ class CreatorController(
             form.startMinute!!
         )
         return village.copy(
+            name = form.villageName!!,
             days = village.days.copy(
                 list = village.days.list.map {
                     if (it.day == 0) it.copy(dayChangeDatetime = startDatetime)
