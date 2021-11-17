@@ -877,6 +877,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 翻訳者 (TRANSLATOR). <br>
+     * 翻訳者
+     */
+    public void setSkillCode_翻訳者() {
+        setSkillCodeAsSkill(CDef.Skill.翻訳者);
+    }
+
+    /**
      * Set the value of skillCode as 罠師 (TRAPPER). <br>
      * 罠師
      */
@@ -1461,6 +1469,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 翻訳者 (TRANSLATOR). <br>
+     * 翻訳者
+     */
+    public void setRequestSkillCode_翻訳者() {
+        setRequestSkillCodeAsSkill(CDef.Skill.翻訳者);
+    }
+
+    /**
      * Set the value of requestSkillCode as 罠師 (TRAPPER). <br>
      * 罠師
      */
@@ -2042,6 +2058,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_濁点者() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.濁点者);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 翻訳者 (TRANSLATOR). <br>
+     * 翻訳者
+     */
+    public void setSecondRequestSkillCode_翻訳者() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.翻訳者);
     }
 
     /**
@@ -2938,6 +2962,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode濁点者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.濁点者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 翻訳者? <br>
+     * 翻訳者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode翻訳者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.翻訳者) : false;
     }
 
     /**
@@ -3864,6 +3899,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 翻訳者? <br>
+     * 翻訳者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode翻訳者() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.翻訳者) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 罠師? <br>
      * 罠師
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -4784,6 +4830,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode濁点者() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.濁点者) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 翻訳者? <br>
+     * 翻訳者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode翻訳者() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.翻訳者) : false;
     }
 
     /**

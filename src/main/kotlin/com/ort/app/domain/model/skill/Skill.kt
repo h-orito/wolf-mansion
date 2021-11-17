@@ -95,7 +95,8 @@ data class Skill(
             CDef.Skill.死霊術師 to AbilityType(CDef.AbilityType.死霊蘇生),
             CDef.Skill.ババ to AbilityType(CDef.AbilityType.ババを渡す),
             CDef.Skill.不止者 to AbilityType(CDef.AbilityType.指差死),
-            CDef.Skill.保険屋 to AbilityType(CDef.AbilityType.保険)
+            CDef.Skill.保険屋 to AbilityType(CDef.AbilityType.保険),
+            CDef.Skill.翻訳者 to AbilityType(CDef.AbilityType.翻訳)
         )
 
         private val shortNameToSkill = Skills.all().filterNotSomeone().list.map {
@@ -129,6 +130,7 @@ data class Skill(
                 CDef.Skill.虹職人,
                 CDef.Skill.拡声者,
                 CDef.Skill.濁点者,
+                CDef.Skill.翻訳者,
                 CDef.Skill.トラック,
                 CDef.Skill.死霊術師,
                 CDef.Skill.蘇生者,

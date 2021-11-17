@@ -567,6 +567,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 翻訳者 (TRANSLATOR). And OnlyOnceRegistered. <br>
+     * 翻訳者
+     */
+    public void setSkillCode_Equal_翻訳者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.翻訳者);
+    }
+
+    /**
      * Equal(=). As 罠師 (TRAPPER). And OnlyOnceRegistered. <br>
      * 罠師
      */
@@ -1171,6 +1179,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_濁点者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.濁点者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 翻訳者 (TRANSLATOR). And OnlyOnceRegistered. <br>
+     * 翻訳者
+     */
+    public void setSkillCode_NotEqual_翻訳者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.翻訳者);
     }
 
     /**

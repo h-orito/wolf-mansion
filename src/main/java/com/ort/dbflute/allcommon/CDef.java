@@ -718,6 +718,9 @@ public interface CDef extends Classification {
         /** 濁点者 */
         濁点者("TATSUYA", "濁点者", emptyStrings())
         ,
+        /** 翻訳者 */
+        翻訳者("TRANSLATOR", "翻訳者", emptyStrings())
+        ,
         /** 罠師 */
         罠師("TRAPPER", "罠師", emptyStrings())
         ,
@@ -775,7 +778,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "508");
+                subItemMap.put("order", "509");
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "バ");
                 _subItemMapMap.put(ババ.code(), Collections.unmodifiableMap(subItemMap));
@@ -1202,6 +1205,13 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "507");
+                subItemMap.put("campCode", "CRIMINAL");
+                subItemMap.put("skill_short_name", "翻");
+                _subItemMapMap.put(翻訳者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
                 subItemMap.put("order", "14");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "罠");
@@ -1209,7 +1219,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "507");
+                subItemMap.put("order", "508");
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "ト");
                 _subItemMapMap.put(トラック.code(), Collections.unmodifiableMap(subItemMap));
@@ -2082,6 +2092,9 @@ public interface CDef extends Classification {
         ,
         /** ストーキング */
         ストーキング("STALKING", "ストーキング", emptyStrings())
+        ,
+        /** 翻訳 */
+        翻訳("TRANSLATE", "翻訳", emptyStrings())
         ,
         /** 罠設置 */
         罠設置("TRAP", "罠設置", emptyStrings())

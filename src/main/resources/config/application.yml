@@ -38,3 +38,7 @@ twitter:
 
 slack:
   webhook-url:
+
+microsoft:
+  translator:
+    key: 

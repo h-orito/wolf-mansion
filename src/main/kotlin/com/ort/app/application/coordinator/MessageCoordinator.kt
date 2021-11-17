@@ -10,6 +10,8 @@ import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.MessageContent
 import com.ort.app.domain.model.message.MessageTime
+import com.ort.app.domain.model.message.toModel
+import com.ort.app.domain.model.translate.TranslateRepository
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.service.MessageDomainService
@@ -30,7 +32,9 @@ class MessageCoordinator(
     private val slackService: SlackService,
     // domain service
     private val messageDomainService: MessageDomainService,
-    private val sayDomainService: SayDomainService
+    private val sayDomainService: SayDomainService,
+    // repository
+    private val translateRepository: TranslateRepository
 ) {
     fun registerMessage(villageId: Int, message: Message) {
         val village =
@@ -83,16 +87,41 @@ class MessageCoordinator(
         val abilities = abilityService.findAbilities(village.id)
         val shouldDakuten = abilities.filterByDay(village.latestDay() - 1)
             .filterByType(CDef.AbilityType.叫び.toModel()).list.any { it.targetCharaId == myself.charaId }
-        registerMessage(
-            village.id,
-            messageDomainService.createSayMessage(
-                village = village,
-                myself = myself,
-                target = toParticipant,
-                messageContent = messageContent,
-                shouldDakuten = shouldDakuten
+        val shouldReTranslate = messageContent.type.toCdef() == CDef.MessageType.通常発言 &&
+                abilities.filterByDay(village.latestDay() - 1)
+                    .filterByType(CDef.AbilityType.翻訳.toModel()).list.any { it.targetCharaId == myself.charaId }
+        val messages: List<Message> = if (shouldReTranslate) {
+            val (languageName, translated, reTranslated) = translateRepository.reTranslate(messageContent.text)
+            listOf(
+                messageDomainService.createSayMessage(
+                    village = village,
+                    myself = myself,
+                    target = toParticipant,
+                    messageContent = messageContent.copy(
+                        type = CDef.MessageType.独り言.toModel(),
+                        text = "${messageContent.text}\n\n${translated}\n（${languageName}）"
+                    )
+                ),
+                messageDomainService.createSayMessage(
+                    village = village,
+                    myself = myself,
+                    target = toParticipant,
+                    messageContent = messageContent.copy(text = reTranslated),
+                    shouldDakuten = shouldDakuten
+                )
             )
-        )
+        } else {
+            listOf(
+                messageDomainService.createSayMessage(
+                    village = village,
+                    myself = myself,
+                    target = toParticipant,
+                    messageContent = messageContent,
+                    shouldDakuten = shouldDakuten
+                )
+            )
+        }
+        messages.forEach { registerMessage(village.id, it) }
     }
 
     private fun assertSay(

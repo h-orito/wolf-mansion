@@ -47,6 +47,7 @@ class AbilityDomainService(
     private val rainbowDomainService: RainbowDomainService,
     private val loudSpeakDomainService: LoudSpeakDomainService,
     private val shoutDomainService: ShoutDomainService,
+    private val translateDomainService: TranslateDomainService,
     private val resuscitateDomainService: ResuscitateDomainService,
     private val necromanceDomainService: NecromanceDomainService,
     private val forceReincarnationDomainService: ForceReincarnationDomainService,
@@ -129,6 +130,7 @@ class AbilityDomainService(
             CDef.AbilityType.虹塗り -> rainbowDomainService
             CDef.AbilityType.拡声 -> loudSpeakDomainService
             CDef.AbilityType.叫び -> shoutDomainService
+            CDef.AbilityType.翻訳 -> translateDomainService
             CDef.AbilityType.強制転生 -> forceReincarnationDomainService
             CDef.AbilityType.蘇生 -> resuscitateDomainService
             CDef.AbilityType.死霊蘇生 -> necromanceDomainService

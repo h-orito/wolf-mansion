@@ -49,3 +49,7 @@ twitter:
 
 slack:
   webhook-url: ${WOLF_MANSION_SLACK_WEBHOOK_URL}
+
+microsoft:
+  translator:
+    key: ${WOLF_MANSION_MICROSOFT_TRANSLATOR_KEY}
