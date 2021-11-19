@@ -83,7 +83,9 @@ class MessageCoordinator(
         myself ?: throw WolfMansionBusinessException("myself not found.")
         val messageContent = MessageContent.invoke(messageType, message, faceType, convertDisable)
         assertSay(village, myself, messageContent)
-        val toParticipant = targetCharaId?.let { village.allParticipants().chara(it) }
+        val toParticipant = if (messageContent.type.toCdef() == CDef.MessageType.秘話) {
+            targetCharaId?.let { village.allParticipants().chara(it) }
+        } else null
         val abilities = abilityService.findAbilities(village.id)
         val shouldDakuten = abilities.filterByDay(village.latestDay() - 1)
             .filterByType(CDef.AbilityType.叫び.toModel()).list.any { it.targetCharaId == myself.charaId }

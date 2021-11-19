@@ -36,7 +36,8 @@ class MessageDataSource(
             Pattern.compile("@(\\d{1,5})") to CDef.MessageType.見学発言,
             Pattern.compile("\\-(\\d{1,5})") to CDef.MessageType.独り言,
             Pattern.compile("\\*(\\d{1,5})") to CDef.MessageType.人狼の囁き,
-            Pattern.compile("a(\\d{1,5})") to CDef.MessageType.アクション
+            Pattern.compile("a(\\d{1,5})") to CDef.MessageType.アクション,
+            Pattern.compile("_(\\d{1,5})") to CDef.MessageType.念話
         )
     }
 
