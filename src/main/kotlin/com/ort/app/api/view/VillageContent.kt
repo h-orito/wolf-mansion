@@ -204,7 +204,9 @@ data class VillageContent(
             /** 足音を残す能力を持っているか */
             val hasFootstepAbility: Boolean,
             /** 同棲能力を持っているか */
-            val hasCohabitAbility: Boolean
+            val hasCohabitAbility: Boolean,
+            /** 捜査能力を持っているか */
+            val hasInvestigateAbility: Boolean
         ) {
             constructor(skill: Skill) : this(
                 code = skill.code,
@@ -213,7 +215,8 @@ data class VillageContent(
                 hasGuardAbility = skill.toCdef() == CDef.Skill.狩人 || skill.toCdef() == CDef.Skill.風来狩人,
                 hasDisturbAbility = skill.toCdef().isHasDisturbAbility,
                 hasFootstepAbility = Skill.footstepSkills.any { it.code == skill.code },
-                hasCohabitAbility = skill.toCdef() == CDef.Skill.同棲者
+                hasCohabitAbility = skill.toCdef() == CDef.Skill.同棲者,
+                hasInvestigateAbility = skill.hasInvestigateAbility()
             )
         }
     }

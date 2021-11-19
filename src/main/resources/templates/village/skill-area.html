@@ -62,7 +62,7 @@
                                   class="form-horizontal">
                                 <div class="form-group small">
                                     <div class="col-sm-12 col-xs-12"
-                                         th:unless="${content.myself.skill.code == 'DETECTIVE'}">
+                                         th:unless="${content.myself.skill.hasInvestigateAbility}">
                                         <span th:if="${content.form.ability.targetPrefixMessage}"
                                               th:text="${content.form.ability.targetPrefixMessage}"></span> <select
                                             class="form-control" th:field="*{targetCharaId}" data-ability-target-select>
@@ -72,7 +72,7 @@
                                                     th:text="${content.form.ability.targetSuffixMessage}"></span>
                                     </div>
                                     <div class="col-sm-12 col-xs-12"
-                                         th:if="${content.myself.skill.code == 'DETECTIVE'}">
+                                         th:if="${content.myself.skill.hasInvestigateAbility}">
                                         <select class="form-control" th:field="*{footstep}" data-ability-target-select>
                                             <option th:each="target : ${content.form.ability.abilityTargetList}"
                                                     th:value="${target.value}" th:text="${target.name}"></option>
@@ -126,7 +126,7 @@
                             </form>
                             <!--/* 探偵で候補なし */-->
                             <p class="small"
-                               th:if="${content.myself.skill.code == 'DETECTIVE' && content.form.ability.abilityTargetList != null && content.form.ability.abilityTargetList.size() == 0}">
+                               th:if="${content.myself.skill.hasInvestigateAbility && content.form.ability.abilityTargetList != null && content.form.ability.abilityTargetList.size() == 0}">
                                 調査対象の足音がないため、本日は能力セットできません。</p>
                             <!--/* 狂人、妖狐用能力セット */-->
                             <form method="post" action=""

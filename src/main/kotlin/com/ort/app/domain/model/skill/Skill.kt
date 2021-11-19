@@ -34,6 +34,7 @@ data class Skill(
     fun hasDivineAbility(): Boolean = toCdef().isHasDivineAbility
     fun hasDisturbAbility(): Boolean = toCdef().isHasDisturbAbility
     fun hasSkillPsychicAbility(): Boolean = toCdef().isHasSkillPsychicAbility
+    fun hasInvestigateAbility(): Boolean = toCdef() == CDef.Skill.探偵 || toCdef() == CDef.Skill.監視者
     fun isViewableWolfCharaName(): Boolean = toCdef().isViewableWolfCharaName
     fun isViewablePsychicMessage(): Boolean = toCdef() == CDef.Skill.霊能者
     fun isViewableGuruMessage(): Boolean = toCdef().isHasSkillPsychicAbility

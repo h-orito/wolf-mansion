@@ -33,6 +33,8 @@
        th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' の部屋の壁を殴る'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'DETECTIVE'}"
        th:text="${'現在の選択: ' + (footstep == null ? 'なし' : (footstep + ' を調査する'))}"></p>
+    <p class="small" th:if="${content.myself.skill.code == 'OBSERVER'}"
+       th:text="${'現在の選択: ' + (footstep == null ? 'なし' : (footstep + ' を調査する'))}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'TRAPPER'}"
        th:text="'現在の選択: ' + ${targetCharaName == '' || targetCharaName == null ? '罠を設置しない' : targetCharaName + ' の部屋に罠を設置する'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'BOMBER'}"
