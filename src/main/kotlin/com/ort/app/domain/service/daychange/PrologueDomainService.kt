@@ -1,11 +1,10 @@
 package com.ort.app.domain.service.daychange
 
-import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.Charas
 import com.ort.app.domain.model.daychange.Daychange
+import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.MessageContent
 import com.ort.app.domain.model.village.Village
-import com.ort.app.domain.model.village.VillageStatus
 import com.ort.app.domain.service.MessageDomainService
 import com.ort.app.domain.service.ability.AbilityDomainService
 import com.ort.app.domain.service.room.RoomDomainService
@@ -75,6 +74,8 @@ class PrologueDomainService(
         daychange = skillAssignDomainService.assign(daychange)
         // 部屋割り当て
         daychange = roomDomainService.assign(daychange)
+        // 自動設定変更
+        daychange = updateVillageSettingsIfNeeded(daychange)
         // 絶対人狼や梟のメッセージ
         daychange = abilityDomainService.addOpenSkillMessages(daychange)
         // 村ステータス更新
@@ -87,6 +88,30 @@ class PrologueDomainService(
         daychange = addStartTweet(daychange)
 
         return daychange
+    }
+
+    private fun updateVillageSettingsIfNeeded(daychange: Daychange): Daychange {
+        var village = daychange.village.copy()
+        var messages = daychange.messages.copy()
+
+        // 襲撃役が2名以下の場合は連続襲撃ありにする
+        if (!village.setting.rule.isAvailableSameWolfAttack && village.participants.list.count { it.skill!!.hasAttackAbility() } < 3) {
+            village = village.copy(
+                setting = village.setting.copy(
+                    rule = village.setting.rule.copy(
+                        isAvailableSameWolfAttack = true
+                    )
+                )
+            )
+            messages = messages.add(
+                Message.ofSystemMessage(
+                    day = village.latestDay(),
+                    message = "人狼の人数が3名より少ないため、同一人狼による連続襲撃を「可能」に変更します。"
+                )
+            )
+        }
+
+        return daychange.copy(village = village, messages = messages)
     }
 
     private fun addDummyCharaMessage(daychange: Daychange, charas: Charas): Daychange {
