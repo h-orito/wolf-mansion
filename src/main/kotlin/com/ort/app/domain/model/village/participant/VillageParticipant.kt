@@ -129,7 +129,7 @@ data class VillageParticipant(
 
     fun canChangeName(isEpilogue: Boolean): Boolean = !dead.isDead || !dead.reason!!.isSuddenly() || isEpilogue
 
-    fun isViewableSpoilerContent(isOpenSkillInGrave: Boolean): Boolean = (isDead() && isOpenSkillInGrave) || isSpectator
+    fun isViewableSpoilerContent(isOpenSkillInGrave: Boolean): Boolean = isOpenSkillInGrave && (isDead() || isSpectator)
 
     fun getTargetCohabitor(village: Village): VillageParticipant? {
         return getTargetLovers(village).filterBySkill(Skill(CDef.Skill.同棲者)).list.firstOrNull()

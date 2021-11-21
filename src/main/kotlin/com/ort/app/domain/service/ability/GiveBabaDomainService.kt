@@ -29,6 +29,8 @@ class GiveBabaDomainService(
     ): List<VillageParticipant> {
         // ババになったことがない人
         return village.participants
+            .filterAlive()
+            .sortedByRoomNumber()
             .filterNotDummy(village.dummyParticipant()).list
             .filterNot {
                 it.skill!!.histories.list.any { h -> h.skill.toCdef() == CDef.Skill.ババ }
