@@ -82,6 +82,7 @@
                         </div>
                     </form>
                     <form method="post" action=""
+                          th:if="${creatorSayForm}"
                           th:action="@{/village/{villageId}/creator-say-confirm(villageId=${content.villageId})}"
                           th:object="${creatorSayForm}" class="form-horizontal" style="margin-top: 10px;">
                         <span th:if="${#fields.hasErrors('message')}" th:errors="*{message}"

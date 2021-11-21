@@ -274,7 +274,9 @@ class VillageControllerHelper(
         if (!situation.creator.isCreator) return
         model.addAttribute("canShortenEpilogue", village.canShortenEpilogue())
         model.addAttribute("kickForm", VillageKickForm())
-        model.addAttribute("creatorSayForm", VillageSayForm())
+        if (situation.creator.isAvailableCreatorSay) {
+            model.addAttribute("creatorSayForm", VillageSayForm())
+        }
     }
 
     private fun setDebug(village: Village, model: Model) {
