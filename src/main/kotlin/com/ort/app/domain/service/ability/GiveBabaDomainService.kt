@@ -117,21 +117,20 @@ class GiveBabaDomainService(
         village.participants.filterAlive().filterBySkill(CDef.Skill.ババ.toModel()).list.shuffled().forEach { baba ->
             val ability = daychange.abilities.findYesterday(village, baba, abilityType) ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
+            messages = messages.add(
+                messageDomainService.createPrivateAbilityMessage(
+                    village = village,
+                    myself = baba,
+                    text = createGiveBabaMessage(baba, target),
+                    messageType = CDef.MessageType.非公開システムメッセージ.toModel()
+                )
+            )
             // 既に死亡していたり同棲者の場合は交換しない
-            val messageText = createGiveBabaMessage(baba, target)
             if (target.isDead() || target.skill!!.toCdef() == CDef.Skill.同棲者) return@forEach
             // 役職交換
             val targetSkill = target.skill
             village = village.assignParticipantSkill(baba.id, targetSkill)
             village = village.assignParticipantSkill(target.id, CDef.Skill.ババ.toModel())
-            messages = messages.add(
-                messageDomainService.createPrivateAbilityMessage(
-                    village = village,
-                    myself = baba,
-                    text = messageText,
-                    messageType = CDef.MessageType.非公開システムメッセージ.toModel()
-                )
-            )
         }
 
         return daychange.copy(messages = messages, village = village)
