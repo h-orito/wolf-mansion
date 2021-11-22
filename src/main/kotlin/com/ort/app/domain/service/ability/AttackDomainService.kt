@@ -133,11 +133,12 @@ class AttackDomainService(
             throw WolfMansionBusinessException("選択できない襲撃者を指定しています")
         }
         // 襲撃対象
-        if (getSelectableTargetList(village, myself, abilities).none { it.charaId == targetCharaId }) {
+        val attacker = village.participants.chara(charaId!!)
+        if (getSelectableTargetList(village, attacker, abilities).none { it.charaId == targetCharaId }) {
             throw WolfMansionBusinessException("選択できない対象を指定しています")
         }
         // 足音
-        footstepDomainService.assertFootstep(village, charaId!!, targetCharaId, footstep)
+        footstepDomainService.assertFootstep(village, charaId, targetCharaId, footstep)
     }
 
     override fun createSetMessageText(
