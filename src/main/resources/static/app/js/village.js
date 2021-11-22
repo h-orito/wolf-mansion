@@ -379,7 +379,7 @@ $(function () {
                         break;
                     case 'LOVERS_SAY':
                         $sayTextarea.addClass('message-lover');
-                        changeFaceTypeIfNeeded('SECRET');
+                        changeFaceTypeIfNeeded('LOVER');
                         break;
                     case 'TELEPATHY':
                         $sayTextarea.addClass('message-telepathy');
