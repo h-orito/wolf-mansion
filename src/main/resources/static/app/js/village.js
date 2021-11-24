@@ -1057,9 +1057,9 @@ $(function () {
         const $table = $('#tab-votelist table');
         let voteList = makeVoteList();
         voteList.sort(function (a, b) {
-            // クリックした日の昇順→投票した回数の降順→部屋番号順
-            let a_vote_target = a.votes.length < sortIndex + 1 ? 99 : parseInt(a.votes[sortIndex].substr(0, 2));
-            let b_vote_target = b.votes.length < sortIndex + 1 ? 99 : parseInt(b.votes[sortIndex].substr(0, 2));
+            // クリックした日の昇順 → 投票した回数の降順 → 部屋番号順
+            let a_vote_target = a.votes[sortIndex] === '' ? 99 : a.votes.count < sortIndex + 1 ? 99 : parseInt(a.votes[sortIndex].substr(0, 2));
+            let b_vote_target = b.votes[sortIndex] === '' ? 99 : b.votes.count < sortIndex + 1 ? 99 : parseInt(b.votes[sortIndex].substr(0, 2));
             if (a_vote_target < b_vote_target) {
                 return -1;
             } else if (a_vote_target > b_vote_target) {
@@ -1082,6 +1082,7 @@ $(function () {
 
     $('body').on('click', '#tab-votelist table tbody td', function () {
         const target = $(this).text();
+        if (target === '') return;
         // すでに色がついているところだったら消して終了
         if ($(this).hasClass('bg-info')) {
             $('#tab-votelist table td').each(function () {
@@ -1104,10 +1105,12 @@ $(function () {
         $table.find('tbody').find('tr').each(function () {
             const $tr = $(this);
             let vote = {
-                votes: []
+                votes: [],
+                count: 0
             };
             $tr.find('td').each(function (idx, elm) {
                 vote.votes.push($(elm).text());
+                vote.count++;
             });
             voteList.push(vote);
         });
@@ -1440,7 +1443,7 @@ $(function () {
     // ----------------------------------------------
     // 文字装飾
     // ----------------------------------------------
-    $('body').on('click', '[data-random-tag-area] label', function(){
+    $('body').on('click', '[data-random-tag-area] label', function () {
         const $textarea = $('[data-say-textarea]');
         const type = $(this).data('tag-type');
         const tagName = $(this).data('tag-name');

@@ -5,7 +5,6 @@ import com.ort.app.api.view.village.VillageFormContent
 import com.ort.app.api.view.village.VillageMemberContent
 import com.ort.app.api.view.village.VillageRoomAssignedRow
 import com.ort.app.api.view.village.VillageSettingsContent
-import com.ort.app.domain.model.chara.Charachip
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.randomkeyword.RandomKeywords
 import com.ort.app.domain.model.situation.ParticipantSituation
@@ -235,7 +234,7 @@ data class VillageContent(
                 VillageMemberVoteContent(village, it)
             }
         ) {
-            maxVoteCount = voteList.maxBy { it.voteTargetList.size }?.voteTargetList?.size ?: 0
+            maxVoteCount = voteList.maxByOrNull { it.voteTargetList.size }?.voteTargetList?.size ?: 0
         }
 
         data class VillageMemberVoteContent(
@@ -249,8 +248,11 @@ data class VillageContent(
                 villageMemberVotes: VillageMemberVotes
             ) : this(
                 charaName = villageMemberVotes.participant.shortName(),
-                voteTargetList = villageMemberVotes.voteList
-                    .map { village.participants.chara(it.targetCharaId).shortNameWhen(it.day - 1) }
+                voteTargetList = (2 until village.latestDay()).map { day ->
+                    villageMemberVotes.voteList.find { it.day == day }?.let { vote ->
+                        village.participants.chara(vote.targetCharaId).shortName()
+                    } ?: ""
+                }
             )
         }
     }
