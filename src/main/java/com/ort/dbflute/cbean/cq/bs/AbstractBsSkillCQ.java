@@ -399,6 +399,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 弁護士 (LAWYER). And OnlyOnceRegistered. <br>
+     * 弁護士
+     */
+    public void setSkillCode_Equal_弁護士() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.弁護士);
+    }
+
+    /**
      * Equal(=). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
      * おまかせ
      */
@@ -460,6 +468,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_Equal_共鳴者() {
         setSkillCode_Equal_AsSkill(CDef.Skill.共鳴者);
+    }
+
+    /**
+     * Equal(=). As 市長 (MAYOR). And OnlyOnceRegistered. <br>
+     * 市長
+     */
+    public void setSkillCode_Equal_市長() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.市長);
     }
 
     /**
@@ -1014,6 +1030,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 弁護士 (LAWYER). And OnlyOnceRegistered. <br>
+     * 弁護士
+     */
+    public void setSkillCode_NotEqual_弁護士() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.弁護士);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
      * おまかせ
      */
@@ -1075,6 +1099,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_共鳴者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.共鳴者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 市長 (MAYOR). And OnlyOnceRegistered. <br>
+     * 市長
+     */
+    public void setSkillCode_NotEqual_市長() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.市長);
     }
 
     /**

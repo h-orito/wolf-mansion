@@ -1536,6 +1536,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 弁護士 (LAWYER). And OnlyOnceRegistered. <br>
+     * 弁護士
+     */
+    public void setSkillCode_Equal_弁護士() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.弁護士);
+    }
+
+    /**
      * Equal(=). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
      * おまかせ
      */
@@ -1597,6 +1605,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_Equal_共鳴者() {
         setSkillCode_Equal_AsSkill(CDef.Skill.共鳴者);
+    }
+
+    /**
+     * Equal(=). As 市長 (MAYOR). And OnlyOnceRegistered. <br>
+     * 市長
+     */
+    public void setSkillCode_Equal_市長() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.市長);
     }
 
     /**
@@ -2151,6 +2167,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 弁護士 (LAWYER). And OnlyOnceRegistered. <br>
+     * 弁護士
+     */
+    public void setSkillCode_NotEqual_弁護士() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.弁護士);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
      * おまかせ
      */
@@ -2212,6 +2236,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_共鳴者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.共鳴者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 市長 (MAYOR). And OnlyOnceRegistered. <br>
+     * 市長
+     */
+    public void setSkillCode_NotEqual_市長() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.市長);
     }
 
     /**
@@ -2953,6 +2985,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 弁護士 (LAWYER). And OnlyOnceRegistered. <br>
+     * 弁護士
+     */
+    public void setRequestSkillCode_Equal_弁護士() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.弁護士);
+    }
+
+    /**
      * Equal(=). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
      * おまかせ
      */
@@ -3014,6 +3054,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_Equal_共鳴者() {
         setRequestSkillCode_Equal_AsSkill(CDef.Skill.共鳴者);
+    }
+
+    /**
+     * Equal(=). As 市長 (MAYOR). And OnlyOnceRegistered. <br>
+     * 市長
+     */
+    public void setRequestSkillCode_Equal_市長() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.市長);
     }
 
     /**
@@ -3568,6 +3616,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 弁護士 (LAWYER). And OnlyOnceRegistered. <br>
+     * 弁護士
+     */
+    public void setRequestSkillCode_NotEqual_弁護士() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.弁護士);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
      * おまかせ
      */
@@ -3629,6 +3685,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_共鳴者() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.共鳴者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 市長 (MAYOR). And OnlyOnceRegistered. <br>
+     * 市長
+     */
+    public void setRequestSkillCode_NotEqual_市長() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.市長);
     }
 
     /**
@@ -4370,6 +4434,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 弁護士 (LAWYER). And OnlyOnceRegistered. <br>
+     * 弁護士
+     */
+    public void setSecondRequestSkillCode_Equal_弁護士() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.弁護士);
+    }
+
+    /**
      * Equal(=). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
      * おまかせ
      */
@@ -4431,6 +4503,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_Equal_共鳴者() {
         setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.共鳴者);
+    }
+
+    /**
+     * Equal(=). As 市長 (MAYOR). And OnlyOnceRegistered. <br>
+     * 市長
+     */
+    public void setSecondRequestSkillCode_Equal_市長() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.市長);
     }
 
     /**
@@ -4985,6 +5065,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 弁護士 (LAWYER). And OnlyOnceRegistered. <br>
+     * 弁護士
+     */
+    public void setSecondRequestSkillCode_NotEqual_弁護士() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.弁護士);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As おまかせ (LEFTOVER). And OnlyOnceRegistered. <br>
      * おまかせ
      */
@@ -5046,6 +5134,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_共鳴者() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.共鳴者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 市長 (MAYOR). And OnlyOnceRegistered. <br>
+     * 市長
+     */
+    public void setSecondRequestSkillCode_NotEqual_市長() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.市長);
     }
 
     /**

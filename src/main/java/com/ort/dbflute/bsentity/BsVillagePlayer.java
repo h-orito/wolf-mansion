@@ -709,6 +709,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 弁護士 (LAWYER). <br>
+     * 弁護士
+     */
+    public void setSkillCode_弁護士() {
+        setSkillCodeAsSkill(CDef.Skill.弁護士);
+    }
+
+    /**
      * Set the value of skillCode as おまかせ (LEFTOVER). <br>
      * おまかせ
      */
@@ -770,6 +778,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSkillCode_共鳴者() {
         setSkillCodeAsSkill(CDef.Skill.共鳴者);
+    }
+
+    /**
+     * Set the value of skillCode as 市長 (MAYOR). <br>
+     * 市長
+     */
+    public void setSkillCode_市長() {
+        setSkillCodeAsSkill(CDef.Skill.市長);
     }
 
     /**
@@ -1301,6 +1317,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 弁護士 (LAWYER). <br>
+     * 弁護士
+     */
+    public void setRequestSkillCode_弁護士() {
+        setRequestSkillCodeAsSkill(CDef.Skill.弁護士);
+    }
+
+    /**
      * Set the value of requestSkillCode as おまかせ (LEFTOVER). <br>
      * おまかせ
      */
@@ -1362,6 +1386,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setRequestSkillCode_共鳴者() {
         setRequestSkillCodeAsSkill(CDef.Skill.共鳴者);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 市長 (MAYOR). <br>
+     * 市長
+     */
+    public void setRequestSkillCode_市長() {
+        setRequestSkillCodeAsSkill(CDef.Skill.市長);
     }
 
     /**
@@ -1893,6 +1925,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of secondRequestSkillCode as 弁護士 (LAWYER). <br>
+     * 弁護士
+     */
+    public void setSecondRequestSkillCode_弁護士() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.弁護士);
+    }
+
+    /**
      * Set the value of secondRequestSkillCode as おまかせ (LEFTOVER). <br>
      * おまかせ
      */
@@ -1954,6 +1994,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_共鳴者() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.共鳴者);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 市長 (MAYOR). <br>
+     * 市長
+     */
+    public void setSecondRequestSkillCode_市長() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.市長);
     }
 
     /**
@@ -2734,6 +2782,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of skillCode 弁護士? <br>
+     * 弁護士
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode弁護士() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.弁護士) : false;
+    }
+
+    /**
      * Is the value of skillCode おまかせ? <br>
      * おまかせ
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -2819,6 +2878,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode共鳴者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.共鳴者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 市長? <br>
+     * 市長
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode市長() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.市長) : false;
     }
 
     /**
@@ -3668,6 +3738,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 弁護士? <br>
+     * 弁護士
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode弁護士() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.弁護士) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode おまかせ? <br>
      * おまかせ
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -3753,6 +3834,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isRequestSkillCode共鳴者() {
         CDef.Skill cdef = getRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.共鳴者) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 市長? <br>
+     * 市長
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode市長() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.市長) : false;
     }
 
     /**
@@ -4602,6 +4694,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of secondRequestSkillCode 弁護士? <br>
+     * 弁護士
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode弁護士() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.弁護士) : false;
+    }
+
+    /**
      * Is the value of secondRequestSkillCode おまかせ? <br>
      * おまかせ
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -4687,6 +4790,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode共鳴者() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.共鳴者) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 市長? <br>
+     * 市長
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode市長() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.市長) : false;
     }
 
     /**

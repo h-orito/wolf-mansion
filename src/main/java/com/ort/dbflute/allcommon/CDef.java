@@ -655,6 +655,9 @@ public interface CDef extends Classification {
         /** 金狼 */
         金狼("KINWOLF", "金狼", emptyStrings())
         ,
+        /** 弁護士 */
+        弁護士("LAWYER", "弁護士", emptyStrings())
+        ,
         /** おまかせ */
         おまかせ("LEFTOVER", "おまかせ", emptyStrings())
         ,
@@ -678,6 +681,9 @@ public interface CDef extends Classification {
         ,
         /** 共鳴者 */
         共鳴者("MASON", "共鳴者", emptyStrings())
+        ,
+        /** 市長 */
+        市長("MAYOR", "市長", emptyStrings())
         ,
         /** 霊能者 */
         霊能者("MEDIUM", "霊能者", emptyStrings())
@@ -1058,6 +1064,13 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "28");
+                subItemMap.put("campCode", "VILLAGER");
+                subItemMap.put("skill_short_name", "弁");
+                _subItemMapMap.put(弁護士.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
                 subItemMap.put("order", "1000");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "お");
@@ -1111,6 +1124,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "共");
                 _subItemMapMap.put(共鳴者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "29");
+                subItemMap.put("campCode", "VILLAGER");
+                subItemMap.put("skill_short_name", "市");
+                _subItemMapMap.put(市長.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();

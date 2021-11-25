@@ -27,11 +27,9 @@ class ExecuteDomainService(
 
         // 処刑人数
         val executeCount = village.participants.filterAlive().filterBySkill(CDef.Skill.執行人.toModel()).list.size + 1
-
-        val votedCountMap = votes.groupBy { it.targetCharaId }
-            .map { (targetCharaId, voteList) -> village.participants.chara(targetCharaId) to voteList.size }
-            .toMap()
-
+        // 被投票数
+        val votedCountMap = calculateVoteCount(village, votes)
+        // 処刑される人
         val executedParticipants = decideExecutedParticipants(votedCountMap, executeCount)
 
         executedParticipants.forEach {
@@ -45,11 +43,31 @@ class ExecuteDomainService(
         return daychange.copy(village = village, messages = messages)
     }
 
+    private fun calculateVoteCount(village: Village, votes: List<Vote>): Map<VillageParticipant, Int> {
+        val votedCountMap = votes.groupBy { it.targetCharaId }
+            .map { (targetCharaId, voteList) -> village.participants.chara(targetCharaId) to voteList.size }
+            .toMap().toMutableMap()
+        // 市長が投票した人は+1
+        village.participants.filterAlive().filterBySkill(CDef.Skill.市長.toModel()).list.forEach { mayor ->
+            val voteTargetCharaId = votes.first { it.charaId == mayor.charaId }.targetCharaId
+            val voteTarget = village.participants.chara(voteTargetCharaId)
+            votedCountMap[voteTarget] = votedCountMap[voteTarget]!!.plus(1)
+        }
+        // 弁護士が投票した人は-3
+        village.participants.filterAlive().filterBySkill(CDef.Skill.弁護士.toModel()).list.forEach { lawyer ->
+            val voteTargetCharaId = votes.first { it.charaId == lawyer.charaId }.targetCharaId
+            val voteTarget = village.participants.chara(voteTargetCharaId)
+            votedCountMap[voteTarget] = votedCountMap[voteTarget]!!.minus(3)
+        }
+
+        return votedCountMap
+    }
+
     private fun decideExecutedParticipants(
         votedMap: Map<VillageParticipant, Int>,
         executeCount: Int
     ): List<VillageParticipant> {
-        val map = votedMap.toMutableMap()
+        val map = votedMap.filterNot { it.value <= 0 }.toMutableMap()
         val executed = mutableListOf<VillageParticipant>()
         repeat(executeCount) {
             decideExecutedParticipant(map)?.let {
@@ -94,15 +112,20 @@ class ExecuteDomainService(
         votedCountMap: Map<VillageParticipant, Int>,
         executedParticipants: List<VillageParticipant>
     ): Message {
+        val postfix = if (executedParticipants.isEmpty()) {
+            "\n\n本日は処刑が行われなかった。"
+        } else {
+            "\n\n${executedParticipants.joinToString(separator = "、") { it.name() }}は村人達の手により処刑された。"
+        }
         val text = votedCountMap.entries
             .sortedWith(
                 compareByDescending<Map.Entry<VillageParticipant, Int>> { it.value }
                     .thenBy { it.key.room!!.number })
             .joinToString(
                 separator = "\n",
-                postfix = "\n\n${executedParticipants.joinToString(separator = "、") { it.name() }}は村人達の手により処刑された。"
+                postfix = postfix
             ) { (participant, count) ->
-                "${participant.name()}、${count}票"
+                "${participant.name()}、${if (count >= 0) count else 0}票"
             }
         return messageDomainService.createExecuteMessage(village, text)
     }
