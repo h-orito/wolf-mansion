@@ -157,7 +157,7 @@ class BombDomainService(
 
             // 通過した人は死亡
             passedParticipants.forEach {
-                village = village.trapKillParticipant(it.id)
+                village = village.bombKillParticipant(it.id)
                 deadParticipants.add(it)
             }
             // 通過した人がいれば設置された部屋の人も死亡、いなければ爆弾魔が死亡
