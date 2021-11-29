@@ -118,7 +118,7 @@ class HuntingDomainService(
     fun hunting(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
-        village.participants.filterAlive().filterBySkill(CDef.Skill.マタギ.toModel()).list.forEach {
+        village.participants.filterAlive().filterBySkill(CDef.Skill.マタギ.toModel()).list.shuffled().forEach {
             val ability = daychange.abilities.findYesterday(village, it, abilityType)
                 ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
