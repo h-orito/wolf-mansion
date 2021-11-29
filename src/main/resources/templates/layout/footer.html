@@ -1,93 +1,106 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>フッター</title>
-<link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}" />
-<link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" />
-<!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
-	crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
-	integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-<script src="../../static/lib/bootstrap/js/bootstrap.min.js" th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
-<script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js" th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
-<script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>フッター</title>
+    <link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}"/>
+    <link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css"
+          th:href="@{/lib/bootstrap/css/bootstrap.min.css}"/>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+            integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+            integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+            crossorigin="anonymous"></script>
+    <script src="../../static/lib/bootstrap/js/bootstrap.min.js"
+            th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+    <script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js"
+            th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
+    <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-	<footer class="col-sm-12 col-xs-12" layout:fragment="footer">
-		<div class="row">
-			<div class="col-sm-12 col-xs-12 crearfix" th:unless="${noAd}" style="margin-top: 15px;">
-				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-				<!-- werewolf-mansion footer -->
-				<ins class="adsbygoogle" style="display: block" data-ad-client="ca-pub-0917187897820609" data-ad-slot="1022209690" data-ad-format="auto"></ins>
-				<script>
-					(adsbygoogle = window.adsbygoogle || []).push({});
-				</script>
-			</div>
-			<div class="col-sm-12 col-xs-12 crearfix">
-				<hr />
-				<p>
-					要望、改善提案、不具合報告はTwitter<a href="https://twitter.com/ort_dev" target="_blank">@ort_dev</a>までお願いします。<br /> 投げ銭いただける方は<a href="javascript:void(0);"
-						data-toggle="modal" data-target="#kampa-modal">こちら</a>からお願いします。<br />
-				</p>
-			</div>
-			<div class="modal fade" id="kampa-modal" tabindex="-1">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">
-								<span>×</span>
-							</button>
-							<h4 class="modal-title">投げ銭について</h4>
-						</div>
-						<div class="modal-body">
-							<h4>匿名でAmazonギフトカードを送る</h4>
-							<ul>
-								<li>Amazonギフトカードによる投げ銭（15円〜、手数料なし）になります。</li>
-								<li>Kampa!というサービスを利用することで、個人情報をやりとりすることなくAmazonギフトカードで投げ銭することができます。</li>
-								<li>投げ銭していただける方は下記手順にてお願いします。<br>
-									<ol>
-										<li>最下段の「Amazonギフトカードで投げ銭」よりKampa!サイトへ遷移</li>
-										<li>表示されたページのメールアドレスをコピーし、Kampa!ボタンをクリック</li>
-										<li>「金額」に投げ銭していただける金額を入力、「受取人」にコピーしたメールアドレスを貼り付けし、購入 （応援メッセージをいただけると喜びます）</li>
-									</ol>
-								</li>
-								<li class="text-danger">Amazonページ遷移時、デフォルトは10,000円に設定されており、 Amazonにログインしている場合は贈り主に氏名が自動入力されているようなのでご注意ください。※金額は15円〜で設定可能です。</li>
-							</ul>
-							<div class="clearfix">
-								<a href="http://kampa.me/t/lxc" target="_blank" class="btn btn-sm btn-success pull-right">Amazonギフトカードで投げ銭する</a>
-							</div>
-							<h4>Amazonほしい物リストから送る</h4>
-							<ul>
-								<li>Amazonほしいものリストから選んで開発者に送ることができます。</li>
-							</ul>
-							<div class="clearfix">
-								<a href="https://www.amazon.jp/hz/wishlist/ls/1KZSJAJS1ETW4?ref_=wl_share" target="_blank" class="btn btn-sm btn-success pull-right">Amazonほしいものリストから送る</a>
-							</div>
-							<h4>Amazonアソシエイト経由で買い物をする</h4>
-							<ul>
-								<li>下記からAmazonに遷移してカートに追加＆購入すると、開発者に若干の紹介料が入ります。</li>
-							</ul>
-							<div class="clearfix">
-								<iframe
-									src="https://rcm-fe.amazon-adsystem.com/e/cm?o=9&p=20&l=ez&f=ifr&linkID=c5438f7fc033eeee42260876403c6c51&t=wolfort0d-22&tracking_id=wolfort0d-22"
-									width="120" height="90" scrolling="no" border="0" marginwidth="0" style="border: none;" frameborder="0"></iframe>
-							</div>
-							<h4>補足</h4>
-							<ul>
-								<li>頂いた改善提案、ご要望については投げ銭の有無に関係なく積極的に取り入れていくので、Twitter<a href="https://twitter.com/ort_dev" target="_blank">@ort_dev</a>までお願いします。
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</footer>
+<footer class="col-sm-12 col-xs-12" layout:fragment="footer">
+    <div class="row">
+        <div class="col-sm-12 col-xs-12 crearfix" th:unless="${noAd}" style="margin-top: 15px;">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- werewolf-mansion footer -->
+            <ins class="adsbygoogle" style="display: block" data-ad-client="ca-pub-0917187897820609"
+                 data-ad-slot="1022209690" data-ad-format="auto"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+        <div class="col-sm-12 col-xs-12 crearfix">
+            <hr/>
+            <p>
+                要望、改善提案、不具合報告はTwitter<a href="https://twitter.com/ort_dev" target="_blank">@ort_dev</a>までお願いします。<br/>
+                投げ銭いただける方は<a href="javascript:void(0);" data-toggle="modal"
+                             data-target="#kampa-modal">こちら</a>からお願いします。<br/>
+                © 2018- ort（<a href="https://github.com/h-orito/wolf-mansion" target="_blank">Github</a>）
+            </p>
+        </div>
+        <div class="modal fade" id="kampa-modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>×</span>
+                        </button>
+                        <h4 class="modal-title">投げ銭について</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4>匿名でAmazonギフトカードを送る</h4>
+                        <ul>
+                            <li>Amazonギフトカードによる投げ銭（15円〜、手数料なし）になります。</li>
+                            <li>Kampa!というサービスを利用することで、個人情報をやりとりすることなくAmazonギフトカードで投げ銭することができます。</li>
+                            <li>投げ銭していただける方は下記手順にてお願いします。<br>
+                                <ol>
+                                    <li>最下段の「Amazonギフトカードで投げ銭」よりKampa!サイトへ遷移</li>
+                                    <li>表示されたページのメールアドレスをコピーし、Kampa!ボタンをクリック</li>
+                                    <li>「金額」に投げ銭していただける金額を入力、「受取人」にコピーしたメールアドレスを貼り付けし、購入 （応援メッセージをいただけると喜びます）</li>
+                                </ol>
+                            </li>
+                            <li class="text-danger">Amazonページ遷移時、デフォルトは10,000円に設定されており、
+                                Amazonにログインしている場合は贈り主に氏名が自動入力されているようなのでご注意ください。※金額は15円〜で設定可能です。
+                            </li>
+                        </ul>
+                        <div class="clearfix">
+                            <a href="http://kampa.me/t/lxc" target="_blank" class="btn btn-sm btn-success pull-right">Amazonギフトカードで投げ銭する</a>
+                        </div>
+                        <h4>Amazonほしい物リストから送る</h4>
+                        <ul>
+                            <li>Amazonほしいものリストから選んで開発者に送ることができます。</li>
+                        </ul>
+                        <div class="clearfix">
+                            <a href="https://www.amazon.jp/hz/wishlist/ls/1KZSJAJS1ETW4?ref_=wl_share" target="_blank"
+                               class="btn btn-sm btn-success pull-right">Amazonほしいものリストから送る</a>
+                        </div>
+                        <h4>Amazonアソシエイト経由で買い物をする</h4>
+                        <ul>
+                            <li>下記からAmazonに遷移してカートに追加＆購入すると、開発者に若干の紹介料が入ります。</li>
+                        </ul>
+                        <div class="clearfix">
+                            <iframe
+                                    src="https://rcm-fe.amazon-adsystem.com/e/cm?o=9&p=20&l=ez&f=ifr&linkID=c5438f7fc033eeee42260876403c6c51&t=wolfort0d-22&tracking_id=wolfort0d-22"
+                                    width="120" height="90" scrolling="no" border="0" marginwidth="0"
+                                    style="border: none;" frameborder="0"></iframe>
+                        </div>
+                        <h4>補足</h4>
+                        <ul>
+                            <li>頂いた改善提案、ご要望については投げ銭の有無に関係なく積極的に取り入れていくので、Twitter<a href="https://twitter.com/ort_dev"
+                                                                                   target="_blank">@ort_dev</a>までお願いします。
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
