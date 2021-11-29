@@ -682,6 +682,9 @@ public interface CDef extends Classification {
         /** 共鳴者 */
         共鳴者("MASON", "共鳴者", emptyStrings())
         ,
+        /** マタギ */
+        マタギ("MATAGI", "マタギ", emptyStrings())
+        ,
         /** 市長 */
         市長("MAYOR", "市長", emptyStrings())
         ,
@@ -1124,6 +1127,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "共");
                 _subItemMapMap.put(共鳴者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "30");
+                subItemMap.put("campCode", "VILLAGER");
+                subItemMap.put("skill_short_name", "マ");
+                _subItemMapMap.put(マタギ.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -2079,6 +2089,9 @@ public interface CDef extends Classification {
         ,
         /** 護衛 */
         護衛("GUARD", "護衛", emptyStrings())
+        ,
+        /** 狩猟 */
+        狩猟("HUNTING", "狩猟", emptyStrings())
         ,
         /** 煽動 */
         煽動("INSTIGATE", "煽動", emptyStrings())

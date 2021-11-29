@@ -43,6 +43,8 @@
        th:text="'現在の選択: ' + ${targetCharaName == '' || targetCharaName == null ? '何もしない' : 'フルーツバスケットする！'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'LONEWOLF'}"
        th:text="'現在の選択: ' + ${targetCharaName == null ? '襲撃しない' : targetCharaName + ' を襲う' }"></p>
+    <p class="small" th:if="${content.myself.skill.code == 'MATAGI'}"
+       th:text="'現在の選択: ' + ${targetCharaName == null ? '狩猟しない' : targetCharaName + ' を狩猟する' }"></p>
     <p class="small" th:if="${content.myself.skill.code == 'COURTSHIP'}"
        th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' に求愛する'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'STALKER'}"

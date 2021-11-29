@@ -23,6 +23,7 @@ import com.ort.app.domain.service.ability.FruitsBasketDomainService
 import com.ort.app.domain.service.ability.GiveBabaDomainService
 import com.ort.app.domain.service.ability.GonfoxDomainService
 import com.ort.app.domain.service.ability.GuardDomainService
+import com.ort.app.domain.service.ability.HuntingDomainService
 import com.ort.app.domain.service.ability.InsuranceDomainService
 import com.ort.app.domain.service.ability.InvestigateDomainService
 import com.ort.app.domain.service.ability.LoneAttackDomainService
@@ -56,6 +57,7 @@ class ProgressDomainService(
     private val wandererDomainService: WandererDomainService,
     private val investigateDomainService: InvestigateDomainService,
     private val loneAttackDomainService: LoneAttackDomainService,
+    private val huntingDomainService: HuntingDomainService,
     private val seduceDomainService: SeduceDomainService,
     private val stalkingDomainService: StalkingDomainService,
     private val trapDomainService: TrapDomainService,
@@ -136,6 +138,8 @@ class ProgressDomainService(
         daychange = badgerGameDomainService.badgerGameAttack(daychange)
         // 単独襲撃
         daychange = loneAttackDomainService.loneAttack(daychange, charas)
+        // 狩猟
+        daychange = huntingDomainService.hunting(daychange)
         // 罠発動
         daychange = trapDomainService.trap(daychange)
         // 爆弾発動

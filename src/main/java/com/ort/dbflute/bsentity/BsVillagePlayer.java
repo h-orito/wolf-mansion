@@ -781,6 +781,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as マタギ (MATAGI). <br>
+     * マタギ
+     */
+    public void setSkillCode_マタギ() {
+        setSkillCodeAsSkill(CDef.Skill.マタギ);
+    }
+
+    /**
      * Set the value of skillCode as 市長 (MAYOR). <br>
      * 市長
      */
@@ -1389,6 +1397,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as マタギ (MATAGI). <br>
+     * マタギ
+     */
+    public void setRequestSkillCode_マタギ() {
+        setRequestSkillCodeAsSkill(CDef.Skill.マタギ);
+    }
+
+    /**
      * Set the value of requestSkillCode as 市長 (MAYOR). <br>
      * 市長
      */
@@ -1994,6 +2010,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_共鳴者() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.共鳴者);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as マタギ (MATAGI). <br>
+     * マタギ
+     */
+    public void setSecondRequestSkillCode_マタギ() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.マタギ);
     }
 
     /**
@@ -2878,6 +2902,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode共鳴者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.共鳴者) : false;
+    }
+
+    /**
+     * Is the value of skillCode マタギ? <br>
+     * マタギ
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCodeマタギ() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.マタギ) : false;
     }
 
     /**
@@ -3837,6 +3872,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode マタギ? <br>
+     * マタギ
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCodeマタギ() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.マタギ) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 市長? <br>
      * 市長
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -4790,6 +4836,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode共鳴者() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.共鳴者) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode マタギ? <br>
+     * マタギ
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCodeマタギ() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.マタギ) : false;
     }
 
     /**

@@ -828,6 +828,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 狩猟 (HUNTING). And OnlyOnceRegistered. <br>
+     * 狩猟
+     */
+    public void setAbilityTypeCode_Equal_狩猟() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.狩猟);
+    }
+
+    /**
      * Equal(=). As 煽動 (INSTIGATE). And OnlyOnceRegistered. <br>
      * 煽動
      */
@@ -1072,6 +1080,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_護衛() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.護衛);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 狩猟 (HUNTING). And OnlyOnceRegistered. <br>
+     * 狩猟
+     */
+    public void setAbilityTypeCode_NotEqual_狩猟() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.狩猟);
     }
 
     /**

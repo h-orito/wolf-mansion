@@ -38,6 +38,7 @@ class AbilityDomainService(
     private val wandererDomainService: WandererDomainService,
     private val investigateDomainService: InvestigateDomainService,
     private val loneAttackDomainService: LoneAttackDomainService,
+    private val huntingDomainService: HuntingDomainService,
     private val seduceDomainService: SeduceDomainService,
     private val stalkingDomainService: StalkingDomainService,
     private val trapDomainService: TrapDomainService,
@@ -137,6 +138,7 @@ class AbilityDomainService(
             CDef.AbilityType.ババを渡す -> giveBabaDomainService
             CDef.AbilityType.指差死 -> yubisashiDomainService
             CDef.AbilityType.保険 -> insuranceDomainService
+            CDef.AbilityType.狩猟 -> huntingDomainService
         }
 
     fun createSetMessage(

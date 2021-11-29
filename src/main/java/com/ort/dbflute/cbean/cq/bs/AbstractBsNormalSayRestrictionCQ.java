@@ -600,6 +600,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
     }
 
     /**
+     * Equal(=). As マタギ (MATAGI). And OnlyOnceRegistered. <br>
+     * マタギ
+     */
+    public void setSkillCode_Equal_マタギ() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.マタギ);
+    }
+
+    /**
      * Equal(=). As 市長 (MAYOR). And OnlyOnceRegistered. <br>
      * 市長
      */
@@ -1228,6 +1236,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
      */
     public void setSkillCode_NotEqual_共鳴者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.共鳴者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As マタギ (MATAGI). And OnlyOnceRegistered. <br>
+     * マタギ
+     */
+    public void setSkillCode_NotEqual_マタギ() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.マタギ);
     }
 
     /**
