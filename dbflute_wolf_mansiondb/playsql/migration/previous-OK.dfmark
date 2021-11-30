@@ -1,4 +1,4 @@
-[Saved Previous Resources]: 2021/11/14 19:12:43
+[Saved Previous Resources]: 2021/12/01 00:14:42
 playsql/migration/previous/replace-schema-10-basic.sql
 playsql/migration/previous/take-finally.sql
 playsql/migration/previous/data/ut/tsv/UTF-8/defaultValueMap.dataprop
@@ -13,6 +13,7 @@ playsql/migration/previous/data/common/tsv/UTF-8/05-MESSAGE_TYPE.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/defaultValueMap.dataprop
 playsql/migration/previous/data/common/tsv/UTF-8/09-CHARA_GROUP.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/02-CAMP.tsv
+playsql/migration/previous/data/common/tsv/UTF-8/13-VILLAGE_TAG_ITEM.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/tsv-data-result.dfmark
 playsql/migration/previous/data/common/tsv/UTF-8/08-DESIGNER.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/12-VILLAGE_PLAYER_STATUS_TYPE.tsv
@@ -20,6 +21,6 @@ playsql/migration/previous/data/common/tsv/UTF-8/07-ABILITY_TYPE.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/03-VILLAGE_STATUS.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/11-FACE_TYPE.tsv
 playsql/migration/previous/data/common/tsv/UTF-8/04-SKILL.tsv
-(21 files)
+(22 files)
 
 Look at the log for detail.

@@ -1127,6 +1127,51 @@
         <column comment="村ステータス名" dbType="VARCHAR" javaType="String"
             name="VILLAGE_STATUS_NAME" required="true" size="20" type="VARCHAR"/>
     </table>
+    <table comment="村タグ" name="VILLAGE_TAG"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column autoIncrement="true" comment="村タグID"
+            dbType="INT UNSIGNED" javaType="Integer"
+            name="VILLAGE_TAG_ID" pkName="PRIMARY" pkPosition="1"
+            primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="村ID" dbType="INT UNSIGNED" javaType="Integer"
+            name="VILLAGE_ID" required="true" size="10" type="INTEGER"/>
+        <column comment="村タグ種別コード" dbType="VARCHAR" javaType="String"
+            name="VILLAGE_TAG_ITEM_CODE" required="true" size="50" type="VARCHAR"/>
+        <column comment="登録日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="登録トレース" dbType="VARCHAR" javaType="String"
+            name="REGISTER_TRACE" required="true" size="64" type="VARCHAR"/>
+        <column comment="更新日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="UPDATE_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="更新トレース" dbType="VARCHAR" javaType="String"
+            name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="VILLAGE" name="FK_VILLAGE_TAG_VILLAGE">
+            <reference foreign="VILLAGE_ID" local="VILLAGE_ID"/>
+        </foreign-key>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="VILLAGE_TAG_ITEM" name="FK_VILLAGE_TAG_VILLAGE_TAG_ITEM">
+            <reference foreign="VILLAGE_TAG_ITEM_CODE" local="VILLAGE_TAG_ITEM_CODE"/>
+        </foreign-key>
+        <index name="FK_VILLAGE_TAG_VILLAGE">
+            <index-column name="VILLAGE_ID" position="1"/>
+        </index>
+        <index name="FK_VILLAGE_TAG_VILLAGE_TAG_ITEM">
+            <index-column name="VILLAGE_TAG_ITEM_CODE" position="1"/>
+        </index>
+    </table>
+    <table comment="村タグ種別" name="VILLAGE_TAG_ITEM"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column comment="村タグ種別コード" dbType="VARCHAR" javaType="String"
+            name="VILLAGE_TAG_ITEM_CODE" pkName="PRIMARY" pkPosition="1"
+            primaryKey="true" required="true" size="50" type="VARCHAR"/>
+        <column comment="村タグ種別名" dbType="VARCHAR" javaType="String"
+            name="VILLAGE_TAG_ITEM_NAME" required="true" size="50" type="VARCHAR"/>
+        <column comment="表示順" dbType="INT UNSIGNED" javaType="Integer"
+            name="DISP_ORDER" required="true" size="10" type="INTEGER"/>
+    </table>
     <table comment="投票" name="VOTE"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
         <column comment="村ID" dbType="INT UNSIGNED" javaType="Integer"

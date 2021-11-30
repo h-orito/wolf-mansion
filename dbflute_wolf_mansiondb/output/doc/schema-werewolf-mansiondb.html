@@ -761,7 +761,7 @@ pre.spolicyviodisp {
 		<td class="namecell" data-name="VILLAGE"><a href="#village" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=7, columnCount=12">VILLAGE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_status" title="FK_VILLAGE_VILLAGE_STATUS">VILLAGE_STATUS</a>, <a href="#camp" title="FK_VILLAGE_CAMP">CAMP</a></td>
-		<td class="relcell"><a href="#camp_allocation" title="FK_CAMP_ALLOCATION_VILLAGE">CAMP_ALLOCATION</a>, <a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_VILLAGE">NORMAL_SAY_RESTRICTION</a>, <a href="#skill_allocation" title="FK_SKILL_ALLOCATION_VILLAGE">SKILL_ALLOCATION</a>, <a href="#skill_say_restriction" title="FK_SKILL_SAY_RESTRICTION_VILLAGE">SKILL_SAY_RESTRICTION</a>, <a href="#village_chara_group" title="FK_VILLAGE_CHARA_GROUP_VILLAGE_ID">VILLAGE_CHARA_GROUP</a>, <a href="#village_day" title="FK_VILLAGE_DAY_VILLAGE">VILLAGE_DAY</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE_PLAYER</a>, <a href="#village_settings" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE_SETTINGS</a></td>
+		<td class="relcell"><a href="#camp_allocation" title="FK_CAMP_ALLOCATION_VILLAGE">CAMP_ALLOCATION</a>, <a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_VILLAGE">NORMAL_SAY_RESTRICTION</a>, <a href="#skill_allocation" title="FK_SKILL_ALLOCATION_VILLAGE">SKILL_ALLOCATION</a>, <a href="#skill_say_restriction" title="FK_SKILL_SAY_RESTRICTION_VILLAGE">SKILL_SAY_RESTRICTION</a>, <a href="#village_chara_group" title="FK_VILLAGE_CHARA_GROUP_VILLAGE_ID">VILLAGE_CHARA_GROUP</a>, <a href="#village_day" title="FK_VILLAGE_DAY_VILLAGE">VILLAGE_DAY</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE_PLAYER</a>, <a href="#village_settings" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE_SETTINGS</a>, <a href="#village_tag" title="FK_VILLAGE_TAG_VILLAGE">VILLAGE_TAG</a></td>
 		<td class="commentcell VILLAGE_comment"><pre>村</pre></td>
 		<td class="subcell">Village</td>
 		<td class="subcell">2017/12/20</td>
@@ -868,6 +868,26 @@ pre.spolicyviodisp {
 	</tr>
 	<tr>
 		<td class="rownumcell">36</td>
+		<td class="namecell" data-name="VILLAGE_TAG"><a href="#village_tag" title="type=TABLE, primaryKey={VILLAGE_TAG_ID}, nameLength=11, columnCount=7">VILLAGE_TAG</a></td>
+		<td class="typecell">TABLE</td>
+		<td class="relcell"><a href="#village" title="FK_VILLAGE_TAG_VILLAGE">VILLAGE</a>, <a href="#village_tag_item" title="FK_VILLAGE_TAG_VILLAGE_TAG_ITEM">VILLAGE_TAG_ITEM</a></td>
+		<td class="relcell">&nbsp;</td>
+		<td class="commentcell VILLAGE_TAG_comment"><pre>村タグ</pre></td>
+		<td class="subcell">VillageTag</td>
+		<td class="subcell">2021/11/30</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">37</td>
+		<td class="namecell" data-name="VILLAGE_TAG_ITEM"><a href="#village_tag_item" title="type=TABLE, primaryKey={VILLAGE_TAG_ITEM_CODE}, nameLength=16, columnCount=3">VILLAGE_TAG_ITEM</a></td>
+		<td class="typecell">TABLE</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#village_tag" title="FK_VILLAGE_TAG_VILLAGE_TAG_ITEM">VILLAGE_TAG</a></td>
+		<td class="commentcell VILLAGE_TAG_ITEM_comment"><pre>村タグ種別</pre></td>
+		<td class="subcell">VillageTagItem</td>
+		<td class="subcell">2021/11/30</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">38</td>
 		<td class="namecell" data-name="VOTE"><a href="#vote" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID}, nameLength=4, columnCount=8">VOTE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara" title="FK_VOTE_CHARA">CHARA</a>, <a href="#village_day" title="FK_VOTE_VILLAGE_DAY">VILLAGE_DAY</a>, <a href="#chara" title="FK_VOTE_CHARA_TO">CHARA</a></td>
@@ -4380,7 +4400,7 @@ VILLAGE
 		<td class="typecell">INT UNSIGNED</td>
 		<td class="sizecell"> 10 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell"><a href="#camp_allocation" title="FK_CAMP_ALLOCATION_VILLAGE">CAMP_ALLOCATION</a>,<br><a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_VILLAGE">NORMAL_SAY_RESTRICTION</a>,<br><a href="#skill_allocation" title="FK_SKILL_ALLOCATION_VILLAGE">SKILL_ALLOCATION</a>,<br><a href="#skill_say_restriction" title="FK_SKILL_SAY_RESTRICTION_VILLAGE">SKILL_SAY_RESTRICTION</a>,<br><a href="#village_chara_group" title="FK_VILLAGE_CHARA_GROUP_VILLAGE_ID">VILLAGE_CHARA_GROUP</a>,<br><a href="#village_day" title="FK_VILLAGE_DAY_VILLAGE">VILLAGE_DAY</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE_PLAYER</a>,<br><a href="#village_settings" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE_SETTINGS</a>&nbsp;</td>
+		<td class="relcell"><a href="#camp_allocation" title="FK_CAMP_ALLOCATION_VILLAGE">CAMP_ALLOCATION</a>,<br><a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_VILLAGE">NORMAL_SAY_RESTRICTION</a>,<br><a href="#skill_allocation" title="FK_SKILL_ALLOCATION_VILLAGE">SKILL_ALLOCATION</a>,<br><a href="#skill_say_restriction" title="FK_SKILL_SAY_RESTRICTION_VILLAGE">SKILL_SAY_RESTRICTION</a>,<br><a href="#village_chara_group" title="FK_VILLAGE_CHARA_GROUP_VILLAGE_ID">VILLAGE_CHARA_GROUP</a>,<br><a href="#village_day" title="FK_VILLAGE_DAY_VILLAGE">VILLAGE_DAY</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE_PLAYER</a>,<br><a href="#village_settings" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE_SETTINGS</a>,<br><a href="#village_tag" title="FK_VILLAGE_TAG_VILLAGE">VILLAGE_TAG</a>&nbsp;</td>
 		<td class="relcell"> &nbsp;</td>
 		<td class="commentcell"><pre>村ID</pre></td>
 		<td class="subcell">villageId</td>
@@ -6680,6 +6700,248 @@ VILLAGE_STATUS
 	</tbody>
 </table>
 
+<h2 id="village_tag" title="type=TABLE, primaryKey={VILLAGE_TAG_ID}, nameLength=11, columnCount=7">
+VILLAGE_TAG
+&nbsp;<span class="tablefirstdatetitle">since 2021/11/30</span>
+</h2>
+<div class="tablecomment VILLAGE_TAG_comment" data-name="VILLAGE_TAG"><pre>村タグ</pre></div>
+<input type="hidden" value="VILLAGE_TAG">
+<table class="tablecontent">
+	<thead>
+	<tr>
+		<th class="rownumhead">No.</th>
+		<th>PK</th>
+		<th>ID</th>
+		<th>UQ</th>
+		<th>IX</th>
+		<th>Not<br />Null</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Size</th>
+		<th>ForeignTable</th>
+		<th>ReferrerTable</th>
+		<th>Classification</th>
+		<th>ColumnComment</th>
+		<th>PropertyName</th>
+		<th>JavaType</th>
+		<th>Since</th>
+	</tr>
+	</thead>
+	<tbody id="village_tag-body">
+	<tr>
+		<td class="rownumcell">1</td>
+		<td class="flgcell" title="PRIMARY">o</td>
+		<td class="flgcell">o</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_tag_village_tag_id">VILLAGE_TAG_ID</td>
+		<td class="typecell">INT UNSIGNED</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>村タグID</pre></td>
+		<td class="subcell">villageTagId</td>
+		<td class="subcell">Integer</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_VILLAGE_TAG_VILLAGE(VILLAGE_ID)">o</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_tag_village_id">VILLAGE_ID</td>
+		<td class="typecell">INT UNSIGNED</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell"><a href="#village" title="FK_VILLAGE_TAG_VILLAGE">VILLAGE</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>村ID</pre></td>
+		<td class="subcell">villageId</td>
+		<td class="subcell">Integer</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">3</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_VILLAGE_TAG_VILLAGE_TAG_ITEM(VILLAGE_TAG_ITEM_CODE)">o</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_tag_village_tag_item_code">VILLAGE_TAG_ITEM_CODE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 50 </td>
+		<td class="relcell"><a href="#village_tag_item" title="FK_VILLAGE_TAG_VILLAGE_TAG_ITEM">VILLAGE_TAG_ITEM</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#VillageTagItemCls">VillageTagItem</a></td>
+		<td class="commentcell"><pre>村タグ種別コード</pre></td>
+		<td class="subcell">villageTagItemCode</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">4</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="village_tag_register_datetime">REGISTER_DATETIME</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>登録日時</pre></td>
+		<td class="subcell">registerDatetime</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">5</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="village_tag_register_trace">REGISTER_TRACE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 64 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>登録トレース</pre></td>
+		<td class="subcell">registerTrace</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">6</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="village_tag_update_datetime">UPDATE_DATETIME</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>更新日時</pre></td>
+		<td class="subcell">updateDatetime</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">7</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="village_tag_update_trace">UPDATE_TRACE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 64 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>更新トレース</pre></td>
+		<td class="subcell">updateTrace</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	</tbody>
+</table>
+
+<h2 id="village_tag_item" title="type=TABLE, primaryKey={VILLAGE_TAG_ITEM_CODE}, nameLength=16, columnCount=3">
+VILLAGE_TAG_ITEM
+&nbsp;<span class="tablefirstdatetitle">since 2021/11/30</span>
+</h2>
+<div class="tablecomment VILLAGE_TAG_ITEM_comment" data-name="VILLAGE_TAG_ITEM"><pre>村タグ種別</pre></div>
+<input type="hidden" value="VILLAGE_TAG_ITEM">
+<table class="tablecontent">
+	<thead>
+	<tr>
+		<th class="rownumhead">No.</th>
+		<th>PK</th>
+		<th>ID</th>
+		<th>UQ</th>
+		<th>IX</th>
+		<th>Not<br />Null</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Size</th>
+		<th>ForeignTable</th>
+		<th>ReferrerTable</th>
+		<th>Classification</th>
+		<th>ColumnComment</th>
+		<th>PropertyName</th>
+		<th>JavaType</th>
+		<th>Since</th>
+	</tr>
+	</thead>
+	<tbody id="village_tag_item-body">
+	<tr>
+		<td class="rownumcell">1</td>
+		<td class="flgcell" title="PRIMARY">o</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_tag_item_village_tag_item_code">VILLAGE_TAG_ITEM_CODE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 50 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell"><a href="#village_tag" title="FK_VILLAGE_TAG_VILLAGE_TAG_ITEM">VILLAGE_TAG</a>&nbsp;</td>
+		<td class="relcell"><a href="#VillageTagItemCls">VillageTagItem</a></td>
+		<td class="commentcell"><pre>村タグ種別コード</pre></td>
+		<td class="subcell">villageTagItemCode</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_tag_item_village_tag_item_name">VILLAGE_TAG_ITEM_NAME</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 50 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>村タグ種別名</pre></td>
+		<td class="subcell">villageTagItemName</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">3</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_tag_item_disp_order">DISP_ORDER</td>
+		<td class="typecell">INT UNSIGNED</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>表示順</pre></td>
+		<td class="subcell">dispOrder</td>
+		<td class="subcell">Integer</td>
+		<td class="subcell">first</td>
+	</tr>
+	</tbody>
+</table>
+
 <h2 id="vote" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID}, nameLength=4, columnCount=8">
 VOTE
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/22</span>
@@ -8949,6 +9211,40 @@ VOTE
 			</table>
 		</td>
 	</tr>
+	<tr>
+		<td>VillageTagItem</td>
+		<td class="clstypecell">table</td>
+		<td>村タグ種別</td>
+		<td>
+			<table class="child">
+			<tr>
+				<th id="VillageTagItemCls">Code</th>
+				<th>Name</th>
+				<th>Comment</th>
+			</tr>
+			<tr>
+				<td>ANYONE_WELCOME</td>
+				<td>誰歓</td>
+				<td class="commentcell">&nbsp;</td>
+			</tr>
+			<tr>
+				<td>R15</td>
+				<td>R15</td>
+				<td class="commentcell">&nbsp;</td>
+			</tr>
+			<tr>
+				<td>R18</td>
+				<td>R18</td>
+				<td class="commentcell">&nbsp;</td>
+			</tr>
+			<tr>
+				<td>RELATIVES_ONLY</td>
+				<td>身内</td>
+				<td class="commentcell">&nbsp;</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
 	</tbody>
 </table>
 
@@ -10439,6 +10735,46 @@ function StoreClient() {
 				}
 				, 'VILLAGE_STATUS_NAME': {
 					'databaseComment': '村ステータス名'
+				}
+			}
+		}
+		, 'VILLAGE_TAG': {
+			'databaseComment': '村タグ'
+			, 'columns': {
+				'VILLAGE_TAG_ID': {
+					'databaseComment': '村タグID'
+				}
+				, 'VILLAGE_ID': {
+					'databaseComment': '村ID'
+				}
+				, 'VILLAGE_TAG_ITEM_CODE': {
+					'databaseComment': '村タグ種別コード'
+				}
+				, 'REGISTER_DATETIME': {
+					'databaseComment': '登録日時'
+				}
+				, 'REGISTER_TRACE': {
+					'databaseComment': '登録トレース'
+				}
+				, 'UPDATE_DATETIME': {
+					'databaseComment': '更新日時'
+				}
+				, 'UPDATE_TRACE': {
+					'databaseComment': '更新トレース'
+				}
+			}
+		}
+		, 'VILLAGE_TAG_ITEM': {
+			'databaseComment': '村タグ種別'
+			, 'columns': {
+				'VILLAGE_TAG_ITEM_CODE': {
+					'databaseComment': '村タグ種別コード'
+				}
+				, 'VILLAGE_TAG_ITEM_NAME': {
+					'databaseComment': '村タグ種別名'
+				}
+				, 'DISP_ORDER': {
+					'databaseComment': '表示順'
 				}
 			}
 		}

@@ -2,6 +2,8 @@ package com.ort.app.api.view
 
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.Villages
+import com.ort.app.domain.model.village.setting.VillageTags
+import com.ort.dbflute.allcommon.CDef
 
 data class IndexContent(
     /** 村リスト  */
@@ -28,7 +30,10 @@ data class IndexContent(
         /** 人数  */
         val participateNum: String,
         /** 状態  */
-        val status: String
+        val status: String,
+        /** タグ */
+        val tags: List<Tag>
+
     ) {
         constructor(
             village: Village
@@ -37,7 +42,13 @@ data class IndexContent(
             villageNumber = village.id.toString().padStart(4, '0'),
             villageName = village.name,
             participateNum = convertToParticipateNumStr(village),
-            status = village.status.name
+            status = village.status.name,
+            tags = mapTags(village.setting.tags)
+        )
+
+        data class Tag(
+            val level: String,
+            val name: String
         )
 
         companion object {
@@ -51,6 +62,20 @@ data class IndexContent(
                 } else {
                     "$participateNum${spectatorStr}人"
                 }
+            }
+
+            private fun mapTags(tags: VillageTags): List<Tag> {
+                val age =
+                    tags.list.find { it.toCdef() == CDef.VillageTagItem.R15 || it.toCdef() == CDef.VillageTagItem.R18 }
+                        ?.let {
+                            listOf(Tag(level = "danger", name = it.name))
+                        } ?: emptyList()
+                val welcome =
+                    tags.list.find { it.toCdef() == CDef.VillageTagItem.誰歓 || it.toCdef() == CDef.VillageTagItem.身内 }
+                        ?.let {
+                            listOf(Tag(level = "success", name = it.name))
+                        } ?: emptyList()
+                return age + welcome
             }
         }
     }

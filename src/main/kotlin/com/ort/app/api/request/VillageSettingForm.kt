@@ -4,7 +4,6 @@ import com.ort.app.api.request.setting.MessageTypeSayRestrictForm
 import com.ort.app.api.request.setting.RandomOrganizationCampForm
 import com.ort.app.api.request.setting.RandomOrganizationSkillForm
 import com.ort.app.api.request.setting.SkillSayRestrictForm
-import com.ort.app.api.view.village.VillageSettingsContent
 import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.village.Village
@@ -69,6 +68,12 @@ data class VillageSettingForm(
     @field:Min(0)
     @field:Max(59)
     var startMinute: Int? = null,
+
+    /** 募集範囲 */
+    var welcomeRange: String? = null,
+
+    /** 年齢制限 */
+    var ageLimit: String? = null,
 
     /** 記名投票か */
     @field:NotNull
@@ -155,6 +160,12 @@ data class VillageSettingForm(
         startDay = village.days.list.first().dayChangeDatetime.dayOfMonth,
         startHour = village.days.list.first().dayChangeDatetime.hour,
         startMinute = village.days.list.first().dayChangeDatetime.minute,
+        welcomeRange = village.setting.tags.list.find {
+            it.toCdef() == CDef.VillageTagItem.誰歓 || it.toCdef() == CDef.VillageTagItem.身内
+        }?.code,
+        ageLimit = village.setting.tags.list.find {
+            it.toCdef() == CDef.VillageTagItem.R15 || it.toCdef() == CDef.VillageTagItem.R18
+        }?.code,
         openVote = village.setting.rule.isOpenVote,
         availableSameWolfAttack = village.setting.rule.isAvailableSameWolfAttack,
         openSkillInGrave = village.setting.rule.isOpenSkillInGrave,

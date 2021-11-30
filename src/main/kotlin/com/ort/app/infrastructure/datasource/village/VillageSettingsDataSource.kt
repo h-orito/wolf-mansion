@@ -8,6 +8,9 @@ import com.ort.app.domain.model.village.setting.SayRestriction
 import com.ort.app.domain.model.village.setting.VillageOrganize
 import com.ort.app.domain.model.village.setting.VillageRandomOrganize
 import com.ort.app.domain.model.village.setting.VillageRule
+import com.ort.app.domain.model.village.setting.VillageTag
+import com.ort.app.domain.model.village.setting.VillageTags
+import com.ort.app.domain.model.village.setting.toModel
 import com.ort.dbflute.allcommon.CDef
 import com.ort.dbflute.exbhv.CampAllocationBhv
 import com.ort.dbflute.exbhv.NormalSayRestrictionBhv
@@ -15,6 +18,7 @@ import com.ort.dbflute.exbhv.SkillAllocationBhv
 import com.ort.dbflute.exbhv.SkillSayRestrictionBhv
 import com.ort.dbflute.exbhv.VillageCharaGroupBhv
 import com.ort.dbflute.exbhv.VillageSettingsBhv
+import com.ort.dbflute.exbhv.VillageTagBhv
 import com.ort.dbflute.exentity.CampAllocation
 import com.ort.dbflute.exentity.NormalSayRestriction
 import com.ort.dbflute.exentity.SkillAllocation
@@ -24,6 +28,7 @@ import com.ort.dbflute.exentity.VillageCharaGroup
 import com.ort.dbflute.exentity.VillageSettings
 import org.springframework.stereotype.Repository
 import java.time.format.DateTimeFormatter
+import com.ort.dbflute.exentity.VillageTag as DbVillageTag
 
 @Repository
 class VillageSettingsDataSource(
@@ -32,7 +37,8 @@ class VillageSettingsDataSource(
     private val normalSayRestrictionBhv: NormalSayRestrictionBhv,
     private val skillSayRestrictionBhv: SkillSayRestrictionBhv,
     private val campAllocationBhv: CampAllocationBhv,
-    private val skillAllocationBhv: SkillAllocationBhv
+    private val skillAllocationBhv: SkillAllocationBhv,
+    private val villageTagBhv: VillageTagBhv
 ) {
     private val formatter = DateTimeFormatter.ofPattern("uuuuMMddhhmm")
 
@@ -89,10 +95,17 @@ class VillageSettingsDataSource(
         }
     }
 
+    fun insertVillageTags(id: Int, paramVillage: com.ort.app.domain.model.village.Village) {
+        paramVillage.setting.tags.list.forEach {
+            insertVillageTag(id, it)
+        }
+    }
+
     fun updateSetting(village: com.ort.app.domain.model.village.Village) {
         updateVillageSettings(village.id, village.setting)
         updateRestriction(village.id, village.setting.sayRestriction)
         updateAllocation(village.id, village.setting.organize)
+        updateVillageTags(village.id, village.setting.tags)
     }
 
     fun updateDaychangeDifference(villageId: Int, current: VillageSetting, changed: VillageSetting) {
@@ -142,6 +155,9 @@ class VillageSettingsDataSource(
             sayRestriction = SayRestriction(
                 normalSayRestriction = emptyList(),
                 skillSayRestriction = emptyList()
+            ),
+            tags = VillageTags(
+                list = village.villageTagList.map { it.villageTagItemCodeAsVillageTagItem.toModel() }
             )
         )
     }
@@ -152,6 +168,7 @@ class VillageSettingsDataSource(
         val campAllocationList = village.campAllocationList
         val normalSayRestrictionList = village.normalSayRestrictionList
         val skillSayRestrictionList = village.skillSayRestrictionList
+        val tagList = village.villageTagList
         return VillageSetting(
             dummyCharaId = setting.dummyCharaId,
             charachipIds = village.villageCharaGroupList.map { it.charaGroupId },
@@ -212,6 +229,9 @@ class VillageSettingsDataSource(
                         length = it.messageMaxLength
                     )
                 }
+            ),
+            tags = VillageTags(
+                list = tagList.map { it.villageTagItemCodeAsVillageTagItem.toModel() }
             )
         )
     }
@@ -304,5 +324,19 @@ class VillageSettingsDataSource(
         a.maxNum = skillAllocation.max
         a.allocation = skillAllocation.allocation
         skillAllocationBhv.insert(a)
+    }
+
+    private fun updateVillageTags(villageId: Int, tags: VillageTags) {
+        villageTagBhv.queryDelete {
+            it.query().setVillageId_Equal(villageId)
+        }
+        tags.list.forEach { insertVillageTag(villageId, it) }
+    }
+
+    private fun insertVillageTag(id: Int, tag: VillageTag) {
+        val t = DbVillageTag()
+        t.villageId = id
+        t.villageTagItemCodeAsVillageTagItem = tag.toCdef()
+        villageTagBhv.insert(t)
     }
 }

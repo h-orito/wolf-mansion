@@ -30,6 +30,23 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-2 col-xs-12 control-label">募集範囲</label>
+                        <div class="col-sm-10 btn-group" data-toggle="buttons">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{welcomeRange == 'ANYONE_WELCOME' ? 'active' : ''}">
+                                <input type="radio" th:field="*{welcomeRange}" value="ANYONE_WELCOME" autocomplete="off"
+                                       checked="checked"/>誰歓
+                            </label>
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{welcomeRange == 'RELATIVES_ONLY' ? 'active' : ''}">
+                                <input type="radio" class="" th:field="*{welcomeRange}" value="RELATIVES_ONLY"
+                                       autocomplete="off"/>身内
+                            </label>
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{welcomeRange == null ? 'active' : ''}">
+                                <input type="radio" class="" th:field="*{welcomeRange}" value=""
+                                       autocomplete="off"/>その他
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-sm-2 col-xs-3 control-label">最少開始人数</label>
                         <div class="col-sm-4 col-xs-3">
                             <input type="number" class="form-control" th:field="*{startPersonMinNum}" placeholder="8"/>
@@ -527,6 +544,23 @@
                     </div>
                     <hr/>
                     <h2 class="h5">RP村向け</h2>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-xs-12 control-label">年齢制限</label>
+                        <div class="col-sm-10 btn-group" data-toggle="buttons">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{ageLimit == null ? 'active' : ''}">
+                                <input type="radio" th:field="*{ageLimit}" value="" autocomplete="off"
+                                       checked="checked"/>全年齢
+                            </label>
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{ageLimit == 'R15' ? 'active' : ''}">
+                                <input type="radio" class="" th:field="*{ageLimit}" value="R15"
+                                       autocomplete="off"/>R15
+                            </label>
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{ageLimit == 'R18' ? 'active' : ''}">
+                                <input type="radio" class="" th:field="*{ageLimit}" value="R18"
+                                       autocomplete="off"/>R18
+                            </label>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="col-sm-2 col-xs-12 control-label">アクション</label>
                         <div class="col-sm-10 btn-group" data-toggle="buttons">

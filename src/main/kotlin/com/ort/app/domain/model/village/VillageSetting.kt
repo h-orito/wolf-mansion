@@ -7,6 +7,7 @@ import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.village.setting.SayRestriction
 import com.ort.app.domain.model.village.setting.VillageOrganize
 import com.ort.app.domain.model.village.setting.VillageRule
+import com.ort.app.domain.model.village.setting.VillageTags
 import com.ort.dbflute.allcommon.CDef
 import java.time.LocalDateTime
 
@@ -20,7 +21,8 @@ data class VillageSetting(
     val rule: VillageRule,
     val joinPassword: String?,
     val organize: VillageOrganize,
-    val sayRestriction: SayRestriction
+    val sayRestriction: SayRestriction,
+    val tags: VillageTags
 ) {
     fun allRequestableSkillList(): List<Skill> {
         return if (rule.isRandomOrganization) Skills.all().list

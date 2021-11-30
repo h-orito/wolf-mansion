@@ -36,13 +36,13 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_STATUS, CAMP, VILLAGE_SETTINGS(AsOne)
  *
  * [referrer table]
- *     CAMP_ALLOCATION, NORMAL_SAY_RESTRICTION, SKILL_ALLOCATION, SKILL_SAY_RESTRICTION, VILLAGE_CHARA_GROUP, VILLAGE_DAY, VILLAGE_PLAYER, VILLAGE_SETTINGS
+ *     CAMP_ALLOCATION, NORMAL_SAY_RESTRICTION, SKILL_ALLOCATION, SKILL_SAY_RESTRICTION, VILLAGE_CHARA_GROUP, VILLAGE_DAY, VILLAGE_PLAYER, VILLAGE_TAG, VILLAGE_SETTINGS
  *
  * [foreign property]
  *     villageStatus, camp, villageSettingsAsOne
  *
  * [referrer property]
- *     campAllocationList, normalSayRestrictionList, skillAllocationList, skillSayRestrictionList, villageCharaGroupList, villageDayList, villagePlayerList
+ *     campAllocationList, normalSayRestrictionList, skillAllocationList, skillSayRestrictionList, villageCharaGroupList, villageDayList, villagePlayerList, villageTagList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -612,6 +612,26 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
         _villagePlayerList = villagePlayerList;
     }
 
+    /** VILLAGE_TAG by VILLAGE_ID, named 'villageTagList'. */
+    protected List<VillageTag> _villageTagList;
+
+    /**
+     * [get] VILLAGE_TAG by VILLAGE_ID, named 'villageTagList'.
+     * @return The entity list of referrer property 'villageTagList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<VillageTag> getVillageTagList() {
+        if (_villageTagList == null) { _villageTagList = newReferrerList(); }
+        return _villageTagList;
+    }
+
+    /**
+     * [set] VILLAGE_TAG by VILLAGE_ID, named 'villageTagList'.
+     * @param villageTagList The entity list of referrer property 'villageTagList'. (NullAllowed)
+     */
+    public void setVillageTagList(List<VillageTag> villageTagList) {
+        _villageTagList = villageTagList;
+    }
+
     protected <ELEMENT> List<ELEMENT> newReferrerList() { // overriding to import
         return new ArrayList<ELEMENT>();
     }
@@ -661,6 +681,8 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
         { if (et != null) { sb.append(li).append(xbRDS(et, "villageDayList")); } } }
         if (_villagePlayerList != null) { for (VillagePlayer et : _villagePlayerList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerList")); } } }
+        if (_villageTagList != null) { for (VillageTag et : _villageTagList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "villageTagList")); } } }
         return sb.toString();
     }
     protected <ET extends Entity> String xbRDS(org.dbflute.optional.OptionalEntity<ET> et, String name) { // buildRelationDisplayString()
@@ -712,6 +734,8 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
         { sb.append(dm).append("villageDayList"); }
         if (_villagePlayerList != null && !_villagePlayerList.isEmpty())
         { sb.append(dm).append("villagePlayerList"); }
+        if (_villageTagList != null && !_villageTagList.isEmpty())
+        { sb.append(dm).append("villageTagList"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }

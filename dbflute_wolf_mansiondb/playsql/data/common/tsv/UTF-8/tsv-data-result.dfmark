@@ -18,3 +18,4 @@ data-directory: playsql/data/common/tsv/UTF-8
 10-ALLOWED_SECRET_SAY.tsv (3)
 11-FACE_TYPE.tsv (7)
 12-VILLAGE_PLAYER_STATUS_TYPE.tsv (3)
+13-VILLAGE_TAG_ITEM.tsv (4)

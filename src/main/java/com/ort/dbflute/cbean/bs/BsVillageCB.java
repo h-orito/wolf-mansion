@@ -612,6 +612,23 @@ public class BsVillageCB extends AbstractConditionBean {
                     -> cq.xsderiveVillagePlayerList(fn, sq, al, op), _dbmetaProvider);
         }
         /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
+         * {select max(FOO) from VILLAGE_TAG where ...) as FOO_MAX} <br>
+         * VILLAGE_TAG by VILLAGE_ID, named 'villageTagList'.
+         * <pre>
+         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(tagCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+         *     tagCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *     tagCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
+         * }, VillageTag.<span style="color: #CC4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        public HpSDRFunction<VillageTagCB, VillageCQ> derivedVillageTag() {
+            assertDerived("villageTagList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillageTagCB> sq, VillageCQ cq, String al, DerivedReferrerOption op)
+                    -> cq.xsderiveVillageTagList(fn, sq, al, op), _dbmetaProvider);
+        }
+        /**
          * Prepare for (Specify)MyselfDerived (SubQuery).
          * @return The object to set up a function for myself table. (NotNull)
          */

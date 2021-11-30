@@ -26,6 +26,10 @@
             <div class="modal-body">
                 <div class="table-responsive clearfix">
                     <table class="table table-bordered table-condensed" th:object="${content.settings}">
+                        <tr th:if="*{welcomeRange}">
+                            <th>募集範囲</th>
+                            <td th:text="*{welcomeRange}"></td>
+                        </tr>
                         <tr>
                             <th>最少開始人数</th>
                             <td th:text="*{startPersonMinNum}"></td>
@@ -232,6 +236,10 @@
                     </table>
                     <p>RP設定</p>
                     <table class="table table-bordered table-condensed" th:object="${content.settings}">
+                        <tr>
+                            <th>年齢制限</th>
+                            <td th:text="*{ageLimit}"></td>
+                        </tr>
                         <tr>
                             <th>アクション</th>
                             <td th:text="*{availableAction ? '可能' : '不可'}"></td>

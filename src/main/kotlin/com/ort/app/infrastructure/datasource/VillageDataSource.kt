@@ -72,13 +72,10 @@ class VillageDataSource(
             it.query().addOrderBy_VillageId_Asc()
         }
         villageBhv.load(villageList) { loader ->
-            loader.loadVillageCharaGroup {
-                it.addOrderBy_PK_Asc()
-            }
-            loader.loadVillagePlayer {
-                it.query().setIsGone_Equal_False()
-            }
+            loader.loadVillageCharaGroup { it.addOrderBy_PK_Asc() }
+            loader.loadVillagePlayer { it.query().setIsGone_Equal_False() }
             loader.loadVillageDay { it.query().addOrderBy_Day_Asc() }
+            loader.loadVillageTag { it.query().queryVillageTagItem().addOrderBy_DispOrder_Asc() }
         }
         return mapVillages(villageList)
     }
@@ -108,6 +105,7 @@ class VillageDataSource(
             loader.loadSkillSayRestriction { }
             loader.loadSkillAllocation { }
             loader.loadCampAllocation { }
+            loader.loadVillageTag { it.query().queryVillageTagItem().addOrderBy_DispOrder_Asc() }
         }
         return mapVillage(village)
     }
@@ -141,6 +139,7 @@ class VillageDataSource(
         villageSettingsDataSource.insertVillageCharaGroups(id, paramVillage)
         villageSettingsDataSource.insertAllocation(id, paramVillage)
         villageSettingsDataSource.insertMessageRestrict(id, paramVillage)
+        villageSettingsDataSource.insertVillageTags(id, paramVillage)
         villageDayDataSource.insertVillageDays(id, paramVillage)
         return findVillage(id, true)!!
     }

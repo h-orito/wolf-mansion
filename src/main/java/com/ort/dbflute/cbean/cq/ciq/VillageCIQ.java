@@ -76,6 +76,8 @@ public class VillageCIQ extends AbstractBsVillageCQ {
     { throwIICBOE("ExistsReferrer"); return null; }
     public String keepVillageId_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
+    public String keepVillageId_ExistsReferrer_VillageTagList(VillageTagCQ sq)
+    { throwIICBOE("ExistsReferrer"); return null; }
     public String keepVillageId_NotExistsReferrer_CampAllocationList(CampAllocationCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepVillageId_NotExistsReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq)
@@ -90,6 +92,8 @@ public class VillageCIQ extends AbstractBsVillageCQ {
     { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepVillageId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
+    public String keepVillageId_NotExistsReferrer_VillageTagList(VillageTagCQ sq)
+    { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepVillageId_SpecifyDerivedReferrer_CampAllocationList(CampAllocationCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepVillageId_SpecifyDerivedReferrer_NormalSayRestrictionList(NormalSayRestrictionCQ sq)
@@ -103,6 +107,8 @@ public class VillageCIQ extends AbstractBsVillageCQ {
     public String keepVillageId_SpecifyDerivedReferrer_VillageDayList(VillageDayCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepVillageId_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq)
+    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
+    public String keepVillageId_SpecifyDerivedReferrer_VillageTagList(VillageTagCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepVillageId_QueryDerivedReferrer_CampAllocationList(CampAllocationCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
@@ -131,6 +137,10 @@ public class VillageCIQ extends AbstractBsVillageCQ {
     public String keepVillageId_QueryDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepVillageId_QueryDerivedReferrer_VillagePlayerListParameter(Object vl)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepVillageId_QueryDerivedReferrer_VillageTagList(VillageTagCQ sq)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepVillageId_QueryDerivedReferrer_VillageTagListParameter(Object vl)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     protected ConditionValue xgetCValueVillageDisplayName() { return _myCQ.xdfgetVillageDisplayName(); }
     protected ConditionValue xgetCValueCreatePlayerName() { return _myCQ.xdfgetCreatePlayerName(); }

@@ -1223,6 +1223,15 @@ $(function () {
         } else {
             $('.container').css('padding-bottom', 40);
         }
+        // 年齢制限確認
+        const agelimit = $('[data-agelimit]').data('agelimit');
+        const isLimited = agelimit === 'R15' || agelimit === 'R18';
+        const agelimitConfirm = String(getDisplaySetting('already_agelimit_confirm'));
+        const ageLimitConfirmVillages = agelimitConfirm == null || agelimitConfirm == '' ? [] : agelimitConfirm.split(',');
+        if (isLimited && $.inArray(String(villageId), ageLimitConfirmVillages) == -1) {
+            $('#modal-initial-agelimit-confirm').modal('show');
+            return;
+        }
         // 役職確認
         const confirms = String(getDisplaySetting('already_skill_confirm'));
         const confirmVillages = confirms == null || confirms == '' ? [] : confirms.split(',');
@@ -1246,6 +1255,13 @@ $(function () {
         let confirmVillages = confirms == null || confirms == '' ? [] : confirms.split(',');
         confirmVillages.push(villageId);
         saveDisplaySetting('already_skill_confirm', confirmVillages);
+    });
+
+    $('#initial-agelimit-confirm').on('click', function () {
+        const confirms = String(getDisplaySetting('already_agelimit_confirm'));
+        let confirmVillages = confirms == null || confirms == '' ? [] : confirms.split(',');
+        confirmVillages.push(villageId);
+        saveDisplaySetting('already_agelimit_confirm', confirmVillages);
     });
 
     $('[data-dsetting-paging]').on('change', function () {

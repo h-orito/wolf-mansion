@@ -27,6 +27,10 @@
                                 <td th:text="*{villageName}"></td>
                             </tr>
                             <tr>
+                                <th>募集範囲</th>
+                                <td th:text="*{welcomeRange == 'ANYONE_WELCOME' ? '誰歓' : welcomeRange == 'RELATIVES_ONLY' ? '身内' : 'その他' }"></td>
+                            </tr>
+                            <tr>
                                 <th>最少開始人数</th>
                                 <td th:text="*{startPersonMinNum} + '人'"></td>
                             </tr>
@@ -309,6 +313,10 @@
                                 <th colspan="2"><span class="h4">RP村向け</span>
                             </tr>
                             <tr>
+                                <th>年齢制限</th>
+                                <td th:text="*{ageLimit == 'R18' ? 'R18' : ageLimit == 'R15' ? 'R15' : '全年齢' }"></td>
+                            </tr>
+                            <tr>
                                 <th>アクション</th>
                                 <td th:text="*{availableAction} ? '可能' : '不可'"></td>
                             </tr>
@@ -354,6 +362,7 @@
                         </table>
                     </div>
                     <input type="hidden" th:field="*{villageName}"/>
+                    <input type="hidden" th:field="*{welcomeRange}"/>
                     <input type="hidden" th:field="*{startPersonMinNum}"/>
                     <input type="hidden" th:field="*{personMaxNum}"/>
                     <input type="hidden" th:field="*{dayChangeIntervalHours}"/>
@@ -375,12 +384,14 @@
                     <input type="hidden" th:field="*{availableSuddonlyDeath}"/>
                     <input type="hidden" th:field="*{availableCommit}"/>
                     <input type="hidden" th:field="*{availableAction}"/>
-                    <input type="hidden" th:each="charachipId: *{characterSetId}" name="characterSetId" th:value="${charachipId}"/>
+                    <input type="hidden" th:each="charachipId: *{characterSetId}" name="characterSetId"
+                           th:value="${charachipId}"/>
                     <input type="hidden" th:field="*{dummyCharaId}"/>
                     <input type="hidden" th:field="*{dummyJoinMessage}"/>
                     <input type="hidden" th:field="*{joinPassword}"/>
                     <input type="hidden" th:field="*{organization}"/>
                     <input type="hidden" th:field="*{allowedSecretSayCode}"/>
+                    <input type="hidden" th:field="*{ageLimit}"/>
 
                     <div class="form-group">
                         <div class="col-sm-12 col-xs-12">

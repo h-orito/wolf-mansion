@@ -18,6 +18,8 @@ import com.ort.app.domain.model.village.setting.SayRestriction
 import com.ort.app.domain.model.village.setting.VillageOrganize
 import com.ort.app.domain.model.village.setting.VillageRandomOrganize
 import com.ort.app.domain.model.village.setting.VillageRule
+import com.ort.app.domain.model.village.setting.VillageTags
+import com.ort.app.domain.model.village.setting.toModel
 import com.ort.dbflute.allcommon.CDef
 import org.hibernate.validator.constraints.Length
 import java.time.LocalDate
@@ -81,6 +83,12 @@ data class NewVillageForm(
     @field:Min(0)
     @field:Max(59)
     var startMinute: Int? = null,
+
+    /** 募集範囲 */
+    var welcomeRange: String? = null,
+
+    /** 年齢制限 */
+    var ageLimit: String? = null,
 
     /** 記名投票か */
     @field:NotNull
@@ -293,10 +301,20 @@ data class NewVillageForm(
                 length = restrict?.length ?: 400
             )
         }
+        village.setting.tags.list.find {
+            it.toCdef() == CDef.VillageTagItem.誰歓 || it.toCdef() == CDef.VillageTagItem.身内
+        }?.let { welcomeRange = it.code }
+        village.setting.tags.list.find {
+            it.toCdef() == CDef.VillageTagItem.R15 || it.toCdef() == CDef.VillageTagItem.R18
+        }?.let { ageLimit = it.code }
     }
 
     fun toVillage(player: Player): Village {
         val startDatetime = LocalDateTime.of(startYear!!, startMonth!!, startDay!!, startHour!!, startMinute!!)
+        val welcome = if (welcomeRange.isNullOrBlank()) emptyList() else listOf(
+            CDef.VillageTagItem.codeOf(welcomeRange).toModel()
+        )
+        val age = if (ageLimit.isNullOrBlank()) emptyList() else listOf(CDef.VillageTagItem.codeOf(ageLimit).toModel())
         return Village(
             id = 0,
             name = villageName!!,
@@ -370,7 +388,8 @@ data class NewVillageForm(
                                 length = it.length!!
                             )
                         }
-                )
+                ),
+                tags = VillageTags(list = welcome + age)
             ),
             epilogueDay = null,
             winCamp = null

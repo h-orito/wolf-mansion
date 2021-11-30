@@ -66,7 +66,11 @@ data class VillageSettingsContent(
     /** 村設定のRP発言制限 */
     val rpSayRestrictList: List<RpSayRestriction>,
     /** 村建てしたプレイヤー名 */
-    val createPlayerName: String
+    val createPlayerName: String,
+    /** 募集範囲 */
+    val welcomeRange: String?,
+    /** 年齢制限 */
+    val ageLimit: String
 ) {
     constructor(village: Village, charachips: Charachips) : this(
         startPersonMinNum = village.setting.personMin,
@@ -95,7 +99,13 @@ data class VillageSettingsContent(
         sayRestrictList = mapSayRestrictList(village),
         skillSayRestrictList = mapSkillSayRestrictList(village),
         rpSayRestrictList = mapRpSayRestrictList(village),
-        createPlayerName = village.createPlayerName
+        createPlayerName = village.createPlayerName,
+        welcomeRange = village.setting.tags.list.find {
+            it.toCdef() == CDef.VillageTagItem.誰歓 || it.toCdef() == CDef.VillageTagItem.身内
+        }?.name,
+        ageLimit = village.setting.tags.list.find {
+            it.toCdef() == CDef.VillageTagItem.R15 || it.toCdef() == CDef.VillageTagItem.R18
+        }?.name ?: "全年齢"
     )
 
     companion object {
@@ -152,7 +162,7 @@ data class VillageSettingsContent(
     ) {
         constructor(
             charachip: Charachip
-        ): this(
+        ) : this(
             id = charachip.id,
             name = charachip.name
         )

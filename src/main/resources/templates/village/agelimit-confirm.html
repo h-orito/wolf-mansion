@@ -1,0 +1,56 @@
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>フッター</title>
+    <link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}"/>
+    <link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css"
+          th:href="@{/lib/bootstrap/css/bootstrap.min.css}"/>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <script src="../../static/lib/bootstrap/js/bootstrap.min.js"
+            th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+    <script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js"
+            th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
+    <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
+</head>
+<body>
+<div layout:fragment="agelimit-confirm">
+    <!--/* 年齢制限確認 */-->
+    <!--/* 最初の1回だけモーダルで表示する */-->
+    <div class="modal fade" id="modal-initial-agelimit-confirm" tabindex="-1"
+         th:data-agelimit="${content.settings.ageLimit}"
+         data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body row">
+                    <div class="col-sm-12 col-xs-12">
+                        <h5>年齢制限確認</h5>
+                    </div>
+                    <div class="col-sm-12 col-xs-12">
+                        <p>
+                            この村は年齢制限が
+                            <strong><span th:text="${content.settings.ageLimit}" class="text-danger"
+                                          style="font-size: 20px;"></span></strong>
+                            に設定されており、<br>
+                            暴力表現や性描写などが含まれる可能性があります。
+                        </p>
+                    </div>
+                    <div class="clearfix col-sm-12 col-xs-12 small">
+                        <a href="javascript:void(0);" id="initial-agelimit-confirm"
+                           class="btn btn-success btn-sm pull-right small" data-dismiss="modal"
+                           style="margin-right: 10px;">表示する</a>
+                        <a th:href="@{/}" class="btn btn-primary btn-sm pull-right small" style="margin-right: 10px;">表示せず戻る</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

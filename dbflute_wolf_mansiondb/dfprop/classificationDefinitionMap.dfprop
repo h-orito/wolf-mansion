@@ -143,5 +143,12 @@ map:{
             ; code=VILLAGE_PLAYER_STATUS_TYPE_CODE; name=VILLAGE_PLAYER_STATUS_TYPE_NAME
         }
     }
+    ; VillageTagItem = list:{
+        ; map:{topComment=村タグ種別; codeType=String}
+        ; map:{
+            ; table=VILLAGE_TAG_ITEM
+            ; code=VILLAGE_TAG_ITEM_CODE; name=VILLAGE_TAG_ITEM_NAME
+        }
+    }
 }
 # ----------------/

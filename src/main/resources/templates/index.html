@@ -111,13 +111,6 @@
 										Logout
 								</span>
                         </a>
-                            <!--/*
-                            <a href="javascript:void(0);" th:if="${user != null}" class="col-sm-4 col-xs-4 top-menu-selectable h100px"> <span
-                                class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-signal"></span> <span class="h6" style="display: block;">戦績(未実装)</span>
-                                    Stats
-                            </span>
-                            </a>
-                             */-->
                         </div>
                     </div>
                 </div>
@@ -139,9 +132,12 @@
                                         <tr th:each="village : ${content.villageList}" class="top-menu-selectable"
                                             data-goto-village>
                                             <td class="col-sm-1 col-xs-1" th:text="${village.villageNumber}"></td>
-                                            <td class="text-left"
-                                                th:data-village-url="@{/village/{villageId}(villageId=${village.villageId})}"
-                                                th:text="${village.villageName}"></td>
+                                            <td class="text-left">
+                                                <span th:each="tag: ${village.tags}" th:text="${tag.name}"
+                                                      th:class="'village-tag ' + ${tag.level}"></span>
+                                                <span th:data-village-url="@{/village/{villageId}(villageId=${village.villageId})}"
+                                                      th:text="${village.villageName}"></span>
+                                            </td>
                                             <td class="col-sm-2 col-xs-2" th:text="${village.participateNum}"></td>
                                             <td class="col-sm-2 col-xs-2" th:text="${village.status}"></td>
                                         </tr>
