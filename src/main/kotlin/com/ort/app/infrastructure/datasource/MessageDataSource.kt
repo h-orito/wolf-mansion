@@ -289,7 +289,6 @@ class MessageDataSource(
             if (query.messageTypeList.isNotEmpty()) {
                 cb.query().setMessageTypeCode_InScope_AsMessageType(query.messageTypeList.map { it.toCdef() })
             }
-            query.messageTypeList.ifEmpty { }
             return
         }
         if (query.messageTypeList.isNotEmpty()) {

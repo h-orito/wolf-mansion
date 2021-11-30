@@ -13,6 +13,7 @@ import com.ort.app.domain.model.village.setting.SayRestriction
 import com.ort.app.domain.model.village.setting.VillageOrganize
 import com.ort.app.domain.model.village.setting.VillageRandomOrganize
 import com.ort.app.domain.model.village.setting.VillageRule
+import com.ort.app.domain.model.village.setting.VillageTags
 import com.ort.dbflute.allcommon.CDef
 import java.time.LocalDateTime
 
@@ -81,7 +82,8 @@ fun createVillageSetting(
     sayRestriction = SayRestriction(
         normalSayRestriction = emptyList(),
         skillSayRestriction = emptyList()
-    )
+    ),
+    tags = VillageTags(list = emptyList())
 )
 
 fun createVillageRule(): VillageRule = VillageRule(
