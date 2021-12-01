@@ -17,7 +17,8 @@ data class Dead(
 
     fun isDeadWhen(day: Int): Boolean {
         // 最後に死んだ日
-        val latestDeadHistory = histories.list.filter { it.isDead && it.day <= day }.maxBy { it.day } ?: return false
+        val latestDeadHistory =
+            histories.list.filter { it.isDead && it.day <= day }.maxByOrNull { it.day } ?: return false
         val latestDeadDay = latestDeadHistory.day
         val latestDeadReason = latestDeadHistory.reason!!
         // 指定した日までに生き返っていれば生存、なければ死亡
@@ -31,12 +32,12 @@ data class Dead(
 
     fun deadDayWhen(day: Int): Int? {
         return if (!isDeadWhen(day)) null
-        else histories.list.filter { it.isDead && it.day <= day }.maxBy { it.day }!!.day
+        else histories.list.filter { it.isDead && it.day <= day }.maxByOrNull { it.day }!!.day
     }
 
     fun deadReasonWhen(day: Int): DeadReason? {
         return if (!isDeadWhen(day)) null
-        else histories.list.filter { it.isDead && it.day <= day }.maxBy { it.day }!!.reason
+        else histories.list.filter { it.isDead && it.day <= day }.maxByOrNull { it.day }!!.reason
     }
 
     fun isSame(other: Dead): Boolean {

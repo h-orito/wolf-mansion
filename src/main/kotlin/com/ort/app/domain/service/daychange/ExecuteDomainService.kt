@@ -90,8 +90,8 @@ class ExecuteDomainService(
     }
 
     private fun createEachVoteMessage(village: Village, votes: List<Vote>): Message {
-        val fromMaxLength = votes.map { village.participants.chara(it.charaId).name().length }.max()!!
-        val toMaxLength = votes.map { village.participants.chara(it.targetCharaId).name().length }.max()!!
+        val fromMaxLength = votes.maxOf { village.participants.chara(it.charaId).name().length }
+        val toMaxLength = votes.maxOf { village.participants.chara(it.targetCharaId).name().length }
         val text = votes.sortedBy { village.participants.chara(it.charaId).room!!.number }
             .joinToString(
                 separator = "\n",
