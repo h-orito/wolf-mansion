@@ -159,6 +159,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 隠蔽 (HIDE). And OnlyOnceRegistered. <br>
+     * 隠蔽
+     */
+    public void setAbilityTypeCode_Equal_隠蔽() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.隠蔽);
+    }
+
+    /**
      * Equal(=). As 狩猟 (HUNTING). And OnlyOnceRegistered. <br>
      * 狩猟
      */
@@ -411,6 +419,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_護衛() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.護衛);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 隠蔽 (HIDE). And OnlyOnceRegistered. <br>
+     * 隠蔽
+     */
+    public void setAbilityTypeCode_NotEqual_隠蔽() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.隠蔽);
     }
 
     /**

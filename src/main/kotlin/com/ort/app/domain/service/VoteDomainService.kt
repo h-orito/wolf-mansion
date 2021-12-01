@@ -1,5 +1,7 @@
 package com.ort.app.domain.service
 
+import com.ort.app.domain.model.ability.Abilities
+import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.situation.participant.ParticipantVoteSituation
 import com.ort.app.domain.model.situation.village.VillageMemberVotes
@@ -9,6 +11,7 @@ import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.vote.Vote
 import com.ort.app.domain.model.vote.Votes
 import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
 @Service
@@ -17,8 +20,25 @@ class VoteDomainService {
     fun convertToVillageSituation(
         village: Village,
         votes: Votes,
+        abilities: Abilities,
         day: Int
     ): VillageVoteSituation {
+        val hideDays =
+            if (village.status.isSettled()) emptyList()
+            else abilities
+                .filterPastDay(village.latestDay())
+                .filterByType(CDef.AbilityType.隠蔽.toModel())
+                .list.filter {
+                    val participant = village.participants.chara(it.charaId)
+                    // 能力セットした日に死んでいない
+                    // かつ、その翌日に突然死していない
+                    participant.isAliveWhen(it.day) &&
+                            participant.dead.histories.list.none { h ->
+                                h.day == it.day + 1 && h.reason?.isSuddenly() ?: false
+                            }
+                }
+                .map { it.day }.distinct()
+
         return VillageVoteSituation(
             list = village.participants
                 .filterNotDummy(village.dummyParticipant())
@@ -28,6 +48,7 @@ class VoteDomainService {
                         voteList = votes
                             .filterByCharaId(it.charaId)
                             .filterPastDay(day).list
+                            .filterNot { vote -> hideDays.contains(vote.day) }
                             .sortedBy { v -> v.day }
                     )
                 }.sortedByDescending { it.voteList.size }

@@ -1,6 +1,5 @@
 package com.ort.app.domain.service
 
-import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.chara.FaceType
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.MessageContent
@@ -277,10 +276,11 @@ class MessageDomainService(
         )
     }
 
-    fun createExecuteMessage(village: Village, text: String): Message {
+    fun createExecuteMessage(village: Village, text: String, messageType: MessageType): Message {
         return Message.ofSystemMessage(
             day = village.latestDay(),
-            message = text
+            message = text,
+            messageType = messageType
         )
     }
 
@@ -324,7 +324,8 @@ class MessageDomainService(
             targetParticipantId = target?.id,
             messageContent = if (shouldDakuten) {
                 messageContent.copy(
-                    text = messageContent.text.map { "${it}゛" }.joinToString(separator = "", prefix = "[[large]][[b]]", postfix = "[[/b]][[/large]]")
+                    text = messageContent.text.map { "${it}゛" }
+                        .joinToString(separator = "", prefix = "[[large]][[b]]", postfix = "[[/b]][[/large]]")
                 )
             } else messageContent
         )

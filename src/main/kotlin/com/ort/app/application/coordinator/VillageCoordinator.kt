@@ -275,7 +275,7 @@ class VillageCoordinator(
             roomAssigned = roomDomainService.convertToSituation(village, day),
             live = VillageParticipantLiveSituation(village),
             footstep = footstepDomainService.convertToSituation(village, myself, footsteps, day),
-            vote = voteDomainService.convertToVillageSituation(village, votes, day),
+            vote = voteDomainService.convertToVillageSituation(village, votes, abilities, day),
             whole = abilityDomainService.convertToVillageSituation(village, myself, abilities, day)
         )
     }

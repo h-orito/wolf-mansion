@@ -196,6 +196,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Set the value of skillCode as 黒箱者 (BLACKBOX). <br>
+     * 黒箱者
+     */
+    public void setSkillCode_黒箱者() {
+        setSkillCodeAsSkill(CDef.Skill.黒箱者);
+    }
+
+    /**
      * Set the value of skillCode as 爆弾魔 (BOMBER). <br>
      * 爆弾魔
      */
@@ -867,6 +875,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isSkillCodeパン屋() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.パン屋) : false;
+    }
+
+    /**
+     * Is the value of skillCode 黒箱者? <br>
+     * 黒箱者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode黒箱者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.黒箱者) : false;
     }
 
     /**

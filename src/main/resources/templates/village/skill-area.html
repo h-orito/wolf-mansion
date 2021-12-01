@@ -64,12 +64,14 @@
                                     <div class="col-sm-12 col-xs-12"
                                          th:unless="${content.myself.skill.hasInvestigateAbility}">
                                         <span th:if="${content.form.ability.targetPrefixMessage}"
-                                              th:text="${content.form.ability.targetPrefixMessage}"></span> <select
-                                            class="form-control" th:field="*{targetCharaId}" data-ability-target-select>
-                                        <option th:each="target : ${content.form.ability.abilityTargetList}"
-                                                th:value="${target.value}" th:text="${target.name}"></option>
-                                    </select> <span th:if="${content.form.ability.targetSuffixMessage}"
-                                                    th:text="${content.form.ability.targetSuffixMessage}"></span>
+                                              th:text="${content.form.ability.targetPrefixMessage}"></span>
+                                        <select class="form-control" th:field="*{targetCharaId}"
+                                                data-ability-target-select>
+                                            <option th:each="target : ${content.form.ability.abilityTargetList}"
+                                                    th:value="${target.value}" th:text="${target.name}"></option>
+                                        </select>
+                                        <span th:if="${content.form.ability.targetSuffixMessage}"
+                                              th:text="${content.form.ability.targetSuffixMessage}"></span>
                                     </div>
                                     <div class="col-sm-12 col-xs-12"
                                          th:if="${content.myself.skill.hasInvestigateAbility}">

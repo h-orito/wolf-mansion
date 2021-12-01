@@ -34,6 +34,7 @@ class AbilityDomainService(
     private val divineDomainService: DivineDomainService,
     private val badgerGameDomainService: BadgerGameDomainService,
     private val fruitsBasketDomainService: FruitsBasketDomainService,
+    private val hideDomainService: HideDomainService,
     private val guardDomainService: GuardDomainService,
     private val wandererDomainService: WandererDomainService,
     private val investigateDomainService: InvestigateDomainService,
@@ -139,6 +140,7 @@ class AbilityDomainService(
             CDef.AbilityType.指差死 -> yubisashiDomainService
             CDef.AbilityType.保険 -> insuranceDomainService
             CDef.AbilityType.狩猟 -> huntingDomainService
+            CDef.AbilityType.隠蔽 -> hideDomainService
         }
 
     fun createSetMessage(

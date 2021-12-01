@@ -1240,6 +1240,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 黒箱者 (BLACKBOX). And OnlyOnceRegistered. <br>
+     * 黒箱者
+     */
+    public void setSkillCode_Equal_黒箱者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.黒箱者);
+    }
+
+    /**
      * Equal(=). As 爆弾魔 (BOMBER). And OnlyOnceRegistered. <br>
      * 爆弾魔
      */
@@ -1876,6 +1884,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_パン屋() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.パン屋);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 黒箱者 (BLACKBOX). And OnlyOnceRegistered. <br>
+     * 黒箱者
+     */
+    public void setSkillCode_NotEqual_黒箱者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.黒箱者);
     }
 
     /**
@@ -2705,6 +2721,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 黒箱者 (BLACKBOX). And OnlyOnceRegistered. <br>
+     * 黒箱者
+     */
+    public void setRequestSkillCode_Equal_黒箱者() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.黒箱者);
+    }
+
+    /**
      * Equal(=). As 爆弾魔 (BOMBER). And OnlyOnceRegistered. <br>
      * 爆弾魔
      */
@@ -3341,6 +3365,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_パン屋() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.パン屋);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 黒箱者 (BLACKBOX). And OnlyOnceRegistered. <br>
+     * 黒箱者
+     */
+    public void setRequestSkillCode_NotEqual_黒箱者() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.黒箱者);
     }
 
     /**
@@ -4170,6 +4202,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 黒箱者 (BLACKBOX). And OnlyOnceRegistered. <br>
+     * 黒箱者
+     */
+    public void setSecondRequestSkillCode_Equal_黒箱者() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.黒箱者);
+    }
+
+    /**
      * Equal(=). As 爆弾魔 (BOMBER). And OnlyOnceRegistered. <br>
      * 爆弾魔
      */
@@ -4806,6 +4846,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_パン屋() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.パン屋);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 黒箱者 (BLACKBOX). And OnlyOnceRegistered. <br>
+     * 黒箱者
+     */
+    public void setSecondRequestSkillCode_NotEqual_黒箱者() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.黒箱者);
     }
 
     /**

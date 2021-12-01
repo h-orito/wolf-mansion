@@ -214,6 +214,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 隠蔽 (HIDE). <br>
+     * 隠蔽
+     */
+    public void setAbilityTypeCode_隠蔽() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.隠蔽);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 狩猟 (HUNTING). <br>
      * 狩猟
      */
@@ -482,6 +490,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode護衛() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.護衛) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 隠蔽? <br>
+     * 隠蔽
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode隠蔽() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.隠蔽) : false;
     }
 
     /**
