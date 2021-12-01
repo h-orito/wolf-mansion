@@ -74,7 +74,7 @@ tasks.withType<Test> {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
+        freeCompilerArgs = listOf("-Xjsr305=strict", "-Xmx4g")
         jvmTarget = "11"
     }
 }
