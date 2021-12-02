@@ -953,7 +953,7 @@ $(function () {
         }).map((idx, elm) => $(elm).val()).get().sort();
         filterKeywords = $('#modal-filter [data-filter-message-keyword]').val().replace(/　/g, ' ').split(' ');
         filterSpoiled = $('[data-dsetting-unspoiled]').prop('checked');
-        isDispOnlyToMe = $('[data-onlytome]').prop('checked');
+        isDispOnlyToMe = $('[data-onlytome]').length > 0 && $('[data-onlytome]').prop('checked');
         // 発言読み込み
         loadAndDisplayMessageWithCurrentSetting();
         // 日付を跨いでも維持できるように一時的にcookieに入れておく
@@ -1018,7 +1018,9 @@ $(function () {
         if (filterSpoiled && $('[data-dsetting-unspoiled]').length != 0) {
             $('[data-dsetting-unspoiled]').prop('checked', true);
         }
-        $('[data-onlytome]').prop('checked', isDispOnlyToMe);
+        if ($('[data-onlytome]').length > 0) {
+            $('[data-onlytome]').prop('checked', isDispOnlyToMe);
+        }
     }
 
     // コピー

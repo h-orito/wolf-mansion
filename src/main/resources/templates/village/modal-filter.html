@@ -129,7 +129,7 @@
                                 <input type="checkbox" value="dummy" data-dsetting-unspoiled> エピローグ前同等の表示にする
                             </label>
                         </div>
-                        <div class="checkbox">
+                        <div class="checkbox" th:if="${content.myself}">
                             <label>
                                 <input type="checkbox" value="dummy" data-onlytome> 自分宛発言のみ抽出
                             </label>
