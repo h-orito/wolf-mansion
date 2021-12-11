@@ -47,6 +47,10 @@
        th:text="'現在の選択: ' + ${targetCharaName == null ? '襲撃しない' : targetCharaName + ' を襲う' }"></p>
     <p class="small" th:if="${content.myself.skill.code == 'MATAGI'}"
        th:text="'現在の選択: ' + ${targetCharaName == null ? '狩猟しない' : targetCharaName + ' を狩猟する' }"></p>
+    <p class="small" th:if="${content.myself.skill.code == 'SEPARATOR'}"
+       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を破局させる'}"></p>
+    <p class="small" th:if="${content.myself.skill.code == 'THIEFCAT'}"
+       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' の心を盗む'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'COURTSHIP'}"
        th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' に求愛する'}"></p>
     <p class="small" th:if="${content.myself.skill.code == 'STALKER'}"

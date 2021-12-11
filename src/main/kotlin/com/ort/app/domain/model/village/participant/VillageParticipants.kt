@@ -2,6 +2,7 @@ package com.ort.app.domain.model.village.participant
 
 import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.skill.Skill
+import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.dead.DeadReason
 
 data class VillageParticipants(
@@ -216,6 +217,22 @@ data class VillageParticipants(
         return copy(
             list = list.map {
                 if (it.id == toParticipantId) it.insurance(fromParticipantId) else it.copy()
+            }
+        )
+    }
+
+    fun breakup(participantId: Int, village: Village): VillageParticipants {
+        return copy(
+            list = list.map {
+                if (it.id == participantId) it.breakup(village) else it.copy()
+            }
+        )
+    }
+
+    fun stealLove(participantId: Int, stealerId: Int, village: Village): VillageParticipants {
+        return copy(
+            list = list.map {
+                if (it.id == participantId) it.stealLove(stealerId, village) else it.copy()
             }
         )
     }

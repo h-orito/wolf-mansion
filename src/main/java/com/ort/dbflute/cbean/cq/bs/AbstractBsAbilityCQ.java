@@ -764,6 +764,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 破局 (BREAKUP). And OnlyOnceRegistered. <br>
+     * 破局
+     */
+    public void setAbilityTypeCode_Equal_破局() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.破局);
+    }
+
+    /**
      * Equal(=). As 誑かす (CHEAT). And OnlyOnceRegistered. <br>
      * 誑かす
      */
@@ -881,6 +889,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_Equal_拡声() {
         setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.拡声);
+    }
+
+    /**
+     * Equal(=). As 恋泥棒 (LOVESTEAL). And OnlyOnceRegistered. <br>
+     * 恋泥棒
+     */
+    public void setAbilityTypeCode_Equal_恋泥棒() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.恋泥棒);
     }
 
     /**
@@ -1027,6 +1043,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 破局 (BREAKUP). And OnlyOnceRegistered. <br>
+     * 破局
+     */
+    public void setAbilityTypeCode_NotEqual_破局() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.破局);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 誑かす (CHEAT). And OnlyOnceRegistered. <br>
      * 誑かす
      */
@@ -1144,6 +1168,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_拡声() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.拡声);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 恋泥棒 (LOVESTEAL). And OnlyOnceRegistered. <br>
+     * 恋泥棒
+     */
+    public void setAbilityTypeCode_NotEqual_恋泥棒() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.恋泥棒);
     }
 
     /**

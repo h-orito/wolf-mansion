@@ -721,6 +721,9 @@ public interface CDef extends Classification {
         /** 占い師 */
         占い師("SEER", "占い師", emptyStrings())
         ,
+        /** 破局者 */
+        破局者("SEPARATOR", "破局者", emptyStrings())
+        ,
         /** 夢遊病者 */
         夢遊病者("SLEEPWALKER", "夢遊病者", emptyStrings())
         ,
@@ -729,6 +732,9 @@ public interface CDef extends Classification {
         ,
         /** 濁点者 */
         濁点者("TATSUYA", "濁点者", emptyStrings())
+        ,
+        /** 泥棒猫 */
+        泥棒猫("THIEFCAT", "泥棒猫", emptyStrings())
         ,
         /** 翻訳者 */
         翻訳者("TRANSLATOR", "翻訳者", emptyStrings())
@@ -1224,6 +1230,13 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "510");
+                subItemMap.put("campCode", "CRIMINAL");
+                subItemMap.put("skill_short_name", "破");
+                _subItemMapMap.put(破局者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
                 subItemMap.put("order", "19");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "夢");
@@ -1242,6 +1255,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "濁");
                 _subItemMapMap.put(濁点者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "511");
+                subItemMap.put("campCode", "CRIMINAL");
+                subItemMap.put("skill_short_name", "泥");
+                _subItemMapMap.put(泥棒猫.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -2076,6 +2096,9 @@ public interface CDef extends Classification {
         /** 爆弾設置 */
         爆弾設置("BOMB", "爆弾設置", emptyStrings())
         ,
+        /** 破局 */
+        破局("BREAKUP", "破局", emptyStrings())
+        ,
         /** 誑かす */
         誑かす("CHEAT", "誑かす", emptyStrings())
         ,
@@ -2120,6 +2143,9 @@ public interface CDef extends Classification {
         ,
         /** 拡声 */
         拡声("LOUDSPEAK", "拡声", emptyStrings())
+        ,
+        /** 恋泥棒 */
+        恋泥棒("LOVESTEAL", "恋泥棒", emptyStrings())
         ,
         /** 死霊蘇生 */
         死霊蘇生("NECROMANCE", "死霊蘇生", emptyStrings())

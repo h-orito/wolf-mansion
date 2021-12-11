@@ -704,6 +704,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
     }
 
     /**
+     * Equal(=). As 破局者 (SEPARATOR). And OnlyOnceRegistered. <br>
+     * 破局者
+     */
+    public void setSkillCode_Equal_破局者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.破局者);
+    }
+
+    /**
      * Equal(=). As 夢遊病者 (SLEEPWALKER). And OnlyOnceRegistered. <br>
      * 夢遊病者
      */
@@ -725,6 +733,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
      */
     public void setSkillCode_Equal_濁点者() {
         setSkillCode_Equal_AsSkill(CDef.Skill.濁点者);
+    }
+
+    /**
+     * Equal(=). As 泥棒猫 (THIEFCAT). And OnlyOnceRegistered. <br>
+     * 泥棒猫
+     */
+    public void setSkillCode_Equal_泥棒猫() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.泥棒猫);
     }
 
     /**
@@ -1351,6 +1367,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 破局者 (SEPARATOR). And OnlyOnceRegistered. <br>
+     * 破局者
+     */
+    public void setSkillCode_NotEqual_破局者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.破局者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 夢遊病者 (SLEEPWALKER). And OnlyOnceRegistered. <br>
      * 夢遊病者
      */
@@ -1372,6 +1396,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
      */
     public void setSkillCode_NotEqual_濁点者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.濁点者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 泥棒猫 (THIEFCAT). And OnlyOnceRegistered. <br>
+     * 泥棒猫
+     */
+    public void setSkillCode_NotEqual_泥棒猫() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.泥棒猫);
     }
 
     /**

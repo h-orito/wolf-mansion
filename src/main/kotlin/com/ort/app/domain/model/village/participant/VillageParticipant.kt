@@ -203,6 +203,18 @@ data class VillageParticipant(
     fun insurance(participantId: Int): VillageParticipant =
         copy(status = status.insurance(participantId))
 
+    fun breakup(village: Village): VillageParticipant {
+        // 自分が同棲者の場合は同棲者を除いて恋絆を解除する
+        val cohabitor = if (skill!!.toCdef() == CDef.Skill.同棲者) getTargetCohabitor(village) else null
+        return copy(status = status.breakup(cohabitor))
+    }
+
+    fun stealLove(stealerId: Int, village: Village): VillageParticipant {
+        // 自分が同棲者の場合は同棲者を除いた恋絆が解除される
+        val cohabitor = if (skill!!.toCdef() == CDef.Skill.同棲者) getTargetCohabitor(village) else null
+        return copy(status = status.loveSteal(stealerId, cohabitor))
+    }
+
     fun useInsurance(): VillageParticipant = copy(status = status.useInsurance())
 
     fun judgeWin(winCamp: Camp): VillageParticipant = copy(

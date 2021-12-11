@@ -43,4 +43,20 @@ data class VillageParticipantStatus(
     }
 
     fun useInsurance(): VillageParticipantStatus = copy(insuranceIdList = emptyList())
+
+    fun breakup(excludeParticipant: VillageParticipant?): VillageParticipantStatus {
+        return if (excludeParticipant != null) {
+            copy(loverIdList = listOf(excludeParticipant.id))
+        } else {
+            copy(loverIdList = emptyList())
+        }
+    }
+
+    fun loveSteal(stealerId: Int, excludeParticipant: VillageParticipant?): VillageParticipantStatus {
+        return if (excludeParticipant != null) {
+            copy(loverIdList = listOf(stealerId, excludeParticipant.id))
+        } else {
+            copy(loverIdList = listOf(stealerId))
+        }
+    }
 }

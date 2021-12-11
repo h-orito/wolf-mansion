@@ -12,8 +12,7 @@ data class Skill(
 ) {
     constructor(cdef: CDef.Skill) : this(code = cdef.code(), name = cdef.alias(), shortName = cdef.skill_short_name())
 
-    fun toCdef(): CDef.Skill =
-        CDef.Skill.codeOf(code) ?: throw IllegalStateException("unknown skill: $code")
+    fun toCdef(): CDef.Skill = CDef.Skill.codeOf(code) ?: throw IllegalStateException("unknown skill: $code")
 
     fun camp(): Camp = Camp(CDef.Camp.codeOf(toCdef().campCode()))
 
@@ -56,10 +55,7 @@ data class Skill(
     fun getAbility(): AbilityType? = skillToAbility[toCdef()]
 
     fun assignSkill(skill: Skill, day: Int): Skill = copy(
-        code = skill.code,
-        name = skill.name,
-        shortName = skill.shortName,
-        histories = histories.copy(
+        code = skill.code, name = skill.name, shortName = skill.shortName, histories = histories.copy(
             list = histories.list + SkillHistory(skill = skill, day = day)
         )
     )
@@ -99,7 +95,9 @@ data class Skill(
             CDef.Skill.保険屋 to AbilityType(CDef.AbilityType.保険),
             CDef.Skill.翻訳者 to AbilityType(CDef.AbilityType.翻訳),
             CDef.Skill.マタギ to AbilityType(CDef.AbilityType.狩猟),
-            CDef.Skill.黒箱者 to AbilityType(CDef.AbilityType.隠蔽)
+            CDef.Skill.黒箱者 to AbilityType(CDef.AbilityType.隠蔽),
+            CDef.Skill.泥棒猫 to AbilityType(CDef.AbilityType.恋泥棒),
+            CDef.Skill.破局者 to AbilityType(CDef.AbilityType.破局)
         )
 
         private val shortNameToSkill = Skills.all().filterNotSomeone().list.map {
@@ -117,37 +115,36 @@ data class Skill(
         }
         private val notSayableSkills =
             Skills.all().filterNotSomeone().list.filter { !sayableSkills.map { it.code }.contains(it.code) }
-        val footstepSkills = Skills.all().list.filter {
+        private val footstepSkills = Skills.all().list.filter {
             it.hasAttackAbility() || it.hasDisturbAbility() || it.hasDivineAbility() || listOf(
                 CDef.Skill.狩人,
                 CDef.Skill.風来狩人,
-                CDef.Skill.壁殴り代行,
-                CDef.Skill.一匹狼,
-                CDef.Skill.爆弾魔,
                 CDef.Skill.罠師,
-                CDef.Skill.誑狐,
+                CDef.Skill.蘇生者,
+                CDef.Skill.保険屋,
+                CDef.Skill.マタギ,
+                CDef.Skill.死霊術師,
                 CDef.Skill.求愛者,
-                CDef.Skill.美人局,
-                CDef.Skill.絡新婦,
                 CDef.Skill.ストーカー,
+                CDef.Skill.絡新婦,
+                CDef.Skill.美人局,
+                CDef.Skill.誑狐,
+                CDef.Skill.爆弾魔,
+                CDef.Skill.一匹狼,
                 CDef.Skill.虹職人,
                 CDef.Skill.拡声者,
                 CDef.Skill.濁点者,
                 CDef.Skill.翻訳者,
                 CDef.Skill.トラック,
-                CDef.Skill.死霊術師,
-                CDef.Skill.蘇生者,
                 CDef.Skill.ババ,
-                CDef.Skill.保険屋,
-                CDef.Skill.マタギ
+                CDef.Skill.破局者,
+                CDef.Skill.泥棒猫,
+                CDef.Skill.壁殴り代行
             ).contains(it.toCdef())
         }
 
         val madmanPriorityList = listOf(
-            CDef.Skill.C国狂人,
-            CDef.Skill.狂信者,
-            CDef.Skill.魔神官,
-            CDef.Skill.狂人
+            CDef.Skill.C国狂人, CDef.Skill.狂信者, CDef.Skill.魔神官, CDef.Skill.狂人
         )
         val wolfPriorityList = listOf(
             CDef.Skill.智狼,

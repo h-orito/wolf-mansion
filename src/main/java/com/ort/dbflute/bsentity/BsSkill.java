@@ -668,6 +668,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Set the value of skillCode as 破局者 (SEPARATOR). <br>
+     * 破局者
+     */
+    public void setSkillCode_破局者() {
+        setSkillCodeAsSkill(CDef.Skill.破局者);
+    }
+
+    /**
      * Set the value of skillCode as 夢遊病者 (SLEEPWALKER). <br>
      * 夢遊病者
      */
@@ -689,6 +697,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
      */
     public void setSkillCode_濁点者() {
         setSkillCodeAsSkill(CDef.Skill.濁点者);
+    }
+
+    /**
+     * Set the value of skillCode as 泥棒猫 (THIEFCAT). <br>
+     * 泥棒猫
+     */
+    public void setSkillCode_泥棒猫() {
+        setSkillCodeAsSkill(CDef.Skill.泥棒猫);
     }
 
     /**
@@ -1527,6 +1543,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Is the value of skillCode 破局者? <br>
+     * 破局者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode破局者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.破局者) : false;
+    }
+
+    /**
      * Is the value of skillCode 夢遊病者? <br>
      * 夢遊病者
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1557,6 +1584,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isSkillCode濁点者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.濁点者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 泥棒猫? <br>
+     * 泥棒猫
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode泥棒猫() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.泥棒猫) : false;
     }
 
     /**

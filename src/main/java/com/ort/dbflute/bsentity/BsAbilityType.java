@@ -150,6 +150,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 破局 (BREAKUP). <br>
+     * 破局
+     */
+    public void setAbilityTypeCode_破局() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.破局);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 誑かす (CHEAT). <br>
      * 誑かす
      */
@@ -267,6 +275,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
      */
     public void setAbilityTypeCode_拡声() {
         setAbilityTypeCodeAsAbilityType(CDef.AbilityType.拡声);
+    }
+
+    /**
+     * Set the value of abilityTypeCode as 恋泥棒 (LOVESTEAL). <br>
+     * 恋泥棒
+     */
+    public void setAbilityTypeCode_恋泥棒() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.恋泥棒);
     }
 
     /**
@@ -402,6 +418,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode爆弾設置() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.爆弾設置) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 破局? <br>
+     * 破局
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode破局() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.破局) : false;
     }
 
     /**
@@ -567,6 +594,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode拡声() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.拡声) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 恋泥棒? <br>
+     * 恋泥棒
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode恋泥棒() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.恋泥棒) : false;
     }
 
     /**

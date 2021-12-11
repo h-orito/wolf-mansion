@@ -41,6 +41,8 @@ class AbilityDomainService(
     private val loneAttackDomainService: LoneAttackDomainService,
     private val huntingDomainService: HuntingDomainService,
     private val seduceDomainService: SeduceDomainService,
+    private val loveStealDomainService: LoveStealDomainService,
+    private val breakupDomainService: BreakupDomainService,
     private val stalkingDomainService: StalkingDomainService,
     private val trapDomainService: TrapDomainService,
     private val wallPunchDomainService: WallPunchDomainService,
@@ -141,6 +143,8 @@ class AbilityDomainService(
             CDef.AbilityType.保険 -> insuranceDomainService
             CDef.AbilityType.狩猟 -> huntingDomainService
             CDef.AbilityType.隠蔽 -> hideDomainService
+            CDef.AbilityType.恋泥棒 -> loveStealDomainService
+            CDef.AbilityType.破局 -> breakupDomainService
         }
 
     fun createSetMessage(

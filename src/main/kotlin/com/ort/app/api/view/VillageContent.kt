@@ -94,7 +94,7 @@ data class VillageContent(
         roomAssignedRowList = mapRoomAssignRowList(village, day, charachips, myself),
         roomWidth = village.roomSize?.width,
         form = VillageFormContent(village, myself, participantSituation, day, charachips),
-        myself = myself?.let { VillageParticipateContent(it, charachips) },
+        myself = myself?.let { VillageParticipateContent(it, charachips, participantSituation) },
         isAvailableSettingsUpdate = participantSituation.creator.isAvailableModifySetting,
         vote = if (day > 2) VillageVoteContent(village, villageSituation) else null,
         villageFootstepList = villageSituation.footstep.list.map { VillageFootstepContent(it.day, it.footstep) },
@@ -179,13 +179,14 @@ data class VillageContent(
     ) {
         constructor(
             myself: VillageParticipant,
-            charachips: Charachips
+            charachips: Charachips,
+            situation: ParticipantSituation
         ) : this(
             charaName = myself.name(),
             charaImageUrl = charachips.chara(myself.charaId).defaultImage().url,
             charaImageWidth = charachips.chara(myself.charaId).size.width,
             charaImageHeight = charachips.chara(myself.charaId).size.height,
-            skill = myself.skill?.let { VillageParticipateSkillContent(it) },
+            skill = myself.skill?.let { VillageParticipateSkillContent(it, situation) },
             isDead = myself.dead.isDead
         )
 
@@ -207,13 +208,16 @@ data class VillageContent(
             /** 捜査能力を持っているか */
             val hasInvestigateAbility: Boolean
         ) {
-            constructor(skill: Skill) : this(
+            constructor(
+                skill: Skill,
+                situation: ParticipantSituation
+            ) : this(
                 code = skill.code,
                 hasAttackAbility = skill.toCdef().isHasAttackAbility,
                 hasDivineAbility = skill.toCdef().isHasDivineAbility,
                 hasGuardAbility = skill.toCdef() == CDef.Skill.狩人 || skill.toCdef() == CDef.Skill.風来狩人,
-                hasDisturbAbility = skill.toCdef().isHasDisturbAbility,
-                hasFootstepAbility = Skill.footstepSkills.any { it.code == skill.code },
+                hasDisturbAbility = skill.hasDisturbAbility(),
+                hasFootstepAbility = skill.hasDisturbAbility() || situation.ability.isTargetingAndFootstep,
                 hasCohabitAbility = skill.toCdef() == CDef.Skill.同棲者,
                 hasInvestigateAbility = skill.hasInvestigateAbility()
             )

@@ -13,6 +13,7 @@ import com.ort.app.domain.service.ability.AutopsyDomainService
 import com.ort.app.domain.service.ability.BadgerGameDomainService
 import com.ort.app.domain.service.ability.BakeryDomainService
 import com.ort.app.domain.service.ability.BombDomainService
+import com.ort.app.domain.service.ability.BreakupDomainService
 import com.ort.app.domain.service.ability.CheatDomainService
 import com.ort.app.domain.service.ability.CohabitDomainService
 import com.ort.app.domain.service.ability.CourtDomainService
@@ -28,6 +29,7 @@ import com.ort.app.domain.service.ability.InsuranceDomainService
 import com.ort.app.domain.service.ability.InvestigateDomainService
 import com.ort.app.domain.service.ability.LoneAttackDomainService
 import com.ort.app.domain.service.ability.LoudSpeakDomainService
+import com.ort.app.domain.service.ability.LoveStealDomainService
 import com.ort.app.domain.service.ability.NecromanceDomainService
 import com.ort.app.domain.service.ability.RainbowDomainService
 import com.ort.app.domain.service.ability.ResuscitateDomainService
@@ -76,6 +78,8 @@ class ProgressDomainService(
     private val resuscitateDomainService: ResuscitateDomainService,
     private val necromanceDomainService: NecromanceDomainService,
     private val yubisashiDomainService: YubisashiDomainService,
+    private val loveStealDomainService: LoveStealDomainService,
+    private val breakupDomainService: BreakupDomainService,
     private val revivalDomainService: RevivalDomainService,
     private val suicideDomainService: SuicideDomainService,
     private val epilogueDomainService: EpilogueDomainService,
@@ -104,6 +108,10 @@ class ProgressDomainService(
         daychange = suddenlyDeathDomainService.deadIfNeeded(daychange)
         // 誑かす
         daychange = cheatDomainService.cheat(daychange)
+        // 破局
+        daychange = breakupDomainService.breakup(daychange)
+        // 恋泥棒
+        daychange = loveStealDomainService.stealLove(daychange)
         // 求愛
         daychange = courtDomainService.court(daychange)
         // ストーキング

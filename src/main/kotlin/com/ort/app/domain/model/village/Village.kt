@@ -291,10 +291,17 @@ data class Village(
         return copy(participants = participants.insurance(fromParticipantId, toParticipantId))
     }
 
+    fun breakupParticipant(participantId: Int): Village {
+        return copy(participants = participants.breakup(participantId, this))
+    }
+
+    fun stealLoveParticipant(participantId: Int, stealerId: Int): Village {
+        return copy(participants = participants.stealLove(participantId, stealerId, this))
+    }
+
     fun useInsurance(participantId: Int): Village {
         return copy(participants = participants.useInsurance(participantId))
     }
-
 
     fun assignParticipantSkill(participantId: Int, skill: Skill): Village {
         return this.copy(participants = participants.assignSkill(participantId, skill, latestDay()))
