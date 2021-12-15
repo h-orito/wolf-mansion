@@ -5,18 +5,20 @@ import com.ort.app.domain.model.ability.AbilityType
 import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.model.vote.Votes
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
 @Service
 class CommandDomainService : AbilityTypeDomainService {
 
-    private val abilityType = AbilityType(CDef.AbilityType.指揮)
+    override val abilityType = AbilityType(CDef.AbilityType.指揮)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
+        abilities: Abilities,
+        votes: Votes
     ): List<VillageParticipant> {
         // 当日に能力行使していたらもう使えない
         if (abilities.filterByDay(village.latestDay()).filterByType(abilityType)
@@ -40,16 +42,16 @@ class CommandDomainService : AbilityTypeDomainService {
         footsteps: Footsteps,
         day: Int
     ): List<String> {
-        return abilities
-            .filterPastDay(day)
-            .filterByType(abilityType)
-            .filterByCharaId(myself.charaId)
-            .sortedByDay().list
-            .map {
-                val abilityDay = it.day
-                val target = village.participants.chara(it.targetCharaId!!)
-                "${abilityDay}日目 ${target.nameWhen(abilityDay)} を指差す"
-            }
+        return getHistoryStrings(
+            village = village,
+            myself = myself,
+            abilities = abilities,
+            footsteps = footsteps,
+            day = day,
+            abilityType = abilityType,
+            existsFootstep = isTargetingAndFootstep(),
+            suffix = "を指差す"
+        )
     }
 
     override fun createSetMessageText(

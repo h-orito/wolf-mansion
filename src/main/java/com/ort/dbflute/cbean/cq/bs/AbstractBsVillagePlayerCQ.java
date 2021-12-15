@@ -1240,6 +1240,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As バールのようなもの (BAR). And OnlyOnceRegistered. <br>
+     * バールのようなもの
+     */
+    public void setSkillCode_Equal_バールのようなもの() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.バールのようなもの);
+    }
+
+    /**
      * Equal(=). As 黒箱者 (BLACKBOX). And OnlyOnceRegistered. <br>
      * 黒箱者
      */
@@ -1900,6 +1908,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_パン屋() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.パン屋);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As バールのようなもの (BAR). And OnlyOnceRegistered. <br>
+     * バールのようなもの
+     */
+    public void setSkillCode_NotEqual_バールのようなもの() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.バールのようなもの);
     }
 
     /**
@@ -2753,6 +2769,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As バールのようなもの (BAR). And OnlyOnceRegistered. <br>
+     * バールのようなもの
+     */
+    public void setRequestSkillCode_Equal_バールのようなもの() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.バールのようなもの);
+    }
+
+    /**
      * Equal(=). As 黒箱者 (BLACKBOX). And OnlyOnceRegistered. <br>
      * 黒箱者
      */
@@ -3413,6 +3437,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_パン屋() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.パン屋);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As バールのようなもの (BAR). And OnlyOnceRegistered. <br>
+     * バールのようなもの
+     */
+    public void setRequestSkillCode_NotEqual_バールのようなもの() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.バールのようなもの);
     }
 
     /**
@@ -4266,6 +4298,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As バールのようなもの (BAR). And OnlyOnceRegistered. <br>
+     * バールのようなもの
+     */
+    public void setSecondRequestSkillCode_Equal_バールのようなもの() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.バールのようなもの);
+    }
+
+    /**
      * Equal(=). As 黒箱者 (BLACKBOX). And OnlyOnceRegistered. <br>
      * 黒箱者
      */
@@ -4926,6 +4966,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_パン屋() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.パン屋);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As バールのようなもの (BAR). And OnlyOnceRegistered. <br>
+     * バールのようなもの
+     */
+    public void setSecondRequestSkillCode_NotEqual_バールのようなもの() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.バールのようなもの);
     }
 
     /**

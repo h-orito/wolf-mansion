@@ -9,6 +9,7 @@ import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.model.vote.Votes
 import com.ort.app.domain.service.MessageDomainService
 import com.ort.app.domain.service.room.RoomDomainService
 import com.ort.dbflute.allcommon.CDef
@@ -20,14 +21,14 @@ class WallPunchDomainService(
     private val messageDomainService: MessageDomainService
 ) : AbilityTypeDomainService {
 
-    private val abilityType = AbilityType(CDef.AbilityType.壁殴り)
+    override val abilityType = AbilityType(CDef.AbilityType.壁殴り)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
+        abilities: Abilities,
+        votes: Votes
     ): List<VillageParticipant> {
-        if (village.latestDay() < 2) return emptyList()
         // 四方の部屋
         val candidateRoomNumbers = roomDomainService.detectWasdRoomNumbers(
             room = myself.room!!,
@@ -43,18 +44,6 @@ class WallPunchDomainService(
             .sortedByRoomNumber().list
             .filter { candidateRoomNumbers.contains(it.room!!.number) }
             .filterNot { pastTargetCharaIds.contains(it.charaId) }
-    }
-
-    override fun getSelectingTarget(
-        village: Village,
-        myself: VillageParticipant,
-        abilities: Abilities
-    ): VillageParticipant? {
-        return abilities
-            .filterByDay(village.latestDay())
-            .filterByType(abilityType)
-            .filterByCharaId(myself.charaId).list.firstOrNull()
-            ?.let { village.participants.chara(it.targetCharaId!!) }
     }
 
     override fun getHistories(

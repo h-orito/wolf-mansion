@@ -9,9 +9,9 @@ import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.model.vote.Votes
 import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.room.RoomDomainService
-import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
@@ -22,19 +22,16 @@ class ForceReincarnationDomainService(
     private val roomDomainService: RoomDomainService
 ) : AbilityTypeDomainService {
 
-    private val abilityType = CDef.AbilityType.強制転生.toModel()
+    override val abilityType = CDef.AbilityType.強制転生.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
+        abilities: Abilities,
+        votes: Votes
     ): List<VillageParticipant> {
         // 一度でも使用していたら使えない
-        if (abilities.filterPastDay(village.latestDay()).filterByCharaId(myself.charaId)
-                .filterByType(abilityType).list.isNotEmpty()
-        ) {
-            return emptyList()
-        }
+        if (hasAlreadyUseAbility(village, myself, abilities, abilityType)) return emptyList()
         // 対象は直線上の生存者のみ
         val roomList = roomDomainService.detectHishaRoomNumbers(myself.room!!, village.roomSize!!)
         return village.participants
@@ -42,18 +39,6 @@ class ForceReincarnationDomainService(
             .filterNotParticipant(myself)
             .sortedByRoomNumber().list
             .filter { roomList.contains(it.room!!.number) }
-    }
-
-    override fun getSelectingTarget(
-        village: Village,
-        myself: VillageParticipant,
-        abilities: Abilities
-    ): VillageParticipant? {
-        return abilities
-            .filterByDay(village.latestDay())
-            .filterByType(abilityType)
-            .filterByCharaId(myself.charaId).list.firstOrNull()
-            ?.let { village.participants.chara(it.targetCharaId!!) }
     }
 
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
@@ -81,26 +66,6 @@ class ForceReincarnationDomainService(
                 val target = village.participants.chara(it.targetCharaId!!)
                 "${abilityDay}日目 ${target.nameWhen(abilityDay)} を強制転生させる（$footstep）"
             }
-    }
-
-    override fun assertAbility(
-        village: Village,
-        myself: VillageParticipant,
-        charaId: Int?,
-        targetCharaId: Int?,
-        footstep: String?,
-        abilities: Abilities,
-        footsteps: Footsteps
-    ) {
-        if (targetCharaId != null
-            && getSelectableTargetList(village, myself, abilities).none { it.charaId == targetCharaId }
-        ) {
-            throw WolfMansionBusinessException("選択できない対象を指定しています")
-        }
-        if (targetCharaId != null) {
-            // 足音
-            footstepDomainService.assertFootstep(village, myself.charaId, targetCharaId, footstep)
-        }
     }
 
     override fun createSetMessageText(

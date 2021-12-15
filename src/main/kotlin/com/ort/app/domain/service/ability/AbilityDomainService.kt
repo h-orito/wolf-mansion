@@ -13,6 +13,8 @@ import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.village.participant.dead.DeadReason
+import com.ort.app.domain.model.vote.Votes
+import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.MessageDomainService
 import com.ort.app.domain.service.SpoilerDomainService
 import com.ort.app.fw.exception.WolfMansionBusinessException
@@ -40,6 +42,7 @@ class AbilityDomainService(
     private val investigateDomainService: InvestigateDomainService,
     private val loneAttackDomainService: LoneAttackDomainService,
     private val huntingDomainService: HuntingDomainService,
+    private val beatDomainService: BeatDomainService,
     private val seduceDomainService: SeduceDomainService,
     private val loveStealDomainService: LoveStealDomainService,
     private val breakupDomainService: BreakupDomainService,
@@ -57,7 +60,8 @@ class AbilityDomainService(
     private val forceReincarnationDomainService: ForceReincarnationDomainService,
     private val giveBabaDomainService: GiveBabaDomainService,
     private val yubisashiDomainService: YubisashiDomainService,
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
+    private val footstepDomainService: FootstepDomainService
 ) {
 
     fun convertToVillageSituation(
@@ -85,6 +89,7 @@ class AbilityDomainService(
         village: Village,
         myself: VillageParticipant?,
         abilities: Abilities,
+        votes: Votes,
         footsteps: Footsteps,
         day: Int
     ): ParticipantAbilitySituation {
@@ -92,7 +97,7 @@ class AbilityDomainService(
         return ParticipantAbilitySituation(
             canUseAbility = canUseAbility(village, myself, day) && canUseDay(myself, day),
             type = abilityType,
-            targetList = getSelectableTargetList(village, myself, abilities, day, abilityType),
+            targetList = getSelectableTargetList(village, myself, abilities, votes, day, abilityType),
             targetFootstepList = getSelectableFootstepList(village, myself, footsteps, day, abilityType),
             attacker = getSelectingAttacker(village, myself, abilities, day, abilityType),
             target = getSelectingTarget(village, myself, abilities, day, abilityType),
@@ -145,6 +150,7 @@ class AbilityDomainService(
             CDef.AbilityType.隠蔽 -> hideDomainService
             CDef.AbilityType.恋泥棒 -> loveStealDomainService
             CDef.AbilityType.破局 -> breakupDomainService
+            CDef.AbilityType.殴打 -> beatDomainService
         }
 
     fun createSetMessage(
@@ -247,12 +253,13 @@ class AbilityDomainService(
         village: Village,
         myself: VillageParticipant?,
         abilities: Abilities,
+        votes: Votes,
         day: Int,
         abilityType: AbilityType?
     ): List<VillageParticipant> {
         return if (!canUseAbility(village, myself, day)) listOf()
         else if (abilityType == null || abilityType.toCdef() == CDef.AbilityType.襲撃) listOf()
-        else detectAbilityTypeService(abilityType).getSelectableTargetList(village, myself!!, abilities)
+        else detectAbilityTypeService(abilityType).getSelectableTargetList(village, myself!!, abilities, votes)
     }
 
     fun assertAbility(
@@ -262,6 +269,7 @@ class AbilityDomainService(
         targetCharaId: Int?,
         footstep: String?,
         abilities: Abilities,
+        votes: Votes,
         footsteps: Footsteps
     ) {
         myself?.skill ?: throw WolfMansionBusinessException("役職なし")
@@ -278,8 +286,9 @@ class AbilityDomainService(
                 targetCharaId,
                 footstep,
                 abilities,
-                footsteps
-            )
+                footsteps,
+                votes
+            ) { footstepDomainService.assertFootstep(village, myself.charaId, targetCharaId, footstep) }
         }
     }
 

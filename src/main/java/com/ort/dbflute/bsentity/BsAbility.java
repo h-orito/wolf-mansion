@@ -188,6 +188,14 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
+     * Set the value of abilityTypeCode as 殴打 (BEAT). <br>
+     * 殴打
+     */
+    public void setAbilityTypeCode_殴打() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.殴打);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 爆弾設置 (BOMB). <br>
      * 爆弾設置
      */
@@ -453,6 +461,17 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public boolean isAbilityTypeCode美人局() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.美人局) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 殴打? <br>
+     * 殴打
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode殴打() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.殴打) : false;
     }
 
     /**

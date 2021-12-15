@@ -10,7 +10,6 @@ import com.ort.app.application.service.TweetService
 import com.ort.app.application.service.VillageService
 import com.ort.app.application.service.VoteApplicationService
 import com.ort.app.domain.model.ability.Abilities
-import com.ort.app.domain.model.chara.Charachip
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.commit.Commit
 import com.ort.app.domain.model.footstep.Footsteps
@@ -165,8 +164,18 @@ class VillageCoordinator(
     ) {
         myself ?: throw WolfMansionBusinessException("ログインしてください")
         val abilities = abilityService.findAbilities(village.id)
+        val votes = voteService.findVotes(village.id)
         val footsteps = footstepService.findFootsteps(village.id)
-        abilityDomainService.assertAbility(village, myself, charaId, targetCharaId, footstep, abilities, footsteps)
+        abilityDomainService.assertAbility(
+            village,
+            myself,
+            charaId,
+            targetCharaId,
+            footstep,
+            abilities,
+            votes,
+            footsteps
+        )
         abilityService.updateAbility(village, myself, charaId, targetCharaId, footstep)
         footstepService.updateFootstep(village, myself, footstep)
         messageService.registerMessage(
@@ -217,9 +226,10 @@ class VillageCoordinator(
     fun getAttackableTargets(village: Village, myself: VillageParticipant?, charaId: Int): VillageParticipants {
         myself ?: throw WolfMansionBusinessException("ログインしてください")
         val abilities = abilityService.findAbilities(village.id)
+        val votes = voteService.findVotes(village.id)
         attackDomainService.assertAttacker(village, myself, charaId, abilities)
         val attacker = village.participants.chara(charaId)
-        val list = attackDomainService.getSelectableTargetList(village, attacker, abilities)
+        val list = attackDomainService.getSelectableTargetList(village, attacker, abilities, votes)
         return VillageParticipants(count = list.size, list = list)
     }
 
@@ -256,7 +266,14 @@ class VillageCoordinator(
             commit = commitDomainService.convertToSituation(village, myself, commits),
             say = sayDomainService.convertToSituation(village, myself, charachips, day, latestDayMessageCountMap),
             rp = rpDomainService.convertToSituation(village, myself, charachips, day),
-            ability = abilityDomainService.convertToParticipantSituation(village, myself, abilities, footsteps, day),
+            ability = abilityDomainService.convertToParticipantSituation(
+                village,
+                myself,
+                abilities,
+                votes,
+                footsteps,
+                day
+            ),
             vote = voteDomainService.convertToParticipantSituation(village, myself, votes),
             admin = adminDomainService.convertToSituation(village, myself),
             creator = creatorDomainService.convertToSituation(village, player)

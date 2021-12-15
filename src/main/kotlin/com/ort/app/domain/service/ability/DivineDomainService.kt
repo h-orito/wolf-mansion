@@ -10,10 +10,10 @@ import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.model.vote.Votes
 import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.MessageDomainService
 import com.ort.app.domain.service.room.RoomDomainService
-import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
@@ -24,30 +24,14 @@ class DivineDomainService(
     private val roomDomainService: RoomDomainService
 ) : AbilityTypeDomainService {
 
-    private val abilityType = AbilityType(CDef.AbilityType.占い)
+    override val abilityType = AbilityType(CDef.AbilityType.占い)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
-    ): List<VillageParticipant> {
-        return village.participants
-            .filterAlive()
-            .filterNotParticipant(myself)
-            .sortedByRoomNumber().list
-    }
-
-    override fun getSelectingTarget(
-        village: Village,
-        myself: VillageParticipant,
-        abilities: Abilities
-    ): VillageParticipant? {
-        return abilities
-            .filterByDay(village.latestDay())
-            .filterByType(abilityType)
-            .filterByCharaId(myself.charaId).list.firstOrNull()
-            ?.let { village.participants.chara(it.targetCharaId!!) }
-    }
+        abilities: Abilities,
+        votes: Votes
+    ): List<VillageParticipant> = getAliveTargetsWithoutMyself(village, myself)
 
     override fun getHistories(
         village: Village,
@@ -72,23 +56,6 @@ class DivineDomainService(
             }
     }
 
-    override fun assertAbility(
-        village: Village,
-        myself: VillageParticipant,
-        charaId: Int?,
-        targetCharaId: Int?,
-        footstep: String?,
-        abilities: Abilities,
-        footsteps: Footsteps
-    ) {
-        // 対象
-        if (getSelectableTargetList(village, myself, abilities).none { it.charaId == targetCharaId }) {
-            throw WolfMansionBusinessException("選択できない対象を指定しています")
-        }
-        // 足音
-        footstepDomainService.assertFootstep(village, myself.charaId, targetCharaId, footstep)
-    }
-
     override fun createSetMessageText(
         village: Village,
         myself: VillageParticipant,
@@ -110,7 +77,7 @@ class DivineDomainService(
         village.participants.filterAlive().list
             .filter { it.skill!!.hasDivineAbility() }
             .forEach {
-                val target = getSelectableTargetList(village, it, abilities).shuffled().first()
+                val target = getSelectableTargetList(village, it, abilities, daychange.votes).shuffled().first()
                 val ability = Ability(
                     day = village.latestDay(),
                     type = abilityType,

@@ -11,9 +11,9 @@ import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.model.vote.Votes
 import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.MessageDomainService
-import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
@@ -23,15 +23,15 @@ class GuardDomainService(
     private val messageDomainService: MessageDomainService
 ) : AbilityTypeDomainService {
 
-    private val abilityType = AbilityType(CDef.AbilityType.護衛)
+    override val abilityType = AbilityType(CDef.AbilityType.護衛)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
+        abilities: Abilities,
+        votes: Votes
     ): List<VillageParticipant> {
         val day = village.latestDay()
-        if (day < 2) return emptyList()
         val targets = village.participants
             .filterAlive()
             .filterNotParticipant(myself)
@@ -40,18 +40,6 @@ class GuardDomainService(
         val yesterdayAbility =
             abilities.filterByType(abilityType).filterByCharaId(myself.charaId).filterByDay(day - 1).list.firstOrNull()
         return targets.list.filterNot { it.charaId == yesterdayAbility?.targetCharaId }
-    }
-
-    override fun getSelectingTarget(
-        village: Village,
-        myself: VillageParticipant,
-        abilities: Abilities
-    ): VillageParticipant? {
-        return abilities
-            .filterByDay(village.latestDay())
-            .filterByType(abilityType)
-            .filterByCharaId(myself.charaId).list.firstOrNull()
-            ?.let { village.participants.chara(it.targetCharaId!!) }
     }
 
     override fun getHistories(
@@ -77,23 +65,6 @@ class GuardDomainService(
             }
     }
 
-    override fun assertAbility(
-        village: Village,
-        myself: VillageParticipant,
-        charaId: Int?,
-        targetCharaId: Int?,
-        footstep: String?,
-        abilities: Abilities,
-        footsteps: Footsteps
-    ) {
-        // 対象
-        if (getSelectableTargetList(village, myself, abilities).none { it.charaId == targetCharaId }) {
-            throw WolfMansionBusinessException("選択できない対象を指定しています")
-        }
-        // 足音
-        footstepDomainService.assertFootstep(village, myself.charaId, targetCharaId, footstep)
-    }
-
     override fun createSetMessageText(
         village: Village,
         myself: VillageParticipant,
@@ -115,7 +86,7 @@ class GuardDomainService(
         var abilities = daychange.abilities.copy()
         var footsteps = daychange.footsteps.copy()
         village.participants.filterAlive().filterBySkill(CDef.Skill.狩人.toModel()).list.forEach {
-            val target = getSelectableTargetList(village, it, abilities).shuffled().first()
+            val target = getSelectableTargetList(village, it, abilities, daychange.votes).shuffled().first()
             val ability = Ability(
                 day = village.latestDay(),
                 type = abilityType,

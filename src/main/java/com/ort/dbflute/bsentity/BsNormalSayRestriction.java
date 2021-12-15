@@ -219,6 +219,14 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
+     * Set the value of skillCode as バールのようなもの (BAR). <br>
+     * バールのようなもの
+     */
+    public void setSkillCode_バールのようなもの() {
+        setSkillCodeAsSkill(CDef.Skill.バールのようなもの);
+    }
+
+    /**
      * Set the value of skillCode as 黒箱者 (BLACKBOX). <br>
      * 黒箱者
      */
@@ -1066,6 +1074,17 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     public boolean isSkillCodeパン屋() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.パン屋) : false;
+    }
+
+    /**
+     * Is the value of skillCode バールのようなもの? <br>
+     * バールのようなもの
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCodeバールのようなもの() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.バールのようなもの) : false;
     }
 
     /**

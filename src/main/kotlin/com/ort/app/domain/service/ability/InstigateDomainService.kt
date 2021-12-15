@@ -5,18 +5,20 @@ import com.ort.app.domain.model.ability.AbilityType
 import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.model.vote.Votes
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
 @Service
 class InstigateDomainService : AbilityTypeDomainService {
 
-    private val abilityType = AbilityType(CDef.AbilityType.煽動)
+    override val abilityType = AbilityType(CDef.AbilityType.煽動)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
+        abilities: Abilities,
+        votes: Votes
     ): List<VillageParticipant> {
         // 当日に能力行使していたらもう使えない
         if (abilities.filterByDay(village.latestDay()).filterByType(abilityType)

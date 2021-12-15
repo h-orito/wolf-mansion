@@ -232,6 +232,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
     }
 
     /**
+     * Equal(=). As バールのようなもの (BAR). And OnlyOnceRegistered. <br>
+     * バールのようなもの
+     */
+    public void setSkillCode_Equal_バールのようなもの() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.バールのようなもの);
+    }
+
+    /**
      * Equal(=). As 黒箱者 (BLACKBOX). And OnlyOnceRegistered. <br>
      * 黒箱者
      */
@@ -892,6 +900,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
      */
     public void setSkillCode_NotEqual_パン屋() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.パン屋);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As バールのようなもの (BAR). And OnlyOnceRegistered. <br>
+     * バールのようなもの
+     */
+    public void setSkillCode_NotEqual_バールのようなもの() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.バールのようなもの);
     }
 
     /**

@@ -413,6 +413,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as バールのようなもの (BAR). <br>
+     * バールのようなもの
+     */
+    public void setSkillCode_バールのようなもの() {
+        setSkillCodeAsSkill(CDef.Skill.バールのようなもの);
+    }
+
+    /**
      * Set the value of skillCode as 黒箱者 (BLACKBOX). <br>
      * 黒箱者
      */
@@ -1053,6 +1061,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as バールのようなもの (BAR). <br>
+     * バールのようなもの
+     */
+    public void setRequestSkillCode_バールのようなもの() {
+        setRequestSkillCodeAsSkill(CDef.Skill.バールのようなもの);
+    }
+
+    /**
      * Set the value of requestSkillCode as 黒箱者 (BLACKBOX). <br>
      * 黒箱者
      */
@@ -1690,6 +1706,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_パン屋() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.パン屋);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as バールのようなもの (BAR). <br>
+     * バールのようなもの
+     */
+    public void setSecondRequestSkillCode_バールのようなもの() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.バールのようなもの);
     }
 
     /**
@@ -2468,6 +2492,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCodeパン屋() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.パン屋) : false;
+    }
+
+    /**
+     * Is the value of skillCode バールのようなもの? <br>
+     * バールのようなもの
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCodeバールのようなもの() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.バールのようなもの) : false;
     }
 
     /**
@@ -3471,6 +3506,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode バールのようなもの? <br>
+     * バールのようなもの
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCodeバールのようなもの() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.バールのようなもの) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 黒箱者? <br>
      * 黒箱者
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -4468,6 +4514,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCodeパン屋() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.パン屋) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode バールのようなもの? <br>
+     * バールのようなもの
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCodeバールのようなもの() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.バールのようなもの) : false;
     }
 
     /**

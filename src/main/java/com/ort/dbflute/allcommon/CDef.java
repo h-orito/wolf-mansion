@@ -544,6 +544,9 @@ public interface CDef extends Classification {
         /** パン屋 */
         パン屋("BAKERY", "パン屋", emptyStrings())
         ,
+        /** バールのようなもの */
+        バールのようなもの("BAR", "バールのようなもの", emptyStrings())
+        ,
         /** 黒箱者 */
         黒箱者("BLACKBOX", "黒箱者", emptyStrings())
         ,
@@ -814,6 +817,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "パ");
                 _subItemMapMap.put(パン屋.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "207");
+                subItemMap.put("campCode", "WEREWOLF");
+                subItemMap.put("skill_short_name", "棒");
+                _subItemMapMap.put(バールのようなもの.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -2092,6 +2102,9 @@ public interface CDef extends Classification {
         ,
         /** 美人局 */
         美人局("BADGERGAME", "美人局", emptyStrings())
+        ,
+        /** 殴打 */
+        殴打("BEAT", "殴打", emptyStrings())
         ,
         /** 爆弾設置 */
         爆弾設置("BOMB", "爆弾設置", emptyStrings())

@@ -12,6 +12,7 @@ import com.ort.app.domain.service.ability.AttackDomainService
 import com.ort.app.domain.service.ability.AutopsyDomainService
 import com.ort.app.domain.service.ability.BadgerGameDomainService
 import com.ort.app.domain.service.ability.BakeryDomainService
+import com.ort.app.domain.service.ability.BeatDomainService
 import com.ort.app.domain.service.ability.BombDomainService
 import com.ort.app.domain.service.ability.BreakupDomainService
 import com.ort.app.domain.service.ability.CheatDomainService
@@ -59,6 +60,7 @@ class ProgressDomainService(
     private val wandererDomainService: WandererDomainService,
     private val investigateDomainService: InvestigateDomainService,
     private val loneAttackDomainService: LoneAttackDomainService,
+    private val beatDomainService: BeatDomainService,
     private val huntingDomainService: HuntingDomainService,
     private val seduceDomainService: SeduceDomainService,
     private val stalkingDomainService: StalkingDomainService,
@@ -148,6 +150,8 @@ class ProgressDomainService(
         daychange = loneAttackDomainService.loneAttack(daychange, charas)
         // 狩猟
         daychange = huntingDomainService.hunting(daychange)
+        // 殴打
+        daychange = beatDomainService.beat(daychange)
         // 罠発動
         daychange = trapDomainService.trap(daychange)
         // 爆弾発動

@@ -9,9 +9,9 @@ import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.model.vote.Votes
 import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.MessageDomainService
-import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
@@ -21,37 +21,14 @@ class CheatDomainService(
     private val footstepDomainService: FootstepDomainService
 ) : AbilityTypeDomainService {
 
-    private val abilityType = CDef.AbilityType.誑かす.toModel()
+    override val abilityType = CDef.AbilityType.誑かす.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
-    ): List<VillageParticipant> {
-        // 前日以前に能力行使していたらもう使えない
-        if (abilities.filterPastDay(village.latestDay()).filterByType(abilityType)
-                .filterByCharaId(myself.charaId).list.isNotEmpty()
-        ) {
-            return emptyList()
-        }
-        return village.participants
-            .filterAlive()
-            .filterNotDummy(village.dummyParticipant())
-            .filterNotParticipant(myself)
-            .sortedByRoomNumber().list
-    }
-
-    override fun getSelectingTarget(
-        village: Village,
-        myself: VillageParticipant,
-        abilities: Abilities
-    ): VillageParticipant? {
-        return abilities
-            .filterByDay(village.latestDay())
-            .filterByType(abilityType)
-            .filterByCharaId(myself.charaId).list.firstOrNull()
-            ?.let { village.participants.chara(it.targetCharaId!!) }
-    }
+        abilities: Abilities,
+        votes: Votes
+    ): List<VillageParticipant> = getOnlyOneTimeAliveTargets(village, myself, abilities, abilityType)
 
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
     override fun isTargetingAndFootstep(): Boolean = true
@@ -63,40 +40,16 @@ class CheatDomainService(
         footsteps: Footsteps,
         day: Int
     ): List<String> {
-        return abilities
-            .filterPastDay(day)
-            .filterByCharaId(myself.charaId)
-            .filterByType(abilityType)
-            .sortedByDay().list.map {
-                val abilityDay = it.day
-                val footstep = footsteps
-                    .filterByDay(abilityDay)
-                    .filterByCharaId(it.charaId).list
-                    .firstOrNull()
-                    ?.roomNumbers ?: "なし"
-                val target = village.participants.chara(it.targetCharaId!!)
-                "${abilityDay}日目 ${target.nameWhen(abilityDay)} を仲間に引き入れる（$footstep）"
-            }
-    }
-
-    override fun assertAbility(
-        village: Village,
-        myself: VillageParticipant,
-        charaId: Int?,
-        targetCharaId: Int?,
-        footstep: String?,
-        abilities: Abilities,
-        footsteps: Footsteps
-    ) {
-        if (targetCharaId != null
-            && getSelectableTargetList(village, myself, abilities).none { it.charaId == targetCharaId }
-        ) {
-            throw WolfMansionBusinessException("選択できない対象を指定しています")
-        }
-        if (targetCharaId != null) {
-            // 足音
-            footstepDomainService.assertFootstep(village, myself.charaId, targetCharaId, footstep)
-        }
+        return getHistoryStrings(
+            village = village,
+            myself = myself,
+            abilities = abilities,
+            footsteps = footsteps,
+            day = day,
+            abilityType = abilityType,
+            existsFootstep = isTargetingAndFootstep(),
+            suffix = "を仲間に引き入れる"
+        )
     }
 
     override fun createSetMessageText(

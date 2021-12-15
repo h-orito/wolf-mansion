@@ -8,8 +8,8 @@ import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.model.vote.Votes
 import com.ort.app.domain.service.FootstepDomainService
-import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
@@ -18,29 +18,14 @@ class RainbowDomainService(
     private val footstepDomainService: FootstepDomainService
 ) : AbilityTypeDomainService {
 
-    private val abilityType = CDef.AbilityType.虹塗り.toModel()
+    override val abilityType = CDef.AbilityType.虹塗り.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
-    ): List<VillageParticipant> {
-        return village.participants
-            .filterAlive()
-            .sortedByRoomNumber().list
-    }
-
-    override fun getSelectingTarget(
-        village: Village,
-        myself: VillageParticipant,
-        abilities: Abilities
-    ): VillageParticipant? {
-        return abilities
-            .filterByDay(village.latestDay())
-            .filterByType(abilityType)
-            .filterByCharaId(myself.charaId).list.firstOrNull()
-            ?.let { village.participants.chara(it.targetCharaId!!) }
-    }
+        abilities: Abilities,
+        votes: Votes
+    ): List<VillageParticipant> = getAliveTargets(village)
 
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
     override fun isTargetingAndFootstep(): Boolean = true
@@ -66,26 +51,6 @@ class RainbowDomainService(
                 val target = village.participants.chara(it.targetCharaId!!)
                 "${abilityDay}日目 ${target.nameWhen(abilityDay)} を虹色に塗る（$footstep）"
             }
-    }
-
-    override fun assertAbility(
-        village: Village,
-        myself: VillageParticipant,
-        charaId: Int?,
-        targetCharaId: Int?,
-        footstep: String?,
-        abilities: Abilities,
-        footsteps: Footsteps
-    ) {
-        if (targetCharaId != null
-            && getSelectableTargetList(village, myself, abilities).none { it.charaId == targetCharaId }
-        ) {
-            throw WolfMansionBusinessException("選択できない対象を指定しています")
-        }
-        if (targetCharaId != null) {
-            // 足音
-            footstepDomainService.assertFootstep(village, myself.charaId, targetCharaId, footstep)
-        }
     }
 
     override fun createSetMessageText(

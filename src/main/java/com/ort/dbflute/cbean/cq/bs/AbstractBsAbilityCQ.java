@@ -756,6 +756,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 殴打 (BEAT). And OnlyOnceRegistered. <br>
+     * 殴打
+     */
+    public void setAbilityTypeCode_Equal_殴打() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.殴打);
+    }
+
+    /**
      * Equal(=). As 爆弾設置 (BOMB). And OnlyOnceRegistered. <br>
      * 爆弾設置
      */
@@ -1032,6 +1040,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_美人局() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.美人局);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 殴打 (BEAT). And OnlyOnceRegistered. <br>
+     * 殴打
+     */
+    public void setAbilityTypeCode_NotEqual_殴打() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.殴打);
     }
 
     /**

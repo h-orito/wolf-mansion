@@ -12,6 +12,7 @@ import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.model.vote.Votes
 import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.MessageDomainService
 import com.ort.app.domain.service.room.RoomDomainService
@@ -27,12 +28,13 @@ class AttackDomainService(
     private val cohabitDomainService: CohabitDomainService
 ) : AbilityTypeDomainService {
 
-    private val abilityType = AbilityType(CDef.AbilityType.襲撃)
+    override val abilityType = AbilityType(CDef.AbilityType.襲撃)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
+        abilities: Abilities,
+        votes: Votes
     ): List<VillageParticipant> {
         if (village.latestDay() == 1) return listOf(village.dummyParticipant())
         val baseTargetList = village.participants
@@ -95,11 +97,8 @@ class AttackDomainService(
             ?.let { village.participants.chara(it.targetCharaId!!) }
     }
 
-    override fun isAvailableNoTarget(
-        village: Village,
-        myself: VillageParticipant,
-        abilities: Abilities
-    ): Boolean = false
+    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean =
+        false
 
     override fun getHistories(
         village: Village,
@@ -126,7 +125,9 @@ class AttackDomainService(
         targetCharaId: Int?,
         footstep: String?,
         abilities: Abilities,
-        footsteps: Footsteps
+        footsteps: Footsteps,
+        votes: Votes,
+        defaultFootstepAsserter: () -> Unit
     ) {
         // 襲撃者
         if (getAttackableWolfs(village, village.latestDay(), abilities).none { it.charaId == charaId }) {
@@ -134,11 +135,11 @@ class AttackDomainService(
         }
         // 襲撃対象
         val attacker = village.participants.chara(charaId!!)
-        if (getSelectableTargetList(village, attacker, abilities).none { it.charaId == targetCharaId }) {
+        if (getSelectableTargetList(village, attacker, abilities, votes).none { it.charaId == targetCharaId }) {
             throw WolfMansionBusinessException("選択できない対象を指定しています")
         }
         // 足音
-        footstepDomainService.assertFootstep(village, charaId, targetCharaId, footstep)
+        defaultFootstepAsserter.invoke()
     }
 
     override fun createSetMessageText(
@@ -205,7 +206,7 @@ class AttackDomainService(
         if (attackers.isEmpty()) return daychange
         val attacker = attackers.shuffled().first()
         // 襲撃対象
-        val target = getSelectableTargetList(village, attacker, daychange.abilities).shuffled().first()
+        val target = getSelectableTargetList(village, attacker, daychange.abilities, daychange.votes).shuffled().first()
         val ability = Ability(
             day = village.latestDay(),
             charaId = attacker.charaId,

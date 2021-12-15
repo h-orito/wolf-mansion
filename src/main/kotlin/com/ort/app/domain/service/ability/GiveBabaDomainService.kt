@@ -8,9 +8,9 @@ import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.model.vote.Votes
 import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.MessageDomainService
-import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
@@ -20,12 +20,13 @@ class GiveBabaDomainService(
     private val messageDomainService: MessageDomainService
 ) : AbilityTypeDomainService {
 
-    private val abilityType = CDef.AbilityType.ババを渡す.toModel()
+    override val abilityType = CDef.AbilityType.ババを渡す.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
+        abilities: Abilities,
+        votes: Votes
     ): List<VillageParticipant> {
         // ババになったことがない人
         return village.participants
@@ -35,18 +36,6 @@ class GiveBabaDomainService(
             .filterNot {
                 it.skill!!.histories.list.any { h -> h.skill.toCdef() == CDef.Skill.ババ }
             }
-    }
-
-    override fun getSelectingTarget(
-        village: Village,
-        myself: VillageParticipant,
-        abilities: Abilities
-    ): VillageParticipant? {
-        return abilities
-            .filterByDay(village.latestDay())
-            .filterByType(abilityType)
-            .filterByCharaId(myself.charaId).list.firstOrNull()
-            ?.let { village.participants.chara(it.targetCharaId!!) }
     }
 
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
@@ -73,26 +62,6 @@ class GiveBabaDomainService(
                 val target = village.participants.chara(it.targetCharaId!!)
                 "${abilityDay}日目 ${target.nameWhen(abilityDay)} にババを押し付ける（$footstep）"
             }
-    }
-
-    override fun assertAbility(
-        village: Village,
-        myself: VillageParticipant,
-        charaId: Int?,
-        targetCharaId: Int?,
-        footstep: String?,
-        abilities: Abilities,
-        footsteps: Footsteps
-    ) {
-        if (targetCharaId != null
-            && getSelectableTargetList(village, myself, abilities).none { it.charaId == targetCharaId }
-        ) {
-            throw WolfMansionBusinessException("選択できない対象を指定しています")
-        }
-        if (targetCharaId != null) {
-            // 足音
-            footstepDomainService.assertFootstep(village, myself.charaId, targetCharaId, footstep)
-        }
     }
 
     override fun createSetMessageText(

@@ -78,7 +78,12 @@
                                                     th:if="${room.dummy != null && room.dummy}"><br/>ダミー</span>
                                                 <span class="hidden"
                                                       style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-                                                      th:if="${room.skillName != null}"
+                                                      th:if="${room.skillName != null && #strings.length(room.skillName) > 5}"
+                                                      th:utext="'<br />' + ${#strings.substring(room.skillName, 0,4)} + '...'"
+                                                      data-spoiled-content>人狼</span>
+                                                <span class="hidden"
+                                                      style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+                                                      th:if="${room.skillName != null && #strings.length(room.skillName) <= 5}"
                                                       th:utext="'<br />' + ${room.skillName}"
                                                       data-spoiled-content>人狼</span>
                                             </div>

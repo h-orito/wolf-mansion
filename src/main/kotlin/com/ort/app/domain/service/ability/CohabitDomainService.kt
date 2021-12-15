@@ -10,6 +10,7 @@ import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.model.vote.Votes
 import com.ort.app.domain.service.MessageDomainService
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
@@ -19,12 +20,13 @@ class CohabitDomainService(
     private val messageDomainService: MessageDomainService
 ) : AbilityTypeDomainService {
 
-    private val abilityType = CDef.AbilityType.同棲.toModel()
+    override val abilityType = CDef.AbilityType.同棲.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
+        abilities: Abilities,
+        votes: Votes
     ): List<VillageParticipant> {
         return listOf(myself, myself.getTargetCohabitor(village)!!)
     }
@@ -73,13 +75,6 @@ class CohabitDomainService(
     }
 
     override fun getTargetSuffix(): String? = "の部屋で過ごす"
-
-    private fun VillageParticipant.getTargetCohabitor(village: Village): VillageParticipant {
-        return village.participants.list.firstOrNull {
-            it.skill!!.toCdef() == CDef.Skill.同棲者 &&
-                    status.loverIdList.contains(it.id)
-        } ?: throw IllegalStateException("同棲者がいません")
-    }
 
     fun addDefaultAbilities(daychange: Daychange): Daychange {
         val village = daychange.village

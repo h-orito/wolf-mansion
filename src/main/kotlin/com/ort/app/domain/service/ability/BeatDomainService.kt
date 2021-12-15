@@ -2,7 +2,6 @@ package com.ort.app.domain.service.ability
 
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.AbilityType
-import com.ort.app.domain.model.chara.Charas
 import com.ort.app.domain.model.chara.toModel
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.footstep.Footsteps
@@ -18,21 +17,33 @@ import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
 @Service
-class LoneAttackDomainService(
-    private val footstepDomainService: FootstepDomainService,
+class BeatDomainService(
     private val attackDomainService: AttackDomainService,
     private val messageDomainService: MessageDomainService,
     private val cohabitDomainService: CohabitDomainService
 ) : AbilityTypeDomainService {
 
-    override val abilityType = AbilityType(CDef.AbilityType.単独襲撃)
+    override val abilityType = AbilityType(CDef.AbilityType.殴打)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
         votes: Votes
-    ): List<VillageParticipant> = getAliveTargetsWithoutMyself(village, myself)
+    ): List<VillageParticipant> {
+        // 一度使うと使えない
+        return if (hasAlreadyUseAbility(village, myself, abilities, abilityType)) emptyList()
+        // 自分に投票してきたことがある人
+        else village.participants
+            .filterAlive()
+            .filterNotParticipant(myself)
+            .sortedByRoomNumber().list
+            .filter { p ->
+                votes.filterByCharaId(p.charaId).list.any { v ->
+                    v.day < village.latestDay() && v.targetCharaId == myself.charaId
+                }
+            }
+    }
 
     override fun getHistories(
         village: Village,
@@ -41,20 +52,16 @@ class LoneAttackDomainService(
         footsteps: Footsteps,
         day: Int
     ): List<String> {
-        return abilities
-            .filterPastDay(day)
-            .filterByCharaId(myself.charaId)
-            .filterByType(abilityType)
-            .sortedByDay().list.map {
-                val abilityDay = it.day
-                val footstep = footsteps
-                    .filterByDay(abilityDay)
-                    .filterByCharaId(it.charaId).list
-                    .firstOrNull()
-                    ?.roomNumbers ?: "なし"
-                val target = village.participants.chara(it.targetCharaId!!)
-                "${abilityDay}日目 ${target.nameWhen(abilityDay)} を襲撃する（${footstep}）"
-            }
+        return getHistoryStrings(
+            village = village,
+            myself = myself,
+            abilities = abilities,
+            footsteps = footsteps,
+            day = day,
+            abilityType = abilityType,
+            existsFootstep = isTargetingAndFootstep(),
+            suffix = "を殴打する"
+        )
     }
 
     override fun createSetMessageText(
@@ -65,27 +72,24 @@ class LoneAttackDomainService(
         footstep: String?
     ): String {
         val targetName = targetCharaId?.let { village.participants.chara(it).name() } ?: "なし"
-        return "${myself.name()}が単独襲撃対象を${targetName}に、通過する部屋を${footstep!!}に設定しました。"
+        return "${myself.name()}が殴打する対象を${targetName}に、通過する部屋を${footstep!!}に設定しました。"
     }
 
-    override fun getTargetPrefix(): String? = "襲撃対象"
+    override fun getTargetPrefix(): String? = "殴打する対象"
     override fun isTargetingAndFootstep(): Boolean = true
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
-    override fun canUseDay(day: Int): Boolean = day > 1
+    override fun canUseDay(day: Int): Boolean = day > 2
 
-    fun loneAttack(daychange: Daychange, charas: Charas): Daychange {
+    fun beat(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
-        village.participants.filterAlive().filterBySkill(CDef.Skill.一匹狼.toModel()).list.forEach {
+        village.participants.filterAlive().filterBySkill(CDef.Skill.バールのようなもの.toModel()).list.shuffled().forEach {
             val ability = daychange.abilities.findYesterday(village, it, abilityType)
                 ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
-
-            // 襲撃メッセージ
-            messages = messages.add(createAttackMessage(village, it, target, charas))
-
+            messages = messages.add(createBeatMessage(village, it, target))
+            messages = messages.add(createBeatSayMessage(village, it))
             if (!attackDomainService.isAttackSuccess(daychange, target)) return@forEach
-
             if (cohabitDomainService.isCohabiting(daychange, target)) {
                 val cohabitor = target.getTargetCohabitor(village)!!
                 village = village.attackedParticipant(cohabitor.id)
@@ -96,23 +100,22 @@ class LoneAttackDomainService(
         return daychange.copy(village = village, messages = messages)
     }
 
-    private fun createAttackMessage(
-        village: Village,
-        myself: VillageParticipant,
-        target: VillageParticipant,
-        charas: Charas
-    ): Message {
-        val text = "${target.name()}！今日がお前の命日だ！"
-        val faceType = if (hasFaceType(myself, charas)) CDef.FaceType.囁き else CDef.FaceType.通常
-        return messageDomainService.createAttackMessage(
+    private fun createBeatMessage(village: Village, bar: VillageParticipant, target: VillageParticipant): Message {
+        return messageDomainService.createPrivateAbilityMessage(
             village,
-            myself,
-            text,
-            faceType.toModel(),
-            CDef.MessageType.独り言.toModel()
+            bar,
+            "${bar.name()}は、投票の恨みを晴らすべく、${target.name()}を殴打した。",
+            CDef.MessageType.能力行使メッセージ.toModel()
         )
     }
 
-    private fun hasFaceType(myself: VillageParticipant, charas: Charas): Boolean =
-        charas.chara(myself.charaId).images.list.any { it.faceType.toCdef() == CDef.FaceType.囁き }
+    private fun createBeatSayMessage(village: Village, bar: VillageParticipant): Message {
+        return messageDomainService.createAttackMessage(
+            village,
+            bar,
+            "ついカッとなってやった。今では反省している。",
+            CDef.FaceType.通常.toModel(),
+            CDef.MessageType.独り言.toModel()
+        )
+    }
 }

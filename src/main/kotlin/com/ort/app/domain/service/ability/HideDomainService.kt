@@ -5,36 +5,26 @@ import com.ort.app.domain.model.ability.AbilityType
 import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.model.vote.Votes
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
 @Service
 class HideDomainService : AbilityTypeDomainService {
 
-    private val abilityType = AbilityType(CDef.AbilityType.隠蔽)
+    override val abilityType = AbilityType(CDef.AbilityType.隠蔽)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
+        abilities: Abilities,
+        votes: Votes
     ): List<VillageParticipant> {
         val day = village.latestDay()
         // 前日以前に2回以上能力行使していたらもう使えない
         val count = abilities.filterPastDay(day).filterByType(abilityType)
             .filterByCharaId(myself.charaId).list.size
         return if (count >= 2) emptyList() else listOf(myself)
-    }
-
-    override fun getSelectingTarget(
-        village: Village,
-        myself: VillageParticipant,
-        abilities: Abilities
-    ): VillageParticipant? {
-        return abilities
-            .filterByDay(village.latestDay())
-            .filterByType(abilityType)
-            .filterByCharaId(myself.charaId).list.firstOrNull()
-            ?.let { village.participants.chara(it.targetCharaId!!) }
     }
 
     override fun getHistories(

@@ -9,6 +9,7 @@ import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.model.vote.Votes
 import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.MessageDomainService
 import com.ort.app.fw.exception.WolfMansionBusinessException
@@ -21,12 +22,13 @@ class InvestigateDomainService(
     private val messageDomainService: MessageDomainService
 ) : AbilityTypeDomainService {
 
-    private val abilityType = AbilityType(CDef.AbilityType.捜査)
+    override val abilityType = AbilityType(CDef.AbilityType.捜査)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
+        abilities: Abilities,
+        votes: Votes
     ): List<VillageParticipant> = emptyList()
 
     override fun getSelectingTarget(
@@ -56,7 +58,9 @@ class InvestigateDomainService(
         targetCharaId: Int?,
         footstep: String?,
         abilities: Abilities,
-        footsteps: Footsteps
+        footsteps: Footsteps,
+        votes: Votes,
+        defaultFootstepAsserter: () -> Unit
     ) {
         // 足音
         if (getSelectableFootstepList(village, myself, footsteps).none { it == footstep }) {
