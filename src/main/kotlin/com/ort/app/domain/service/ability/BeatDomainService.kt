@@ -11,7 +11,6 @@ import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.vote.Votes
-import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.MessageDomainService
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service

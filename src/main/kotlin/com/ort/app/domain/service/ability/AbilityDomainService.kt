@@ -456,7 +456,6 @@ class AbilityDomainService(
 
     fun addDefaultAbilities(beforeDaychange: Daychange): Daychange {
         var daychange = beforeDaychange.copy()
-        val village = daychange.village
 
         // 襲撃
         daychange = attackDomainService.addDefaultAbilities(daychange)

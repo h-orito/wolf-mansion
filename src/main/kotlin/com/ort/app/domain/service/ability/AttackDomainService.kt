@@ -45,39 +45,27 @@ class AttackDomainService(
         return when (myself.skill!!.toCdef()) {
             CDef.Skill.歩狼 -> {
                 val roomList = roomDomainService.detectWasdRoomNumbers(myself.room!!, village.roomSize!!)
-                val targetList = baseTargetList.filter { roomList.contains(it.room!!.number) }
-                if (targetList.isEmpty()) baseTargetList
-                else targetList
+                baseTargetList.filter { roomList.contains(it.room!!.number) }.ifEmpty { baseTargetList }
             }
             CDef.Skill.銀狼 -> {
                 val roomList = roomDomainService.detectGinRoomNumbers(myself.room!!, village.roomSize!!)
-                val targetList = baseTargetList.filter { roomList.contains(it.room!!.number) }
-                if (targetList.isEmpty()) baseTargetList
-                else targetList
+                baseTargetList.filter { roomList.contains(it.room!!.number) }.ifEmpty { baseTargetList }
             }
             CDef.Skill.金狼 -> {
                 val roomList = roomDomainService.detectKinRoomNumbers(myself.room!!, village.roomSize!!)
-                val targetList = baseTargetList.filter { roomList.contains(it.room!!.number) }
-                if (targetList.isEmpty()) baseTargetList
-                else targetList
+                baseTargetList.filter { roomList.contains(it.room!!.number) }.ifEmpty { baseTargetList }
             }
             CDef.Skill.王狼 -> {
                 val roomList = roomDomainService.detectKingRoomNumbers(myself.room!!, village.roomSize!!)
-                val targetList = baseTargetList.filter { roomList.contains(it.room!!.number) }
-                if (targetList.isEmpty()) baseTargetList
-                else targetList
+                baseTargetList.filter { roomList.contains(it.room!!.number) }.ifEmpty { baseTargetList }
             }
             CDef.Skill.飛狼 -> {
                 val roomList = roomDomainService.detectHishaRoomNumbers(myself.room!!, village.roomSize!!)
-                val targetList = baseTargetList.filter { roomList.contains(it.room!!.number) }
-                if (targetList.isEmpty()) baseTargetList
-                else targetList
+                baseTargetList.filter { roomList.contains(it.room!!.number) }.ifEmpty { baseTargetList }
             }
             CDef.Skill.角狼 -> {
                 val roomList = roomDomainService.detectKakuRoomNumbers(myself.room!!, village.roomSize!!)
-                val targetList = baseTargetList.filter { roomList.contains(it.room!!.number) }
-                if (targetList.isEmpty()) baseTargetList
-                else targetList
+                baseTargetList.filter { roomList.contains(it.room!!.number) }.ifEmpty { baseTargetList }
             }
             else -> baseTargetList
         }
