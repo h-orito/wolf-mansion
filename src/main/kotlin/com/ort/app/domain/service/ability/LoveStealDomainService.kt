@@ -3,22 +3,19 @@ package com.ort.app.domain.service.ability
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.AbilityType
 import com.ort.app.domain.model.daychange.Daychange
-import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.vote.Votes
-import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.MessageDomainService
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
 @Service
 class LoveStealDomainService(
-    private val messageDomainService: MessageDomainService,
-    private val footstepDomainService: FootstepDomainService
+    private val messageDomainService: MessageDomainService
 ) : AbilityTypeDomainService {
 
     override val abilityType = AbilityType(CDef.AbilityType.恋泥棒)
@@ -30,45 +27,8 @@ class LoveStealDomainService(
         votes: Votes
     ): List<VillageParticipant> = getOnlyOneTimeAliveTargets(village, myself, abilities, abilityType)
 
-    override fun getHistories(
-        village: Village,
-        myself: VillageParticipant,
-        abilities: Abilities,
-        footsteps: Footsteps,
-        day: Int
-    ): List<String> {
-        return abilities
-            .filterPastDay(day)
-            .filterByCharaId(myself.charaId)
-            .filterByType(abilityType)
-            .sortedByDay().list.map {
-                val abilityDay = it.day
-                val footstep = footsteps
-                    .filterByDay(abilityDay)
-                    .filterByCharaId(it.charaId).list
-                    .firstOrNull()
-                    ?.roomNumbers ?: "なし"
-                val target = village.participants.chara(it.targetCharaId!!)
-                "${abilityDay}日目 ${target.nameWhen(abilityDay)} の心を盗む（$footstep）"
-            }
-    }
-
-    override fun createSetMessageText(
-        village: Village,
-        myself: VillageParticipant,
-        charaId: Int?,
-        targetCharaId: Int?,
-        footstep: String?
-    ): String {
-        return if (targetCharaId == null) {
-            "${myself.name()}が心を盗む対象をなしに設定しました。"
-        } else {
-            val target = village.participants.chara(targetCharaId)
-            "${myself.name()}が心を盗む対象を${target.name()}に、通過する部屋を${footstep!!}に設定しました。"
-        }
-    }
-
     override fun getTargetPrefix(): String? = "心を盗む対象"
+    override fun getTargetSuffix(): String? = "の心を盗む"
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
     override fun isTargetingAndFootstep(): Boolean = true
 

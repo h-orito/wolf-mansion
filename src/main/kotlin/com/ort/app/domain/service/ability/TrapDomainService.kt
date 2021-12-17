@@ -3,7 +3,6 @@ package com.ort.app.domain.service.ability
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.AbilityType
 import com.ort.app.domain.model.daychange.Daychange
-import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.skill.toModel
@@ -30,42 +29,8 @@ class TrapDomainService(
         votes: Votes
     ): List<VillageParticipant> = getOnlyOneTimeAliveTargets(village, myself, abilities, abilityType)
 
-    override fun getHistories(
-        village: Village,
-        myself: VillageParticipant,
-        abilities: Abilities,
-        footsteps: Footsteps,
-        day: Int
-    ): List<String> {
-        return abilities
-            .filterPastDay(day)
-            .filterByCharaId(myself.charaId)
-            .filterByType(abilityType)
-            .sortedByDay().list.map {
-                val abilityDay = it.day
-                val footstep = footsteps
-                    .filterByDay(abilityDay)
-                    .filterByCharaId(it.charaId).list
-                    .firstOrNull()
-                    ?.roomNumbers ?: "なし"
-                val target = village.participants.chara(it.targetCharaId!!)
-                "${abilityDay}日目 ${target.nameWhen(abilityDay)} の部屋に罠を設置する（$footstep）"
-            }
-    }
-
-    override fun createSetMessageText(
-        village: Village,
-        myself: VillageParticipant,
-        charaId: Int?,
-        targetCharaId: Int?,
-        footstep: String?
-    ): String {
-        targetCharaId ?: return "${myself.name()}が罠を解除しました。"
-        val target = village.participants.chara(targetCharaId)
-        return "${myself.name()}が罠を設置する部屋を${target.name()}に、通過する部屋を${footstep!!}に設定しました。"
-    }
-
     override fun getTargetPrefix(): String? = "罠を設置する部屋"
+    override fun getTargetSuffix(): String? = "の部屋に罠を設置する"
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
     override fun canUseDay(day: Int): Boolean = day > 1
     override fun isTargetingAndFootstep(): Boolean = true

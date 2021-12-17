@@ -2,7 +2,6 @@ package com.ort.app.domain.service.ability
 
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.AbilityType
-import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.vote.Votes
@@ -35,24 +34,11 @@ class CommandDomainService : AbilityTypeDomainService {
         abilities: Abilities
     ): VillageParticipant? = null
 
-    override fun getHistories(
+    override fun getSelectingTargetMessage(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities,
-        footsteps: Footsteps,
-        day: Int
-    ): List<String> {
-        return getHistoryStrings(
-            village = village,
-            myself = myself,
-            abilities = abilities,
-            footsteps = footsteps,
-            day = day,
-            abilityType = abilityType,
-            existsFootstep = isTargetingAndFootstep(),
-            suffix = "を指差す"
-        )
-    }
+        abilities: Abilities
+    ): String? = null
 
     override fun createSetMessageText(
         village: Village,

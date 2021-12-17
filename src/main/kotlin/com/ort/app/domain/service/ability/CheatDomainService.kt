@@ -3,22 +3,19 @@ package com.ort.app.domain.service.ability
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.daychange.Daychange
-import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.vote.Votes
-import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.MessageDomainService
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
 @Service
 class CheatDomainService(
-    private val messageDomainService: MessageDomainService,
-    private val footstepDomainService: FootstepDomainService
+    private val messageDomainService: MessageDomainService
 ) : AbilityTypeDomainService {
 
     override val abilityType = CDef.AbilityType.誑かす.toModel()
@@ -32,42 +29,8 @@ class CheatDomainService(
 
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
     override fun isTargetingAndFootstep(): Boolean = true
-
-    override fun getHistories(
-        village: Village,
-        myself: VillageParticipant,
-        abilities: Abilities,
-        footsteps: Footsteps,
-        day: Int
-    ): List<String> {
-        return getHistoryStrings(
-            village = village,
-            myself = myself,
-            abilities = abilities,
-            footsteps = footsteps,
-            day = day,
-            abilityType = abilityType,
-            existsFootstep = isTargetingAndFootstep(),
-            suffix = "を仲間に引き入れる"
-        )
-    }
-
-    override fun createSetMessageText(
-        village: Village,
-        myself: VillageParticipant,
-        charaId: Int?,
-        targetCharaId: Int?,
-        footstep: String?
-    ): String {
-        return if (targetCharaId == null) {
-            "${myself.name()}が誑かす対象をなしに設定しました。"
-        } else {
-            val target = village.participants.chara(targetCharaId)
-            "${myself.name()}が誑かす対象を${target.name()}に、通過する部屋を${footstep!!}に設定しました。"
-        }
-    }
-
-    override fun getTargetPrefix(): String? = "仲間に引き入れる対象"
+    override fun getTargetPrefix(): String? = "誑かす対象"
+    override fun getTargetSuffix(): String? = "を誑かす"
 
     fun cheat(daychange: Daychange): Daychange {
         var village = daychange.village.copy()

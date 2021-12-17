@@ -244,11 +244,10 @@ class VillageControllerHelper(
                     footstep = ability.targetFootstep ?: ability.footstep
                 )
             )
-            ability.attacker?.let {
-                model.addAttribute("charaName", it.name())
-            } ?: model.addAttribute("charaName", myself!!.name())
+            ability.targetingMessage?.let {
+                model.addAttribute("targetingMessage", it)
+            }
             ability.target?.let {
-                model.addAttribute("targetCharaName", it.name())
                 model.addAttribute("targetCharaId", it.charaId)
             }
 

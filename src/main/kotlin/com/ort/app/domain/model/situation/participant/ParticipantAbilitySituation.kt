@@ -14,6 +14,8 @@ data class ParticipantAbilitySituation(
     val target: VillageParticipant? = null,
     // 探偵が選択している足音
     val targetFootstep: String? = null,
+    // 選択している対象の文言
+    val targetingMessage: String? = null,
     // 足音セット職の足音
     val footstep: String? = null,
     val isAvailableNoTarget: Boolean = false,

@@ -85,6 +85,16 @@ class AttackDomainService(
             ?.let { village.participants.chara(it.targetCharaId!!) }
     }
 
+    override fun getSelectingTargetMessage(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities
+    ): String? {
+        val attacker = getSelectingAttacker(village, myself, abilities) ?: return null
+        val target = getSelectingTarget(village, myself, abilities) ?: return null
+        return "${attacker.name()} が ${target.name()} を襲撃する"
+    }
+
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean =
         false
 
@@ -143,6 +153,7 @@ class AttackDomainService(
     }
 
     override fun getTargetPrefix(): String? = "襲撃対象"
+    override fun getTargetSuffix(): String? = "を襲撃する"
     override fun isTargetingAndFootstep(): Boolean = true
 
     fun getAttackableWolfs(village: Village, day: Int, abilities: Abilities): List<VillageParticipant> {

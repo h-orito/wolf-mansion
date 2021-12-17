@@ -102,6 +102,7 @@ class AbilityDomainService(
             attacker = getSelectingAttacker(village, myself, abilities, day, abilityType),
             target = getSelectingTarget(village, myself, abilities, day, abilityType),
             targetFootstep = getSelectingTargetFootstep(village, myself, abilities, day, abilityType),
+            targetingMessage = getSelectingTargetMessage(village, myself, abilities, day, abilityType),
             footstep = getSelectingFootstep(village, myself, footsteps, day, abilityType),
             isAvailableNoTarget = canNoTarget(village, myself, abilities, abilityType),
             attackerList = getAttackerList(village, myself, abilities, day),
@@ -233,6 +234,18 @@ class AbilityDomainService(
         else investigateDomainService.getSelectingFootstep(village, myself!!, abilities)
     }
 
+    private fun getSelectingTargetMessage(
+        village: Village,
+        myself: VillageParticipant?,
+        abilities: Abilities,
+        day: Int,
+        abilityType: AbilityType?
+    ): String? {
+        return if (!canUseAbility(village, myself, day)) null
+        else if (abilityType == null) null
+        else detectAbilityTypeService(abilityType).getSelectingTargetMessage(village, myself!!, abilities)
+    }
+
     private fun getSelectingFootstep(
         village: Village,
         myself: VillageParticipant?,
@@ -288,7 +301,7 @@ class AbilityDomainService(
                 abilities,
                 footsteps,
                 votes
-            ) { footstepDomainService.assertFootstep(village, myself.charaId, targetCharaId, footstep) }
+            ) { footstepDomainService.assertFootstep(village, charaId ?: myself.charaId, targetCharaId, footstep) }
         }
     }
 

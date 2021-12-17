@@ -29,6 +29,15 @@ class FruitsBasketDomainService(
         else listOf(myself)
     }
 
+    override fun getSelectingTargetMessage(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities
+    ): String? {
+        return if (getSelectingTarget(village, myself, abilities) == null) "何もしない"
+        else "フルーツバスケットする！"
+    }
+
     override fun getHistories(
         village: Village,
         myself: VillageParticipant,

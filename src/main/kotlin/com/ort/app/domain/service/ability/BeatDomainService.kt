@@ -4,7 +4,6 @@ import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.AbilityType
 import com.ort.app.domain.model.chara.toModel
 import com.ort.app.domain.model.daychange.Daychange
-import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.skill.toModel
@@ -44,37 +43,8 @@ class BeatDomainService(
             }
     }
 
-    override fun getHistories(
-        village: Village,
-        myself: VillageParticipant,
-        abilities: Abilities,
-        footsteps: Footsteps,
-        day: Int
-    ): List<String> {
-        return getHistoryStrings(
-            village = village,
-            myself = myself,
-            abilities = abilities,
-            footsteps = footsteps,
-            day = day,
-            abilityType = abilityType,
-            existsFootstep = isTargetingAndFootstep(),
-            suffix = "を殴打する"
-        )
-    }
-
-    override fun createSetMessageText(
-        village: Village,
-        myself: VillageParticipant,
-        charaId: Int?,
-        targetCharaId: Int?,
-        footstep: String?
-    ): String {
-        val targetName = targetCharaId?.let { village.participants.chara(it).name() } ?: "なし"
-        return "${myself.name()}が殴打する対象を${targetName}に、通過する部屋を${footstep!!}に設定しました。"
-    }
-
     override fun getTargetPrefix(): String? = "殴打する対象"
+    override fun getTargetSuffix(): String? = "を殴打する"
     override fun isTargetingAndFootstep(): Boolean = true
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
     override fun canUseDay(day: Int): Boolean = day > 2

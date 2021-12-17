@@ -3,21 +3,18 @@ package com.ort.app.domain.service.ability
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.AbilityType
 import com.ort.app.domain.model.daychange.Daychange
-import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.vote.Votes
-import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.MessageDomainService
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
 @Service
 class WandererDomainService(
-    private val footstepDomainService: FootstepDomainService,
     private val messageDomainService: MessageDomainService
 ) : AbilityTypeDomainService {
 
@@ -41,46 +38,10 @@ class WandererDomainService(
             .list.filterNot { pastTargetCharaIds.contains(it.charaId) }
     }
 
-    override fun getHistories(
-        village: Village,
-        myself: VillageParticipant,
-        abilities: Abilities,
-        footsteps: Footsteps,
-        day: Int
-    ): List<String> {
-        return abilities
-            .filterPastDay(day)
-            .filterByCharaId(myself.charaId)
-            .filterByType(abilityType)
-            .sortedByDay().list.map {
-                val abilityDay = it.day
-                val footstep = footsteps
-                    .filterByDay(abilityDay)
-                    .filterByCharaId(it.charaId).list
-                    .firstOrNull()
-                    ?.roomNumbers ?: "なし"
-                val target = village.participants.chara(it.targetCharaId!!)
-                "${abilityDay}日目 ${target.nameWhen(abilityDay)} を護衛する（${footstep}）"
-            }
-    }
-
-    override fun createSetMessageText(
-        village: Village,
-        myself: VillageParticipant,
-        charaId: Int?,
-        targetCharaId: Int?,
-        footstep: String?
-    ): String {
-        targetCharaId ?: return "${myself.name()}が護衛対象をなしに設定しました。" // 護衛なしを選べる
-        val target = village.participants.chara(targetCharaId!!)
-        return "${myself.name()}が護衛対象を${target.name()}に、通過する部屋を${footstep!!}に設定しました。"
-    }
-
+    override fun getTargetPrefix(): String? = "護衛対象"
     override fun getTargetSuffix(): String? = "を護衛する"
     override fun isTargetingAndFootstep(): Boolean = true
     override fun canUseDay(day: Int): Boolean = day > 1
-
-    // 護衛なしを選べる
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
 
     fun wandererGuard(daychange: Daychange): Daychange {

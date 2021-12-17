@@ -37,6 +37,15 @@ class InvestigateDomainService(
         abilities: Abilities
     ): VillageParticipant? = null
 
+    override fun getSelectingTargetMessage(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities
+    ): String? {
+        val target = getSelectingFootstep(village, myself, abilities) ?: return "なし"
+        return "$target を調査する"
+    }
+
     override fun getHistories(
         village: Village,
         myself: VillageParticipant,

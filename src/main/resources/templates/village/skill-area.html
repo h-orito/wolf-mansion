@@ -70,7 +70,7 @@
                                             <option th:each="target : ${content.form.ability.abilityTargetList}"
                                                     th:value="${target.value}" th:text="${target.name}"></option>
                                         </select>
-                                        <span th:if="${content.form.ability.targetSuffixMessage}"
+                                        <span th:if="${content.form.ability.targetSuffixMessage != null && content.form.ability.targetPrefixMessage == null}"
                                               th:text="${content.form.ability.targetSuffixMessage}"></span>
                                     </div>
                                     <div class="col-sm-12 col-xs-12"
@@ -111,7 +111,7 @@
                                         <select class="form-control" th:field="*{targetCharaId}"
                                                 data-ability-target-select>
                                         </select>
-                                        <span th:if="${content.form.ability.targetSuffixMessage}"
+                                        <span th:if="${content.form.ability.targetSuffixMessage != null && content.form.ability.targetPrefixMessage == null}"
                                               th:text="${content.form.ability.targetSuffixMessage}"></span>
                                     </div>
                                     <div class="col-sm-12 col-xs-12"

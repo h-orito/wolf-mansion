@@ -27,6 +27,15 @@ class HideDomainService : AbilityTypeDomainService {
         return if (count >= 2) emptyList() else listOf(myself)
     }
 
+    override fun getSelectingTargetMessage(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities
+    ): String? {
+        return if (getSelectingTarget(village, myself, abilities) == null) "何もしない"
+        else "投票箱を隠す"
+    }
+
     override fun getHistories(
         village: Village,
         myself: VillageParticipant,

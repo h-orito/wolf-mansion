@@ -58,22 +58,11 @@ class CohabitDomainService(
             .map {
                 val abilityDay = it.day
                 val target = village.participants.chara(it.targetCharaId!!)
-                "${abilityDay}日目 ${target.nameWhen(abilityDay)} の部屋で過ごす"
+                "${abilityDay}日目 ${target.nameWhen(abilityDay)} ${getTargetSuffix()}"
             }
     }
 
-    override fun createSetMessageText(
-        village: Village,
-        myself: VillageParticipant,
-        charaId: Int?,
-        targetCharaId: Int?,
-        footstep: String?
-    ): String {
-        val target = village.participants.chara(targetCharaId!!)
-        val partner = target.getTargetCohabitor(village)!!
-        return "${partner.name()}が今晩の滞在先を${target.name()}の部屋に設定しました。"
-    }
-
+    override fun getTargetPrefix(): String? = "今晩の滞在先"
     override fun getTargetSuffix(): String? = "の部屋で過ごす"
 
     fun addDefaultAbilities(daychange: Daychange): Daychange {

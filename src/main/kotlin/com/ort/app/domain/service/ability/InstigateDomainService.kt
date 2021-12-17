@@ -35,6 +35,12 @@ class InstigateDomainService : AbilityTypeDomainService {
         abilities: Abilities
     ): VillageParticipant? = null
 
+    override fun getSelectingTargetMessage(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities
+    ): String? = null
+
     override fun getHistories(
         village: Village,
         myself: VillageParticipant,

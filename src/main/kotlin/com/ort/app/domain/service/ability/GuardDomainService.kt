@@ -5,7 +5,6 @@ import com.ort.app.domain.model.ability.Ability
 import com.ort.app.domain.model.ability.AbilityType
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.footstep.Footstep
-import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.skill.toModel
@@ -42,40 +41,7 @@ class GuardDomainService(
         return targets.list.filterNot { it.charaId == yesterdayAbility?.targetCharaId }
     }
 
-    override fun getHistories(
-        village: Village,
-        myself: VillageParticipant,
-        abilities: Abilities,
-        footsteps: Footsteps,
-        day: Int
-    ): List<String> {
-        return abilities
-            .filterPastDay(day)
-            .filterByCharaId(myself.charaId)
-            .filterByType(abilityType)
-            .sortedByDay().list.map {
-                val abilityDay = it.day
-                val footstep = footsteps
-                    .filterByDay(abilityDay)
-                    .filterByCharaId(it.charaId).list
-                    .firstOrNull()
-                    ?.roomNumbers ?: "なし"
-                val target = village.participants.chara(it.targetCharaId!!)
-                "${abilityDay}日目 ${target.nameWhen(abilityDay)} を護衛する（${footstep}）"
-            }
-    }
-
-    override fun createSetMessageText(
-        village: Village,
-        myself: VillageParticipant,
-        charaId: Int?,
-        targetCharaId: Int?,
-        footstep: String?
-    ): String {
-        val target = village.participants.chara(targetCharaId!!)
-        return "${myself.name()}が護衛対象を${target.name()}に、通過する部屋を${footstep!!}に設定しました。"
-    }
-
+    override fun getTargetPrefix(): String? = "護衛対象"
     override fun getTargetSuffix(): String? = "を護衛する"
     override fun isTargetingAndFootstep(): Boolean = true
     override fun canUseDay(day: Int): Boolean = day > 1

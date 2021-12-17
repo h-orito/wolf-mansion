@@ -3,7 +3,6 @@ package com.ort.app.domain.service.ability
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.AbilityType
 import com.ort.app.domain.model.daychange.Daychange
-import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.skill.toModel
@@ -46,36 +45,8 @@ class WallPunchDomainService(
             .filterNot { pastTargetCharaIds.contains(it.charaId) }
     }
 
-    override fun getHistories(
-        village: Village,
-        myself: VillageParticipant,
-        abilities: Abilities,
-        footsteps: Footsteps,
-        day: Int
-    ): List<String> {
-        return abilities
-            .filterPastDay(day)
-            .filterByCharaId(myself.charaId)
-            .filterByType(abilityType)
-            .sortedByDay().list.map {
-                val abilityDay = it.day
-                val target = village.participants.chara(it.targetCharaId!!)
-                "${abilityDay}日目 ${target.nameWhen(abilityDay)} の部屋の壁を殴る"
-            }
-    }
-
-    override fun createSetMessageText(
-        village: Village,
-        myself: VillageParticipant,
-        charaId: Int?,
-        targetCharaId: Int?,
-        footstep: String?
-    ): String {
-        targetCharaId ?: return "${myself.name()}が壁殴り対象をなしに設定しました。"
-        val target = village.participants.chara(targetCharaId)
-        return "${myself.name()}が壁殴り対象を${target.name()}に設定しました。"
-    }
-
+    override fun getTargetPrefix(): String? = "壁殴り対象"
+    override fun getTargetSuffix(): String? = "の部屋の壁を殴る"
     override fun canUseDay(day: Int): Boolean = day > 1
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
 

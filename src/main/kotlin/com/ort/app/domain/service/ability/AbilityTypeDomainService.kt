@@ -30,6 +30,15 @@ interface AbilityTypeDomainService {
             .filterByCharaId(myself.charaId).list.firstOrNull()
             ?.let { village.participants.chara(it.targetCharaId!!) }
 
+    fun getSelectingTargetMessage(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities
+    ): String? {
+        val target = getSelectingTarget(village, myself, abilities) ?: return "なし"
+        return "${target.name()} ${getTargetSuffix()}"
+    }
+
     fun isAvailableNoTarget(
         village: Village,
         myself: VillageParticipant,
@@ -42,7 +51,23 @@ interface AbilityTypeDomainService {
         abilities: Abilities,
         footsteps: Footsteps,
         day: Int
-    ): List<String>
+    ): List<String> {
+        return abilities
+            .filterPastDay(day)
+            .filterByCharaId(myself.charaId)
+            .filterByType(abilityType)
+            .sortedByDay().list.map {
+                val abilityDay = it.day
+                val footstep = footsteps
+                    .filterByDay(abilityDay)
+                    .filterByCharaId(it.charaId).list
+                    .firstOrNull()
+                    ?.roomNumbers ?: "なし"
+                val target = village.participants.chara(it.targetCharaId!!)
+                val footstepStr = if (isTargetingAndFootstep()) "（$footstep）" else ""
+                "${abilityDay}日目 ${target.nameWhen(abilityDay)} ${getTargetSuffix()!!}$footstepStr"
+            }
+    }
 
     fun assertAbility(
         village: Village,
@@ -73,7 +98,17 @@ interface AbilityTypeDomainService {
         charaId: Int?,
         targetCharaId: Int?,
         footstep: String?
-    ): String
+    ): String {
+        return if (targetCharaId == null) "${myself.name()}が${getTargetPrefix()}をなしに設定しました。"
+        else {
+            val target = village.participants.chara(targetCharaId)
+            if (isTargetingAndFootstep()) {
+                "${myself.name()}が${getTargetPrefix()}を${target.name()}に、通過する部屋を${footstep!!}に設定しました。"
+            } else {
+                "${myself.name()}が${getTargetPrefix()}を${target.name()}に設定しました。"
+            }
+        }
+    }
 
     fun getTargetPrefix(): String? = null
     fun getTargetSuffix(): String? = null

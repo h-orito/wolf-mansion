@@ -5,7 +5,6 @@ import com.ort.app.domain.model.ability.Ability
 import com.ort.app.domain.model.ability.AbilityType
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.footstep.Footstep
-import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.village.Village
@@ -33,40 +32,7 @@ class DivineDomainService(
         votes: Votes
     ): List<VillageParticipant> = getAliveTargetsWithoutMyself(village, myself)
 
-    override fun getHistories(
-        village: Village,
-        myself: VillageParticipant,
-        abilities: Abilities,
-        footsteps: Footsteps,
-        day: Int
-    ): List<String> {
-        return abilities
-            .filterPastDay(day)
-            .filterByCharaId(myself.charaId)
-            .filterByType(abilityType)
-            .sortedByDay().list.map {
-                val abilityDay = it.day
-                val footstep = footsteps
-                    .filterByDay(abilityDay)
-                    .filterByCharaId(it.charaId).list
-                    .firstOrNull()
-                    ?.roomNumbers ?: "なし"
-                val target = village.participants.chara(it.targetCharaId!!)
-                "${abilityDay}日目 ${target.nameWhen(abilityDay)} を占う（${footstep}）"
-            }
-    }
-
-    override fun createSetMessageText(
-        village: Village,
-        myself: VillageParticipant,
-        charaId: Int?,
-        targetCharaId: Int?,
-        footstep: String?
-    ): String {
-        val target = village.participants.chara(targetCharaId!!)
-        return "${myself.name()}が占い対象を${target.name()}に、通過する部屋を${footstep!!}に設定しました。"
-    }
-
+    override fun getTargetPrefix(): String? = "占い対象"
     override fun getTargetSuffix(): String? = "を占う"
     override fun isTargetingAndFootstep(): Boolean = true
 

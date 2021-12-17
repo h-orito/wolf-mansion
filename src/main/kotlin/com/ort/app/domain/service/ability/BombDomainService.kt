@@ -3,7 +3,6 @@ package com.ort.app.domain.service.ability
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.AbilityType
 import com.ort.app.domain.model.daychange.Daychange
-import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.skill.toModel
@@ -31,38 +30,8 @@ class BombDomainService(
         votes: Votes
     ): List<VillageParticipant> = getOnlyOneTimeAliveTargets(village, myself, abilities, abilityType)
 
-    override fun getHistories(
-        village: Village,
-        myself: VillageParticipant,
-        abilities: Abilities,
-        footsteps: Footsteps,
-        day: Int
-    ): List<String> {
-        return getHistoryStrings(
-            village = village,
-            myself = myself,
-            abilities = abilities,
-            footsteps = footsteps,
-            day = day,
-            abilityType = abilityType,
-            existsFootstep = isTargetingAndFootstep(),
-            suffix = "の部屋に爆弾を設置する"
-        )
-    }
-
-    override fun createSetMessageText(
-        village: Village,
-        myself: VillageParticipant,
-        charaId: Int?,
-        targetCharaId: Int?,
-        footstep: String?
-    ): String {
-        targetCharaId ?: return "${myself.name()}が爆弾を解除しました。"
-        val target = village.participants.chara(targetCharaId)
-        return "${myself.name()}が爆弾を設置する部屋を${target.name()}に、通過する部屋を${footstep!!}に設定しました。"
-    }
-
     override fun getTargetPrefix(): String? = "爆弾を設置する部屋"
+    override fun getTargetSuffix(): String? = "の部屋に爆弾を設置する"
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
     override fun canUseDay(day: Int): Boolean = day > 1
     override fun isTargetingAndFootstep(): Boolean = true

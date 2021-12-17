@@ -22,72 +22,13 @@
 <body>
 <div layout:fragment="skill-selecting">
     <!--/* 現在の選択 */-->
-    <p class="small" th:if="${content.myself.skill.hasDivineAbility}"
-       th:text="'現在の選択: ' + ${targetCharaName} + ' を占う'"></p>
-    <p class="small" th:if="${content.myself.skill.hasAttackAbility}"
-       th:text="'現在の選択: ' + ${charaName} + ' が ' + ${targetCharaName} + ' を襲う'"
-       th:data-selected-attack-target="${targetCharaId}"></p>
-    <p class="small" th:if="${content.myself.skill.hasGuardAbility}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を護衛する'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'WALLPUNCHER'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' の部屋の壁を殴る'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'DETECTIVE'}"
-       th:text="${'現在の選択: ' + (footstep == null ? 'なし' : (footstep + ' を調査する'))}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'OBSERVER'}"
-       th:text="${'現在の選択: ' + (footstep == null ? 'なし' : (footstep + ' を調査する'))}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'TRAPPER'}"
-       th:text="'現在の選択: ' + ${targetCharaName == '' || targetCharaName == null ? '罠を設置しない' : targetCharaName + ' の部屋に罠を設置する'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'BOMBER'}"
-       th:text="'現在の選択: ' + ${targetCharaName == '' || targetCharaName == null ? '爆弾を設置しない' : targetCharaName + ' の部屋に爆弾を設置する'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'FRUITSBASKET'}"
-       th:text="'現在の選択: ' + ${targetCharaName == '' || targetCharaName == null ? '何もしない' : 'フルーツバスケットする！'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'BLACKBOX'}"
-       th:text="'現在の選択: ' + ${targetCharaName == '' || targetCharaName == null ? '何もしない' : '投票箱を隠す'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'LONEWOLF'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? '襲撃しない' : targetCharaName + ' を襲う' }"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'BAR'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? '殴打しない' : targetCharaName + ' を殴打する' }"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'MATAGI'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? '狩猟しない' : targetCharaName + ' を狩猟する' }"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'SEPARATOR'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を破局させる'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'THIEFCAT'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' の心を盗む'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'COURTSHIP'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' に求愛する'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'STALKER'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' をストーキングする'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'JOROGUMO'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を誘惑する'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'BADGERGAME'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を誘惑して脅す'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'CHEATERFOX'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を仲間に引き入れる'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'RAINBOW'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を虹色に塗る'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'LOUDSPEAKER'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' に拡声器を渡す'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'TATSUYA'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を叫ばせる'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'TRUCK'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を強制転生させる'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'RESUSCITATOR'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を蘇生する'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'NECROMANCER'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' を死霊蘇生する'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'BABA'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' にババを押し付ける'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'DYINGPOINTER'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : '死に際に ' + targetCharaName + ' を指差す'}"></p>
-    <p class="small" th:if="${content.myself.skill.code == 'INSURANCER'}"
-       th:text="'現在の選択: ' + ${targetCharaName == null ? 'なし' : targetCharaName + ' に保険を勧める'}"></p>
+    <p class="small" th:if="${targetingMessage}" th:text="'現在の選択: ' + ${targetingMessage}"></p>
+    <span th:if="${targetCharaId}" th:data-selected-attack-target="${targetCharaId}"></span>
     <!--/* 通過する部屋 */-->
     <p class="small" th:if="${content.myself.skill.hasFootstepAbility}"
        th:text="'通過する部屋: ' + ${footstep == '' || footstep == null ? 'なし': footstep} + ' （明日朝時点で生存者のいる部屋のみ響きます）'"
        th:data-selected-footstep="${footstep == '' || footstep == null ? 'なし': footstep}"></p>
-    <p class="small" th:if="${content.myself.skill.hasCohabitAbility}"
-       th:text="'現在の選択: ' + ${targetCharaName} + ' の部屋で過ごす'"></p>
-    <hr th:unless="${content.myself.skill.code == 'COMMANDER' || content.myself.skill.code == 'INSTIGATOR'}"/>
+    <hr th:if="${targetingMessage}"/>
 </div>
 </body>
 </html>

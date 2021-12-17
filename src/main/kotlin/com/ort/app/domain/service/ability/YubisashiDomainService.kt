@@ -3,7 +3,6 @@ package com.ort.app.domain.service.ability
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.daychange.Daychange
-import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
@@ -25,40 +24,8 @@ class YubisashiDomainService : AbilityTypeDomainService {
     ): List<VillageParticipant> = getAliveTargetsWithoutMyself(village, myself)
 
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
-
-    override fun getHistories(
-        village: Village,
-        myself: VillageParticipant,
-        abilities: Abilities,
-        footsteps: Footsteps,
-        day: Int
-    ): List<String> {
-        return abilities
-            .filterPastDay(day)
-            .filterByCharaId(myself.charaId)
-            .filterByType(abilityType)
-            .sortedByDay().list.map {
-                val abilityDay = it.day
-                val target = village.participants.chara(it.targetCharaId!!)
-                "${abilityDay}日目 死に際に ${target.nameWhen(abilityDay)} を指差す"
-            }
-    }
-
-    override fun createSetMessageText(
-        village: Village,
-        myself: VillageParticipant,
-        charaId: Int?,
-        targetCharaId: Int?,
-        footstep: String?
-    ): String {
-        return if (targetCharaId == null) "${myself.name()}が死に際に指差す対象をなしに設定しました。"
-        else {
-            val target = village.participants.chara(targetCharaId)
-            "${myself.name()}が死に際に指差す対象を${target.name()}に設定しました。"
-        }
-    }
-
     override fun getTargetPrefix(): String = "死に際に指差す対象"
+    override fun getTargetSuffix(): String? = "を死に際に指差す"
     override fun canUseDay(day: Int): Boolean = day > 1
 
     fun yubisashi(daychange: Daychange): Daychange {
