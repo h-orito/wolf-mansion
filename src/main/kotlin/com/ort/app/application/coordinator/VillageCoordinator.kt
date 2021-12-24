@@ -177,7 +177,8 @@ class VillageCoordinator(
             footsteps
         )
         abilityService.updateAbility(village, myself, charaId, targetCharaId, footstep)
-        footstepService.updateFootstep(village, myself, footstep)
+        val footstepParticipant = charaId?.let { village.participants.chara(it) } ?: myself
+        footstepService.updateFootstep(village, footstepParticipant, footstep)
         messageService.registerMessage(
             village,
             abilityDomainService.createSetMessage(village, myself, charaId, targetCharaId, footstep)

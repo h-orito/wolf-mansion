@@ -35,8 +35,9 @@ class FootstepDataSource(
         if (abilityDomainService.detectAbilityTypeService(abilityType).isTargetingAndFootstep()) {
             if (abilityType.toCdef() == CDef.AbilityType.襲撃) {
                 deleteWolfFootstep(village)
+            } else {
+                deleteFootstep(village, myself.charaId)
             }
-            deleteFootstep(village, myself.charaId)
             insertFootstep(village.id, village.latestDay(), myself.charaId, footstep!!)
         }
     }
@@ -54,7 +55,8 @@ class FootstepDataSource(
         footstepBhv.queryDelete {
             it.query().setVillageId_Equal(village.id)
             it.query().setDay_Equal(village.latestDay())
-            it.query().setCharaId_InScope(village.participants.list.filter { it.skill!!.hasAttackAbility() }.map { it.charaId })
+            it.query().setCharaId_InScope(village.participants.list.filter { it.skill!!.hasAttackAbility() }
+                .map { it.charaId })
         }
     }
 
