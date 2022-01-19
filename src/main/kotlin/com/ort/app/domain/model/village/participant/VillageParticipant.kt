@@ -101,7 +101,10 @@ data class VillageParticipant(
     fun isViewableTelepathy(): Boolean =
         isAdmin() || status.isFoxPossessioned() || skill?.isViewableTelepathy() ?: false
 
-    fun isSayableTelepathy(): Boolean = isAdmin() || skill?.isSayableTelepathy() ?: false
+    fun isSayableTelepathy(): Boolean {
+        if (isAdmin()) return true
+        return isAlive() && skill?.isSayableTelepathy() ?: false
+    }
 
     fun isViewableLoversSay(): Boolean = isAdmin() || status.hasLover()
     fun isSayableLoversSay(): Boolean = isAdmin() || (isAlive() && status.hasLover())
@@ -235,8 +238,8 @@ data class VillageParticipant(
 
     private fun Room?.isSameRoom(other: Room?): Boolean {
         return if (this == null && other == null) true
-        else if (this == null && other != null) false
-        else if (this != null && other == null) false
-        else this!!.isSame(other!!)
+        else if (this == null) false
+        else if (other == null) false
+        else this.isSame(other)
     }
 }
