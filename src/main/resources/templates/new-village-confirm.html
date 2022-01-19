@@ -90,7 +90,7 @@
                                 <td id="organize">
                                     <th:block th:if="*{organization}">
                                         <th:block th:each="str, stat : *{organization.split('\r\n|\r|\n', -1)}">
-                                            <th:block th:text="${stat.index + 8 + '人：' + str}"/>
+                                            <th:block th:text="${#strings.length(str) + '人：' + str}"/>
                                             <br th:if="${!stat.last}"/>
                                         </th:block>
                                     </th:block>
