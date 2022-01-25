@@ -93,7 +93,7 @@
                         <label class="col-sm-3 col-xs-12 control-label">更新間隔</label>
                         <div class="col-sm-3 col-xs-4">
                             <select class="form-control" th:field="*{dayChangeIntervalHours}">
-                                <option th:each="i : ${#numbers.sequence(0, 48)}" th:value="${i}" th:text="${i}+ '時間'">
+                                <option th:each="i : ${#numbers.sequence(0, 72)}" th:value="${i}" th:text="${i}+ '時間'">
                                     0時間
                                 </option>
                             </select>

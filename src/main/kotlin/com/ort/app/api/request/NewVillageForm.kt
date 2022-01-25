@@ -47,7 +47,7 @@ data class NewVillageForm(
 
     /** 更新間隔時間 */
     @field:Min(0)
-    @field:Max(48)
+    @field:Max(72)
     var dayChangeIntervalHours: Int? = null,
 
     /** 更新間隔分 */

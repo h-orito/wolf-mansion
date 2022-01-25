@@ -30,7 +30,7 @@ class NewVillageFormValidator : Validator {
         val intervalSeconds = form.dayChangeIntervalHours!! * 60 * 60 +
                 form.dayChangeIntervalMinutes!! * 60 +
                 form.dayChangeIntervalSeconds!!
-        if (intervalSeconds !in 60..48 * 60 * 60) {
+        if (intervalSeconds !in 60..72 * 60 * 60) {
             errors.rejectValue("dayChangeIntervalHours", "NewVillageForm.validator.dayChangeIntervalHours")
         }
 
