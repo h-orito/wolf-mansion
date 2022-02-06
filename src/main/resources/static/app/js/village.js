@@ -124,9 +124,7 @@ $(function () {
         const isNoPaging = getDisplaySetting('is_no_paging');
         const pageSize = getDisplaySetting('page_size');
         return $.ajax({
-            type: 'GET',
-            url: GET_MESSAGE_URL,
-            data: {
+            type: 'GET', url: GET_MESSAGE_URL, data: {
                 'villageId': villageId,
                 'day': day,
                 'pageSize': pageSize != null ? pageSize : 30,
@@ -182,6 +180,8 @@ $(function () {
                     });
                 }
             }
+            // ハッシュタグ
+            item = item.replace(/(?<!&gt;&gt;)[#＃]([Ａ-Ｚａ-ｚA-Za-z一-鿆0-9０-９ぁ-ヶｦ-ﾟー._-]+)/g, '<a href=\"javascript:void(0);\" data-message-hashtag=\"#$1\">#$1<\/a>');
             // アンカー
             item = item.replace(/&gt;&gt;(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-anchor=\"$1\">&gt;&gt;$1<\/a>'); // 次にアンカーをaタグにする
             item = item.replace(/&gt;&gt;\+(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-grave-anchor=\"$1\">&gt;&gt;\+$1<\/a>');
@@ -189,9 +189,9 @@ $(function () {
             item = item.replace(/&gt;&gt;\?(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-lover-anchor=\"$1\">&gt;&gt;\?$1<\/a>');
             item = item.replace(/&gt;&gt;_(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-telepathy-anchor=\"$1\">&gt;&gt;\_$1<\/a>');
             item = item.replace(/&gt;&gt;@(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-spectate-anchor=\"$1\">&gt;&gt;@$1<\/a>');
-            item = item.replace(/&gt;&gt;\-(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-monologue-anchor=\"$1\">&gt;&gt;\-$1<\/a>');
+            item = item.replace(/&gt;&gt;-(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-monologue-anchor=\"$1\">&gt;&gt;\-$1<\/a>');
             item = item.replace(/&gt;&gt;\*(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-whisper-anchor=\"$1\">&gt;&gt;\*$1<\/a>');
-            item = item.replace(/&gt;&gt;\#(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-creator-anchor=\"$1\">&gt;&gt;\#$1<\/a>');
+            item = item.replace(/&gt;&gt;#(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-creator-anchor=\"$1\">&gt;&gt;\#$1<\/a>');
             item = item.replace(/&gt;&gt;a(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-action-anchor=\"$1\">&gt;&gt;a$1<\/a>');
             item = item.replace(/&gt;&gt;s(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-secret-anchor=\"$1\">&gt;&gt;s$1<\/a>');
             return item;
@@ -217,8 +217,7 @@ $(function () {
     function loadParticipantsIfNeeded() {
         if ($('#participants').length === 0) return;
         $.ajax({
-            type: 'GET',
-            url: PARTICIPANTS_URL
+            type: 'GET', url: PARTICIPANTS_URL
         }).then(function (response) {
             $('#participants').find('.message-public-system').html(participantsTemplate(response));
         });
@@ -307,12 +306,8 @@ $(function () {
         }
 
         return $.ajax({
-            type: 'GET',
-            url: GET_ANCHOR_MESSAGE_URL,
-            data: {
-                'villageId': villageId,
-                'messageNumber': messageNumber,
-                'messageType': messageType
+            type: 'GET', url: GET_ANCHOR_MESSAGE_URL, data: {
+                'villageId': villageId, 'messageNumber': messageNumber, 'messageType': messageType
             }
         }).then(function (response) {
             if (response == '') {
@@ -342,8 +337,7 @@ $(function () {
         $message.addClass('collapse');
         $message.addClass('well');
         // $message.find('div.message').addClass('bg-white');
-        $message.closest('[data-message]').prepend(
-            '<span class="btn btn-default btn-sm pull-right close-anchor" style="margin-left:5px; margin-right: -15px;">×</span>');
+        $message.closest('[data-message]').prepend('<span class="btn btn-default btn-sm pull-right close-anchor" style="margin-left:5px; margin-right: -15px;">×</span>');
         return $message;
     }
 
@@ -429,8 +423,7 @@ $(function () {
     // 表情を入れ替え
     function changeFace(faceTypeCode) {
         $.ajax({
-            type: 'GET',
-            url: GET_FACEIMG_URL + '/' + faceTypeCode
+            type: 'GET', url: GET_FACEIMG_URL + '/' + faceTypeCode
         }).then(function (response) {
             if (response == null || response == '') {
                 return;
@@ -455,9 +448,7 @@ $(function () {
     $('#sayform').on('submit', function () {
         sayFormParam = $(this).serializeArray();
         $.ajax({
-            type: 'POST',
-            url: SAY_CONFIRM_URL,
-            data: sayFormParam
+            type: 'POST', url: SAY_CONFIRM_URL, data: sayFormParam
         }).then(function (response) {
             if (response == null || response === '') {
                 return false;
@@ -468,8 +459,7 @@ $(function () {
             const $confirmMessage = $(messagePartialTemplate(response.message));
             $('#message-confirm-area').empty();
             $('#message-confirm-area').append($('<div></div>', {
-                text: '以下の内容で発言してよろしいですか？（まだ発言されていません）',
-                'style': 'margin-bottom: 10px;'
+                text: '以下の内容で発言してよろしいですか？（まだ発言されていません）', 'style': 'margin-bottom: 10px;'
             }));
             $('#message-confirm-area').append($confirmMessage);
             $('#message-confirm-area').append($('<button></button>', {
@@ -478,8 +468,7 @@ $(function () {
                 'data-say-determine': ''
             }));
             const $cancelButton = $('<button></button>', {
-                text: 'キャンセル',
-                'class': 'btn btn-default btn-sm'
+                text: 'キャンセル', 'class': 'btn btn-default btn-sm'
             });
             $cancelButton.attr('data-say-cancel', 'sayform');
             $cancelButton.data('say-cancel', 'sayform');
@@ -498,9 +487,7 @@ $(function () {
     $('#actionform').on('submit', function () {
         actionFormParam = $(this).serializeArray();
         $.ajax({
-            type: 'POST',
-            url: ACTION_CONFIRM_URL,
-            data: actionFormParam
+            type: 'POST', url: ACTION_CONFIRM_URL, data: actionFormParam
         }).then(function (response) {
             if (response == null || response === '') {
                 return false;
@@ -511,8 +498,7 @@ $(function () {
             const $confirmMessage = $(messagePartialTemplate(response.message));
             $('#message-confirm-area').empty();
             $('#message-confirm-area').append($('<div></div>', {
-                text: '以下の内容で発言してよろしいですか？（まだ発言されていません）',
-                'style': 'margin-bottom: 10px;'
+                text: '以下の内容で発言してよろしいですか？（まだ発言されていません）', 'style': 'margin-bottom: 10px;'
             }));
             $('#message-confirm-area').append($confirmMessage);
             $('#message-confirm-area').append($('<button></button>', {
@@ -521,8 +507,7 @@ $(function () {
                 'data-action-determine': ''
             }));
             const $cancelButton = $('<button></button>', {
-                text: 'キャンセル',
-                'class': 'btn btn-default btn-sm'
+                text: 'キャンセル', 'class': 'btn btn-default btn-sm'
             });
             $cancelButton.attr('data-action-cancel', 'actionform');
             $cancelButton.data('action-cancel', 'actionform');
@@ -581,9 +566,7 @@ $(function () {
                 return true;
             }
             $confirmForm.append($('<input></input>', {
-                type: 'hidden',
-                name: this.name,
-                value: this.value
+                type: 'hidden', name: this.name, value: this.value
             }));
         });
         $confirmForm.submit();
@@ -609,9 +592,7 @@ $(function () {
                 return true;
             }
             $confirmForm.append($('<input></input>', {
-                type: 'hidden',
-                name: this.name,
-                value: this.value
+                type: 'hidden', name: this.name, value: this.value
             }));
         });
         $confirmForm.submit();
@@ -629,11 +610,8 @@ $(function () {
         const charaId = $attackerSelect.val();
         const $targetSelect = $('[data-ability-target-select]');
         return $.ajax({
-            type: 'GET',
-            url: GET_ATTACKTARGET_URL,
-            data: {
-                'villageId': villageId,
-                'charaId': charaId
+            type: 'GET', url: GET_ATTACKTARGET_URL, data: {
+                'villageId': villageId, 'charaId': charaId
             }
         }).then(function (response) {
             if (response == '') {
@@ -642,8 +620,7 @@ $(function () {
             $targetSelect.empty();
             $.each(response.attackTargetList, function (idx, val) {
                 $targetSelect.append($('<option></option>', {
-                    'value': val.value,
-                    text: val.name
+                    'value': val.value, text: val.name
                 }));
             });
             replaceFootstepList();
@@ -661,12 +638,8 @@ $(function () {
         const $targetSelect = $('[data-ability-target-select]');
         const targetCharaId = $targetSelect == null ? null : $targetSelect.val();
         return $.ajax({
-            type: 'GET',
-            url: GET_FOOTSTEP_URL,
-            data: {
-                'villageId': villageId,
-                'charaId': charaId,
-                'targetCharaId': targetCharaId
+            type: 'GET', url: GET_FOOTSTEP_URL, data: {
+                'villageId': villageId, 'charaId': charaId, 'targetCharaId': targetCharaId
             }
         }).then(function (response) {
             if (response == '') {
@@ -675,8 +648,7 @@ $(function () {
             $footstepSelect.empty();
             $.each(response.footstepList, function (idx, val) {
                 $footstepSelect.append($('<option></option>', {
-                    'value': val,
-                    text: val
+                    'value': val, text: val
                 }));
             });
         });
@@ -753,9 +725,7 @@ $(function () {
             leftCount = $countspan.data('message-restrict-telepathy-left-count');
         }
         return {
-            length: length != null ? length : 400,
-            count: count,
-            leftCount: leftCount
+            length: length != null ? length : 400, count: count, leftCount: leftCount
         };
     }
 
@@ -905,10 +875,15 @@ $(function () {
     // ----------------------------------------------
     // キャラクター
     $('[data-filter-participant-allon]').on('click', function () {
+        doFilterParticipantAllOn();
+    });
+
+    function doFilterParticipantAllOn() {
         $('#filter-character').find('input').each((idx, elm) => {
             $(elm).prop('checked', true);
         });
-    });
+    }
+
     $('[data-filter-participant-alloff]').on('click', function () {
         $('#filter-character').find('input').each((idx, elm) => {
             $(elm).prop('checked', false);
@@ -920,12 +895,18 @@ $(function () {
             $(elm).prop('checked', !checked);
         });
     });
+
     // 発言種別
     $('[data-filter-type-allon]').on('click', function () {
+        doFilterTypeAllOn();
+    });
+
+    function doFilterTypeAllOn() {
         $('#filter-type').find('label').each(function () {
             $(this).addClass('active');
         });
-    });
+    }
+
     $('[data-filter-type-alloff]').on('click', function () {
         $('#filter-type').find('label').each(function () {
             $(this).removeClass('active');
@@ -940,11 +921,17 @@ $(function () {
             }
         });
     });
+
+    // キーワード
     $('[data-filter-message-clear]').on('click', function () {
         $('#modal-filter [data-filter-message-keyword]').val('');
     });
 
     $('[data-filter-submit]').on('click', function () {
+        doFilter()
+    });
+
+    function doFilter() {
         filterTypes = $('#filter-type').find('label.active input').map(function () {
             return $(this).val();
         }).get();
@@ -964,7 +951,7 @@ $(function () {
         saveDisplaySetting('filter_spoiled_content', filterSpoiled);
         saveDisplaySetting('filter_onlytome_content', isDispOnlyToMe);
         $('#modal-filter').modal('hide');
-    });
+    }
 
     function filterSpoiledContent() {
         if (!filterSpoiled) {
@@ -1022,6 +1009,15 @@ $(function () {
             $('[data-onlytome]').prop('checked', isDispOnlyToMe);
         }
     }
+
+    // ハッシュタグ
+    $('body').on('click', '[data-message-hashtag]', function () {
+        const keyword = $(this).data('message-hashtag')
+        doFilterParticipantAllOn();
+        doFilterTypeAllOn();
+        $('#modal-filter [data-filter-message-keyword]').val(keyword);
+        doFilter();
+    });
 
     // コピー
     function clipboardCopy(text, alertText) {
@@ -1107,8 +1103,7 @@ $(function () {
         $table.find('tbody').find('tr').each(function () {
             const $tr = $(this);
             let vote = {
-                votes: [],
-                count: 0
+                votes: [], count: 0
             };
             $tr.find('td').each(function (idx, elm) {
                 vote.votes.push($(elm).text());
@@ -1129,8 +1124,7 @@ $(function () {
         }
         displaySetting[key] = value;
         $.cookie('village_display_setting', displaySetting, {
-            expires: 365,
-            path: '/'
+            expires: 365, path: '/'
         });
     }
 
@@ -1157,8 +1151,7 @@ $(function () {
         if (displaySetting == null || Object.keys(displaySetting).length === 0) {
             displaySetting = makeDisplaySettingObject();
             $.cookie('village_display_setting', displaySetting, {
-                expires: 365,
-                path: '/'
+                expires: 365, path: '/'
             });
         }
         // 各項目なかったら作成
@@ -1247,8 +1240,7 @@ $(function () {
             return;
         }
         $.cookie('village_display_setting', makeDisplaySettingObject(), {
-            expires: 365,
-            path: '/'
+            expires: 365, path: '/'
         });
     });
 
@@ -1417,11 +1409,8 @@ $(function () {
     setInterval(function () {
         if ($('#daychange-datetime').length) {
             $.ajax({
-                type: 'GET',
-                url: GET_LATEST_MESSAGE_DATETIME_URL,
-                data: {
-                    'villageId': villageId,
-                    'day': day
+                type: 'GET', url: GET_LATEST_MESSAGE_DATETIME_URL, data: {
+                    'villageId': villageId, 'day': day
                 }
             }).then(function (response) {
                 const $latestMessageDatetime = $('#latest-message-datetime');
@@ -1469,17 +1458,11 @@ $(function () {
         const selectionStart = $textarea.get(0).selectionStart;
         const selectionEnd = $textarea.get(0).selectionEnd;
         if (type === 'single') {
-            const value = currentText.substr(0, selectionStart)
-                + '[[' + tagName + ']]'
-                + currentText.substr(selectionStart);
+            const value = currentText.substr(0, selectionStart) + '[[' + tagName + ']]' + currentText.substr(selectionStart);
             $textarea.val(value);
         } else {
             const end = tagName.startsWith('#') ? '[[/#]]' : '[[/' + tagName + ']]';
-            const value = currentText.substr(0, selectionStart)
-                + '[[' + tagName + ']]'
-                + currentText.substr(selectionStart, selectionEnd - selectionStart)
-                + end
-                + currentText.substr(selectionEnd);
+            const value = currentText.substr(0, selectionStart) + '[[' + tagName + ']]' + currentText.substr(selectionStart, selectionEnd - selectionStart) + end + currentText.substr(selectionEnd);
             $textarea.val(value);
         }
     });
