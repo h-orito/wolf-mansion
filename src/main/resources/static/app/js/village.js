@@ -181,7 +181,18 @@ $(function () {
                 }
             }
             // ハッシュタグ
-            item = item.replace(/(?<!&gt;&gt;|\[\[|\[\[\/)[#＃]([Ａ-Ｚａ-ｚA-Za-z一-鿆0-9０-９ぁ-ヶｦ-ﾟー._-]+)/g, '<a href=\"javascript:void(0);\" data-message-hashtag=\"#$1\">#$1<\/a>');
+            // 否定後読みが一部ブラウザで対応していないため、代替手段
+            // item = item.replace(/(?<!&gt;&gt;|\[\[|\[\[\/)[#＃]([Ａ-Ｚａ-ｚA-Za-z一-鿆0-9０-９ぁ-ヶｦ-ﾟー._-]+)/g, '<a href=\"javascript:void(0);\" data-message-hashtag=\"#$1\">#$1<\/a>');
+            const hashArray = item.split('#')
+            item = hashArray.map((str, index) => {
+                if (index === 0) return str;
+                const prev = hashArray[index - 1];
+                if (prev.endsWith('&gt;&gt;') || prev.endsWith('[[') || prev.endsWith('[[/')) return '#' + str;
+                return str.replace(
+                    /^([Ａ-Ｚａ-ｚA-Za-z一-鿆0-9０-９ぁ-ヶｦ-ﾟー._-]+)(.*)/g,
+                    '<a href=\"javascript:void(0);\" data-message-hashtag=\"#$1\">#$1<\/a>$2'
+                );
+            }).join('')
             // アンカー
             item = item.replace(/&gt;&gt;(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-anchor=\"$1\">&gt;&gt;$1<\/a>'); // 次にアンカーをaタグにする
             item = item.replace(/&gt;&gt;\+(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-grave-anchor=\"$1\">&gt;&gt;\+$1<\/a>');
