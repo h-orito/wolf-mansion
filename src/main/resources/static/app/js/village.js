@@ -164,7 +164,7 @@ $(function () {
 
     function escapeAndSetAnchor(message, isConvertDisable) {
         let mes = message.replace(/(\r\n|\n|\r)/gm, '<br>').split('<br>').map(function (item) { // 先に改行を分割
-            item = item.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); // htmlエスケープ
+            item = item.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;') // htmlエスケープ
             // 変換機能
             if (!isConvertDisable) {
                 item = item.replace(diceRegex, '<span class="extra-small">$1</span>');
@@ -193,6 +193,8 @@ $(function () {
                     '<a href=\"javascript:void(0);\" data-message-hashtag=\"#$1\">#$1<\/a>$2'
                 );
             }).join('')
+            // シングルクォートはハッシュタグより後で変換する
+            item = item.replace(/'/g, '&#39;');
             // アンカー
             item = item.replace(/&gt;&gt;(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-anchor=\"$1\">&gt;&gt;$1<\/a>'); // 次にアンカーをaタグにする
             item = item.replace(/&gt;&gt;\+(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-grave-anchor=\"$1\">&gt;&gt;\+$1<\/a>');
