@@ -181,7 +181,7 @@ $(function () {
                 }
             }
             // ハッシュタグ
-            item = item.replace(/(?<!&gt;&gt;)[#＃]([Ａ-Ｚａ-ｚA-Za-z一-鿆0-9０-９ぁ-ヶｦ-ﾟー._-]+)/g, '<a href=\"javascript:void(0);\" data-message-hashtag=\"#$1\">#$1<\/a>');
+            item = item.replace(/(?<!&gt;&gt;|\[\[|\[\[\/)[#＃]([Ａ-Ｚａ-ｚA-Za-z一-鿆0-9０-９ぁ-ヶｦ-ﾟー._-]+)/g, '<a href=\"javascript:void(0);\" data-message-hashtag=\"#$1\">#$1<\/a>');
             // アンカー
             item = item.replace(/&gt;&gt;(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-anchor=\"$1\">&gt;&gt;$1<\/a>'); // 次にアンカーをaタグにする
             item = item.replace(/&gt;&gt;\+(\d{1,5})/g, '<a href=\"javascript:void(0);\" data-message-grave-anchor=\"$1\">&gt;&gt;\+$1<\/a>');
