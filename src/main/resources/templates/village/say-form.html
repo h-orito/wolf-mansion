@@ -140,6 +140,22 @@
                                     <span th:text="'[[]]'"></span>
                                 </label>
                             </div>
+                            <div class="col-sm-12 col-xs-12 hidden" data-toggle="buttons" style="margin-bottom: 2px;"
+                                 data-random-tag-area>
+                                <div class="form-inline">
+                                    <select id="random-tag-select" class="form-control">
+                                        <option value="fortune">fortune</option>
+                                        <option value="1d6">1d6</option>
+                                        <option value="or">or</option>
+                                        <option value="who">who</option>
+                                        <option value="allwho">allwho</option>
+                                        <option th:each="str: ${content.randomKeywords.split(',')}" th:value="${str}"
+                                                th:text="${str}"></option>
+                                    </select>
+                                    <input type="submit" class="btn btn-sm btn-success" value="タグ追加"
+                                           style="padding-top: 3px; padding-bottom: 3px;" data-random-tag-btn/>
+                                </div>
+                            </div>
                             <div class="col-sm-12 col-xs-12" style="display: flex;">
                                 <div>
                                     <img id="say-face-img" th:src="${content.myself.charaImageUrl}"

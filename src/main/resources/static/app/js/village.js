@@ -1464,9 +1464,18 @@ $(function () {
     // 文字装飾
     // ----------------------------------------------
     $('body').on('click', '[data-random-tag-area] label', function () {
-        const $textarea = $('[data-say-textarea]');
         const type = $(this).data('tag-type');
         const tagName = $(this).data('tag-name');
+        addTag(tagName, type);
+    });
+
+    $('body').on('click', '[data-random-tag-btn]', function () {
+        const tagName = $('#random-tag-select').val();
+        addTag(tagName, 'single');
+    });
+
+    function addTag(tagName, type) {
+        const $textarea = $('[data-say-textarea]');
         const currentText = $textarea.val();
         const selectionStart = $textarea.get(0).selectionStart;
         const selectionEnd = $textarea.get(0).selectionEnd;
@@ -1478,5 +1487,5 @@ $(function () {
             const value = currentText.substr(0, selectionStart) + '[[' + tagName + ']]' + currentText.substr(selectionStart, selectionEnd - selectionStart) + end + currentText.substr(selectionEnd);
             $textarea.val(value);
         }
-    });
+    }
 });
