@@ -5,7 +5,7 @@ import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 
 data class VillageRoomAssignedRow(
-    val roomAssignedList: List<VillageRoomAssigned>
+    var roomAssignedList: List<VillageRoomAssigned>
 ) {
     constructor(
         village: Village,
@@ -14,11 +14,15 @@ data class VillageRoomAssignedRow(
         charachips: Charachips,
         myself: VillageParticipant?
     ) : this(
+        roomAssignedList = emptyList()
+    ) {
+        val maxWidth = charachips.charas().list.maxByOrNull { it.size.width }!!.size.width
+        val maxHeight = charachips.charas().list.maxByOrNull { it.size.height }!!.size.height
         roomAssignedList = List(village.roomSize!!.width) { rowIndex ->
             val roomNumber = columnIndex * village.roomSize.width + rowIndex + 1
-            VillageRoomAssigned(village, day, roomNumber, charachips, myself)
+            VillageRoomAssigned(village, day, roomNumber, charachips, myself, maxWidth, maxHeight)
         }
-    )
+    }
 
     data class VillageRoomAssigned(
         /** 部屋番号 0埋めの2桁 */
@@ -35,6 +39,10 @@ data class VillageRoomAssignedRow(
         val charaImgWidth: Int?,
         /** キャラ画像縦幅 */
         val charaImgHeight: Int?,
+        /** 最大横幅 */
+        val maxWidth: Int?,
+        /** 最大縦幅 */
+        val maxHeight: Int?,
         /** ダミーか */
         val isDummy: Boolean?,
         /** 死亡しているか */
@@ -51,7 +59,9 @@ data class VillageRoomAssignedRow(
             day: Int,
             roomNumber: Int,
             charachips: Charachips,
-            myself: VillageParticipant?
+            myself: VillageParticipant?,
+            maxWidth: Int?,
+            maxHeight: Int?
         ) : this(
             roomNumber = roomNumber.toString().padStart(2, '0'),
             participantId = participant(village, roomNumber, day)?.id,
@@ -70,6 +80,8 @@ data class VillageRoomAssignedRow(
                 roomNumber,
                 day
             )?.let { charachips.chara(it.charaId).size.height },
+            maxWidth = maxWidth,
+            maxHeight = maxHeight,
             isDummy = village.dummyParticipant().id == participant(village, roomNumber, day)?.id,
             isDead = participant(village, roomNumber, day)?.isDeadWhen(day),
             deadDay = null,

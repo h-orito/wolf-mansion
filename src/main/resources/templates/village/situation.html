@@ -50,39 +50,43 @@
                                     <tbody>
                                     <tr th:each="row, trst : ${content.roomAssignedRowList}">
                                         <td th:each="room: ${row.roomAssignedList}" class="small"
-                                            th:style="'vertical-align: bottom; text-align: center;'
-														+ 'min-width: ' + ${room.charaImgWidth != null ? room.charaImgWidth : '10'} + 'px;'
-														+ 'width: ' + ${room.charaImgWidth != null ? room.charaImgWidth : '10'} + 'px;' 
-														+ 'min-height: '+ ${room.charaImgHeight != null ? room.charaImgHeight : '10'} + 'px; '
-														+ 'height: '+ ${room.charaImgHeight != null ? room.charaImgHeight : '10'} + 'px; '
-														+ 'padding: auto auto'">
+                                            th:style="'position: relative; vertical-align: middle; text-align: center;'
+														+ 'width: ' + ${room.maxWidth} + 'px;'
+														+ 'height: '+ ${room.maxHeight} + 'px;'
+														+ 'padding: 0;'">
                                             <div
                                                     th:data-toggle="${room.charaName != null ? 'tooltip' : ''}"
                                                     th:title="${room.charaName}"
                                                     th:data-placement="${trst.index == 0 ? 'bottom' : 'top'}"
-                                                    th:style="'display: table-cell; vertical-align: bottom; text-align: center;'
-														+ 'min-width: ' + ${room.charaImgWidth != null ? room.charaImgWidth : '10'} + 'px;'
-														+ 'width: ' + ${room.charaImgWidth != null ? room.charaImgWidth : '10'} + 'px;' 
-														+ 'min-height: '+ ${room.charaImgHeight != null ? room.charaImgHeight : '10'} + 'px; '
-														+ 'height: '+ ${room.charaImgHeight != null ? room.charaImgHeight : '10'} + 'px; '
+                                                    th:style="'position: absolute; top: 50%; left: 50%;'
+                                                        + 'transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%);'
+														+ 'width: ' + ${room.charaImgWidth != null ? room.charaImgWidth : room.maxWidth} + 'px;'
+														+ 'height: '+ ${room.charaImgHeight != null ? room.charaImgHeight : room.maxHeight} + 'px; '
 									 					+ ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 									 					+ ${room.dead == null || room.dead ? 'opacity: 0.3;' : ''}">
-														<span style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
-                                                              th:utext="${room.roomNumber} + ' ' + ${room.charaShortName != null ? room.charaShortName : ''}">01. 楽</span>
+                                            </div>
+                                            <div style="position: absolute;
+                                                        bottom: 0; left: 50%;
+                                                        transform: translate(-50%, 0);
+                                                        -webkit-transform: translate(-50%, 0);
+                                                        -ms-transform: translate(-50%, 0);
+                                                        opacity: 0.8;">
+                                                <span style="background-color: #222222; white-space: nowrap;"
+                                                      th:utext="${room.roomNumber} + ' ' + ${room.charaShortName != null ? room.charaShortName : ''}">01. 楽</span>
                                                 <span
-                                                        style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+                                                        style="background-color: #222222; white-space: nowrap;"
                                                         th:if="${room.dead != null && room.dead && room.charaShortName != null}"
                                                         th:utext="'<br />' + ${room.deadDay} + 'd ' + ${room.deadReason == 'ATTACK' || room.deadReason == 'DIVINED' || room.deadReason == 'TRAPPED' || room.deadReason == 'BOMBED' ? '▲' : room.deadReason == 'EXECUTE' ? '▼' : room.deadReason == 'SUICIDE' ? '❤︎' : '凸'}">2d
 															▲</span> <span
-                                                    style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+                                                    style="background-color: #222222; white-space: nowrap;"
                                                     th:if="${room.dummy != null && room.dummy}"><br/>ダミー</span>
                                                 <span class="hidden"
-                                                      style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+                                                      style="background-color: #222222; white-space: nowrap;"
                                                       th:if="${room.skillName != null && #strings.length(room.skillName) > 5}"
                                                       th:utext="'<br />' + ${#strings.substring(room.skillName, 0,4)} + '...'"
                                                       data-spoiled-content>人狼</span>
                                                 <span class="hidden"
-                                                      style="background-color: #222222; opacity: 0.8; white-space: nowrap;"
+                                                      style="background-color: #222222; white-space: nowrap;"
                                                       th:if="${room.skillName != null && #strings.length(room.skillName) <= 5}"
                                                       th:utext="'<br />' + ${room.skillName}"
                                                       data-spoiled-content>人狼</span>
