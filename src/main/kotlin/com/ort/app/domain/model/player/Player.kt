@@ -16,7 +16,7 @@ data class Player(
     fun isAvailableCreateVillage(): Boolean {
         if (authority.toCdef() == CDef.Authority.管理者) return true
         if (isRestrictedParticipation) return false
-        return createProgressVillageIdList.isEmpty()
+        return createProgressVillageIdList.isEmpty() && participateFinishedVillageIdList.isNotEmpty()
     }
 
     fun isAvailableParticipateVillage(villageId: Int): Boolean =
