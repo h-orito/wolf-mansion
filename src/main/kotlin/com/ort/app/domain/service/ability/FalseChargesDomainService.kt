@@ -14,7 +14,7 @@ class FalseChargesDomainService(
 
     fun falseCharges(daychange: Daychange): Daychange {
         val village = daychange.village
-        val victims = village.participants.filterMiserable().list
+        val victims = village.participants.filterDeadDay(village.latestDay()).filterMiserable().list
         if (victims.isEmpty()) return daychange
         var footsteps = daychange.footsteps.copy()
         village.participants.filterAlive().filterBySkill(CDef.Skill.冤罪者.toModel()).list.forEach {
