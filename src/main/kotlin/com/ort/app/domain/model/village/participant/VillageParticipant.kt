@@ -209,13 +209,29 @@ data class VillageParticipant(
     fun breakup(village: Village): VillageParticipant {
         // 自分が同棲者の場合は同棲者を除いて恋絆を解除する
         val cohabitor = if (skill!!.toCdef() == CDef.Skill.同棲者) getTargetCohabitor(village) else null
-        return copy(status = status.breakup(cohabitor))
+        val newStatus = status.breakup(cohabitor)
+        return copy(
+            status = newStatus,
+            camp = when {
+                newStatus.hasLover() -> CDef.Camp.恋人陣営.toModel()
+                newStatus.isFoxPossessioned() -> CDef.Camp.狐陣営.toModel()
+                else -> skill.camp()
+            }
+        )
     }
 
     fun stealLove(stealerId: Int, village: Village): VillageParticipant {
         // 自分が同棲者の場合は同棲者を除いた恋絆が解除される
         val cohabitor = if (skill!!.toCdef() == CDef.Skill.同棲者) getTargetCohabitor(village) else null
-        return copy(status = status.loveSteal(stealerId, cohabitor))
+        val newStatus = status.loveSteal(stealerId, cohabitor)
+        return copy(
+            status = newStatus,
+            camp = when {
+                newStatus.hasLover() -> CDef.Camp.恋人陣営.toModel()
+                newStatus.isFoxPossessioned() -> CDef.Camp.狐陣営.toModel()
+                else -> skill.camp()
+            }
+        )
     }
 
     fun useInsurance(): VillageParticipant = copy(status = status.useInsurance())
