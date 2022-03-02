@@ -26,8 +26,9 @@ class RpDomainService {
         day: Int
     ): Boolean =
         village.canChangeName(day) &&
-                myself?.canChangeName(village.status.isEpilogue()) ?: false &&
-                charachips.list.all { it.isAvailableChangeName }
+                myself != null &&
+                myself.canChangeName(village.status.isEpilogue()) &&
+                charachips.list.first { it.charas.list.any { chara -> chara.id == myself.charaId } }.isAvailableChangeName
 
     private fun isAvailableMemo(
         village: Village,
