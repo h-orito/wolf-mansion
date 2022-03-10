@@ -52,6 +52,7 @@
                                         <td th:each="room: ${row.roomAssignedList}" class="small"
                                             th:style="'position: relative; vertical-align: middle; text-align: center;'
 														+ 'width: ' + ${room.maxWidth} + 'px;'
+														+ 'min-width: ' + ${room.maxWidth} + 'px;'
 														+ 'height: '+ ${room.maxHeight} + 'px;'
 														+ 'padding: 0;'">
                                             <div
