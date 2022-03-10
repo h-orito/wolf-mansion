@@ -83,7 +83,7 @@ class AdminController(
     }
 
     // 管理者機能：参加プレイヤー
-    @GetMapping("/admin/village/{villageId}/player")
+    @GetMapping("/admin/village/{villageId}/player", produces=["application/json;charset=UTF-8"])
     @ResponseBody
     private fun player(@PathVariable villageId: Int): List<VillageCharaPlayerContent> {
         return villagePlayerBhv.selectList { cb: VillagePlayerCB ->
