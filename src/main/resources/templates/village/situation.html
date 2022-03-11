@@ -220,11 +220,11 @@
                         </div>
                         <div id="tab-footsteplist" th:if="${content.villageFootstepList != null}" class="tab-pane fade"
                              style="padding-top: 10px; padding-bottom: 10px;">
-                            <div class="col-sm-12 col-xs-12">
+                            <div class="col-sm-12 col-xs-12 table-responsive">
                                 <table class="table-bordered table-condensed small">
                                     <tbody>
                                     <tr th:if="${content.roomAssignedRowList}">
-                                        <td colspan="2">
+                                        <td colspan="2" style="white-space: nowrap;">
                                             <th:block th:each="row, s : ${content.roomAssignedRowList}">
                                                 <th:block th:each="room, st: ${row.roomAssignedList}">
                                                     <span th:if="${room.dead == null || room.charaShortName == null}"
