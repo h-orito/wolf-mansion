@@ -66,6 +66,7 @@ data class VillageMessageListContent(
         messageList = messages.list.map { message ->
             VillageMessageContent(
                 village = village,
+                myself = myself,
                 message = message,
                 fromParticipant = message.fromParticipantId?.let { village.allParticipants().member(it) },
                 player = message.fromParticipantId?.let {
@@ -76,7 +77,8 @@ data class VillageMessageListContent(
                 charas = charas,
                 hasBigEar = hasBigEar(village, myself, message),
                 isRainbow = isRainbow(message, abilities, village),
-                isLoud = isLoud(message, abilities, village)
+                isLoud = isLoud(message, abilities, village),
+                isLatestDay = day == village.latestDay()
             )
         },
         villageStatusMessage = mapVillageStatusMessage(village, user, myself, day),

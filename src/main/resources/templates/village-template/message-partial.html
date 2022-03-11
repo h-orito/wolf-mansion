@@ -45,6 +45,13 @@
                 </div>
             </div>
         </div>
+        <div class="col-sm-12 col-xs-12" style="margin-top: -20px;">
+            <div class="row">
+                {{#if canSecret}}<a href="javascript:void(0);" class="pull-right"
+                                    style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>{{/if}}
+                {{#if canReply}}<a href="javascript:void(0);" class="pull-right" data-reply-to=">>{{messageNumber}}">&gt;&gt;返信</a>{{/if}}
+            </div>
+        </div>
     </div>
 </div>
 {{else if (eq messageType 'WEREWOLF_SAY')}}
@@ -73,6 +80,13 @@
                 </div>
             </div>
         </div>
+        <div class="col-sm-12 col-xs-12" style="margin-top: -20px;">
+            <div class="row">
+                {{#if canSecret}}<a href="javascript:void(0);" class="pull-right"
+                                    style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>{{/if}}
+                {{#if canReply}}<a href="javascript:void(0);" class="pull-right" data-reply-to=">>*{{messageNumber}}">&gt;&gt;返信</a>{{/if}}
+            </div>
+        </div>
     </div>
 </div>
 {{else if (eq messageType 'MONOLOGUE_SAY')}}
@@ -99,6 +113,13 @@
                 </div>
             </div>
         </div>
+        <div class="col-sm-12 col-xs-12" style="margin-top: -20px;">
+            <div class="row">
+                {{#if canSecret}}<a href="javascript:void(0);" class="pull-right"
+                                    style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>{{/if}}
+                {{#if canReply}}<a href="javascript:void(0);" class="pull-right" data-reply-to=">>-{{messageNumber}}">&gt;&gt;返信</a>{{/if}}
+            </div>
+        </div>
     </div>
 </div>
 {{else if (eq messageType 'SECRET_SAY')}}
@@ -120,6 +141,13 @@
                 <div class="message message-secret" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
                     {{{messageContent}}}
                 </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-xs-12" style="margin-top: -20px;">
+            <div class="row">
+                {{#if canSecret}}<a href="javascript:void(0);" class="pull-right"
+                                    style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>{{/if}}
+                {{#if canReply}}<a href="javascript:void(0);" class="pull-right" data-reply-to>&gt;&gt;返信</a>{{/if}}
             </div>
         </div>
     </div>
@@ -151,6 +179,13 @@
                 </div>
             </div>
         </div>
+        <div class="col-sm-12 col-xs-12" style="margin-top: -20px;">
+            <div class="row">
+                {{#if canSecret}}<a href="javascript:void(0);" class="pull-right"
+                                    style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>{{/if}}
+                {{#if canReply}}<a href="javascript:void(0);" class="pull-right" data-reply-to=">>={{messageNumber}}">&gt;&gt;返信</a>{{/if}}
+            </div>
+        </div>
     </div>
 </div>
 {{else if (eq messageType 'LOVERS_SAY')}}
@@ -178,6 +213,13 @@
                     </div>
                     {{/if}}
                 </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-xs-12" style="margin-top: -20px;">
+            <div class="row">
+                {{#if canSecret}}<a href="javascript:void(0);" class="pull-right"
+                                    style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>{{/if}}
+                {{#if canReply}}<a href="javascript:void(0);" class="pull-right" data-reply-to=">>?{{messageNumber}}">&gt;&gt;返信</a>{{/if}}
             </div>
         </div>
     </div>
@@ -209,6 +251,13 @@
                 </div>
             </div>
         </div>
+        <div class="col-sm-12 col-xs-12" style="margin-top: -20px;">
+            <div class="row">
+                {{#if canSecret}}<a href="javascript:void(0);" class="pull-right"
+                                    style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>{{/if}}
+                {{#if canReply}}<a href="javascript:void(0);" class="pull-right" data-reply-to=">>_{{messageNumber}}">&gt;&gt;返信</a>{{/if}}
+            </div>
+        </div>
     </div>
 </div>
 {{else if (eq messageType 'GRAVE_SAY')}}
@@ -238,6 +287,13 @@
                 </div>
             </div>
         </div>
+        <div class="col-sm-12 col-xs-12" style="margin-top: -20px;">
+            <div class="row">
+                {{#if canSecret}}<a href="javascript:void(0);" class="pull-right"
+                                    style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>{{/if}}
+                {{#if canReply}}<a href="javascript:void(0);" class="pull-right" data-reply-to=">>+{{messageNumber}}">&gt;&gt;返信</a>{{/if}}
+            </div>
+        </div>
     </div>
 </div>
 {{else if (eq messageType 'SPECTATE_SAY')}}
@@ -257,6 +313,13 @@
                 <div class="message message-spectate" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
                     {{{messageContent}}}
                 </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-xs-12" style="margin-top: -20px;">
+            <div class="row">
+                {{#if canSecret}}<a href="javascript:void(0);" class="pull-right"
+                                    style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>{{/if}}
+                {{#if canReply}}<a href="javascript:void(0);" class="pull-right" data-reply-to=">>@{{messageNumber}}">&gt;&gt;返信</a>{{/if}}
             </div>
         </div>
     </div>

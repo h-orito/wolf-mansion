@@ -39,20 +39,26 @@ data class VillageMessageContent(
     /** 虹色にするか */
     val isRainbow: Boolean,
     /** 大声にするか */
-    val isLoud: Boolean
+    val isLoud: Boolean,
+    /** 返信可能か */
+    val canReply: Boolean,
+    /** 秘話可能か */
+    val canSecret: Boolean
 ) {
     /** css指定用  */
     fun getMinHeightCss(): String = "min-height: ${height}px;"
 
     constructor(
         village: Village,
+        myself: VillageParticipant?,
         message: Message,
         fromParticipant: VillageParticipant?,
         player: Player?,
         charas: Charas,
         hasBigEar: Boolean,
         isRainbow: Boolean,
-        isLoud: Boolean
+        isLoud: Boolean,
+        isLatestDay: Boolean
     ) : this(
         playerName = if (village.status.isSettleOrCanceled()) player?.name else null,
         characterName = message.fromCharacterName,
@@ -70,7 +76,9 @@ data class VillageMessageContent(
         isConvertDisable = message.content.isConvertDisable,
         isBigEars = hasBigEar && MessageType(CDef.MessageType.codeOf(message.content.type.code)).isOwlViewableType(),
         isRainbow = isRainbow,
-        isLoud = isLoud
+        isLoud = isLoud,
+        canReply = isLatestDay && shouldDispMessageNumber(message, village),
+        canSecret = isLatestDay && (village.isSayableSecretSay() || myself?.isAdmin() ?: false)
     )
 
     companion object {

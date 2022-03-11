@@ -23,13 +23,15 @@ data class VillageSayConfirmContent(
     ) : this(
         message = VillageMessageContent(
             village = village,
+            myself = null,
             message = message,
             fromParticipant = fromParticipant,
             player = player,
             charas = charas,
             hasBigEar = false,
             isRainbow = false,
-            isLoud = false
+            isLoud = false,
+            isLatestDay = false
         ),
         randomKeywords = keywords.list.joinToString(",") { it.keyword }
     )

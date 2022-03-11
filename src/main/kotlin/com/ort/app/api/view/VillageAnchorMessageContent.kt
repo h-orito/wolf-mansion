@@ -21,13 +21,15 @@ data class VillageAnchorMessageContent(
         message = message?.let {
             VillageMessageContent(
                 village = village,
+                myself = null,
                 message = it,
                 fromParticipant = it.fromParticipantId?.let { village.allParticipants().member(it) },
                 player = player,
                 charas = charas,
                 hasBigEar = false,
                 isRainbow = isRainbow(message, abilities, village),
-                isLoud = isLoud(message, abilities, village)
+                isLoud = isLoud(message, abilities, village),
+                isLatestDay = false
             )
         }
     )

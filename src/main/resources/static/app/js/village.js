@@ -1488,4 +1488,55 @@ $(function () {
             $textarea.val(value);
         }
     }
+
+    $('body').on('click', '[data-reply-to]', function () {
+        const $textarea = $('[data-say-textarea]');
+        if ($textarea.length <= 0) return;
+        const anchorStr = $(this).data('reply-to');
+        const currentText = $textarea.val();
+        const selectionStart = $textarea.get(0).selectionStart;
+        const selectionEnd = $textarea.get(0).selectionEnd;
+        const value = currentText.substr(0, selectionStart) + anchorStr + currentText.substr(selectionStart);
+        $textarea.val(value);
+        if (!$('#sayform-panel').hasClass('popupform')) {
+            $('html, body').animate({
+                scrollTop: $('#sayform-content').offset().top
+            }, 200);
+        }
+        const $message = $(this).closest('[data-message').clone();
+        const $replyToContentArea = $('#reply-content')
+        $replyToContentArea.empty();
+        $replyToContentArea.removeClass('hidden')
+        $replyToContentArea.append($message);
+    });
+
+    $('body').on('click', '[data-secret-to]', function () {
+        const $saytypes = $('[data-say-type]');
+        if ($saytypes.length <= 0) return;
+        let $secretLabel = null;
+        $saytypes.find('label').each(function(){
+            const $label = $(this);
+            if ($(this).text().trim() === '秘話') $secretLabel = $label;
+        });
+        if ($secretLabel == null) return;
+        const targetCharaId = $(this).closest('[data-chara-id').data('chara-id');
+        const currentVal = $('#secretSayTargetCharaId').val();
+        $('#secretSayTargetCharaId').val(targetCharaId);
+        if ($('#secretSayTargetCharaId').val() == null) {
+            $('#secretSayTargetCharaId').val(currentVal);
+            alert('秘話できない対象です')
+            return;
+        }
+        $secretLabel.click();
+        if (!$('#sayform-panel').hasClass('popupform')) {
+            $('html, body').animate({
+                scrollTop: $('#sayform-content').offset().top
+            }, 200);
+        }
+        const $message = $(this).closest('[data-message').clone();
+        const $replyToContentArea = $('#reply-content')
+        $replyToContentArea.empty();
+        $replyToContentArea.removeClass('hidden')
+        $replyToContentArea.append($message);
+    });
 });
