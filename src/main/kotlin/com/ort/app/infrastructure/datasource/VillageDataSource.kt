@@ -145,9 +145,9 @@ class VillageDataSource(
     }
 
     override fun updateDaychangeDifference(current: Village, changed: Village) {
+        villageDayDataSource.updateDaychangeDifference(changed.id, current.days, changed.days)
         updateVillageDaychangeDifference(current, changed)
         villagePlayerDataSource.updateDaychangeDifference(current.allParticipants(), changed.allParticipants())
-        villageDayDataSource.updateDaychangeDifference(changed.id, current.days, changed.days)
         villageSettingsDataSource.updateDaychangeDifference(changed.id, current.setting, changed.setting)
     }
 
