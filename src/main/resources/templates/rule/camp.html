@@ -8,6 +8,7 @@
 <body>
 <div layout:fragment="camp">
     <div id="camp" class="table-responsive">
+        <h3 class="h5">陣営</h3>
         <table class="table table-bordered table-condensed small">
             <thead>
             <tr>
@@ -27,11 +28,54 @@
             </tbody>
         </table>
     </div>
-    <div id="wincondition" class="table-responsive">
+    <div id="epilogue-condition" class="table-responsive">
+        <h3 class="h5">終了条件</h3>
+        <p>以下のいずれかを満たすとエピローグを迎え、勝敗判定が行われます。</p>
+        <ul>
+            <li>夜明け時点で生存している人狼の数≧生存している人間の数</li>
+            <li>夜明け時点で人狼の生存数が0人かつ人間の生存数が1人以上</li>
+        </ul>
+        <p>※ここでいう「人狼」は人狼陣営の人狼系役職。また、「人間」の判定は「占霊判定、勝敗時のカウント」を参照。</p>
+    </div>
+    <div id="personal-wincondition" class="table-responsive">
+        <h3 class="h5">個人ごとの勝敗判定</h3>
         <table class="table table-bordered table-condensed small">
             <thead>
             <tr>
-                <th colspan="3" class="vertical-middle">陣営勝利（同時に満たした場合は上にあるものほど優先度高）</th>
+                <th class="vertical-middle">個人ごとの勝敗判定（上にあるものほど優先度高）</th>
+                <th class="vertical-middle">勝利条件</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="vertical-middle">役職がババ</td>
+                <td class="vertical-middle">必ず敗北</td>
+            </tr>
+            <tr>
+                <td class="vertical-middle">ステータス「恋絆」が付与されている</td>
+                <td class="vertical-middle">恋人陣営の勝利</td>
+            </tr>
+            <tr>
+                <td class="vertical-middle">ステータス「狐憑き」が付与されている</td>
+                <td class="vertical-middle">妖狐陣営の勝利</td>
+            </tr>
+            <tr>
+                <td class="vertical-middle">役職が愉快犯陣営に属している</td>
+                <td class="vertical-middle">最後まで生存</td>
+            </tr>
+            <tr>
+                <td class="vertical-middle">それ以外</td>
+                <td class="vertical-middle">役職が属する陣営の勝利</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="camp-wincondition" class="table-responsive">
+        <h3 class="h5">陣営の勝敗判定</h3>
+        <table class="table table-bordered table-condensed small">
+            <thead>
+            <tr>
+                <th colspan="3" class="vertical-middle">陣営の勝敗判定（同時に満たした場合は上にあるものほど優先度高）</th>
             </tr>
             <tr>
                 <th class="vertical-middle">陣営</th>
@@ -41,11 +85,11 @@
             <tbody>
             <tr>
                 <td class="vertical-middle">恋人陣営</td>
-                <td class="vertical-middle">いずれかの陣営が勝利条件を満たした際に恋人陣営役職か恋絆を付与されている人が1名以上生存している</td>
+                <td class="vertical-middle">恋人陣営役職か恋絆を付与されている人が1名以上生存している</td>
             </tr>
             <tr>
                 <td class="vertical-middle">妖狐陣営</td>
-                <td class="vertical-middle">いずれかの陣営が勝利条件を満たした際に妖狐系役職が1名以上生存している</td>
+                <td class="vertical-middle">妖狐系役職が1名以上生存している</td>
             </tr>
             <tr>
                 <td class="vertical-middle">人狼陣営</td>
@@ -55,20 +99,14 @@
             </tr>
             <tr>
                 <td class="vertical-middle">村人陣営</td>
-                <td class="vertical-middle">夜明け時点で人狼が全員死亡し、人間が1人以上生存している</td>
+                <td class="vertical-middle">夜明け時点で人狼の生存数が0人かつ人間の生存数が1人以上</td>
             </tr>
-            <thead>
-            <tr>
-                <th colspan="3" class="vertical-middle">追加勝利（勝利陣営と関係なく条件に当てはまれば勝利）</th>
-            </tr>
-            </thead>
             <tr>
                 <td class="vertical-middle">愉快犯陣営</td>
-                <td class="vertical-middle">いずれかの陣営が勝利条件を満たした際、自身の勝利条件を満たすと自身も追加で勝利</td>
+                <td class="vertical-middle">なし（個人ごとに追加勝利判定を行うため、愉快犯陣営自体が勝利することはない）</td>
             </tr>
             </tbody>
         </table>
-        ※「人狼」「人間」の判定は勝敗判定カウントを参照
     </div>
 </div>
 </body>
