@@ -23,7 +23,7 @@ class SuicideDomainService(
 
             val loverSuicideTarget = findLoverSuicideTarget(village)
             messages = if (loverSuicideTarget != null) {
-                val lover = target.getTargetLovers(village).list.shuffled().first()
+                val lover = target.getTargetLovers(village).filterDead().list.shuffled().first()
                 messages.add(createLoverSuicideMessage(village, target, lover))
             } else if (findWallPunchSuicideTarget(village) != null) {
                 messages.add(createWallPuncherSuicideMessage(village, target))
