@@ -51,6 +51,7 @@ data class Skill(
     fun isDeadByDivine(): Boolean = isFoxCount()
     fun isCounterDeadByDivine(): Boolean = toCdef() == CDef.Skill.呪狼
     fun isNoDeadByAttack(): Boolean = toCdef().isNoDeadByAttack
+    fun isNoSound(): Boolean = toCdef() == CDef.Skill.防音者
 
     fun getAbility(): AbilityType? = skillToAbility[toCdef()]
 

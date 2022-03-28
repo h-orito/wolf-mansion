@@ -90,6 +90,7 @@ class ProgressDomainService(
     private val suddenlyDeathDomainService: SuddenlyDeathDomainService,
     private val miserableDomainService: MiserableDomainService,
     private val executeDomainService: ExecuteDomainService,
+    private val resentDomainService: ResentDomainService,
     private val footstepDomainService: FootstepDomainService
 ) {
     fun changeDayIfNeeded(daychange: Daychange, commits: Commits, charas: Charas): Daychange {
@@ -129,6 +130,8 @@ class ProgressDomainService(
         daychange = bombDomainService.addBombMessages(daychange)
         // 処刑
         daychange = executeDomainService.execute(daychange)
+        // 怨恨
+        daychange = resentDomainService.resent(daychange)
         // 護衛
         daychange = guardDomainService.guard(daychange)
         daychange = wandererDomainService.wandererGuard(daychange)

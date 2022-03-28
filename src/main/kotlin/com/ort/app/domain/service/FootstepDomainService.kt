@@ -35,6 +35,7 @@ class FootstepDomainService(
         // 生存者の部屋
         val aliveRoomNumList = village.participants.list
             .filter { it.isAliveWhen(day) }
+            .filterNot { it.skillWhen(day)!!.isNoSound() }
             .map { it.roomNumberWhen(day - 1) }
         // 足音
         return footsteps
@@ -152,10 +153,18 @@ class FootstepDomainService(
 
     // day: セットした日
     // day+1: 足音が鳴った日
-    fun getParticipantByFootstep(village: Village, day: Int, targetFootstep: String, footsteps: Footsteps): VillageParticipant {
+    fun getParticipantByFootstep(
+        village: Village,
+        day: Int,
+        targetFootstep: String,
+        footsteps: Footsteps
+    ): VillageParticipant {
         // 足音が鳴った時点で生存している人の部屋番号
         val roomNumberList =
-            village.participants.list.filter { it.isAliveWhen(day + 1) }.map { it.roomNumberWhen(day)!! }
+            village.participants.list
+                .filter { it.isAliveWhen(day + 1) }
+                .filterNot { it.skillWhen(day + 1)!!.isNoSound() }
+                .map { it.roomNumberWhen(day)!! }
         // 調査対象の足音
         val target = footsteps.filterByDay(day).list
             .filterNot { it.roomNumbers == "なし" }
@@ -223,6 +232,7 @@ class FootstepDomainService(
         // 生存者の部屋
         val aliveRoomNumList = village.participants.list
             .filter { it.isAliveWhen(day) }
+            .filterNot { it.skillWhen(day)!!.isNoSound() }
             .map { it.roomNumberWhen(day - 1) }
         // 足音
         return footsteps

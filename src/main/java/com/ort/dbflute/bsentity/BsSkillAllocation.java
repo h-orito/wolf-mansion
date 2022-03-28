@@ -79,10 +79,10 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} */
     protected Integer _villageId;
 
-    /** SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} */
+    /** SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} */
     protected String _skillCode;
 
     /** MIN_NUM: {NotNull, INT UNSIGNED(10)} */
@@ -116,7 +116,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "SKILL_ALLOCATION";
+        return "skill_allocation";
     }
 
     // ===================================================================================
@@ -134,7 +134,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     //                                                             =======================
     /**
      * Get the value of skillCode as the classification of Skill. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -145,7 +145,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
 
     /**
      * Set the value of skillCode as the classification of Skill. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -661,6 +661,14 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     }
 
     /**
+     * Set the value of skillCode as 怨恨者 (RESENTER). <br>
+     * 怨恨者
+     */
+    public void setSkillCode_怨恨者() {
+        setSkillCodeAsSkill(CDef.Skill.怨恨者);
+    }
+
+    /**
      * Set the value of skillCode as 蘇生者 (RESUSCITATOR). <br>
      * 蘇生者
      */
@@ -690,6 +698,14 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
      */
     public void setSkillCode_夢遊病者() {
         setSkillCodeAsSkill(CDef.Skill.夢遊病者);
+    }
+
+    /**
+     * Set the value of skillCode as 防音者 (SOUNDPROOFER). <br>
+     * 防音者
+     */
+    public void setSkillCode_防音者() {
+        setSkillCodeAsSkill(CDef.Skill.防音者);
     }
 
     /**
@@ -1501,6 +1517,17 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     }
 
     /**
+     * Is the value of skillCode 怨恨者? <br>
+     * 怨恨者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode怨恨者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.怨恨者) : false;
+    }
+
+    /**
      * Is the value of skillCode 蘇生者? <br>
      * 蘇生者
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1542,6 +1569,17 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     public boolean isSkillCode夢遊病者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.夢遊病者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 防音者? <br>
+     * 防音者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode防音者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.防音者) : false;
     }
 
     /**
@@ -1948,7 +1986,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -1958,7 +1996,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -1968,7 +2006,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     }
 
     /**
-     * [get] SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * [get] SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職コード
      * @return The value of the column 'SKILL_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -1978,7 +2016,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
+     * [set] SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
      * 役職コード
      * @param skillCode The value of the column 'SKILL_CODE'. (basically NotNull if update: for the constraint)
      */

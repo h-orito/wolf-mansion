@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of VILLAGE_PLAYER_DEAD_HISTORY. (Singleton)
+ * The DB meta of village_player_dead_history. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillagePlayerDeadHistoryDbm extends AbstractDBMeta {
@@ -81,7 +81,7 @@ public class VillagePlayerDeadHistoryDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "VILLAGE_PLAYER_DEAD_HISTORY";
+    protected final String _tableDbName = "village_player_dead_history";
     protected final String _tableDispName = "VILLAGE_PLAYER_DEAD_HISTORY";
     protected final String _tablePropertyName = "villagePlayerDeadHistory";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_PLAYER_DEAD_HISTORY", _tableDbName);
@@ -110,7 +110,7 @@ public class VillagePlayerDeadHistoryDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnVillagePlayerDeadHistoryId() { return _columnVillagePlayerDeadHistoryId; }
     /**
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillagePlayerId() { return _columnVillagePlayerId; }
@@ -125,7 +125,7 @@ public class VillagePlayerDeadHistoryDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnIsDead() { return _columnIsDead; }
     /**
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason}
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnDeadReasonCode() { return _columnDeadReasonCode; }

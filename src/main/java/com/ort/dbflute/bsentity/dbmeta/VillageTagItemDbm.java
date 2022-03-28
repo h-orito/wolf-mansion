@@ -13,7 +13,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of VILLAGE_TAG_ITEM. (Singleton)
+ * The DB meta of village_tag_item. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillageTagItemDbm extends AbstractDBMeta {
@@ -59,7 +59,7 @@ public class VillageTagItemDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "VILLAGE_TAG_ITEM";
+    protected final String _tableDbName = "village_tag_item";
     protected final String _tableDispName = "VILLAGE_TAG_ITEM";
     protected final String _tablePropertyName = "villageTagItem";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_TAG_ITEM", _tableDbName);

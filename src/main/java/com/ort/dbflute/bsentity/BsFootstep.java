@@ -76,13 +76,13 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day} */
     protected Integer _villageId;
 
-    /** DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} */
+    /** DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day} */
     protected Integer _day;
 
-    /** CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA} */
+    /** CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara} */
     protected Integer _charaId;
 
     /** FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)} */
@@ -110,7 +110,7 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "FOOTSTEP";
+        return "footstep";
     }
 
     // ===================================================================================
@@ -255,7 +255,7 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -265,7 +265,7 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -275,7 +275,7 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     }
 
     /**
-     * [get] DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} <br>
+     * [get] DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day} <br>
      * 何日目か
      * @return The value of the column 'DAY'. (basically NotNull if selected: for the constraint)
      */
@@ -285,7 +285,7 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     }
 
     /**
-     * [set] DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY} <br>
+     * [set] DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day} <br>
      * 何日目か
      * @param day The value of the column 'DAY'. (basically NotNull if update: for the constraint)
      */
@@ -295,7 +295,7 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     }
 
     /**
-     * [get] CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA} <br>
+     * [get] CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
      * キャラクターID
      * @return The value of the column 'CHARA_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -305,7 +305,7 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     }
 
     /**
-     * [set] CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to CHARA} <br>
+     * [set] CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
      * キャラクターID
      * @param charaId The value of the column 'CHARA_ID'. (basically NotNull if update: for the constraint)
      */

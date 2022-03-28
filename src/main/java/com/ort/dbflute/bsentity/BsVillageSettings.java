@@ -111,7 +111,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} */
     protected Integer _villageId;
 
     /** DUMMY_CHARA_ID: {NotNull, INT UNSIGNED(10)} */
@@ -162,7 +162,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     /** ORGANIZE: {NotNull, VARCHAR(10000)} */
     protected String _organize;
 
-    /** ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to ALLOWED_SECRET_SAY, classification=AllowedSecretSay} */
+    /** ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} */
     protected String _allowedSecretSayCode;
 
     /** IS_AVAILABLE_ACTION: {NotNull, BIT, classification=Flg} */
@@ -196,7 +196,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "VILLAGE_SETTINGS";
+        return "village_settings";
     }
 
     // ===================================================================================
@@ -402,7 +402,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /**
      * Get the value of allowedSecretSayCode as the classification of AllowedSecretSay. <br>
-     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to ALLOWED_SECRET_SAY, classification=AllowedSecretSay} <br>
+     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} <br>
      * 秘話可能範囲
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -413,7 +413,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /**
      * Set the value of allowedSecretSayCode as the classification of AllowedSecretSay. <br>
-     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to ALLOWED_SECRET_SAY, classification=AllowedSecretSay} <br>
+     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} <br>
      * 秘話可能範囲
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -1258,7 +1258,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -1268,7 +1268,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -1607,7 +1607,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [get] ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to ALLOWED_SECRET_SAY, classification=AllowedSecretSay} <br>
+     * [get] ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} <br>
      * 秘話可能な範囲コード
      * @return The value of the column 'ALLOWED_SECRET_SAY_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -1617,7 +1617,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to ALLOWED_SECRET_SAY, classification=AllowedSecretSay} <br>
+     * [set] ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay} <br>
      * 秘話可能な範囲コード
      * @param allowedSecretSayCode The value of the column 'ALLOWED_SECRET_SAY_CODE'. (basically NotNull if update: for the constraint)
      */
