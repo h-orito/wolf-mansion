@@ -1383,6 +1383,45 @@ $(function () {
         $('#modal-select-participate-chara').modal('hide');
     });
 
+    $('[data-selectable-chara-next-page]').on('click', function() {
+        const $page = $('[data-selectable-chara-page]');
+        const page = $page.data('selectable-chara-page');
+        const max = $('[data-selectable-chara-count]').data('selectable-chara-count');
+        if (max <= page * 100) return;
+        $('[data-selectable-chara-previous-page]').removeClass('disabled');
+        const newPage = page + 1;
+        if (max <= newPage * 100 - 1) {
+            $('[data-selectable-chara-next-page]').addClass('disabled');
+        }
+        $page.data('selectable-chara-page', newPage);
+        $.each($('[data-selectable-chara-page]').find('div'), function (idx, elm) {
+            if ((newPage - 1) * 100 <= idx && idx < newPage * 100) {
+                $(elm).css('display', 'block');
+            } else {
+                $(elm).css('display', 'none');
+            }
+        });
+    });
+
+    $('[data-selectable-chara-previous-page]').on('click', function() {
+        const $page = $('[data-selectable-chara-page]');
+        const page = $page.data('selectable-chara-page');
+        if (page === 1) return;
+        $('[data-selectable-chara-next-page]').removeClass('disabled');
+        const newPage = page - 1;
+        if (newPage === 1) {
+            $('[data-selectable-chara-previous-page]').addClass('disabled');
+        }
+        $page.data('selectable-chara-page', newPage);
+        $.each($('[data-selectable-chara-page]').find('div'), function (idx, elm) {
+            if ((newPage - 1) * 100 <= idx && idx < newPage * 100) {
+                $(elm).css('display', 'block');
+            } else {
+                $(elm).css('display', 'none');
+            }
+        });
+    });
+
     // ----------------------------------------------
     // 残り時間
     // ----------------------------------------------

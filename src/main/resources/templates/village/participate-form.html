@@ -126,20 +126,32 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body row">
-                    <div class="col-sm-12 col-xs-12">
+                    <div class="col-sm-12 col-xs-12"
+                         data-selectable-chara-page="1"
+                         th:data-selectable-chara-count="${content.form.participate.selectableCharaList.size()}">
                         <h4>キャラクター選択</h4>
-                        <div class="col-sm-4 col-xs-6" style="border: 1px solid #464545;"
+                        <div class="col-sm-4 col-xs-6"
                              th:if="${content.form.participate.selectableCharaList}"
-                             th:each="chara : ${content.form.participate.selectableCharaList}">
-								<span style="display: block; text-align: center;">
-                                    <img src="" th:src="${chara.url}"
-                                         th:width="${chara.width}"
-                                         th:height="${chara.height}"/></span>
+                             th:each="chara, st : ${content.form.participate.selectableCharaList}"
+                             th:style="'border: 1px solid #464545;' + ${st.index < 100 ? '' : 'display: none;' }"
+                        >
+                            <span style="display: block; text-align: center;">
+                                <img src="" th:src="${chara.url}"
+                                     th:width="${chara.width}"
+                                     th:height="${chara.height}"/></span>
                             <span style="display: block; text-align: center;" th:text="${chara.name}"></span> <a
                                 href="javascript:void(0);" class="btn btn-xs btn-success"
                                 style="display: block; text-align: center;"
                                 th:data-select-participate-chara="${chara.id}">選択</a>
                         </div>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 small"
+                         th:if="${content.form.participate.selectableCharaList.size() > 100}">
+                        <a href="javascript:void(0);" class="btn btn-sm btn-success pull-right small"
+                           style="margin-top: 10px;" data-selectable-chara-next-page>次の100人を表示</a>
+                        <a href="javascript:void(0);" class="btn btn-sm btn-success pull-right small disabled"
+                           style="margin-top: 10px; margin-right: 10px;"
+                           data-selectable-chara-previous-page>前の100人を表示</a>
                     </div>
                     <div class="col-sm-12 col-xs-12 small">
                         <a href="javascript:void(0);" class="btn btn-primary pull-right small" data-dismiss="modal"
