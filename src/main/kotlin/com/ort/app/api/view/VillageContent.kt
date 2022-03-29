@@ -175,7 +175,9 @@ data class VillageContent(
         /** 役職 */
         val skill: VillageParticipateSkillContent?,
         /** 死んでいるか */
-        val isDead: Boolean
+        val isDead: Boolean,
+        /** 勝敗判定陣営名 */
+        val camp: String?
     ) {
         constructor(
             myself: VillageParticipant,
@@ -187,7 +189,8 @@ data class VillageContent(
             charaImageWidth = charachips.chara(myself.charaId).size.width,
             charaImageHeight = charachips.chara(myself.charaId).size.height,
             skill = myself.skill?.let { VillageParticipateSkillContent(it, situation) },
-            isDead = myself.dead.isDead
+            isDead = myself.dead.isDead,
+            camp = myself.camp?.name
         )
 
         data class VillageParticipateSkillContent(
