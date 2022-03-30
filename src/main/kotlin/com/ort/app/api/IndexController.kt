@@ -12,6 +12,7 @@ import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.player.canCreateVillage
+import com.ort.app.domain.model.translate.TranslateRepository
 import com.ort.app.domain.model.village.VillageQuery
 import com.ort.app.domain.model.village.VillageStatus
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
@@ -20,13 +21,15 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ResponseBody
+import java.time.LocalDateTime
 
 @Controller
 class IndexController(
     private val villageService: VillageService,
     private val playerService: PlayerService,
     private val charaService: CharaService,
-    private val campService: CampService
+    private val campService: CampService,
+    private val translateRepository: TranslateRepository
 ) {
 
     @GetMapping("/")
@@ -42,6 +45,17 @@ class IndexController(
         val canCreateVillage = player.canCreateVillage()
         val content = IndexContent(villages, canCreateVillage)
         model.addAttribute("content", content)
+        val now = LocalDateTime.now()
+        if (LocalDateTime.of(2022, 4, 1, 0, 0, 0).isBefore(now)
+            && LocalDateTime.of(2022, 4, 2, 0, 0, 0).isAfter(now)
+        ) {
+            val (language, translated, reTranslated) = translateRepository.reTranslate(
+                "WOLF MANSIONでは、占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と【投票】の2つを使って推理・説得する「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。"
+            )
+            model.addAttribute("translated", "$translated（$language）")
+            model.addAttribute("reTranslated", reTranslated)
+            return "april-fool"
+        }
         return "index"
     }
 
