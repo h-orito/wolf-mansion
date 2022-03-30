@@ -5,14 +5,17 @@ import com.ort.app.domain.model.situation.village.VillageRoomAssignedColumn
 import com.ort.app.domain.model.situation.village.VillageRoomAssignedSituation
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.model.village.participant.VillageParticipants
 import com.ort.app.domain.model.village.room.Room
 import com.ort.app.domain.model.village.room.RoomSize
+import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.MessageDomainService
 import org.springframework.stereotype.Service
 
 @Service
 class RoomDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
+    private val footstepDomainService: FootstepDomainService
 ) {
 
     fun convertToSituation(village: Village, day: Int): VillageRoomAssignedSituation {
@@ -305,6 +308,24 @@ class RoomDomainService(
         }
 
         return roomNumberList
+    }
+
+    fun detectSilentRoomNumbers(myself: VillageParticipant, village: Village): List<Int> {
+        // 生存者の部屋（現在の部屋、防音者は考慮しない）
+        val aliveRoomNumList = village.participants.filterAlive().list.map { it.room!!.number }
+
+        return village.participants.filterNotParticipant(myself).filterAlive().list.filter { participant ->
+            val candidates = footstepDomainService.getCandidateList(village, myself.charaId, participant.charaId)
+            // 足音なしで襲撃できるか、
+            if (candidates.size == 1 && candidates.first() == "なし") true
+            // 生存者がいないため無音になる
+            else {
+                candidates.all { roomNumbersStr ->
+                    val roomNumbers = roomNumbersStr.split(",").map { it.toInt() }
+                    roomNumbers.none { aliveRoomNumList.contains(it) }
+                }
+            }
+        }.map { it.room!!.number }
     }
 
     private fun isLeftSide(targetRoomNumber: Int, width: Int): Boolean = targetRoomNumber % width == 1

@@ -35,7 +35,7 @@ map:{
 	        	; groupingMap = map:{
 	        		; availableWerewolfSay = map:{
 	        			; groupComment=囁き可能
-	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;歩狼;銀狼;金狼;飛狼;角狼;王狼;C国狂人}
+	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;歩狼;銀狼;金狼;飛狼;角狼;王狼;静狼;堅狼;C国狂人}
 	        		}
 	        		; hasDivineAbility = map:{
 	        			; groupComment=占い能力を持つ
@@ -47,7 +47,7 @@ map:{
 	        		}
 	        		; hasAttackAbility = map:{
 	        			; groupComment=襲撃能力を持つ
-	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;歩狼;銀狼;金狼;飛狼;角狼;王狼}
+	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;歩狼;銀狼;金狼;飛狼;角狼;王狼;静狼;堅狼}
 	        		}
 	        		; hasDisturbAbility = map:{
 	        			; groupComment=徘徊能力を持つ
@@ -55,11 +55,11 @@ map:{
 	        		}
 	        		; noDeadByAttack = map:{
 	        			; groupComment=襲撃されても死なない
-	        			; elementList= list:{壁殴り代行;妖狐;誑狐;ごん;仙狐;爆弾魔}
+	        			; elementList= list:{壁殴り代行;堅狼;妖狐;誑狐;ごん;仙狐;爆弾魔}
 	        		}
 	        		; wolfCount = map:{
 	        			; groupComment=勝敗判定時、人狼にカウントされる
-	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;歩狼;銀狼;金狼;飛狼;角狼;王狼}
+	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;歩狼;銀狼;金狼;飛狼;角狼;王狼;静狼;堅狼}
 	        		}
 	        		; noCount = map:{
 	        			; groupComment=勝敗判定時、人間にも人狼にもカウントされない
@@ -67,15 +67,15 @@ map:{
 	        		}
 	        		; viewableWolfCharaName = map:{
 	        			; groupComment=人狼が誰かを知ることができる
-	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;歩狼;銀狼;金狼;飛狼;角狼;王狼;C国狂人;狂信者;煽動者}
+	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;歩狼;銀狼;金狼;飛狼;角狼;王狼;静狼;堅狼;C国狂人;狂信者;煽動者}
 	        		}
 	        		; divineResultWolf = map:{
 	        			; groupComment=占い結果が人狼となる
-	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;歩狼;銀狼;金狼;飛狼;角狼;王狼;一匹狼}
+	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;歩狼;銀狼;金狼;飛狼;角狼;王狼;静狼;堅狼;一匹狼}
 	        		}
 	        		; psychicResultWolf = map:{
 	        			; groupComment=霊能結果が人狼となる
-	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;歩狼;銀狼;金狼;飛狼;角狼;王狼;一匹狼}
+	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;歩狼;銀狼;金狼;飛狼;角狼;王狼;静狼;堅狼;一匹狼}
 	        		}
 					; someoneSkill = map:{
 						; groupComment=おまかせ系

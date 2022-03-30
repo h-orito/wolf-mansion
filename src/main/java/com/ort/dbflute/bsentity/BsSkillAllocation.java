@@ -421,6 +421,14 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     }
 
     /**
+     * Set the value of skillCode as 堅狼 (HARDWOLF). <br>
+     * 堅狼
+     */
+    public void setSkillCode_堅狼() {
+        setSkillCodeAsSkill(CDef.Skill.堅狼);
+    }
+
+    /**
      * Set the value of skillCode as 申し子 (HEAVENCHILD). <br>
      * 申し子
      */
@@ -690,6 +698,14 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
      */
     public void setSkillCode_破局者() {
         setSkillCodeAsSkill(CDef.Skill.破局者);
+    }
+
+    /**
+     * Set the value of skillCode as 静狼 (SILENTWOLF). <br>
+     * 静狼
+     */
+    public void setSkillCode_静狼() {
+        setSkillCodeAsSkill(CDef.Skill.静狼);
     }
 
     /**
@@ -1187,6 +1203,17 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     }
 
     /**
+     * Is the value of skillCode 堅狼? <br>
+     * 堅狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode堅狼() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.堅狼) : false;
+    }
+
+    /**
      * Is the value of skillCode 申し子? <br>
      * 申し子
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1561,6 +1588,17 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     }
 
     /**
+     * Is the value of skillCode 静狼? <br>
+     * 静狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode静狼() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.静狼) : false;
+    }
+
+    /**
      * Is the value of skillCode 夢遊病者? <br>
      * 夢遊病者
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1738,7 +1776,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
 
     /**
      * 囁き可能 <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, C国狂人]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, C国狂人]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_AvailableWerewolfSay() {
@@ -1768,7 +1806,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
 
     /**
      * 襲撃能力を持つ <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_HasAttackAbility() {
@@ -1788,7 +1826,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
 
     /**
      * 襲撃されても死なない <br>
-     * The group elements:[壁殴り代行, 妖狐, 誑狐, ごん, 仙狐, 爆弾魔]
+     * The group elements:[壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 爆弾魔]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_NoDeadByAttack() {
@@ -1798,7 +1836,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
 
     /**
      * 勝敗判定時、人狼にカウントされる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_WolfCount() {
@@ -1818,7 +1856,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
 
     /**
      * 人狼が誰かを知ることができる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, C国狂人, 狂信者, 煽動者]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, C国狂人, 狂信者, 煽動者]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_ViewableWolfCharaName() {
@@ -1828,7 +1866,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
 
     /**
      * 占い結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 一匹狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_DivineResultWolf() {
@@ -1838,7 +1876,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
 
     /**
      * 霊能結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 一匹狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_PsychicResultWolf() {

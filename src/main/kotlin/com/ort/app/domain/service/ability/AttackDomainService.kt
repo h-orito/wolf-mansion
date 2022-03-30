@@ -67,6 +67,10 @@ class AttackDomainService(
                 val roomList = roomDomainService.detectKakuRoomNumbers(myself.room!!, village.roomSize!!)
                 baseTargetList.filter { roomList.contains(it.room!!.number) }.ifEmpty { baseTargetList }
             }
+            CDef.Skill.静狼 -> {
+                val roomList = roomDomainService.detectSilentRoomNumbers(myself, village)
+                baseTargetList.filter { roomList.contains(it.room!!.number) }.ifEmpty { baseTargetList }
+            }
             else -> baseTargetList
         }
     }
