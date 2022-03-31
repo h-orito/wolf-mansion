@@ -118,7 +118,7 @@ class VillageControllerHelper(
         model: Model,
         forms: VillageForms
     ) {
-        if (!situation.participate.isAvailableParticipate) return
+        if (!situation.participate.isAvailableParticipate && !situation.participate.isAvailableSpectate) return
         model.addAttribute(
             "participateForm",
             forms.participateForm ?: VillageParticipateForm()

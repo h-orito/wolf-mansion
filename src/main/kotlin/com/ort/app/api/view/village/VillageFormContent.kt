@@ -2,7 +2,6 @@ package com.ort.app.api.view.village
 
 import com.ort.app.api.view.OptionContent
 import com.ort.app.domain.model.chara.Chara
-import com.ort.app.domain.model.chara.Charachip
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.situation.ParticipantSituation
 import com.ort.app.domain.model.situation.participant.ParticipantAbilitySituation
@@ -65,7 +64,7 @@ data class VillageFormContent(
             myself: VillageParticipant?,
             situation: ParticipantSituation
         ) : this(
-            isDispParticipateForm = situation.participate.isAvailableParticipate,
+            isDispParticipateForm = situation.participate.isAvailableParticipate || situation.participate.isAvailableSpectate,
             isDispChangeRequestSkillForm = situation.skillRequest.isAvailableSkillRequest,
             isDispChangeRequestNgMessage = village.status.isPrologue() && myself != null &&
                     !myself.isSpectator &&
