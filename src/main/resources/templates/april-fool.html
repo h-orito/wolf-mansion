@@ -23,9 +23,23 @@
             </div>
 
             <div class="col-sm-12 col-xs-12" th:if="${user != null}" style="margin-top: 10px;">
-                <span style="color: #fff; position: absolute; bottom: 5px; right: 20px;"
-                      th:text="${user.username} + ' は、肉を食べずにはいられない！！'">ユーザID:
-                                            hoge</span>
+                <div class="message col-sm-12 col-xs-12 message-public-system"
+                     th:text="${user.username} + ' は、肉を食べずにはいられない！！'"></div>
+            </div>
+
+            <div class="col-sm-12 col-xs-12" th:if="${user != null}" style="margin-top: 10px;">
+                <div class="message col-sm-12 col-xs-12 message-public-system"
+                     th:text="${user.username} + ' は、虹色になった。'"></div>
+            </div>
+
+            <div class="col-sm-12 col-xs-12" th:if="${user != null}" style="margin-top: 10px;">
+                <div class="message col-sm-12 col-xs-12 message-public-system"
+                     th:text="${user.username} + ' は、叫ばずにはいられない！'"></div>
+            </div>
+
+            <div class="col-sm-12 col-xs-12" th:if="${user != null}" style="margin-top: 10px;">
+                <div class="message col-sm-12 col-xs-12 message-public-system"
+                     th:text="${user.username} + ' が突然他国の言葉しか話せなくなり、有識者に翻訳してもらうことになった。'"></div>
             </div>
 
             <div class="col-sm-12 col-xs-12 top-menu">
@@ -171,7 +185,7 @@
                 </div>
             </div>
 
-            <form id="logout-form" method="post" action="" th:action="@{/logout}"></form>
+            <form id="logout-form" th:if="${user != null}" method="post" action="" th:action="@{/logout}"></form>
             <div class="col-sm-12 col-xs-12 top-menu">
                 <div class="top-menu-inner" style="display: block; text-align: center;">
                     <div class="row">
