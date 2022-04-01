@@ -45,17 +45,6 @@ class IndexController(
         val canCreateVillage = player.canCreateVillage()
         val content = IndexContent(villages, canCreateVillage)
         model.addAttribute("content", content)
-        val now = LocalDateTime.now()
-        if (LocalDateTime.of(2022, 4, 1, 0, 0, 0).isBefore(now)
-            && LocalDateTime.of(2022, 4, 2, 0, 0, 0).isAfter(now)
-        ) {
-            val (language, translated, reTranslated) = translateRepository.reTranslate(
-                "WOLF MANSIONでは、占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と【投票】の2つを使って推理・説得する「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。"
-            )
-            model.addAttribute("translated", "$translated（$language）")
-            model.addAttribute("reTranslated", reTranslated)
-            return "april-fool"
-        }
         return "index"
     }
 
