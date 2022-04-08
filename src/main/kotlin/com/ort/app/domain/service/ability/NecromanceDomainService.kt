@@ -35,7 +35,7 @@ class NecromanceDomainService : AbilityTypeDomainService {
     override fun canUseDay(day: Int): Boolean = day > 2
 
     override fun getTargetPrefix(): String = "死霊蘇生する対象"
-    override fun getTargetSuffix(): String? = "を死霊蘇生する"
+    override fun getTargetSuffix(): String = "を死霊蘇生する"
 
     fun necromance(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
@@ -46,7 +46,7 @@ class NecromanceDomainService : AbilityTypeDomainService {
             // 蘇生済み/同棲者の場合は失敗
             if (target.isAlive() || target.skill!!.toCdef() == CDef.Skill.同棲者) return@forEach
             village = village.reviveParticipant(target.id)
-            village = village.assignParticipantSkill(target.id, CDef.Skill.人狼.toModel())
+            village = village.assignParticipantSkill(target.id, CDef.Skill.黙狼.toModel())
             messages = messages.add(createResusciateMessage(village, target))
         }
 
