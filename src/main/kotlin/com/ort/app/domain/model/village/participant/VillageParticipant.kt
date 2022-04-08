@@ -27,7 +27,8 @@ data class VillageParticipant(
     val isWin: Boolean?,
     val camp: Camp?,
     val lastAccessDatetime: LocalDateTime,
-    val memo: String?
+    val memo: String?,
+    val ipAddresses: List<String>
 ) {
     fun name(): String = "[${shortName()}] ${charaName.name}"
 

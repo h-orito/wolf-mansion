@@ -235,6 +235,25 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
+     * {exists (select VILLAGE_PLAYER_ID from village_player_access_info where ...)} <br>
+     * village_player_access_info by VILLAGE_PLAYER_ID, named 'villagePlayerAccessInfoAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">existsVillagePlayerAccessInfo</span>(infoCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     infoCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of VillagePlayerAccessInfoList for 'exists'. (NotNull)
+     */
+    public void existsVillagePlayerAccessInfo(SubQuery<VillagePlayerAccessInfoCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        VillagePlayerAccessInfoCB cb = new VillagePlayerAccessInfoCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepVillagePlayerId_ExistsReferrer_VillagePlayerAccessInfoList(cb.query());
+        registerExistsReferrer(cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", pp, "villagePlayerAccessInfoList");
+    }
+    public abstract String keepVillagePlayerId_ExistsReferrer_VillagePlayerAccessInfoList(VillagePlayerAccessInfoCQ sq);
+
+    /**
+     * Set up ExistsReferrer (correlated sub-query). <br>
      * {exists (select VILLAGE_PLAYER_ID from village_player_dead_history where ...)} <br>
      * village_player_dead_history by VILLAGE_PLAYER_ID, named 'villagePlayerDeadHistoryAsOne'.
      * <pre>
@@ -406,6 +425,25 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
+     * {not exists (select VILLAGE_PLAYER_ID from village_player_access_info where ...)} <br>
+     * village_player_access_info by VILLAGE_PLAYER_ID, named 'villagePlayerAccessInfoAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">notExistsVillagePlayerAccessInfo</span>(infoCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     infoCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of VillagePlayerId_NotExistsReferrer_VillagePlayerAccessInfoList for 'not exists'. (NotNull)
+     */
+    public void notExistsVillagePlayerAccessInfo(SubQuery<VillagePlayerAccessInfoCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        VillagePlayerAccessInfoCB cb = new VillagePlayerAccessInfoCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepVillagePlayerId_NotExistsReferrer_VillagePlayerAccessInfoList(cb.query());
+        registerNotExistsReferrer(cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", pp, "villagePlayerAccessInfoList");
+    }
+    public abstract String keepVillagePlayerId_NotExistsReferrer_VillagePlayerAccessInfoList(VillagePlayerAccessInfoCQ sq);
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br>
      * {not exists (select VILLAGE_PLAYER_ID from village_player_dead_history where ...)} <br>
      * village_player_dead_history by VILLAGE_PLAYER_ID, named 'villagePlayerDeadHistoryAsOne'.
      * <pre>
@@ -530,6 +568,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
         registerSpecifyDerivedReferrer(fn, cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", pp, "messageSendtoList", al, op);
     }
     public abstract String keepVillagePlayerId_SpecifyDerivedReferrer_MessageSendtoList(MessageSendtoCQ sq);
+
+    public void xsderiveVillagePlayerAccessInfoList(String fn, SubQuery<VillagePlayerAccessInfoCB> sq, String al, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        VillagePlayerAccessInfoCB cb = new VillagePlayerAccessInfoCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepVillagePlayerId_SpecifyDerivedReferrer_VillagePlayerAccessInfoList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", pp, "villagePlayerAccessInfoList", al, op);
+    }
+    public abstract String keepVillagePlayerId_SpecifyDerivedReferrer_VillagePlayerAccessInfoList(VillagePlayerAccessInfoCQ sq);
 
     public void xsderiveVillagePlayerDeadHistoryList(String fn, SubQuery<VillagePlayerDeadHistoryCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
@@ -678,6 +724,33 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
     public abstract String keepVillagePlayerId_QueryDerivedReferrer_MessageSendtoList(MessageSendtoCQ sq);
     public abstract String keepVillagePlayerId_QueryDerivedReferrer_MessageSendtoListParameter(Object vl);
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
+     * {FOO &lt;= (select max(BAR) from village_player_access_info where ...)} <br>
+     * village_player_access_info by VILLAGE_PLAYER_ID, named 'villagePlayerAccessInfoAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">derivedVillagePlayerAccessInfo()</span>.<span style="color: #CC4747">max</span>(infoCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     infoCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     infoCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    public HpQDRFunction<VillagePlayerAccessInfoCB> derivedVillagePlayerAccessInfo() {
+        return xcreateQDRFunctionVillagePlayerAccessInfoList();
+    }
+    protected HpQDRFunction<VillagePlayerAccessInfoCB> xcreateQDRFunctionVillagePlayerAccessInfoList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveVillagePlayerAccessInfoList(fn, sq, rd, vl, op));
+    }
+    public void xqderiveVillagePlayerAccessInfoList(String fn, SubQuery<VillagePlayerAccessInfoCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        VillagePlayerAccessInfoCB cb = new VillagePlayerAccessInfoCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepVillagePlayerId_QueryDerivedReferrer_VillagePlayerAccessInfoList(cb.query()); String prpp = keepVillagePlayerId_QueryDerivedReferrer_VillagePlayerAccessInfoListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", sqpp, "villagePlayerAccessInfoList", rd, vl, prpp, op);
+    }
+    public abstract String keepVillagePlayerId_QueryDerivedReferrer_VillagePlayerAccessInfoList(VillagePlayerAccessInfoCQ sq);
+    public abstract String keepVillagePlayerId_QueryDerivedReferrer_VillagePlayerAccessInfoListParameter(Object vl);
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>

@@ -1,14 +1,6 @@
 package com.ort.app.application.coordinator
 
-import com.ort.app.application.service.AbilityService
-import com.ort.app.application.service.CharaService
-import com.ort.app.application.service.CommitService
-import com.ort.app.application.service.FootstepApplicationService
-import com.ort.app.application.service.MessageService
-import com.ort.app.application.service.PlayerService
-import com.ort.app.application.service.TweetService
-import com.ort.app.application.service.VillageService
-import com.ort.app.application.service.VoteApplicationService
+import com.ort.app.application.service.*
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.commit.Commit
@@ -54,6 +46,7 @@ class VillageCoordinator(
     private val abilityService: AbilityService,
     private val footstepService: FootstepApplicationService,
     private val voteService: VoteApplicationService,
+    private val slackService: SlackService,
     // domain service
     private val participateDomainService: ParticipateDomainService,
     private val skillRequestDomainService: SkillRequestDomainService,
@@ -78,13 +71,15 @@ class VillageCoordinator(
         secondRequestSkill: Skill,
         joinMessage: String,
         joinPassword: String?,
-        isSpectator: Boolean
+        isSpectator: Boolean,
+        ipAddress: String
     ) {
         assertParticipate(village, player, charaId, joinPassword, isSpectator)
         val chara = charaService.findChara(charaId) ?: throw IllegalStateException("chara not found.")
         val participant = villageService.participate(
             village.id, player.id, chara, firstRequestSkill, secondRequestSkill, isSpectator
         )
+        villageService.addIpAddress(participant, ipAddress)
         val afterVillage = villageService.findVillage(village.id)!!
         // N人目シスメ
         messageService.registerMessage(
@@ -101,6 +96,15 @@ class VillageCoordinator(
             messageService.registerMessage(afterVillage, messageDomainService.createSkillRequestMessage(participant))
             // 人数が揃ったらツイート
             tweetService.tweetParticipantEnoughIfNeeded(afterVillage)
+        }
+        // IPアドレスが重複している人がいたら通知
+        if (!playerService.findPlayer(participant.playerId).shouldCheckAccessInfo) return
+        val isContain = village.allParticipants().filterNotParticipant(participant).list
+            .filterNot { it.playerId == 1 }
+            .flatMap { it.ipAddresses }.distinct()
+            .contains(ipAddress)
+        if (isContain) {
+            slackService.postTextIfNeeded(village, "IPアドレス重複検出: $ipAddress")
         }
     }
 
@@ -308,7 +312,8 @@ class VillageCoordinator(
             secondRequestSkill = Skill(CDef.Skill.おまかせ),
             joinMessage = joinMessage,
             joinPassword = village.setting.joinPassword,
-            isSpectator = false
+            isSpectator = false,
+            ipAddress = "dummy"
         )
     }
 }

@@ -95,4 +95,7 @@ class VillageService(
         if (current.isSame(changed)) return
         villageRepository.updateDaychangeDifference(current, changed)
     }
+
+    fun addIpAddress(participant: VillageParticipant, ipAddress: String) =
+        villageRepository.addIpAddress(participant, ipAddress)
 }

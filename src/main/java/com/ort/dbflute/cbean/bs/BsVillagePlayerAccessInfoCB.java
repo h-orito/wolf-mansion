@@ -18,22 +18,23 @@ import com.ort.dbflute.allcommon.ImplementedInvokerAssistant;
 import com.ort.dbflute.allcommon.ImplementedSqlClauseCreator;
 import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
+import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of player.
+ * The base condition-bean of village_player_access_info.
  * @author DBFlute(AutoGenerator)
  */
-public class BsPlayerCB extends AbstractConditionBean {
+public class BsVillagePlayerAccessInfoCB extends AbstractConditionBean {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected PlayerCQ _conditionQuery;
+    protected VillagePlayerAccessInfoCQ _conditionQuery;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public BsPlayerCB() {
+    public BsVillagePlayerAccessInfoCB() {
         if (DBFluteConfig.getInstance().isPagingCountLater()) {
             enablePagingCountLater();
         }
@@ -76,7 +77,7 @@ public class BsPlayerCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "player";
+        return "village_player_access_info";
     }
 
     // ===================================================================================
@@ -84,35 +85,36 @@ public class BsPlayerCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param playerId : PK, ID, NotNull, INT UNSIGNED(10). (NotNull)
+     * @param villagePlayerAccessInfoId : PK, ID, NotNull, INT UNSIGNED(10). (NotNull)
      * @return this. (NotNull)
      */
-    public PlayerCB acceptPK(Integer playerId) {
-        assertObjectNotNull("playerId", playerId);
-        BsPlayerCB cb = this;
-        cb.query().setPlayerId_Equal(playerId);
-        return (PlayerCB)this;
+    public VillagePlayerAccessInfoCB acceptPK(Integer villagePlayerAccessInfoId) {
+        assertObjectNotNull("villagePlayerAccessInfoId", villagePlayerAccessInfoId);
+        BsVillagePlayerAccessInfoCB cb = this;
+        cb.query().setVillagePlayerAccessInfoId_Equal(villagePlayerAccessInfoId);
+        return (VillagePlayerAccessInfoCB)this;
     }
 
     /**
      * Accept the query condition of unique key as equal.
-     * @param playerName : UQ, NotNull, VARCHAR(12). (NotNull)
+     * @param villagePlayerId : UQ+, NotNull, INT UNSIGNED(10), FK to village_player. (NotNull)
+     * @param ipAddress : +UQ, NotNull, VARCHAR(64). (NotNull)
      * @return this. (NotNull)
      */
-    public PlayerCB acceptUniqueOf(String playerName) {
-        assertObjectNotNull("playerName", playerName);
-        BsPlayerCB cb = this;
-        cb.query().setPlayerName_Equal(playerName);
-        return (PlayerCB)this;
+    public VillagePlayerAccessInfoCB acceptUniqueOf(Integer villagePlayerId, String ipAddress) {
+        assertObjectNotNull("villagePlayerId", villagePlayerId);assertObjectNotNull("ipAddress", ipAddress);
+        BsVillagePlayerAccessInfoCB cb = this;
+        cb.query().setVillagePlayerId_Equal(villagePlayerId);cb.query().setIpAddress_Equal(ipAddress);
+        return (VillagePlayerAccessInfoCB)this;
     }
 
     public ConditionBean addOrderBy_PK_Asc() {
-        query().addOrderBy_PlayerId_Asc();
+        query().addOrderBy_VillagePlayerAccessInfoId_Asc();
         return this;
     }
 
     public ConditionBean addOrderBy_PK_Desc() {
-        query().addOrderBy_PlayerId_Desc();
+        query().addOrderBy_VillagePlayerAccessInfoId_Desc();
         return this;
     }
 
@@ -176,34 +178,34 @@ public class BsPlayerCB extends AbstractConditionBean {
      * </pre>
      * @return The instance of condition-query for base-point table to set up query. (NotNull)
      */
-    public PlayerCQ query() {
+    public VillagePlayerAccessInfoCQ query() {
         assertQueryPurpose(); // assert only when user-public query
         return doGetConditionQuery();
     }
 
-    public PlayerCQ xdfgetConditionQuery() { // public for parameter comment and internal
+    public VillagePlayerAccessInfoCQ xdfgetConditionQuery() { // public for parameter comment and internal
         return doGetConditionQuery();
     }
 
-    protected PlayerCQ doGetConditionQuery() {
+    protected VillagePlayerAccessInfoCQ doGetConditionQuery() {
         if (_conditionQuery == null) {
             _conditionQuery = createLocalCQ();
         }
         return _conditionQuery;
     }
 
-    protected PlayerCQ createLocalCQ() {
+    protected VillagePlayerAccessInfoCQ createLocalCQ() {
         return xcreateCQ(null, getSqlClause(), getSqlClause().getBasePointAliasName(), 0);
     }
 
-    protected PlayerCQ xcreateCQ(ConditionQuery childQuery, SqlClause sqlClause, String aliasName, int nestLevel) {
-        PlayerCQ cq = xnewCQ(childQuery, sqlClause, aliasName, nestLevel);
+    protected VillagePlayerAccessInfoCQ xcreateCQ(ConditionQuery childQuery, SqlClause sqlClause, String aliasName, int nestLevel) {
+        VillagePlayerAccessInfoCQ cq = xnewCQ(childQuery, sqlClause, aliasName, nestLevel);
         cq.xsetBaseCB(this);
         return cq;
     }
 
-    protected PlayerCQ xnewCQ(ConditionQuery childQuery, SqlClause sqlClause, String aliasName, int nestLevel) {
-        return new PlayerCQ(childQuery, sqlClause, aliasName, nestLevel);
+    protected VillagePlayerAccessInfoCQ xnewCQ(ConditionQuery childQuery, SqlClause sqlClause, String aliasName, int nestLevel) {
+        return new VillagePlayerAccessInfoCQ(childQuery, sqlClause, aliasName, nestLevel);
     }
 
     /**
@@ -227,10 +229,10 @@ public class BsPlayerCB extends AbstractConditionBean {
      * </pre>
      * @param unionCBLambda The callback for query of 'union'. (NotNull)
      */
-    public void union(UnionQuery<PlayerCB> unionCBLambda) {
-        final PlayerCB cb = new PlayerCB(); cb.xsetupForUnion(this); xsyncUQ(cb);
+    public void union(UnionQuery<VillagePlayerAccessInfoCB> unionCBLambda) {
+        final VillagePlayerAccessInfoCB cb = new VillagePlayerAccessInfoCB(); cb.xsetupForUnion(this); xsyncUQ(cb);
         try { lock(); unionCBLambda.query(cb); } finally { unlock(); } xsaveUCB(cb);
-        final PlayerCQ cq = cb.query(); query().xsetUnionQuery(cq);
+        final VillagePlayerAccessInfoCQ cq = cb.query(); query().xsetUnionQuery(cq);
     }
 
     /**
@@ -244,33 +246,42 @@ public class BsPlayerCB extends AbstractConditionBean {
      * </pre>
      * @param unionCBLambda The callback for query of 'union all'. (NotNull)
      */
-    public void unionAll(UnionQuery<PlayerCB> unionCBLambda) {
-        final PlayerCB cb = new PlayerCB(); cb.xsetupForUnion(this); xsyncUQ(cb);
+    public void unionAll(UnionQuery<VillagePlayerAccessInfoCB> unionCBLambda) {
+        final VillagePlayerAccessInfoCB cb = new VillagePlayerAccessInfoCB(); cb.xsetupForUnion(this); xsyncUQ(cb);
         try { lock(); unionCBLambda.query(cb); } finally { unlock(); } xsaveUCB(cb);
-        final PlayerCQ cq = cb.query(); query().xsetUnionAllQuery(cq);
+        final VillagePlayerAccessInfoCQ cq = cb.query(); query().xsetUnionAllQuery(cq);
     }
 
     // ===================================================================================
     //                                                                         SetupSelect
     //                                                                         ===========
+    protected VillagePlayerNss _nssVillagePlayer;
+    public VillagePlayerNss xdfgetNssVillagePlayer() {
+        if (_nssVillagePlayer == null) { _nssVillagePlayer = new VillagePlayerNss(null); }
+        return _nssVillagePlayer;
+    }
     /**
      * Set up relation columns to select clause. <br>
-     * AUTHORITY by my AUTHORITY_CODE, named 'authority'.
+     * VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayer'.
      * <pre>
-     * <span style="color: #0000C0">playerBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_Authority()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     * <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_VillagePlayer()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
      *     <span style="color: #553000">cb</span>.query().set...
-     * }).alwaysPresent(<span style="color: #553000">player</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     ... = <span style="color: #553000">player</span>.<span style="color: #CC4747">getAuthority()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
+     * }).alwaysPresent(<span style="color: #553000">villagePlayerAccessInfo</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     ... = <span style="color: #553000">villagePlayerAccessInfo</span>.<span style="color: #CC4747">getVillagePlayer()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
      * });
      * </pre>
+     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
      */
-    public void setupSelect_Authority() {
-        assertSetupSelectPurpose("authority");
+    public VillagePlayerNss setupSelect_VillagePlayer() {
+        assertSetupSelectPurpose("villagePlayer");
         if (hasSpecifiedLocalColumn()) {
-            specify().columnAuthorityCode();
+            specify().columnVillagePlayerId();
         }
-        doSetupSelect(() -> query().queryAuthority());
+        doSetupSelect(() -> query().queryVillagePlayer());
+        if (_nssVillagePlayer == null || !_nssVillagePlayer.hasConditionQuery())
+        { _nssVillagePlayer = new VillagePlayerNss(query().queryVillagePlayer()); }
+        return _nssVillagePlayer;
     }
 
     // [DBFlute-0.7.4]
@@ -313,42 +324,27 @@ public class BsPlayerCB extends AbstractConditionBean {
         return _specification != null && _specification.hasSpecifiedColumn();
     }
 
-    public static class HpSpecification extends HpAbstractSpecification<PlayerCQ> {
-        protected AuthorityCB.HpSpecification _authority;
-        public HpSpecification(ConditionBean baseCB, HpSpQyCall<PlayerCQ> qyCall
+    public static class HpSpecification extends HpAbstractSpecification<VillagePlayerAccessInfoCQ> {
+        protected VillagePlayerCB.HpSpecification _villagePlayer;
+        public HpSpecification(ConditionBean baseCB, HpSpQyCall<VillagePlayerAccessInfoCQ> qyCall
                              , HpCBPurpose purpose, DBMetaProvider dbmetaProvider
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * PLAYER_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+         * VILLAGE_PLAYER_ACCESS_INFO_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
          * @return The information object of specified column. (NotNull)
          */
-        public SpecifiedColumn columnPlayerId() { return doColumn("PLAYER_ID"); }
+        public SpecifiedColumn columnVillagePlayerAccessInfoId() { return doColumn("VILLAGE_PLAYER_ACCESS_INFO_ID"); }
         /**
-         * PLAYER_NAME: {UQ, NotNull, VARCHAR(12)}
+         * VILLAGE_PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village_player}
          * @return The information object of specified column. (NotNull)
          */
-        public SpecifiedColumn columnPlayerName() { return doColumn("PLAYER_NAME"); }
+        public SpecifiedColumn columnVillagePlayerId() { return doColumn("VILLAGE_PLAYER_ID"); }
         /**
-         * PLAYER_PASSWORD: {NotNull, CHAR(60)}
+         * IP_ADDRESS: {+UQ, NotNull, VARCHAR(64)}
          * @return The information object of specified column. (NotNull)
          */
-        public SpecifiedColumn columnPlayerPassword() { return doColumn("PLAYER_PASSWORD"); }
-        /**
-         * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority}
-         * @return The information object of specified column. (NotNull)
-         */
-        public SpecifiedColumn columnAuthorityCode() { return doColumn("AUTHORITY_CODE"); }
-        /**
-         * IS_RESTRICTED_PARTICIPATION: {NotNull, BIT, classification=Flg}
-         * @return The information object of specified column. (NotNull)
-         */
-        public SpecifiedColumn columnIsRestrictedParticipation() { return doColumn("IS_RESTRICTED_PARTICIPATION"); }
-        /**
-         * SHOULD_CHECK_ACCESS_INFO: {NotNull, BIT}
-         * @return The information object of specified column. (NotNull)
-         */
-        public SpecifiedColumn columnShouldCheckAccessInfo() { return doColumn("SHOULD_CHECK_ACCESS_INFO"); }
+        public SpecifiedColumn columnIpAddress() { return doColumn("IP_ADDRESS"); }
         /**
          * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
@@ -373,75 +369,41 @@ public class BsPlayerCB extends AbstractConditionBean {
         public void exceptRecordMetaColumn() { doExceptRecordMetaColumn(); }
         @Override
         protected void doSpecifyRequiredColumn() {
-            columnPlayerId(); // PK
-            if (qyCall().qy().hasConditionQueryAuthority()
-                    || qyCall().qy().xgetReferrerQuery() instanceof AuthorityCQ) {
-                columnAuthorityCode(); // FK or one-to-one referrer
+            columnVillagePlayerAccessInfoId(); // PK
+            if (qyCall().qy().hasConditionQueryVillagePlayer()
+                    || qyCall().qy().xgetReferrerQuery() instanceof VillagePlayerCQ) {
+                columnVillagePlayerId(); // FK or one-to-one referrer
             }
         }
         @Override
-        protected String getTableDbName() { return "player"; }
+        protected String getTableDbName() { return "village_player_access_info"; }
         /**
          * Prepare to specify functions about relation table. <br>
-         * AUTHORITY by my AUTHORITY_CODE, named 'authority'.
+         * VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayer'.
          * @return The instance for specification for relation table to specify. (NotNull)
          */
-        public AuthorityCB.HpSpecification specifyAuthority() {
-            assertRelation("authority");
-            if (_authority == null) {
-                _authority = new AuthorityCB.HpSpecification(_baseCB
-                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryAuthority()
-                                    , () -> _qyCall.qy().queryAuthority())
+        public VillagePlayerCB.HpSpecification specifyVillagePlayer() {
+            assertRelation("villagePlayer");
+            if (_villagePlayer == null) {
+                _villagePlayer = new VillagePlayerCB.HpSpecification(_baseCB
+                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryVillagePlayer()
+                                    , () -> _qyCall.qy().queryVillagePlayer())
                     , _purpose, _dbmetaProvider, xgetSDRFnFc());
                 if (xhasSyncQyCall()) { // inherits it
-                    _authority.xsetSyncQyCall(xcreateSpQyCall(
-                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryAuthority()
-                      , () -> xsyncQyCall().qy().queryAuthority()));
+                    _villagePlayer.xsetSyncQyCall(xcreateSpQyCall(
+                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryVillagePlayer()
+                      , () -> xsyncQyCall().qy().queryVillagePlayer()));
                 }
             }
-            return _authority;
-        }
-        /**
-         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from message where ...) as FOO_MAX} <br>
-         * MESSAGE by PLAYER_ID, named 'messageList'.
-         * <pre>
-         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-         *     messageCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
-         *     messageCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
-         * }, Message.<span style="color: #CC4747">ALIAS_foo...</span>);
-         * </pre>
-         * @return The object to set up a function for referrer table. (NotNull)
-         */
-        public HpSDRFunction<MessageCB, PlayerCQ> derivedMessage() {
-            assertDerived("messageList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<MessageCB> sq, PlayerCQ cq, String al, DerivedReferrerOption op)
-                    -> cq.xsderiveMessageList(fn, sq, al, op), _dbmetaProvider);
-        }
-        /**
-         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from village_player where ...) as FOO_MAX} <br>
-         * VILLAGE_PLAYER by PLAYER_ID, named 'villagePlayerList'.
-         * <pre>
-         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-         *     playerCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
-         *     playerCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
-         * }, VillagePlayer.<span style="color: #CC4747">ALIAS_foo...</span>);
-         * </pre>
-         * @return The object to set up a function for referrer table. (NotNull)
-         */
-        public HpSDRFunction<VillagePlayerCB, PlayerCQ> derivedVillagePlayer() {
-            assertDerived("villagePlayerList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillagePlayerCB> sq, PlayerCQ cq, String al, DerivedReferrerOption op)
-                    -> cq.xsderiveVillagePlayerList(fn, sq, al, op), _dbmetaProvider);
+            return _villagePlayer;
         }
         /**
          * Prepare for (Specify)MyselfDerived (SubQuery).
          * @return The object to set up a function for myself table. (NotNull)
          */
-        public HpSDRFunction<PlayerCB, PlayerCQ> myselfDerived() {
+        public HpSDRFunction<VillagePlayerAccessInfoCB, VillagePlayerAccessInfoCQ> myselfDerived() {
             assertDerived("myselfDerived"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<PlayerCB> sq, PlayerCQ cq, String al, DerivedReferrerOption op)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<VillagePlayerAccessInfoCB> sq, VillagePlayerAccessInfoCQ cq, String al, DerivedReferrerOption op)
                     -> cq.xsmyselfDerive(fn, sq, al, op), _dbmetaProvider);
         }
     }
@@ -454,9 +416,9 @@ public class BsPlayerCB extends AbstractConditionBean {
      * This is very specialty so you can get the frontier spirit. Bon voyage!
      * @return The condition-bean for dream cruise, which is linked to main condition-bean.
      */
-    public PlayerCB dreamCruiseCB() {
-        PlayerCB cb = new PlayerCB();
-        cb.xsetupForDreamCruise((PlayerCB) this);
+    public VillagePlayerAccessInfoCB dreamCruiseCB() {
+        VillagePlayerAccessInfoCB cb = new VillagePlayerAccessInfoCB();
+        cb.xsetupForDreamCruise((VillagePlayerAccessInfoCB) this);
         return cb;
     }
 
@@ -481,15 +443,15 @@ public class BsPlayerCB extends AbstractConditionBean {
      * @param colCBLambda The callback for specify-query of left column. (NotNull)
      * @return The object for setting up operand and right column. (NotNull)
      */
-    public HpColQyOperand<PlayerCB> columnQuery(final SpecifyQuery<PlayerCB> colCBLambda) {
+    public HpColQyOperand<VillagePlayerAccessInfoCB> columnQuery(final SpecifyQuery<VillagePlayerAccessInfoCB> colCBLambda) {
         return xcreateColQyOperand((rightSp, operand) -> {
             return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), colCBLambda, rightSp, operand);
         });
     }
 
-    protected PlayerCB xcreateColumnQueryCB() {
-        PlayerCB cb = new PlayerCB();
-        cb.xsetupForColumnQuery((PlayerCB)this);
+    protected VillagePlayerAccessInfoCB xcreateColumnQueryCB() {
+        VillagePlayerAccessInfoCB cb = new VillagePlayerAccessInfoCB();
+        cb.xsetupForColumnQuery((VillagePlayerAccessInfoCB)this);
         return cb;
     }
 
@@ -509,8 +471,8 @@ public class BsPlayerCB extends AbstractConditionBean {
      * </pre>
      * @param orCBLambda The callback for query of or-condition. (NotNull)
      */
-    public void orScopeQuery(OrQuery<PlayerCB> orCBLambda) {
-        xorSQ((PlayerCB)this, orCBLambda);
+    public void orScopeQuery(OrQuery<VillagePlayerAccessInfoCB> orCBLambda) {
+        xorSQ((VillagePlayerAccessInfoCB)this, orCBLambda);
     }
 
     /**
@@ -528,8 +490,8 @@ public class BsPlayerCB extends AbstractConditionBean {
      * </pre>
      * @param andCBLambda The callback for query of and-condition. (NotNull)
      */
-    public void orScopeQueryAndPart(AndQuery<PlayerCB> andCBLambda) {
-        xorSQAP((PlayerCB)this, andCBLambda);
+    public void orScopeQueryAndPart(AndQuery<VillagePlayerAccessInfoCB> andCBLambda) {
+        xorSQAP((VillagePlayerAccessInfoCB)this, andCBLambda);
     }
 
     // ===================================================================================
@@ -559,11 +521,11 @@ public class BsPlayerCB extends AbstractConditionBean {
     //                                                                        ============
     @Override
     protected void xprepareSyncQyCall(ConditionBean mainCB) {
-        final PlayerCB cb;
+        final VillagePlayerAccessInfoCB cb;
         if (mainCB != null) {
-            cb = (PlayerCB)mainCB;
+            cb = (VillagePlayerAccessInfoCB)mainCB;
         } else {
-            cb = new PlayerCB();
+            cb = new VillagePlayerAccessInfoCB();
         }
         specify().xsetSyncQyCall(xcreateSpQyCall(() -> true, () -> cb.query()));
     }
@@ -572,8 +534,8 @@ public class BsPlayerCB extends AbstractConditionBean {
     //                                                                            Internal
     //                                                                            ========
     // very internal (for suppressing warn about 'Not Use Import')
-    protected String xgetConditionBeanClassNameInternally() { return PlayerCB.class.getName(); }
-    protected String xgetConditionQueryClassNameInternally() { return PlayerCQ.class.getName(); }
+    protected String xgetConditionBeanClassNameInternally() { return VillagePlayerAccessInfoCB.class.getName(); }
+    protected String xgetConditionQueryClassNameInternally() { return VillagePlayerAccessInfoCQ.class.getName(); }
     protected String xgetSubQueryClassNameInternally() { return SubQuery.class.getName(); }
     protected String xgetConditionOptionClassNameInternally() { return ConditionOption.class.getName(); }
 }

@@ -529,6 +529,8 @@
             name="AUTHORITY_CODE" required="true" size="20" type="VARCHAR"/>
         <column comment="入村制限されているか" dbType="BIT" javaType="Boolean"
             name="IS_RESTRICTED_PARTICIPATION" required="true" type="BIT"/>
+        <column comment="アクセス情報を確認するか" dbType="BIT" javaType="Boolean"
+            name="SHOULD_CHECK_ACCESS_INFO" required="true" type="BIT"/>
         <column comment="登録日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>
@@ -882,6 +884,36 @@
         <index name="FK_VILLAGE_PLAYER_VILLAGE">
             <index-column name="VILLAGE_ID" position="1"/>
         </index>
+    </table>
+    <table comment="村参加者アクセス情報" name="village_player_access_info"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column autoIncrement="true" comment="村参加者アクセス情報ID"
+            dbType="INT UNSIGNED" javaType="Integer"
+            name="VILLAGE_PLAYER_ACCESS_INFO_ID" pkName="PRIMARY"
+            pkPosition="1" primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="村参加者ID" dbType="INT UNSIGNED"
+            javaType="Integer" name="VILLAGE_PLAYER_ID" required="true"
+            size="10" type="INTEGER"/>
+        <column comment="IPアドレス" dbType="VARCHAR" javaType="String"
+            name="IP_ADDRESS" required="true" size="64" type="VARCHAR"/>
+        <column comment="登録日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="登録トレース" dbType="VARCHAR" javaType="String"
+            name="REGISTER_TRACE" required="true" size="64" type="VARCHAR"/>
+        <column comment="更新日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="UPDATE_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="更新トレース" dbType="VARCHAR" javaType="String"
+            name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="village_player" name="FK_VILLAGE_PLAYER_ACCESS_INFO_VILLAGE_PLAYER">
+            <reference foreign="VILLAGE_PLAYER_ID" local="VILLAGE_PLAYER_ID"/>
+        </foreign-key>
+        <unique name="UQ_village_player_access_info">
+            <unique-column name="VILLAGE_PLAYER_ID" position="1"/>
+            <unique-column name="IP_ADDRESS" position="2"/>
+        </unique>
     </table>
     <table comment="村参加者生死履歴" name="village_player_dead_history"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">

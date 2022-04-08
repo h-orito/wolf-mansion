@@ -13,6 +13,7 @@ import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.RandomKeywordService
 import com.ort.app.application.service.VillageService
 import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.app.fw.interceptor.getIpAddress
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
 import org.slf4j.LoggerFactory
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.ResponseBody
+import javax.servlet.http.HttpServletRequest
 
 @Controller
 class VillageSayController(
@@ -38,7 +40,9 @@ class VillageSayController(
     private val villageService: VillageService,
     private val playerService: PlayerService,
     private val charaService: CharaService,
-    private val villageControllerHelper: VillageControllerHelper
+    private val villageControllerHelper: VillageControllerHelper,
+    // servlet
+    private val httpServletRequest: HttpServletRequest
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -119,7 +123,8 @@ class VillageSayController(
                 sayForm.messageType!!,
                 sayForm.faceType,
                 sayForm.convertDisable,
-                sayForm.secretSayTargetCharaId
+                sayForm.secretSayTargetCharaId,
+                httpServletRequest.getIpAddress()
             )
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("sayErrorMessage", e.message)
@@ -192,7 +197,8 @@ class VillageSayController(
                 CDef.MessageType.アクション.code(),
                 null,
                 actionForm.convertDisable,
-                null
+                null,
+                httpServletRequest.getIpAddress()
             )
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("actionErrorMessage", e.message)

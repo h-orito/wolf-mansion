@@ -1,11 +1,6 @@
 package com.ort.app.application.coordinator
 
-import com.ort.app.application.service.AbilityService
-import com.ort.app.application.service.CharaService
-import com.ort.app.application.service.MessageService
-import com.ort.app.application.service.RandomKeywordService
-import com.ort.app.application.service.SlackService
-import com.ort.app.application.service.VillageService
+import com.ort.app.application.service.*
 import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.MessageContent
@@ -24,6 +19,7 @@ import java.time.LocalDateTime
 @Service
 class MessageCoordinator(
     // application service
+    private val playerService: PlayerService,
     private val messageService: MessageService,
     private val charaService: CharaService,
     private val villageService: VillageService,
@@ -78,7 +74,8 @@ class MessageCoordinator(
         messageType: String,
         faceType: String?,
         convertDisable: Boolean?,
-        targetCharaId: Int?
+        targetCharaId: Int?,
+        ipAddress: String
     ) {
         myself ?: throw WolfMansionBusinessException("myself not found.")
         val messageContent = MessageContent.invoke(messageType, message, faceType, convertDisable)
@@ -124,6 +121,17 @@ class MessageCoordinator(
             )
         }
         messages.forEach { registerMessage(village.id, it) }
+        villageService.addIpAddress(myself, ipAddress)
+        // IPアドレスが重複している人がいたら通知
+        if (!playerService.findPlayer(myself.playerId).shouldCheckAccessInfo) return
+        val isContain = village.allParticipants()
+            .filterNotDummy(village.dummyParticipant())
+            .filterNotParticipant(myself)
+            .list.flatMap { it.ipAddresses }.distinct()
+            .contains(ipAddress)
+        if (isContain) {
+            slackService.postTextIfNeeded(village, "IPアドレス重複検出: $ipAddress")
+        }
     }
 
     private fun assertSay(

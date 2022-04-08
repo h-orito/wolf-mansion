@@ -12,21 +12,21 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of player.
+ * The condition-query for in-line of village_player_access_info.
  * @author DBFlute(AutoGenerator)
  */
-public class PlayerCIQ extends AbstractBsPlayerCQ {
+public class VillagePlayerAccessInfoCIQ extends AbstractBsVillagePlayerAccessInfoCQ {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected BsPlayerCQ _myCQ;
+    protected BsVillagePlayerAccessInfoCQ _myCQ;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public PlayerCIQ(ConditionQuery referrerQuery, SqlClause sqlClause
-                        , String aliasName, int nestLevel, BsPlayerCQ myCQ) {
+    public VillagePlayerAccessInfoCIQ(ConditionQuery referrerQuery, SqlClause sqlClause
+                        , String aliasName, int nestLevel, BsVillagePlayerAccessInfoCQ myCQ) {
         super(referrerQuery, sqlClause, aliasName, nestLevel);
         _myCQ = myCQ;
         _foreignPropertyName = _myCQ.xgetForeignPropertyName(); // accept foreign property name
@@ -61,46 +61,23 @@ public class PlayerCIQ extends AbstractBsPlayerCQ {
     // ===================================================================================
     //                                                                Override about Query
     //                                                                ====================
-    protected ConditionValue xgetCValuePlayerId() { return _myCQ.xdfgetPlayerId(); }
-    public String keepPlayerId_ExistsReferrer_MessageList(MessageCQ sq)
-    { throwIICBOE("ExistsReferrer"); return null; }
-    public String keepPlayerId_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
-    { throwIICBOE("ExistsReferrer"); return null; }
-    public String keepPlayerId_NotExistsReferrer_MessageList(MessageCQ sq)
-    { throwIICBOE("NotExistsReferrer"); return null; }
-    public String keepPlayerId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
-    { throwIICBOE("NotExistsReferrer"); return null; }
-    public String keepPlayerId_SpecifyDerivedReferrer_MessageList(MessageCQ sq)
-    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
-    public String keepPlayerId_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq)
-    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
-    public String keepPlayerId_QueryDerivedReferrer_MessageList(MessageCQ sq)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepPlayerId_QueryDerivedReferrer_MessageListParameter(Object vl)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepPlayerId_QueryDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepPlayerId_QueryDerivedReferrer_VillagePlayerListParameter(Object vl)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    protected ConditionValue xgetCValuePlayerName() { return _myCQ.xdfgetPlayerName(); }
-    protected ConditionValue xgetCValuePlayerPassword() { return _myCQ.xdfgetPlayerPassword(); }
-    protected ConditionValue xgetCValueAuthorityCode() { return _myCQ.xdfgetAuthorityCode(); }
-    protected ConditionValue xgetCValueIsRestrictedParticipation() { return _myCQ.xdfgetIsRestrictedParticipation(); }
-    protected ConditionValue xgetCValueShouldCheckAccessInfo() { return _myCQ.xdfgetShouldCheckAccessInfo(); }
+    protected ConditionValue xgetCValueVillagePlayerAccessInfoId() { return _myCQ.xdfgetVillagePlayerAccessInfoId(); }
+    protected ConditionValue xgetCValueVillagePlayerId() { return _myCQ.xdfgetVillagePlayerId(); }
+    protected ConditionValue xgetCValueIpAddress() { return _myCQ.xdfgetIpAddress(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
     protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }
     protected ConditionValue xgetCValueUpdateDatetime() { return _myCQ.xdfgetUpdateDatetime(); }
     protected ConditionValue xgetCValueUpdateTrace() { return _myCQ.xdfgetUpdateTrace(); }
     protected Map<String, Object> xfindFixedConditionDynamicParameterMap(String pp) { return null; }
-    public String keepScalarCondition(PlayerCQ sq)
+    public String keepScalarCondition(VillagePlayerAccessInfoCQ sq)
     { throwIICBOE("ScalarCondition"); return null; }
-    public String keepSpecifyMyselfDerived(PlayerCQ sq)
+    public String keepSpecifyMyselfDerived(VillagePlayerAccessInfoCQ sq)
     { throwIICBOE("(Specify)MyselfDerived"); return null;}
-    public String keepQueryMyselfDerived(PlayerCQ sq)
+    public String keepQueryMyselfDerived(VillagePlayerAccessInfoCQ sq)
     { throwIICBOE("(Query)MyselfDerived"); return null;}
     public String keepQueryMyselfDerivedParameter(Object vl)
     { throwIICBOE("(Query)MyselfDerived"); return null;}
-    public String keepMyselfExists(PlayerCQ sq)
+    public String keepMyselfExists(VillagePlayerAccessInfoCQ sq)
     { throwIICBOE("MyselfExists"); return null;}
 
     protected void throwIICBOE(String name)
@@ -110,6 +87,6 @@ public class PlayerCIQ extends AbstractBsPlayerCQ {
     //                                                                       Very Internal
     //                                                                       =============
     // very internal (for suppressing warn about 'Not Use Import')
-    protected String xinCB() { return PlayerCB.class.getName(); }
-    protected String xinCQ() { return PlayerCQ.class.getName(); }
+    protected String xinCB() { return VillagePlayerAccessInfoCB.class.getName(); }
+    protected String xinCQ() { return VillagePlayerAccessInfoCQ.class.getName(); }
 }

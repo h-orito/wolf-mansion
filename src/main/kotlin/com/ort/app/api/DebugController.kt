@@ -65,7 +65,8 @@ class DebugController(
                 secondRequestSkill = randomSkill2,
                 joinMessage = "テストアカウントによる入村です。",
                 joinPassword = village.setting.joinPassword,
-                isSpectator = false
+                isSpectator = false,
+                ipAddress = "test account $i"
             )
         }
         return "redirect:/village/$villageId#bottom"

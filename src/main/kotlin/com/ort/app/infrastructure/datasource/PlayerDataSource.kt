@@ -131,7 +131,8 @@ class PlayerDataSource(
             id = player.playerId,
             name = player.playerName,
             authority = Authority(player.authorityCodeAsAuthority),
-            isRestrictedParticipation = player.isRestrictedParticipation
+            isRestrictedParticipation = player.isRestrictedParticipation,
+            shouldCheckAccessInfo = player.shouldCheckAccessInfo
         )
     }
 
@@ -141,6 +142,7 @@ class PlayerDataSource(
             name = player.playerName,
             authority = Authority(player.authorityCodeAsAuthority),
             isRestrictedParticipation = player.isRestrictedParticipation,
+            shouldCheckAccessInfo = player.shouldCheckAccessInfo,
             participateProgressVillageIdList = player.villagePlayerList.filter {
                 VillageStatus.notSettledStatusList.contains(it.village.get().villageStatusCodeAsVillageStatus)
             }.map { it.villageId },

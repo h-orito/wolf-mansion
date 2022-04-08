@@ -67,4 +67,6 @@ interface VillageRepository {
     fun changeMemo(participant: VillageParticipant, memo: String)
 
     fun updateLastAccessDatetime(participant: VillageParticipant)
+
+    fun addIpAddress(participant: VillageParticipant, ipAddress: String)
 }

@@ -14,17 +14,17 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of player. (Singleton)
+ * The DB meta of village_player_access_info. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
-public class PlayerDbm extends AbstractDBMeta {
+public class VillagePlayerAccessInfoDbm extends AbstractDBMeta {
 
     // ===================================================================================
     //                                                                           Singleton
     //                                                                           =========
-    private static final PlayerDbm _instance = new PlayerDbm();
-    private PlayerDbm() {}
-    public static PlayerDbm getInstance() { return _instance; }
+    private static final VillagePlayerAccessInfoDbm _instance = new VillagePlayerAccessInfoDbm();
+    private VillagePlayerAccessInfoDbm() {}
+    public static VillagePlayerAccessInfoDbm getInstance() { return _instance; }
 
     // ===================================================================================
     //                                                                       Current DBDef
@@ -43,25 +43,13 @@ public class PlayerDbm extends AbstractDBMeta {
     protected final Map<String, PropertyGateway> _epgMap = newHashMap();
     { xsetupEpg(); }
     protected void xsetupEpg() {
-        setupEpg(_epgMap, et -> ((Player)et).getPlayerId(), (et, vl) -> ((Player)et).setPlayerId(cti(vl)), "playerId");
-        setupEpg(_epgMap, et -> ((Player)et).getPlayerName(), (et, vl) -> ((Player)et).setPlayerName((String)vl), "playerName");
-        setupEpg(_epgMap, et -> ((Player)et).getPlayerPassword(), (et, vl) -> ((Player)et).setPlayerPassword((String)vl), "playerPassword");
-        setupEpg(_epgMap, et -> ((Player)et).getAuthorityCode(), (et, vl) -> {
-            CDef.Authority cls = (CDef.Authority)gcls(et, columnAuthorityCode(), vl);
-            if (cls != null) {
-                ((Player)et).setAuthorityCodeAsAuthority(cls);
-            } else {
-                ((Player)et).mynativeMappingAuthorityCode((String)vl);
-            }
-        }, "authorityCode");
-        setupEpg(_epgMap, et -> ((Player)et).getIsRestrictedParticipation(), (et, vl) -> {
-            ((Player)et).setIsRestrictedParticipation((Boolean)vl);
-        }, "isRestrictedParticipation");
-        setupEpg(_epgMap, et -> ((Player)et).getShouldCheckAccessInfo(), (et, vl) -> ((Player)et).setShouldCheckAccessInfo((Boolean)vl), "shouldCheckAccessInfo");
-        setupEpg(_epgMap, et -> ((Player)et).getRegisterDatetime(), (et, vl) -> ((Player)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
-        setupEpg(_epgMap, et -> ((Player)et).getRegisterTrace(), (et, vl) -> ((Player)et).setRegisterTrace((String)vl), "registerTrace");
-        setupEpg(_epgMap, et -> ((Player)et).getUpdateDatetime(), (et, vl) -> ((Player)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
-        setupEpg(_epgMap, et -> ((Player)et).getUpdateTrace(), (et, vl) -> ((Player)et).setUpdateTrace((String)vl), "updateTrace");
+        setupEpg(_epgMap, et -> ((VillagePlayerAccessInfo)et).getVillagePlayerAccessInfoId(), (et, vl) -> ((VillagePlayerAccessInfo)et).setVillagePlayerAccessInfoId(cti(vl)), "villagePlayerAccessInfoId");
+        setupEpg(_epgMap, et -> ((VillagePlayerAccessInfo)et).getVillagePlayerId(), (et, vl) -> ((VillagePlayerAccessInfo)et).setVillagePlayerId(cti(vl)), "villagePlayerId");
+        setupEpg(_epgMap, et -> ((VillagePlayerAccessInfo)et).getIpAddress(), (et, vl) -> ((VillagePlayerAccessInfo)et).setIpAddress((String)vl), "ipAddress");
+        setupEpg(_epgMap, et -> ((VillagePlayerAccessInfo)et).getRegisterDatetime(), (et, vl) -> ((VillagePlayerAccessInfo)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
+        setupEpg(_epgMap, et -> ((VillagePlayerAccessInfo)et).getRegisterTrace(), (et, vl) -> ((VillagePlayerAccessInfo)et).setRegisterTrace((String)vl), "registerTrace");
+        setupEpg(_epgMap, et -> ((VillagePlayerAccessInfo)et).getUpdateDatetime(), (et, vl) -> ((VillagePlayerAccessInfo)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
+        setupEpg(_epgMap, et -> ((VillagePlayerAccessInfo)et).getUpdateTrace(), (et, vl) -> ((VillagePlayerAccessInfo)et).setUpdateTrace((String)vl), "updateTrace");
     }
     public PropertyGateway findPropertyGateway(String prop)
     { return doFindEpg(_epgMap, prop); }
@@ -73,7 +61,7 @@ public class PlayerDbm extends AbstractDBMeta {
     { xsetupEfpg(); }
     @SuppressWarnings("unchecked")
     protected void xsetupEfpg() {
-        setupEfpg(_efpgMap, et -> ((Player)et).getAuthority(), (et, vl) -> ((Player)et).setAuthority((OptionalEntity<Authority>)vl), "authority");
+        setupEfpg(_efpgMap, et -> ((VillagePlayerAccessInfo)et).getVillagePlayer(), (et, vl) -> ((VillagePlayerAccessInfo)et).setVillagePlayer((OptionalEntity<VillagePlayer>)vl), "villagePlayer");
     }
     public PropertyGateway findForeignPropertyGateway(String prop)
     { return doFindEfpg(_efpgMap, prop); }
@@ -81,10 +69,10 @@ public class PlayerDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "player";
-    protected final String _tableDispName = "PLAYER";
-    protected final String _tablePropertyName = "player";
-    protected final TableSqlName _tableSqlName = new TableSqlName("PLAYER", _tableDbName);
+    protected final String _tableDbName = "village_player_access_info";
+    protected final String _tableDispName = "VILLAGE_PLAYER_ACCESS_INFO";
+    protected final String _tablePropertyName = "villagePlayerAccessInfo";
+    protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_PLAYER_ACCESS_INFO", _tableDbName);
     { _tableSqlName.xacceptFilter(DBFluteConfig.getInstance().getTableSqlNameFilter()); }
     public String getTableDbName() { return _tableDbName; }
     public String getTableDispName() { return _tableDispName; }
@@ -94,47 +82,29 @@ public class PlayerDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnPlayerId = cci("PLAYER_ID", "PLAYER_ID", null, null, Integer.class, "playerId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "messageList,villagePlayerList", null, false);
-    protected final ColumnInfo _columnPlayerName = cci("PLAYER_NAME", "PLAYER_NAME", null, null, String.class, "playerName", null, false, false, true, "VARCHAR", 12, 0, null, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnPlayerPassword = cci("PLAYER_PASSWORD", "PLAYER_PASSWORD", null, null, String.class, "playerPassword", null, false, false, true, "CHAR", 60, 0, null, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnAuthorityCode = cci("AUTHORITY_CODE", "AUTHORITY_CODE", null, null, String.class, "authorityCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "authority", null, CDef.DefMeta.Authority, false);
-    protected final ColumnInfo _columnIsRestrictedParticipation = cci("IS_RESTRICTED_PARTICIPATION", "IS_RESTRICTED_PARTICIPATION", null, null, Boolean.class, "isRestrictedParticipation", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
-    protected final ColumnInfo _columnShouldCheckAccessInfo = cci("SHOULD_CHECK_ACCESS_INFO", "SHOULD_CHECK_ACCESS_INFO", null, null, Boolean.class, "shouldCheckAccessInfo", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnVillagePlayerAccessInfoId = cci("VILLAGE_PLAYER_ACCESS_INFO_ID", "VILLAGE_PLAYER_ACCESS_INFO_ID", null, null, Integer.class, "villagePlayerAccessInfoId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnVillagePlayerId = cci("VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", null, null, Integer.class, "villagePlayerId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villagePlayer", null, null, false);
+    protected final ColumnInfo _columnIpAddress = cci("IP_ADDRESS", "IP_ADDRESS", null, null, String.class, "ipAddress", null, false, false, true, "VARCHAR", 64, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
-     * PLAYER_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * VILLAGE_PLAYER_ACCESS_INFO_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
      * @return The information object of specified column. (NotNull)
      */
-    public ColumnInfo columnPlayerId() { return _columnPlayerId; }
+    public ColumnInfo columnVillagePlayerAccessInfoId() { return _columnVillagePlayerAccessInfoId; }
     /**
-     * PLAYER_NAME: {UQ, NotNull, VARCHAR(12)}
+     * VILLAGE_PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village_player}
      * @return The information object of specified column. (NotNull)
      */
-    public ColumnInfo columnPlayerName() { return _columnPlayerName; }
+    public ColumnInfo columnVillagePlayerId() { return _columnVillagePlayerId; }
     /**
-     * PLAYER_PASSWORD: {NotNull, CHAR(60)}
+     * IP_ADDRESS: {+UQ, NotNull, VARCHAR(64)}
      * @return The information object of specified column. (NotNull)
      */
-    public ColumnInfo columnPlayerPassword() { return _columnPlayerPassword; }
-    /**
-     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority}
-     * @return The information object of specified column. (NotNull)
-     */
-    public ColumnInfo columnAuthorityCode() { return _columnAuthorityCode; }
-    /**
-     * IS_RESTRICTED_PARTICIPATION: {NotNull, BIT, classification=Flg}
-     * @return The information object of specified column. (NotNull)
-     */
-    public ColumnInfo columnIsRestrictedParticipation() { return _columnIsRestrictedParticipation; }
-    /**
-     * SHOULD_CHECK_ACCESS_INFO: {NotNull, BIT}
-     * @return The information object of specified column. (NotNull)
-     */
-    public ColumnInfo columnShouldCheckAccessInfo() { return _columnShouldCheckAccessInfo; }
+    public ColumnInfo columnIpAddress() { return _columnIpAddress; }
     /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
@@ -158,12 +128,9 @@ public class PlayerDbm extends AbstractDBMeta {
 
     protected List<ColumnInfo> ccil() {
         List<ColumnInfo> ls = newArrayList();
-        ls.add(columnPlayerId());
-        ls.add(columnPlayerName());
-        ls.add(columnPlayerPassword());
-        ls.add(columnAuthorityCode());
-        ls.add(columnIsRestrictedParticipation());
-        ls.add(columnShouldCheckAccessInfo());
+        ls.add(columnVillagePlayerAccessInfoId());
+        ls.add(columnVillagePlayerId());
+        ls.add(columnIpAddress());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());
@@ -179,14 +146,19 @@ public class PlayerDbm extends AbstractDBMeta {
     // -----------------------------------------------------
     //                                       Primary Element
     //                                       ---------------
-    protected UniqueInfo cpui() { return hpcpui(columnPlayerId()); }
+    protected UniqueInfo cpui() { return hpcpui(columnVillagePlayerAccessInfoId()); }
     public boolean hasPrimaryKey() { return true; }
     public boolean hasCompoundPrimaryKey() { return false; }
 
     // -----------------------------------------------------
     //                                        Unique Element
     //                                        --------------
-    public UniqueInfo uniqueOf() { return hpcui(columnPlayerName()); }
+    public UniqueInfo uniqueOf() {
+        List<ColumnInfo> ls = newArrayListSized(4);
+        ls.add(columnVillagePlayerId());
+        ls.add(columnIpAddress());
+        return hpcui(ls);
+    }
 
     // ===================================================================================
     //                                                                       Relation Info
@@ -197,33 +169,17 @@ public class PlayerDbm extends AbstractDBMeta {
     //                                      Foreign Property
     //                                      ----------------
     /**
-     * AUTHORITY by my AUTHORITY_CODE, named 'authority'.
+     * VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayer'.
      * @return The information object of foreign property. (NotNull)
      */
-    public ForeignInfo foreignAuthority() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnAuthorityCode(), AuthorityDbm.getInstance().columnAuthorityCode());
-        return cfi("FK_PLAYER_AUTHORITY", "authority", this, AuthorityDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "playerList", false);
+    public ForeignInfo foreignVillagePlayer() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillagePlayerId(), VillagePlayerDbm.getInstance().columnVillagePlayerId());
+        return cfi("FK_VILLAGE_PLAYER_ACCESS_INFO_VILLAGE_PLAYER", "villagePlayer", this, VillagePlayerDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villagePlayerAccessInfoList", false);
     }
 
     // -----------------------------------------------------
     //                                     Referrer Property
     //                                     -----------------
-    /**
-     * MESSAGE by PLAYER_ID, named 'messageList'.
-     * @return The information object of referrer property. (NotNull)
-     */
-    public ReferrerInfo referrerMessageList() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnPlayerId(), MessageDbm.getInstance().columnPlayerId());
-        return cri("FK_MESSAGE_PLAYER", "messageList", this, MessageDbm.getInstance(), mp, false, "player");
-    }
-    /**
-     * VILLAGE_PLAYER by PLAYER_ID, named 'villagePlayerList'.
-     * @return The information object of referrer property. (NotNull)
-     */
-    public ReferrerInfo referrerVillagePlayerList() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnPlayerId(), VillagePlayerDbm.getInstance().columnPlayerId());
-        return cri("FK_VILLAGE_PLAYER_PLAYER", "villagePlayerList", this, VillagePlayerDbm.getInstance(), mp, false, "player");
-    }
 
     // ===================================================================================
     //                                                                        Various Info
@@ -240,27 +196,27 @@ public class PlayerDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                           Type Name
     //                                                                           =========
-    public String getEntityTypeName() { return "com.ort.dbflute.exentity.Player"; }
-    public String getConditionBeanTypeName() { return "com.ort.dbflute.cbean.PlayerCB"; }
-    public String getBehaviorTypeName() { return "com.ort.dbflute.exbhv.PlayerBhv"; }
+    public String getEntityTypeName() { return "com.ort.dbflute.exentity.VillagePlayerAccessInfo"; }
+    public String getConditionBeanTypeName() { return "com.ort.dbflute.cbean.VillagePlayerAccessInfoCB"; }
+    public String getBehaviorTypeName() { return "com.ort.dbflute.exbhv.VillagePlayerAccessInfoBhv"; }
 
     // ===================================================================================
     //                                                                         Object Type
     //                                                                         ===========
-    public Class<Player> getEntityType() { return Player.class; }
+    public Class<VillagePlayerAccessInfo> getEntityType() { return VillagePlayerAccessInfo.class; }
 
     // ===================================================================================
     //                                                                     Object Instance
     //                                                                     ===============
-    public Player newEntity() { return new Player(); }
+    public VillagePlayerAccessInfo newEntity() { return new VillagePlayerAccessInfo(); }
 
     // ===================================================================================
     //                                                                   Map Communication
     //                                                                   =================
     public void acceptPrimaryKeyMap(Entity et, Map<String, ? extends Object> mp)
-    { doAcceptPrimaryKeyMap((Player)et, mp); }
+    { doAcceptPrimaryKeyMap((VillagePlayerAccessInfo)et, mp); }
     public void acceptAllColumnMap(Entity et, Map<String, ? extends Object> mp)
-    { doAcceptAllColumnMap((Player)et, mp); }
+    { doAcceptAllColumnMap((VillagePlayerAccessInfo)et, mp); }
     public Map<String, Object> extractPrimaryKeyMap(Entity et) { return doExtractPrimaryKeyMap(et); }
     public Map<String, Object> extractAllColumnMap(Entity et) { return doExtractAllColumnMap(et); }
 }

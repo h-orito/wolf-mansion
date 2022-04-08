@@ -3,13 +3,8 @@ package com.ort.app.infrastructure.datasource
 import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.skill.Skill
+import com.ort.app.domain.model.village.*
 import com.ort.app.domain.model.village.Village
-import com.ort.app.domain.model.village.VillageDay
-import com.ort.app.domain.model.village.VillageDays
-import com.ort.app.domain.model.village.VillageQuery
-import com.ort.app.domain.model.village.VillageRepository
-import com.ort.app.domain.model.village.VillageStatus
-import com.ort.app.domain.model.village.Villages
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.village.room.RoomSize
 import com.ort.app.infrastructure.datasource.village.VillageDayDataSource
@@ -17,8 +12,6 @@ import com.ort.app.infrastructure.datasource.village.VillagePlayerDataSource
 import com.ort.app.infrastructure.datasource.village.VillageSettingsDataSource
 import com.ort.dbflute.cbean.VillageCB
 import com.ort.dbflute.exbhv.VillageBhv
-import com.ort.dbflute.exbhv.VillageDayBhv
-import com.ort.dbflute.exbhv.VillagePlayerBhv
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 import com.ort.dbflute.exentity.Village as DbVillage
@@ -168,6 +161,10 @@ class VillageDataSource(
             secondRequestSkill
         )
         return findVillageParticipant(vPlayer.villagePlayerId, true)!!
+    }
+
+    override fun addIpAddress(participant: VillageParticipant, ipAddress: String) {
+        villagePlayerDataSource.insertVillagePlayerAccessInfo(participant.id, ipAddress)
     }
 
     override fun leave(participant: VillageParticipant) = villagePlayerDataSource.leave(participant)

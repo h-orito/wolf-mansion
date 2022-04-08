@@ -8,6 +8,7 @@ data class Player(
     val name: String,
     val authority: Authority,
     val isRestrictedParticipation: Boolean,
+    val shouldCheckAccessInfo: Boolean,
     val participateProgressVillageIdList: List<Int> = listOf(),
     val participateFinishedVillageIdList: List<Int> = listOf(),
     val createProgressVillageIdList: List<Int> = listOf(),

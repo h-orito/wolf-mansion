@@ -311,6 +311,26 @@ class MessageDomainService(
         )
     }
 
+    fun createSayMessages(
+        village: Village,
+        myself: VillageParticipant,
+        target: VillageParticipant?,
+        messageContent: MessageContent,
+        shouldDakuten: Boolean = false
+    ): Message {
+        return Message.ofSayMessage(
+            day = village.latestDay(),
+            participantId = myself.id,
+            targetParticipantId = target?.id,
+            messageContent = if (shouldDakuten) {
+                messageContent.copy(
+                    text = messageContent.text.map { "${it}゛" }
+                        .joinToString(separator = "", prefix = "[[large]][[b]]", postfix = "[[/b]][[/large]]")
+                )
+            } else messageContent
+        )
+    }
+
     fun createSayMessage(
         village: Village,
         myself: VillageParticipant,

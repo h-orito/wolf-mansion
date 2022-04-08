@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     PLAYER_ID
  *
  * [column]
- *     PLAYER_ID, PLAYER_NAME, PLAYER_PASSWORD, AUTHORITY_CODE, IS_RESTRICTED_PARTICIPATION, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     PLAYER_ID, PLAYER_NAME, PLAYER_PASSWORD, AUTHORITY_CODE, IS_RESTRICTED_PARTICIPATION, SHOULD_CHECK_ACCESS_INFO, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -51,6 +51,7 @@ import com.ort.dbflute.exentity.*;
  * String playerPassword = entity.getPlayerPassword();
  * String authorityCode = entity.getAuthorityCode();
  * Boolean isRestrictedParticipation = entity.getIsRestrictedParticipation();
+ * Boolean shouldCheckAccessInfo = entity.getShouldCheckAccessInfo();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -60,6 +61,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setPlayerPassword(playerPassword);
  * entity.setAuthorityCode(authorityCode);
  * entity.setIsRestrictedParticipation(isRestrictedParticipation);
+ * entity.setShouldCheckAccessInfo(shouldCheckAccessInfo);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -93,6 +95,9 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
 
     /** IS_RESTRICTED_PARTICIPATION: {NotNull, BIT, classification=Flg} */
     protected Boolean _isRestrictedParticipation;
+
+    /** SHOULD_CHECK_ACCESS_INFO: {NotNull, BIT} */
+    protected Boolean _shouldCheckAccessInfo;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -394,6 +399,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
         sb.append(dm).append(xfND(_playerPassword));
         sb.append(dm).append(xfND(_authorityCode));
         sb.append(dm).append(xfND(_isRestrictedParticipation));
+        sb.append(dm).append(xfND(_shouldCheckAccessInfo));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -528,6 +534,26 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
         checkClassificationCode("IS_RESTRICTED_PARTICIPATION", CDef.DefMeta.Flg, isRestrictedParticipation);
         registerModifiedProperty("isRestrictedParticipation");
         _isRestrictedParticipation = isRestrictedParticipation;
+    }
+
+    /**
+     * [get] SHOULD_CHECK_ACCESS_INFO: {NotNull, BIT} <br>
+     * アクセス情報を確認するか
+     * @return The value of the column 'SHOULD_CHECK_ACCESS_INFO'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getShouldCheckAccessInfo() {
+        checkSpecifiedProperty("shouldCheckAccessInfo");
+        return _shouldCheckAccessInfo;
+    }
+
+    /**
+     * [set] SHOULD_CHECK_ACCESS_INFO: {NotNull, BIT} <br>
+     * アクセス情報を確認するか
+     * @param shouldCheckAccessInfo The value of the column 'SHOULD_CHECK_ACCESS_INFO'. (basically NotNull if update: for the constraint)
+     */
+    public void setShouldCheckAccessInfo(Boolean shouldCheckAccessInfo) {
+        registerModifiedProperty("shouldCheckAccessInfo");
+        _shouldCheckAccessInfo = shouldCheckAccessInfo;
     }
 
     /**

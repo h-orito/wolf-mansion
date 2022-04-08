@@ -20,12 +20,14 @@ import com.ort.app.domain.model.village.room.RoomHistories
 import com.ort.app.domain.model.village.room.RoomHistory
 import com.ort.dbflute.allcommon.CDef
 import com.ort.dbflute.bsbhv.loader.LoaderOfVillagePlayer
+import com.ort.dbflute.exbhv.VillagePlayerAccessInfoBhv
 import com.ort.dbflute.exbhv.VillagePlayerBhv
 import com.ort.dbflute.exbhv.VillagePlayerDeadHistoryBhv
 import com.ort.dbflute.exbhv.VillagePlayerRoomHistoryBhv
 import com.ort.dbflute.exbhv.VillagePlayerSkillHistoryBhv
 import com.ort.dbflute.exbhv.VillagePlayerStatusBhv
 import com.ort.dbflute.exentity.VillagePlayer
+import com.ort.dbflute.exentity.VillagePlayerAccessInfo
 import com.ort.dbflute.exentity.VillagePlayerDeadHistory
 import com.ort.dbflute.exentity.VillagePlayerRoomHistory
 import com.ort.dbflute.exentity.VillagePlayerSkillHistory
@@ -39,7 +41,8 @@ class VillagePlayerDataSource(
     private val villagePlayerStatusBhv: VillagePlayerStatusBhv,
     private val villagePlayerRoomHistoryBhv: VillagePlayerRoomHistoryBhv,
     private val villagePlayerDeadHistoryBhv: VillagePlayerDeadHistoryBhv,
-    private val villagePlayerSkillHistoryBhv: VillagePlayerSkillHistoryBhv
+    private val villagePlayerSkillHistoryBhv: VillagePlayerSkillHistoryBhv,
+    private val villagePlayerAccessInfoBhv: VillagePlayerAccessInfoBhv
 ) {
     fun findVillageParticipant(
         id: Int,
@@ -88,6 +91,7 @@ class VillagePlayerDataSource(
         }
         loader.loadVillagePlayerStatusByVillagePlayerId { }
         loader.loadVillagePlayerStatusByToVillagePlayerId { }
+        loader.loadVillagePlayerAccessInfo { }
     }
 
     fun insertVillagePlayer(
@@ -112,6 +116,14 @@ class VillagePlayerDataSource(
         vPlayer.charaShortName = chara.shortName
         villagePlayerBhv.insert(vPlayer)
         return vPlayer
+    }
+
+    fun insertVillagePlayerAccessInfo(villagePlayerId: Int, ipAddress: String) {
+        if (villagePlayerAccessInfoBhv.selectByUniqueOf(villagePlayerId, ipAddress).isPresent) return
+        val access = VillagePlayerAccessInfo()
+        access.villagePlayerId = villagePlayerId
+        access.ipAddress = ipAddress
+        villagePlayerAccessInfoBhv.insert(access)
     }
 
     fun leave(participant: VillageParticipant) {
@@ -364,7 +376,8 @@ class VillagePlayerDataSource(
             isWin = villagePlayer.isWin,
             camp = if (villagePlayer.campCode.isNullOrBlank()) null else Camp(CDef.Camp.codeOf(villagePlayer.campCode)),
             lastAccessDatetime = villagePlayer.lastAccessDatetime,
-            memo = villagePlayer.memo
+            memo = villagePlayer.memo,
+            ipAddresses = villagePlayer.villagePlayerAccessInfoList.map { it.ipAddress }
         )
     }
 
@@ -391,7 +404,8 @@ class VillagePlayerDataSource(
             isWin = villagePlayer.isWin,
             camp = if (villagePlayer.campCode.isNullOrBlank()) null else Camp(CDef.Camp.codeOf(villagePlayer.campCode)),
             lastAccessDatetime = villagePlayer.lastAccessDatetime,
-            memo = villagePlayer.memo
+            memo = villagePlayer.memo,
+            ipAddresses = villagePlayer.villagePlayerAccessInfoList.map { it.ipAddress }
         )
     }
 

@@ -1,4 +1,29 @@
 map:{
+    ; 2022/04/08 11:00:14 = map:{
+        ; diffDate = 2022/04/08 11:00:14
+        ; tableCount = map:{
+            ; next = 39
+            ; previous = 38
+        }
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; village_player_access_info = map:{
+                ; tableName = village_player_access_info
+                ; diffType = ADD
+            }
+            ; player = map:{
+                ; tableName = player
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; SHOULD_CHECK_ACCESS_INFO = map:{
+                        ; columnName = SHOULD_CHECK_ACCESS_INFO
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2022/03/28 10:08:13 = map:{
         ; diffDate = 2022/03/28 10:08:13
         ; diffAuthor = h-orito

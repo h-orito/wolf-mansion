@@ -11,6 +11,7 @@ import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.app.fw.interceptor.getIpAddress
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Controller
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.InitBinder
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import javax.servlet.http.HttpServletRequest
 
 @Controller
 class VillageParticipateController(
@@ -32,7 +34,9 @@ class VillageParticipateController(
     private val villageCoordinator: VillageCoordinator,
     private val villageService: VillageService,
     private val charaService: CharaService,
-    private val playerService: PlayerService
+    private val playerService: PlayerService,
+    // servlet
+    private val httpServletRequest: HttpServletRequest
 ) {
 
     @InitBinder("participateForm")
@@ -126,7 +130,8 @@ class VillageParticipateController(
                 second,
                 participateForm.joinMessage!!,
                 participateForm.joinPassword,
-                participateForm.spectator == true
+                participateForm.spectator == true,
+                httpServletRequest.getIpAddress()
             )
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("participateErrorMessage", e.message)

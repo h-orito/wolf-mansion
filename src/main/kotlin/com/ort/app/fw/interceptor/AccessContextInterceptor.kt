@@ -23,7 +23,7 @@ class AccessContextInterceptor : HandlerInterceptorAdapter() {
         val accessUser = userInfo?.username ?: "not login user"
         val context = AccessContext()
         context.accessLocalDateTime = accessLocalDateTime
-        context.accessUser = accessUser
+        context.accessUser = "$accessUser: ${request.getIpAddress()}"
         AccessContext.setAccessContextOnThread(context)
 
         // Handlerメソッドを呼び出す場合はtrueを返却する
@@ -38,4 +38,10 @@ class AccessContextInterceptor : HandlerInterceptorAdapter() {
     ) {
         AccessContext.clearAccessContextOnThread()
     }
+}
+
+fun HttpServletRequest.getIpAddress(): String {
+    val xForwardedFor = this.getHeader("X-Forwarded-For")
+    return if (xForwardedFor.isNullOrEmpty()) this.remoteAddr
+    else xForwardedFor
 }

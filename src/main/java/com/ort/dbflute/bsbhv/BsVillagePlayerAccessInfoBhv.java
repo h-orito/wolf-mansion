@@ -22,38 +22,38 @@ import com.ort.dbflute.bsentity.dbmeta.*;
 import com.ort.dbflute.cbean.*;
 
 /**
- * The behavior of PLAYER as TABLE. <br>
+ * The behavior of VILLAGE_PLAYER_ACCESS_INFO as TABLE. <br>
  * <pre>
  * [primary key]
- *     PLAYER_ID
+ *     VILLAGE_PLAYER_ACCESS_INFO_ID
  *
  * [column]
- *     PLAYER_ID, PLAYER_NAME, PLAYER_PASSWORD, AUTHORITY_CODE, IS_RESTRICTED_PARTICIPATION, SHOULD_CHECK_ACCESS_INFO, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_PLAYER_ACCESS_INFO_ID, VILLAGE_PLAYER_ID, IP_ADDRESS, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
  *
  * [identity]
- *     PLAYER_ID
+ *     VILLAGE_PLAYER_ACCESS_INFO_ID
  *
  * [version-no]
  *     
  *
  * [foreign table]
- *     AUTHORITY
+ *     VILLAGE_PLAYER
  *
  * [referrer table]
- *     MESSAGE, VILLAGE_PLAYER
+ *     
  *
  * [foreign property]
- *     authority
+ *     villagePlayer
  *
  * [referrer property]
- *     messageList, villagePlayerList
+ *     
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, PlayerCB> {
+public abstract class BsVillagePlayerAccessInfoBhv extends AbstractBehaviorWritable<VillagePlayerAccessInfo, VillagePlayerAccessInfoCB> {
 
     // ===================================================================================
     //                                                                          Definition
@@ -65,15 +65,15 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
     //                                                                             DB Meta
     //                                                                             =======
     /** {@inheritDoc} */
-    public PlayerDbm asDBMeta() { return PlayerDbm.getInstance(); }
+    public VillagePlayerAccessInfoDbm asDBMeta() { return VillagePlayerAccessInfoDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "player"; }
+    public String asTableDbName() { return "village_player_access_info"; }
 
     // ===================================================================================
     //                                                                        New Instance
     //                                                                        ============
     /** {@inheritDoc} */
-    public PlayerCB newConditionBean() { return new PlayerCB(); }
+    public VillagePlayerAccessInfoCB newConditionBean() { return new VillagePlayerAccessInfoCB(); }
 
     // ===================================================================================
     //                                                                        Count Select
@@ -82,14 +82,14 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * Select the count of uniquely-selected records by the condition-bean. {IgnorePagingCondition, IgnoreSpecifyColumn}<br>
      * SpecifyColumn is ignored but you can use it only to remove text type column for union's distinct.
      * <pre>
-     * <span style="color: #70226C">int</span> count = <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">selectCount</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #70226C">int</span> count = <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">selectCount</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().set...
      * });
      * </pre>
-     * @param cbLambda The callback for condition-bean of Player. (NotNull)
+     * @param cbLambda The callback for condition-bean of VillagePlayerAccessInfo. (NotNull)
      * @return The count for the condition. (NotMinus)
      */
-    public int selectCount(CBCall<PlayerCB> cbLambda) {
+    public int selectCount(CBCall<VillagePlayerAccessInfoCB> cbLambda) {
         return facadeSelectCount(createCB(cbLambda));
     }
 
@@ -103,38 +103,38 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * <span style="color: #AD4747; font-size: 120%">If it might be no data, isPresent() and orElse(), ...</span>
      * <pre>
      * <span style="color: #3F7E5E">// if the data always exists as your business rule</span>
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">selectEntity</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">selectEntity</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().set...
-     * }).<span style="color: #CC4747">alwaysPresent</span>(<span style="color: #553000">player</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * }).<span style="color: #CC4747">alwaysPresent</span>(<span style="color: #553000">villagePlayerAccessInfo</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #3F7E5E">// called if present, or exception</span>
-     *     ... = <span style="color: #553000">player</span>.get...
+     *     ... = <span style="color: #553000">villagePlayerAccessInfo</span>.get...
      * });
      *
      * <span style="color: #3F7E5E">// if it might be no data, ...</span>
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">selectEntity</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">selectEntity</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().set...
-     * }).<span style="color: #CC4747">ifPresent</span>(<span style="color: #553000">player</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * }).<span style="color: #CC4747">ifPresent</span>(<span style="color: #553000">villagePlayerAccessInfo</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #3F7E5E">// called if present</span>
-     *     ... = <span style="color: #553000">player</span>.get...
+     *     ... = <span style="color: #553000">villagePlayerAccessInfo</span>.get...
      * }).<span style="color: #994747">orElse</span>(() <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #3F7E5E">// called if not present</span>
      * });
      * </pre>
-     * @param cbLambda The callback for condition-bean of Player. (NotNull)
+     * @param cbLambda The callback for condition-bean of VillagePlayerAccessInfo. (NotNull)
      * @return The optional entity selected by the condition. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    public OptionalEntity<Player> selectEntity(CBCall<PlayerCB> cbLambda) {
+    public OptionalEntity<VillagePlayerAccessInfo> selectEntity(CBCall<VillagePlayerAccessInfoCB> cbLambda) {
         return facadeSelectEntity(createCB(cbLambda));
     }
 
-    protected OptionalEntity<Player> facadeSelectEntity(PlayerCB cb) {
+    protected OptionalEntity<VillagePlayerAccessInfo> facadeSelectEntity(VillagePlayerAccessInfoCB cb) {
         return doSelectOptionalEntity(cb, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends Player> OptionalEntity<ENTITY> doSelectOptionalEntity(PlayerCB cb, Class<? extends ENTITY> tp) {
+    protected <ENTITY extends VillagePlayerAccessInfo> OptionalEntity<ENTITY> doSelectOptionalEntity(VillagePlayerAccessInfoCB cb, Class<? extends ENTITY> tp) {
         return createOptionalEntity(doSelectEntity(cb, tp), cb);
     }
 
@@ -144,71 +144,72 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * Select the entity by the condition-bean with deleted check. <br>
      * <span style="color: #AD4747; font-size: 120%">If the data is always present as your business rule, this method is good.</span>
      * <pre>
-     * Player <span style="color: #553000">player</span> = <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">selectEntityWithDeletedCheck</span>(cb <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> cb.acceptPK(1));
-     * ... = <span style="color: #553000">player</span>.get...(); <span style="color: #3F7E5E">// the entity always be not null</span>
+     * VillagePlayerAccessInfo <span style="color: #553000">villagePlayerAccessInfo</span> = <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">selectEntityWithDeletedCheck</span>(cb <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> cb.acceptPK(1));
+     * ... = <span style="color: #553000">villagePlayerAccessInfo</span>.get...(); <span style="color: #3F7E5E">// the entity always be not null</span>
      * </pre>
-     * @param cbLambda The callback for condition-bean of Player. (NotNull)
+     * @param cbLambda The callback for condition-bean of VillagePlayerAccessInfo. (NotNull)
      * @return The entity selected by the condition. (NotNull: if no data, throws exception)
      * @throws EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    public Player selectEntityWithDeletedCheck(CBCall<PlayerCB> cbLambda) {
+    public VillagePlayerAccessInfo selectEntityWithDeletedCheck(CBCall<VillagePlayerAccessInfoCB> cbLambda) {
         return facadeSelectEntityWithDeletedCheck(createCB(cbLambda));
     }
 
     /**
      * Select the entity by the primary-key value.
-     * @param playerId : PK, ID, NotNull, INT UNSIGNED(10). (NotNull)
+     * @param villagePlayerAccessInfoId : PK, ID, NotNull, INT UNSIGNED(10). (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    public OptionalEntity<Player> selectByPK(Integer playerId) {
-        return facadeSelectByPK(playerId);
+    public OptionalEntity<VillagePlayerAccessInfo> selectByPK(Integer villagePlayerAccessInfoId) {
+        return facadeSelectByPK(villagePlayerAccessInfoId);
     }
 
-    protected OptionalEntity<Player> facadeSelectByPK(Integer playerId) {
-        return doSelectOptionalByPK(playerId, typeOfSelectedEntity());
+    protected OptionalEntity<VillagePlayerAccessInfo> facadeSelectByPK(Integer villagePlayerAccessInfoId) {
+        return doSelectOptionalByPK(villagePlayerAccessInfoId, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends Player> ENTITY doSelectByPK(Integer playerId, Class<? extends ENTITY> tp) {
-        return doSelectEntity(xprepareCBAsPK(playerId), tp);
+    protected <ENTITY extends VillagePlayerAccessInfo> ENTITY doSelectByPK(Integer villagePlayerAccessInfoId, Class<? extends ENTITY> tp) {
+        return doSelectEntity(xprepareCBAsPK(villagePlayerAccessInfoId), tp);
     }
 
-    protected <ENTITY extends Player> OptionalEntity<ENTITY> doSelectOptionalByPK(Integer playerId, Class<? extends ENTITY> tp) {
-        return createOptionalEntity(doSelectByPK(playerId, tp), playerId);
+    protected <ENTITY extends VillagePlayerAccessInfo> OptionalEntity<ENTITY> doSelectOptionalByPK(Integer villagePlayerAccessInfoId, Class<? extends ENTITY> tp) {
+        return createOptionalEntity(doSelectByPK(villagePlayerAccessInfoId, tp), villagePlayerAccessInfoId);
     }
 
-    protected PlayerCB xprepareCBAsPK(Integer playerId) {
-        assertObjectNotNull("playerId", playerId);
-        return newConditionBean().acceptPK(playerId);
+    protected VillagePlayerAccessInfoCB xprepareCBAsPK(Integer villagePlayerAccessInfoId) {
+        assertObjectNotNull("villagePlayerAccessInfoId", villagePlayerAccessInfoId);
+        return newConditionBean().acceptPK(villagePlayerAccessInfoId);
     }
 
     /**
      * Select the entity by the unique-key value.
-     * @param playerName : UQ, NotNull, VARCHAR(12). (NotNull)
+     * @param villagePlayerId : UQ+, NotNull, INT UNSIGNED(10), FK to village_player. (NotNull)
+     * @param ipAddress : +UQ, NotNull, VARCHAR(64). (NotNull)
      * @return The optional entity selected by the unique key. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    public OptionalEntity<Player> selectByUniqueOf(String playerName) {
-        return facadeSelectByUniqueOf(playerName);
+    public OptionalEntity<VillagePlayerAccessInfo> selectByUniqueOf(Integer villagePlayerId, String ipAddress) {
+        return facadeSelectByUniqueOf(villagePlayerId, ipAddress);
     }
 
-    protected OptionalEntity<Player> facadeSelectByUniqueOf(String playerName) {
-        return doSelectByUniqueOf(playerName, typeOfSelectedEntity());
+    protected OptionalEntity<VillagePlayerAccessInfo> facadeSelectByUniqueOf(Integer villagePlayerId, String ipAddress) {
+        return doSelectByUniqueOf(villagePlayerId, ipAddress, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends Player> OptionalEntity<ENTITY> doSelectByUniqueOf(String playerName, Class<? extends ENTITY> tp) {
-        return createOptionalEntity(doSelectEntity(xprepareCBAsUniqueOf(playerName), tp), playerName);
+    protected <ENTITY extends VillagePlayerAccessInfo> OptionalEntity<ENTITY> doSelectByUniqueOf(Integer villagePlayerId, String ipAddress, Class<? extends ENTITY> tp) {
+        return createOptionalEntity(doSelectEntity(xprepareCBAsUniqueOf(villagePlayerId, ipAddress), tp), villagePlayerId, ipAddress);
     }
 
-    protected PlayerCB xprepareCBAsUniqueOf(String playerName) {
-        assertObjectNotNull("playerName", playerName);
-        return newConditionBean().acceptUniqueOf(playerName);
+    protected VillagePlayerAccessInfoCB xprepareCBAsUniqueOf(Integer villagePlayerId, String ipAddress) {
+        assertObjectNotNull("villagePlayerId", villagePlayerId);assertObjectNotNull("ipAddress", ipAddress);
+        return newConditionBean().acceptUniqueOf(villagePlayerId, ipAddress);
     }
 
     // ===================================================================================
@@ -217,19 +218,19 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
     /**
      * Select the list as result bean.
      * <pre>
-     * ListResultBean&lt;Player&gt; <span style="color: #553000">playerList</span> = <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">selectList</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * ListResultBean&lt;VillagePlayerAccessInfo&gt; <span style="color: #553000">villagePlayerAccessInfoList</span> = <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">selectList</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().set...;
      *     <span style="color: #553000">cb</span>.query().addOrderBy...;
      * });
-     * <span style="color: #70226C">for</span> (Player <span style="color: #553000">player</span> : <span style="color: #553000">playerList</span>) {
-     *     ... = <span style="color: #553000">player</span>.get...;
+     * <span style="color: #70226C">for</span> (VillagePlayerAccessInfo <span style="color: #553000">villagePlayerAccessInfo</span> : <span style="color: #553000">villagePlayerAccessInfoList</span>) {
+     *     ... = <span style="color: #553000">villagePlayerAccessInfo</span>.get...;
      * }
      * </pre>
-     * @param cbLambda The callback for condition-bean of Player. (NotNull)
+     * @param cbLambda The callback for condition-bean of VillagePlayerAccessInfo. (NotNull)
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @throws DangerousResultSizeException When the result size is over the specified safety size.
      */
-    public ListResultBean<Player> selectList(CBCall<PlayerCB> cbLambda) {
+    public ListResultBean<VillagePlayerAccessInfo> selectList(CBCall<VillagePlayerAccessInfoCB> cbLambda) {
         return facadeSelectList(createCB(cbLambda));
     }
 
@@ -243,7 +244,7 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * Select the page as result bean. <br>
      * (both count-select and paging-select are executed)
      * <pre>
-     * PagingResultBean&lt;Player&gt; <span style="color: #553000">page</span> = <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">selectPage</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * PagingResultBean&lt;VillagePlayerAccessInfo&gt; <span style="color: #553000">page</span> = <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">selectPage</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().set...
      *     <span style="color: #553000">cb</span>.query().addOrderBy...
      *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">paging</span>(20, 3); <span style="color: #3F7E5E">// 20 records per a page and current page number is 3</span>
@@ -253,15 +254,15 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * <span style="color: #70226C">boolean</span> isExistPrePage = <span style="color: #553000">page</span>.isExistPrePage();
      * <span style="color: #70226C">boolean</span> isExistNextPage = <span style="color: #553000">page</span>.isExistNextPage();
      * ...
-     * <span style="color: #70226C">for</span> (Player player : <span style="color: #553000">page</span>) {
-     *     ... = player.get...;
+     * <span style="color: #70226C">for</span> (VillagePlayerAccessInfo villagePlayerAccessInfo : <span style="color: #553000">page</span>) {
+     *     ... = villagePlayerAccessInfo.get...;
      * }
      * </pre>
-     * @param cbLambda The callback for condition-bean of Player. (NotNull)
+     * @param cbLambda The callback for condition-bean of VillagePlayerAccessInfo. (NotNull)
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @throws DangerousResultSizeException When the result size is over the specified safety size.
      */
-    public PagingResultBean<Player> selectPage(CBCall<PlayerCB> cbLambda) {
+    public PagingResultBean<VillagePlayerAccessInfo> selectPage(CBCall<VillagePlayerAccessInfoCB> cbLambda) {
         return facadeSelectPage(createCB(cbLambda));
     }
 
@@ -271,16 +272,16 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
     /**
      * Select the cursor by the condition-bean.
      * <pre>
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">selectCursor</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">selectCursor</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().set...
      * }, <span style="color: #553000">member</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     ... = <span style="color: #553000">member</span>.getMemberName();
      * });
      * </pre>
-     * @param cbLambda The callback for condition-bean of Player. (NotNull)
-     * @param entityLambda The handler of entity row of Player. (NotNull)
+     * @param cbLambda The callback for condition-bean of VillagePlayerAccessInfo. (NotNull)
+     * @param entityLambda The handler of entity row of VillagePlayerAccessInfo. (NotNull)
      */
-    public void selectCursor(CBCall<PlayerCB> cbLambda, EntityRowHandler<Player> entityLambda) {
+    public void selectCursor(CBCall<VillagePlayerAccessInfoCB> cbLambda, EntityRowHandler<VillagePlayerAccessInfo> entityLambda) {
         facadeSelectCursor(createCB(cbLambda), entityLambda);
     }
 
@@ -291,7 +292,7 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * Select the scalar value derived by a function from uniquely-selected records. <br>
      * You should call a function method after this method called like as follows:
      * <pre>
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">selectScalar</span>(Date.class).max(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">selectScalar</span>(Date.class).max(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.specify().<span style="color: #CC4747">column...</span>; <span style="color: #3F7E5E">// required for the function</span>
      *     <span style="color: #553000">cb</span>.query().set...
      * });
@@ -300,7 +301,7 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * @param resultType The type of result. (NotNull)
      * @return The scalar function object to specify function for scalar value. (NotNull)
      */
-    public <RESULT> HpSLSFunction<PlayerCB, RESULT> selectScalar(Class<RESULT> resultType) {
+    public <RESULT> HpSLSFunction<VillagePlayerAccessInfoCB, RESULT> selectScalar(Class<RESULT> resultType) {
         return facadeScalarSelect(resultType);
     }
 
@@ -345,12 +346,12 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * </pre>
      * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
      * The condition-bean, which the set-upper provides, has order by FK before callback.
-     * @param playerList The entity list of player. (NotNull)
+     * @param villagePlayerAccessInfoList The entity list of villagePlayerAccessInfo. (NotNull)
      * @param loaderLambda The callback to handle the referrer loader for actually loading referrer. (NotNull)
      */
-    public void load(List<Player> playerList, ReferrerLoaderHandler<LoaderOfPlayer> loaderLambda) {
-        xassLRArg(playerList, loaderLambda);
-        loaderLambda.handle(new LoaderOfPlayer().ready(playerList, _behaviorSelector));
+    public void load(List<VillagePlayerAccessInfo> villagePlayerAccessInfoList, ReferrerLoaderHandler<LoaderOfVillagePlayerAccessInfo> loaderLambda) {
+        xassLRArg(villagePlayerAccessInfoList, loaderLambda);
+        loaderLambda.handle(new LoaderOfVillagePlayerAccessInfo().ready(villagePlayerAccessInfoList, _behaviorSelector));
     }
 
     /**
@@ -378,171 +379,35 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * </pre>
      * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
      * The condition-bean, which the set-upper provides, has order by FK before callback.
-     * @param player The entity of player. (NotNull)
+     * @param villagePlayerAccessInfo The entity of villagePlayerAccessInfo. (NotNull)
      * @param loaderLambda The callback to handle the referrer loader for actually loading referrer. (NotNull)
      */
-    public void load(Player player, ReferrerLoaderHandler<LoaderOfPlayer> loaderLambda) {
-        xassLRArg(player, loaderLambda);
-        loaderLambda.handle(new LoaderOfPlayer().ready(xnewLRAryLs(player), _behaviorSelector));
-    }
-
-    /**
-     * Load referrer of messageList by the set-upper of referrer. <br>
-     * MESSAGE by PLAYER_ID, named 'messageList'.
-     * <pre>
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">loadMessage</span>(<span style="color: #553000">playerList</span>, <span style="color: #553000">messageCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">messageCB</span>.setupSelect...
-     *     <span style="color: #553000">messageCB</span>.query().set...
-     *     <span style="color: #553000">messageCB</span>.query().addOrderBy...
-     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
-     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
-     * <span style="color: #3F7E5E">//    ...</span>
-     * <span style="color: #3F7E5E">//});</span>
-     * <span style="color: #70226C">for</span> (Player player : <span style="color: #553000">playerList</span>) {
-     *     ... = player.<span style="color: #CC4747">getMessageList()</span>;
-     * }
-     * </pre>
-     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
-     * The condition-bean, which the set-upper provides, has settings before callback as follows:
-     * <pre>
-     * cb.query().setPlayerId_InScope(pkList);
-     * cb.query().addOrderBy_PlayerId_Asc();
-     * </pre>
-     * @param playerList The entity list of player. (NotNull)
-     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
-     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
-     */
-    public NestedReferrerListGateway<Message> loadMessage(List<Player> playerList, ReferrerConditionSetupper<MessageCB> refCBLambda) {
-        xassLRArg(playerList, refCBLambda);
-        return doLoadMessage(playerList, new LoadReferrerOption<MessageCB, Message>().xinit(refCBLambda));
-    }
-
-    /**
-     * Load referrer of messageList by the set-upper of referrer. <br>
-     * MESSAGE by PLAYER_ID, named 'messageList'.
-     * <pre>
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">loadMessage</span>(<span style="color: #553000">player</span>, <span style="color: #553000">messageCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">messageCB</span>.setupSelect...
-     *     <span style="color: #553000">messageCB</span>.query().set...
-     *     <span style="color: #553000">messageCB</span>.query().addOrderBy...
-     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
-     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
-     * <span style="color: #3F7E5E">//    ...</span>
-     * <span style="color: #3F7E5E">//});</span>
-     * ... = <span style="color: #553000">player</span>.<span style="color: #CC4747">getMessageList()</span>;
-     * </pre>
-     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
-     * The condition-bean, which the set-upper provides, has settings before callback as follows:
-     * <pre>
-     * cb.query().setPlayerId_InScope(pkList);
-     * cb.query().addOrderBy_PlayerId_Asc();
-     * </pre>
-     * @param player The entity of player. (NotNull)
-     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
-     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
-     */
-    public NestedReferrerListGateway<Message> loadMessage(Player player, ReferrerConditionSetupper<MessageCB> refCBLambda) {
-        xassLRArg(player, refCBLambda);
-        return doLoadMessage(xnewLRLs(player), new LoadReferrerOption<MessageCB, Message>().xinit(refCBLambda));
-    }
-
-    protected NestedReferrerListGateway<Message> doLoadMessage(List<Player> playerList, LoadReferrerOption<MessageCB, Message> option) {
-        return helpLoadReferrerInternally(playerList, option, "messageList");
-    }
-
-    /**
-     * Load referrer of villagePlayerList by the set-upper of referrer. <br>
-     * VILLAGE_PLAYER by PLAYER_ID, named 'villagePlayerList'.
-     * <pre>
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">loadVillagePlayer</span>(<span style="color: #553000">playerList</span>, <span style="color: #553000">playerCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">playerCB</span>.setupSelect...
-     *     <span style="color: #553000">playerCB</span>.query().set...
-     *     <span style="color: #553000">playerCB</span>.query().addOrderBy...
-     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
-     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
-     * <span style="color: #3F7E5E">//    ...</span>
-     * <span style="color: #3F7E5E">//});</span>
-     * <span style="color: #70226C">for</span> (Player player : <span style="color: #553000">playerList</span>) {
-     *     ... = player.<span style="color: #CC4747">getVillagePlayerList()</span>;
-     * }
-     * </pre>
-     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
-     * The condition-bean, which the set-upper provides, has settings before callback as follows:
-     * <pre>
-     * cb.query().setPlayerId_InScope(pkList);
-     * cb.query().addOrderBy_PlayerId_Asc();
-     * </pre>
-     * @param playerList The entity list of player. (NotNull)
-     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
-     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
-     */
-    public NestedReferrerListGateway<VillagePlayer> loadVillagePlayer(List<Player> playerList, ReferrerConditionSetupper<VillagePlayerCB> refCBLambda) {
-        xassLRArg(playerList, refCBLambda);
-        return doLoadVillagePlayer(playerList, new LoadReferrerOption<VillagePlayerCB, VillagePlayer>().xinit(refCBLambda));
-    }
-
-    /**
-     * Load referrer of villagePlayerList by the set-upper of referrer. <br>
-     * VILLAGE_PLAYER by PLAYER_ID, named 'villagePlayerList'.
-     * <pre>
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">loadVillagePlayer</span>(<span style="color: #553000">player</span>, <span style="color: #553000">playerCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">playerCB</span>.setupSelect...
-     *     <span style="color: #553000">playerCB</span>.query().set...
-     *     <span style="color: #553000">playerCB</span>.query().addOrderBy...
-     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
-     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
-     * <span style="color: #3F7E5E">//    ...</span>
-     * <span style="color: #3F7E5E">//});</span>
-     * ... = <span style="color: #553000">player</span>.<span style="color: #CC4747">getVillagePlayerList()</span>;
-     * </pre>
-     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
-     * The condition-bean, which the set-upper provides, has settings before callback as follows:
-     * <pre>
-     * cb.query().setPlayerId_InScope(pkList);
-     * cb.query().addOrderBy_PlayerId_Asc();
-     * </pre>
-     * @param player The entity of player. (NotNull)
-     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
-     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
-     */
-    public NestedReferrerListGateway<VillagePlayer> loadVillagePlayer(Player player, ReferrerConditionSetupper<VillagePlayerCB> refCBLambda) {
-        xassLRArg(player, refCBLambda);
-        return doLoadVillagePlayer(xnewLRLs(player), new LoadReferrerOption<VillagePlayerCB, VillagePlayer>().xinit(refCBLambda));
-    }
-
-    protected NestedReferrerListGateway<VillagePlayer> doLoadVillagePlayer(List<Player> playerList, LoadReferrerOption<VillagePlayerCB, VillagePlayer> option) {
-        return helpLoadReferrerInternally(playerList, option, "villagePlayerList");
+    public void load(VillagePlayerAccessInfo villagePlayerAccessInfo, ReferrerLoaderHandler<LoaderOfVillagePlayerAccessInfo> loaderLambda) {
+        xassLRArg(villagePlayerAccessInfo, loaderLambda);
+        loaderLambda.handle(new LoaderOfVillagePlayerAccessInfo().ready(xnewLRAryLs(villagePlayerAccessInfo), _behaviorSelector));
     }
 
     // ===================================================================================
     //                                                                   Pull out Relation
     //                                                                   =================
     /**
-     * Pull out the list of foreign table 'Authority'.
-     * @param playerList The list of player. (NotNull, EmptyAllowed)
+     * Pull out the list of foreign table 'VillagePlayer'.
+     * @param villagePlayerAccessInfoList The list of villagePlayerAccessInfo. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    public List<Authority> pulloutAuthority(List<Player> playerList)
-    { return helpPulloutInternally(playerList, "authority"); }
+    public List<VillagePlayer> pulloutVillagePlayer(List<VillagePlayerAccessInfo> villagePlayerAccessInfoList)
+    { return helpPulloutInternally(villagePlayerAccessInfoList, "villagePlayer"); }
 
     // ===================================================================================
     //                                                                      Extract Column
     //                                                                      ==============
     /**
-     * Extract the value list of (single) primary key playerId.
-     * @param playerList The list of player. (NotNull, EmptyAllowed)
+     * Extract the value list of (single) primary key villagePlayerAccessInfoId.
+     * @param villagePlayerAccessInfoList The list of villagePlayerAccessInfo. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    public List<Integer> extractPlayerIdList(List<Player> playerList)
-    { return helpExtractListInternally(playerList, "playerId"); }
-
-    /**
-     * Extract the value list of (single) unique key playerName.
-     * @param playerList The list of player. (NotNull, EmptyAllowed)
-     * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
-     */
-    public List<String> extractPlayerNameList(List<Player> playerList)
-    { return helpExtractListInternally(playerList, "playerName"); }
+    public List<Integer> extractVillagePlayerAccessInfoIdList(List<VillagePlayerAccessInfo> villagePlayerAccessInfoList)
+    { return helpExtractListInternally(villagePlayerAccessInfoList, "villagePlayerAccessInfoId"); }
 
     // ===================================================================================
     //                                                                       Entity Update
@@ -550,80 +415,80 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
     /**
      * Insert the entity modified-only. (DefaultConstraintsEnabled)
      * <pre>
-     * Player player = <span style="color: #70226C">new</span> Player();
+     * VillagePlayerAccessInfo villagePlayerAccessInfo = <span style="color: #70226C">new</span> VillagePlayerAccessInfo();
      * <span style="color: #3F7E5E">// if auto-increment, you don't need to set the PK value</span>
-     * player.setFoo...(value);
-     * player.setBar...(value);
+     * villagePlayerAccessInfo.setFoo...(value);
+     * villagePlayerAccessInfo.setBar...(value);
      * <span style="color: #3F7E5E">// you don't need to set values of common columns</span>
-     * <span style="color: #3F7E5E">//player.setRegisterUser(value);</span>
-     * <span style="color: #3F7E5E">//player.set...;</span>
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">insert</span>(player);
-     * ... = player.getPK...(); <span style="color: #3F7E5E">// if auto-increment, you can get the value after</span>
+     * <span style="color: #3F7E5E">//villagePlayerAccessInfo.setRegisterUser(value);</span>
+     * <span style="color: #3F7E5E">//villagePlayerAccessInfo.set...;</span>
+     * <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">insert</span>(villagePlayerAccessInfo);
+     * ... = villagePlayerAccessInfo.getPK...(); <span style="color: #3F7E5E">// if auto-increment, you can get the value after</span>
      * </pre>
      * <p>While, when the entity is created by select, all columns are registered.</p>
-     * @param player The entity of insert. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
+     * @param villagePlayerAccessInfo The entity of insert. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
      * @throws EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    public void insert(Player player) {
-        doInsert(player, null);
+    public void insert(VillagePlayerAccessInfo villagePlayerAccessInfo) {
+        doInsert(villagePlayerAccessInfo, null);
     }
 
     /**
      * Update the entity modified-only. (ZeroUpdateException, NonExclusiveControl) <br>
      * By PK as default, and also you can update by unique keys using entity's uniqueOf().
      * <pre>
-     * Player player = <span style="color: #70226C">new</span> Player();
-     * player.setPK...(value); <span style="color: #3F7E5E">// required</span>
-     * player.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
+     * VillagePlayerAccessInfo villagePlayerAccessInfo = <span style="color: #70226C">new</span> VillagePlayerAccessInfo();
+     * villagePlayerAccessInfo.setPK...(value); <span style="color: #3F7E5E">// required</span>
+     * villagePlayerAccessInfo.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// you don't need to set values of common columns</span>
-     * <span style="color: #3F7E5E">//player.setRegisterUser(value);</span>
-     * <span style="color: #3F7E5E">//player.set...;</span>
+     * <span style="color: #3F7E5E">//villagePlayerAccessInfo.setRegisterUser(value);</span>
+     * <span style="color: #3F7E5E">//villagePlayerAccessInfo.set...;</span>
      * <span style="color: #3F7E5E">// if exclusive control, the value of concurrency column is required</span>
-     * player.<span style="color: #CC4747">setVersionNo</span>(value);
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">update</span>(player);
+     * villagePlayerAccessInfo.<span style="color: #CC4747">setVersionNo</span>(value);
+     * <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">update</span>(villagePlayerAccessInfo);
      * </pre>
-     * @param player The entity of update. (NotNull, PrimaryKeyNotNull)
+     * @param villagePlayerAccessInfo The entity of update. (NotNull, PrimaryKeyNotNull)
      * @throws EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    public void update(Player player) {
-        doUpdate(player, null);
+    public void update(VillagePlayerAccessInfo villagePlayerAccessInfo) {
+        doUpdate(villagePlayerAccessInfo, null);
     }
 
     /**
      * Insert or update the entity modified-only. (DefaultConstraintsEnabled, NonExclusiveControl) <br>
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() } <br>
      * <p><span style="color: #994747; font-size: 120%">Also you can update by unique keys using entity's uniqueOf().</span></p>
-     * @param player The entity of insert or update. (NotNull, ...depends on insert or update)
+     * @param villagePlayerAccessInfo The entity of insert or update. (NotNull, ...depends on insert or update)
      * @throws EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    public void insertOrUpdate(Player player) {
-        doInsertOrUpdate(player, null, null);
+    public void insertOrUpdate(VillagePlayerAccessInfo villagePlayerAccessInfo) {
+        doInsertOrUpdate(villagePlayerAccessInfo, null, null);
     }
 
     /**
      * Delete the entity. (ZeroUpdateException, NonExclusiveControl) <br>
      * By PK as default, and also you can delete by unique keys using entity's uniqueOf().
      * <pre>
-     * Player player = <span style="color: #70226C">new</span> Player();
-     * player.setPK...(value); <span style="color: #3F7E5E">// required</span>
+     * VillagePlayerAccessInfo villagePlayerAccessInfo = <span style="color: #70226C">new</span> VillagePlayerAccessInfo();
+     * villagePlayerAccessInfo.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * <span style="color: #3F7E5E">// if exclusive control, the value of concurrency column is required</span>
-     * player.<span style="color: #CC4747">setVersionNo</span>(value);
+     * villagePlayerAccessInfo.<span style="color: #CC4747">setVersionNo</span>(value);
      * <span style="color: #70226C">try</span> {
-     *     <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">delete</span>(player);
+     *     <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">delete</span>(villagePlayerAccessInfo);
      * } <span style="color: #70226C">catch</span> (EntityAlreadyUpdatedException e) { <span style="color: #3F7E5E">// if concurrent update</span>
      *     ...
      * }
      * </pre>
-     * @param player The entity of delete. (NotNull, PrimaryKeyNotNull)
+     * @param villagePlayerAccessInfo The entity of delete. (NotNull, PrimaryKeyNotNull)
      * @throws EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @throws EntityDuplicatedException When the entity has been duplicated.
      */
-    public void delete(Player player) {
-        doDelete(player, null);
+    public void delete(VillagePlayerAccessInfo villagePlayerAccessInfo) {
+        doDelete(villagePlayerAccessInfo, null);
     }
 
     // ===================================================================================
@@ -635,26 +500,26 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * <p><span style="color: #CC4747; font-size: 120%">The columns of least common multiple are registered like this:</span></p>
      * <pre>
      * <span style="color: #70226C">for</span> (... : ...) {
-     *     Player player = <span style="color: #70226C">new</span> Player();
-     *     player.setFooName("foo");
+     *     VillagePlayerAccessInfo villagePlayerAccessInfo = <span style="color: #70226C">new</span> VillagePlayerAccessInfo();
+     *     villagePlayerAccessInfo.setFooName("foo");
      *     <span style="color: #70226C">if</span> (...) {
-     *         player.setFooPrice(123);
+     *         villagePlayerAccessInfo.setFooPrice(123);
      *     }
      *     <span style="color: #3F7E5E">// FOO_NAME and FOO_PRICE (and record meta columns) are registered</span>
      *     <span style="color: #3F7E5E">// FOO_PRICE not-called in any entities are registered as null without default value</span>
      *     <span style="color: #3F7E5E">// columns not-called in all entities are registered as null or default value</span>
-     *     playerList.add(player);
+     *     villagePlayerAccessInfoList.add(villagePlayerAccessInfo);
      * }
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">batchInsert</span>(playerList);
+     * <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">batchInsert</span>(villagePlayerAccessInfoList);
      * </pre>
      * <p>While, when the entities are created by select, all columns are registered.</p>
      * <p>And if the table has an identity, entities after the process don't have incremented values.
      * (When you use the (normal) insert(), you can get the incremented value from your entity)</p>
-     * @param playerList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
+     * @param villagePlayerAccessInfoList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
      * @return The array of inserted count. (NotNull, EmptyAllowed)
      */
-    public int[] batchInsert(List<Player> playerList) {
-        return doBatchInsert(playerList, null);
+    public int[] batchInsert(List<VillagePlayerAccessInfo> villagePlayerAccessInfoList) {
+        return doBatchInsert(villagePlayerAccessInfoList, null);
     }
 
     /**
@@ -663,37 +528,37 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * <span style="color: #CC4747; font-size: 120%">You should specify same-set columns to all entities like this:</span>
      * <pre>
      * for (... : ...) {
-     *     Player player = <span style="color: #70226C">new</span> Player();
-     *     player.setFooName("foo");
+     *     VillagePlayerAccessInfo villagePlayerAccessInfo = <span style="color: #70226C">new</span> VillagePlayerAccessInfo();
+     *     villagePlayerAccessInfo.setFooName("foo");
      *     <span style="color: #70226C">if</span> (...) {
-     *         player.setFooPrice(123);
+     *         villagePlayerAccessInfo.setFooPrice(123);
      *     } <span style="color: #70226C">else</span> {
-     *         player.setFooPrice(null); <span style="color: #3F7E5E">// updated as null</span>
-     *         <span style="color: #3F7E5E">//player.setFooDate(...); // *not allowed, fragmented</span>
+     *         villagePlayerAccessInfo.setFooPrice(null); <span style="color: #3F7E5E">// updated as null</span>
+     *         <span style="color: #3F7E5E">//villagePlayerAccessInfo.setFooDate(...); // *not allowed, fragmented</span>
      *     }
      *     <span style="color: #3F7E5E">// FOO_NAME and FOO_PRICE (and record meta columns) are updated</span>
      *     <span style="color: #3F7E5E">// (others are not updated: their values are kept)</span>
-     *     playerList.add(player);
+     *     villagePlayerAccessInfoList.add(villagePlayerAccessInfo);
      * }
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">batchUpdate</span>(playerList);
+     * <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">batchUpdate</span>(villagePlayerAccessInfoList);
      * </pre>
-     * @param playerList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
+     * @param villagePlayerAccessInfoList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @throws EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    public int[] batchUpdate(List<Player> playerList) {
-        return doBatchUpdate(playerList, null);
+    public int[] batchUpdate(List<VillagePlayerAccessInfo> villagePlayerAccessInfoList) {
+        return doBatchUpdate(villagePlayerAccessInfoList, null);
     }
 
     /**
      * Batch-delete the entity list. (NonExclusiveControl) <br>
      * This method uses executeBatch() of java.sql.PreparedStatement.
-     * @param playerList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
+     * @param villagePlayerAccessInfoList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @throws EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    public int[] batchDelete(List<Player> playerList) {
-        return doBatchDelete(playerList, null);
+    public int[] batchDelete(List<VillagePlayerAccessInfo> villagePlayerAccessInfoList) {
+        return doBatchDelete(villagePlayerAccessInfoList, null);
     }
 
     // ===================================================================================
@@ -702,8 +567,8 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
     /**
      * Insert the several entities by query (modified-only for fixed value).
      * <pre>
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">queryInsert</span>(new QueryInsertSetupper&lt;Player, PlayerCB&gt;() {
-     *     public ConditionBean setup(Player entity, PlayerCB intoCB) {
+     * <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">queryInsert</span>(new QueryInsertSetupper&lt;VillagePlayerAccessInfo, VillagePlayerAccessInfoCB&gt;() {
+     *     public ConditionBean setup(VillagePlayerAccessInfo entity, VillagePlayerAccessInfoCB intoCB) {
      *         FooCB cb = FooCB();
      *         cb.setupSelect_Bar();
      *
@@ -725,48 +590,48 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * @param manyArgLambda The callback to set up query-insert. (NotNull)
      * @return The inserted count.
      */
-    public int queryInsert(QueryInsertSetupper<Player, PlayerCB> manyArgLambda) {
+    public int queryInsert(QueryInsertSetupper<VillagePlayerAccessInfo, VillagePlayerAccessInfoCB> manyArgLambda) {
         return doQueryInsert(manyArgLambda, null);
     }
 
     /**
      * Update the several entities by query non-strictly modified-only. (NonExclusiveControl)
      * <pre>
-     * Player player = <span style="color: #70226C">new</span> Player();
+     * VillagePlayerAccessInfo villagePlayerAccessInfo = <span style="color: #70226C">new</span> VillagePlayerAccessInfo();
      * <span style="color: #3F7E5E">// you don't need to set PK value</span>
-     * <span style="color: #3F7E5E">//player.setPK...(value);</span>
-     * player.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
+     * <span style="color: #3F7E5E">//villagePlayerAccessInfo.setPK...(value);</span>
+     * villagePlayerAccessInfo.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// you don't need to set values of common columns</span>
-     * <span style="color: #3F7E5E">//player.setRegisterUser(value);</span>
-     * <span style="color: #3F7E5E">//player.set...;</span>
+     * <span style="color: #3F7E5E">//villagePlayerAccessInfo.setRegisterUser(value);</span>
+     * <span style="color: #3F7E5E">//villagePlayerAccessInfo.set...;</span>
      * <span style="color: #3F7E5E">// you don't need to set a value of concurrency column</span>
      * <span style="color: #3F7E5E">// (auto-increment for version number is valid though non-exclusive control)</span>
-     * <span style="color: #3F7E5E">//player.setVersionNo(value);</span>
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">queryUpdate</span>(player, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #3F7E5E">//villagePlayerAccessInfo.setVersionNo(value);</span>
+     * <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">queryUpdate</span>(villagePlayerAccessInfo, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().setFoo...
      * });
      * </pre>
-     * @param player The entity that contains update values. (NotNull, PrimaryKeyNullAllowed)
-     * @param cbLambda The callback for condition-bean of Player. (NotNull)
+     * @param villagePlayerAccessInfo The entity that contains update values. (NotNull, PrimaryKeyNullAllowed)
+     * @param cbLambda The callback for condition-bean of VillagePlayerAccessInfo. (NotNull)
      * @return The updated count.
      * @throws NonQueryUpdateNotAllowedException When the query has no condition.
      */
-    public int queryUpdate(Player player, CBCall<PlayerCB> cbLambda) {
-        return doQueryUpdate(player, createCB(cbLambda), null);
+    public int queryUpdate(VillagePlayerAccessInfo villagePlayerAccessInfo, CBCall<VillagePlayerAccessInfoCB> cbLambda) {
+        return doQueryUpdate(villagePlayerAccessInfo, createCB(cbLambda), null);
     }
 
     /**
      * Delete the several entities by query. (NonExclusiveControl)
      * <pre>
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">queryDelete</span>(player, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">queryDelete</span>(villagePlayerAccessInfo, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().setFoo...
      * });
      * </pre>
-     * @param cbLambda The callback for condition-bean of Player. (NotNull)
+     * @param cbLambda The callback for condition-bean of VillagePlayerAccessInfo. (NotNull)
      * @return The deleted count.
      * @throws NonQueryDeleteNotAllowedException When the query has no condition.
      */
-    public int queryDelete(CBCall<PlayerCB> cbLambda) {
+    public int queryDelete(CBCall<VillagePlayerAccessInfoCB> cbLambda) {
         return doQueryDelete(createCB(cbLambda), null);
     }
 
@@ -781,22 +646,22 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * For example, disableCommonColumnAutoSetup(), disablePrimaryKeyIdentity(). <br>
      * Other specifications are same as insert(entity).
      * <pre>
-     * Player player = <span style="color: #70226C">new</span> Player();
+     * VillagePlayerAccessInfo villagePlayerAccessInfo = <span style="color: #70226C">new</span> VillagePlayerAccessInfo();
      * <span style="color: #3F7E5E">// if auto-increment, you don't need to set the PK value</span>
-     * player.setFoo...(value);
-     * player.setBar...(value);
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">varyingInsert</span>(player, <span style="color: #553000">op</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * villagePlayerAccessInfo.setFoo...(value);
+     * villagePlayerAccessInfo.setBar...(value);
+     * <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">varyingInsert</span>(villagePlayerAccessInfo, <span style="color: #553000">op</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #3F7E5E">// you can insert by your values for common columns</span>
      *     <span style="color: #553000">op</span>.disableCommonColumnAutoSetup();
      * });
-     * ... = player.getPK...(); <span style="color: #3F7E5E">// if auto-increment, you can get the value after</span>
+     * ... = villagePlayerAccessInfo.getPK...(); <span style="color: #3F7E5E">// if auto-increment, you can get the value after</span>
      * </pre>
-     * @param player The entity of insert. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
+     * @param villagePlayerAccessInfo The entity of insert. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
      * @param opLambda The callback for option of insert for varying requests. (NotNull)
      * @throws EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    public void varyingInsert(Player player, WritableOptionCall<PlayerCB, InsertOption<PlayerCB>> opLambda) {
-        doInsert(player, createInsertOption(opLambda));
+    public void varyingInsert(VillagePlayerAccessInfo villagePlayerAccessInfo, WritableOptionCall<VillagePlayerAccessInfoCB, InsertOption<VillagePlayerAccessInfoCB>> opLambda) {
+        doInsert(villagePlayerAccessInfo, createInsertOption(opLambda));
     }
 
     /**
@@ -804,53 +669,53 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * For example, self(selfCalculationSpecification), specify(updateColumnSpecification), disableCommonColumnAutoSetup(). <br>
      * Other specifications are same as update(entity).
      * <pre>
-     * Player player = <span style="color: #70226C">new</span> Player();
-     * player.setPK...(value); <span style="color: #3F7E5E">// required</span>
-     * player.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
+     * VillagePlayerAccessInfo villagePlayerAccessInfo = <span style="color: #70226C">new</span> VillagePlayerAccessInfo();
+     * villagePlayerAccessInfo.setPK...(value); <span style="color: #3F7E5E">// required</span>
+     * villagePlayerAccessInfo.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// if exclusive control, the value of concurrency column is required</span>
-     * player.<span style="color: #CC4747">setVersionNo</span>(value);
+     * villagePlayerAccessInfo.<span style="color: #CC4747">setVersionNo</span>(value);
      * <span style="color: #3F7E5E">// you can update by self calculation values</span>
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">varyingUpdate</span>(player, <span style="color: #553000">op</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">varyingUpdate</span>(villagePlayerAccessInfo, <span style="color: #553000">op</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">op</span>.self(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *         <span style="color: #553000">cb</span>.specify().<span style="color: #CC4747">columnXxxCount()</span>;
      *     }).plus(1); <span style="color: #3F7E5E">// XXX_COUNT = XXX_COUNT + 1</span>
      * });
      * </pre>
-     * @param player The entity of update. (NotNull, PrimaryKeyNotNull)
+     * @param villagePlayerAccessInfo The entity of update. (NotNull, PrimaryKeyNotNull)
      * @param opLambda The callback for option of update for varying requests. (NotNull)
      * @throws EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    public void varyingUpdate(Player player, WritableOptionCall<PlayerCB, UpdateOption<PlayerCB>> opLambda) {
-        doUpdate(player, createUpdateOption(opLambda));
+    public void varyingUpdate(VillagePlayerAccessInfo villagePlayerAccessInfo, WritableOptionCall<VillagePlayerAccessInfoCB, UpdateOption<VillagePlayerAccessInfoCB>> opLambda) {
+        doUpdate(villagePlayerAccessInfo, createUpdateOption(opLambda));
     }
 
     /**
      * Insert or update the entity with varying requests. (ExclusiveControl: when update) <br>
      * Other specifications are same as insertOrUpdate(entity).
-     * @param player The entity of insert or update. (NotNull)
+     * @param villagePlayerAccessInfo The entity of insert or update. (NotNull)
      * @param insertOpLambda The callback for option of insert for varying requests. (NotNull)
      * @param updateOpLambda The callback for option of update for varying requests. (NotNull)
      * @throws EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    public void varyingInsertOrUpdate(Player player, WritableOptionCall<PlayerCB, InsertOption<PlayerCB>> insertOpLambda, WritableOptionCall<PlayerCB, UpdateOption<PlayerCB>> updateOpLambda) {
-        doInsertOrUpdate(player, createInsertOption(insertOpLambda), createUpdateOption(updateOpLambda));
+    public void varyingInsertOrUpdate(VillagePlayerAccessInfo villagePlayerAccessInfo, WritableOptionCall<VillagePlayerAccessInfoCB, InsertOption<VillagePlayerAccessInfoCB>> insertOpLambda, WritableOptionCall<VillagePlayerAccessInfoCB, UpdateOption<VillagePlayerAccessInfoCB>> updateOpLambda) {
+        doInsertOrUpdate(villagePlayerAccessInfo, createInsertOption(insertOpLambda), createUpdateOption(updateOpLambda));
     }
 
     /**
      * Delete the entity with varying requests. (ZeroUpdateException, NonExclusiveControl) <br>
      * Now a valid option does not exist. <br>
      * Other specifications are same as delete(entity).
-     * @param player The entity of delete. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnNotNull)
+     * @param villagePlayerAccessInfo The entity of delete. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnNotNull)
      * @param opLambda The callback for option of delete for varying requests. (NotNull)
      * @throws EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @throws EntityDuplicatedException When the entity has been duplicated.
      */
-    public void varyingDelete(Player player, WritableOptionCall<PlayerCB, DeleteOption<PlayerCB>> opLambda) {
-        doDelete(player, createDeleteOption(opLambda));
+    public void varyingDelete(VillagePlayerAccessInfo villagePlayerAccessInfo, WritableOptionCall<VillagePlayerAccessInfoCB, DeleteOption<VillagePlayerAccessInfoCB>> opLambda) {
+        doDelete(villagePlayerAccessInfo, createDeleteOption(opLambda));
     }
 
     // -----------------------------------------------------
@@ -861,12 +726,12 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * For example, disableCommonColumnAutoSetup()
      * , disablePrimaryKeyIdentity(), limitBatchInsertLogging(). <br>
      * Other specifications are same as batchInsert(entityList).
-     * @param playerList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
+     * @param villagePlayerAccessInfoList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
      * @param opLambda The callback for option of insert for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    public int[] varyingBatchInsert(List<Player> playerList, WritableOptionCall<PlayerCB, InsertOption<PlayerCB>> opLambda) {
-        return doBatchInsert(playerList, createInsertOption(opLambda));
+    public int[] varyingBatchInsert(List<VillagePlayerAccessInfo> villagePlayerAccessInfoList, WritableOptionCall<VillagePlayerAccessInfoCB, InsertOption<VillagePlayerAccessInfoCB>> opLambda) {
+        return doBatchInsert(villagePlayerAccessInfoList, createInsertOption(opLambda));
     }
 
     /**
@@ -874,24 +739,24 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * For example, self(selfCalculationSpecification), specify(updateColumnSpecification)
      * , disableCommonColumnAutoSetup(), limitBatchUpdateLogging(). <br>
      * Other specifications are same as batchUpdate(entityList).
-     * @param playerList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
+     * @param villagePlayerAccessInfoList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
      * @param opLambda The callback for option of update for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    public int[] varyingBatchUpdate(List<Player> playerList, WritableOptionCall<PlayerCB, UpdateOption<PlayerCB>> opLambda) {
-        return doBatchUpdate(playerList, createUpdateOption(opLambda));
+    public int[] varyingBatchUpdate(List<VillagePlayerAccessInfo> villagePlayerAccessInfoList, WritableOptionCall<VillagePlayerAccessInfoCB, UpdateOption<VillagePlayerAccessInfoCB>> opLambda) {
+        return doBatchUpdate(villagePlayerAccessInfoList, createUpdateOption(opLambda));
     }
 
     /**
      * Batch-delete the list with varying requests. <br>
      * For example, limitBatchDeleteLogging(). <br>
      * Other specifications are same as batchDelete(entityList).
-     * @param playerList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
+     * @param villagePlayerAccessInfoList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
      * @param opLambda The callback for option of delete for varying requests. (NotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      */
-    public int[] varyingBatchDelete(List<Player> playerList, WritableOptionCall<PlayerCB, DeleteOption<PlayerCB>> opLambda) {
-        return doBatchDelete(playerList, createDeleteOption(opLambda));
+    public int[] varyingBatchDelete(List<VillagePlayerAccessInfo> villagePlayerAccessInfoList, WritableOptionCall<VillagePlayerAccessInfoCB, DeleteOption<VillagePlayerAccessInfoCB>> opLambda) {
+        return doBatchDelete(villagePlayerAccessInfoList, createDeleteOption(opLambda));
     }
 
     // -----------------------------------------------------
@@ -905,7 +770,7 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * @param opLambda The callback for option of insert for varying requests. (NotNull)
      * @return The inserted count.
      */
-    public int varyingQueryInsert(QueryInsertSetupper<Player, PlayerCB> manyArgLambda, WritableOptionCall<PlayerCB, InsertOption<PlayerCB>> opLambda) {
+    public int varyingQueryInsert(QueryInsertSetupper<VillagePlayerAccessInfo, VillagePlayerAccessInfoCB> manyArgLambda, WritableOptionCall<VillagePlayerAccessInfoCB, InsertOption<VillagePlayerAccessInfoCB>> opLambda) {
         return doQueryInsert(manyArgLambda, createInsertOption(opLambda));
     }
 
@@ -916,14 +781,14 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * Other specifications are same as queryUpdate(entity, cb).
      * <pre>
      * <span style="color: #3F7E5E">// ex) you can update by self calculation values</span>
-     * Player player = <span style="color: #70226C">new</span> Player();
+     * VillagePlayerAccessInfo villagePlayerAccessInfo = <span style="color: #70226C">new</span> VillagePlayerAccessInfo();
      * <span style="color: #3F7E5E">// you don't need to set PK value</span>
-     * <span style="color: #3F7E5E">//player.setPK...(value);</span>
-     * player.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
+     * <span style="color: #3F7E5E">//villagePlayerAccessInfo.setPK...(value);</span>
+     * villagePlayerAccessInfo.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// you don't need to set a value of concurrency column</span>
      * <span style="color: #3F7E5E">// (auto-increment for version number is valid though non-exclusive control)</span>
-     * <span style="color: #3F7E5E">//player.setVersionNo(value);</span>
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">varyingQueryUpdate</span>(player, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #3F7E5E">//villagePlayerAccessInfo.setVersionNo(value);</span>
+     * <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">varyingQueryUpdate</span>(villagePlayerAccessInfo, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().setFoo...
      * }, <span style="color: #553000">op</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">op</span>.self(<span style="color: #553000">colCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -931,14 +796,14 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      *     }).plus(1); <span style="color: #3F7E5E">// FOO_COUNT = FOO_COUNT + 1</span>
      * });
      * </pre>
-     * @param player The entity that contains update values. (NotNull) {PrimaryKeyNotRequired}
-     * @param cbLambda The callback for condition-bean of Player. (NotNull)
+     * @param villagePlayerAccessInfo The entity that contains update values. (NotNull) {PrimaryKeyNotRequired}
+     * @param cbLambda The callback for condition-bean of VillagePlayerAccessInfo. (NotNull)
      * @param opLambda The callback for option of update for varying requests. (NotNull)
      * @return The updated count.
      * @throws NonQueryUpdateNotAllowedException When the query has no condition (if not allowed).
      */
-    public int varyingQueryUpdate(Player player, CBCall<PlayerCB> cbLambda, WritableOptionCall<PlayerCB, UpdateOption<PlayerCB>> opLambda) {
-        return doQueryUpdate(player, createCB(cbLambda), createUpdateOption(opLambda));
+    public int varyingQueryUpdate(VillagePlayerAccessInfo villagePlayerAccessInfo, CBCall<VillagePlayerAccessInfoCB> cbLambda, WritableOptionCall<VillagePlayerAccessInfoCB, UpdateOption<VillagePlayerAccessInfoCB>> opLambda) {
+        return doQueryUpdate(villagePlayerAccessInfo, createCB(cbLambda), createUpdateOption(opLambda));
     }
 
     /**
@@ -946,18 +811,18 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * For example, allowNonQueryDelete(). <br>
      * Other specifications are same as queryDelete(cb).
      * <pre>
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">queryDelete</span>(player, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">queryDelete</span>(villagePlayerAccessInfo, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().setFoo...
      * }, <span style="color: #553000">op</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">op</span>...
      * });
      * </pre>
-     * @param cbLambda The callback for condition-bean of Player. (NotNull)
+     * @param cbLambda The callback for condition-bean of VillagePlayerAccessInfo. (NotNull)
      * @param opLambda The callback for option of delete for varying requests. (NotNull)
      * @return The deleted count.
      * @throws NonQueryDeleteNotAllowedException When the query has no condition (if not allowed).
      */
-    public int varyingQueryDelete(CBCall<PlayerCB> cbLambda, WritableOptionCall<PlayerCB, DeleteOption<PlayerCB>> opLambda) {
+    public int varyingQueryDelete(CBCall<VillagePlayerAccessInfoCB> cbLambda, WritableOptionCall<VillagePlayerAccessInfoCB, DeleteOption<VillagePlayerAccessInfoCB>> opLambda) {
         return doQueryDelete(createCB(cbLambda), createDeleteOption(opLambda));
     }
 
@@ -968,40 +833,40 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * Prepare the all facade executor of outside-SQL to execute it.
      * <pre>
      * <span style="color: #3F7E5E">// main style</span>
-     * playerBhv.outideSql().selectEntity(pmb); <span style="color: #3F7E5E">// optional</span>
-     * playerBhv.outideSql().selectList(pmb); <span style="color: #3F7E5E">// ListResultBean</span>
-     * playerBhv.outideSql().selectPage(pmb); <span style="color: #3F7E5E">// PagingResultBean</span>
-     * playerBhv.outideSql().selectPagedListOnly(pmb); <span style="color: #3F7E5E">// ListResultBean</span>
-     * playerBhv.outideSql().selectCursor(pmb, handler); <span style="color: #3F7E5E">// (by handler)</span>
-     * playerBhv.outideSql().execute(pmb); <span style="color: #3F7E5E">// int (updated count)</span>
-     * playerBhv.outideSql().call(pmb); <span style="color: #3F7E5E">// void (pmb has OUT parameters)</span>
+     * villagePlayerAccessInfoBhv.outideSql().selectEntity(pmb); <span style="color: #3F7E5E">// optional</span>
+     * villagePlayerAccessInfoBhv.outideSql().selectList(pmb); <span style="color: #3F7E5E">// ListResultBean</span>
+     * villagePlayerAccessInfoBhv.outideSql().selectPage(pmb); <span style="color: #3F7E5E">// PagingResultBean</span>
+     * villagePlayerAccessInfoBhv.outideSql().selectPagedListOnly(pmb); <span style="color: #3F7E5E">// ListResultBean</span>
+     * villagePlayerAccessInfoBhv.outideSql().selectCursor(pmb, handler); <span style="color: #3F7E5E">// (by handler)</span>
+     * villagePlayerAccessInfoBhv.outideSql().execute(pmb); <span style="color: #3F7E5E">// int (updated count)</span>
+     * villagePlayerAccessInfoBhv.outideSql().call(pmb); <span style="color: #3F7E5E">// void (pmb has OUT parameters)</span>
      *
      * <span style="color: #3F7E5E">// traditional style</span>
-     * playerBhv.outideSql().traditionalStyle().selectEntity(path, pmb, entityType);
-     * playerBhv.outideSql().traditionalStyle().selectList(path, pmb, entityType);
-     * playerBhv.outideSql().traditionalStyle().selectPage(path, pmb, entityType);
-     * playerBhv.outideSql().traditionalStyle().selectPagedListOnly(path, pmb, entityType);
-     * playerBhv.outideSql().traditionalStyle().selectCursor(path, pmb, handler);
-     * playerBhv.outideSql().traditionalStyle().execute(path, pmb);
+     * villagePlayerAccessInfoBhv.outideSql().traditionalStyle().selectEntity(path, pmb, entityType);
+     * villagePlayerAccessInfoBhv.outideSql().traditionalStyle().selectList(path, pmb, entityType);
+     * villagePlayerAccessInfoBhv.outideSql().traditionalStyle().selectPage(path, pmb, entityType);
+     * villagePlayerAccessInfoBhv.outideSql().traditionalStyle().selectPagedListOnly(path, pmb, entityType);
+     * villagePlayerAccessInfoBhv.outideSql().traditionalStyle().selectCursor(path, pmb, handler);
+     * villagePlayerAccessInfoBhv.outideSql().traditionalStyle().execute(path, pmb);
      *
      * <span style="color: #3F7E5E">// options</span>
-     * playerBhv.outideSql().removeBlockComment().selectList()
-     * playerBhv.outideSql().removeLineComment().selectList()
-     * playerBhv.outideSql().formatSql().selectList()
+     * villagePlayerAccessInfoBhv.outideSql().removeBlockComment().selectList()
+     * villagePlayerAccessInfoBhv.outideSql().removeLineComment().selectList()
+     * villagePlayerAccessInfoBhv.outideSql().formatSql().selectList()
      * </pre>
      * <p>The invoker of behavior command should be not null when you call this method.</p>
      * @return The new-created all facade executor of outside-SQL. (NotNull)
      */
-    public OutsideSqlAllFacadeExecutor<PlayerBhv> outsideSql() {
+    public OutsideSqlAllFacadeExecutor<VillagePlayerAccessInfoBhv> outsideSql() {
         return doOutsideSql();
     }
 
     // ===================================================================================
     //                                                                         Type Helper
     //                                                                         ===========
-    protected Class<? extends Player> typeOfSelectedEntity() { return Player.class; }
-    protected Class<Player> typeOfHandlingEntity() { return Player.class; }
-    protected Class<PlayerCB> typeOfHandlingConditionBean() { return PlayerCB.class; }
+    protected Class<? extends VillagePlayerAccessInfo> typeOfSelectedEntity() { return VillagePlayerAccessInfo.class; }
+    protected Class<VillagePlayerAccessInfo> typeOfHandlingEntity() { return VillagePlayerAccessInfo.class; }
+    protected Class<VillagePlayerAccessInfoCB> typeOfHandlingConditionBean() { return VillagePlayerAccessInfoCB.class; }
 
     // ===================================================================================
     //                                                                            Accessor
