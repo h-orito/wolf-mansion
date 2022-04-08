@@ -23,7 +23,7 @@ data class Skill(
     }
 
     // TODO 見られるのと話せるのを分けた方が良さそう
-    fun isViewableWerewolfSay(): Boolean = toCdef().isAvailableWerewolfSay
+    fun isViewableWerewolfSay(): Boolean = toCdef().isViewableWerewolfSay
     fun isSayableWerewolfSay(): Boolean = toCdef().isAvailableWerewolfSay
     fun isViewableSympathizeSay(): Boolean = toCdef() == CDef.Skill.共鳴者
     fun isSayableSympathizeSay(): Boolean = toCdef() == CDef.Skill.共鳴者
@@ -155,6 +155,7 @@ data class Skill(
             CDef.Skill.絶対人狼,
             CDef.Skill.堅狼,
             CDef.Skill.人狼,
+            CDef.Skill.黙狼,
             CDef.Skill.静狼,
             CDef.Skill.角狼,
             CDef.Skill.飛狼,
