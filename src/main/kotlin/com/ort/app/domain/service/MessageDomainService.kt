@@ -1,13 +1,10 @@
 package com.ort.app.domain.service
 
 import com.ort.app.domain.model.chara.FaceType
-import com.ort.app.domain.model.message.Message
-import com.ort.app.domain.model.message.MessageContent
-import com.ort.app.domain.model.message.MessageQuery
-import com.ort.app.domain.model.message.MessageType
-import com.ort.app.domain.model.message.toModel
+import com.ort.app.domain.model.message.*
 import com.ort.app.domain.model.randomkeyword.RandomKeyword
 import com.ort.app.domain.model.randomkeyword.RandomKeywords
+import com.ort.app.domain.model.translate.TranslateRepository
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.village.participant.VillageParticipants
@@ -41,7 +38,9 @@ class MessageDomainService(
     private val loversMessageDomainService: LoversMessageDomainService,
     private val foxMessageDomainService: FoxMessageDomainService,
     private val privateAbilityMessageDomainService: PrivateAbilityMessageDomainService,
-    private val privateSystemMessageDomainService: PrivateSystemMessageDomainService
+    private val privateSystemMessageDomainService: PrivateSystemMessageDomainService,
+    // repository
+    private val translateRepository: TranslateRepository
 ) {
 
     companion object {
@@ -316,19 +315,30 @@ class MessageDomainService(
         myself: VillageParticipant,
         target: VillageParticipant?,
         messageContent: MessageContent,
-        shouldDakuten: Boolean = false
-    ): Message {
-        return Message.ofSayMessage(
-            day = village.latestDay(),
-            participantId = myself.id,
-            targetParticipantId = target?.id,
-            messageContent = if (shouldDakuten) {
-                messageContent.copy(
-                    text = messageContent.text.map { "${it}゛" }
-                        .joinToString(separator = "", prefix = "[[large]][[b]]", postfix = "[[/b]][[/large]]")
-                )
-            } else messageContent
+        shouldDakuten: Boolean,
+        shouldReTranslate: Boolean
+    ): Messages {
+        if (!shouldReTranslate) {
+            return Messages(listOf(createSayMessage(village, myself, target, messageContent, shouldDakuten)))
+        }
+        val (languageName, translated, reTranslated) = translateRepository.reTranslate(messageContent.text)
+        val translatedMessage = createSayMessage(
+            village = village,
+            myself = myself,
+            target = target,
+            messageContent = messageContent.copy(
+                type = CDef.MessageType.独り言.toModel(),
+                text = "${messageContent.text}\n\n${translated}\n（${languageName}）"
+            )
         )
+        val reTranslatedMessage = createSayMessage(
+            village = village,
+            myself = myself,
+            target = target,
+            messageContent = messageContent.copy(text = reTranslated),
+            shouldDakuten = shouldDakuten
+        )
+        return Messages(listOf(translatedMessage, reTranslatedMessage))
     }
 
     fun createSayMessage(

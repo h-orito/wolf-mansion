@@ -2,6 +2,7 @@ package com.ort.app.domain.service.ability
 
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.AbilityType
+import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
@@ -488,5 +489,25 @@ class AbilityDomainService(
         daychange = investigateDomainService.addDefaultAbilities(daychange)
 
         return daychange
+    }
+
+    fun shoudDakuten(abilities: Abilities, village: Village, myself: VillageParticipant): Boolean {
+        return abilities
+            .filterByDay(village.latestDay() - 1)
+            .filterByType(CDef.AbilityType.叫び.toModel())
+            .list.any { it.targetCharaId == myself.charaId }
+    }
+
+    fun shouldReTranslate(
+        messageType: MessageType,
+        abilities: Abilities,
+        village: Village,
+        myself: VillageParticipant
+    ): Boolean {
+        return messageType.toCdef() == CDef.MessageType.通常発言 &&
+                abilities
+                    .filterByDay(village.latestDay() - 1)
+                    .filterByType(CDef.AbilityType.翻訳.toModel())
+                    .list.any { it.targetCharaId == myself.charaId }
     }
 }
