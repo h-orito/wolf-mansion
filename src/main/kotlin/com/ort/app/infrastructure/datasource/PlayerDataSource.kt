@@ -98,6 +98,7 @@ class PlayerDataSource(
         player.playerPassword = passwordEncoder.encode(password)
         player.setAuthorityCode_プレイヤー()
         player.setIsRestrictedParticipation_False()
+        player.shouldCheckAccessInfo = true
         playerBhv.insert(player)
         return findPlayer(userName)!!
     }
