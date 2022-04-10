@@ -43,6 +43,7 @@ data class Skill(
     fun isViewableWiseMessage(): Boolean = toCdef() == CDef.Skill.賢者
     fun isViewableInvestigateMessage(): Boolean = toCdef() == CDef.Skill.探偵 || toCdef() == CDef.Skill.監視者
     fun isViewableLoversMessage(): Boolean = camp().code == CDef.Camp.恋人陣営.code()
+    fun isViewableFoxMessage(): Boolean = toCdef() == CDef.Skill.誑狐
     fun isWolfCount(): Boolean = toCdef().isWolfCount
     fun isNoCount(): Boolean = toCdef().isNoCount
     fun isFoxCount(): Boolean = listOf(CDef.Skill.妖狐, CDef.Skill.誑狐, CDef.Skill.ごん, CDef.Skill.仙狐).contains(toCdef())
@@ -74,10 +75,13 @@ data class Skill(
             CDef.Skill.探偵 to AbilityType(CDef.AbilityType.捜査),
             CDef.Skill.監視者 to AbilityType(CDef.AbilityType.捜査),
             CDef.Skill.罠師 to AbilityType(CDef.AbilityType.罠設置),
+            CDef.Skill.牧師 to AbilityType(CDef.AbilityType.説得),
             CDef.Skill.爆弾魔 to AbilityType(CDef.AbilityType.爆弾設置),
             CDef.Skill.同棲者 to AbilityType(CDef.AbilityType.同棲),
             CDef.Skill.指揮官 to AbilityType(CDef.AbilityType.指揮),
             CDef.Skill.煽動者 to AbilityType(CDef.AbilityType.煽動),
+            CDef.Skill.破局者 to AbilityType(CDef.AbilityType.破局),
+            CDef.Skill.教唆者 to AbilityType(CDef.AbilityType.教唆),
             CDef.Skill.果実籠 to AbilityType(CDef.AbilityType.フルーツバスケット),
             CDef.Skill.求愛者 to AbilityType(CDef.AbilityType.求愛),
             CDef.Skill.ストーカー to AbilityType(CDef.AbilityType.ストーキング),
@@ -98,7 +102,6 @@ data class Skill(
             CDef.Skill.マタギ to AbilityType(CDef.AbilityType.狩猟),
             CDef.Skill.黒箱者 to AbilityType(CDef.AbilityType.隠蔽),
             CDef.Skill.泥棒猫 to AbilityType(CDef.AbilityType.恋泥棒),
-            CDef.Skill.破局者 to AbilityType(CDef.AbilityType.破局),
             CDef.Skill.バールのようなもの to AbilityType(CDef.AbilityType.殴打)
         )
 
@@ -125,7 +128,10 @@ data class Skill(
                 CDef.Skill.蘇生者,
                 CDef.Skill.保険屋,
                 CDef.Skill.マタギ,
+                CDef.Skill.牧師,
                 CDef.Skill.死霊術師,
+                CDef.Skill.破局者,
+                CDef.Skill.教唆者,
                 CDef.Skill.求愛者,
                 CDef.Skill.ストーカー,
                 CDef.Skill.絡新婦,
@@ -139,7 +145,6 @@ data class Skill(
                 CDef.Skill.翻訳者,
                 CDef.Skill.トラック,
                 CDef.Skill.ババ,
-                CDef.Skill.破局者,
                 CDef.Skill.泥棒猫,
                 CDef.Skill.壁殴り代行,
                 CDef.Skill.バールのようなもの
@@ -147,7 +152,11 @@ data class Skill(
         }
 
         val madmanPriorityList = listOf(
-            CDef.Skill.C国狂人, CDef.Skill.狂信者, CDef.Skill.魔神官, CDef.Skill.狂人
+            CDef.Skill.C国狂人,
+            CDef.Skill.聴狂人,
+            CDef.Skill.狂信者,
+            CDef.Skill.魔神官,
+            CDef.Skill.狂人
         )
         val wolfPriorityList = listOf(
             CDef.Skill.智狼,

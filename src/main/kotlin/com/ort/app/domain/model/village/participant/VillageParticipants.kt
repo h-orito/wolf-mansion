@@ -173,12 +173,33 @@ data class VillageParticipants(
         return copy(list = list.map { if (it.id == id) it.revive(day) else it.copy() })
     }
 
-    fun foxPossession(fromParticipantId: Int, toParticipantId: Int): VillageParticipants {
+    fun foxPossession(village: Village, fromParticipantId: Int, toParticipantId: Int): VillageParticipants {
         return copy(
             list = list.map {
                 when (it.id) {
-                    fromParticipantId -> it.foxPossession(toParticipantId)
-                    toParticipantId -> it.foxPossessioned(fromParticipantId)
+                    toParticipantId -> it.foxPossessioned(village, fromParticipantId)
+                    else -> it.copy()
+                }
+            }
+        )
+    }
+
+    fun insane(village: Village, fromParticipantId: Int, toParticipantId: Int): VillageParticipants {
+        return copy(
+            list = list.map {
+                when (it.id) {
+                    toParticipantId -> it.insaned(village, fromParticipantId)
+                    else -> it.copy()
+                }
+            }
+        )
+    }
+
+    fun persuade(village: Village, fromParticipantId: Int, toParticipantId: Int): VillageParticipants {
+        return copy(
+            list = list.map {
+                when (it.id) {
+                    toParticipantId -> it.persuaded(village, fromParticipantId)
                     else -> it.copy()
                 }
             }

@@ -438,6 +438,14 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
     }
 
     /**
+     * Equal(=). As 信念 (BELIEF). And OnlyOnceRegistered. <br>
+     * 信念
+     */
+    public void setVillagePlayerStatusCode_Equal_信念() {
+        setVillagePlayerStatusCode_Equal_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.信念);
+    }
+
+    /**
      * Equal(=). As 後追い (FOLLOWING_SUICIDE). And OnlyOnceRegistered. <br>
      * 後追い
      */
@@ -451,6 +459,14 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
      */
     public void setVillagePlayerStatusCode_Equal_狐憑き() {
         setVillagePlayerStatusCode_Equal_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.狐憑き);
+    }
+
+    /**
+     * Equal(=). As 狂気 (INSANITY). And OnlyOnceRegistered. <br>
+     * 狂気
+     */
+    public void setVillagePlayerStatusCode_Equal_狂気() {
+        setVillagePlayerStatusCode_Equal_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.狂気);
     }
 
     /**
@@ -485,6 +501,14 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 信念 (BELIEF). And OnlyOnceRegistered. <br>
+     * 信念
+     */
+    public void setVillagePlayerStatusCode_NotEqual_信念() {
+        setVillagePlayerStatusCode_NotEqual_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.信念);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 後追い (FOLLOWING_SUICIDE). And OnlyOnceRegistered. <br>
      * 後追い
      */
@@ -498,6 +522,14 @@ public abstract class AbstractBsVillagePlayerStatusCQ extends AbstractConditionQ
      */
     public void setVillagePlayerStatusCode_NotEqual_狐憑き() {
         setVillagePlayerStatusCode_NotEqual_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.狐憑き);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 狂気 (INSANITY). And OnlyOnceRegistered. <br>
+     * 狂気
+     */
+    public void setVillagePlayerStatusCode_NotEqual_狂気() {
+        setVillagePlayerStatusCode_NotEqual_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.狂気);
     }
 
     /**

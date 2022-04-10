@@ -123,7 +123,9 @@ data class VillageParticipant(
     fun isViewableLoversMessage(): Boolean =
         isAdmin() || (status.hasLover() || skill?.isViewableLoversMessage() ?: false)
 
-    fun isViewableFoxMessage(): Boolean = isAdmin() || (status.isFoxPossessioned() || status.isFoxPossessioning())
+    fun isViewableFoxMessage(): Boolean =
+        isAdmin() || status.isFoxPossessioned() || skill?.isViewableFoxMessage() ?: false
+
     fun isViewablePrivateSystemMessage(): Boolean = isAdmin()
     fun isViewablePrivateAbilityMessage(): Boolean = isAdmin()
 
@@ -191,13 +193,35 @@ data class VillageParticipant(
     fun forceReincarnation(day: Int, skill: Skill): VillageParticipant =
         assignSkill(skill, day).copy(dead = dead.forceReincarnation(day))
 
-    fun foxPossession(targetParticipantId: Int): VillageParticipant =
-        copy(status = status.foxPossession(targetParticipantId))
+    fun foxPossessioned(village: Village, fromParticipantId: Int): VillageParticipant {
+        // 自分が同棲者の場合は同棲者を除いて恋絆を解除する
+        val cohabitor = if (skill!!.toCdef() == CDef.Skill.同棲者) getTargetCohabitor(village) else null
+        val newStatus = status.foxPossessioned(fromParticipantId, cohabitor)
+        return copy(
+            status = newStatus,
+            camp = getCurrentWinCamp(newStatus, skill)
+        )
+    }
 
-    fun foxPossessioned(fromParticipantId: Int): VillageParticipant = copy(
-        status = status.foxPossessioned(fromParticipantId),
-        camp = if (status.hasLover()) camp else CDef.Camp.狐陣営.toModel()
-    )
+    fun insaned(village: Village, fromParticipantId: Int): VillageParticipant {
+        // 自分が同棲者の場合は同棲者を除いて恋絆を解除する
+        val cohabitor = if (skill!!.toCdef() == CDef.Skill.同棲者) getTargetCohabitor(village) else null
+        val newStatus = status.insaned(fromParticipantId, cohabitor)
+        return copy(
+            status = newStatus,
+            camp = getCurrentWinCamp(newStatus, skill)
+        )
+    }
+
+    fun persuaded(village: Village, fromParticipantId: Int): VillageParticipant {
+        // 自分が同棲者の場合は同棲者を除いて恋絆を解除する
+        val cohabitor = if (skill!!.toCdef() == CDef.Skill.同棲者) getTargetCohabitor(village) else null
+        val newStatus = status.persuaded(fromParticipantId, cohabitor)
+        return copy(
+            status = newStatus,
+            camp = getCurrentWinCamp(newStatus, skill)
+        )
+    }
 
     fun court(participantId: Int): VillageParticipant = love(participantId)
     fun courted(participantId: Int): VillageParticipant = love(participantId)
@@ -213,11 +237,7 @@ data class VillageParticipant(
         val newStatus = status.breakup(cohabitor)
         return copy(
             status = newStatus,
-            camp = when {
-                newStatus.hasLover() -> CDef.Camp.恋人陣営.toModel()
-                newStatus.isFoxPossessioned() -> CDef.Camp.狐陣営.toModel()
-                else -> skill.camp()
-            }
+            camp = getCurrentWinCamp(newStatus, skill)
         )
     }
 
@@ -227,11 +247,7 @@ data class VillageParticipant(
         val newStatus = status.loveSteal(stealerId, cohabitor)
         return copy(
             status = newStatus,
-            camp = when {
-                newStatus.hasLover() -> CDef.Camp.恋人陣営.toModel()
-                newStatus.isFoxPossessioned() -> CDef.Camp.狐陣営.toModel()
-                else -> skill.camp()
-            }
+            camp = getCurrentWinCamp(newStatus, skill)
         )
     }
 
@@ -259,4 +275,14 @@ data class VillageParticipant(
         else if (other == null) false
         else this.isSame(other)
     }
+
+    private fun getCurrentWinCamp(currentStatus: VillageParticipantStatus, currentSkill: Skill): Camp =
+        when {
+            currentStatus.hasLover() -> CDef.Camp.恋人陣営.toModel()
+            currentStatus.isFoxPossessioned() -> CDef.Camp.狐陣営.toModel()
+            currentStatus.isInsaned() -> CDef.Camp.人狼陣営.toModel()
+            currentStatus.isPersuaded() -> CDef.Camp.村人陣営.toModel()
+            else -> currentSkill.camp()
+        }
+
 }

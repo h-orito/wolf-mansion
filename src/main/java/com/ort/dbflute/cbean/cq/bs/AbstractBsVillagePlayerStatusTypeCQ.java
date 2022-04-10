@@ -63,6 +63,14 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
     }
 
     /**
+     * Equal(=). As 信念 (BELIEF). And OnlyOnceRegistered. <br>
+     * 信念
+     */
+    public void setVillagePlayerStatusTypeCode_Equal_信念() {
+        setVillagePlayerStatusTypeCode_Equal_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.信念);
+    }
+
+    /**
      * Equal(=). As 後追い (FOLLOWING_SUICIDE). And OnlyOnceRegistered. <br>
      * 後追い
      */
@@ -76,6 +84,14 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
      */
     public void setVillagePlayerStatusTypeCode_Equal_狐憑き() {
         setVillagePlayerStatusTypeCode_Equal_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.狐憑き);
+    }
+
+    /**
+     * Equal(=). As 狂気 (INSANITY). And OnlyOnceRegistered. <br>
+     * 狂気
+     */
+    public void setVillagePlayerStatusTypeCode_Equal_狂気() {
+        setVillagePlayerStatusTypeCode_Equal_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.狂気);
     }
 
     /**
@@ -110,6 +126,14 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 信念 (BELIEF). And OnlyOnceRegistered. <br>
+     * 信念
+     */
+    public void setVillagePlayerStatusTypeCode_NotEqual_信念() {
+        setVillagePlayerStatusTypeCode_NotEqual_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.信念);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 後追い (FOLLOWING_SUICIDE). And OnlyOnceRegistered. <br>
      * 後追い
      */
@@ -123,6 +147,14 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
      */
     public void setVillagePlayerStatusTypeCode_NotEqual_狐憑き() {
         setVillagePlayerStatusTypeCode_NotEqual_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.狐憑き);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 狂気 (INSANITY). And OnlyOnceRegistered. <br>
+     * 狂気
+     */
+    public void setVillagePlayerStatusTypeCode_NotEqual_狂気() {
+        setVillagePlayerStatusTypeCode_NotEqual_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.狂気);
     }
 
     /**

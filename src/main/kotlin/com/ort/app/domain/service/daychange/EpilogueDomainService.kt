@@ -5,13 +5,15 @@ import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.service.ability.BombDomainService
+import com.ort.app.domain.service.ability.LoveStealDomainService
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
 @Service
 class EpilogueDomainService(
-    private val bombDomainService: BombDomainService
+    private val bombDomainService: BombDomainService,
+    private val loveStealDomainService: LoveStealDomainService
 ) {
 
     fun transitionToEpilogueIfNeeded(daychange: Daychange): Daychange {
@@ -24,6 +26,8 @@ class EpilogueDomainService(
         var daychange = orgDaychange.copy(village = orgDaychange.village.toEpilogue())
         // 爆弾魔が爆弾設置していなかったら死亡
         daychange = bombDomainService.deadByUnexplodedIfNeeded(daychange)
+        // 泥棒猫が能力行使していなかったら死亡
+        daychange = loveStealDomainService.deadByAttackedIfNeeded(daychange)
         // 勝敗
         daychange = judgeParticipantsWin(daychange)
         // 遷移メッセージ

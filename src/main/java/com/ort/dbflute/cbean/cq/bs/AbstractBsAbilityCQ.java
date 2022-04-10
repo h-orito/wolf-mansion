@@ -860,6 +860,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 教唆 (INCITE). And OnlyOnceRegistered. <br>
+     * 教唆
+     */
+    public void setAbilityTypeCode_Equal_教唆() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.教唆);
+    }
+
+    /**
      * Equal(=). As 煽動 (INSTIGATE). And OnlyOnceRegistered. <br>
      * 煽動
      */
@@ -913,6 +921,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_Equal_死霊蘇生() {
         setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.死霊蘇生);
+    }
+
+    /**
+     * Equal(=). As 説得 (PERSUADE). And OnlyOnceRegistered. <br>
+     * 説得
+     */
+    public void setAbilityTypeCode_Equal_説得() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.説得);
     }
 
     /**
@@ -1147,6 +1163,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 教唆 (INCITE). And OnlyOnceRegistered. <br>
+     * 教唆
+     */
+    public void setAbilityTypeCode_NotEqual_教唆() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.教唆);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 煽動 (INSTIGATE). And OnlyOnceRegistered. <br>
      * 煽動
      */
@@ -1200,6 +1224,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_死霊蘇生() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.死霊蘇生);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 説得 (PERSUADE). And OnlyOnceRegistered. <br>
+     * 説得
+     */
+    public void setAbilityTypeCode_NotEqual_説得() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.説得);
     }
 
     /**

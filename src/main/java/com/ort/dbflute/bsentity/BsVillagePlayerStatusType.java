@@ -118,6 +118,14 @@ public abstract class BsVillagePlayerStatusType extends AbstractEntity implement
     //                                                              Classification Setting
     //                                                              ======================
     /**
+     * Set the value of villagePlayerStatusTypeCode as 信念 (BELIEF). <br>
+     * 信念
+     */
+    public void setVillagePlayerStatusTypeCode_信念() {
+        setVillagePlayerStatusTypeCodeAsVillagePlayerStatusType(CDef.VillagePlayerStatusType.信念);
+    }
+
+    /**
      * Set the value of villagePlayerStatusTypeCode as 後追い (FOLLOWING_SUICIDE). <br>
      * 後追い
      */
@@ -134,6 +142,14 @@ public abstract class BsVillagePlayerStatusType extends AbstractEntity implement
     }
 
     /**
+     * Set the value of villagePlayerStatusTypeCode as 狂気 (INSANITY). <br>
+     * 狂気
+     */
+    public void setVillagePlayerStatusTypeCode_狂気() {
+        setVillagePlayerStatusTypeCodeAsVillagePlayerStatusType(CDef.VillagePlayerStatusType.狂気);
+    }
+
+    /**
      * Set the value of villagePlayerStatusTypeCode as 保険 (INSURANCE). <br>
      * 保険
      */
@@ -144,6 +160,17 @@ public abstract class BsVillagePlayerStatusType extends AbstractEntity implement
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
+    /**
+     * Is the value of villagePlayerStatusTypeCode 信念? <br>
+     * 信念
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isVillagePlayerStatusTypeCode信念() {
+        CDef.VillagePlayerStatusType cdef = getVillagePlayerStatusTypeCodeAsVillagePlayerStatusType();
+        return cdef != null ? cdef.equals(CDef.VillagePlayerStatusType.信念) : false;
+    }
+
     /**
      * Is the value of villagePlayerStatusTypeCode 後追い? <br>
      * 後追い
@@ -164,6 +191,17 @@ public abstract class BsVillagePlayerStatusType extends AbstractEntity implement
     public boolean isVillagePlayerStatusTypeCode狐憑き() {
         CDef.VillagePlayerStatusType cdef = getVillagePlayerStatusTypeCodeAsVillagePlayerStatusType();
         return cdef != null ? cdef.equals(CDef.VillagePlayerStatusType.狐憑き) : false;
+    }
+
+    /**
+     * Is the value of villagePlayerStatusTypeCode 狂気? <br>
+     * 狂気
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isVillagePlayerStatusTypeCode狂気() {
+        CDef.VillagePlayerStatusType cdef = getVillagePlayerStatusTypeCodeAsVillagePlayerStatusType();
+        return cdef != null ? cdef.equals(CDef.VillagePlayerStatusType.狂気) : false;
     }
 
     /**

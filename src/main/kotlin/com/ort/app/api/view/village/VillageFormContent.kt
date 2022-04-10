@@ -300,6 +300,24 @@ data class VillageFormContent(
                         )
                     )
                 } else emptyList()
+                // 狂気
+                val insanedList = if (myself.status.isInsaned()) {
+                    listOf(
+                        VillagePlayerStatusContent(
+                            statusCode = CDef.VillagePlayerStatusType.狂気.code(),
+                            message = "あなたは狂気を宿しています。"
+                        )
+                    )
+                } else emptyList()
+                // 信念
+                val persuadedList = if (myself.status.isPersuaded()) {
+                    listOf(
+                        VillagePlayerStatusContent(
+                            statusCode = CDef.VillagePlayerStatusType.信念.code(),
+                            message = "あなたは平和を望んでいます。"
+                        )
+                    )
+                } else emptyList()
                 // 保険
                 val insuranceStatusList = myself.status.insuranceIdList.firstOrNull()?.let {
                     listOf(
@@ -309,7 +327,11 @@ data class VillageFormContent(
                         )
                     )
                 } ?: emptyList()
-                return loversStatusList + foxPossessionedStatusList + insuranceStatusList
+                return loversStatusList +
+                        foxPossessionedStatusList +
+                        insanedList +
+                        persuadedList +
+                        insuranceStatusList
             }
         }
 

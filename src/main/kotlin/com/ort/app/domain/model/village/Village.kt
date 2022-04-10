@@ -272,7 +272,15 @@ data class Village(
     }
 
     fun foxPossessionParticipant(fromParticipantId: Int, toParticipantId: Int): Village {
-        return copy(participants = participants.foxPossession(fromParticipantId, toParticipantId))
+        return copy(participants = participants.foxPossession(this, fromParticipantId, toParticipantId))
+    }
+
+    fun insaneParticipant(fromParticipantId: Int, toParticipantId: Int): Village {
+        return copy(participants = participants.insane(this, fromParticipantId, toParticipantId))
+    }
+
+    fun persuadeParticipant(fromParticipantId: Int, toParticipantId: Int): Village {
+        return copy(participants = participants.persuade(this, fromParticipantId, toParticipantId))
     }
 
     fun courtParticipant(fromParticipantId: Int, toParticipantId: Int): Village {

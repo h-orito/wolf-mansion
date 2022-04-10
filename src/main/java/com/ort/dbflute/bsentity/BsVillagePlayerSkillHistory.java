@@ -151,6 +151,14 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     //                                                              Classification Setting
     //                                                              ======================
     /**
+     * Set the value of skillCode as 教唆者 (ABETTER). <br>
+     * 教唆者
+     */
+    public void setSkillCode_教唆者() {
+        setSkillCodeAsSkill(CDef.Skill.教唆者);
+    }
+
+    /**
      * Set the value of skillCode as 絶対人狼 (ABSOLUTEWOLF). <br>
      * 絶対人狼
      */
@@ -663,6 +671,14 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     }
 
     /**
+     * Set the value of skillCode as 牧師 (PASTOR). <br>
+     * 牧師
+     */
+    public void setSkillCode_牧師() {
+        setSkillCodeAsSkill(CDef.Skill.牧師);
+    }
+
+    /**
      * Set the value of skillCode as 虹職人 (RAINBOW). <br>
      * 虹職人
      */
@@ -849,6 +865,17 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
+    /**
+     * Is the value of skillCode 教唆者? <br>
+     * 教唆者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode教唆者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.教唆者) : false;
+    }
+
     /**
      * Is the value of skillCode 絶対人狼? <br>
      * 絶対人狼
@@ -1551,6 +1578,17 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     public boolean isSkillCode梟() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.梟) : false;
+    }
+
+    /**
+     * Is the value of skillCode 牧師? <br>
+     * 牧師
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode牧師() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.牧師) : false;
     }
 
     /**

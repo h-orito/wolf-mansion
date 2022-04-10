@@ -27,8 +27,8 @@ class BreakupDomainService(
         votes: Votes
     ): List<VillageParticipant> = getOnlyOneTimeAliveTargets(village, myself, abilities, abilityType)
 
-    override fun getTargetPrefix(): String? = "破局させる対象"
-    override fun getTargetSuffix(): String? = "を破局させる"
+    override fun getTargetPrefix(): String = "破局させる対象"
+    override fun getTargetSuffix(): String = "を破局させる"
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
     override fun isTargetingAndFootstep(): Boolean = true
 
@@ -39,6 +39,10 @@ class BreakupDomainService(
         village.participants.filterAlive().filterBySkill(CDef.Skill.破局者.toModel()).list.forEach {
             val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
+            if (isFailed(target, village)) {
+                messages = messages.add(createFailedMessage(village, it, target))
+                return@forEach
+            }
             // 破局させる
             village = village.breakupParticipant(target.id)
             messages = messages.add(createBreakupMessage(village, it, target))
@@ -48,7 +52,7 @@ class BreakupDomainService(
         return daychange.copy(village = village, messages = messages)
     }
 
-    fun createBreakupMessage(village: Village, myself: VillageParticipant, target: VillageParticipant): Message {
+    private fun createBreakupMessage(village: Village, myself: VillageParticipant, target: VillageParticipant): Message {
         return messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
@@ -57,12 +61,28 @@ class BreakupDomainService(
         )
     }
 
-    fun createBreakedupMessage(village: Village, separator: VillageParticipant, myself: VillageParticipant): Message {
+    private fun createBreakedupMessage(village: Village, separator: VillageParticipant, myself: VillageParticipant): Message {
         return messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は${separator.name()}に破局させられてしまった。",
             messageType = CDef.MessageType.能力行使メッセージ.toModel()
         )
+    }
+
+    private fun createFailedMessage(village: Village, myself: VillageParticipant, target: VillageParticipant): Message {
+        return messageDomainService.createPrivateAbilityMessage(
+            village = village,
+            myself = myself,
+            text = "${myself.name()}は、${target.name()}の破局させようとしたが、${target.name()}は恋をしていなかった。",
+            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+        )
+    }
+
+    private fun isFailed(target: VillageParticipant, village: Village): Boolean {
+        if (target.isDead()) return true
+        // 相方同棲者を除いた恋絆の本数が0の場合は失敗
+        val cohabitor = target.getTargetCohabitor(village)
+        return target.getTargetLovers(village).list.none { it.id != cohabitor?.id }
     }
 }

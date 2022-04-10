@@ -29,6 +29,8 @@ class AbilityDomainService(
     private val attackDomainService: AttackDomainService,
     private val bombDomainService: BombDomainService,
     private val cheatDomainService: CheatDomainService,
+    private val insaneDomainService: InsaneDomainService,
+    private val persuadeDomainService: PersuadeDomainService,
     private val insuranceDomainService: InsuranceDomainService,
     private val cohabitDomainService: CohabitDomainService,
     private val commandDomainService: CommandDomainService,
@@ -123,6 +125,8 @@ class AbilityDomainService(
             CDef.AbilityType.襲撃 -> attackDomainService
             CDef.AbilityType.爆弾設置 -> bombDomainService
             CDef.AbilityType.誑かす -> cheatDomainService
+            CDef.AbilityType.教唆 -> insaneDomainService
+            CDef.AbilityType.説得 -> persuadeDomainService
             CDef.AbilityType.同棲 -> cohabitDomainService
             CDef.AbilityType.指揮 -> commandDomainService
             CDef.AbilityType.煽動 -> instigateDomainService

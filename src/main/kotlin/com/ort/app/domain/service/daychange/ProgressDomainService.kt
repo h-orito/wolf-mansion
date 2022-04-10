@@ -7,41 +7,7 @@ import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.VoteDomainService
-import com.ort.app.domain.service.ability.AbilityDomainService
-import com.ort.app.domain.service.ability.AttackDomainService
-import com.ort.app.domain.service.ability.AutopsyDomainService
-import com.ort.app.domain.service.ability.BadgerGameDomainService
-import com.ort.app.domain.service.ability.BakeryDomainService
-import com.ort.app.domain.service.ability.BeatDomainService
-import com.ort.app.domain.service.ability.BombDomainService
-import com.ort.app.domain.service.ability.BreakupDomainService
-import com.ort.app.domain.service.ability.CheatDomainService
-import com.ort.app.domain.service.ability.CohabitDomainService
-import com.ort.app.domain.service.ability.CourtDomainService
-import com.ort.app.domain.service.ability.DivineDomainService
-import com.ort.app.domain.service.ability.FalseChargesDomainService
-import com.ort.app.domain.service.ability.ForceReincarnationDomainService
-import com.ort.app.domain.service.ability.FruitsBasketDomainService
-import com.ort.app.domain.service.ability.GiveBabaDomainService
-import com.ort.app.domain.service.ability.GonfoxDomainService
-import com.ort.app.domain.service.ability.GuardDomainService
-import com.ort.app.domain.service.ability.HuntingDomainService
-import com.ort.app.domain.service.ability.InsuranceDomainService
-import com.ort.app.domain.service.ability.InvestigateDomainService
-import com.ort.app.domain.service.ability.LoneAttackDomainService
-import com.ort.app.domain.service.ability.LoudSpeakDomainService
-import com.ort.app.domain.service.ability.LoveStealDomainService
-import com.ort.app.domain.service.ability.NecromanceDomainService
-import com.ort.app.domain.service.ability.RainbowDomainService
-import com.ort.app.domain.service.ability.ResuscitateDomainService
-import com.ort.app.domain.service.ability.SeduceDomainService
-import com.ort.app.domain.service.ability.ShoutDomainService
-import com.ort.app.domain.service.ability.StalkingDomainService
-import com.ort.app.domain.service.ability.TranslateDomainService
-import com.ort.app.domain.service.ability.TrapDomainService
-import com.ort.app.domain.service.ability.WallPunchDomainService
-import com.ort.app.domain.service.ability.WandererDomainService
-import com.ort.app.domain.service.ability.YubisashiDomainService
+import com.ort.app.domain.service.ability.*
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -50,6 +16,8 @@ class ProgressDomainService(
     private val attackDomainService: AttackDomainService,
     private val bombDomainService: BombDomainService,
     private val cheatDomainService: CheatDomainService,
+    private val insaneDomainService: InsaneDomainService,
+    private val persuadeDomainService: PersuadeDomainService,
     private val insuranceDomainService: InsuranceDomainService,
     private val cohabitDomainService: CohabitDomainService,
     private val courtDomainService: CourtDomainService,
@@ -93,6 +61,7 @@ class ProgressDomainService(
     private val resentDomainService: ResentDomainService,
     private val footstepDomainService: FootstepDomainService
 ) {
+
     fun changeDayIfNeeded(daychange: Daychange, commits: Commits, charas: Charas): Daychange {
         if (!shouldChangeDay(daychange.village, commits)) return daychange
         return changeDay(daychange.copy(village = daychange.village.addNewDay()), charas)
@@ -109,8 +78,6 @@ class ProgressDomainService(
         daychange = translateDomainService.translate(daychange)
         // 突然死
         daychange = suddenlyDeathDomainService.deadIfNeeded(daychange)
-        // 誑かす
-        daychange = cheatDomainService.cheat(daychange)
         // 破局
         daychange = breakupDomainService.breakup(daychange)
         // 恋泥棒
@@ -123,6 +90,12 @@ class ProgressDomainService(
         daychange = seduceDomainService.seduce(daychange)
         // 美人局
         daychange = badgerGameDomainService.badgerGame(daychange)
+        // 誑かす
+        daychange = cheatDomainService.cheat(daychange)
+        // 唆す
+        daychange = insaneDomainService.insane(daychange)
+        // 説得する
+        daychange = persuadeDomainService.persuade(daychange)
         // 保険屋
         daychange = insuranceDomainService.insurance(daychange)
         // 罠、爆弾メッセージ

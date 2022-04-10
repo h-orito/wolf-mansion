@@ -192,6 +192,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
     }
 
     /**
+     * Equal(=). As 教唆者 (ABETTER). And OnlyOnceRegistered. <br>
+     * 教唆者
+     */
+    public void setSkillCode_Equal_教唆者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.教唆者);
+    }
+
+    /**
      * Equal(=). As 絶対人狼 (ABSOLUTEWOLF). And OnlyOnceRegistered. <br>
      * 絶対人狼
      */
@@ -704,6 +712,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
     }
 
     /**
+     * Equal(=). As 牧師 (PASTOR). And OnlyOnceRegistered. <br>
+     * 牧師
+     */
+    public void setSkillCode_Equal_牧師() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.牧師);
+    }
+
+    /**
      * Equal(=). As 虹職人 (RAINBOW). And OnlyOnceRegistered. <br>
      * 虹職人
      */
@@ -908,6 +924,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
      */
     public void setSkillCode_NotEqual_AsSkill(CDef.Skill cdef) {
         doSetSkillCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 教唆者 (ABETTER). And OnlyOnceRegistered. <br>
+     * 教唆者
+     */
+    public void setSkillCode_NotEqual_教唆者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.教唆者);
     }
 
     /**
@@ -1420,6 +1444,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
      */
     public void setSkillCode_NotEqual_梟() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.梟);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 牧師 (PASTOR). And OnlyOnceRegistered. <br>
+     * 牧師
+     */
+    public void setSkillCode_NotEqual_牧師() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.牧師);
     }
 
     /**

@@ -1273,6 +1273,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 教唆者 (ABETTER). And OnlyOnceRegistered. <br>
+     * 教唆者
+     */
+    public void setSkillCode_Equal_教唆者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.教唆者);
+    }
+
+    /**
      * Equal(=). As 絶対人狼 (ABSOLUTEWOLF). And OnlyOnceRegistered. <br>
      * 絶対人狼
      */
@@ -1785,6 +1793,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 牧師 (PASTOR). And OnlyOnceRegistered. <br>
+     * 牧師
+     */
+    public void setSkillCode_Equal_牧師() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.牧師);
+    }
+
+    /**
      * Equal(=). As 虹職人 (RAINBOW). And OnlyOnceRegistered. <br>
      * 虹職人
      */
@@ -1989,6 +2005,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_AsSkill(CDef.Skill cdef) {
         doSetSkillCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 教唆者 (ABETTER). And OnlyOnceRegistered. <br>
+     * 教唆者
+     */
+    public void setSkillCode_NotEqual_教唆者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.教唆者);
     }
 
     /**
@@ -2504,6 +2528,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 牧師 (PASTOR). And OnlyOnceRegistered. <br>
+     * 牧師
+     */
+    public void setSkillCode_NotEqual_牧師() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.牧師);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 虹職人 (RAINBOW). And OnlyOnceRegistered. <br>
      * 虹職人
      */
@@ -2905,6 +2937,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_Equal_AsSkill(CDef.Skill cdef) {
         doSetRequestSkillCode_Equal(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * Equal(=). As 教唆者 (ABETTER). And OnlyOnceRegistered. <br>
+     * 教唆者
+     */
+    public void setRequestSkillCode_Equal_教唆者() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.教唆者);
     }
 
     /**
@@ -3420,6 +3460,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 牧師 (PASTOR). And OnlyOnceRegistered. <br>
+     * 牧師
+     */
+    public void setRequestSkillCode_Equal_牧師() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.牧師);
+    }
+
+    /**
      * Equal(=). As 虹職人 (RAINBOW). And OnlyOnceRegistered. <br>
      * 虹職人
      */
@@ -3624,6 +3672,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_AsSkill(CDef.Skill cdef) {
         doSetRequestSkillCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 教唆者 (ABETTER). And OnlyOnceRegistered. <br>
+     * 教唆者
+     */
+    public void setRequestSkillCode_NotEqual_教唆者() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.教唆者);
     }
 
     /**
@@ -4139,6 +4195,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 牧師 (PASTOR). And OnlyOnceRegistered. <br>
+     * 牧師
+     */
+    public void setRequestSkillCode_NotEqual_牧師() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.牧師);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 虹職人 (RAINBOW). And OnlyOnceRegistered. <br>
      * 虹職人
      */
@@ -4540,6 +4604,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill cdef) {
         doSetSecondRequestSkillCode_Equal(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * Equal(=). As 教唆者 (ABETTER). And OnlyOnceRegistered. <br>
+     * 教唆者
+     */
+    public void setSecondRequestSkillCode_Equal_教唆者() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.教唆者);
     }
 
     /**
@@ -5055,6 +5127,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 牧師 (PASTOR). And OnlyOnceRegistered. <br>
+     * 牧師
+     */
+    public void setSecondRequestSkillCode_Equal_牧師() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.牧師);
+    }
+
+    /**
      * Equal(=). As 虹職人 (RAINBOW). And OnlyOnceRegistered. <br>
      * 虹職人
      */
@@ -5259,6 +5339,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill cdef) {
         doSetSecondRequestSkillCode_NotEqual(cdef != null ? cdef.code() : null);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 教唆者 (ABETTER). And OnlyOnceRegistered. <br>
+     * 教唆者
+     */
+    public void setSecondRequestSkillCode_NotEqual_教唆者() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.教唆者);
     }
 
     /**
@@ -5771,6 +5859,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_梟() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.梟);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 牧師 (PASTOR). And OnlyOnceRegistered. <br>
+     * 牧師
+     */
+    public void setSecondRequestSkillCode_NotEqual_牧師() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.牧師);
     }
 
     /**

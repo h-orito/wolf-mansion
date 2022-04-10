@@ -232,16 +232,24 @@ class VillagePlayerDataSource(
         // 削除
         current.loverIdList.filterNot { changed.loverIdList.contains(it) }
             .forEach { deleteVillagePlayerStatus(participantId, it, CDef.VillagePlayerStatusType.後追い) }
-        current.foxPossessionIdList.filterNot { changed.foxPossessionIdList.contains(it) }
-            .forEach { deleteVillagePlayerStatus(participantId, it, CDef.VillagePlayerStatusType.狐憑き) }
+        current.foxPossessionedIdList.filterNot { changed.foxPossessionedIdList.contains(it) }
+            .forEach { deleteVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.狐憑き) }
+        current.insanedIdList.filterNot { changed.insanedIdList.contains(it) }
+            .forEach { deleteVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.狂気) }
+        current.persuadedIdList.filterNot { changed.persuadedIdList.contains(it) }
+            .forEach { deleteVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.信念) }
         current.insuranceIdList.filterNot { changed.insuranceIdList.contains(it) }
             .forEach { deleteVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.保険) }
 
         // 追加
         changed.loverIdList.filterNot { current.loverIdList.contains(it) }
             .forEach { insertVillagePlayerStatus(participantId, it, CDef.VillagePlayerStatusType.後追い) }
-        changed.foxPossessionIdList.filterNot { current.foxPossessionIdList.contains(it) }
-            .forEach { insertVillagePlayerStatus(participantId, it, CDef.VillagePlayerStatusType.狐憑き) }
+        changed.foxPossessionedIdList.filterNot { current.foxPossessionedIdList.contains(it) }
+            .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.狐憑き) }
+        changed.insanedIdList.filterNot { current.insanedIdList.contains(it) }
+            .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.狂気) }
+        changed.persuadedIdList.filterNot { current.persuadedIdList.contains(it) }
+            .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.信念) }
         changed.insuranceIdList.filterNot { current.insuranceIdList.contains(it) }
             .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.保険) }
     }
@@ -366,8 +374,9 @@ class VillagePlayerDataSource(
             room = null, // simple
             status = VillageParticipantStatus( // simple
                 loverIdList = emptyList(),
-                foxPossessionIdList = emptyList(),
                 foxPossessionedIdList = emptyList(),
+                insanedIdList = emptyList(),
+                persuadedIdList = emptyList(),
                 insuranceIdList = emptyList()
             ),
             dead = mapSimpleDead(villagePlayer),
@@ -469,8 +478,9 @@ class VillagePlayerDataSource(
 
         return VillageParticipantStatus(
             loverIdList = statusList.filter { it.isVillagePlayerStatusCode後追い }.map { it.toVillagePlayerId },
-            foxPossessionIdList = statusList.filter { it.isVillagePlayerStatusCode狐憑き }.map { it.toVillagePlayerId },
             foxPossessionedIdList = toStatusList.filter { it.isVillagePlayerStatusCode狐憑き }.map { it.villagePlayerId },
+            insanedIdList = toStatusList.filter { it.isVillagePlayerStatusCode狂気 }.map { it.villagePlayerId },
+            persuadedIdList = toStatusList.filter { it.isVillagePlayerStatusCode信念 }.map { it.villagePlayerId },
             insuranceIdList = toStatusList.filter { it.isVillagePlayerStatusCode保険 }.map { it.villagePlayerId }
         )
     }
