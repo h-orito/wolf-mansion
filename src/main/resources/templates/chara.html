@@ -32,7 +32,41 @@
                                       th:text="${'[' + chara.charaShortName + '] ' + chara.charaName}"></span>
                 </div>
             </div>
-
+            <div class="col-sm-12 col-xs-12 table-responsive" style="margin-top: 20px;">
+                <h2 class="h4">部屋割り例</h2>
+                <table class="table-bordered table-condensed small">
+                    <tbody>
+                    <tr th:each="row, trst : ${content.roomAssignedRowList}">
+                        <td th:each="room: ${row.roomAssignedList}" class="small"
+                            th:style="'position: relative; vertical-align: middle; text-align: center;'
+														+ 'width: ' + ${room.maxWidth} + 'px;'
+														+ 'min-width: ' + ${room.maxWidth} + 'px;'
+														+ 'height: '+ ${room.maxHeight} + 'px;'
+														+ 'padding: 0;'">
+                            <div
+                                    th:data-toggle="${room.charaName != null ? 'tooltip' : ''}"
+                                    th:title="${room.charaName}"
+                                    th:data-placement="${trst.index == 0 ? 'bottom' : 'top'}"
+                                    th:style="'position: absolute; top: 50%; left: 50%;'
+                                                        + 'transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%);'
+														+ 'width: ' + ${room.charaImgWidth != null ? room.charaImgWidth : room.maxWidth} + 'px;'
+														+ 'height: '+ ${room.charaImgHeight != null ? room.charaImgHeight : room.maxHeight} + 'px; '
+									 					+ ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}">
+                            </div>
+                            <div style="position: absolute;
+                                                        bottom: 0; left: 50%;
+                                                        transform: translate(-50%, 0);
+                                                        -webkit-transform: translate(-50%, 0);
+                                                        -ms-transform: translate(-50%, 0);
+                                                        opacity: 0.8;">
+                                <span style="background-color: #222222; white-space: nowrap;"
+                                      th:utext="${room.roomNumber} + ' ' + ${room.charaShortName != null ? room.charaShortName : ''}">01. 楽</span>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
             <div class="clearfix"></div>
         </div>
     </div>
