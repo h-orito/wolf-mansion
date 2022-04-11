@@ -62,6 +62,18 @@ data class Skill(
         )
     )
 
+
+    fun isShogiWolf(): Boolean {
+        return listOf(
+            CDef.Skill.角狼,
+            CDef.Skill.飛狼,
+            CDef.Skill.金狼,
+            CDef.Skill.銀狼,
+            CDef.Skill.王狼,
+            CDef.Skill.歩狼
+        ).contains(this.toCdef())
+    }
+
     companion object {
 
         private val skillToAbility = CDef.Skill.listOfHasAttackAbility().map {

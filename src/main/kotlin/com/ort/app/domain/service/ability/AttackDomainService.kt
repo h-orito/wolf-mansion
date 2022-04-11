@@ -10,6 +10,8 @@ import com.ort.app.domain.model.footstep.Footstep
 import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
+import com.ort.app.domain.model.skill.Skill
+import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.vote.Votes
@@ -239,13 +241,21 @@ class AttackDomainService(
             ?: return daychange
         val target = village.participants.chara(ability.targetCharaId!!)
 
-        var messages = daychange.messages.copy()
+        // 襲撃者
+        val attacker = village.participants.chara(ability.charaId)
+
         // 襲撃メッセージ
-        if (village.latestDay() > 2) messages = messages.add(createAttackMessage(village, target, charas))
+        var messages = daychange.messages.copy()
+        if (village.latestDay() > 2) messages = messages.add(createAttackMessage(village, attacker, target, charas))
 
         // 襲撃失敗していたら誰も死亡させず終了
         if (!isAttackSuccess(daychange, target)) {
-            return daychange.copy(messages = messages)
+            // 将棋狼で特定条件を満たした場合、人狼に成る
+            if (shouldUpgradeShogiWolf(daychange, attacker, target)) {
+                village = village.assignParticipantSkill(attacker.id, CDef.Skill.人狼.toModel())
+                messages = messages.add(createUpgradeWolfMessage(village, attacker))
+            }
+            return daychange.copy(village = village, messages = messages)
         }
 
         // 同棲者がいる部屋だったら移動元の同棲者も死亡
@@ -257,10 +267,8 @@ class AttackDomainService(
         village = village.attackedParticipant(target.id)
 
         // 襲撃したのが智狼の場合メッセージ追加
-        village.participants.chara(ability.charaId).let { attacker ->
-            if (attacker.skill!!.toCdef() == CDef.Skill.智狼 && attacker.isAlive()) {
-                messages = messages.add(createWiseWolfMessage(village))
-            }
+        if (attacker.skill!!.toCdef() == CDef.Skill.智狼 && attacker.isAlive()) {
+            messages = messages.add(createWiseWolfMessage(village))
         }
 
         return daychange.copy(village = village, messages = messages)
@@ -268,11 +276,10 @@ class AttackDomainService(
 
     private fun createAttackMessage(
         village: Village,
+        attacker: VillageParticipant,
         target: VillageParticipant,
         charas: Charas
     ): Message {
-        val attacker =
-            village.participants.filterAlive().list.filter { it.skill!!.hasAttackAbility() }.shuffled().first()
         val text = "${target.name()}！今日がお前の命日だ！"
         val faceType = if (hasFaceType(attacker, charas)) CDef.FaceType.囁き else CDef.FaceType.通常
         return messageDomainService.createAttackMessage(
@@ -281,6 +288,14 @@ class AttackDomainService(
             text,
             faceType.toModel(),
             CDef.MessageType.人狼の囁き.toModel()
+        )
+    }
+
+    private fun createUpgradeWolfMessage(village: Village, attacker: VillageParticipant): Message {
+        return messageDomainService.createPublicAbilityMessage(
+            village = village,
+            text = "${attacker.name()}は、人狼に成った。",
+            messageType = CDef.MessageType.襲撃結果.toModel()
         )
     }
 
@@ -298,6 +313,13 @@ class AttackDomainService(
         if (cohabitDomainService.isAbsence(daychange, target)) return false
 
         return true
+    }
+
+    private fun shouldUpgradeShogiWolf(daychange: Daychange, wolf: VillageParticipant, target: VillageParticipant): Boolean {
+        if (!wolf.skill!!.isShogiWolf()) return false
+        // 対象が死亡していなくて護衛か襲撃耐性の場合
+        if (target.isDead()) return false
+        return daychange.guarded.any { it.id == target.id } || target.skill!!.isNoDeadByAttack()
     }
 
     private fun createWiseWolfMessage(village: Village): Message {

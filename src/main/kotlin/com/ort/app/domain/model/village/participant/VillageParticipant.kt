@@ -165,11 +165,7 @@ data class VillageParticipant(
         } else {
             this.skill.assignSkill(skill, day)
         },
-        camp = when {
-            status.hasLover() -> CDef.Camp.恋人陣営.toModel()
-            status.isFoxPossessioned() -> CDef.Camp.狐陣営.toModel()
-            else -> skill.camp()
-        }
+        camp = getCurrentWinCamp(status, skill)
     )
 
     fun assignRoom(roomNumber: Int, day: Int): VillageParticipant {
@@ -284,5 +280,4 @@ data class VillageParticipant(
             currentStatus.isPersuaded() -> CDef.Camp.村人陣営.toModel()
             else -> currentSkill.camp()
         }
-
 }
