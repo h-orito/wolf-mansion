@@ -45,40 +45,85 @@ data class RoomSize(
                     val width = roomSize.width
                     val height = roomSize.height
 
-                    var list: List<Int> = (1..width * height).toList()
-                    list = list.filterNot { it == 1 }
-                    list = list.filterNot { it == width }
-                    list = list.filterNot { it == width * (height - 1) + 1 }
-                    list = list.filterNot { it == width * height }
-                    if (list.size <= personNum) return list
+                    val list: List<Int> = (1..width * height).toList()
 
-                    list = list.filterNot { it == width * height - 1 }
-                    if (list.size <= personNum) return list
-
-                    list = list.filterNot { it == 2 }
-                    if (list.size <= personNum) return list
-
-                    list = list.filterNot { it == width * (height - 1) + 2 }
-                    if (list.size <= personNum) return list
-
-                    list = list.filterNot { it == width - 1 }
-                    if (list.size <= personNum) return list
-
-                    list = list.filterNot { it == width * (height - 1) }
-                    if (list.size <= personNum) return list
-
-                    list = list.filterNot { it == width + 1 }
-                    if (list.size <= personNum) return list
-
-                    list = list.filterNot { it == width * (height - 2) + 1 }
-                    if (list.size <= personNum) return list
-
-                    list = list.filterNot { it == width * 2 }
-                    if (list.size <= personNum) return list
-
-                    return list.filterNot { it == 3 }
+                    val excludes = mutableListOf<Int>()
+                    var leftTopExcludeCandidates = createLeftTopExcludes(width)
+                    var rightTopExcludeCandidates = createRightTopExcludes(width)
+                    var leftBottomExcludeCandidates = createLeftBottomExcludes(width, height)
+                    var rightBottomExcludeCandidates = createRightBottomExcludes(width, height)
+                    while (true) {
+                        when (excludes.size % 4) {
+                            // 左上
+                            0 -> {
+                                excludes.add(leftTopExcludeCandidates[0])
+                                leftTopExcludeCandidates = leftTopExcludeCandidates.drop(1)
+                            }
+                            // 右上
+                            1 -> {
+                                excludes.add(rightTopExcludeCandidates[0])
+                                rightTopExcludeCandidates = rightTopExcludeCandidates.drop(1)
+                            }
+                            // 左下
+                            2 -> {
+                                excludes.add(leftBottomExcludeCandidates[0])
+                                leftBottomExcludeCandidates = leftBottomExcludeCandidates.drop(1)
+                            }
+                            // 右下
+                            3 -> {
+                                excludes.add(rightBottomExcludeCandidates[0])
+                                rightBottomExcludeCandidates = rightBottomExcludeCandidates.drop(1)
+                            }
+                        }
+                        if (list.size - excludes.size <= personNum) break
+                    }
+                    return list.filterNot { excludes.contains(it) }
                 }
             }
         }
+
+        // 999人まではこれで対応できるはず
+        private fun createLeftTopExcludes(width: Int): List<Int> = listOf(
+            1, 2, width + 1, 3, width + 2, width * 2 + 1, 4, width + 3, width * 2 + 2, width * 3 + 1
+        )
+
+        private fun createRightTopExcludes(width: Int): List<Int> = listOf(
+            width,
+            width - 1,
+            width * 2,
+            width - 2,
+            width * 2 - 1,
+            width * 3,
+            width - 3,
+            width * 2 - 2,
+            width * 3 - 1,
+            width * 4
+        )
+
+        private fun createLeftBottomExcludes(width: Int, height: Int): List<Int> = listOf(
+            width * (height - 1) + 1,
+            width * (height - 1) + 2,
+            width * (height - 2) + 1,
+            width * (height - 1) + 3,
+            width * (height - 2) + 2,
+            width * (height - 3) + 1,
+            width * (height - 1) + 4,
+            width * (height - 2) + 3,
+            width * (height - 3) + 2,
+            width * (height - 4) + 1
+        )
+
+        private fun createRightBottomExcludes(width: Int, height: Int): List<Int> = listOf(
+            width * height,
+            width * height - 1,
+            width * (height - 1),
+            width * height - 2,
+            width * (height - 1) - 1,
+            width * (height - 2),
+            width * height - 3,
+            width * (height - 1) - 2,
+            width * (height - 2) - 1,
+            width * (height - 3)
+        )
     }
 }
