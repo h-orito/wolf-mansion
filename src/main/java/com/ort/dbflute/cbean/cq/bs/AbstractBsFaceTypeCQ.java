@@ -267,25 +267,6 @@ public abstract class AbstractBsFaceTypeCQ extends AbstractConditionQuery {
     public abstract String keepFaceTypeCode_ExistsReferrer_CharaImageList(CharaImageCQ sq);
 
     /**
-     * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select FACE_TYPE_CODE from message where ...)} <br>
-     * message by FACE_TYPE_CODE, named 'messageAsOne'.
-     * <pre>
-     * cb.query().<span style="color: #CC4747">existsMessage</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     messageCB.query().set...
-     * });
-     * </pre>
-     * @param subCBLambda The callback for sub-query of MessageList for 'exists'. (NotNull)
-     */
-    public void existsMessage(SubQuery<MessageCB> subCBLambda) {
-        assertObjectNotNull("subCBLambda", subCBLambda);
-        MessageCB cb = new MessageCB(); cb.xsetupForExistsReferrer(this);
-        lockCall(() -> subCBLambda.query(cb)); String pp = keepFaceTypeCode_ExistsReferrer_MessageList(cb.query());
-        registerExistsReferrer(cb.query(), "FACE_TYPE_CODE", "FACE_TYPE_CODE", pp, "messageList");
-    }
-    public abstract String keepFaceTypeCode_ExistsReferrer_MessageList(MessageCQ sq);
-
-    /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
      * {not exists (select FACE_TYPE_CODE from chara_image where ...)} <br>
      * chara_image by FACE_TYPE_CODE, named 'charaImageAsOne'.
@@ -304,25 +285,6 @@ public abstract class AbstractBsFaceTypeCQ extends AbstractConditionQuery {
     }
     public abstract String keepFaceTypeCode_NotExistsReferrer_CharaImageList(CharaImageCQ sq);
 
-    /**
-     * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select FACE_TYPE_CODE from message where ...)} <br>
-     * message by FACE_TYPE_CODE, named 'messageAsOne'.
-     * <pre>
-     * cb.query().<span style="color: #CC4747">notExistsMessage</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     messageCB.query().set...
-     * });
-     * </pre>
-     * @param subCBLambda The callback for sub-query of FaceTypeCode_NotExistsReferrer_MessageList for 'not exists'. (NotNull)
-     */
-    public void notExistsMessage(SubQuery<MessageCB> subCBLambda) {
-        assertObjectNotNull("subCBLambda", subCBLambda);
-        MessageCB cb = new MessageCB(); cb.xsetupForExistsReferrer(this);
-        lockCall(() -> subCBLambda.query(cb)); String pp = keepFaceTypeCode_NotExistsReferrer_MessageList(cb.query());
-        registerNotExistsReferrer(cb.query(), "FACE_TYPE_CODE", "FACE_TYPE_CODE", pp, "messageList");
-    }
-    public abstract String keepFaceTypeCode_NotExistsReferrer_MessageList(MessageCQ sq);
-
     public void xsderiveCharaImageList(String fn, SubQuery<CharaImageCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
         CharaImageCB cb = new CharaImageCB(); cb.xsetupForDerivedReferrer(this);
@@ -330,14 +292,6 @@ public abstract class AbstractBsFaceTypeCQ extends AbstractConditionQuery {
         registerSpecifyDerivedReferrer(fn, cb.query(), "FACE_TYPE_CODE", "FACE_TYPE_CODE", pp, "charaImageList", al, op);
     }
     public abstract String keepFaceTypeCode_SpecifyDerivedReferrer_CharaImageList(CharaImageCQ sq);
-
-    public void xsderiveMessageList(String fn, SubQuery<MessageCB> sq, String al, DerivedReferrerOption op) {
-        assertObjectNotNull("subQuery", sq);
-        MessageCB cb = new MessageCB(); cb.xsetupForDerivedReferrer(this);
-        lockCall(() -> sq.query(cb)); String pp = keepFaceTypeCode_SpecifyDerivedReferrer_MessageList(cb.query());
-        registerSpecifyDerivedReferrer(fn, cb.query(), "FACE_TYPE_CODE", "FACE_TYPE_CODE", pp, "messageList", al, op);
-    }
-    public abstract String keepFaceTypeCode_SpecifyDerivedReferrer_MessageList(MessageCQ sq);
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
@@ -365,33 +319,6 @@ public abstract class AbstractBsFaceTypeCQ extends AbstractConditionQuery {
     }
     public abstract String keepFaceTypeCode_QueryDerivedReferrer_CharaImageList(CharaImageCQ sq);
     public abstract String keepFaceTypeCode_QueryDerivedReferrer_CharaImageListParameter(Object vl);
-
-    /**
-     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from message where ...)} <br>
-     * message by FACE_TYPE_CODE, named 'messageAsOne'.
-     * <pre>
-     * cb.query().<span style="color: #CC4747">derivedMessage()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     messageCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
-     *     messageCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
-     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
-     * </pre>
-     * @return The object to set up a function for referrer table. (NotNull)
-     */
-    public HpQDRFunction<MessageCB> derivedMessage() {
-        return xcreateQDRFunctionMessageList();
-    }
-    protected HpQDRFunction<MessageCB> xcreateQDRFunctionMessageList() {
-        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveMessageList(fn, sq, rd, vl, op));
-    }
-    public void xqderiveMessageList(String fn, SubQuery<MessageCB> sq, String rd, Object vl, DerivedReferrerOption op) {
-        assertObjectNotNull("subQuery", sq);
-        MessageCB cb = new MessageCB(); cb.xsetupForDerivedReferrer(this);
-        lockCall(() -> sq.query(cb)); String sqpp = keepFaceTypeCode_QueryDerivedReferrer_MessageList(cb.query()); String prpp = keepFaceTypeCode_QueryDerivedReferrer_MessageListParameter(vl);
-        registerQueryDerivedReferrer(fn, cb.query(), "FACE_TYPE_CODE", "FACE_TYPE_CODE", sqpp, "messageList", rd, vl, prpp, op);
-    }
-    public abstract String keepFaceTypeCode_QueryDerivedReferrer_MessageList(MessageCQ sq);
-    public abstract String keepFaceTypeCode_QueryDerivedReferrer_MessageListParameter(Object vl);
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>

@@ -809,7 +809,7 @@ public interface CDef extends Classification {
         static {
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "210");
+                subItemMap.put("order", "211");
                 subItemMap.put("campCode", "WEREWOLF");
                 subItemMap.put("skill_short_name", "唆");
                 _subItemMapMap.put(教唆者.code(), Collections.unmodifiableMap(subItemMap));
@@ -1306,7 +1306,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "211");
+                subItemMap.put("order", "210");
                 subItemMap.put("campCode", "WEREWOLF");
                 subItemMap.put("skill_short_name", "破");
                 _subItemMapMap.put(破局者.code(), Collections.unmodifiableMap(subItemMap));

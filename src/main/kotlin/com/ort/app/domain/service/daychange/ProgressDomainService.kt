@@ -127,7 +127,7 @@ class ProgressDomainService(
         // 狩猟
         daychange = huntingDomainService.hunting(daychange)
         // 殴打
-        daychange = beatDomainService.beat(daychange)
+        daychange = beatDomainService.beat(daychange, charas)
         // 罠発動
         daychange = trapDomainService.trap(daychange)
         // 爆弾発動

@@ -105,7 +105,7 @@ class MessageCoordinator(
         myself: VillageParticipant,
         messageContent: MessageContent
     ) {
-        val chara = charaService.findChara(myself.charaId) ?: throw WolfMansionBusinessException("chara not found.")
+        val chara = charaService.findChara(myself.charaId, village.setting.chara.isOriginalCharachip) ?: throw WolfMansionBusinessException("chara not found.")
         val latestDayMessageCountMap =
             messageService.findParticipantDayMessageCount(village, village.latestDay(), myself)
         sayDomainService.assertSay(village, myself, chara, latestDayMessageCountMap, messageContent)

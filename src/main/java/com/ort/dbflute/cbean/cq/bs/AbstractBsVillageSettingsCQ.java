@@ -1688,6 +1688,135 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
+     * @param originalCharaGroupId The value of originalCharaGroupId as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setOriginalCharaGroupId_Equal(Integer originalCharaGroupId) {
+        doSetOriginalCharaGroupId_Equal(originalCharaGroupId);
+    }
+
+    protected void doSetOriginalCharaGroupId_Equal(Integer originalCharaGroupId) {
+        regOriginalCharaGroupId(CK_EQ, originalCharaGroupId);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
+     * @param originalCharaGroupId The value of originalCharaGroupId as notEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setOriginalCharaGroupId_NotEqual(Integer originalCharaGroupId) {
+        doSetOriginalCharaGroupId_NotEqual(originalCharaGroupId);
+    }
+
+    protected void doSetOriginalCharaGroupId_NotEqual(Integer originalCharaGroupId) {
+        regOriginalCharaGroupId(CK_NES, originalCharaGroupId);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
+     * @param originalCharaGroupId The value of originalCharaGroupId as greaterThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setOriginalCharaGroupId_GreaterThan(Integer originalCharaGroupId) {
+        regOriginalCharaGroupId(CK_GT, originalCharaGroupId);
+    }
+
+    /**
+     * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
+     * @param originalCharaGroupId The value of originalCharaGroupId as lessThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setOriginalCharaGroupId_LessThan(Integer originalCharaGroupId) {
+        regOriginalCharaGroupId(CK_LT, originalCharaGroupId);
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
+     * @param originalCharaGroupId The value of originalCharaGroupId as greaterEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setOriginalCharaGroupId_GreaterEqual(Integer originalCharaGroupId) {
+        regOriginalCharaGroupId(CK_GE, originalCharaGroupId);
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
+     * @param originalCharaGroupId The value of originalCharaGroupId as lessEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setOriginalCharaGroupId_LessEqual(Integer originalCharaGroupId) {
+        regOriginalCharaGroupId(CK_LE, originalCharaGroupId);
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
+     * @param minNumber The min number of originalCharaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of originalCharaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param opLambda The callback for option of range-of. (NotNull)
+     */
+    public void setOriginalCharaGroupId_RangeOf(Integer minNumber, Integer maxNumber, ConditionOptionCall<RangeOfOption> opLambda) {
+        setOriginalCharaGroupId_RangeOf(minNumber, maxNumber, xcROOP(opLambda));
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
+     * @param minNumber The min number of originalCharaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of originalCharaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param rangeOfOption The option of range-of. (NotNull)
+     */
+    protected void setOriginalCharaGroupId_RangeOf(Integer minNumber, Integer maxNumber, RangeOfOption rangeOfOption) {
+        regROO(minNumber, maxNumber, xgetCValueOriginalCharaGroupId(), "ORIGINAL_CHARA_GROUP_ID", rangeOfOption);
+    }
+
+    /**
+     * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
+     * @param originalCharaGroupIdList The collection of originalCharaGroupId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setOriginalCharaGroupId_InScope(Collection<Integer> originalCharaGroupIdList) {
+        doSetOriginalCharaGroupId_InScope(originalCharaGroupIdList);
+    }
+
+    protected void doSetOriginalCharaGroupId_InScope(Collection<Integer> originalCharaGroupIdList) {
+        regINS(CK_INS, cTL(originalCharaGroupIdList), xgetCValueOriginalCharaGroupId(), "ORIGINAL_CHARA_GROUP_ID");
+    }
+
+    /**
+     * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
+     * @param originalCharaGroupIdList The collection of originalCharaGroupId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setOriginalCharaGroupId_NotInScope(Collection<Integer> originalCharaGroupIdList) {
+        doSetOriginalCharaGroupId_NotInScope(originalCharaGroupIdList);
+    }
+
+    protected void doSetOriginalCharaGroupId_NotInScope(Collection<Integer> originalCharaGroupIdList) {
+        regINS(CK_NINS, cTL(originalCharaGroupIdList), xgetCValueOriginalCharaGroupId(), "ORIGINAL_CHARA_GROUP_ID");
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
+     */
+    public void setOriginalCharaGroupId_IsNull() { regOriginalCharaGroupId(CK_ISN, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
+     */
+    public void setOriginalCharaGroupId_IsNotNull() { regOriginalCharaGroupId(CK_ISNN, DOBJ); }
+
+    protected void regOriginalCharaGroupId(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueOriginalCharaGroupId(), "ORIGINAL_CHARA_GROUP_ID"); }
+    protected abstract ConditionValue xgetCValueOriginalCharaGroupId();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @param registerDatetime The value of registerDatetime as equal. (basically NotNull: error as default, or no condition as option)
      */

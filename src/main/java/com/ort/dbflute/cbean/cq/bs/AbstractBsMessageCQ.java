@@ -1728,77 +1728,11 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType}
+     * FACE_TYPE_CODE: {VARCHAR(20)}
      * @param faceTypeCode The value of faceTypeCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    protected void setFaceTypeCode_Equal(String faceTypeCode) {
+    public void setFaceTypeCode_Equal(String faceTypeCode) {
         doSetFaceTypeCode_Equal(fRES(faceTypeCode));
-    }
-
-    /**
-     * Equal(=). As FaceType. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType} <br>
-     * 表情種別
-     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
-     */
-    public void setFaceTypeCode_Equal_AsFaceType(CDef.FaceType cdef) {
-        doSetFaceTypeCode_Equal(cdef != null ? cdef.code() : null);
-    }
-
-    /**
-     * Equal(=). As 墓下 (GRAVE). And OnlyOnceRegistered. <br>
-     * 墓下
-     */
-    public void setFaceTypeCode_Equal_墓下() {
-        setFaceTypeCode_Equal_AsFaceType(CDef.FaceType.墓下);
-    }
-
-    /**
-     * Equal(=). As 恋人 (LOVER). And OnlyOnceRegistered. <br>
-     * 恋人
-     */
-    public void setFaceTypeCode_Equal_恋人() {
-        setFaceTypeCode_Equal_AsFaceType(CDef.FaceType.恋人);
-    }
-
-    /**
-     * Equal(=). As 共鳴 (MASON). And OnlyOnceRegistered. <br>
-     * 共鳴
-     */
-    public void setFaceTypeCode_Equal_共鳴() {
-        setFaceTypeCode_Equal_AsFaceType(CDef.FaceType.共鳴);
-    }
-
-    /**
-     * Equal(=). As 独り言 (MONOLOGUE). And OnlyOnceRegistered. <br>
-     * 独り言
-     */
-    public void setFaceTypeCode_Equal_独り言() {
-        setFaceTypeCode_Equal_AsFaceType(CDef.FaceType.独り言);
-    }
-
-    /**
-     * Equal(=). As 通常 (NORMAL). And OnlyOnceRegistered. <br>
-     * 通常
-     */
-    public void setFaceTypeCode_Equal_通常() {
-        setFaceTypeCode_Equal_AsFaceType(CDef.FaceType.通常);
-    }
-
-    /**
-     * Equal(=). As 秘話 (SECRET). And OnlyOnceRegistered. <br>
-     * 秘話
-     */
-    public void setFaceTypeCode_Equal_秘話() {
-        setFaceTypeCode_Equal_AsFaceType(CDef.FaceType.秘話);
-    }
-
-    /**
-     * Equal(=). As 囁き (WEREWOLF). And OnlyOnceRegistered. <br>
-     * 囁き
-     */
-    public void setFaceTypeCode_Equal_囁き() {
-        setFaceTypeCode_Equal_AsFaceType(CDef.FaceType.囁き);
     }
 
     protected void doSetFaceTypeCode_Equal(String faceTypeCode) {
@@ -1807,77 +1741,11 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType}
+     * FACE_TYPE_CODE: {VARCHAR(20)}
      * @param faceTypeCode The value of faceTypeCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    protected void setFaceTypeCode_NotEqual(String faceTypeCode) {
+    public void setFaceTypeCode_NotEqual(String faceTypeCode) {
         doSetFaceTypeCode_NotEqual(fRES(faceTypeCode));
-    }
-
-    /**
-     * NotEqual(&lt;&gt;). As FaceType. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType} <br>
-     * 表情種別
-     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
-     */
-    public void setFaceTypeCode_NotEqual_AsFaceType(CDef.FaceType cdef) {
-        doSetFaceTypeCode_NotEqual(cdef != null ? cdef.code() : null);
-    }
-
-    /**
-     * NotEqual(&lt;&gt;). As 墓下 (GRAVE). And OnlyOnceRegistered. <br>
-     * 墓下
-     */
-    public void setFaceTypeCode_NotEqual_墓下() {
-        setFaceTypeCode_NotEqual_AsFaceType(CDef.FaceType.墓下);
-    }
-
-    /**
-     * NotEqual(&lt;&gt;). As 恋人 (LOVER). And OnlyOnceRegistered. <br>
-     * 恋人
-     */
-    public void setFaceTypeCode_NotEqual_恋人() {
-        setFaceTypeCode_NotEqual_AsFaceType(CDef.FaceType.恋人);
-    }
-
-    /**
-     * NotEqual(&lt;&gt;). As 共鳴 (MASON). And OnlyOnceRegistered. <br>
-     * 共鳴
-     */
-    public void setFaceTypeCode_NotEqual_共鳴() {
-        setFaceTypeCode_NotEqual_AsFaceType(CDef.FaceType.共鳴);
-    }
-
-    /**
-     * NotEqual(&lt;&gt;). As 独り言 (MONOLOGUE). And OnlyOnceRegistered. <br>
-     * 独り言
-     */
-    public void setFaceTypeCode_NotEqual_独り言() {
-        setFaceTypeCode_NotEqual_AsFaceType(CDef.FaceType.独り言);
-    }
-
-    /**
-     * NotEqual(&lt;&gt;). As 通常 (NORMAL). And OnlyOnceRegistered. <br>
-     * 通常
-     */
-    public void setFaceTypeCode_NotEqual_通常() {
-        setFaceTypeCode_NotEqual_AsFaceType(CDef.FaceType.通常);
-    }
-
-    /**
-     * NotEqual(&lt;&gt;). As 秘話 (SECRET). And OnlyOnceRegistered. <br>
-     * 秘話
-     */
-    public void setFaceTypeCode_NotEqual_秘話() {
-        setFaceTypeCode_NotEqual_AsFaceType(CDef.FaceType.秘話);
-    }
-
-    /**
-     * NotEqual(&lt;&gt;). As 囁き (WEREWOLF). And OnlyOnceRegistered. <br>
-     * 囁き
-     */
-    public void setFaceTypeCode_NotEqual_囁き() {
-        setFaceTypeCode_NotEqual_AsFaceType(CDef.FaceType.囁き);
     }
 
     protected void doSetFaceTypeCode_NotEqual(String faceTypeCode) {
@@ -1885,22 +1753,48 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
     }
 
     /**
-     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType}
-     * @param faceTypeCodeList The collection of faceTypeCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * FACE_TYPE_CODE: {VARCHAR(20)}
+     * @param faceTypeCode The value of faceTypeCode as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    protected void setFaceTypeCode_InScope(Collection<String> faceTypeCodeList) {
-        doSetFaceTypeCode_InScope(faceTypeCodeList);
+    public void setFaceTypeCode_GreaterThan(String faceTypeCode) {
+        regFaceTypeCode(CK_GT, fRES(faceTypeCode));
     }
 
     /**
-     * InScope {in ('a', 'b')}. As FaceType. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType} <br>
-     * 表情種別
-     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * FACE_TYPE_CODE: {VARCHAR(20)}
+     * @param faceTypeCode The value of faceTypeCode as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    public void setFaceTypeCode_InScope_AsFaceType(Collection<CDef.FaceType> cdefList) {
-        doSetFaceTypeCode_InScope(cTStrL(cdefList));
+    public void setFaceTypeCode_LessThan(String faceTypeCode) {
+        regFaceTypeCode(CK_LT, fRES(faceTypeCode));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * FACE_TYPE_CODE: {VARCHAR(20)}
+     * @param faceTypeCode The value of faceTypeCode as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setFaceTypeCode_GreaterEqual(String faceTypeCode) {
+        regFaceTypeCode(CK_GE, fRES(faceTypeCode));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * FACE_TYPE_CODE: {VARCHAR(20)}
+     * @param faceTypeCode The value of faceTypeCode as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setFaceTypeCode_LessEqual(String faceTypeCode) {
+        regFaceTypeCode(CK_LE, fRES(faceTypeCode));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * FACE_TYPE_CODE: {VARCHAR(20)}
+     * @param faceTypeCodeList The collection of faceTypeCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setFaceTypeCode_InScope(Collection<String> faceTypeCodeList) {
+        doSetFaceTypeCode_InScope(faceTypeCodeList);
     }
 
     protected void doSetFaceTypeCode_InScope(Collection<String> faceTypeCodeList) {
@@ -1909,21 +1803,11 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType}
+     * FACE_TYPE_CODE: {VARCHAR(20)}
      * @param faceTypeCodeList The collection of faceTypeCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
-    protected void setFaceTypeCode_NotInScope(Collection<String> faceTypeCodeList) {
+    public void setFaceTypeCode_NotInScope(Collection<String> faceTypeCodeList) {
         doSetFaceTypeCode_NotInScope(faceTypeCodeList);
-    }
-
-    /**
-     * NotInScope {not in ('a', 'b')}. As FaceType. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType} <br>
-     * 表情種別
-     * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
-     */
-    public void setFaceTypeCode_NotInScope_AsFaceType(Collection<CDef.FaceType> cdefList) {
-        doSetFaceTypeCode_NotInScope(cTStrL(cdefList));
     }
 
     protected void doSetFaceTypeCode_NotInScope(Collection<String> faceTypeCodeList) {
@@ -1931,20 +1815,64 @@ public abstract class AbstractBsMessageCQ extends AbstractConditionQuery {
     }
 
     /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * FACE_TYPE_CODE: {VARCHAR(20)} <br>
+     * <pre>e.g. setFaceTypeCode_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param faceTypeCode The value of faceTypeCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setFaceTypeCode_LikeSearch(String faceTypeCode, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setFaceTypeCode_LikeSearch(faceTypeCode, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * FACE_TYPE_CODE: {VARCHAR(20)} <br>
+     * <pre>e.g. setFaceTypeCode_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param faceTypeCode The value of faceTypeCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setFaceTypeCode_LikeSearch(String faceTypeCode, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(faceTypeCode), xgetCValueFaceTypeCode(), "FACE_TYPE_CODE", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * FACE_TYPE_CODE: {VARCHAR(20)}
+     * @param faceTypeCode The value of faceTypeCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setFaceTypeCode_NotLikeSearch(String faceTypeCode, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setFaceTypeCode_NotLikeSearch(faceTypeCode, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * FACE_TYPE_CODE: {VARCHAR(20)}
+     * @param faceTypeCode The value of faceTypeCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setFaceTypeCode_NotLikeSearch(String faceTypeCode, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(faceTypeCode), xgetCValueFaceTypeCode(), "FACE_TYPE_CODE", likeSearchOption);
+    }
+
+    /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType}
+     * FACE_TYPE_CODE: {VARCHAR(20)}
      */
     public void setFaceTypeCode_IsNull() { regFaceTypeCode(CK_ISN, DOBJ); }
 
     /**
      * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType}
+     * FACE_TYPE_CODE: {VARCHAR(20)}
      */
     public void setFaceTypeCode_IsNullOrEmpty() { regFaceTypeCode(CK_ISNOE, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType}
+     * FACE_TYPE_CODE: {VARCHAR(20)}
      */
     public void setFaceTypeCode_IsNotNull() { regFaceTypeCode(CK_ISNN, DOBJ); }
 

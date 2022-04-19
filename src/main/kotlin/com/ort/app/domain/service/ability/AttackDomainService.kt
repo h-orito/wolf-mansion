@@ -3,6 +3,7 @@ package com.ort.app.domain.service.ability
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.Ability
 import com.ort.app.domain.model.ability.AbilityType
+import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.Charas
 import com.ort.app.domain.model.chara.toModel
 import com.ort.app.domain.model.daychange.Daychange
@@ -281,12 +282,13 @@ class AttackDomainService(
         charas: Charas
     ): Message {
         val text = "${target.name()}！今日がお前の命日だ！"
-        val faceType = if (hasFaceType(attacker, charas)) CDef.FaceType.囁き else CDef.FaceType.通常
+        val attackerChara = charas.chara(attacker.charaId)
+        val faceType = if (hasFaceType(attackerChara)) CDef.FaceType.囁き.toModel() else charas.chara(attacker.charaId).defaultImage().faceType
         return messageDomainService.createAttackMessage(
             village,
             attacker,
             text,
-            faceType.toModel(),
+            faceType,
             CDef.MessageType.人狼の囁き.toModel()
         )
     }
@@ -299,8 +301,8 @@ class AttackDomainService(
         )
     }
 
-    private fun hasFaceType(attacker: VillageParticipant, charas: Charas): Boolean =
-        charas.chara(attacker.charaId).images.list.any { it.faceType.toCdef() == CDef.FaceType.囁き }
+    private fun hasFaceType(chara: Chara): Boolean =
+        chara.images.list.any { it.faceType.toCdef() == CDef.FaceType.囁き }
 
     fun isAttackSuccess(daychange: Daychange, target: VillageParticipant): Boolean {
         // 既に死亡している

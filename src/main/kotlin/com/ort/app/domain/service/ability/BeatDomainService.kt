@@ -2,6 +2,7 @@ package com.ort.app.domain.service.ability
 
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.AbilityType
+import com.ort.app.domain.model.chara.Charas
 import com.ort.app.domain.model.chara.toModel
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.message.Message
@@ -49,7 +50,7 @@ class BeatDomainService(
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
     override fun canUseDay(day: Int): Boolean = day > 2
 
-    fun beat(daychange: Daychange): Daychange {
+    fun beat(daychange: Daychange, charas: Charas): Daychange {
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
         village.participants.filterAlive().filterBySkill(CDef.Skill.バールのようなもの.toModel()).list.shuffled().forEach {
@@ -57,7 +58,7 @@ class BeatDomainService(
                 ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
             messages = messages.add(createBeatMessage(village, it, target))
-            messages = messages.add(createBeatSayMessage(village, it))
+            messages = messages.add(createBeatSayMessage(village, it, charas))
             if (!attackDomainService.isAttackSuccess(daychange, target)) return@forEach
             if (cohabitDomainService.isCohabiting(daychange, target)) {
                 val cohabitor = target.getTargetCohabitor(village)!!
@@ -78,12 +79,12 @@ class BeatDomainService(
         )
     }
 
-    private fun createBeatSayMessage(village: Village, bar: VillageParticipant): Message {
+    private fun createBeatSayMessage(village: Village, bar: VillageParticipant, charas: Charas): Message {
         return messageDomainService.createAttackMessage(
             village,
             bar,
             "ついカッとなってやった。今では反省している。",
-            CDef.FaceType.通常.toModel(),
+            charas.chara(bar.charaId).defaultImage().faceType,
             CDef.MessageType.独り言.toModel()
         )
     }

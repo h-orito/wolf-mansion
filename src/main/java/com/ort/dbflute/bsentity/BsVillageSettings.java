@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID
  *
  * [column]
- *     VILLAGE_ID, DUMMY_CHARA_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, JOIN_PASSWORD, ORGANIZE, ALLOWED_SECRET_SAY_CODE, IS_AVAILABLE_ACTION, IS_RANDOM_ORGANIZE, IS_REINCARNATION_SKILL_ALL, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, DUMMY_CHARA_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, JOIN_PASSWORD, ORGANIZE, ALLOWED_SECRET_SAY_CODE, IS_AVAILABLE_ACTION, IS_RANDOM_ORGANIZE, IS_REINCARNATION_SKILL_ALL, ORIGINAL_CHARA_GROUP_ID, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -33,13 +33,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     ALLOWED_SECRET_SAY, VILLAGE
+ *     ALLOWED_SECRET_SAY, ORIGINAL_CHARA_GROUP, VILLAGE
  *
  * [referrer table]
  *     
  *
  * [foreign property]
- *     allowedSecretSay, village
+ *     allowedSecretSay, originalCharaGroup, village
  *
  * [referrer property]
  *     
@@ -67,6 +67,7 @@ import com.ort.dbflute.exentity.*;
  * Boolean isAvailableAction = entity.getIsAvailableAction();
  * Boolean isRandomOrganize = entity.getIsRandomOrganize();
  * Boolean isReincarnationSkillAll = entity.getIsReincarnationSkillAll();
+ * Integer originalCharaGroupId = entity.getOriginalCharaGroupId();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -92,6 +93,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setIsAvailableAction(isAvailableAction);
  * entity.setIsRandomOrganize(isRandomOrganize);
  * entity.setIsReincarnationSkillAll(isReincarnationSkillAll);
+ * entity.setOriginalCharaGroupId(originalCharaGroupId);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -173,6 +175,9 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /** IS_REINCARNATION_SKILL_ALL: {NotNull, BIT, classification=Flg} */
     protected Boolean _isReincarnationSkillAll;
+
+    /** ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group} */
+    protected Integer _originalCharaGroupId;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -1138,6 +1143,27 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         _allowedSecretSay = allowedSecretSay;
     }
 
+    /** ORIGINAL_CHARA_GROUP by my ORIGINAL_CHARA_GROUP_ID, named 'originalCharaGroup'. */
+    protected OptionalEntity<OriginalCharaGroup> _originalCharaGroup;
+
+    /**
+     * [get] ORIGINAL_CHARA_GROUP by my ORIGINAL_CHARA_GROUP_ID, named 'originalCharaGroup'. <br>
+     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
+     * @return The entity of foreign property 'originalCharaGroup'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
+     */
+    public OptionalEntity<OriginalCharaGroup> getOriginalCharaGroup() {
+        if (_originalCharaGroup == null) { _originalCharaGroup = OptionalEntity.relationEmpty(this, "originalCharaGroup"); }
+        return _originalCharaGroup;
+    }
+
+    /**
+     * [set] ORIGINAL_CHARA_GROUP by my ORIGINAL_CHARA_GROUP_ID, named 'originalCharaGroup'.
+     * @param originalCharaGroup The entity of foreign property 'originalCharaGroup'. (NullAllowed)
+     */
+    public void setOriginalCharaGroup(OptionalEntity<OriginalCharaGroup> originalCharaGroup) {
+        _originalCharaGroup = originalCharaGroup;
+    }
+
     /** VILLAGE by my VILLAGE_ID, named 'village'. */
     protected OptionalEntity<Village> _village;
 
@@ -1193,6 +1219,8 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         StringBuilder sb = new StringBuilder();
         if (_allowedSecretSay != null && _allowedSecretSay.isPresent())
         { sb.append(li).append(xbRDS(_allowedSecretSay, "allowedSecretSay")); }
+        if (_originalCharaGroup != null && _originalCharaGroup.isPresent())
+        { sb.append(li).append(xbRDS(_originalCharaGroup, "originalCharaGroup")); }
         if (_village != null && _village.isPresent())
         { sb.append(li).append(xbRDS(_village, "village")); }
         return sb.toString();
@@ -1225,6 +1253,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         sb.append(dm).append(xfND(_isAvailableAction));
         sb.append(dm).append(xfND(_isRandomOrganize));
         sb.append(dm).append(xfND(_isReincarnationSkillAll));
+        sb.append(dm).append(xfND(_originalCharaGroupId));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -1241,6 +1270,8 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         StringBuilder sb = new StringBuilder();
         if (_allowedSecretSay != null && _allowedSecretSay.isPresent())
         { sb.append(dm).append("allowedSecretSay"); }
+        if (_originalCharaGroup != null && _originalCharaGroup.isPresent())
+        { sb.append(dm).append("originalCharaGroup"); }
         if (_village != null && _village.isPresent())
         { sb.append(dm).append("village"); }
         if (sb.length() > dm.length()) {
@@ -1688,6 +1719,26 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         checkClassificationCode("IS_REINCARNATION_SKILL_ALL", CDef.DefMeta.Flg, isReincarnationSkillAll);
         registerModifiedProperty("isReincarnationSkillAll");
         _isReincarnationSkillAll = isReincarnationSkillAll;
+    }
+
+    /**
+     * [get] ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group} <br>
+     * オリジナルキャラクターグループID
+     * @return The value of the column 'ORIGINAL_CHARA_GROUP_ID'. (NullAllowed even if selected: for no constraint)
+     */
+    public Integer getOriginalCharaGroupId() {
+        checkSpecifiedProperty("originalCharaGroupId");
+        return _originalCharaGroupId;
+    }
+
+    /**
+     * [set] ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group} <br>
+     * オリジナルキャラクターグループID
+     * @param originalCharaGroupId The value of the column 'ORIGINAL_CHARA_GROUP_ID'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setOriginalCharaGroupId(Integer originalCharaGroupId) {
+        registerModifiedProperty("originalCharaGroupId");
+        _originalCharaGroupId = originalCharaGroupId;
     }
 
     /**

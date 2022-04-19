@@ -23,7 +23,7 @@ data class VillageSettingsContent(
     ) {
         constructor(village: Village, charachips: Charachips) : this(
             charaGroupName = charachips.list.joinToString(separator = "、") { it.name },
-            dummyCharaName = charachips.chara(village.setting.dummyCharaId).name,
+            dummyCharaName = charachips.chara(village.setting.chara.dummyCharaId).name,
             skillRequestType = if (village.setting.rule.isPossibleSkillRequest) "有効" else "無効"
         )
     }

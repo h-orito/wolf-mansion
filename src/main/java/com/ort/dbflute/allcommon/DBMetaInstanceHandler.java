@@ -49,6 +49,9 @@ public class DBMetaInstanceHandler implements DBMetaProvider {
         tmpMap.put("message_sendto", "com.ort.dbflute.bsentity.dbmeta.MessageSendtoDbm");
         tmpMap.put("message_type", "com.ort.dbflute.bsentity.dbmeta.MessageTypeDbm");
         tmpMap.put("normal_say_restriction", "com.ort.dbflute.bsentity.dbmeta.NormalSayRestrictionDbm");
+        tmpMap.put("original_chara", "com.ort.dbflute.bsentity.dbmeta.OriginalCharaDbm");
+        tmpMap.put("original_chara_group", "com.ort.dbflute.bsentity.dbmeta.OriginalCharaGroupDbm");
+        tmpMap.put("original_chara_image", "com.ort.dbflute.bsentity.dbmeta.OriginalCharaImageDbm");
         tmpMap.put("player", "com.ort.dbflute.bsentity.dbmeta.PlayerDbm");
         tmpMap.put("random_content", "com.ort.dbflute.bsentity.dbmeta.RandomContentDbm");
         tmpMap.put("random_keyword", "com.ort.dbflute.bsentity.dbmeta.RandomKeywordDbm");

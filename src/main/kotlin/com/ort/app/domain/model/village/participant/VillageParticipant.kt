@@ -134,6 +134,7 @@ data class VillageParticipant(
     fun canVote(): Boolean = isAlive() && !isSpectator
 
     fun canChangeName(isEpilogue: Boolean): Boolean = !dead.isDead || !dead.reason!!.isSuddenly() || isEpilogue
+    fun canAddImage(): Boolean = true
 
     fun isViewableSpoilerContent(isOpenSkillInGrave: Boolean): Boolean = isOpenSkillInGrave && (isDead() || isSpectator)
 

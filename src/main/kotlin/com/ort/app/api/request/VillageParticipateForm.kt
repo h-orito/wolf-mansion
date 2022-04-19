@@ -1,10 +1,16 @@
 package com.ort.app.api.request
 
+import org.springframework.web.multipart.MultipartFile
 import javax.validation.constraints.NotNull
 
 data class VillageParticipateForm(
-    @field:NotNull
+    // キャラチップ制の場合
     val charaId: Int? = null,
+    // オリジナルキャラ制の場合
+    val charaName: String? = null,
+    val charaShortName: String? = null,
+    var charaImageFile: MultipartFile? = null,
+
     val requestedSkill: String? = null,
     val secondRequestedSkill: String? = null,
     @field:NotNull

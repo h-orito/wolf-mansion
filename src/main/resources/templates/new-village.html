@@ -18,7 +18,8 @@
                 <p>
                     <span class="text-danger">*</span> のついている項目は村作成後に変更できません。
                 </p>
-                <form method="post" id="divert-form" action="" th:action="@{/new-village/divert}"
+                <form method="post" id="divert-form" action=""
+                      th:action="@{/new-village/divert}"
                       class="form-horizontal">
                     <hr/>
                     <h2 class="h5">設定流用</h2>
@@ -46,7 +47,9 @@
                     </div>
                 </form>
                 <span class="text-danger" th:if="${errorMessage}" th:text="${errorMessage}">error</span>
-                <form method="post" id="new-village-form" action="" th:action="@{/new-village/confirm}"
+                <form method="post" id="new-village-form" action=""
+                      enctype="multipart/form-data"
+                      th:action="@{/new-village/confirm}"
                       th:object="${villageForm}" class="form-horizontal">
                     <hr/>
                     <h2 class="h5">基本設定</h2>
@@ -161,29 +164,75 @@
                         </div>
                     </div>
                     <hr/>
-                    <h2 class="h5">キャラチップ設定</h2>
+                    <h2 class="h5">キャラチップ設定 <span class="text-danger">*</span></h2>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">キャラセット <span class="text-danger">*</span></label>
-                        <div class="col-sm-9 col-xs-12 btn-group" data-toggle="buttons">
-                            <select multiple class="form-control" th:field="*{characterSetId}">
-                                <option th:each="charaGroup : ${characterSetList}" th:value="${charaGroup.value}"
-                                        th:text="${charaGroup.name}"></option>
-                            </select> <span th:if="${#fields.hasErrors('characterSetId')}" th:errors="*{characterSetId}"
-                                            class="help-block text-danger">error!</span>
+                        <label class="col-sm-3 col-xs-12 control-label">キャラチップ利用</label>
+                        <div id="charachip-check" class="col-sm-9 btn-group" data-toggle="buttons">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{shouldOriginalImage ? '' : 'active'}">
+                                <input type="radio" th:field="*{shouldOriginalImage}" value="false" autocomplete="off"
+                                       checked="checked"/>利用する
+                            </label>
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{shouldOriginalImage ? 'active' : ''}">
+                                <input type="radio" class="" th:field="*{shouldOriginalImage}" value="true"
+                                       autocomplete="off"/>自分で用意する
+                            </label>
+                        </div>
+                    </div>
+                    <div id="use-charachip">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">キャラセット</label>
+                            <div class="col-sm-9 col-xs-12 btn-group" data-toggle="buttons">
+                                <select multiple class="form-control" th:field="*{characterSetId}">
+                                    <option th:each="charaGroup : ${characterSetList}" th:value="${charaGroup.value}"
+                                            th:text="${charaGroup.name}"></option>
+                                </select> <span th:if="${#fields.hasErrors('characterSetId')}"
+                                                th:errors="*{characterSetId}"
+                                                class="help-block text-danger">error!</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">ダミーキャラ</label>
+                            <div class="col-sm-9 col-xs-12 btn-group" data-toggle="buttons">
+                                <select class="form-control" th:field="*{dummyCharaId}">
+                                    <option value="">読み込み中</option>
+                                </select> <span th:if="${#fields.hasErrors('dummyCharaId')}" th:errors="*{dummyCharaId}"
+                                                class="help-block text-danger">error!</span> <span
+                                    class="hidden" th:data-dummy-chara-id="${villageForm.dummyCharaId}"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="use-original-chara">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"></label>
+                            <div class="col-sm-9 col-xs-12">
+                                <ul>
+                                    <li>オリジナル画像を各参加者がアップロードして使用します。</li>
+                                    <li>ダミーキャラ画像は村作成確認画面で入力してください。</li>
+                                    <li>登録した時点で、<a th:href="@{/about#original}">オリジナルキャラクターおよび画像の登録</a>について了承したものとみなします。
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">ダミーキャラ名</label>
+                            <div class="col-sm-9 col-xs-12">
+                                <input type="text" class="form-control" th:field="*{dummyCharaName}"/>
+                                <span th:if="${#fields.hasErrors('dummyCharaName')}" th:errors="*{dummyCharaName}"
+                                      class="help-block text-danger">error!</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">ダミーキャラ名略称</label>
+                            <div class="col-sm-9 col-xs-12">
+                                <input type="text" class="form-control" th:field="*{dummyCharaShortName}"/>
+                                <span th:if="${#fields.hasErrors('dummyCharaShortName')}"
+                                      th:errors="*{dummyCharaShortName}"
+                                      class="help-block text-danger">error!</span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">ダミーキャラ <span class="text-danger">*</span></label>
-                        <div class="col-sm-9 col-xs-12 btn-group" data-toggle="buttons">
-                            <select class="form-control" th:field="*{dummyCharaId}">
-                                <option value="">読み込み中</option>
-                            </select> <span th:if="${#fields.hasErrors('dummyCharaId')}" th:errors="*{dummyCharaId}"
-                                            class="help-block text-danger">error!</span> <span
-                                class="hidden" th:data-dummy-chara-id="${villageForm.dummyCharaId}"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">ダミーキャラの入村発言 <span class="text-danger">*</span></label>
+                        <label class="col-sm-3 control-label">ダミーキャラの入村発言</label>
                         <div class="col-sm-9">
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12" style="display: flex;">

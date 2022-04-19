@@ -328,23 +328,6 @@ public class BsFaceTypeCB extends AbstractConditionBean {
                     -> cq.xsderiveCharaImageList(fn, sq, al, op), _dbmetaProvider);
         }
         /**
-         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from message where ...) as FOO_MAX} <br>
-         * MESSAGE by FACE_TYPE_CODE, named 'messageList'.
-         * <pre>
-         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-         *     messageCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
-         *     messageCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
-         * }, Message.<span style="color: #CC4747">ALIAS_foo...</span>);
-         * </pre>
-         * @return The object to set up a function for referrer table. (NotNull)
-         */
-        public HpSDRFunction<MessageCB, FaceTypeCQ> derivedMessage() {
-            assertDerived("messageList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<MessageCB> sq, FaceTypeCQ cq, String al, DerivedReferrerOption op)
-                    -> cq.xsderiveMessageList(fn, sq, al, op), _dbmetaProvider);
-        }
-        /**
          * Prepare for (Specify)MyselfDerived (SubQuery).
          * @return The object to set up a function for myself table. (NotNull)
          */

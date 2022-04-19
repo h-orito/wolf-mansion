@@ -33,6 +33,8 @@ interface VillageRepository {
 
     fun updateDaychangeDifference(current: Village, changed: Village)
 
+    fun updateDummyCharaId(id: Int, charaId: Int)
+
     // ----------------------------------------------------
     // participant
 

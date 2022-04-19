@@ -31,7 +31,7 @@ class CharaController(
 
     @GetMapping("/chara-group/{charaGroupId}")
     private fun charaGroup(@PathVariable charaGroupId: Int, model: Model): String {
-        val charachip = charaService.findCharachip(charaGroupId)
+        val charachip = charaService.findCharachip(charaGroupId, false)
             ?: throw WolfMansionBusinessException("charachip not found. $charaGroupId")
         val content = CharaGroupContent(charachip)
         model.addAttribute("content", content)
@@ -41,7 +41,7 @@ class CharaController(
     @GetMapping("/getCharacterList")
     @ResponseBody
     private fun getCharacterList(form: CharacterListForm): List<Chara> {
-        val charas = charaService.findCharachips(form.charaGroupId!!).charas()
+        val charas = charaService.findCharachips(form.charaGroupId!!, false).charas()
         return charas.list.map {
             it.copy(
                 images = it.images.copy(
@@ -56,7 +56,8 @@ class CharaController(
     private fun getFaceImgUrl(@PathVariable villageId: Int, @PathVariable faceTypeCode: String): String? {
         val userInfo = WolfMansionUserInfoUtil.getUserInfo() ?: return null
         val participant = villageService.findVillageParticipant(villageId, userInfo.username) ?: return null
-        val chara = charaService.findChara(participant.charaId) ?: return null
+        val village = villageService.findVillage(villageId) ?: return null
+        val chara = charaService.findChara(participant.charaId, village.setting.chara.isOriginalCharachip) ?: return null
         return chara.images.list.firstOrNull { it.faceType.code == faceTypeCode }?.url
     }
 }

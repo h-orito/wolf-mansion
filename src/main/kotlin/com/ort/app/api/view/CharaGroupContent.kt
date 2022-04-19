@@ -26,8 +26,8 @@ data class CharaGroupContent(
     ) : this(
         charaGroupId = charachip.id,
         charaGroupName = charachip.name,
-        designerName = charachip.designer.name,
-        descriptionUrl = charachip.descriptionUrl,
+        designerName = charachip.designer!!.name,
+        descriptionUrl = charachip.descriptionUrl!!,
         charaList = charachip.charas.list.map { CharaGroupChara(it) },
         isAvailableChangeName = charachip.isAvailableChangeName,
         roomAssignedRowList = mapRoomAssign(charachip)

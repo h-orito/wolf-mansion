@@ -213,6 +213,151 @@ dl.column-content dd span {
 <p class="sisterlink"><a href="./schema-werewolf-mansiondb.html">to SchemaHTML</a></p>
 </div>
 
+<div class="section diffCode_20220417223904">
+	<h2>
+		<span class="titlediffno">diffNo. 85:</span> <span class="titlediffdatepart">2022/04/17</span> <span class="titledifftimepart">22:39:04</span>
+		<span class="titlediffauthor">by h-orito</span>
+		<span class="titlediffgitbranch">on feature/upload</span>
+	</h2>
+	<pre class="diffcomment"></pre>
+	<p class="tablecount">table count: 43&nbsp;-&gt;&nbsp;42</p>
+
+	<h3>Delete Table</h3>
+	<ul class="table-content">
+		<li>MESSAGE_TYPE_DEFAULT_ORIGINAL_CHARA_IMAGE</li>
+	</ul>
+</div>
+<div class="section diffCode_20220417143624">
+	<h2>
+		<span class="titlediffno">diffNo. 84:</span> <span class="titlediffdatepart">2022/04/17</span> <span class="titledifftimepart">14:36:24</span>
+		<span class="titlediffauthor">by h-orito</span>
+		<span class="titlediffgitbranch">on feature/upload</span>
+	</h2>
+	<pre class="diffcomment"></pre>
+
+	<h3>Change Table</h3>
+	<div class="table-content">
+		<h4>MESSAGE_TYPE_DEFAULT_ORIGINAL_CHARA_IMAGE</h4>
+		<div class="change-table-content">
+			<h5>Add FK</h5>
+			<ul class="column-content">
+				<li>FK_MESSAGE_TYPE_DEFAULT_ORIGINAL_CHARA_IMAGE_MESSAGE_TYPE</li>
+				<li>FK_MESSAGE_TYPE_DEFAULT_ORIGINAL_CHARA_IMAGE_ID</li>
+			</ul>
+			<h5>Add Index</h5>
+			<ul class="column-content">
+				<li>FK_MESSAGE_TYPE_DEFAULT_ORIGINAL_CHARA_IMAGE_ID</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="section diffCode_20220417142712">
+	<h2>
+		<span class="titlediffno">diffNo. 83:</span> <span class="titlediffdatepart">2022/04/17</span> <span class="titledifftimepart">14:27:12</span>
+		<span class="titlediffauthor">by h-orito</span>
+		<span class="titlediffgitbranch">on feature/upload</span>
+	</h2>
+	<pre class="diffcomment"></pre>
+	<p class="tablecount">table count: 42&nbsp;-&gt;&nbsp;43</p>
+
+	<h3>Add Table</h3>
+	<ul class="table-content">
+		<li>MESSAGE_TYPE_DEFAULT_ORIGINAL_CHARA_IMAGE</li>
+	</ul>
+	<h3>Change Table</h3>
+	<div class="table-content">
+		<h4>ORIGINAL_CHARA_IMAGE</h4>
+		<div class="change-table-content">
+			<h5>Add Column</h5>
+			<ul class="column-content">
+				<li>REGISTER_DATETIME</li>
+				<li>REGISTER_TRACE</li>
+				<li>UPDATE_DATETIME</li>
+				<li>UPDATE_TRACE</li>
+			</ul>
+			<h5>Delete Column</h5>
+			<ul class="column-content">
+				<li>FACE_TYPE_CODE</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="section diffCode_20220417121843">
+	<h2>
+		<span class="titlediffno">diffNo. 82:</span> <span class="titlediffdatepart">2022/04/17</span> <span class="titledifftimepart">12:18:43</span>
+		<span class="titlediffauthor">by h-orito</span>
+		<span class="titlediffgitbranch">on feature/upload</span>
+	</h2>
+	<pre class="diffcomment"></pre>
+
+	<h3>Change Table</h3>
+	<div class="table-content">
+		<h4>ORIGINAL_CHARA_IMAGE</h4>
+		<div class="change-table-content">
+			<h5>Add Column</h5>
+			<ul class="column-content">
+				<li>FACE_TYPE_CODE</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="section diffCode_20220414221047">
+	<h2>
+		<span class="titlediffno">diffNo. 81:</span> <span class="titlediffdatepart">2022/04/14</span> <span class="titledifftimepart">22:10:47</span>
+		<span class="titlediffauthor">by h-orito</span>
+		<span class="titlediffgitbranch">on feature/upload</span>
+	</h2>
+	<pre class="diffcomment"></pre>
+
+	<h3>Change Table</h3>
+	<div class="table-content">
+		<h4>MESSAGE</h4>
+		<div class="change-table-content">
+			<h5>Delete FK</h5>
+			<ul class="column-content">
+				<li>FK_MESSAGE_FACE_TYPE</li>
+			</ul>
+			<h5>Delete Index</h5>
+			<ul class="column-content">
+				<li>FK_MESSAGE_FACE_TYPE</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="section diffCode_20220414212756">
+	<h2>
+		<span class="titlediffno">diffNo. 80:</span> <span class="titlediffdatepart">2022/04/14</span> <span class="titledifftimepart">21:27:56</span>
+		<span class="titlediffauthor">by h-orito</span>
+		<span class="titlediffgitbranch">on feature/upload</span>
+	</h2>
+	<pre class="diffcomment"></pre>
+	<p class="tablecount">table count: 39&nbsp;-&gt;&nbsp;42</p>
+
+	<h3>Add Table</h3>
+	<ul class="table-content">
+		<li>ORIGINAL_CHARA</li>
+		<li>ORIGINAL_CHARA_GROUP</li>
+		<li>ORIGINAL_CHARA_IMAGE</li>
+	</ul>
+	<h3>Change Table</h3>
+	<div class="table-content">
+		<h4>VILLAGE_SETTINGS</h4>
+		<div class="change-table-content">
+			<h5>Add Column</h5>
+			<ul class="column-content">
+				<li>ORIGINAL_CHARA_GROUP_ID</li>
+			</ul>
+			<h5>Add FK</h5>
+			<ul class="column-content">
+				<li>FK_VILLAGE_SETTINGS_ORIGINAL_CHARA_GROUP_ID</li>
+			</ul>
+			<h5>Add Index</h5>
+			<ul class="column-content">
+				<li>FK_VILLAGE_SETTINGS_ORIGINAL_CHARA_GROUP_ID</li>
+			</ul>
+		</div>
+	</div>
+</div>
 <div class="section diffCode_20220408110014">
 	<h2>
 		<span class="titlediffno">diffNo. 79:</span> <span class="titlediffdatepart">2022/04/08</span> <span class="titledifftimepart">11:00:14</span>
@@ -224,11 +369,11 @@ dl.column-content dd span {
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
-		<li><a href="./schema-werewolf-mansiondb.html#village_player_access_info">VILLAGE_PLAYER_ACCESS_INFO</a></li>
+		<li>VILLAGE_PLAYER_ACCESS_INFO</li>
 	</ul>
 	<h3>Change Table</h3>
 	<div class="table-content">
-		<h4><a href="./schema-werewolf-mansiondb.html#player">PLAYER</a></h4>
+		<h4>PLAYER</h4>
 		<div class="change-table-content">
 			<h5>Add Column</h5>
 			<ul class="column-content">
@@ -3031,7 +3176,31 @@ dl.column-content dd span {
             ]
         };
         this.pickupStore = {
-            '20220408110014' : {
+            '20220417223904' : {
+                'diffDate' : '2022/04/17 22:39:04',
+                'diffComment' : ''
+            }
+            , '20220417143624' : {
+                'diffDate' : '2022/04/17 14:36:24',
+                'diffComment' : ''
+            }
+            , '20220417142712' : {
+                'diffDate' : '2022/04/17 14:27:12',
+                'diffComment' : ''
+            }
+            , '20220417121843' : {
+                'diffDate' : '2022/04/17 12:18:43',
+                'diffComment' : ''
+            }
+            , '20220414221047' : {
+                'diffDate' : '2022/04/14 22:10:47',
+                'diffComment' : ''
+            }
+            , '20220414212756' : {
+                'diffDate' : '2022/04/14 21:27:56',
+                'diffComment' : ''
+            }
+            , '20220408110014' : {
                 'diffDate' : '2022/04/08 11:00:14',
                 'diffComment' : ''
             }

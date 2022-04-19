@@ -72,7 +72,7 @@ public class FaceTypeDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnFaceTypeCode = cci("FACE_TYPE_CODE", "FACE_TYPE_CODE", null, null, String.class, "faceTypeCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "charaImageList,messageList", CDef.DefMeta.FaceType, false);
+    protected final ColumnInfo _columnFaceTypeCode = cci("FACE_TYPE_CODE", "FACE_TYPE_CODE", null, null, String.class, "faceTypeCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, "charaImageList", CDef.DefMeta.FaceType, false);
     protected final ColumnInfo _columnFaceTypeName = cci("FACE_TYPE_NAME", "FACE_TYPE_NAME", null, null, String.class, "faceTypeName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnDispOrder = cci("DISP_ORDER", "DISP_ORDER", null, null, Integer.class, "dispOrder", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
 
@@ -131,14 +131,6 @@ public class FaceTypeDbm extends AbstractDBMeta {
     public ReferrerInfo referrerCharaImageList() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnFaceTypeCode(), CharaImageDbm.getInstance().columnFaceTypeCode());
         return cri("FK_CHARA_IMAGE_FACE_TYPE", "charaImageList", this, CharaImageDbm.getInstance(), mp, false, "faceType");
-    }
-    /**
-     * MESSAGE by FACE_TYPE_CODE, named 'messageList'.
-     * @return The information object of referrer property. (NotNull)
-     */
-    public ReferrerInfo referrerMessageList() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnFaceTypeCode(), MessageDbm.getInstance().columnFaceTypeCode());
-        return cri("FK_MESSAGE_FACE_TYPE", "messageList", this, MessageDbm.getInstance(), mp, false, "faceType");
     }
 
     // ===================================================================================

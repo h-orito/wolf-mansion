@@ -33,13 +33,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     FACE_TYPE, MESSAGE_TYPE, PLAYER, VILLAGE_PLAYER, VILLAGE_DAY
+ *     MESSAGE_TYPE, PLAYER, VILLAGE_PLAYER, VILLAGE_DAY
  *
  * [referrer table]
  *     MESSAGE_SENDTO
  *
  * [foreign property]
- *     faceType, messageType, player, villagePlayerByToVillagePlayerId, villageDay, villagePlayerByVillagePlayerId
+ *     messageType, player, villagePlayerByToVillagePlayerId, villageDay, villagePlayerByVillagePlayerId
  *
  * [referrer property]
  *     messageSendtoList
@@ -134,7 +134,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     /** IS_CONVERT_DISABLE: {NotNull, BIT, classification=Flg} */
     protected Boolean _isConvertDisable;
 
-    /** FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType} */
+    /** FACE_TYPE_CODE: {VARCHAR(20)} */
     protected String _faceTypeCode;
 
     /** CHARA_NAME: {VARCHAR(40)} */
@@ -241,27 +241,6 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
      */
     public void setIsConvertDisableAsFlg(CDef.Flg cdef) {
         setIsConvertDisable(cdef != null ? toBoolean(cdef.code()) : null);
-    }
-
-    /**
-     * Get the value of faceTypeCode as the classification of FaceType. <br>
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType} <br>
-     * 表情種別
-     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
-     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
-     */
-    public CDef.FaceType getFaceTypeCodeAsFaceType() {
-        return CDef.FaceType.codeOf(getFaceTypeCode());
-    }
-
-    /**
-     * Set the value of faceTypeCode as the classification of FaceType. <br>
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType} <br>
-     * 表情種別
-     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
-     */
-    public void setFaceTypeCodeAsFaceType(CDef.FaceType cdef) {
-        setFaceTypeCode(cdef != null ? cdef.code() : null);
     }
 
     // ===================================================================================
@@ -473,62 +452,6 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
      */
     public void setIsConvertDisable_False() {
         setIsConvertDisableAsFlg(CDef.Flg.False);
-    }
-
-    /**
-     * Set the value of faceTypeCode as 墓下 (GRAVE). <br>
-     * 墓下
-     */
-    public void setFaceTypeCode_墓下() {
-        setFaceTypeCodeAsFaceType(CDef.FaceType.墓下);
-    }
-
-    /**
-     * Set the value of faceTypeCode as 恋人 (LOVER). <br>
-     * 恋人
-     */
-    public void setFaceTypeCode_恋人() {
-        setFaceTypeCodeAsFaceType(CDef.FaceType.恋人);
-    }
-
-    /**
-     * Set the value of faceTypeCode as 共鳴 (MASON). <br>
-     * 共鳴
-     */
-    public void setFaceTypeCode_共鳴() {
-        setFaceTypeCodeAsFaceType(CDef.FaceType.共鳴);
-    }
-
-    /**
-     * Set the value of faceTypeCode as 独り言 (MONOLOGUE). <br>
-     * 独り言
-     */
-    public void setFaceTypeCode_独り言() {
-        setFaceTypeCodeAsFaceType(CDef.FaceType.独り言);
-    }
-
-    /**
-     * Set the value of faceTypeCode as 通常 (NORMAL). <br>
-     * 通常
-     */
-    public void setFaceTypeCode_通常() {
-        setFaceTypeCodeAsFaceType(CDef.FaceType.通常);
-    }
-
-    /**
-     * Set the value of faceTypeCode as 秘話 (SECRET). <br>
-     * 秘話
-     */
-    public void setFaceTypeCode_秘話() {
-        setFaceTypeCodeAsFaceType(CDef.FaceType.秘話);
-    }
-
-    /**
-     * Set the value of faceTypeCode as 囁き (WEREWOLF). <br>
-     * 囁き
-     */
-    public void setFaceTypeCode_囁き() {
-        setFaceTypeCodeAsFaceType(CDef.FaceType.囁き);
     }
 
     // ===================================================================================
@@ -820,83 +743,6 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
         return cdef != null ? cdef.equals(CDef.Flg.False) : false;
     }
 
-    /**
-     * Is the value of faceTypeCode 墓下? <br>
-     * 墓下
-     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
-     * @return The determination, true or false.
-     */
-    public boolean isFaceTypeCode墓下() {
-        CDef.FaceType cdef = getFaceTypeCodeAsFaceType();
-        return cdef != null ? cdef.equals(CDef.FaceType.墓下) : false;
-    }
-
-    /**
-     * Is the value of faceTypeCode 恋人? <br>
-     * 恋人
-     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
-     * @return The determination, true or false.
-     */
-    public boolean isFaceTypeCode恋人() {
-        CDef.FaceType cdef = getFaceTypeCodeAsFaceType();
-        return cdef != null ? cdef.equals(CDef.FaceType.恋人) : false;
-    }
-
-    /**
-     * Is the value of faceTypeCode 共鳴? <br>
-     * 共鳴
-     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
-     * @return The determination, true or false.
-     */
-    public boolean isFaceTypeCode共鳴() {
-        CDef.FaceType cdef = getFaceTypeCodeAsFaceType();
-        return cdef != null ? cdef.equals(CDef.FaceType.共鳴) : false;
-    }
-
-    /**
-     * Is the value of faceTypeCode 独り言? <br>
-     * 独り言
-     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
-     * @return The determination, true or false.
-     */
-    public boolean isFaceTypeCode独り言() {
-        CDef.FaceType cdef = getFaceTypeCodeAsFaceType();
-        return cdef != null ? cdef.equals(CDef.FaceType.独り言) : false;
-    }
-
-    /**
-     * Is the value of faceTypeCode 通常? <br>
-     * 通常
-     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
-     * @return The determination, true or false.
-     */
-    public boolean isFaceTypeCode通常() {
-        CDef.FaceType cdef = getFaceTypeCodeAsFaceType();
-        return cdef != null ? cdef.equals(CDef.FaceType.通常) : false;
-    }
-
-    /**
-     * Is the value of faceTypeCode 秘話? <br>
-     * 秘話
-     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
-     * @return The determination, true or false.
-     */
-    public boolean isFaceTypeCode秘話() {
-        CDef.FaceType cdef = getFaceTypeCodeAsFaceType();
-        return cdef != null ? cdef.equals(CDef.FaceType.秘話) : false;
-    }
-
-    /**
-     * Is the value of faceTypeCode 囁き? <br>
-     * 囁き
-     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
-     * @return The determination, true or false.
-     */
-    public boolean isFaceTypeCode囁き() {
-        CDef.FaceType cdef = getFaceTypeCodeAsFaceType();
-        return cdef != null ? cdef.equals(CDef.FaceType.囁き) : false;
-    }
-
     // ===================================================================================
     //                                                           Classification Name/Alias
     //                                                           =========================
@@ -912,27 +758,6 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
-    /** FACE_TYPE by my FACE_TYPE_CODE, named 'faceType'. */
-    protected OptionalEntity<FaceType> _faceType;
-
-    /**
-     * [get] FACE_TYPE by my FACE_TYPE_CODE, named 'faceType'. <br>
-     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
-     * @return The entity of foreign property 'faceType'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
-     */
-    public OptionalEntity<FaceType> getFaceType() {
-        if (_faceType == null) { _faceType = OptionalEntity.relationEmpty(this, "faceType"); }
-        return _faceType;
-    }
-
-    /**
-     * [set] FACE_TYPE by my FACE_TYPE_CODE, named 'faceType'.
-     * @param faceType The entity of foreign property 'faceType'. (NullAllowed)
-     */
-    public void setFaceType(OptionalEntity<FaceType> faceType) {
-        _faceType = faceType;
-    }
-
     /** MESSAGE_TYPE by my MESSAGE_TYPE_CODE, named 'messageType'. */
     protected OptionalEntity<MessageType> _messageType;
 
@@ -1090,8 +915,6 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     @Override
     protected String doBuildStringWithRelation(String li) {
         StringBuilder sb = new StringBuilder();
-        if (_faceType != null && _faceType.isPresent())
-        { sb.append(li).append(xbRDS(_faceType, "faceType")); }
         if (_messageType != null && _messageType.isPresent())
         { sb.append(li).append(xbRDS(_messageType, "messageType")); }
         if (_player != null && _player.isPresent())
@@ -1143,8 +966,6 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     @Override
     protected String doBuildRelationString(String dm) {
         StringBuilder sb = new StringBuilder();
-        if (_faceType != null && _faceType.isPresent())
-        { sb.append(dm).append("faceType"); }
         if (_messageType != null && _messageType.isPresent())
         { sb.append(dm).append("messageType"); }
         if (_player != null && _player.isPresent())
@@ -1394,7 +1215,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType} <br>
+     * [get] FACE_TYPE_CODE: {VARCHAR(20)} <br>
      * 表情種別コード
      * @return The value of the column 'FACE_TYPE_CODE'. (NullAllowed even if selected: for no constraint)
      */
@@ -1404,12 +1225,11 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType} <br>
+     * [set] FACE_TYPE_CODE: {VARCHAR(20)} <br>
      * 表情種別コード
      * @param faceTypeCode The value of the column 'FACE_TYPE_CODE'. (NullAllowed: null update allowed for no constraint)
      */
-    protected void setFaceTypeCode(String faceTypeCode) {
-        checkClassificationCode("FACE_TYPE_CODE", CDef.DefMeta.FaceType, faceTypeCode);
+    public void setFaceTypeCode(String faceTypeCode) {
         registerModifiedProperty("faceTypeCode");
         _faceTypeCode = faceTypeCode;
     }
@@ -1580,13 +1400,5 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
      */
     public void mynativeMappingMessageTypeCode(String messageTypeCode) {
         setMessageTypeCode(messageTypeCode);
-    }
-
-    /**
-     * For framework so basically DON'T use this method.
-     * @param faceTypeCode The value of the column 'FACE_TYPE_CODE'. (NullAllowed: null update allowed for no constraint)
-     */
-    public void mynativeMappingFaceTypeCode(String faceTypeCode) {
-        setFaceTypeCode(faceTypeCode);
     }
 }

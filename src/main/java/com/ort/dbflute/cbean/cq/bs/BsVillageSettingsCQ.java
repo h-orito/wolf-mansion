@@ -493,6 +493,26 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
      */
     public BsVillageSettingsCQ addOrderBy_IsReincarnationSkillAll_Desc() { regOBD("IS_REINCARNATION_SKILL_ALL"); return this; }
 
+    protected ConditionValue _originalCharaGroupId;
+    public ConditionValue xdfgetOriginalCharaGroupId()
+    { if (_originalCharaGroupId == null) { _originalCharaGroupId = nCV(); }
+      return _originalCharaGroupId; }
+    protected ConditionValue xgetCValueOriginalCharaGroupId() { return xdfgetOriginalCharaGroupId(); }
+
+    /**
+     * Add order-by as ascend. <br>
+     * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_OriginalCharaGroupId_Asc() { regOBA("ORIGINAL_CHARA_GROUP_ID"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_OriginalCharaGroupId_Desc() { regOBD("ORIGINAL_CHARA_GROUP_ID"); return this; }
+
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
     { if (_registerDatetime == null) { _registerDatetime = nCV(); }
@@ -617,6 +637,9 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
         if (bq.hasConditionQueryAllowedSecretSay()) {
             uq.queryAllowedSecretSay().reflectRelationOnUnionQuery(bq.queryAllowedSecretSay(), uq.queryAllowedSecretSay());
         }
+        if (bq.hasConditionQueryOriginalCharaGroup()) {
+            uq.queryOriginalCharaGroup().reflectRelationOnUnionQuery(bq.queryOriginalCharaGroup(), uq.queryOriginalCharaGroup());
+        }
         if (bq.hasConditionQueryVillage()) {
             uq.queryVillage().reflectRelationOnUnionQuery(bq.queryVillage(), uq.queryVillage());
         }
@@ -644,6 +667,26 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
     }
     protected void xsetupOuterJoinAllowedSecretSay() { xregOutJo("allowedSecretSay"); }
     public boolean hasConditionQueryAllowedSecretSay() { return xhasQueRlMap("allowedSecretSay"); }
+
+    /**
+     * Get the condition-query for relation table. <br>
+     * ORIGINAL_CHARA_GROUP by my ORIGINAL_CHARA_GROUP_ID, named 'originalCharaGroup'.
+     * @return The instance of condition-query. (NotNull)
+     */
+    public OriginalCharaGroupCQ queryOriginalCharaGroup() {
+        return xdfgetConditionQueryOriginalCharaGroup();
+    }
+    public OriginalCharaGroupCQ xdfgetConditionQueryOriginalCharaGroup() {
+        String prop = "originalCharaGroup";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryOriginalCharaGroup()); xsetupOuterJoinOriginalCharaGroup(); }
+        return xgetQueRlMap(prop);
+    }
+    protected OriginalCharaGroupCQ xcreateQueryOriginalCharaGroup() {
+        String nrp = xresolveNRP("village_settings", "originalCharaGroup"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        return xinitRelCQ(new OriginalCharaGroupCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "originalCharaGroup", nrp);
+    }
+    protected void xsetupOuterJoinOriginalCharaGroup() { xregOutJo("originalCharaGroup"); }
+    public boolean hasConditionQueryOriginalCharaGroup() { return xhasQueRlMap("originalCharaGroup"); }
 
     /**
      * Get the condition-query for relation table. <br>

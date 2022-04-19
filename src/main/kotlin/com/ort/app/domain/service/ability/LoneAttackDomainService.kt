@@ -2,6 +2,7 @@ package com.ort.app.domain.service.ability
 
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.AbilityType
+import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.Charas
 import com.ort.app.domain.model.chara.toModel
 import com.ort.app.domain.model.daychange.Daychange
@@ -67,16 +68,19 @@ class LoneAttackDomainService(
         charas: Charas
     ): Message {
         val text = "${target.name()}！今日がお前の命日だ！"
-        val faceType = if (hasFaceType(myself, charas)) CDef.FaceType.囁き else CDef.FaceType.通常
+        val myselfChara = charas.chara(myself.charaId)
+        val faceType =
+            if (hasFaceType(myselfChara)) CDef.FaceType.囁き.toModel()
+            else charas.chara(myself.charaId).defaultImage().faceType
         return messageDomainService.createAttackMessage(
             village,
             myself,
             text,
-            faceType.toModel(),
+            faceType,
             CDef.MessageType.独り言.toModel()
         )
     }
 
-    private fun hasFaceType(myself: VillageParticipant, charas: Charas): Boolean =
-        charas.chara(myself.charaId).images.list.any { it.faceType.toCdef() == CDef.FaceType.囁き }
+    private fun hasFaceType(chara: Chara): Boolean =
+        chara.images.list.any { it.faceType.toCdef() == CDef.FaceType.囁き }
 }

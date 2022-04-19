@@ -20,7 +20,8 @@
     <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
 </head>
 <body>
-<div class="col-sm-12 col-xs-12" th:if="${content.form.changeName.dispChangeNameForm || content.form.memo.dispMemoForm}"
+<div class="col-sm-12 col-xs-12"
+     th:if="${content.form.changeName.dispChangeNameForm || content.form.memo.dispMemoForm || faceTypeForm != null}"
      layout:fragment="change-name-form">
     <div class="panel-group" id="change-name-form-panel">
         <div class="panel panel-default">
@@ -42,6 +43,7 @@
                     <a href="javascript:void(0);" data-toggle="collapse" data-target="#changenameform" class="h5 hidden"
                        aria-expanded="true" data-changename-tab>名前変更</a>
                     <div th:if="${content.form.changeName.dispChangeNameForm}">
+                        <h3 class="h5">名前変更</h3>
                         <span th:if="${changeNameErrorMessage != null}" class="text-danger"
                               th:test="${changeNameErrorMessage}">error</span>
                         <form method="post" id="change-name-form" action=""
@@ -80,6 +82,7 @@
                         </form>
                     </div>
                     <div th:if="${content.form.memo.dispMemoForm}">
+                        <h3 class="h5">簡易メモ変更</h3>
                         <span th:if="${memoErrorMessage != null}" class="text-danger" th:test="${memoErrorMessage}">error</span>
                         <form method="post" id="memo-form" action=""
                               th:action="@{/village/{villageId}/memo(villageId=${content.villageId})}"
@@ -100,6 +103,66 @@
                             <div class="form-group">
                                 <div class="col-sm-12 col-xs-12">
                                     <input type="submit" class="btn btn-sm btn-success pull-right" value="簡易メモを変更する"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div th:if="${faceTypeForm}">
+                        <h3 class="h5">表情差分追加</h3>
+                        <div class="alert alert-warning-say small">
+                            <ul>
+                                <li>表情差分名は1～5文字で入力してください。</li>
+                                <li>画像は60x60pxで表示されるため、解像度は60x60や120x120など60の倍数の大きさとすることを推奨します。</li>
+                                <li>100kByteを超える画像はアップロードできません。</li>
+                            </ul>
+                        </div>
+                        <span th:if="${memoErrorMessage != null}" class="text-danger" th:test="${faceTypeErrorMessage}">error</span>
+                        <form method="post" id="face-type-form" action=""
+                              enctype="multipart/form-data"
+                              th:action="@{/village/{villageId}/add-face-type(villageId=${content.villageId})}"
+                              th:object="${faceTypeForm}" class="form-horizontal collapse in" aria-expanded="true"
+                              style="margin-top: 10px;">
+                            <div class="form-group">
+                                <div class="col-sm-12 col-xs-12">
+                                    <div class="row">
+                                        <label class="col-sm-2 control-label">表情差分名</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control small" th:field="*{faceTypeName}"/>
+                                            <span th:if="${#fields.hasErrors('faceTypeName')}"
+                                                  th:errors="*{faceTypeName}"
+                                                  class="help-block text-danger">error!</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12 col-xs-12">
+                                    <div class="row">
+                                        <label class="col-sm-2 control-label">画像</label>
+                                        <div class="col-sm-10">
+                                            <div class="input-group">
+                                                <label class="input-group-btn">
+                                                    <span class="btn btn-success btn-sm"
+                                                          style="padding-top: 3px; padding-bottom: 3px;">
+                                                        Choose File
+                                                        <input type="file"
+                                                               accept="image/*"
+                                                               th:field="*{image}"
+                                                               style="display:none"
+                                                               class="uploadFile">
+                                                    </span>
+                                                </label>
+                                                <input type="text" class="form-control" readonly="">
+                                            </div>
+                                            <span th:if="${#fields.hasErrors('image')}"
+                                                  th:errors="*{image}" class="help-block text-danger">error!</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12 col-xs-12">
+                                    <input type="submit" class="btn btn-sm btn-success pull-right" value="表情差分を追加する"/>
                                 </div>
                             </div>
                         </form>

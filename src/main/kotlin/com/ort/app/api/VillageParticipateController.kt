@@ -68,7 +68,10 @@ class VillageParticipateController(
             villageCoordinator.assertParticipate(
                 village,
                 player,
-                participateForm.charaId!!,
+                participateForm.charaId,
+                participateForm.charaName,
+                participateForm.charaShortName,
+                participateForm.charaImageFile,
                 participateForm.joinPassword,
                 participateForm.spectator == true
             )
@@ -83,13 +86,19 @@ class VillageParticipateController(
             return "village"
         }
 
-        val chara = charaService.findChara(participateForm.charaId!!)
-            ?: throw WolfMansionBusinessException("chara not found.")
-        model.addAttribute("characterImgUrl", chara.defaultImage().url)
-        model.addAttribute("characterImgWidth", chara.size.width)
-        model.addAttribute("characterImgHeight", chara.size.height)
+        if (!village.setting.chara.isOriginalCharachip) {
+            val chara = charaService.findChara(participateForm.charaId!!, false)
+                ?: throw WolfMansionBusinessException("chara not found.")
+            model.addAttribute("characterImgUrl", chara.defaultImage().url)
+            model.addAttribute("characterImgWidth", chara.size.width)
+            model.addAttribute("characterImgHeight", chara.size.height)
+        } else {
+            model.addAttribute("characterImgHeight", 60)
+        }
+        model.addAttribute("isOriginalChara", village.setting.chara.isOriginalCharachip)
         model.addAttribute("villageId", villageId)
         model.addAttribute("villageName", village.name)
+
         // 発言確認画面へ
         return "participate-confirm"
     }
@@ -122,10 +131,16 @@ class VillageParticipateController(
         } ?: Skill(CDef.Skill.おまかせ)
 
         try {
+            if (village.setting.chara.isOriginalCharachip && participateForm.charaImageFile == null) {
+                throw WolfMansionBusinessException("キャラクター画像は必須です")
+            }
             villageCoordinator.participate(
                 village,
                 player,
-                participateForm.charaId!!,
+                participateForm.charaId,
+                participateForm.charaName,
+                participateForm.charaShortName,
+                participateForm.charaImageFile,
                 first,
                 second,
                 participateForm.joinMessage!!,

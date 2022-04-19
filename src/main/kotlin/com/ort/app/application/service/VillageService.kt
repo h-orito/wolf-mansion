@@ -11,6 +11,7 @@ import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDateTime
 
 @Service
@@ -43,6 +44,8 @@ class VillageService(
         villageRepository.shortenDay(villageId, day, datetime)
 
     fun updateSetting(village: Village) = villageRepository.updateSetting(village)
+
+    fun updateDummyCharaId(id: Int, charaId: Int) = villageRepository.updateDummyCharaId(id, charaId)
 
     // ------------------------
     // participant

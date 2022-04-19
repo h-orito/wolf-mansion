@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class Charachip(
     val id: Int,
     val name: String,
-    val designer: Designer,
-    val descriptionUrl: String,
+    val designer: Designer?,
+    val descriptionUrl: String?,
     @JsonProperty("isAvailableChangeName") val isAvailableChangeName: Boolean,
     val charas: Charas
 ) {

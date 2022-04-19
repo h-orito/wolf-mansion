@@ -52,7 +52,7 @@ class ParticipateDomainService {
     fun assertParticipate(
         village: Village,
         player: Player,
-        charaId: Int,
+        charaId: Int?,
         joinPassword: String?
     ) {
         player.assertParticipate(village.id)
@@ -62,7 +62,7 @@ class ParticipateDomainService {
     fun assertSpectate(
         village: Village,
         player: Player,
-        charaId: Int,
+        charaId: Int?,
         joinPassword: String?,
         charachips: Charachips
     ) {

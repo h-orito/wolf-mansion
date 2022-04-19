@@ -15,7 +15,9 @@
         <div id="wrapper">
             <div class="col-sm-12 col-xs-12">
                 <h1 class="h4">村作成確認</h1>
-                <form method="post" id="new-village-confirm-form" action="" th:action="@{/new-village/create}"
+                <form method="post" id="new-village-confirm-form" action=""
+                      enctype="multipart/form-data"
+                      th:action="@{/new-village/create}"
                       th:object="${villageForm}" class="form-horizontal">
                     <div class="table-responsive clearfix">
                         <table class="table table-bordered table-condensed">
@@ -49,13 +51,37 @@
                             <tr>
                                 <th colspan="2"><span class="h4">キャラチップ設定</span>
                             </tr>
-                            <tr>
+                            <tr th:unless="*{shouldOriginalImage}">
                                 <th>キャラクターセット</th>
                                 <td th:text="${characterSetName}"></td>
                             </tr>
-                            <tr>
+                            <tr th:unless="*{shouldOriginalImage}">
                                 <th>ダミーキャラ</th>
                                 <td th:text="${dummyCharaName}"></td>
+                            </tr>
+                            <tr th:if="*{shouldOriginalImage}">
+                                <th>ダミーキャラ名</th>
+                                <td th:text="*{dummyCharaName}"></td>
+                            </tr>
+                            <tr th:if="*{shouldOriginalImage}">
+                                <th>ダミーキャラ名略称</th>
+                                <td th:text="*{dummyCharaShortName}"></td>
+                            </tr>
+                            <tr th:if="*{shouldOriginalImage}">
+                                <th>ダミーキャラ画像</th>
+                                <td>
+                                    <div class="input-group">
+                                        <label class="input-group-btn">
+                                            <span class="btn btn-success btn-sm"
+                                                  style="padding-top: 3px; padding-bottom: 3px;">
+                                                Choose File<input type="file" accept="image/*"
+                                                                  th:field="*{dummyCharaImageFile}"
+                                                                  style="display:none" class="uploadFile">
+                                            </span>
+                                        </label>
+                                        <input type="text" class="form-control" readonly="">
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
                                 <th>ダミーキャラ入村発言</th>
@@ -64,8 +90,15 @@
                                         <div class="row" style="display: flex;">
                                             <div class="col-sm-12 col-xs-12" style="display: flex;">
                                                 <div>
-                                                    <img th:src="${characterImgUrl}" th:width="${characterImgWidth}"
-                                                         th:height="${characterImgHeight}">
+                                                    <img th:unless="*{shouldOriginalImage}"
+                                                         th:src="${characterImgUrl}"
+                                                         th:width="${characterImgWidth}"
+                                                         th:height="${characterImgHeight}"/>
+                                                    <img id="dummy-chara-img"
+                                                         th:if="*{shouldOriginalImage}"
+                                                         th:src="@{/app/images/placeholder.png}"
+                                                         th:width="60"
+                                                         th:height="60"/>
                                                 </div>
                                                 <div class="message message-normal"
                                                      th:style="'flex: 1; margin-left: 5px; min-height: ' + ${characterImgHeight} + 'px;'">
@@ -373,6 +406,9 @@
                     <input type="hidden" th:field="*{startDay}"/>
                     <input type="hidden" th:field="*{startHour}"/>
                     <input type="hidden" th:field="*{startMinute}"/>
+                    <input type="hidden" th:field="*{shouldOriginalImage}"/>
+                    <input type="hidden" th:field="*{dummyCharaName}"/>
+                    <input type="hidden" th:field="*{dummyCharaShortName}"/>
                     <input type="hidden" th:field="*{openVote}"/>
                     <input type="hidden" th:field="*{possibleSkillRequest}"/>
                     <input type="hidden" th:field="*{availableSpectate}"/>

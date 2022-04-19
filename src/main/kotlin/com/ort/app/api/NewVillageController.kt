@@ -72,24 +72,33 @@ class NewVillageController(
         val player = WolfMansionUserInfoUtil.getUserInfo()?.let {
             playerService.findPlayer(it.username)
         }
-        val charachips = charaService.findCharachips(villageForm.characterSetId!!)
-        if (result.hasErrors() || player == null || charachips.list.size != villageForm.characterSetId!!.size) {
+        if (result.hasErrors() || player == null) {
+            setIndexModel(villageForm, model)
+            return "new-village"
+        }
+        val isOriginal = villageForm.shouldOriginalImage!!
+        val charachips = charaService.findCharachips(villageForm.characterSetId!!, isOriginal)
+        if (!isOriginal && charachips.list.size != villageForm.characterSetId!!.size) {
             setIndexModel(villageForm, model)
             return "new-village"
         }
         try {
-            villageCoordinator.assertCreateVillage(player, villageForm.personMaxNum!!, charachips)
+            villageCoordinator.assertCreateVillage(player, villageForm.personMaxNum!!, charachips, isOriginal)
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("errorMessage", e.message)
             setIndexModel(villageForm, model)
             return "new-village"
         }
-        model.addAttribute("characterSetName", charachips.list.joinToString(separator = "、") { it.name })
-        val dummyChara = charachips.list.flatMap { it.charas.list }.first { it.id == villageForm.dummyCharaId!! }
-        model.addAttribute("dummyCharaName", dummyChara.name)
-        model.addAttribute("characterImgUrl", dummyChara.defaultImage().url)
-        model.addAttribute("characterImgWidth", dummyChara.size.width)
-        model.addAttribute("characterImgHeight", dummyChara.size.height)
+        if (!isOriginal) {
+            model.addAttribute("characterSetName", charachips.list.joinToString(separator = "、") { it.name })
+            val dummyChara = charachips.list.flatMap { it.charas.list }.first { it.id == villageForm.dummyCharaId!! }
+            model.addAttribute("dummyCharaName", dummyChara.name)
+            model.addAttribute("characterImgUrl", dummyChara.defaultImage().url)
+            model.addAttribute("characterImgWidth", dummyChara.size.width)
+            model.addAttribute("characterImgHeight", dummyChara.size.height)
+        } else {
+            model.addAttribute("characterImgHeight", 60)
+        }
 
         // 時間と日時の表示
         model.addAttribute("startDateTime", mapStartDateTime(villageForm))
@@ -111,14 +120,21 @@ class NewVillageController(
             setIndexModel(villageForm, model)
             return "new-village"
         }
-        val charachips = charaService.findCharachips(villageForm.characterSetId!!)
-        if (charachips.list.size != villageForm.characterSetId!!.size) {
+        val isOriginal = villageForm.shouldOriginalImage!!
+        val charachips = charaService.findCharachips(villageForm.characterSetId!!, isOriginal)
+        if (!isOriginal && charachips.list.size != villageForm.characterSetId!!.size) {
             setIndexModel(villageForm, model)
             return "new-village"
         }
         val village = try {
-            villageCoordinator.assertCreateVillage(player, villageForm.personMaxNum!!, charachips)
-            villageCoordinator.registerVillage(villageForm.toVillage(player), villageForm.dummyJoinMessage!!)
+            villageCoordinator.assertCreateVillage(player, villageForm.personMaxNum!!, charachips, isOriginal)
+            villageCoordinator.registerVillage(
+                villageForm.toVillage(player),
+                villageForm.dummyCharaName,
+                villageForm.dummyCharaShortName,
+                villageForm.dummyCharaImageFile,
+                villageForm.dummyJoinMessage!!
+            )
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("errorMessage", e.message)
             setIndexModel(villageForm, model)
@@ -156,7 +172,7 @@ class NewVillageController(
         model.addAttribute("skillListStr", Skill.getSkillListStr())
         model.addAttribute("nowYear", LocalDateTime.now().year)
         val charachips = charaService.findCharachips().list.map {
-            OptionContent(name = "${it.name}（${it.designer.name}様作）", value = it.id.toString())
+            OptionContent(name = "${it.name}（${it.designer!!.name}様作）", value = it.id.toString())
         }
         model.addAttribute("characterSetList", charachips)
     }

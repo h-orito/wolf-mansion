@@ -33,7 +33,7 @@ data class CharaGroupListContent(
         ) : this(
             charaGroupId = charachip.id,
             charaGroupName = charachip.name,
-            designerName = charachip.designer.name,
+            designerName = charachip.designer!!.name,
             charaNum = charachip.charas.list.size,
             dummyImgUrl = charachip.dummyChara().images.list.first().url,
             dummyImgWidth = charachip.dummyChara().size.width,

@@ -27,6 +27,13 @@ public class VillageSettingsNss {
     }
     /**
      * With nested relation columns to select clause. <br>
+     * ORIGINAL_CHARA_GROUP by my ORIGINAL_CHARA_GROUP_ID, named 'originalCharaGroup'.
+     */
+    public void withOriginalCharaGroup() {
+        _query.xdoNss(() -> _query.queryOriginalCharaGroup());
+    }
+    /**
+     * With nested relation columns to select clause. <br>
      * VILLAGE by my VILLAGE_ID, named 'village'.
      * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
      */

@@ -41,13 +41,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [foreign table]
- *     FACE_TYPE, MESSAGE_TYPE, PLAYER, VILLAGE_PLAYER, VILLAGE_DAY
+ *     MESSAGE_TYPE, PLAYER, VILLAGE_PLAYER, VILLAGE_DAY
  *
  * [referrer table]
  *     MESSAGE_SENDTO
  *
  * [foreign property]
- *     faceType, messageType, player, villagePlayerByToVillagePlayerId, villageDay, villagePlayerByVillagePlayerId
+ *     messageType, player, villagePlayerByToVillagePlayerId, villageDay, villagePlayerByVillagePlayerId
  *
  * [referrer property]
  *     messageSendtoList
@@ -456,14 +456,6 @@ public abstract class BsMessageBhv extends AbstractBehaviorWritable<Message, Mes
     // ===================================================================================
     //                                                                   Pull out Relation
     //                                                                   =================
-    /**
-     * Pull out the list of foreign table 'FaceType'.
-     * @param messageList The list of message. (NotNull, EmptyAllowed)
-     * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
-     */
-    public List<FaceType> pulloutFaceType(List<Message> messageList)
-    { return helpPulloutInternally(messageList, "faceType"); }
-
     /**
      * Pull out the list of foreign table 'MessageType'.
      * @param messageList The list of message. (NotNull, EmptyAllowed)

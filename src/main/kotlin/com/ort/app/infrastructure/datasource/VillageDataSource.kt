@@ -36,7 +36,7 @@ class VillageDataSource(
         query: VillageQuery
     ): Villages {
         val villageList = villageBhv.selectList {
-            it.setupSelect_VillageSettingsAsOne()
+            it.setupSelect_VillageSettingsAsOne().withOriginalCharaGroup()
             if (query.statuses.isNotEmpty()) {
                 it.query()
                     .setVillageStatusCode_InScope_AsVillageStatus(
@@ -78,7 +78,7 @@ class VillageDataSource(
         excludeGone: Boolean
     ): Village? {
         val optVillage = villageBhv.selectEntity {
-            it.setupSelect_VillageSettingsAsOne()
+            it.setupSelect_VillageSettingsAsOne().withOriginalCharaGroup()
             it.query().setVillageId_Equal(id)
         }
         if (!optVillage.isPresent) return null
@@ -143,6 +143,9 @@ class VillageDataSource(
         villagePlayerDataSource.updateDaychangeDifference(current.allParticipants(), changed.allParticipants())
         villageSettingsDataSource.updateDaychangeDifference(changed.id, current.setting, changed.setting)
     }
+
+    override fun updateDummyCharaId(id: Int, charaId: Int) =
+        villageSettingsDataSource.updateDummyCharaId(id, charaId)
 
     override fun participate(
         villageId: Int,
