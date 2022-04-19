@@ -72,7 +72,7 @@ class CreatorController(
             return "redirect:/village/$villageId#bottom"
         }
         val village = villageService.findVillage(villageId) ?: throw WolfMansionBusinessException("village not found.")
-        val charachips = charaService.findCharachips(village.setting.charachipIds)
+        val charachips = village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip) }
         setSettingsIndexModel(village, charachips, model)
         return "village-settings"
     }
@@ -86,7 +86,7 @@ class CreatorController(
         model: Model
     ): String {
         val village = villageService.findVillage(villageId) ?: throw WolfMansionBusinessException("village not found.")
-        val charachips = charaService.findCharachips(village.setting.charachipIds)
+        val charachips = village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip) }
         if (bindingResult.hasErrors()) {
             setSettingsIndexModel(village, charachips, model, form)
             return "village-settings"

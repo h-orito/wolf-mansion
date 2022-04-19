@@ -1,4 +1,172 @@
 map:{
+    ; 2022/04/17 22:39:04 = map:{
+        ; diffDate = 2022/04/17 22:39:04
+        ; tableCount = map:{
+            ; next = 42
+            ; previous = 43
+        }
+        ; diffAuthor = h-orito
+        ; diffGitBranch = feature/upload
+        ; tableDiff = map:{
+            ; message_type_default_original_chara_image = map:{
+                ; tableName = message_type_default_original_chara_image
+                ; diffType = DELETE
+            }
+        }
+    }
+    ; 2022/04/17 14:36:24 = map:{
+        ; diffDate = 2022/04/17 14:36:24
+        ; diffAuthor = h-orito
+        ; diffGitBranch = feature/upload
+        ; tableDiff = map:{
+            ; message_type_default_original_chara_image = map:{
+                ; tableName = message_type_default_original_chara_image
+                ; diffType = CHANGE
+                ; foreignKeyDiff = map:{
+                    ; FK_MESSAGE_TYPE_DEFAULT_ORIGINAL_CHARA_IMAGE_MESSAGE_TYPE = map:{
+                        ; constraintName = FK_MESSAGE_TYPE_DEFAULT_ORIGINAL_CHARA_IMAGE_MESSAGE_TYPE
+                        ; diffType = ADD
+                    }
+                    ; FK_MESSAGE_TYPE_DEFAULT_ORIGINAL_CHARA_IMAGE_ID = map:{
+                        ; constraintName = FK_MESSAGE_TYPE_DEFAULT_ORIGINAL_CHARA_IMAGE_ID
+                        ; diffType = ADD
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_MESSAGE_TYPE_DEFAULT_ORIGINAL_CHARA_IMAGE_ID = map:{
+                        ; constraintName = FK_MESSAGE_TYPE_DEFAULT_ORIGINAL_CHARA_IMAGE_ID
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
+    ; 2022/04/17 14:27:12 = map:{
+        ; diffDate = 2022/04/17 14:27:12
+        ; tableCount = map:{
+            ; next = 43
+            ; previous = 42
+        }
+        ; diffAuthor = h-orito
+        ; diffGitBranch = feature/upload
+        ; tableDiff = map:{
+            ; message_type_default_original_chara_image = map:{
+                ; tableName = message_type_default_original_chara_image
+                ; diffType = ADD
+            }
+            ; original_chara_image = map:{
+                ; tableName = original_chara_image
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; REGISTER_DATETIME = map:{
+                        ; columnName = REGISTER_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; REGISTER_TRACE = map:{
+                        ; columnName = REGISTER_TRACE
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_DATETIME = map:{
+                        ; columnName = UPDATE_DATETIME
+                        ; diffType = ADD
+                    }
+                    ; UPDATE_TRACE = map:{
+                        ; columnName = UPDATE_TRACE
+                        ; diffType = ADD
+                    }
+                    ; FACE_TYPE_CODE = map:{
+                        ; columnName = FACE_TYPE_CODE
+                        ; diffType = DELETE
+                    }
+                }
+            }
+        }
+    }
+    ; 2022/04/17 12:18:43 = map:{
+        ; diffDate = 2022/04/17 12:18:43
+        ; diffAuthor = h-orito
+        ; diffGitBranch = feature/upload
+        ; tableDiff = map:{
+            ; original_chara_image = map:{
+                ; tableName = original_chara_image
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; FACE_TYPE_CODE = map:{
+                        ; columnName = FACE_TYPE_CODE
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
+    ; 2022/04/14 22:10:47 = map:{
+        ; diffDate = 2022/04/14 22:10:47
+        ; diffAuthor = h-orito
+        ; diffGitBranch = feature/upload
+        ; tableDiff = map:{
+            ; message = map:{
+                ; tableName = message
+                ; diffType = CHANGE
+                ; foreignKeyDiff = map:{
+                    ; FK_MESSAGE_FACE_TYPE = map:{
+                        ; constraintName = FK_MESSAGE_FACE_TYPE
+                        ; diffType = DELETE
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_MESSAGE_FACE_TYPE = map:{
+                        ; constraintName = FK_MESSAGE_FACE_TYPE
+                        ; diffType = DELETE
+                    }
+                }
+            }
+        }
+    }
+    ; 2022/04/14 21:27:56 = map:{
+        ; diffDate = 2022/04/14 21:27:56
+        ; tableCount = map:{
+            ; next = 42
+            ; previous = 39
+        }
+        ; diffAuthor = h-orito
+        ; diffGitBranch = feature/upload
+        ; tableDiff = map:{
+            ; original_chara = map:{
+                ; tableName = original_chara
+                ; diffType = ADD
+            }
+            ; original_chara_group = map:{
+                ; tableName = original_chara_group
+                ; diffType = ADD
+            }
+            ; original_chara_image = map:{
+                ; tableName = original_chara_image
+                ; diffType = ADD
+            }
+            ; village_settings = map:{
+                ; tableName = village_settings
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; ORIGINAL_CHARA_GROUP_ID = map:{
+                        ; columnName = ORIGINAL_CHARA_GROUP_ID
+                        ; diffType = ADD
+                    }
+                }
+                ; foreignKeyDiff = map:{
+                    ; FK_VILLAGE_SETTINGS_ORIGINAL_CHARA_GROUP_ID = map:{
+                        ; constraintName = FK_VILLAGE_SETTINGS_ORIGINAL_CHARA_GROUP_ID
+                        ; diffType = ADD
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_VILLAGE_SETTINGS_ORIGINAL_CHARA_GROUP_ID = map:{
+                        ; constraintName = FK_VILLAGE_SETTINGS_ORIGINAL_CHARA_GROUP_ID
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2022/04/08 11:00:14 = map:{
         ; diffDate = 2022/04/08 11:00:14
         ; tableCount = map:{

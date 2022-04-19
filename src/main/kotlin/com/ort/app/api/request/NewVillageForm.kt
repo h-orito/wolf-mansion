@@ -14,14 +14,10 @@ import com.ort.app.domain.model.village.VillageDays
 import com.ort.app.domain.model.village.VillageSetting
 import com.ort.app.domain.model.village.VillageStatus
 import com.ort.app.domain.model.village.participant.VillageParticipants
-import com.ort.app.domain.model.village.setting.SayRestriction
-import com.ort.app.domain.model.village.setting.VillageOrganize
-import com.ort.app.domain.model.village.setting.VillageRandomOrganize
-import com.ort.app.domain.model.village.setting.VillageRule
-import com.ort.app.domain.model.village.setting.VillageTags
-import com.ort.app.domain.model.village.setting.toModel
+import com.ort.app.domain.model.village.setting.*
 import com.ort.dbflute.allcommon.CDef
 import org.hibernate.validator.constraints.Length
+import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.validation.Valid
@@ -110,13 +106,26 @@ data class NewVillageForm(
     @field:NotNull
     var visibleGraveSpectateMessage: Boolean? = null,
 
-    /** キャラセットID */
+    /** 自分で画像をアップロードするか */
     @field:NotNull
+    var shouldOriginalImage: Boolean? = null,
+
+    /** キャラセットID */
     var characterSetId: List<Int>? = null,
 
     /** ダミーキャラID */
-    @field:NotNull
     var dummyCharaId: Int? = null,
+
+    /** ダミーキャラ画像 */
+    var dummyCharaImageFile: MultipartFile? = null,
+
+    /** ダミーキャラ名 */
+    @field:Length(min = 1, max = 40)
+    var dummyCharaName: String? = null,
+
+    /** ダミーキャラ略称 */
+    @field:Length(min = 1, max = 1)
+    var dummyCharaShortName: String? = null,
 
     /** ダミーキャラ入村発言 */
     @field:NotNull
@@ -200,6 +209,9 @@ data class NewVillageForm(
                 startMinute = 0
             }
         }
+        if (shouldOriginalImage == null) shouldOriginalImage = false
+        if (dummyCharaName == null) dummyCharaName = "楽天家 ゲルト"
+        if (dummyCharaShortName == null) dummyCharaShortName = "楽"
         if (characterSetId == null) characterSetId = listOf(1)
         if (randomOrganization == null) randomOrganization = false
         if (reincarnationSkillAll == null) reincarnationSkillAll = false
@@ -241,8 +253,11 @@ data class NewVillageForm(
         dayChangeIntervalHours = village.setting.dayChangeIntervalSeconds / 3600
         dayChangeIntervalMinutes = (village.setting.dayChangeIntervalSeconds % 3600) / 60
         dayChangeIntervalSeconds = village.setting.dayChangeIntervalSeconds % 60
-        characterSetId = village.setting.charachipIds
-        dummyCharaId = village.setting.dummyCharaId
+        shouldOriginalImage = village.setting.chara.isOriginalCharachip
+        if (!village.setting.chara.isOriginalCharachip) {
+            characterSetId = village.setting.chara.charachipIds
+            dummyCharaId = village.setting.chara.dummyCharaId
+        }
         openVote = village.setting.rule.isOpenVote
         availableSameWolfAttack = village.setting.rule.isAvailableSameWolfAttack
         openSkillInGrave = village.setting.rule.isOpenSkillInGrave
@@ -328,8 +343,11 @@ data class NewVillageForm(
                 list = listOf(VillageDay(day = 0, dayChangeDatetime = startDatetime))
             ),
             setting = VillageSetting(
-                dummyCharaId = dummyCharaId!!,
-                charachipIds = characterSetId!!,
+                chara = VillageCharaSetting(
+                    isOriginalCharachip = shouldOriginalImage!!,
+                    dummyCharaId = dummyCharaId!!,
+                    charachipIds = characterSetId!!,
+                ),
                 personMin = startPersonMinNum!!,
                 personMax = personMaxNum!!,
                 dayChangeIntervalSeconds = dayChangeIntervalHours!! * 3600 + dayChangeIntervalMinutes!! * 60 + dayChangeIntervalSeconds!!,

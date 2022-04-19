@@ -153,4 +153,25 @@ $(function () {
         }
     }
 
+    $('#charachip-check input').on('change', function () {
+        showCharachipForm();
+    });
+    showCharachipForm();
+
+    function showCharachipForm() {
+        const shouldOriginalImage = $('#charachip-check').find('label').eq(1).hasClass('active');
+        $('#use-charachip').addClass('hidden');
+        $('#use-original-chara').addClass('hidden');
+        if (shouldOriginalImage) {
+            $('#use-original-chara').removeClass('hidden');
+            $('#dummy-chara-img').html($('<img />', {
+                src: contextPath + 'app/images/placeholder.png',
+                width: 60,
+                height: 60
+            }));
+        } else {
+            $('#use-charachip').removeClass('hidden');
+            replaceCharaSet($('#characterSetId').val(), false);
+        }
+    }
 });

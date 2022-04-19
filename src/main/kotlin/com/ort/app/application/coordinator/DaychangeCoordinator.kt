@@ -37,7 +37,7 @@ class DaychangeCoordinator(
         val commits = commitService.findCommits(village.id)
         val players = playerService.findPlayers(village.id)
         val footsteps = footstepService.findFootsteps(village.id)
-        val charas = charaService.findCharachips(village.setting.charachipIds).charas()
+        val charas = village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas() }
 
         var daychange = Daychange(village, abilities, votes, footsteps, players)
         daychange = daychangeDomainService.leaveParticipantIfNeeded(daychange).let {

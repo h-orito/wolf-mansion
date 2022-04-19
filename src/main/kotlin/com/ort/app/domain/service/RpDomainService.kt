@@ -16,7 +16,8 @@ class RpDomainService {
         day: Int
     ): ParticipantRpSituation = ParticipantRpSituation(
         isAvailableChangeName = isAvailableChangeName(village, myself, charachips, day),
-        isAvailableMemo = isAvailableMemo(village, myself, day)
+        isAvailableMemo = isAvailableMemo(village, myself, day),
+        canAddImage = canAddImage(village, myself, day)
     )
 
     private fun isAvailableChangeName(
@@ -37,4 +38,10 @@ class RpDomainService {
     ): Boolean =
         village.canChangeName(day) &&
                 myself?.canChangeName(village.status.isEpilogue()) ?: false
+
+    private fun canAddImage(
+        village: Village,
+        myself: VillageParticipant?,
+        day: Int
+    ): Boolean = village.canAddImage(day) && myself?.canAddImage() ?: false
 }

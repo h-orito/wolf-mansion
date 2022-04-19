@@ -41,7 +41,7 @@ data class Village(
 
     fun allRequestableSkillList(): List<Skill> = setting.allRequestableSkillList()
 
-    fun dummyParticipant(): VillageParticipant = participants.chara(setting.dummyCharaId)
+    fun dummyParticipant(): VillageParticipant = participants.chara(setting.chara.dummyCharaId)
 
     fun canCancel(): Boolean = status.isPrologue()
     fun canKick(): Boolean = status.isPrologue()
@@ -56,7 +56,7 @@ data class Village(
     fun isSettled(): Boolean = getAliveWolfCount() <= 0 || getAliveVillagerCount() <= getAliveWolfCount()
 
     fun canParticipate(): Boolean = status.isPrologue() && participants.count < setting.personMax
-    fun assertParticipate(charaId: Int, joinPassword: String?) {
+    fun assertParticipate(charaId: Int?, joinPassword: String?) {
         if (!canParticipate()) {
             throw WolfMansionBusinessException("参加できません")
         }
@@ -71,9 +71,9 @@ data class Village(
     fun canSpectate(charaNum: Int): Boolean =
         setting.rule.isAvailableSpectate
                 && status.isPrologue()
-                && spectators.count < charaNum - setting.personMax
+                && (setting.chara.isOriginalCharachip || spectators.count < charaNum - setting.personMax)
 
-    fun assertSpectate(charaId: Int, joinPassword: String?, charaNum: Int) {
+    fun assertSpectate(charaId: Int?, joinPassword: String?, charaNum: Int) {
         if (!canSpectate(charaNum)) {
             throw WolfMansionBusinessException("参加できません")
         }
@@ -144,6 +144,7 @@ data class Village(
     fun canVote(): Boolean = status.isProgress() && days.latestDay().day > 1
 
     fun canChangeName(day: Int): Boolean = status.isNotFinished() && isLatestDay(day)
+    fun canAddImage(day: Int): Boolean = setting.chara.isOriginalCharachip && status.isNotFinished() && isLatestDay(day)
 
     fun isLatestDay(day: Int): Boolean = latestDay() == day
     fun latestDay(): Int = days.latestDay().day

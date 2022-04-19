@@ -22,6 +22,7 @@ class SlackRepositoryImpl : SlackRepository {
 
 
     override fun post(villageId: Int, day: Int, message: String) {
+        if (slackWebhookUrl.isEmpty()) return
         try {
             val restTemplate = RestTemplate()
             val request = "{\"text\": \"<@U8Z40QDUM> vid: $villageId, message: \n$message\"}"

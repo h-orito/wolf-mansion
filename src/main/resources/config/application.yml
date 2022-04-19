@@ -28,6 +28,9 @@ logging:
 
 app:
   debug: true
+  original-image:
+    basedir: /var/www/html/wmansion/original
+    baseurl: /wmansion/original
 
 twitter:
   oauth:

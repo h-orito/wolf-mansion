@@ -315,14 +315,14 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType}
+     * FACE_TYPE_CODE: {VARCHAR(20)}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_FaceTypeCode_Asc() { regOBA("FACE_TYPE_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType}
+     * FACE_TYPE_CODE: {VARCHAR(20)}
      * @return this. (NotNull)
      */
     public BsMessageCQ addOrderBy_FaceTypeCode_Desc() { regOBD("FACE_TYPE_CODE"); return this; }
@@ -528,9 +528,6 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
     public void reflectRelationOnUnionQuery(ConditionQuery bqs, ConditionQuery uqs) {
         MessageCQ bq = (MessageCQ)bqs;
         MessageCQ uq = (MessageCQ)uqs;
-        if (bq.hasConditionQueryFaceType()) {
-            uq.queryFaceType().reflectRelationOnUnionQuery(bq.queryFaceType(), uq.queryFaceType());
-        }
         if (bq.hasConditionQueryMessageType()) {
             uq.queryMessageType().reflectRelationOnUnionQuery(bq.queryMessageType(), uq.queryMessageType());
         }
@@ -551,26 +548,6 @@ public class BsMessageCQ extends AbstractBsMessageCQ {
     // ===================================================================================
     //                                                                       Foreign Query
     //                                                                       =============
-    /**
-     * Get the condition-query for relation table. <br>
-     * FACE_TYPE by my FACE_TYPE_CODE, named 'faceType'.
-     * @return The instance of condition-query. (NotNull)
-     */
-    public FaceTypeCQ queryFaceType() {
-        return xdfgetConditionQueryFaceType();
-    }
-    public FaceTypeCQ xdfgetConditionQueryFaceType() {
-        String prop = "faceType";
-        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryFaceType()); xsetupOuterJoinFaceType(); }
-        return xgetQueRlMap(prop);
-    }
-    protected FaceTypeCQ xcreateQueryFaceType() {
-        String nrp = xresolveNRP("message", "faceType"); String jan = xresolveJAN(nrp, xgetNNLvl());
-        return xinitRelCQ(new FaceTypeCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "faceType", nrp);
-    }
-    protected void xsetupOuterJoinFaceType() { xregOutJo("faceType"); }
-    public boolean hasConditionQueryFaceType() { return xhasQueRlMap("faceType"); }
-
     /**
      * Get the condition-query for relation table. <br>
      * MESSAGE_TYPE by my MESSAGE_TYPE_CODE, named 'messageType'.

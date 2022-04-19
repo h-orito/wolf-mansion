@@ -12,11 +12,13 @@ data class Chara(
     val size: CharaSize,
     val images: CharaImages
 ) {
-    fun defaultImage(): CharaImage = images.list.first { it.faceType.toCdef() == CDef.FaceType.通常 }
+    fun defaultImage(): CharaImage = images.list
+        .firstOrNull { it.faceType.toCdef() == CDef.FaceType.通常 }
+        ?: images.list.first()
 
     fun detectDefaultFaceTypeCode(messageType: MessageType): String {
         val expected = messageTypeFaceTypeMap[messageType.toCdef()] ?: CDef.FaceType.通常
-        return images.list.find { it.faceType.toCdef() == expected }?.faceType?.code ?: CDef.FaceType.通常.code()
+        return images.list.find { it.faceType.toCdef() == expected }?.faceType?.code ?: defaultImage().faceType.code
     }
 
     companion object {

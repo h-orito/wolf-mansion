@@ -259,26 +259,6 @@ public class BsMessageCB extends AbstractConditionBean {
     //                                                                         ===========
     /**
      * Set up relation columns to select clause. <br>
-     * FACE_TYPE by my FACE_TYPE_CODE, named 'faceType'.
-     * <pre>
-     * <span style="color: #0000C0">messageBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_FaceType()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
-     *     <span style="color: #553000">cb</span>.query().set...
-     * }).alwaysPresent(<span style="color: #553000">message</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     ... = <span style="color: #553000">message</span>.<span style="color: #CC4747">getFaceType()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
-     * });
-     * </pre>
-     */
-    public void setupSelect_FaceType() {
-        assertSetupSelectPurpose("faceType");
-        if (hasSpecifiedLocalColumn()) {
-            specify().columnFaceTypeCode();
-        }
-        doSetupSelect(() -> query().queryFaceType());
-    }
-
-    /**
-     * Set up relation columns to select clause. <br>
      * MESSAGE_TYPE by my MESSAGE_TYPE_CODE, named 'messageType'.
      * <pre>
      * <span style="color: #0000C0">messageBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -455,7 +435,6 @@ public class BsMessageCB extends AbstractConditionBean {
     }
 
     public static class HpSpecification extends HpAbstractSpecification<MessageCQ> {
-        protected FaceTypeCB.HpSpecification _faceType;
         protected MessageTypeCB.HpSpecification _messageType;
         protected PlayerCB.HpSpecification _player;
         protected VillagePlayerCB.HpSpecification _villagePlayerByToVillagePlayerId;
@@ -521,7 +500,7 @@ public class BsMessageCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnIsConvertDisable() { return doColumn("IS_CONVERT_DISABLE"); }
         /**
-         * FACE_TYPE_CODE: {IX, VARCHAR(20), FK to face_type, classification=FaceType}
+         * FACE_TYPE_CODE: {VARCHAR(20)}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnFaceTypeCode() { return doColumn("FACE_TYPE_CODE"); }
@@ -570,10 +549,6 @@ public class BsMessageCB extends AbstractConditionBean {
         @Override
         protected void doSpecifyRequiredColumn() {
             columnMessageId(); // PK
-            if (qyCall().qy().hasConditionQueryFaceType()
-                    || qyCall().qy().xgetReferrerQuery() instanceof FaceTypeCQ) {
-                columnFaceTypeCode(); // FK or one-to-one referrer
-            }
             if (qyCall().qy().hasConditionQueryMessageType()
                     || qyCall().qy().xgetReferrerQuery() instanceof MessageTypeCQ) {
                 columnMessageTypeCode(); // FK or one-to-one referrer
@@ -598,26 +573,6 @@ public class BsMessageCB extends AbstractConditionBean {
         }
         @Override
         protected String getTableDbName() { return "message"; }
-        /**
-         * Prepare to specify functions about relation table. <br>
-         * FACE_TYPE by my FACE_TYPE_CODE, named 'faceType'.
-         * @return The instance for specification for relation table to specify. (NotNull)
-         */
-        public FaceTypeCB.HpSpecification specifyFaceType() {
-            assertRelation("faceType");
-            if (_faceType == null) {
-                _faceType = new FaceTypeCB.HpSpecification(_baseCB
-                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryFaceType()
-                                    , () -> _qyCall.qy().queryFaceType())
-                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
-                if (xhasSyncQyCall()) { // inherits it
-                    _faceType.xsetSyncQyCall(xcreateSpQyCall(
-                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryFaceType()
-                      , () -> xsyncQyCall().qy().queryFaceType()));
-                }
-            }
-            return _faceType;
-        }
         /**
          * Prepare to specify functions about relation table. <br>
          * MESSAGE_TYPE by my MESSAGE_TYPE_CODE, named 'messageType'.

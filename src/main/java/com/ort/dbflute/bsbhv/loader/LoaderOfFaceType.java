@@ -30,13 +30,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [referrer table]
- *     CHARA_IMAGE, MESSAGE
+ *     CHARA_IMAGE
  *
  * [foreign property]
  *     
  *
  * [referrer property]
- *     charaImageList, messageList
+ *     charaImageList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -93,40 +93,6 @@ public class LoaderOfFaceType {
     public NestedReferrerLoaderGateway<LoaderOfCharaImage> loadCharaImage(ReferrerConditionSetupper<CharaImageCB> refCBLambda) {
         myBhv().loadCharaImage(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerCharaImage = refLs);
         return hd -> hd.handle(new LoaderOfCharaImage().ready(_referrerCharaImage, _selector));
-    }
-
-    protected List<Message> _referrerMessage;
-
-    /**
-     * Load referrer of messageList by the set-upper of referrer. <br>
-     * MESSAGE by FACE_TYPE_CODE, named 'messageList'.
-     * <pre>
-     * <span style="color: #0000C0">faceTypeBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">faceTypeList</span>, <span style="color: #553000">typeLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">typeLoader</span>.<span style="color: #CC4747">loadMessage</span>(<span style="color: #553000">messageCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *         <span style="color: #553000">messageCB</span>.setupSelect...
-     *         <span style="color: #553000">messageCB</span>.query().set...
-     *         <span style="color: #553000">messageCB</span>.query().addOrderBy...
-     *     }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
-     *     <span style="color: #3F7E5E">//}).withNestedReferrer(<span style="color: #553000">messageLoader</span> -&gt; {</span>
-     *     <span style="color: #3F7E5E">//    messageLoader.load...</span>
-     *     <span style="color: #3F7E5E">//});</span>
-     * });
-     * for (FaceType faceType : <span style="color: #553000">faceTypeList</span>) {
-     *     ... = faceType.<span style="color: #CC4747">getMessageList()</span>;
-     * }
-     * </pre>
-     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
-     * The condition-bean, which the set-upper provides, has settings before callback as follows:
-     * <pre>
-     * cb.query().setFaceTypeCode_InScope(pkList);
-     * cb.query().addOrderBy_FaceTypeCode_Asc();
-     * </pre>
-     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
-     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
-     */
-    public NestedReferrerLoaderGateway<LoaderOfMessage> loadMessage(ReferrerConditionSetupper<MessageCB> refCBLambda) {
-        myBhv().loadMessage(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerMessage = refLs);
-        return hd -> hd.handle(new LoaderOfMessage().ready(_referrerMessage, _selector));
     }
 
     // ===================================================================================

@@ -375,10 +375,6 @@
         <column comment="更新トレース" dbType="VARCHAR" javaType="String"
             name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
         <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
-            foreignTable="face_type" name="FK_MESSAGE_FACE_TYPE">
-            <reference foreign="FACE_TYPE_CODE" local="FACE_TYPE_CODE"/>
-        </foreign-key>
-        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
             foreignTable="message_type" name="FK_MESSAGE_MESSAGE_TYPE">
             <reference foreign="MESSAGE_TYPE_CODE" local="MESSAGE_TYPE_CODE"/>
         </foreign-key>
@@ -404,9 +400,6 @@
             <unique-column name="MESSAGE_TYPE_CODE" position="2"/>
             <unique-column name="MESSAGE_NUMBER" position="3"/>
         </unique>
-        <index name="FK_MESSAGE_FACE_TYPE">
-            <index-column name="FACE_TYPE_CODE" position="1"/>
-        </index>
         <index name="FK_MESSAGE_MESSAGE_TYPE">
             <index-column name="MESSAGE_TYPE_CODE" position="1"/>
         </index>
@@ -513,6 +506,93 @@
         </index>
         <index name="FK_NORMAL_SAY_RESTRICTION_SKILL">
             <index-column name="SKILL_CODE" position="1"/>
+        </index>
+    </table>
+    <table comment="オリジナルキャラクター" name="original_chara"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column autoIncrement="true" comment="オリジナルキャラクターID"
+            dbType="INT UNSIGNED" javaType="Integer"
+            name="ORIGINAL_CHARA_ID" pkName="PRIMARY" pkPosition="1"
+            primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="オリジナルキャラクター名" dbType="VARCHAR"
+            javaType="String" name="ORIGINAL_CHARA_NAME" required="true"
+            size="40" type="VARCHAR"/>
+        <column comment="オリジナルキャラクター略称" dbType="CHAR" javaType="String"
+            name="ORIGINAL_CHARA_SHORT_NAME" required="true" size="1" type="CHAR"/>
+        <column comment="オリジナルキャラクターグループID" dbType="INT UNSIGNED"
+            javaType="Integer" name="ORIGINAL_CHARA_GROUP_ID"
+            required="true" size="10" type="INTEGER"/>
+        <column comment="表示時横幅" dbType="INT UNSIGNED" javaType="Integer"
+            name="DISPLAY_WIDTH" required="true" size="10" type="INTEGER"/>
+        <column comment="表示時縦幅" dbType="INT UNSIGNED" javaType="Integer"
+            name="DISPLAY_HEIGHT" required="true" size="10" type="INTEGER"/>
+        <column comment="登録日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="登録トレース" dbType="VARCHAR" javaType="String"
+            name="REGISTER_TRACE" required="true" size="64" type="VARCHAR"/>
+        <column comment="更新日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="UPDATE_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="更新トレース" dbType="VARCHAR" javaType="String"
+            name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="original_chara_group" name="FK_ORIGINAL_CHARA_ORIGINAL_CHARA_GROUP">
+            <reference foreign="ORIGINAL_CHARA_GROUP_ID" local="ORIGINAL_CHARA_GROUP_ID"/>
+        </foreign-key>
+        <index name="FK_ORIGINAL_CHARA_ORIGINAL_CHARA_GROUP">
+            <index-column name="ORIGINAL_CHARA_GROUP_ID" position="1"/>
+        </index>
+    </table>
+    <table comment="オリジナルキャラクターグループ" name="original_chara_group"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column autoIncrement="true" comment="オリジナルキャラクターグループID"
+            dbType="INT UNSIGNED" javaType="Integer"
+            name="ORIGINAL_CHARA_GROUP_ID" pkName="PRIMARY"
+            pkPosition="1" primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="オリジナルキャラクターグループ名" dbType="VARCHAR"
+            javaType="String" name="ORIGINAL_CHARA_GROUP_NAME"
+            required="true" size="40" type="VARCHAR"/>
+        <column comment="登録日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="登録トレース" dbType="VARCHAR" javaType="String"
+            name="REGISTER_TRACE" required="true" size="64" type="VARCHAR"/>
+        <column comment="更新日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="UPDATE_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="更新トレース" dbType="VARCHAR" javaType="String"
+            name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
+    </table>
+    <table comment="オリジナルキャラクター画像" name="original_chara_image"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column autoIncrement="true" comment="オリジナルキャラクター画像ID"
+            dbType="INT UNSIGNED" javaType="Integer"
+            name="ORIGINAL_CHARA_IMAGE_ID" pkName="PRIMARY"
+            pkPosition="1" primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="オリジナルキャラクターID" dbType="INT UNSIGNED"
+            javaType="Integer" name="ORIGINAL_CHARA_ID" required="true"
+            size="10" type="INTEGER"/>
+        <column comment="表情種別名" dbType="VARCHAR" javaType="String"
+            name="FACE_TYPE_NAME" required="true" size="20" type="VARCHAR"/>
+        <column comment="キャラクター画像URL" dbType="VARCHAR" javaType="String"
+            name="CHARA_IMG_URL" required="true" size="100" type="VARCHAR"/>
+        <column comment="登録日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="登録トレース" dbType="VARCHAR" javaType="String"
+            name="REGISTER_TRACE" required="true" size="64" type="VARCHAR"/>
+        <column comment="更新日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="UPDATE_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="更新トレース" dbType="VARCHAR" javaType="String"
+            name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="original_chara" name="FK_ORIGINAL_CHARA_IMAGE_ORIGINAL_CHARA">
+            <reference foreign="ORIGINAL_CHARA_ID" local="ORIGINAL_CHARA_ID"/>
+        </foreign-key>
+        <index name="FK_ORIGINAL_CHARA_IMAGE_ORIGINAL_CHARA">
+            <index-column name="ORIGINAL_CHARA_ID" position="1"/>
         </index>
     </table>
     <table comment="プレイヤー" name="player"
@@ -1129,6 +1209,8 @@
             name="IS_RANDOM_ORGANIZE" required="true" type="BIT"/>
         <column comment="全ての役職に転生可能か" dbType="BIT" javaType="Boolean"
             name="IS_REINCARNATION_SKILL_ALL" required="true" type="BIT"/>
+        <column comment="オリジナルキャラクターグループID" dbType="INT UNSIGNED"
+            javaType="Integer" name="ORIGINAL_CHARA_GROUP_ID" size="10" type="INTEGER"/>
         <column comment="登録日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>
@@ -1144,11 +1226,18 @@
             <reference foreign="ALLOWED_SECRET_SAY_CODE" local="ALLOWED_SECRET_SAY_CODE"/>
         </foreign-key>
         <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="original_chara_group" name="FK_VILLAGE_SETTINGS_ORIGINAL_CHARA_GROUP_ID">
+            <reference foreign="ORIGINAL_CHARA_GROUP_ID" local="ORIGINAL_CHARA_GROUP_ID"/>
+        </foreign-key>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
             foreignTable="village" name="FK_VILLAGE_SETTINGS_VILLAGE">
             <reference foreign="VILLAGE_ID" local="VILLAGE_ID"/>
         </foreign-key>
         <index name="FK_VILLAGE_SETTINGS_ALLOWED_SECRET_SAY">
             <index-column name="ALLOWED_SECRET_SAY_CODE" position="1"/>
+        </index>
+        <index name="FK_VILLAGE_SETTINGS_ORIGINAL_CHARA_GROUP_ID">
+            <index-column name="ORIGINAL_CHARA_GROUP_ID" position="1"/>
         </index>
     </table>
     <table comment="村ステータス" name="village_status"

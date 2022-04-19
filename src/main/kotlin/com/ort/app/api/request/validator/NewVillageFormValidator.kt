@@ -57,6 +57,9 @@ class NewVillageFormValidator : Validator {
         // ダミーキャラ発言
         validateMessage(errors, form)
 
+        // オリジナル画像
+        validateOriginalImage(errors, form)
+
         // 入村パスワードが入力されているが3文字以上12文字以下でない
         val joinPassword = form.joinPassword
         if (!joinPassword.isNullOrEmpty()) {
@@ -86,6 +89,16 @@ class NewVillageFormValidator : Validator {
         // 行数が21以上
         if (message.split("\r\n").size > 20) {
             errors.rejectValue("dummyJoinMessage", "VillageSayForm.validator.message.line")
+        }
+    }
+
+    // オリジナル画像
+    private fun validateOriginalImage(errors: Errors, form: NewVillageForm) {
+        val shouldOriginalImage = form.shouldOriginalImage ?: false
+        if (!shouldOriginalImage) return
+        val file = form.dummyCharaImageFile ?: return
+        if (file.size == 0L || 100000L < file.size) {
+            errors.rejectValue("dummyCharaName", "NewVillageForm.validator.dummyCharaImageFile.size")
         }
     }
 

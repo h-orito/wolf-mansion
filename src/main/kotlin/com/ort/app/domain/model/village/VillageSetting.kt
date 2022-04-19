@@ -4,16 +4,12 @@ import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.village.participant.VillageParticipant
-import com.ort.app.domain.model.village.setting.SayRestriction
-import com.ort.app.domain.model.village.setting.VillageOrganize
-import com.ort.app.domain.model.village.setting.VillageRule
-import com.ort.app.domain.model.village.setting.VillageTags
+import com.ort.app.domain.model.village.setting.*
 import com.ort.dbflute.allcommon.CDef
 import java.time.LocalDateTime
 
 data class VillageSetting(
-    val dummyCharaId: Int,
-    val charachipIds: List<Int>,
+    val chara: VillageCharaSetting,
     val personMin: Int,
     val personMax: Int,
     val startDatetime: LocalDateTime,

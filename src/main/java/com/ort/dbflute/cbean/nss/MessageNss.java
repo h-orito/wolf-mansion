@@ -20,13 +20,6 @@ public class MessageNss {
     //                                                                     ===============
     /**
      * With nested relation columns to select clause. <br>
-     * FACE_TYPE by my FACE_TYPE_CODE, named 'faceType'.
-     */
-    public void withFaceType() {
-        _query.xdoNss(() -> _query.queryFaceType());
-    }
-    /**
-     * With nested relation columns to select clause. <br>
      * MESSAGE_TYPE by my MESSAGE_TYPE_CODE, named 'messageType'.
      */
     public void withMessageType() {

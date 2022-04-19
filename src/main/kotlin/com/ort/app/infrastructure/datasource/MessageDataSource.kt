@@ -182,7 +182,7 @@ class MessageDataSource(
         m.messageContent = message.content.text
         m.messageDatetime = LocalDateTime.now()
         m.isConvertDisable = message.content.isConvertDisable
-        m.faceTypeCodeAsFaceType = message.content.faceTypeCode?.let { CDef.FaceType.codeOf(it) }
+        m.faceTypeCode = message.content.faceTypeCode
         m.messageNumber = selectNextMessageNumber(village.id, message.content.type.toCdef())
         repeat(3) {
             try {

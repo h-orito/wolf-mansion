@@ -1,17 +1,6 @@
 package com.ort.app.api.helper
 
-import com.ort.app.api.request.VillageAbilityForm
-import com.ort.app.api.request.VillageActionForm
-import com.ort.app.api.request.VillageChangeNameForm
-import com.ort.app.api.request.VillageChangeRequestSkillForm
-import com.ort.app.api.request.VillageCommitForm
-import com.ort.app.api.request.VillageForms
-import com.ort.app.api.request.VillageKickForm
-import com.ort.app.api.request.VillageLeaveForm
-import com.ort.app.api.request.VillageMemoForm
-import com.ort.app.api.request.VillageParticipateForm
-import com.ort.app.api.request.VillageSayForm
-import com.ort.app.api.request.VillageVoteForm
+import com.ort.app.api.request.*
 import com.ort.app.api.view.OptionContent
 import com.ort.app.api.view.VillageContent
 import com.ort.app.application.coordinator.VillageCoordinator
@@ -56,7 +45,7 @@ class VillageControllerHelper(
         val votes = voteService.findVotes(village.id)
         val footsteps = footstepService.findFootsteps(village.id)
         val abilities = abilityService.findAbilities(village.id)
-        val charachips = charaService.findCharachips(village.setting.charachipIds)
+        val charachips = village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip) }
         val keywords = randomKeywordService.findRandomKeywords()
         val villageSituation = villageCoordinator.findVillageSituation(
             village = village,
@@ -108,6 +97,7 @@ class VillageControllerHelper(
         setActionFormIfNeeded(situation, myself, model, forms)
         setChangeNameFormIfNeeded(situation, myself, model, forms)
         setMemoFormIfNeeded(situation, myself, model, forms)
+        setFaceTypeFormIfNeeded(situation, model, forms)
         setAbilityFormIfNeeded(situation, myself, model)
         setVoteFormIfNeeded(situation, model)
         setCreatorFormIfNeeded(village, situation, model)
@@ -226,6 +216,21 @@ class VillageControllerHelper(
             VillageMemoForm(memo = myself!!.memo)
         )
     }
+
+    private fun setFaceTypeFormIfNeeded(
+        situation: ParticipantSituation,
+        model: Model,
+        forms: VillageForms
+    ) {
+        forms.faceTypeForm?.let { model.addAttribute("faceTypeForm", it) }
+        if (!situation.rp.canAddImage) return
+        model.addAttribute(
+            "faceTypeForm",
+            VillageFaceTypeForm()
+        )
+    }
+
+
 
     private fun setAbilityFormIfNeeded(
         situation: ParticipantSituation,

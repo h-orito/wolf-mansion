@@ -4,13 +4,7 @@ import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.village.VillageSetting
-import com.ort.app.domain.model.village.setting.SayRestriction
-import com.ort.app.domain.model.village.setting.VillageOrganize
-import com.ort.app.domain.model.village.setting.VillageRandomOrganize
-import com.ort.app.domain.model.village.setting.VillageRule
-import com.ort.app.domain.model.village.setting.VillageTag
-import com.ort.app.domain.model.village.setting.VillageTags
-import com.ort.app.domain.model.village.setting.toModel
+import com.ort.app.domain.model.village.setting.*
 import com.ort.dbflute.allcommon.CDef
 import com.ort.dbflute.exbhv.CampAllocationBhv
 import com.ort.dbflute.exbhv.NormalSayRestrictionBhv
@@ -46,7 +40,7 @@ class VillageSettingsDataSource(
         val settings = VillageSettings()
         settings.villageId = villageId
         paramVillage.setting.let {
-            settings.dummyCharaId = it.dummyCharaId
+            settings.dummyCharaId = it.chara.dummyCharaId
             settings.startPersonMinNum = it.personMin
             settings.personMaxNum = it.personMax
             settings.dayChangeIntervalSeconds = it.dayChangeIntervalSeconds
@@ -68,12 +62,14 @@ class VillageSettingsDataSource(
                 else CDef.AllowedSecretSay.なし
             settings.isRandomOrganize = it.rule.isRandomOrganization
             settings.isReincarnationSkillAll = it.rule.isReincarnationSkillAll
+            settings.originalCharaGroupId = if (it.chara.isOriginalCharachip) it.chara.charachipIds.first() else null
         }
         villageSettingsBhv.insert(settings)
     }
 
     fun insertVillageCharaGroups(villageId: Int, paramVillage: com.ort.app.domain.model.village.Village) {
-        paramVillage.setting.charachipIds.forEach {
+        if (paramVillage.setting.chara.isOriginalCharachip) return
+        paramVillage.setting.chara.charachipIds.forEach {
             val v = VillageCharaGroup()
             v.villageId = villageId
             v.charaGroupId = it
@@ -108,6 +104,13 @@ class VillageSettingsDataSource(
         updateVillageTags(village.id, village.setting.tags)
     }
 
+    fun updateDummyCharaId(id: Int, charaId: Int) {
+        val s = VillageSettings()
+        s.villageId = id
+        s.dummyCharaId = charaId
+        villageSettingsBhv.update(s)
+    }
+
     fun updateDaychangeDifference(villageId: Int, current: VillageSetting, changed: VillageSetting) {
         // 変更する可能性があるのは開始時間と連続襲撃可能かのみ
         if (current.startDatetime.format(formatter) == changed.startDatetime.format(formatter)
@@ -122,9 +125,15 @@ class VillageSettingsDataSource(
 
     fun mapSimpleSetting(village: Village): VillageSetting {
         val setting = village.villageSettingsAsOne.get()
+        val isOriginalCharaGroup = setting.originalCharaGroupId != null
         return VillageSetting(
-            dummyCharaId = setting.dummyCharaId,
-            charachipIds = village.villageCharaGroupList.map { it.charaGroupId },
+            chara = VillageCharaSetting(
+              isOriginalCharachip = isOriginalCharaGroup,
+                dummyCharaId = setting.dummyCharaId,
+                charachipIds =
+                if (isOriginalCharaGroup) listOf(setting.originalCharaGroupId)
+                else village.villageCharaGroupList.map { it.charaGroupId }
+            ),
             personMin = setting.startPersonMinNum,
             personMax = setting.personMaxNum,
             startDatetime = setting.startDatetime,
@@ -169,9 +178,15 @@ class VillageSettingsDataSource(
         val normalSayRestrictionList = village.normalSayRestrictionList
         val skillSayRestrictionList = village.skillSayRestrictionList
         val tagList = village.villageTagList
+        val isOriginalCharaGroup = setting.originalCharaGroupId != null
         return VillageSetting(
-            dummyCharaId = setting.dummyCharaId,
-            charachipIds = village.villageCharaGroupList.map { it.charaGroupId },
+            chara = VillageCharaSetting(
+                isOriginalCharachip = isOriginalCharaGroup,
+                dummyCharaId = setting.dummyCharaId,
+                charachipIds =
+                if (isOriginalCharaGroup) listOf(setting.originalCharaGroupId)
+                else village.villageCharaGroupList.map { it.charaGroupId }
+            ),
             personMin = setting.startPersonMinNum,
             personMax = setting.personMaxNum,
             startDatetime = setting.startDatetime,

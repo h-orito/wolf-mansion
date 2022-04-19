@@ -10,6 +10,8 @@ import com.ort.app.api.view.PlayerRecordsContent
 import com.ort.app.application.coordinator.PlayerCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
+import com.ort.app.application.service.VillageService
+import com.ort.app.domain.model.village.VillageQuery
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -130,9 +132,14 @@ class PlayerController(
         model.addAttribute("userName", userName)
         val player = playerService.findPlayer(userName) ?: return "user"
         val playerRecords = playerCoordinator.findPlayerRecords(player)
-        val charaIdList = playerRecords.participateVillageList.map { it.participant.charaId }
-        val charas = charaService.findCharasByCharachipId(charaIdList)
-        val content = PlayerRecordsContent(playerRecords, charas)
+        val originalCharachipVillages = playerRecords.participateVillageList.filter { it.village.setting.chara.isOriginalCharachip }
+        val originalCharaIdList = originalCharachipVillages.map { it.participant.charaId }
+        val originalCharas = charaService.findCharasByCharachipId(originalCharaIdList, true)
+        val charachipVillages = playerRecords.participateVillageList.filterNot { it.village.setting.chara.isOriginalCharachip }
+        val charaIdList = charachipVillages.map { it.participant.charaId }
+        val charas = charaService.findCharasByCharachipId(charaIdList, false)
+
+        val content = PlayerRecordsContent(playerRecords, charas, originalCharas)
         model.addAttribute("content", content)
         return "user"
     }

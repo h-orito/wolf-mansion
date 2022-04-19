@@ -15,23 +15,52 @@
     <div layout:fragment="content">
         <div id="wrapper">
             <div class="col-sm-12 col-xs-12">
-                <form method="post" action="" th:action="@{/village/{villageId}/participate(villageId=${villageId})}"
+                <form method="post" action=""
+                      enctype="multipart/form-data"
+                      th:action="@{/village/{villageId}/participate(villageId=${villageId})}"
                       th:object="${participateForm}"
                       class="form-horizontal">
                     <div class="col-sm-12 col-xs-12">
                         <div class="row">
-                            <div class="col-sm-12 col-xs-12">
-                                <div class="row">
-                                    <div class="col-sm-12 col-xs-12" style="display: flex;">
-                                        <div>
-                                            <img th:src="${characterImgUrl}" th:width="${characterImgWidth}"
-                                                 th:height="${characterImgHeight}">
-                                        </div>
-                                        <div id="message-area" class="message message-normal"
-                                             th:style="'flex: 1; margin-left: 5px; min-height: ' + ${characterImgHeight} + 'px;'"
-                                             th:text="*{joinMessage}"></div>
+                            <div th:if="${isOriginalChara}">
+                                <div class="col-sm-12 col-xs-12" style="display: flex;">
+                                    <div class="form-group">
+                                        <ul>
+                                            <li>画像は60x60pxで表示されるため、解像度は60x60や120x120など60の倍数の大きさとすることを推奨します。</li>
+                                            <li>100kByteを超える画像はアップロードできません。</li>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
+                                <div class="col-sm-12 col-xs-12" style="display: flex;">
+                                    <div class="input-group">
+                                        <label class="input-group-btn">
+                                            <span class="btn btn-success btn-sm"
+                                                  style="padding-top: 3px; padding-bottom: 3px;">
+                                                Choose File<input type="file" accept="image/*"
+                                                                  th:field="*{charaImageFile}"
+                                                                  style="display:none" class="uploadFile">
+                                            </span>
+                                        </label>
+                                        <input type="text" class="form-control" readonly="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-12" style="display: flex; padding-top: 10px; ">
+                                <div>
+                                    <img th:unless="${isOriginalChara}"
+                                         th:src="${characterImgUrl}"
+                                         th:width="${characterImgWidth}"
+                                         th:height="${characterImgHeight}"/>
+                                    <img th:if="${isOriginalChara}"
+                                         id="chara-img"
+                                         th:src="@{/app/images/placeholder.png}"
+                                         th:width="60"
+                                         th:height="60"/>
+                                </div>
+                                <div id="message-area" class="message message-normal"
+                                     th:style="'flex: 1; margin-left: 5px; min-height: ' + ${characterImgHeight} + 'px;'"
+                                     th:text="*{joinMessage}"></div>
                             </div>
                             <div class="col-sm-12 col-xs-12 form-check"
                                  style="padding-top: 10px; padding-bottom: 10px;">
@@ -45,17 +74,19 @@
                                 </label>
                             </div>
                         </div>
-                        <input type="hidden" th:field="*{spectator}"/>
-                        <input type="hidden" th:field="*{joinMessage}"/>
-                        <input type="hidden" th:field="*{requestedSkill}"/>
-                        <input type="hidden" th:field="*{secondRequestedSkill}"/>
-                        <input type="hidden" th:field="*{charaId}"/>
-                        <input type="hidden" th:field="*{joinPassword}"/>
-                        <input type="button" class="btn btn-sm btn-default" value="戻る(内容は消去されます)"
-                               th:data-back="${villageId}"/>
-                        <input type="submit" id="participate-submit" class="btn btn-sm btn-success pull-right disabled"
-                               value="入村する" disabled/>
                     </div>
+                    <input type="hidden" th:field="*{spectator}"/>
+                    <input type="hidden" th:field="*{joinMessage}"/>
+                    <input type="hidden" th:field="*{requestedSkill}"/>
+                    <input type="hidden" th:field="*{secondRequestedSkill}"/>
+                    <input type="hidden" th:field="*{charaId}"/>
+                    <input type="hidden" th:field="*{charaName}"/>
+                    <input type="hidden" th:field="*{charaShortName}"/>
+                    <input type="hidden" th:field="*{joinPassword}"/>
+                    <input type="button" class="btn btn-sm btn-default" value="戻る(内容は消去されます)"
+                           th:data-back="${villageId}"/>
+                    <input type="submit" id="participate-submit" class="btn btn-sm btn-success pull-right disabled"
+                           value="入村する" disabled/>
                 </form>
             </div>
         </div>

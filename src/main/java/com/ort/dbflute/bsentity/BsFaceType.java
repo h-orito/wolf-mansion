@@ -33,13 +33,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [referrer table]
- *     CHARA_IMAGE, MESSAGE
+ *     CHARA_IMAGE
  *
  * [foreign property]
  *     
  *
  * [referrer property]
- *     charaImageList, messageList
+ *     charaImageList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -284,26 +284,6 @@ public abstract class BsFaceType extends AbstractEntity implements DomainEntity 
         _charaImageList = charaImageList;
     }
 
-    /** MESSAGE by FACE_TYPE_CODE, named 'messageList'. */
-    protected List<Message> _messageList;
-
-    /**
-     * [get] MESSAGE by FACE_TYPE_CODE, named 'messageList'.
-     * @return The entity list of referrer property 'messageList'. (NotNull: even if no loading, returns empty list)
-     */
-    public List<Message> getMessageList() {
-        if (_messageList == null) { _messageList = newReferrerList(); }
-        return _messageList;
-    }
-
-    /**
-     * [set] MESSAGE by FACE_TYPE_CODE, named 'messageList'.
-     * @param messageList The entity list of referrer property 'messageList'. (NullAllowed)
-     */
-    public void setMessageList(List<Message> messageList) {
-        _messageList = messageList;
-    }
-
     protected <ELEMENT> List<ELEMENT> newReferrerList() { // overriding to import
         return new ArrayList<ELEMENT>();
     }
@@ -335,8 +315,6 @@ public abstract class BsFaceType extends AbstractEntity implements DomainEntity 
         StringBuilder sb = new StringBuilder();
         if (_charaImageList != null) { for (CharaImage et : _charaImageList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "charaImageList")); } } }
-        if (_messageList != null) { for (Message et : _messageList)
-        { if (et != null) { sb.append(li).append(xbRDS(et, "messageList")); } } }
         return sb.toString();
     }
 
@@ -358,8 +336,6 @@ public abstract class BsFaceType extends AbstractEntity implements DomainEntity 
         StringBuilder sb = new StringBuilder();
         if (_charaImageList != null && !_charaImageList.isEmpty())
         { sb.append(dm).append("charaImageList"); }
-        if (_messageList != null && !_messageList.isEmpty())
-        { sb.append(dm).append("messageList"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }

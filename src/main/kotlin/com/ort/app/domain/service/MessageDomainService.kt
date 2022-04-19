@@ -1,5 +1,6 @@
 package com.ort.app.domain.service
 
+import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.FaceType
 import com.ort.app.domain.model.message.*
 import com.ort.app.domain.model.randomkeyword.RandomKeyword
@@ -365,6 +366,7 @@ class MessageDomainService(
         village: Village,
         participant: VillageParticipant,
         spectator: Boolean,
+        chara: Chara,
         joinMessage: String
     ): Message {
         return Message.ofSayMessage(
@@ -373,7 +375,7 @@ class MessageDomainService(
             messageContent = MessageContent.invoke(
                 messageType = if (spectator) CDef.MessageType.見学発言.code() else CDef.MessageType.通常発言.code(),
                 text = joinMessage,
-                faceCode = CDef.FaceType.通常.code(),
+                faceCode = chara.defaultImage().faceType.code,
                 isConvertDisable = false
             )
         )

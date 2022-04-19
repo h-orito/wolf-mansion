@@ -25,6 +25,8 @@ data class VillageSettingsContent(
     val voteType: String,
     /** 役職希望 */
     val skillRequestType: String,
+    /** オリジナル画像制か */
+    val shouldOriginalImage: Boolean,
     /** キャラクターグループ */
     val charachips: List<CharachipContent>,
     /** ダミーキャラ名 */
@@ -79,6 +81,7 @@ data class VillageSettingsContent(
         dayChangeInterval = mapDayChangeInterval(village.setting),
         voteType = if (village.setting.rule.isOpenVote) "記名投票" else "無記名投票",
         skillRequestType = if (village.setting.rule.isPossibleSkillRequest) "有効" else "無効",
+        shouldOriginalImage = village.setting.chara.isOriginalCharachip,
         charachips = charachips.list.map { CharachipContent(it) },
         dummyCharaName = village.dummyParticipant().name(),
         isRequiredJoinPassword = !village.setting.joinPassword.isNullOrBlank(),

@@ -2,6 +2,7 @@ package com.ort.app.application.coordinator
 
 import com.ort.app.application.service.*
 import com.ort.app.domain.model.ability.Abilities
+import com.ort.app.domain.model.chara.Charachip
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.commit.Commit
 import com.ort.app.domain.model.footstep.Footsteps
@@ -14,6 +15,7 @@ import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.village.participant.VillageParticipants
+import com.ort.app.domain.model.village.setting.VillageCharaSetting
 import com.ort.app.domain.model.vote.Vote
 import com.ort.app.domain.model.vote.Votes
 import com.ort.app.domain.service.AdminDomainService
@@ -33,6 +35,7 @@ import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.multipart.MultipartFile
 
 @Service
 class VillageCoordinator(
@@ -66,16 +69,21 @@ class VillageCoordinator(
     fun participate(
         village: Village,
         player: Player,
-        charaId: Int,
+        charaId: Int?,
+        charaName: String?,
+        charaShortName: String?,
+        charaImageFile: MultipartFile?,
         firstRequestSkill: Skill,
         secondRequestSkill: Skill,
         joinMessage: String,
         joinPassword: String?,
         isSpectator: Boolean,
         ipAddress: String
-    ) {
-        assertParticipate(village, player, charaId, joinPassword, isSpectator)
-        val chara = charaService.findChara(charaId) ?: throw IllegalStateException("chara not found.")
+    ): VillageParticipant {
+        assertParticipate(village, player, charaId, charaName, charaShortName, charaImageFile, joinPassword, isSpectator)
+        val chara = if (village.setting.chara.isOriginalCharachip) {
+            charaService.registerOriginalChara(village.setting.chara.charachipIds.first(), charaName!!, charaShortName!!, charaImageFile!!)
+        } else charaService.findChara(charaId!!, village.setting.chara.isOriginalCharachip) ?: throw IllegalStateException("chara not found.")
         val participant = villageService.participate(
             village.id, player.id, chara, firstRequestSkill, secondRequestSkill, isSpectator
         )
@@ -89,7 +97,7 @@ class VillageCoordinator(
         // 参加発言
         messageService.registerMessage(
             afterVillage,
-            messageDomainService.createJoinMessage(afterVillage, participant, isSpectator, joinMessage)
+            messageDomainService.createJoinMessage(afterVillage, participant, isSpectator, chara, joinMessage)
         )
         if (!isSpectator) {
             // 希望役職シスメ
@@ -98,7 +106,7 @@ class VillageCoordinator(
             tweetService.tweetParticipantEnoughIfNeeded(afterVillage)
         }
         // IPアドレスが重複している人がいたら通知
-        if (!playerService.findPlayer(participant.playerId).shouldCheckAccessInfo) return
+        if (!playerService.findPlayer(participant.playerId).shouldCheckAccessInfo) return participant
         val isContain = village.allParticipants().filterNotParticipant(participant).list
             .filterNot { it.playerId == 1 }
             .flatMap { it.ipAddresses }.distinct()
@@ -106,17 +114,29 @@ class VillageCoordinator(
         if (isContain) {
             slackService.postTextIfNeeded(village, "IPアドレス重複検出: $ipAddress")
         }
+        return participant
     }
 
     fun assertParticipate(
         village: Village,
         player: Player,
-        charaId: Int,
+        charaId: Int?,
+        charaName: String?,
+        charaShortName: String?,
+        charaImageFile: MultipartFile?,
         joinPassword: String?,
         isSpectator: Boolean
     ) {
+        if (village.setting.chara.isOriginalCharachip) {
+            if (charaName.isNullOrBlank()) throw WolfMansionBusinessException("キャラクター名は必須です")
+            if (charaShortName.isNullOrBlank()) throw WolfMansionBusinessException("キャラクター名略称は必須です")
+            if (charaImageFile?.size == 0L) throw WolfMansionBusinessException("キャラクター画像は必須です。")
+        } else {
+            charaId ?: throw WolfMansionBusinessException("キャラクターを選択してください")
+        }
+
         if (isSpectator) {
-            val charachips = charaService.findCharachips(village.setting.charachipIds)
+            val charachips = village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip) }
             participateDomainService.assertSpectate(village, player, charaId, joinPassword, charachips)
         } else {
             participateDomainService.assertParticipate(village, player, charaId, joinPassword)
@@ -206,23 +226,42 @@ class VillageCoordinator(
         commitService.setCommit(village, Commit(day = village.latestDay(), myselfId = myself.id))
     }
 
-    fun assertCreateVillage(player: Player, max: Int, charachips: Charachips) {
+    fun assertCreateVillage(player: Player, max: Int, charachips: Charachips, isOriginal: Boolean) {
         if (!player.isAvailableCreateVillage()) {
             throw WolfMansionBusinessException("村建てした村の決着がつくまでは村を建てられません。")
         }
-        if (charachips.list.sumBy { it.charas.list.size } < max) {
+        if (!isOriginal && charachips.list.sumOf { it.charas.list.size } < max) {
             throw WolfMansionBusinessException("定員に対してキャラ数が不足しています。")
         }
     }
 
     @Transactional(rollbackFor = [Exception::class, WolfMansionBusinessException::class])
-    fun registerVillage(paramVillage: Village, joinMessage: String): Village {
+    fun registerVillage(
+        paramVillage: Village,
+        dummyCharaName: String?,
+        dummyCharaShortName: String?,
+        dummyCharaImage: MultipartFile?,
+        joinMessage: String
+    ): Village {
+        // オリジナル画像を使用する場合はキャラチップ登録
+        val param = if (paramVillage.setting.chara.isOriginalCharachip) {
+            val charachip = registerOriginalCharachip(paramVillage.name)
+            paramVillage.copy(
+                setting = paramVillage.setting.copy(
+                    chara = VillageCharaSetting(
+                        isOriginalCharachip = true,
+                        charachipIds = listOf(charachip.id),
+                        dummyCharaId = 1 // dummy
+                    )
+                )
+            )
+        } else paramVillage
         // 村登録
-        val village = villageService.registerVillage(paramVillage)
+        val village = villageService.registerVillage(param)
         // シスメ登録
         messageService.registerMessage(village, Message.ofVillageInitialMessage())
         // ダミーキャラ参加
-        participateDummyChara(village, joinMessage)
+        participateDummyChara(village, dummyCharaName, dummyCharaShortName, dummyCharaImage, joinMessage)
         // 誰歓ならツイート
         tweetService.tweetCreateVillageIfNeeded(village)
         return village
@@ -302,12 +341,21 @@ class VillageCoordinator(
         )
     }
 
-    private fun participateDummyChara(village: Village, joinMessage: String) {
+    private fun participateDummyChara(
+        village: Village,
+        dummyCharaName: String?,
+        dummyCharaShortName: String?,
+        dummyCharaImage: MultipartFile?,
+        joinMessage: String
+    ) {
         val player = playerService.findPlayer(1)
-        participate(
+        val participant = participate(
             village = village,
             player = player,
-            charaId = village.setting.dummyCharaId,
+            charaId = village.setting.chara.dummyCharaId,
+            charaName = dummyCharaName,
+            charaShortName = dummyCharaShortName,
+            charaImageFile = dummyCharaImage,
             firstRequestSkill = Skill(CDef.Skill.おまかせ),
             secondRequestSkill = Skill(CDef.Skill.おまかせ),
             joinMessage = joinMessage,
@@ -315,5 +363,14 @@ class VillageCoordinator(
             isSpectator = false,
             ipAddress = "dummy"
         )
+        if (village.setting.chara.isOriginalCharachip) {
+            villageService.updateDummyCharaId(village.id, participant.charaId)
+        }
+    }
+
+    private fun registerOriginalCharachip(
+        name: String,
+    ): Charachip {
+        return charaService.registerOriginalCharachip(name)
     }
 }

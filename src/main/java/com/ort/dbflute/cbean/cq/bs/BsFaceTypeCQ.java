@@ -82,30 +82,16 @@ public class BsFaceTypeCQ extends AbstractBsFaceTypeCQ {
     public Map<String, CharaImageCQ> xdfgetFaceTypeCode_ExistsReferrer_CharaImageList() { return xgetSQueMap("faceTypeCode_ExistsReferrer_CharaImageList"); }
     public String keepFaceTypeCode_ExistsReferrer_CharaImageList(CharaImageCQ sq) { return xkeepSQue("faceTypeCode_ExistsReferrer_CharaImageList", sq); }
 
-    public Map<String, MessageCQ> xdfgetFaceTypeCode_ExistsReferrer_MessageList() { return xgetSQueMap("faceTypeCode_ExistsReferrer_MessageList"); }
-    public String keepFaceTypeCode_ExistsReferrer_MessageList(MessageCQ sq) { return xkeepSQue("faceTypeCode_ExistsReferrer_MessageList", sq); }
-
     public Map<String, CharaImageCQ> xdfgetFaceTypeCode_NotExistsReferrer_CharaImageList() { return xgetSQueMap("faceTypeCode_NotExistsReferrer_CharaImageList"); }
     public String keepFaceTypeCode_NotExistsReferrer_CharaImageList(CharaImageCQ sq) { return xkeepSQue("faceTypeCode_NotExistsReferrer_CharaImageList", sq); }
 
-    public Map<String, MessageCQ> xdfgetFaceTypeCode_NotExistsReferrer_MessageList() { return xgetSQueMap("faceTypeCode_NotExistsReferrer_MessageList"); }
-    public String keepFaceTypeCode_NotExistsReferrer_MessageList(MessageCQ sq) { return xkeepSQue("faceTypeCode_NotExistsReferrer_MessageList", sq); }
-
     public Map<String, CharaImageCQ> xdfgetFaceTypeCode_SpecifyDerivedReferrer_CharaImageList() { return xgetSQueMap("faceTypeCode_SpecifyDerivedReferrer_CharaImageList"); }
     public String keepFaceTypeCode_SpecifyDerivedReferrer_CharaImageList(CharaImageCQ sq) { return xkeepSQue("faceTypeCode_SpecifyDerivedReferrer_CharaImageList", sq); }
-
-    public Map<String, MessageCQ> xdfgetFaceTypeCode_SpecifyDerivedReferrer_MessageList() { return xgetSQueMap("faceTypeCode_SpecifyDerivedReferrer_MessageList"); }
-    public String keepFaceTypeCode_SpecifyDerivedReferrer_MessageList(MessageCQ sq) { return xkeepSQue("faceTypeCode_SpecifyDerivedReferrer_MessageList", sq); }
 
     public Map<String, CharaImageCQ> xdfgetFaceTypeCode_QueryDerivedReferrer_CharaImageList() { return xgetSQueMap("faceTypeCode_QueryDerivedReferrer_CharaImageList"); }
     public String keepFaceTypeCode_QueryDerivedReferrer_CharaImageList(CharaImageCQ sq) { return xkeepSQue("faceTypeCode_QueryDerivedReferrer_CharaImageList", sq); }
     public Map<String, Object> xdfgetFaceTypeCode_QueryDerivedReferrer_CharaImageListParameter() { return xgetSQuePmMap("faceTypeCode_QueryDerivedReferrer_CharaImageList"); }
     public String keepFaceTypeCode_QueryDerivedReferrer_CharaImageListParameter(Object pm) { return xkeepSQuePm("faceTypeCode_QueryDerivedReferrer_CharaImageList", pm); }
-
-    public Map<String, MessageCQ> xdfgetFaceTypeCode_QueryDerivedReferrer_MessageList() { return xgetSQueMap("faceTypeCode_QueryDerivedReferrer_MessageList"); }
-    public String keepFaceTypeCode_QueryDerivedReferrer_MessageList(MessageCQ sq) { return xkeepSQue("faceTypeCode_QueryDerivedReferrer_MessageList", sq); }
-    public Map<String, Object> xdfgetFaceTypeCode_QueryDerivedReferrer_MessageListParameter() { return xgetSQuePmMap("faceTypeCode_QueryDerivedReferrer_MessageList"); }
-    public String keepFaceTypeCode_QueryDerivedReferrer_MessageListParameter(Object pm) { return xkeepSQuePm("faceTypeCode_QueryDerivedReferrer_MessageList", pm); }
 
     /**
      * Add order-by as ascend. <br>

@@ -39,6 +39,9 @@ logging:
 
 app:
   debug: false
+  original-image:
+    basedir: /var/www/html/wmansion/original
+    baseurl: /wmansion/original
 
 twitter:
   oauth:

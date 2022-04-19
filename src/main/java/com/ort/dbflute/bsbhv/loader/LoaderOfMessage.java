@@ -27,13 +27,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [foreign table]
- *     FACE_TYPE, MESSAGE_TYPE, PLAYER, VILLAGE_PLAYER, VILLAGE_DAY
+ *     MESSAGE_TYPE, PLAYER, VILLAGE_PLAYER, VILLAGE_DAY
  *
  * [referrer table]
  *     MESSAGE_SENDTO
  *
  * [foreign property]
- *     faceType, messageType, player, villagePlayerByToVillagePlayerId, villageDay, villagePlayerByVillagePlayerId
+ *     messageType, player, villagePlayerByToVillagePlayerId, villageDay, villagePlayerByVillagePlayerId
  *
  * [referrer property]
  *     messageSendtoList
@@ -98,13 +98,6 @@ public class LoaderOfMessage {
     // ===================================================================================
     //                                                                    Pull out Foreign
     //                                                                    ================
-    protected LoaderOfFaceType _foreignFaceTypeLoader;
-    public LoaderOfFaceType pulloutFaceType() {
-        if (_foreignFaceTypeLoader == null)
-        { _foreignFaceTypeLoader = new LoaderOfFaceType().ready(myBhv().pulloutFaceType(_selectedList), _selector); }
-        return _foreignFaceTypeLoader;
-    }
-
     protected LoaderOfMessageType _foreignMessageTypeLoader;
     public LoaderOfMessageType pulloutMessageType() {
         if (_foreignMessageTypeLoader == null)

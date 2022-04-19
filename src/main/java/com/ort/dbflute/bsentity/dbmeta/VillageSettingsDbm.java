@@ -95,6 +95,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((VillageSettings)et).getIsReincarnationSkillAll(), (et, vl) -> {
             ((VillageSettings)et).setIsReincarnationSkillAll((Boolean)vl);
         }, "isReincarnationSkillAll");
+        setupEpg(_epgMap, et -> ((VillageSettings)et).getOriginalCharaGroupId(), (et, vl) -> ((VillageSettings)et).setOriginalCharaGroupId(cti(vl)), "originalCharaGroupId");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getRegisterDatetime(), (et, vl) -> ((VillageSettings)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getRegisterTrace(), (et, vl) -> ((VillageSettings)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getUpdateDatetime(), (et, vl) -> ((VillageSettings)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -111,6 +112,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     @SuppressWarnings("unchecked")
     protected void xsetupEfpg() {
         setupEfpg(_efpgMap, et -> ((VillageSettings)et).getAllowedSecretSay(), (et, vl) -> ((VillageSettings)et).setAllowedSecretSay((OptionalEntity<AllowedSecretSay>)vl), "allowedSecretSay");
+        setupEfpg(_efpgMap, et -> ((VillageSettings)et).getOriginalCharaGroup(), (et, vl) -> ((VillageSettings)et).setOriginalCharaGroup((OptionalEntity<OriginalCharaGroup>)vl), "originalCharaGroup");
         setupEfpg(_efpgMap, et -> ((VillageSettings)et).getVillage(), (et, vl) -> ((VillageSettings)et).setVillage((OptionalEntity<Village>)vl), "village");
     }
     public PropertyGateway findForeignPropertyGateway(String prop)
@@ -153,6 +155,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnIsAvailableAction = cci("IS_AVAILABLE_ACTION", "IS_AVAILABLE_ACTION", null, null, Boolean.class, "isAvailableAction", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnIsRandomOrganize = cci("IS_RANDOM_ORGANIZE", "IS_RANDOM_ORGANIZE", null, null, Boolean.class, "isRandomOrganize", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnIsReincarnationSkillAll = cci("IS_REINCARNATION_SKILL_ALL", "IS_REINCARNATION_SKILL_ALL", null, null, Boolean.class, "isReincarnationSkillAll", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
+    protected final ColumnInfo _columnOriginalCharaGroupId = cci("ORIGINAL_CHARA_GROUP_ID", "ORIGINAL_CHARA_GROUP_ID", null, null, Integer.class, "originalCharaGroupId", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, "originalCharaGroup", null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -264,6 +267,11 @@ public class VillageSettingsDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnIsReincarnationSkillAll() { return _columnIsReincarnationSkillAll; }
     /**
+     * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnOriginalCharaGroupId() { return _columnOriginalCharaGroupId; }
+    /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
      */
@@ -307,6 +315,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
         ls.add(columnIsAvailableAction());
         ls.add(columnIsRandomOrganize());
         ls.add(columnIsReincarnationSkillAll());
+        ls.add(columnOriginalCharaGroupId());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());
@@ -343,12 +352,20 @@ public class VillageSettingsDbm extends AbstractDBMeta {
         return cfi("FK_VILLAGE_SETTINGS_ALLOWED_SECRET_SAY", "allowedSecretSay", this, AllowedSecretSayDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villageSettingsList", false);
     }
     /**
+     * ORIGINAL_CHARA_GROUP by my ORIGINAL_CHARA_GROUP_ID, named 'originalCharaGroup'.
+     * @return The information object of foreign property. (NotNull)
+     */
+    public ForeignInfo foreignOriginalCharaGroup() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnOriginalCharaGroupId(), OriginalCharaGroupDbm.getInstance().columnOriginalCharaGroupId());
+        return cfi("FK_VILLAGE_SETTINGS_ORIGINAL_CHARA_GROUP_ID", "originalCharaGroup", this, OriginalCharaGroupDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villageSettingsList", false);
+    }
+    /**
      * VILLAGE by my VILLAGE_ID, named 'village'.
      * @return The information object of foreign property. (NotNull)
      */
     public ForeignInfo foreignVillage() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillageId(), VillageDbm.getInstance().columnVillageId());
-        return cfi("FK_VILLAGE_SETTINGS_VILLAGE", "village", this, VillageDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, true, false, false, false, null, null, false, "villageSettingsAsOne", false);
+        return cfi("FK_VILLAGE_SETTINGS_VILLAGE", "village", this, VillageDbm.getInstance(), mp, 2, org.dbflute.optional.OptionalEntity.class, true, false, false, false, null, null, false, "villageSettingsAsOne", false);
     }
 
     // -----------------------------------------------------

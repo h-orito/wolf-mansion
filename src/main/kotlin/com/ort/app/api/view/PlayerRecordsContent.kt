@@ -1,5 +1,6 @@
 package com.ort.app.api.view
 
+import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.Charas
 import com.ort.app.domain.model.player.CampRecord
 import com.ort.app.domain.model.player.ParticipateVillage
@@ -22,17 +23,18 @@ data class PlayerRecordsContent(
 ) {
     constructor(
         playerRecords: PlayerRecords,
-        charas: Charas
+        charas: Charas,
+        originalCharas: Charas
     ) : this(
         wholeStats = PlayerRecord(playerRecords.wholeRecord),
         campStatsList = playerRecords.campRecordList.map { PlayerCampRecord(it) },
         skillStatsList = playerRecords.skillRecordList.map { PlayerSkillRecord(it) },
         participateVillageList = playerRecords.participateVillageList.filterNot {
             it.participant.isSpectator
-        }.map { PlayerParticipateVillage(it, charas) },
+        }.map { PlayerParticipateVillage(it, charas, originalCharas) },
         spectateVillageList = playerRecords.participateVillageList.filter {
             it.participant.isSpectator
-        }.map { PlayerParticipateVillage(it, charas) }
+        }.map { PlayerParticipateVillage(it, charas, originalCharas) }
     )
 
     data class PlayerRecord(
@@ -104,14 +106,15 @@ data class PlayerRecordsContent(
     ) {
         constructor(
             participateVillage: ParticipateVillage,
-            charas: Charas
+            charas: Charas,
+            originalCharas: Charas
         ) : this(
             villageId = participateVillage.village.id,
             villageName = participateVillage.village.name,
             characterName = participateVillage.participant.charaName.name,
-            characterImgUrl = charas.chara(participateVillage.participant.charaId).defaultImage().url,
-            characterImgWidth = charas.chara(participateVillage.participant.charaId).size.width,
-            characterImgHeight = charas.chara(participateVillage.participant.charaId).size.height,
+            characterImgUrl = getChara(participateVillage, charas, originalCharas).defaultImage().url,
+            characterImgWidth = getChara(participateVillage, charas, originalCharas).size.width,
+            characterImgHeight = getChara(participateVillage, charas, originalCharas).size.height,
             skillName = participateVillage.participant.skill?.name.orEmpty(),
             liveStatus = convertToLiveStatus(participateVillage.participant).orEmpty(),
             campName = participateVillage.participant.camp?.name.orEmpty(),
@@ -126,6 +129,17 @@ data class PlayerRecordsContent(
                 val reason = participant.dead.reason!!.name
                 return if (reason.endsWith("死")) "${deadDay}d $reason"
                 else "${deadDay}d ${reason}死"
+            }
+
+            private fun getChara(
+                participateVillage: ParticipateVillage,
+                charas: Charas,
+                originalCharas: Charas
+            ): Chara {
+                val charaId = participateVillage.participant.charaId
+                return if (participateVillage.village.setting.chara.isOriginalCharachip) {
+                    originalCharas.chara(charaId)
+                } else charas.chara(charaId)
             }
         }
     }

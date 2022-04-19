@@ -262,6 +262,26 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
         doSetupSelect(() -> query().queryAllowedSecretSay());
     }
 
+    /**
+     * Set up relation columns to select clause. <br>
+     * ORIGINAL_CHARA_GROUP by my ORIGINAL_CHARA_GROUP_ID, named 'originalCharaGroup'.
+     * <pre>
+     * <span style="color: #0000C0">villageSettingsBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_OriginalCharaGroup()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     *     <span style="color: #553000">cb</span>.query().set...
+     * }).alwaysPresent(<span style="color: #553000">villageSettings</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     ... = <span style="color: #553000">villageSettings</span>.<span style="color: #CC4747">getOriginalCharaGroup()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
+     * });
+     * </pre>
+     */
+    public void setupSelect_OriginalCharaGroup() {
+        assertSetupSelectPurpose("originalCharaGroup");
+        if (hasSpecifiedLocalColumn()) {
+            specify().columnOriginalCharaGroupId();
+        }
+        doSetupSelect(() -> query().queryOriginalCharaGroup());
+    }
+
     protected VillageNss _nssVillage;
     public VillageNss xdfgetNssVillage() {
         if (_nssVillage == null) { _nssVillage = new VillageNss(null); }
@@ -330,6 +350,7 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
 
     public static class HpSpecification extends HpAbstractSpecification<VillageSettingsCQ> {
         protected AllowedSecretSayCB.HpSpecification _allowedSecretSay;
+        protected OriginalCharaGroupCB.HpSpecification _originalCharaGroup;
         protected VillageCB.HpSpecification _village;
         public HpSpecification(ConditionBean baseCB, HpSpQyCall<VillageSettingsCQ> qyCall
                              , HpCBPurpose purpose, DBMetaProvider dbmetaProvider
@@ -441,6 +462,11 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnIsReincarnationSkillAll() { return doColumn("IS_REINCARNATION_SKILL_ALL"); }
         /**
+         * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnOriginalCharaGroupId() { return doColumn("ORIGINAL_CHARA_GROUP_ID"); }
+        /**
          * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
          */
@@ -469,6 +495,10 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
                     || qyCall().qy().xgetReferrerQuery() instanceof AllowedSecretSayCQ) {
                 columnAllowedSecretSayCode(); // FK or one-to-one referrer
             }
+            if (qyCall().qy().hasConditionQueryOriginalCharaGroup()
+                    || qyCall().qy().xgetReferrerQuery() instanceof OriginalCharaGroupCQ) {
+                columnOriginalCharaGroupId(); // FK or one-to-one referrer
+            }
         }
         @Override
         protected String getTableDbName() { return "village_settings"; }
@@ -491,6 +521,26 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
                 }
             }
             return _allowedSecretSay;
+        }
+        /**
+         * Prepare to specify functions about relation table. <br>
+         * ORIGINAL_CHARA_GROUP by my ORIGINAL_CHARA_GROUP_ID, named 'originalCharaGroup'.
+         * @return The instance for specification for relation table to specify. (NotNull)
+         */
+        public OriginalCharaGroupCB.HpSpecification specifyOriginalCharaGroup() {
+            assertRelation("originalCharaGroup");
+            if (_originalCharaGroup == null) {
+                _originalCharaGroup = new OriginalCharaGroupCB.HpSpecification(_baseCB
+                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryOriginalCharaGroup()
+                                    , () -> _qyCall.qy().queryOriginalCharaGroup())
+                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
+                if (xhasSyncQyCall()) { // inherits it
+                    _originalCharaGroup.xsetSyncQyCall(xcreateSpQyCall(
+                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryOriginalCharaGroup()
+                      , () -> xsyncQyCall().qy().queryOriginalCharaGroup()));
+                }
+            }
+            return _originalCharaGroup;
         }
         /**
          * Prepare to specify functions about relation table. <br>

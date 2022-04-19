@@ -64,23 +64,13 @@ public class FaceTypeCIQ extends AbstractBsFaceTypeCQ {
     protected ConditionValue xgetCValueFaceTypeCode() { return _myCQ.xdfgetFaceTypeCode(); }
     public String keepFaceTypeCode_ExistsReferrer_CharaImageList(CharaImageCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
-    public String keepFaceTypeCode_ExistsReferrer_MessageList(MessageCQ sq)
-    { throwIICBOE("ExistsReferrer"); return null; }
     public String keepFaceTypeCode_NotExistsReferrer_CharaImageList(CharaImageCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
-    public String keepFaceTypeCode_NotExistsReferrer_MessageList(MessageCQ sq)
-    { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepFaceTypeCode_SpecifyDerivedReferrer_CharaImageList(CharaImageCQ sq)
-    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
-    public String keepFaceTypeCode_SpecifyDerivedReferrer_MessageList(MessageCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepFaceTypeCode_QueryDerivedReferrer_CharaImageList(CharaImageCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepFaceTypeCode_QueryDerivedReferrer_CharaImageListParameter(Object vl)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepFaceTypeCode_QueryDerivedReferrer_MessageList(MessageCQ sq)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepFaceTypeCode_QueryDerivedReferrer_MessageListParameter(Object vl)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     protected ConditionValue xgetCValueFaceTypeName() { return _myCQ.xdfgetFaceTypeName(); }
     protected ConditionValue xgetCValueDispOrder() { return _myCQ.xdfgetDispOrder(); }
