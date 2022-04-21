@@ -65,6 +65,7 @@ public class OriginalCharaImageCIQ extends AbstractBsOriginalCharaImageCQ {
     protected ConditionValue xgetCValueOriginalCharaId() { return _myCQ.xdfgetOriginalCharaId(); }
     protected ConditionValue xgetCValueFaceTypeName() { return _myCQ.xdfgetFaceTypeName(); }
     protected ConditionValue xgetCValueCharaImgUrl() { return _myCQ.xdfgetCharaImgUrl(); }
+    protected ConditionValue xgetCValueIsDisplay() { return _myCQ.xdfgetIsDisplay(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
     protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }
     protected ConditionValue xgetCValueUpdateDatetime() { return _myCQ.xdfgetUpdateDatetime(); }

@@ -91,6 +91,11 @@ class CreatorController(
             setSettingsIndexModel(village, charachips, model, form)
             return "village-settings"
         }
+        if (village.setting.chara.isOriginalCharachip && form.joinPassword.isNullOrEmpty()) {
+            model.addAttribute("errorMessage", "オリジナルキャラクターを登録する村ではパスワードは必須です")
+            setSettingsIndexModel(village, charachips, model)
+            return "village-settings"
+        }
         if (!creatorCoordinator.isCreator(WolfMansionUserInfoUtil.getUserInfo()?.username, villageId)) {
             return "redirect:/village/$villageId#bottom"
         }

@@ -64,8 +64,11 @@ class NewVillageFormValidator : Validator {
         val joinPassword = form.joinPassword
         if (!joinPassword.isNullOrEmpty()) {
             if (joinPassword.length !in 3..12) {
-                errors.rejectValue("joinPassword", "VillageSayForm.validator.joinPassword.length")
+                errors.rejectValue("joinPassword", "NewVillageForm.validator.joinPassword.length")
             }
+        }
+        if (form.shouldOriginalImage == true && joinPassword.isNullOrEmpty()) {
+            errors.rejectValue("joinPassword", "NewVillageForm.validator.joinPassword.original")
         }
 
         // 構成

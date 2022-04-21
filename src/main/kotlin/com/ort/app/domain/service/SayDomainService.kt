@@ -126,7 +126,11 @@ class SayDomainService(
 
     private fun getSelectableFaceTypeList(myself: VillageParticipant?, charachips: Charachips): List<FaceType> {
         myself ?: return listOf()
-        return charachips.list.flatMap { it.charas.list }.first { it.id == myself.charaId}.images.list.map { it.faceType }
+        return charachips.list
+            .flatMap { it.charas.list }
+            .first { it.id == myself.charaId }.images.list
+            .filter { it.isDisplay }
+            .map { it.faceType }
     }
 
     private fun detectDefaultMessageType(

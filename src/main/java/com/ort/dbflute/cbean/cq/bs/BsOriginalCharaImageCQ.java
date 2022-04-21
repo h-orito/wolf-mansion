@@ -153,6 +153,26 @@ public class BsOriginalCharaImageCQ extends AbstractBsOriginalCharaImageCQ {
      */
     public BsOriginalCharaImageCQ addOrderBy_CharaImgUrl_Desc() { regOBD("CHARA_IMG_URL"); return this; }
 
+    protected ConditionValue _isDisplay;
+    public ConditionValue xdfgetIsDisplay()
+    { if (_isDisplay == null) { _isDisplay = nCV(); }
+      return _isDisplay; }
+    protected ConditionValue xgetCValueIsDisplay() { return xdfgetIsDisplay(); }
+
+    /**
+     * Add order-by as ascend. <br>
+     * IS_DISPLAY: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsOriginalCharaImageCQ addOrderBy_IsDisplay_Asc() { regOBA("IS_DISPLAY"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * IS_DISPLAY: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsOriginalCharaImageCQ addOrderBy_IsDisplay_Desc() { regOBD("IS_DISPLAY"); return this; }
+
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
     { if (_registerDatetime == null) { _registerDatetime = nCV(); }

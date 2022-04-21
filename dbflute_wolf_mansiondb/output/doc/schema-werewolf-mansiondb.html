@@ -718,7 +718,7 @@ pre.spolicyviodisp {
 	</tr>
 	<tr>
 		<td class="rownumcell">21</td>
-		<td class="namecell" data-name="original_chara_image"><a href="#original_chara_image" title="type=TABLE, primaryKey={ORIGINAL_CHARA_IMAGE_ID}, nameLength=20, columnCount=8">ORIGINAL_CHARA_IMAGE</a></td>
+		<td class="namecell" data-name="original_chara_image"><a href="#original_chara_image" title="type=TABLE, primaryKey={ORIGINAL_CHARA_IMAGE_ID}, nameLength=20, columnCount=9">ORIGINAL_CHARA_IMAGE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#original_chara" title="FK_ORIGINAL_CHARA_IMAGE_ORIGINAL_CHARA">ORIGINAL_CHARA</a></td>
 		<td class="relcell">&nbsp;</td>
@@ -3917,7 +3917,7 @@ ORIGINAL_CHARA_GROUP
 	</tbody>
 </table>
 
-<h2 id="original_chara_image" title="type=TABLE, primaryKey={ORIGINAL_CHARA_IMAGE_ID}, nameLength=20, columnCount=8">
+<h2 id="original_chara_image" title="type=TABLE, primaryKey={ORIGINAL_CHARA_IMAGE_ID}, nameLength=20, columnCount=9">
 ORIGINAL_CHARA_IMAGE
 &nbsp;<span class="tablefirstdatetitle">since 2022/04/14</span>
 </h2>
@@ -4024,6 +4024,24 @@ ORIGINAL_CHARA_IMAGE
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="original_chara_image_is_display">IS_DISPLAY</td>
+		<td class="typecell">BIT</td>
+		<td class="sizecell"> &nbsp;</td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#FlgCls">Flg</a></td>
+		<td class="commentcell"><pre>使用するか</pre></td>
+		<td class="subcell">isDisplay</td>
+		<td class="subcell">Boolean</td>
+		<td class="subcell">2022/04/20</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">6</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
 		<td class="comcolcell columnnamecell" id="original_chara_image_register_datetime">REGISTER_DATETIME</td>
 		<td class="typecell">DATETIME</td>
 		<td class="sizecell"> 19 </td>
@@ -4036,7 +4054,7 @@ ORIGINAL_CHARA_IMAGE
 		<td class="subcell">2022/04/17</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">6</td>
+		<td class="rownumcell">7</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -4054,7 +4072,7 @@ ORIGINAL_CHARA_IMAGE
 		<td class="subcell">2022/04/17</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">7</td>
+		<td class="rownumcell">8</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -4072,7 +4090,7 @@ ORIGINAL_CHARA_IMAGE
 		<td class="subcell">2022/04/17</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">8</td>
+		<td class="rownumcell">9</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -11400,6 +11418,9 @@ function StoreClient() {
 				}
 				, 'CHARA_IMG_URL': {
 					'databaseComment': 'キャラクター画像URL'
+				}
+				, 'IS_DISPLAY': {
+					'databaseComment': '使用するか'
 				}
 				, 'REGISTER_DATETIME': {
 					'databaseComment': '登録日時'

@@ -1,0 +1,97 @@
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>フッター</title>
+    <link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}"/>
+    <link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css"
+          th:href="@{/lib/bootstrap/css/bootstrap.min.css}"/>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <script src="../../static/lib/bootstrap/js/bootstrap.min.js"
+            th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+    <script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js"
+            th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
+    <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
+</head>
+<body>
+<div class="col-sm-12 col-xs-12" th:if="${faceTypeForm != null}" layout:fragment="face-type-form">
+    <div class="panel-group" id="face-type-form-panel">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="h5" data-toggle="collapse" data-parent="#facetypeform-panel" href="#facetypeform-content"
+                   data-facetypeform-tab-open>表情差分</a>
+                <a href="javascript:void(0);" class="pull-right" data-bottom-fix>固定</a>
+            </div>
+            <div id="facetypeform-content" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <h3 class="h5">表情差分追加</h3>
+                    <div class="alert alert-warning-say small">
+                        <ul>
+                            <li>表情差分名は1～5文字で入力してください。</li>
+                            <li>画像は60x60pxで表示されるため、解像度は60x60や120x120など60の倍数の大きさとすることを推奨します。</li>
+                            <li>100kByteを超える画像はアップロードできません。</li>
+                        </ul>
+                    </div>
+                    <span th:if="${faceTypeErrorMessage != null}" class="text-danger" th:test="${faceTypeErrorMessage}">error</span>
+                    <form method="post" id="face-type-form" action=""
+                          enctype="multipart/form-data"
+                          th:action="@{/village/{villageId}/add-face-type(villageId=${content.villageId})}"
+                          th:object="${faceTypeForm}" class="form-horizontal collapse in" aria-expanded="true"
+                          style="margin-top: 10px;">
+                        <div class="form-group">
+                            <div class="col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <label class="col-sm-2 control-label">表情差分名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control small" th:field="*{faceTypeName}"/>
+                                        <span th:if="${#fields.hasErrors('faceTypeName')}"
+                                              th:errors="*{faceTypeName}"
+                                              class="help-block text-danger">error!</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <label class="col-sm-2 control-label">画像</label>
+                                    <div class="col-sm-10">
+                                        <div class="input-group">
+                                            <label class="input-group-btn">
+                                                    <span class="btn btn-success btn-sm"
+                                                          style="padding-top: 3px; padding-bottom: 3px;">
+                                                        Choose File
+                                                        <input type="file"
+                                                               accept="image/*"
+                                                               th:field="*{image}"
+                                                               style="display:none"
+                                                               class="uploadFile">
+                                                    </span>
+                                            </label>
+                                            <input type="text" class="form-control" readonly="">
+                                        </div>
+                                        <span th:if="${#fields.hasErrors('image')}"
+                                              th:errors="*{image}" class="help-block text-danger">error!</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12 col-xs-12">
+                                <input type="submit" class="btn btn-sm btn-success pull-right" value="表情差分を追加する"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1219,6 +1219,9 @@ $(function () {
         if (!getDisplaySetting('is_open_changenameform_tab')) {
             $('[data-changenameform-tab-open]').click();
         }
+        if (!getDisplaySetting('is_open_facetypeform_tab')) {
+            $('[data-facetypeform-tab-open]').click();
+        }
         if (!getDisplaySetting('is_open_adminform_tab')) {
             $('[data-adminform-tab-open]').click();
         }
@@ -1346,6 +1349,11 @@ $(function () {
     $('[data-changenameform-tab-open]').on('click', function () {
         const isOpen = $($(this).attr('href')).hasClass('in');
         saveDisplaySetting('is_open_changenameform_tab', !isOpen); // クリック後は逆になるので、逆を保存
+    });
+
+    $('[data-facetypeform-tab-open]').on('click', function () {
+        const isOpen = $($(this).attr('href')).hasClass('in');
+        saveDisplaySetting('is_open_facetypeform_tab', !isOpen); // クリック後は逆になるので、逆を保存
     });
 
     $('[data-adminform-tab-open]').on('click', function () {

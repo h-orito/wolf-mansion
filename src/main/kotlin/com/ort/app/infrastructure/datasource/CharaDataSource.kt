@@ -284,6 +284,7 @@ class CharaDataSource(
         ci.originalCharaId = charaId
         ci.charaImgUrl = "https://placehold.jp/60x60.png"
         ci.faceTypeName = faceTypeName
+        ci.isDisplay = true
         originalCharaImageBhv.insert(ci)
         return ci.originalCharaImageId
     }
@@ -361,7 +362,8 @@ class CharaDataSource(
                 list = chara.charaImageList.map { charaImage ->
                     CharaImage(
                         faceType = FaceType(charaImage.faceTypeCodeAsFaceType),
-                        url = charaImage.charaImgUrl
+                        url = charaImage.charaImgUrl,
+                        isDisplay = true
                     )
                 }
             )
@@ -409,7 +411,8 @@ class CharaDataSource(
                             code = charaImage.originalCharaImageId.toString(),
                             name = charaImage.faceTypeName
                         ),
-                        url = charaImage.charaImgUrl
+                        url = charaImage.charaImgUrl,
+                        isDisplay = charaImage.isDisplay
                     )
                 }
             )

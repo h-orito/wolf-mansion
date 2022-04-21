@@ -577,6 +577,8 @@
             name="FACE_TYPE_NAME" required="true" size="20" type="VARCHAR"/>
         <column comment="キャラクター画像URL" dbType="VARCHAR" javaType="String"
             name="CHARA_IMG_URL" required="true" size="100" type="VARCHAR"/>
+        <column comment="使用するか" dbType="BIT" javaType="Boolean"
+            name="IS_DISPLAY" required="true" type="BIT"/>
         <column comment="登録日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>

@@ -10,6 +10,7 @@ import org.dbflute.dbmeta.accessory.DomainEntity;
 import org.dbflute.optional.OptionalEntity;
 import com.ort.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.ort.dbflute.allcommon.DBMetaInstanceHandler;
+import com.ort.dbflute.allcommon.CDef;
 import com.ort.dbflute.exentity.*;
 
 /**
@@ -20,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     ORIGINAL_CHARA_IMAGE_ID
  *
  * [column]
- *     ORIGINAL_CHARA_IMAGE_ID, ORIGINAL_CHARA_ID, FACE_TYPE_NAME, CHARA_IMG_URL, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     ORIGINAL_CHARA_IMAGE_ID, ORIGINAL_CHARA_ID, FACE_TYPE_NAME, CHARA_IMG_URL, IS_DISPLAY, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -49,6 +50,7 @@ import com.ort.dbflute.exentity.*;
  * Integer originalCharaId = entity.getOriginalCharaId();
  * String faceTypeName = entity.getFaceTypeName();
  * String charaImgUrl = entity.getCharaImgUrl();
+ * Boolean isDisplay = entity.getIsDisplay();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -57,6 +59,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setOriginalCharaId(originalCharaId);
  * entity.setFaceTypeName(faceTypeName);
  * entity.setCharaImgUrl(charaImgUrl);
+ * entity.setIsDisplay(isDisplay);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -87,6 +90,9 @@ public abstract class BsOriginalCharaImage extends AbstractEntity implements Dom
 
     /** CHARA_IMG_URL: {NotNull, VARCHAR(100)} */
     protected String _charaImgUrl;
+
+    /** IS_DISPLAY: {NotNull, BIT, classification=Flg} */
+    protected Boolean _isDisplay;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -120,6 +126,86 @@ public abstract class BsOriginalCharaImage extends AbstractEntity implements Dom
     public boolean hasPrimaryKeyValue() {
         if (_originalCharaImageId == null) { return false; }
         return true;
+    }
+
+    // ===================================================================================
+    //                                                             Classification Property
+    //                                                             =======================
+    /**
+     * Get the value of isDisplay as the classification of Flg. <br>
+     * IS_DISPLAY: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Flg getIsDisplayAsFlg() {
+        return CDef.Flg.codeOf(getIsDisplay());
+    }
+
+    /**
+     * Set the value of isDisplay as the classification of Flg. <br>
+     * IS_DISPLAY: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setIsDisplayAsFlg(CDef.Flg cdef) {
+        setIsDisplay(cdef != null ? toBoolean(cdef.code()) : null);
+    }
+
+    // ===================================================================================
+    //                                                              Classification Setting
+    //                                                              ======================
+    /**
+     * Set the value of isDisplay as True (true). <br>
+     * はい: 有効を示す
+     */
+    public void setIsDisplay_True() {
+        setIsDisplayAsFlg(CDef.Flg.True);
+    }
+
+    /**
+     * Set the value of isDisplay as False (false). <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsDisplay_False() {
+        setIsDisplayAsFlg(CDef.Flg.False);
+    }
+
+    // ===================================================================================
+    //                                                        Classification Determination
+    //                                                        ============================
+    /**
+     * Is the value of isDisplay True? <br>
+     * はい: 有効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsDisplayTrue() {
+        CDef.Flg cdef = getIsDisplayAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
+    }
+
+    /**
+     * Is the value of isDisplay False? <br>
+     * いいえ: 無効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsDisplayFalse() {
+        CDef.Flg cdef = getIsDisplayAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
+    // ===================================================================================
+    //                                                           Classification Name/Alias
+    //                                                           =========================
+    /**
+     * Get the value of the column 'isDisplay' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     */
+    public String getIsDisplayAlias() {
+        CDef.Flg cdef = getIsDisplayAsFlg();
+        return cdef != null ? cdef.alias() : null;
     }
 
     // ===================================================================================
@@ -193,6 +279,7 @@ public abstract class BsOriginalCharaImage extends AbstractEntity implements Dom
         sb.append(dm).append(xfND(_originalCharaId));
         sb.append(dm).append(xfND(_faceTypeName));
         sb.append(dm).append(xfND(_charaImgUrl));
+        sb.append(dm).append(xfND(_isDisplay));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -301,6 +388,27 @@ public abstract class BsOriginalCharaImage extends AbstractEntity implements Dom
     public void setCharaImgUrl(String charaImgUrl) {
         registerModifiedProperty("charaImgUrl");
         _charaImgUrl = charaImgUrl;
+    }
+
+    /**
+     * [get] IS_DISPLAY: {NotNull, BIT, classification=Flg} <br>
+     * 使用するか
+     * @return The value of the column 'IS_DISPLAY'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getIsDisplay() {
+        checkSpecifiedProperty("isDisplay");
+        return _isDisplay;
+    }
+
+    /**
+     * [set] IS_DISPLAY: {NotNull, BIT, classification=Flg} <br>
+     * 使用するか
+     * @param isDisplay The value of the column 'IS_DISPLAY'. (basically NotNull if update: for the constraint)
+     */
+    public void setIsDisplay(Boolean isDisplay) {
+        checkClassificationCode("IS_DISPLAY", CDef.DefMeta.Flg, isDisplay);
+        registerModifiedProperty("isDisplay");
+        _isDisplay = isDisplay;
     }
 
     /**

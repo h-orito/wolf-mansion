@@ -338,6 +338,11 @@ public class BsOriginalCharaImageCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnCharaImgUrl() { return doColumn("CHARA_IMG_URL"); }
         /**
+         * IS_DISPLAY: {NotNull, BIT, classification=Flg}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnIsDisplay() { return doColumn("IS_DISPLAY"); }
+        /**
          * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
          */

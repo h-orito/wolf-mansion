@@ -561,6 +561,48 @@ public abstract class AbstractBsOriginalCharaImageCQ extends AbstractConditionQu
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * IS_DISPLAY: {NotNull, BIT, classification=Flg}
+     * @param isDisplay The value of isDisplay as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsDisplay_Equal(Boolean isDisplay) {
+        regIsDisplay(CK_EQ, isDisplay);
+    }
+
+    /**
+     * Equal(=). As Flg. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * IS_DISPLAY: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
+     */
+    public void setIsDisplay_Equal_AsFlg(CDef.Flg cdef) {
+        doSetIsDisplay_Equal(cdef != null ? Boolean.valueOf(cdef.code()) : null);
+    }
+
+    /**
+     * Equal(=). As True. And OnlyOnceRegistered. <br>
+     * はい: 有効を示す
+     */
+    public void setIsDisplay_Equal_True() {
+        doSetIsDisplay_Equal(Boolean.valueOf(CDef.Flg.True.code()));
+    }
+
+    /**
+     * Equal(=). As False. And OnlyOnceRegistered. <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsDisplay_Equal_False() {
+        doSetIsDisplay_Equal(Boolean.valueOf(CDef.Flg.False.code()));
+    }
+
+    protected void doSetIsDisplay_Equal(Boolean isDisplay) {
+        regIsDisplay(CK_EQ, isDisplay);
+    }
+
+    protected void regIsDisplay(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueIsDisplay(), "IS_DISPLAY"); }
+    protected abstract ConditionValue xgetCValueIsDisplay();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @param registerDatetime The value of registerDatetime as equal. (basically NotNull: error as default, or no condition as option)
      */

@@ -47,6 +47,9 @@ public class OriginalCharaImageDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((OriginalCharaImage)et).getOriginalCharaId(), (et, vl) -> ((OriginalCharaImage)et).setOriginalCharaId(cti(vl)), "originalCharaId");
         setupEpg(_epgMap, et -> ((OriginalCharaImage)et).getFaceTypeName(), (et, vl) -> ((OriginalCharaImage)et).setFaceTypeName((String)vl), "faceTypeName");
         setupEpg(_epgMap, et -> ((OriginalCharaImage)et).getCharaImgUrl(), (et, vl) -> ((OriginalCharaImage)et).setCharaImgUrl((String)vl), "charaImgUrl");
+        setupEpg(_epgMap, et -> ((OriginalCharaImage)et).getIsDisplay(), (et, vl) -> {
+            ((OriginalCharaImage)et).setIsDisplay((Boolean)vl);
+        }, "isDisplay");
         setupEpg(_epgMap, et -> ((OriginalCharaImage)et).getRegisterDatetime(), (et, vl) -> ((OriginalCharaImage)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((OriginalCharaImage)et).getRegisterTrace(), (et, vl) -> ((OriginalCharaImage)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((OriginalCharaImage)et).getUpdateDatetime(), (et, vl) -> ((OriginalCharaImage)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -87,6 +90,7 @@ public class OriginalCharaImageDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnOriginalCharaId = cci("ORIGINAL_CHARA_ID", "ORIGINAL_CHARA_ID", null, null, Integer.class, "originalCharaId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "originalChara", null, null, false);
     protected final ColumnInfo _columnFaceTypeName = cci("FACE_TYPE_NAME", "FACE_TYPE_NAME", null, null, String.class, "faceTypeName", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnCharaImgUrl = cci("CHARA_IMG_URL", "CHARA_IMG_URL", null, null, String.class, "charaImgUrl", null, false, false, true, "VARCHAR", 100, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnIsDisplay = cci("IS_DISPLAY", "IS_DISPLAY", null, null, Boolean.class, "isDisplay", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -112,6 +116,11 @@ public class OriginalCharaImageDbm extends AbstractDBMeta {
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharaImgUrl() { return _columnCharaImgUrl; }
+    /**
+     * IS_DISPLAY: {NotNull, BIT, classification=Flg}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnIsDisplay() { return _columnIsDisplay; }
     /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
@@ -139,6 +148,7 @@ public class OriginalCharaImageDbm extends AbstractDBMeta {
         ls.add(columnOriginalCharaId());
         ls.add(columnFaceTypeName());
         ls.add(columnCharaImgUrl());
+        ls.add(columnIsDisplay());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());
