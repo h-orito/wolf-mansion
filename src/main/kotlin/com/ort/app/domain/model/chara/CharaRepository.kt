@@ -32,4 +32,10 @@ interface CharaRepository {
         faceTypeName: String,
         charaImage: MultipartFile
     )
+
+    fun updateOriginalCharaImage(
+        charaImageId: Int,
+        faceTypeName: String,
+        isDisplay: Boolean
+    )
 }

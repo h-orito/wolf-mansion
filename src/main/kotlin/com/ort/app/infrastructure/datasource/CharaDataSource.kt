@@ -109,6 +109,14 @@ class CharaDataSource(
         updateOriginalCharaImageUrl(charaImageId, url)
     }
 
+    override fun updateOriginalCharaImage(
+        charaImageId: Int,
+        faceTypeName: String,
+        isDisplay: Boolean
+    ) {
+        updateOriginalCharaImageName(charaImageId, faceTypeName, isDisplay)
+    }
+
     private fun selectOriginalCharaGroups(ids: List<Int>): ListResultBean<OriginalCharaGroup> {
         val groupList = originalCharaGroupBhv.selectList {
             it.query().setOriginalCharaGroupId_InScope(ids)
@@ -293,6 +301,14 @@ class CharaDataSource(
         val ci = OriginalCharaImage()
         ci.originalCharaImageId = charaImageId
         ci.charaImgUrl = url
+        originalCharaImageBhv.update(ci)
+    }
+
+    private fun updateOriginalCharaImageName(charaImageId: Int, name: String, isDisplay: Boolean) {
+        val ci = OriginalCharaImage()
+        ci.originalCharaImageId = charaImageId
+        ci.faceTypeName = name
+        ci.isDisplay = isDisplay
         originalCharaImageBhv.update(ci)
     }
 

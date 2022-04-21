@@ -46,4 +46,12 @@ class CharaService(
     ) {
         charaRepository.registerOriginalCharaImage(charachipId, charaId, faceTypeName, charaImageFile)
     }
+
+    fun updateOriginalCharaImage(
+        faceTypeCode: String,
+        faceTypeName: String,
+        isDisplay: Boolean
+    ) {
+        charaRepository.updateOriginalCharaImage(faceTypeCode.toInt(), faceTypeName, isDisplay)
+    }
 }

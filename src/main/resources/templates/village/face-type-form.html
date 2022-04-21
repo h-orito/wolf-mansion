@@ -30,6 +30,54 @@
             </div>
             <div id="facetypeform-content" class="panel-collapse collapse in">
                 <div class="panel-body">
+                    <div th:if="${faceTypeModifyForm.faceTypeList.size() > 0}">
+                        <h3 class="h5">表情差分編集</h3>
+                        <div class="alert alert-warning-say small">
+                            <ul>
+                                <li>表情差分名は1～5文字で入力してください。</li>
+                                <li>非表示にした表情差分は発言欄の候補に出てこなくなります（過去の発言の画像は消えません）。</li>
+                            </ul>
+                        </div>
+                        <span th:if="${faceTypeModifyErrorMessage != null}" class="text-danger"
+                              th:test="${faceTypeModifyErrorMessage}">error</span>
+                        <form method="post" id="face-type-modify-form" action=""
+                              th:action="@{/village/{villageId}/modify-face-type(villageId=${content.villageId})}"
+                              th:object="${faceTypeModifyForm}" class="form-horizontal collapse in" aria-expanded="true"
+                              style="margin-top: 10px;">
+                            <div class="form-group">
+                                <div class="col-sm-4 col-xs-12" th:each="faceType, stat: *{faceTypeList}" style="display: flex;">
+                                    <div style="margin-right: 5px;">
+                                        <img th:src="${faceType.url}" width="60" height="60"/>
+                                    </div>
+                                    <div style="flex: 1; display: flex; flex-direction: column;">
+                                        <input type="hidden" th:field="*{faceTypeList[__${stat.index}__].code}"/>
+                                        <input type="text" class="form-control small"
+                                               th:field="*{faceTypeList[__${stat.index}__].name}"/>
+                                        <div class="btn-group" data-toggle="buttons">
+                                            <label th:class="'btn btn-sm btn-dark-success ' + *{faceTypeList[__${stat.index}__].display ? 'active' : ''}">
+                                                <input type="radio"
+                                                       th:field="*{faceTypeList[__${stat.index}__].display}"
+                                                       value="true" autocomplete="off"
+                                                       checked="checked"/>表示
+                                            </label>
+                                            <label
+                                                    th:class="'btn btn-sm btn-dark-success ' + *{faceTypeList[__${stat.index}__].display ? '' : 'active'}">
+                                                <input type="radio"
+                                                       th:field="*{faceTypeList[__${stat.index}__].display}"
+                                                       value="false" autocomplete="off"
+                                                       checked="checked"/>非表示
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12 col-xs-12">
+                                    <input type="submit" class="btn btn-sm btn-success pull-right" value="表情差分を更新する"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                     <h3 class="h5">表情差分追加</h3>
                     <div class="alert alert-warning-say small">
                         <ul>
@@ -39,7 +87,7 @@
                         </ul>
                     </div>
                     <span th:if="${faceTypeErrorMessage != null}" class="text-danger" th:test="${faceTypeErrorMessage}">error</span>
-                    <form method="post" id="face-type-form" action=""
+                    <form method="post" id="face-add-form" action=""
                           enctype="multipart/form-data"
                           th:action="@{/village/{villageId}/add-face-type(villageId=${content.villageId})}"
                           th:object="${faceTypeForm}" class="form-horizontal collapse in" aria-expanded="true"

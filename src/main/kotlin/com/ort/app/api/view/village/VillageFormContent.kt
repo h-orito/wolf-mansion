@@ -2,6 +2,7 @@ package com.ort.app.api.view.village
 
 import com.ort.app.api.view.OptionContent
 import com.ort.app.domain.model.chara.Chara
+import com.ort.app.domain.model.chara.CharaImage
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.situation.ParticipantSituation
 import com.ort.app.domain.model.situation.participant.ParticipantAbilitySituation

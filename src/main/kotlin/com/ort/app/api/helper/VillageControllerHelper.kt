@@ -45,7 +45,8 @@ class VillageControllerHelper(
         val votes = voteService.findVotes(village.id)
         val footsteps = footstepService.findFootsteps(village.id)
         val abilities = abilityService.findAbilities(village.id)
-        val charachips = village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip) }
+        val charachips =
+            village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip) }
         val keywords = randomKeywordService.findRandomKeywords()
         val villageSituation = villageCoordinator.findVillageSituation(
             village = village,
@@ -97,7 +98,7 @@ class VillageControllerHelper(
         setActionFormIfNeeded(situation, myself, model, forms)
         setChangeNameFormIfNeeded(situation, myself, model, forms)
         setMemoFormIfNeeded(situation, myself, model, forms)
-        setFaceTypeFormIfNeeded(situation, model, forms)
+        setFaceTypeFormIfNeeded(situation, myself, charachips, model, forms)
         setAbilityFormIfNeeded(situation, myself, model)
         setVoteFormIfNeeded(situation, model)
         setCreatorFormIfNeeded(village, situation, model)
@@ -219,18 +220,30 @@ class VillageControllerHelper(
 
     private fun setFaceTypeFormIfNeeded(
         situation: ParticipantSituation,
+        myself: VillageParticipant?,
+        charachips: Charachips,
         model: Model,
         forms: VillageForms
     ) {
         forms.faceTypeForm?.let { model.addAttribute("faceTypeForm", it) }
+        forms.faceTypeModifyForm?.let { model.addAttribute("faceTypeModifyForm", it) }
         if (!situation.rp.canAddImage) return
         model.addAttribute(
             "faceTypeForm",
             VillageFaceTypeForm()
         )
+        val faceTypeList = charachips.chara(myself!!.charaId).images.list
+            .drop(1)
+            .map {
+                VillageFaceTypeModifyForm.FaceTypeForm(
+                    code = it.faceType.code,
+                    name = it.faceType.name,
+                    display = it.isDisplay,
+                    url = it.url
+                )
+            }
+        model.addAttribute("faceTypeModifyForm", VillageFaceTypeModifyForm(faceTypeList))
     }
-
-
 
     private fun setAbilityFormIfNeeded(
         situation: ParticipantSituation,

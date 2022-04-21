@@ -1,10 +1,7 @@
 package com.ort.app.api
 
 import com.ort.app.api.helper.VillageControllerHelper
-import com.ort.app.api.request.VillageChangeNameForm
-import com.ort.app.api.request.VillageFaceTypeForm
-import com.ort.app.api.request.VillageForms
-import com.ort.app.api.request.VillageMemoForm
+import com.ort.app.api.request.*
 import com.ort.app.api.request.validator.VillageFaceTypeFormValidator
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.CharaService
@@ -94,6 +91,41 @@ class VillageRpController(
         return "redirect:/village/$villageId#bottom"
     }
 
+    // 表情差分を編集する
+    @PostMapping("/village/{villageId}/modify-face-type")
+    private fun faceType(
+        @PathVariable villageId: Int,
+        @Validated @ModelAttribute("faceTypeModifyForm") faceTypeModifyForm: VillageFaceTypeModifyForm,
+        result: BindingResult,
+        model: Model
+    ): String {
+        val village = villageService.findVillage(villageId)
+            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        if (result.hasErrors()) {
+            villageControllerHelper.setIndexModel(
+                village,
+                village.latestDay(),
+                model,
+                VillageForms(faceTypeModifyForm = faceTypeModifyForm)
+            )
+            return "village"
+        }
+        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
+            villageService.findVillageParticipant(village.id, it.username)
+        } ?: throw WolfMansionBusinessException("ログインしてください")
+        try {
+            faceTypeModifyForm.faceTypeList!!.forEach {
+                charaService.updateOriginalCharaImage(it.code!!, it.name!!, it.display!!)
+            }
+        } catch (e: WolfMansionBusinessException) {
+            model.addAttribute("faceTypeModifyErrorMessage", e.message)
+            villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms())
+            return "village"
+        }
+        // 最新の日付を表示
+        return "redirect:/village/$villageId#bottom"
+    }
+
     // 表情差分を追加する
     @PostMapping("/village/{villageId}/add-face-type")
     private fun faceType(
@@ -105,7 +137,12 @@ class VillageRpController(
         val village = villageService.findVillage(villageId)
             ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         if (result.hasErrors()) {
-            villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms(faceTypeForm = faceTypeForm))
+            villageControllerHelper.setIndexModel(
+                village,
+                village.latestDay(),
+                model,
+                VillageForms(faceTypeForm = faceTypeForm)
+            )
             return "village"
         }
         val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {

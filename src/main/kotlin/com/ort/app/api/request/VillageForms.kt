@@ -7,5 +7,6 @@ data class VillageForms(
     val changeRequestSkillForm: VillageChangeRequestSkillForm? = null,
     val changeNameForm: VillageChangeNameForm? = null,
     val memoForm: VillageMemoForm? = null,
-    val faceTypeForm: VillageFaceTypeForm? = null
+    val faceTypeForm: VillageFaceTypeForm? = null,
+    val faceTypeModifyForm: VillageFaceTypeModifyForm? = null
 )
