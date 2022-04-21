@@ -95,9 +95,11 @@
                             <td>
                                 <th:block th:each="charachip,s: *{charachips}">
                                     <a href="javascript:void(0);"
+                                       th:unless="*{shouldOriginalImage}"
                                        th:href="@{/chara-group/{charaGroupId}(charaGroupId=${charachip.id})}"
                                        th:text="${charachip.name}"
                                        target="_blank"></a>
+                                    <span th:if="*{shouldOriginalImage}" th:text="${charachip.name}"></span>
                                     <span th:unless="${s.last}">、</span>
                                 </th:block>
                             </td>
