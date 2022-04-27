@@ -147,7 +147,7 @@
                                                 <td th:each="room: ${row.roomAssignedList}" class="small"
                                                     th:style="'vertical-align: bottom; text-align: center; width: '
 														+ ${room.charaImgWidth != null ? room.charaImgWidth : '50'} + 'px; height: '
-														+ ${room.charaImgHeight != null ? room.charaImgHeight : '77'} + 'px; '
+														+ ${room.charaImgHeight != null ? room.charaImgHeight : '60'} + 'px; '
 														 + ${room.charaImgUrl != null ? 'background-image: url(''' + room.charaImgUrl + '''); background-repeat: no-repeat; background-size: contain;' : 'background-color: #gray; '}
 														 + ${room.dead == null || room.dead ? 'opacity: 0.3;' : ''}"
                                                     th:data-footstep-room-number="${room.roomNumber}"><span
