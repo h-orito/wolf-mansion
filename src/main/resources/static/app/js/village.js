@@ -327,7 +327,7 @@ $(function () {
                 return;
             }
             // htmlエスケープと、アンカーの変換を行う
-            response.message.messageContent = escapeAndSetAnchor(response.message.messageContent);
+            response.message.messageContent = escapeAndSetAnchor(response.message.messageContent, response.message.isConvertDisable);
             let $anchorMessage = makeAnchorMessage($(messagePartialTemplate(response.message)), anchorClassName);
             $thisMessage.after($anchorMessage);
             $('.' + anchorClassName).collapse('toggle');
