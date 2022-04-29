@@ -36,7 +36,7 @@ data class PlayerRecords(
                 val campVillageList = villages.list.filter { village ->
                     val myCampCode = village.participants.list.first {
                         !it.isGone && it.playerId == player.id
-                    }.skill!!.toCdef().campCode()
+                    }.camp?.code
                     myCampCode == camp.code
                 }
                 CampRecord(camp, player, Villages(campVillageList))
