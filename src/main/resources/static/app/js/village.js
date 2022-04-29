@@ -886,6 +886,24 @@ $(function () {
     // ----------------------------------------------
     // 抽出
     // ----------------------------------------------
+    $('#filter-button').on('click', function(){
+        if ($(this).hasClass('active')) {
+            resetFilter();
+            return false; // modalを開かない
+        } else {
+            return true;
+        }
+    });
+
+    function resetFilter() {
+        doFilterParticipantAllOff();
+        doFilterTypeAllOn();
+        resetKeyword();
+        $('[data-dsetting-unspoiled]').prop('checked', false);
+        $('[data-onlytome]').prop('checked', false);
+        doFilter();
+    }
+
     // キャラクター
     $('[data-filter-participant-allon]').on('click', function () {
         doFilterParticipantAllOn();
@@ -898,10 +916,15 @@ $(function () {
     }
 
     $('[data-filter-participant-alloff]').on('click', function () {
+        doFilterParticipantAllOff();
+    });
+
+    function doFilterParticipantAllOff() {
         $('#filter-character').find('input').each((idx, elm) => {
             $(elm).prop('checked', false);
         });
-    });
+    }
+
     $('[data-filter-participant-reverse]').on('click', function () {
         $('#filter-character').find('input').each((idx, elm) => {
             const checked = $(elm).prop('checked');
@@ -925,6 +948,7 @@ $(function () {
             $(this).removeClass('active');
         });
     });
+
     $('[data-filter-type-reverse]').on('click', function () {
         $('#filter-type').find('label').each(function () {
             if ($(this).hasClass('active')) {
@@ -937,11 +961,15 @@ $(function () {
 
     // キーワード
     $('[data-filter-message-clear]').on('click', function () {
-        $('#modal-filter [data-filter-message-keyword]').val('');
+        resetKeyword();
     });
 
+    function resetKeyword() {
+        $('#modal-filter [data-filter-message-keyword]').val('');
+    }
+
     $('[data-filter-submit]').on('click', function () {
-        doFilter()
+        doFilter();
     });
 
     function doFilter() {
@@ -963,6 +991,20 @@ $(function () {
         saveDisplaySetting('filter_keyword', filterKeywords.join(' '));
         saveDisplaySetting('filter_spoiled_content', filterSpoiled);
         saveDisplaySetting('filter_onlytome_content', isDispOnlyToMe);
+        // 抽出中ならfooterボタンをactiveに
+        if (filterTypes.length != $('#filter-type label').length
+            || filterParticipantIds.length > 0 && filterParticipantIds[0] !== ''
+            || filterKeywords.length > 0 && filterKeywords[0] !== ''
+            || filterSpoiled
+            || isDispOnlyToMe
+        ) {
+            $('#filter-button').addClass('active');
+            $('#filter-buttom-text').text('抽出中');
+        } else {
+            $('#filter-button').removeClass('active');
+            $('#filter-buttom-text').text('抽出');
+        }
+
         $('#modal-filter').modal('hide');
     }
 
@@ -1020,6 +1062,20 @@ $(function () {
         }
         if ($('[data-onlytome]').length > 0) {
             $('[data-onlytome]').prop('checked', isDispOnlyToMe);
+        }
+
+        // 抽出中ならfooterボタンをactiveに
+        if (filterTypes.length != $('#filter-type label').length
+            || filterParticipantIds.length > 0 && filterParticipantIds[0] !== ''
+            || filterKeywords.length > 0 && filterKeywords[0] !== ''
+            || filterSpoiled
+            || isDispOnlyToMe
+        ) {
+            $('#filter-button').addClass('active');
+            $('#filter-buttom-text').text('抽出中');
+        } else {
+            $('#filter-button').removeClass('active');
+            $('#filter-buttom-text').text('抽出');
         }
     }
 
