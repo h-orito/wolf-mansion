@@ -34,6 +34,7 @@ $(function () {
     const strikeRegex = /\[\[s\]\](.*?)\[\[\/s\]\]/g;
     const largeRegex = /\[\[large\]\](.*?)\[\[\/large\]\]/g;
     const smallRegex = /\[\[small\]\](.*?)\[\[\/small\]\]/g;
+    const rubyRegex = /\[\[ruby\]\](.*?)\[\[rt\]\](.*?)\[\[\/rt\]\]\[\[\/ruby\]\]/g;
     let latestDay;
     let canAutoRefresh = true; // 発言確認中はfalseになる
     let isDispOnlyToMe = false;
@@ -216,6 +217,7 @@ $(function () {
             mes = mes.replace(strikeRegex, '<span style="text-decoration: line-through;">$1</span>');
             mes = mes.replace(largeRegex, '<span style="font-size: 150%;">$1</span>');
             mes = mes.replace(smallRegex, '<span style="font-size: 80%;">$1</span>');
+            mes = mes.replace(rubyRegex, '<ruby>$1<rt>$2</rt></ruby>');
         }
         return mes;
     }
@@ -1586,8 +1588,17 @@ $(function () {
             const value = currentText.substr(0, selectionStart) + '[[' + tagName + ']]' + currentText.substr(selectionStart);
             $textarea.val(value);
         } else {
-            const end = tagName.startsWith('#') ? '[[/#]]' : '[[/' + tagName + ']]';
-            const value = currentText.substr(0, selectionStart) + '[[' + tagName + ']]' + currentText.substr(selectionStart, selectionEnd - selectionStart) + end + currentText.substr(selectionEnd);
+            let end = tagName.startsWith('#') ? '[[/#]]' : '[[/' + tagName + ']]';
+            let value = '';
+            if (tagName.startsWith('#')) end = '[[/#]]';
+            const prefix = currentText.substr(0, selectionStart);
+            const selected = currentText.substr(selectionStart, selectionEnd - selectionStart);
+            const suffix = currentText.substr(selectionEnd);
+            if (tagName === 'ruby') {
+                value = prefix + '[[ruby]]' + selected + '[[rt]][[/rt]][[/ruby]]' + suffix;
+            } else {
+                value = prefix + '[[' + tagName + ']]' + selected + end + suffix;
+            }
             $textarea.val(value);
         }
     }

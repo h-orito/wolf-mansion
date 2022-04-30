@@ -13,6 +13,7 @@ $(function() {
 	const strikeRegex = /\[\[s\]\](.*?)\[\[\/s\]\]/g;
 	const largeRegex = /\[\[large\]\](.*?)\[\[\/large\]\]/g;
 	const smallRegex = /\[\[small\]\](.*?)\[\[\/small\]\]/g;
+	const rubyRegex = /\[\[ruby\]\](.*?)\[\[rt\]\](.*?)\[\[\/rt\]\]\[\[\/ruby\]\]/g;
 
 	// ---------------------
 	// execute
@@ -68,6 +69,7 @@ $(function() {
 			mes = mes.replace(strikeRegex, '<span style="text-decoration: line-through;">$1</span>');
 			mes = mes.replace(largeRegex, '<span style="font-size: 16px;">$1</span>');
 			mes = mes.replace(smallRegex, '<span style="font-size: 10px;">$1</span>');
+            mes = mes.replace(rubyRegex, '<ruby>$1<rt>$2</rt></ruby>');
 		}
 		return mes;
 	}
