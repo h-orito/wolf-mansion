@@ -748,6 +748,9 @@ public interface CDef extends Classification {
         /** 静狼 */
         静狼("SILENTWOLF", "静狼", emptyStrings())
         ,
+        /** 感覚者 */
+        感覚者("SIXTHSENSOR", "感覚者", emptyStrings())
+        ,
         /** 夢遊病者 */
         夢遊病者("SLEEPWALKER", "夢遊病者", emptyStrings())
         ,
@@ -1320,6 +1323,13 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "33");
+                subItemMap.put("campCode", "VILLAGER");
+                subItemMap.put("skill_short_name", "感");
+                _subItemMapMap.put(感覚者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
                 subItemMap.put("order", "19");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "夢");
@@ -1474,11 +1484,11 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * 占い能力を持つ <br>
-         * The group elements:[占い師, 賢者, 占星術師, 花占い師]
+         * The group elements:[占い師, 賢者, 占星術師, 花占い師, 感覚者]
          * @return The determination, true or false.
          */
         public boolean isHasDivineAbility() {
-            return 占い師.equals(this) || 賢者.equals(this) || 占星術師.equals(this) || 花占い師.equals(this);
+            return 占い師.equals(this) || 賢者.equals(this) || 占星術師.equals(this) || 花占い師.equals(this) || 感覚者.equals(this);
         }
 
         /**
@@ -1713,11 +1723,11 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 占い能力を持つ <br>
-         * The group elements:[占い師, 賢者, 占星術師, 花占い師]
+         * The group elements:[占い師, 賢者, 占星術師, 花占い師, 感覚者]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfHasDivineAbility() {
-            return new ArrayList<Skill>(Arrays.asList(占い師, 賢者, 占星術師, 花占い師));
+            return new ArrayList<Skill>(Arrays.asList(占い師, 賢者, 占星術師, 花占い師, 感覚者));
         }
 
         /**

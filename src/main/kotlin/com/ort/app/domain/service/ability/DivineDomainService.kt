@@ -87,6 +87,7 @@ class DivineDomainService(
             CDef.Skill.賢者 -> createWiseDivineMessageText(myself, target)
             CDef.Skill.占星術師 -> createAstrologerDivineMessageText(village, myself, target)
             CDef.Skill.花占い師 -> createFlowerDivineMessageText(myself, target)
+            CDef.Skill.感覚者 -> creatSixthsensorDivineMessageText(village, myself, target)
             else -> throw IllegalStateException("unknown skill. ${myself.skill.name}")
         }
         val type = when (myself.skill.toCdef()) {
@@ -94,6 +95,7 @@ class DivineDomainService(
             CDef.Skill.賢者 -> CDef.MessageType.役職占い結果.toModel()
             CDef.Skill.占星術師 -> CDef.MessageType.白黒占い結果.toModel()
             CDef.Skill.花占い師 -> CDef.MessageType.白黒占い結果.toModel()
+            CDef.Skill.感覚者 -> CDef.MessageType.白黒占い結果.toModel()
             else -> throw IllegalStateException("unknown skill. ${myself.skill.name}")
         }
         return messageDomainService.createPrivateAbilityMessage(village, myself, text, type)
@@ -115,19 +117,47 @@ class DivineDomainService(
         val targetRoomNumberList = roomDomainService.detectAroundRoomNumbers(target.room!!, village.roomSize!!)
         return village.participants.list
             .filter { targetRoomNumberList.contains(it.room!!.number) }
-            .groupBy { it.skill!!.name }.entries
+            .groupBy { it.skill!! }.entries
+            .sortedBy { it.key.toCdef().order().toInt() }
             .joinToString(
                 separator = "、",
                 prefix = "${myself.name()}は、${target.name()}のあたりを占った。\nこのあたりには、",
                 postfix = "いるようだ。"
             ) {
-                "${it.key}が${it.value.size}名"
+                "${it.key.name}が${it.value.size}名"
             }
     }
 
     private fun createFlowerDivineMessageText(myself: VillageParticipant, target: VillageParticipant): String {
         val result = if (target.status.hasLover()) "いる" else "いない"
         return "${myself.name()}は、${target.name()}を占った。\n${target.name()}は恋をして${result}ようだ。"
+    }
+
+    private fun creatSixthsensorDivineMessageText(
+        village: Village,
+        myself: VillageParticipant,
+        target: VillageParticipant
+    ): String {
+        val targetRoomNumberList = roomDomainService.detectAroundRoomNumbers(target.room!!, village.roomSize!!)
+        return village.participants.list
+            .filter { targetRoomNumberList.contains(it.room!!.number) }
+            .groupBy { it.camp!! }.entries
+            .sortedBy {
+                listOf(
+                    CDef.Camp.村人陣営,
+                    CDef.Camp.人狼陣営,
+                    CDef.Camp.狐陣営,
+                    CDef.Camp.恋人陣営,
+                    CDef.Camp.愉快犯陣営
+                ).indexOf(it.key.toCdef())
+            }
+            .joinToString(
+                separator = "、",
+                prefix = "${myself.name()}は、${target.name()}のあたりを占った。\nこのあたりには、",
+                postfix = "いるようだ。"
+            ) {
+                "${it.key.name}に与する者が${it.value.size}名"
+            }
     }
 
     private fun divineKillIfNeeded(village: Village, myself: VillageParticipant, target: VillageParticipant): Village {

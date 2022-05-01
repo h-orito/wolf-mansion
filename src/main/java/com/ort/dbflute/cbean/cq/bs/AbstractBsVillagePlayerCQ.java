@@ -1857,6 +1857,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 感覚者 (SIXTHSENSOR). And OnlyOnceRegistered. <br>
+     * 感覚者
+     */
+    public void setSkillCode_Equal_感覚者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.感覚者);
+    }
+
+    /**
      * Equal(=). As 夢遊病者 (SLEEPWALKER). And OnlyOnceRegistered. <br>
      * 夢遊病者
      */
@@ -2592,6 +2600,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 感覚者 (SIXTHSENSOR). And OnlyOnceRegistered. <br>
+     * 感覚者
+     */
+    public void setSkillCode_NotEqual_感覚者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.感覚者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 夢遊病者 (SLEEPWALKER). And OnlyOnceRegistered. <br>
      * 夢遊病者
      */
@@ -2766,7 +2782,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 占い能力を持つ <br>
-     * The group elements:[占い師, 賢者, 占星術師, 花占い師]
+     * The group elements:[占い師, 賢者, 占星術師, 花占い師, 感覚者]
      */
     public void setSkillCode_InScope_HasDivineAbility() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDivineAbility());
@@ -3524,6 +3540,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 感覚者 (SIXTHSENSOR). And OnlyOnceRegistered. <br>
+     * 感覚者
+     */
+    public void setRequestSkillCode_Equal_感覚者() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.感覚者);
+    }
+
+    /**
      * Equal(=). As 夢遊病者 (SLEEPWALKER). And OnlyOnceRegistered. <br>
      * 夢遊病者
      */
@@ -4259,6 +4283,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 感覚者 (SIXTHSENSOR). And OnlyOnceRegistered. <br>
+     * 感覚者
+     */
+    public void setRequestSkillCode_NotEqual_感覚者() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.感覚者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 夢遊病者 (SLEEPWALKER). And OnlyOnceRegistered. <br>
      * 夢遊病者
      */
@@ -4433,7 +4465,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 占い能力を持つ <br>
-     * The group elements:[占い師, 賢者, 占星術師, 花占い師]
+     * The group elements:[占い師, 賢者, 占星術師, 花占い師, 感覚者]
      */
     public void setRequestSkillCode_InScope_HasDivineAbility() {
         setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDivineAbility());
@@ -5191,6 +5223,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 感覚者 (SIXTHSENSOR). And OnlyOnceRegistered. <br>
+     * 感覚者
+     */
+    public void setSecondRequestSkillCode_Equal_感覚者() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.感覚者);
+    }
+
+    /**
      * Equal(=). As 夢遊病者 (SLEEPWALKER). And OnlyOnceRegistered. <br>
      * 夢遊病者
      */
@@ -5926,6 +5966,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 感覚者 (SIXTHSENSOR). And OnlyOnceRegistered. <br>
+     * 感覚者
+     */
+    public void setSecondRequestSkillCode_NotEqual_感覚者() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.感覚者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 夢遊病者 (SLEEPWALKER). And OnlyOnceRegistered. <br>
      * 夢遊病者
      */
@@ -6100,7 +6148,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 占い能力を持つ <br>
-     * The group elements:[占い師, 賢者, 占星術師, 花占い師]
+     * The group elements:[占い師, 賢者, 占星術師, 花占い師, 感覚者]
      */
     public void setSecondRequestSkillCode_InScope_HasDivineAbility() {
         setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDivineAbility());

@@ -39,7 +39,7 @@ data class Skill(
     fun isViewableGuruMessage(): Boolean = toCdef().isHasSkillPsychicAbility
     fun isViewableAttackMessage(): Boolean = toCdef().isHasAttackAbility
     fun isViewableCoronerMessage(): Boolean = toCdef() == CDef.Skill.検死官
-    fun isViewableDivineMessage(): Boolean = listOf(CDef.Skill.占い師, CDef.Skill.占星術師, CDef.Skill.花占い師).contains(toCdef())
+    fun isViewableDivineMessage(): Boolean = listOf(CDef.Skill.占い師, CDef.Skill.占星術師, CDef.Skill.花占い師, CDef.Skill.感覚者).contains(toCdef())
     fun isViewableWiseMessage(): Boolean = toCdef() == CDef.Skill.賢者
     fun isViewableInvestigateMessage(): Boolean = toCdef() == CDef.Skill.探偵 || toCdef() == CDef.Skill.監視者
     fun isViewableLoversMessage(): Boolean = camp().code == CDef.Camp.恋人陣営.code()
@@ -61,7 +61,6 @@ data class Skill(
             list = histories.list + SkillHistory(skill = skill, day = day)
         )
     )
-
 
     fun isShogiWolf(): Boolean {
         return listOf(
@@ -186,7 +185,7 @@ data class Skill(
             CDef.Skill.歩狼
         )
 
-        val seerPriorityList = listOf(CDef.Skill.賢者, CDef.Skill.占星術師, CDef.Skill.占い師)
+        val seerPriorityList = listOf(CDef.Skill.賢者, CDef.Skill.占星術師, CDef.Skill.占い師, CDef.Skill.花占い師, CDef.Skill.感覚者)
 
         fun byShortName(shortName: String): Skill? {
             val cdef = CDef.Skill.listAll().firstOrNull {

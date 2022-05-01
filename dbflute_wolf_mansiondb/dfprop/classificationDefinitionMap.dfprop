@@ -43,7 +43,7 @@ map:{
                     }
 	        		; hasDivineAbility = map:{
 	        			; groupComment=占い能力を持つ
-	        			; elementList= list:{占い師;賢者;占星術師;花占い師}
+	        			; elementList= list:{占い師;賢者;占星術師;花占い師;感覚者}
 	        		}
 	        		; hasSkillPsychicAbility = map:{
 	        			; groupComment=役職霊能能力を持つ
