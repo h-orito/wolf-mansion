@@ -11,7 +11,6 @@ import com.ort.app.domain.model.footstep.Footstep
 import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
-import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
@@ -254,8 +253,14 @@ class AttackDomainService(
             // 将棋狼で特定条件を満たした場合、人狼に成る
             if (shouldUpgradeShogiWolf(daychange, attacker, target)) {
                 village = village.assignParticipantSkill(attacker.id, CDef.Skill.人狼.toModel())
-                messages = messages.add(createUpgradeWolfMessage(village, attacker))
+                messages = messages.add(createUpgradeShogiWolfMessage(village, attacker))
             }
+            // 静狼が特定条件を満たした場合、呪狼になる
+            if (shouldUpgradeSilentWolf(daychange, attacker, target)) {
+                village = village.assignParticipantSkill(attacker.id, CDef.Skill.呪狼.toModel())
+                messages = messages.add(createUpgradeSilentWolfMessage(village, attacker))
+            }
+
             return daychange.copy(village = village, messages = messages)
         }
 
@@ -293,10 +298,18 @@ class AttackDomainService(
         )
     }
 
-    private fun createUpgradeWolfMessage(village: Village, attacker: VillageParticipant): Message {
+    private fun createUpgradeShogiWolfMessage(village: Village, attacker: VillageParticipant): Message {
         return messageDomainService.createPublicAbilityMessage(
             village = village,
             text = "${attacker.name()}は、人狼に成った。",
+            messageType = CDef.MessageType.襲撃結果.toModel()
+        )
+    }
+
+    private fun createUpgradeSilentWolfMessage(village: Village, attacker: VillageParticipant): Message {
+        return messageDomainService.createPublicAbilityMessage(
+            village = village,
+            text = "${attacker.name()}は、静かに懐から藁人形を取り出し、呪狼となった。",
             messageType = CDef.MessageType.襲撃結果.toModel()
         )
     }
@@ -319,6 +332,13 @@ class AttackDomainService(
 
     private fun shouldUpgradeShogiWolf(daychange: Daychange, wolf: VillageParticipant, target: VillageParticipant): Boolean {
         if (!wolf.skill!!.isShogiWolf()) return false
+        // 対象が死亡していなくて護衛か襲撃耐性の場合
+        if (target.isDead()) return false
+        return daychange.guarded.any { it.id == target.id } || target.skill!!.isNoDeadByAttack()
+    }
+
+    private fun shouldUpgradeSilentWolf(daychange: Daychange, wolf: VillageParticipant, target: VillageParticipant): Boolean {
+        if (wolf.skill!!.toCdef() != CDef.Skill.静狼) return false
         // 対象が死亡していなくて護衛か襲撃耐性の場合
         if (target.isDead()) return false
         return daychange.guarded.any { it.id == target.id } || target.skill!!.isNoDeadByAttack()
