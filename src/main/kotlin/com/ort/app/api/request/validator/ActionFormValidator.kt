@@ -1,7 +1,6 @@
 package com.ort.app.api.request.validator
 
 import com.ort.app.api.request.VillageActionForm
-import com.ort.app.fw.util.removeSurrogate
 import org.springframework.stereotype.Component
 import org.springframework.validation.Errors
 import org.springframework.validation.Validator
@@ -15,7 +14,7 @@ class ActionFormValidator : Validator {
         if (errors.hasErrors()) return
 
         val form = target as VillageActionForm
-        form.message = form.message!!.removeSurrogate().trim()
+        form.message = form.message!!.trim()
         if (form.message!!.isEmpty()) return
 
         val targetMessage = if (form.target.isNullOrBlank()) "" else form.target

@@ -1,6 +1,5 @@
 package com.ort.app.domain.model.message
 
-import com.ort.app.fw.util.removeSurrogate
 import com.ort.dbflute.allcommon.CDef
 
 data class MessageContent(
@@ -24,7 +23,7 @@ data class MessageContent(
             return MessageContent(
                 type = MessageType(cdef),
                 num = null,
-                text = text.trim().removeSurrogate(),
+                text = text.trim(),
                 faceTypeCode = faceCode,
                 isConvertDisable = isConvertDisable ?: false
             )

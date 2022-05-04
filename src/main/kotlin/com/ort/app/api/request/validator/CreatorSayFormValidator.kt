@@ -1,7 +1,6 @@
 package com.ort.app.api.request.validator
 
 import com.ort.app.api.request.VillageSayForm
-import com.ort.app.fw.util.removeSurrogate
 import org.springframework.stereotype.Component
 import org.springframework.validation.Errors
 import org.springframework.validation.Validator
@@ -16,8 +15,7 @@ class CreatorSayFormValidator : Validator {
         if (errors.hasErrors()) return
         val form = target as VillageSayForm
 
-        // 絵文字は事前に削除
-        form.message = form.message!!.removeSurrogate().trim()
+        form.message = form.message!!.trim()
         if (form.message!!.isEmpty()) return
 
         val message = form.message!!
