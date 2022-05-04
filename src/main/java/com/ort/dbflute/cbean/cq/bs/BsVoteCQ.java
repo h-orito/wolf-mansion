@@ -121,14 +121,14 @@ public class BsVoteCQ extends AbstractBsVoteCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
      */
     public BsVoteCQ addOrderBy_CharaId_Asc() { regOBA("CHARA_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
      */
     public BsVoteCQ addOrderBy_CharaId_Desc() { regOBD("CHARA_ID"); return this; }
@@ -141,14 +141,14 @@ public class BsVoteCQ extends AbstractBsVoteCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * VOTE_CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
      */
     public BsVoteCQ addOrderBy_VoteCharaId_Asc() { regOBA("VOTE_CHARA_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * VOTE_CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
      */
     public BsVoteCQ addOrderBy_VoteCharaId_Desc() { regOBD("VOTE_CHARA_ID"); return this; }
@@ -274,40 +274,14 @@ public class BsVoteCQ extends AbstractBsVoteCQ {
     public void reflectRelationOnUnionQuery(ConditionQuery bqs, ConditionQuery uqs) {
         VoteCQ bq = (VoteCQ)bqs;
         VoteCQ uq = (VoteCQ)uqs;
-        if (bq.hasConditionQueryCharaByCharaId()) {
-            uq.queryCharaByCharaId().reflectRelationOnUnionQuery(bq.queryCharaByCharaId(), uq.queryCharaByCharaId());
-        }
         if (bq.hasConditionQueryVillageDay()) {
             uq.queryVillageDay().reflectRelationOnUnionQuery(bq.queryVillageDay(), uq.queryVillageDay());
-        }
-        if (bq.hasConditionQueryCharaByVoteCharaId()) {
-            uq.queryCharaByVoteCharaId().reflectRelationOnUnionQuery(bq.queryCharaByVoteCharaId(), uq.queryCharaByVoteCharaId());
         }
     }
 
     // ===================================================================================
     //                                                                       Foreign Query
     //                                                                       =============
-    /**
-     * Get the condition-query for relation table. <br>
-     * CHARA by my CHARA_ID, named 'charaByCharaId'.
-     * @return The instance of condition-query. (NotNull)
-     */
-    public CharaCQ queryCharaByCharaId() {
-        return xdfgetConditionQueryCharaByCharaId();
-    }
-    public CharaCQ xdfgetConditionQueryCharaByCharaId() {
-        String prop = "charaByCharaId";
-        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryCharaByCharaId()); xsetupOuterJoinCharaByCharaId(); }
-        return xgetQueRlMap(prop);
-    }
-    protected CharaCQ xcreateQueryCharaByCharaId() {
-        String nrp = xresolveNRP("vote", "charaByCharaId"); String jan = xresolveJAN(nrp, xgetNNLvl());
-        return xinitRelCQ(new CharaCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "charaByCharaId", nrp);
-    }
-    protected void xsetupOuterJoinCharaByCharaId() { xregOutJo("charaByCharaId"); }
-    public boolean hasConditionQueryCharaByCharaId() { return xhasQueRlMap("charaByCharaId"); }
-
     /**
      * Get the condition-query for relation table. <br>
      * VILLAGE_DAY by my VILLAGE_ID, DAY, named 'villageDay'.
@@ -327,26 +301,6 @@ public class BsVoteCQ extends AbstractBsVoteCQ {
     }
     protected void xsetupOuterJoinVillageDay() { xregOutJo("villageDay"); }
     public boolean hasConditionQueryVillageDay() { return xhasQueRlMap("villageDay"); }
-
-    /**
-     * Get the condition-query for relation table. <br>
-     * CHARA by my VOTE_CHARA_ID, named 'charaByVoteCharaId'.
-     * @return The instance of condition-query. (NotNull)
-     */
-    public CharaCQ queryCharaByVoteCharaId() {
-        return xdfgetConditionQueryCharaByVoteCharaId();
-    }
-    public CharaCQ xdfgetConditionQueryCharaByVoteCharaId() {
-        String prop = "charaByVoteCharaId";
-        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryCharaByVoteCharaId()); xsetupOuterJoinCharaByVoteCharaId(); }
-        return xgetQueRlMap(prop);
-    }
-    protected CharaCQ xcreateQueryCharaByVoteCharaId() {
-        String nrp = xresolveNRP("vote", "charaByVoteCharaId"); String jan = xresolveJAN(nrp, xgetNNLvl());
-        return xinitRelCQ(new CharaCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "charaByVoteCharaId", nrp);
-    }
-    protected void xsetupOuterJoinCharaByVoteCharaId() { xregOutJo("charaByVoteCharaId"); }
-    public boolean hasConditionQueryCharaByVoteCharaId() { return xhasQueRlMap("charaByVoteCharaId"); }
 
     protected Map<String, Object> xfindFixedConditionDynamicParameterMap(String property) {
         return null;

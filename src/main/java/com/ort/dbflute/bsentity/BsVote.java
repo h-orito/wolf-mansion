@@ -32,13 +32,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     CHARA, VILLAGE_DAY
+ *     VILLAGE_DAY
  *
  * [referrer table]
  *     
  *
  * [foreign property]
- *     charaByCharaId, villageDay, charaByVoteCharaId
+ *     villageDay
  *
  * [referrer property]
  *     
@@ -82,10 +82,10 @@ public abstract class BsVote extends AbstractEntity implements DomainEntity, Ent
     /** DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day} */
     protected Integer _day;
 
-    /** CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara} */
+    /** CHARA_ID: {PK, NotNull, INT UNSIGNED(10)} */
     protected Integer _charaId;
 
-    /** VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara} */
+    /** VOTE_CHARA_ID: {NotNull, INT UNSIGNED(10)} */
     protected Integer _voteCharaId;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
@@ -127,27 +127,6 @@ public abstract class BsVote extends AbstractEntity implements DomainEntity, Ent
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
-    /** CHARA by my CHARA_ID, named 'charaByCharaId'. */
-    protected OptionalEntity<Chara> _charaByCharaId;
-
-    /**
-     * [get] CHARA by my CHARA_ID, named 'charaByCharaId'. <br>
-     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
-     * @return The entity of foreign property 'charaByCharaId'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
-     */
-    public OptionalEntity<Chara> getCharaByCharaId() {
-        if (_charaByCharaId == null) { _charaByCharaId = OptionalEntity.relationEmpty(this, "charaByCharaId"); }
-        return _charaByCharaId;
-    }
-
-    /**
-     * [set] CHARA by my CHARA_ID, named 'charaByCharaId'.
-     * @param charaByCharaId The entity of foreign property 'charaByCharaId'. (NullAllowed)
-     */
-    public void setCharaByCharaId(OptionalEntity<Chara> charaByCharaId) {
-        _charaByCharaId = charaByCharaId;
-    }
-
     /** VILLAGE_DAY by my VILLAGE_ID, DAY, named 'villageDay'. */
     protected OptionalEntity<VillageDay> _villageDay;
 
@@ -167,27 +146,6 @@ public abstract class BsVote extends AbstractEntity implements DomainEntity, Ent
      */
     public void setVillageDay(OptionalEntity<VillageDay> villageDay) {
         _villageDay = villageDay;
-    }
-
-    /** CHARA by my VOTE_CHARA_ID, named 'charaByVoteCharaId'. */
-    protected OptionalEntity<Chara> _charaByVoteCharaId;
-
-    /**
-     * [get] CHARA by my VOTE_CHARA_ID, named 'charaByVoteCharaId'. <br>
-     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
-     * @return The entity of foreign property 'charaByVoteCharaId'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
-     */
-    public OptionalEntity<Chara> getCharaByVoteCharaId() {
-        if (_charaByVoteCharaId == null) { _charaByVoteCharaId = OptionalEntity.relationEmpty(this, "charaByVoteCharaId"); }
-        return _charaByVoteCharaId;
-    }
-
-    /**
-     * [set] CHARA by my VOTE_CHARA_ID, named 'charaByVoteCharaId'.
-     * @param charaByVoteCharaId The entity of foreign property 'charaByVoteCharaId'. (NullAllowed)
-     */
-    public void setCharaByVoteCharaId(OptionalEntity<Chara> charaByVoteCharaId) {
-        _charaByVoteCharaId = charaByVoteCharaId;
     }
 
     // ===================================================================================
@@ -226,12 +184,8 @@ public abstract class BsVote extends AbstractEntity implements DomainEntity, Ent
     @Override
     protected String doBuildStringWithRelation(String li) {
         StringBuilder sb = new StringBuilder();
-        if (_charaByCharaId != null && _charaByCharaId.isPresent())
-        { sb.append(li).append(xbRDS(_charaByCharaId, "charaByCharaId")); }
         if (_villageDay != null && _villageDay.isPresent())
         { sb.append(li).append(xbRDS(_villageDay, "villageDay")); }
-        if (_charaByVoteCharaId != null && _charaByVoteCharaId.isPresent())
-        { sb.append(li).append(xbRDS(_charaByVoteCharaId, "charaByVoteCharaId")); }
         return sb.toString();
     }
     protected <ET extends Entity> String xbRDS(org.dbflute.optional.OptionalEntity<ET> et, String name) { // buildRelationDisplayString()
@@ -259,12 +213,8 @@ public abstract class BsVote extends AbstractEntity implements DomainEntity, Ent
     @Override
     protected String doBuildRelationString(String dm) {
         StringBuilder sb = new StringBuilder();
-        if (_charaByCharaId != null && _charaByCharaId.isPresent())
-        { sb.append(dm).append("charaByCharaId"); }
         if (_villageDay != null && _villageDay.isPresent())
         { sb.append(dm).append("villageDay"); }
-        if (_charaByVoteCharaId != null && _charaByVoteCharaId.isPresent())
-        { sb.append(dm).append("charaByVoteCharaId"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }
@@ -320,7 +270,7 @@ public abstract class BsVote extends AbstractEntity implements DomainEntity, Ent
     }
 
     /**
-     * [get] CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
+     * [get] CHARA_ID: {PK, NotNull, INT UNSIGNED(10)} <br>
      * キャラクターID
      * @return The value of the column 'CHARA_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -330,7 +280,7 @@ public abstract class BsVote extends AbstractEntity implements DomainEntity, Ent
     }
 
     /**
-     * [set] CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
+     * [set] CHARA_ID: {PK, NotNull, INT UNSIGNED(10)} <br>
      * キャラクターID
      * @param charaId The value of the column 'CHARA_ID'. (basically NotNull if update: for the constraint)
      */
@@ -340,7 +290,7 @@ public abstract class BsVote extends AbstractEntity implements DomainEntity, Ent
     }
 
     /**
-     * [get] VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
+     * [get] VOTE_CHARA_ID: {NotNull, INT UNSIGNED(10)} <br>
      * 投票先キャラクターID
      * @return The value of the column 'VOTE_CHARA_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -350,7 +300,7 @@ public abstract class BsVote extends AbstractEntity implements DomainEntity, Ent
     }
 
     /**
-     * [set] VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
+     * [set] VOTE_CHARA_ID: {NotNull, INT UNSIGNED(10)} <br>
      * 投票先キャラクターID
      * @param voteCharaId The value of the column 'VOTE_CHARA_ID'. (basically NotNull if update: for the constraint)
      */

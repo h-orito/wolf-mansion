@@ -345,6 +345,9 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
         if (bq.hasConditionQueryAuthority()) {
             uq.queryAuthority().reflectRelationOnUnionQuery(bq.queryAuthority(), uq.queryAuthority());
         }
+        if (bq.hasConditionQueryPlayerDetailAsOne()) {
+            uq.queryPlayerDetailAsOne().reflectRelationOnUnionQuery(bq.queryPlayerDetailAsOne(), uq.queryPlayerDetailAsOne());
+        }
     }
 
     // ===================================================================================
@@ -369,6 +372,24 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
     }
     protected void xsetupOuterJoinAuthority() { xregOutJo("authority"); }
     public boolean hasConditionQueryAuthority() { return xhasQueRlMap("authority"); }
+
+    /**
+     * Get the condition-query for relation table. <br>
+     * player_detail by PLAYER_ID, named 'playerDetailAsOne'.
+     * @return The instance of condition-query. (NotNull)
+     */
+    public PlayerDetailCQ queryPlayerDetailAsOne() { return xdfgetConditionQueryPlayerDetailAsOne(); }
+    public PlayerDetailCQ xdfgetConditionQueryPlayerDetailAsOne() {
+        String prop = "playerDetailAsOne";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryPlayerDetailAsOne()); xsetupOuterJoinPlayerDetailAsOne(); }
+        return xgetQueRlMap(prop);
+    }
+    protected PlayerDetailCQ xcreateQueryPlayerDetailAsOne() {
+        String nrp = xresolveNRP("player", "playerDetailAsOne"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        return xinitRelCQ(new PlayerDetailCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "playerDetailAsOne", nrp);
+    }
+    protected void xsetupOuterJoinPlayerDetailAsOne() { xregOutJo("playerDetailAsOne"); }
+    public boolean hasConditionQueryPlayerDetailAsOne() { return xhasQueRlMap("playerDetailAsOne"); }
 
     protected Map<String, Object> xfindFixedConditionDynamicParameterMap(String property) {
         return null;

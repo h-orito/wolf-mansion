@@ -121,14 +121,14 @@ public class BsAbilityCQ extends AbstractBsAbilityCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
      */
     public BsAbilityCQ addOrderBy_CharaId_Asc() { regOBA("CHARA_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
      */
     public BsAbilityCQ addOrderBy_CharaId_Desc() { regOBD("CHARA_ID"); return this; }
@@ -141,14 +141,14 @@ public class BsAbilityCQ extends AbstractBsAbilityCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
+     * TARGET_CHARA_ID: {INT UNSIGNED(10)}
      * @return this. (NotNull)
      */
     public BsAbilityCQ addOrderBy_TargetCharaId_Asc() { regOBA("TARGET_CHARA_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
+     * TARGET_CHARA_ID: {INT UNSIGNED(10)}
      * @return this. (NotNull)
      */
     public BsAbilityCQ addOrderBy_TargetCharaId_Desc() { regOBD("TARGET_CHARA_ID"); return this; }
@@ -317,12 +317,6 @@ public class BsAbilityCQ extends AbstractBsAbilityCQ {
         if (bq.hasConditionQueryAbilityType()) {
             uq.queryAbilityType().reflectRelationOnUnionQuery(bq.queryAbilityType(), uq.queryAbilityType());
         }
-        if (bq.hasConditionQueryCharaByCharaId()) {
-            uq.queryCharaByCharaId().reflectRelationOnUnionQuery(bq.queryCharaByCharaId(), uq.queryCharaByCharaId());
-        }
-        if (bq.hasConditionQueryCharaByTargetCharaId()) {
-            uq.queryCharaByTargetCharaId().reflectRelationOnUnionQuery(bq.queryCharaByTargetCharaId(), uq.queryCharaByTargetCharaId());
-        }
         if (bq.hasConditionQueryVillageDay()) {
             uq.queryVillageDay().reflectRelationOnUnionQuery(bq.queryVillageDay(), uq.queryVillageDay());
         }
@@ -350,46 +344,6 @@ public class BsAbilityCQ extends AbstractBsAbilityCQ {
     }
     protected void xsetupOuterJoinAbilityType() { xregOutJo("abilityType"); }
     public boolean hasConditionQueryAbilityType() { return xhasQueRlMap("abilityType"); }
-
-    /**
-     * Get the condition-query for relation table. <br>
-     * CHARA by my CHARA_ID, named 'charaByCharaId'.
-     * @return The instance of condition-query. (NotNull)
-     */
-    public CharaCQ queryCharaByCharaId() {
-        return xdfgetConditionQueryCharaByCharaId();
-    }
-    public CharaCQ xdfgetConditionQueryCharaByCharaId() {
-        String prop = "charaByCharaId";
-        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryCharaByCharaId()); xsetupOuterJoinCharaByCharaId(); }
-        return xgetQueRlMap(prop);
-    }
-    protected CharaCQ xcreateQueryCharaByCharaId() {
-        String nrp = xresolveNRP("ability", "charaByCharaId"); String jan = xresolveJAN(nrp, xgetNNLvl());
-        return xinitRelCQ(new CharaCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "charaByCharaId", nrp);
-    }
-    protected void xsetupOuterJoinCharaByCharaId() { xregOutJo("charaByCharaId"); }
-    public boolean hasConditionQueryCharaByCharaId() { return xhasQueRlMap("charaByCharaId"); }
-
-    /**
-     * Get the condition-query for relation table. <br>
-     * CHARA by my TARGET_CHARA_ID, named 'charaByTargetCharaId'.
-     * @return The instance of condition-query. (NotNull)
-     */
-    public CharaCQ queryCharaByTargetCharaId() {
-        return xdfgetConditionQueryCharaByTargetCharaId();
-    }
-    public CharaCQ xdfgetConditionQueryCharaByTargetCharaId() {
-        String prop = "charaByTargetCharaId";
-        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryCharaByTargetCharaId()); xsetupOuterJoinCharaByTargetCharaId(); }
-        return xgetQueRlMap(prop);
-    }
-    protected CharaCQ xcreateQueryCharaByTargetCharaId() {
-        String nrp = xresolveNRP("ability", "charaByTargetCharaId"); String jan = xresolveJAN(nrp, xgetNNLvl());
-        return xinitRelCQ(new CharaCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "charaByTargetCharaId", nrp);
-    }
-    protected void xsetupOuterJoinCharaByTargetCharaId() { xregOutJo("charaByTargetCharaId"); }
-    public boolean hasConditionQueryCharaByTargetCharaId() { return xhasQueRlMap("charaByTargetCharaId"); }
 
     /**
      * Get the condition-query for relation table. <br>

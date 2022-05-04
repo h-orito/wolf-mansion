@@ -1,4 +1,83 @@
 map:{
+    ; 2022/05/04 16:08:21 = map:{
+        ; diffDate = 2022/05/04 16:08:21
+        ; tableCount = map:{
+            ; next = 43
+            ; previous = 42
+        }
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; player_detail = map:{
+                ; tableName = player_detail
+                ; diffType = ADD
+            }
+            ; ability = map:{
+                ; tableName = ability
+                ; diffType = CHANGE
+                ; foreignKeyDiff = map:{
+                    ; FK_ABILITY_CHARA = map:{
+                        ; constraintName = FK_ABILITY_CHARA
+                        ; diffType = DELETE
+                    }
+                    ; FK_ABILITY_CHARA_TARGET = map:{
+                        ; constraintName = FK_ABILITY_CHARA_TARGET
+                        ; diffType = DELETE
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_ABILITY_CHARA = map:{
+                        ; constraintName = FK_ABILITY_CHARA
+                        ; diffType = DELETE
+                    }
+                    ; FK_ABILITY_CHARA_TARGET = map:{
+                        ; constraintName = FK_ABILITY_CHARA_TARGET
+                        ; diffType = DELETE
+                    }
+                }
+            }
+            ; footstep = map:{
+                ; tableName = footstep
+                ; diffType = CHANGE
+                ; foreignKeyDiff = map:{
+                    ; FK_FOOTSTEP_CHARA = map:{
+                        ; constraintName = FK_FOOTSTEP_CHARA
+                        ; diffType = DELETE
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_FOOTSTEP_CHARA = map:{
+                        ; constraintName = FK_FOOTSTEP_CHARA
+                        ; diffType = DELETE
+                    }
+                }
+            }
+            ; vote = map:{
+                ; tableName = vote
+                ; diffType = CHANGE
+                ; foreignKeyDiff = map:{
+                    ; FK_VOTE_CHARA = map:{
+                        ; constraintName = FK_VOTE_CHARA
+                        ; diffType = DELETE
+                    }
+                    ; FK_VOTE_CHARA_TO = map:{
+                        ; constraintName = FK_VOTE_CHARA_TO
+                        ; diffType = DELETE
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_VOTE_CHARA = map:{
+                        ; constraintName = FK_VOTE_CHARA
+                        ; diffType = DELETE
+                    }
+                    ; FK_VOTE_CHARA_TO = map:{
+                        ; constraintName = FK_VOTE_CHARA_TO
+                        ; diffType = DELETE
+                    }
+                }
+            }
+        }
+    }
     ; 2022/05/04 12:37:10 = map:{
         ; diffDate = 2022/05/04 12:37:10
         ; diffAuthor = h-orito

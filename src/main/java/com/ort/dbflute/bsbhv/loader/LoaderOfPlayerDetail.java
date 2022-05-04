@@ -7,13 +7,13 @@ import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The referrer loader of VOTE as TABLE. <br>
+ * The referrer loader of PLAYER_DETAIL as TABLE. <br>
  * <pre>
  * [primary key]
- *     VILLAGE_ID, DAY, CHARA_ID
+ *     PLAYER_ID
  *
  * [column]
- *     VILLAGE_ID, DAY, CHARA_ID, VOTE_CHARA_ID, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     PLAYER_ID, TWITTER_USER_NAME, INTRODUCTION
  *
  * [sequence]
  *     
@@ -25,50 +25,50 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     VILLAGE_DAY
+ *     PLAYER
  *
  * [referrer table]
  *     
  *
  * [foreign property]
- *     villageDay
+ *     player
  *
  * [referrer property]
  *     
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-public class LoaderOfVote {
+public class LoaderOfPlayerDetail {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected List<Vote> _selectedList;
+    protected List<PlayerDetail> _selectedList;
     protected BehaviorSelector _selector;
-    protected VoteBhv _myBhv; // lazy-loaded
+    protected PlayerDetailBhv _myBhv; // lazy-loaded
 
     // ===================================================================================
     //                                                                   Ready for Loading
     //                                                                   =================
-    public LoaderOfVote ready(List<Vote> selectedList, BehaviorSelector selector)
+    public LoaderOfPlayerDetail ready(List<PlayerDetail> selectedList, BehaviorSelector selector)
     { _selectedList = selectedList; _selector = selector; return this; }
 
-    protected VoteBhv myBhv()
-    { if (_myBhv != null) { return _myBhv; } else { _myBhv = _selector.select(VoteBhv.class); return _myBhv; } }
+    protected PlayerDetailBhv myBhv()
+    { if (_myBhv != null) { return _myBhv; } else { _myBhv = _selector.select(PlayerDetailBhv.class); return _myBhv; } }
 
     // ===================================================================================
     //                                                                    Pull out Foreign
     //                                                                    ================
-    protected LoaderOfVillageDay _foreignVillageDayLoader;
-    public LoaderOfVillageDay pulloutVillageDay() {
-        if (_foreignVillageDayLoader == null)
-        { _foreignVillageDayLoader = new LoaderOfVillageDay().ready(myBhv().pulloutVillageDay(_selectedList), _selector); }
-        return _foreignVillageDayLoader;
+    protected LoaderOfPlayer _foreignPlayerLoader;
+    public LoaderOfPlayer pulloutPlayer() {
+        if (_foreignPlayerLoader == null)
+        { _foreignPlayerLoader = new LoaderOfPlayer().ready(myBhv().pulloutPlayer(_selectedList), _selector); }
+        return _foreignPlayerLoader;
     }
 
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public List<Vote> getSelectedList() { return _selectedList; }
+    public List<PlayerDetail> getSelectedList() { return _selectedList; }
     public BehaviorSelector getSelector() { return _selector; }
 }

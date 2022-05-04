@@ -15,4 +15,8 @@ interface PlayerRepository {
     fun registerPlayer(userName: String, password: String): Player
 
     fun updatePassword(userName: String, password: String)
+
+    fun updateDetail(userName: String, twitterUserName: String?, introduction: String?)
+
+    fun updateDifference(current: Players, changed: Players)
 }

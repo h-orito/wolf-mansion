@@ -25,13 +25,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     ABILITY_TYPE, CHARA, VILLAGE_DAY
+ *     ABILITY_TYPE, VILLAGE_DAY
  *
  * [referrer table]
  *     
  *
  * [foreign property]
- *     abilityType, charaByCharaId, charaByTargetCharaId, villageDay
+ *     abilityType, villageDay
  *
  * [referrer property]
  *     
@@ -64,20 +64,6 @@ public class LoaderOfAbility {
         if (_foreignAbilityTypeLoader == null)
         { _foreignAbilityTypeLoader = new LoaderOfAbilityType().ready(myBhv().pulloutAbilityType(_selectedList), _selector); }
         return _foreignAbilityTypeLoader;
-    }
-
-    protected LoaderOfChara _foreignCharaByCharaIdLoader;
-    public LoaderOfChara pulloutCharaByCharaId() {
-        if (_foreignCharaByCharaIdLoader == null)
-        { _foreignCharaByCharaIdLoader = new LoaderOfChara().ready(myBhv().pulloutCharaByCharaId(_selectedList), _selector); }
-        return _foreignCharaByCharaIdLoader;
-    }
-
-    protected LoaderOfChara _foreignCharaByTargetCharaIdLoader;
-    public LoaderOfChara pulloutCharaByTargetCharaId() {
-        if (_foreignCharaByTargetCharaIdLoader == null)
-        { _foreignCharaByTargetCharaIdLoader = new LoaderOfChara().ready(myBhv().pulloutCharaByTargetCharaId(_selectedList), _selector); }
-        return _foreignCharaByTargetCharaIdLoader;
     }
 
     protected LoaderOfVillageDay _foreignVillageDayLoader;

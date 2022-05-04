@@ -79,89 +79,19 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
       return _charaId; }
     protected ConditionValue xgetCValueCharaId() { return xdfgetCharaId(); }
 
-    public Map<String, AbilityCQ> xdfgetCharaId_ExistsReferrer_AbilityByCharaIdList() { return xgetSQueMap("charaId_ExistsReferrer_AbilityByCharaIdList"); }
-    public String keepCharaId_ExistsReferrer_AbilityByCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_ExistsReferrer_AbilityByCharaIdList", sq); }
-
-    public Map<String, AbilityCQ> xdfgetCharaId_ExistsReferrer_AbilityByTargetCharaIdList() { return xgetSQueMap("charaId_ExistsReferrer_AbilityByTargetCharaIdList"); }
-    public String keepCharaId_ExistsReferrer_AbilityByTargetCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_ExistsReferrer_AbilityByTargetCharaIdList", sq); }
-
     public Map<String, CharaImageCQ> xdfgetCharaId_ExistsReferrer_CharaImageList() { return xgetSQueMap("charaId_ExistsReferrer_CharaImageList"); }
     public String keepCharaId_ExistsReferrer_CharaImageList(CharaImageCQ sq) { return xkeepSQue("charaId_ExistsReferrer_CharaImageList", sq); }
-
-    public Map<String, FootstepCQ> xdfgetCharaId_ExistsReferrer_FootstepList() { return xgetSQueMap("charaId_ExistsReferrer_FootstepList"); }
-    public String keepCharaId_ExistsReferrer_FootstepList(FootstepCQ sq) { return xkeepSQue("charaId_ExistsReferrer_FootstepList", sq); }
-
-    public Map<String, VoteCQ> xdfgetCharaId_ExistsReferrer_VoteByCharaIdList() { return xgetSQueMap("charaId_ExistsReferrer_VoteByCharaIdList"); }
-    public String keepCharaId_ExistsReferrer_VoteByCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_ExistsReferrer_VoteByCharaIdList", sq); }
-
-    public Map<String, VoteCQ> xdfgetCharaId_ExistsReferrer_VoteByVoteCharaIdList() { return xgetSQueMap("charaId_ExistsReferrer_VoteByVoteCharaIdList"); }
-    public String keepCharaId_ExistsReferrer_VoteByVoteCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_ExistsReferrer_VoteByVoteCharaIdList", sq); }
-
-    public Map<String, AbilityCQ> xdfgetCharaId_NotExistsReferrer_AbilityByCharaIdList() { return xgetSQueMap("charaId_NotExistsReferrer_AbilityByCharaIdList"); }
-    public String keepCharaId_NotExistsReferrer_AbilityByCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_AbilityByCharaIdList", sq); }
-
-    public Map<String, AbilityCQ> xdfgetCharaId_NotExistsReferrer_AbilityByTargetCharaIdList() { return xgetSQueMap("charaId_NotExistsReferrer_AbilityByTargetCharaIdList"); }
-    public String keepCharaId_NotExistsReferrer_AbilityByTargetCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_AbilityByTargetCharaIdList", sq); }
 
     public Map<String, CharaImageCQ> xdfgetCharaId_NotExistsReferrer_CharaImageList() { return xgetSQueMap("charaId_NotExistsReferrer_CharaImageList"); }
     public String keepCharaId_NotExistsReferrer_CharaImageList(CharaImageCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_CharaImageList", sq); }
 
-    public Map<String, FootstepCQ> xdfgetCharaId_NotExistsReferrer_FootstepList() { return xgetSQueMap("charaId_NotExistsReferrer_FootstepList"); }
-    public String keepCharaId_NotExistsReferrer_FootstepList(FootstepCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_FootstepList", sq); }
-
-    public Map<String, VoteCQ> xdfgetCharaId_NotExistsReferrer_VoteByCharaIdList() { return xgetSQueMap("charaId_NotExistsReferrer_VoteByCharaIdList"); }
-    public String keepCharaId_NotExistsReferrer_VoteByCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_VoteByCharaIdList", sq); }
-
-    public Map<String, VoteCQ> xdfgetCharaId_NotExistsReferrer_VoteByVoteCharaIdList() { return xgetSQueMap("charaId_NotExistsReferrer_VoteByVoteCharaIdList"); }
-    public String keepCharaId_NotExistsReferrer_VoteByVoteCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_VoteByVoteCharaIdList", sq); }
-
-    public Map<String, AbilityCQ> xdfgetCharaId_SpecifyDerivedReferrer_AbilityByCharaIdList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_AbilityByCharaIdList"); }
-    public String keepCharaId_SpecifyDerivedReferrer_AbilityByCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_AbilityByCharaIdList", sq); }
-
-    public Map<String, AbilityCQ> xdfgetCharaId_SpecifyDerivedReferrer_AbilityByTargetCharaIdList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_AbilityByTargetCharaIdList"); }
-    public String keepCharaId_SpecifyDerivedReferrer_AbilityByTargetCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_AbilityByTargetCharaIdList", sq); }
-
     public Map<String, CharaImageCQ> xdfgetCharaId_SpecifyDerivedReferrer_CharaImageList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_CharaImageList"); }
     public String keepCharaId_SpecifyDerivedReferrer_CharaImageList(CharaImageCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_CharaImageList", sq); }
-
-    public Map<String, FootstepCQ> xdfgetCharaId_SpecifyDerivedReferrer_FootstepList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_FootstepList"); }
-    public String keepCharaId_SpecifyDerivedReferrer_FootstepList(FootstepCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_FootstepList", sq); }
-
-    public Map<String, VoteCQ> xdfgetCharaId_SpecifyDerivedReferrer_VoteByCharaIdList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_VoteByCharaIdList"); }
-    public String keepCharaId_SpecifyDerivedReferrer_VoteByCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_VoteByCharaIdList", sq); }
-
-    public Map<String, VoteCQ> xdfgetCharaId_SpecifyDerivedReferrer_VoteByVoteCharaIdList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_VoteByVoteCharaIdList"); }
-    public String keepCharaId_SpecifyDerivedReferrer_VoteByVoteCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_VoteByVoteCharaIdList", sq); }
-
-    public Map<String, AbilityCQ> xdfgetCharaId_QueryDerivedReferrer_AbilityByCharaIdList() { return xgetSQueMap("charaId_QueryDerivedReferrer_AbilityByCharaIdList"); }
-    public String keepCharaId_QueryDerivedReferrer_AbilityByCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_AbilityByCharaIdList", sq); }
-    public Map<String, Object> xdfgetCharaId_QueryDerivedReferrer_AbilityByCharaIdListParameter() { return xgetSQuePmMap("charaId_QueryDerivedReferrer_AbilityByCharaIdList"); }
-    public String keepCharaId_QueryDerivedReferrer_AbilityByCharaIdListParameter(Object pm) { return xkeepSQuePm("charaId_QueryDerivedReferrer_AbilityByCharaIdList", pm); }
-
-    public Map<String, AbilityCQ> xdfgetCharaId_QueryDerivedReferrer_AbilityByTargetCharaIdList() { return xgetSQueMap("charaId_QueryDerivedReferrer_AbilityByTargetCharaIdList"); }
-    public String keepCharaId_QueryDerivedReferrer_AbilityByTargetCharaIdList(AbilityCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_AbilityByTargetCharaIdList", sq); }
-    public Map<String, Object> xdfgetCharaId_QueryDerivedReferrer_AbilityByTargetCharaIdListParameter() { return xgetSQuePmMap("charaId_QueryDerivedReferrer_AbilityByTargetCharaIdList"); }
-    public String keepCharaId_QueryDerivedReferrer_AbilityByTargetCharaIdListParameter(Object pm) { return xkeepSQuePm("charaId_QueryDerivedReferrer_AbilityByTargetCharaIdList", pm); }
 
     public Map<String, CharaImageCQ> xdfgetCharaId_QueryDerivedReferrer_CharaImageList() { return xgetSQueMap("charaId_QueryDerivedReferrer_CharaImageList"); }
     public String keepCharaId_QueryDerivedReferrer_CharaImageList(CharaImageCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_CharaImageList", sq); }
     public Map<String, Object> xdfgetCharaId_QueryDerivedReferrer_CharaImageListParameter() { return xgetSQuePmMap("charaId_QueryDerivedReferrer_CharaImageList"); }
     public String keepCharaId_QueryDerivedReferrer_CharaImageListParameter(Object pm) { return xkeepSQuePm("charaId_QueryDerivedReferrer_CharaImageList", pm); }
-
-    public Map<String, FootstepCQ> xdfgetCharaId_QueryDerivedReferrer_FootstepList() { return xgetSQueMap("charaId_QueryDerivedReferrer_FootstepList"); }
-    public String keepCharaId_QueryDerivedReferrer_FootstepList(FootstepCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_FootstepList", sq); }
-    public Map<String, Object> xdfgetCharaId_QueryDerivedReferrer_FootstepListParameter() { return xgetSQuePmMap("charaId_QueryDerivedReferrer_FootstepList"); }
-    public String keepCharaId_QueryDerivedReferrer_FootstepListParameter(Object pm) { return xkeepSQuePm("charaId_QueryDerivedReferrer_FootstepList", pm); }
-
-    public Map<String, VoteCQ> xdfgetCharaId_QueryDerivedReferrer_VoteByCharaIdList() { return xgetSQueMap("charaId_QueryDerivedReferrer_VoteByCharaIdList"); }
-    public String keepCharaId_QueryDerivedReferrer_VoteByCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_VoteByCharaIdList", sq); }
-    public Map<String, Object> xdfgetCharaId_QueryDerivedReferrer_VoteByCharaIdListParameter() { return xgetSQuePmMap("charaId_QueryDerivedReferrer_VoteByCharaIdList"); }
-    public String keepCharaId_QueryDerivedReferrer_VoteByCharaIdListParameter(Object pm) { return xkeepSQuePm("charaId_QueryDerivedReferrer_VoteByCharaIdList", pm); }
-
-    public Map<String, VoteCQ> xdfgetCharaId_QueryDerivedReferrer_VoteByVoteCharaIdList() { return xgetSQueMap("charaId_QueryDerivedReferrer_VoteByVoteCharaIdList"); }
-    public String keepCharaId_QueryDerivedReferrer_VoteByVoteCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_VoteByVoteCharaIdList", sq); }
-    public Map<String, Object> xdfgetCharaId_QueryDerivedReferrer_VoteByVoteCharaIdListParameter() { return xgetSQuePmMap("charaId_QueryDerivedReferrer_VoteByVoteCharaIdList"); }
-    public String keepCharaId_QueryDerivedReferrer_VoteByVoteCharaIdListParameter(Object pm) { return xkeepSQuePm("charaId_QueryDerivedReferrer_VoteByVoteCharaIdList", pm); }
 
     /**
      * Add order-by as ascend. <br>

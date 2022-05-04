@@ -40,13 +40,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [foreign table]
- *     CHARA, VILLAGE_DAY
+ *     VILLAGE_DAY
  *
  * [referrer table]
  *     
  *
  * [foreign property]
- *     charaByCharaId, villageDay, charaByVoteCharaId
+ *     villageDay
  *
  * [referrer property]
  *     
@@ -161,7 +161,7 @@ public abstract class BsVoteBhv extends AbstractBehaviorWritable<Vote, VoteCB> {
      * Select the entity by the primary-key value.
      * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
      * @param day : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
-     * @param charaId : PK, IX, NotNull, INT UNSIGNED(10), FK to chara. (NotNull)
+     * @param charaId : PK, NotNull, INT UNSIGNED(10). (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
@@ -367,28 +367,12 @@ public abstract class BsVoteBhv extends AbstractBehaviorWritable<Vote, VoteCB> {
     //                                                                   Pull out Relation
     //                                                                   =================
     /**
-     * Pull out the list of foreign table 'Chara'.
-     * @param voteList The list of vote. (NotNull, EmptyAllowed)
-     * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
-     */
-    public List<Chara> pulloutCharaByCharaId(List<Vote> voteList)
-    { return helpPulloutInternally(voteList, "charaByCharaId"); }
-
-    /**
      * Pull out the list of foreign table 'VillageDay'.
      * @param voteList The list of vote. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
     public List<VillageDay> pulloutVillageDay(List<Vote> voteList)
     { return helpPulloutInternally(voteList, "villageDay"); }
-
-    /**
-     * Pull out the list of foreign table 'Chara'.
-     * @param voteList The list of vote. (NotNull, EmptyAllowed)
-     * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
-     */
-    public List<Chara> pulloutCharaByVoteCharaId(List<Vote> voteList)
-    { return helpPulloutInternally(voteList, "charaByVoteCharaId"); }
 
     // ===================================================================================
     //                                                                      Extract Column

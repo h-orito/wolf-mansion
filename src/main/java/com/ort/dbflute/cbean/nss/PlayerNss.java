@@ -25,4 +25,13 @@ public class PlayerNss {
     public void withAuthority() {
         _query.xdoNss(() -> _query.queryAuthority());
     }
+    /**
+     * With nested relation columns to select clause. <br>
+     * player_detail by PLAYER_ID, named 'playerDetailAsOne'.
+     * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
+     */
+    public PlayerDetailNss withPlayerDetailAsOne() {
+        _query.xdoNss(() -> _query.queryPlayerDetailAsOne());
+        return new PlayerDetailNss(_query.queryPlayerDetailAsOne());
+    }
 }

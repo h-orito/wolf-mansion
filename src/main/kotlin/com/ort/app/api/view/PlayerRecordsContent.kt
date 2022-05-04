@@ -10,6 +10,10 @@ import com.ort.app.domain.model.player.SkillRecord
 import com.ort.app.domain.model.village.participant.VillageParticipant
 
 data class PlayerRecordsContent(
+    /** Twitterユーザ名 */
+    val twitterUserName: String?,
+    /** 自己紹介 */
+    val introduction: String?,
     /** 総合戦績  */
     val wholeStats: PlayerRecord,
     /** 陣営戦績  */
@@ -24,8 +28,12 @@ data class PlayerRecordsContent(
     constructor(
         playerRecords: PlayerRecords,
         charas: Charas,
-        originalCharas: Charas
+        originalCharas: Charas,
+        twitterUserName: String?,
+        introduction: String?
     ) : this(
+        twitterUserName = twitterUserName,
+        introduction = introduction,
         wholeStats = PlayerRecord(playerRecords.wholeRecord),
         campStatsList = playerRecords.campRecordList.map { PlayerCampRecord(it) },
         skillStatsList = playerRecords.skillRecordList.map { PlayerSkillRecord(it) },

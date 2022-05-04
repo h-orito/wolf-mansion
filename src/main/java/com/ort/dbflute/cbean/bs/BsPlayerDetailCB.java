@@ -21,20 +21,20 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of chara.
+ * The base condition-bean of player_detail.
  * @author DBFlute(AutoGenerator)
  */
-public class BsCharaCB extends AbstractConditionBean {
+public class BsPlayerDetailCB extends AbstractConditionBean {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected CharaCQ _conditionQuery;
+    protected PlayerDetailCQ _conditionQuery;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public BsCharaCB() {
+    public BsPlayerDetailCB() {
         if (DBFluteConfig.getInstance().isPagingCountLater()) {
             enablePagingCountLater();
         }
@@ -77,7 +77,7 @@ public class BsCharaCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "chara";
+        return "player_detail";
     }
 
     // ===================================================================================
@@ -85,23 +85,23 @@ public class BsCharaCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param charaId : PK, ID, NotNull, INT UNSIGNED(10). (NotNull)
+     * @param playerId : PK, NotNull, INT UNSIGNED(10), FK to player. (NotNull)
      * @return this. (NotNull)
      */
-    public CharaCB acceptPK(Integer charaId) {
-        assertObjectNotNull("charaId", charaId);
-        BsCharaCB cb = this;
-        cb.query().setCharaId_Equal(charaId);
-        return (CharaCB)this;
+    public PlayerDetailCB acceptPK(Integer playerId) {
+        assertObjectNotNull("playerId", playerId);
+        BsPlayerDetailCB cb = this;
+        cb.query().setPlayerId_Equal(playerId);
+        return (PlayerDetailCB)this;
     }
 
     public ConditionBean addOrderBy_PK_Asc() {
-        query().addOrderBy_CharaId_Asc();
+        query().addOrderBy_PlayerId_Asc();
         return this;
     }
 
     public ConditionBean addOrderBy_PK_Desc() {
-        query().addOrderBy_CharaId_Desc();
+        query().addOrderBy_PlayerId_Desc();
         return this;
     }
 
@@ -165,34 +165,34 @@ public class BsCharaCB extends AbstractConditionBean {
      * </pre>
      * @return The instance of condition-query for base-point table to set up query. (NotNull)
      */
-    public CharaCQ query() {
+    public PlayerDetailCQ query() {
         assertQueryPurpose(); // assert only when user-public query
         return doGetConditionQuery();
     }
 
-    public CharaCQ xdfgetConditionQuery() { // public for parameter comment and internal
+    public PlayerDetailCQ xdfgetConditionQuery() { // public for parameter comment and internal
         return doGetConditionQuery();
     }
 
-    protected CharaCQ doGetConditionQuery() {
+    protected PlayerDetailCQ doGetConditionQuery() {
         if (_conditionQuery == null) {
             _conditionQuery = createLocalCQ();
         }
         return _conditionQuery;
     }
 
-    protected CharaCQ createLocalCQ() {
+    protected PlayerDetailCQ createLocalCQ() {
         return xcreateCQ(null, getSqlClause(), getSqlClause().getBasePointAliasName(), 0);
     }
 
-    protected CharaCQ xcreateCQ(ConditionQuery childQuery, SqlClause sqlClause, String aliasName, int nestLevel) {
-        CharaCQ cq = xnewCQ(childQuery, sqlClause, aliasName, nestLevel);
+    protected PlayerDetailCQ xcreateCQ(ConditionQuery childQuery, SqlClause sqlClause, String aliasName, int nestLevel) {
+        PlayerDetailCQ cq = xnewCQ(childQuery, sqlClause, aliasName, nestLevel);
         cq.xsetBaseCB(this);
         return cq;
     }
 
-    protected CharaCQ xnewCQ(ConditionQuery childQuery, SqlClause sqlClause, String aliasName, int nestLevel) {
-        return new CharaCQ(childQuery, sqlClause, aliasName, nestLevel);
+    protected PlayerDetailCQ xnewCQ(ConditionQuery childQuery, SqlClause sqlClause, String aliasName, int nestLevel) {
+        return new PlayerDetailCQ(childQuery, sqlClause, aliasName, nestLevel);
     }
 
     /**
@@ -216,10 +216,10 @@ public class BsCharaCB extends AbstractConditionBean {
      * </pre>
      * @param unionCBLambda The callback for query of 'union'. (NotNull)
      */
-    public void union(UnionQuery<CharaCB> unionCBLambda) {
-        final CharaCB cb = new CharaCB(); cb.xsetupForUnion(this); xsyncUQ(cb);
+    public void union(UnionQuery<PlayerDetailCB> unionCBLambda) {
+        final PlayerDetailCB cb = new PlayerDetailCB(); cb.xsetupForUnion(this); xsyncUQ(cb);
         try { lock(); unionCBLambda.query(cb); } finally { unlock(); } xsaveUCB(cb);
-        final CharaCQ cq = cb.query(); query().xsetUnionQuery(cq);
+        final PlayerDetailCQ cq = cb.query(); query().xsetUnionQuery(cq);
     }
 
     /**
@@ -233,42 +233,39 @@ public class BsCharaCB extends AbstractConditionBean {
      * </pre>
      * @param unionCBLambda The callback for query of 'union all'. (NotNull)
      */
-    public void unionAll(UnionQuery<CharaCB> unionCBLambda) {
-        final CharaCB cb = new CharaCB(); cb.xsetupForUnion(this); xsyncUQ(cb);
+    public void unionAll(UnionQuery<PlayerDetailCB> unionCBLambda) {
+        final PlayerDetailCB cb = new PlayerDetailCB(); cb.xsetupForUnion(this); xsyncUQ(cb);
         try { lock(); unionCBLambda.query(cb); } finally { unlock(); } xsaveUCB(cb);
-        final CharaCQ cq = cb.query(); query().xsetUnionAllQuery(cq);
+        final PlayerDetailCQ cq = cb.query(); query().xsetUnionAllQuery(cq);
     }
 
     // ===================================================================================
     //                                                                         SetupSelect
     //                                                                         ===========
-    protected CharaGroupNss _nssCharaGroup;
-    public CharaGroupNss xdfgetNssCharaGroup() {
-        if (_nssCharaGroup == null) { _nssCharaGroup = new CharaGroupNss(null); }
-        return _nssCharaGroup;
+    protected PlayerNss _nssPlayer;
+    public PlayerNss xdfgetNssPlayer() {
+        if (_nssPlayer == null) { _nssPlayer = new PlayerNss(null); }
+        return _nssPlayer;
     }
     /**
      * Set up relation columns to select clause. <br>
-     * CHARA_GROUP by my CHARA_GROUP_ID, named 'charaGroup'.
+     * PLAYER by my PLAYER_ID, named 'player'.
      * <pre>
-     * <span style="color: #0000C0">charaBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_CharaGroup()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     * <span style="color: #0000C0">playerDetailBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_Player()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
      *     <span style="color: #553000">cb</span>.query().set...
-     * }).alwaysPresent(<span style="color: #553000">chara</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     ... = <span style="color: #553000">chara</span>.<span style="color: #CC4747">getCharaGroup()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
+     * }).alwaysPresent(<span style="color: #553000">playerDetail</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     ... = <span style="color: #553000">playerDetail</span>.<span style="color: #CC4747">getPlayer()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
      * });
      * </pre>
      * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
      */
-    public CharaGroupNss setupSelect_CharaGroup() {
-        assertSetupSelectPurpose("charaGroup");
-        if (hasSpecifiedLocalColumn()) {
-            specify().columnCharaGroupId();
-        }
-        doSetupSelect(() -> query().queryCharaGroup());
-        if (_nssCharaGroup == null || !_nssCharaGroup.hasConditionQuery())
-        { _nssCharaGroup = new CharaGroupNss(query().queryCharaGroup()); }
-        return _nssCharaGroup;
+    public PlayerNss setupSelect_Player() {
+        assertSetupSelectPurpose("player");
+        doSetupSelect(() -> query().queryPlayer());
+        if (_nssPlayer == null || !_nssPlayer.hasConditionQuery())
+        { _nssPlayer = new PlayerNss(query().queryPlayer()); }
+        return _nssPlayer;
     }
 
     // [DBFlute-0.7.4]
@@ -311,128 +308,62 @@ public class BsCharaCB extends AbstractConditionBean {
         return _specification != null && _specification.hasSpecifiedColumn();
     }
 
-    public static class HpSpecification extends HpAbstractSpecification<CharaCQ> {
-        protected CharaGroupCB.HpSpecification _charaGroup;
-        public HpSpecification(ConditionBean baseCB, HpSpQyCall<CharaCQ> qyCall
+    public static class HpSpecification extends HpAbstractSpecification<PlayerDetailCQ> {
+        protected PlayerCB.HpSpecification _player;
+        public HpSpecification(ConditionBean baseCB, HpSpQyCall<PlayerDetailCQ> qyCall
                              , HpCBPurpose purpose, DBMetaProvider dbmetaProvider
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * CHARA_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+         * PLAYER_ID: {PK, NotNull, INT UNSIGNED(10), FK to player}
          * @return The information object of specified column. (NotNull)
          */
-        public SpecifiedColumn columnCharaId() { return doColumn("CHARA_ID"); }
+        public SpecifiedColumn columnPlayerId() { return doColumn("PLAYER_ID"); }
         /**
-         * CHARA_NAME: {NotNull, VARCHAR(40)}
+         * TWITTER_USER_NAME: {VARCHAR(50)}
          * @return The information object of specified column. (NotNull)
          */
-        public SpecifiedColumn columnCharaName() { return doColumn("CHARA_NAME"); }
+        public SpecifiedColumn columnTwitterUserName() { return doColumn("TWITTER_USER_NAME"); }
         /**
-         * CHARA_SHORT_NAME: {NotNull, CHAR(1)}
+         * INTRODUCTION: {VARCHAR(2000)}
          * @return The information object of specified column. (NotNull)
          */
-        public SpecifiedColumn columnCharaShortName() { return doColumn("CHARA_SHORT_NAME"); }
-        /**
-         * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
-         * @return The information object of specified column. (NotNull)
-         */
-        public SpecifiedColumn columnCharaGroupId() { return doColumn("CHARA_GROUP_ID"); }
-        /**
-         * DEFAULT_JOIN_MESSAGE: {VARCHAR(200)}
-         * @return The information object of specified column. (NotNull)
-         */
-        public SpecifiedColumn columnDefaultJoinMessage() { return doColumn("DEFAULT_JOIN_MESSAGE"); }
-        /**
-         * DEFAULT_FIRSTDAY_MESSAGE: {VARCHAR(200)}
-         * @return The information object of specified column. (NotNull)
-         */
-        public SpecifiedColumn columnDefaultFirstdayMessage() { return doColumn("DEFAULT_FIRSTDAY_MESSAGE"); }
-        /**
-         * DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)}
-         * @return The information object of specified column. (NotNull)
-         */
-        public SpecifiedColumn columnDisplayWidth() { return doColumn("DISPLAY_WIDTH"); }
-        /**
-         * DISPLAY_HEIGHT: {NotNull, INT UNSIGNED(10)}
-         * @return The information object of specified column. (NotNull)
-         */
-        public SpecifiedColumn columnDisplayHeight() { return doColumn("DISPLAY_HEIGHT"); }
-        /**
-         * REGISTER_DATETIME: {NotNull, DATETIME(19)}
-         * @return The information object of specified column. (NotNull)
-         */
-        public SpecifiedColumn columnRegisterDatetime() { return doColumn("REGISTER_DATETIME"); }
-        /**
-         * REGISTER_TRACE: {NotNull, VARCHAR(64)}
-         * @return The information object of specified column. (NotNull)
-         */
-        public SpecifiedColumn columnRegisterTrace() { return doColumn("REGISTER_TRACE"); }
-        /**
-         * UPDATE_DATETIME: {NotNull, DATETIME(19)}
-         * @return The information object of specified column. (NotNull)
-         */
-        public SpecifiedColumn columnUpdateDatetime() { return doColumn("UPDATE_DATETIME"); }
-        /**
-         * UPDATE_TRACE: {NotNull, VARCHAR(64)}
-         * @return The information object of specified column. (NotNull)
-         */
-        public SpecifiedColumn columnUpdateTrace() { return doColumn("UPDATE_TRACE"); }
+        public SpecifiedColumn columnIntroduction() { return doColumn("INTRODUCTION"); }
         public void everyColumn() { doEveryColumn(); }
         public void exceptRecordMetaColumn() { doExceptRecordMetaColumn(); }
         @Override
         protected void doSpecifyRequiredColumn() {
-            columnCharaId(); // PK
-            if (qyCall().qy().hasConditionQueryCharaGroup()
-                    || qyCall().qy().xgetReferrerQuery() instanceof CharaGroupCQ) {
-                columnCharaGroupId(); // FK or one-to-one referrer
-            }
+            columnPlayerId(); // PK
         }
         @Override
-        protected String getTableDbName() { return "chara"; }
+        protected String getTableDbName() { return "player_detail"; }
         /**
          * Prepare to specify functions about relation table. <br>
-         * CHARA_GROUP by my CHARA_GROUP_ID, named 'charaGroup'.
+         * PLAYER by my PLAYER_ID, named 'player'.
          * @return The instance for specification for relation table to specify. (NotNull)
          */
-        public CharaGroupCB.HpSpecification specifyCharaGroup() {
-            assertRelation("charaGroup");
-            if (_charaGroup == null) {
-                _charaGroup = new CharaGroupCB.HpSpecification(_baseCB
-                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryCharaGroup()
-                                    , () -> _qyCall.qy().queryCharaGroup())
+        public PlayerCB.HpSpecification specifyPlayer() {
+            assertRelation("player");
+            if (_player == null) {
+                _player = new PlayerCB.HpSpecification(_baseCB
+                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryPlayer()
+                                    , () -> _qyCall.qy().queryPlayer())
                     , _purpose, _dbmetaProvider, xgetSDRFnFc());
                 if (xhasSyncQyCall()) { // inherits it
-                    _charaGroup.xsetSyncQyCall(xcreateSpQyCall(
-                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryCharaGroup()
-                      , () -> xsyncQyCall().qy().queryCharaGroup()));
+                    _player.xsetSyncQyCall(xcreateSpQyCall(
+                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryPlayer()
+                      , () -> xsyncQyCall().qy().queryPlayer()));
                 }
             }
-            return _charaGroup;
-        }
-        /**
-         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from chara_image where ...) as FOO_MAX} <br>
-         * CHARA_IMAGE by CHARA_ID, named 'charaImageList'.
-         * <pre>
-         * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(imageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-         *     imageCB.specify().<span style="color: #CC4747">column...</span> <span style="color: #3F7E5E">// derived column by function</span>
-         *     imageCB.query().set... <span style="color: #3F7E5E">// referrer condition</span>
-         * }, CharaImage.<span style="color: #CC4747">ALIAS_foo...</span>);
-         * </pre>
-         * @return The object to set up a function for referrer table. (NotNull)
-         */
-        public HpSDRFunction<CharaImageCB, CharaCQ> derivedCharaImage() {
-            assertDerived("charaImageList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<CharaImageCB> sq, CharaCQ cq, String al, DerivedReferrerOption op)
-                    -> cq.xsderiveCharaImageList(fn, sq, al, op), _dbmetaProvider);
+            return _player;
         }
         /**
          * Prepare for (Specify)MyselfDerived (SubQuery).
          * @return The object to set up a function for myself table. (NotNull)
          */
-        public HpSDRFunction<CharaCB, CharaCQ> myselfDerived() {
+        public HpSDRFunction<PlayerDetailCB, PlayerDetailCQ> myselfDerived() {
             assertDerived("myselfDerived"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<CharaCB> sq, CharaCQ cq, String al, DerivedReferrerOption op)
+            return cHSDRF(_baseCB, _qyCall.qy(), (String fn, SubQuery<PlayerDetailCB> sq, PlayerDetailCQ cq, String al, DerivedReferrerOption op)
                     -> cq.xsmyselfDerive(fn, sq, al, op), _dbmetaProvider);
         }
     }
@@ -445,9 +376,9 @@ public class BsCharaCB extends AbstractConditionBean {
      * This is very specialty so you can get the frontier spirit. Bon voyage!
      * @return The condition-bean for dream cruise, which is linked to main condition-bean.
      */
-    public CharaCB dreamCruiseCB() {
-        CharaCB cb = new CharaCB();
-        cb.xsetupForDreamCruise((CharaCB) this);
+    public PlayerDetailCB dreamCruiseCB() {
+        PlayerDetailCB cb = new PlayerDetailCB();
+        cb.xsetupForDreamCruise((PlayerDetailCB) this);
         return cb;
     }
 
@@ -472,15 +403,15 @@ public class BsCharaCB extends AbstractConditionBean {
      * @param colCBLambda The callback for specify-query of left column. (NotNull)
      * @return The object for setting up operand and right column. (NotNull)
      */
-    public HpColQyOperand<CharaCB> columnQuery(final SpecifyQuery<CharaCB> colCBLambda) {
+    public HpColQyOperand<PlayerDetailCB> columnQuery(final SpecifyQuery<PlayerDetailCB> colCBLambda) {
         return xcreateColQyOperand((rightSp, operand) -> {
             return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), colCBLambda, rightSp, operand);
         });
     }
 
-    protected CharaCB xcreateColumnQueryCB() {
-        CharaCB cb = new CharaCB();
-        cb.xsetupForColumnQuery((CharaCB)this);
+    protected PlayerDetailCB xcreateColumnQueryCB() {
+        PlayerDetailCB cb = new PlayerDetailCB();
+        cb.xsetupForColumnQuery((PlayerDetailCB)this);
         return cb;
     }
 
@@ -500,8 +431,8 @@ public class BsCharaCB extends AbstractConditionBean {
      * </pre>
      * @param orCBLambda The callback for query of or-condition. (NotNull)
      */
-    public void orScopeQuery(OrQuery<CharaCB> orCBLambda) {
-        xorSQ((CharaCB)this, orCBLambda);
+    public void orScopeQuery(OrQuery<PlayerDetailCB> orCBLambda) {
+        xorSQ((PlayerDetailCB)this, orCBLambda);
     }
 
     /**
@@ -519,8 +450,8 @@ public class BsCharaCB extends AbstractConditionBean {
      * </pre>
      * @param andCBLambda The callback for query of and-condition. (NotNull)
      */
-    public void orScopeQueryAndPart(AndQuery<CharaCB> andCBLambda) {
-        xorSQAP((CharaCB)this, andCBLambda);
+    public void orScopeQueryAndPart(AndQuery<PlayerDetailCB> andCBLambda) {
+        xorSQAP((PlayerDetailCB)this, andCBLambda);
     }
 
     // ===================================================================================
@@ -550,11 +481,11 @@ public class BsCharaCB extends AbstractConditionBean {
     //                                                                        ============
     @Override
     protected void xprepareSyncQyCall(ConditionBean mainCB) {
-        final CharaCB cb;
+        final PlayerDetailCB cb;
         if (mainCB != null) {
-            cb = (CharaCB)mainCB;
+            cb = (PlayerDetailCB)mainCB;
         } else {
-            cb = new CharaCB();
+            cb = new PlayerDetailCB();
         }
         specify().xsetSyncQyCall(xcreateSpQyCall(() -> true, () -> cb.query()));
     }
@@ -563,8 +494,8 @@ public class BsCharaCB extends AbstractConditionBean {
     //                                                                            Internal
     //                                                                            ========
     // very internal (for suppressing warn about 'Not Use Import')
-    protected String xgetConditionBeanClassNameInternally() { return CharaCB.class.getName(); }
-    protected String xgetConditionQueryClassNameInternally() { return CharaCQ.class.getName(); }
+    protected String xgetConditionBeanClassNameInternally() { return PlayerDetailCB.class.getName(); }
+    protected String xgetConditionQueryClassNameInternally() { return PlayerDetailCQ.class.getName(); }
     protected String xgetSubQueryClassNameInternally() { return SubQuery.class.getName(); }
     protected String xgetConditionOptionClassNameInternally() { return ConditionOption.class.getName(); }
 }

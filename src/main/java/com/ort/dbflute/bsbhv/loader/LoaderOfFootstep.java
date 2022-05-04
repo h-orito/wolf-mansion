@@ -25,13 +25,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     CHARA, VILLAGE_DAY
+ *     VILLAGE_DAY
  *
  * [referrer table]
  *     
  *
  * [foreign property]
- *     chara, villageDay
+ *     villageDay
  *
  * [referrer property]
  *     
@@ -59,13 +59,6 @@ public class LoaderOfFootstep {
     // ===================================================================================
     //                                                                    Pull out Foreign
     //                                                                    ================
-    protected LoaderOfChara _foreignCharaLoader;
-    public LoaderOfChara pulloutChara() {
-        if (_foreignCharaLoader == null)
-        { _foreignCharaLoader = new LoaderOfChara().ready(myBhv().pulloutChara(_selectedList), _selector); }
-        return _foreignCharaLoader;
-    }
-
     protected LoaderOfVillageDay _foreignVillageDayLoader;
     public LoaderOfVillageDay pulloutVillageDay() {
         if (_foreignVillageDayLoader == null)

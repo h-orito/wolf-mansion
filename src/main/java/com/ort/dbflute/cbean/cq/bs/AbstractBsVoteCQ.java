@@ -303,7 +303,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      * @param charaId The value of charaId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_Equal(Integer charaId) {
@@ -316,7 +316,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      * @param charaId The value of charaId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_NotEqual(Integer charaId) {
@@ -329,7 +329,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      * @param charaId The value of charaId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_GreaterThan(Integer charaId) {
@@ -338,7 +338,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      * @param charaId The value of charaId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_LessThan(Integer charaId) {
@@ -347,7 +347,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      * @param charaId The value of charaId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_GreaterEqual(Integer charaId) {
@@ -356,7 +356,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      * @param charaId The value of charaId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_LessEqual(Integer charaId) {
@@ -367,7 +367,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      * @param minNumber The min number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -380,7 +380,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      * @param minNumber The min number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -391,7 +391,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      * @param charaIdList The collection of charaId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharaId_InScope(Collection<Integer> charaIdList) {
@@ -404,7 +404,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      * @param charaIdList The collection of charaId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharaId_NotInScope(Collection<Integer> charaIdList) {
@@ -417,13 +417,13 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      */
     public void setCharaId_IsNull() { regCharaId(CK_ISN, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      */
     public void setCharaId_IsNotNull() { regCharaId(CK_ISNN, DOBJ); }
 
@@ -432,7 +432,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * VOTE_CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param voteCharaId The value of voteCharaId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setVoteCharaId_Equal(Integer voteCharaId) {
@@ -445,7 +445,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * VOTE_CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param voteCharaId The value of voteCharaId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVoteCharaId_NotEqual(Integer voteCharaId) {
@@ -458,7 +458,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * VOTE_CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param voteCharaId The value of voteCharaId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVoteCharaId_GreaterThan(Integer voteCharaId) {
@@ -467,7 +467,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * VOTE_CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param voteCharaId The value of voteCharaId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVoteCharaId_LessThan(Integer voteCharaId) {
@@ -476,7 +476,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * VOTE_CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param voteCharaId The value of voteCharaId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVoteCharaId_GreaterEqual(Integer voteCharaId) {
@@ -485,7 +485,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * VOTE_CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param voteCharaId The value of voteCharaId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVoteCharaId_LessEqual(Integer voteCharaId) {
@@ -496,7 +496,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * VOTE_CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param minNumber The min number of voteCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of voteCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -509,7 +509,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * VOTE_CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param minNumber The min number of voteCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of voteCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -520,7 +520,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * VOTE_CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param voteCharaIdList The collection of voteCharaId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVoteCharaId_InScope(Collection<Integer> voteCharaIdList) {
@@ -533,7 +533,7 @@ public abstract class AbstractBsVoteCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * VOTE_CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param voteCharaIdList The collection of voteCharaId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVoteCharaId_NotInScope(Collection<Integer> voteCharaIdList) {

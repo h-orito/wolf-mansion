@@ -33,13 +33,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     ABILITY_TYPE, CHARA, VILLAGE_DAY
+ *     ABILITY_TYPE, VILLAGE_DAY
  *
  * [referrer table]
  *     
  *
  * [foreign property]
- *     abilityType, charaByCharaId, charaByTargetCharaId, villageDay
+ *     abilityType, villageDay
  *
  * [referrer property]
  *     
@@ -87,10 +87,10 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     /** DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day} */
     protected Integer _day;
 
-    /** CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara} */
+    /** CHARA_ID: {PK, NotNull, INT UNSIGNED(10)} */
     protected Integer _charaId;
 
-    /** TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara} */
+    /** TARGET_CHARA_ID: {INT UNSIGNED(10)} */
     protected Integer _targetCharaId;
 
     /** TARGET_FOOTSTEP: {VARCHAR(1000)} */
@@ -855,48 +855,6 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
         _abilityType = abilityType;
     }
 
-    /** CHARA by my CHARA_ID, named 'charaByCharaId'. */
-    protected OptionalEntity<Chara> _charaByCharaId;
-
-    /**
-     * [get] CHARA by my CHARA_ID, named 'charaByCharaId'. <br>
-     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
-     * @return The entity of foreign property 'charaByCharaId'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
-     */
-    public OptionalEntity<Chara> getCharaByCharaId() {
-        if (_charaByCharaId == null) { _charaByCharaId = OptionalEntity.relationEmpty(this, "charaByCharaId"); }
-        return _charaByCharaId;
-    }
-
-    /**
-     * [set] CHARA by my CHARA_ID, named 'charaByCharaId'.
-     * @param charaByCharaId The entity of foreign property 'charaByCharaId'. (NullAllowed)
-     */
-    public void setCharaByCharaId(OptionalEntity<Chara> charaByCharaId) {
-        _charaByCharaId = charaByCharaId;
-    }
-
-    /** CHARA by my TARGET_CHARA_ID, named 'charaByTargetCharaId'. */
-    protected OptionalEntity<Chara> _charaByTargetCharaId;
-
-    /**
-     * [get] CHARA by my TARGET_CHARA_ID, named 'charaByTargetCharaId'. <br>
-     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
-     * @return The entity of foreign property 'charaByTargetCharaId'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
-     */
-    public OptionalEntity<Chara> getCharaByTargetCharaId() {
-        if (_charaByTargetCharaId == null) { _charaByTargetCharaId = OptionalEntity.relationEmpty(this, "charaByTargetCharaId"); }
-        return _charaByTargetCharaId;
-    }
-
-    /**
-     * [set] CHARA by my TARGET_CHARA_ID, named 'charaByTargetCharaId'.
-     * @param charaByTargetCharaId The entity of foreign property 'charaByTargetCharaId'. (NullAllowed)
-     */
-    public void setCharaByTargetCharaId(OptionalEntity<Chara> charaByTargetCharaId) {
-        _charaByTargetCharaId = charaByTargetCharaId;
-    }
-
     /** VILLAGE_DAY by my VILLAGE_ID, DAY, named 'villageDay'. */
     protected OptionalEntity<VillageDay> _villageDay;
 
@@ -958,10 +916,6 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
         StringBuilder sb = new StringBuilder();
         if (_abilityType != null && _abilityType.isPresent())
         { sb.append(li).append(xbRDS(_abilityType, "abilityType")); }
-        if (_charaByCharaId != null && _charaByCharaId.isPresent())
-        { sb.append(li).append(xbRDS(_charaByCharaId, "charaByCharaId")); }
-        if (_charaByTargetCharaId != null && _charaByTargetCharaId.isPresent())
-        { sb.append(li).append(xbRDS(_charaByTargetCharaId, "charaByTargetCharaId")); }
         if (_villageDay != null && _villageDay.isPresent())
         { sb.append(li).append(xbRDS(_villageDay, "villageDay")); }
         return sb.toString();
@@ -995,10 +949,6 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
         StringBuilder sb = new StringBuilder();
         if (_abilityType != null && _abilityType.isPresent())
         { sb.append(dm).append("abilityType"); }
-        if (_charaByCharaId != null && _charaByCharaId.isPresent())
-        { sb.append(dm).append("charaByCharaId"); }
-        if (_charaByTargetCharaId != null && _charaByTargetCharaId.isPresent())
-        { sb.append(dm).append("charaByTargetCharaId"); }
         if (_villageDay != null && _villageDay.isPresent())
         { sb.append(dm).append("villageDay"); }
         if (sb.length() > dm.length()) {
@@ -1056,7 +1006,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
+     * [get] CHARA_ID: {PK, NotNull, INT UNSIGNED(10)} <br>
      * キャラクターID
      * @return The value of the column 'CHARA_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -1066,7 +1016,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
+     * [set] CHARA_ID: {PK, NotNull, INT UNSIGNED(10)} <br>
      * キャラクターID
      * @param charaId The value of the column 'CHARA_ID'. (basically NotNull if update: for the constraint)
      */
@@ -1076,7 +1026,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [get] TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara} <br>
+     * [get] TARGET_CHARA_ID: {INT UNSIGNED(10)} <br>
      * 行使対象キャラID
      * @return The value of the column 'TARGET_CHARA_ID'. (NullAllowed even if selected: for no constraint)
      */
@@ -1086,7 +1036,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
-     * [set] TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara} <br>
+     * [set] TARGET_CHARA_ID: {INT UNSIGNED(10)} <br>
      * 行使対象キャラID
      * @param targetCharaId The value of the column 'TARGET_CHARA_ID'. (NullAllowed: null update allowed for no constraint)
      */

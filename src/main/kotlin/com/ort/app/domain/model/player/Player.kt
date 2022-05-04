@@ -6,6 +6,8 @@ import com.ort.dbflute.allcommon.CDef
 data class Player(
     val id: Int,
     val name: String,
+    val twitterUserName: String?,
+    val introduction: String?,
     val authority: Authority,
     val isRestrictedParticipation: Boolean,
     val shouldCheckAccessInfo: Boolean,

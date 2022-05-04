@@ -1,18 +1,18 @@
 package com.ort.dbflute.cbean.nss;
 
-import com.ort.dbflute.cbean.cq.FootstepCQ;
+import com.ort.dbflute.cbean.cq.PlayerDetailCQ;
 
 /**
- * The nest select set-upper of footstep.
+ * The nest select set-upper of player_detail.
  * @author DBFlute(AutoGenerator)
  */
-public class FootstepNss {
+public class PlayerDetailNss {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected final FootstepCQ _query;
-    public FootstepNss(FootstepCQ query) { _query = query; }
+    protected final PlayerDetailCQ _query;
+    public PlayerDetailNss(PlayerDetailCQ query) { _query = query; }
     public boolean hasConditionQuery() { return _query != null; }
 
     // ===================================================================================
@@ -20,11 +20,11 @@ public class FootstepNss {
     //                                                                     ===============
     /**
      * With nested relation columns to select clause. <br>
-     * VILLAGE_DAY by my VILLAGE_ID, DAY, named 'villageDay'.
+     * PLAYER by my PLAYER_ID, named 'player'.
      * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
      */
-    public VillageDayNss withVillageDay() {
-        _query.xdoNss(() -> _query.queryVillageDay());
-        return new VillageDayNss(_query.queryVillageDay());
+    public PlayerNss withPlayer() {
+        _query.xdoNss(() -> _query.queryPlayer());
+        return new PlayerNss(_query.queryPlayer());
     }
 }

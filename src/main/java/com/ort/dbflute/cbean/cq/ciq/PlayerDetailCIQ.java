@@ -12,21 +12,21 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of chara.
+ * The condition-query for in-line of player_detail.
  * @author DBFlute(AutoGenerator)
  */
-public class CharaCIQ extends AbstractBsCharaCQ {
+public class PlayerDetailCIQ extends AbstractBsPlayerDetailCQ {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected BsCharaCQ _myCQ;
+    protected BsPlayerDetailCQ _myCQ;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public CharaCIQ(ConditionQuery referrerQuery, SqlClause sqlClause
-                        , String aliasName, int nestLevel, BsCharaCQ myCQ) {
+    public PlayerDetailCIQ(ConditionQuery referrerQuery, SqlClause sqlClause
+                        , String aliasName, int nestLevel, BsPlayerDetailCQ myCQ) {
         super(referrerQuery, sqlClause, aliasName, nestLevel);
         _myCQ = myCQ;
         _foreignPropertyName = _myCQ.xgetForeignPropertyName(); // accept foreign property name
@@ -61,38 +61,19 @@ public class CharaCIQ extends AbstractBsCharaCQ {
     // ===================================================================================
     //                                                                Override about Query
     //                                                                ====================
-    protected ConditionValue xgetCValueCharaId() { return _myCQ.xdfgetCharaId(); }
-    public String keepCharaId_ExistsReferrer_CharaImageList(CharaImageCQ sq)
-    { throwIICBOE("ExistsReferrer"); return null; }
-    public String keepCharaId_NotExistsReferrer_CharaImageList(CharaImageCQ sq)
-    { throwIICBOE("NotExistsReferrer"); return null; }
-    public String keepCharaId_SpecifyDerivedReferrer_CharaImageList(CharaImageCQ sq)
-    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
-    public String keepCharaId_QueryDerivedReferrer_CharaImageList(CharaImageCQ sq)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    public String keepCharaId_QueryDerivedReferrer_CharaImageListParameter(Object vl)
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    protected ConditionValue xgetCValueCharaName() { return _myCQ.xdfgetCharaName(); }
-    protected ConditionValue xgetCValueCharaShortName() { return _myCQ.xdfgetCharaShortName(); }
-    protected ConditionValue xgetCValueCharaGroupId() { return _myCQ.xdfgetCharaGroupId(); }
-    protected ConditionValue xgetCValueDefaultJoinMessage() { return _myCQ.xdfgetDefaultJoinMessage(); }
-    protected ConditionValue xgetCValueDefaultFirstdayMessage() { return _myCQ.xdfgetDefaultFirstdayMessage(); }
-    protected ConditionValue xgetCValueDisplayWidth() { return _myCQ.xdfgetDisplayWidth(); }
-    protected ConditionValue xgetCValueDisplayHeight() { return _myCQ.xdfgetDisplayHeight(); }
-    protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
-    protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }
-    protected ConditionValue xgetCValueUpdateDatetime() { return _myCQ.xdfgetUpdateDatetime(); }
-    protected ConditionValue xgetCValueUpdateTrace() { return _myCQ.xdfgetUpdateTrace(); }
+    protected ConditionValue xgetCValuePlayerId() { return _myCQ.xdfgetPlayerId(); }
+    protected ConditionValue xgetCValueTwitterUserName() { return _myCQ.xdfgetTwitterUserName(); }
+    protected ConditionValue xgetCValueIntroduction() { return _myCQ.xdfgetIntroduction(); }
     protected Map<String, Object> xfindFixedConditionDynamicParameterMap(String pp) { return null; }
-    public String keepScalarCondition(CharaCQ sq)
+    public String keepScalarCondition(PlayerDetailCQ sq)
     { throwIICBOE("ScalarCondition"); return null; }
-    public String keepSpecifyMyselfDerived(CharaCQ sq)
+    public String keepSpecifyMyselfDerived(PlayerDetailCQ sq)
     { throwIICBOE("(Specify)MyselfDerived"); return null;}
-    public String keepQueryMyselfDerived(CharaCQ sq)
+    public String keepQueryMyselfDerived(PlayerDetailCQ sq)
     { throwIICBOE("(Query)MyselfDerived"); return null;}
     public String keepQueryMyselfDerivedParameter(Object vl)
     { throwIICBOE("(Query)MyselfDerived"); return null;}
-    public String keepMyselfExists(CharaCQ sq)
+    public String keepMyselfExists(PlayerDetailCQ sq)
     { throwIICBOE("MyselfExists"); return null;}
 
     protected void throwIICBOE(String name)
@@ -102,6 +83,6 @@ public class CharaCIQ extends AbstractBsCharaCQ {
     //                                                                       Very Internal
     //                                                                       =============
     // very internal (for suppressing warn about 'Not Use Import')
-    protected String xinCB() { return CharaCB.class.getName(); }
-    protected String xinCQ() { return CharaCQ.class.getName(); }
+    protected String xinCB() { return PlayerDetailCB.class.getName(); }
+    protected String xinCQ() { return PlayerDetailCQ.class.getName(); }
 }

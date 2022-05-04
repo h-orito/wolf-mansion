@@ -72,8 +72,6 @@ public class AbilityDbm extends AbstractDBMeta {
     @SuppressWarnings("unchecked")
     protected void xsetupEfpg() {
         setupEfpg(_efpgMap, et -> ((Ability)et).getAbilityType(), (et, vl) -> ((Ability)et).setAbilityType((OptionalEntity<AbilityType>)vl), "abilityType");
-        setupEfpg(_efpgMap, et -> ((Ability)et).getCharaByCharaId(), (et, vl) -> ((Ability)et).setCharaByCharaId((OptionalEntity<Chara>)vl), "charaByCharaId");
-        setupEfpg(_efpgMap, et -> ((Ability)et).getCharaByTargetCharaId(), (et, vl) -> ((Ability)et).setCharaByTargetCharaId((OptionalEntity<Chara>)vl), "charaByTargetCharaId");
         setupEfpg(_efpgMap, et -> ((Ability)et).getVillageDay(), (et, vl) -> ((Ability)et).setVillageDay((OptionalEntity<VillageDay>)vl), "villageDay");
     }
     public PropertyGateway findForeignPropertyGateway(String prop)
@@ -97,8 +95,8 @@ public class AbilityDbm extends AbstractDBMeta {
     //                                                                         ===========
     protected final ColumnInfo _columnVillageId = cci("VILLAGE_ID", "VILLAGE_ID", null, null, Integer.class, "villageId", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villageDay", null, null, false);
     protected final ColumnInfo _columnDay = cci("DAY", "DAY", null, null, Integer.class, "day", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villageDay", null, null, false);
-    protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "charaByCharaId", null, null, false);
-    protected final ColumnInfo _columnTargetCharaId = cci("TARGET_CHARA_ID", "TARGET_CHARA_ID", null, null, Integer.class, "targetCharaId", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, "charaByTargetCharaId", null, null, false);
+    protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnTargetCharaId = cci("TARGET_CHARA_ID", "TARGET_CHARA_ID", null, null, Integer.class, "targetCharaId", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnTargetFootstep = cci("TARGET_FOOTSTEP", "TARGET_FOOTSTEP", null, null, String.class, "targetFootstep", null, false, false, false, "VARCHAR", 1000, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnAbilityTypeCode = cci("ABILITY_TYPE_CODE", "ABILITY_TYPE_CODE", null, null, String.class, "abilityTypeCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "abilityType", null, CDef.DefMeta.AbilityType, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -117,12 +115,12 @@ public class AbilityDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnDay() { return _columnDay; }
     /**
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharaId() { return _columnCharaId; }
     /**
-     * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
+     * TARGET_CHARA_ID: {INT UNSIGNED(10)}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnTargetCharaId() { return _columnTargetCharaId; }
@@ -208,22 +206,6 @@ public class AbilityDbm extends AbstractDBMeta {
         return cfi("FK_ABILITY_ABILITY_TYPE", "abilityType", this, AbilityTypeDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "abilityList", false);
     }
     /**
-     * CHARA by my CHARA_ID, named 'charaByCharaId'.
-     * @return The information object of foreign property. (NotNull)
-     */
-    public ForeignInfo foreignCharaByCharaId() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaId(), CharaDbm.getInstance().columnCharaId());
-        return cfi("FK_ABILITY_CHARA", "charaByCharaId", this, CharaDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "abilityByCharaIdList", false);
-    }
-    /**
-     * CHARA by my TARGET_CHARA_ID, named 'charaByTargetCharaId'.
-     * @return The information object of foreign property. (NotNull)
-     */
-    public ForeignInfo foreignCharaByTargetCharaId() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnTargetCharaId(), CharaDbm.getInstance().columnCharaId());
-        return cfi("FK_ABILITY_CHARA_TARGET", "charaByTargetCharaId", this, CharaDbm.getInstance(), mp, 2, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "abilityByTargetCharaIdList", false);
-    }
-    /**
      * VILLAGE_DAY by my VILLAGE_ID, DAY, named 'villageDay'.
      * @return The information object of foreign property. (NotNull)
      */
@@ -231,7 +213,7 @@ public class AbilityDbm extends AbstractDBMeta {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMapSized(4);
         mp.put(columnVillageId(), VillageDayDbm.getInstance().columnVillageId());
         mp.put(columnDay(), VillageDayDbm.getInstance().columnDay());
-        return cfi("FK_ABILITY_VILLAGE_DAY", "villageDay", this, VillageDayDbm.getInstance(), mp, 3, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "abilityList", false);
+        return cfi("FK_ABILITY_VILLAGE_DAY", "villageDay", this, VillageDayDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "abilityList", false);
     }
 
     // -----------------------------------------------------

@@ -121,14 +121,14 @@ public class BsFootstepCQ extends AbstractBsFootstepCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
      */
     public BsFootstepCQ addOrderBy_CharaId_Asc() { regOBA("CHARA_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
      */
     public BsFootstepCQ addOrderBy_CharaId_Desc() { regOBD("CHARA_ID"); return this; }
@@ -274,9 +274,6 @@ public class BsFootstepCQ extends AbstractBsFootstepCQ {
     public void reflectRelationOnUnionQuery(ConditionQuery bqs, ConditionQuery uqs) {
         FootstepCQ bq = (FootstepCQ)bqs;
         FootstepCQ uq = (FootstepCQ)uqs;
-        if (bq.hasConditionQueryChara()) {
-            uq.queryChara().reflectRelationOnUnionQuery(bq.queryChara(), uq.queryChara());
-        }
         if (bq.hasConditionQueryVillageDay()) {
             uq.queryVillageDay().reflectRelationOnUnionQuery(bq.queryVillageDay(), uq.queryVillageDay());
         }
@@ -285,26 +282,6 @@ public class BsFootstepCQ extends AbstractBsFootstepCQ {
     // ===================================================================================
     //                                                                       Foreign Query
     //                                                                       =============
-    /**
-     * Get the condition-query for relation table. <br>
-     * CHARA by my CHARA_ID, named 'chara'.
-     * @return The instance of condition-query. (NotNull)
-     */
-    public CharaCQ queryChara() {
-        return xdfgetConditionQueryChara();
-    }
-    public CharaCQ xdfgetConditionQueryChara() {
-        String prop = "chara";
-        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryChara()); xsetupOuterJoinChara(); }
-        return xgetQueRlMap(prop);
-    }
-    protected CharaCQ xcreateQueryChara() {
-        String nrp = xresolveNRP("footstep", "chara"); String jan = xresolveJAN(nrp, xgetNNLvl());
-        return xinitRelCQ(new CharaCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "chara", nrp);
-    }
-    protected void xsetupOuterJoinChara() { xregOutJo("chara"); }
-    public boolean hasConditionQueryChara() { return xhasQueRlMap("chara"); }
-
     /**
      * Get the condition-query for relation table. <br>
      * VILLAGE_DAY by my VILLAGE_ID, DAY, named 'villageDay'.

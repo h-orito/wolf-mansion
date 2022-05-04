@@ -87,7 +87,7 @@ public class BsVoteCB extends AbstractConditionBean {
      * Accept the query condition of primary key as equal.
      * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
      * @param day : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
-     * @param charaId : PK, IX, NotNull, INT UNSIGNED(10), FK to chara. (NotNull)
+     * @param charaId : PK, NotNull, INT UNSIGNED(10). (NotNull)
      * @return this. (NotNull)
      */
     public VoteCB acceptPK(Integer villageId, Integer day, Integer charaId) {
@@ -248,32 +248,6 @@ public class BsVoteCB extends AbstractConditionBean {
     // ===================================================================================
     //                                                                         SetupSelect
     //                                                                         ===========
-    protected CharaNss _nssCharaByCharaId;
-    public CharaNss xdfgetNssCharaByCharaId() {
-        if (_nssCharaByCharaId == null) { _nssCharaByCharaId = new CharaNss(null); }
-        return _nssCharaByCharaId;
-    }
-    /**
-     * Set up relation columns to select clause. <br>
-     * CHARA by my CHARA_ID, named 'charaByCharaId'.
-     * <pre>
-     * <span style="color: #0000C0">voteBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_CharaByCharaId()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
-     *     <span style="color: #553000">cb</span>.query().set...
-     * }).alwaysPresent(<span style="color: #553000">vote</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     ... = <span style="color: #553000">vote</span>.<span style="color: #CC4747">getCharaByCharaId()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
-     * });
-     * </pre>
-     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
-     */
-    public CharaNss setupSelect_CharaByCharaId() {
-        assertSetupSelectPurpose("charaByCharaId");
-        doSetupSelect(() -> query().queryCharaByCharaId());
-        if (_nssCharaByCharaId == null || !_nssCharaByCharaId.hasConditionQuery())
-        { _nssCharaByCharaId = new CharaNss(query().queryCharaByCharaId()); }
-        return _nssCharaByCharaId;
-    }
-
     protected VillageDayNss _nssVillageDay;
     public VillageDayNss xdfgetNssVillageDay() {
         if (_nssVillageDay == null) { _nssVillageDay = new VillageDayNss(null); }
@@ -298,35 +272,6 @@ public class BsVoteCB extends AbstractConditionBean {
         if (_nssVillageDay == null || !_nssVillageDay.hasConditionQuery())
         { _nssVillageDay = new VillageDayNss(query().queryVillageDay()); }
         return _nssVillageDay;
-    }
-
-    protected CharaNss _nssCharaByVoteCharaId;
-    public CharaNss xdfgetNssCharaByVoteCharaId() {
-        if (_nssCharaByVoteCharaId == null) { _nssCharaByVoteCharaId = new CharaNss(null); }
-        return _nssCharaByVoteCharaId;
-    }
-    /**
-     * Set up relation columns to select clause. <br>
-     * CHARA by my VOTE_CHARA_ID, named 'charaByVoteCharaId'.
-     * <pre>
-     * <span style="color: #0000C0">voteBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_CharaByVoteCharaId()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
-     *     <span style="color: #553000">cb</span>.query().set...
-     * }).alwaysPresent(<span style="color: #553000">vote</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     ... = <span style="color: #553000">vote</span>.<span style="color: #CC4747">getCharaByVoteCharaId()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
-     * });
-     * </pre>
-     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
-     */
-    public CharaNss setupSelect_CharaByVoteCharaId() {
-        assertSetupSelectPurpose("charaByVoteCharaId");
-        if (hasSpecifiedLocalColumn()) {
-            specify().columnVoteCharaId();
-        }
-        doSetupSelect(() -> query().queryCharaByVoteCharaId());
-        if (_nssCharaByVoteCharaId == null || !_nssCharaByVoteCharaId.hasConditionQuery())
-        { _nssCharaByVoteCharaId = new CharaNss(query().queryCharaByVoteCharaId()); }
-        return _nssCharaByVoteCharaId;
     }
 
     // [DBFlute-0.7.4]
@@ -370,9 +315,7 @@ public class BsVoteCB extends AbstractConditionBean {
     }
 
     public static class HpSpecification extends HpAbstractSpecification<VoteCQ> {
-        protected CharaCB.HpSpecification _charaByCharaId;
         protected VillageDayCB.HpSpecification _villageDay;
-        protected CharaCB.HpSpecification _charaByVoteCharaId;
         public HpSpecification(ConditionBean baseCB, HpSpQyCall<VoteCQ> qyCall
                              , HpCBPurpose purpose, DBMetaProvider dbmetaProvider
                              , HpSDRFunctionFactory sdrFuncFactory)
@@ -388,12 +331,12 @@ public class BsVoteCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnDay() { return doColumn("DAY"); }
         /**
-         * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+         * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCharaId() { return doColumn("CHARA_ID"); }
         /**
-         * VOTE_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+         * VOTE_CHARA_ID: {NotNull, INT UNSIGNED(10)}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVoteCharaId() { return doColumn("VOTE_CHARA_ID"); }
@@ -424,33 +367,9 @@ public class BsVoteCB extends AbstractConditionBean {
             columnVillageId(); // PK
             columnDay(); // PK
             columnCharaId(); // PK
-            if (qyCall().qy().hasConditionQueryCharaByVoteCharaId()
-                    || qyCall().qy().xgetReferrerQuery() instanceof CharaCQ) {
-                columnVoteCharaId(); // FK or one-to-one referrer
-            }
         }
         @Override
         protected String getTableDbName() { return "vote"; }
-        /**
-         * Prepare to specify functions about relation table. <br>
-         * CHARA by my CHARA_ID, named 'charaByCharaId'.
-         * @return The instance for specification for relation table to specify. (NotNull)
-         */
-        public CharaCB.HpSpecification specifyCharaByCharaId() {
-            assertRelation("charaByCharaId");
-            if (_charaByCharaId == null) {
-                _charaByCharaId = new CharaCB.HpSpecification(_baseCB
-                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryCharaByCharaId()
-                                    , () -> _qyCall.qy().queryCharaByCharaId())
-                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
-                if (xhasSyncQyCall()) { // inherits it
-                    _charaByCharaId.xsetSyncQyCall(xcreateSpQyCall(
-                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryCharaByCharaId()
-                      , () -> xsyncQyCall().qy().queryCharaByCharaId()));
-                }
-            }
-            return _charaByCharaId;
-        }
         /**
          * Prepare to specify functions about relation table. <br>
          * VILLAGE_DAY by my VILLAGE_ID, DAY, named 'villageDay'.
@@ -470,26 +389,6 @@ public class BsVoteCB extends AbstractConditionBean {
                 }
             }
             return _villageDay;
-        }
-        /**
-         * Prepare to specify functions about relation table. <br>
-         * CHARA by my VOTE_CHARA_ID, named 'charaByVoteCharaId'.
-         * @return The instance for specification for relation table to specify. (NotNull)
-         */
-        public CharaCB.HpSpecification specifyCharaByVoteCharaId() {
-            assertRelation("charaByVoteCharaId");
-            if (_charaByVoteCharaId == null) {
-                _charaByVoteCharaId = new CharaCB.HpSpecification(_baseCB
-                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryCharaByVoteCharaId()
-                                    , () -> _qyCall.qy().queryCharaByVoteCharaId())
-                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
-                if (xhasSyncQyCall()) { // inherits it
-                    _charaByVoteCharaId.xsetSyncQyCall(xcreateSpQyCall(
-                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryCharaByVoteCharaId()
-                      , () -> xsyncQyCall().qy().queryCharaByVoteCharaId()));
-                }
-            }
-            return _charaByVoteCharaId;
         }
     }
 

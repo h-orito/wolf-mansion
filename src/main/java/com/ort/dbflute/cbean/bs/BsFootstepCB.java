@@ -87,7 +87,7 @@ public class BsFootstepCB extends AbstractConditionBean {
      * Accept the query condition of primary key as equal.
      * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
      * @param day : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
-     * @param charaId : PK, IX, NotNull, INT UNSIGNED(10), FK to chara. (NotNull)
+     * @param charaId : PK, NotNull, INT UNSIGNED(10). (NotNull)
      * @return this. (NotNull)
      */
     public FootstepCB acceptPK(Integer villageId, Integer day, Integer charaId) {
@@ -248,32 +248,6 @@ public class BsFootstepCB extends AbstractConditionBean {
     // ===================================================================================
     //                                                                         SetupSelect
     //                                                                         ===========
-    protected CharaNss _nssChara;
-    public CharaNss xdfgetNssChara() {
-        if (_nssChara == null) { _nssChara = new CharaNss(null); }
-        return _nssChara;
-    }
-    /**
-     * Set up relation columns to select clause. <br>
-     * CHARA by my CHARA_ID, named 'chara'.
-     * <pre>
-     * <span style="color: #0000C0">footstepBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_Chara()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
-     *     <span style="color: #553000">cb</span>.query().set...
-     * }).alwaysPresent(<span style="color: #553000">footstep</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     ... = <span style="color: #553000">footstep</span>.<span style="color: #CC4747">getChara()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
-     * });
-     * </pre>
-     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
-     */
-    public CharaNss setupSelect_Chara() {
-        assertSetupSelectPurpose("chara");
-        doSetupSelect(() -> query().queryChara());
-        if (_nssChara == null || !_nssChara.hasConditionQuery())
-        { _nssChara = new CharaNss(query().queryChara()); }
-        return _nssChara;
-    }
-
     protected VillageDayNss _nssVillageDay;
     public VillageDayNss xdfgetNssVillageDay() {
         if (_nssVillageDay == null) { _nssVillageDay = new VillageDayNss(null); }
@@ -341,7 +315,6 @@ public class BsFootstepCB extends AbstractConditionBean {
     }
 
     public static class HpSpecification extends HpAbstractSpecification<FootstepCQ> {
-        protected CharaCB.HpSpecification _chara;
         protected VillageDayCB.HpSpecification _villageDay;
         public HpSpecification(ConditionBean baseCB, HpSpQyCall<FootstepCQ> qyCall
                              , HpCBPurpose purpose, DBMetaProvider dbmetaProvider
@@ -358,7 +331,7 @@ public class BsFootstepCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnDay() { return doColumn("DAY"); }
         /**
-         * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+         * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCharaId() { return doColumn("CHARA_ID"); }
@@ -397,26 +370,6 @@ public class BsFootstepCB extends AbstractConditionBean {
         }
         @Override
         protected String getTableDbName() { return "footstep"; }
-        /**
-         * Prepare to specify functions about relation table. <br>
-         * CHARA by my CHARA_ID, named 'chara'.
-         * @return The instance for specification for relation table to specify. (NotNull)
-         */
-        public CharaCB.HpSpecification specifyChara() {
-            assertRelation("chara");
-            if (_chara == null) {
-                _chara = new CharaCB.HpSpecification(_baseCB
-                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryChara()
-                                    , () -> _qyCall.qy().queryChara())
-                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
-                if (xhasSyncQyCall()) { // inherits it
-                    _chara.xsetSyncQyCall(xcreateSpQyCall(
-                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryChara()
-                      , () -> xsyncQyCall().qy().queryChara()));
-                }
-            }
-            return _chara;
-        }
         /**
          * Prepare to specify functions about relation table. <br>
          * VILLAGE_DAY by my VILLAGE_ID, DAY, named 'villageDay'.

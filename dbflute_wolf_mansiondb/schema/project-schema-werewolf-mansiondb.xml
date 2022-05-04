@@ -35,26 +35,12 @@
             <reference foreign="ABILITY_TYPE_CODE" local="ABILITY_TYPE_CODE"/>
         </foreign-key>
         <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
-            foreignTable="chara" name="FK_ABILITY_CHARA">
-            <reference foreign="CHARA_ID" local="CHARA_ID"/>
-        </foreign-key>
-        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
-            foreignTable="chara" name="FK_ABILITY_CHARA_TARGET">
-            <reference foreign="CHARA_ID" local="TARGET_CHARA_ID"/>
-        </foreign-key>
-        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
             foreignTable="village_day" name="FK_ABILITY_VILLAGE_DAY">
             <reference foreign="VILLAGE_ID" local="VILLAGE_ID"/>
             <reference foreign="DAY" local="DAY"/>
         </foreign-key>
         <index name="FK_ABILITY_ABILITY_TYPE">
             <index-column name="ABILITY_TYPE_CODE" position="1"/>
-        </index>
-        <index name="FK_ABILITY_CHARA">
-            <index-column name="CHARA_ID" position="1"/>
-        </index>
-        <index name="FK_ABILITY_CHARA_TARGET">
-            <index-column name="TARGET_CHARA_ID" position="1"/>
         </index>
     </table>
     <table comment="能力種別" name="ability_type"
@@ -315,17 +301,10 @@
         <column comment="更新トレース" dbType="VARCHAR" javaType="String"
             name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
         <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
-            foreignTable="chara" name="FK_FOOTSTEP_CHARA">
-            <reference foreign="CHARA_ID" local="CHARA_ID"/>
-        </foreign-key>
-        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
             foreignTable="village_day" name="FK_FOOTSTEP_VILLAGE_DAY">
             <reference foreign="VILLAGE_ID" local="VILLAGE_ID"/>
             <reference foreign="DAY" local="DAY"/>
         </foreign-key>
-        <index name="FK_FOOTSTEP_CHARA">
-            <index-column name="CHARA_ID" position="1"/>
-        </index>
     </table>
     <table comment="メッセージ" name="message"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
@@ -633,6 +612,20 @@
         <index name="FK_PLAYER_AUTHORITY">
             <index-column name="AUTHORITY_CODE" position="1"/>
         </index>
+    </table>
+    <table comment="プレイヤー詳細" name="player_detail"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column comment="プレイヤーID" dbType="INT UNSIGNED"
+            javaType="Integer" name="PLAYER_ID" pkName="PRIMARY"
+            pkPosition="1" primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="Twitterユーザー名" dbType="VARCHAR"
+            javaType="String" name="TWITTER_USER_NAME" size="50" type="VARCHAR"/>
+        <column comment="自己紹介" dbType="VARCHAR" javaType="String"
+            name="INTRODUCTION" size="2000" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="player" name="FK_PLAYER_DETAIL_PLAYER">
+            <reference foreign="PLAYER_ID" local="PLAYER_ID"/>
+        </foreign-key>
     </table>
     <table comment="ランダム変換内容" name="random_content"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
@@ -1313,23 +1306,9 @@
         <column comment="更新トレース" dbType="VARCHAR" javaType="String"
             name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
         <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
-            foreignTable="chara" name="FK_VOTE_CHARA">
-            <reference foreign="CHARA_ID" local="CHARA_ID"/>
-        </foreign-key>
-        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
             foreignTable="village_day" name="FK_VOTE_VILLAGE_DAY">
             <reference foreign="VILLAGE_ID" local="VILLAGE_ID"/>
             <reference foreign="DAY" local="DAY"/>
         </foreign-key>
-        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
-            foreignTable="chara" name="FK_VOTE_CHARA_TO">
-            <reference foreign="CHARA_ID" local="VOTE_CHARA_ID"/>
-        </foreign-key>
-        <index name="FK_VOTE_CHARA">
-            <index-column name="CHARA_ID" position="1"/>
-        </index>
-        <index name="FK_VOTE_CHARA_TO">
-            <index-column name="VOTE_CHARA_ID" position="1"/>
-        </index>
     </table>
 </database>

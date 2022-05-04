@@ -1,9 +1,6 @@
 package com.ort.app.api
 
-import com.ort.app.api.request.LoginForm
-import com.ort.app.api.request.PlayerChangePasswordForm
-import com.ort.app.api.request.PlayerCreateForm
-import com.ort.app.api.request.UserListForm
+import com.ort.app.api.request.*
 import com.ort.app.api.request.validator.PlayerChangePasswordFormValidator
 import com.ort.app.api.view.PlayerListContent
 import com.ort.app.api.view.PlayerRecordsContent
@@ -139,9 +136,29 @@ class PlayerController(
         val charaIdList = charachipVillages.map { it.participant.charaId }
         val charas = charaService.findCharasByCharachipId(charaIdList, false)
 
-        val content = PlayerRecordsContent(playerRecords, charas, originalCharas)
+        val content = PlayerRecordsContent(playerRecords, charas, originalCharas, player.twitterUserName, player.introduction)
         model.addAttribute("content", content)
+
+        val myName = WolfMansionUserInfoUtil.getUserInfo()?.username
+        if (myName == userName) {
+            model.addAttribute("userDetailForm", UserDetailForm(player.twitterUserName, player.introduction))
+        }
+
         return "user"
+    }
+
+    @PostMapping("/user-detail")
+    private fun userDetail(
+        @Validated @ModelAttribute("userDetailForm") form: UserDetailForm,
+        result: BindingResult
+    ): String {
+        val userInfo = WolfMansionUserInfoUtil.getUserInfo() ?: return "redirect:/"
+        val username = userInfo.username
+        if (result.hasErrors()) {
+            return "redirect:/user/$username"
+        }
+        playerService.updatePlayerDetail(username, form.twitterUserName, form.introduction)
+        return "redirect:/user/${userInfo.username}"
     }
 
     private fun setIndexModel(form: PlayerCreateForm, model: Model) {

@@ -6,7 +6,9 @@ import com.ort.app.domain.model.player.PlayerRepository
 import com.ort.app.domain.model.player.Players
 import com.ort.app.domain.model.village.VillageStatus
 import com.ort.dbflute.exbhv.PlayerBhv
+import com.ort.dbflute.exbhv.PlayerDetailBhv
 import com.ort.dbflute.exbhv.VillageBhv
+import com.ort.dbflute.exentity.PlayerDetail
 import com.ort.dbflute.exentity.Village
 import org.dbflute.cbean.result.PagingResultBean
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -16,6 +18,7 @@ import com.ort.dbflute.exentity.Player as DbPlayer
 @Repository
 class PlayerDataSource(
     private val playerBhv: PlayerBhv,
+    private val playerDetailBhv: PlayerDetailBhv,
     private val villageBhv: VillageBhv,
     private val passwordEncoder: PasswordEncoder
 ) : PlayerRepository {
@@ -60,6 +63,7 @@ class PlayerDataSource(
 
     override fun findPlayer(userName: String): Player? {
         val optPlayer = playerBhv.selectEntity {
+            it.setupSelect_PlayerDetailAsOne()
             it.query().setPlayerName_Equal(userName)
         }
         if (!optPlayer.isPresent) return null
@@ -78,6 +82,7 @@ class PlayerDataSource(
 
     override fun findPlayer(id: Int): Player {
         val player = playerBhv.selectEntityWithDeletedCheck {
+            it.setupSelect_PlayerDetailAsOne()
             it.query().setPlayerId_Equal(id)
         }
         // 参加した村
@@ -111,6 +116,30 @@ class PlayerDataSource(
         }
     }
 
+    override fun updateDetail(userName: String, twitterUserName: String?, introduction: String?) {
+        val player = findPlayer(userName) ?: return
+        val detail = PlayerDetail()
+        detail.playerId = player.id
+        detail.twitterUserName = twitterUserName
+        detail.introduction = introduction
+        val exists = playerDetailBhv.selectByPK(player.id)
+        if (exists.isPresent) {
+            playerDetailBhv.update(detail)
+        } else playerDetailBhv.insert(detail)
+    }
+
+    override fun updateDifference(current: Players, changed: Players) {
+        changed.list.forEach { changedP ->
+            val currentP = current.list.first { it.id == changedP.id }
+            if (changedP.isRestrictedParticipation != currentP.isRestrictedParticipation) {
+                val p = DbPlayer()
+                p.playerId = changedP.id
+                p.isRestrictedParticipation = changedP.isRestrictedParticipation
+                playerBhv.update(p)
+            }
+        }
+    }
+
     private fun mapPlayersWithPaging(playerPage: PagingResultBean<DbPlayer>): Players {
         return Players(
             list = playerPage.map { mapSimplePlayer(it) },
@@ -131,6 +160,8 @@ class PlayerDataSource(
         return Player(
             id = player.playerId,
             name = player.playerName,
+            twitterUserName = null,
+            introduction = null,
             authority = Authority(player.authorityCodeAsAuthority),
             isRestrictedParticipation = player.isRestrictedParticipation,
             shouldCheckAccessInfo = player.shouldCheckAccessInfo
@@ -141,6 +172,8 @@ class PlayerDataSource(
         return Player(
             id = player.playerId,
             name = player.playerName,
+            twitterUserName = player.playerDetailAsOne.map { it.twitterUserName }.orElse(null),
+            introduction = player.playerDetailAsOne.map { it.introduction }.orElse(null),
             authority = Authority(player.authorityCodeAsAuthority),
             isRestrictedParticipation = player.isRestrictedParticipation,
             shouldCheckAccessInfo = player.shouldCheckAccessInfo,

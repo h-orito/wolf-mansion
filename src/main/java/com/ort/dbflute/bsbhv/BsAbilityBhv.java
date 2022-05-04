@@ -41,13 +41,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [foreign table]
- *     ABILITY_TYPE, CHARA, VILLAGE_DAY
+ *     ABILITY_TYPE, VILLAGE_DAY
  *
  * [referrer table]
  *     
  *
  * [foreign property]
- *     abilityType, charaByCharaId, charaByTargetCharaId, villageDay
+ *     abilityType, villageDay
  *
  * [referrer property]
  *     
@@ -162,7 +162,7 @@ public abstract class BsAbilityBhv extends AbstractBehaviorWritable<Ability, Abi
      * Select the entity by the primary-key value.
      * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
      * @param day : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
-     * @param charaId : PK, IX, NotNull, INT UNSIGNED(10), FK to chara. (NotNull)
+     * @param charaId : PK, NotNull, INT UNSIGNED(10). (NotNull)
      * @param abilityTypeCode : PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType. (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
@@ -375,22 +375,6 @@ public abstract class BsAbilityBhv extends AbstractBehaviorWritable<Ability, Abi
      */
     public List<AbilityType> pulloutAbilityType(List<Ability> abilityList)
     { return helpPulloutInternally(abilityList, "abilityType"); }
-
-    /**
-     * Pull out the list of foreign table 'Chara'.
-     * @param abilityList The list of ability. (NotNull, EmptyAllowed)
-     * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
-     */
-    public List<Chara> pulloutCharaByCharaId(List<Ability> abilityList)
-    { return helpPulloutInternally(abilityList, "charaByCharaId"); }
-
-    /**
-     * Pull out the list of foreign table 'Chara'.
-     * @param abilityList The list of ability. (NotNull, EmptyAllowed)
-     * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
-     */
-    public List<Chara> pulloutCharaByTargetCharaId(List<Ability> abilityList)
-    { return helpPulloutInternally(abilityList, "charaByTargetCharaId"); }
 
     /**
      * Pull out the list of foreign table 'VillageDay'.

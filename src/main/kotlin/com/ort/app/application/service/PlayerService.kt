@@ -30,6 +30,11 @@ class PlayerService(
     fun updatePassword(userName: String, password: String) =
         playerRepository.updatePassword(userName, password)
 
-    fun updateDaychangeDifference(players: Players, players1: Players) {
+    fun updatePlayerDetail(userName: String, twitterUserName: String?, introduction: String?) {
+        playerRepository.updateDetail(userName, twitterUserName, introduction)
+    }
+
+    fun updateDaychangeDifference(current: Players, changed: Players) {
+        playerRepository.updateDifference(current, changed)
     }
 }

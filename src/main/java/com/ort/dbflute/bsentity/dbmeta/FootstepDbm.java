@@ -62,7 +62,6 @@ public class FootstepDbm extends AbstractDBMeta {
     { xsetupEfpg(); }
     @SuppressWarnings("unchecked")
     protected void xsetupEfpg() {
-        setupEfpg(_efpgMap, et -> ((Footstep)et).getChara(), (et, vl) -> ((Footstep)et).setChara((OptionalEntity<Chara>)vl), "chara");
         setupEfpg(_efpgMap, et -> ((Footstep)et).getVillageDay(), (et, vl) -> ((Footstep)et).setVillageDay((OptionalEntity<VillageDay>)vl), "villageDay");
     }
     public PropertyGateway findForeignPropertyGateway(String prop)
@@ -86,7 +85,7 @@ public class FootstepDbm extends AbstractDBMeta {
     //                                                                         ===========
     protected final ColumnInfo _columnVillageId = cci("VILLAGE_ID", "VILLAGE_ID", null, null, Integer.class, "villageId", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villageDay", null, null, false);
     protected final ColumnInfo _columnDay = cci("DAY", "DAY", null, null, Integer.class, "day", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villageDay", null, null, false);
-    protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "chara", null, null, false);
+    protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnFootstepRoomNumbers = cci("FOOTSTEP_ROOM_NUMBERS", "FOOTSTEP_ROOM_NUMBERS", null, null, String.class, "footstepRoomNumbers", null, false, false, false, "VARCHAR", 1000, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
@@ -104,7 +103,7 @@ public class FootstepDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnDay() { return _columnDay; }
     /**
-     * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharaId() { return _columnCharaId; }
@@ -174,14 +173,6 @@ public class FootstepDbm extends AbstractDBMeta {
     //                                      Foreign Property
     //                                      ----------------
     /**
-     * CHARA by my CHARA_ID, named 'chara'.
-     * @return The information object of foreign property. (NotNull)
-     */
-    public ForeignInfo foreignChara() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaId(), CharaDbm.getInstance().columnCharaId());
-        return cfi("FK_FOOTSTEP_CHARA", "chara", this, CharaDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "footstepList", false);
-    }
-    /**
      * VILLAGE_DAY by my VILLAGE_ID, DAY, named 'villageDay'.
      * @return The information object of foreign property. (NotNull)
      */
@@ -189,7 +180,7 @@ public class FootstepDbm extends AbstractDBMeta {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMapSized(4);
         mp.put(columnVillageId(), VillageDayDbm.getInstance().columnVillageId());
         mp.put(columnDay(), VillageDayDbm.getInstance().columnDay());
-        return cfi("FK_FOOTSTEP_VILLAGE_DAY", "villageDay", this, VillageDayDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "footstepList", false);
+        return cfi("FK_FOOTSTEP_VILLAGE_DAY", "villageDay", this, VillageDayDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "footstepList", false);
     }
 
     // -----------------------------------------------------

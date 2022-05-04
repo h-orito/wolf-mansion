@@ -88,7 +88,7 @@ public class BsAbilityCB extends AbstractConditionBean {
      * Accept the query condition of primary key as equal.
      * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
      * @param day : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
-     * @param charaId : PK, IX, NotNull, INT UNSIGNED(10), FK to chara. (NotNull)
+     * @param charaId : PK, NotNull, INT UNSIGNED(10). (NotNull)
      * @param abilityTypeCode : PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType. (NotNull)
      * @return this. (NotNull)
      */
@@ -269,61 +269,6 @@ public class BsAbilityCB extends AbstractConditionBean {
         doSetupSelect(() -> query().queryAbilityType());
     }
 
-    protected CharaNss _nssCharaByCharaId;
-    public CharaNss xdfgetNssCharaByCharaId() {
-        if (_nssCharaByCharaId == null) { _nssCharaByCharaId = new CharaNss(null); }
-        return _nssCharaByCharaId;
-    }
-    /**
-     * Set up relation columns to select clause. <br>
-     * CHARA by my CHARA_ID, named 'charaByCharaId'.
-     * <pre>
-     * <span style="color: #0000C0">abilityBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_CharaByCharaId()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
-     *     <span style="color: #553000">cb</span>.query().set...
-     * }).alwaysPresent(<span style="color: #553000">ability</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     ... = <span style="color: #553000">ability</span>.<span style="color: #CC4747">getCharaByCharaId()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
-     * });
-     * </pre>
-     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
-     */
-    public CharaNss setupSelect_CharaByCharaId() {
-        assertSetupSelectPurpose("charaByCharaId");
-        doSetupSelect(() -> query().queryCharaByCharaId());
-        if (_nssCharaByCharaId == null || !_nssCharaByCharaId.hasConditionQuery())
-        { _nssCharaByCharaId = new CharaNss(query().queryCharaByCharaId()); }
-        return _nssCharaByCharaId;
-    }
-
-    protected CharaNss _nssCharaByTargetCharaId;
-    public CharaNss xdfgetNssCharaByTargetCharaId() {
-        if (_nssCharaByTargetCharaId == null) { _nssCharaByTargetCharaId = new CharaNss(null); }
-        return _nssCharaByTargetCharaId;
-    }
-    /**
-     * Set up relation columns to select clause. <br>
-     * CHARA by my TARGET_CHARA_ID, named 'charaByTargetCharaId'.
-     * <pre>
-     * <span style="color: #0000C0">abilityBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_CharaByTargetCharaId()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
-     *     <span style="color: #553000">cb</span>.query().set...
-     * }).alwaysPresent(<span style="color: #553000">ability</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     ... = <span style="color: #553000">ability</span>.<span style="color: #CC4747">getCharaByTargetCharaId()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
-     * });
-     * </pre>
-     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
-     */
-    public CharaNss setupSelect_CharaByTargetCharaId() {
-        assertSetupSelectPurpose("charaByTargetCharaId");
-        if (hasSpecifiedLocalColumn()) {
-            specify().columnTargetCharaId();
-        }
-        doSetupSelect(() -> query().queryCharaByTargetCharaId());
-        if (_nssCharaByTargetCharaId == null || !_nssCharaByTargetCharaId.hasConditionQuery())
-        { _nssCharaByTargetCharaId = new CharaNss(query().queryCharaByTargetCharaId()); }
-        return _nssCharaByTargetCharaId;
-    }
-
     protected VillageDayNss _nssVillageDay;
     public VillageDayNss xdfgetNssVillageDay() {
         if (_nssVillageDay == null) { _nssVillageDay = new VillageDayNss(null); }
@@ -392,8 +337,6 @@ public class BsAbilityCB extends AbstractConditionBean {
 
     public static class HpSpecification extends HpAbstractSpecification<AbilityCQ> {
         protected AbilityTypeCB.HpSpecification _abilityType;
-        protected CharaCB.HpSpecification _charaByCharaId;
-        protected CharaCB.HpSpecification _charaByTargetCharaId;
         protected VillageDayCB.HpSpecification _villageDay;
         public HpSpecification(ConditionBean baseCB, HpSpQyCall<AbilityCQ> qyCall
                              , HpCBPurpose purpose, DBMetaProvider dbmetaProvider
@@ -410,12 +353,12 @@ public class BsAbilityCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnDay() { return doColumn("DAY"); }
         /**
-         * CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara}
+         * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCharaId() { return doColumn("CHARA_ID"); }
         /**
-         * TARGET_CHARA_ID: {IX, INT UNSIGNED(10), FK to chara}
+         * TARGET_CHARA_ID: {INT UNSIGNED(10)}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnTargetCharaId() { return doColumn("TARGET_CHARA_ID"); }
@@ -457,10 +400,6 @@ public class BsAbilityCB extends AbstractConditionBean {
             columnDay(); // PK
             columnCharaId(); // PK
             columnAbilityTypeCode(); // PK
-            if (qyCall().qy().hasConditionQueryCharaByTargetCharaId()
-                    || qyCall().qy().xgetReferrerQuery() instanceof CharaCQ) {
-                columnTargetCharaId(); // FK or one-to-one referrer
-            }
         }
         @Override
         protected String getTableDbName() { return "ability"; }
@@ -483,46 +422,6 @@ public class BsAbilityCB extends AbstractConditionBean {
                 }
             }
             return _abilityType;
-        }
-        /**
-         * Prepare to specify functions about relation table. <br>
-         * CHARA by my CHARA_ID, named 'charaByCharaId'.
-         * @return The instance for specification for relation table to specify. (NotNull)
-         */
-        public CharaCB.HpSpecification specifyCharaByCharaId() {
-            assertRelation("charaByCharaId");
-            if (_charaByCharaId == null) {
-                _charaByCharaId = new CharaCB.HpSpecification(_baseCB
-                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryCharaByCharaId()
-                                    , () -> _qyCall.qy().queryCharaByCharaId())
-                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
-                if (xhasSyncQyCall()) { // inherits it
-                    _charaByCharaId.xsetSyncQyCall(xcreateSpQyCall(
-                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryCharaByCharaId()
-                      , () -> xsyncQyCall().qy().queryCharaByCharaId()));
-                }
-            }
-            return _charaByCharaId;
-        }
-        /**
-         * Prepare to specify functions about relation table. <br>
-         * CHARA by my TARGET_CHARA_ID, named 'charaByTargetCharaId'.
-         * @return The instance for specification for relation table to specify. (NotNull)
-         */
-        public CharaCB.HpSpecification specifyCharaByTargetCharaId() {
-            assertRelation("charaByTargetCharaId");
-            if (_charaByTargetCharaId == null) {
-                _charaByTargetCharaId = new CharaCB.HpSpecification(_baseCB
-                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryCharaByTargetCharaId()
-                                    , () -> _qyCall.qy().queryCharaByTargetCharaId())
-                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
-                if (xhasSyncQyCall()) { // inherits it
-                    _charaByTargetCharaId.xsetSyncQyCall(xcreateSpQyCall(
-                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryCharaByTargetCharaId()
-                      , () -> xsyncQyCall().qy().queryCharaByTargetCharaId()));
-                }
-            }
-            return _charaByTargetCharaId;
         }
         /**
          * Prepare to specify functions about relation table. <br>

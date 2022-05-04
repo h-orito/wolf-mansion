@@ -74,6 +74,7 @@ public class PlayerDbm extends AbstractDBMeta {
     @SuppressWarnings("unchecked")
     protected void xsetupEfpg() {
         setupEfpg(_efpgMap, et -> ((Player)et).getAuthority(), (et, vl) -> ((Player)et).setAuthority((OptionalEntity<Authority>)vl), "authority");
+        setupEfpg(_efpgMap, et -> ((Player)et).getPlayerDetailAsOne(), (et, vl) -> ((Player)et).setPlayerDetailAsOne((OptionalEntity<PlayerDetail>)vl), "playerDetailAsOne");
     }
     public PropertyGateway findForeignPropertyGateway(String prop)
     { return doFindEfpg(_efpgMap, prop); }
@@ -203,6 +204,14 @@ public class PlayerDbm extends AbstractDBMeta {
     public ForeignInfo foreignAuthority() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnAuthorityCode(), AuthorityDbm.getInstance().columnAuthorityCode());
         return cfi("FK_PLAYER_AUTHORITY", "authority", this, AuthorityDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "playerList", false);
+    }
+    /**
+     * player_detail by PLAYER_ID, named 'playerDetailAsOne'.
+     * @return The information object of foreign property(referrer-as-one). (NotNull)
+     */
+    public ForeignInfo foreignPlayerDetailAsOne() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnPlayerId(), PlayerDetailDbm.getInstance().columnPlayerId());
+        return cfi("FK_PLAYER_DETAIL_PLAYER", "playerDetailAsOne", this, PlayerDetailDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, true, false, true, false, null, null, false, "player", false);
     }
 
     // -----------------------------------------------------

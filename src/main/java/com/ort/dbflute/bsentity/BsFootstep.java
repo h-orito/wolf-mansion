@@ -32,13 +32,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     CHARA, VILLAGE_DAY
+ *     VILLAGE_DAY
  *
  * [referrer table]
  *     
  *
  * [foreign property]
- *     chara, villageDay
+ *     villageDay
  *
  * [referrer property]
  *     
@@ -82,7 +82,7 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     /** DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day} */
     protected Integer _day;
 
-    /** CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara} */
+    /** CHARA_ID: {PK, NotNull, INT UNSIGNED(10)} */
     protected Integer _charaId;
 
     /** FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)} */
@@ -127,27 +127,6 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
-    /** CHARA by my CHARA_ID, named 'chara'. */
-    protected OptionalEntity<Chara> _chara;
-
-    /**
-     * [get] CHARA by my CHARA_ID, named 'chara'. <br>
-     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
-     * @return The entity of foreign property 'chara'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
-     */
-    public OptionalEntity<Chara> getChara() {
-        if (_chara == null) { _chara = OptionalEntity.relationEmpty(this, "chara"); }
-        return _chara;
-    }
-
-    /**
-     * [set] CHARA by my CHARA_ID, named 'chara'.
-     * @param chara The entity of foreign property 'chara'. (NullAllowed)
-     */
-    public void setChara(OptionalEntity<Chara> chara) {
-        _chara = chara;
-    }
-
     /** VILLAGE_DAY by my VILLAGE_ID, DAY, named 'villageDay'. */
     protected OptionalEntity<VillageDay> _villageDay;
 
@@ -205,8 +184,6 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     @Override
     protected String doBuildStringWithRelation(String li) {
         StringBuilder sb = new StringBuilder();
-        if (_chara != null && _chara.isPresent())
-        { sb.append(li).append(xbRDS(_chara, "chara")); }
         if (_villageDay != null && _villageDay.isPresent())
         { sb.append(li).append(xbRDS(_villageDay, "villageDay")); }
         return sb.toString();
@@ -236,8 +213,6 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     @Override
     protected String doBuildRelationString(String dm) {
         StringBuilder sb = new StringBuilder();
-        if (_chara != null && _chara.isPresent())
-        { sb.append(dm).append("chara"); }
         if (_villageDay != null && _villageDay.isPresent())
         { sb.append(dm).append("villageDay"); }
         if (sb.length() > dm.length()) {
@@ -295,7 +270,7 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     }
 
     /**
-     * [get] CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
+     * [get] CHARA_ID: {PK, NotNull, INT UNSIGNED(10)} <br>
      * キャラクターID
      * @return The value of the column 'CHARA_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -305,7 +280,7 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     }
 
     /**
-     * [set] CHARA_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
+     * [set] CHARA_ID: {PK, NotNull, INT UNSIGNED(10)} <br>
      * キャラクターID
      * @param charaId The value of the column 'CHARA_ID'. (basically NotNull if update: for the constraint)
      */
