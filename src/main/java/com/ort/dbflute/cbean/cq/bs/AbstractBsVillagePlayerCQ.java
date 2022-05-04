@@ -1138,7 +1138,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param charaId The value of charaId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_Equal(Integer charaId) {
@@ -1151,7 +1151,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param charaId The value of charaId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_NotEqual(Integer charaId) {
@@ -1164,7 +1164,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param charaId The value of charaId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_GreaterThan(Integer charaId) {
@@ -1173,7 +1173,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param charaId The value of charaId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_LessThan(Integer charaId) {
@@ -1182,7 +1182,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param charaId The value of charaId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_GreaterEqual(Integer charaId) {
@@ -1191,7 +1191,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param charaId The value of charaId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_LessEqual(Integer charaId) {
@@ -1202,7 +1202,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param minNumber The min number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -1215,7 +1215,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param minNumber The min number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -1226,7 +1226,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param charaIdList The collection of charaId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharaId_InScope(Collection<Integer> charaIdList) {
@@ -1239,7 +1239,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param charaIdList The collection of charaId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharaId_NotInScope(Collection<Integer> charaIdList) {

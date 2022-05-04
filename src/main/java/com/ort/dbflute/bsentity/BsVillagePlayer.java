@@ -33,13 +33,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     CHARA, DEAD_REASON, PLAYER, SKILL, VILLAGE
+ *     DEAD_REASON, PLAYER, SKILL, VILLAGE
  *
  * [referrer table]
  *     COMMIT, MESSAGE, MESSAGE_SENDTO, VILLAGE_PLAYER_ACCESS_INFO, VILLAGE_PLAYER_DEAD_HISTORY, VILLAGE_PLAYER_ROOM_HISTORY, VILLAGE_PLAYER_SKILL_HISTORY, VILLAGE_PLAYER_STATUS
  *
  * [foreign property]
- *     chara, deadReason, player, skillByRequestSkillCode, skillBySecondRequestSkillCode, skillBySkillCode, village
+ *     deadReason, player, skillByRequestSkillCode, skillBySecondRequestSkillCode, skillBySkillCode, village
  *
  * [referrer property]
  *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList, messageSendtoList, villagePlayerAccessInfoList, villagePlayerDeadHistoryList, villagePlayerRoomHistoryList, villagePlayerSkillHistoryList, villagePlayerStatusByToVillagePlayerIdList, villagePlayerStatusByVillagePlayerIdList
@@ -116,7 +116,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     /** PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player} */
     protected Integer _playerId;
 
-    /** CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara} */
+    /** CHARA_ID: {NotNull, INT UNSIGNED(10)} */
     protected Integer _charaId;
 
     /** SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} */
@@ -6232,27 +6232,6 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
-    /** CHARA by my CHARA_ID, named 'chara'. */
-    protected OptionalEntity<Chara> _chara;
-
-    /**
-     * [get] CHARA by my CHARA_ID, named 'chara'. <br>
-     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
-     * @return The entity of foreign property 'chara'. (NotNull, EmptyAllowed: when e.g. null FK column, no setupSelect)
-     */
-    public OptionalEntity<Chara> getChara() {
-        if (_chara == null) { _chara = OptionalEntity.relationEmpty(this, "chara"); }
-        return _chara;
-    }
-
-    /**
-     * [set] CHARA by my CHARA_ID, named 'chara'.
-     * @param chara The entity of foreign property 'chara'. (NullAllowed)
-     */
-    public void setChara(OptionalEntity<Chara> chara) {
-        _chara = chara;
-    }
-
     /** DEAD_REASON by my DEAD_REASON_CODE, named 'deadReason'. */
     protected OptionalEntity<DeadReason> _deadReason;
 
@@ -6611,8 +6590,6 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     @Override
     protected String doBuildStringWithRelation(String li) {
         StringBuilder sb = new StringBuilder();
-        if (_chara != null && _chara.isPresent())
-        { sb.append(li).append(xbRDS(_chara, "chara")); }
         if (_deadReason != null && _deadReason.isPresent())
         { sb.append(li).append(xbRDS(_deadReason, "deadReason")); }
         if (_player != null && _player.isPresent())
@@ -6687,8 +6664,6 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     @Override
     protected String doBuildRelationString(String dm) {
         StringBuilder sb = new StringBuilder();
-        if (_chara != null && _chara.isPresent())
-        { sb.append(dm).append("chara"); }
         if (_deadReason != null && _deadReason.isPresent())
         { sb.append(dm).append("deadReason"); }
         if (_player != null && _player.isPresent())
@@ -6796,7 +6771,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
+     * [get] CHARA_ID: {NotNull, INT UNSIGNED(10)} <br>
      * キャラクターID
      * @return The value of the column 'CHARA_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -6806,7 +6781,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara} <br>
+     * [set] CHARA_ID: {NotNull, INT UNSIGNED(10)} <br>
      * キャラクターID
      * @param charaId The value of the column 'CHARA_ID'. (basically NotNull if update: for the constraint)
      */

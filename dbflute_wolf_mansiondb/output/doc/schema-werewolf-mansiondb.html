@@ -581,7 +581,7 @@ pre.spolicyviodisp {
 		<td class="namecell" data-name="chara"><a href="#chara" title="type=TABLE, primaryKey={CHARA_ID}, nameLength=5, columnCount=12">CHARA</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara_group" title="FK_CHARA_CHARA_GROUP">CHARA_GROUP</a></td>
-		<td class="relcell"><a href="#ability" title="FK_ABILITY_CHARA">ABILITY</a>, <a href="#ability" title="FK_ABILITY_CHARA_TARGET">ABILITY</a>, <a href="#chara_image" title="FK_CHARA_IMAGE_CHARA">CHARA_IMAGE</a>, <a href="#footstep" title="FK_FOOTSTEP_CHARA">FOOTSTEP</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_CHARA">VILLAGE_PLAYER</a>, <a href="#vote" title="FK_VOTE_CHARA">VOTE</a>, <a href="#vote" title="FK_VOTE_CHARA_TO">VOTE</a></td>
+		<td class="relcell"><a href="#ability" title="FK_ABILITY_CHARA">ABILITY</a>, <a href="#ability" title="FK_ABILITY_CHARA_TARGET">ABILITY</a>, <a href="#chara_image" title="FK_CHARA_IMAGE_CHARA">CHARA_IMAGE</a>, <a href="#footstep" title="FK_FOOTSTEP_CHARA">FOOTSTEP</a>, <a href="#vote" title="FK_VOTE_CHARA">VOTE</a>, <a href="#vote" title="FK_VOTE_CHARA_TO">VOTE</a></td>
 		<td class="commentcell chara_comment"><pre>キャラクター</pre></td>
 		<td class="subcell">Chara</td>
 		<td class="subcell">2017/12/20</td>
@@ -820,7 +820,7 @@ pre.spolicyviodisp {
 		<td class="rownumcell">31</td>
 		<td class="namecell" data-name="village_player"><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=23">VILLAGE_PLAYER</a></td>
 		<td class="typecell">TABLE</td>
-		<td class="relcell"><a href="#chara" title="FK_VILLAGE_PLAYER_CHARA">CHARA</a>, <a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_REASON">DEAD_REASON</a>, <a href="#player" title="FK_VILLAGE_PLAYER_PLAYER">PLAYER</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL">SKILL</a>, <a href="#village" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE</a></td>
+		<td class="relcell"><a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_REASON">DEAD_REASON</a>, <a href="#player" title="FK_VILLAGE_PLAYER_PLAYER">PLAYER</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL">SKILL</a>, <a href="#village" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE</a></td>
 		<td class="relcell"><a href="#commit" title="FK_COMMIT_VILLAGE_PLAYER">COMMIT</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER_TO">MESSAGE</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER">MESSAGE</a>, <a href="#message_sendto" title="FK_MESSAGE_SENDTO_VILLAGE_PLAYER">MESSAGE_SENDTO</a>, <a href="#village_player_access_info" title="FK_VILLAGE_PLAYER_ACCESS_INFO_VILLAGE_PLAYER">VILLAGE_PLAYER_ACCESS_INFO</a>, <a href="#village_player_dead_history" title="FK_VILLAGE_PLAYER_DEAD_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER_DEAD_HISTORY</a>, <a href="#village_player_room_history" title="FK_VILLAGE_PLAYER_ROOM_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER_ROOM_HISTORY</a>, <a href="#village_player_skill_history" title="FK_VILLAGE_PLAYER_SKILL_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER_SKILL_HISTORY</a>, <a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_TO_VILLAGE_PLAYER">VILLAGE_PLAYER_STATUS</a>, <a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER">VILLAGE_PLAYER_STATUS</a></td>
 		<td class="commentcell village_player_comment"><pre>村参加者</pre></td>
 		<td class="subcell">VillagePlayer</td>
@@ -1650,7 +1650,7 @@ CHARA
 		<td class="typecell">INT UNSIGNED</td>
 		<td class="sizecell"> 10 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell"><a href="#ability" title="FK_ABILITY_CHARA">ABILITY</a>,<br><a href="#ability" title="FK_ABILITY_CHARA_TARGET">ABILITY</a>,<br><a href="#chara_image" title="FK_CHARA_IMAGE_CHARA">CHARA_IMAGE</a>,<br><a href="#footstep" title="FK_FOOTSTEP_CHARA">FOOTSTEP</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_CHARA">VILLAGE_PLAYER</a>,<br><a href="#vote" title="FK_VOTE_CHARA">VOTE</a>,<br><a href="#vote" title="FK_VOTE_CHARA_TO">VOTE</a>&nbsp;</td>
+		<td class="relcell"><a href="#ability" title="FK_ABILITY_CHARA">ABILITY</a>,<br><a href="#ability" title="FK_ABILITY_CHARA_TARGET">ABILITY</a>,<br><a href="#chara_image" title="FK_CHARA_IMAGE_CHARA">CHARA_IMAGE</a>,<br><a href="#footstep" title="FK_FOOTSTEP_CHARA">FOOTSTEP</a>,<br><a href="#vote" title="FK_VOTE_CHARA">VOTE</a>,<br><a href="#vote" title="FK_VOTE_CHARA_TO">VOTE</a>&nbsp;</td>
 		<td class="relcell"> &nbsp;</td>
 		<td class="commentcell"><pre>キャラクターID</pre></td>
 		<td class="subcell">charaId</td>
@@ -5610,12 +5610,12 @@ VILLAGE_PLAYER
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell" title="FK_VILLAGE_PLAYER_CHARA(CHARA_ID)">o</td>
+		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">*</td>
 		<td class=" columnnamecell" id="village_player_chara_id">CHARA_ID</td>
 		<td class="typecell">INT UNSIGNED</td>
 		<td class="sizecell"> 10 </td>
-		<td class="relcell"><a href="#chara" title="FK_VILLAGE_PLAYER_CHARA">CHARA</a>&nbsp;</td>
+		<td class="relcell">&nbsp;&nbsp;</td>
 		<td class="relcell">&nbsp;</td>
 		<td class="relcell"> &nbsp;</td>
 		<td class="commentcell"><pre>キャラクターID</pre></td>

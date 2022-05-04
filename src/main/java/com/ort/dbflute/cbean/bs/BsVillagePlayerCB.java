@@ -242,35 +242,6 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
     // ===================================================================================
     //                                                                         SetupSelect
     //                                                                         ===========
-    protected CharaNss _nssChara;
-    public CharaNss xdfgetNssChara() {
-        if (_nssChara == null) { _nssChara = new CharaNss(null); }
-        return _nssChara;
-    }
-    /**
-     * Set up relation columns to select clause. <br>
-     * CHARA by my CHARA_ID, named 'chara'.
-     * <pre>
-     * <span style="color: #0000C0">villagePlayerBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_Chara()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
-     *     <span style="color: #553000">cb</span>.query().set...
-     * }).alwaysPresent(<span style="color: #553000">villagePlayer</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     ... = <span style="color: #553000">villagePlayer</span>.<span style="color: #CC4747">getChara()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
-     * });
-     * </pre>
-     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
-     */
-    public CharaNss setupSelect_Chara() {
-        assertSetupSelectPurpose("chara");
-        if (hasSpecifiedLocalColumn()) {
-            specify().columnCharaId();
-        }
-        doSetupSelect(() -> query().queryChara());
-        if (_nssChara == null || !_nssChara.hasConditionQuery())
-        { _nssChara = new CharaNss(query().queryChara()); }
-        return _nssChara;
-    }
-
     /**
      * Set up relation columns to select clause. <br>
      * DEAD_REASON by my DEAD_REASON_CODE, named 'deadReason'.
@@ -477,7 +448,6 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
     }
 
     public static class HpSpecification extends HpAbstractSpecification<VillagePlayerCQ> {
-        protected CharaCB.HpSpecification _chara;
         protected DeadReasonCB.HpSpecification _deadReason;
         protected PlayerCB.HpSpecification _player;
         protected SkillCB.HpSpecification _skillByRequestSkillCode;
@@ -504,7 +474,7 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnPlayerId() { return doColumn("PLAYER_ID"); }
         /**
-         * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+         * CHARA_ID: {NotNull, INT UNSIGNED(10)}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCharaId() { return doColumn("CHARA_ID"); }
@@ -608,10 +578,6 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
         @Override
         protected void doSpecifyRequiredColumn() {
             columnVillagePlayerId(); // PK
-            if (qyCall().qy().hasConditionQueryChara()
-                    || qyCall().qy().xgetReferrerQuery() instanceof CharaCQ) {
-                columnCharaId(); // FK or one-to-one referrer
-            }
             if (qyCall().qy().hasConditionQueryDeadReason()
                     || qyCall().qy().xgetReferrerQuery() instanceof DeadReasonCQ) {
                 columnDeadReasonCode(); // FK or one-to-one referrer
@@ -639,26 +605,6 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
         }
         @Override
         protected String getTableDbName() { return "village_player"; }
-        /**
-         * Prepare to specify functions about relation table. <br>
-         * CHARA by my CHARA_ID, named 'chara'.
-         * @return The instance for specification for relation table to specify. (NotNull)
-         */
-        public CharaCB.HpSpecification specifyChara() {
-            assertRelation("chara");
-            if (_chara == null) {
-                _chara = new CharaCB.HpSpecification(_baseCB
-                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryChara()
-                                    , () -> _qyCall.qy().queryChara())
-                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
-                if (xhasSyncQyCall()) { // inherits it
-                    _chara.xsetSyncQyCall(xcreateSpQyCall(
-                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryChara()
-                      , () -> xsyncQyCall().qy().queryChara()));
-                }
-            }
-            return _chara;
-        }
         /**
          * Prepare to specify functions about relation table. <br>
          * DEAD_REASON by my DEAD_REASON_CODE, named 'deadReason'.

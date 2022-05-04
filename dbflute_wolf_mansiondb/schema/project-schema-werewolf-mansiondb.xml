@@ -918,10 +918,6 @@
         <column comment="更新トレース" dbType="VARCHAR" javaType="String"
             name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
         <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
-            foreignTable="chara" name="FK_VILLAGE_PLAYER_CHARA">
-            <reference foreign="CHARA_ID" local="CHARA_ID"/>
-        </foreign-key>
-        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
             foreignTable="dead_reason" name="FK_VILLAGE_PLAYER_DEAD_REASON">
             <reference foreign="DEAD_REASON_CODE" local="DEAD_REASON_CODE"/>
         </foreign-key>
@@ -945,9 +941,6 @@
             foreignTable="village" name="FK_VILLAGE_PLAYER_VILLAGE">
             <reference foreign="VILLAGE_ID" local="VILLAGE_ID"/>
         </foreign-key>
-        <index name="FK_VILLAGE_PLAYER_CHARA">
-            <index-column name="CHARA_ID" position="1"/>
-        </index>
         <index name="FK_VILLAGE_PLAYER_DEAD_REASON">
             <index-column name="DEAD_REASON_CODE" position="1"/>
         </index>

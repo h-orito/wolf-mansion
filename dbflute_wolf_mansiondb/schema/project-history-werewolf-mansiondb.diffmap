@@ -1,4 +1,27 @@
 map:{
+    ; 2022/05/04 12:37:10 = map:{
+        ; diffDate = 2022/05/04 12:37:10
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; village_player = map:{
+                ; tableName = village_player
+                ; diffType = CHANGE
+                ; foreignKeyDiff = map:{
+                    ; FK_VILLAGE_PLAYER_CHARA = map:{
+                        ; constraintName = FK_VILLAGE_PLAYER_CHARA
+                        ; diffType = DELETE
+                    }
+                }
+                ; indexDiff = map:{
+                    ; FK_VILLAGE_PLAYER_CHARA = map:{
+                        ; constraintName = FK_VILLAGE_PLAYER_CHARA
+                        ; diffType = DELETE
+                    }
+                }
+            }
+        }
+    }
     ; 2022/04/20 23:11:38 = map:{
         ; diffDate = 2022/04/20 23:11:38
         ; diffAuthor = h-orito

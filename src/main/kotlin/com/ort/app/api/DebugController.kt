@@ -3,9 +3,11 @@ package com.ort.app.api
 import com.ort.app.api.request.VillageParticipateForm
 import com.ort.app.application.coordinator.DaychangeCoordinator
 import com.ort.app.application.coordinator.VillageCoordinator
+import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.skill.Skills
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.cbean.CharaCB
 import com.ort.dbflute.cbean.VillageDayCB
 import com.ort.dbflute.exbhv.CharaBhv
@@ -23,6 +25,7 @@ class DebugController(
     private val villageDayBhv: VillageDayBhv,
     private val villageService: VillageService,
     private val playerService: PlayerService,
+    private val charaService: CharaService,
     private val daychangeCoordinator: DaychangeCoordinator,
     private val villageCoordinator: VillageCoordinator
 ) {
@@ -39,17 +42,9 @@ class DebugController(
         if (!debug.toBoolean()) return "redirect:/village/$villageId#bottom"
 
         // 参戦していないキャラを人数分探す
-        val charaList = charaBhv.selectList { cb: CharaCB ->
-            cb.query()
-                .queryCharaGroup()
-                .existsVillageCharaGroup { it.query().setVillageId_Equal(villageId) }
-            cb.query().notExistsVillagePlayer {
-                it.query().setVillageId_Equal(villageId)
-                it.query().setIsGone_Equal_False()
-            }
-            cb.fetchFirst(participateForm.personNumber!!)
-        }
-        val village = villageService.findVillage(villageId)!!
+        val village = villageService.findVillage(villageId) ?: throw WolfMansionBusinessException("village not found.")
+        val charas = charaService.findCharas(village.setting.chara.charachipIds.first(), false)
+        val charaList = charas.list.filterNot { c -> village.participants.list.any { it.charaId == c.id } }.take(participateForm.personNumber!!)
         for (i in charaList.indices) {
             val playerId = i + 2
             // 希望役職をランダムに取得
@@ -60,7 +55,7 @@ class DebugController(
             villageCoordinator.participate(
                 village = village,
                 player = player,
-                charaId = charaList[i].charaId,
+                charaId = charaList[i].id,
                 charaName = null,
                 charaShortName = null,
                 charaImageFile = null,

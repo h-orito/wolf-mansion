@@ -30,13 +30,13 @@ import com.ort.dbflute.cbean.*;
  *     CHARA_GROUP
  *
  * [referrer table]
- *     ABILITY, CHARA_IMAGE, FOOTSTEP, VILLAGE_PLAYER, VOTE
+ *     ABILITY, CHARA_IMAGE, FOOTSTEP, VOTE
  *
  * [foreign property]
  *     charaGroup
  *
  * [referrer property]
- *     abilityByCharaIdList, abilityByTargetCharaIdList, charaImageList, footstepList, villagePlayerList, voteByCharaIdList, voteByVoteCharaIdList
+ *     abilityByCharaIdList, abilityByTargetCharaIdList, charaImageList, footstepList, voteByCharaIdList, voteByVoteCharaIdList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -195,40 +195,6 @@ public class LoaderOfChara {
     public NestedReferrerLoaderGateway<LoaderOfFootstep> loadFootstep(ReferrerConditionSetupper<FootstepCB> refCBLambda) {
         myBhv().loadFootstep(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerFootstep = refLs);
         return hd -> hd.handle(new LoaderOfFootstep().ready(_referrerFootstep, _selector));
-    }
-
-    protected List<VillagePlayer> _referrerVillagePlayer;
-
-    /**
-     * Load referrer of villagePlayerList by the set-upper of referrer. <br>
-     * VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerList'.
-     * <pre>
-     * <span style="color: #0000C0">charaBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">charaList</span>, <span style="color: #553000">charaLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *     <span style="color: #553000">charaLoader</span>.<span style="color: #CC4747">loadVillagePlayer</span>(<span style="color: #553000">playerCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
-     *         <span style="color: #553000">playerCB</span>.setupSelect...
-     *         <span style="color: #553000">playerCB</span>.query().set...
-     *         <span style="color: #553000">playerCB</span>.query().addOrderBy...
-     *     }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
-     *     <span style="color: #3F7E5E">//}).withNestedReferrer(<span style="color: #553000">playerLoader</span> -&gt; {</span>
-     *     <span style="color: #3F7E5E">//    playerLoader.load...</span>
-     *     <span style="color: #3F7E5E">//});</span>
-     * });
-     * for (Chara chara : <span style="color: #553000">charaList</span>) {
-     *     ... = chara.<span style="color: #CC4747">getVillagePlayerList()</span>;
-     * }
-     * </pre>
-     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
-     * The condition-bean, which the set-upper provides, has settings before callback as follows:
-     * <pre>
-     * cb.query().setCharaId_InScope(pkList);
-     * cb.query().addOrderBy_CharaId_Asc();
-     * </pre>
-     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
-     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
-     */
-    public NestedReferrerLoaderGateway<LoaderOfVillagePlayer> loadVillagePlayer(ReferrerConditionSetupper<VillagePlayerCB> refCBLambda) {
-        myBhv().loadVillagePlayer(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerVillagePlayer = refLs);
-        return hd -> hd.handle(new LoaderOfVillagePlayer().ready(_referrerVillagePlayer, _selector));
     }
 
     protected List<Vote> _referrerVoteByCharaId;

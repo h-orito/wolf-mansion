@@ -281,14 +281,14 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
      */
     public BsVillagePlayerCQ addOrderBy_CharaId_Asc() { regOBA("CHARA_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
      */
     public BsVillagePlayerCQ addOrderBy_CharaId_Desc() { regOBD("CHARA_ID"); return this; }
@@ -714,9 +714,6 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
     public void reflectRelationOnUnionQuery(ConditionQuery bqs, ConditionQuery uqs) {
         VillagePlayerCQ bq = (VillagePlayerCQ)bqs;
         VillagePlayerCQ uq = (VillagePlayerCQ)uqs;
-        if (bq.hasConditionQueryChara()) {
-            uq.queryChara().reflectRelationOnUnionQuery(bq.queryChara(), uq.queryChara());
-        }
         if (bq.hasConditionQueryDeadReason()) {
             uq.queryDeadReason().reflectRelationOnUnionQuery(bq.queryDeadReason(), uq.queryDeadReason());
         }
@@ -740,26 +737,6 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
     // ===================================================================================
     //                                                                       Foreign Query
     //                                                                       =============
-    /**
-     * Get the condition-query for relation table. <br>
-     * CHARA by my CHARA_ID, named 'chara'.
-     * @return The instance of condition-query. (NotNull)
-     */
-    public CharaCQ queryChara() {
-        return xdfgetConditionQueryChara();
-    }
-    public CharaCQ xdfgetConditionQueryChara() {
-        String prop = "chara";
-        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryChara()); xsetupOuterJoinChara(); }
-        return xgetQueRlMap(prop);
-    }
-    protected CharaCQ xcreateQueryChara() {
-        String nrp = xresolveNRP("village_player", "chara"); String jan = xresolveJAN(nrp, xgetNNLvl());
-        return xinitRelCQ(new CharaCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "chara", nrp);
-    }
-    protected void xsetupOuterJoinChara() { xregOutJo("chara"); }
-    public boolean hasConditionQueryChara() { return xhasQueRlMap("chara"); }
-
     /**
      * Get the condition-query for relation table. <br>
      * DEAD_REASON by my DEAD_REASON_CODE, named 'deadReason'.

@@ -91,9 +91,6 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
     public Map<String, FootstepCQ> xdfgetCharaId_ExistsReferrer_FootstepList() { return xgetSQueMap("charaId_ExistsReferrer_FootstepList"); }
     public String keepCharaId_ExistsReferrer_FootstepList(FootstepCQ sq) { return xkeepSQue("charaId_ExistsReferrer_FootstepList", sq); }
 
-    public Map<String, VillagePlayerCQ> xdfgetCharaId_ExistsReferrer_VillagePlayerList() { return xgetSQueMap("charaId_ExistsReferrer_VillagePlayerList"); }
-    public String keepCharaId_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("charaId_ExistsReferrer_VillagePlayerList", sq); }
-
     public Map<String, VoteCQ> xdfgetCharaId_ExistsReferrer_VoteByCharaIdList() { return xgetSQueMap("charaId_ExistsReferrer_VoteByCharaIdList"); }
     public String keepCharaId_ExistsReferrer_VoteByCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_ExistsReferrer_VoteByCharaIdList", sq); }
 
@@ -112,9 +109,6 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
     public Map<String, FootstepCQ> xdfgetCharaId_NotExistsReferrer_FootstepList() { return xgetSQueMap("charaId_NotExistsReferrer_FootstepList"); }
     public String keepCharaId_NotExistsReferrer_FootstepList(FootstepCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_FootstepList", sq); }
 
-    public Map<String, VillagePlayerCQ> xdfgetCharaId_NotExistsReferrer_VillagePlayerList() { return xgetSQueMap("charaId_NotExistsReferrer_VillagePlayerList"); }
-    public String keepCharaId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_VillagePlayerList", sq); }
-
     public Map<String, VoteCQ> xdfgetCharaId_NotExistsReferrer_VoteByCharaIdList() { return xgetSQueMap("charaId_NotExistsReferrer_VoteByCharaIdList"); }
     public String keepCharaId_NotExistsReferrer_VoteByCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_VoteByCharaIdList", sq); }
 
@@ -132,9 +126,6 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
 
     public Map<String, FootstepCQ> xdfgetCharaId_SpecifyDerivedReferrer_FootstepList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_FootstepList"); }
     public String keepCharaId_SpecifyDerivedReferrer_FootstepList(FootstepCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_FootstepList", sq); }
-
-    public Map<String, VillagePlayerCQ> xdfgetCharaId_SpecifyDerivedReferrer_VillagePlayerList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_VillagePlayerList"); }
-    public String keepCharaId_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_VillagePlayerList", sq); }
 
     public Map<String, VoteCQ> xdfgetCharaId_SpecifyDerivedReferrer_VoteByCharaIdList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_VoteByCharaIdList"); }
     public String keepCharaId_SpecifyDerivedReferrer_VoteByCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_VoteByCharaIdList", sq); }
@@ -161,11 +152,6 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
     public String keepCharaId_QueryDerivedReferrer_FootstepList(FootstepCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_FootstepList", sq); }
     public Map<String, Object> xdfgetCharaId_QueryDerivedReferrer_FootstepListParameter() { return xgetSQuePmMap("charaId_QueryDerivedReferrer_FootstepList"); }
     public String keepCharaId_QueryDerivedReferrer_FootstepListParameter(Object pm) { return xkeepSQuePm("charaId_QueryDerivedReferrer_FootstepList", pm); }
-
-    public Map<String, VillagePlayerCQ> xdfgetCharaId_QueryDerivedReferrer_VillagePlayerList() { return xgetSQueMap("charaId_QueryDerivedReferrer_VillagePlayerList"); }
-    public String keepCharaId_QueryDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_VillagePlayerList", sq); }
-    public Map<String, Object> xdfgetCharaId_QueryDerivedReferrer_VillagePlayerListParameter() { return xgetSQuePmMap("charaId_QueryDerivedReferrer_VillagePlayerList"); }
-    public String keepCharaId_QueryDerivedReferrer_VillagePlayerListParameter(Object pm) { return xkeepSQuePm("charaId_QueryDerivedReferrer_VillagePlayerList", pm); }
 
     public Map<String, VoteCQ> xdfgetCharaId_QueryDerivedReferrer_VoteByCharaIdList() { return xgetSQueMap("charaId_QueryDerivedReferrer_VoteByCharaIdList"); }
     public String keepCharaId_QueryDerivedReferrer_VoteByCharaIdList(VoteCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_VoteByCharaIdList", sq); }

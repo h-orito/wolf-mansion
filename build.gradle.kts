@@ -47,10 +47,7 @@ dependencies {
     implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.3.0")
     // dbflute, myself
     implementation("org.dbflute:dbflute-runtime:1.2.1")
-    val mysqlConnectorVersion = if (System.getenv("MYSQL_CONNECTOR_VERSION") != null) {
-        System.getenv("MYSQL_CONNECTOR_VERSION")
-    } else "8.0.25"
-    implementation("mysql:mysql-connector-java:$mysqlConnectorVersion")
+    implementation("mysql:mysql-connector-java:8.0.25")
     // apache commons
     implementation("org.apache.commons:commons-lang3:3.6")
     implementation("org.apache.commons:commons-collections4:4.1")

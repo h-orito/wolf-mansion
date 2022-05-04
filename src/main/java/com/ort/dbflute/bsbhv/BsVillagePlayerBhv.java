@@ -40,13 +40,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [foreign table]
- *     CHARA, DEAD_REASON, PLAYER, SKILL, VILLAGE
+ *     DEAD_REASON, PLAYER, SKILL, VILLAGE
  *
  * [referrer table]
  *     COMMIT, MESSAGE, MESSAGE_SENDTO, VILLAGE_PLAYER_ACCESS_INFO, VILLAGE_PLAYER_DEAD_HISTORY, VILLAGE_PLAYER_ROOM_HISTORY, VILLAGE_PLAYER_SKILL_HISTORY, VILLAGE_PLAYER_STATUS
  *
  * [foreign property]
- *     chara, deadReason, player, skillByRequestSkillCode, skillBySecondRequestSkillCode, skillBySkillCode, village
+ *     deadReason, player, skillByRequestSkillCode, skillBySecondRequestSkillCode, skillBySkillCode, village
  *
  * [referrer property]
  *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList, messageSendtoList, villagePlayerAccessInfoList, villagePlayerDeadHistoryList, villagePlayerRoomHistoryList, villagePlayerSkillHistoryList, villagePlayerStatusByToVillagePlayerIdList, villagePlayerStatusByVillagePlayerIdList
@@ -1004,14 +1004,6 @@ public abstract class BsVillagePlayerBhv extends AbstractBehaviorWritable<Villag
     // ===================================================================================
     //                                                                   Pull out Relation
     //                                                                   =================
-    /**
-     * Pull out the list of foreign table 'Chara'.
-     * @param villagePlayerList The list of villagePlayer. (NotNull, EmptyAllowed)
-     * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
-     */
-    public List<Chara> pulloutChara(List<VillagePlayer> villagePlayerList)
-    { return helpPulloutInternally(villagePlayerList, "chara"); }
-
     /**
      * Pull out the list of foreign table 'DeadReason'.
      * @param villagePlayerList The list of villagePlayer. (NotNull, EmptyAllowed)

@@ -20,15 +20,6 @@ public class VillagePlayerNss {
     //                                                                     ===============
     /**
      * With nested relation columns to select clause. <br>
-     * CHARA by my CHARA_ID, named 'chara'.
-     * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
-     */
-    public CharaNss withChara() {
-        _query.xdoNss(() -> _query.queryChara());
-        return new CharaNss(_query.queryChara());
-    }
-    /**
-     * With nested relation columns to select clause. <br>
      * DEAD_REASON by my DEAD_REASON_CODE, named 'deadReason'.
      */
     public void withDeadReason() {

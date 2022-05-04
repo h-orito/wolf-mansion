@@ -35,13 +35,13 @@ import com.ort.dbflute.exentity.*;
  *     CHARA_GROUP
  *
  * [referrer table]
- *     ABILITY, CHARA_IMAGE, FOOTSTEP, VILLAGE_PLAYER, VOTE
+ *     ABILITY, CHARA_IMAGE, FOOTSTEP, VOTE
  *
  * [foreign property]
  *     charaGroup
  *
  * [referrer property]
- *     abilityByCharaIdList, abilityByTargetCharaIdList, charaImageList, footstepList, villagePlayerList, voteByCharaIdList, voteByVoteCharaIdList
+ *     abilityByCharaIdList, abilityByTargetCharaIdList, charaImageList, footstepList, voteByCharaIdList, voteByVoteCharaIdList
  *
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -249,26 +249,6 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
         _footstepList = footstepList;
     }
 
-    /** VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerList'. */
-    protected List<VillagePlayer> _villagePlayerList;
-
-    /**
-     * [get] VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerList'.
-     * @return The entity list of referrer property 'villagePlayerList'. (NotNull: even if no loading, returns empty list)
-     */
-    public List<VillagePlayer> getVillagePlayerList() {
-        if (_villagePlayerList == null) { _villagePlayerList = newReferrerList(); }
-        return _villagePlayerList;
-    }
-
-    /**
-     * [set] VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerList'.
-     * @param villagePlayerList The entity list of referrer property 'villagePlayerList'. (NullAllowed)
-     */
-    public void setVillagePlayerList(List<VillagePlayer> villagePlayerList) {
-        _villagePlayerList = villagePlayerList;
-    }
-
     /** VOTE by CHARA_ID, named 'voteByCharaIdList'. */
     protected List<Vote> _voteByCharaIdList;
 
@@ -348,8 +328,6 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
         { if (et != null) { sb.append(li).append(xbRDS(et, "charaImageList")); } } }
         if (_footstepList != null) { for (Footstep et : _footstepList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "footstepList")); } } }
-        if (_villagePlayerList != null) { for (VillagePlayer et : _villagePlayerList)
-        { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerList")); } } }
         if (_voteByCharaIdList != null) { for (Vote et : _voteByCharaIdList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "voteByCharaIdList")); } } }
         if (_voteByVoteCharaIdList != null) { for (Vote et : _voteByVoteCharaIdList)
@@ -395,8 +373,6 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
         { sb.append(dm).append("charaImageList"); }
         if (_footstepList != null && !_footstepList.isEmpty())
         { sb.append(dm).append("footstepList"); }
-        if (_villagePlayerList != null && !_villagePlayerList.isEmpty())
-        { sb.append(dm).append("villagePlayerList"); }
         if (_voteByCharaIdList != null && !_voteByCharaIdList.isEmpty())
         { sb.append(dm).append("voteByCharaIdList"); }
         if (_voteByVoteCharaIdList != null && !_voteByVoteCharaIdList.isEmpty())

@@ -87,7 +87,7 @@ public class CharaDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "abilityByCharaIdList,abilityByTargetCharaIdList,charaImageList,footstepList,villagePlayerList,voteByCharaIdList,voteByVoteCharaIdList", null, false);
+    protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "abilityByCharaIdList,abilityByTargetCharaIdList,charaImageList,footstepList,voteByCharaIdList,voteByVoteCharaIdList", null, false);
     protected final ColumnInfo _columnCharaName = cci("CHARA_NAME", "CHARA_NAME", null, null, String.class, "charaName", null, false, false, true, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnCharaShortName = cci("CHARA_SHORT_NAME", "CHARA_SHORT_NAME", null, null, String.class, "charaShortName", null, false, false, true, "CHAR", 1, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnCharaGroupId = cci("CHARA_GROUP_ID", "CHARA_GROUP_ID", null, null, Integer.class, "charaGroupId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "charaGroup", null, null, false);
@@ -241,14 +241,6 @@ public class CharaDbm extends AbstractDBMeta {
     public ReferrerInfo referrerFootstepList() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaId(), FootstepDbm.getInstance().columnCharaId());
         return cri("FK_FOOTSTEP_CHARA", "footstepList", this, FootstepDbm.getInstance(), mp, false, "chara");
-    }
-    /**
-     * VILLAGE_PLAYER by CHARA_ID, named 'villagePlayerList'.
-     * @return The information object of referrer property. (NotNull)
-     */
-    public ReferrerInfo referrerVillagePlayerList() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaId(), VillagePlayerDbm.getInstance().columnCharaId());
-        return cri("FK_VILLAGE_PLAYER_CHARA", "villagePlayerList", this, VillagePlayerDbm.getInstance(), mp, false, "chara");
     }
     /**
      * VOTE by CHARA_ID, named 'voteByCharaIdList'.

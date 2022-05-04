@@ -2,7 +2,9 @@ package com.ort.app.api
 
 import com.ort.app.api.request.VillageLeaveForm
 import com.ort.app.application.coordinator.VillageCoordinator
+import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.VillageService
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.cbean.VillageDayCB
 import com.ort.dbflute.cbean.VillagePlayerCB
 import com.ort.dbflute.cbean.VoteCB
@@ -87,7 +89,6 @@ class AdminController(
     @ResponseBody
     private fun player(@PathVariable villageId: Int): List<VillageCharaPlayerContent> {
         return villagePlayerBhv.selectList { cb: VillagePlayerCB ->
-            cb.setupSelect_Chara()
             cb.setupSelect_Player()
             cb.query().setVillageId_Equal(villageId)
             cb.query().setIsGone_Equal_False()

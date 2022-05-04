@@ -144,10 +144,6 @@ public class VillagePlayer extends BsVillagePlayer {
         return optLastHistory.get().getRoomNumber();
     }
 
-    public CDef.FaceType detectDefaultFaceType(CDef.MessageType messageType) {
-        return getChara().get().detectDefaultFaceType(messageType);
-    }
-
     // ===================================================================================
     //                                                                        Assist Logic
     //                                                                        ============
