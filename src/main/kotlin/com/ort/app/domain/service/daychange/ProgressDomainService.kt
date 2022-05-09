@@ -15,6 +15,8 @@ import java.time.LocalDateTime
 class ProgressDomainService(
     private val attackDomainService: AttackDomainService,
     private val bombDomainService: BombDomainService,
+    private val pushpinDomainService: PushpinDomainService,
+    private val drawerDomainService: DrawerDomainService,
     private val cheatDomainService: CheatDomainService,
     private val insaneDomainService: InsaneDomainService,
     private val persuadeDomainService: PersuadeDomainService,
@@ -133,6 +135,10 @@ class ProgressDomainService(
         daychange = trapDomainService.trap(daychange)
         // 爆弾発動
         daychange = bombDomainService.bomb(daychange)
+        // 画鋲
+        daychange = pushpinDomainService.pushpin(daychange)
+        // 箪笥
+        daychange = drawerDomainService.littleFinger(daychange)
         // 無惨メッセージ
         daychange = miserableDomainService.addMiserableMessages(daychange)
         // 検死

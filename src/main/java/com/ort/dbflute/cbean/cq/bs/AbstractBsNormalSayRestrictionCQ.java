@@ -336,6 +336,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
     }
 
     /**
+     * Equal(=). As 箪笥 (DRAWERS). And OnlyOnceRegistered. <br>
+     * 箪笥
+     */
+    public void setSkillCode_Equal_箪笥() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.箪笥);
+    }
+
+    /**
      * Equal(=). As 不止者 (DYINGPOINTER). And OnlyOnceRegistered. <br>
      * 不止者
      */
@@ -736,6 +744,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
     }
 
     /**
+     * Equal(=). As 画鋲 (PUSHPIN). And OnlyOnceRegistered. <br>
+     * 画鋲
+     */
+    public void setSkillCode_Equal_画鋲() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.画鋲);
+    }
+
+    /**
      * Equal(=). As 虹職人 (RAINBOW). And OnlyOnceRegistered. <br>
      * 虹職人
      */
@@ -1100,6 +1116,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
      */
     public void setSkillCode_NotEqual_探偵() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.探偵);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 箪笥 (DRAWERS). And OnlyOnceRegistered. <br>
+     * 箪笥
+     */
+    public void setSkillCode_NotEqual_箪笥() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.箪笥);
     }
 
     /**
@@ -1500,6 +1524,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
      */
     public void setSkillCode_NotEqual_牧師() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.牧師);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 画鋲 (PUSHPIN). And OnlyOnceRegistered. <br>
+     * 画鋲
+     */
+    public void setSkillCode_NotEqual_画鋲() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.画鋲);
     }
 
     /**

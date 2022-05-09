@@ -300,6 +300,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Set the value of skillCode as 箪笥 (DRAWERS). <br>
+     * 箪笥
+     */
+    public void setSkillCode_箪笥() {
+        setSkillCodeAsSkill(CDef.Skill.箪笥);
+    }
+
+    /**
      * Set the value of skillCode as 不止者 (DYINGPOINTER). <br>
      * 不止者
      */
@@ -697,6 +705,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
      */
     public void setSkillCode_牧師() {
         setSkillCodeAsSkill(CDef.Skill.牧師);
+    }
+
+    /**
+     * Set the value of skillCode as 画鋲 (PUSHPIN). <br>
+     * 画鋲
+     */
+    public void setSkillCode_画鋲() {
+        setSkillCodeAsSkill(CDef.Skill.画鋲);
     }
 
     /**
@@ -1138,6 +1154,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isSkillCode探偵() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.探偵) : false;
+    }
+
+    /**
+     * Is the value of skillCode 箪笥? <br>
+     * 箪笥
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode箪笥() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.箪笥) : false;
     }
 
     /**
@@ -1688,6 +1715,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isSkillCode牧師() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.牧師) : false;
+    }
+
+    /**
+     * Is the value of skillCode 画鋲? <br>
+     * 画鋲
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode画鋲() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.画鋲) : false;
     }
 
     /**

@@ -583,6 +583,9 @@ public interface CDef extends Classification {
         /** 探偵 */
         探偵("DETECTIVE", "探偵", emptyStrings())
         ,
+        /** 箪笥 */
+        箪笥("DRAWERS", "箪笥", emptyStrings())
+        ,
         /** 不止者 */
         不止者("DYINGPOINTER", "不止者", emptyStrings())
         ,
@@ -732,6 +735,9 @@ public interface CDef extends Classification {
         ,
         /** 牧師 */
         牧師("PASTOR", "牧師", emptyStrings())
+        ,
+        /** 画鋲 */
+        画鋲("PUSHPIN", "画鋲", emptyStrings())
         ,
         /** 虹職人 */
         虹職人("RAINBOW", "虹職人", emptyStrings())
@@ -944,6 +950,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "探");
                 _subItemMapMap.put(探偵.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "513");
+                subItemMap.put("campCode", "CRIMINAL");
+                subItemMap.put("skill_short_name", "箪");
+                _subItemMapMap.put(箪笥.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -1294,6 +1307,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "牧");
                 _subItemMapMap.put(牧師.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "512");
+                subItemMap.put("campCode", "CRIMINAL");
+                subItemMap.put("skill_short_name", "鋲");
+                _subItemMapMap.put(画鋲.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();

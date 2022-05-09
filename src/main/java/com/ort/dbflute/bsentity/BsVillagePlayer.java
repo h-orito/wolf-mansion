@@ -517,6 +517,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 箪笥 (DRAWERS). <br>
+     * 箪笥
+     */
+    public void setSkillCode_箪笥() {
+        setSkillCodeAsSkill(CDef.Skill.箪笥);
+    }
+
+    /**
      * Set the value of skillCode as 不止者 (DYINGPOINTER). <br>
      * 不止者
      */
@@ -917,6 +925,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 画鋲 (PUSHPIN). <br>
+     * 画鋲
+     */
+    public void setSkillCode_画鋲() {
+        setSkillCodeAsSkill(CDef.Skill.画鋲);
+    }
+
+    /**
      * Set the value of skillCode as 虹職人 (RAINBOW). <br>
      * 虹職人
      */
@@ -1258,6 +1274,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setRequestSkillCode_探偵() {
         setRequestSkillCodeAsSkill(CDef.Skill.探偵);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 箪笥 (DRAWERS). <br>
+     * 箪笥
+     */
+    public void setRequestSkillCode_箪笥() {
+        setRequestSkillCodeAsSkill(CDef.Skill.箪笥);
     }
 
     /**
@@ -1661,6 +1685,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 画鋲 (PUSHPIN). <br>
+     * 画鋲
+     */
+    public void setRequestSkillCode_画鋲() {
+        setRequestSkillCodeAsSkill(CDef.Skill.画鋲);
+    }
+
+    /**
      * Set the value of requestSkillCode as 虹職人 (RAINBOW). <br>
      * 虹職人
      */
@@ -2002,6 +2034,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_探偵() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.探偵);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 箪笥 (DRAWERS). <br>
+     * 箪笥
+     */
+    public void setSecondRequestSkillCode_箪笥() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.箪笥);
     }
 
     /**
@@ -2402,6 +2442,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_牧師() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.牧師);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 画鋲 (PUSHPIN). <br>
+     * 画鋲
+     */
+    public void setSecondRequestSkillCode_画鋲() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.画鋲);
     }
 
     /**
@@ -2923,6 +2971,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode探偵() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.探偵) : false;
+    }
+
+    /**
+     * Is the value of skillCode 箪笥? <br>
+     * 箪笥
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode箪笥() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.箪笥) : false;
     }
 
     /**
@@ -3473,6 +3532,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode牧師() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.牧師) : false;
+    }
+
+    /**
+     * Is the value of skillCode 画鋲? <br>
+     * 画鋲
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode画鋲() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.画鋲) : false;
     }
 
     /**
@@ -4079,6 +4149,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 箪笥? <br>
+     * 箪笥
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode箪笥() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.箪笥) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 不止者? <br>
      * 不止者
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -4626,6 +4707,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isRequestSkillCode牧師() {
         CDef.Skill cdef = getRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.牧師) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 画鋲? <br>
+     * 画鋲
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode画鋲() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.画鋲) : false;
     }
 
     /**
@@ -5232,6 +5324,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of secondRequestSkillCode 箪笥? <br>
+     * 箪笥
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode箪笥() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.箪笥) : false;
+    }
+
+    /**
      * Is the value of secondRequestSkillCode 不止者? <br>
      * 不止者
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -5779,6 +5882,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode牧師() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.牧師) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 画鋲? <br>
+     * 画鋲
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode画鋲() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.画鋲) : false;
     }
 
     /**
