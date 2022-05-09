@@ -260,6 +260,10 @@ data class Village(
         return copy(participants = participants.bombKill(participantId, latestDay()))
     }
 
+    fun zakoKilledParticipant(participantId: Int): Village {
+        return copy(participants = participants.zakoKilled(participantId, latestDay()))
+    }
+
     fun suicideParticipant(participantId: Int): Village {
         return copy(participants = participants.suicide(participantId, latestDay()))
     }

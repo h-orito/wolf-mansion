@@ -110,7 +110,7 @@ map:{
             ; groupingMap = map:{
 	        		; miserable = map:{
 	        			; groupComment=無惨
-	        			; elementList= list:{襲撃;呪殺;罠死;爆死}
+	        			; elementList= list:{襲撃;呪殺;罠死;爆死;雑魚}
 	        		}
 	        	}
         }

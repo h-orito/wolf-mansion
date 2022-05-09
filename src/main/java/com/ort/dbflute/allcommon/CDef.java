@@ -2117,6 +2117,9 @@ public interface CDef extends Classification {
         ,
         /** 罠死 */
         罠死("TRAPPED", "罠死", emptyStrings())
+        ,
+        /** 雑魚 */
+        雑魚("ZAKO", "雑魚", emptyStrings())
         ;
         private static final Map<String, DeadReason> _codeClsMap = new HashMap<String, DeadReason>();
         private static final Map<String, DeadReason> _nameClsMap = new HashMap<String, DeadReason>();
@@ -2138,11 +2141,11 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * 無惨 <br>
-         * The group elements:[襲撃, 呪殺, 罠死, 爆死]
+         * The group elements:[襲撃, 呪殺, 罠死, 爆死, 雑魚]
          * @return The determination, true or false.
          */
         public boolean isMiserable() {
-            return 襲撃.equals(this) || 呪殺.equals(this) || 罠死.equals(this) || 爆死.equals(this);
+            return 襲撃.equals(this) || 呪殺.equals(this) || 罠死.equals(this) || 爆死.equals(this) || 雑魚.equals(this);
         }
 
         public boolean inGroup(String groupName) {
@@ -2233,11 +2236,11 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 無惨 <br>
-         * The group elements:[襲撃, 呪殺, 罠死, 爆死]
+         * The group elements:[襲撃, 呪殺, 罠死, 爆死, 雑魚]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<DeadReason> listOfMiserable() {
-            return new ArrayList<DeadReason>(Arrays.asList(襲撃, 呪殺, 罠死, 爆死));
+            return new ArrayList<DeadReason>(Arrays.asList(襲撃, 呪殺, 罠死, 爆死, 雑魚));
         }
 
         /**

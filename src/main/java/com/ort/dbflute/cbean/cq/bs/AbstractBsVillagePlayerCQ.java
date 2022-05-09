@@ -6830,6 +6830,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
         setDeadReasonCode_Equal_AsDeadReason(CDef.DeadReason.罠死);
     }
 
+    /**
+     * Equal(=). As 雑魚 (ZAKO). And OnlyOnceRegistered. <br>
+     * 雑魚
+     */
+    public void setDeadReasonCode_Equal_雑魚() {
+        setDeadReasonCode_Equal_AsDeadReason(CDef.DeadReason.雑魚);
+    }
+
     protected void doSetDeadReasonCode_Equal(String deadReasonCode) {
         regDeadReasonCode(CK_EQ, deadReasonCode);
     }
@@ -6909,6 +6917,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
         setDeadReasonCode_NotEqual_AsDeadReason(CDef.DeadReason.罠死);
     }
 
+    /**
+     * NotEqual(&lt;&gt;). As 雑魚 (ZAKO). And OnlyOnceRegistered. <br>
+     * 雑魚
+     */
+    public void setDeadReasonCode_NotEqual_雑魚() {
+        setDeadReasonCode_NotEqual_AsDeadReason(CDef.DeadReason.雑魚);
+    }
+
     protected void doSetDeadReasonCode_NotEqual(String deadReasonCode) {
         regDeadReasonCode(CK_NES, deadReasonCode);
     }
@@ -6936,7 +6952,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As DeadReason. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 死亡理由 <br>
      * 無惨 <br>
-     * The group elements:[襲撃, 呪殺, 罠死, 爆死]
+     * The group elements:[襲撃, 呪殺, 罠死, 爆死, 雑魚]
      */
     public void setDeadReasonCode_InScope_Miserable() {
         setDeadReasonCode_InScope_AsDeadReason(CDef.DeadReason.listOfMiserable());

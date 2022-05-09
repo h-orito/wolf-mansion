@@ -161,6 +161,14 @@ data class VillageParticipants(
         )
     }
 
+    fun zakoKilled(id: Int, day: Int): VillageParticipants {
+        return copy(
+            list = list.map {
+                if (it.id == id) it.zakoKilled(day) else it.copy()
+            }
+        )
+    }
+
     fun suicide(id: Int, day: Int): VillageParticipants {
         return copy(list = list.map { if (it.id == id) it.suicide(day) else it.copy() })
     }

@@ -185,6 +185,7 @@ data class VillageParticipant(
     fun attacked(day: Int): VillageParticipant = copy(dead = dead.attacked(day))
     fun trapKill(day: Int): VillageParticipant = copy(dead = dead.trapKill(day))
     fun bombKill(day: Int): VillageParticipant = copy(dead = dead.bombKill(day))
+    fun zakoKilled(day: Int): VillageParticipant = copy(dead = dead.zakoKilled(day))
     fun suicide(day: Int): VillageParticipant = copy(dead = dead.suicide(day))
     fun revive(day: Int): VillageParticipant = copy(dead = dead.revive(day))
     fun forceReincarnation(day: Int, skill: Skill): VillageParticipant =

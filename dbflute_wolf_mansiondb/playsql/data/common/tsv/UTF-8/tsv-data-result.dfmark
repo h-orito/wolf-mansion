@@ -11,7 +11,7 @@ data-directory: playsql/data/common/tsv/UTF-8
 03-VILLAGE_STATUS.tsv (6)
 04-SKILL.tsv (95)
 05-MESSAGE_TYPE.tsv (24)
-06-DEAD_REASON.tsv (7)
+06-DEAD_REASON.tsv (8)
 07-ABILITY_TYPE.tsv (36)
 08-DESIGNER.tsv (5)
 09-CHARA_GROUP.tsv (5)

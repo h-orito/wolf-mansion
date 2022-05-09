@@ -28,7 +28,7 @@ class DrawerDomainService(
                 roomNumber = drawer.room!!.number
             )
             passedParticipants.filter { it.isAlive() }.forEach { passed ->
-                village = village.attackedParticipant(passed.id)
+                village = village.zakoKilledParticipant(passed.id)
                 messages = messages.add(createHitMessage(village, passed))
             }
         }

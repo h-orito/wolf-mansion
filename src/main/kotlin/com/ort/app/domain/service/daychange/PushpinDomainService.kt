@@ -28,7 +28,7 @@ class PushpinDomainService(
                 roomNumber = pushpin.room!!.number
             )
             passedParticipants.filter { it.isAlive() }.forEach { passed ->
-                village = village.attackedParticipant(passed.id)
+                village = village.zakoKilledParticipant(passed.id)
                 messages = messages.add(createPinnedMessage(village, pushpin, passed))
             }
         }

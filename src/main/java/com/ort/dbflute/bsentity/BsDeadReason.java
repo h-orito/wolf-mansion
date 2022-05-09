@@ -173,6 +173,14 @@ public abstract class BsDeadReason extends AbstractEntity implements DomainEntit
         setDeadReasonCodeAsDeadReason(CDef.DeadReason.罠死);
     }
 
+    /**
+     * Set the value of deadReasonCode as 雑魚 (ZAKO). <br>
+     * 雑魚
+     */
+    public void setDeadReasonCode_雑魚() {
+        setDeadReasonCodeAsDeadReason(CDef.DeadReason.雑魚);
+    }
+
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
@@ -254,8 +262,19 @@ public abstract class BsDeadReason extends AbstractEntity implements DomainEntit
     }
 
     /**
+     * Is the value of deadReasonCode 雑魚? <br>
+     * 雑魚
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isDeadReasonCode雑魚() {
+        CDef.DeadReason cdef = getDeadReasonCodeAsDeadReason();
+        return cdef != null ? cdef.equals(CDef.DeadReason.雑魚) : false;
+    }
+
+    /**
      * 無惨 <br>
-     * The group elements:[襲撃, 呪殺, 罠死, 爆死]
+     * The group elements:[襲撃, 呪殺, 罠死, 爆死, 雑魚]
      * @return The determination, true or false.
      */
     public boolean isDeadReasonCode_Miserable() {
