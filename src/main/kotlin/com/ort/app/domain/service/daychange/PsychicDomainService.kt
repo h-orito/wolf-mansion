@@ -24,6 +24,7 @@ class PsychicDomainService(
         if (village.participants.filterAlive().filterBySkill(CDef.Skill.霊能者.toModel()).list.isNotEmpty()) {
             messages = messages.add(createPsychicMessage(village, targets))
         }
+        // 役職霊視
         if (village.participants.filterAlive().list.any { it.skill!!.hasSkillPsychicAbility() }) {
             messages = messages.add(createSkillPsychicMessage(village, targets))
         }

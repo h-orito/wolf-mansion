@@ -39,14 +39,24 @@ data class Skill(
     fun isViewableGuruMessage(): Boolean = toCdef().isHasSkillPsychicAbility
     fun isViewableAttackMessage(): Boolean = toCdef().isHasAttackAbility
     fun isViewableCoronerMessage(): Boolean = toCdef() == CDef.Skill.検死官
-    fun isViewableDivineMessage(): Boolean = listOf(CDef.Skill.占い師, CDef.Skill.占星術師, CDef.Skill.花占い師, CDef.Skill.感覚者).contains(toCdef())
+    fun isViewableDivineMessage(): Boolean =
+        listOf(CDef.Skill.占い師, CDef.Skill.占星術師, CDef.Skill.花占い師, CDef.Skill.感覚者, CDef.Skill.管狐).contains(toCdef())
+
     fun isViewableWiseMessage(): Boolean = toCdef() == CDef.Skill.賢者
     fun isViewableInvestigateMessage(): Boolean = toCdef() == CDef.Skill.探偵 || toCdef() == CDef.Skill.監視者
     fun isViewableLoversMessage(): Boolean = camp().code == CDef.Camp.恋人陣営.code()
     fun isViewableFoxMessage(): Boolean = toCdef() == CDef.Skill.誑狐
     fun isWolfCount(): Boolean = toCdef().isWolfCount
     fun isNoCount(): Boolean = toCdef().isNoCount
-    fun isFoxCount(): Boolean = listOf(CDef.Skill.妖狐, CDef.Skill.誑狐, CDef.Skill.ごん, CDef.Skill.仙狐).contains(toCdef())
+    fun isFoxCount(): Boolean = listOf(
+        CDef.Skill.妖狐,
+        CDef.Skill.誑狐,
+        CDef.Skill.ごん,
+        CDef.Skill.仙狐,
+        CDef.Skill.管狐,
+        CDef.Skill.稲荷
+    ).contains(toCdef())
+
     fun isDivineResultWolf(): Boolean = toCdef().isDivineResultWolf
     fun isPsychicResultWolf(): Boolean = toCdef().isPsychicResultWolf
     fun isDeadByDivine(): Boolean = isFoxCount()

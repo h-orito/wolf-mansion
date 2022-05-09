@@ -32,8 +32,8 @@ class DivineDomainService(
         votes: Votes
     ): List<VillageParticipant> = getAliveTargetsWithoutMyself(village, myself)
 
-    override fun getTargetPrefix(): String? = "占い対象"
-    override fun getTargetSuffix(): String? = "を占う"
+    override fun getTargetPrefix(): String = "占い対象"
+    override fun getTargetSuffix(): String = "を占う"
     override fun isTargetingAndFootstep(): Boolean = true
 
     fun addDefaultAbilities(daychange: Daychange): Daychange {
@@ -85,6 +85,7 @@ class DivineDomainService(
         val text: String = when (myself.skill!!.toCdef()) {
             CDef.Skill.占い師 -> createSeerDivineMessageText(myself, target)
             CDef.Skill.賢者 -> createWiseDivineMessageText(myself, target)
+            CDef.Skill.管狐 -> createWiseDivineMessageText(myself, target)
             CDef.Skill.占星術師 -> createAstrologerDivineMessageText(village, myself, target)
             CDef.Skill.花占い師 -> createFlowerDivineMessageText(myself, target)
             CDef.Skill.感覚者 -> creatSixthsensorDivineMessageText(village, myself, target)
@@ -93,6 +94,7 @@ class DivineDomainService(
         val type = when (myself.skill.toCdef()) {
             CDef.Skill.占い師 -> CDef.MessageType.白黒占い結果.toModel()
             CDef.Skill.賢者 -> CDef.MessageType.役職占い結果.toModel()
+            CDef.Skill.管狐 -> CDef.MessageType.白黒占い結果.toModel()
             CDef.Skill.占星術師 -> CDef.MessageType.白黒占い結果.toModel()
             CDef.Skill.花占い師 -> CDef.MessageType.白黒占い結果.toModel()
             CDef.Skill.感覚者 -> CDef.MessageType.白黒占い結果.toModel()

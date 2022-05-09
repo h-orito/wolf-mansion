@@ -746,6 +746,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
     }
 
     /**
+     * Equal(=). As 稲荷 (INARI). And OnlyOnceRegistered. <br>
+     * 稲荷
+     */
+    public void setSkillCode_Equal_稲荷() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.稲荷);
+    }
+
+    /**
      * Equal(=). As 煽動者 (INSTIGATOR). And OnlyOnceRegistered. <br>
      * 煽動者
      */
@@ -791,6 +799,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      */
     public void setSkillCode_Equal_金狼() {
         setSkillCode_Equal_AsSkill(CDef.Skill.金狼);
+    }
+
+    /**
+     * Equal(=). As 管狐 (KUDAFOX). And OnlyOnceRegistered. <br>
+     * 管狐
+     */
+    public void setSkillCode_Equal_管狐() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.管狐);
     }
 
     /**
@@ -1489,6 +1505,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 稲荷 (INARI). And OnlyOnceRegistered. <br>
+     * 稲荷
+     */
+    public void setSkillCode_NotEqual_稲荷() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.稲荷);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 煽動者 (INSTIGATOR). And OnlyOnceRegistered. <br>
      * 煽動者
      */
@@ -1534,6 +1558,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      */
     public void setSkillCode_NotEqual_金狼() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.金狼);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 管狐 (KUDAFOX). And OnlyOnceRegistered. <br>
+     * 管狐
+     */
+    public void setSkillCode_NotEqual_管狐() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.管狐);
     }
 
     /**
@@ -1935,7 +1967,7 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 占い能力を持つ <br>
-     * The group elements:[占い師, 賢者, 占星術師, 花占い師, 感覚者]
+     * The group elements:[占い師, 賢者, 占星術師, 花占い師, 感覚者, 管狐]
      */
     public void setSkillCode_InScope_HasDivineAbility() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDivineAbility());
@@ -1945,7 +1977,7 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 役職霊能能力を持つ <br>
-     * The group elements:[導師, 魔神官]
+     * The group elements:[導師, 魔神官, 稲荷]
      */
     public void setSkillCode_InScope_HasSkillPsychicAbility() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasSkillPsychicAbility());
@@ -1975,7 +2007,7 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 襲撃されても死なない <br>
-     * The group elements:[壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 爆弾魔]
+     * The group elements:[壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 爆弾魔]
      */
     public void setSkillCode_InScope_NoDeadByAttack() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfNoDeadByAttack());
@@ -1995,7 +2027,7 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 勝敗判定時、人間にも人狼にもカウントされない <br>
-     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 梟]
+     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 梟]
      */
     public void setSkillCode_InScope_NoCount() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfNoCount());

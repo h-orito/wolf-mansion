@@ -649,6 +649,9 @@ public interface CDef extends Classification {
         /** 背徳者 */
         背徳者("IMMORAL", "背徳者", emptyStrings())
         ,
+        /** 稲荷 */
+        稲荷("INARI", "稲荷", emptyStrings())
+        ,
         /** 煽動者 */
         煽動者("INSTIGATOR", "煽動者", emptyStrings())
         ,
@@ -666,6 +669,9 @@ public interface CDef extends Classification {
         ,
         /** 金狼 */
         金狼("KINWOLF", "金狼", emptyStrings())
+        ,
+        /** 管狐 */
+        管狐("KUDAFOX", "管狐", emptyStrings())
         ,
         /** 弁護士 */
         弁護士("LAWYER", "弁護士", emptyStrings())
@@ -1085,10 +1091,17 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "404");
+                subItemMap.put("order", "406");
                 subItemMap.put("campCode", "FOX");
                 subItemMap.put("skill_short_name", "背");
                 _subItemMapMap.put(背徳者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "405");
+                subItemMap.put("campCode", "FOX");
+                subItemMap.put("skill_short_name", "稲");
+                _subItemMapMap.put(稲荷.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -1131,6 +1144,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "WEREWOLF");
                 subItemMap.put("skill_short_name", "金");
                 _subItemMapMap.put(金狼.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "404");
+                subItemMap.put("campCode", "FOX");
+                subItemMap.put("skill_short_name", "管");
+                _subItemMapMap.put(管狐.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -1484,21 +1504,21 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * 占い能力を持つ <br>
-         * The group elements:[占い師, 賢者, 占星術師, 花占い師, 感覚者]
+         * The group elements:[占い師, 賢者, 占星術師, 花占い師, 感覚者, 管狐]
          * @return The determination, true or false.
          */
         public boolean isHasDivineAbility() {
-            return 占い師.equals(this) || 賢者.equals(this) || 占星術師.equals(this) || 花占い師.equals(this) || 感覚者.equals(this);
+            return 占い師.equals(this) || 賢者.equals(this) || 占星術師.equals(this) || 花占い師.equals(this) || 感覚者.equals(this) || 管狐.equals(this);
         }
 
         /**
          * Is the classification in the group? <br>
          * 役職霊能能力を持つ <br>
-         * The group elements:[導師, 魔神官]
+         * The group elements:[導師, 魔神官, 稲荷]
          * @return The determination, true or false.
          */
         public boolean isHasSkillPsychicAbility() {
-            return 導師.equals(this) || 魔神官.equals(this);
+            return 導師.equals(this) || 魔神官.equals(this) || 稲荷.equals(this);
         }
 
         /**
@@ -1524,11 +1544,11 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * 襲撃されても死なない <br>
-         * The group elements:[壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 爆弾魔]
+         * The group elements:[壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 爆弾魔]
          * @return The determination, true or false.
          */
         public boolean isNoDeadByAttack() {
-            return 壁殴り代行.equals(this) || 堅狼.equals(this) || 妖狐.equals(this) || 誑狐.equals(this) || ごん.equals(this) || 仙狐.equals(this) || 爆弾魔.equals(this);
+            return 壁殴り代行.equals(this) || 堅狼.equals(this) || 妖狐.equals(this) || 誑狐.equals(this) || ごん.equals(this) || 仙狐.equals(this) || 管狐.equals(this) || 稲荷.equals(this) || 爆弾魔.equals(this);
         }
 
         /**
@@ -1544,11 +1564,11 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * 勝敗判定時、人間にも人狼にもカウントされない <br>
-         * The group elements:[妖狐, 誑狐, ごん, 仙狐, 梟]
+         * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 梟]
          * @return The determination, true or false.
          */
         public boolean isNoCount() {
-            return 妖狐.equals(this) || 誑狐.equals(this) || ごん.equals(this) || 仙狐.equals(this) || 梟.equals(this);
+            return 妖狐.equals(this) || 誑狐.equals(this) || ごん.equals(this) || 仙狐.equals(this) || 管狐.equals(this) || 稲荷.equals(this) || 梟.equals(this);
         }
 
         /**
@@ -1723,21 +1743,21 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 占い能力を持つ <br>
-         * The group elements:[占い師, 賢者, 占星術師, 花占い師, 感覚者]
+         * The group elements:[占い師, 賢者, 占星術師, 花占い師, 感覚者, 管狐]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfHasDivineAbility() {
-            return new ArrayList<Skill>(Arrays.asList(占い師, 賢者, 占星術師, 花占い師, 感覚者));
+            return new ArrayList<Skill>(Arrays.asList(占い師, 賢者, 占星術師, 花占い師, 感覚者, 管狐));
         }
 
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 役職霊能能力を持つ <br>
-         * The group elements:[導師, 魔神官]
+         * The group elements:[導師, 魔神官, 稲荷]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfHasSkillPsychicAbility() {
-            return new ArrayList<Skill>(Arrays.asList(導師, 魔神官));
+            return new ArrayList<Skill>(Arrays.asList(導師, 魔神官, 稲荷));
         }
 
         /**
@@ -1763,11 +1783,11 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 襲撃されても死なない <br>
-         * The group elements:[壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 爆弾魔]
+         * The group elements:[壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 爆弾魔]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfNoDeadByAttack() {
-            return new ArrayList<Skill>(Arrays.asList(壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 爆弾魔));
+            return new ArrayList<Skill>(Arrays.asList(壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 爆弾魔));
         }
 
         /**
@@ -1783,11 +1803,11 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 勝敗判定時、人間にも人狼にもカウントされない <br>
-         * The group elements:[妖狐, 誑狐, ごん, 仙狐, 梟]
+         * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 梟]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfNoCount() {
-            return new ArrayList<Skill>(Arrays.asList(妖狐, 誑狐, ごん, 仙狐, 梟));
+            return new ArrayList<Skill>(Arrays.asList(妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 梟));
         }
 
         /**

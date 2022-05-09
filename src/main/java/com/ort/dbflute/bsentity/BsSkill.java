@@ -476,6 +476,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Set the value of skillCode as 稲荷 (INARI). <br>
+     * 稲荷
+     */
+    public void setSkillCode_稲荷() {
+        setSkillCodeAsSkill(CDef.Skill.稲荷);
+    }
+
+    /**
      * Set the value of skillCode as 煽動者 (INSTIGATOR). <br>
      * 煽動者
      */
@@ -521,6 +529,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
      */
     public void setSkillCode_金狼() {
         setSkillCodeAsSkill(CDef.Skill.金狼);
+    }
+
+    /**
+     * Set the value of skillCode as 管狐 (KUDAFOX). <br>
+     * 管狐
+     */
+    public void setSkillCode_管狐() {
+        setSkillCodeAsSkill(CDef.Skill.管狐);
     }
 
     /**
@@ -1359,6 +1375,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Is the value of skillCode 稲荷? <br>
+     * 稲荷
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode稲荷() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.稲荷) : false;
+    }
+
+    /**
      * Is the value of skillCode 煽動者? <br>
      * 煽動者
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1422,6 +1449,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isSkillCode金狼() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.金狼) : false;
+    }
+
+    /**
+     * Is the value of skillCode 管狐? <br>
+     * 管狐
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode管狐() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.管狐) : false;
     }
 
     /**
@@ -1930,7 +1968,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * 占い能力を持つ <br>
-     * The group elements:[占い師, 賢者, 占星術師, 花占い師, 感覚者]
+     * The group elements:[占い師, 賢者, 占星術師, 花占い師, 感覚者, 管狐]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_HasDivineAbility() {
@@ -1940,7 +1978,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * 役職霊能能力を持つ <br>
-     * The group elements:[導師, 魔神官]
+     * The group elements:[導師, 魔神官, 稲荷]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_HasSkillPsychicAbility() {
@@ -1970,7 +2008,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * 襲撃されても死なない <br>
-     * The group elements:[壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 爆弾魔]
+     * The group elements:[壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 爆弾魔]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_NoDeadByAttack() {
@@ -1990,7 +2028,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * 勝敗判定時、人間にも人狼にもカウントされない <br>
-     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 梟]
+     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 梟]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_NoCount() {
