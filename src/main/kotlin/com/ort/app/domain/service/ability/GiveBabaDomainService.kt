@@ -38,7 +38,7 @@ class GiveBabaDomainService(
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
     override fun isTargetingAndFootstep(): Boolean = true
     override fun getTargetPrefix(): String = "ババを押し付ける対象"
-    override fun getTargetSuffix(): String? = "にババを押し付ける"
+    override fun getTargetSuffix(): String = "にババを押し付ける"
 
     fun giveBaba(daychange: Daychange): Daychange {
         var village = daychange.village.copy()

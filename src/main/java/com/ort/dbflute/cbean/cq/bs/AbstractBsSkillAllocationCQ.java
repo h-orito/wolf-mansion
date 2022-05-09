@@ -912,6 +912,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
     }
 
     /**
+     * Equal(=). As 当選者 (WINNER). And OnlyOnceRegistered. <br>
+     * 当選者
+     */
+    public void setSkillCode_Equal_当選者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.当選者);
+    }
+
+    /**
      * Equal(=). As 賢者 (WISE). And OnlyOnceRegistered. <br>
      * 賢者
      */
@@ -1668,6 +1676,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
      */
     public void setSkillCode_NotEqual_おまかせ人狼陣営() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ人狼陣営);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 当選者 (WINNER). And OnlyOnceRegistered. <br>
+     * 当選者
+     */
+    public void setSkillCode_NotEqual_当選者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.当選者);
     }
 
     /**

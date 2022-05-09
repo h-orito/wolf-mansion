@@ -390,6 +390,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 当選 (WIN). <br>
+     * 当選
+     */
+    public void setAbilityTypeCode_当選() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.当選);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 指差死 (YUBISASHI). <br>
      * 指差死
      */
@@ -772,6 +780,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode風来護衛() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.風来護衛) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 当選? <br>
+     * 当選
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode当選() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.当選) : false;
     }
 
     /**

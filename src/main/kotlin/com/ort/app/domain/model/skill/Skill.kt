@@ -85,11 +85,11 @@ data class Skill(
 
     companion object {
 
-        private val skillToAbility = CDef.Skill.listOfHasAttackAbility().map {
-            it to AbilityType(CDef.AbilityType.襲撃)
-        }.toMap() + CDef.Skill.listOfHasDivineAbility().map {
-            it to AbilityType(CDef.AbilityType.占い)
-        }.toMap() + mapOf(
+        private val skillToAbility = CDef.Skill.listOfHasAttackAbility().associateWith {
+            AbilityType(CDef.AbilityType.襲撃)
+        } + CDef.Skill.listOfHasDivineAbility().associateWith {
+            AbilityType(CDef.AbilityType.占い)
+        } + mapOf(
             CDef.Skill.狩人 to AbilityType(CDef.AbilityType.護衛),
             CDef.Skill.風来狩人 to AbilityType(CDef.AbilityType.風来護衛),
             CDef.Skill.壁殴り代行 to AbilityType(CDef.AbilityType.壁殴り),
@@ -117,6 +117,7 @@ data class Skill(
             CDef.Skill.蘇生者 to AbilityType(CDef.AbilityType.蘇生),
             CDef.Skill.死霊術師 to AbilityType(CDef.AbilityType.死霊蘇生),
             CDef.Skill.ババ to AbilityType(CDef.AbilityType.ババを渡す),
+            CDef.Skill.当選者 to AbilityType(CDef.AbilityType.当選),
             CDef.Skill.不止者 to AbilityType(CDef.AbilityType.指差死),
             CDef.Skill.保険屋 to AbilityType(CDef.AbilityType.保険),
             CDef.Skill.翻訳者 to AbilityType(CDef.AbilityType.翻訳),
@@ -126,9 +127,9 @@ data class Skill(
             CDef.Skill.バールのようなもの to AbilityType(CDef.AbilityType.殴打)
         )
 
-        private val shortNameToSkill = Skills.all().filterNotSomeone().list.map {
+        private val shortNameToSkill = Skills.all().filterNotSomeone().list.associate {
             it.shortName to it.toCdef()
-        }.toMap()
+        }
 
         private val villagerSkills = Skills.all().filterNotSomeone().filterByCamp(CDef.Camp.村人陣営).list
         private val wolfSkills = Skills.all().filterNotSomeone().filterByCamp(CDef.Camp.人狼陣営).list

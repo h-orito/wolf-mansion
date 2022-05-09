@@ -254,6 +254,8 @@ data class VillageParticipant(
         isWin = when {
             // ババは必ず敗北
             skill!!.toCdef() == CDef.Skill.ババ -> false
+            // 当選者は必ず勝利
+            skill!!.toCdef() == CDef.Skill.当選者 -> true
             // 愉快犯陣営は生存していれば勝利
             camp!!.isCriminals() -> isAlive()
             // 勝敗判定陣営が一致していたら勝利

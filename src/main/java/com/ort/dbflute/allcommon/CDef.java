@@ -799,6 +799,9 @@ public interface CDef extends Classification {
         /** おまかせ（人狼陣営） */
         おまかせ人狼陣営("WEREWOLFS", "おまかせ（人狼陣営）", emptyStrings())
         ,
+        /** 当選者 */
+        当選者("WINNER", "当選者", emptyStrings())
+        ,
         /** 賢者 */
         賢者("WISE", "賢者", emptyStrings())
         ,
@@ -1378,7 +1381,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "510");
+                subItemMap.put("order", "511");
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "泥");
                 _subItemMapMap.put(泥棒猫.code(), Collections.unmodifiableMap(subItemMap));
@@ -1445,6 +1448,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "お");
                 _subItemMapMap.put(おまかせ人狼陣営.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "510");
+                subItemMap.put("campCode", "CRIMINAL");
+                subItemMap.put("skill_short_name", "当");
+                _subItemMapMap.put(当選者.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -2328,6 +2338,9 @@ public interface CDef extends Classification {
         ,
         /** 風来護衛 */
         風来護衛("WANDERERGUARD", "風来護衛", emptyStrings())
+        ,
+        /** 当選 */
+        当選("WIN", "当選", emptyStrings())
         ,
         /** 指差死 */
         指差死("YUBISASHI", "指差死", emptyStrings())

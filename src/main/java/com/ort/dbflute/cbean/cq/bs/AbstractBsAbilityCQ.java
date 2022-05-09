@@ -1004,6 +1004,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 当選 (WIN). And OnlyOnceRegistered. <br>
+     * 当選
+     */
+    public void setAbilityTypeCode_Equal_当選() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.当選);
+    }
+
+    /**
      * Equal(=). As 指差死 (YUBISASHI). And OnlyOnceRegistered. <br>
      * 指差死
      */
@@ -1304,6 +1312,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_風来護衛() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.風来護衛);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 当選 (WIN). And OnlyOnceRegistered. <br>
+     * 当選
+     */
+    public void setAbilityTypeCode_NotEqual_当選() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.当選);
     }
 
     /**

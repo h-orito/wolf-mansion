@@ -45,6 +45,7 @@ class ProgressDomainService(
     private val translateDomainService: TranslateDomainService,
     private val forceReincarnationDomainService: ForceReincarnationDomainService,
     private val giveBabaDomainService: GiveBabaDomainService,
+    private val giveWinDomainService: GiveWinDomainService,
     private val resuscitateDomainService: ResuscitateDomainService,
     private val necromanceDomainService: NecromanceDomainService,
     private val yubisashiDomainService: YubisashiDomainService,
@@ -140,6 +141,8 @@ class ProgressDomainService(
         daychange = forceReincarnationDomainService.forceReincarnation(daychange)
         // ババを渡す
         daychange = giveBabaDomainService.giveBaba(daychange)
+        // 当選権利を譲る
+        daychange = giveWinDomainService.giveWin(daychange)
         // 蘇生
         daychange = resuscitateDomainService.resuscitate(daychange)
         // 死霊蘇生

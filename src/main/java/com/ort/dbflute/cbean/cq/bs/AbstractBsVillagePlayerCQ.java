@@ -1993,6 +1993,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 当選者 (WINNER). And OnlyOnceRegistered. <br>
+     * 当選者
+     */
+    public void setSkillCode_Equal_当選者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.当選者);
+    }
+
+    /**
      * Equal(=). As 賢者 (WISE). And OnlyOnceRegistered. <br>
      * 賢者
      */
@@ -2749,6 +2757,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_おまかせ人狼陣営() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ人狼陣営);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 当選者 (WINNER). And OnlyOnceRegistered. <br>
+     * 当選者
+     */
+    public void setSkillCode_NotEqual_当選者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.当選者);
     }
 
     /**
@@ -3708,6 +3724,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 当選者 (WINNER). And OnlyOnceRegistered. <br>
+     * 当選者
+     */
+    public void setRequestSkillCode_Equal_当選者() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.当選者);
+    }
+
+    /**
      * Equal(=). As 賢者 (WISE). And OnlyOnceRegistered. <br>
      * 賢者
      */
@@ -4464,6 +4488,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_おまかせ人狼陣営() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ人狼陣営);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 当選者 (WINNER). And OnlyOnceRegistered. <br>
+     * 当選者
+     */
+    public void setRequestSkillCode_NotEqual_当選者() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.当選者);
     }
 
     /**
@@ -5423,6 +5455,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 当選者 (WINNER). And OnlyOnceRegistered. <br>
+     * 当選者
+     */
+    public void setSecondRequestSkillCode_Equal_当選者() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.当選者);
+    }
+
+    /**
      * Equal(=). As 賢者 (WISE). And OnlyOnceRegistered. <br>
      * 賢者
      */
@@ -6179,6 +6219,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_おまかせ人狼陣営() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ人狼陣営);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 当選者 (WINNER). And OnlyOnceRegistered. <br>
+     * 当選者
+     */
+    public void setSecondRequestSkillCode_NotEqual_当選者() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.当選者);
     }
 
     /**

@@ -1093,6 +1093,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 当選者 (WINNER). <br>
+     * 当選者
+     */
+    public void setSkillCode_当選者() {
+        setSkillCodeAsSkill(CDef.Skill.当選者);
+    }
+
+    /**
      * Set the value of skillCode as 賢者 (WISE). <br>
      * 賢者
      */
@@ -1829,6 +1837,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 当選者 (WINNER). <br>
+     * 当選者
+     */
+    public void setRequestSkillCode_当選者() {
+        setRequestSkillCodeAsSkill(CDef.Skill.当選者);
+    }
+
+    /**
      * Set the value of requestSkillCode as 賢者 (WISE). <br>
      * 賢者
      */
@@ -2562,6 +2578,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_おまかせ人狼陣営() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.おまかせ人狼陣営);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 当選者 (WINNER). <br>
+     * 当選者
+     */
+    public void setSecondRequestSkillCode_当選者() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.当選者);
     }
 
     /**
@@ -3691,6 +3715,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCodeおまかせ人狼陣営() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.おまかせ人狼陣営) : false;
+    }
+
+    /**
+     * Is the value of skillCode 当選者? <br>
+     * 当選者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode当選者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.当選者) : false;
     }
 
     /**
@@ -4836,6 +4871,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 当選者? <br>
+     * 当選者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode当選者() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.当選者) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 賢者? <br>
      * 賢者
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -5975,6 +6021,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCodeおまかせ人狼陣営() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.おまかせ人狼陣営) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 当選者? <br>
+     * 当選者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode当選者() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.当選者) : false;
     }
 
     /**

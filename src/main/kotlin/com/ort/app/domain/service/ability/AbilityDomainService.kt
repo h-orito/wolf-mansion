@@ -62,6 +62,7 @@ class AbilityDomainService(
     private val necromanceDomainService: NecromanceDomainService,
     private val forceReincarnationDomainService: ForceReincarnationDomainService,
     private val giveBabaDomainService: GiveBabaDomainService,
+    private val giveWinDomainService: GiveWinDomainService,
     private val yubisashiDomainService: YubisashiDomainService,
     private val messageDomainService: MessageDomainService,
     private val footstepDomainService: FootstepDomainService
@@ -150,6 +151,7 @@ class AbilityDomainService(
             CDef.AbilityType.蘇生 -> resuscitateDomainService
             CDef.AbilityType.死霊蘇生 -> necromanceDomainService
             CDef.AbilityType.ババを渡す -> giveBabaDomainService
+            CDef.AbilityType.当選 -> giveWinDomainService
             CDef.AbilityType.指差死 -> yubisashiDomainService
             CDef.AbilityType.保険 -> insuranceDomainService
             CDef.AbilityType.狩猟 -> huntingDomainService
@@ -491,6 +493,8 @@ class AbilityDomainService(
         daychange = guardDomainService.addDefaultAbilities(daychange)
         // 捜査
         daychange = investigateDomainService.addDefaultAbilities(daychange)
+        // 当選
+        daychange = giveWinDomainService.addDefaultAbilities(daychange)
 
         return daychange
     }
