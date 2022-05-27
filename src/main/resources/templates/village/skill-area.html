@@ -207,6 +207,137 @@
                     </div>
                 </div>
             </div>
+            <!--/* 最初の1回だけ役職をモーダルで表示する */-->
+            <div class="modal fade" id="modal-initial-skill-description" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body row">
+                            <div class="col-sm-12 col-xs-12">
+                                <h5>村が開始されました。役職とルールは以下の通りです。</h5>
+                            </div>
+                            <div class="col-sm-12 col-xs-12">
+                                <h5>役職</h5>
+                                <p class="small"
+                                   th:if="${content.myself != null && content.myself.skill != null}"
+                                   th:utext="#{${'skill.' + content.myself.skill.code.toLowerCase() + '.description'}}"></p>
+                            </div>
+                            <div class="col-sm-12 col-xs-12">
+                                <h5>村の設定</h5>
+                                <div class="table-responsive clearfix">
+                                    <table class="table table-bordered table-condensed"
+                                           th:object="${content.settings}">
+                                        <tr>
+                                            <th>更新間隔</th>
+                                            <td th:text="*{dayChangeInterval}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>投票形式</th>
+                                            <td th:text="*{voteType}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>同一人狼による連続襲撃</th>
+                                            <td th:text="*{availableSameWolfAttack ? '可能' : '不可(狼2以下編成の場合は可能に変更されます)'}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>狩人による連続護衛</th>
+                                            <td th:text="*{availableGuardSameTarget ? '可能' : '不可'}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>突然死</th>
+                                            <td th:text="*{availableSuddenlyDeath ? 'あり' : 'なし'}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>コミット</th>
+                                            <td th:text="*{availableCommit ? 'あり' : 'なし'}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>ダミーキャラ</th>
+                                            <td th:text="*{dummyCharaName}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>役職構成</th>
+                                            <td th:unless="*{randomOrganization}">
+                                                <th:block th:if="*{organization}">
+                                                    <th:block
+                                                            th:each="str, stat : *{organization.split('\r\n|\r|\n', -1)}">
+                                                        <th:block th:text="${str}"/>
+                                                        <br th:if="${!stat.last}"/>
+                                                    </th:block>
+                                                </th:block>
+                                            </td>
+                                            <td th:if="*{randomOrganization}">
+                                                闇鍋編成のため非表示
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>発言制限（通常発言）</th>
+                                            <td>
+                                                <table class="table-bordered table-condensed small">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>役職</th>
+                                                        <th>制限</th>
+                                                        <th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <th:block
+                                                            th:each="restrict, stat : ${content.settings.sayRestrictList}">
+                                                        <tr>
+                                                            <td th:text="${restrict.skillName}">村人</td>
+                                                            <td th:text="${restrict.restrict ? 'あり' : '無制限'}"></td>
+                                                            <td>
+                                                        <span th:if="${restrict.restrict}"
+                                                              th:text="${restrict.length} + ' * ' + ${restrict.count}"></span>
+                                                            </td>
+                                                        </tr>
+                                                    </th:block>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>発言制限（役職発言）</th>
+                                            <td>
+                                                <table class="table-bordered table-condensed small">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>発言種別</th>
+                                                        <th>制限</th>
+                                                        <th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <th:block
+                                                            th:each="restrict, stat : ${content.settings.skillSayRestrictList}">
+                                                        <tr>
+                                                            <td th:text="${restrict.messageTypeName}">人狼の囁き</td>
+                                                            <td th:text="${restrict.restrict ? 'あり' : '無制限'}"></td>
+                                                            <td>
+                                                        <span th:if="${restrict.restrict}"
+                                                              th:text="${restrict.length} + ' * ' + ${restrict.count}"></span>
+                                                            </td>
+                                                        </tr>
+                                                    </th:block>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="clearfix col-sm-12 col-xs-12 small">
+                                <a href="javascript:void(0);" id="initial-skill-confirm"
+                                   class="btn btn-success btn-sm pull-right small" data-dismiss="modal"
+                                   style="margin-right: 10px;">確認したので次回以降表示しない</a>
+                            </div>
+                            <div class="clearfix col-sm-12 col-xs-12 small" style="margin-top: 10px;">
+                                <a th:href="@{/faq}" class="pull-right" target="_blank" style="margin-right: 10px;">ボタンを押しても何度も表示される場合</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
