@@ -224,7 +224,8 @@ data class VillageSettingForm(
         skillSayRestrictList = listOf(
             MessageType(CDef.MessageType.人狼の囁き),
             MessageType(CDef.MessageType.共鳴発言),
-            MessageType(CDef.MessageType.恋人発言)
+            MessageType(CDef.MessageType.恋人発言),
+            MessageType(CDef.MessageType.念話),
         ).map { mt ->
             val restrict = village.setting.sayRestriction.skillSayRestriction.find { it.messageType.code == mt.code }
             MessageTypeSayRestrictForm(
