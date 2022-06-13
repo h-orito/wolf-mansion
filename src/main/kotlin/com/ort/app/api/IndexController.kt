@@ -28,8 +28,7 @@ class IndexController(
     private val villageService: VillageService,
     private val playerService: PlayerService,
     private val charaService: CharaService,
-    private val campService: CampService,
-    private val translateRepository: TranslateRepository
+    private val campService: CampService
 ) {
 
     @GetMapping("/")
