@@ -42,7 +42,8 @@ class CharaDataSource(
         }
         charaGroupBhv.load(groupList) { loader ->
             loader.loadChara {
-                it.query().addOrderBy_DefaultJoinMessage_Asc().withNullsLast()
+                it.query().addOrderBy_DefaultJoinMessage_Desc().withNullsLast()
+                it.query().addOrderBy_CharaId_Asc()
             }.withNestedReferrer { charaLoader ->
                 charaLoader.loadCharaImage {
                     it.query().setFaceTypeCode_Equal_通常()
