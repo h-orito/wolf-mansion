@@ -93,7 +93,10 @@
                                  data-secret-say-target>
                                 <label class="control-label">秘話相手</label>
                                 <select class="form-control" th:field="*{secretSayTargetCharaId}"
-                                        th:if="${content.form.say.availableSecretSay}">
+                                        th:if="${content.form.say.availableSecretSay}"
+                                        data-secret-say-target-select
+                                >
+                                    <option value="">秘話相手を選択してください</option>
                                     <option th:each="chara : ${content.form.say.secretSayTargetList}"
                                             th:value="${chara.value}" th:text="${chara.name}"></option>
                                 </select>
@@ -226,11 +229,11 @@
                              style="border: 1px solid #464545; padding: 5px;"
                              th:if="${content.form.say.secretSayTargetList}"
                              th:each="chara : ${content.form.say.secretSayTargetList}">
-								                        <span style="display: block; text-align: center;">
-                                                            <img src="" th:src="${chara.url}"
-                                                                 th:width="${chara.width}"
-                                                                 th:height="${chara.height}"/>
-                                                        </span>
+                            <span style="display: block; text-align: center;">
+                                <img src="" th:src="${chara.url}"
+                                     th:width="${chara.width}"
+                                     th:height="${chara.height}"/>
+                            </span>
                             <span style="display: block; text-align: center;"
                                   th:text="${chara.name}"></span>
                             <a href="javascript:void(0);" class="btn btn-xs btn-success"

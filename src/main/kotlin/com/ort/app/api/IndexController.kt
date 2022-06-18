@@ -12,7 +12,6 @@ import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.player.canCreateVillage
-import com.ort.app.domain.model.translate.TranslateRepository
 import com.ort.app.domain.model.village.VillageQuery
 import com.ort.app.domain.model.village.VillageStatus
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
@@ -21,15 +20,13 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ResponseBody
-import java.time.LocalDateTime
 
 @Controller
 class IndexController(
     private val villageService: VillageService,
     private val playerService: PlayerService,
     private val charaService: CharaService,
-    private val campService: CampService,
-    private val translateRepository: TranslateRepository
+    private val campService: CampService
 ) {
 
     @GetMapping("/")

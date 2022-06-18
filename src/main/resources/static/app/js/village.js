@@ -456,6 +456,12 @@ $(function () {
         const charaId = $(this).data('select-secretsay-chara');
         $('#secretSayTargetCharaId').val(charaId);
         $('#modal-select-secretsay-target-chara').modal('hide');
+        disabledSubmitButtonIfNeeded();
+    });
+
+    // 秘話相手選択
+    $('[data-secret-say-target-select]').on('change', function () {
+        disabledSubmitButtonIfNeeded();
     });
 
     // 発言確認を表示
@@ -701,17 +707,8 @@ $(function () {
         const line = $textarea.val().split('\n').length;
         const lineStr = '行数: ' + line + '/20';
         $countspan.text(countStr + lenStr + lineStr);
-        const $submitbtn = $textarea.closest('form').find('[data-message-submit-btn]');
-        if (len > restrict.length || line > 20 || (restrict.leftCount != null && restrict.leftCount <= 0)) {
-            $countspan.addClass('text-danger');
-            $submitbtn.prop('disabled', true);
-        } else {
-            $countspan.removeClass('text-danger');
-            $submitbtn.prop('disabled', false);
-        }
-        if ($textarea.val().trim().length == 0) {
-            $submitbtn.prop('disabled', true);
-        }
+
+        disabledSubmitButtonIfNeeded();
     }
 
     function getRestriction(messageType, $countspan) {
@@ -740,8 +737,34 @@ $(function () {
             leftCount = $countspan.data('message-restrict-telepathy-left-count');
         }
         return {
-            length: length != null ? length : 400, count: count, leftCount: leftCount
+            length: length != null ? length : 400,
+            count: count,
+            leftCount: leftCount
         };
+    }
+
+    function disabledSubmitButtonIfNeeded() {
+        const messageType = $('[data-say-type] .active input').val();
+        const $textarea = $('[data-say-textarea]');
+        const $countspan = $textarea.closest('form').find('[data-message-count]');
+        const restrict = getRestriction(messageType, $countspan);
+        const $submitbtn = $textarea.closest('form').find('[data-message-submit-btn]');
+        const len = $textarea.val().length;
+        const line = $textarea.val().split('\n').length;
+
+        if (len > restrict.length || line > 20 || (restrict.leftCount != null && restrict.leftCount <= 0)) {
+            $countspan.addClass('text-danger');
+            $submitbtn.prop('disabled', true);
+        } else {
+            $countspan.removeClass('text-danger');
+            $submitbtn.prop('disabled', false);
+        }
+        if ($textarea.val().trim().length == 0) {
+            $submitbtn.prop('disabled', true);
+        }
+        if (messageType === 'SECRET_SAY' && $('[data-secret-say-target] select').val() === '') {
+            $submitbtn.prop('disabled', true);
+        }
     }
 
     $('body').on('keyup', '[data-creator-say-textarea]', function () {
@@ -888,7 +911,7 @@ $(function () {
     // ----------------------------------------------
     // 抽出
     // ----------------------------------------------
-    $('#filter-button').on('click', function(){
+    $('#filter-button').on('click', function () {
         if ($(this).hasClass('active')) {
             resetFilter();
             return false; // modalを開かない
@@ -1449,7 +1472,7 @@ $(function () {
         $('#modal-select-participate-chara').modal('hide');
     });
 
-    $('[data-selectable-chara-next-page]').on('click', function() {
+    $('[data-selectable-chara-next-page]').on('click', function () {
         const $page = $('[data-selectable-chara-page]');
         const page = $page.data('selectable-chara-page');
         const max = $('[data-selectable-chara-count]').data('selectable-chara-count');
@@ -1469,7 +1492,7 @@ $(function () {
         });
     });
 
-    $('[data-selectable-chara-previous-page]').on('click', function() {
+    $('[data-selectable-chara-previous-page]').on('click', function () {
         const $page = $('[data-selectable-chara-page]');
         const page = $page.data('selectable-chara-page');
         if (page === 1) return;
@@ -1628,7 +1651,7 @@ $(function () {
         const $saytypes = $('[data-say-type]');
         if ($saytypes.length <= 0) return;
         let $secretLabel = null;
-        $saytypes.find('label').each(function(){
+        $saytypes.find('label').each(function () {
             const $label = $(this);
             if ($(this).text().trim() === '秘話') $secretLabel = $label;
         });
@@ -1654,7 +1677,7 @@ $(function () {
         $replyToContentArea.append($message);
     });
 
-    $(document).on('change', ':file', function() {
+    $(document).on('change', ':file', function () {
         const input = $(this)
         const label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
         input.parent().parent().next(':text').val(label);

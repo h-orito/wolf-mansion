@@ -65,6 +65,8 @@ data class VillageParticipantsContent(
                 val list = mutableListOf<String>()
                 if (status.hasLover()) list.add("恋絆")
                 if (status.isFoxPossessioned()) list.add("狐憑き")
+                if (status.isInsaned()) list.add("狂気")
+                if (status.isPersuaded()) list.add("信念")
                 return list
             }
 
