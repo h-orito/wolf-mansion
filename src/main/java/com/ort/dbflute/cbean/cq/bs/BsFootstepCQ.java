@@ -113,6 +113,26 @@ public class BsFootstepCQ extends AbstractBsFootstepCQ {
      */
     public BsFootstepCQ addOrderBy_Day_Desc() { regOBD("DAY"); return this; }
 
+    protected ConditionValue _registerCharaId;
+    public ConditionValue xdfgetRegisterCharaId()
+    { if (_registerCharaId == null) { _registerCharaId = nCV(); }
+      return _registerCharaId; }
+    protected ConditionValue xgetCValueRegisterCharaId() { return xdfgetRegisterCharaId(); }
+
+    /**
+     * Add order-by as ascend. <br>
+     * REGISTER_CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * @return this. (NotNull)
+     */
+    public BsFootstepCQ addOrderBy_RegisterCharaId_Asc() { regOBA("REGISTER_CHARA_ID"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * REGISTER_CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * @return this. (NotNull)
+     */
+    public BsFootstepCQ addOrderBy_RegisterCharaId_Desc() { regOBD("REGISTER_CHARA_ID"); return this; }
+
     protected ConditionValue _charaId;
     public ConditionValue xdfgetCharaId()
     { if (_charaId == null) { _charaId = nCV(); }
@@ -121,14 +141,14 @@ public class BsFootstepCQ extends AbstractBsFootstepCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
      */
     public BsFootstepCQ addOrderBy_CharaId_Asc() { regOBA("CHARA_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @return this. (NotNull)
      */
     public BsFootstepCQ addOrderBy_CharaId_Desc() { regOBD("CHARA_ID"); return this; }

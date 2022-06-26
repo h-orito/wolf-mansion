@@ -432,6 +432,135 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * ATTACKER_CHARA_ID: {INT UNSIGNED(10)}
+     * @param attackerCharaId The value of attackerCharaId as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setAttackerCharaId_Equal(Integer attackerCharaId) {
+        doSetAttackerCharaId_Equal(attackerCharaId);
+    }
+
+    protected void doSetAttackerCharaId_Equal(Integer attackerCharaId) {
+        regAttackerCharaId(CK_EQ, attackerCharaId);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * ATTACKER_CHARA_ID: {INT UNSIGNED(10)}
+     * @param attackerCharaId The value of attackerCharaId as notEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setAttackerCharaId_NotEqual(Integer attackerCharaId) {
+        doSetAttackerCharaId_NotEqual(attackerCharaId);
+    }
+
+    protected void doSetAttackerCharaId_NotEqual(Integer attackerCharaId) {
+        regAttackerCharaId(CK_NES, attackerCharaId);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * ATTACKER_CHARA_ID: {INT UNSIGNED(10)}
+     * @param attackerCharaId The value of attackerCharaId as greaterThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setAttackerCharaId_GreaterThan(Integer attackerCharaId) {
+        regAttackerCharaId(CK_GT, attackerCharaId);
+    }
+
+    /**
+     * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * ATTACKER_CHARA_ID: {INT UNSIGNED(10)}
+     * @param attackerCharaId The value of attackerCharaId as lessThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setAttackerCharaId_LessThan(Integer attackerCharaId) {
+        regAttackerCharaId(CK_LT, attackerCharaId);
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * ATTACKER_CHARA_ID: {INT UNSIGNED(10)}
+     * @param attackerCharaId The value of attackerCharaId as greaterEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setAttackerCharaId_GreaterEqual(Integer attackerCharaId) {
+        regAttackerCharaId(CK_GE, attackerCharaId);
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * ATTACKER_CHARA_ID: {INT UNSIGNED(10)}
+     * @param attackerCharaId The value of attackerCharaId as lessEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setAttackerCharaId_LessEqual(Integer attackerCharaId) {
+        regAttackerCharaId(CK_LE, attackerCharaId);
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * ATTACKER_CHARA_ID: {INT UNSIGNED(10)}
+     * @param minNumber The min number of attackerCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of attackerCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param opLambda The callback for option of range-of. (NotNull)
+     */
+    public void setAttackerCharaId_RangeOf(Integer minNumber, Integer maxNumber, ConditionOptionCall<RangeOfOption> opLambda) {
+        setAttackerCharaId_RangeOf(minNumber, maxNumber, xcROOP(opLambda));
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * ATTACKER_CHARA_ID: {INT UNSIGNED(10)}
+     * @param minNumber The min number of attackerCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of attackerCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param rangeOfOption The option of range-of. (NotNull)
+     */
+    protected void setAttackerCharaId_RangeOf(Integer minNumber, Integer maxNumber, RangeOfOption rangeOfOption) {
+        regROO(minNumber, maxNumber, xgetCValueAttackerCharaId(), "ATTACKER_CHARA_ID", rangeOfOption);
+    }
+
+    /**
+     * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * ATTACKER_CHARA_ID: {INT UNSIGNED(10)}
+     * @param attackerCharaIdList The collection of attackerCharaId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setAttackerCharaId_InScope(Collection<Integer> attackerCharaIdList) {
+        doSetAttackerCharaId_InScope(attackerCharaIdList);
+    }
+
+    protected void doSetAttackerCharaId_InScope(Collection<Integer> attackerCharaIdList) {
+        regINS(CK_INS, cTL(attackerCharaIdList), xgetCValueAttackerCharaId(), "ATTACKER_CHARA_ID");
+    }
+
+    /**
+     * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * ATTACKER_CHARA_ID: {INT UNSIGNED(10)}
+     * @param attackerCharaIdList The collection of attackerCharaId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setAttackerCharaId_NotInScope(Collection<Integer> attackerCharaIdList) {
+        doSetAttackerCharaId_NotInScope(attackerCharaIdList);
+    }
+
+    protected void doSetAttackerCharaId_NotInScope(Collection<Integer> attackerCharaIdList) {
+        regINS(CK_NINS, cTL(attackerCharaIdList), xgetCValueAttackerCharaId(), "ATTACKER_CHARA_ID");
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * ATTACKER_CHARA_ID: {INT UNSIGNED(10)}
+     */
+    public void setAttackerCharaId_IsNull() { regAttackerCharaId(CK_ISN, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * ATTACKER_CHARA_ID: {INT UNSIGNED(10)}
+     */
+    public void setAttackerCharaId_IsNotNull() { regAttackerCharaId(CK_ISNN, DOBJ); }
+
+    protected void regAttackerCharaId(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueAttackerCharaId(), "ATTACKER_CHARA_ID"); }
+    protected abstract ConditionValue xgetCValueAttackerCharaId();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * TARGET_CHARA_ID: {INT UNSIGNED(10)}
      * @param targetCharaId The value of targetCharaId as equal. (basically NotNull: error as default, or no condition as option)
      */
@@ -737,6 +866,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_Equal_襲撃() {
         setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.襲撃);
+    }
+
+    /**
+     * Equal(=). As 襲撃希望 (ATTACK_REQUEST). And OnlyOnceRegistered. <br>
+     * 襲撃希望
+     */
+    public void setAbilityTypeCode_Equal_襲撃希望() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.襲撃希望);
     }
 
     /**
@@ -1048,6 +1185,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_襲撃() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.襲撃);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 襲撃希望 (ATTACK_REQUEST). And OnlyOnceRegistered. <br>
+     * 襲撃希望
+     */
+    public void setAbilityTypeCode_NotEqual_襲撃希望() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.襲撃希望);
     }
 
     /**

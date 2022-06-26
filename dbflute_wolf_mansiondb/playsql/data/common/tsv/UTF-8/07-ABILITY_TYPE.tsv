@@ -1,5 +1,6 @@
 ability_type_code	ability_type_name
 ATTACK	襲撃
+ATTACK_REQUEST	襲撃希望
 DIVINE	占い
 GUARD	護衛
 WANDERERGUARD	風来護衛

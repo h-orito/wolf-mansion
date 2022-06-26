@@ -4,13 +4,7 @@ import com.ort.app.api.request.*
 import com.ort.app.api.view.OptionContent
 import com.ort.app.api.view.VillageContent
 import com.ort.app.application.coordinator.VillageCoordinator
-import com.ort.app.application.service.AbilityService
-import com.ort.app.application.service.CharaService
-import com.ort.app.application.service.FootstepApplicationService
-import com.ort.app.application.service.PlayerService
-import com.ort.app.application.service.RandomKeywordService
-import com.ort.app.application.service.VillageService
-import com.ort.app.application.service.VoteApplicationService
+import com.ort.app.application.service.*
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.situation.ParticipantSituation
@@ -257,7 +251,7 @@ class VillageControllerHelper(
             model.addAttribute(
                 "abilityForm",
                 VillageAbilityForm(
-                    charaId = ability.attacker?.charaId ?: myself!!.charaId,
+                    attackerCharaId = ability.attacker?.charaId ?: myself!!.charaId,
                     targetCharaId = ability.target?.charaId,
                     footstep = ability.targetFootstep ?: ability.footstep
                 )

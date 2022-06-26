@@ -6,7 +6,6 @@ import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.service.ability.AbilityDomainService
-import com.ort.dbflute.allcommon.CDef
 import com.ort.dbflute.exbhv.FootstepBhv
 import org.springframework.stereotype.Repository
 import com.ort.dbflute.exentity.Footstep as DbFootstep
@@ -24,54 +23,53 @@ class FootstepDataSource(
         return mapFootsteps(list)
     }
 
-    override fun updateFootstep(village: Village, myself: VillageParticipant, footstep: String?) {
-        if (myself.skill!!.hasDisturbAbility()) {
-            // 徘徊
-            deleteFootstep(village, myself.charaId)
-            insertFootstep(village.id, village.latestDay(), myself.charaId, footstep!!)
-            return
-        }
-        val abilityType = myself.skill.getAbility()!!
-        if (abilityDomainService.detectAbilityTypeService(abilityType).isTargetingAndFootstep()) {
-            if (abilityType.toCdef() == CDef.AbilityType.襲撃) {
-                deleteWolfFootstep(village)
-            } else {
-                deleteFootstep(village, myself.charaId)
-            }
-            insertFootstep(village.id, village.latestDay(), myself.charaId, footstep!!)
-        }
+    override fun updateFootstep(
+        village: Village,
+        myself: VillageParticipant,
+        charaId: Int?,
+        footstep: String?
+    ) {
+        deleteFootstep(village.id, village.latestDay(), myself.charaId)
+        insertFootstep(village.id, village.latestDay(), myself.charaId, charaId ?: myself.charaId, footstep!!)
     }
 
-    override fun updateDaychangeDifference(villageId: Int, current: Footsteps, changed: Footsteps) {
+    override fun updateDaychangeDifference(village: Village, current: Footsteps, changed: Footsteps) {
         changed.list.filterNot { changedFootstep ->
             current.list.any { currentFootstep ->
                 currentFootstep.day == changedFootstep.day
+                        && currentFootstep.registerCharaId == changedFootstep.registerCharaId
                         && currentFootstep.charaId == changedFootstep.charaId
             }
-        }.forEach { insertFootstep(villageId, it.day, it.charaId, it.roomNumbers) }
+        }.forEach { insertFootstep(village.id, it.day, it.registerCharaId, it.charaId, it.roomNumbers) }
+
+        current.list.filterNot { currentFootstep ->
+            changed.list.any { changedFootstep ->
+                currentFootstep.day == changedFootstep.day
+                        && currentFootstep.registerCharaId == changedFootstep.registerCharaId
+                        && currentFootstep.charaId == changedFootstep.charaId
+            }
+        }.forEach { deleteFootstep(village.id, it.day, it.registerCharaId) }
     }
 
-    private fun deleteWolfFootstep(village: Village) {
+    private fun deleteFootstep(villageId: Int, day: Int, registerCharaId: Int) {
         footstepBhv.queryDelete {
-            it.query().setVillageId_Equal(village.id)
-            it.query().setDay_Equal(village.latestDay())
-            it.query().setCharaId_InScope(village.participants.list.filter { it.skill!!.hasAttackAbility() }
-                .map { it.charaId })
+            it.query().setVillageId_Equal(villageId)
+            it.query().setDay_Equal(day)
+            it.query().setRegisterCharaId_Equal(registerCharaId)
         }
     }
 
-    private fun deleteFootstep(village: Village, charaId: Int) {
-        footstepBhv.queryDelete {
-            it.query().setVillageId_Equal(village.id)
-            it.query().setDay_Equal(village.latestDay())
-            it.query().setCharaId_Equal(charaId)
-        }
-    }
-
-    private fun insertFootstep(villageId: Int, day: Int, charaId: Int, footstep: String) {
+    private fun insertFootstep(
+        villageId: Int,
+        day: Int,
+        registerCharaId: Int,
+        charaId: Int,
+        footstep: String
+    ) {
         val f = DbFootstep()
         f.villageId = villageId
         f.day = day
+        f.registerCharaId = registerCharaId
         f.charaId = charaId
         f.footstepRoomNumbers = footstep
         footstepBhv.insert(f)
@@ -80,5 +78,10 @@ class FootstepDataSource(
     private fun mapFootsteps(list: List<DbFootstep>): Footsteps = Footsteps(list = list.map { mapFootstep(it) })
 
     private fun mapFootstep(footstep: DbFootstep): Footstep =
-        Footstep(day = footstep.day, charaId = footstep.charaId, roomNumbers = footstep.footstepRoomNumbers)
+        Footstep(
+            day = footstep.day,
+            registerCharaId = footstep.registerCharaId,
+            charaId = footstep.charaId,
+            roomNumbers = footstep.footstepRoomNumbers
+        )
 }

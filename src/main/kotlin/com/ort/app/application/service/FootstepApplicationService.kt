@@ -13,9 +13,14 @@ class FootstepApplicationService(
 
     fun findFootsteps(villageId: Int): Footsteps = footstepRepository.findFootsteps(villageId)
 
-    fun updateFootstep(village: Village, myself: VillageParticipant, footstep: String?) =
-        footstepRepository.updateFootstep(village, myself, footstep)
+    fun updateFootstep(
+        village: Village,
+        myself: VillageParticipant,
+        footstepParticipant: VillageParticipant,
+        footstep: String?
+    ) =
+        footstepRepository.updateFootstep(village, myself, footstepParticipant.charaId, footstep)
 
-    fun updateDaychangeDifference(villageId: Int, current: Footsteps, changed: Footsteps) =
-        footstepRepository.updateDaychangeDifference(villageId, current, changed)
+    fun updateDaychangeDifference(village: Village, current: Footsteps, changed: Footsteps) =
+        footstepRepository.updateDaychangeDifference(village, current, changed)
 }

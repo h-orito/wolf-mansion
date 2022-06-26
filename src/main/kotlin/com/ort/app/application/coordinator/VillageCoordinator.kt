@@ -18,16 +18,7 @@ import com.ort.app.domain.model.village.participant.VillageParticipants
 import com.ort.app.domain.model.village.setting.VillageCharaSetting
 import com.ort.app.domain.model.vote.Vote
 import com.ort.app.domain.model.vote.Votes
-import com.ort.app.domain.service.AdminDomainService
-import com.ort.app.domain.service.CommitDomainService
-import com.ort.app.domain.service.CreatorDomainService
-import com.ort.app.domain.service.FootstepDomainService
-import com.ort.app.domain.service.MessageDomainService
-import com.ort.app.domain.service.ParticipateDomainService
-import com.ort.app.domain.service.RpDomainService
-import com.ort.app.domain.service.SayDomainService
-import com.ort.app.domain.service.SkillRequestDomainService
-import com.ort.app.domain.service.VoteDomainService
+import com.ort.app.domain.service.*
 import com.ort.app.domain.service.ability.AbilityDomainService
 import com.ort.app.domain.service.ability.AttackDomainService
 import com.ort.app.domain.service.room.RoomDomainService
@@ -80,10 +71,25 @@ class VillageCoordinator(
         isSpectator: Boolean,
         ipAddress: String
     ): VillageParticipant {
-        assertParticipate(village, player, charaId, charaName, charaShortName, charaImageFile, joinPassword, isSpectator)
+        assertParticipate(
+            village,
+            player,
+            charaId,
+            charaName,
+            charaShortName,
+            charaImageFile,
+            joinPassword,
+            isSpectator
+        )
         val chara = if (village.setting.chara.isOriginalCharachip) {
-            charaService.registerOriginalChara(village.setting.chara.charachipIds.first(), charaName!!, charaShortName!!, charaImageFile!!)
-        } else charaService.findChara(charaId!!, village.setting.chara.isOriginalCharachip) ?: throw IllegalStateException("chara not found.")
+            charaService.registerOriginalChara(
+                village.setting.chara.charachipIds.first(),
+                charaName!!,
+                charaShortName!!,
+                charaImageFile!!
+            )
+        } else charaService.findChara(charaId!!, village.setting.chara.isOriginalCharachip)
+            ?: throw IllegalStateException("chara not found.")
         val participant = villageService.participate(
             village.id, player.id, chara, firstRequestSkill, secondRequestSkill, isSpectator
         )
@@ -136,7 +142,8 @@ class VillageCoordinator(
         }
 
         if (isSpectator) {
-            val charachips = village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip) }
+            val charachips =
+                village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip) }
             participateDomainService.assertSpectate(village, player, charaId, joinPassword, charachips)
         } else {
             participateDomainService.assertParticipate(village, player, charaId, joinPassword)
@@ -182,7 +189,7 @@ class VillageCoordinator(
     fun setAbility(
         village: Village,
         myself: VillageParticipant?,
-        charaId: Int?,
+        attackerCharaId: Int?,
         targetCharaId: Int?,
         footstep: String?
     ) {
@@ -193,19 +200,19 @@ class VillageCoordinator(
         abilityDomainService.assertAbility(
             village,
             myself,
-            charaId,
+            attackerCharaId,
             targetCharaId,
             footstep,
             abilities,
             votes,
             footsteps
         )
-        abilityService.updateAbility(village, myself, charaId, targetCharaId, footstep)
-        val footstepParticipant = charaId?.let { village.participants.chara(it) } ?: myself
-        footstepService.updateFootstep(village, footstepParticipant, footstep)
+        abilityService.updateAbility(village, myself, attackerCharaId, targetCharaId, footstep)
+        val footstepParticipant = attackerCharaId?.let { village.participants.chara(it) } ?: myself
+        footstepService.updateFootstep(village, myself, footstepParticipant, footstep)
         messageService.registerMessage(
             village,
-            abilityDomainService.createSetMessage(village, myself, charaId, targetCharaId, footstep)
+            abilityDomainService.createSetMessage(village, myself, attackerCharaId, targetCharaId, footstep)
         )
     }
 

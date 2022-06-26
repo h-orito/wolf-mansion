@@ -98,9 +98,17 @@
                                   th:if="${content.form.ability.attackerList != null && content.form.ability.attackerList.size() > 0}"
                                   th:object="${abilityForm}"
                                   class="form-horizontal">
+                                <div class="alert alert-warning-say small">
+                                    <ul>
+                                        <li>個人ごとに別々の襲撃内容をセットできます。</li>
+                                        <li>あなたの襲撃セット内容はあなたしか参照できません。</li>
+                                        <li>日付更新時に、処刑と同様、最多票となったセット内容（襲撃者x対象x足音）が採用され、その内容で襲撃を行います。</li>
+                                    </ul>
+                                </div>
                                 <div class="form-group small">
                                     <div class="col-sm-12 col-xs-12">
-                                        襲撃者 <select class="form-control" th:field="*{charaId}" data-attacker-select>
+                                        襲撃者 <select class="form-control" th:field="*{attackerCharaId}"
+                                                    data-attacker-select>
                                         <option th:each="chara : ${content.form.ability.attackerList}"
                                                 th:value="${chara.value}" th:text="${chara.name}"></option>
                                     </select>

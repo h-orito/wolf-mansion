@@ -7,7 +7,7 @@ interface FootstepRepository {
 
     fun findFootsteps(villageId: Int): Footsteps
 
-    fun updateFootstep(village: Village, myself: VillageParticipant, footstep: String?)
+    fun updateFootstep(village: Village, myself: VillageParticipant, charaId: Int?, footstep: String?)
 
-    fun updateDaychangeDifference(villageId: Int, current: Footsteps, changed: Footsteps)
+    fun updateDaychangeDifference(village: Village, current: Footsteps, changed: Footsteps)
 }

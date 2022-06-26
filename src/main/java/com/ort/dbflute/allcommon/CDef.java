@@ -2263,6 +2263,9 @@ public interface CDef extends Classification {
         /** 襲撃 */
         襲撃("ATTACK", "襲撃", emptyStrings())
         ,
+        /** 襲撃希望 */
+        襲撃希望("ATTACK_REQUEST", "襲撃希望", emptyStrings())
+        ,
         /** ババを渡す */
         ババを渡す("BABAGIVE", "ババを渡す", emptyStrings())
         ,

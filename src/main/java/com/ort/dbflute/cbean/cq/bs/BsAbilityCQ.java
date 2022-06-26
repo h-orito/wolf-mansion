@@ -133,6 +133,26 @@ public class BsAbilityCQ extends AbstractBsAbilityCQ {
      */
     public BsAbilityCQ addOrderBy_CharaId_Desc() { regOBD("CHARA_ID"); return this; }
 
+    protected ConditionValue _attackerCharaId;
+    public ConditionValue xdfgetAttackerCharaId()
+    { if (_attackerCharaId == null) { _attackerCharaId = nCV(); }
+      return _attackerCharaId; }
+    protected ConditionValue xgetCValueAttackerCharaId() { return xdfgetAttackerCharaId(); }
+
+    /**
+     * Add order-by as ascend. <br>
+     * ATTACKER_CHARA_ID: {INT UNSIGNED(10)}
+     * @return this. (NotNull)
+     */
+    public BsAbilityCQ addOrderBy_AttackerCharaId_Asc() { regOBA("ATTACKER_CHARA_ID"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * ATTACKER_CHARA_ID: {INT UNSIGNED(10)}
+     * @return this. (NotNull)
+     */
+    public BsAbilityCQ addOrderBy_AttackerCharaId_Desc() { regOBD("ATTACKER_CHARA_ID"); return this; }
+
     protected ConditionValue _targetCharaId;
     public ConditionValue xdfgetTargetCharaId()
     { if (_targetCharaId == null) { _targetCharaId = nCV(); }

@@ -124,6 +124,7 @@ class AbilityDomainService(
     fun detectAbilityTypeService(abilityType: AbilityType): AbilityTypeDomainService =
         when (abilityType.toCdef()) {
             CDef.AbilityType.襲撃 -> attackDomainService
+            CDef.AbilityType.襲撃希望 -> attackDomainService
             CDef.AbilityType.爆弾設置 -> bombDomainService
             CDef.AbilityType.誑かす -> cheatDomainService
             CDef.AbilityType.教唆 -> insaneDomainService
@@ -164,7 +165,7 @@ class AbilityDomainService(
     fun createSetMessage(
         village: Village,
         myself: VillageParticipant,
-        charaId: Int?,
+        attackerCharaId: Int?,
         targetCharaId: Int?,
         footstep: String?
     ): Message {
@@ -183,7 +184,7 @@ class AbilityDomainService(
             val text = detectAbilityTypeService(abilityType).createSetMessageText(
                 village,
                 myself,
-                charaId,
+                attackerCharaId,
                 targetCharaId,
                 footstep
             )
@@ -225,7 +226,7 @@ class AbilityDomainService(
         abilityType: AbilityType?
     ): VillageParticipant? {
         return if (!canUseAbility(village, myself, day)) null
-        else if (abilityType?.toCdef() != CDef.AbilityType.襲撃) null
+        else if (abilityType?.toCdef() != CDef.AbilityType.襲撃希望) null
         else attackDomainService.getSelectingAttacker(village, myself!!, abilities)
     }
 
@@ -261,7 +262,7 @@ class AbilityDomainService(
         abilityType: AbilityType?
     ): String? {
         return if (!canUseAbility(village, myself, day)) null
-        else if (abilityType?.toCdef() == CDef.AbilityType.襲撃) {
+        else if (abilityType?.toCdef() == CDef.AbilityType.襲撃希望) {
             attackDomainService.getSelectingFootstep(village, myself!!, footsteps)
         } else footsteps
             .filterByCharaId(myself!!.charaId)
@@ -278,14 +279,14 @@ class AbilityDomainService(
         abilityType: AbilityType?
     ): List<VillageParticipant> {
         return if (!canUseAbility(village, myself, day)) listOf()
-        else if (abilityType == null || abilityType.toCdef() == CDef.AbilityType.襲撃) listOf()
+        else if (abilityType == null || abilityType.toCdef() == CDef.AbilityType.襲撃希望) listOf()
         else detectAbilityTypeService(abilityType).getSelectableTargetList(village, myself!!, abilities, votes)
     }
 
     fun assertAbility(
         village: Village,
         myself: VillageParticipant?,
-        charaId: Int?,
+        attackerCharaId: Int?,
         targetCharaId: Int?,
         footstep: String?,
         abilities: Abilities,
@@ -302,13 +303,20 @@ class AbilityDomainService(
             detectAbilityTypeService(abilityType).assertAbility(
                 village,
                 myself,
-                charaId,
+                attackerCharaId,
                 targetCharaId,
                 footstep,
                 abilities,
                 footsteps,
                 votes
-            ) { footstepDomainService.assertFootstep(village, charaId ?: myself.charaId, targetCharaId, footstep) }
+            ) {
+                footstepDomainService.assertFootstep(
+                    village,
+                    attackerCharaId ?: myself.charaId,
+                    targetCharaId,
+                    footstep
+                )
+            }
         }
     }
 
@@ -438,11 +446,13 @@ class AbilityDomainService(
         day: Int
     ): List<String> {
         if (!spoilerDomainService.isViewableSpoilerContent(village, myself)) return emptyList()
-        return abilities.filterByDay(day - 1).list.map {
+        return abilities.filterByDay(day - 1).list.mapNotNull {
             if (it.type.toCdef() == CDef.AbilityType.捜査) {
                 val from = village.participants.chara(it.charaId).shortNameWhen(day - 1)
                 val target = it.targetFootstep!!
                 "[${it.type.name}]$from → $target"
+            } else if (it.type.toCdef() == CDef.AbilityType.襲撃希望) {
+                null
             } else {
                 val from = village.participants.chara(it.charaId).shortNameWhen(day - 1)
                 val to = village.participants.chara(it.targetCharaId!!).shortNameWhen(day - 1)

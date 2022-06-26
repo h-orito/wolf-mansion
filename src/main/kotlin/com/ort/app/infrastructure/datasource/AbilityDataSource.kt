@@ -35,6 +35,7 @@ class AbilityDataSource(
             current.list.any { currentAbility ->
                 changedAbility.day == currentAbility.day
                         && changedAbility.charaId == currentAbility.charaId
+                        && changedAbility.type.code == currentAbility.type.code
             }
         }.forEach { insertAbility(village, it) }
     }
@@ -49,7 +50,7 @@ class AbilityDataSource(
                 val target = village.participants.chara(ability.targetCharaId!!)
                 val partner = target.getTargetCohabitor(village)!!
                 it.query().setCharaId_InScope(listOf(target.charaId, partner.charaId))
-            } else if (type != CDef.AbilityType.襲撃) {
+            } else {
                 it.query().setCharaId_Equal(ability.charaId)
             }
         }
@@ -76,6 +77,7 @@ class AbilityDataSource(
             }
             else -> {
                 a.charaId = ability.charaId
+                a.attackerCharaId = ability.attackerCharaId
                 a.targetCharaId = ability.targetCharaId
             }
         }
@@ -88,6 +90,7 @@ class AbilityDataSource(
         day = ability.day,
         type = AbilityType(ability.abilityTypeCodeAsAbilityType),
         charaId = ability.charaId,
+        attackerCharaId = ability.attackerCharaId,
         targetCharaId = ability.targetCharaId,
         targetFootstep = ability.targetFootstep
     )

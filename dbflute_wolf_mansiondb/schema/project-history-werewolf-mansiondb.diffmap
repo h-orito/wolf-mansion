@@ -1,4 +1,48 @@
 map:{
+    ; 2022/06/26 12:18:28 = map:{
+        ; diffDate = 2022/06/26 12:18:28
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; footstep = map:{
+                ; tableName = footstep
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; REGISTER_CHARA_ID = map:{
+                        ; columnName = REGISTER_CHARA_ID
+                        ; diffType = ADD
+                    }
+                }
+                ; primaryKeyDiff = map:{
+                    ; PRIMARY = map:{
+                        ; constraintName = PRIMARY
+                        ; diffType = CHANGE
+                        ; columnDiff = map:{
+                            ; next = VILLAGE_ID, DAY, REGISTER_CHARA_ID
+                            ; previous = VILLAGE_ID, DAY, CHARA_ID
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ; 2022/06/26 11:02:03 = map:{
+        ; diffDate = 2022/06/26 11:02:03
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; ability = map:{
+                ; tableName = ability
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; ATTACKER_CHARA_ID = map:{
+                        ; columnName = ATTACKER_CHARA_ID
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2022/05/04 16:08:21 = map:{
         ; diffDate = 2022/05/04 16:08:21
         ; tableCount = map:{

@@ -63,6 +63,7 @@ public class FootstepCIQ extends AbstractBsFootstepCQ {
     //                                                                ====================
     protected ConditionValue xgetCValueVillageId() { return _myCQ.xdfgetVillageId(); }
     protected ConditionValue xgetCValueDay() { return _myCQ.xdfgetDay(); }
+    protected ConditionValue xgetCValueRegisterCharaId() { return _myCQ.xdfgetRegisterCharaId(); }
     protected ConditionValue xgetCValueCharaId() { return _myCQ.xdfgetCharaId(); }
     protected ConditionValue xgetCValueFootstepRoomNumbers() { return _myCQ.xdfgetFootstepRoomNumbers(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }

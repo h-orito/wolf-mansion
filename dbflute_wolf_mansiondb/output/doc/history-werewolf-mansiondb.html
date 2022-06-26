@@ -213,6 +213,49 @@ dl.column-content dd span {
 <p class="sisterlink"><a href="./schema-werewolf-mansiondb.html">to SchemaHTML</a></p>
 </div>
 
+<div class="section diffCode_20220626121828">
+	<h2>
+		<span class="titlediffno">diffNo. 90:</span> <span class="titlediffdatepart">2022/06/26</span> <span class="titledifftimepart">12:18:28</span>
+		<span class="titlediffauthor">by h-orito</span>
+		<span class="titlediffgitbranch">on master</span>
+	</h2>
+	<pre class="diffcomment"></pre>
+
+	<h3>Change Table</h3>
+	<div class="table-content">
+		<h4><a href="./schema-werewolf-mansiondb.html#footstep">FOOTSTEP</a></h4>
+		<div class="change-table-content">
+			<h5>Add Column</h5>
+			<ul class="column-content">
+				<li>REGISTER_CHARA_ID</li>
+			</ul>
+			<h5>Change PK</h5>
+			<dl class="column-content">
+				<dt>PRIMARY</dt>
+				<dd><span>Column</span>VILLAGE_ID,&nbsp;DAY,&nbsp;CHARA_ID&nbsp;-&gt;&nbsp;VILLAGE_ID,&nbsp;DAY,&nbsp;REGISTER_CHARA_ID</dd>
+			</dl>
+		</div>
+	</div>
+</div>
+<div class="section diffCode_20220626110203">
+	<h2>
+		<span class="titlediffno">diffNo. 89:</span> <span class="titlediffdatepart">2022/06/26</span> <span class="titledifftimepart">11:02:03</span>
+		<span class="titlediffauthor">by h-orito</span>
+		<span class="titlediffgitbranch">on master</span>
+	</h2>
+	<pre class="diffcomment"></pre>
+
+	<h3>Change Table</h3>
+	<div class="table-content">
+		<h4>ABILITY</h4>
+		<div class="change-table-content">
+			<h5>Add Column</h5>
+			<ul class="column-content">
+				<li>ATTACKER_CHARA_ID</li>
+			</ul>
+		</div>
+	</div>
+</div>
 <div class="section diffCode_20220504160821">
 	<h2>
 		<span class="titlediffno">diffNo. 88:</span> <span class="titlediffdatepart">2022/05/04</span> <span class="titledifftimepart">16:08:21</span>
@@ -224,11 +267,11 @@ dl.column-content dd span {
 
 	<h3>Add Table</h3>
 	<ul class="table-content">
-		<li><a href="./schema-werewolf-mansiondb.html#player_detail">PLAYER_DETAIL</a></li>
+		<li>PLAYER_DETAIL</li>
 	</ul>
 	<h3>Change Table</h3>
 	<div class="table-content">
-		<h4><a href="./schema-werewolf-mansiondb.html#ability">ABILITY</a></h4>
+		<h4>ABILITY</h4>
 		<div class="change-table-content">
 			<h5>Delete FK</h5>
 			<ul class="column-content">
@@ -241,7 +284,7 @@ dl.column-content dd span {
 				<li>FK_ABILITY_CHARA_TARGET</li>
 			</ul>
 		</div>
-		<h4><a href="./schema-werewolf-mansiondb.html#footstep">FOOTSTEP</a></h4>
+		<h4>FOOTSTEP</h4>
 		<div class="change-table-content">
 			<h5>Delete FK</h5>
 			<ul class="column-content">
@@ -252,7 +295,7 @@ dl.column-content dd span {
 				<li>FK_FOOTSTEP_CHARA</li>
 			</ul>
 		</div>
-		<h4><a href="./schema-werewolf-mansiondb.html#vote">VOTE</a></h4>
+		<h4>VOTE</h4>
 		<div class="change-table-content">
 			<h5>Delete FK</h5>
 			<ul class="column-content">
@@ -3272,7 +3315,15 @@ dl.column-content dd span {
             ]
         };
         this.pickupStore = {
-            '20220504160821' : {
+            '20220626121828' : {
+                'diffDate' : '2022/06/26 12:18:28',
+                'diffComment' : ''
+            }
+            , '20220626110203' : {
+                'diffDate' : '2022/06/26 11:02:03',
+                'diffComment' : ''
+            }
+            , '20220504160821' : {
                 'diffDate' : '2022/05/04 16:08:21',
                 'diffComment' : ''
             }

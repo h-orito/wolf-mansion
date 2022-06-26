@@ -25,10 +25,10 @@ import com.ort.dbflute.cbean.*;
  * The behavior of FOOTSTEP as TABLE. <br>
  * <pre>
  * [primary key]
- *     VILLAGE_ID, DAY, CHARA_ID
+ *     VILLAGE_ID, DAY, REGISTER_CHARA_ID
  *
  * [column]
- *     VILLAGE_ID, DAY, CHARA_ID, FOOTSTEP_ROOM_NUMBERS, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, DAY, REGISTER_CHARA_ID, CHARA_ID, FOOTSTEP_ROOM_NUMBERS, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -161,31 +161,31 @@ public abstract class BsFootstepBhv extends AbstractBehaviorWritable<Footstep, F
      * Select the entity by the primary-key value.
      * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
      * @param day : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
-     * @param charaId : PK, NotNull, INT UNSIGNED(10). (NotNull)
+     * @param registerCharaId : PK, NotNull, INT UNSIGNED(10). (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    public OptionalEntity<Footstep> selectByPK(Integer villageId, Integer day, Integer charaId) {
-        return facadeSelectByPK(villageId, day, charaId);
+    public OptionalEntity<Footstep> selectByPK(Integer villageId, Integer day, Integer registerCharaId) {
+        return facadeSelectByPK(villageId, day, registerCharaId);
     }
 
-    protected OptionalEntity<Footstep> facadeSelectByPK(Integer villageId, Integer day, Integer charaId) {
-        return doSelectOptionalByPK(villageId, day, charaId, typeOfSelectedEntity());
+    protected OptionalEntity<Footstep> facadeSelectByPK(Integer villageId, Integer day, Integer registerCharaId) {
+        return doSelectOptionalByPK(villageId, day, registerCharaId, typeOfSelectedEntity());
     }
 
-    protected <ENTITY extends Footstep> ENTITY doSelectByPK(Integer villageId, Integer day, Integer charaId, Class<? extends ENTITY> tp) {
-        return doSelectEntity(xprepareCBAsPK(villageId, day, charaId), tp);
+    protected <ENTITY extends Footstep> ENTITY doSelectByPK(Integer villageId, Integer day, Integer registerCharaId, Class<? extends ENTITY> tp) {
+        return doSelectEntity(xprepareCBAsPK(villageId, day, registerCharaId), tp);
     }
 
-    protected <ENTITY extends Footstep> OptionalEntity<ENTITY> doSelectOptionalByPK(Integer villageId, Integer day, Integer charaId, Class<? extends ENTITY> tp) {
-        return createOptionalEntity(doSelectByPK(villageId, day, charaId, tp), villageId, day, charaId);
+    protected <ENTITY extends Footstep> OptionalEntity<ENTITY> doSelectOptionalByPK(Integer villageId, Integer day, Integer registerCharaId, Class<? extends ENTITY> tp) {
+        return createOptionalEntity(doSelectByPK(villageId, day, registerCharaId, tp), villageId, day, registerCharaId);
     }
 
-    protected FootstepCB xprepareCBAsPK(Integer villageId, Integer day, Integer charaId) {
-        assertObjectNotNull("villageId", villageId);assertObjectNotNull("day", day);assertObjectNotNull("charaId", charaId);
-        return newConditionBean().acceptPK(villageId, day, charaId);
+    protected FootstepCB xprepareCBAsPK(Integer villageId, Integer day, Integer registerCharaId) {
+        assertObjectNotNull("villageId", villageId);assertObjectNotNull("day", day);assertObjectNotNull("registerCharaId", registerCharaId);
+        return newConditionBean().acceptPK(villageId, day, registerCharaId);
     }
 
     // ===================================================================================

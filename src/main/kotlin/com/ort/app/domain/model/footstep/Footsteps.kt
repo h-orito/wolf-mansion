@@ -6,6 +6,8 @@ data class Footsteps(val list: List<Footstep>) {
 
     fun filterByCharaId(charaId: Int): Footsteps = copy(list = list.filter { it.charaId == charaId })
 
+    fun filterByRegisterCharaId(charaId: Int): Footsteps = copy(list = list.filter { it.registerCharaId == charaId })
+
     fun filterPastDay(day: Int): Footsteps = copy(list = list.filter { it.day < day })
 
     fun sortedByDay(): Footsteps = copy(list = list.sortedBy { it.day })

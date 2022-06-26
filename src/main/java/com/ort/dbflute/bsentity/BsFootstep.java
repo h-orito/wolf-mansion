@@ -17,10 +17,10 @@ import com.ort.dbflute.exentity.*;
  * 足音
  * <pre>
  * [primary-key]
- *     VILLAGE_ID, DAY, CHARA_ID
+ *     VILLAGE_ID, DAY, REGISTER_CHARA_ID
  *
  * [column]
- *     VILLAGE_ID, DAY, CHARA_ID, FOOTSTEP_ROOM_NUMBERS, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, DAY, REGISTER_CHARA_ID, CHARA_ID, FOOTSTEP_ROOM_NUMBERS, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -47,6 +47,7 @@ import com.ort.dbflute.exentity.*;
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * Integer villageId = entity.getVillageId();
  * Integer day = entity.getDay();
+ * Integer registerCharaId = entity.getRegisterCharaId();
  * Integer charaId = entity.getCharaId();
  * String footstepRoomNumbers = entity.getFootstepRoomNumbers();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
@@ -55,6 +56,7 @@ import com.ort.dbflute.exentity.*;
  * String updateTrace = entity.getUpdateTrace();
  * entity.setVillageId(villageId);
  * entity.setDay(day);
+ * entity.setRegisterCharaId(registerCharaId);
  * entity.setCharaId(charaId);
  * entity.setFootstepRoomNumbers(footstepRoomNumbers);
  * entity.setRegisterDatetime(registerDatetime);
@@ -82,7 +84,10 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     /** DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day} */
     protected Integer _day;
 
-    /** CHARA_ID: {PK, NotNull, INT UNSIGNED(10)} */
+    /** REGISTER_CHARA_ID: {PK, NotNull, INT UNSIGNED(10)} */
+    protected Integer _registerCharaId;
+
+    /** CHARA_ID: {NotNull, INT UNSIGNED(10)} */
     protected Integer _charaId;
 
     /** FOOTSTEP_ROOM_NUMBERS: {VARCHAR(1000)} */
@@ -120,7 +125,7 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     public boolean hasPrimaryKeyValue() {
         if (_villageId == null) { return false; }
         if (_day == null) { return false; }
-        if (_charaId == null) { return false; }
+        if (_registerCharaId == null) { return false; }
         return true;
     }
 
@@ -164,7 +169,7 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
             BsFootstep other = (BsFootstep)obj;
             if (!xSV(_villageId, other._villageId)) { return false; }
             if (!xSV(_day, other._day)) { return false; }
-            if (!xSV(_charaId, other._charaId)) { return false; }
+            if (!xSV(_registerCharaId, other._registerCharaId)) { return false; }
             return true;
         } else {
             return false;
@@ -177,7 +182,7 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
         hs = xCH(hs, asTableDbName());
         hs = xCH(hs, _villageId);
         hs = xCH(hs, _day);
-        hs = xCH(hs, _charaId);
+        hs = xCH(hs, _registerCharaId);
         return hs;
     }
 
@@ -197,6 +202,7 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
         StringBuilder sb = new StringBuilder();
         sb.append(dm).append(xfND(_villageId));
         sb.append(dm).append(xfND(_day));
+        sb.append(dm).append(xfND(_registerCharaId));
         sb.append(dm).append(xfND(_charaId));
         sb.append(dm).append(xfND(_footstepRoomNumbers));
         sb.append(dm).append(xfND(_registerDatetime));
@@ -270,7 +276,27 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     }
 
     /**
-     * [get] CHARA_ID: {PK, NotNull, INT UNSIGNED(10)} <br>
+     * [get] REGISTER_CHARA_ID: {PK, NotNull, INT UNSIGNED(10)} <br>
+     * 登録したキャラクターID
+     * @return The value of the column 'REGISTER_CHARA_ID'. (basically NotNull if selected: for the constraint)
+     */
+    public Integer getRegisterCharaId() {
+        checkSpecifiedProperty("registerCharaId");
+        return _registerCharaId;
+    }
+
+    /**
+     * [set] REGISTER_CHARA_ID: {PK, NotNull, INT UNSIGNED(10)} <br>
+     * 登録したキャラクターID
+     * @param registerCharaId The value of the column 'REGISTER_CHARA_ID'. (basically NotNull if update: for the constraint)
+     */
+    public void setRegisterCharaId(Integer registerCharaId) {
+        registerModifiedProperty("registerCharaId");
+        _registerCharaId = registerCharaId;
+    }
+
+    /**
+     * [get] CHARA_ID: {NotNull, INT UNSIGNED(10)} <br>
      * キャラクターID
      * @return The value of the column 'CHARA_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -280,7 +306,7 @@ public abstract class BsFootstep extends AbstractEntity implements DomainEntity,
     }
 
     /**
-     * [set] CHARA_ID: {PK, NotNull, INT UNSIGNED(10)} <br>
+     * [set] CHARA_ID: {NotNull, INT UNSIGNED(10)} <br>
      * キャラクターID
      * @param charaId The value of the column 'CHARA_ID'. (basically NotNull if update: for the constraint)
      */

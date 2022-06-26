@@ -17,7 +17,7 @@ class AbilityService(
     fun updateAbility(
         village: Village,
         myself: VillageParticipant,
-        charaId: Int?,
+        attackerCharaId: Int?,
         targetCharaId: Int?,
         footstep: String?
     ) {
@@ -25,7 +25,8 @@ class AbilityService(
         val ability = Ability(
             day = village.latestDay(),
             type = abilityType,
-            charaId = charaId ?: myself.charaId,
+            charaId = myself.charaId,
+            attackerCharaId = attackerCharaId,
             targetCharaId = targetCharaId,
             targetFootstep = footstep
         )

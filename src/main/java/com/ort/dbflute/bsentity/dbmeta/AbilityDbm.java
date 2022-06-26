@@ -46,6 +46,7 @@ public class AbilityDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((Ability)et).getVillageId(), (et, vl) -> ((Ability)et).setVillageId(cti(vl)), "villageId");
         setupEpg(_epgMap, et -> ((Ability)et).getDay(), (et, vl) -> ((Ability)et).setDay(cti(vl)), "day");
         setupEpg(_epgMap, et -> ((Ability)et).getCharaId(), (et, vl) -> ((Ability)et).setCharaId(cti(vl)), "charaId");
+        setupEpg(_epgMap, et -> ((Ability)et).getAttackerCharaId(), (et, vl) -> ((Ability)et).setAttackerCharaId(cti(vl)), "attackerCharaId");
         setupEpg(_epgMap, et -> ((Ability)et).getTargetCharaId(), (et, vl) -> ((Ability)et).setTargetCharaId(cti(vl)), "targetCharaId");
         setupEpg(_epgMap, et -> ((Ability)et).getTargetFootstep(), (et, vl) -> ((Ability)et).setTargetFootstep((String)vl), "targetFootstep");
         setupEpg(_epgMap, et -> ((Ability)et).getAbilityTypeCode(), (et, vl) -> {
@@ -96,6 +97,7 @@ public class AbilityDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnVillageId = cci("VILLAGE_ID", "VILLAGE_ID", null, null, Integer.class, "villageId", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villageDay", null, null, false);
     protected final ColumnInfo _columnDay = cci("DAY", "DAY", null, null, Integer.class, "day", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villageDay", null, null, false);
     protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnAttackerCharaId = cci("ATTACKER_CHARA_ID", "ATTACKER_CHARA_ID", null, null, Integer.class, "attackerCharaId", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnTargetCharaId = cci("TARGET_CHARA_ID", "TARGET_CHARA_ID", null, null, Integer.class, "targetCharaId", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnTargetFootstep = cci("TARGET_FOOTSTEP", "TARGET_FOOTSTEP", null, null, String.class, "targetFootstep", null, false, false, false, "VARCHAR", 1000, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnAbilityTypeCode = cci("ABILITY_TYPE_CODE", "ABILITY_TYPE_CODE", null, null, String.class, "abilityTypeCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "abilityType", null, CDef.DefMeta.AbilityType, false);
@@ -119,6 +121,11 @@ public class AbilityDbm extends AbstractDBMeta {
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharaId() { return _columnCharaId; }
+    /**
+     * ATTACKER_CHARA_ID: {INT UNSIGNED(10)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnAttackerCharaId() { return _columnAttackerCharaId; }
     /**
      * TARGET_CHARA_ID: {INT UNSIGNED(10)}
      * @return The information object of specified column. (NotNull)
@@ -160,6 +167,7 @@ public class AbilityDbm extends AbstractDBMeta {
         ls.add(columnVillageId());
         ls.add(columnDay());
         ls.add(columnCharaId());
+        ls.add(columnAttackerCharaId());
         ls.add(columnTargetCharaId());
         ls.add(columnTargetFootstep());
         ls.add(columnAbilityTypeCode());

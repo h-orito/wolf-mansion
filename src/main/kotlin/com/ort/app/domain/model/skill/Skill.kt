@@ -86,7 +86,7 @@ data class Skill(
     companion object {
 
         private val skillToAbility = CDef.Skill.listOfHasAttackAbility().associateWith {
-            AbilityType(CDef.AbilityType.襲撃)
+            AbilityType(CDef.AbilityType.襲撃希望)
         } + CDef.Skill.listOfHasDivineAbility().associateWith {
             AbilityType(CDef.AbilityType.占い)
         } + mapOf(

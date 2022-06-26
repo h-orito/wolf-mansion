@@ -69,7 +69,7 @@ class DaychangeCoordinator(
         voteService.updateDaychangeDifference(changed.village.id, current.votes, changed.votes)
         abilityService.updateDaychangeDifference(changed.village, current.abilities, changed.abilities)
         playerService.updateDaychangeDifference(current.players, changed.players)
-        footstepService.updateDaychangeDifference(changed.village.id, current.footsteps, changed.footsteps)
+        footstepService.updateDaychangeDifference(changed.village, current.footsteps, changed.footsteps)
         messageService.updateDaychangeDifference(changed.village, current.messages, changed.messages)
         tweetService.tweetDaychange(changed.village.id, changed.tweets)
     }

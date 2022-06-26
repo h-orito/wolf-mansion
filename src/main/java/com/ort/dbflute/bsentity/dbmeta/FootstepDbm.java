@@ -45,6 +45,7 @@ public class FootstepDbm extends AbstractDBMeta {
     protected void xsetupEpg() {
         setupEpg(_epgMap, et -> ((Footstep)et).getVillageId(), (et, vl) -> ((Footstep)et).setVillageId(cti(vl)), "villageId");
         setupEpg(_epgMap, et -> ((Footstep)et).getDay(), (et, vl) -> ((Footstep)et).setDay(cti(vl)), "day");
+        setupEpg(_epgMap, et -> ((Footstep)et).getRegisterCharaId(), (et, vl) -> ((Footstep)et).setRegisterCharaId(cti(vl)), "registerCharaId");
         setupEpg(_epgMap, et -> ((Footstep)et).getCharaId(), (et, vl) -> ((Footstep)et).setCharaId(cti(vl)), "charaId");
         setupEpg(_epgMap, et -> ((Footstep)et).getFootstepRoomNumbers(), (et, vl) -> ((Footstep)et).setFootstepRoomNumbers((String)vl), "footstepRoomNumbers");
         setupEpg(_epgMap, et -> ((Footstep)et).getRegisterDatetime(), (et, vl) -> ((Footstep)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
@@ -85,7 +86,8 @@ public class FootstepDbm extends AbstractDBMeta {
     //                                                                         ===========
     protected final ColumnInfo _columnVillageId = cci("VILLAGE_ID", "VILLAGE_ID", null, null, Integer.class, "villageId", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villageDay", null, null, false);
     protected final ColumnInfo _columnDay = cci("DAY", "DAY", null, null, Integer.class, "day", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villageDay", null, null, false);
-    protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnRegisterCharaId = cci("REGISTER_CHARA_ID", "REGISTER_CHARA_ID", null, null, Integer.class, "registerCharaId", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnFootstepRoomNumbers = cci("FOOTSTEP_ROOM_NUMBERS", "FOOTSTEP_ROOM_NUMBERS", null, null, String.class, "footstepRoomNumbers", null, false, false, false, "VARCHAR", 1000, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
@@ -103,7 +105,12 @@ public class FootstepDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnDay() { return _columnDay; }
     /**
-     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * REGISTER_CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnRegisterCharaId() { return _columnRegisterCharaId; }
+    /**
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharaId() { return _columnCharaId; }
@@ -137,6 +144,7 @@ public class FootstepDbm extends AbstractDBMeta {
         List<ColumnInfo> ls = newArrayList();
         ls.add(columnVillageId());
         ls.add(columnDay());
+        ls.add(columnRegisterCharaId());
         ls.add(columnCharaId());
         ls.add(columnFootstepRoomNumbers());
         ls.add(columnRegisterDatetime());
@@ -158,7 +166,7 @@ public class FootstepDbm extends AbstractDBMeta {
         List<ColumnInfo> ls = newArrayListSized(4);
         ls.add(columnVillageId());
         ls.add(columnDay());
-        ls.add(columnCharaId());
+        ls.add(columnRegisterCharaId());
         return hpcpui(ls);
     }
     public boolean hasPrimaryKey() { return true; }

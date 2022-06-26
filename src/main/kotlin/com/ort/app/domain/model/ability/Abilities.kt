@@ -13,6 +13,8 @@ data class Abilities(val list: List<Ability>) {
 
     fun filterByCharaId(charaId: Int): Abilities = copy(list = list.filter { it.charaId == charaId })
 
+    fun filterByAttackerCharaId(charaId: Int): Abilities = copy(list = list.filter { it.attackerCharaId == charaId })
+
     fun sortedByDay(): Abilities = copy(list = list.sortedBy { it.day })
 
     fun isSame(other: Abilities): Boolean {

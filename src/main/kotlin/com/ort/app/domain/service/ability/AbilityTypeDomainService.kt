@@ -72,7 +72,7 @@ interface AbilityTypeDomainService {
     fun assertAbility(
         village: Village,
         myself: VillageParticipant,
-        charaId: Int?,
+        attackerCharaId: Int?,
         targetCharaId: Int?,
         footstep: String?,
         abilities: Abilities,
@@ -95,7 +95,7 @@ interface AbilityTypeDomainService {
     fun createSetMessageText(
         village: Village,
         myself: VillageParticipant,
-        charaId: Int?,
+        attackerCharaId: Int?,
         targetCharaId: Int?,
         footstep: String?
     ): String {

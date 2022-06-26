@@ -51,7 +51,7 @@ class VillageAbilityController(
             villageCoordinator.setAbility(
                 village,
                 myself,
-                abilityForm.charaId,
+                abilityForm.attackerCharaId,
                 abilityForm.targetCharaId,
                 abilityForm.footstep
             )

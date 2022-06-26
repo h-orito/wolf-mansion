@@ -87,27 +87,27 @@ public class BsFootstepCB extends AbstractConditionBean {
      * Accept the query condition of primary key as equal.
      * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
      * @param day : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
-     * @param charaId : PK, NotNull, INT UNSIGNED(10). (NotNull)
+     * @param registerCharaId : PK, NotNull, INT UNSIGNED(10). (NotNull)
      * @return this. (NotNull)
      */
-    public FootstepCB acceptPK(Integer villageId, Integer day, Integer charaId) {
-        assertObjectNotNull("villageId", villageId);assertObjectNotNull("day", day);assertObjectNotNull("charaId", charaId);
+    public FootstepCB acceptPK(Integer villageId, Integer day, Integer registerCharaId) {
+        assertObjectNotNull("villageId", villageId);assertObjectNotNull("day", day);assertObjectNotNull("registerCharaId", registerCharaId);
         BsFootstepCB cb = this;
-        cb.query().setVillageId_Equal(villageId);cb.query().setDay_Equal(day);cb.query().setCharaId_Equal(charaId);
+        cb.query().setVillageId_Equal(villageId);cb.query().setDay_Equal(day);cb.query().setRegisterCharaId_Equal(registerCharaId);
         return (FootstepCB)this;
     }
 
     public ConditionBean addOrderBy_PK_Asc() {
         query().addOrderBy_VillageId_Asc();
         query().addOrderBy_Day_Asc();
-        query().addOrderBy_CharaId_Asc();
+        query().addOrderBy_RegisterCharaId_Asc();
         return this;
     }
 
     public ConditionBean addOrderBy_PK_Desc() {
         query().addOrderBy_VillageId_Desc();
         query().addOrderBy_Day_Desc();
-        query().addOrderBy_CharaId_Desc();
+        query().addOrderBy_RegisterCharaId_Desc();
         return this;
     }
 
@@ -331,7 +331,12 @@ public class BsFootstepCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnDay() { return doColumn("DAY"); }
         /**
-         * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+         * REGISTER_CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnRegisterCharaId() { return doColumn("REGISTER_CHARA_ID"); }
+        /**
+         * CHARA_ID: {NotNull, INT UNSIGNED(10)}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCharaId() { return doColumn("CHARA_ID"); }
@@ -366,7 +371,7 @@ public class BsFootstepCB extends AbstractConditionBean {
         protected void doSpecifyRequiredColumn() {
             columnVillageId(); // PK
             columnDay(); // PK
-            columnCharaId(); // PK
+            columnRegisterCharaId(); // PK
         }
         @Override
         protected String getTableDbName() { return "footstep"; }

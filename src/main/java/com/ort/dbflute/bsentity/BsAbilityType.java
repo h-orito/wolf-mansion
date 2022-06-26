@@ -126,6 +126,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 襲撃希望 (ATTACK_REQUEST). <br>
+     * 襲撃希望
+     */
+    public void setAbilityTypeCode_襲撃希望() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.襲撃希望);
+    }
+
+    /**
      * Set the value of abilityTypeCode as ババを渡す (BABAGIVE). <br>
      * ババを渡す
      */
@@ -417,6 +425,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode襲撃() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.襲撃) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 襲撃希望? <br>
+     * 襲撃希望
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode襲撃希望() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.襲撃希望) : false;
     }
 
     /**

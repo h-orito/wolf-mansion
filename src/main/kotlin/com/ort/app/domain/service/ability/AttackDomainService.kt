@@ -3,6 +3,7 @@ package com.ort.app.domain.service.ability
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.Ability
 import com.ort.app.domain.model.ability.AbilityType
+import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.Charas
 import com.ort.app.domain.model.chara.toModel
@@ -30,7 +31,7 @@ class AttackDomainService(
     private val cohabitDomainService: CohabitDomainService
 ) : AbilityTypeDomainService {
 
-    override val abilityType = AbilityType(CDef.AbilityType.襲撃)
+    override val abilityType = AbilityType(CDef.AbilityType.襲撃希望)
 
     override fun getSelectableTargetList(
         village: Village,
@@ -82,12 +83,12 @@ class AttackDomainService(
         myself: VillageParticipant,
         abilities: Abilities
     ): VillageParticipant? {
-        val attackerCharaIds = village.participants.list.filter { it.skill!!.hasAttackAbility() }.map { it.charaId }
         return abilities
             .filterByDay(village.latestDay())
             .filterByType(abilityType)
+            .filterByCharaId(myself.charaId)
             .list
-            .firstOrNull { attackerCharaIds.contains(it.charaId) }
+            .firstOrNull()
             ?.let { village.participants.chara(it.targetCharaId!!) }
     }
 
@@ -111,12 +112,12 @@ class AttackDomainService(
         footsteps: Footsteps,
         day: Int
     ): List<String> {
-        val attacks = abilities.filterByType(abilityType).filterPastDay(day).sortedByDay()
+        val attacks = abilities.filterByType(CDef.AbilityType.襲撃.toModel()).filterPastDay(day).sortedByDay()
         val wolfCharaIds = village.participants.list.filter { it.skill!!.hasAttackAbility() }.map { it.charaId }
         val wolfFootsteps = footsteps.list.filter { wolfCharaIds.contains(it.charaId) }
         return attacks.list.map { ability ->
             val footstep = wolfFootsteps.firstOrNull { it.day == ability.day }?.roomNumbers ?: "なし"
-            val from = village.participants.chara(ability.charaId)
+            val from = village.participants.chara(ability.attackerCharaId!!)
             val target = village.participants.chara(ability.targetCharaId!!)
             "${ability.day}日目 ${from.nameWhen(ability.day)} が ${target.nameWhen(ability.day)} を襲撃する（$footstep）"
         }
@@ -125,7 +126,7 @@ class AttackDomainService(
     override fun assertAbility(
         village: Village,
         myself: VillageParticipant,
-        charaId: Int?,
+        attackerCharaId: Int?,
         targetCharaId: Int?,
         footstep: String?,
         abilities: Abilities,
@@ -134,11 +135,11 @@ class AttackDomainService(
         defaultFootstepAsserter: () -> Unit
     ) {
         // 襲撃者
-        if (getAttackableWolfs(village, village.latestDay(), abilities).none { it.charaId == charaId }) {
+        if (getAttackableWolfs(village, village.latestDay(), abilities).none { it.charaId == attackerCharaId }) {
             throw WolfMansionBusinessException("選択できない襲撃者を指定しています")
         }
         // 襲撃対象
-        val attacker = village.participants.chara(charaId!!)
+        val attacker = village.participants.chara(attackerCharaId!!)
         if (getSelectableTargetList(village, attacker, abilities, votes).none { it.charaId == targetCharaId }) {
             throw WolfMansionBusinessException("選択できない対象を指定しています")
         }
@@ -149,17 +150,17 @@ class AttackDomainService(
     override fun createSetMessageText(
         village: Village,
         myself: VillageParticipant,
-        charaId: Int?,
+        attackerCharaId: Int?,
         targetCharaId: Int?,
         footstep: String?
     ): String {
-        val attacker = village.participants.chara(charaId!!)
+        val attacker = village.participants.chara(attackerCharaId!!)
         val target = village.participants.chara(targetCharaId!!)
-        return "襲撃者を${attacker.name()}に、襲撃対象を${target.name()}に、通過する部屋を${footstep!!}に設定しました。"
+        return "${myself.name()}が、襲撃者を${attacker.name()}に、襲撃対象を${target.name()}に、通過する部屋を${footstep!!}に設定しました。"
     }
 
-    override fun getTargetPrefix(): String? = "襲撃対象"
-    override fun getTargetSuffix(): String? = "を襲撃する"
+    override fun getTargetPrefix(): String = "襲撃対象"
+    override fun getTargetSuffix(): String = "を襲撃する"
     override fun isTargetingAndFootstep(): Boolean = true
 
     fun getAttackableWolfs(village: Village, day: Int, abilities: Abilities): List<VillageParticipant> {
@@ -175,13 +176,13 @@ class AttackDomainService(
     }
 
     fun getSelectingAttacker(village: Village, myself: VillageParticipant, abilities: Abilities): VillageParticipant? {
-        val attackerCharaIds = village.participants.list.filter { it.skill!!.hasAttackAbility() }.map { it.charaId }
         return abilities
             .filterByDay(village.latestDay())
             .filterByType(abilityType)
+            .filterByCharaId(myself.charaId)
             .list
-            .firstOrNull { attackerCharaIds.contains(it.charaId) }
-            ?.let { village.participants.chara(it.charaId) }
+            .firstOrNull()
+            ?.let { village.participants.chara(it.attackerCharaId!!) }
     }
 
     fun getSelectingFootstep(
@@ -189,11 +190,11 @@ class AttackDomainService(
         myself: VillageParticipant,
         footsteps: Footsteps
     ): String? {
-        val attackerCharaIds = village.participants.list.filter { it.skill!!.hasAttackAbility() }.map { it.charaId }
         return footsteps
             .filterByDay(village.latestDay())
+            .filterByRegisterCharaId(myself.charaId)
             .list
-            .firstOrNull { attackerCharaIds.contains(it.charaId) }
+            .firstOrNull()
             ?.roomNumbers
     }
 
@@ -206,46 +207,73 @@ class AttackDomainService(
 
     fun addDefaultAbilities(daychange: Daychange): Daychange {
         val village = daychange.village
+
         // 襲撃担当
         val attackers = getAttackableWolfs(village, village.latestDay(), daychange.abilities)
         if (attackers.isEmpty()) return daychange
-        val attacker = attackers.shuffled().first()
-        // 襲撃対象
-        val target = getSelectableTargetList(village, attacker, daychange.abilities, daychange.votes).shuffled().first()
-        val ability = Ability(
-            day = village.latestDay(),
-            charaId = attacker.charaId,
-            targetCharaId = target.charaId,
-            type = abilityType
-        )
-        val footstep = Footstep(
-            day = village.latestDay(),
-            charaId = attacker.charaId,
-            roomNumbers = footstepDomainService.getCandidateList(village, attacker.charaId, target.charaId).shuffled()
-                .first()
-        )
+        var abilities = daychange.abilities.copy()
+        var footsteps = daychange.footsteps.copy()
+
+        // 生存している人狼
+        village.participants.filterAlive().list.filter { it.skill!!.hasAttackAbility() }.forEach { wolf ->
+            val attacker = attackers.shuffled().first()
+            // 襲撃対象
+            val target =
+                getSelectableTargetList(village, attacker, daychange.abilities, daychange.votes).shuffled().first()
+            val ability = Ability(
+                day = village.latestDay(),
+                charaId = wolf.charaId,
+                attackerCharaId = attacker.charaId,
+                targetCharaId = target.charaId,
+                type = abilityType
+            )
+            val footstep = Footstep(
+                day = village.latestDay(),
+                registerCharaId = wolf.charaId,
+                charaId = attacker.charaId,
+                roomNumbers = footstepDomainService.getCandidateList(village, attacker.charaId, target.charaId)
+                    .shuffled()
+                    .first()
+            )
+            abilities = abilities.add(ability)
+            footsteps = footsteps.add(footstep)
+        }
+
         return daychange.copy(
-            abilities = daychange.abilities.add(ability),
-            footsteps = daychange.footsteps.add(footstep)
+            abilities = abilities,
+            footsteps = footsteps
         )
     }
 
     fun attack(daychange: Daychange, charas: Charas): Daychange {
         var village = daychange.village.copy()
+        var abilities = daychange.abilities.copy()
+        var footsteps = daychange.footsteps.copy()
+        var messages = daychange.messages.copy()
 
         // 人狼が生存していない、能力セットしていない場合終了
         if (village.participants.filterAlive().list.none { it.skill!!.hasAttackAbility() }) return daychange
-        val ability = daychange.abilities
-            .filterByDay(village.latestDay() - 1)
-            .filterByType(abilityType).list.firstOrNull()
-            ?: return daychange
-        val target = village.participants.chara(ability.targetCharaId!!)
+
+        // 集計して襲撃内容を確定
+        val ability = decideAbility(daychange) ?: return daychange
+        abilities = abilities.add(ability.copy(type = CDef.AbilityType.襲撃.toModel()))
+        createEachAttackRequestMessage(daychange)?.let { messages = messages.add(it) }
+
+        // 前日の襲撃希望の足音を削除
+        footsteps = footsteps.copy(
+            list = footsteps.list.filterNot { footstep ->
+                village.participants.chara(footstep.registerCharaId).skill!!.hasAttackAbility()
+                        && footstep.day == village.latestDay() - 1
+                        && footstep.registerCharaId != ability.charaId
+            }
+        )
 
         // 襲撃者
         val attacker = village.participants.chara(ability.charaId)
+        // 襲撃対象
+        val target = village.participants.chara(ability.targetCharaId!!)
 
         // 襲撃メッセージ
-        var messages = daychange.messages.copy()
         if (village.latestDay() > 2) messages = messages.add(createAttackMessage(village, attacker, target, charas))
 
         // 襲撃失敗していたら誰も死亡させず終了
@@ -261,7 +289,12 @@ class AttackDomainService(
                 messages = messages.add(createUpgradeSilentWolfMessage(village, attacker))
             }
 
-            return daychange.copy(village = village, messages = messages)
+            return daychange.copy(
+                village = village,
+                messages = messages,
+                abilities = abilities,
+                footsteps = footsteps
+            )
         }
 
         // 同棲者がいる部屋だったら移動元の同棲者も死亡
@@ -277,7 +310,55 @@ class AttackDomainService(
             messages = messages.add(createWiseWolfMessage(village))
         }
 
-        return daychange.copy(village = village, messages = messages)
+        return daychange.copy(
+            village = village,
+            messages = messages,
+            abilities = abilities,
+            footsteps = footsteps
+        )
+    }
+
+    private fun decideAbility(daychange: Daychange): Ability? {
+        val abilities = daychange.abilities
+            .filterByDay(daychange.village.latestDay() - 1)
+            .filterByType(abilityType).list
+        if (abilities.isEmpty()) return null
+        val footsteps = daychange.footsteps
+            .filterByDay(daychange.village.latestDay() - 1)
+        val groups = abilities.groupBy { ability ->
+            val footstep = footsteps.list.first { it.charaId == ability.attackerCharaId }
+            "${ability.attackerCharaId}_${ability.targetCharaId}_${footstep.roomNumbers}"
+        }
+        // 襲撃者x襲撃対象x足音で数を集計して一番多かったものを採用
+        // 複数ある場合はランダム
+        val maxCount = groups.map { it.value.size }.maxOrNull()!!
+        return groups
+            .filter { it.value.size == maxCount }
+            .entries.shuffled().first().value.first()
+    }
+
+    private fun createEachAttackRequestMessage(daychange: Daychange): Message? {
+        val village = daychange.village
+        val abilities = daychange.abilities
+            .filterByDay(village.latestDay() - 1)
+            .filterByType(abilityType).list
+        if (abilities.isEmpty()) return null
+        val footsteps = daychange.footsteps
+            .filterByDay(village.latestDay() - 1)
+
+        val fromMaxLength = abilities.maxOf { village.participants.chara(it.charaId).name().length }
+        val text = abilities.sortedBy { village.participants.chara(it.charaId).room!!.number }
+            .joinToString(
+                separator = "\n",
+                prefix = "襲撃希望は以下の通り。\n"
+            ) {
+                val from = village.participants.chara(it.charaId).name().padEnd(fromMaxLength, '　')
+                val attacker = village.participants.chara(it.attackerCharaId!!)
+                val target = village.participants.chara(it.targetCharaId!!)
+                val footstep = footsteps.filterByRegisterCharaId(it.charaId).list.first()
+                "$from → ${attacker.shortName()}が${target.shortName()}を襲う（${footstep.roomNumbers}）"
+            }
+        return messageDomainService.createEachVoteMessage(village, text, CDef.MessageType.非公開システムメッセージ.toModel())
     }
 
     private fun createAttackMessage(
@@ -288,7 +369,8 @@ class AttackDomainService(
     ): Message {
         val text = "${target.name()}！今日がお前の命日だ！"
         val attackerChara = charas.chara(attacker.charaId)
-        val faceType = if (hasFaceType(attackerChara)) CDef.FaceType.囁き.toModel() else charas.chara(attacker.charaId).defaultImage().faceType
+        val faceType = if (hasFaceType(attackerChara)) CDef.FaceType.囁き.toModel() else charas.chara(attacker.charaId)
+            .defaultImage().faceType
         return messageDomainService.createAttackMessage(
             village,
             attacker,
@@ -330,14 +412,22 @@ class AttackDomainService(
         return true
     }
 
-    private fun shouldUpgradeShogiWolf(daychange: Daychange, wolf: VillageParticipant, target: VillageParticipant): Boolean {
+    private fun shouldUpgradeShogiWolf(
+        daychange: Daychange,
+        wolf: VillageParticipant,
+        target: VillageParticipant
+    ): Boolean {
         if (!wolf.skill!!.isShogiWolf()) return false
         // 対象が死亡していなくて護衛か襲撃耐性の場合
         if (target.isDead()) return false
         return daychange.guarded.any { it.id == target.id } || target.skill!!.isNoDeadByAttack()
     }
 
-    private fun shouldUpgradeSilentWolf(daychange: Daychange, wolf: VillageParticipant, target: VillageParticipant): Boolean {
+    private fun shouldUpgradeSilentWolf(
+        daychange: Daychange,
+        wolf: VillageParticipant,
+        target: VillageParticipant
+    ): Boolean {
         if (wolf.skill!!.toCdef() != CDef.Skill.静狼) return false
         // 対象が死亡していなくて護衛か襲撃耐性の場合
         if (target.isDead()) return false

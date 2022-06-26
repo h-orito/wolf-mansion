@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID, DAY, CHARA_ID, ABILITY_TYPE_CODE
  *
  * [column]
- *     VILLAGE_ID, DAY, CHARA_ID, TARGET_CHARA_ID, TARGET_FOOTSTEP, ABILITY_TYPE_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, DAY, CHARA_ID, ATTACKER_CHARA_ID, TARGET_CHARA_ID, TARGET_FOOTSTEP, ABILITY_TYPE_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -49,6 +49,7 @@ import com.ort.dbflute.exentity.*;
  * Integer villageId = entity.getVillageId();
  * Integer day = entity.getDay();
  * Integer charaId = entity.getCharaId();
+ * Integer attackerCharaId = entity.getAttackerCharaId();
  * Integer targetCharaId = entity.getTargetCharaId();
  * String targetFootstep = entity.getTargetFootstep();
  * String abilityTypeCode = entity.getAbilityTypeCode();
@@ -59,6 +60,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setVillageId(villageId);
  * entity.setDay(day);
  * entity.setCharaId(charaId);
+ * entity.setAttackerCharaId(attackerCharaId);
  * entity.setTargetCharaId(targetCharaId);
  * entity.setTargetFootstep(targetFootstep);
  * entity.setAbilityTypeCode(abilityTypeCode);
@@ -89,6 +91,9 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
 
     /** CHARA_ID: {PK, NotNull, INT UNSIGNED(10)} */
     protected Integer _charaId;
+
+    /** ATTACKER_CHARA_ID: {INT UNSIGNED(10)} */
+    protected Integer _attackerCharaId;
 
     /** TARGET_CHARA_ID: {INT UNSIGNED(10)} */
     protected Integer _targetCharaId;
@@ -169,6 +174,14 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
      */
     public void setAbilityTypeCode_襲撃() {
         setAbilityTypeCodeAsAbilityType(CDef.AbilityType.襲撃);
+    }
+
+    /**
+     * Set the value of abilityTypeCode as 襲撃希望 (ATTACK_REQUEST). <br>
+     * 襲撃希望
+     */
+    public void setAbilityTypeCode_襲撃希望() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.襲撃希望);
     }
 
     /**
@@ -463,6 +476,17 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public boolean isAbilityTypeCode襲撃() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.襲撃) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 襲撃希望? <br>
+     * 襲撃希望
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode襲撃希望() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.襲撃希望) : false;
     }
 
     /**
@@ -949,6 +973,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
         sb.append(dm).append(xfND(_villageId));
         sb.append(dm).append(xfND(_day));
         sb.append(dm).append(xfND(_charaId));
+        sb.append(dm).append(xfND(_attackerCharaId));
         sb.append(dm).append(xfND(_targetCharaId));
         sb.append(dm).append(xfND(_targetFootstep));
         sb.append(dm).append(xfND(_abilityTypeCode));
@@ -1042,6 +1067,26 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public void setCharaId(Integer charaId) {
         registerModifiedProperty("charaId");
         _charaId = charaId;
+    }
+
+    /**
+     * [get] ATTACKER_CHARA_ID: {INT UNSIGNED(10)} <br>
+     * 襲撃者キャラクターID
+     * @return The value of the column 'ATTACKER_CHARA_ID'. (NullAllowed even if selected: for no constraint)
+     */
+    public Integer getAttackerCharaId() {
+        checkSpecifiedProperty("attackerCharaId");
+        return _attackerCharaId;
+    }
+
+    /**
+     * [set] ATTACKER_CHARA_ID: {INT UNSIGNED(10)} <br>
+     * 襲撃者キャラクターID
+     * @param attackerCharaId The value of the column 'ATTACKER_CHARA_ID'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setAttackerCharaId(Integer attackerCharaId) {
+        registerModifiedProperty("attackerCharaId");
+        _attackerCharaId = attackerCharaId;
     }
 
     /**

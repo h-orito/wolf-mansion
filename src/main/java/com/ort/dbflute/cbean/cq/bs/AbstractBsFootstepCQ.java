@@ -303,7 +303,136 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * REGISTER_CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * @param registerCharaId The value of registerCharaId as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRegisterCharaId_Equal(Integer registerCharaId) {
+        doSetRegisterCharaId_Equal(registerCharaId);
+    }
+
+    protected void doSetRegisterCharaId_Equal(Integer registerCharaId) {
+        regRegisterCharaId(CK_EQ, registerCharaId);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * @param registerCharaId The value of registerCharaId as notEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRegisterCharaId_NotEqual(Integer registerCharaId) {
+        doSetRegisterCharaId_NotEqual(registerCharaId);
+    }
+
+    protected void doSetRegisterCharaId_NotEqual(Integer registerCharaId) {
+        regRegisterCharaId(CK_NES, registerCharaId);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * @param registerCharaId The value of registerCharaId as greaterThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRegisterCharaId_GreaterThan(Integer registerCharaId) {
+        regRegisterCharaId(CK_GT, registerCharaId);
+    }
+
+    /**
+     * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * @param registerCharaId The value of registerCharaId as lessThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRegisterCharaId_LessThan(Integer registerCharaId) {
+        regRegisterCharaId(CK_LT, registerCharaId);
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * @param registerCharaId The value of registerCharaId as greaterEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRegisterCharaId_GreaterEqual(Integer registerCharaId) {
+        regRegisterCharaId(CK_GE, registerCharaId);
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * @param registerCharaId The value of registerCharaId as lessEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setRegisterCharaId_LessEqual(Integer registerCharaId) {
+        regRegisterCharaId(CK_LE, registerCharaId);
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * @param minNumber The min number of registerCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of registerCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param opLambda The callback for option of range-of. (NotNull)
+     */
+    public void setRegisterCharaId_RangeOf(Integer minNumber, Integer maxNumber, ConditionOptionCall<RangeOfOption> opLambda) {
+        setRegisterCharaId_RangeOf(minNumber, maxNumber, xcROOP(opLambda));
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * REGISTER_CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * @param minNumber The min number of registerCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of registerCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param rangeOfOption The option of range-of. (NotNull)
+     */
+    protected void setRegisterCharaId_RangeOf(Integer minNumber, Integer maxNumber, RangeOfOption rangeOfOption) {
+        regROO(minNumber, maxNumber, xgetCValueRegisterCharaId(), "REGISTER_CHARA_ID", rangeOfOption);
+    }
+
+    /**
+     * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * REGISTER_CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * @param registerCharaIdList The collection of registerCharaId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setRegisterCharaId_InScope(Collection<Integer> registerCharaIdList) {
+        doSetRegisterCharaId_InScope(registerCharaIdList);
+    }
+
+    protected void doSetRegisterCharaId_InScope(Collection<Integer> registerCharaIdList) {
+        regINS(CK_INS, cTL(registerCharaIdList), xgetCValueRegisterCharaId(), "REGISTER_CHARA_ID");
+    }
+
+    /**
+     * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * REGISTER_CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * @param registerCharaIdList The collection of registerCharaId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setRegisterCharaId_NotInScope(Collection<Integer> registerCharaIdList) {
+        doSetRegisterCharaId_NotInScope(registerCharaIdList);
+    }
+
+    protected void doSetRegisterCharaId_NotInScope(Collection<Integer> registerCharaIdList) {
+        regINS(CK_NINS, cTL(registerCharaIdList), xgetCValueRegisterCharaId(), "REGISTER_CHARA_ID");
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * REGISTER_CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     */
+    public void setRegisterCharaId_IsNull() { regRegisterCharaId(CK_ISN, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * REGISTER_CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     */
+    public void setRegisterCharaId_IsNotNull() { regRegisterCharaId(CK_ISNN, DOBJ); }
+
+    protected void regRegisterCharaId(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueRegisterCharaId(), "REGISTER_CHARA_ID"); }
+    protected abstract ConditionValue xgetCValueRegisterCharaId();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param charaId The value of charaId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_Equal(Integer charaId) {
@@ -316,7 +445,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param charaId The value of charaId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_NotEqual(Integer charaId) {
@@ -329,7 +458,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param charaId The value of charaId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_GreaterThan(Integer charaId) {
@@ -338,7 +467,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param charaId The value of charaId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_LessThan(Integer charaId) {
@@ -347,7 +476,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param charaId The value of charaId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_GreaterEqual(Integer charaId) {
@@ -356,7 +485,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param charaId The value of charaId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaId_LessEqual(Integer charaId) {
@@ -367,7 +496,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param minNumber The min number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -380,7 +509,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param minNumber The min number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of charaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -391,7 +520,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param charaIdList The collection of charaId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharaId_InScope(Collection<Integer> charaIdList) {
@@ -404,7 +533,7 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
+     * CHARA_ID: {NotNull, INT UNSIGNED(10)}
      * @param charaIdList The collection of charaId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharaId_NotInScope(Collection<Integer> charaIdList) {
@@ -414,18 +543,6 @@ public abstract class AbstractBsFootstepCQ extends AbstractConditionQuery {
     protected void doSetCharaId_NotInScope(Collection<Integer> charaIdList) {
         regINS(CK_NINS, cTL(charaIdList), xgetCValueCharaId(), "CHARA_ID");
     }
-
-    /**
-     * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
-     */
-    public void setCharaId_IsNull() { regCharaId(CK_ISN, DOBJ); }
-
-    /**
-     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * CHARA_ID: {PK, NotNull, INT UNSIGNED(10)}
-     */
-    public void setCharaId_IsNotNull() { regCharaId(CK_ISNN, DOBJ); }
 
     protected void regCharaId(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueCharaId(), "CHARA_ID"); }
     protected abstract ConditionValue xgetCValueCharaId();

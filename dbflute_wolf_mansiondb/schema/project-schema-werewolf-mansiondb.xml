@@ -13,6 +13,8 @@
         <column comment="キャラクターID" dbType="INT UNSIGNED"
             javaType="Integer" name="CHARA_ID" pkName="PRIMARY"
             pkPosition="3" primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="襲撃者キャラクターID" dbType="INT UNSIGNED"
+            javaType="Integer" name="ATTACKER_CHARA_ID" size="10" type="INTEGER"/>
         <column comment="行使対象キャラID" dbType="INT UNSIGNED"
             javaType="Integer" name="TARGET_CHARA_ID" size="10" type="INTEGER"/>
         <column comment="行使対象の足音" dbType="VARCHAR" javaType="String"
@@ -285,9 +287,11 @@
         <column comment="何日目か" dbType="INT UNSIGNED" javaType="Integer"
             name="DAY" pkName="PRIMARY" pkPosition="2" primaryKey="true"
             required="true" size="10" type="INTEGER"/>
-        <column comment="キャラクターID" dbType="INT UNSIGNED"
-            javaType="Integer" name="CHARA_ID" pkName="PRIMARY"
+        <column comment="登録したキャラクターID" dbType="INT UNSIGNED"
+            javaType="Integer" name="REGISTER_CHARA_ID" pkName="PRIMARY"
             pkPosition="3" primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="キャラクターID" dbType="INT UNSIGNED"
+            javaType="Integer" name="CHARA_ID" required="true" size="10" type="INTEGER"/>
         <column comment="足音のした部屋 : カンマ区切り" dbType="VARCHAR"
             javaType="String" name="FOOTSTEP_ROOM_NUMBERS" size="1000" type="VARCHAR"/>
         <column comment="登録日時" dbType="DATETIME"
