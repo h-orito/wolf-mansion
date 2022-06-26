@@ -269,7 +269,7 @@ class AttackDomainService(
         )
 
         // 襲撃者
-        val attacker = village.participants.chara(ability.charaId)
+        val attacker = village.participants.chara(ability.attackerCharaId!!)
         // 襲撃対象
         val target = village.participants.chara(ability.targetCharaId!!)
 
