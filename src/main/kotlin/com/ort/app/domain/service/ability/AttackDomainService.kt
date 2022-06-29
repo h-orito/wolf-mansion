@@ -172,7 +172,7 @@ class AttackDomainService(
         // 連続襲撃不可なので昨日襲撃した狼以外
         val yesterdayAttack =
             abilities.filterByDay(day - 1).filterByType(AbilityType(CDef.AbilityType.襲撃)).list.firstOrNull()
-        return aliveWolfs.filterNot { it.charaId == yesterdayAttack?.charaId }
+        return aliveWolfs.filterNot { it.charaId == yesterdayAttack?.attackerCharaId }
     }
 
     fun getSelectingAttacker(village: Village, myself: VillageParticipant, abilities: Abilities): VillageParticipant? {
