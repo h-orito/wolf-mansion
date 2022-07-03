@@ -55,26 +55,16 @@ $(function () {
             loadAndDisplayMessage(null, true);
         }
         changeSayTextAreaBackgroundColor(); // 画面表示時にも切り替える
-        let def1 = replaceAttackTargetList(); // 画面表示時にも取得して切り替える
         if ($('[data-attacker-select]').length > 0) {
             // 選択していた襲撃対象をプルダウンから選択する
             const nowSelectedTarget = $('[data-selected-attack-target]').data('selected-attack-target');
-            def1.then(function () {
-                $('[data-ability-target-select]').val(nowSelectedTarget);
-                let def2 = replaceFootstepList(); // 画面表示時にも取得して切り替える
-                // 選択していた足音をプルダウンから選択する
-                const nowSelectedFootstep = $('[data-selected-footstep]').data('selected-footstep');
-                def2.then(function () {
-                    $('[data-footstep-select]').val(nowSelectedFootstep);
-                });
-            });
-        } else if ($('[data-footstep-select]').length > 0) {
-            let def2 = replaceFootstepList(); // 画面表示時にも取得して切り替える
             // 選択していた足音をプルダウンから選択する
             const nowSelectedFootstep = $('[data-selected-footstep]').data('selected-footstep');
-            def2.then(function () {
-                $('[data-footstep-select]').val(nowSelectedFootstep);
-            });
+            replaceAttackTargetList(nowSelectedTarget, nowSelectedFootstep); // 画面表示時にも取得して切り替える
+        } else if ($('[data-footstep-select]').length > 0) {
+        	// 選択していた足音をプルダウンから選択する
+        	const nowSelectedFootstep = $('[data-selected-footstep]').data('selected-footstep');
+            replaceFootstepList(nowSelectedFootstep);
         }
 
         selectDefaultFootsteps(); // 狐と狂人だったら選択していた足音の部屋を選択状態にする
@@ -623,7 +613,7 @@ $(function () {
     // 足音
     // ----------------------------------------------
     // 襲撃候補を入れ替える
-    function replaceAttackTargetList() {
+    function replaceAttackTargetList(attackTarget, footstep) {
         const $attackerSelect = $('[data-attacker-select]');
         if ($attackerSelect.length === 0) {
             return;
@@ -644,12 +634,15 @@ $(function () {
                     'value': val.value, text: val.name
                 }));
             });
-            replaceFootstepList();
+            if (attackTarget != null) {
+            	$targetSelect.val(attackTarget)
+            }
+            replaceFootstepList(footstep);
         });
     }
 
     // 足音候補を入れ替える
-    function replaceFootstepList() {
+    function replaceFootstepList(footstepTarget) {
         const $footstepSelect = $('[data-footstep-select]');
         if ($footstepSelect.length === 0) {
             return;
@@ -672,6 +665,9 @@ $(function () {
                     'value': val, text: val
                 }));
             });
+            if (footstepTarget != null) {
+            	$footstepSelect.val(footstepTarget)
+            }
         });
     }
 
