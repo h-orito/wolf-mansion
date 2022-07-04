@@ -5,6 +5,7 @@ import com.ort.app.domain.model.ability.Ability
 import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.footstep.Footstep
+import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
@@ -81,31 +82,49 @@ class GiveWinDomainService(
         village.participants.filterAlive().filterBySkill(CDef.Skill.当選者.toModel()).list.shuffled().forEach { winner ->
             val ability = daychange.abilities.findYesterday(village, winner, abilityType) ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
-            messages = messages.add(
-                messageDomainService.createPrivateAbilityMessage(
-                    village = village,
-                    myself = winner,
-                    text = createGiveWinMessage(winner, target),
-                    messageType = CDef.MessageType.非公開システムメッセージ.toModel()
-                )
-            )
+            messages = messages.add(createGiveWinMessage(village, winner, target))
+
             // 既に死亡していたり同棲者の場合は交換しない
             if (target.isDead() || target.skill!!.toCdef() == CDef.Skill.同棲者) return@forEach
+
             // 役職交換
             val targetSkill = target.skill
             village = village.assignParticipantSkill(winner.id, targetSkill)
             village = village.assignParticipantSkill(target.id, CDef.Skill.当選者.toModel())
+            messages = messages.add(createGivenWinMessage(village, target))
         }
 
         return daychange.copy(messages = messages, village = village)
     }
 
-    private fun createGiveWinMessage(baba: VillageParticipant, target: VillageParticipant): String {
-        return when {
-            target.isDead() -> "${target.name()}は死亡しているため、${baba.name()}は当選権利を譲れなかった。"
-            target.skill!!.toCdef() == CDef.Skill.同棲者 -> "${target.name()}は同棲者のため、${baba.name()}は当選権利を譲れなかった。"
-            target.skill.toCdef() == CDef.Skill.絶対人狼 -> "${target.name()}は絶対人狼のため、${baba.name()}は当選権利を譲れなかった。"
-            else -> "${baba.name()}は、${target.name()}に当選権利を譲った。"
+    private fun createGiveWinMessage(
+        village: Village,
+        winner: VillageParticipant,
+        target: VillageParticipant
+    ): Message {
+        val text = when {
+            target.isDead() -> "${target.name()}は死亡しているため、${winner.name()}は当選権利を譲れなかった。"
+            target.skill!!.toCdef() == CDef.Skill.同棲者 -> "${target.name()}は同棲者のため、${winner.name()}は当選権利を譲れなかった。"
+            target.skill.toCdef() == CDef.Skill.絶対人狼 -> "${target.name()}は絶対人狼のため、${winner.name()}は当選権利を譲れなかった。"
+            else -> "${winner.name()}は、${target.name()}に当選権利を譲った。"
         }
+        return messageDomainService.createPrivateAbilityMessage(
+            village = village,
+            myself = winner,
+            text = text,
+            messageType = CDef.MessageType.非公開システムメッセージ.toModel()
+        )
+    }
+
+    private fun createGivenWinMessage(
+        village: Village,
+        target: VillageParticipant
+    ): Message {
+        return messageDomainService.createPrivateAbilityMessage(
+            village = village,
+            myself = target,
+            text = "${target.name()}は、当選権利を譲ってもらった。",
+            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+        )
     }
 }
