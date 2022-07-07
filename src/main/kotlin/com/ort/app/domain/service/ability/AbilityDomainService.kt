@@ -455,9 +455,9 @@ class AbilityDomainService(
                 null
             } else if (it.type.toCdef() == CDef.AbilityType.襲撃) {
                 val from = village.participants.chara(it.attackerCharaId!!).shortNameWhen(day - 1)
-                val target = it.targetFootstep!!
-                "[${it.type.name}]$from → $target"
-            } else{
+                val to = village.participants.chara(it.targetCharaId!!).shortNameWhen(day - 1)
+                "[${it.type.name}]$from → $to"
+            } else {
                 val from = village.participants.chara(it.charaId).shortNameWhen(day - 1)
                 val to = village.participants.chara(it.targetCharaId!!).shortNameWhen(day - 1)
                 "[${it.type.name}]$from → $to"
