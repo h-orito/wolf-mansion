@@ -12,7 +12,7 @@
 <div class="container">
     <nav layout:replace="~{layout/header::header}"></nav>
     <div layout:fragment="content">
-        <div id="wrapper">
+        <div id="wrapper" class="village-wrapper">
             <div class="hidden" th:data-village-id="${content.villageId}" th:data-day="${content.day}"></div>
 
             <!--/* 村タイトル、日付リンク */-->
@@ -40,11 +40,12 @@
                 <div class="">
                     <!--/* ログ部分 */-->
                     <div class="col-sm-12 col-xs-12">
-                        <div class="row" data-message-area>
+                        <div class="row message-area" data-message-area>
                             <div class="message col-sm-12 col-xs-12 text-muted">読み込み中...</div>
                         </div>
                         <div class="row">
-                            <div id="log-ad-area" class="col-sm-12 col-xs-12 crearfix" th:unless="${noAd}" style="margin-top: 15px;">
+                            <div id="log-ad-area" class="col-sm-12 col-xs-12 crearfix" th:unless="${noAd}"
+                                 style="margin-top: 15px;">
                                 <script async
                                         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                                 <!-- werewolf-mansion-log-bottom -->

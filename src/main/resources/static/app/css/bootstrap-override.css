@@ -193,6 +193,20 @@ tr.top-menu-selectable:hover a {
     padding: 9px;
 }
 
+@media (min-width: 768px) {
+    .village-wrapper {
+        font-size: 150%;
+    }
+
+    /*.message-area {*/
+    /*    font-size: 120%;*/
+    /*}*/
+
+    .message {
+        font-size: 16px;
+    }
+}
+
 .message-normal {
     color: #555555;
     background-color: #ffffff;
