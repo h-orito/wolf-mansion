@@ -77,7 +77,7 @@
                                                 <span
                                                         style="background-color: #222222; white-space: nowrap;"
                                                         th:if="${room.dead != null && room.dead && room.charaShortName != null}"
-                                                        th:utext="'<br />' + ${room.deadDay} + 'd ' + ${room.deadReason == 'ATTACK' || room.deadReason == 'DIVINED' || room.deadReason == 'TRAPPED' || room.deadReason == 'BOMBED' ? '▲' : room.deadReason == 'EXECUTE' ? '▼' : room.deadReason == 'SUICIDE' ? '❤︎' : '凸'}">2d
+                                                        th:utext="'<br />' + ${room.deadDay} + 'd ' + ${room.deadReason == 'SUDDON' ? '凸' : room.deadReason == 'EXECUTE' ? '▼' : room.deadReason == 'SUICIDE' ? '❤︎' : '▲'}">2d
 															▲</span> <span
                                                     style="background-color: #222222; white-space: nowrap;"
                                                     th:if="${room.dummy != null && room.dummy}"><br/>ダミー</span>
@@ -182,7 +182,7 @@
                                                     <span th:if="${room.dead == null || room.charaShortName == null}"
                                                           th:text="${room.roomNumber + '＿'}"></span>
                                                     <span
-                                                            th:if="${room.dead != null && room.dead && (room.deadReason == 'ATTACK' || room.deadReason == 'DIVINED' || room.deadReason == 'TRAPPED' || room.deadReason == 'BOMBED')}"
+                                                            th:if="${room.dead != null && room.dead && (room.deadReason == 'ATTACK' || room.deadReason == 'DIVINED' || room.deadReason == 'TRAPPED' || room.deadReason == 'BOMBED' || room.deadReason == 'ZAKO')}"
                                                             style="color: #ff0000;"
                                                             th:text="${room.roomNumber + room.charaShortName}"></span>
                                                     <span th:if="${room.dead != null && room.dead && (room.deadReason == 'EXECUTE' || room.deadReason == 'SUDDON')}"
@@ -230,7 +230,7 @@
                                                     <span th:if="${room.dead == null || room.charaShortName == null}"
                                                           th:text="${room.roomNumber + '＿'}"></span>
                                                     <span
-                                                            th:if="${room.dead != null && room.dead && (room.deadReason == 'ATTACK' || room.deadReason == 'DIVINED' || room.deadReason == 'TRAPPED' || room.deadReason == 'BOMBED')}"
+                                                            th:if="${room.dead != null && room.dead && (room.deadReason == 'ATTACK' || room.deadReason == 'DIVINED' || room.deadReason == 'TRAPPED' || room.deadReason == 'BOMBED' || room.deadReason == 'ZAKO')}"
                                                             style="color: #ff0000;"
                                                             th:text="${room.roomNumber + room.charaShortName}"></span>
                                                     <span th:if="${room.dead != null && room.dead && (room.deadReason == 'EXECUTE' || room.deadReason == 'SUDDON')}"
