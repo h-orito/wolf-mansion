@@ -30,7 +30,7 @@ class FootstepDataSource(
         footstep: String?
     ) {
         deleteFootstep(village.id, village.latestDay(), myself.charaId)
-        insertFootstep(village.id, village.latestDay(), myself.charaId, charaId ?: myself.charaId, footstep!!)
+        insertFootstep(village.id, village.latestDay(), myself.charaId, charaId ?: myself.charaId, footstep ?: "なし")
     }
 
     override fun updateDaychangeDifference(village: Village, current: Footsteps, changed: Footsteps) {
