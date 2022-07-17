@@ -29,6 +29,11 @@ class FootstepDataSource(
         charaId: Int?,
         footstep: String?
     ) {
+        if (!myself.skill!!.hasDisturbAbility() &&
+            !abilityDomainService.detectAbilityTypeService(myself.skill.getAbility()!!).isTargetingAndFootstep()
+        ) {
+            return
+        }
         deleteFootstep(village.id, village.latestDay(), myself.charaId)
         insertFootstep(village.id, village.latestDay(), myself.charaId, charaId ?: myself.charaId, footstep ?: "なし")
     }
