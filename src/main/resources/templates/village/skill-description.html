@@ -22,12 +22,15 @@
 <body>
 <div layout:fragment="skill-description">
     <!--/* 役職説明 */-->
-    <p class="small"
-       th:if="${content.myself != null && content.myself.skill != null}"
-       th:utext="#{${'skill.' + content.myself.skill.code.toLowerCase() + '.description'}}"></p>
-    <p class="small" th:if="${content.myself != null && content.myself.camp != null}"
-       th:text="${'あなたは ' + content.myself.camp + ' に属しています。'}">
-    </p>
+    <div th:if="${content.myself != null && (content.myself.skill != null || content.myself.camp != null)}"
+         class="alert alert-normal small">
+        <p class="small"
+           th:if="${content.myself != null && content.myself.skill != null}"
+           th:utext="#{${'skill.' + content.myself.skill.code.toLowerCase() + '.description'}}"></p>
+        <p class="small" th:if="${content.myself != null && content.myself.camp != null}">
+            あなたは <strong th:text="${content.myself.camp}"></strong> です。
+        </p>
+    </div>
 </div>
 </body>
 </html>

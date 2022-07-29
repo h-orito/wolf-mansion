@@ -3,7 +3,7 @@
 </head>
 <body layout:fragment="message-partial">
 {{#if isBigEars }}
-<div class="col-sm-12 col-xs-12" data-spoiled-content>
+<div class="col-sm-12 col-xs-12 message-card" data-spoiled-content>
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
             <span style="margin-left: -15px;">地獄耳</span>
@@ -20,7 +20,8 @@
     </div>
 </div>
 {{else if (eq messageType 'NORMAL_SAY')}}
-<div class="col-sm-12 col-xs-12 say-n{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}">
+<div class="col-sm-12 col-xs-12 say-n{{messageNumber}} message-card" data-message="{{messageType}}"
+     data-chara-id="{{characterId}}">
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
 			<span style="margin-left: -15px;">
@@ -30,7 +31,7 @@
         </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row" style="display: flex;">
-                <div>
+                <div class="message-face">
                     <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
                 </div>
                 <div class="message message-normal{{#if isLoud}} loud{{/if}}"
@@ -45,17 +46,22 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 col-xs-12" style="margin-top: -20px;">
-            <div class="row">
-                {{#if canSecret}}<a href="javascript:void(0);" class="pull-right"
-                                    style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>{{/if}}
-                {{#if canReply}}<a href="javascript:void(0);" class="pull-right" data-reply-to=">>{{messageNumber}}">&gt;&gt;返信</a>{{/if}}
+        <div class="col-sm-12 col-xs-12">
+            <div class="row" style="display: flex; justify-content: end; margin-top: -20px;">
+                {{#if canReply}}
+                <a href="javascript:void(0);" data-reply-to=">>{{messageNumber}}">&gt;&gt;返信</a>
+                {{/if}}
+                {{#if canSecret}}
+                <a href="javascript:void(0);" style="margin-left: 10px;"
+                   data-secret-to>&gt;&gt;秘話</a>
+                {{/if}}
             </div>
         </div>
     </div>
 </div>
 {{else if (eq messageType 'WEREWOLF_SAY')}}
-<div class="col-sm-12 col-xs-12 say-w{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}"
+<div class="col-sm-12 col-xs-12 say-w{{messageNumber}} message-card" data-message="{{messageType}}"
+     data-chara-id="{{characterId}}"
      data-spoiled-content>
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
@@ -66,7 +72,7 @@
         </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row" style="display: flex;">
-                <div>
+                <div class="message-face">
                     <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
                 </div>
                 <div class="message message-werewolf{{#if isLoud}} loud{{/if}}"
@@ -80,17 +86,21 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 col-xs-12" style="margin-top: -20px;">
-            <div class="row">
-                {{#if canSecret}}<a href="javascript:void(0);" class="pull-right"
-                                    style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>{{/if}}
-                {{#if canReply}}<a href="javascript:void(0);" class="pull-right" data-reply-to=">>*{{messageNumber}}">&gt;&gt;返信</a>{{/if}}
+        <div class="col-sm-12 col-xs-12">
+            <div class="row" style="display: flex; justify-content: end; margin-top: -20px;">
+                {{#if canReply}}
+                <a href="javascript:void(0);" data-reply-to=">>*{{messageNumber}}">&gt;&gt;返信</a>
+                {{/if}}
+                {{#if canSecret}}
+                <a href="javascript:void(0);" style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>
+                {{/if}}
             </div>
         </div>
     </div>
 </div>
 {{else if (eq messageType 'MONOLOGUE_SAY')}}
-<div class="col-sm-12 col-xs-12 {{#if messageNumber}}say-h{{messageNumber}}{{/if}}" data-message="{{messageType}}"
+<div class="col-sm-12 col-xs-12 message-card {{#if messageNumber}}say-h{{messageNumber}}{{/if}}"
+     data-message="{{messageType}}"
      data-chara-id="{{characterId}}"
      data-spoiled-content>
     <div class="row">
@@ -104,7 +114,7 @@
         </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row" style="display: flex;">
-                <div>
+                <div class="message-face">
                     <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
                 </div>
                 <div class="message message-monologue"
@@ -113,17 +123,21 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 col-xs-12" style="margin-top: -20px;">
-            <div class="row">
-                {{#if canSecret}}<a href="javascript:void(0);" class="pull-right"
-                                    style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>{{/if}}
-                {{#if canReply}}<a href="javascript:void(0);" class="pull-right" data-reply-to=">>-{{messageNumber}}">&gt;&gt;返信</a>{{/if}}
+        <div class="col-sm-12 col-xs-12">
+            <div class="row" style="display: flex; justify-content: end; margin-top: -20px;">
+                {{#if canReply}}
+                <a href="javascript:void(0);" data-reply-to=">>-{{messageNumber}}">&gt;&gt;返信</a>
+                {{/if}}
+                {{#if canSecret}}
+                <a href="javascript:void(0);" style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>
+                {{/if}}
             </div>
         </div>
     </div>
 </div>
 {{else if (eq messageType 'SECRET_SAY')}}
-<div class="col-sm-12 col-xs-12" data-message="{{messageType}}" data-chara-id="{{characterId}}" data-spoiled-content>
+<div class="col-sm-12 col-xs-12 message-card" data-message="{{messageType}}" data-chara-id="{{characterId}}"
+     data-spoiled-content>
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
             <span style="margin-left: -15px;">{{#if messageNumber}}
@@ -135,7 +149,7 @@
         </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row" style="display: flex;">
-                <div>
+                <div class="message-face">
                     <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
                 </div>
                 <div class="message message-secret" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
@@ -143,17 +157,21 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 col-xs-12" style="margin-top: -20px;">
-            <div class="row">
-                {{#if canSecret}}<a href="javascript:void(0);" class="pull-right"
-                                    style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>{{/if}}
-                {{#if canReply}}<a href="javascript:void(0);" class="pull-right" data-reply-to>&gt;&gt;返信</a>{{/if}}
+        <div class="col-sm-12 col-xs-12">
+            <div class="row" style="display: flex; justify-content: end; margin-top: -20px;">
+                {{#if canReply}}
+                <a href="javascript:void(0);" data-reply-to>&gt;&gt;返信</a>
+                {{/if}}
+                {{#if canSecret}}
+                <a href="javascript:void(0);" style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>
+                {{/if}}
             </div>
         </div>
     </div>
 </div>
 {{else if (eq messageType 'MASON_SAY')}}
-<div class="col-sm-12 col-xs-12 say-m{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}"
+<div class="col-sm-12 col-xs-12 message-card say-m{{messageNumber}}" data-message="{{messageType}}"
+     data-chara-id="{{characterId}}"
      data-spoiled-content>
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
@@ -165,7 +183,7 @@
         </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row" style="display: flex;">
-                <div>
+                <div class="message-face">
                     <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
                 </div>
                 <div class="message message-mason{{#if isLoud}} loud{{/if}}"
@@ -179,17 +197,21 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 col-xs-12" style="margin-top: -20px;">
-            <div class="row">
-                {{#if canSecret}}<a href="javascript:void(0);" class="pull-right"
-                                    style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>{{/if}}
-                {{#if canReply}}<a href="javascript:void(0);" class="pull-right" data-reply-to=">>={{messageNumber}}">&gt;&gt;返信</a>{{/if}}
+        <div class="col-sm-12 col-xs-12">
+            <div class="row" style="display: flex; justify-content: end; margin-top: -20px;">
+                {{#if canReply}}
+                <a href="javascript:void(0);" data-reply-to=">>={{messageNumber}}">&gt;&gt;返信</a>
+                {{/if}}
+                {{#if canSecret}}
+                <a href="javascript:void(0);" style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>
+                {{/if}}
             </div>
         </div>
     </div>
 </div>
 {{else if (eq messageType 'LOVERS_SAY')}}
-<div class="col-sm-12 col-xs-12 say-l{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}"
+<div class="col-sm-12 col-xs-12 message-card say-l{{messageNumber}}" data-message="{{messageType}}"
+     data-chara-id="{{characterId}}"
      data-spoiled-content>
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
@@ -201,7 +223,7 @@
         </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row" style="display: flex;">
-                <div>
+                <div class="message-face">
                     <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
                 </div>
                 <div class="message message-lover{{#if isLoud}} loud{{/if}}"
@@ -215,17 +237,21 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 col-xs-12" style="margin-top: -20px;">
-            <div class="row">
-                {{#if canSecret}}<a href="javascript:void(0);" class="pull-right"
-                                    style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>{{/if}}
-                {{#if canReply}}<a href="javascript:void(0);" class="pull-right" data-reply-to=">>?{{messageNumber}}">&gt;&gt;返信</a>{{/if}}
+        <div class="col-sm-12 col-xs-12">
+            <div class="row" style="display: flex; justify-content: end; margin-top: -20px;">
+                {{#if canReply}}
+                <a href="javascript:void(0);" data-reply-to=">>?{{messageNumber}}">&gt;&gt;返信</a>
+                {{/if}}
+                {{#if canSecret}}
+                <a href="javascript:void(0);" style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>
+                {{/if}}
             </div>
         </div>
     </div>
 </div>
 {{else if (eq messageType 'TELEPATHY')}}
-<div class="col-sm-12 col-xs-12 say-l{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}"
+<div class="col-sm-12 col-xs-12 message-card say-l{{messageNumber}}" data-message="{{messageType}}"
+     data-chara-id="{{characterId}}"
      data-spoiled-content>
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
@@ -237,7 +263,7 @@
         </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row" style="display: flex;">
-                <div>
+                <div class="message-face">
                     <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
                 </div>
                 <div class="message message-telepathy{{#if isLoud}} loud{{/if}}"
@@ -251,17 +277,21 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 col-xs-12" style="margin-top: -20px;">
-            <div class="row">
-                {{#if canSecret}}<a href="javascript:void(0);" class="pull-right"
-                                    style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>{{/if}}
-                {{#if canReply}}<a href="javascript:void(0);" class="pull-right" data-reply-to=">>_{{messageNumber}}">&gt;&gt;返信</a>{{/if}}
+        <div class="col-sm-12 col-xs-12">
+            <div class="row" style="display: flex; justify-content: end; margin-top: -20px;">
+                {{#if canReply}}
+                <a href="javascript:void(0);" data-reply-to=">>_{{messageNumber}}">&gt;&gt;返信</a>
+                {{/if}}
+                {{#if canSecret}}
+                <a href="javascript:void(0);" style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>
+                {{/if}}
             </div>
         </div>
     </div>
 </div>
 {{else if (eq messageType 'GRAVE_SAY')}}
-<div class="col-sm-12 col-xs-12 say-g{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}"
+<div class="col-sm-12 col-xs-12 message-card say-g{{messageNumber}}" data-message="{{messageType}}"
+     data-chara-id="{{characterId}}"
      data-spoiled-content>
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
@@ -273,7 +303,7 @@
         </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row" style="display: flex;">
-                <div>
+                <div class="message-face">
                     <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
                 </div>
                 <div class="message message-grave{{#if isLoud}} loud{{/if}}"
@@ -287,17 +317,21 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 col-xs-12" style="margin-top: -20px;">
-            <div class="row">
-                {{#if canSecret}}<a href="javascript:void(0);" class="pull-right"
-                                    style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>{{/if}}
-                {{#if canReply}}<a href="javascript:void(0);" class="pull-right" data-reply-to=">>+{{messageNumber}}">&gt;&gt;返信</a>{{/if}}
+        <div class="col-sm-12 col-xs-12">
+            <div class="row" style="display: flex; justify-content: end; margin-top: -20px;">
+                {{#if canReply}}
+                <a href="javascript:void(0);" data-reply-to=">>+{{messageNumber}}">&gt;&gt;返信</a>
+                {{/if}}
+                {{#if canSecret}}
+                <a href="javascript:void(0);" style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>
+                {{/if}}
             </div>
         </div>
     </div>
 </div>
 {{else if (eq messageType 'SPECTATE_SAY')}}
-<div class="col-sm-12 col-xs-12 say-s{{messageNumber}}" data-message="{{messageType}}" data-chara-id="{{characterId}}"
+<div class="col-sm-12 col-xs-12 message-card say-s{{messageNumber}}" data-message="{{messageType}}"
+     data-chara-id="{{characterId}}"
      data-spoiled-content>
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
@@ -307,7 +341,7 @@
         </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row" style="display: flex;">
-                <div>
+                <div class="message-face">
                     <img src="{{characterImageUrl}}" width="{{width}}" height="{{height}}">
                 </div>
                 <div class="message message-spectate" style="flex: 1; margin-left: 5px; {{minHeightCss}}">
@@ -315,23 +349,26 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 col-xs-12" style="margin-top: -20px;">
-            <div class="row">
-                {{#if canSecret}}<a href="javascript:void(0);" class="pull-right"
-                                    style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>{{/if}}
-                {{#if canReply}}<a href="javascript:void(0);" class="pull-right" data-reply-to=">>@{{messageNumber}}">&gt;&gt;返信</a>{{/if}}
+        <div class="col-sm-12 col-xs-12">
+            <div class="row" style="display: flex; justify-content: end; margin-top: -20px;">
+                {{#if canReply}}
+                <a href="javascript:void(0);" data-reply-to=">>@{{messageNumber}}">&gt;&gt;返信</a>
+                {{/if}}
+                {{#if canSecret}}
+                <a href="javascript:void(0);" style="margin-left: 10px;" data-secret-to>&gt;&gt;秘話</a>
+                {{/if}}
             </div>
         </div>
     </div>
 </div>
 {{else if (eq messageType 'PUBLIC_SYSTEM')}}
-<div class="col-sm-12 col-xs-12" data-message>
+<div class="col-sm-12 col-xs-12 message-card" data-message>
     <div class="row">
         <div class="message col-sm-12 col-xs-12 message-public-system">{{{messageContent}}}</div>
     </div>
 </div>
 {{else if (eq messageType 'CREATOR_SAY')}}
-<div class="col-sm-12 col-xs-12" data-message>
+<div class="col-sm-12 col-xs-12 message-card" data-message>
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
             <span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>#{{messageNumber}}</a>. 天からのお告げ</span>
@@ -341,56 +378,56 @@
     </div>
 </div>
 {{else if (eq messageType 'PRIVATE_SYSTEM')}}
-<div class="col-sm-12 col-xs-12" data-spoiled-content>
+<div class="col-sm-12 col-xs-12 message-card" data-spoiled-content>
     <div class="row">
         <div class="message col-sm-12 col-xs-12 message-private-system">{{{messageContent}}}</div>
     </div>
 </div>
 {{else if (or (eq messageType 'PRIVATE_SEER') (eq messageType 'PRIVATE_WISE') )}}
-<div class="col-sm-12 col-xs-12" data-spoiled-content>
+<div class="col-sm-12 col-xs-12 message-card" data-spoiled-content>
     <div class="row">
         <div class="message col-sm-12 col-xs-12 message-private-seer">{{{messageContent}}}</div>
     </div>
 </div>
 {{else if (or (or (eq messageType 'PRIVATE_PSYCHIC') (eq messageType 'PRIVATE_GURU') ) (eq messageType
 'PRIVATE_CORONER') )}}
-<div class="col-sm-12 col-xs-12" data-spoiled-content>
+<div class="col-sm-12 col-xs-12 message-card" data-spoiled-content>
     <div class="row">
         <div class="message col-sm-12 col-xs-12 message-private-psychic">{{{messageContent}}}</div>
     </div>
 </div>
 {{else if (eq messageType 'PRIVATE_INVESTIGATE')}}
-<div class="col-sm-12 col-xs-12" data-spoiled-content>
+<div class="col-sm-12 col-xs-12 message-card" data-spoiled-content>
     <div class="row">
         <div class="message col-sm-12 col-xs-12 message-private-investigate">{{{messageContent}}}</div>
     </div>
 </div>
 {{else if (eq messageType 'PRIVATE_WEREWOLF')}}
-<div class="col-sm-12 col-xs-12" data-spoiled-content>
+<div class="col-sm-12 col-xs-12 message-card" data-spoiled-content>
     <div class="row">
         <div class="message col-sm-12 col-xs-12 message-private-werewolf">{{{messageContent}}}</div>
     </div>
 </div>
 {{else if (eq messageType 'PRIVATE_LOVER')}}
-<div class="col-sm-12 col-xs-12" data-spoiled-content>
+<div class="col-sm-12 col-xs-12 message-card" data-spoiled-content>
     <div class="row">
         <div class="message col-sm-12 col-xs-12 message-private-lover">{{{messageContent}}}</div>
     </div>
 </div>
 {{else if (eq messageType 'PRIVATE_FOX')}}
-<div class="col-sm-12 col-xs-12" data-spoiled-content>
+<div class="col-sm-12 col-xs-12 message-card" data-spoiled-content>
     <div class="row">
         <div class="message col-sm-12 col-xs-12 message-private-fox">{{{messageContent}}}</div>
     </div>
 </div>
 {{else if (eq messageType 'PRIVATE_ABILITY')}}
-<div class="col-sm-12 col-xs-12" data-spoiled-content>
+<div class="col-sm-12 col-xs-12 message-card" data-spoiled-content>
     <div class="row">
         <div class="message col-sm-12 col-xs-12 message-private-ability">{{{messageContent}}}</div>
     </div>
 </div>
 {{else if (eq messageType 'ACTION')}}
-<div class="col-sm-12 col-xs-12" data-message="{{messageType}}" data-chara-id="{{characterId}}">
+<div class="col-sm-12 col-xs-12 message-card" data-message="{{messageType}}" data-chara-id="{{characterId}}">
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
             <span style="margin-left: -15px;">
@@ -402,7 +439,7 @@
     </div>
 </div>
 {{else if (eq messageType 'PARTICIPANTS')}}
-<div class="col-sm-12 col-xs-12" id="participants">
+<div class="col-sm-12 col-xs-12 message-card" id="participants">
     <div class="row">
         <div class="message col-sm-12 col-xs-12 message-public-system">{{{messageContent}}}</div>
     </div>

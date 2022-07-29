@@ -8,7 +8,7 @@ body {
 }
 
 .form-control, .input-group-addon {
-    font-size: 12px;
+    font-size: 1em;
     height: 30px;
     padding: 5px 10px;
 }
@@ -38,7 +38,6 @@ ul {
     }
 }
 
-/* �g�b�v */
 .top-image {
     cursor: pointer;
     margin-bottom: 15px;
@@ -185,26 +184,16 @@ tr.top-menu-selectable:hover a {
 .message {
     font-family: sans-serif;
     padding: 9px;
-    border-radius: 5px;
     margin-bottom: 20px;
+    border-radius: 5px;
     border: 1px solid #e3e3e3;
-    font-size: 12px;
+    font-size: 1em;
     word-break: break-word;
     padding: 9px;
 }
 
-@media (min-width: 768px) {
-    .village-wrapper {
-        font-size: 150%;
-    }
-
-    /*.message-area {*/
-    /*    font-size: 120%;*/
-    /*}*/
-
-    .message {
-        font-size: 16px;
-    }
+.message-face {
+	margin-bottom: 20px;
 }
 
 .message-normal {
@@ -391,8 +380,7 @@ tr.top-menu-selectable:hover a {
 }
 
 .daychange-alert {
-    display: none; /* ������Ԃ͔�\�� */
-    /* ��ʏ㕔�ɕ\�� */
+    display: none;
     position: fixed;
     top: 0;
     right: 5px;
@@ -401,8 +389,7 @@ tr.top-menu-selectable:hover a {
 }
 
 .autorefresh-alert {
-    display: none; /* ������Ԃ͔�\�� */
-    /* ��ʏ㕔�ɕ\�� */
+    display: none;
     position: fixed;
     top: 0;
     right: 5px;
@@ -488,7 +475,13 @@ tr.top-menu-selectable:hover a {
     border: 1px solid #00bc8c;
 }
 
-/* warning�A���[�g�̘g������ */
+.alert-normal {
+    border: 1px solid #ffffff;
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
 .alert-warning-say {
     border: 1px solid #f39c12;
     color: #f39c12;
@@ -497,7 +490,6 @@ tr.top-menu-selectable:hover a {
     border-radius: 4px;
 }
 
-/* ���S���܂����̃A���[�g�i�A���[�g�̘g�����Łj */
 .alert-dead {
     border: 1px solid #3498db;
     color: #3498db;
@@ -514,28 +506,27 @@ tr.top-menu-selectable:hover a {
     border-radius: 4px;
 }
 
-/* ������������ */
 .transparent-well {
     opacity: 0.8;
 }
 
-/* �������������̍ہA�{�^�������͓����ɂ��Ȃ� */
 .transparent-well button {
     opacity: 1;
 }
 
-/* �ӏ������ŉ��ɋ󔒂���ꂽ���Ƃ��Ɏg�� */
 ul.announce > li {
     margin-bottom: 10px;
 }
 
-/* �����_���@�\ */
 .extra-small {
     font-size: 6px;
     font-weight: bold;
 }
 
-/* �y�[�W���O */
+.loud {
+    font-size: 300%;
+}
+
 .pagination-sm > li > a, .pagination-sm > li > span {
     padding: 2px 14px;
     font-size: 12px;
@@ -543,7 +534,6 @@ ul.announce > li {
     margin-bottom: 2px;
 }
 
-/* �c�莞�ԕ\�� */
 .time-alert {
     position: fixed;
     top: 5px;
@@ -553,12 +543,10 @@ ul.announce > li {
     z-index: 100;
 }
 
-/* �_�� */
 .flash {
     animation: Flash 1s infinite;
 }
 
-/* �A�j���[�V���� */
 @keyframes Flash {
     50% {
         opacity: 0;
@@ -641,6 +629,6 @@ ul.announce > li {
     }
 }
 
-.loud {
-    font-size: 300%;
+.village-wrapper.large {
+	font-size: 150%;
 }

@@ -134,6 +134,13 @@ $(function () {
                 this.messageContent = replaceIdLink(this);
             });
             $("[data-message-area]").html(messageTemplate(response));
+            // 画像を大きく表示
+            if (getDisplaySetting('is_disp_image_large')) {
+            	$('.message-face img').each(function() {
+            		$(this).attr('width', parseInt($(this).attr('width')) * 2);
+            		$(this).attr('height', parseInt($(this).attr('height')) * 2)
+            	});
+            }
             $("[data-message-area]").removeClass('loading');
 
             // 最新の日付が変わったら通知
@@ -1266,6 +1273,13 @@ $(function () {
             $('[data-dsetting-disp-random-tag-area]').prop('checked', true);
             $('[data-random-tag-area]').removeClass('hidden');
         }
+		if (getDisplaySetting('is_disp_image_large')) {
+			$('[data-dsetting-disp-image-large]').prop('checked', true);
+		}
+		if (getDisplaySetting('is_disp_message_large')) {
+			$('[data-dsetting-disp-message-large]').prop('checked', true);
+			$('.village-wrapper').addClass('large')
+		}
         if (!getDisplaySetting('is_open_situation_tab')) {
             $('[data-situation-tab-open]').click();
         }
@@ -1377,6 +1391,21 @@ $(function () {
             $('[data-random-tag-area]').addClass('hidden');
         }
     });
+
+	$('[data-dsetting-disp-image-large]').on('change', function () {
+		const isCheck = $(this).prop('checked');
+		saveDisplaySetting('is_disp_image_large', isCheck);
+	});
+
+	$('[data-dsetting-disp-message-large]').on('change', function () {
+		const isCheck = $(this).prop('checked');
+		saveDisplaySetting('is_disp_message_large', isCheck);
+		if (isCheck) {
+			$('.village-wrapper').addClass('large');
+		} else {
+			$('.village-wrapper').removeClass('large');
+		}
+	});
 
     $('[data-situation-tab-open]').on('click', function () {
         const isOpen = $($(this).attr('href')).hasClass('in');
