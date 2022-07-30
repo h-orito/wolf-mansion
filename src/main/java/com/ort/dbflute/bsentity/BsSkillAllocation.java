@@ -693,6 +693,14 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     }
 
     /**
+     * Set the value of skillCode as 全知者 (OMNISCIENCE). <br>
+     * 全知者
+     */
+    public void setSkillCode_全知者() {
+        setSkillCodeAsSkill(CDef.Skill.全知者);
+    }
+
+    /**
      * Set the value of skillCode as 梟 (OWL). <br>
      * 梟
      */
@@ -1654,6 +1662,17 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     public boolean isSkillCode監視者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.監視者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 全知者? <br>
+     * 全知者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode全知者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.全知者) : false;
     }
 
     /**

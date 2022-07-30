@@ -53,6 +53,7 @@ class ProgressDomainService(
     private val yubisashiDomainService: YubisashiDomainService,
     private val loveStealDomainService: LoveStealDomainService,
     private val breakupDomainService: BreakupDomainService,
+    private val omniscienceDomainService: OmniscienceDomainService,
     private val revivalDomainService: RevivalDomainService,
     private val suicideDomainService: SuicideDomainService,
     private val epilogueDomainService: EpilogueDomainService,
@@ -113,6 +114,8 @@ class ProgressDomainService(
         daychange = wandererDomainService.wandererGuard(daychange)
         // 壁殴り
         daychange = wallPunchDomainService.wallPunch(daychange)
+        // 全知
+        daychange = omniscienceDomainService.omniscience(daychange)
         // 占い、呪殺、逆呪殺
         daychange = divineDomainService.divine(daychange)
         // 捜査

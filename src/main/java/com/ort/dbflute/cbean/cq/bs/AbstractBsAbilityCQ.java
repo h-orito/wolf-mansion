@@ -1061,6 +1061,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 全知 (OMNISCIENCE). And OnlyOnceRegistered. <br>
+     * 全知
+     */
+    public void setAbilityTypeCode_Equal_全知() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.全知);
+    }
+
+    /**
      * Equal(=). As 説得 (PERSUADE). And OnlyOnceRegistered. <br>
      * 説得
      */
@@ -1377,6 +1385,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_死霊蘇生() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.死霊蘇生);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 全知 (OMNISCIENCE). And OnlyOnceRegistered. <br>
+     * 全知
+     */
+    public void setAbilityTypeCode_NotEqual_全知() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.全知);
     }
 
     /**

@@ -909,6 +909,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 全知者 (OMNISCIENCE). <br>
+     * 全知者
+     */
+    public void setSkillCode_全知者() {
+        setSkillCodeAsSkill(CDef.Skill.全知者);
+    }
+
+    /**
      * Set the value of skillCode as 梟 (OWL). <br>
      * 梟
      */
@@ -1669,6 +1677,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 全知者 (OMNISCIENCE). <br>
+     * 全知者
+     */
+    public void setRequestSkillCode_全知者() {
+        setRequestSkillCodeAsSkill(CDef.Skill.全知者);
+    }
+
+    /**
      * Set the value of requestSkillCode as 梟 (OWL). <br>
      * 梟
      */
@@ -2426,6 +2442,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_監視者() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.監視者);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 全知者 (OMNISCIENCE). <br>
+     * 全知者
+     */
+    public void setSecondRequestSkillCode_全知者() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.全知者);
     }
 
     /**
@@ -3518,6 +3542,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode監視者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.監視者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 全知者? <br>
+     * 全知者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode全知者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.全知者) : false;
     }
 
     /**
@@ -4696,6 +4731,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 全知者? <br>
+     * 全知者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode全知者() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.全知者) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 梟? <br>
      * 梟
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -5868,6 +5914,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode監視者() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.監視者) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 全知者? <br>
+     * 全知者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode全知者() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.全知者) : false;
     }
 
     /**

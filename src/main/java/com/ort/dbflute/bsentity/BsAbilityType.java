@@ -318,6 +318,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 全知 (OMNISCIENCE). <br>
+     * 全知
+     */
+    public void setAbilityTypeCode_全知() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.全知);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 説得 (PERSUADE). <br>
      * 説得
      */
@@ -689,6 +697,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode死霊蘇生() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.死霊蘇生) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 全知? <br>
+     * 全知
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode全知() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.全知) : false;
     }
 
     /**

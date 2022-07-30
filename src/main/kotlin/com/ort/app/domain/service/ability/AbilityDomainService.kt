@@ -64,6 +64,7 @@ class AbilityDomainService(
     private val giveBabaDomainService: GiveBabaDomainService,
     private val giveWinDomainService: GiveWinDomainService,
     private val yubisashiDomainService: YubisashiDomainService,
+    private val omniscienceDomainService: OmniscienceDomainService,
     private val messageDomainService: MessageDomainService,
     private val footstepDomainService: FootstepDomainService
 ) {
@@ -160,6 +161,7 @@ class AbilityDomainService(
             CDef.AbilityType.恋泥棒 -> loveStealDomainService
             CDef.AbilityType.破局 -> breakupDomainService
             CDef.AbilityType.殴打 -> beatDomainService
+            CDef.AbilityType.全知 -> omniscienceDomainService
         }
 
     fun createSetMessage(

@@ -97,6 +97,7 @@ data class Skill(
             CDef.Skill.監視者 to AbilityType(CDef.AbilityType.捜査),
             CDef.Skill.罠師 to AbilityType(CDef.AbilityType.罠設置),
             CDef.Skill.牧師 to AbilityType(CDef.AbilityType.説得),
+            CDef.Skill.全知者 to AbilityType(CDef.AbilityType.全知),
             CDef.Skill.爆弾魔 to AbilityType(CDef.AbilityType.爆弾設置),
             CDef.Skill.同棲者 to AbilityType(CDef.AbilityType.同棲),
             CDef.Skill.指揮官 to AbilityType(CDef.AbilityType.指揮),
