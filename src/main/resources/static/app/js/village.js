@@ -136,7 +136,7 @@ $(function () {
             $("[data-message-area]").html(messageTemplate(response));
             // 画像を大きく表示
             if (getDisplaySetting('is_disp_image_large')) {
-            	$('.message-face img').each(function() {
+            	$('[data-message-area] .message-face img').each(function() {
             		$(this).attr('width', parseInt($(this).attr('width')) * 2);
             		$(this).attr('height', parseInt($(this).attr('height')) * 2)
             	});
