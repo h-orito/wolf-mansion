@@ -329,6 +329,13 @@ $(function () {
             response.message.messageContent = escapeAndSetAnchor(response.message.messageContent, response.message.isConvertDisable);
             let $anchorMessage = makeAnchorMessage($(messagePartialTemplate(response.message)), anchorClassName);
             $thisMessage.after($anchorMessage);
+			// 画像を大きく表示
+			if (getDisplaySetting('is_disp_image_large')) {
+				$anchorMessage.find('.message-face img').each(function() {
+					$(this).attr('width', parseInt($(this).attr('width')) * 2);
+					$(this).attr('height', parseInt($(this).attr('height')) * 2)
+				});
+			}
             $('.' + anchorClassName).collapse('toggle');
             return false;
         });
