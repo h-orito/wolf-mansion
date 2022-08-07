@@ -40,7 +40,7 @@ class VillageCoordinator(
     private val abilityService: AbilityService,
     private val footstepService: FootstepApplicationService,
     private val voteService: VoteApplicationService,
-    private val slackService: SlackService,
+    private val slackService: NotificationService,
     // domain service
     private val participateDomainService: ParticipateDomainService,
     private val skillRequestDomainService: SkillRequestDomainService,

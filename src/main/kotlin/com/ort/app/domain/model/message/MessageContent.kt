@@ -30,5 +30,5 @@ data class MessageContent(
         }
     }
 
-    fun shouldPostSlack(): Boolean = text.contains("@国主") || text.contains("＠国主")
+    fun shouldNotify(): Boolean = text.contains("@国主") || text.contains("＠国主")
 }

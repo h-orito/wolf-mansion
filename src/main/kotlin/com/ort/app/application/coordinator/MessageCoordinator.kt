@@ -23,7 +23,7 @@ class MessageCoordinator(
     private val villageService: VillageService,
     private val abilityService: AbilityService,
     private val randomKeywordService: RandomKeywordService,
-    private val slackService: SlackService,
+    private val slackService: NotificationService,
     // domain service
     private val messageDomainService: MessageDomainService,
     private val sayDomainService: SayDomainService,

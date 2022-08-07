@@ -1,7 +1,5 @@
 package com.ort.app.domain.model.message
 
-import com.ort.app.domain.model.village.Village
-import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.dbflute.allcommon.CDef
 import java.time.LocalDateTime
 
@@ -13,7 +11,7 @@ data class Message(
     val time: MessageTime,
     val content: MessageContent
 ) {
-    fun shouldPostSlack(): Boolean = content.shouldPostSlack()
+    fun shouldNotify(): Boolean = content.shouldNotify()
 
     companion object {
         fun ofSystemMessage(

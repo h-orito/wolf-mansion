@@ -42,6 +42,9 @@ twitter:
 slack:
   webhook-url:
 
+discord:
+  webhook-url:
+
 microsoft:
   translator:
     key: 
