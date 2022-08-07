@@ -55,6 +55,7 @@ slack:
 
 discord:
   webhook-url: ${WOLF_MANSION_DISCORD_WEBHOOK_URL}
+  master-userid:
 
 microsoft:
   translator:

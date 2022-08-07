@@ -19,6 +19,7 @@ class DiscordRepositoryImpl : DiscordRepository {
 
     @Value("\${discord.webhook-url:}")
     private lateinit var webhookUrl: String
+
     @Value("\${discord.master-userid:}")
     private lateinit var masterUserId: String
 
