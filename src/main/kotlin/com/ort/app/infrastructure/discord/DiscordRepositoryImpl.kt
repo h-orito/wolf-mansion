@@ -28,7 +28,7 @@ class DiscordRepositoryImpl : DiscordRepository {
         try {
             val restTemplate = RestTemplate()
             val request = Request(
-                content = "<@!$masterUserId>\nhttps://wolfort.net/wolf-mansion/village/$villageId/$day\n$message"
+                content = "<@!$masterUserId>\nhttps://wolfort.net/wolf-mansion/village/$villageId\n$message"
             )
             val formHeaders = HttpHeaders()
             formHeaders.contentType = MediaType.APPLICATION_JSON
