@@ -231,6 +231,10 @@ class VillageCoordinator(
         myself ?: throw WolfMansionBusinessException("ログインしてください")
         commitDomainService.assertCommit(village, myself)
         commitService.setCommit(village, Commit(day = village.latestDay(), myselfId = myself.id))
+        messageService.registerMessage(
+            village,
+            commitDomainService.createSetMessage(village, myself, commit)
+        )
     }
 
     fun assertCreateVillage(player: Player, max: Int, charachips: Charachips, isOriginal: Boolean) {
