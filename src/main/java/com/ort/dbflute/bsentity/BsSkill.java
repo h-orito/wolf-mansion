@@ -79,7 +79,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     /** SKILL_SHORT_NAME: {NotNull, CHAR(1)} */
     protected String _skillShortName;
 
-    /** CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} */
+    /** CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} */
     protected String _campCode;
 
     /** DISP_ORDER: {NotNull, INT UNSIGNED(10)} */
@@ -95,7 +95,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "skill";
+        return "SKILL";
     }
 
     // ===================================================================================
@@ -133,7 +133,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * Get the value of campCode as the classification of Camp. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
      * 陣営
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -144,7 +144,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
 
     /**
      * Set the value of campCode as the classification of Camp. <br>
-     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
+     * CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
      * 陣営
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -313,6 +313,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
      */
     public void setSkillCode_不止者() {
         setSkillCodeAsSkill(CDef.Skill.不止者);
+    }
+
+    /**
+     * Set the value of skillCode as 闇探偵 (EVILDETECTIVE). <br>
+     * 闇探偵
+     */
+    public void setSkillCode_闇探偵() {
+        setSkillCodeAsSkill(CDef.Skill.闇探偵);
     }
 
     /**
@@ -657,6 +665,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
      */
     public void setSkillCode_霊能者() {
         setSkillCodeAsSkill(CDef.Skill.霊能者);
+    }
+
+    /**
+     * Set the value of skillCode as 耳年増 (MIMIDOSHIMA). <br>
+     * 耳年増
+     */
+    public void setSkillCode_耳年増() {
+        setSkillCodeAsSkill(CDef.Skill.耳年増);
     }
 
     /**
@@ -1187,6 +1203,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Is the value of skillCode 闇探偵? <br>
+     * 闇探偵
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode闇探偵() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.闇探偵) : false;
+    }
+
+    /**
      * Is the value of skillCode 魔神官? <br>
      * 魔神官
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1657,6 +1684,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isSkillCode霊能者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.霊能者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 耳年増? <br>
+     * 耳年増
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode耳年増() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.耳年増) : false;
     }
 
     /**
@@ -2511,7 +2549,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
-     * [get] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
+     * [get] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
      * 陣営コード
      * @return The value of the column 'CAMP_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -2521,7 +2559,7 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
-     * [set] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
+     * [set] CAMP_CODE: {IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
      * 陣営コード
      * @param campCode The value of the column 'CAMP_CODE'. (basically NotNull if update: for the constraint)
      */

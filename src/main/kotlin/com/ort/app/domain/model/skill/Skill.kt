@@ -10,7 +10,13 @@ data class Skill(
     val shortName: String,
     val histories: SkillHistories = SkillHistories(list = emptyList())
 ) {
-    constructor(cdef: CDef.Skill) : this(code = cdef.code(), name = cdef.alias(), shortName = cdef.skill_short_name())
+    constructor(
+        cdef: CDef.Skill
+    ) : this(
+        code = cdef.code(),
+        name = cdef.alias(),
+        shortName = cdef.skill_short_name()
+    )
 
     fun toCdef(): CDef.Skill = CDef.Skill.codeOf(code) ?: throw IllegalStateException("unknown skill: $code")
 
@@ -29,21 +35,32 @@ data class Skill(
     fun isSayableSympathizeSay(): Boolean = toCdef() == CDef.Skill.共鳴者
     fun isViewableTelepathy(): Boolean = camp().isFoxs()
     fun isSayableTelepathy(): Boolean = toCdef() == CDef.Skill.仙狐
+    fun isViewableLoversSay(): Boolean = toCdef() == CDef.Skill.耳年増
     fun hasAttackAbility(): Boolean = toCdef().isHasAttackAbility
     fun hasDivineAbility(): Boolean = toCdef().isHasDivineAbility
     fun hasDisturbAbility(): Boolean = toCdef().isHasDisturbAbility
     fun hasSkillPsychicAbility(): Boolean = toCdef().isHasSkillPsychicAbility
-    fun hasInvestigateAbility(): Boolean = toCdef() == CDef.Skill.探偵 || toCdef() == CDef.Skill.監視者
+    fun hasInvestigateAbility(): Boolean =
+        toCdef() == CDef.Skill.探偵 || toCdef() == CDef.Skill.監視者 || toCdef() == CDef.Skill.闇探偵
+
     fun isViewableWolfCharaName(): Boolean = toCdef().isViewableWolfCharaName
     fun isViewablePsychicMessage(): Boolean = toCdef() == CDef.Skill.霊能者
     fun isViewableGuruMessage(): Boolean = toCdef().isHasSkillPsychicAbility
     fun isViewableAttackMessage(): Boolean = toCdef().isHasAttackAbility
     fun isViewableCoronerMessage(): Boolean = toCdef() == CDef.Skill.検死官
     fun isViewableDivineMessage(): Boolean =
-        listOf(CDef.Skill.占い師, CDef.Skill.占星術師, CDef.Skill.花占い師, CDef.Skill.感覚者, CDef.Skill.管狐).contains(toCdef())
+        listOf(
+            CDef.Skill.占い師,
+            CDef.Skill.占星術師,
+            CDef.Skill.花占い師,
+            CDef.Skill.感覚者,
+            CDef.Skill.管狐
+        ).contains(toCdef())
 
     fun isViewableWiseMessage(): Boolean = toCdef() == CDef.Skill.賢者
-    fun isViewableInvestigateMessage(): Boolean = toCdef() == CDef.Skill.探偵 || toCdef() == CDef.Skill.監視者
+    fun isViewableInvestigateMessage(): Boolean =
+        toCdef() == CDef.Skill.探偵 || toCdef() == CDef.Skill.監視者 || toCdef() == CDef.Skill.闇探偵
+
     fun isViewableLoversMessage(): Boolean = camp().code == CDef.Camp.恋人陣営.code()
     fun isViewableFoxMessage(): Boolean = toCdef() == CDef.Skill.誑狐
     fun isWolfCount(): Boolean = toCdef().isWolfCount
@@ -67,7 +84,10 @@ data class Skill(
     fun getAbility(): AbilityType? = skillToAbility[toCdef()]
 
     fun assignSkill(skill: Skill, day: Int): Skill = copy(
-        code = skill.code, name = skill.name, shortName = skill.shortName, histories = histories.copy(
+        code = skill.code,
+        name = skill.name,
+        shortName = skill.shortName,
+        histories = histories.copy(
             list = histories.list + SkillHistory(skill = skill, day = day)
         )
     )
@@ -125,7 +145,8 @@ data class Skill(
             CDef.Skill.マタギ to AbilityType(CDef.AbilityType.狩猟),
             CDef.Skill.黒箱者 to AbilityType(CDef.AbilityType.隠蔽),
             CDef.Skill.泥棒猫 to AbilityType(CDef.AbilityType.恋泥棒),
-            CDef.Skill.バールのようなもの to AbilityType(CDef.AbilityType.殴打)
+            CDef.Skill.バールのようなもの to AbilityType(CDef.AbilityType.殴打),
+            CDef.Skill.闇探偵 to AbilityType(CDef.AbilityType.捜査),
         )
 
         private val shortNameToSkill = Skills.all().filterNotSomeone().list.associate {

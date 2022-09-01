@@ -107,7 +107,7 @@ data class VillageParticipant(
         return isAlive() && skill?.isSayableTelepathy() ?: false
     }
 
-    fun isViewableLoversSay(): Boolean = isAdmin() || status.hasLover()
+    fun isViewableLoversSay(): Boolean = isAdmin() || status.hasLover() || skill?.isViewableLoversSay() ?: false
     fun isSayableLoversSay(): Boolean = isAdmin() || (isAlive() && status.hasLover())
 
     fun isViewableSecretSay(): Boolean = isAdmin()

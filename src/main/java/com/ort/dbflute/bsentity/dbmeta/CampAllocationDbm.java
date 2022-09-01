@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of camp_allocation. (Singleton)
+ * The DB meta of CAMP_ALLOCATION. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class CampAllocationDbm extends AbstractDBMeta {
@@ -79,7 +79,7 @@ public class CampAllocationDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "camp_allocation";
+    protected final String _tableDbName = "CAMP_ALLOCATION";
     protected final String _tableDispName = "CAMP_ALLOCATION";
     protected final String _tablePropertyName = "campAllocation";
     protected final TableSqlName _tableSqlName = new TableSqlName("CAMP_ALLOCATION", _tableDbName);
@@ -103,12 +103,12 @@ public class CampAllocationDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
     /**
-     * CAMP_CODE: {PK, IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
+     * CAMP_CODE: {PK, IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCampCode() { return _columnCampCode; }

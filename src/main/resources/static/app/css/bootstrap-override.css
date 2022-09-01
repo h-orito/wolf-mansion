@@ -193,7 +193,7 @@ tr.top-menu-selectable:hover a {
 }
 
 .message-face {
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .message-normal {
@@ -630,5 +630,5 @@ ul.announce > li {
 }
 
 .village-wrapper.large {
-	font-size: 150%;
+    font-size: 150%;
 }

@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of village_tag_item.
+ * The base condition-query of VILLAGE_TAG_ITEM.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillageTagItemCQ extends AbstractBsVillageTagItemCQ {
@@ -35,7 +35,7 @@ public class BsVillageTagItemCQ extends AbstractBsVillageTagItemCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from village_tag_item) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from VILLAGE_TAG_ITEM) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsVillageTagItemCQ extends AbstractBsVillageTagItemCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join village_tag_item on ... and FOO = [value] ...}
+     * {select ... from ... left outer join VILLAGE_TAG_ITEM on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>

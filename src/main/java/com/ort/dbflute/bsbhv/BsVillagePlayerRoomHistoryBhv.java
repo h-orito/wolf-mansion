@@ -67,7 +67,7 @@ public abstract class BsVillagePlayerRoomHistoryBhv extends AbstractBehaviorWrit
     /** {@inheritDoc} */
     public VillagePlayerRoomHistoryDbm asDBMeta() { return VillagePlayerRoomHistoryDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "village_player_room_history"; }
+    public String asTableDbName() { return "VILLAGE_PLAYER_ROOM_HISTORY"; }
 
     // ===================================================================================
     //                                                                        New Instance

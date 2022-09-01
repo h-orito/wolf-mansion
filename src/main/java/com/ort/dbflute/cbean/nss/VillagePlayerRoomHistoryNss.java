@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.VillagePlayerRoomHistoryCQ;
 
 /**
- * The nest select set-upper of village_player_room_history.
+ * The nest select set-upper of VILLAGE_PLAYER_ROOM_HISTORY.
  * @author DBFlute(AutoGenerator)
  */
 public class VillagePlayerRoomHistoryNss {

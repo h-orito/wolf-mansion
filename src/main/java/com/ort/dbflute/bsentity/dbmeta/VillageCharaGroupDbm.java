@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of village_chara_group. (Singleton)
+ * The DB meta of VILLAGE_CHARA_GROUP. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillageCharaGroupDbm extends AbstractDBMeta {
@@ -70,7 +70,7 @@ public class VillageCharaGroupDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "village_chara_group";
+    protected final String _tableDbName = "VILLAGE_CHARA_GROUP";
     protected final String _tableDispName = "VILLAGE_CHARA_GROUP";
     protected final String _tablePropertyName = "villageCharaGroup";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_CHARA_GROUP", _tableDbName);
@@ -97,12 +97,12 @@ public class VillageCharaGroupDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnVillageCharaGroupId() { return _columnVillageCharaGroupId; }
     /**
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
     /**
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnCharaGroupId() { return _columnCharaGroupId; }

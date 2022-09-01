@@ -150,8 +150,9 @@ class InvestigateDomainService(
     ): Message {
         val participant =
             footstepDomainService.getParticipantByFootstep(village, village.latestDay() - 2, targetFootstep, footsteps)
+        val skill = myself.skill?.toCdef()
         val result =
-            if (myself.skill?.toCdef() == CDef.Skill.探偵) participant.skill!!.name
+            if (skill == CDef.Skill.探偵 || skill == CDef.Skill.闇探偵) participant.skill!!.name
             else participant.name()
         val text = "${myself.name()}は、昨日響いた足音${targetFootstep}について調査した。\n${targetFootstep}の足音を響かせたのは${result}のようだ。"
         return messageDomainService.createPrivateAbilityMessage(

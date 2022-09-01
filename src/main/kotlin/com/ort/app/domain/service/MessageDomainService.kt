@@ -2,7 +2,12 @@ package com.ort.app.domain.service
 
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.FaceType
-import com.ort.app.domain.model.message.*
+import com.ort.app.domain.model.message.Message
+import com.ort.app.domain.model.message.MessageContent
+import com.ort.app.domain.model.message.MessageQuery
+import com.ort.app.domain.model.message.MessageType
+import com.ort.app.domain.model.message.Messages
+import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.randomkeyword.RandomKeyword
 import com.ort.app.domain.model.randomkeyword.RandomKeywords
 import com.ort.app.domain.model.translate.TranslateRepository
@@ -23,7 +28,7 @@ import com.ort.app.domain.service.message.system.PsychicMessageDomainService
 import com.ort.app.domain.service.message.system.WiseMessageDomainService
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Component
-import java.util.*
+import java.util.Random
 import java.util.regex.Pattern
 
 @Component
@@ -162,7 +167,7 @@ class MessageDomainService(
                 
             """.trimIndent(),
             separator = "\n"
-        ) { "${it.name()}は、部屋番号${it.room!!.number}に移動した。" }
+        ) { "${it.nameWhen(village.latestDay() - 1)}は、部屋番号${it.room!!.number}に移動した。" }
         return Message.ofSystemMessage(
             day = village.latestDay(),
             message = message

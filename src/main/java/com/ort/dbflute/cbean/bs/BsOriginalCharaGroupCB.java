@@ -20,7 +20,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-bean of original_chara_group.
+ * The base condition-bean of ORIGINAL_CHARA_GROUP.
  * @author DBFlute(AutoGenerator)
  */
 public class BsOriginalCharaGroupCB extends AbstractConditionBean {
@@ -76,7 +76,7 @@ public class BsOriginalCharaGroupCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "original_chara_group";
+        return "ORIGINAL_CHARA_GROUP";
     }
 
     // ===================================================================================
@@ -323,10 +323,10 @@ public class BsOriginalCharaGroupCB extends AbstractConditionBean {
             columnOriginalCharaGroupId(); // PK
         }
         @Override
-        protected String getTableDbName() { return "original_chara_group"; }
+        protected String getTableDbName() { return "ORIGINAL_CHARA_GROUP"; }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from original_chara where ...) as FOO_MAX} <br>
+         * {select max(FOO) from ORIGINAL_CHARA where ...) as FOO_MAX} <br>
          * ORIGINAL_CHARA by ORIGINAL_CHARA_GROUP_ID, named 'originalCharaList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(charaCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
@@ -343,7 +343,7 @@ public class BsOriginalCharaGroupCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from village_settings where ...) as FOO_MAX} <br>
+         * {select max(FOO) from VILLAGE_SETTINGS where ...) as FOO_MAX} <br>
          * VILLAGE_SETTINGS by ORIGINAL_CHARA_GROUP_ID, named 'villageSettingsList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(settingsCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {

@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of village_tag.
+ * The base condition-bean of VILLAGE_TAG.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillageTagCB extends AbstractConditionBean {
@@ -77,7 +77,7 @@ public class BsVillageTagCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "village_tag";
+        return "VILLAGE_TAG";
     }
 
     // ===================================================================================
@@ -344,12 +344,12 @@ public class BsVillageTagCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnVillageTagId() { return doColumn("VILLAGE_TAG_ID"); }
         /**
-         * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
+         * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageId() { return doColumn("VILLAGE_ID"); }
         /**
-         * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to village_tag_item, classification=VillageTagItem}
+         * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to VILLAGE_TAG_ITEM, classification=VillageTagItem}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageTagItemCode() { return doColumn("VILLAGE_TAG_ITEM_CODE"); }
@@ -388,7 +388,7 @@ public class BsVillageTagCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "village_tag"; }
+        protected String getTableDbName() { return "VILLAGE_TAG"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * VILLAGE by my VILLAGE_ID, named 'village'.
