@@ -71,7 +71,9 @@ data class Skill(
         CDef.Skill.ごん,
         CDef.Skill.仙狐,
         CDef.Skill.管狐,
-        CDef.Skill.稲荷
+        CDef.Skill.稲荷,
+        CDef.Skill.騙狐,
+        CDef.Skill.夜狐
     ).contains(toCdef())
 
     fun isDivineResultWolf(): Boolean = toCdef().isDivineResultWolf
@@ -122,6 +124,7 @@ data class Skill(
             CDef.Skill.同棲者 to AbilityType(CDef.AbilityType.同棲),
             CDef.Skill.指揮官 to AbilityType(CDef.AbilityType.指揮),
             CDef.Skill.煽動者 to AbilityType(CDef.AbilityType.煽動),
+            CDef.Skill.騙狐 to AbilityType(CDef.AbilityType.煽動),
             CDef.Skill.破局者 to AbilityType(CDef.AbilityType.破局),
             CDef.Skill.教唆者 to AbilityType(CDef.AbilityType.教唆),
             CDef.Skill.果実籠 to AbilityType(CDef.AbilityType.フルーツバスケット),

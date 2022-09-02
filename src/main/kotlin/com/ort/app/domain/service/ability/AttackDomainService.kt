@@ -288,6 +288,12 @@ class AttackDomainService(
                 village = village.assignParticipantSkill(attacker.id, CDef.Skill.呪狼.toModel())
                 messages = messages.add(createUpgradeSilentWolfMessage(village, attacker))
             }
+            // 襲撃されたのが夜狐の場合、狐憑きを付与する
+            if (shouldFoxPossession(daychange, target)) {
+                village = village.foxPossessionParticipant(target.id, attacker.id)
+                messages = messages.add(createNightFoxPossessionMessage(village, attacker, target))
+                messages = messages.add(createNightFoxPossessionedMessage(village, attacker, target))
+            }
 
             return daychange.copy(
                 village = village,
@@ -316,6 +322,20 @@ class AttackDomainService(
             abilities = abilities,
             footsteps = footsteps
         )
+    }
+
+    fun shouldFoxPossession(
+        daychange: Daychange,
+        target: VillageParticipant
+    ): Boolean {
+        // 対象が夜狐でない場合は付与しない
+        if (target.skill?.toCdef() != CDef.Skill.夜狐) return false
+        // 夜狐が死亡している場合は付与しない
+        if (target.isDead()) return false
+        // 護衛されている場合は付与しない
+        if (daychange.guarded.any { it.id == target.id }) return false
+
+        return true
     }
 
     private fun decideAbility(daychange: Daychange): Ability? {
@@ -377,6 +397,34 @@ class AttackDomainService(
             text,
             faceType,
             CDef.MessageType.人狼の囁き.toModel()
+        )
+    }
+
+    fun createNightFoxPossessionMessage(
+        village: Village,
+        attacker: VillageParticipant,
+        nightFox: VillageParticipant
+    ): Message {
+        val text = "${nightFox.name()}は、${attacker.name()}に取り憑いた。"
+        return messageDomainService.createPrivateAbilityMessage(
+            village = village,
+            myself = nightFox,
+            text = text,
+            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+        )
+    }
+
+    fun createNightFoxPossessionedMessage(
+        village: Village,
+        attacker: VillageParticipant,
+        nightFox: VillageParticipant
+    ): Message {
+        val text = "あなたは、${nightFox.name()}に取り憑かれた。"
+        return messageDomainService.createPrivateAbilityMessage(
+            village = village,
+            myself = attacker,
+            text = text,
+            messageType = CDef.MessageType.能力行使メッセージ.toModel()
         )
     }
 

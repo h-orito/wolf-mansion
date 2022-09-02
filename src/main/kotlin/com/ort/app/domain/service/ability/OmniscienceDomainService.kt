@@ -11,14 +11,12 @@ import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.vote.Votes
 import com.ort.app.domain.service.MessageDomainService
-import com.ort.app.domain.service.room.RoomDomainService
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
 @Service
 class OmniscienceDomainService(
-    private val messageDomainService: MessageDomainService,
-    private val roomDomainService: RoomDomainService
+    private val messageDomainService: MessageDomainService
 ) : AbilityTypeDomainService {
 
     override val abilityType = AbilityType(CDef.AbilityType.全知)

@@ -591,6 +591,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 夜狐 (NIGHTFOX). And OnlyOnceRegistered. <br>
+     * 夜狐
+     */
+    public void setSkillCode_Equal_夜狐() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.夜狐);
+    }
+
+    /**
      * Equal(=). As おまかせ役職窓なし (NOFRIENDS). And OnlyOnceRegistered. <br>
      * おまかせ（役職窓なし）
      */
@@ -764,6 +772,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_Equal_罠師() {
         setSkillCode_Equal_AsSkill(CDef.Skill.罠師);
+    }
+
+    /**
+     * Equal(=). As 騙狐 (TRICKFOX). And OnlyOnceRegistered. <br>
+     * 騙狐
+     */
+    public void setSkillCode_Equal_騙狐() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.騙狐);
     }
 
     /**
@@ -1398,6 +1414,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 夜狐 (NIGHTFOX). And OnlyOnceRegistered. <br>
+     * 夜狐
+     */
+    public void setSkillCode_NotEqual_夜狐() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.夜狐);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As おまかせ役職窓なし (NOFRIENDS). And OnlyOnceRegistered. <br>
      * おまかせ（役職窓なし）
      */
@@ -1574,6 +1598,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 騙狐 (TRICKFOX). And OnlyOnceRegistered. <br>
+     * 騙狐
+     */
+    public void setSkillCode_NotEqual_騙狐() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.騙狐);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As トラック (TRUCK). And OnlyOnceRegistered. <br>
      * トラック
      */
@@ -1730,7 +1762,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 徘徊能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 聴狂人, 妖狐, 仙狐, 背徳者]
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 聴狂人, 妖狐, 仙狐, 夜狐, 背徳者]
      */
     public void setSkillCode_InScope_HasDisturbAbility() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDisturbAbility());
@@ -1740,7 +1772,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 襲撃されても死なない <br>
-     * The group elements:[壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 爆弾魔]
+     * The group elements:[壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 爆弾魔]
      */
     public void setSkillCode_InScope_NoDeadByAttack() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfNoDeadByAttack());
@@ -1760,7 +1792,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 勝敗判定時、人間にも人狼にもカウントされない <br>
-     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 梟]
+     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 梟]
      */
     public void setSkillCode_InScope_NoCount() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfNoCount());

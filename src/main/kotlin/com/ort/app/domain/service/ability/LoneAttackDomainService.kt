@@ -49,7 +49,15 @@ class LoneAttackDomainService(
             // 襲撃メッセージ
             messages = messages.add(createAttackMessage(village, it, target, charas))
 
-            if (!attackDomainService.isAttackSuccess(daychange, target)) return@forEach
+            if (!attackDomainService.isAttackSuccess(daychange, target)) {
+                // 襲撃されたのが夜狐の場合、狐憑きを付与する
+                if (attackDomainService.shouldFoxPossession(daychange, target)) {
+                    village = village.foxPossessionParticipant(target.id, it.id)
+                    messages = messages.add(attackDomainService.createNightFoxPossessionMessage(village, it, target))
+                    messages = messages.add(attackDomainService.createNightFoxPossessionedMessage(village, it, target))
+                }
+                return@forEach
+            }
 
             if (cohabitDomainService.isCohabiting(daychange, target)) {
                 val cohabitor = target.getTargetCohabitor(village)!!

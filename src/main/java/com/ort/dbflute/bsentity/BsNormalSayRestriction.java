@@ -707,6 +707,14 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
+     * Set the value of skillCode as 夜狐 (NIGHTFOX). <br>
+     * 夜狐
+     */
+    public void setSkillCode_夜狐() {
+        setSkillCodeAsSkill(CDef.Skill.夜狐);
+    }
+
+    /**
      * Set the value of skillCode as おまかせ役職窓なし (NOFRIENDS). <br>
      * おまかせ（役職窓なし）
      */
@@ -880,6 +888,14 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
      */
     public void setSkillCode_罠師() {
         setSkillCodeAsSkill(CDef.Skill.罠師);
+    }
+
+    /**
+     * Set the value of skillCode as 騙狐 (TRICKFOX). <br>
+     * 騙狐
+     */
+    public void setSkillCode_騙狐() {
+        setSkillCodeAsSkill(CDef.Skill.騙狐);
     }
 
     /**
@@ -1884,6 +1900,17 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
+     * Is the value of skillCode 夜狐? <br>
+     * 夜狐
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode夜狐() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.夜狐) : false;
+    }
+
+    /**
      * Is the value of skillCode おまかせ役職窓なし? <br>
      * おまかせ（役職窓なし）
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -2126,6 +2153,17 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
+     * Is the value of skillCode 騙狐? <br>
+     * 騙狐
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode騙狐() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.騙狐) : false;
+    }
+
+    /**
      * Is the value of skillCode トラック? <br>
      * トラック
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -2287,7 +2325,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
 
     /**
      * 徘徊能力を持つ <br>
-     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 聴狂人, 妖狐, 仙狐, 背徳者]
+     * The group elements:[C国狂人, 狂人, 狂信者, 魔神官, 聴狂人, 妖狐, 仙狐, 夜狐, 背徳者]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_HasDisturbAbility() {
@@ -2297,7 +2335,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
 
     /**
      * 襲撃されても死なない <br>
-     * The group elements:[壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 爆弾魔]
+     * The group elements:[壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 爆弾魔]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_NoDeadByAttack() {
@@ -2317,7 +2355,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
 
     /**
      * 勝敗判定時、人間にも人狼にもカウントされない <br>
-     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 梟]
+     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 梟]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_NoCount() {
