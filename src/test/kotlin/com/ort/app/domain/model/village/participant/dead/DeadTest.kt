@@ -1,8 +1,7 @@
 package com.ort.app.domain.model.village.participant.dead
 
 import com.ort.dbflute.allcommon.CDef
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 internal class DeadTest {
@@ -49,5 +48,18 @@ internal class DeadTest {
         assertTrue(dead.isDeadWhen(3))
         assertFalse(dead.isDeadWhen(4))
         assertTrue(dead.isDeadWhen(5))
+
+        assertNull(dead.deadDayWhen(1))
+        assertTrue(dead.deadDayWhen(2) == 2)
+        assertTrue(dead.deadDayWhen(3) == 2)
+        assertNull(dead.deadDayWhen(4))
+        assertTrue(dead.deadDayWhen(5) == 5)
+
+        assertNull(dead.deadReasonWhen(1))
+        assertTrue(dead.deadReasonWhen(2) == CDef.DeadReason.後追.toModel())
+        assertTrue(dead.deadReasonWhen(3) == CDef.DeadReason.後追.toModel())
+        assertNull(dead.deadReasonWhen(4))
+        assertTrue(dead.deadReasonWhen(5) == CDef.DeadReason.処刑.toModel())
+
     }
 }
