@@ -3,6 +3,7 @@ package com.ort.app.api
 import com.ort.app.api.helper.VillageControllerHelper
 import com.ort.app.api.request.VillageForms
 import com.ort.app.api.request.VillageListForm
+import com.ort.app.api.view.VillageContent
 import com.ort.app.api.view.VillageListContent
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.VillageService
@@ -16,6 +17,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
 class VillageController(
@@ -68,5 +70,16 @@ class VillageController(
             ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         villageControllerHelper.setIndexModel(village, day, model, VillageForms())
         return "village"
+    }
+
+    @GetMapping("/api/village/{villageId}")
+    @ResponseBody
+    private fun apiVillage(
+        @PathVariable villageId: Int
+    ): VillageContent {
+        // 最新の日付を表示
+        val village = villageService.findVillage(villageId)
+            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        return villageControllerHelper.getVillageContent(village, village.latestDay())
     }
 }
