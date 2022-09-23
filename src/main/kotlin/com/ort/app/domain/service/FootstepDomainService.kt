@@ -1,9 +1,9 @@
 package com.ort.app.domain.service
 
+import com.ort.app.domain.model.footstep.Footstep
 import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.situation.village.VillageDayFootstep
 import com.ort.app.domain.model.situation.village.VillageFootstepSituation
-import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.fw.exception.WolfMansionBusinessException
@@ -48,6 +48,34 @@ class FootstepDomainService(
                     .joinToString(",") { it.toString().padStart(2, '0') }
             }.filterNot { it.isEmpty() }
             .sorted()
+    }
+
+    // 表示用に加工した状態にする
+    fun filterDisplayFootsteps(village: Village, footsteps: Footsteps): Footsteps {
+        val list = village.days.list.map { it.day }.flatMap { day ->
+            // 生存者の部屋
+            val aliveRoomNumList = village.participants.list
+                .filter { it.isAliveWhen(day) }
+                .filterNot { it.skillWhen(day)!!.isNoSound() }
+                .map { it.roomNumberWhen(day - 1) }
+            footsteps
+                .filterByDay(day - 1).list
+                .filterNot { it.roomNumbers == "なし" }
+                .map { footstep ->
+                    // 生存者のいない部屋の音を除去
+                    val roomNumbers = footstep.roomNumbers.split(",")
+                        .map { it.toInt() }
+                        .filter { aliveRoomNumList.contains(it) }
+                        .joinToString(",") { it.toString().padStart(2, '0') }
+                    Footstep(
+                        day = day,
+                        charaId = footstep.charaId,
+                        roomNumbers = roomNumbers
+                    )
+                }.filterNot { it.roomNumbers.isEmpty() }
+                .sortedBy { it.roomNumbers }
+        }
+        return Footsteps(list = list)
     }
 
     fun assertFootstep(village: Village, charaId: Int, targetCharaId: Int?, footstep: String?) {

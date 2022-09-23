@@ -76,46 +76,6 @@ class VillageControllerHelper(
         setDebug(village, model)
     }
 
-    fun getVillageContent(village: Village, day: Int): VillageContent {
-        val userInfo = WolfMansionUserInfoUtil.getUserInfo()
-        val myself = userInfo?.let { villageService.findVillageParticipant(village.id, it.username) }
-        val votes = voteService.findVotes(village.id)
-        val footsteps = footstepService.findFootsteps(village.id)
-        val abilities = abilityService.findAbilities(village.id)
-        val charachips =
-            village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip) }
-        val keywords = randomKeywordService.findRandomKeywords()
-        val villageSituation = villageCoordinator.findVillageSituation(
-            village = village,
-            myself = myself,
-            votes = votes,
-            abilities = abilities,
-            footsteps = footsteps,
-            day = day
-        )
-        val participantSituation = villageCoordinator.findParticipantSituation(
-            village = village,
-            username = userInfo?.username,
-            myself = myself,
-            votes = votes,
-            abilities = abilities,
-            footsteps = footsteps,
-            charachips = charachips,
-            day = day
-        )
-        val isDispSpoilerContent = spoilerDomainService.isViewableSpoilerContent(village, myself)
-        return VillageContent(
-            village = village,
-            day = day,
-            myself = myself,
-            charachips = charachips,
-            keywords = keywords,
-            villageSituation = villageSituation,
-            participantSituation = participantSituation,
-            isDispSpoilerContent = isDispSpoilerContent
-        )
-    }
-
     private fun setForm(
         model: Model,
         village: Village,

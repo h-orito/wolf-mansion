@@ -25,19 +25,7 @@ class VoteDomainService {
     ): VillageVoteSituation {
         val hideDays =
             if (village.status.isSettled()) emptyList()
-            else abilities
-                .filterPastDay(village.latestDay())
-                .filterByType(CDef.AbilityType.隠蔽.toModel())
-                .list.filter {
-                    val participant = village.participants.chara(it.charaId)
-                    // 能力セットした日に死んでいない
-                    // かつ、その翌日に突然死していない
-                    participant.isAliveWhen(it.day) &&
-                            participant.dead.histories.list.none { h ->
-                                h.day == it.day + 1 && h.reason?.isSuddenly() ?: false
-                            }
-                }
-                .map { it.day }.distinct()
+            else getHideDays(village, abilities)
 
         return VillageVoteSituation(
             list = village.participants
@@ -65,6 +53,38 @@ class VoteDomainService {
             targetList = getSelectableTargetList(village, myself),
             target = getSelectingTarget(village, myself, votes)
         )
+    }
+
+    // 黒箱に隠された日を除去
+    // エピローグを迎えていても除去される
+    fun filterDisplayVotes(village: Village, votes: Votes, abilities: Abilities): Votes {
+        val hideDays = getHideDays(village, abilities)
+        val list = votes.list
+            .filterNot { hideDays.contains(it.day) }
+            .sortedWith(
+                compareBy<Vote> {
+                    it.day
+                }.thenBy {
+                    village.participants.chara(it.charaId).roomNumberWhen(it.day)
+                }
+            )
+        return Votes(list = list)
+    }
+
+    private fun getHideDays(village: Village, abilities: Abilities): List<Int> {
+        return abilities
+            .filterPastDay(village.latestDay())
+            .filterByType(CDef.AbilityType.隠蔽.toModel())
+            .list.filter {
+                val participant = village.participants.chara(it.charaId)
+                // 能力セットした日に死んでいない
+                // かつ、その翌日に突然死していない
+                participant.isAliveWhen(it.day) &&
+                        participant.dead.histories.list.none { h ->
+                            h.day == it.day + 1 && h.reason?.isSuddenly() ?: false
+                        }
+            }
+            .map { it.day }.distinct()
     }
 
     private fun canVote(village: Village, myself: VillageParticipant?): Boolean =
