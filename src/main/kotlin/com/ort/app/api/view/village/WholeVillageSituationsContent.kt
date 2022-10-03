@@ -48,8 +48,9 @@ data class WholeVillageSituationsContent(
         ) : this(
             day = day,
             rooms = convertToVillageDayRoom(village, day),
+            // 事前処理で1日ずれている
             footsteps = footsteps.filterByDay(day).list.map { it.roomNumbers }.sorted(),
-            votes = votes.filterByDay(day).list
+            votes = votes.filterByDay(day - 1).list
         )
 
         companion object {
@@ -61,13 +62,14 @@ data class WholeVillageSituationsContent(
                 val width = village.roomSize!!.width
                 val height = village.roomSize.height
                 return (1..width * height).map { roomNumber ->
-                    val participant = village.participants.findByRoomNumber(roomNumber, day)
+                    val participant = village.participants.findByRoomNumber(roomNumber, day - 1)
                     VillageDayRoom(
                         roomNumber = roomNumber,
                         x = (roomNumber - 1) % width,
                         y = (roomNumber - 1) / width,
                         participantId = participant?.id,
                         isDead = participant?.isDeadWhen(day),
+                        deadDay = participant?.dead?.deadDayWhen(day),
                         deadReason = participant?.dead?.deadReasonWhen(day)?.let { DeadReasonView.of(it) }
                     )
                 }
@@ -82,6 +84,7 @@ data class WholeVillageSituationsContent(
             val y: Int,
             val participantId: Int?,
             val isDead: Boolean?,
+            val deadDay: Int?,
             val deadReason: DeadReasonView?
         )
     }

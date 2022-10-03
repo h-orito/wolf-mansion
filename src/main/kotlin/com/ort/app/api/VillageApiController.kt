@@ -6,11 +6,13 @@ import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.VoteDomainService
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
+@CrossOrigin
 class VillageApiController(
     private val villageService: VillageService,
     private val charaService: CharaService,
