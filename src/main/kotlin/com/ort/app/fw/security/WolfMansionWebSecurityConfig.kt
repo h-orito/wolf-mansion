@@ -50,7 +50,11 @@ class WolfMansionWebSecurityConfig(
             .rememberMe()
             .userDetailsService(userInfoService)
             .key("X7kmptSvar")
-        http.csrf().ignoringAntMatchers("/village/*/confirm", "/village/*/say")
+        http.csrf().ignoringAntMatchers(
+            "/village/*/confirm",
+            "/village/*/say",
+            "/api/login"
+        )
     }
 
     @Bean

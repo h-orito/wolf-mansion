@@ -54,6 +54,9 @@ class VillageController(
         val village = villageService.findVillage(villageId)
             ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms())
+        if (village.setting.tags.list.any { it.toCdef() == CDef.VillageTagItem.R18 }) {
+            model.addAttribute("noAd", true)
+        }
         return "village"
     }
 
@@ -67,6 +70,9 @@ class VillageController(
         val village = villageService.findVillage(villageId)
             ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         villageControllerHelper.setIndexModel(village, day, model, VillageForms())
+        if (village.setting.tags.list.any { it.toCdef() == CDef.VillageTagItem.R18 }) {
+            model.addAttribute("noAd", true)
+        }
         return "village"
     }
 }
