@@ -619,6 +619,9 @@ public interface CDef extends Classification {
         /** おまかせ（妖狐陣営） */
         おまかせ妖狐陣営("FOXS", "おまかせ（妖狐陣営）", emptyStrings())
         ,
+        /** 冷凍者 */
+        冷凍者("FREEZER", "冷凍者", emptyStrings())
+        ,
         /** おまかせ（役職窓あり） */
         おまかせ役職窓あり("FRIENDS", "おまかせ（役職窓あり）", emptyStrings())
         ,
@@ -1049,6 +1052,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "お");
                 _subItemMapMap.put(おまかせ妖狐陣営.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "213");
+                subItemMap.put("campCode", "WEREWOLF");
+                subItemMap.put("skill_short_name", "凍");
+                _subItemMapMap.put(冷凍者.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -2390,6 +2400,9 @@ public interface CDef extends Classification {
         ,
         /** 説得 */
         説得("PERSUADE", "説得", emptyStrings())
+        ,
+        /** 戦闘力発揮 */
+        戦闘力発揮("POWER", "戦闘力発揮", emptyStrings())
         ,
         /** 虹塗り */
         虹塗り("RAINBOW", "虹塗り", emptyStrings())

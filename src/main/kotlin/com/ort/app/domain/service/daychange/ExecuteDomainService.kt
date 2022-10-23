@@ -1,5 +1,6 @@
 package com.ort.app.domain.service.daychange
 
+import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.message.Message
@@ -35,7 +36,7 @@ class ExecuteDomainService(
             .list.any { village.participants.chara(it.charaId).isAlive() }
 
         // 被投票数
-        val votedCountMap = calculateVoteCount(village, votes)
+        val votedCountMap = calculateVoteCount(village, votes, daychange.abilities)
         // 処刑される人
         val executedParticipants = decideExecutedParticipants(votedCountMap, executeCount)
 
@@ -52,7 +53,11 @@ class ExecuteDomainService(
         return daychange.copy(village = village, messages = messages)
     }
 
-    private fun calculateVoteCount(village: Village, votes: List<Vote>): Map<VillageParticipant, Int> {
+    private fun calculateVoteCount(
+        village: Village,
+        votes: List<Vote>,
+        abilities: Abilities
+    ): Map<VillageParticipant, Int> {
         val votedCountMap = votes.groupBy { it.targetCharaId }
             .map { (targetCharaId, voteList) -> village.participants.chara(targetCharaId) to voteList.size }
             .toMap().toMutableMap()
@@ -67,6 +72,13 @@ class ExecuteDomainService(
             val voteTargetCharaId = votes.first { it.charaId == lawyer.charaId }.targetCharaId
             val voteTarget = village.participants.chara(voteTargetCharaId)
             votedCountMap[voteTarget] = votedCountMap[voteTarget]!!.minus(3)
+        }
+        // 冷凍者が能力を行使した場合、冷凍者が投票した人は+529999
+        village.participants.filterAlive().filterBySkill(CDef.Skill.冷凍者.toModel()).list.forEach { freezer ->
+            abilities.findYesterday(village, freezer, CDef.AbilityType.戦闘力発揮.toModel()) ?: return@forEach
+            val voteTargetCharaId = votes.first { it.charaId == freezer.charaId }.targetCharaId
+            val voteTarget = village.participants.chara(voteTargetCharaId)
+            votedCountMap[voteTarget] = votedCountMap[voteTarget]!!.plus(529999)
         }
 
         return votedCountMap

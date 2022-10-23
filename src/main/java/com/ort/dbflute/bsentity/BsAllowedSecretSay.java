@@ -78,7 +78,7 @@ public abstract class BsAllowedSecretSay extends AbstractEntity implements Domai
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "ALLOWED_SECRET_SAY";
+        return "allowed_secret_say";
     }
 
     // ===================================================================================

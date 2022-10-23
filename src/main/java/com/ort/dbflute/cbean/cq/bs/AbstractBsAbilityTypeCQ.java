@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of ABILITY_TYPE.
+ * The abstract condition-query of ability_type.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "ABILITY_TYPE";
+        return "ability_type";
     }
 
     // ===================================================================================
@@ -276,6 +276,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_Equal_説得() {
         setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.説得);
+    }
+
+    /**
+     * Equal(=). As 戦闘力発揮 (POWER). And OnlyOnceRegistered. <br>
+     * 戦闘力発揮
+     */
+    public void setAbilityTypeCode_Equal_戦闘力発揮() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.戦闘力発揮);
     }
 
     /**
@@ -606,6 +614,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 戦闘力発揮 (POWER). And OnlyOnceRegistered. <br>
+     * 戦闘力発揮
+     */
+    public void setAbilityTypeCode_NotEqual_戦闘力発揮() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.戦闘力発揮);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 虹塗り (RAINBOW). And OnlyOnceRegistered. <br>
      * 虹塗り
      */
@@ -745,8 +761,8 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select ABILITY_TYPE_CODE from ABILITY where ...)} <br>
-     * ABILITY by ABILITY_TYPE_CODE, named 'abilityAsOne'.
+     * {exists (select ABILITY_TYPE_CODE from ability where ...)} <br>
+     * ability by ABILITY_TYPE_CODE, named 'abilityAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsAbility</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     abilityCB.query().set...
@@ -764,8 +780,8 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select ABILITY_TYPE_CODE from ABILITY where ...)} <br>
-     * ABILITY by ABILITY_TYPE_CODE, named 'abilityAsOne'.
+     * {not exists (select ABILITY_TYPE_CODE from ability where ...)} <br>
+     * ability by ABILITY_TYPE_CODE, named 'abilityAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsAbility</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     abilityCB.query().set...
@@ -791,8 +807,8 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from ABILITY where ...)} <br>
-     * ABILITY by ABILITY_TYPE_CODE, named 'abilityAsOne'.
+     * {FOO &lt;= (select max(BAR) from ability where ...)} <br>
+     * ability by ABILITY_TYPE_CODE, named 'abilityAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedAbility()</span>.<span style="color: #CC4747">max</span>(abilityCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     abilityCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>

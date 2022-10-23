@@ -67,7 +67,7 @@ public abstract class BsVillageCharaGroupBhv extends AbstractBehaviorWritable<Vi
     /** {@inheritDoc} */
     public VillageCharaGroupDbm asDBMeta() { return VillageCharaGroupDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "VILLAGE_CHARA_GROUP"; }
+    public String asTableDbName() { return "village_chara_group"; }
 
     // ===================================================================================
     //                                                                        New Instance

@@ -13,7 +13,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of ORIGINAL_CHARA_GROUP. (Singleton)
+ * The DB meta of original_chara_group. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class OriginalCharaGroupDbm extends AbstractDBMeta {
@@ -55,7 +55,7 @@ public class OriginalCharaGroupDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "ORIGINAL_CHARA_GROUP";
+    protected final String _tableDbName = "original_chara_group";
     protected final String _tableDispName = "ORIGINAL_CHARA_GROUP";
     protected final String _tablePropertyName = "originalCharaGroup";
     protected final TableSqlName _tableSqlName = new TableSqlName("ORIGINAL_CHARA_GROUP", _tableDbName);

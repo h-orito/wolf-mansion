@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of VILLAGE_SETTINGS.
+ * The base condition-query of village_settings.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
@@ -35,7 +35,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from VILLAGE_SETTINGS) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from village_settings) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join VILLAGE_SETTINGS on ... and FOO = [value] ...}
+     * {select ... from ... left outer join village_settings on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -81,14 +81,14 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @return this. (NotNull)
      */
     public BsVillageSettingsCQ addOrderBy_VillageId_Asc() { regOBA("VILLAGE_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @return this. (NotNull)
      */
     public BsVillageSettingsCQ addOrderBy_VillageId_Desc() { regOBD("VILLAGE_ID"); return this; }
@@ -421,14 +421,14 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to ALLOWED_SECRET_SAY, classification=AllowedSecretSay}
+     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay}
      * @return this. (NotNull)
      */
     public BsVillageSettingsCQ addOrderBy_AllowedSecretSayCode_Asc() { regOBA("ALLOWED_SECRET_SAY_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to ALLOWED_SECRET_SAY, classification=AllowedSecretSay}
+     * ALLOWED_SECRET_SAY_CODE: {IX, NotNull, VARCHAR(20), FK to allowed_secret_say, classification=AllowedSecretSay}
      * @return this. (NotNull)
      */
     public BsVillageSettingsCQ addOrderBy_AllowedSecretSayCode_Desc() { regOBD("ALLOWED_SECRET_SAY_CODE"); return this; }
@@ -501,14 +501,14 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to ORIGINAL_CHARA_GROUP}
+     * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
      * @return this. (NotNull)
      */
     public BsVillageSettingsCQ addOrderBy_OriginalCharaGroupId_Asc() { regOBA("ORIGINAL_CHARA_GROUP_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to ORIGINAL_CHARA_GROUP}
+     * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
      * @return this. (NotNull)
      */
     public BsVillageSettingsCQ addOrderBy_OriginalCharaGroupId_Desc() { regOBD("ORIGINAL_CHARA_GROUP_ID"); return this; }
@@ -662,7 +662,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
         return xgetQueRlMap(prop);
     }
     protected AllowedSecretSayCQ xcreateQueryAllowedSecretSay() {
-        String nrp = xresolveNRP("VILLAGE_SETTINGS", "allowedSecretSay"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("village_settings", "allowedSecretSay"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new AllowedSecretSayCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "allowedSecretSay", nrp);
     }
     protected void xsetupOuterJoinAllowedSecretSay() { xregOutJo("allowedSecretSay"); }
@@ -682,7 +682,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
         return xgetQueRlMap(prop);
     }
     protected OriginalCharaGroupCQ xcreateQueryOriginalCharaGroup() {
-        String nrp = xresolveNRP("VILLAGE_SETTINGS", "originalCharaGroup"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("village_settings", "originalCharaGroup"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new OriginalCharaGroupCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "originalCharaGroup", nrp);
     }
     protected void xsetupOuterJoinOriginalCharaGroup() { xregOutJo("originalCharaGroup"); }
@@ -702,7 +702,7 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
         return xgetQueRlMap(prop);
     }
     protected VillageCQ xcreateQueryVillage() {
-        String nrp = xresolveNRP("VILLAGE_SETTINGS", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("village_settings", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillageCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "village", nrp);
     }
     protected void xsetupOuterJoinVillage() { xregOutJo("village"); }

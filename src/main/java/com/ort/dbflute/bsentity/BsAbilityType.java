@@ -78,7 +78,7 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "ABILITY_TYPE";
+        return "ability_type";
     }
 
     // ===================================================================================
@@ -331,6 +331,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
      */
     public void setAbilityTypeCode_説得() {
         setAbilityTypeCodeAsAbilityType(CDef.AbilityType.説得);
+    }
+
+    /**
+     * Set the value of abilityTypeCode as 戦闘力発揮 (POWER). <br>
+     * 戦闘力発揮
+     */
+    public void setAbilityTypeCode_戦闘力発揮() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.戦闘力発揮);
     }
 
     /**
@@ -719,6 +727,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode説得() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.説得) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 戦闘力発揮? <br>
+     * 戦闘力発揮
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode戦闘力発揮() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.戦闘力発揮) : false;
     }
 
     /**

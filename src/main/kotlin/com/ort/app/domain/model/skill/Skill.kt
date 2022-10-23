@@ -150,6 +150,7 @@ data class Skill(
             CDef.Skill.泥棒猫 to AbilityType(CDef.AbilityType.恋泥棒),
             CDef.Skill.バールのようなもの to AbilityType(CDef.AbilityType.殴打),
             CDef.Skill.闇探偵 to AbilityType(CDef.AbilityType.捜査),
+            CDef.Skill.冷凍者 to AbilityType(CDef.AbilityType.戦闘力発揮),
         )
 
         private val shortNameToSkill = Skills.all().filterNotSomeone().list.associate {

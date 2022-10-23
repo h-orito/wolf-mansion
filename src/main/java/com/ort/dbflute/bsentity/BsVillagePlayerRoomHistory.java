@@ -79,7 +79,7 @@ public abstract class BsVillagePlayerRoomHistory extends AbstractEntity implemen
     /** VILLAGE_PLAYER_ROOM_HISTORY_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
     protected Integer _villagePlayerRoomHistoryId;
 
-    /** VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} */
+    /** VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player} */
     protected Integer _villagePlayerId;
 
     /** DAY: {NotNull, INT UNSIGNED(10)} */
@@ -110,7 +110,7 @@ public abstract class BsVillagePlayerRoomHistory extends AbstractEntity implemen
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "VILLAGE_PLAYER_ROOM_HISTORY";
+        return "village_player_room_history";
     }
 
     // ===================================================================================
@@ -244,7 +244,7 @@ public abstract class BsVillagePlayerRoomHistory extends AbstractEntity implemen
     }
 
     /**
-     * [get] VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
+     * [get] VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player} <br>
      * 村参加者ID
      * @return The value of the column 'VILLAGE_PLAYER_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -254,7 +254,7 @@ public abstract class BsVillagePlayerRoomHistory extends AbstractEntity implemen
     }
 
     /**
-     * [set] VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
+     * [set] VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player} <br>
      * 村参加者ID
      * @param villagePlayerId The value of the column 'VILLAGE_PLAYER_ID'. (basically NotNull if update: for the constraint)
      */

@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.OriginalCharaCQ;
 
 /**
- * The nest select set-upper of ORIGINAL_CHARA.
+ * The nest select set-upper of original_chara.
  * @author DBFlute(AutoGenerator)
  */
 public class OriginalCharaNss {

@@ -82,7 +82,7 @@ public abstract class BsVillagePlayerDeadHistory extends AbstractEntity implemen
     /** VILLAGE_PLAYER_DEAD_HISTORY_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
     protected Integer _villagePlayerDeadHistoryId;
 
-    /** VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} */
+    /** VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player} */
     protected Integer _villagePlayerId;
 
     /** DAY: {NotNull, INT UNSIGNED(10)} */
@@ -91,7 +91,7 @@ public abstract class BsVillagePlayerDeadHistory extends AbstractEntity implemen
     /** IS_DEAD: {NotNull, BIT, classification=Flg} */
     protected Boolean _isDead;
 
-    /** DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason} */
+    /** DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} */
     protected String _deadReasonCode;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
@@ -116,7 +116,7 @@ public abstract class BsVillagePlayerDeadHistory extends AbstractEntity implemen
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "VILLAGE_PLAYER_DEAD_HISTORY";
+        return "village_player_dead_history";
     }
 
     // ===================================================================================
@@ -154,7 +154,7 @@ public abstract class BsVillagePlayerDeadHistory extends AbstractEntity implemen
 
     /**
      * Get the value of deadReasonCode as the classification of DeadReason. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason} <br>
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
      * 死亡理由
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -165,7 +165,7 @@ public abstract class BsVillagePlayerDeadHistory extends AbstractEntity implemen
 
     /**
      * Set the value of deadReasonCode as the classification of DeadReason. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason} <br>
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
      * 死亡理由
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -539,7 +539,7 @@ public abstract class BsVillagePlayerDeadHistory extends AbstractEntity implemen
     }
 
     /**
-     * [get] VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
+     * [get] VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player} <br>
      * 村参加者ID
      * @return The value of the column 'VILLAGE_PLAYER_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -549,7 +549,7 @@ public abstract class BsVillagePlayerDeadHistory extends AbstractEntity implemen
     }
 
     /**
-     * [set] VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
+     * [set] VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player} <br>
      * 村参加者ID
      * @param villagePlayerId The value of the column 'VILLAGE_PLAYER_ID'. (basically NotNull if update: for the constraint)
      */
@@ -600,7 +600,7 @@ public abstract class BsVillagePlayerDeadHistory extends AbstractEntity implemen
     }
 
     /**
-     * [get] DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason} <br>
+     * [get] DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
      * 死亡理由コード
      * @return The value of the column 'DEAD_REASON_CODE'. (NullAllowed even if selected: for no constraint)
      */
@@ -610,7 +610,7 @@ public abstract class BsVillagePlayerDeadHistory extends AbstractEntity implemen
     }
 
     /**
-     * [set] DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason} <br>
+     * [set] DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
      * 死亡理由コード
      * @param deadReasonCode The value of the column 'DEAD_REASON_CODE'. (NullAllowed: null update allowed for no constraint)
      */
