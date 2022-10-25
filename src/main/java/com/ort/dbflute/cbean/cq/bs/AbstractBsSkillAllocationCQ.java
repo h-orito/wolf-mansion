@@ -272,6 +272,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
     }
 
     /**
+     * Equal(=). As 道化師 (CLOWN). And OnlyOnceRegistered. <br>
+     * 道化師
+     */
+    public void setSkillCode_Equal_道化師() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.道化師);
+    }
+
+    /**
      * Equal(=). As C国狂人 (CMADMAN). And OnlyOnceRegistered. <br>
      * C国狂人
      */
@@ -613,6 +621,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
      */
     public void setSkillCode_Equal_おまかせ() {
         setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * Equal(=). As 伝説の殺し屋 (LEGENDASSASSIN). And OnlyOnceRegistered. <br>
+     * 伝説の殺し屋
+     */
+    public void setSkillCode_Equal_伝説の殺し屋() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.伝説の殺し屋);
     }
 
     /**
@@ -1103,6 +1119,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 道化師 (CLOWN). And OnlyOnceRegistered. <br>
+     * 道化師
+     */
+    public void setSkillCode_NotEqual_道化師() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.道化師);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As C国狂人 (CMADMAN). And OnlyOnceRegistered. <br>
      * C国狂人
      */
@@ -1444,6 +1468,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
      */
     public void setSkillCode_NotEqual_おまかせ() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 伝説の殺し屋 (LEGENDASSASSIN). And OnlyOnceRegistered. <br>
+     * 伝説の殺し屋
+     */
+    public void setSkillCode_NotEqual_伝説の殺し屋() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.伝説の殺し屋);
     }
 
     /**

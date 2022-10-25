@@ -159,6 +159,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 道化 (DOUKE). And OnlyOnceRegistered. <br>
+     * 道化
+     */
+    public void setAbilityTypeCode_Equal_道化() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.道化);
+    }
+
+    /**
      * Equal(=). As 強制転生 (FORCE_REINCARNATION). And OnlyOnceRegistered. <br>
      * 強制転生
      */
@@ -284,6 +292,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_Equal_戦闘力発揮() {
         setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.戦闘力発揮);
+    }
+
+    /**
+     * Equal(=). As 殺し屋化 (PRO). And OnlyOnceRegistered. <br>
+     * 殺し屋化
+     */
+    public void setAbilityTypeCode_Equal_殺し屋化() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.殺し屋化);
     }
 
     /**
@@ -494,6 +510,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 道化 (DOUKE). And OnlyOnceRegistered. <br>
+     * 道化
+     */
+    public void setAbilityTypeCode_NotEqual_道化() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.道化);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 強制転生 (FORCE_REINCARNATION). And OnlyOnceRegistered. <br>
      * 強制転生
      */
@@ -619,6 +643,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_戦闘力発揮() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.戦闘力発揮);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 殺し屋化 (PRO). And OnlyOnceRegistered. <br>
+     * 殺し屋化
+     */
+    public void setAbilityTypeCode_NotEqual_殺し屋化() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.殺し屋化);
     }
 
     /**

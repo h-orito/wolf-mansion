@@ -214,6 +214,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 道化 (DOUKE). <br>
+     * 道化
+     */
+    public void setAbilityTypeCode_道化() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.道化);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 強制転生 (FORCE_REINCARNATION). <br>
      * 強制転生
      */
@@ -339,6 +347,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
      */
     public void setAbilityTypeCode_戦闘力発揮() {
         setAbilityTypeCodeAsAbilityType(CDef.AbilityType.戦闘力発揮);
+    }
+
+    /**
+     * Set the value of abilityTypeCode as 殺し屋化 (PRO). <br>
+     * 殺し屋化
+     */
+    public void setAbilityTypeCode_殺し屋化() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.殺し屋化);
     }
 
     /**
@@ -565,6 +581,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Is the value of abilityTypeCode 道化? <br>
+     * 道化
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode道化() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.道化) : false;
+    }
+
+    /**
      * Is the value of abilityTypeCode 強制転生? <br>
      * 強制転生
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -738,6 +765,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode戦闘力発揮() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.戦闘力発揮) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 殺し屋化? <br>
+     * 殺し屋化
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode殺し屋化() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.殺し屋化) : false;
     }
 
     /**

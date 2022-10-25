@@ -2,7 +2,6 @@ package com.ort.app.domain.service.ability
 
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.AbilityType
-import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
@@ -58,6 +57,8 @@ class AbilityDomainService(
     private val rainbowDomainService: RainbowDomainService,
     private val loudSpeakDomainService: LoudSpeakDomainService,
     private val shoutDomainService: ShoutDomainService,
+    private val clownDomainService: ClownDomainService,
+    private val assassinDomainService: AssassinDomainService,
     private val translateDomainService: TranslateDomainService,
     private val resuscitateDomainService: ResuscitateDomainService,
     private val necromanceDomainService: NecromanceDomainService,
@@ -164,6 +165,8 @@ class AbilityDomainService(
             CDef.AbilityType.殴打 -> beatDomainService
             CDef.AbilityType.全知 -> omniscienceDomainService
             CDef.AbilityType.戦闘力発揮 -> freezerDomainService
+            CDef.AbilityType.道化 -> clownDomainService
+            CDef.AbilityType.殺し屋化 -> assassinDomainService
         }
 
     fun createSetMessage(
@@ -515,25 +518,5 @@ class AbilityDomainService(
         daychange = giveWinDomainService.addDefaultAbilities(daychange)
 
         return daychange
-    }
-
-    fun shoudDakuten(abilities: Abilities, village: Village, myself: VillageParticipant): Boolean {
-        return abilities
-            .filterByDay(village.latestDay() - 1)
-            .filterByType(CDef.AbilityType.叫び.toModel())
-            .list.any { it.targetCharaId == myself.charaId }
-    }
-
-    fun shouldReTranslate(
-        messageType: MessageType,
-        abilities: Abilities,
-        village: Village,
-        myself: VillageParticipant
-    ): Boolean {
-        return messageType.toCdef() == CDef.MessageType.通常発言 &&
-                abilities
-                    .filterByDay(village.latestDay() - 1)
-                    .filterByType(CDef.AbilityType.翻訳.toModel())
-                    .list.any { it.targetCharaId == myself.charaId }
     }
 }

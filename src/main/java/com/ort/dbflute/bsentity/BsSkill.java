@@ -236,6 +236,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Set the value of skillCode as 道化師 (CLOWN). <br>
+     * 道化師
+     */
+    public void setSkillCode_道化師() {
+        setSkillCodeAsSkill(CDef.Skill.道化師);
+    }
+
+    /**
      * Set the value of skillCode as C国狂人 (CMADMAN). <br>
      * C国狂人
      */
@@ -577,6 +585,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
      */
     public void setSkillCode_おまかせ() {
         setSkillCodeAsSkill(CDef.Skill.おまかせ);
+    }
+
+    /**
+     * Set the value of skillCode as 伝説の殺し屋 (LEGENDASSASSIN). <br>
+     * 伝説の殺し屋
+     */
+    public void setSkillCode_伝説の殺し屋() {
+        setSkillCodeAsSkill(CDef.Skill.伝説の殺し屋);
     }
 
     /**
@@ -1117,6 +1133,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Is the value of skillCode 道化師? <br>
+     * 道化師
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode道化師() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.道化師) : false;
+    }
+
+    /**
      * Is the value of skillCode C国狂人? <br>
      * C国狂人
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1587,6 +1614,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isSkillCodeおまかせ() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.おまかせ) : false;
+    }
+
+    /**
+     * Is the value of skillCode 伝説の殺し屋? <br>
+     * 伝説の殺し屋
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode伝説の殺し屋() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.伝説の殺し屋) : false;
     }
 
     /**

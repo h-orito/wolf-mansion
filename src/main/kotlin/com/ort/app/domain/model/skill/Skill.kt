@@ -151,6 +151,8 @@ data class Skill(
             CDef.Skill.バールのようなもの to AbilityType(CDef.AbilityType.殴打),
             CDef.Skill.闇探偵 to AbilityType(CDef.AbilityType.捜査),
             CDef.Skill.冷凍者 to AbilityType(CDef.AbilityType.戦闘力発揮),
+            CDef.Skill.道化師 to AbilityType(CDef.AbilityType.道化),
+            CDef.Skill.伝説の殺し屋 to AbilityType(CDef.AbilityType.殺し屋化),
         )
 
         private val shortNameToSkill = Skills.all().filterNotSomeone().list.associate {
@@ -190,6 +192,8 @@ data class Skill(
                 CDef.Skill.虹職人,
                 CDef.Skill.拡声者,
                 CDef.Skill.濁点者,
+                CDef.Skill.道化師,
+                CDef.Skill.伝説の殺し屋,
                 CDef.Skill.翻訳者,
                 CDef.Skill.トラック,
                 CDef.Skill.ババ,

@@ -44,6 +44,8 @@ class ProgressDomainService(
     private val rainbowDomainService: RainbowDomainService,
     private val loudSpeakDomainService: LoudSpeakDomainService,
     private val shoutDomainService: ShoutDomainService,
+    private val clownDomainService: ClownDomainService,
+    private val assassinDomainService: AssassinDomainService,
     private val translateDomainService: TranslateDomainService,
     private val forceReincarnationDomainService: ForceReincarnationDomainService,
     private val giveBabaDomainService: GiveBabaDomainService,
@@ -78,6 +80,10 @@ class ProgressDomainService(
         daychange = loudSpeakDomainService.loudSpeak(daychange)
         // 叫び
         daychange = shoutDomainService.shout(daychange)
+        // 道化
+        daychange = clownDomainService.clowning(daychange)
+        // 殺し屋化
+        daychange = assassinDomainService.assassin(daychange)
         // 翻訳
         daychange = translateDomainService.translate(daychange)
         // 突然死

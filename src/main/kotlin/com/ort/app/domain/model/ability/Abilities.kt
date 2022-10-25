@@ -13,6 +13,8 @@ data class Abilities(val list: List<Ability>) {
 
     fun filterByCharaId(charaId: Int): Abilities = copy(list = list.filter { it.charaId == charaId })
 
+    fun filterByTargetCharaId(charaId: Int): Abilities = copy(list = list.filter { it.targetCharaId == charaId })
+
     fun filterByAttackerCharaId(charaId: Int): Abilities = copy(list = list.filter { it.attackerCharaId == charaId })
 
     fun sortedByDay(): Abilities = copy(list = list.sortedBy { it.day })
@@ -32,4 +34,13 @@ data class Abilities(val list: List<Ability>) {
         .filterByCharaId(participant.charaId)
         .filterByType(type)
         .list.firstOrNull()
+
+    fun isTargetedYesterday(
+        village: Village,
+        participant: VillageParticipant,
+        type: AbilityType
+    ): Boolean = filterByDay(village.latestDay() - 1)
+        .filterByTargetCharaId(participant.charaId)
+        .filterByType(type)
+        .list.isNotEmpty()
 }

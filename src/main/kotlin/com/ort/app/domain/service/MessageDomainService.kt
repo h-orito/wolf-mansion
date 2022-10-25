@@ -1,13 +1,10 @@
 package com.ort.app.domain.service
 
+import com.ort.app.domain.model.ability.Abilities
+import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.FaceType
-import com.ort.app.domain.model.message.Message
-import com.ort.app.domain.model.message.MessageContent
-import com.ort.app.domain.model.message.MessageQuery
-import com.ort.app.domain.model.message.MessageType
-import com.ort.app.domain.model.message.Messages
-import com.ort.app.domain.model.message.toModel
+import com.ort.app.domain.model.message.*
 import com.ort.app.domain.model.randomkeyword.RandomKeyword
 import com.ort.app.domain.model.randomkeyword.RandomKeywords
 import com.ort.app.domain.model.translate.TranslateRepository
@@ -15,20 +12,10 @@ import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.village.participant.VillageParticipants
 import com.ort.app.domain.service.message.say.MessageTypeDomainService
-import com.ort.app.domain.service.message.system.AttackMessageDomainService
-import com.ort.app.domain.service.message.system.CoronerMessageDomainService
-import com.ort.app.domain.service.message.system.DivineMessageDomainService
-import com.ort.app.domain.service.message.system.FoxMessageDomainService
-import com.ort.app.domain.service.message.system.GuruMessageDomainService
-import com.ort.app.domain.service.message.system.InvestigateMessageDomainService
-import com.ort.app.domain.service.message.system.LoversMessageDomainService
-import com.ort.app.domain.service.message.system.PrivateAbilityMessageDomainService
-import com.ort.app.domain.service.message.system.PrivateSystemMessageDomainService
-import com.ort.app.domain.service.message.system.PsychicMessageDomainService
-import com.ort.app.domain.service.message.system.WiseMessageDomainService
+import com.ort.app.domain.service.message.system.*
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Component
-import java.util.Random
+import java.util.*
 import java.util.regex.Pattern
 
 @Component
@@ -321,30 +308,88 @@ class MessageDomainService(
         myself: VillageParticipant,
         target: VillageParticipant?,
         messageContent: MessageContent,
-        shouldDakuten: Boolean,
-        shouldReTranslate: Boolean
+        abilities: Abilities
     ): Messages {
-        if (!shouldReTranslate) {
-            return Messages(listOf(createSayMessage(village, myself, target, messageContent, shouldDakuten)))
-        }
-        val (languageName, translated, reTranslated) = translateRepository.reTranslate(messageContent.text)
-        val translatedMessage = createSayMessage(
-            village = village,
-            myself = myself,
-            target = target,
-            messageContent = messageContent.copy(
-                type = CDef.MessageType.独り言.toModel(),
-                text = "${messageContent.text}\n\n${translated}\n（${languageName}）"
+        val transformation = MessageTransformation(
+            dakuten = abilities.isTargetedYesterday(village, myself, CDef.AbilityType.叫び.toModel()),
+            clowning = abilities.isTargetedYesterday(village, myself, CDef.AbilityType.道化.toModel()),
+            assassin = abilities.isTargetedYesterday(village, myself, CDef.AbilityType.殺し屋化.toModel()),
+            translate = messageContent.type.toCdef() == CDef.MessageType.通常発言 &&
+                    abilities.isTargetedYesterday(village, myself, CDef.AbilityType.翻訳.toModel())
+        )
+        return if (transformation.translate) {
+            val (languageName, translated, reTranslated) = translateRepository.reTranslate(messageContent.text)
+            val translatedMessage = createSayMessage(
+                village = village,
+                myself = myself,
+                target = target,
+                messageContent = messageContent.copy(
+                    type = CDef.MessageType.独り言.toModel(),
+                    text = "${messageContent.text}\n\n${translated}\n（${languageName}）"
+                )
             )
-        )
-        val reTranslatedMessage = createSayMessage(
-            village = village,
-            myself = myself,
-            target = target,
-            messageContent = messageContent.copy(text = reTranslated),
-            shouldDakuten = shouldDakuten
-        )
-        return Messages(listOf(translatedMessage, reTranslatedMessage))
+            val reTranslatedMessage = createSayMessage(
+                village = village,
+                myself = myself,
+                target = target,
+                messageContent = messageContent.copy(text = reTranslated),
+                transformation = transformation
+            )
+            Messages(listOf(translatedMessage, reTranslatedMessage))
+        } else {
+            Messages(
+                listOf(
+                    createSayMessage(
+                        village = village,
+                        myself = myself,
+                        target = target,
+                        messageContent = messageContent,
+                        transformation = transformation
+                    )
+                )
+            )
+        }
+    }
+
+    data class MessageTransformation(
+        val translate: Boolean = false,
+        val dakuten: Boolean = false,
+        val clowning: Boolean = false,
+        val assassin: Boolean = false
+    ) {
+        private val cards: List<String> = listOf("♠", "♥", "♦", "♣")
+
+        // 再翻訳以外の変換
+        fun transform(messageContent: MessageContent): MessageContent {
+            var text = messageContent.text
+            if (assassin) {
+                text = text.split("\r\n").joinToString("\r\n") {
+                    if (it.isEmpty()) it else "$it──────"
+                }
+            }
+            if (clowning) {
+                text = text.split("\r\n").joinToString("\r\n") {
+                    if (it.isEmpty()) it
+                    else {
+                        val card = cards.random()
+                        "$it$card"
+                    }
+                }
+            }
+            if (dakuten) {
+                text = text.split("\r\n").joinToString(
+                    separator = "\r\n",
+                    prefix = "[[large]][[b]]",
+                    postfix = "[[/b]][[/large]]"
+                ) {
+                    if (it.isEmpty()) it
+                    else it.map { "$it゛" }.joinToString("")
+                }
+            }
+
+            return messageContent.copy(text = text)
+        }
+
     }
 
     fun createSayMessage(
@@ -352,18 +397,13 @@ class MessageDomainService(
         myself: VillageParticipant,
         target: VillageParticipant?,
         messageContent: MessageContent,
-        shouldDakuten: Boolean = false
+        transformation: MessageTransformation = MessageTransformation()
     ): Message {
         return Message.ofSayMessage(
             day = village.latestDay(),
             participantId = myself.id,
             targetParticipantId = target?.id,
-            messageContent = if (shouldDakuten) {
-                messageContent.copy(
-                    text = messageContent.text.map { "${it}゛" }
-                        .joinToString(separator = "", prefix = "[[large]][[b]]", postfix = "[[/b]][[/large]]")
-                )
-            } else messageContent
+            messageContent = transformation.transform(messageContent)
         )
     }
 

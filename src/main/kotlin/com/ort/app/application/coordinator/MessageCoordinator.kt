@@ -24,6 +24,7 @@ class MessageCoordinator(
     private val abilityService: AbilityService,
     private val randomKeywordService: RandomKeywordService,
     private val slackService: NotificationService,
+    private val accessInfoCoordinator: AccessInfoCoordinator,
     // domain service
     private val messageDomainService: MessageDomainService,
     private val sayDomainService: SayDomainService,
@@ -78,26 +79,18 @@ class MessageCoordinator(
         myself ?: throw WolfMansionBusinessException("myself not found.")
         val messageContent = MessageContent.invoke(messageType, message, faceType, convertDisable)
         assertSay(village, myself, messageContent)
-        // register message and ip_address
-        val toParticipant = if (messageContent.type.toCdef() == CDef.MessageType.秘話) {
-            targetCharaId?.let { village.allParticipants().chara(it) }
-        } else null
-        val abilities = abilityService.findAbilities(village.id)
-        val shouldDakuten = abilityDomainService.shoudDakuten(abilities, village, myself)
-        val shouldReTranslate = abilityDomainService.shouldReTranslate(messageContent.type, abilities, village, myself)
-        val messages = messageDomainService.createSayMessages(village, myself, toParticipant, messageContent, shouldDakuten, shouldReTranslate)
-        messages.list.forEach { registerMessage(village.id, it) }
-        villageService.addIpAddress(myself, ipAddress)
-        // IPアドレスが重複している人がいたら通知
-        if (!playerService.findPlayer(myself.playerId).shouldCheckAccessInfo) return
-        val isContain = village.allParticipants()
-            .filterNotDummy(village.dummyParticipant())
-            .filterNotParticipant(myself)
-            .list.flatMap { it.ipAddresses }.distinct()
-            .contains(ipAddress)
-        if (isContain) {
-            slackService.postTextIfNeeded(village, "IPアドレス重複検出: $ipAddress")
-        }
+        // register message
+        messageDomainService.createSayMessages(
+            village = village,
+            myself = myself,
+            target = if (messageContent.type.toCdef() == CDef.MessageType.秘話) {
+                targetCharaId?.let { village.allParticipants().chara(it) }
+            } else null,
+            messageContent = messageContent,
+            abilities = abilityService.findAbilities(village.id)
+        ).list.forEach { registerMessage(village.id, it) }
+        // register access info
+        accessInfoCoordinator.registerAccessInfo(village, myself, ipAddress)
     }
 
     private fun assertSay(
@@ -105,7 +98,8 @@ class MessageCoordinator(
         myself: VillageParticipant,
         messageContent: MessageContent
     ) {
-        val chara = charaService.findChara(myself.charaId, village.setting.chara.isOriginalCharachip) ?: throw WolfMansionBusinessException("chara not found.")
+        val chara = charaService.findChara(myself.charaId, village.setting.chara.isOriginalCharachip)
+            ?: throw WolfMansionBusinessException("chara not found.")
         val latestDayMessageCountMap =
             messageService.findParticipantDayMessageCount(village, village.latestDay(), myself)
         sayDomainService.assertSay(village, myself, chara, latestDayMessageCountMap, messageContent)
