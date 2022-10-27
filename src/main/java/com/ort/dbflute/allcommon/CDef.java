@@ -535,6 +535,9 @@ public interface CDef extends Classification {
         /** 絶対人狼 */
         絶対人狼("ABSOLUTEWOLF", "絶対人狼", emptyStrings())
         ,
+        /** 餡麺麭者 */
+        餡麺麭者("ANPANMAN", "餡麺麭者", emptyStrings())
+        ,
         /** 占星術師 */
         占星術師("ASTROLOGER", "占星術師", emptyStrings())
         ,
@@ -862,6 +865,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "WEREWOLF");
                 subItemMap.put("skill_short_name", "絶");
                 _subItemMapMap.put(絶対人狼.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "35");
+                subItemMap.put("campCode", "VILLAGER");
+                subItemMap.put("skill_short_name", "餡");
+                _subItemMapMap.put(餡麺麭者.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();

@@ -442,6 +442,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
     }
 
     /**
+     * Equal(=). As 餡麺麭者 (ANPANMAN). And OnlyOnceRegistered. <br>
+     * 餡麺麭者
+     */
+    public void setSkillCode_Equal_餡麺麭者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.餡麺麭者);
+    }
+
+    /**
      * Equal(=). As 占星術師 (ASTROLOGER). And OnlyOnceRegistered. <br>
      * 占星術師
      */
@@ -1286,6 +1294,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      */
     public void setSkillCode_NotEqual_絶対人狼() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.絶対人狼);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 餡麺麭者 (ANPANMAN). And OnlyOnceRegistered. <br>
+     * 餡麺麭者
+     */
+    public void setSkillCode_NotEqual_餡麺麭者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.餡麺麭者);
     }
 
     /**

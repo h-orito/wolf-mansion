@@ -167,6 +167,14 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     }
 
     /**
+     * Set the value of skillCode as 餡麺麭者 (ANPANMAN). <br>
+     * 餡麺麭者
+     */
+    public void setSkillCode_餡麺麭者() {
+        setSkillCodeAsSkill(CDef.Skill.餡麺麭者);
+    }
+
+    /**
      * Set the value of skillCode as 占星術師 (ASTROLOGER). <br>
      * 占星術師
      */
@@ -997,6 +1005,17 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     public boolean isSkillCode絶対人狼() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.絶対人狼) : false;
+    }
+
+    /**
+     * Is the value of skillCode 餡麺麭者? <br>
+     * 餡麺麭者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode餡麺麭者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.餡麺麭者) : false;
     }
 
     /**

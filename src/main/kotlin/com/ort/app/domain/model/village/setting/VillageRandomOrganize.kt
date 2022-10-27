@@ -211,6 +211,13 @@ data class VillageRandomOrganize(
             logger.info("妖狐系がいないのに背徳者がいるのでやり直し")
             return true
         }
+        // 勝利できない役職がいたらやり直し（パン屋なしの餡麺麭者）
+        val anpanmanCount = countMap.getOrDefault(CDef.Skill.餡麺麭者, 0)
+        val bakeryCount = countMap.getOrDefault(CDef.Skill.パン屋, 0)
+        if (bakeryCount == 0 && 0 < anpanmanCount) {
+            logger.info("パン屋なしで餡麺麭者がいるのでやり直し")
+            return true
+        }
 
         // PPチェック
         val wolfSum = countMap.entries.filter { it.key.isWolfCount }.sumBy { it.value }

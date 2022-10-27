@@ -23,6 +23,8 @@ class RevivalDomainService(
         daychange = revivalReincarnation(daychange)
         // 申し子
         daychange = revivalHeavenChild(daychange)
+        // 餡麺麭者
+        daychange = revivalAnpanman(daychange)
         // 梟が0→1名以上になった場合、メッセージ追加
         if (!existOwl && daychange.village.participants.filterBySkill(CDef.Skill.梟.toModel()).list.isNotEmpty()) {
             daychange = daychange.copy(
@@ -88,6 +90,23 @@ class RevivalDomainService(
         return daychange.copy(village = village, messages = messages)
     }
 
+    private fun revivalAnpanman(daychange: Daychange): Daychange {
+        var village = daychange.village.copy()
+        // パン屋が生存しているか
+        val existsBakery = village.participants
+            .filterAlive()
+            .filterBySkill(CDef.Skill.パン屋.toModel())
+            .list.isNotEmpty()
+        if (!existsBakery) return daychange
+
+        var messages = daychange.messages.copy()
+        village.participants.filterDead().filterBySkill(CDef.Skill.餡麺麭者.toModel()).list.forEach {
+            village = village.reviveParticipant(it.id)
+            messages = messages.add(createAnpanmanRevivalMessage(village, it))
+        }
+        return daychange.copy(village = village, messages = messages)
+    }
+
     private fun revivalByInsurance(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
@@ -103,6 +122,13 @@ class RevivalDomainService(
         return Message.ofSystemMessage(
             day = village.latestDay(),
             message = "不思議なことに、${participant.name()}が生き返った。"
+        )
+    }
+
+    private fun createAnpanmanRevivalMessage(village: Village, participant: VillageParticipant): Message {
+        return Message.ofSystemMessage(
+            day = village.latestDay(),
+            message = "餡麺麭！新しい顔よ！それーっ！\n不思議なことに、${participant.name()}が生き返った。"
         )
     }
 

@@ -27,6 +27,8 @@ class SuicideDomainService(
                 messages.add(createLoverSuicideMessage(village, target, lover))
             } else if (findWallPunchSuicideTarget(village) != null) {
                 messages.add(createWallPuncherSuicideMessage(village, target))
+            } else if (findAnpanmanSuicideTarget(village) != null) {
+                messages.add(createAnpanmanSuicideMessage(village, target))
             } else {
                 messages.add(createImmoralSuicideMessage(village, target))
             }
@@ -41,6 +43,8 @@ class SuicideDomainService(
         findLoverSuicideTarget(village)?.let { return it }
         // 壁殴り代行
         findWallPunchSuicideTarget(village)?.let { return it }
+        // 餡麺麭者
+        findAnpanmanSuicideTarget(village)?.let { return it }
         // 背徳者
         return findImmoralSuicideTarget(village)
     }
@@ -65,6 +69,16 @@ class SuicideDomainService(
                 val wasdRoomNumbers = roomDomainService.detectWasdRoomNumbers(participant.room!!, village.roomSize!!)
                 village.participants.list.filter { wasdRoomNumbers.contains(it.room!!.number) }.none { it.isAlive() }
             }
+    }
+
+    private fun findAnpanmanSuicideTarget(village: Village): VillageParticipant? {
+        // パン屋が全員死亡していたら後追い対象
+        if (village.participants.filterAlive().filterBySkill(CDef.Skill.パン屋.toModel()).list.isNotEmpty()) return null
+
+        return village.participants
+            .filterAlive() // 自分は生きていて
+            .filterBySkill(CDef.Skill.餡麺麭者.toModel()).list // 餡麺麭者
+            .firstOrNull()
     }
 
     private fun findImmoralSuicideTarget(village: Village): VillageParticipant? {
@@ -93,6 +107,13 @@ class SuicideDomainService(
         return Message.ofSystemMessage(
             day = village.latestDay(),
             message = "${target.name()}は、壁殴りを代行する部屋がなくなってしまい、孤独死した。"
+        )
+    }
+
+    private fun createAnpanmanSuicideMessage(village: Village, target: VillageParticipant): Message {
+        return Message.ofSystemMessage(
+            day = village.latestDay(),
+            message = "${target.name()}は、新しい顔がもらえなくなってしまい、顔がふやけて衰弱死した。"
         )
     }
 
