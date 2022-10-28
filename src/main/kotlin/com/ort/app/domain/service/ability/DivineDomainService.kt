@@ -163,8 +163,13 @@ class DivineDomainService(
     }
 
     private fun divineKillIfNeeded(village: Village, myself: VillageParticipant, target: VillageParticipant): Village {
-        return if (target.isAlive() && target.skill!!.isDeadByDivine()) village.divineKillParticipant(target.id)
-        else village
+        return if (
+            target.isAlive()
+            && myself.skill!!.toCdef() != CDef.Skill.管狐
+            && target.skill!!.isDeadByDivine()
+        ) {
+            village.divineKillParticipant(target.id)
+        } else village
     }
 
     private fun counterDivineKillIfNeeded(
