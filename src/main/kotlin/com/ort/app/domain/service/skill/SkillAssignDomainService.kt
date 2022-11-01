@@ -249,7 +249,7 @@ class SkillAssignDomainService(
         return changeRequestSkill(
             req.copy(
                 first = if (req.first.toCdef() == from) Skill(to) else req.first,
-                second = if (req.first.toCdef() == from) Skill(to) else req.second
+                second = if (req.second.toCdef() == from) Skill(to) else req.second
             )
         )
     }
