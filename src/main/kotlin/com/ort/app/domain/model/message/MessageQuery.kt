@@ -29,13 +29,21 @@ data class MessageQuery(
         var requestMessageTypes =
             if (requestTypes.isNotEmpty()) requestTypes
             else CDef.MessageType.listAll().map { it.toModel() }
-        // 進行中で梟の場合、いずれかの梟が視認可能な発言が含まれていたら全部にする
-        if (village.status.isProgress() && myself?.skill?.toCdef() == CDef.Skill.梟 &&
+
+        // 進行中で梟の場合、いずれかの梟が視認可能な発言種別が含まれていたら
+        if (village.status.isProgress() &&
+            myself?.skill?.toCdef() == CDef.Skill.梟 &&
             requestMessageTypes.any { MessageType.owlViewableSayTypeList.contains(it.toCdef()) }
         ) {
-            requestMessageTypes =
+            requestMessageTypes = if (participantIds.isNotEmpty()) {
+                // 人で絞っている場合、梟が視認可能な発言について誰が発言したかわかってしまうため、一切見えなくする
+                requestMessageTypes.filterNot { MessageType.owlViewableSayTypeList.contains(it.toCdef()) }
+            } else {
+                // 人で絞っていない場合は見られて良いが、どの発言種別だったかわかってしまうため、視認可能な発言種別全てを見えるようにする
                 (requestMessageTypes + MessageType.owlViewableSayTypeList.map { it.toModel() }).distinctBy { it.code }
+            }
         }
+
         messageTypeList = requestMessageTypes.filter { req -> availableMessageTypes.any { it.code == req.code } }
         includeMonologue = isIncludeMonologue(myself)
         includeSecret = isIncludeSecret(myself)
