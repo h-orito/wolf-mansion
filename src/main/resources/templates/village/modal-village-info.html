@@ -186,53 +186,65 @@
                         <tr>
                             <th>発言制限（通常発言）</th>
                             <td>
-                                <table class="table-bordered table-condensed small">
-                                    <thead>
-                                    <tr>
-                                        <th>役職</th>
-                                        <th>制限</th>
-                                        <th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <th:block th:each="restrict, stat : ${content.settings.sayRestrictList}">
+                                <div th:if="${content.settings.sayRestrictList.size() > 0}">
+                                    制限がかかっている役職のみ表示しています。
+                                    <table class="table-bordered table-condensed small">
+                                        <thead>
                                         <tr>
-                                            <td th:text="${restrict.skillName}">村人</td>
-                                            <td th:text="${restrict.restrict ? 'あり' : '無制限'}"></td>
-                                            <td>
+                                            <th>役職</th>
+                                            <th>制限</th>
+                                            <th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <th:block th:each="restrict, stat : ${content.settings.sayRestrictList}">
+                                            <tr>
+                                                <td th:text="${restrict.skillName}">村人</td>
+                                                <td th:text="${restrict.restrict ? 'あり' : '無制限'}"></td>
+                                                <td>
                                                 <span th:if="${restrict.restrict}"
                                                       th:text="${restrict.length} + ' * ' + ${restrict.count}"></span>
-                                            </td>
-                                        </tr>
-                                    </th:block>
-                                    </tbody>
-                                </table>
+                                                </td>
+                                            </tr>
+                                        </th:block>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div th:if="${content.settings.sayRestrictList.size() == 0}">
+                                    制限がかかっている役職はありません。
+                                </div>
                             </td>
                         </tr>
                         <tr>
                             <th>発言制限（役職発言）</th>
                             <td>
-                                <table class="table-bordered table-condensed small">
-                                    <thead>
-                                    <tr>
-                                        <th>発言種別</th>
-                                        <th>制限</th>
-                                        <th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <th:block th:each="restrict, stat : ${content.settings.skillSayRestrictList}">
+                                <div th:if="${content.settings.skillSayRestrictList.size() > 0}">
+                                    制限がかかっている発言種別のみ表示しています。
+                                    <table class="table-bordered table-condensed small">
+                                        <thead>
                                         <tr>
-                                            <td th:text="${restrict.messageTypeName}">人狼の囁き</td>
-                                            <td th:text="${restrict.restrict ? 'あり' : '無制限'}"></td>
-                                            <td>
+                                            <th>発言種別</th>
+                                            <th>制限</th>
+                                            <th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <th:block th:each="restrict, stat : ${content.settings.skillSayRestrictList}">
+                                            <tr>
+                                                <td th:text="${restrict.messageTypeName}">人狼の囁き</td>
+                                                <td th:text="${restrict.restrict ? 'あり' : '無制限'}"></td>
+                                                <td>
                                                 <span th:if="${restrict.restrict}"
                                                       th:text="${restrict.length} + ' * ' + ${restrict.count}"></span>
-                                            </td>
-                                        </tr>
-                                    </th:block>
-                                    </tbody>
-                                </table>
+                                                </td>
+                                            </tr>
+                                        </th:block>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div th:if="${content.settings.skillSayRestrictList.size() == 0}">
+                                    制限がかかっている発言種別はありません。
+                                </div>
                             </td>
                         </tr>
                     </table>

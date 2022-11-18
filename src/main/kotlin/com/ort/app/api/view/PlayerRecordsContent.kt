@@ -2,11 +2,7 @@ package com.ort.app.api.view
 
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.Charas
-import com.ort.app.domain.model.player.CampRecord
-import com.ort.app.domain.model.player.ParticipateVillage
-import com.ort.app.domain.model.player.PlayerRecords
-import com.ort.app.domain.model.player.Record
-import com.ort.app.domain.model.player.SkillRecord
+import com.ort.app.domain.model.player.*
 import com.ort.app.domain.model.village.participant.VillageParticipant
 
 data class PlayerRecordsContent(
@@ -36,7 +32,9 @@ data class PlayerRecordsContent(
         introduction = introduction,
         wholeStats = PlayerRecord(playerRecords.wholeRecord),
         campStatsList = playerRecords.campRecordList.map { PlayerCampRecord(it) },
-        skillStatsList = playerRecords.skillRecordList.map { PlayerSkillRecord(it) },
+        skillStatsList = playerRecords.skillRecordList
+            .map { PlayerSkillRecord(it) }
+            .filter { it.stats.participateNum > 0 },
         participateVillageList = playerRecords.participateVillageList.filterNot {
             it.participant.isSpectator
         }.map { PlayerParticipateVillage(it, charas, originalCharas) },

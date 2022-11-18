@@ -145,7 +145,9 @@ data class VillageSettingsContent(
         }
 
         private fun mapSayRestrictList(village: Village): List<SayRestriction> =
-            Skills.all().filterNotSomeone().list.map { SayRestriction(it, village) }
+            Skills.all().filterNotSomeone().list
+                .map { SayRestriction(it, village) }
+                .filter { it.isRestrict }
 
         private fun mapSkillSayRestrictList(village: Village): List<SkillSayRestriction> =
             listOf(
@@ -153,7 +155,9 @@ data class VillageSettingsContent(
                 MessageType(CDef.MessageType.共鳴発言),
                 MessageType(CDef.MessageType.恋人発言),
                 MessageType(CDef.MessageType.念話),
-            ).map { SkillSayRestriction(it, village) }
+            )
+                .map { SkillSayRestriction(it, village) }
+                .filter { it.isRestrict }
 
         private fun mapRpSayRestrictList(village: Village): List<RpSayRestriction> =
             listOf(RpSayRestriction(MessageType(CDef.MessageType.アクション), village))
