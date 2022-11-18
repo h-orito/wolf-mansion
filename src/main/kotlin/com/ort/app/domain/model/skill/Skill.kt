@@ -24,11 +24,10 @@ data class Skill(
 
     // その日の変化後が取得される
     fun skillWhen(day: Int): Skill {
-        val maxDay = histories.list.filter { it.day <= day }.map { it.day }.maxOrNull() ?: return this
+        val maxDay = histories.list.filter { it.day <= day }.maxOfOrNull { it.day } ?: return this
         return histories.list.lastOrNull { it.day == maxDay }!!.skill
     }
 
-    // TODO 見られるのと話せるのを分けた方が良さそう
     fun isViewableWerewolfSay(): Boolean = toCdef().isViewableWerewolfSay
     fun isSayableWerewolfSay(): Boolean = toCdef().isAvailableWerewolfSay
     fun isViewableSympathizeSay(): Boolean = toCdef() == CDef.Skill.共鳴者
@@ -202,6 +201,44 @@ data class Skill(
                 CDef.Skill.バールのようなもの
             ).contains(it.toCdef())
         }
+
+        // タグ用
+        val hasCommandAbilitySkills = listOf(CDef.Skill.指揮官, CDef.Skill.煽動者, CDef.Skill.騙狐, CDef.Skill.不止者)
+        val hasGuardAbilitySkills = listOf(CDef.Skill.狩人, CDef.Skill.風来狩人, CDef.Skill.壁殴り代行)
+        val hasChangeCampAbilitySkills =
+            listOf(
+                CDef.Skill.牧師,
+                CDef.Skill.教唆者,
+                CDef.Skill.求愛者,
+                CDef.Skill.ストーカー,
+                CDef.Skill.絡新婦,
+                CDef.Skill.美人局,
+                CDef.Skill.誑狐,
+                CDef.Skill.夜狐,
+                CDef.Skill.泥棒猫,
+                CDef.Skill.破局者
+            )
+        val hasChangeSkillAbilitySkills =
+            listOf(
+                CDef.Skill.申し子,
+                CDef.Skill.転生者,
+                CDef.Skill.トラック,
+                CDef.Skill.ババ,
+                CDef.Skill.当選者,
+                CDef.Skill.死霊術師
+            )
+        val hasRevivalOtherAbilitySkills = listOf(CDef.Skill.蘇生者, CDef.Skill.死霊術師)
+        val hasRevivalMyselfAbilitySkills = listOf(CDef.Skill.申し子, CDef.Skill.転生者, CDef.Skill.餡麺麭者, CDef.Skill.絶対人狼)
+        val hasTrapAbilitySkills = listOf(CDef.Skill.罠師, CDef.Skill.爆弾魔, CDef.Skill.画鋲, CDef.Skill.箪笥)
+        val hasChangeRoomAbilitySkills = listOf(CDef.Skill.果実籠)
+        val hasChangeMessageAbilitySkills =
+            listOf(CDef.Skill.虹職人, CDef.Skill.拡声者, CDef.Skill.濁点者, CDef.Skill.道化師, CDef.Skill.伝説の殺し屋, CDef.Skill.翻訳者)
+        val hasVoteAbilitySkills =
+            listOf(CDef.Skill.強運者, CDef.Skill.執行人, CDef.Skill.弁護士, CDef.Skill.市長, CDef.Skill.黒箱者, CDef.Skill.冷凍者)
+        val hasVotedAbilitySkills = listOf(CDef.Skill.バールのようなもの, CDef.Skill.怨恨者)
+        val isSuicideSkills = listOf(CDef.Skill.餡麺麭者, CDef.Skill.壁殴り代行, CDef.Skill.恋人, CDef.Skill.同棲者, CDef.Skill.ストーカー, CDef.Skill.背徳者)
+        val hasLoneAttackAbilitySkills = listOf(CDef.Skill.マタギ, CDef.Skill.バールのようなもの, CDef.Skill.一匹狼)
+        val hasAutoFootstepAbilitySkills = listOf(CDef.Skill.妄想癖, CDef.Skill.夢遊病者, CDef.Skill.冤罪者)
 
         val madmanPriorityList = listOf(
             CDef.Skill.C国狂人,

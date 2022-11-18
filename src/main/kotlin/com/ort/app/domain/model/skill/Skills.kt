@@ -22,4 +22,6 @@ data class Skills(val list: List<Skill>) {
     fun filterByCamp(camp: CDef.Camp): Skills = copy(list = list.filter { it.toCdef().campCode() == camp.code() })
 
     fun filterNotSomeone(): Skills = copy(list = list.filterNot { it.toCdef().isSomeoneSkill })
+
+    fun filter(predicate: (Skill) -> Boolean): Skills = copy(list = list.filter { predicate(it) })
 }

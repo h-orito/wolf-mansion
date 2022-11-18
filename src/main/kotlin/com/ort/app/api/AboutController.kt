@@ -1,7 +1,6 @@
 package com.ort.app.api
 
 import com.ort.app.api.view.RuleContent
-import com.ort.app.domain.model.skill.Skills
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping

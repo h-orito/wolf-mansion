@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <!--/* 個別ページのタイトル */-->
+    <title>役職一覧</title>
+    <!--/* 個別ページのjs */-->
+    <script src="../static/app/js/skill.js" th:src="@{/app/js/skill.js}"></script>
+</head>
+
+<body>
+<div class="container">
+    <div layout:fragment="content">
+        <div id="wrapper">
+            <div class="col-sm-12 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a class="h5" data-toggle="collapse" data-parent="#form-panel" href="#form-content">検索</a>
+                    </div>
+                    <div id="form-content" class="panel-collapse collapse in" style="padding: 15px;">
+                        <form method="get" class="form-horizontal" aria-expanded="true"
+                              style="margin-bottom: 10px;">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">役職名</label>
+                                <div class="col-sm-9 col-xs-12">
+                                    <input id="skill-name" type="text" class="form-control" value=""
+                                           placeholder="役職名（部分一致）"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">特徴</label>
+                                <div class="col-sm-9 col-xs-12">
+                                    <span th:each="tag, st: ${content.tagList}"
+                                          style="line-height: 15px; margin-bottom: 5px;">
+                                        <a class="label label-default" th:text="${tag}"
+                                           style="padding: 10px; cursor: pointer; display: inline-block;"
+                                           data-tag
+                                        ></a>
+                                        <span th:unless="${st.last}"> / </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12 col-xs-12">
+                                    <input type="button" class="btn btn-sm btn-success pull-right" value="検索"
+                                           data-search/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="menu" class="well" style="padding-top: 5px; padding-left: 5px;">
+                    <div th:each="camp: ${content.campList}">
+                        <p th:text="${camp.name}"></p>
+                        <div style="margin-bottom: 10px;">
+                            <span th:each="skill, st: ${camp.skillList}">
+                                <a th:href="'#' + ${skill.code}" th:text="${skill.name}"></a>
+                                <span th:unless="${st.last}"> / </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="detail" class="col-sm-12 col-xs-12">
+                <hr/>
+                <h2 class="h4">役職詳細</h2>
+                <div layout:replace="~{rule/skill::skill}"></div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <footer layout:replace="~{layout/footer::footer}"></footer>
+</div>
+</body>
+</html>
