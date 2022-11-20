@@ -61,7 +61,7 @@ data class VillageMessageContent(
         isLoud: Boolean,
         isLatestDay: Boolean
     ) : this(
-        playerName = if (shouldDispPlayerName(village, myselfPlayer)) player?.name else null,
+        playerName = if (shouldDispPlayerName(village, myself, myselfPlayer)) player?.name else null,
         characterName = message.fromCharacterName,
         characterId = fromParticipant?.charaId,
         characterImageUrl = if (fromParticipant != null && message.content.faceTypeCode != null) {
@@ -89,8 +89,8 @@ data class VillageMessageContent(
             else message.content.type.toCdef().let { it != CDef.MessageType.独り言 && it != CDef.MessageType.秘話 }
         }
 
-        fun shouldDispPlayerName(village: Village, player: Player?): Boolean {
-            return village.status.isSettleOrCanceled() || village.isProducer(player)
+        fun shouldDispPlayerName(village: Village, myself: VillageParticipant?, player: Player?): Boolean {
+            return village.status.isSettleOrCanceled() || myself?.isAdmin() ?: false || village.isProducer(player)
         }
     }
 }
