@@ -21,8 +21,8 @@ data class VillageGetMessageListForm(
     /** 何ページ目か */
     val pageNum: Int? = null,
 
-    /** 自分宛に絞るか */
-    val onlyToMe: Boolean? = null,
+    /** 宛先 */
+    val toParticipantId: Int? = null,
 
     /** 種別カンマ区切り */
     val types: String? = null,
@@ -44,7 +44,7 @@ data class VillageGetMessageListForm(
         day = day ?: village.latestDay(),
         pageSize = pageSize,
         pageNum = pageNum,
-        onlyToMe = onlyToMe ?: false,
+        toParticipantId = toParticipantId,
         requestTypes = mappingToTypes(),
         participantIds = mappingToParticipantIds(village),
         keywords = keywords,

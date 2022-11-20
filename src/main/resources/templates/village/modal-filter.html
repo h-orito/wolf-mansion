@@ -91,8 +91,8 @@
                             </label>
                         </div>
                     </div>
-                    <div id="filter-character" style="margin-top: 15px;">
-                        <strong>キャラクター</strong>
+                    <div id="filter-character" style="margin-top: 25px;">
+                        <strong>発言者</strong>
                         <div style="margin-top: 10px;">
                             <a href="javascript:void(0);" data-filter-participant-allon>全てON</a> /
                             <a href="javascript:void(0);" data-filter-participant-alloff>全てOFF</a> /
@@ -117,21 +117,27 @@
                             </div>
                         </div>
                     </div>
-                    <div style="margin-top: 15px;">
+                    <div style="margin-top: 25px;">
                         <strong>キーワード</strong>
                         <input type="text" class="form-control" data-filter-message-keyword placeholder="スペース区切り"
                                style="margin-top: 5px;"/>
                         <a href="javascript:void(0);" data-filter-message-clear style="margin-top: 10px;">クリア</a>
                     </div>
-                    <div style="margin-top: 15px;">
+                    <div style="margin-top: 25px;">
+                        <strong>宛先</strong>
+                        <select class="form-control" data-filter-to-participant>
+                            <option value=""></option>
+                            <option th:each="participant: ${content.participantList}" th:text="${participant.name}"
+                                    th:value="${participant.id}"></option>
+                        </select>
+                        <a href="javascript:void(0);"
+                           th:if="${content.myself != null}" th:data-filter-to-me="${content.myself.id}"
+                           style="margin-top: 10px;">自分宛</a>
+                    </div>
+                    <div style="margin-top: 25px;">
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox" value="dummy" data-dsetting-unspoiled> エピローグ前同等の表示にする
-                            </label>
-                        </div>
-                        <div class="checkbox" th:if="${content.myself}">
-                            <label>
-                                <input type="checkbox" value="dummy" data-onlytome> 自分宛発言のみ抽出
                             </label>
                         </div>
                     </div>

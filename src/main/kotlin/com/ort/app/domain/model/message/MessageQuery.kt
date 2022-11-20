@@ -9,7 +9,7 @@ data class MessageQuery(
     val day: Int,
     val pageSize: Int?,
     val pageNum: Int?,
-    val onlyToMe: Boolean,
+    val toParticipantId: Int?,
     val requestTypes: List<MessageType>,
     val participantIds: List<Int>,
     val keywords: String?,

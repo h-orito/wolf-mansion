@@ -1,12 +1,7 @@
 package com.ort.app.infrastructure.datasource
 
+import com.ort.app.domain.model.message.*
 import com.ort.app.domain.model.message.Message
-import com.ort.app.domain.model.message.MessageContent
-import com.ort.app.domain.model.message.MessageQuery
-import com.ort.app.domain.model.message.MessageRepository
-import com.ort.app.domain.model.message.MessageTime
-import com.ort.app.domain.model.message.MessageType
-import com.ort.app.domain.model.message.Messages
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.fw.exception.WolfMansionBusinessException
@@ -270,12 +265,12 @@ class MessageDataSource(
                 op.splitByBlank().likeContain().asOrSplit()
             }
         }
-        if (myself != null && query.onlyToMe) {
+        query.toParticipantId?.let { toParticipantId ->
             cb.orScopeQuery { orCB ->
                 orCB.query().existsMessageSendto { sendToCB ->
-                    sendToCB.query().setVillagePlayerId_Equal(myself.id)
+                    sendToCB.query().setVillagePlayerId_Equal(toParticipantId)
                 }
-                orCB.query().setToVillagePlayerId_Equal(myself.id)
+                orCB.query().setToVillagePlayerId_Equal(toParticipantId)
             }
         }
     }

@@ -1,9 +1,6 @@
 package com.ort.app.api.view
 
-import com.ort.app.api.view.village.VillageFilterParticipantContent
-import com.ort.app.api.view.village.VillageFormContent
-import com.ort.app.api.view.village.VillageMemberContent
-import com.ort.app.api.view.village.VillageRoomAssignedRow
+import com.ort.app.api.view.village.*
 import com.ort.app.api.view.village.VillageSettingsContent
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.randomkeyword.RandomKeywords
@@ -164,6 +161,7 @@ data class VillageContent(
     }
 
     data class VillageParticipateContent(
+        val id: Int,
         /** 参戦しているキャラの名前 */
         val charaName: String,
         /** 参戦しているキャラの画像 */
@@ -184,6 +182,7 @@ data class VillageContent(
             charachips: Charachips,
             situation: ParticipantSituation
         ) : this(
+            id = myself.id,
             charaName = myself.name(),
             charaImageUrl = charachips.chara(myself.charaId).defaultImage().url,
             charaImageWidth = charachips.chara(myself.charaId).size.width,

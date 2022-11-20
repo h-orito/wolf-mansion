@@ -37,7 +37,7 @@ $(function () {
     const rubyRegex = /\[\[ruby\]\](.*?)\[\[rt\]\](.*?)\[\[\/rt\]\]\[\[\/ruby\]\]/g;
     let latestDay;
     let canAutoRefresh = true; // 発言確認中はfalseになる
-    let isDispOnlyToMe = false;
+    let filterToParticipantId = null;
     let filterParticipantIds = [];
     let filterTypes = [];
     let filterKeywords = [];
@@ -120,7 +120,7 @@ $(function () {
                 'day': day,
                 'pageSize': pageSize != null ? pageSize : 30,
                 'pageNum': isNoPaging ? null : pageNum,
-                'onlyToMe': isDispOnlyToMe,
+                'toParticipantId': filterToParticipantId,
                 'types': filterTypes.join(','),
                 'participantIds': filterParticipantIds.join(','),
                 'keywords': filterKeywords.join(' '),
@@ -935,7 +935,7 @@ $(function () {
         doFilterTypeAllOn();
         resetKeyword();
         $('[data-dsetting-unspoiled]').prop('checked', false);
-        $('[data-onlytome]').prop('checked', false);
+        $('[data-filter-to-participant]').val(null);
         doFilter();
     }
 
@@ -1003,6 +1003,11 @@ $(function () {
         $('#modal-filter [data-filter-message-keyword]').val('');
     }
 
+    // 自分宛て
+    $('[data-filter-to-me]').on('click', function(){
+    	$('[data-filter-to-participant]').val($(this).data('filter-to-me'));
+    });
+
     $('[data-filter-submit]').on('click', function () {
         doFilter();
     });
@@ -1016,7 +1021,7 @@ $(function () {
         }).map((idx, elm) => $(elm).val()).get().sort();
         filterKeywords = $('#modal-filter [data-filter-message-keyword]').val().replace(/　/g, ' ').split(' ');
         filterSpoiled = $('[data-dsetting-unspoiled]').prop('checked');
-        isDispOnlyToMe = $('[data-onlytome]').length > 0 && $('[data-onlytome]').prop('checked');
+        filterToParticipantId = $('[data-filter-to-participant]').val();
         // 発言読み込み
         loadAndDisplayMessageWithCurrentSetting();
         // 日付を跨いでも維持できるように一時的にcookieに入れておく
@@ -1025,13 +1030,13 @@ $(function () {
         saveDisplaySetting('filter_type', filterTypes.join(','));
         saveDisplaySetting('filter_keyword', filterKeywords.join(' '));
         saveDisplaySetting('filter_spoiled_content', filterSpoiled);
-        saveDisplaySetting('filter_onlytome_content', isDispOnlyToMe);
+        saveDisplaySetting('filter_to_participant_id', filterToParticipantId);
         // 抽出中ならfooterボタンをactiveに
         if (filterTypes.length != $('#filter-type label').length
             || filterParticipantIds.length > 0 && filterParticipantIds[0] !== ''
             || filterKeywords.length > 0 && filterKeywords[0] !== ''
             || filterSpoiled
-            || isDispOnlyToMe
+            || (filterToParticipantId != null && filterToParticipantId !== '')
         ) {
             $('#filter-button').addClass('active');
             $('#filter-buttom-text').text('抽出中');
@@ -1074,9 +1079,9 @@ $(function () {
         const filterType = getDisplaySetting('filter_type');
         filterTypes = filterType == null ? [] : filterType.split(',');
         const filterKeyword = getDisplaySetting('filter_keyword');
-        filterKeywords = filterKeyword.split(' ')
-        filterSpoiled = getDisplaySetting('filter_spoiled_content')
-        isDispOnlyToMe = getDisplaySetting('filter_onlytome_content');
+        filterKeywords = filterKeyword.split(' ');
+        filterSpoiled = getDisplaySetting('filter_spoiled_content');
+        filterToParticipantId = getDisplaySetting('filter_to_participant_id');
         // 復元
         $('#filter-character').find('input').each(function (idx, elm) {
             const participantId = $(elm).val();
@@ -1095,16 +1100,14 @@ $(function () {
         if (filterSpoiled && $('[data-dsetting-unspoiled]').length != 0) {
             $('[data-dsetting-unspoiled]').prop('checked', true);
         }
-        if ($('[data-onlytome]').length > 0) {
-            $('[data-onlytome]').prop('checked', isDispOnlyToMe);
-        }
+        $('[data-filter-to-participant]').val(filterToParticipantId);
 
         // 抽出中ならfooterボタンをactiveに
         if (filterTypes.length != $('#filter-type label').length
             || filterParticipantIds.length > 0 && filterParticipantIds[0] !== ''
             || filterKeywords.length > 0 && filterKeywords[0] !== ''
             || filterSpoiled
-            || isDispOnlyToMe
+            || (filterToParticipantId != null && filterToParticipantId !== '')
         ) {
             $('#filter-button').addClass('active');
             $('#filter-buttom-text').text('抽出中');
