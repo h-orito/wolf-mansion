@@ -1201,6 +1201,8 @@
             name="IS_RANDOM_ORGANIZE" required="true" type="BIT"/>
         <column comment="全ての役職に転生可能か" dbType="BIT" javaType="Boolean"
             name="IS_REINCARNATION_SKILL_ALL" required="true" type="BIT"/>
+        <column comment="プロデューサー機能ありか" dbType="BIT" javaType="Boolean"
+            name="IS_CREATOR_PRODUCER" required="true" type="BIT"/>
         <column comment="オリジナルキャラクターグループID" dbType="INT UNSIGNED"
             javaType="Integer" name="ORIGINAL_CHARA_GROUP_ID" size="10" type="INTEGER"/>
         <column comment="登録日時" dbType="DATETIME"

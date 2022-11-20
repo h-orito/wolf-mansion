@@ -95,6 +95,9 @@ public class VillageSettingsDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((VillageSettings)et).getIsReincarnationSkillAll(), (et, vl) -> {
             ((VillageSettings)et).setIsReincarnationSkillAll((Boolean)vl);
         }, "isReincarnationSkillAll");
+        setupEpg(_epgMap, et -> ((VillageSettings)et).getIsCreatorProducer(), (et, vl) -> {
+            ((VillageSettings)et).setIsCreatorProducer((Boolean)vl);
+        }, "isCreatorProducer");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getOriginalCharaGroupId(), (et, vl) -> ((VillageSettings)et).setOriginalCharaGroupId(cti(vl)), "originalCharaGroupId");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getRegisterDatetime(), (et, vl) -> ((VillageSettings)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getRegisterTrace(), (et, vl) -> ((VillageSettings)et).setRegisterTrace((String)vl), "registerTrace");
@@ -155,6 +158,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnIsAvailableAction = cci("IS_AVAILABLE_ACTION", "IS_AVAILABLE_ACTION", null, null, Boolean.class, "isAvailableAction", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnIsRandomOrganize = cci("IS_RANDOM_ORGANIZE", "IS_RANDOM_ORGANIZE", null, null, Boolean.class, "isRandomOrganize", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnIsReincarnationSkillAll = cci("IS_REINCARNATION_SKILL_ALL", "IS_REINCARNATION_SKILL_ALL", null, null, Boolean.class, "isReincarnationSkillAll", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
+    protected final ColumnInfo _columnIsCreatorProducer = cci("IS_CREATOR_PRODUCER", "IS_CREATOR_PRODUCER", null, null, Boolean.class, "isCreatorProducer", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnOriginalCharaGroupId = cci("ORIGINAL_CHARA_GROUP_ID", "ORIGINAL_CHARA_GROUP_ID", null, null, Integer.class, "originalCharaGroupId", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, "originalCharaGroup", null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
@@ -267,6 +271,11 @@ public class VillageSettingsDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnIsReincarnationSkillAll() { return _columnIsReincarnationSkillAll; }
     /**
+     * IS_CREATOR_PRODUCER: {NotNull, BIT, classification=Flg}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnIsCreatorProducer() { return _columnIsCreatorProducer; }
+    /**
      * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
      * @return The information object of specified column. (NotNull)
      */
@@ -315,6 +324,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
         ls.add(columnIsAvailableAction());
         ls.add(columnIsRandomOrganize());
         ls.add(columnIsReincarnationSkillAll());
+        ls.add(columnIsCreatorProducer());
         ls.add(columnOriginalCharaGroupId());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());

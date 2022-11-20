@@ -3,6 +3,7 @@ package com.ort.app.domain.model.village
 import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.camp.toModel
 import com.ort.app.domain.model.message.MessageType
+import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.skill.toModel
@@ -43,6 +44,8 @@ data class Village(
 
     fun dummyParticipant(): VillageParticipant = participants.chara(setting.chara.dummyCharaId)
 
+    fun isCreator(player: Player?): Boolean = player?.name == createPlayerName
+    fun isProducer(player: Player?): Boolean = isCreator(player) && setting.rule.isCreatorIsProducer
     fun canCancel(): Boolean = status.isPrologue()
     fun canKick(): Boolean = status.isPrologue()
     fun canModifySetting(): Boolean = status.isPrologue()
@@ -55,9 +58,13 @@ data class Village(
 
     fun isSettled(): Boolean = getAliveWolfCount() <= 0 || getAliveVillagerCount() <= getAliveWolfCount()
 
-    fun canParticipate(): Boolean = status.isPrologue() && participants.count < setting.personMax
-    fun assertParticipate(charaId: Int?, joinPassword: String?) {
-        if (!canParticipate()) {
+    fun canParticipate(player: Player?): Boolean {
+        if (isCreator(player) && setting.rule.isCreatorIsProducer) return false
+        return status.isPrologue() && participants.count < setting.personMax
+    }
+
+    fun assertParticipate(charaId: Int?, joinPassword: String?, player: Player?) {
+        if (!canParticipate(player)) {
             throw WolfMansionBusinessException("参加できません")
         }
         if (allParticipants().list.any { it.charaId == charaId }) {

@@ -29,14 +29,14 @@ class ParticipateDomainService {
 
     private fun isAvailableParticipate(player: Player?, village: Village): Boolean {
         player ?: return false
-        return player.isAvailableParticipateVillage(village.id) &&
-                village.canParticipate()
+        return player.isAvailableParticipateVillage(village.id)
+                && village.canParticipate(player)
     }
 
     private fun isAvailableSpectate(player: Player?, village: Village, charachips: Charachips): Boolean {
         player ?: return false
         return player.isAvailableParticipateVillage(village.id) &&
-                village.canSpectate(charachips.list.sumBy { it.charas.list.size })
+                village.canSpectate(charachips.list.sumOf { it.charas.list.size })
     }
 
     private fun getSelectableCharaList(village: Village, charachips: Charachips): List<Chara> {
@@ -56,7 +56,7 @@ class ParticipateDomainService {
         joinPassword: String?
     ) {
         player.assertParticipate(village.id)
-        village.assertParticipate(charaId, joinPassword)
+        village.assertParticipate(charaId, joinPassword, player)
     }
 
     fun assertSpectate(

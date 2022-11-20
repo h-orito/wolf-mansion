@@ -1,11 +1,10 @@
 package com.ort.app.application.service
 
-import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.MessageQuery
 import com.ort.app.domain.model.message.MessageRepository
-import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.message.Messages
+import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.service.MessageDomainService
@@ -22,9 +21,10 @@ class MessageService(
     fun findMeesages(
         village: Village,
         myself: VillageParticipant?,
+        player: Player?,
         query: MessageQuery
     ): Messages {
-        messageDomainService.setViewableQuery(village, myself, query)
+        messageDomainService.setViewableQuery(village, myself, player, query)
         return messageRepository.findMessages(village, myself, query)
     }
 
@@ -44,9 +44,10 @@ class MessageService(
     fun findLatestMessageDatetime(
         village: Village,
         myself: VillageParticipant?,
+        player: Player?,
         query: MessageQuery
     ): LocalDateTime? {
-        messageDomainService.setViewableQuery(village, myself, query)
+        messageDomainService.setViewableQuery(village, myself, player, query)
         return messageRepository.findLatestMessageDatetime(myself, query)
     }
 

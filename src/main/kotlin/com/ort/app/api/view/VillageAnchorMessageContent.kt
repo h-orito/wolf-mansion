@@ -22,6 +22,7 @@ data class VillageAnchorMessageContent(
             VillageMessageContent(
                 village = village,
                 myself = null,
+                myselfPlayer = null,
                 message = it,
                 fromParticipant = it.fromParticipantId?.let { village.allParticipants().member(it) },
                 player = player,

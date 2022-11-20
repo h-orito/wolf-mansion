@@ -6,6 +6,7 @@ import com.ort.app.domain.model.chara.Charas
 import com.ort.app.domain.model.commit.Commits
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.Messages
+import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.player.Players
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
@@ -56,6 +57,7 @@ data class VillageMessageListContent(
         village: Village,
         user: UserInfo?,
         myself: VillageParticipant?,
+        myselfPlayer: Player?,
         charas: Charas,
         players: Players,
         votes: Votes,
@@ -67,6 +69,7 @@ data class VillageMessageListContent(
             VillageMessageContent(
                 village = village,
                 myself = myself,
+                myselfPlayer = myselfPlayer,
                 message = message,
                 fromParticipant = message.fromParticipantId?.let { village.allParticipants().member(it) },
                 player = message.fromParticipantId?.let {

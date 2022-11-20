@@ -239,6 +239,10 @@
                                 <td th:text="*{availableSpectate} ? '可能' : '不可'"></td>
                             </tr>
                             <tr>
+                                <th>プロデューサー機能</th>
+                                <td th:text="*{creatorIsProducer} ? 'あり' : 'なし'"></td>
+                            </tr>
+                            <tr>
                                 <th>墓下見学役職公開</th>
                                 <td th:text="*{openSkillInGrave} ? '公開' : '非公開'"></td>
                             </tr>
@@ -412,6 +416,7 @@
                     <input type="hidden" th:field="*{openVote}"/>
                     <input type="hidden" th:field="*{possibleSkillRequest}"/>
                     <input type="hidden" th:field="*{availableSpectate}"/>
+                    <input type="hidden" th:field="*{creatorIsProducer}"/>
                     <input type="hidden" th:field="*{availableSameWolfAttack}"/>
                     <input type="hidden" th:field="*{availableGuardSameTarget}"/>
                     <input type="hidden" th:field="*{reincarnationSkillAll}"/>

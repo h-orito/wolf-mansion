@@ -5,6 +5,7 @@ import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.FaceType
 import com.ort.app.domain.model.message.*
+import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.randomkeyword.RandomKeyword
 import com.ort.app.domain.model.randomkeyword.RandomKeywords
 import com.ort.app.domain.model.translate.TranslateRepository
@@ -44,8 +45,13 @@ class MessageDomainService(
         const val allwhoRegex = "\\[\\[allwho$"
     }
 
-    fun setViewableQuery(village: Village, myself: VillageParticipant?, query: MessageQuery) {
-        val availableMessageTypes = getViewableMessageTypeList(village, myself, query)
+    fun setViewableQuery(
+        village: Village,
+        myself: VillageParticipant?,
+        player: Player?,
+        query: MessageQuery
+    ) {
+        val availableMessageTypes = getViewableMessageTypeList(village, myself, player, query)
         query.setAvailable(availableMessageTypes, myself, village)
     }
 
@@ -487,12 +493,14 @@ class MessageDomainService(
     private fun getViewableMessageTypeList(
         village: Village,
         myself: VillageParticipant?,
+        player: Player?,
         query: MessageQuery
     ): List<MessageType> {
         // 村が終了していたり管理人だったら全て見られる
         if (myself?.isAdmin() == true
             || village.status.isSettled()
             || village.status.isCanceled()
+            || village.isProducer(player)
         ) {
             return CDef.MessageType.listAll().map { it.toModel() }
         }

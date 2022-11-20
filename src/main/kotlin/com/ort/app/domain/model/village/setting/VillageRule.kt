@@ -4,6 +4,7 @@ data class VillageRule(
     val isOpenVote: Boolean,
     val isPossibleSkillRequest: Boolean,
     val isAvailableSpectate: Boolean,
+    val isCreatorIsProducer: Boolean,
     val isAvailableSameWolfAttack: Boolean,
     val isOpenSkillInGrave: Boolean,
     val isVisibleGraveSpectateMessage: Boolean,
@@ -19,6 +20,7 @@ data class VillageRule(
         return isOpenVote == other.isOpenVote
                 && isPossibleSkillRequest == other.isPossibleSkillRequest
                 && isAvailableSpectate == other.isAvailableSpectate
+                && isCreatorIsProducer == other.isCreatorIsProducer
                 && isAvailableSameWolfAttack == other.isAvailableSameWolfAttack
                 && isOpenSkillInGrave == other.isOpenSkillInGrave
                 && isVisibleGraveSpectateMessage == other.isVisibleGraveSpectateMessage

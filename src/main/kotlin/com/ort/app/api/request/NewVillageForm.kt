@@ -8,11 +8,7 @@ import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.Skills
-import com.ort.app.domain.model.village.Village
-import com.ort.app.domain.model.village.VillageDay
-import com.ort.app.domain.model.village.VillageDays
-import com.ort.app.domain.model.village.VillageSetting
-import com.ort.app.domain.model.village.VillageStatus
+import com.ort.app.domain.model.village.*
 import com.ort.app.domain.model.village.participant.VillageParticipants
 import com.ort.app.domain.model.village.setting.*
 import com.ort.dbflute.allcommon.CDef
@@ -139,6 +135,10 @@ data class NewVillageForm(
     @field:NotNull
     var availableSpectate: Boolean? = null,
 
+    /** 村建てがプロデューサー機能を持つか */
+    @field:NotNull
+    var creatorIsProducer: Boolean? = null,
+
     /** 突然死ありか */
     @field:NotNull
     var availableSuddonlyDeath: Boolean? = null,
@@ -192,6 +192,7 @@ data class NewVillageForm(
         if (openVote == null) openVote = true
         if (possibleSkillRequest == null) possibleSkillRequest = true
         if (availableSpectate == null) availableSpectate = false
+        if (creatorIsProducer == null) creatorIsProducer = false
         if (availableSameWolfAttack == null) availableSameWolfAttack = true
         if (openSkillInGrave == null) openSkillInGrave = false
         if (visibleGraveSpectateMessage == null) visibleGraveSpectateMessage = false
@@ -264,6 +265,7 @@ data class NewVillageForm(
         visibleGraveSpectateMessage = village.setting.rule.isVisibleGraveSpectateMessage
         allowedSecretSayCode = if (village.setting.rule.isAvailableSecretSay) "EVERYTHING" else "NOTHING"
         availableSpectate = village.setting.rule.isAvailableSpectate
+        creatorIsProducer = village.setting.rule.isCreatorIsProducer
         availableSuddonlyDeath = village.setting.rule.isAvailableSuddenlyDeath
         availableCommit = village.setting.rule.isAvailableCommit
         availableGuardSameTarget = village.setting.rule.isAvailableGuardSameTarget
@@ -359,6 +361,7 @@ data class NewVillageForm(
                     isVisibleGraveSpectateMessage = visibleGraveSpectateMessage!!,
                     isAvailableSecretSay = allowedSecretSayCode!! != CDef.AllowedSecretSay.なし.code(),
                     isAvailableSpectate = availableSpectate!!,
+                    isCreatorIsProducer = creatorIsProducer!!,
                     isAvailableSuddenlyDeath = availableSuddonlyDeath!!,
                     isAvailableCommit = availableCommit!!,
                     isAvailableGuardSameTarget = availableGuardSameTarget!!,

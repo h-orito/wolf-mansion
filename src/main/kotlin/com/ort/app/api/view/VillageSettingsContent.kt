@@ -19,12 +19,15 @@ data class VillageSettingsContent(
         /** ダミーキャラ名 */
         val dummyCharaName: String,
         /** 役職希望 */
-        val skillRequestType: String
+        val skillRequestType: String,
+        /** プロデューサー機能 */
+        val creatorIsProducer: Boolean
     ) {
         constructor(village: Village, charachips: Charachips) : this(
             charaGroupName = charachips.list.joinToString(separator = "、") { it.name },
             dummyCharaName = charachips.chara(village.setting.chara.dummyCharaId).name,
-            skillRequestType = if (village.setting.rule.isPossibleSkillRequest) "有効" else "無効"
+            skillRequestType = if (village.setting.rule.isPossibleSkillRequest) "有効" else "無効",
+            creatorIsProducer = village.setting.rule.isCreatorIsProducer
         )
     }
 }

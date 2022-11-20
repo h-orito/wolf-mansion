@@ -51,6 +51,7 @@ data class VillageMessageContent(
     constructor(
         village: Village,
         myself: VillageParticipant?,
+        myselfPlayer: Player?,
         message: Message,
         fromParticipant: VillageParticipant?,
         player: Player?,
@@ -60,7 +61,7 @@ data class VillageMessageContent(
         isLoud: Boolean,
         isLatestDay: Boolean
     ) : this(
-        playerName = if (village.status.isSettleOrCanceled()) player?.name else null,
+        playerName = if (shouldDispPlayerName(village, myselfPlayer)) player?.name else null,
         characterName = message.fromCharacterName,
         characterId = fromParticipant?.charaId,
         characterImageUrl = if (fromParticipant != null && message.content.faceTypeCode != null) {
@@ -86,6 +87,10 @@ data class VillageMessageContent(
         fun shouldDispMessageNumber(message: Message, village: Village): Boolean {
             return if (village.status.isSettleOrCanceled()) true
             else message.content.type.toCdef().let { it != CDef.MessageType.独り言 && it != CDef.MessageType.秘話 }
+        }
+
+        fun shouldDispPlayerName(village: Village, player: Player?): Boolean {
+            return village.status.isSettleOrCanceled() || village.isProducer(player)
         }
     }
 }

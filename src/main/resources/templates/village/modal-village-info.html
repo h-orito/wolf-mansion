@@ -59,6 +59,10 @@
                             <td th:text="*{availableSpectate ? '可能（[キャラチップ人数 - 定員]人まで）' : '不可'}"></td>
                         </tr>
                         <tr>
+                            <th>プロデューサー機能</th>
+                            <td th:text="*{creatorIsProducer ? 'あり' : 'なし'}"></td>
+                        </tr>
+                        <tr>
                             <th>同一人狼による連続襲撃</th>
                             <td th:text="*{availableSameWolfAttack ? '可能' : '不可 (開始時点で狼2以下編成の場合は可能に変更されます)'}"></td>
                         </tr>

@@ -7,13 +7,7 @@ import com.ort.app.api.view.VillageLatestMessageDatetimeContent
 import com.ort.app.api.view.VillageMessageListContent
 import com.ort.app.api.view.VillageParticipantsContent
 import com.ort.app.application.coordinator.DaychangeCoordinator
-import com.ort.app.application.service.AbilityService
-import com.ort.app.application.service.CharaService
-import com.ort.app.application.service.CommitService
-import com.ort.app.application.service.MessageService
-import com.ort.app.application.service.PlayerService
-import com.ort.app.application.service.VillageService
-import com.ort.app.application.service.VoteApplicationService
+import com.ort.app.application.service.*
 import com.ort.app.domain.model.commit.Commits
 import com.ort.app.domain.model.vote.Votes
 import com.ort.app.fw.exception.WolfMansionBusinessException
@@ -52,12 +46,14 @@ class VillageMessageController(
         val myself = user?.let {
             villageService.findVillageParticipant(village.id, it.username)
         }?.also { villageService.updateLastAccessDatetime(it) }
+        val myselfPlayer = user?.let { playerService.findPlayer(user.username) }
         // 更新時間が過ぎていたら日付更新
         daychangeCoordinator.changeDayIfNeeded(village)
         // 発言取得
         val query = form.toMessageQuery(village)
-        val messages = messageService.findMeesages(village, myself, query)
-        val charas = village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas() }
+        val messages = messageService.findMeesages(village, myself, myselfPlayer, query)
+        val charas =
+            village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas() }
         val players = playerService.findPlayers(village.id)
         val votes = if (VillageMessageListContent.isDispSuddenlyDeathWarnMessage(village, query.day)) {
             voteService.findVotes(village.id).filterByDay(village.latestDay())
@@ -71,6 +67,7 @@ class VillageMessageController(
             village,
             user,
             myself,
+            myselfPlayer,
             charas,
             players,
             votes,
@@ -90,10 +87,12 @@ class VillageMessageController(
         if (result.hasErrors()) throw WolfMansionBusinessException("bad request.")
         val village = villageService.findVillage(form.villageId!!, excludeGone = false)
             ?: throw WolfMansionBusinessException("village not found.")
-        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
+        val user = WolfMansionUserInfoUtil.getUserInfo()
+        val myself = user?.let {
             villageService.findVillageParticipant(village.id, it.username)
         }
-        val datetime = messageService.findLatestMessageDatetime(village, myself, form.toMessageQuery(village))
+        val player = user?.let { playerService.findPlayer(it.username) }
+        val datetime = messageService.findLatestMessageDatetime(village, myself, player, form.toMessageQuery(village))
         return VillageLatestMessageDatetimeContent(
             datetime?.format(DateTimeFormatter.ofPattern("uuuuMMddHHmmss")) ?: "0"
         )
@@ -118,7 +117,8 @@ class VillageMessageController(
         val player = message?.fromParticipantId?.let {
             playerService.findPlayer(village.allParticipants().member(it).playerId)
         }
-        val charas = village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas() }
+        val charas =
+            village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas() }
         val abilities = abilityService.findAbilities(village.id)
         return VillageAnchorMessageContent(message, village, player, charas, abilities)
     }

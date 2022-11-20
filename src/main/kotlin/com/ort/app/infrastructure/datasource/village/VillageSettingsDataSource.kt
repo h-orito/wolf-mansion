@@ -48,6 +48,7 @@ class VillageSettingsDataSource(
             settings.isOpenVote = it.rule.isOpenVote
             settings.isPossibleSkillRequest = it.rule.isPossibleSkillRequest
             settings.isAvailableSpectate = it.rule.isAvailableSpectate
+            settings.isCreatorProducer = it.rule.isCreatorIsProducer
             settings.joinPassword = it.joinPassword
             settings.isAvailableSameWolfAttack = it.rule.isAvailableSameWolfAttack
             settings.isAvailableGuardSameTarget = it.rule.isAvailableGuardSameTarget
@@ -128,7 +129,7 @@ class VillageSettingsDataSource(
         val isOriginalCharaGroup = setting.originalCharaGroupId != null
         return VillageSetting(
             chara = VillageCharaSetting(
-              isOriginalCharachip = isOriginalCharaGroup,
+                isOriginalCharachip = isOriginalCharaGroup,
                 dummyCharaId = setting.dummyCharaId,
                 charachipIds =
                 if (isOriginalCharaGroup) listOf(setting.originalCharaGroupId)
@@ -142,6 +143,7 @@ class VillageSettingsDataSource(
                 isOpenVote = setting.isOpenVote,
                 isPossibleSkillRequest = setting.isPossibleSkillRequest,
                 isAvailableSpectate = setting.isAvailableSpectate,
+                isCreatorIsProducer = setting.isCreatorProducer,
                 isAvailableSameWolfAttack = setting.isAvailableSameWolfAttack,
                 isOpenSkillInGrave = setting.isOpenSkillInGrave,
                 isVisibleGraveSpectateMessage = setting.isVisibleGraveSpectateMessage,
@@ -195,6 +197,7 @@ class VillageSettingsDataSource(
                 isOpenVote = setting.isOpenVote,
                 isPossibleSkillRequest = setting.isPossibleSkillRequest,
                 isAvailableSpectate = setting.isAvailableSpectate,
+                isCreatorIsProducer = setting.isCreatorProducer,
                 isAvailableSameWolfAttack = setting.isAvailableSameWolfAttack,
                 isOpenSkillInGrave = setting.isOpenSkillInGrave,
                 isVisibleGraveSpectateMessage = setting.isVisibleGraveSpectateMessage,

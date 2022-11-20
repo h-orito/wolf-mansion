@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID
  *
  * [column]
- *     VILLAGE_ID, DUMMY_CHARA_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, JOIN_PASSWORD, ORGANIZE, ALLOWED_SECRET_SAY_CODE, IS_AVAILABLE_ACTION, IS_RANDOM_ORGANIZE, IS_REINCARNATION_SKILL_ALL, ORIGINAL_CHARA_GROUP_ID, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, DUMMY_CHARA_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, JOIN_PASSWORD, ORGANIZE, ALLOWED_SECRET_SAY_CODE, IS_AVAILABLE_ACTION, IS_RANDOM_ORGANIZE, IS_REINCARNATION_SKILL_ALL, IS_CREATOR_PRODUCER, ORIGINAL_CHARA_GROUP_ID, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -67,6 +67,7 @@ import com.ort.dbflute.exentity.*;
  * Boolean isAvailableAction = entity.getIsAvailableAction();
  * Boolean isRandomOrganize = entity.getIsRandomOrganize();
  * Boolean isReincarnationSkillAll = entity.getIsReincarnationSkillAll();
+ * Boolean isCreatorProducer = entity.getIsCreatorProducer();
  * Integer originalCharaGroupId = entity.getOriginalCharaGroupId();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
@@ -93,6 +94,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setIsAvailableAction(isAvailableAction);
  * entity.setIsRandomOrganize(isRandomOrganize);
  * entity.setIsReincarnationSkillAll(isReincarnationSkillAll);
+ * entity.setIsCreatorProducer(isCreatorProducer);
  * entity.setOriginalCharaGroupId(originalCharaGroupId);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
@@ -175,6 +177,9 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /** IS_REINCARNATION_SKILL_ALL: {NotNull, BIT, classification=Flg} */
     protected Boolean _isReincarnationSkillAll;
+
+    /** IS_CREATOR_PRODUCER: {NotNull, BIT, classification=Flg} */
+    protected Boolean _isCreatorProducer;
 
     /** ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group} */
     protected Integer _originalCharaGroupId;
@@ -489,6 +494,27 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         setIsReincarnationSkillAll(cdef != null ? toBoolean(cdef.code()) : null);
     }
 
+    /**
+     * Get the value of isCreatorProducer as the classification of Flg. <br>
+     * IS_CREATOR_PRODUCER: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    public CDef.Flg getIsCreatorProducerAsFlg() {
+        return CDef.Flg.codeOf(getIsCreatorProducer());
+    }
+
+    /**
+     * Set the value of isCreatorProducer as the classification of Flg. <br>
+     * IS_CREATOR_PRODUCER: {NotNull, BIT, classification=Flg} <br>
+     * フラグを示す
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    public void setIsCreatorProducerAsFlg(CDef.Flg cdef) {
+        setIsCreatorProducer(cdef != null ? toBoolean(cdef.code()) : null);
+    }
+
     // ===================================================================================
     //                                                              Classification Setting
     //                                                              ======================
@@ -706,6 +732,22 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      */
     public void setIsReincarnationSkillAll_False() {
         setIsReincarnationSkillAllAsFlg(CDef.Flg.False);
+    }
+
+    /**
+     * Set the value of isCreatorProducer as True (true). <br>
+     * はい: 有効を示す
+     */
+    public void setIsCreatorProducer_True() {
+        setIsCreatorProducerAsFlg(CDef.Flg.True);
+    }
+
+    /**
+     * Set the value of isCreatorProducer as False (false). <br>
+     * いいえ: 無効を示す
+     */
+    public void setIsCreatorProducer_False() {
+        setIsCreatorProducerAsFlg(CDef.Flg.False);
     }
 
     // ===================================================================================
@@ -1008,6 +1050,28 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         return cdef != null ? cdef.equals(CDef.Flg.False) : false;
     }
 
+    /**
+     * Is the value of isCreatorProducer True? <br>
+     * はい: 有効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsCreatorProducerTrue() {
+        CDef.Flg cdef = getIsCreatorProducerAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.True) : false;
+    }
+
+    /**
+     * Is the value of isCreatorProducer False? <br>
+     * いいえ: 無効を示す
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isIsCreatorProducerFalse() {
+        CDef.Flg cdef = getIsCreatorProducerAsFlg();
+        return cdef != null ? cdef.equals(CDef.Flg.False) : false;
+    }
+
     // ===================================================================================
     //                                                           Classification Name/Alias
     //                                                           =========================
@@ -1116,6 +1180,15 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      */
     public String getIsReincarnationSkillAllAlias() {
         CDef.Flg cdef = getIsReincarnationSkillAllAsFlg();
+        return cdef != null ? cdef.alias() : null;
+    }
+
+    /**
+     * Get the value of the column 'isCreatorProducer' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     */
+    public String getIsCreatorProducerAlias() {
+        CDef.Flg cdef = getIsCreatorProducerAsFlg();
         return cdef != null ? cdef.alias() : null;
     }
 
@@ -1253,6 +1326,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         sb.append(dm).append(xfND(_isAvailableAction));
         sb.append(dm).append(xfND(_isRandomOrganize));
         sb.append(dm).append(xfND(_isReincarnationSkillAll));
+        sb.append(dm).append(xfND(_isCreatorProducer));
         sb.append(dm).append(xfND(_originalCharaGroupId));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
@@ -1719,6 +1793,27 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         checkClassificationCode("IS_REINCARNATION_SKILL_ALL", CDef.DefMeta.Flg, isReincarnationSkillAll);
         registerModifiedProperty("isReincarnationSkillAll");
         _isReincarnationSkillAll = isReincarnationSkillAll;
+    }
+
+    /**
+     * [get] IS_CREATOR_PRODUCER: {NotNull, BIT, classification=Flg} <br>
+     * プロデューサー機能ありか
+     * @return The value of the column 'IS_CREATOR_PRODUCER'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getIsCreatorProducer() {
+        checkSpecifiedProperty("isCreatorProducer");
+        return _isCreatorProducer;
+    }
+
+    /**
+     * [set] IS_CREATOR_PRODUCER: {NotNull, BIT, classification=Flg} <br>
+     * プロデューサー機能ありか
+     * @param isCreatorProducer The value of the column 'IS_CREATOR_PRODUCER'. (basically NotNull if update: for the constraint)
+     */
+    public void setIsCreatorProducer(Boolean isCreatorProducer) {
+        checkClassificationCode("IS_CREATOR_PRODUCER", CDef.DefMeta.Flg, isCreatorProducer);
+        registerModifiedProperty("isCreatorProducer");
+        _isCreatorProducer = isCreatorProducer;
     }
 
     /**

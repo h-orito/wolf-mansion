@@ -898,7 +898,7 @@ pre.spolicyviodisp {
 	</tr>
 	<tr>
 		<td class="rownumcell">39</td>
-		<td class="namecell" data-name="village_settings"><a href="#village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=26">VILLAGE_SETTINGS</a></td>
+		<td class="namecell" data-name="village_settings"><a href="#village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=27">VILLAGE_SETTINGS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#allowed_secret_say" title="FK_VILLAGE_SETTINGS_ALLOWED_SECRET_SAY">ALLOWED_SECRET_SAY</a>, <a href="#original_chara_group" title="FK_VILLAGE_SETTINGS_ORIGINAL_CHARA_GROUP_ID">ORIGINAL_CHARA_GROUP</a>, <a href="#village" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE</a></td>
 		<td class="relcell">&nbsp;</td>
@@ -7041,7 +7041,7 @@ VILLAGE_PLAYER_STATUS_TYPE
 	</tbody>
 </table>
 
-<h2 id="village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=26">
+<h2 id="village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=27">
 VILLAGE_SETTINGS
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/18</span>
 </h2>
@@ -7452,6 +7452,24 @@ VILLAGE_SETTINGS
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_settings_is_creator_producer">IS_CREATOR_PRODUCER</td>
+		<td class="typecell">BIT</td>
+		<td class="sizecell"> &nbsp;</td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"><a href="#FlgCls">Flg</a></td>
+		<td class="commentcell"><pre>プロデューサー機能ありか</pre></td>
+		<td class="subcell">isCreatorProducer</td>
+		<td class="subcell">Boolean</td>
+		<td class="subcell">2022/11/20</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">23</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell" title="FK_VILLAGE_SETTINGS_ORIGINAL_CHARA_GROUP_ID(ORIGINAL_CHARA_GROUP_ID)">o</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class=" columnnamecell" id="village_settings_original_chara_group_id">ORIGINAL_CHARA_GROUP_ID</td>
@@ -7466,7 +7484,7 @@ VILLAGE_SETTINGS
 		<td class="subcell">2022/04/14</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">23</td>
+		<td class="rownumcell">24</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -7484,7 +7502,7 @@ VILLAGE_SETTINGS
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">24</td>
+		<td class="rownumcell">25</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -7502,7 +7520,7 @@ VILLAGE_SETTINGS
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">25</td>
+		<td class="rownumcell">26</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -7520,7 +7538,7 @@ VILLAGE_SETTINGS
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">26</td>
+		<td class="rownumcell">27</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -12452,6 +12470,9 @@ function StoreClient() {
 				}
 				, 'IS_REINCARNATION_SKILL_ALL': {
 					'databaseComment': '全ての役職に転生可能か'
+				}
+				, 'IS_CREATOR_PRODUCER': {
+					'databaseComment': 'プロデューサー機能ありか'
 				}
 				, 'ORIGINAL_CHARA_GROUP_ID': {
 					'databaseComment': 'オリジナルキャラクターグループID'

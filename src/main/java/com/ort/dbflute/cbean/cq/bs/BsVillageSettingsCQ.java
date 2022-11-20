@@ -493,6 +493,26 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
      */
     public BsVillageSettingsCQ addOrderBy_IsReincarnationSkillAll_Desc() { regOBD("IS_REINCARNATION_SKILL_ALL"); return this; }
 
+    protected ConditionValue _isCreatorProducer;
+    public ConditionValue xdfgetIsCreatorProducer()
+    { if (_isCreatorProducer == null) { _isCreatorProducer = nCV(); }
+      return _isCreatorProducer; }
+    protected ConditionValue xgetCValueIsCreatorProducer() { return xdfgetIsCreatorProducer(); }
+
+    /**
+     * Add order-by as ascend. <br>
+     * IS_CREATOR_PRODUCER: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_IsCreatorProducer_Asc() { regOBA("IS_CREATOR_PRODUCER"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * IS_CREATOR_PRODUCER: {NotNull, BIT, classification=Flg}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_IsCreatorProducer_Desc() { regOBD("IS_CREATOR_PRODUCER"); return this; }
+
     protected ConditionValue _originalCharaGroupId;
     public ConditionValue xdfgetOriginalCharaGroupId()
     { if (_originalCharaGroupId == null) { _originalCharaGroupId = nCV(); }

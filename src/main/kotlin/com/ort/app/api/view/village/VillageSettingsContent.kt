@@ -37,6 +37,8 @@ data class VillageSettingsContent(
     val isSkillRequestAvailable: Boolean,
     /** 見学が可能か */
     val isAvailableSpectate: Boolean,
+    /** プロデューサー機能ありか */
+    val creatorIsProducer: Boolean,
     /** 連続襲撃ありか */
     val isAvailableSameWolfAttack: Boolean,
     /** 連続護衛可能か */
@@ -86,6 +88,7 @@ data class VillageSettingsContent(
         dummyCharaName = village.dummyParticipant().name(),
         isRequiredJoinPassword = !village.setting.joinPassword.isNullOrBlank(),
         isAvailableSpectate = village.setting.rule.isAvailableSpectate,
+        creatorIsProducer = village.setting.rule.isCreatorIsProducer,
         isSkillRequestAvailable = village.setting.rule.isPossibleSkillRequest,
         isAvailableSameWolfAttack = village.setting.rule.isAvailableSameWolfAttack,
         isAvailableGuardSameTarget = village.setting.rule.isAvailableGuardSameTarget,

@@ -24,6 +24,7 @@ data class VillageSayConfirmContent(
         message = VillageMessageContent(
             village = village,
             myself = null,
+            myselfPlayer = null,
             message = message,
             fromParticipant = fromParticipant,
             player = player,

@@ -1,4 +1,21 @@
 map:{
+    ; 2022/11/20 22:09:39 = map:{
+        ; diffDate = 2022/11/20 22:09:39
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; village_settings = map:{
+                ; tableName = village_settings
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; IS_CREATOR_PRODUCER = map:{
+                        ; columnName = IS_CREATOR_PRODUCER
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2022/10/23 15:11:17 = map:{
         ; diffDate = 2022/10/23 15:11:17
         ; diffAuthor = h-orito

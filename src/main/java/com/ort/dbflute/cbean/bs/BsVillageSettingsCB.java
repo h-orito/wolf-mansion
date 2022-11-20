@@ -462,6 +462,11 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnIsReincarnationSkillAll() { return doColumn("IS_REINCARNATION_SKILL_ALL"); }
         /**
+         * IS_CREATOR_PRODUCER: {NotNull, BIT, classification=Flg}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnIsCreatorProducer() { return doColumn("IS_CREATOR_PRODUCER"); }
+        /**
          * ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group}
          * @return The information object of specified column. (NotNull)
          */

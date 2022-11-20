@@ -250,6 +250,7 @@ class VillageDataSource(
         return Village(
             id = village.villageId,
             name = village.villageDisplayName,
+
             createPlayerName = village.createPlayerName,
             createDatetime = village.registerDatetime,
             status = VillageStatus(village.villageStatusCodeAsVillageStatus),

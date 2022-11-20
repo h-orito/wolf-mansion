@@ -106,7 +106,6 @@ class SayDomainService(
                 val restrict =
                     if (village.status.isProgress()) village.setting.sayRestriction.restrict(myself!!, it)
                     else null
-
                 ParticipantSayMessageTypeSituation(
                     messageType = MessageType(it),
                     restrict = ParticipantSayRestrictSituation(

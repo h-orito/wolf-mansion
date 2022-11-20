@@ -509,6 +509,24 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-3 col-xs-12 control-label">プロデューサー機能 <span
+                                class="text-danger">*</span></label>
+                        <div class="col-sm-9 btn-group" data-toggle="buttons">
+                            <label th:class="'btn btn-sm btn-dark-success ' + *{creatorIsProducer ? 'active' : ''}">
+                                <input type="radio" class=""
+                                       th:field="*{creatorIsProducer}" value="true" autocomplete="off"/>あり
+                            </label> <label
+                                th:class="'btn btn-sm btn-dark-success ' + *{creatorIsProducer ? '' : 'active'}"> <input
+                                type="radio" class=""
+                                th:field="*{creatorIsProducer}" value="false" autocomplete="off" checked="checked"/>なし
+                        </label>
+                        </div>
+                        <div class="col-sm-3"></div>
+                        <div class="col-xs-12 col-sm-9">
+                            <p class="">ありにした場合、村建ては見学でしか参加できなくなる代わりに、プロデューサー機能（ルール参照）を持ちます。</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-sm-3 col-xs-12 control-label">墓下見学役職公開</label>
                         <div class="col-sm-9 btn-group" data-toggle="buttons">
                             <label th:class="'btn btn-sm btn-dark-success ' + *{openSkillInGrave ? 'active' : ''}">
