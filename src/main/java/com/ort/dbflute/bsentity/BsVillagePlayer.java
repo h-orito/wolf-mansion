@@ -1029,6 +1029,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 王族 (ROYALTY). <br>
+     * 王族
+     */
+    public void setSkillCode_王族() {
+        setSkillCodeAsSkill(CDef.Skill.王族);
+    }
+
+    /**
      * Set the value of skillCode as 占い師 (SEER). <br>
      * 占い師
      */
@@ -1861,6 +1869,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 王族 (ROYALTY). <br>
+     * 王族
+     */
+    public void setRequestSkillCode_王族() {
+        setRequestSkillCodeAsSkill(CDef.Skill.王族);
+    }
+
+    /**
      * Set the value of requestSkillCode as 占い師 (SEER). <br>
      * 占い師
      */
@@ -2690,6 +2706,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_蘇生者() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.蘇生者);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 王族 (ROYALTY). <br>
+     * 王族
+     */
+    public void setSecondRequestSkillCode_王族() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.王族);
     }
 
     /**
@@ -3899,6 +3923,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode蘇生者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.蘇生者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 王族? <br>
+     * 王族
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode王族() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.王族) : false;
     }
 
     /**
@@ -5176,6 +5211,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 王族? <br>
+     * 王族
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode王族() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.王族) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 占い師? <br>
      * 占い師
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -6447,6 +6493,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode蘇生者() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.蘇生者) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 王族? <br>
+     * 王族
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode王族() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.王族) : false;
     }
 
     /**

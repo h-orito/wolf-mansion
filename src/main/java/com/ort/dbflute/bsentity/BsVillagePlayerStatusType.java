@@ -126,6 +126,14 @@ public abstract class BsVillagePlayerStatusType extends AbstractEntity implement
     }
 
     /**
+     * Set the value of villagePlayerStatusTypeCode as 不敬 (DISRESPECTFUL). <br>
+     * 不敬
+     */
+    public void setVillagePlayerStatusTypeCode_不敬() {
+        setVillagePlayerStatusTypeCodeAsVillagePlayerStatusType(CDef.VillagePlayerStatusType.不敬);
+    }
+
+    /**
      * Set the value of villagePlayerStatusTypeCode as 後追い (FOLLOWING_SUICIDE). <br>
      * 後追い
      */
@@ -169,6 +177,17 @@ public abstract class BsVillagePlayerStatusType extends AbstractEntity implement
     public boolean isVillagePlayerStatusTypeCode信念() {
         CDef.VillagePlayerStatusType cdef = getVillagePlayerStatusTypeCodeAsVillagePlayerStatusType();
         return cdef != null ? cdef.equals(CDef.VillagePlayerStatusType.信念) : false;
+    }
+
+    /**
+     * Is the value of villagePlayerStatusTypeCode 不敬? <br>
+     * 不敬
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isVillagePlayerStatusTypeCode不敬() {
+        CDef.VillagePlayerStatusType cdef = getVillagePlayerStatusTypeCodeAsVillagePlayerStatusType();
+        return cdef != null ? cdef.equals(CDef.VillagePlayerStatusType.不敬) : false;
     }
 
     /**

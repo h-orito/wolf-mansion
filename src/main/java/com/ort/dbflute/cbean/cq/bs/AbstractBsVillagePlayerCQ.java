@@ -1929,6 +1929,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 王族 (ROYALTY). And OnlyOnceRegistered. <br>
+     * 王族
+     */
+    public void setSkillCode_Equal_王族() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.王族);
+    }
+
+    /**
      * Equal(=). As 占い師 (SEER). And OnlyOnceRegistered. <br>
      * 占い師
      */
@@ -2781,6 +2789,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_蘇生者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.蘇生者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 王族 (ROYALTY). And OnlyOnceRegistered. <br>
+     * 王族
+     */
+    public void setSkillCode_NotEqual_王族() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.王族);
     }
 
     /**
@@ -3836,6 +3852,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 王族 (ROYALTY). And OnlyOnceRegistered. <br>
+     * 王族
+     */
+    public void setRequestSkillCode_Equal_王族() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.王族);
+    }
+
+    /**
      * Equal(=). As 占い師 (SEER). And OnlyOnceRegistered. <br>
      * 占い師
      */
@@ -4688,6 +4712,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_蘇生者() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.蘇生者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 王族 (ROYALTY). And OnlyOnceRegistered. <br>
+     * 王族
+     */
+    public void setRequestSkillCode_NotEqual_王族() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.王族);
     }
 
     /**
@@ -5743,6 +5775,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 王族 (ROYALTY). And OnlyOnceRegistered. <br>
+     * 王族
+     */
+    public void setSecondRequestSkillCode_Equal_王族() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.王族);
+    }
+
+    /**
      * Equal(=). As 占い師 (SEER). And OnlyOnceRegistered. <br>
      * 占い師
      */
@@ -6595,6 +6635,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_蘇生者() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.蘇生者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 王族 (ROYALTY). And OnlyOnceRegistered. <br>
+     * 王族
+     */
+    public void setSecondRequestSkillCode_NotEqual_王族() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.王族);
     }
 
     /**

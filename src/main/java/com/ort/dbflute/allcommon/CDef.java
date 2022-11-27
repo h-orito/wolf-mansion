@@ -775,6 +775,9 @@ public interface CDef extends Classification {
         /** 蘇生者 */
         蘇生者("RESUSCITATOR", "蘇生者", emptyStrings())
         ,
+        /** 王族 */
+        王族("ROYALTY", "王族", emptyStrings())
+        ,
         /** 占い師 */
         占い師("SEER", "占い師", emptyStrings())
         ,
@@ -1425,6 +1428,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "蘇");
                 _subItemMapMap.put(蘇生者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "516");
+                subItemMap.put("campCode", "CRIMINAL");
+                subItemMap.put("skill_short_name", "族");
+                _subItemMapMap.put(王族.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -2853,6 +2863,9 @@ public interface CDef extends Classification {
     public enum VillagePlayerStatusType implements CDef {
         /** 信念 */
         信念("BELIEF", "信念", emptyStrings())
+        ,
+        /** 不敬 */
+        不敬("DISRESPECTFUL", "不敬", emptyStrings())
         ,
         /** 後追い */
         後追い("FOLLOWING_SUICIDE", "後追い", emptyStrings())

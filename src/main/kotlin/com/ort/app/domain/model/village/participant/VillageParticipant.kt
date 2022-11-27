@@ -177,20 +177,19 @@ data class VillageParticipant(
 
     fun changeRequestSkill(requestSkill: RequestSkill) = copy(requestSkill = requestSkill)
 
-    fun addLover(id: Int): VillageParticipant = copy(status = status.addLover(id))
-
-    fun suddenlyDeath(day: Int): VillageParticipant = copy(dead = dead.suddenlyDeath(day))
-    fun execute(day: Int): VillageParticipant = copy(dead = dead.execute(day))
-    fun divineKill(day: Int): VillageParticipant = copy(dead = dead.divineKill(day))
-    fun attacked(day: Int): VillageParticipant = copy(dead = dead.attacked(day))
-    fun trapKill(day: Int): VillageParticipant = copy(dead = dead.trapKill(day))
-    fun bombKill(day: Int): VillageParticipant = copy(dead = dead.bombKill(day))
-    fun zakoKilled(day: Int): VillageParticipant = copy(dead = dead.zakoKilled(day))
-    fun suicide(day: Int): VillageParticipant = copy(dead = dead.suicide(day))
+    fun suddenlyDeath(day: Int): VillageParticipant = copy(dead = dead.suddenlyDeath(day), status = status.respect())
+    fun execute(day: Int): VillageParticipant = copy(dead = dead.execute(day), status = status.respect())
+    fun divineKill(day: Int): VillageParticipant = copy(dead = dead.divineKill(day), status = status.respect())
+    fun attacked(day: Int): VillageParticipant = copy(dead = dead.attacked(day), status = status.respect())
+    fun trapKill(day: Int): VillageParticipant = copy(dead = dead.trapKill(day), status = status.respect())
+    fun bombKill(day: Int): VillageParticipant = copy(dead = dead.bombKill(day), status = status.respect())
+    fun zakoKilled(day: Int): VillageParticipant = copy(dead = dead.zakoKilled(day), status = status.respect())
+    fun suicide(day: Int): VillageParticipant = copy(dead = dead.suicide(day), status = status.respect())
     fun revive(day: Int): VillageParticipant = copy(dead = dead.revive(day))
     fun forceReincarnation(day: Int, skill: Skill): VillageParticipant =
-        assignSkill(skill, day).copy(dead = dead.forceReincarnation(day))
+        assignSkill(skill, day).copy(dead = dead.forceReincarnation(day), status = status.respect())
 
+    fun addLover(id: Int): VillageParticipant = copy(status = status.addLover(id))
     fun foxPossessioned(village: Village, fromParticipantId: Int): VillageParticipant {
         // 自分が同棲者の場合は同棲者を除いて恋絆を解除する
         val cohabitor = if (skill!!.toCdef() == CDef.Skill.同棲者) getTargetCohabitor(village) else null
@@ -228,6 +227,9 @@ data class VillageParticipant(
 
     fun insurance(participantId: Int): VillageParticipant =
         copy(status = status.insurance(participantId))
+
+    fun disrespect(fromParticipantId: Int): VillageParticipant =
+        copy(status = status.disrespect(fromParticipantId))
 
     fun breakup(village: Village): VillageParticipant {
         // 自分が同棲者の場合は同棲者を除いて恋絆を解除する

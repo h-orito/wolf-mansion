@@ -323,6 +323,8 @@ data class Village(
         return copy(participants = participants.useInsurance(participantId))
     }
 
+    fun disrespect(fromId: Int, toId: Int): Village = copy(participants = participants.disrespect(fromId, toId))
+
     fun assignParticipantSkill(participantId: Int, skill: Skill): Village {
         return this.copy(participants = participants.assignSkill(participantId, skill, latestDay()))
     }

@@ -835,6 +835,14 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
+     * Set the value of skillCode as 王族 (ROYALTY). <br>
+     * 王族
+     */
+    public void setSkillCode_王族() {
+        setSkillCodeAsSkill(CDef.Skill.王族);
+    }
+
+    /**
      * Set the value of skillCode as 占い師 (SEER). <br>
      * 占い師
      */
@@ -2105,6 +2113,17 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     public boolean isSkillCode蘇生者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.蘇生者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 王族? <br>
+     * 王族
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode王族() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.王族) : false;
     }
 
     /**

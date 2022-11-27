@@ -71,6 +71,14 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
     }
 
     /**
+     * Equal(=). As 不敬 (DISRESPECTFUL). And OnlyOnceRegistered. <br>
+     * 不敬
+     */
+    public void setVillagePlayerStatusTypeCode_Equal_不敬() {
+        setVillagePlayerStatusTypeCode_Equal_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.不敬);
+    }
+
+    /**
      * Equal(=). As 後追い (FOLLOWING_SUICIDE). And OnlyOnceRegistered. <br>
      * 後追い
      */
@@ -131,6 +139,14 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
      */
     public void setVillagePlayerStatusTypeCode_NotEqual_信念() {
         setVillagePlayerStatusTypeCode_NotEqual_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.信念);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 不敬 (DISRESPECTFUL). And OnlyOnceRegistered. <br>
+     * 不敬
+     */
+    public void setVillagePlayerStatusTypeCode_NotEqual_不敬() {
+        setVillagePlayerStatusTypeCode_NotEqual_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.不敬);
     }
 
     /**

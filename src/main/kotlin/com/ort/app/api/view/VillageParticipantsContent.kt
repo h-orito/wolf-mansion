@@ -67,6 +67,7 @@ data class VillageParticipantsContent(
                 if (status.isFoxPossessioned()) list.add("狐憑き")
                 if (status.isInsaned()) list.add("狂気")
                 if (status.isPersuaded()) list.add("信念")
+                if (status.isDisrespectful()) list.add("不敬")
                 return list
             }
 

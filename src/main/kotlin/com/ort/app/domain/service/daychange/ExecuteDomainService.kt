@@ -40,6 +40,15 @@ class ExecuteDomainService(
         // 処刑される人
         val executedParticipants = decideExecutedParticipants(votedCountMap, executeCount)
 
+        // 王族に投票した人に不敬を付与
+        votes.filter {
+            village.participants.chara(it.targetCharaId).skill!!.toCdef() == CDef.Skill.王族
+        }.forEach {
+            val from = village.participants.chara(it.charaId)
+            val to = village.participants.chara(it.targetCharaId)
+            village = village.disrespect(to.id, from.id)
+        }
+
         executedParticipants.forEach {
             village = village.executeParticipant(it.id)
         }
@@ -79,6 +88,10 @@ class ExecuteDomainService(
             val voteTargetCharaId = votes.first { it.charaId == freezer.charaId }.targetCharaId
             val voteTarget = village.participants.chara(voteTargetCharaId)
             votedCountMap[voteTarget] = votedCountMap[voteTarget]!!.plus(529999)
+        }
+        // 不敬が付与されている場合、被投票数が2倍になる
+        village.participants.filterAlive().list.filter { it.status.isDisrespectful() }.forEach { participant ->
+            votedCountMap[participant] = votedCountMap[participant]!! * 2
         }
 
         return votedCountMap

@@ -2,11 +2,8 @@ package com.ort.app.infrastructure.datasource.village
 
 import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.chara.Chara
-import com.ort.app.domain.model.skill.RequestSkill
+import com.ort.app.domain.model.skill.*
 import com.ort.app.domain.model.skill.Skill
-import com.ort.app.domain.model.skill.SkillHistories
-import com.ort.app.domain.model.skill.SkillHistory
-import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.village.participant.VillageParticipantName
 import com.ort.app.domain.model.village.participant.VillageParticipantStatus
@@ -20,18 +17,8 @@ import com.ort.app.domain.model.village.room.RoomHistories
 import com.ort.app.domain.model.village.room.RoomHistory
 import com.ort.dbflute.allcommon.CDef
 import com.ort.dbflute.bsbhv.loader.LoaderOfVillagePlayer
-import com.ort.dbflute.exbhv.VillagePlayerAccessInfoBhv
-import com.ort.dbflute.exbhv.VillagePlayerBhv
-import com.ort.dbflute.exbhv.VillagePlayerDeadHistoryBhv
-import com.ort.dbflute.exbhv.VillagePlayerRoomHistoryBhv
-import com.ort.dbflute.exbhv.VillagePlayerSkillHistoryBhv
-import com.ort.dbflute.exbhv.VillagePlayerStatusBhv
-import com.ort.dbflute.exentity.VillagePlayer
-import com.ort.dbflute.exentity.VillagePlayerAccessInfo
-import com.ort.dbflute.exentity.VillagePlayerDeadHistory
-import com.ort.dbflute.exentity.VillagePlayerRoomHistory
-import com.ort.dbflute.exentity.VillagePlayerSkillHistory
-import com.ort.dbflute.exentity.VillagePlayerStatus
+import com.ort.dbflute.exbhv.*
+import com.ort.dbflute.exentity.*
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 
@@ -240,6 +227,8 @@ class VillagePlayerDataSource(
             .forEach { deleteVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.信念) }
         current.insuranceIdList.filterNot { changed.insuranceIdList.contains(it) }
             .forEach { deleteVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.保険) }
+        current.disrespectfulList.filterNot { changed.disrespectfulList.contains(it) }
+            .forEach { deleteVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.不敬) }
 
         // 追加
         changed.loverIdList.filterNot { current.loverIdList.contains(it) }
@@ -250,8 +239,8 @@ class VillagePlayerDataSource(
             .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.狂気) }
         changed.persuadedIdList.filterNot { current.persuadedIdList.contains(it) }
             .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.信念) }
-        changed.insuranceIdList.filterNot { current.insuranceIdList.contains(it) }
-            .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.保険) }
+        changed.disrespectfulList.filterNot { current.disrespectfulList.contains(it) }
+            .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.不敬) }
     }
 
     private fun insertVillagePlayerStatus(from: Int, to: Int, type: CDef.VillagePlayerStatusType) {
@@ -377,7 +366,8 @@ class VillagePlayerDataSource(
                 foxPossessionedIdList = emptyList(),
                 insanedIdList = emptyList(),
                 persuadedIdList = emptyList(),
-                insuranceIdList = emptyList()
+                insuranceIdList = emptyList(),
+                disrespectfulList = emptyList()
             ),
             dead = mapSimpleDead(villagePlayer),
             isSpectator = villagePlayer.isSpectator,
@@ -481,7 +471,8 @@ class VillagePlayerDataSource(
             foxPossessionedIdList = toStatusList.filter { it.isVillagePlayerStatusCode狐憑き }.map { it.villagePlayerId },
             insanedIdList = toStatusList.filter { it.isVillagePlayerStatusCode狂気 }.map { it.villagePlayerId },
             persuadedIdList = toStatusList.filter { it.isVillagePlayerStatusCode信念 }.map { it.villagePlayerId },
-            insuranceIdList = toStatusList.filter { it.isVillagePlayerStatusCode保険 }.map { it.villagePlayerId }
+            insuranceIdList = toStatusList.filter { it.isVillagePlayerStatusCode保険 }.map { it.villagePlayerId },
+            disrespectfulList = toStatusList.filter { it.isVillagePlayerStatusCode不敬 }.map { it.villagePlayerId },
         )
     }
 }
