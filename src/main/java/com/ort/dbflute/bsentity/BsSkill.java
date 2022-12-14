@@ -772,6 +772,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Set the value of skillCode as 陰陽師 (ONMYOJI). <br>
+     * 陰陽師
+     */
+    public void setSkillCode_陰陽師() {
+        setSkillCodeAsSkill(CDef.Skill.陰陽師);
+    }
+
+    /**
      * Set the value of skillCode as 梟 (OWL). <br>
      * 梟
      */
@@ -1907,6 +1915,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isSkillCode全知者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.全知者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 陰陽師? <br>
+     * 陰陽師
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode陰陽師() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.陰陽師) : false;
     }
 
     /**

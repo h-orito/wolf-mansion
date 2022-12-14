@@ -342,6 +342,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 降霊 (ONMYO_NECROMANCE). <br>
+     * 降霊
+     */
+    public void setAbilityTypeCode_降霊() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.降霊);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 説得 (PERSUADE). <br>
      * 説得
      */
@@ -762,6 +770,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode全知() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.全知) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 降霊? <br>
+     * 降霊
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode降霊() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.降霊) : false;
     }
 
     /**

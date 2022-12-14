@@ -989,6 +989,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 陰陽師 (ONMYOJI). <br>
+     * 陰陽師
+     */
+    public void setSkillCode_陰陽師() {
+        setSkillCodeAsSkill(CDef.Skill.陰陽師);
+    }
+
+    /**
      * Set the value of skillCode as 梟 (OWL). <br>
      * 梟
      */
@@ -1853,6 +1861,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 陰陽師 (ONMYOJI). <br>
+     * 陰陽師
+     */
+    public void setRequestSkillCode_陰陽師() {
+        setRequestSkillCodeAsSkill(CDef.Skill.陰陽師);
+    }
+
+    /**
      * Set the value of requestSkillCode as 梟 (OWL). <br>
      * 梟
      */
@@ -2714,6 +2730,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_全知者() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.全知者);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 陰陽師 (ONMYOJI). <br>
+     * 陰陽師
+     */
+    public void setSecondRequestSkillCode_陰陽師() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.陰陽師);
     }
 
     /**
@@ -3940,6 +3964,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode全知者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.全知者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 陰陽師? <br>
+     * 陰陽師
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode陰陽師() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.陰陽師) : false;
     }
 
     /**
@@ -5261,6 +5296,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 陰陽師? <br>
+     * 陰陽師
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode陰陽師() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.陰陽師) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 梟? <br>
      * 梟
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -6576,6 +6622,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode全知者() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.全知者) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 陰陽師? <br>
+     * 陰陽師
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode陰陽師() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.陰陽師) : false;
     }
 
     /**

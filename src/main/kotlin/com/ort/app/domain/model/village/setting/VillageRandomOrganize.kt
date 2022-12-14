@@ -46,7 +46,7 @@ data class VillageRandomOrganize(
 
         // 最低人数が決まっている陣営を先に割り当てる
         campAllocation.filter { it.min > 0 }.forEach { c ->
-            val campSkillSum = countMap.entries.filter { it.key.campCode() == c.camp.code }.sumBy { it.value }
+            val campSkillSum = countMap.entries.filter { it.key.campCode() == c.camp.code }.sumOf { it.value }
             repeat(c.min - campSkillSum) {
                 // 割り振っても良い役職
                 val skillList = skillAllocation.filter { s ->
@@ -58,7 +58,7 @@ data class VillageRandomOrganize(
         }
 
         // ここまでで人狼カウントがいなかったら先に一人割り当てる
-        val wolfCount = countMap.entries.filter { it.key.isWolfCount }.sumBy { it.value }
+        val wolfCount = countMap.entries.filter { it.key.isWolfCount }.sumOf { it.value }
         if (wolfCount <= 0) {
             val wolf = gachaSkill(skillAllocation.filter { it.skill.isWolfCount() })
             addSkillPerson(countMap, wolf)
@@ -122,7 +122,7 @@ data class VillageRandomOrganize(
         ) return false
 
         // 陣営の役職の合計数が既に陣営配分のmax人数
-        val campSkillSum = countMap.entries.filter { it.key.campCode() == camp.camp.code }.sumBy { it.value }
+        val campSkillSum = countMap.entries.filter { it.key.campCode() == camp.camp.code }.sumOf { it.value }
         return camp.max == null || campSkillSum < camp.max
     }
 
@@ -155,7 +155,7 @@ data class VillageRandomOrganize(
     }
 
     private fun gachaSkill(skillAllocationList: List<SkillAllocation>): CDef.Skill {
-        var sum = skillAllocationList.sumBy { it.allocation }
+        var sum = skillAllocationList.sumOf { it.allocation }
         for (skill in skillAllocationList) {
             val rand = Random()
             val random = rand.nextInt(sum)
@@ -169,7 +169,7 @@ data class VillageRandomOrganize(
     }
 
     private fun gachaCamp(campAllocationList: List<CampAllocation>): CDef.Camp {
-        var sum = campAllocationList.sumBy { it.allocation }
+        var sum = campAllocationList.sumOf { it.allocation }
         for (camp in campAllocationList) {
             val rand = Random()
             val random = rand.nextInt(sum)
@@ -203,12 +203,13 @@ data class VillageRandomOrganize(
         }
 
         // 勝利できない役職がいたらやり直し（妖狐系なしの背徳者）
-        val foxCount = Skills.all().list.filter { it.isFoxCount() }.sumBy {
+        val foxCount = Skills.all().list.filter { it.isFoxCount() }.sumOf {
             countMap.getOrDefault(it.toCdef(), 0)
         }
         val immoralCount = countMap.getOrDefault(CDef.Skill.背徳者, 0)
-        if (foxCount == 0 && 0 < immoralCount) {
-            logger.info("妖狐系がいないのに背徳者がいるのでやり直し")
+        val onmyojiCount = countMap.getOrDefault(CDef.Skill.陰陽師, 0)
+        if (foxCount == 0 && 0 < immoralCount + onmyojiCount) {
+            logger.info("妖狐系がいないのに背徳者陰陽師がいるのでやり直し")
             return true
         }
         // 勝利できない役職がいたらやり直し（パン屋なしの餡麺麭者）
@@ -220,11 +221,11 @@ data class VillageRandomOrganize(
         }
 
         // PPチェック
-        val wolfSum = countMap.entries.filter { it.key.isWolfCount }.sumBy { it.value }
+        val wolfSum = countMap.entries.filter { it.key.isWolfCount }.sumOf { it.value }
         val villagerSum = countMap.entries.filterNot {
             val skill = it.key
             skill.isWolfCount || skill.isNoCount
-        }.sumBy { it.value }
+        }.sumOf { it.value }
         // 2日目に村人が一人減るので村人は人狼よりも二人以上多くなければいけない
         if (villagerSum <= wolfSum + 1) {
             logger.info("即PPになるのでやり直し villager: $villagerSum, wolf: $wolfSum")

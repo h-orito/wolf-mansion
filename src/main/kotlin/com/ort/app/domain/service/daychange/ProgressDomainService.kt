@@ -53,6 +53,7 @@ class ProgressDomainService(
     private val giveWinDomainService: GiveWinDomainService,
     private val resuscitateDomainService: ResuscitateDomainService,
     private val necromanceDomainService: NecromanceDomainService,
+    private val onmyoNecromanceDomainService: OnmyoNecromanceDomainService,
     private val yubisashiDomainService: YubisashiDomainService,
     private val loveStealDomainService: LoveStealDomainService,
     private val breakupDomainService: BreakupDomainService,
@@ -163,6 +164,8 @@ class ProgressDomainService(
         daychange = resuscitateDomainService.resuscitate(daychange)
         // 死霊蘇生
         daychange = necromanceDomainService.necromance(daychange)
+        // 降霊
+        daychange = onmyoNecromanceDomainService.necromance(daychange)
         // 復活
         daychange = revivalDomainService.revival(daychange)
         // 後追い

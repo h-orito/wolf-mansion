@@ -141,6 +141,7 @@ data class Skill(
             CDef.Skill.トラック to AbilityType(CDef.AbilityType.強制転生),
             CDef.Skill.蘇生者 to AbilityType(CDef.AbilityType.蘇生),
             CDef.Skill.死霊術師 to AbilityType(CDef.AbilityType.死霊蘇生),
+            CDef.Skill.陰陽師 to AbilityType(CDef.AbilityType.降霊),
             CDef.Skill.ババ to AbilityType(CDef.AbilityType.ババを渡す),
             CDef.Skill.当選者 to AbilityType(CDef.AbilityType.当選),
             CDef.Skill.不止者 to AbilityType(CDef.AbilityType.指差死),
@@ -248,7 +249,15 @@ data class Skill(
             )
         val hasVotedAbilitySkills = listOf(CDef.Skill.バールのようなもの, CDef.Skill.怨恨者)
         val isSuicideSkills =
-            listOf(CDef.Skill.餡麺麭者, CDef.Skill.壁殴り代行, CDef.Skill.恋人, CDef.Skill.同棲者, CDef.Skill.ストーカー, CDef.Skill.背徳者)
+            listOf(
+                CDef.Skill.餡麺麭者,
+                CDef.Skill.壁殴り代行,
+                CDef.Skill.恋人,
+                CDef.Skill.同棲者,
+                CDef.Skill.ストーカー,
+                CDef.Skill.背徳者,
+                CDef.Skill.陰陽師
+            )
         val hasLoneAttackAbilitySkills = listOf(CDef.Skill.マタギ, CDef.Skill.バールのようなもの, CDef.Skill.一匹狼)
         val hasAutoFootstepAbilitySkills = listOf(CDef.Skill.妄想癖, CDef.Skill.夢遊病者, CDef.Skill.冤罪者, CDef.Skill.濡衣者)
 

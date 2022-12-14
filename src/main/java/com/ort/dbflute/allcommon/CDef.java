@@ -760,6 +760,9 @@ public interface CDef extends Classification {
         /** 全知者 */
         全知者("OMNISCIENCE", "全知者", emptyStrings())
         ,
+        /** 陰陽師 */
+        陰陽師("ONMYOJI", "陰陽師", emptyStrings())
+        ,
         /** 梟 */
         梟("OWL", "梟", emptyStrings())
         ,
@@ -1402,6 +1405,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "全");
                 _subItemMapMap.put(全知者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "481");
+                subItemMap.put("campCode", "FOX");
+                subItemMap.put("skill_short_name", "陰");
+                _subItemMapMap.put(陰陽師.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -2473,6 +2483,9 @@ public interface CDef extends Classification {
         ,
         /** 全知 */
         全知("OMNISCIENCE", "全知", emptyStrings())
+        ,
+        /** 降霊 */
+        降霊("ONMYO_NECROMANCE", "降霊", emptyStrings())
         ,
         /** 説得 */
         説得("PERSUADE", "説得", emptyStrings())

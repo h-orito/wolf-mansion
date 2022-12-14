@@ -287,6 +287,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 降霊 (ONMYO_NECROMANCE). And OnlyOnceRegistered. <br>
+     * 降霊
+     */
+    public void setAbilityTypeCode_Equal_降霊() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.降霊);
+    }
+
+    /**
      * Equal(=). As 説得 (PERSUADE). And OnlyOnceRegistered. <br>
      * 説得
      */
@@ -643,6 +651,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_全知() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.全知);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 降霊 (ONMYO_NECROMANCE). And OnlyOnceRegistered. <br>
+     * 降霊
+     */
+    public void setAbilityTypeCode_NotEqual_降霊() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.降霊);
     }
 
     /**

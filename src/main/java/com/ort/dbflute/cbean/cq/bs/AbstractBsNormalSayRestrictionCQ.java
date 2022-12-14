@@ -808,6 +808,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
     }
 
     /**
+     * Equal(=). As 陰陽師 (ONMYOJI). And OnlyOnceRegistered. <br>
+     * 陰陽師
+     */
+    public void setSkillCode_Equal_陰陽師() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.陰陽師);
+    }
+
+    /**
      * Equal(=). As 梟 (OWL). And OnlyOnceRegistered. <br>
      * 梟
      */
@@ -1692,6 +1700,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
      */
     public void setSkillCode_NotEqual_全知者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.全知者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 陰陽師 (ONMYOJI). And OnlyOnceRegistered. <br>
+     * 陰陽師
+     */
+    public void setSkillCode_NotEqual_陰陽師() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.陰陽師);
     }
 
     /**

@@ -45,7 +45,7 @@ class SuicideDomainService(
         findWallPunchSuicideTarget(village)?.let { return it }
         // 餡麺麭者
         findAnpanmanSuicideTarget(village)?.let { return it }
-        // 背徳者
+        // 背徳者と陰陽師
         return findImmoralSuicideTarget(village)
     }
 

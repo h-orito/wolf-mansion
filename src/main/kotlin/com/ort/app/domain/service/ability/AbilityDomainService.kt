@@ -63,6 +63,7 @@ class AbilityDomainService(
     private val translateDomainService: TranslateDomainService,
     private val resuscitateDomainService: ResuscitateDomainService,
     private val necromanceDomainService: NecromanceDomainService,
+    private val onmyoNecromanceDomainService: OnmyoNecromanceDomainService,
     private val forceReincarnationDomainService: ForceReincarnationDomainService,
     private val giveBabaDomainService: GiveBabaDomainService,
     private val giveWinDomainService: GiveWinDomainService,
@@ -169,6 +170,7 @@ class AbilityDomainService(
             CDef.AbilityType.道化 -> clownDomainService
             CDef.AbilityType.殺し屋化 -> assassinDomainService
             CDef.AbilityType.濡衣 -> guiltyDomainService
+            CDef.AbilityType.降霊 -> onmyoNecromanceDomainService
         }
 
     fun createSetMessage(
