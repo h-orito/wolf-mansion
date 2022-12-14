@@ -34,11 +34,16 @@ class ExecuteDomainService(
             .filterByDay(village.latestDay() - 1)
             .filterByType(CDef.AbilityType.隠蔽.toModel())
             .list.any { village.participants.chara(it.charaId).isAlive() }
+        // 革命中か
+        val existsRevolution = daychange.abilities
+            .filterByDay(village.latestDay() - 2)
+            .filterByType(CDef.AbilityType.革命.toModel())
+            .list.any { village.participants.chara(it.charaId).isAlive() }
 
         // 被投票数
         val votedCountMap = calculateVoteCount(village, votes, daychange.abilities)
         // 処刑される人
-        val executedParticipants = decideExecutedParticipants(votedCountMap, executeCount)
+        val executedParticipants = decideExecutedParticipants(votedCountMap, executeCount, existsRevolution)
 
         // 王族に投票した人に不敬を付与
         votes.filter {
@@ -55,6 +60,9 @@ class ExecuteDomainService(
 
         var messages = daychange.messages.copy()
         messages = messages.add(createEachVoteMessage(village, votes, existsBlackbox))
+        if (existsRevolution) {
+            messages = messages.add(createRevolutionMessage(village))
+        }
         messages = messages.add(createExecuteMessage(village, votedCountMap, executedParticipants, existsBlackbox))
         if (existsBlackbox) {
             messages = messages.add(createBlackboxMessage(village, executedParticipants))
@@ -101,12 +109,13 @@ class ExecuteDomainService(
 
     private fun decideExecutedParticipants(
         votedMap: Map<VillageParticipant, Int>,
-        executeCount: Int
+        executeCount: Int,
+        existsRevolution: Boolean
     ): List<VillageParticipant> {
         val map = votedMap.filterNot { it.value <= 0 }.toMutableMap()
         val executed = mutableListOf<VillageParticipant>()
         repeat(executeCount) {
-            decideExecutedParticipant(map)?.let {
+            decideExecutedParticipant(map, existsRevolution)?.let {
                 executed.add(it)
                 map.remove(it)
             }
@@ -114,11 +123,17 @@ class ExecuteDomainService(
         return executed.toList()
     }
 
-    private fun decideExecutedParticipant(votedMap: Map<VillageParticipant, Int>): VillageParticipant? {
-        val maxVotedCount = votedMap.map { (_, votedCount) -> votedCount }.maxOrNull()
-            ?: return null
+    private fun decideExecutedParticipant(
+        votedMap: Map<VillageParticipant, Int>,
+        existsRevolution: Boolean
+    ): VillageParticipant? {
+        // 革命中は少数決、そうでなければ多数決
+        val votedCount =
+            if (existsRevolution) votedMap.map { (_, count) -> count }.minOrNull()
+            else votedMap.map { (_, count) -> count }.maxOrNull()
+        votedCount ?: return null
         val candidates = votedMap
-            .filter { (_, votedCount) -> votedCount == maxVotedCount }
+            .filter { (_, count) -> votedCount == count }
             .map { (participant, _) -> participant }
         val nonLuckymanCandidates = candidates.filterNot { it.skill!!.toCdef() == CDef.Skill.強運者 }
         return if (nonLuckymanCandidates.isNotEmpty()) nonLuckymanCandidates.shuffled().first()
@@ -141,6 +156,13 @@ class ExecuteDomainService(
             if (village.setting.rule.isOpenVote && !existsBlackbox) CDef.MessageType.公開システムメッセージ.toModel()
             else CDef.MessageType.非公開システムメッセージ.toModel()
         return messageDomainService.createEachVoteMessage(village, text, messageType)
+    }
+
+    private fun createRevolutionMessage(village: Village): Message {
+        return Message.ofSystemMessage(
+            day = village.latestDay(),
+            message = "革命が成功し、本日は少数票の者を処刑することとなった。"
+        )
     }
 
     private fun createExecuteMessage(

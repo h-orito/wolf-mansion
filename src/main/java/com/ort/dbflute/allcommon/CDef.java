@@ -784,6 +784,9 @@ public interface CDef extends Classification {
         /** 蘇生者 */
         蘇生者("RESUSCITATOR", "蘇生者", emptyStrings())
         ,
+        /** 革命者 */
+        革命者("REVOLUTIONARY", "革命者", emptyStrings())
+        ,
         /** 王族 */
         王族("ROYALTY", "王族", emptyStrings())
         ,
@@ -1461,6 +1464,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "蘇");
                 _subItemMapMap.put(蘇生者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "517");
+                subItemMap.put("campCode", "CRIMINAL");
+                subItemMap.put("skill_short_name", "革");
+                _subItemMapMap.put(革命者.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -2501,6 +2511,9 @@ public interface CDef extends Classification {
         ,
         /** 蘇生 */
         蘇生("RESUSCITATE", "蘇生", emptyStrings())
+        ,
+        /** 革命 */
+        革命("REVOLUTION", "革命", emptyStrings())
         ,
         /** 誘惑 */
         誘惑("SEDUCE", "誘惑", emptyStrings())

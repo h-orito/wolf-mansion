@@ -390,6 +390,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 革命 (REVOLUTION). <br>
+     * 革命
+     */
+    public void setAbilityTypeCode_革命() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.革命);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 誘惑 (SEDUCE). <br>
      * 誘惑
      */
@@ -836,6 +844,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode蘇生() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.蘇生) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 革命? <br>
+     * 革命
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode革命() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.革命) : false;
     }
 
     /**

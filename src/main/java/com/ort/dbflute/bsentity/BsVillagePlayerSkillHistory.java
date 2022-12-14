@@ -831,6 +831,14 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     }
 
     /**
+     * Set the value of skillCode as 革命者 (REVOLUTIONARY). <br>
+     * 革命者
+     */
+    public void setSkillCode_革命者() {
+        setSkillCodeAsSkill(CDef.Skill.革命者);
+    }
+
+    /**
      * Set the value of skillCode as 王族 (ROYALTY). <br>
      * 王族
      */
@@ -1958,6 +1966,17 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     public boolean isSkillCode蘇生者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.蘇生者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 革命者? <br>
+     * 革命者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode革命者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.革命者) : false;
     }
 
     /**

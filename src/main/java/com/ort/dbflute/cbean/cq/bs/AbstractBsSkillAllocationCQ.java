@@ -872,6 +872,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
     }
 
     /**
+     * Equal(=). As 革命者 (REVOLUTIONARY). And OnlyOnceRegistered. <br>
+     * 革命者
+     */
+    public void setSkillCode_Equal_革命者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.革命者);
+    }
+
+    /**
      * Equal(=). As 王族 (ROYALTY). And OnlyOnceRegistered. <br>
      * 王族
      */
@@ -1764,6 +1772,14 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
      */
     public void setSkillCode_NotEqual_蘇生者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.蘇生者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 革命者 (REVOLUTIONARY). And OnlyOnceRegistered. <br>
+     * 革命者
+     */
+    public void setSkillCode_NotEqual_革命者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.革命者);
     }
 
     /**

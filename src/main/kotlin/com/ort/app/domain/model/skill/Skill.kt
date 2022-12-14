@@ -155,6 +155,7 @@ data class Skill(
             CDef.Skill.冷凍者 to AbilityType(CDef.AbilityType.戦闘力発揮),
             CDef.Skill.道化師 to AbilityType(CDef.AbilityType.道化),
             CDef.Skill.伝説の殺し屋 to AbilityType(CDef.AbilityType.殺し屋化),
+            CDef.Skill.革命者 to AbilityType(CDef.AbilityType.革命),
         )
 
         private val shortNameToSkill = Skills.all().filterNotSomeone().list.associate {
@@ -245,7 +246,8 @@ data class Skill(
                 CDef.Skill.組長,
                 CDef.Skill.黒箱者,
                 CDef.Skill.冷凍者,
-                CDef.Skill.王族
+                CDef.Skill.王族,
+                CDef.Skill.革命者
             )
         val hasVotedAbilitySkills = listOf(CDef.Skill.バールのようなもの, CDef.Skill.怨恨者)
         val isSuicideSkills =

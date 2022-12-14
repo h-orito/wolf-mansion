@@ -1133,6 +1133,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 革命 (REVOLUTION). And OnlyOnceRegistered. <br>
+     * 革命
+     */
+    public void setAbilityTypeCode_Equal_革命() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.革命);
+    }
+
+    /**
      * Equal(=). As 誘惑 (SEDUCE). And OnlyOnceRegistered. <br>
      * 誘惑
      */
@@ -1497,6 +1505,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_蘇生() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.蘇生);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 革命 (REVOLUTION). And OnlyOnceRegistered. <br>
+     * 革命
+     */
+    public void setAbilityTypeCode_NotEqual_革命() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.革命);
     }
 
     /**
