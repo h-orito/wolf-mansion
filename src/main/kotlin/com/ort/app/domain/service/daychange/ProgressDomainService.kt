@@ -40,6 +40,7 @@ class ProgressDomainService(
     private val autopsyDomainService: AutopsyDomainService,
     private val bakeryDomainService: BakeryDomainService,
     private val gonfoxDomainService: GonfoxDomainService,
+    private val guiltyDomainService: GuiltyDomainService,
     private val falseChargesDomainService: FalseChargesDomainService,
     private val rainbowDomainService: RainbowDomainService,
     private val loudSpeakDomainService: LoudSpeakDomainService,
@@ -177,6 +178,8 @@ class ProgressDomainService(
         daychange = gonfoxDomainService.addGonfoxMessage(daychange)
         // 指差死
         daychange = yubisashiDomainService.yubisashi(daychange)
+        // 濡衣
+        daychange = guiltyDomainService.guilty(daychange)
         // 冤罪者の足音発生
         daychange = falseChargesDomainService.falseCharges(daychange)
         // 生存者と足音メッセージ

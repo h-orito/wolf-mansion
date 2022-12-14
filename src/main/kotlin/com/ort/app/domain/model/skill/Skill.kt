@@ -126,6 +126,7 @@ data class Skill(
             CDef.Skill.騙狐 to AbilityType(CDef.AbilityType.煽動),
             CDef.Skill.破局者 to AbilityType(CDef.AbilityType.破局),
             CDef.Skill.教唆者 to AbilityType(CDef.AbilityType.教唆),
+            CDef.Skill.濡衣者 to AbilityType(CDef.AbilityType.濡衣),
             CDef.Skill.果実籠 to AbilityType(CDef.AbilityType.フルーツバスケット),
             CDef.Skill.求愛者 to AbilityType(CDef.AbilityType.求愛),
             CDef.Skill.ストーカー to AbilityType(CDef.AbilityType.ストーキング),
@@ -234,11 +235,21 @@ data class Skill(
         val hasChangeMessageAbilitySkills =
             listOf(CDef.Skill.虹職人, CDef.Skill.拡声者, CDef.Skill.濁点者, CDef.Skill.道化師, CDef.Skill.伝説の殺し屋, CDef.Skill.翻訳者)
         val hasVoteAbilitySkills =
-            listOf(CDef.Skill.強運者, CDef.Skill.執行人, CDef.Skill.弁護士, CDef.Skill.市長, CDef.Skill.黒箱者, CDef.Skill.冷凍者)
+            listOf(
+                CDef.Skill.強運者,
+                CDef.Skill.執行人,
+                CDef.Skill.弁護士,
+                CDef.Skill.市長,
+                CDef.Skill.組長,
+                CDef.Skill.黒箱者,
+                CDef.Skill.冷凍者,
+                CDef.Skill.王族
+            )
         val hasVotedAbilitySkills = listOf(CDef.Skill.バールのようなもの, CDef.Skill.怨恨者)
-        val isSuicideSkills = listOf(CDef.Skill.餡麺麭者, CDef.Skill.壁殴り代行, CDef.Skill.恋人, CDef.Skill.同棲者, CDef.Skill.ストーカー, CDef.Skill.背徳者)
+        val isSuicideSkills =
+            listOf(CDef.Skill.餡麺麭者, CDef.Skill.壁殴り代行, CDef.Skill.恋人, CDef.Skill.同棲者, CDef.Skill.ストーカー, CDef.Skill.背徳者)
         val hasLoneAttackAbilitySkills = listOf(CDef.Skill.マタギ, CDef.Skill.バールのようなもの, CDef.Skill.一匹狼)
-        val hasAutoFootstepAbilitySkills = listOf(CDef.Skill.妄想癖, CDef.Skill.夢遊病者, CDef.Skill.冤罪者)
+        val hasAutoFootstepAbilitySkills = listOf(CDef.Skill.妄想癖, CDef.Skill.夢遊病者, CDef.Skill.冤罪者, CDef.Skill.濡衣者)
 
         val madmanPriorityList = listOf(
             CDef.Skill.C国狂人,

@@ -39,6 +39,7 @@ class AbilityDomainService(
     private val badgerGameDomainService: BadgerGameDomainService,
     private val fruitsBasketDomainService: FruitsBasketDomainService,
     private val freezerDomainService: FreezerDomainService,
+    private val guiltyDomainService: GuiltyDomainService,
     private val hideDomainService: HideDomainService,
     private val guardDomainService: GuardDomainService,
     private val wandererDomainService: WandererDomainService,
@@ -167,6 +168,7 @@ class AbilityDomainService(
             CDef.AbilityType.戦闘力発揮 -> freezerDomainService
             CDef.AbilityType.道化 -> clownDomainService
             CDef.AbilityType.殺し屋化 -> assassinDomainService
+            CDef.AbilityType.濡衣 -> guiltyDomainService
         }
 
     fun createSetMessage(

@@ -236,6 +236,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Set the value of skillCode as 組長 (BOSS). <br>
+     * 組長
+     */
+    public void setSkillCode_組長() {
+        setSkillCodeAsSkill(CDef.Skill.組長);
+    }
+
+    /**
      * Set the value of skillCode as 誑狐 (CHEATERFOX). <br>
      * 誑狐
      */
@@ -457,6 +465,14 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
      */
     public void setSkillCode_ごん() {
         setSkillCodeAsSkill(CDef.Skill.ごん);
+    }
+
+    /**
+     * Set the value of skillCode as 濡衣者 (GUILTER). <br>
+     * 濡衣者
+     */
+    public void setSkillCode_濡衣者() {
+        setSkillCodeAsSkill(CDef.Skill.濡衣者);
     }
 
     /**
@@ -1149,6 +1165,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     }
 
     /**
+     * Is the value of skillCode 組長? <br>
+     * 組長
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode組長() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.組長) : false;
+    }
+
+    /**
      * Is the value of skillCode 誑狐? <br>
      * 誑狐
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1454,6 +1481,17 @@ public abstract class BsSkill extends AbstractEntity implements DomainEntity {
     public boolean isSkillCodeごん() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.ごん) : false;
+    }
+
+    /**
+     * Is the value of skillCode 濡衣者? <br>
+     * 濡衣者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode濡衣者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.濡衣者) : false;
     }
 
     /**

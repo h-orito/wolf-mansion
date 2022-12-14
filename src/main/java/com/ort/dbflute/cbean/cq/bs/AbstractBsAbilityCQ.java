@@ -989,6 +989,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 濡衣 (GUILTY). And OnlyOnceRegistered. <br>
+     * 濡衣
+     */
+    public void setAbilityTypeCode_Equal_濡衣() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.濡衣);
+    }
+
+    /**
      * Equal(=). As 隠蔽 (HIDE). And OnlyOnceRegistered. <br>
      * 隠蔽
      */
@@ -1337,6 +1345,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_護衛() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.護衛);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 濡衣 (GUILTY). And OnlyOnceRegistered. <br>
+     * 濡衣
+     */
+    public void setAbilityTypeCode_NotEqual_濡衣() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.濡衣);
     }
 
     /**

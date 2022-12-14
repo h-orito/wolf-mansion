@@ -559,6 +559,9 @@ public interface CDef extends Classification {
         /** 爆弾魔 */
         爆弾魔("BOMBER", "爆弾魔", emptyStrings())
         ,
+        /** 組長 */
+        組長("BOSS", "組長", emptyStrings())
+        ,
         /** 誑狐 */
         誑狐("CHEATERFOX", "誑狐", emptyStrings())
         ,
@@ -642,6 +645,9 @@ public interface CDef extends Classification {
         ,
         /** ごん */
         ごん("GONFOX", "ごん", emptyStrings())
+        ,
+        /** 濡衣者 */
+        濡衣者("GUILTER", "濡衣者", emptyStrings())
         ,
         /** 導師 */
         導師("GURU", "導師", emptyStrings())
@@ -927,6 +933,13 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "214");
+                subItemMap.put("campCode", "WEREWOLF");
+                subItemMap.put("skill_short_name", "組");
+                _subItemMapMap.put(組長.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
                 subItemMap.put("order", "401");
                 subItemMap.put("campCode", "FOX");
                 subItemMap.put("skill_short_name", "誑");
@@ -1120,6 +1133,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "FOX");
                 subItemMap.put("skill_short_name", "ご");
                 _subItemMapMap.put(ごん.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "215");
+                subItemMap.put("campCode", "WEREWOLF");
+                subItemMap.put("skill_short_name", "濡");
+                _subItemMapMap.put(濡衣者.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -2407,6 +2427,9 @@ public interface CDef extends Classification {
         ,
         /** 護衛 */
         護衛("GUARD", "護衛", emptyStrings())
+        ,
+        /** 濡衣 */
+        濡衣("GUILTY", "濡衣", emptyStrings())
         ,
         /** 隠蔽 */
         隠蔽("HIDE", "隠蔽", emptyStrings())

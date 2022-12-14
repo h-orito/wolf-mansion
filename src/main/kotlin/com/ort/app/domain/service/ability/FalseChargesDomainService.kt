@@ -1,5 +1,6 @@
 package com.ort.app.domain.service.ability
 
+import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.footstep.Footstep
 import com.ort.app.domain.model.skill.toModel
@@ -24,6 +25,20 @@ class FalseChargesDomainService(
                 Footstep(
                     day = village.latestDay() - 1,
                     charaId = it.charaId,
+                    roomNumbers = candidates.shuffled().first()
+                )
+            )
+        }
+        village.participants.filterAlive().filterBySkill(CDef.Skill.濡衣者.toModel()).list.forEach {
+            val ability =
+                daychange.abilities.findYesterday(village, it, CDef.AbilityType.濡衣.toModel()) ?: return@forEach
+            val from = village.participants.chara(ability.targetCharaId!!)
+            val to = victims.shuffled().first()
+            val candidates = footstepDomainService.getCandidateList(village, from.charaId, to.charaId)
+            footsteps = footsteps.add(
+                Footstep(
+                    day = village.latestDay() - 1,
+                    charaId = it.charaId, // 足音を出した人は濡衣者
                     roomNumbers = candidates.shuffled().first()
                 )
             )

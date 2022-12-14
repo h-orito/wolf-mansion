@@ -297,6 +297,14 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
+     * Set the value of abilityTypeCode as 濡衣 (GUILTY). <br>
+     * 濡衣
+     */
+    public void setAbilityTypeCode_濡衣() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.濡衣);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 隠蔽 (HIDE). <br>
      * 隠蔽
      */
@@ -673,6 +681,17 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public boolean isAbilityTypeCode護衛() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.護衛) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 濡衣? <br>
+     * 濡衣
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode濡衣() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.濡衣) : false;
     }
 
     /**

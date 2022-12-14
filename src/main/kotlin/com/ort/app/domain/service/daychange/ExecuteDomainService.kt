@@ -70,12 +70,14 @@ class ExecuteDomainService(
         val votedCountMap = votes.groupBy { it.targetCharaId }
             .map { (targetCharaId, voteList) -> village.participants.chara(targetCharaId) to voteList.size }
             .toMap().toMutableMap()
-        // 市長が投票した人は+1
-        village.participants.filterAlive().filterBySkill(CDef.Skill.市長.toModel()).list.forEach { mayor ->
-            val voteTargetCharaId = votes.first { it.charaId == mayor.charaId }.targetCharaId
-            val voteTarget = village.participants.chara(voteTargetCharaId)
-            votedCountMap[voteTarget] = votedCountMap[voteTarget]!!.plus(1)
-        }
+        // 市長・組長が投票した人は+1
+        village.participants.filterAlive().list
+            .filter { listOf(CDef.Skill.市長, CDef.Skill.組長).contains(it.skill!!.toCdef()) }
+            .forEach { mayor ->
+                val voteTargetCharaId = votes.first { it.charaId == mayor.charaId }.targetCharaId
+                val voteTarget = village.participants.chara(voteTargetCharaId)
+                votedCountMap[voteTarget] = votedCountMap[voteTarget]!!.plus(1)
+            }
         // 弁護士が投票した人は-3
         village.participants.filterAlive().filterBySkill(CDef.Skill.弁護士.toModel()).list.forEach { lawyer ->
             val voteTargetCharaId = votes.first { it.charaId == lawyer.charaId }.targetCharaId

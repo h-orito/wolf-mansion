@@ -506,6 +506,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
     }
 
     /**
+     * Equal(=). As 組長 (BOSS). And OnlyOnceRegistered. <br>
+     * 組長
+     */
+    public void setSkillCode_Equal_組長() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.組長);
+    }
+
+    /**
      * Equal(=). As 誑狐 (CHEATERFOX). And OnlyOnceRegistered. <br>
      * 誑狐
      */
@@ -727,6 +735,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      */
     public void setSkillCode_Equal_ごん() {
         setSkillCode_Equal_AsSkill(CDef.Skill.ごん);
+    }
+
+    /**
+     * Equal(=). As 濡衣者 (GUILTER). And OnlyOnceRegistered. <br>
+     * 濡衣者
+     */
+    public void setSkillCode_Equal_濡衣者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.濡衣者);
     }
 
     /**
@@ -1369,6 +1385,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 組長 (BOSS). And OnlyOnceRegistered. <br>
+     * 組長
+     */
+    public void setSkillCode_NotEqual_組長() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.組長);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 誑狐 (CHEATERFOX). And OnlyOnceRegistered. <br>
      * 誑狐
      */
@@ -1590,6 +1614,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      */
     public void setSkillCode_NotEqual_ごん() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.ごん);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 濡衣者 (GUILTER). And OnlyOnceRegistered. <br>
+     * 濡衣者
+     */
+    public void setSkillCode_NotEqual_濡衣者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.濡衣者);
     }
 
     /**
