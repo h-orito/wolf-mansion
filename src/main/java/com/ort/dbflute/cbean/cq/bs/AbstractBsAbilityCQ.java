@@ -989,6 +989,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 濡衣 (GUILTY). And OnlyOnceRegistered. <br>
+     * 濡衣
+     */
+    public void setAbilityTypeCode_Equal_濡衣() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.濡衣);
+    }
+
+    /**
      * Equal(=). As 隠蔽 (HIDE). And OnlyOnceRegistered. <br>
      * 隠蔽
      */
@@ -1077,6 +1085,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 降霊 (ONMYO_NECROMANCE). And OnlyOnceRegistered. <br>
+     * 降霊
+     */
+    public void setAbilityTypeCode_Equal_降霊() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.降霊);
+    }
+
+    /**
      * Equal(=). As 説得 (PERSUADE). And OnlyOnceRegistered. <br>
      * 説得
      */
@@ -1114,6 +1130,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_Equal_蘇生() {
         setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.蘇生);
+    }
+
+    /**
+     * Equal(=). As 革命 (REVOLUTION). And OnlyOnceRegistered. <br>
+     * 革命
+     */
+    public void setAbilityTypeCode_Equal_革命() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.革命);
     }
 
     /**
@@ -1340,6 +1364,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 濡衣 (GUILTY). And OnlyOnceRegistered. <br>
+     * 濡衣
+     */
+    public void setAbilityTypeCode_NotEqual_濡衣() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.濡衣);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 隠蔽 (HIDE). And OnlyOnceRegistered. <br>
      * 隠蔽
      */
@@ -1428,6 +1460,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 降霊 (ONMYO_NECROMANCE). And OnlyOnceRegistered. <br>
+     * 降霊
+     */
+    public void setAbilityTypeCode_NotEqual_降霊() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.降霊);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 説得 (PERSUADE). And OnlyOnceRegistered. <br>
      * 説得
      */
@@ -1465,6 +1505,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_蘇生() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.蘇生);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 革命 (REVOLUTION). And OnlyOnceRegistered. <br>
+     * 革命
+     */
+    public void setAbilityTypeCode_NotEqual_革命() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.革命);
     }
 
     /**

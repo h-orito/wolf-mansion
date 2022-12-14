@@ -453,6 +453,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 組長 (BOSS). <br>
+     * 組長
+     */
+    public void setSkillCode_組長() {
+        setSkillCodeAsSkill(CDef.Skill.組長);
+    }
+
+    /**
      * Set the value of skillCode as 誑狐 (CHEATERFOX). <br>
      * 誑狐
      */
@@ -674,6 +682,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSkillCode_ごん() {
         setSkillCodeAsSkill(CDef.Skill.ごん);
+    }
+
+    /**
+     * Set the value of skillCode as 濡衣者 (GUILTER). <br>
+     * 濡衣者
+     */
+    public void setSkillCode_濡衣者() {
+        setSkillCodeAsSkill(CDef.Skill.濡衣者);
     }
 
     /**
@@ -973,6 +989,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 陰陽師 (ONMYOJI). <br>
+     * 陰陽師
+     */
+    public void setSkillCode_陰陽師() {
+        setSkillCodeAsSkill(CDef.Skill.陰陽師);
+    }
+
+    /**
      * Set the value of skillCode as 梟 (OWL). <br>
      * 梟
      */
@@ -1029,6 +1053,22 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 革命者 (REVOLUTIONARY). <br>
+     * 革命者
+     */
+    public void setSkillCode_革命者() {
+        setSkillCodeAsSkill(CDef.Skill.革命者);
+    }
+
+    /**
+     * Set the value of skillCode as 王族 (ROYALTY). <br>
+     * 王族
+     */
+    public void setSkillCode_王族() {
+        setSkillCodeAsSkill(CDef.Skill.王族);
+    }
+
+    /**
      * Set the value of skillCode as 占い師 (SEER). <br>
      * 占い師
      */
@@ -1066,6 +1106,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSkillCode_夢遊病者() {
         setSkillCodeAsSkill(CDef.Skill.夢遊病者);
+    }
+
+    /**
+     * Set the value of skillCode as 臭狼 (SMELLWOLF). <br>
+     * 臭狼
+     */
+    public void setSkillCode_臭狼() {
+        setSkillCodeAsSkill(CDef.Skill.臭狼);
     }
 
     /**
@@ -1282,6 +1330,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setRequestSkillCode_爆弾魔() {
         setRequestSkillCodeAsSkill(CDef.Skill.爆弾魔);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 組長 (BOSS). <br>
+     * 組長
+     */
+    public void setRequestSkillCode_組長() {
+        setRequestSkillCodeAsSkill(CDef.Skill.組長);
     }
 
     /**
@@ -1506,6 +1562,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setRequestSkillCode_ごん() {
         setRequestSkillCodeAsSkill(CDef.Skill.ごん);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 濡衣者 (GUILTER). <br>
+     * 濡衣者
+     */
+    public void setRequestSkillCode_濡衣者() {
+        setRequestSkillCodeAsSkill(CDef.Skill.濡衣者);
     }
 
     /**
@@ -1805,6 +1869,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 陰陽師 (ONMYOJI). <br>
+     * 陰陽師
+     */
+    public void setRequestSkillCode_陰陽師() {
+        setRequestSkillCodeAsSkill(CDef.Skill.陰陽師);
+    }
+
+    /**
      * Set the value of requestSkillCode as 梟 (OWL). <br>
      * 梟
      */
@@ -1861,6 +1933,22 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 革命者 (REVOLUTIONARY). <br>
+     * 革命者
+     */
+    public void setRequestSkillCode_革命者() {
+        setRequestSkillCodeAsSkill(CDef.Skill.革命者);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 王族 (ROYALTY). <br>
+     * 王族
+     */
+    public void setRequestSkillCode_王族() {
+        setRequestSkillCodeAsSkill(CDef.Skill.王族);
+    }
+
+    /**
      * Set the value of requestSkillCode as 占い師 (SEER). <br>
      * 占い師
      */
@@ -1898,6 +1986,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setRequestSkillCode_夢遊病者() {
         setRequestSkillCodeAsSkill(CDef.Skill.夢遊病者);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 臭狼 (SMELLWOLF). <br>
+     * 臭狼
+     */
+    public void setRequestSkillCode_臭狼() {
+        setRequestSkillCodeAsSkill(CDef.Skill.臭狼);
     }
 
     /**
@@ -2114,6 +2210,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_爆弾魔() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.爆弾魔);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 組長 (BOSS). <br>
+     * 組長
+     */
+    public void setSecondRequestSkillCode_組長() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.組長);
     }
 
     /**
@@ -2338,6 +2442,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_ごん() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.ごん);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 濡衣者 (GUILTER). <br>
+     * 濡衣者
+     */
+    public void setSecondRequestSkillCode_濡衣者() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.濡衣者);
     }
 
     /**
@@ -2637,6 +2749,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of secondRequestSkillCode as 陰陽師 (ONMYOJI). <br>
+     * 陰陽師
+     */
+    public void setSecondRequestSkillCode_陰陽師() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.陰陽師);
+    }
+
+    /**
      * Set the value of secondRequestSkillCode as 梟 (OWL). <br>
      * 梟
      */
@@ -2693,6 +2813,22 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of secondRequestSkillCode as 革命者 (REVOLUTIONARY). <br>
+     * 革命者
+     */
+    public void setSecondRequestSkillCode_革命者() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.革命者);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 王族 (ROYALTY). <br>
+     * 王族
+     */
+    public void setSecondRequestSkillCode_王族() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.王族);
+    }
+
+    /**
      * Set the value of secondRequestSkillCode as 占い師 (SEER). <br>
      * 占い師
      */
@@ -2730,6 +2866,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_夢遊病者() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.夢遊病者);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 臭狼 (SMELLWOLF). <br>
+     * 臭狼
+     */
+    public void setSecondRequestSkillCode_臭狼() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.臭狼);
     }
 
     /**
@@ -3110,6 +3254,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of skillCode 組長? <br>
+     * 組長
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode組長() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.組長) : false;
+    }
+
+    /**
      * Is the value of skillCode 誑狐? <br>
      * 誑狐
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -3415,6 +3570,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCodeごん() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.ごん) : false;
+    }
+
+    /**
+     * Is the value of skillCode 濡衣者? <br>
+     * 濡衣者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode濡衣者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.濡衣者) : false;
     }
 
     /**
@@ -3825,6 +3991,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of skillCode 陰陽師? <br>
+     * 陰陽師
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode陰陽師() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.陰陽師) : false;
+    }
+
+    /**
      * Is the value of skillCode 梟? <br>
      * 梟
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -3902,6 +4079,28 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of skillCode 革命者? <br>
+     * 革命者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode革命者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.革命者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 王族? <br>
+     * 王族
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode王族() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.王族) : false;
+    }
+
+    /**
      * Is the value of skillCode 占い師? <br>
      * 占い師
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -3954,6 +4153,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode夢遊病者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.夢遊病者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 臭狼? <br>
+     * 臭狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode臭狼() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.臭狼) : false;
     }
 
     /**
@@ -4145,7 +4355,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 囁き可能 <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, C国狂人]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 臭狼, C国狂人]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_AvailableWerewolfSay() {
@@ -4155,7 +4365,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 囁きを見られる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, C国狂人, 聴狂人]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, C国狂人, 聴狂人]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_ViewableWerewolfSay() {
@@ -4185,7 +4395,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 襲撃能力を持つ <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_HasAttackAbility() {
@@ -4215,7 +4425,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 勝敗判定時、人狼にカウントされる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_WolfCount() {
@@ -4235,7 +4445,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 人狼が誰かを知ることができる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, C国狂人, 狂信者, 煽動者]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, C国狂人, 狂信者, 煽動者]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_ViewableWolfCharaName() {
@@ -4245,7 +4455,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 占い結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 一匹狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_DivineResultWolf() {
@@ -4255,7 +4465,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 霊能結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 一匹狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_PsychicResultWolf() {
@@ -4381,6 +4591,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isRequestSkillCode爆弾魔() {
         CDef.Skill cdef = getRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.爆弾魔) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 組長? <br>
+     * 組長
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode組長() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.組長) : false;
     }
 
     /**
@@ -4689,6 +4910,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isRequestSkillCodeごん() {
         CDef.Skill cdef = getRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.ごん) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 濡衣者? <br>
+     * 濡衣者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode濡衣者() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.濡衣者) : false;
     }
 
     /**
@@ -5099,6 +5331,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 陰陽師? <br>
+     * 陰陽師
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode陰陽師() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.陰陽師) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 梟? <br>
      * 梟
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -5176,6 +5419,28 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 革命者? <br>
+     * 革命者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode革命者() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.革命者) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 王族? <br>
+     * 王族
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode王族() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.王族) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 占い師? <br>
      * 占い師
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -5228,6 +5493,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isRequestSkillCode夢遊病者() {
         CDef.Skill cdef = getRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.夢遊病者) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 臭狼? <br>
+     * 臭狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode臭狼() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.臭狼) : false;
     }
 
     /**
@@ -5419,7 +5695,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 囁き可能 <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, C国狂人]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 臭狼, C国狂人]
      * @return The determination, true or false.
      */
     public boolean isRequestSkillCode_AvailableWerewolfSay() {
@@ -5429,7 +5705,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 囁きを見られる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, C国狂人, 聴狂人]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, C国狂人, 聴狂人]
      * @return The determination, true or false.
      */
     public boolean isRequestSkillCode_ViewableWerewolfSay() {
@@ -5459,7 +5735,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 襲撃能力を持つ <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼]
      * @return The determination, true or false.
      */
     public boolean isRequestSkillCode_HasAttackAbility() {
@@ -5489,7 +5765,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 勝敗判定時、人狼にカウントされる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼]
      * @return The determination, true or false.
      */
     public boolean isRequestSkillCode_WolfCount() {
@@ -5509,7 +5785,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 人狼が誰かを知ることができる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, C国狂人, 狂信者, 煽動者]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, C国狂人, 狂信者, 煽動者]
      * @return The determination, true or false.
      */
     public boolean isRequestSkillCode_ViewableWolfCharaName() {
@@ -5519,7 +5795,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 占い結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 一匹狼]
      * @return The determination, true or false.
      */
     public boolean isRequestSkillCode_DivineResultWolf() {
@@ -5529,7 +5805,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 霊能結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 一匹狼]
      * @return The determination, true or false.
      */
     public boolean isRequestSkillCode_PsychicResultWolf() {
@@ -5655,6 +5931,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode爆弾魔() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.爆弾魔) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 組長? <br>
+     * 組長
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode組長() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.組長) : false;
     }
 
     /**
@@ -5963,6 +6250,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCodeごん() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.ごん) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 濡衣者? <br>
+     * 濡衣者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode濡衣者() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.濡衣者) : false;
     }
 
     /**
@@ -6373,6 +6671,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of secondRequestSkillCode 陰陽師? <br>
+     * 陰陽師
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode陰陽師() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.陰陽師) : false;
+    }
+
+    /**
      * Is the value of secondRequestSkillCode 梟? <br>
      * 梟
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -6450,6 +6759,28 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of secondRequestSkillCode 革命者? <br>
+     * 革命者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode革命者() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.革命者) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 王族? <br>
+     * 王族
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode王族() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.王族) : false;
+    }
+
+    /**
      * Is the value of secondRequestSkillCode 占い師? <br>
      * 占い師
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -6502,6 +6833,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode夢遊病者() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.夢遊病者) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 臭狼? <br>
+     * 臭狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode臭狼() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.臭狼) : false;
     }
 
     /**
@@ -6693,7 +7035,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 囁き可能 <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, C国狂人]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 臭狼, C国狂人]
      * @return The determination, true or false.
      */
     public boolean isSecondRequestSkillCode_AvailableWerewolfSay() {
@@ -6703,7 +7045,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 囁きを見られる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, C国狂人, 聴狂人]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, C国狂人, 聴狂人]
      * @return The determination, true or false.
      */
     public boolean isSecondRequestSkillCode_ViewableWerewolfSay() {
@@ -6733,7 +7075,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 襲撃能力を持つ <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼]
      * @return The determination, true or false.
      */
     public boolean isSecondRequestSkillCode_HasAttackAbility() {
@@ -6763,7 +7105,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 勝敗判定時、人狼にカウントされる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼]
      * @return The determination, true or false.
      */
     public boolean isSecondRequestSkillCode_WolfCount() {
@@ -6783,7 +7125,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 人狼が誰かを知ることができる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, C国狂人, 狂信者, 煽動者]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, C国狂人, 狂信者, 煽動者]
      * @return The determination, true or false.
      */
     public boolean isSecondRequestSkillCode_ViewableWolfCharaName() {
@@ -6793,7 +7135,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 占い結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 一匹狼]
      * @return The determination, true or false.
      */
     public boolean isSecondRequestSkillCode_DivineResultWolf() {
@@ -6803,7 +7145,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 霊能結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 一匹狼]
      * @return The determination, true or false.
      */
     public boolean isSecondRequestSkillCode_PsychicResultWolf() {

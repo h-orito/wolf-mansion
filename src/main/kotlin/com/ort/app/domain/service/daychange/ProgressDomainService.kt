@@ -40,6 +40,7 @@ class ProgressDomainService(
     private val autopsyDomainService: AutopsyDomainService,
     private val bakeryDomainService: BakeryDomainService,
     private val gonfoxDomainService: GonfoxDomainService,
+    private val guiltyDomainService: GuiltyDomainService,
     private val falseChargesDomainService: FalseChargesDomainService,
     private val rainbowDomainService: RainbowDomainService,
     private val loudSpeakDomainService: LoudSpeakDomainService,
@@ -52,10 +53,12 @@ class ProgressDomainService(
     private val giveWinDomainService: GiveWinDomainService,
     private val resuscitateDomainService: ResuscitateDomainService,
     private val necromanceDomainService: NecromanceDomainService,
+    private val onmyoNecromanceDomainService: OnmyoNecromanceDomainService,
     private val yubisashiDomainService: YubisashiDomainService,
     private val loveStealDomainService: LoveStealDomainService,
     private val breakupDomainService: BreakupDomainService,
     private val omniscienceDomainService: OmniscienceDomainService,
+    private val revolutionDomainService: RevolutionDomainService,
     private val revivalDomainService: RevivalDomainService,
     private val suicideDomainService: SuicideDomainService,
     private val epilogueDomainService: EpilogueDomainService,
@@ -111,6 +114,8 @@ class ProgressDomainService(
         // 罠、爆弾メッセージ
         daychange = trapDomainService.addTrapMessages(daychange)
         daychange = bombDomainService.addBombMessages(daychange)
+        // 革命宣言
+        daychange = revolutionDomainService.revolution(daychange)
         // 処刑
         daychange = executeDomainService.execute(daychange)
         // 怨恨
@@ -162,6 +167,8 @@ class ProgressDomainService(
         daychange = resuscitateDomainService.resuscitate(daychange)
         // 死霊蘇生
         daychange = necromanceDomainService.necromance(daychange)
+        // 降霊
+        daychange = onmyoNecromanceDomainService.necromance(daychange)
         // 復活
         daychange = revivalDomainService.revival(daychange)
         // 後追い
@@ -177,6 +184,8 @@ class ProgressDomainService(
         daychange = gonfoxDomainService.addGonfoxMessage(daychange)
         // 指差死
         daychange = yubisashiDomainService.yubisashi(daychange)
+        // 濡衣
+        daychange = guiltyDomainService.guilty(daychange)
         // 冤罪者の足音発生
         daychange = falseChargesDomainService.falseCharges(daychange)
         // 生存者と足音メッセージ

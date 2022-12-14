@@ -89,130 +89,35 @@ data class VillageParticipants(
         )
     }
 
-    fun assignSkill(id: Int, skill: Skill, day: Int): VillageParticipants {
-        return this.copy(
-            list = list.map {
-                if (it.id == id) it.assignSkill(skill, day) else it.copy()
-            }
-        )
-    }
+    fun assignSkill(id: Int, skill: Skill, day: Int): VillageParticipants =
+        transformParticipant(id) { it.assignSkill(skill, day) }
 
-    fun addLover(from: VillageParticipant, to: VillageParticipant): VillageParticipants {
-        return this.copy(
-            list = list.map {
-                if (it.id == from.id) it.addLover(to.id) else it.copy()
-            }
-        )
-    }
+    fun assignRoom(id: Int, roomNumber: Int, day: Int): VillageParticipants =
+        transformParticipant(id) { it.assignRoom(roomNumber, day) }
 
-    fun assignRoom(id: Int, roomNumber: Int, day: Int): VillageParticipants {
-        return copy(
-            list = list.map {
-                if (it.id == id) it.assignRoom(roomNumber, day) else it.copy()
-            }
-        )
-    }
+    // 死亡・復活
+    fun suddenlyDeadh(id: Int, day: Int): VillageParticipants = transformParticipant(id) { it.suddenlyDeath(day) }
+    fun execute(id: Int, day: Int): VillageParticipants = transformParticipant(id) { it.execute(day) }
+    fun divineKill(id: Int, day: Int): VillageParticipants = transformParticipant(id) { it.divineKill(day) }
+    fun attacked(id: Int, day: Int): VillageParticipants = transformParticipant(id) { it.attacked(day) }
+    fun trapKill(id: Int, day: Int): VillageParticipants = transformParticipant(id) { it.trapKill(day) }
+    fun bombKill(id: Int, day: Int): VillageParticipants = transformParticipant(id) { it.bombKill(day) }
+    fun zakoKilled(id: Int, day: Int): VillageParticipants = transformParticipant(id) { it.zakoKilled(day) }
+    fun suicide(id: Int, day: Int): VillageParticipants = transformParticipant(id) { it.suicide(day) }
+    fun forceReincarnation(id: Int, day: Int, skill: Skill): VillageParticipants =
+        transformParticipant(id) { it.forceReincarnation(day, skill) }
 
-    fun suddenlyDeadh(id: Int, day: Int): VillageParticipants {
-        return copy(
-            list = list.map {
-                if (it.id == id) it.suddenlyDeath(day) else it.copy()
-            }
-        )
-    }
+    fun revive(id: Int, day: Int): VillageParticipants = transformParticipant(id) { it.revive(day) }
 
-    fun execute(id: Int, day: Int): VillageParticipants {
-        return copy(
-            list = list.map {
-                if (it.id == id) it.execute(day) else it.copy()
-            }
-        )
-    }
+    // ステータス変化
+    fun foxPossession(village: Village, fromId: Int, toId: Int): VillageParticipants =
+        transformParticipant(toId) { it.foxPossessioned(village, fromId) }
 
-    fun divineKill(id: Int, day: Int): VillageParticipants {
-        return copy(
-            list = list.map {
-                if (it.id == id) it.divineKill(day) else it.copy()
-            }
-        )
-    }
+    fun insane(village: Village, fromId: Int, toId: Int): VillageParticipants =
+        transformParticipant(toId) { it.insaned(village, fromId) }
 
-    fun attacked(id: Int, day: Int): VillageParticipants {
-        return copy(
-            list = list.map {
-                if (it.id == id) it.attacked(day) else it.copy()
-            }
-        )
-    }
-
-    fun trapKill(id: Int, day: Int): VillageParticipants {
-        return copy(
-            list = list.map {
-                if (it.id == id) it.trapKill(day) else it.copy()
-            }
-        )
-    }
-
-    fun bombKill(id: Int, day: Int): VillageParticipants {
-        return copy(
-            list = list.map {
-                if (it.id == id) it.bombKill(day) else it.copy()
-            }
-        )
-    }
-
-    fun zakoKilled(id: Int, day: Int): VillageParticipants {
-        return copy(
-            list = list.map {
-                if (it.id == id) it.zakoKilled(day) else it.copy()
-            }
-        )
-    }
-
-    fun suicide(id: Int, day: Int): VillageParticipants {
-        return copy(list = list.map { if (it.id == id) it.suicide(day) else it.copy() })
-    }
-
-    fun forceReincarnation(id: Int, day: Int, skill: Skill): VillageParticipants {
-        return copy(list = list.map { if (it.id == id) it.forceReincarnation(day, skill) else it.copy() })
-    }
-
-    fun revive(id: Int, day: Int): VillageParticipants {
-        return copy(list = list.map { if (it.id == id) it.revive(day) else it.copy() })
-    }
-
-    fun foxPossession(village: Village, fromParticipantId: Int, toParticipantId: Int): VillageParticipants {
-        return copy(
-            list = list.map {
-                when (it.id) {
-                    toParticipantId -> it.foxPossessioned(village, fromParticipantId)
-                    else -> it.copy()
-                }
-            }
-        )
-    }
-
-    fun insane(village: Village, fromParticipantId: Int, toParticipantId: Int): VillageParticipants {
-        return copy(
-            list = list.map {
-                when (it.id) {
-                    toParticipantId -> it.insaned(village, fromParticipantId)
-                    else -> it.copy()
-                }
-            }
-        )
-    }
-
-    fun persuade(village: Village, fromParticipantId: Int, toParticipantId: Int): VillageParticipants {
-        return copy(
-            list = list.map {
-                when (it.id) {
-                    toParticipantId -> it.persuaded(village, fromParticipantId)
-                    else -> it.copy()
-                }
-            }
-        )
-    }
+    fun persuade(village: Village, fromId: Int, toId: Int): VillageParticipants =
+        transformParticipant(toId) { it.persuaded(village, fromId) }
 
     fun court(fromParticipantId: Int, toParticipantId: Int): VillageParticipants {
         return copy(
@@ -226,53 +131,21 @@ data class VillageParticipants(
         )
     }
 
-    fun stalking(fromParticipantId: Int, toParticipantId: Int): VillageParticipants {
-        return copy(
-            list = list.map {
-                if (it.id == fromParticipantId) it.stalking(toParticipantId) else it.copy()
-            }
-        )
-    }
+    fun addLover(from: VillageParticipant, to: VillageParticipant): VillageParticipants =
+        transformParticipant(from.id) { it.addLover(to.id) }
 
-    fun seduce(fromParticipantId: Int, toParticipantId: Int): VillageParticipants {
-        return copy(
-            list = list.map {
-                if (it.id == toParticipantId) it.seduced(fromParticipantId) else it.copy()
-            }
-        )
-    }
+    fun stalking(fromId: Int, toId: Int): VillageParticipants = transformParticipant(fromId) { it.stalking(toId) }
+    fun seduce(fromId: Int, toId: Int): VillageParticipants = transformParticipant(toId) { it.seduced(fromId) }
+    fun insurance(fromId: Int, toId: Int): VillageParticipants = transformParticipant(toId) { it.insurance(fromId) }
+    fun breakup(id: Int, village: Village): VillageParticipants = transformParticipant(id) { it.breakup(village) }
+    fun stealLove(id: Int, stealerId: Int, village: Village): VillageParticipants =
+        transformParticipant(id) { it.stealLove(stealerId, village) }
 
-    fun insurance(fromParticipantId: Int, toParticipantId: Int): VillageParticipants {
-        return copy(
-            list = list.map {
-                if (it.id == toParticipantId) it.insurance(fromParticipantId) else it.copy()
-            }
-        )
-    }
-
-    fun breakup(participantId: Int, village: Village): VillageParticipants {
-        return copy(
-            list = list.map {
-                if (it.id == participantId) it.breakup(village) else it.copy()
-            }
-        )
-    }
-
-    fun stealLove(participantId: Int, stealerId: Int, village: Village): VillageParticipants {
-        return copy(
-            list = list.map {
-                if (it.id == participantId) it.stealLove(stealerId, village) else it.copy()
-            }
-        )
-    }
-
-    fun useInsurance(participantId: Int): VillageParticipants {
-        return copy(
-            list = list.map {
-                if (it.id == participantId) it.useInsurance() else it.copy()
-            }
-        )
-    }
+    fun useInsurance(id: Int): VillageParticipants = transformParticipant(id) { it.useInsurance() }
+    fun disrespect(fromId: Int, toId: Int): VillageParticipants = transformParticipant(toId) { it.disrespect(fromId) }
 
     fun judgeWin(winCamp: Camp): VillageParticipants = copy(list = list.map { it.judgeWin(winCamp) })
+
+    private fun transformParticipant(id: Int, transform: (VillageParticipant) -> (VillageParticipant)) =
+        copy(list = list.map { if (it.id == id) transform(it) else it.copy() })
 }

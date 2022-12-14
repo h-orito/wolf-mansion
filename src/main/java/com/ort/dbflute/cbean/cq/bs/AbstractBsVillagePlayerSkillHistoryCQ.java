@@ -506,6 +506,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
     }
 
     /**
+     * Equal(=). As 組長 (BOSS). And OnlyOnceRegistered. <br>
+     * 組長
+     */
+    public void setSkillCode_Equal_組長() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.組長);
+    }
+
+    /**
      * Equal(=). As 誑狐 (CHEATERFOX). And OnlyOnceRegistered. <br>
      * 誑狐
      */
@@ -727,6 +735,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      */
     public void setSkillCode_Equal_ごん() {
         setSkillCode_Equal_AsSkill(CDef.Skill.ごん);
+    }
+
+    /**
+     * Equal(=). As 濡衣者 (GUILTER). And OnlyOnceRegistered. <br>
+     * 濡衣者
+     */
+    public void setSkillCode_Equal_濡衣者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.濡衣者);
     }
 
     /**
@@ -1026,6 +1042,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
     }
 
     /**
+     * Equal(=). As 陰陽師 (ONMYOJI). And OnlyOnceRegistered. <br>
+     * 陰陽師
+     */
+    public void setSkillCode_Equal_陰陽師() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.陰陽師);
+    }
+
+    /**
      * Equal(=). As 梟 (OWL). And OnlyOnceRegistered. <br>
      * 梟
      */
@@ -1082,6 +1106,22 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
     }
 
     /**
+     * Equal(=). As 革命者 (REVOLUTIONARY). And OnlyOnceRegistered. <br>
+     * 革命者
+     */
+    public void setSkillCode_Equal_革命者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.革命者);
+    }
+
+    /**
+     * Equal(=). As 王族 (ROYALTY). And OnlyOnceRegistered. <br>
+     * 王族
+     */
+    public void setSkillCode_Equal_王族() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.王族);
+    }
+
+    /**
      * Equal(=). As 占い師 (SEER). And OnlyOnceRegistered. <br>
      * 占い師
      */
@@ -1119,6 +1159,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      */
     public void setSkillCode_Equal_夢遊病者() {
         setSkillCode_Equal_AsSkill(CDef.Skill.夢遊病者);
+    }
+
+    /**
+     * Equal(=). As 臭狼 (SMELLWOLF). And OnlyOnceRegistered. <br>
+     * 臭狼
+     */
+    public void setSkillCode_Equal_臭狼() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.臭狼);
     }
 
     /**
@@ -1361,6 +1409,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 組長 (BOSS). And OnlyOnceRegistered. <br>
+     * 組長
+     */
+    public void setSkillCode_NotEqual_組長() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.組長);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 誑狐 (CHEATERFOX). And OnlyOnceRegistered. <br>
      * 誑狐
      */
@@ -1582,6 +1638,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      */
     public void setSkillCode_NotEqual_ごん() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.ごん);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 濡衣者 (GUILTER). And OnlyOnceRegistered. <br>
+     * 濡衣者
+     */
+    public void setSkillCode_NotEqual_濡衣者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.濡衣者);
     }
 
     /**
@@ -1881,6 +1945,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 陰陽師 (ONMYOJI). And OnlyOnceRegistered. <br>
+     * 陰陽師
+     */
+    public void setSkillCode_NotEqual_陰陽師() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.陰陽師);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 梟 (OWL). And OnlyOnceRegistered. <br>
      * 梟
      */
@@ -1937,6 +2009,22 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 革命者 (REVOLUTIONARY). And OnlyOnceRegistered. <br>
+     * 革命者
+     */
+    public void setSkillCode_NotEqual_革命者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.革命者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 王族 (ROYALTY). And OnlyOnceRegistered. <br>
+     * 王族
+     */
+    public void setSkillCode_NotEqual_王族() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.王族);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 占い師 (SEER). And OnlyOnceRegistered. <br>
      * 占い師
      */
@@ -1974,6 +2062,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      */
     public void setSkillCode_NotEqual_夢遊病者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.夢遊病者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 臭狼 (SMELLWOLF). And OnlyOnceRegistered. <br>
+     * 臭狼
+     */
+    public void setSkillCode_NotEqual_臭狼() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.臭狼);
     }
 
     /**
@@ -2139,7 +2235,7 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 囁き可能 <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, C国狂人]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 臭狼, C国狂人]
      */
     public void setSkillCode_InScope_AvailableWerewolfSay() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfAvailableWerewolfSay());
@@ -2149,7 +2245,7 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 囁きを見られる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, C国狂人, 聴狂人]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, C国狂人, 聴狂人]
      */
     public void setSkillCode_InScope_ViewableWerewolfSay() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfViewableWerewolfSay());
@@ -2179,7 +2275,7 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 襲撃能力を持つ <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼]
      */
     public void setSkillCode_InScope_HasAttackAbility() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasAttackAbility());
@@ -2209,7 +2305,7 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 勝敗判定時、人狼にカウントされる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼]
      */
     public void setSkillCode_InScope_WolfCount() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfWolfCount());
@@ -2229,7 +2325,7 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 人狼が誰かを知ることができる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, C国狂人, 狂信者, 煽動者]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, C国狂人, 狂信者, 煽動者]
      */
     public void setSkillCode_InScope_ViewableWolfCharaName() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfViewableWolfCharaName());
@@ -2239,7 +2335,7 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 占い結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 一匹狼]
      */
     public void setSkillCode_InScope_DivineResultWolf() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfDivineResultWolf());
@@ -2249,7 +2345,7 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 霊能結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 一匹狼]
      */
     public void setSkillCode_InScope_PsychicResultWolf() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfPsychicResultWolf());

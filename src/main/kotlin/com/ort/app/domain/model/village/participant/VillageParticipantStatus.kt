@@ -8,7 +8,9 @@ data class VillageParticipantStatus(
     // 説得してきた人
     val persuadedIdList: List<Int>,
     // 保険勧誘してきた人
-    val insuranceIdList: List<Int>
+    val insuranceIdList: List<Int>,
+    // 不敬を付与してきた人
+    val disrespectfulList: List<Int>
 ) {
     fun hasLover(): Boolean = loverIdList.isNotEmpty()
 
@@ -20,17 +22,21 @@ data class VillageParticipantStatus(
 
     fun isPersuaded(): Boolean = persuadedIdList.isNotEmpty()
 
+    fun isDisrespectful(): Boolean = disrespectfulList.isNotEmpty()
+
     fun isSame(other: VillageParticipantStatus): Boolean {
         return loverIdList.size == other.loverIdList.size
                 && foxPossessionedIdList.size == other.foxPossessionedIdList.size
                 && insanedIdList.size == other.insanedIdList.size
                 && persuadedIdList.size == other.persuadedIdList.size
                 && insuranceIdList.size == other.insuranceIdList.size
+                && disrespectfulList.size == other.disrespectfulList.size
                 && loverIdList.all { other.loverIdList.contains(it) }
                 && foxPossessionedIdList.all { other.foxPossessionedIdList.contains(it) }
                 && insanedIdList.all { other.insanedIdList.contains(it) }
                 && persuadedIdList.all { other.persuadedIdList.contains(it) }
                 && insuranceIdList.all { other.insuranceIdList.contains(it) }
+                && disrespectfulList.all { other.disrespectfulList.contains(it) }
     }
 
     fun addLover(id: Int): VillageParticipantStatus {
@@ -93,4 +99,9 @@ data class VillageParticipantStatus(
     }
 
     fun useInsurance(): VillageParticipantStatus = copy(insuranceIdList = emptyList())
+
+    fun disrespect(fromParticipantId: Int): VillageParticipantStatus =
+        copy(disrespectfulList = (disrespectfulList + fromParticipantId).distinct())
+
+    fun respect(): VillageParticipantStatus = copy(disrespectfulList = emptyList())
 }
