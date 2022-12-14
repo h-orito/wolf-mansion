@@ -128,38 +128,57 @@ class InvestigateDomainService(
     }
 
     fun investigate(daychange: Daychange): Daychange {
-        val village = daychange.village
+        var village = daychange.village
         var messages = daychange.messages.copy()
         village.participants.filterAlive().list
             .filter { it.skill!!.getAbility()?.toCdef() == abilityType.toCdef() }
             .forEach {
                 val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
                 val targetFootstep = ability.targetFootstep!!
+                val footstepParticipant =
+                    footstepDomainService.getParticipantByFootstep(
+                        village,
+                        village.latestDay() - 2,
+                        targetFootstep,
+                        daychange.footsteps
+                    )
                 messages =
-                    messages.add(createInvestigateResultMessage(village, it, targetFootstep, daychange.footsteps))
+                    messages.add(createInvestigateResultMessage(village, it, targetFootstep, footstepParticipant))
+                // 調査対象が臭狼だった場合逆呪殺される
+                if (footstepParticipant.skill!!.isCounterDeadByInvestigate()) {
+                    village = village.divineKillParticipant(it.id)
+                    messages = messages.add(createCounterDevineKilledMessage(village, it))
+                }
             }
 
-        return daychange.copy(messages = messages)
+        return daychange.copy(village = village, messages = messages)
     }
 
     private fun createInvestigateResultMessage(
         village: Village,
         myself: VillageParticipant,
         targetFootstep: String,
-        footsteps: Footsteps
+        footstepParticipant: VillageParticipant
     ): Message {
-        val participant =
-            footstepDomainService.getParticipantByFootstep(village, village.latestDay() - 2, targetFootstep, footsteps)
         val skill = myself.skill?.toCdef()
         val result =
-            if (skill == CDef.Skill.探偵 || skill == CDef.Skill.闇探偵) participant.skill!!.name
-            else participant.name()
+            if (skill == CDef.Skill.探偵 || skill == CDef.Skill.闇探偵) footstepParticipant.skill!!.name
+            else footstepParticipant.name()
         val text = "${myself.name()}は、昨日響いた足音${targetFootstep}について調査した。\n${targetFootstep}の足音を響かせたのは${result}のようだ。"
         return messageDomainService.createPrivateAbilityMessage(
             village,
             myself,
             text,
             CDef.MessageType.足音調査結果.toModel()
+        )
+    }
+
+    private fun createCounterDevineKilledMessage(village: Village, myself: VillageParticipant): Message {
+        return messageDomainService.createPrivateAbilityMessage(
+            village,
+            myself,
+            "${myself.name()}は、足跡に残った臭さのあまり、即死した。",
+            CDef.MessageType.能力行使メッセージ.toModel()
         )
     }
 }

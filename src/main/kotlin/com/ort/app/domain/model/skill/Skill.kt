@@ -79,6 +79,7 @@ data class Skill(
     fun isPsychicResultWolf(): Boolean = toCdef().isPsychicResultWolf
     fun isDeadByDivine(): Boolean = isFoxCount()
     fun isCounterDeadByDivine(): Boolean = toCdef() == CDef.Skill.呪狼
+    fun isCounterDeadByInvestigate(): Boolean = toCdef() == CDef.Skill.臭狼
     fun isNoDeadByAttack(): Boolean = toCdef().isNoDeadByAttack
     fun isNoSound(): Boolean = toCdef() == CDef.Skill.防音者
 
@@ -263,6 +264,7 @@ data class Skill(
             CDef.Skill.呪狼,
             CDef.Skill.絶対人狼,
             CDef.Skill.堅狼,
+            CDef.Skill.臭狼,
             CDef.Skill.人狼,
             CDef.Skill.黙狼,
             CDef.Skill.静狼,
