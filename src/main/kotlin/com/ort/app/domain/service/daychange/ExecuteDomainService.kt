@@ -101,7 +101,7 @@ class ExecuteDomainService(
         }
         // 不敬が付与されている場合、被投票数が2倍になる
         village.participants.filterAlive().list.filter { it.status.isDisrespectful() }.forEach { participant ->
-            votedCountMap[participant] = votedCountMap[participant]!! * 2
+            votedCountMap[participant] = votedCountMap.getOrDefault(participant, 0) * 2
         }
 
         return votedCountMap
