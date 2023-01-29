@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ResponseBody
+import java.time.LocalDateTime
 
 @Controller
 class IndexController(
@@ -42,6 +43,15 @@ class IndexController(
         val canCreateVillage = player.canCreateVillage()
         val content = IndexContent(villages, canCreateVillage)
         model.addAttribute("content", content)
+
+        // エイプリルフールネタ
+        val now = LocalDateTime.now()
+        if (LocalDateTime.of(2023, 4, 1, 0, 0, 0).isBefore(now)
+            && LocalDateTime.of(2023, 4, 2, 0, 0, 0).isAfter(now)
+        ) {
+            return "april-fool"
+        }
+
         return "index"
     }
 

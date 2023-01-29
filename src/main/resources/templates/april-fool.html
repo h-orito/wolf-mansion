@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/april-fool-layout}">
+<head>
+    <!--/* 個別ページのタイトル */-->
+    <title></title>
+    <!--/* 個別ページのjs */-->
+    <script src="../static/app/js/index.js" th:src="@{/app/js/index.js}"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/app/css/april-fool.css}">
+</head>
+
+<body>
+<div class="container">
+    <div layout:fragment="content">
+        <div id="wrapper" class="wrapper">
+            <div class="col-sm-12 col-xs-12 header">
+                <span class="title" style="">WOLF MANSION</span>
+            </div>
+            <div class="col-sm-12 col-xs-12" style="margin-bottom: 10px;">
+                <a th:href="@{/change-password}" th:if="${user != null}" class="pull-right" style="margin-left: 5px;">パスワード変更</a>
+                <a th:if="${user != null}" class="pull-right" style="margin-left: 5px;" data-submit-logout>ログアウト</a>
+                <span class="pull-right" th:if="${user != null}" th:text="'ユーザID: ' + ${user.username}"></span>
+                <a th:href="@{/new-player}" th:if="${user == null}" class="pull-right"
+                   style="margin-left: 5px;">ID登録</a>
+                <a th:href="@{/login}" th:if="${user == null}" class="pull-right" style="margin-left: 5px;">ログイン</a>
+                <span class="pull-right" th:if="${user == null}">未ログイン</span>
+                <form id="logout-form" method="post" action="" th:action="@{/logout}"></form>
+            </div>
+            <div class="col-sm-12 col-xs-12">
+                <span class="description">
+                    WOLF MANSIONでは、占い、襲撃、徘徊によって起こる【内見】と【入居】の2つを使って最適な物件を推理・発見する「人狼館の不動産村」ルールの賃貸情報を楽しむことができます。
+                </span>
+
+                <img class="april-banner" th:src="@{/app/images/april-banner.png}"/>
+                <div class="april-panel">
+                    <h3>[賃貸マンション] 検索結果</h3>
+                </div>
+
+                <div>
+                    <strong class="search-result" th:text="${content.villageList.size()}"></strong><strong> 件</strong>
+                </div>
+
+                <div class="village-area">
+                    <div class="card" th:each="village,s : ${content.villageList}">
+                        <div class="flex flex-column">
+                            <div class="village-name-area" style="padding-bottom: 10px;">
+                                <span th:each="tag: ${village.tags}" th:text="${tag.name}"
+                                      th:class="'village-tag ' + ${tag.level}"></span>
+                                <strong><a th:href="@{/village/{villageId}(villageId=${village.villageId})}"
+                                           th:text="${village.villageNumber + '. ' + village.villageName}"
+                                           style="font-size: 16px;"></a></strong>
+                            </div>
+                            <div class="flex-1 flex">
+                                <div>
+                                    <img th:if="${s.index % 4 == 0}" th:src="@{/app/images/mansion01.jpg}"/>
+                                    <img th:if="${s.index % 4 == 1}" th:src="@{/app/images/mansion02.jpg}"/>
+                                    <img th:if="${s.index % 4 == 2}" th:src="@{/app/images/mansion03.jpg}"/>
+                                    <img th:if="${s.index % 4 == 3}" th:src="@{/app/images/mansion04.jpg}"/>
+                                </div>
+                                <div class="flex-1 flex flex-column">
+                                    <div style="padding: 5px;">
+                                        <p class="small" th:text="${village.area}"></p>
+                                        <p class="small" th:text="${village.chiku + ' / ' + village.toho}"></p>
+                                        <p>
+                                            <span class="small" th:text="${village.madori + ' / 賃料'}"></span>
+                                            <strong th:text="${village.yachin}" style="color: #f00;"></strong>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="april-panel">
+                    <h3>他のこだわり条件から探す</h3>
+                </div>
+
+                <div>
+                    <a th:href="@{/about}">本サイトは</a><br/>
+                    <a th:href="@{/intro}">人狼館の不動産村</a><br/>
+                    <a th:href="@{/rule}">売買ルール</a><br/>
+                    <a th:href="@{/faq}">よくある質問</a><br/>
+                    <a th:href="@{/announce}">お知らせ</a>
+                </div>
+
+                <div class="april-panel">
+                    <h3>この条件で探している人は、このページも見ています</h3>
+                </div>
+
+                <div>
+                    <a th:href="@{/village-list}">村一覧</a><br/>
+                    <a th:href="@{/user-list}">ユーザー一覧</a><br/>
+                    <a th:href="@{/chara-group}">キャラチップ一覧</a>
+                </div>
+
+                <div th:if="${user != null && !content.participate}" class="april-panel">
+                    <h3>あなたもマンションオーナーになりませんか？</h3>
+                </div>
+
+                <div th:if="${user != null && !content.participate}">
+                    <a th:href="@{/new-village}">マンションオーナーになる</a>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+
+        <footer class="col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="col-sm-12 col-xs-12 crearfix" th:unless="${noAd}" style="margin-top: 15px;">
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- werewolf-mansion footer -->
+                    <ins class="adsbygoogle" style="display: block" data-ad-client="ca-pub-0917187897820609"
+                         data-ad-slot="1022209690" data-ad-format="auto"></ins>
+                    <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+                <div class="col-sm-12 col-xs-12 crearfix">
+                    <hr/>
+                    <p>
+                        要望、改善提案、不具合報告はTwitter<a href="https://twitter.com/ort_dev"
+                                                           target="_blank">@ort_dev</a>までお願いします。<br/>
+                        投げ銭いただける方は<a href="javascript:void(0);" data-toggle="modal"
+                                        data-target="#kampa-modal">こちら</a>からお願いします。<br/>
+                        © 2018- ort（<a href="https://github.com/h-orito/wolf-mansion" target="_blank">Github</a>）
+                    </p>
+                </div>
+                <div class="modal fade" id="kampa-modal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">
+                                    <span>×</span>
+                                </button>
+                                <h4 class="modal-title">投げ銭について</h4>
+                            </div>
+                            <div class="modal-body">
+                                <h4>Amazonほしい物リストから送る</h4>
+                                <ul>
+                                    <li>Amazonほしいものリストから選んで開発者に送ることができます。</li>
+                                </ul>
+                                <div class="clearfix">
+                                    <a href="https://www.amazon.jp/hz/wishlist/ls/1KZSJAJS1ETW4?ref_=wl_share"
+                                       target="_blank"
+                                       class="btn btn-sm btn-success pull-right">Amazonほしいものリストから送る</a>
+                                </div>
+                                <h4>Amazonギフト券（Eメールタイプ）を送る</h4>
+                                <ul>
+                                    <li>受取人に「wolfortあっとgooglegroups.com」を指定してください（あっとのところは@に変えてください）。</li>
+                                    <li>金額は15円以上で自由に変更できます。</li>
+                                </ul>
+                                <div class="clearfix">
+                                    <a href="https://www.amazon.co.jp/dp/B004N3APGO" target="_blank"
+                                       class="btn btn-sm btn-success pull-right">Amazonギフト券（Eメールタイプ）を送る</a>
+                                </div>
+                                <h4>Amazonアソシエイト経由で買い物をする</h4>
+                                <ul>
+                                    <li>下記からAmazonに遷移してカートに追加＆購入すると、開発者に若干の紹介料が入ります。</li>
+                                </ul>
+                                <div class="clearfix">
+                                    <iframe
+                                            src="https://rcm-fe.amazon-adsystem.com/e/cm?o=9&p=20&l=ez&f=ifr&linkID=c5438f7fc033eeee42260876403c6c51&t=wolfort0d-22&tracking_id=wolfort0d-22"
+                                            width="120" height="90" scrolling="no" border="0" marginwidth="0"
+                                            style="border: none;" frameborder="0"></iframe>
+                                </div>
+                                <h4>補足</h4>
+                                <ul>
+                                    <li>頂いた改善提案、ご要望については投げ銭の有無に関係なく積極的に取り入れていくので、Twitter<a
+                                            href="https://twitter.com/ort_dev"
+                                            target="_blank">@ort_dev</a>までお願いします。
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+</body>
+</html>
