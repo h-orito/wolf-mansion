@@ -1,14 +1,6 @@
 package com.ort.app.application.coordinator
 
-import com.ort.app.application.service.AbilityService
-import com.ort.app.application.service.CharaService
-import com.ort.app.application.service.CommitService
-import com.ort.app.application.service.FootstepApplicationService
-import com.ort.app.application.service.MessageService
-import com.ort.app.application.service.PlayerService
-import com.ort.app.application.service.TweetService
-import com.ort.app.application.service.VillageService
-import com.ort.app.application.service.VoteApplicationService
+import com.ort.app.application.service.*
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.service.daychange.DaychangeDomainService
@@ -27,7 +19,7 @@ class DaychangeCoordinator(
     private val daychangeDomainService: DaychangeDomainService,
     private val charaService: CharaService,
     private val messageService: MessageService,
-    private val tweetService: TweetService
+    private val notificationService: NotificationService
 ) {
 
     @Transactional(rollbackFor = [Exception::class, WolfMansionBusinessException::class])
@@ -71,6 +63,6 @@ class DaychangeCoordinator(
         playerService.updateDaychangeDifference(current.players, changed.players)
         footstepService.updateDaychangeDifference(changed.village, current.footsteps, changed.footsteps)
         messageService.updateDaychangeDifference(changed.village, current.messages, changed.messages)
-        tweetService.tweetDaychange(changed.village.id, changed.tweets)
+        notificationService.notifyDaychangeToCustomer(changed.village.id, changed.tweets)
     }
 }

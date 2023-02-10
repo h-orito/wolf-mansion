@@ -39,7 +39,7 @@ class MessageCoordinator(
             randomKeywords = randomKeywordService.findRandomKeywords()
         )
         messageService.registerMessage(village, replacedMessage)
-        slackService.postIfNeeded(village.id, replacedMessage)
+        slackService.notifyToDeveloperIfNeeded(village.id, replacedMessage)
     }
 
     fun confirmToSay(

@@ -30,7 +30,7 @@ class AccessInfoCoordinator(
             .list.flatMap { it.ipAddresses }.distinct()
             .contains(ipAddress)
         if (isContain) {
-            slackService.postTextIfNeeded(village, "IPアドレス重複検出: $ipAddress")
+            slackService.notifyToDeveloperTextIfNeeded(village, "IPアドレス重複検出: $ipAddress")
         }
     }
 

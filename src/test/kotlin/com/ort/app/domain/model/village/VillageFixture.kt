@@ -98,7 +98,8 @@ fun createVillageRule(): VillageRule = VillageRule(
     isAvailableSecretSay = false,
     isAvailableAction = false,
     isRandomOrganization = false,
-    isReincarnationSkillAll = false
+    isReincarnationSkillAll = false,
+    isCreatorIsProducer = false
 )
 
 fun createVillageOrganize(organize: String): VillageOrganize = VillageOrganize(
@@ -117,7 +118,7 @@ fun createVillageParticipant(skill: Skill, id: Int): VillageParticipant = Villag
     skill = null,
     requestSkill = RequestSkill(first = skill, second = skill),
     room = null,
-    status = VillageParticipantStatus(emptyList(), emptyList(), emptyList(), emptyList(), emptyList()),
+    status = VillageParticipantStatus(emptyList(), emptyList(), emptyList(), emptyList(), emptyList(), emptyList()),
     dead = Dead(isDead = false, deadDay = null, reason = null, histories = DeadHistories(emptyList())),
     isSpectator = false,
     isGone = false,

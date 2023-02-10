@@ -50,6 +50,11 @@ twitter:
     access-token: ${TWITTER_ACCESS_TOKEN}
     access-token-secret: ${TWITTER_ACCESS_TOKEN_SECRET}
 
+mastodon:
+  oauth:
+    host: mstdn.jp
+    access-token: ${MASTODON_ACCESS_TOKEN}
+
 slack:
   webhook-url: ${WOLF_MANSION_SLACK_WEBHOOK_URL}
 

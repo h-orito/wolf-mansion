@@ -36,7 +36,7 @@ class VillageCoordinator(
     private val commitService: CommitService,
     private val messageService: MessageService,
     private val charaService: CharaService,
-    private val tweetService: TweetService,
+    private val notificationService: NotificationService,
     private val abilityService: AbilityService,
     private val footstepService: FootstepApplicationService,
     private val voteService: VoteApplicationService,
@@ -109,7 +109,7 @@ class VillageCoordinator(
             // 希望役職シスメ
             messageService.registerMessage(afterVillage, messageDomainService.createSkillRequestMessage(participant))
             // 人数が揃ったらツイート
-            tweetService.tweetParticipantEnoughIfNeeded(afterVillage)
+            notificationService.notifyParticipantEnoughToCustomerIfNeeded(afterVillage)
         }
         // IPアドレスが重複している人がいたら通知
         if (!playerService.findPlayer(participant.playerId).shouldCheckAccessInfo) return participant
@@ -118,7 +118,7 @@ class VillageCoordinator(
             .flatMap { it.ipAddresses }.distinct()
             .contains(ipAddress)
         if (isContain) {
-            slackService.postTextIfNeeded(village, "IPアドレス重複検出: $ipAddress")
+            slackService.notifyToDeveloperTextIfNeeded(village, "IPアドレス重複検出: $ipAddress")
         }
         return participant
     }
@@ -274,7 +274,7 @@ class VillageCoordinator(
         // ダミーキャラ参加
         participateDummyChara(village, dummyCharaName, dummyCharaShortName, dummyCharaImage, joinMessage)
         // 誰歓ならツイート
-        tweetService.tweetCreateVillageIfNeeded(village)
+        notificationService.notifyCreateVillageToCustomerIfNeeded(village)
         return village
     }
 
