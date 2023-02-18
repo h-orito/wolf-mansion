@@ -22,8 +22,11 @@ class PrologueDomainService(
 ) {
 
     fun leaveParticipantIfNeeded(daychange: Daychange): Daychange {
-        // 24時間アクセスしていない人を退村させる
-        val threshold = LocalDateTime.now().minusDays(1L)
+        // 開始まで3日以内の場合のみ、24時間アクセスしていない人を退村させる
+        val now = LocalDateTime.now()
+        if (daychange.village.setting.startDatetime.minusDays(3L).isAfter(now)) return daychange
+
+        val threshold = now.minusDays(1L)
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
 
