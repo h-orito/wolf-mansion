@@ -74,6 +74,7 @@ public class DBMetaInstanceHandler implements DBMetaProvider {
         tmpMap.put("village_tag", "com.ort.dbflute.bsentity.dbmeta.VillageTagDbm");
         tmpMap.put("village_tag_item", "com.ort.dbflute.bsentity.dbmeta.VillageTagItemDbm");
         tmpMap.put("vote", "com.ort.dbflute.bsentity.dbmeta.VoteDbm");
+        tmpMap.put("wolf_allocation", "com.ort.dbflute.bsentity.dbmeta.WolfAllocationDbm");
         _tableDbNameClassNameMap = Collections.unmodifiableMap(tmpMap);
     }
 

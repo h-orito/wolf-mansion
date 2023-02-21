@@ -1,4 +1,19 @@
 map:{
+    ; 2023/02/21 21:36:50 = map:{
+        ; diffDate = 2023/02/21 21:36:50
+        ; tableCount = map:{
+            ; next = 44
+            ; previous = 43
+        }
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; wolf_allocation = map:{
+                ; tableName = wolf_allocation
+                ; diffType = ADD
+            }
+        }
+    }
     ; 2022/11/20 22:09:39 = map:{
         ; diffDate = 2022/11/20 22:09:39
         ; diffAuthor = h-orito

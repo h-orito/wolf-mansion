@@ -27,13 +27,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [foreign table]
- *     VILLAGE_STATUS, CAMP, VILLAGE_SETTINGS(AsOne)
+ *     VILLAGE_STATUS, CAMP, VILLAGE_SETTINGS(AsOne), WOLF_ALLOCATION(AsOne)
  *
  * [referrer table]
- *     CAMP_ALLOCATION, NORMAL_SAY_RESTRICTION, SKILL_ALLOCATION, SKILL_SAY_RESTRICTION, VILLAGE_CHARA_GROUP, VILLAGE_DAY, VILLAGE_PLAYER, VILLAGE_TAG, VILLAGE_SETTINGS
+ *     CAMP_ALLOCATION, NORMAL_SAY_RESTRICTION, SKILL_ALLOCATION, SKILL_SAY_RESTRICTION, VILLAGE_CHARA_GROUP, VILLAGE_DAY, VILLAGE_PLAYER, VILLAGE_TAG, VILLAGE_SETTINGS, WOLF_ALLOCATION
  *
  * [foreign property]
- *     villageStatus, camp, villageSettingsAsOne
+ *     villageStatus, camp, villageSettingsAsOne, wolfAllocationAsOne
  *
  * [referrer property]
  *     campAllocationList, normalSayRestrictionList, skillAllocationList, skillSayRestrictionList, villageCharaGroupList, villageDayList, villagePlayerList, villageTagList
@@ -355,6 +355,13 @@ public class LoaderOfVillage {
         if (_foreignVillageSettingsAsOneLoader == null)
         { _foreignVillageSettingsAsOneLoader = new LoaderOfVillageSettings().ready(myBhv().pulloutVillageSettingsAsOne(_selectedList), _selector); }
         return _foreignVillageSettingsAsOneLoader;
+    }
+
+    protected LoaderOfWolfAllocation _foreignWolfAllocationAsOneLoader;
+    public LoaderOfWolfAllocation pulloutWolfAllocationAsOne() {
+        if (_foreignWolfAllocationAsOneLoader == null)
+        { _foreignWolfAllocationAsOneLoader = new LoaderOfWolfAllocation().ready(myBhv().pulloutWolfAllocationAsOne(_selectedList), _selector); }
+        return _foreignWolfAllocationAsOneLoader;
     }
 
     // ===================================================================================

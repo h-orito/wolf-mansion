@@ -41,4 +41,13 @@ public class VillageNss {
         _query.xdoNss(() -> _query.queryVillageSettingsAsOne());
         return new VillageSettingsNss(_query.queryVillageSettingsAsOne());
     }
+    /**
+     * With nested relation columns to select clause. <br>
+     * wolf_allocation by VILLAGE_ID, named 'wolfAllocationAsOne'.
+     * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
+     */
+    public WolfAllocationNss withWolfAllocationAsOne() {
+        _query.xdoNss(() -> _query.queryWolfAllocationAsOne());
+        return new WolfAllocationNss(_query.queryWolfAllocationAsOne());
+    }
 }

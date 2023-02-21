@@ -2,6 +2,7 @@ package com.ort.app.api.request
 
 import com.ort.app.api.request.setting.MessageTypeSayRestrictForm
 import com.ort.app.api.request.setting.RandomOrganizationCampForm
+import com.ort.app.api.request.setting.RandomOrganizationWolfForm
 import com.ort.app.api.request.setting.SkillSayRestrictForm
 import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.message.MessageType
@@ -170,6 +171,10 @@ data class NewVillageForm(
     @field:Valid
     var campAllocationList: List<RandomOrganizationCampForm>? = null,
 
+    /** 闇鍋編成人狼配分 */
+    @field:Valid
+    var wolfAllocation: RandomOrganizationWolfForm? = null,
+
     /** 秘話可能範囲 */
     @field:NotNull
     var allowedSecretSayCode: String? = null,
@@ -217,6 +222,7 @@ data class NewVillageForm(
         if (randomOrganization == null) randomOrganization = false
         if (reincarnationSkillAll == null) reincarnationSkillAll = false
         if (campAllocationList == null) campAllocationList = initializeCampAllocationList()
+        if (wolfAllocation == null) wolfAllocation = RandomOrganizationWolfForm()
         if (organization == null) organization = VillageOrganize.defaultFixedOrganization
         if (allowedSecretSayCode == null) allowedSecretSayCode = CDef.AllowedSecretSay.なし.code()
         if (sayRestrictList == null) sayRestrictList = initializeSayRestrictList()
@@ -291,6 +297,12 @@ data class NewVillageForm(
                 }
             )
         }
+        wolfAllocation = village.setting.organize.randomOrganization.wolfAllocation?.let {
+            RandomOrganizationWolfForm(
+                minNum = it.min,
+                maxNum = it.max
+            )
+        } ?: RandomOrganizationWolfForm()
         sayRestrictList = sayRestrictList!!.map { formRestrict ->
             val restrict =
                 village.setting.sayRestriction.normalSayRestriction.find { it.skill.code == formRestrict.skillCode }
@@ -388,7 +400,13 @@ data class NewVillageForm(
                                 max = it.maxNum,
                                 allocation = it.allocation!!
                             )
-                        } ?: emptyList()
+                        } ?: emptyList(),
+                        wolfAllocation = if (campAllocationList == null) null else wolfAllocation?.let {
+                            VillageRandomOrganize.WolfAllocation(
+                                min = it.minNum!!,
+                                max = it.maxNum
+                            )
+                        }
                     )
                 ),
                 joinPassword = joinPassword,

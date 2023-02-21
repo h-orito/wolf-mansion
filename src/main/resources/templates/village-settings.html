@@ -24,7 +24,8 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">村名</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" th:field="*{villageName}" placeholder="【身内】レタス村"/>
+                            <input type="text" class="form-control" th:field="*{villageName}"
+                                   placeholder="【身内】レタス村"/>
                             <span th:if="${#fields.hasErrors('villageName')}" th:errors="*{villageName}"
                                   class="help-block text-danger">error!</span>
                         </div>
@@ -64,7 +65,8 @@
                         <label class="col-sm-2 col-xs-12 control-label">更新間隔</label>
                         <div class="col-sm-2 col-xs-4">
                             <select class="form-control" th:field="*{dayChangeIntervalHours}">
-                                <option th:each="i : ${#numbers.sequence(0, 72)}" th:value="${i}" th:text="${i}+ '時間'">
+                                <option th:each="i : ${#numbers.sequence(0, 72)}" th:value="${i}"
+                                        th:text="${i}+ '時間'">
                                     0時間
                                 </option>
                             </select>
@@ -180,6 +182,31 @@
                                       th:errors="*{campAllocationList}" class="help-block text-danger">error!</span>
                                 <table class="table-bordered table-condensed small">
                                     <tbody>
+                                    <tr>
+                                        <td class="bg-danger text-white" colspan="7">
+                                            <strong>人狼カウント</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>人狼カウント</span>
+                                        </td>
+                                        <td>最少人数</td>
+                                        <td>
+                                            <input type="number"
+                                                   th:field="*{wolfAllocation.minNum}"
+                                                   class="form-control input-sm" placeholder="0"/>
+                                        </td>
+                                        <td>最大人数</td>
+                                        <td>
+                                            <input type="number"
+                                                   th:field="*{wolfAllocation.maxNum}"
+                                                   class="form-control input-sm" placeholder="0"/>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                        </td>
+                                    </tr>
                                     <th:block th:each="camp, stat: *{campAllocationList}">
                                         <tr>
                                             <td class="bg-info text-white" colspan="7">

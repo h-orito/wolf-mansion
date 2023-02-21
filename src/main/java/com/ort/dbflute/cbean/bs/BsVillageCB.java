@@ -308,6 +308,32 @@ public class BsVillageCB extends AbstractConditionBean {
         return _nssVillageSettingsAsOne;
     }
 
+    protected WolfAllocationNss _nssWolfAllocationAsOne;
+    public WolfAllocationNss xdfgetNssWolfAllocationAsOne() {
+        if (_nssWolfAllocationAsOne == null) { _nssWolfAllocationAsOne = new WolfAllocationNss(null); }
+        return _nssWolfAllocationAsOne;
+    }
+    /**
+     * Set up relation columns to select clause. <br>
+     * wolf_allocation by VILLAGE_ID, named 'wolfAllocationAsOne'.
+     * <pre>
+     * <span style="color: #0000C0">villageBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_WolfAllocationAsOne()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     *     <span style="color: #553000">cb</span>.query().set...
+     * }).alwaysPresent(<span style="color: #553000">village</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     ... = <span style="color: #553000">village</span>.<span style="color: #CC4747">getWolfAllocationAsOne()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
+     * });
+     * </pre>
+     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
+     */
+    public WolfAllocationNss setupSelect_WolfAllocationAsOne() {
+        assertSetupSelectPurpose("wolfAllocationAsOne");
+        doSetupSelect(() -> query().queryWolfAllocationAsOne());
+        if (_nssWolfAllocationAsOne == null || !_nssWolfAllocationAsOne.hasConditionQuery())
+        { _nssWolfAllocationAsOne = new WolfAllocationNss(query().queryWolfAllocationAsOne()); }
+        return _nssWolfAllocationAsOne;
+    }
+
     // [DBFlute-0.7.4]
     // ===================================================================================
     //                                                                             Specify
@@ -352,6 +378,7 @@ public class BsVillageCB extends AbstractConditionBean {
         protected VillageStatusCB.HpSpecification _villageStatus;
         protected CampCB.HpSpecification _camp;
         protected VillageSettingsCB.HpSpecification _villageSettingsAsOne;
+        protected WolfAllocationCB.HpSpecification _wolfAllocationAsOne;
         public HpSpecification(ConditionBean baseCB, HpSpQyCall<VillageCQ> qyCall
                              , HpCBPurpose purpose, DBMetaProvider dbmetaProvider
                              , HpSDRFunctionFactory sdrFuncFactory)
@@ -491,6 +518,26 @@ public class BsVillageCB extends AbstractConditionBean {
                 }
             }
             return _villageSettingsAsOne;
+        }
+        /**
+         * Prepare to specify functions about relation table. <br>
+         * wolf_allocation by VILLAGE_ID, named 'wolfAllocationAsOne'.
+         * @return The instance for specification for relation table to specify. (NotNull)
+         */
+        public WolfAllocationCB.HpSpecification specifyWolfAllocationAsOne() {
+            assertRelation("wolfAllocationAsOne");
+            if (_wolfAllocationAsOne == null) {
+                _wolfAllocationAsOne = new WolfAllocationCB.HpSpecification(_baseCB
+                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryWolfAllocationAsOne()
+                                    , () -> _qyCall.qy().queryWolfAllocationAsOne())
+                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
+                if (xhasSyncQyCall()) { // inherits it
+                    _wolfAllocationAsOne.xsetSyncQyCall(xcreateSpQyCall(
+                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryWolfAllocationAsOne()
+                      , () -> xsyncQyCall().qy().queryWolfAllocationAsOne()));
+                }
+            }
+            return _wolfAllocationAsOne;
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>

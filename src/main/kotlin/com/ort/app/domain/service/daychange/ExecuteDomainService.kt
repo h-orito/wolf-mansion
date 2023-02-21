@@ -41,6 +41,7 @@ class ExecuteDomainService(
             .list.any { village.participants.chara(it.charaId).isAlive() }
 
         // 被投票数
+        val votedPersonNumMap = calculateVotePersonCount(village, votes)
         val votedCountMap = calculateVoteCount(village, votes, daychange.abilities)
         // 処刑される人
         val executedParticipants = decideExecutedParticipants(votedCountMap, executeCount, existsRevolution)
@@ -63,7 +64,7 @@ class ExecuteDomainService(
         if (existsRevolution) {
             messages = messages.add(createRevolutionMessage(village))
         }
-        messages = messages.add(createExecuteMessage(village, votedCountMap, executedParticipants, existsBlackbox))
+        messages = messages.add(createExecuteMessage(village, votedCountMap, votedPersonNumMap, executedParticipants, existsBlackbox))
         if (existsBlackbox) {
             messages = messages.add(createBlackboxMessage(village, executedParticipants))
         }
@@ -107,6 +108,12 @@ class ExecuteDomainService(
         }
 
         return votedCountMap
+    }
+
+    private fun calculateVotePersonCount(village: Village, votes: List<Vote>): Map<VillageParticipant, Int> {
+        return votes.groupBy { it.targetCharaId }
+            .map { (targetCharaId, voteList) -> village.participants.chara(targetCharaId) to voteList.size }
+            .toMap().toMutableMap()
     }
 
     private fun decideExecutedParticipants(
@@ -170,6 +177,7 @@ class ExecuteDomainService(
     private fun createExecuteMessage(
         village: Village,
         votedCountMap: Map<VillageParticipant, Int>,
+        votedPersonNumMap: Map<VillageParticipant, Int>,
         executedParticipants: List<VillageParticipant>,
         existsBlackbox: Boolean
     ): Message {
@@ -186,7 +194,12 @@ class ExecuteDomainService(
                 separator = "\n",
                 postfix = postfix
             ) { (participant, count) ->
-                "${participant.name()}、${if (count >= 0) count else 0}票"
+                val personNum = votedPersonNumMap.getOrDefault(participant, 0)
+                if (count == personNum) {
+                    "${participant.name()}、${if (count >= 0) count else 0}票"
+                } else {
+                    "${participant.name()}、${if (count >= 0) count else 0}票（${personNum}人）"
+                }
             }
         val messageType =
             if (existsBlackbox) CDef.MessageType.非公開システムメッセージ.toModel()

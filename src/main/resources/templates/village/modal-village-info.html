@@ -136,6 +136,31 @@
                             <td>
                                 <table class="table-bordered table-condensed small">
                                     <tbody>
+                                    <tr>
+                                        <td class="bg-danger text-white" colspan="7">
+                                            <strong>人狼カウント</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>人狼カウント</span>
+                                        </td>
+                                        <td>最少人数</td>
+                                        <td>
+                                            <span th:text="*{wolfAllocation.minNum}"></span>
+                                            <input type="hidden"
+                                                   th:field="*{wolfAllocation.minNum}"/>
+                                        </td>
+                                        <td>最大人数</td>
+                                        <td>
+                                            <span th:text="*{wolfAllocation.maxNum}"></span>
+                                            <input type="hidden"
+                                                   th:field="*{wolfAllocation.maxNum}"/>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                        </td>
+                                    </tr>
                                     <th:block th:each="camp, stat: *{campAllocationList}">
                                         <tr>
                                             <td class="bg-info text-white" colspan="7">

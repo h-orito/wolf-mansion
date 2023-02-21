@@ -1,9 +1,6 @@
 package com.ort.app.api.request
 
-import com.ort.app.api.request.setting.MessageTypeSayRestrictForm
-import com.ort.app.api.request.setting.RandomOrganizationCampForm
-import com.ort.app.api.request.setting.RandomOrganizationSkillForm
-import com.ort.app.api.request.setting.SkillSayRestrictForm
+import com.ort.app.api.request.setting.*
 import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.village.Village
@@ -130,6 +127,10 @@ data class VillageSettingForm(
     @field:Valid
     var campAllocationList: List<RandomOrganizationCampForm>? = null,
 
+    /** 闇鍋編成人狼配分 */
+    @field:Valid
+    var wolfAllocation: RandomOrganizationWolfForm? = null,
+
     /** 入村パスワード */
     var joinPassword: String? = null,
 
@@ -210,6 +211,12 @@ data class VillageSettingForm(
                     }
             )
         },
+        wolfAllocation = village.setting.organize.randomOrganization.wolfAllocation?.let {
+            RandomOrganizationWolfForm(
+                minNum = it.min,
+                maxNum = it.max
+            )
+        } ?: RandomOrganizationWolfForm(),
         joinPassword = village.setting.joinPassword,
         sayRestrictList = Skills.all().filterNotSomeone().list.map { s ->
             val restrict = village.setting.sayRestriction.normalSayRestriction.find { it.skill.code == s.code }

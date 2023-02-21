@@ -13,6 +13,7 @@ import com.ort.dbflute.exbhv.SkillSayRestrictionBhv
 import com.ort.dbflute.exbhv.VillageCharaGroupBhv
 import com.ort.dbflute.exbhv.VillageSettingsBhv
 import com.ort.dbflute.exbhv.VillageTagBhv
+import com.ort.dbflute.exbhv.WolfAllocationBhv
 import com.ort.dbflute.exentity.CampAllocation
 import com.ort.dbflute.exentity.NormalSayRestriction
 import com.ort.dbflute.exentity.SkillAllocation
@@ -20,6 +21,7 @@ import com.ort.dbflute.exentity.SkillSayRestriction
 import com.ort.dbflute.exentity.Village
 import com.ort.dbflute.exentity.VillageCharaGroup
 import com.ort.dbflute.exentity.VillageSettings
+import com.ort.dbflute.exentity.WolfAllocation
 import org.springframework.stereotype.Repository
 import java.time.format.DateTimeFormatter
 import com.ort.dbflute.exentity.VillageTag as DbVillageTag
@@ -32,6 +34,7 @@ class VillageSettingsDataSource(
     private val skillSayRestrictionBhv: SkillSayRestrictionBhv,
     private val campAllocationBhv: CampAllocationBhv,
     private val skillAllocationBhv: SkillAllocationBhv,
+    private val wolfAllocationBhv: WolfAllocationBhv,
     private val villageTagBhv: VillageTagBhv
 ) {
     private val formatter = DateTimeFormatter.ofPattern("uuuuMMddhhmm")
@@ -82,6 +85,7 @@ class VillageSettingsDataSource(
         paramVillage.setting.organize.randomOrganization.let { org ->
             org.campAllocation.forEach { insertCampAllocation(id, it) }
             org.skillAllocation.forEach { insertSkillAllocation(id, it) }
+            org.wolfAllocation?.let { insertWolfAllocation(id, it) }
         }
     }
 
@@ -160,7 +164,8 @@ class VillageSettingsDataSource(
                 fixedOrganization = setting.organize,
                 randomOrganization = VillageRandomOrganize(
                     skillAllocation = emptyList(),
-                    campAllocation = emptyList()
+                    campAllocation = emptyList(),
+                    wolfAllocation = VillageRandomOrganize.WolfAllocation(min = 1, max = null)
                 )
             ),
             sayRestriction = SayRestriction(
@@ -228,7 +233,13 @@ class VillageSettingsDataSource(
                             max = it.maxNum,
                             allocation = it.allocation
                         )
-                    }
+                    },
+                    wolfAllocation = village.wolfAllocationAsOne.map {
+                        VillageRandomOrganize.WolfAllocation(
+                            min = it.minNum,
+                            max = it.maxNum
+                        )
+                    }.orElse(null)
                 )
             ),
             sayRestriction = SayRestriction(
@@ -314,8 +325,10 @@ class VillageSettingsDataSource(
     private fun updateAllocation(villageId: Int, organize: VillageOrganize) {
         campAllocationBhv.queryDelete { it.query().setVillageId_Equal(villageId) }
         skillAllocationBhv.queryDelete { it.query().setVillageId_Equal(villageId) }
+        wolfAllocationBhv.queryDelete { it.query().setVillageId_Equal(villageId) }
         organize.randomOrganization.campAllocation.forEach { insertCampAllocation(villageId, it) }
         organize.randomOrganization.skillAllocation.forEach { insertSkillAllocation(villageId, it) }
+        organize.randomOrganization.wolfAllocation?.let { insertWolfAllocation(villageId, it) }
     }
 
     private fun insertCampAllocation(
@@ -342,6 +355,17 @@ class VillageSettingsDataSource(
         a.maxNum = skillAllocation.max
         a.allocation = skillAllocation.allocation
         skillAllocationBhv.insert(a)
+    }
+
+    private fun insertWolfAllocation(
+        villageId: Int,
+        wolfAllocation: VillageRandomOrganize.WolfAllocation
+    ) {
+        val a = WolfAllocation()
+        a.villageId = villageId
+        a.minNum = wolfAllocation.min
+        a.maxNum = wolfAllocation.max
+        wolfAllocationBhv.insert(a)
     }
 
     private fun updateVillageTags(villageId: Int, tags: VillageTags) {

@@ -1317,4 +1317,28 @@
             <reference foreign="DAY" local="DAY"/>
         </foreign-key>
     </table>
+    <table comment="人狼配分" name="wolf_allocation"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column comment="村ID" dbType="INT UNSIGNED" javaType="Integer"
+            name="VILLAGE_ID" pkName="PRIMARY" pkPosition="1"
+            primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="最小人数" dbType="INT UNSIGNED" javaType="Integer"
+            name="MIN_NUM" required="true" size="10" type="INTEGER"/>
+        <column comment="最大人数" dbType="INT UNSIGNED" javaType="Integer"
+            name="MAX_NUM" size="10" type="INTEGER"/>
+        <column comment="登録日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="登録トレース" dbType="VARCHAR" javaType="String"
+            name="REGISTER_TRACE" required="true" size="64" type="VARCHAR"/>
+        <column comment="更新日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="UPDATE_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="更新トレース" dbType="VARCHAR" javaType="String"
+            name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="village" name="FK_WOLF_ALLOCATION_VILLAGE">
+            <reference foreign="VILLAGE_ID" local="VILLAGE_ID"/>
+        </foreign-key>
+    </table>
 </database>

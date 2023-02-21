@@ -33,13 +33,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     VILLAGE_STATUS, CAMP, VILLAGE_SETTINGS(AsOne)
+ *     VILLAGE_STATUS, CAMP, VILLAGE_SETTINGS(AsOne), WOLF_ALLOCATION(AsOne)
  *
  * [referrer table]
- *     CAMP_ALLOCATION, NORMAL_SAY_RESTRICTION, SKILL_ALLOCATION, SKILL_SAY_RESTRICTION, VILLAGE_CHARA_GROUP, VILLAGE_DAY, VILLAGE_PLAYER, VILLAGE_TAG, VILLAGE_SETTINGS
+ *     CAMP_ALLOCATION, NORMAL_SAY_RESTRICTION, SKILL_ALLOCATION, SKILL_SAY_RESTRICTION, VILLAGE_CHARA_GROUP, VILLAGE_DAY, VILLAGE_PLAYER, VILLAGE_TAG, VILLAGE_SETTINGS, WOLF_ALLOCATION
  *
  * [foreign property]
- *     villageStatus, camp, villageSettingsAsOne
+ *     villageStatus, camp, villageSettingsAsOne, wolfAllocationAsOne
  *
  * [referrer property]
  *     campAllocationList, normalSayRestrictionList, skillAllocationList, skillSayRestrictionList, villageCharaGroupList, villageDayList, villagePlayerList, villageTagList
@@ -469,6 +469,27 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
         _villageSettingsAsOne = villageSettingsAsOne;
     }
 
+    /** wolf_allocation by VILLAGE_ID, named 'wolfAllocationAsOne'. */
+    protected OptionalEntity<WolfAllocation> _wolfAllocationAsOne;
+
+    /**
+     * [get] wolf_allocation by VILLAGE_ID, named 'wolfAllocationAsOne'.
+     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
+     * @return the entity of foreign property(referrer-as-one) 'wolfAllocationAsOne'. (NotNull, EmptyAllowed: when e.g. no data, no setupSelect)
+     */
+    public OptionalEntity<WolfAllocation> getWolfAllocationAsOne() {
+        if (_wolfAllocationAsOne == null) { _wolfAllocationAsOne = OptionalEntity.relationEmpty(this, "wolfAllocationAsOne"); }
+        return _wolfAllocationAsOne;
+    }
+
+    /**
+     * [set] wolf_allocation by VILLAGE_ID, named 'wolfAllocationAsOne'.
+     * @param wolfAllocationAsOne The entity of foreign property(referrer-as-one) 'wolfAllocationAsOne'. (NullAllowed)
+     */
+    public void setWolfAllocationAsOne(OptionalEntity<WolfAllocation> wolfAllocationAsOne) {
+        _wolfAllocationAsOne = wolfAllocationAsOne;
+    }
+
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
@@ -667,6 +688,8 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
         { sb.append(li).append(xbRDS(_camp, "camp")); }
         if (_villageSettingsAsOne != null && _villageSettingsAsOne.isPresent())
         { sb.append(li).append(xbRDS(_villageSettingsAsOne, "villageSettingsAsOne")); }
+        if (_wolfAllocationAsOne != null && _wolfAllocationAsOne.isPresent())
+        { sb.append(li).append(xbRDS(_wolfAllocationAsOne, "wolfAllocationAsOne")); }
         if (_campAllocationList != null) { for (CampAllocation et : _campAllocationList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "campAllocationList")); } } }
         if (_normalSayRestrictionList != null) { for (NormalSayRestriction et : _normalSayRestrictionList)
@@ -720,6 +743,8 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
         { sb.append(dm).append("camp"); }
         if (_villageSettingsAsOne != null && _villageSettingsAsOne.isPresent())
         { sb.append(dm).append("villageSettingsAsOne"); }
+        if (_wolfAllocationAsOne != null && _wolfAllocationAsOne.isPresent())
+        { sb.append(dm).append("wolfAllocationAsOne"); }
         if (_campAllocationList != null && !_campAllocationList.isEmpty())
         { sb.append(dm).append("campAllocationList"); }
         if (_normalSayRestrictionList != null && !_normalSayRestrictionList.isEmpty())

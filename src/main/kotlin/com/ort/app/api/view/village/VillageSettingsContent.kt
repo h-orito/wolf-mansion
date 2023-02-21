@@ -63,6 +63,8 @@ data class VillageSettingsContent(
     val isRandomOrganization: Boolean,
     /** 闇鍋陣営配分 */
     val campAllocationList: List<RandomCampOrganization>,
+    /** 闇鍋人狼配分 */
+    val wolfAllocation: RandomWolfOrganization?,
     /** 村設定の発言制限 */
     val sayRestrictList: List<SayRestriction>,
     /** 村設定の役職発言制限 */
@@ -101,6 +103,9 @@ data class VillageSettingsContent(
         isAvailableAction = village.setting.rule.isAvailableAction,
         organization = mapOrganization(village),
         campAllocationList = mapCampAllocationList(village),
+        wolfAllocation =
+        if (village.setting.rule.isRandomOrganization) RandomWolfOrganization(village.setting.organize.randomOrganization.wolfAllocation!!)
+        else null,
         isRandomOrganization = village.setting.rule.isRandomOrganization,
         sayRestrictList = mapSayRestrictList(village),
         skillSayRestrictList = mapSkillSayRestrictList(village),
@@ -228,6 +233,18 @@ data class VillageSettingsContent(
                 allocation = skillAllocation.allocation
             )
         }
+    }
+
+    data class RandomWolfOrganization(
+        /** 最低人数 */
+        val minNum: Int,
+        /** 最大人数 */
+        val maxNum: Int?,
+    ) {
+        constructor(wolfAllocation: VillageRandomOrganize.WolfAllocation): this(
+            minNum = wolfAllocation.min,
+            maxNum = wolfAllocation.max
+        )
     }
 
     data class SayRestriction(

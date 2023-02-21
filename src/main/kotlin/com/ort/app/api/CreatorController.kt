@@ -277,7 +277,13 @@ class CreatorController(
                                 max = it.maxNum,
                                 allocation = it.allocation!!
                             )
-                        } ?: emptyList()
+                        } ?: emptyList(),
+                        wolfAllocation = form.wolfAllocation?.let {
+                            VillageRandomOrganize.WolfAllocation(
+                                min = it.minNum!!,
+                                max = it.maxNum
+                            )
+                        }
                     )
                 ),
                 joinPassword = form.joinPassword,

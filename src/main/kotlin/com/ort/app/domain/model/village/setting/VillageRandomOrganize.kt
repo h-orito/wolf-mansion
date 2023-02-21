@@ -9,7 +9,8 @@ import java.util.*
 
 data class VillageRandomOrganize(
     val skillAllocation: List<SkillAllocation>,
-    val campAllocation: List<CampAllocation>
+    val campAllocation: List<CampAllocation>,
+    val wolfAllocation: WolfAllocation?
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -29,6 +30,11 @@ data class VillageRandomOrganize(
         val min: Int,
         val max: Int?,
         val allocation: Int
+    )
+
+    data class WolfAllocation(
+        val min: Int,
+        val max: Int?
     )
 
     private fun createSkillPersonCountMap(
@@ -55,13 +61,6 @@ data class VillageRandomOrganize(
                 val skill: CDef.Skill = gachaSkill(skillList)
                 addSkillPerson(countMap, skill)
             }
-        }
-
-        // ここまでで人狼カウントがいなかったら先に一人割り当てる
-        val wolfCount = countMap.entries.filter { it.key.isWolfCount }.sumOf { it.value }
-        if (wolfCount <= 0) {
-            val wolf = gachaSkill(skillAllocation.filter { it.skill.isWolfCount() })
-            addSkillPerson(countMap, wolf)
         }
 
         // 人数を満たすまで継続
@@ -187,6 +186,17 @@ data class VillageRandomOrganize(
         val sum = countMap.values.sum()
         if (participantCount < sum) {
             logger.info("人数オーバーしているのでやり直し")
+            return true
+        }
+
+        // 人狼が規定数を満たしていないのでやりなおし
+        val wolfCount = countMap.entries.filter { it.key.isWolfCount }.sumOf { it.value }
+        if (wolfCount < wolfAllocation!!.min) {
+            logger.info("人狼カウントが足りていないのでやり直し")
+            return true
+        }
+        if (wolfAllocation.max != null && wolfAllocation.max < wolfCount) {
+            logger.info("人狼カウントが多すぎるのでやり直し")
             return true
         }
 

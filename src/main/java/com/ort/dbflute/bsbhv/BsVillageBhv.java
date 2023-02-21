@@ -40,13 +40,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [foreign table]
- *     VILLAGE_STATUS, CAMP, VILLAGE_SETTINGS(AsOne)
+ *     VILLAGE_STATUS, CAMP, VILLAGE_SETTINGS(AsOne), WOLF_ALLOCATION(AsOne)
  *
  * [referrer table]
- *     CAMP_ALLOCATION, NORMAL_SAY_RESTRICTION, SKILL_ALLOCATION, SKILL_SAY_RESTRICTION, VILLAGE_CHARA_GROUP, VILLAGE_DAY, VILLAGE_PLAYER, VILLAGE_TAG, VILLAGE_SETTINGS
+ *     CAMP_ALLOCATION, NORMAL_SAY_RESTRICTION, SKILL_ALLOCATION, SKILL_SAY_RESTRICTION, VILLAGE_CHARA_GROUP, VILLAGE_DAY, VILLAGE_PLAYER, VILLAGE_TAG, VILLAGE_SETTINGS, WOLF_ALLOCATION
  *
  * [foreign property]
- *     villageStatus, camp, villageSettingsAsOne
+ *     villageStatus, camp, villageSettingsAsOne, wolfAllocationAsOne
  *
  * [referrer property]
  *     campAllocationList, normalSayRestrictionList, skillAllocationList, skillSayRestrictionList, villageCharaGroupList, villageDayList, villagePlayerList, villageTagList
@@ -899,6 +899,14 @@ public abstract class BsVillageBhv extends AbstractBehaviorWritable<Village, Vil
      */
     public List<VillageSettings> pulloutVillageSettingsAsOne(List<Village> villageList)
     { return helpPulloutInternally(villageList, "villageSettingsAsOne"); }
+
+    /**
+     * Pull out the list of referrer-as-one table 'WolfAllocation'.
+     * @param villageList The list of village. (NotNull, EmptyAllowed)
+     * @return The list of referrer-as-one table. (NotNull, EmptyAllowed, NotNullElement)
+     */
+    public List<WolfAllocation> pulloutWolfAllocationAsOne(List<Village> villageList)
+    { return helpPulloutInternally(villageList, "wolfAllocationAsOne"); }
 
     // ===================================================================================
     //                                                                      Extract Column

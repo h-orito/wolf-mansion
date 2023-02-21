@@ -475,6 +475,9 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
         if (bq.hasConditionQueryVillageSettingsAsOne()) {
             uq.queryVillageSettingsAsOne().reflectRelationOnUnionQuery(bq.queryVillageSettingsAsOne(), uq.queryVillageSettingsAsOne());
         }
+        if (bq.hasConditionQueryWolfAllocationAsOne()) {
+            uq.queryWolfAllocationAsOne().reflectRelationOnUnionQuery(bq.queryWolfAllocationAsOne(), uq.queryWolfAllocationAsOne());
+        }
     }
 
     // ===================================================================================
@@ -537,6 +540,24 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
     }
     protected void xsetupOuterJoinVillageSettingsAsOne() { xregOutJo("villageSettingsAsOne"); }
     public boolean hasConditionQueryVillageSettingsAsOne() { return xhasQueRlMap("villageSettingsAsOne"); }
+
+    /**
+     * Get the condition-query for relation table. <br>
+     * wolf_allocation by VILLAGE_ID, named 'wolfAllocationAsOne'.
+     * @return The instance of condition-query. (NotNull)
+     */
+    public WolfAllocationCQ queryWolfAllocationAsOne() { return xdfgetConditionQueryWolfAllocationAsOne(); }
+    public WolfAllocationCQ xdfgetConditionQueryWolfAllocationAsOne() {
+        String prop = "wolfAllocationAsOne";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryWolfAllocationAsOne()); xsetupOuterJoinWolfAllocationAsOne(); }
+        return xgetQueRlMap(prop);
+    }
+    protected WolfAllocationCQ xcreateQueryWolfAllocationAsOne() {
+        String nrp = xresolveNRP("village", "wolfAllocationAsOne"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        return xinitRelCQ(new WolfAllocationCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "wolfAllocationAsOne", nrp);
+    }
+    protected void xsetupOuterJoinWolfAllocationAsOne() { xregOutJo("wolfAllocationAsOne"); }
+    public boolean hasConditionQueryWolfAllocationAsOne() { return xhasQueRlMap("wolfAllocationAsOne"); }
 
     protected Map<String, Object> xfindFixedConditionDynamicParameterMap(String property) {
         return null;

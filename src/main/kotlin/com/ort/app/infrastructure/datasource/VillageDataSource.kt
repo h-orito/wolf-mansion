@@ -79,6 +79,7 @@ class VillageDataSource(
     ): Village? {
         val optVillage = villageBhv.selectEntity {
             it.setupSelect_VillageSettingsAsOne().withOriginalCharaGroup()
+            it.setupSelect_WolfAllocationAsOne()
             it.query().setVillageId_Equal(id)
         }
         if (!optVillage.isPresent) return null

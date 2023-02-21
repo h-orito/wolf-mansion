@@ -83,6 +83,7 @@ public class VillageDbm extends AbstractDBMeta {
         setupEfpg(_efpgMap, et -> ((Village)et).getVillageStatus(), (et, vl) -> ((Village)et).setVillageStatus((OptionalEntity<VillageStatus>)vl), "villageStatus");
         setupEfpg(_efpgMap, et -> ((Village)et).getCamp(), (et, vl) -> ((Village)et).setCamp((OptionalEntity<Camp>)vl), "camp");
         setupEfpg(_efpgMap, et -> ((Village)et).getVillageSettingsAsOne(), (et, vl) -> ((Village)et).setVillageSettingsAsOne((OptionalEntity<VillageSettings>)vl), "villageSettingsAsOne");
+        setupEfpg(_efpgMap, et -> ((Village)et).getWolfAllocationAsOne(), (et, vl) -> ((Village)et).setWolfAllocationAsOne((OptionalEntity<WolfAllocation>)vl), "wolfAllocationAsOne");
     }
     public PropertyGateway findForeignPropertyGateway(String prop)
     { return doFindEfpg(_efpgMap, prop); }
@@ -237,6 +238,14 @@ public class VillageDbm extends AbstractDBMeta {
     public ForeignInfo foreignVillageSettingsAsOne() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillageId(), VillageSettingsDbm.getInstance().columnVillageId());
         return cfi("FK_VILLAGE_SETTINGS_VILLAGE", "villageSettingsAsOne", this, VillageSettingsDbm.getInstance(), mp, 2, org.dbflute.optional.OptionalEntity.class, true, false, true, false, null, null, false, "village", false);
+    }
+    /**
+     * wolf_allocation by VILLAGE_ID, named 'wolfAllocationAsOne'.
+     * @return The information object of foreign property(referrer-as-one). (NotNull)
+     */
+    public ForeignInfo foreignWolfAllocationAsOne() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillageId(), WolfAllocationDbm.getInstance().columnVillageId());
+        return cfi("FK_WOLF_ALLOCATION_VILLAGE", "wolfAllocationAsOne", this, WolfAllocationDbm.getInstance(), mp, 3, org.dbflute.optional.OptionalEntity.class, true, false, true, false, null, null, false, "village", false);
     }
 
     // -----------------------------------------------------
