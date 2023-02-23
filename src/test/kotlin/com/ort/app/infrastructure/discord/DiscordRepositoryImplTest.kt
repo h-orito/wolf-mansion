@@ -18,4 +18,13 @@ internal class DiscordRepositoryImplTest {
             message = " ＠国主\nあれがこうです"
         )
     }
+
+    @Test
+    fun test_postToWebhook() {
+        repository.postToWebhook(
+            webhookUrl = "hoge",
+            villageId = 1,
+            message = "村が開始されました。"
+        )
+    }
 }

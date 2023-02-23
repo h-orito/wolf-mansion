@@ -101,4 +101,9 @@ class VillageService(
 
     fun addIpAddress(participant: VillageParticipant, ipAddress: String) =
         villageRepository.addIpAddress(participant, ipAddress)
+
+    fun registerNotification(participant: VillageParticipant) {
+
+        villageRepository.registerNotificationSetting(participant)
+    }
 }

@@ -70,4 +70,13 @@ public class VillagePlayerNss {
         _query.xdoNss(() -> _query.queryVillage());
         return new VillageNss(_query.queryVillage());
     }
+    /**
+     * With nested relation columns to select clause. <br>
+     * village_player_notification by VILLAGE_PLAYER_ID, named 'villagePlayerNotificationAsOne'.
+     * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
+     */
+    public VillagePlayerNotificationNss withVillagePlayerNotificationAsOne() {
+        _query.xdoNss(() -> _query.queryVillagePlayerNotificationAsOne());
+        return new VillagePlayerNotificationNss(_query.queryVillagePlayerNotificationAsOne());
+    }
 }

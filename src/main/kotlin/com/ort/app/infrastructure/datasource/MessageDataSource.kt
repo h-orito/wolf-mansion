@@ -128,9 +128,6 @@ class MessageDataSource(
             isLatest = true
         )
 
-    private fun mapMessages(village: Village, list: List<DbMessage>): Messages =
-        Messages(list = list.map { mapMessage(village, it) })
-
     private fun mapMessage(village: Village, message: DbMessage): Message =
         Message(
             fromParticipantId = message.villagePlayerId,

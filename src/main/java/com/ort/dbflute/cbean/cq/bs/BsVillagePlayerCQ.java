@@ -732,6 +732,9 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
         if (bq.hasConditionQueryVillage()) {
             uq.queryVillage().reflectRelationOnUnionQuery(bq.queryVillage(), uq.queryVillage());
         }
+        if (bq.hasConditionQueryVillagePlayerNotificationAsOne()) {
+            uq.queryVillagePlayerNotificationAsOne().reflectRelationOnUnionQuery(bq.queryVillagePlayerNotificationAsOne(), uq.queryVillagePlayerNotificationAsOne());
+        }
     }
 
     // ===================================================================================
@@ -856,6 +859,24 @@ public class BsVillagePlayerCQ extends AbstractBsVillagePlayerCQ {
     }
     protected void xsetupOuterJoinVillage() { xregOutJo("village"); }
     public boolean hasConditionQueryVillage() { return xhasQueRlMap("village"); }
+
+    /**
+     * Get the condition-query for relation table. <br>
+     * village_player_notification by VILLAGE_PLAYER_ID, named 'villagePlayerNotificationAsOne'.
+     * @return The instance of condition-query. (NotNull)
+     */
+    public VillagePlayerNotificationCQ queryVillagePlayerNotificationAsOne() { return xdfgetConditionQueryVillagePlayerNotificationAsOne(); }
+    public VillagePlayerNotificationCQ xdfgetConditionQueryVillagePlayerNotificationAsOne() {
+        String prop = "villagePlayerNotificationAsOne";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryVillagePlayerNotificationAsOne()); xsetupOuterJoinVillagePlayerNotificationAsOne(); }
+        return xgetQueRlMap(prop);
+    }
+    protected VillagePlayerNotificationCQ xcreateQueryVillagePlayerNotificationAsOne() {
+        String nrp = xresolveNRP("village_player", "villagePlayerNotificationAsOne"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        return xinitRelCQ(new VillagePlayerNotificationCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "villagePlayerNotificationAsOne", nrp);
+    }
+    protected void xsetupOuterJoinVillagePlayerNotificationAsOne() { xregOutJo("villagePlayerNotificationAsOne"); }
+    public boolean hasConditionQueryVillagePlayerNotificationAsOne() { return xhasQueRlMap("villagePlayerNotificationAsOne"); }
 
     protected Map<String, Object> xfindFixedConditionDynamicParameterMap(String property) {
         return null;

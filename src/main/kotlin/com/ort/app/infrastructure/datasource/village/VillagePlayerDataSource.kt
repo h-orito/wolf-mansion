@@ -4,10 +4,7 @@ import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.skill.*
 import com.ort.app.domain.model.skill.Skill
-import com.ort.app.domain.model.village.participant.VillageParticipant
-import com.ort.app.domain.model.village.participant.VillageParticipantName
-import com.ort.app.domain.model.village.participant.VillageParticipantStatus
-import com.ort.app.domain.model.village.participant.VillageParticipants
+import com.ort.app.domain.model.village.participant.*
 import com.ort.app.domain.model.village.participant.dead.Dead
 import com.ort.app.domain.model.village.participant.dead.DeadHistories
 import com.ort.app.domain.model.village.participant.dead.DeadHistory
@@ -29,7 +26,8 @@ class VillagePlayerDataSource(
     private val villagePlayerRoomHistoryBhv: VillagePlayerRoomHistoryBhv,
     private val villagePlayerDeadHistoryBhv: VillagePlayerDeadHistoryBhv,
     private val villagePlayerSkillHistoryBhv: VillagePlayerSkillHistoryBhv,
-    private val villagePlayerAccessInfoBhv: VillagePlayerAccessInfoBhv
+    private val villagePlayerAccessInfoBhv: VillagePlayerAccessInfoBhv,
+    private val villagePlayerNotificationBhv: VillagePlayerNotificationBhv
 ) {
     fun findVillageParticipant(
         id: Int,
@@ -37,6 +35,7 @@ class VillagePlayerDataSource(
     ): VillageParticipant? {
         val optVillagePlayer = villagePlayerBhv.selectEntity {
             it.setupSelect_Player()
+            it.setupSelect_VillagePlayerNotificationAsOne()
             it.query().setVillagePlayerId_Equal(id)
             if (excludeGone) it.query().setIsGone_Equal_False()
         }
@@ -53,6 +52,7 @@ class VillagePlayerDataSource(
     ): VillageParticipant? {
         val optVillagePlayer = villagePlayerBhv.selectEntity {
             it.setupSelect_Player()
+            it.setupSelect_VillagePlayerNotificationAsOne()
             it.query().setVillageId_Equal(villageId)
             it.query().queryPlayer().setPlayerName_Equal(userName)
             if (excludeGone) it.query().setIsGone_Equal_False()
@@ -312,6 +312,21 @@ class VillagePlayerDataSource(
         villagePlayerSkillHistoryBhv.insert(h)
     }
 
+    fun updateVillagePlayerNotification(
+        participantId: Int,
+        notification: VillageParticipantNotificationCondition
+    ) {
+        villagePlayerNotificationBhv.queryDelete { it.query().setVillagePlayerId_Equal(participantId) }
+        val n = VillagePlayerNotification()
+        n.villagePlayerId = participantId
+        n.discordWebhookUrl = notification.discordWebhookUrl
+        n.villageStart = notification.village.start
+        n.villageEpilogue = notification.village.epilogue
+        n.receiveSecretSay = notification.message.secretSay
+        n.receiveAbilitySay = notification.message.abilitySay
+        n.receiveAnchorSay = notification.message.anchor
+        villagePlayerNotificationBhv.insert(n)
+    }
 
     fun mapSimpleVillageParticipants(villagePlayerList: List<VillagePlayer>): VillageParticipants {
         val participantList = villagePlayerList.filterNot { it.isSpectator }
@@ -376,7 +391,8 @@ class VillagePlayerDataSource(
             camp = if (villagePlayer.campCode.isNullOrBlank()) null else Camp(CDef.Camp.codeOf(villagePlayer.campCode)),
             lastAccessDatetime = villagePlayer.lastAccessDatetime,
             memo = villagePlayer.memo,
-            ipAddresses = villagePlayer.villagePlayerAccessInfoList.map { it.ipAddress }
+            ipAddresses = villagePlayer.villagePlayerAccessInfoList.map { it.ipAddress },
+            notification = null
         )
     }
 
@@ -404,8 +420,26 @@ class VillagePlayerDataSource(
             camp = if (villagePlayer.campCode.isNullOrBlank()) null else Camp(CDef.Camp.codeOf(villagePlayer.campCode)),
             lastAccessDatetime = villagePlayer.lastAccessDatetime,
             memo = villagePlayer.memo,
-            ipAddresses = villagePlayer.villagePlayerAccessInfoList.map { it.ipAddress }
+            ipAddresses = villagePlayer.villagePlayerAccessInfoList.map { it.ipAddress },
+            notification = mapNotification(villagePlayer)
         )
+    }
+
+    private fun mapNotification(villagePlayer: VillagePlayer): VillageParticipantNotificationCondition? {
+        return villagePlayer.villagePlayerNotificationAsOne.map {
+            VillageParticipantNotificationCondition(
+                discordWebhookUrl = it.discordWebhookUrl,
+                village = VillageParticipantNotificationCondition.VillageCondition(
+                    start = it.villageStart,
+                    epilogue = it.villageEpilogue
+                ),
+                message = VillageParticipantNotificationCondition.MessageCondition(
+                    secretSay = it.receiveSecretSay,
+                    abilitySay = it.receiveAbilitySay,
+                    anchor = it.receiveAnchorSay
+                )
+            )
+        }.orElse(null)
     }
 
     private fun mapSkill(villagePlayer: VillagePlayer): Skill {

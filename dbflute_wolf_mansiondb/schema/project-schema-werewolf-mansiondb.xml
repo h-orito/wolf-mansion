@@ -1027,6 +1027,40 @@
             <index-column name="VILLAGE_PLAYER_ID" position="1"/>
         </index>
     </table>
+    <table comment="村参加者通知" name="village_player_notification"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column comment="村参加者ID" dbType="INT UNSIGNED"
+            javaType="Integer" name="VILLAGE_PLAYER_ID" pkName="PRIMARY"
+            pkPosition="1" primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="DiscordWebhookUrl" dbType="VARCHAR"
+            javaType="String" name="DISCORD_WEBHOOK_URL" required="true"
+            size="1000" type="VARCHAR"/>
+        <column comment="村が開始した際通知する" dbType="BIT" javaType="Boolean"
+            name="VILLAGE_START" required="true" type="BIT"/>
+        <column comment="村がエピローグを迎えた際通知する" dbType="BIT"
+            javaType="Boolean" name="VILLAGE_EPILOGUE" required="true" type="BIT"/>
+        <column comment="秘話を受け取った際通知する" dbType="BIT" javaType="Boolean"
+            name="RECEIVE_SECRET_SAY" required="true" type="BIT"/>
+        <column comment="役職窓発言を受け取った際通知する" dbType="BIT"
+            javaType="Boolean" name="RECEIVE_ABILITY_SAY"
+            required="true" type="BIT"/>
+        <column comment="アンカーで指定された際通知する" dbType="BIT"
+            javaType="Boolean" name="RECEIVE_ANCHOR_SAY" required="true" type="BIT"/>
+        <column comment="登録日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="登録トレース" dbType="VARCHAR" javaType="String"
+            name="REGISTER_TRACE" required="true" size="64" type="VARCHAR"/>
+        <column comment="更新日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="UPDATE_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="更新トレース" dbType="VARCHAR" javaType="String"
+            name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="village_player" name="FK_VILLAGE_PLAYER_NOTIFICATION_VILLAGE_PLAYER">
+            <reference foreign="VILLAGE_PLAYER_ID" local="VILLAGE_PLAYER_ID"/>
+        </foreign-key>
+    </table>
     <table comment="村参加者部屋移動履歴" name="village_player_room_history"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
         <column autoIncrement="true" comment="村参加者部屋移動履歴ID"

@@ -24,10 +24,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
+                <h4>表示設定</h4>
                 <form class="form-horizontal">
+                    <hr/>
                     <h5>ページ分割</h5>
-                    <div class="form-group">
-                        <label class="col-sm-4 col-xs-4 control-label">ページ分割有無</label>
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label class="col-sm-4 col-xs-4 control-label">ページ分割</label>
                         <div class="col-sm-8 col-xs-8 form-check" style="margin-bottom: 5px;">
                             <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" name="dsetting-paging-check"
@@ -50,7 +52,7 @@
                     </div>
                     <hr/>
                     <h5>更新通知</h5>
-                    <div class="form-group">
+                    <div class="form-group" style="margin-top: 10px;">
                         <label class="col-sm-4 col-xs-4 control-label">自動更新</label>
                         <div class="col-sm-8 col-xs-8 form-check" style="margin-bottom: 5px;">
                             <label class="form-check-label">
@@ -61,7 +63,7 @@
                         </div>
                     </div>
                     <hr/>
-                    <h5>便利機能</h5>
+                    <h5 style="margin-bottom: 10px;">便利機能</h5>
                     <div class="form-group">
                         <label class="col-sm-4 col-xs-4 control-label">文字装飾ボタン</label>
                         <div class="col-sm-8 col-xs-8 form-check" style="margin-bottom: 5px;">
@@ -72,7 +74,7 @@
                         </div>
                     </div>
                     <hr/>
-                    <h5>発言表示</h5>
+                    <h5 style="margin-bottom: 10px;">発言表示</h5>
                     <div class="form-group">
                         <label class="col-sm-4 col-xs-4 control-label">画像の大きさ</label>
                         <div class="col-sm-8 col-xs-8 form-check" style="margin-bottom: 5px;">
@@ -90,21 +92,75 @@
                         </div>
                     </div>
                     <hr/>
-                    <h5>表示設定のリセット</h5>
+                    <h5 style="margin-bottom: 10px;">表示設定のリセット</h5>
                     <div class="form-group">
                         <div class="col-sm-12 col-xs-12" style="margin-bottom: 5px;">
                             <input type="button" class="btn btn-sm btn-danger pull-right" data-dsetting-reset
                                    value="リセット">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-sm-12 col-xs-12">
-                            <hr/>
-                            <input type="button" class="btn btn-primary btn-sm pull-right" data-dismiss="modal"
-                                   value="閉じる"/>
-                        </div>
-                    </div>
                 </form>
+                <div th:if="${notificationForm}" style="margin-top: 30px;">
+                    <hr/>
+                    <h4>Discord通知設定</h4>
+                    <form class="form-horizontal"
+                          method="post"
+                          th:action="@{/village/{villageId}/notification-setting(villageId=${content.villageId})}"
+                          th:object="${notificationForm}">
+                        <h5>Discord</h5>
+                        <div class="form-group">
+                            <label class="col-sm-4 col-xs-4 control-label">WebhookURL</label>
+                            <div class="col-sm-8 col-xs-8 form-check" style="margin-bottom: 5px;">
+                                <input type="text" class="form-control" th:field="*{webhookUrl}"/>
+                                <span th:if="${#fields.hasErrors('webhookUrl')}" th:errors="*{webhookUrl}"
+                                      class="help-block text-danger">error!</span>
+                            </div>
+                            <label class="col-sm-4 col-xs-4 control-label"></label>
+                            <div class="col-sm-8 col-xs-8 form-check" style="margin-bottom: 5px;">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" th:field="*{villageStart}"> 開始通知
+                                </label>
+                                <p class="small">進行中に遷移した際に通知します。</p>
+                            </div>
+                            <label class="col-sm-4 col-xs-4 control-label"></label>
+                            <div class="col-sm-8 col-xs-8 form-check" style="margin-bottom: 5px;">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" th:field="*{villageEpilogue}">
+                                    エピローグ通知
+                                </label>
+                                <p class="small">エピローグに遷移した際に通知します。</p>
+                            </div>
+                            <label class="col-sm-4 col-xs-4 control-label"></label>
+                            <div class="col-sm-8 col-xs-8 form-check" style="margin-bottom: 5px;">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" th:field="*{secretSay}"> 秘話通知
+                                </label>
+                                <p class="small">秘話を受け取った際に通知します。</p>
+                            </div>
+                            <label class="col-sm-4 col-xs-4 control-label"></label>
+                            <div class="col-sm-8 col-xs-8 form-check" style="margin-bottom: 5px;">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" th:field="*{abilitySay}"> 役職窓通知
+                                </label>
+                                <p class="small">役職窓発言を受け取った際に通知します（梟視点の場合は通知されません）。</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12 col-xs-12" style="margin-bottom: 5px;">
+                                <input type="submit" class="btn btn-sm btn-success pull-right"
+                                       value="保存">
+                            </div>
+                            <p class="small pull-right">保存するとテスト通知が届きます。</p>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12 col-xs-12">
+                                <hr/>
+                                <input type="button" class="btn btn-primary btn-sm pull-right" data-dismiss="modal"
+                                       value="閉じる"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

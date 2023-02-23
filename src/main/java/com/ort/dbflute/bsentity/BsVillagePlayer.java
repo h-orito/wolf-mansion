@@ -33,13 +33,13 @@ import com.ort.dbflute.exentity.*;
  *     
  *
  * [foreign table]
- *     DEAD_REASON, PLAYER, SKILL, VILLAGE
+ *     DEAD_REASON, PLAYER, SKILL, VILLAGE, VILLAGE_PLAYER_NOTIFICATION(AsOne)
  *
  * [referrer table]
- *     COMMIT, MESSAGE, MESSAGE_SENDTO, VILLAGE_PLAYER_ACCESS_INFO, VILLAGE_PLAYER_DEAD_HISTORY, VILLAGE_PLAYER_ROOM_HISTORY, VILLAGE_PLAYER_SKILL_HISTORY, VILLAGE_PLAYER_STATUS
+ *     COMMIT, MESSAGE, MESSAGE_SENDTO, VILLAGE_PLAYER_ACCESS_INFO, VILLAGE_PLAYER_DEAD_HISTORY, VILLAGE_PLAYER_ROOM_HISTORY, VILLAGE_PLAYER_SKILL_HISTORY, VILLAGE_PLAYER_STATUS, VILLAGE_PLAYER_NOTIFICATION
  *
  * [foreign property]
- *     deadReason, player, skillByRequestSkillCode, skillBySecondRequestSkillCode, skillBySkillCode, village
+ *     deadReason, player, skillByRequestSkillCode, skillBySecondRequestSkillCode, skillBySkillCode, village, villagePlayerNotificationAsOne
  *
  * [referrer property]
  *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList, messageSendtoList, villagePlayerAccessInfoList, villagePlayerDeadHistoryList, villagePlayerRoomHistoryList, villagePlayerSkillHistoryList, villagePlayerStatusByToVillagePlayerIdList, villagePlayerStatusByVillagePlayerIdList
@@ -7517,6 +7517,27 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         _village = village;
     }
 
+    /** village_player_notification by VILLAGE_PLAYER_ID, named 'villagePlayerNotificationAsOne'. */
+    protected OptionalEntity<VillagePlayerNotification> _villagePlayerNotificationAsOne;
+
+    /**
+     * [get] village_player_notification by VILLAGE_PLAYER_ID, named 'villagePlayerNotificationAsOne'.
+     * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
+     * @return the entity of foreign property(referrer-as-one) 'villagePlayerNotificationAsOne'. (NotNull, EmptyAllowed: when e.g. no data, no setupSelect)
+     */
+    public OptionalEntity<VillagePlayerNotification> getVillagePlayerNotificationAsOne() {
+        if (_villagePlayerNotificationAsOne == null) { _villagePlayerNotificationAsOne = OptionalEntity.relationEmpty(this, "villagePlayerNotificationAsOne"); }
+        return _villagePlayerNotificationAsOne;
+    }
+
+    /**
+     * [set] village_player_notification by VILLAGE_PLAYER_ID, named 'villagePlayerNotificationAsOne'.
+     * @param villagePlayerNotificationAsOne The entity of foreign property(referrer-as-one) 'villagePlayerNotificationAsOne'. (NullAllowed)
+     */
+    public void setVillagePlayerNotificationAsOne(OptionalEntity<VillagePlayerNotification> villagePlayerNotificationAsOne) {
+        _villagePlayerNotificationAsOne = villagePlayerNotificationAsOne;
+    }
+
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
@@ -7761,6 +7782,8 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         { sb.append(li).append(xbRDS(_skillBySkillCode, "skillBySkillCode")); }
         if (_village != null && _village.isPresent())
         { sb.append(li).append(xbRDS(_village, "village")); }
+        if (_villagePlayerNotificationAsOne != null && _villagePlayerNotificationAsOne.isPresent())
+        { sb.append(li).append(xbRDS(_villagePlayerNotificationAsOne, "villagePlayerNotificationAsOne")); }
         if (_commitList != null) { for (Commit et : _commitList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "commitList")); } } }
         if (_messageByToVillagePlayerIdList != null) { for (Message et : _messageByToVillagePlayerIdList)
@@ -7835,6 +7858,8 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         { sb.append(dm).append("skillBySkillCode"); }
         if (_village != null && _village.isPresent())
         { sb.append(dm).append("village"); }
+        if (_villagePlayerNotificationAsOne != null && _villagePlayerNotificationAsOne.isPresent())
+        { sb.append(dm).append("villagePlayerNotificationAsOne"); }
         if (_commitList != null && !_commitList.isEmpty())
         { sb.append(dm).append("commitList"); }
         if (_messageByToVillagePlayerIdList != null && !_messageByToVillagePlayerIdList.isEmpty())

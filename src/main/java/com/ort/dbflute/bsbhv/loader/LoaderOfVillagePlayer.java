@@ -27,13 +27,13 @@ import com.ort.dbflute.cbean.*;
  *     
  *
  * [foreign table]
- *     DEAD_REASON, PLAYER, SKILL, VILLAGE
+ *     DEAD_REASON, PLAYER, SKILL, VILLAGE, VILLAGE_PLAYER_NOTIFICATION(AsOne)
  *
  * [referrer table]
- *     COMMIT, MESSAGE, MESSAGE_SENDTO, VILLAGE_PLAYER_ACCESS_INFO, VILLAGE_PLAYER_DEAD_HISTORY, VILLAGE_PLAYER_ROOM_HISTORY, VILLAGE_PLAYER_SKILL_HISTORY, VILLAGE_PLAYER_STATUS
+ *     COMMIT, MESSAGE, MESSAGE_SENDTO, VILLAGE_PLAYER_ACCESS_INFO, VILLAGE_PLAYER_DEAD_HISTORY, VILLAGE_PLAYER_ROOM_HISTORY, VILLAGE_PLAYER_SKILL_HISTORY, VILLAGE_PLAYER_STATUS, VILLAGE_PLAYER_NOTIFICATION
  *
  * [foreign property]
- *     deadReason, player, skillByRequestSkillCode, skillBySecondRequestSkillCode, skillBySkillCode, village
+ *     deadReason, player, skillByRequestSkillCode, skillBySecondRequestSkillCode, skillBySkillCode, village, villagePlayerNotificationAsOne
  *
  * [referrer property]
  *     commitList, messageByToVillagePlayerIdList, messageByVillagePlayerIdList, messageSendtoList, villagePlayerAccessInfoList, villagePlayerDeadHistoryList, villagePlayerRoomHistoryList, villagePlayerSkillHistoryList, villagePlayerStatusByToVillagePlayerIdList, villagePlayerStatusByVillagePlayerIdList
@@ -444,6 +444,13 @@ public class LoaderOfVillagePlayer {
         if (_foreignVillageLoader == null)
         { _foreignVillageLoader = new LoaderOfVillage().ready(myBhv().pulloutVillage(_selectedList), _selector); }
         return _foreignVillageLoader;
+    }
+
+    protected LoaderOfVillagePlayerNotification _foreignVillagePlayerNotificationAsOneLoader;
+    public LoaderOfVillagePlayerNotification pulloutVillagePlayerNotificationAsOne() {
+        if (_foreignVillagePlayerNotificationAsOneLoader == null)
+        { _foreignVillagePlayerNotificationAsOneLoader = new LoaderOfVillagePlayerNotification().ready(myBhv().pulloutVillagePlayerNotificationAsOne(_selectedList), _selector); }
+        return _foreignVillagePlayerNotificationAsOneLoader;
     }
 
     // ===================================================================================

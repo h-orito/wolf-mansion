@@ -96,6 +96,7 @@ class VillageControllerHelper(
         setAbilityFormIfNeeded(situation, myself, model)
         setVoteFormIfNeeded(situation, model)
         setCreatorFormIfNeeded(village, situation, model)
+        setNotificationFormIfNeeded(myself, model)
     }
 
     private fun setParticipateFormIfNeeded(
@@ -288,6 +289,20 @@ class VillageControllerHelper(
         if (situation.creator.isAvailableCreatorSay) {
             model.addAttribute("creatorSayForm", VillageSayForm())
         }
+    }
+
+    private fun setNotificationFormIfNeeded(myself: VillageParticipant?, model: Model) {
+        myself ?: return
+        model.addAttribute(
+            "notificationForm",
+            VillageNotificationForm(
+                webhookUrl = myself.notification?.discordWebhookUrl,
+                villageStart = myself.notification?.village?.start ?: false,
+                villageEpilogue = myself.notification?.village?.epilogue ?: false,
+                secretSay = myself.notification?.message?.secretSay ?: false,
+                abilitySay = myself.notification?.message?.abilitySay ?: false
+            )
+        )
     }
 
     private fun setDebug(village: Village, model: Model) {

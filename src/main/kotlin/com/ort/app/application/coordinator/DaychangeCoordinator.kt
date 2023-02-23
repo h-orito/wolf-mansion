@@ -48,6 +48,7 @@ class DaychangeCoordinator(
         if (daychange.village.status.isCanceled()) return
         daychangeDomainService.changeDayIfNeeded(daychange, commits, charas).also {
             updateIfNeeded(daychange, it)
+            notifyIfNeeded(daychange, it)
         }
     }
 
@@ -63,6 +64,14 @@ class DaychangeCoordinator(
         playerService.updateDaychangeDifference(current.players, changed.players)
         footstepService.updateDaychangeDifference(changed.village, current.footsteps, changed.footsteps)
         messageService.updateDaychangeDifference(changed.village, current.messages, changed.messages)
-        notificationService.notifyDaychangeToCustomer(changed.village.id, changed.tweets)
+        notificationService.notifyDaychange(changed.village.id, changed.tweets)
+    }
+
+    private fun notifyIfNeeded(current: Daychange, changed: Daychange) {
+        if (current.village.status.isPrologue() && changed.village.status.isProgress()) {
+            notificationService.notifyVillageStartToCustomerIfNeeded(changed.village)
+        } else if (current.village.status.isProgress() && changed.village.status.isEpilogue()) {
+            notificationService.notifyVillageEpilogueToCustomerIfNeeded(changed.village)
+        }
     }
 }

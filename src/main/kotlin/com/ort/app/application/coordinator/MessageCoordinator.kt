@@ -17,7 +17,6 @@ import java.time.LocalDateTime
 @Service
 class MessageCoordinator(
     // application service
-    private val playerService: PlayerService,
     private val messageService: MessageService,
     private val charaService: CharaService,
     private val villageService: VillageService,
@@ -25,10 +24,10 @@ class MessageCoordinator(
     private val randomKeywordService: RandomKeywordService,
     private val slackService: NotificationService,
     private val accessInfoCoordinator: AccessInfoCoordinator,
+    private val notificationService: NotificationService,
     // domain service
     private val messageDomainService: MessageDomainService,
     private val sayDomainService: SayDomainService,
-    private val abilityDomainService: AbilityDomainService
 ) {
     fun registerMessage(villageId: Int, message: Message) {
         val village =
@@ -80,7 +79,7 @@ class MessageCoordinator(
         val messageContent = MessageContent.invoke(messageType, message, faceType, convertDisable)
         assertSay(village, myself, messageContent)
         // register message
-        messageDomainService.createSayMessages(
+        val messages = messageDomainService.createSayMessages(
             village = village,
             myself = myself,
             target = if (messageContent.type.toCdef() == CDef.MessageType.秘話) {
@@ -88,9 +87,12 @@ class MessageCoordinator(
             } else null,
             messageContent = messageContent,
             abilities = abilityService.findAbilities(village.id)
-        ).list.forEach { registerMessage(village.id, it) }
+        )
+        messages.list.forEach { registerMessage(village.id, it) }
         // register access info
         accessInfoCoordinator.registerAccessInfo(village, myself, ipAddress)
+        // notification
+        notificationService.notifyReceiveMessageToCustomerIfNeeded(village, messages.list.last())
     }
 
     private fun assertSay(

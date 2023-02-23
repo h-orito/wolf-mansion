@@ -831,7 +831,7 @@ pre.spolicyviodisp {
 		<td class="namecell" data-name="village_player"><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=23">VILLAGE_PLAYER</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_REASON">DEAD_REASON</a>, <a href="#player" title="FK_VILLAGE_PLAYER_PLAYER">PLAYER</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL">SKILL</a>, <a href="#village" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE</a></td>
-		<td class="relcell"><a href="#commit" title="FK_COMMIT_VILLAGE_PLAYER">COMMIT</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER_TO">MESSAGE</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER">MESSAGE</a>, <a href="#message_sendto" title="FK_MESSAGE_SENDTO_VILLAGE_PLAYER">MESSAGE_SENDTO</a>, <a href="#village_player_access_info" title="FK_VILLAGE_PLAYER_ACCESS_INFO_VILLAGE_PLAYER">VILLAGE_PLAYER_ACCESS_INFO</a>, <a href="#village_player_dead_history" title="FK_VILLAGE_PLAYER_DEAD_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER_DEAD_HISTORY</a>, <a href="#village_player_room_history" title="FK_VILLAGE_PLAYER_ROOM_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER_ROOM_HISTORY</a>, <a href="#village_player_skill_history" title="FK_VILLAGE_PLAYER_SKILL_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER_SKILL_HISTORY</a>, <a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_TO_VILLAGE_PLAYER">VILLAGE_PLAYER_STATUS</a>, <a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER">VILLAGE_PLAYER_STATUS</a></td>
+		<td class="relcell"><a href="#commit" title="FK_COMMIT_VILLAGE_PLAYER">COMMIT</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER_TO">MESSAGE</a>, <a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER">MESSAGE</a>, <a href="#message_sendto" title="FK_MESSAGE_SENDTO_VILLAGE_PLAYER">MESSAGE_SENDTO</a>, <a href="#village_player_access_info" title="FK_VILLAGE_PLAYER_ACCESS_INFO_VILLAGE_PLAYER">VILLAGE_PLAYER_ACCESS_INFO</a>, <a href="#village_player_dead_history" title="FK_VILLAGE_PLAYER_DEAD_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER_DEAD_HISTORY</a>, <a href="#village_player_notification" title="FK_VILLAGE_PLAYER_NOTIFICATION_VILLAGE_PLAYER">VILLAGE_PLAYER_NOTIFICATION</a>, <a href="#village_player_room_history" title="FK_VILLAGE_PLAYER_ROOM_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER_ROOM_HISTORY</a>, <a href="#village_player_skill_history" title="FK_VILLAGE_PLAYER_SKILL_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER_SKILL_HISTORY</a>, <a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_TO_VILLAGE_PLAYER">VILLAGE_PLAYER_STATUS</a>, <a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER">VILLAGE_PLAYER_STATUS</a></td>
 		<td class="commentcell village_player_comment"><pre>村参加者</pre></td>
 		<td class="subcell">VillagePlayer</td>
 		<td class="subcell">2017/12/20</td>
@@ -858,6 +858,16 @@ pre.spolicyviodisp {
 	</tr>
 	<tr>
 		<td class="rownumcell">35</td>
+		<td class="namecell" data-name="village_player_notification"><a href="#village_player_notification" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=27, columnCount=11">VILLAGE_PLAYER_NOTIFICATION</a></td>
+		<td class="typecell">TABLE</td>
+		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_NOTIFICATION_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
+		<td class="relcell">&nbsp;</td>
+		<td class="commentcell village_player_notification_comment"><pre>村参加者通知</pre></td>
+		<td class="subcell">VillagePlayerNotification</td>
+		<td class="subcell">2023/02/22</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">36</td>
 		<td class="namecell" data-name="village_player_room_history"><a href="#village_player_room_history" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ROOM_HISTORY_ID}, nameLength=27, columnCount=8">VILLAGE_PLAYER_ROOM_HISTORY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_ROOM_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
@@ -867,7 +877,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2020/10/02</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">36</td>
+		<td class="rownumcell">37</td>
 		<td class="namecell" data-name="village_player_skill_history"><a href="#village_player_skill_history" title="type=TABLE, primaryKey={VILLAGE_PLAYER_SKILL_HISTORY_ID}, nameLength=28, columnCount=8">VILLAGE_PLAYER_SKILL_HISTORY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#skill" title="FK_VILLAGE_PLAYER_SKILL_HISTORY_SKILL">SKILL</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
@@ -877,7 +887,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2021/11/03</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">37</td>
+		<td class="rownumcell">38</td>
 		<td class="namecell" data-name="village_player_status"><a href="#village_player_status" title="type=TABLE, primaryKey={VILLAGE_PLAYER_STATUS_ID}, nameLength=21, columnCount=8">VILLAGE_PLAYER_STATUS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_STATUS_TO_VILLAGE_PLAYER">VILLAGE_PLAYER</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER">VILLAGE_PLAYER</a>, <a href="#village_player_status_type" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER_STATUS_TYPE">VILLAGE_PLAYER_STATUS_TYPE</a></td>
@@ -887,7 +897,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2020/08/28</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">38</td>
+		<td class="rownumcell">39</td>
 		<td class="namecell" data-name="village_player_status_type"><a href="#village_player_status_type" title="type=TABLE, primaryKey={VILLAGE_PLAYER_STATUS_TYPE_CODE}, nameLength=26, columnCount=2">VILLAGE_PLAYER_STATUS_TYPE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -897,7 +907,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2020/08/28</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">39</td>
+		<td class="rownumcell">40</td>
 		<td class="namecell" data-name="village_settings"><a href="#village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=27">VILLAGE_SETTINGS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#allowed_secret_say" title="FK_VILLAGE_SETTINGS_ALLOWED_SECRET_SAY">ALLOWED_SECRET_SAY</a>, <a href="#original_chara_group" title="FK_VILLAGE_SETTINGS_ORIGINAL_CHARA_GROUP_ID">ORIGINAL_CHARA_GROUP</a>, <a href="#village" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE</a></td>
@@ -907,7 +917,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/18</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">40</td>
+		<td class="rownumcell">41</td>
 		<td class="namecell" data-name="village_status"><a href="#village_status" title="type=TABLE, primaryKey={VILLAGE_STATUS_CODE}, nameLength=14, columnCount=2">VILLAGE_STATUS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -917,7 +927,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/19</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">41</td>
+		<td class="rownumcell">42</td>
 		<td class="namecell" data-name="village_tag"><a href="#village_tag" title="type=TABLE, primaryKey={VILLAGE_TAG_ID}, nameLength=11, columnCount=7">VILLAGE_TAG</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village" title="FK_VILLAGE_TAG_VILLAGE">VILLAGE</a>, <a href="#village_tag_item" title="FK_VILLAGE_TAG_VILLAGE_TAG_ITEM">VILLAGE_TAG_ITEM</a></td>
@@ -927,7 +937,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2021/11/30</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">42</td>
+		<td class="rownumcell">43</td>
 		<td class="namecell" data-name="village_tag_item"><a href="#village_tag_item" title="type=TABLE, primaryKey={VILLAGE_TAG_ITEM_CODE}, nameLength=16, columnCount=3">VILLAGE_TAG_ITEM</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -937,7 +947,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2021/11/30</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">43</td>
+		<td class="rownumcell">44</td>
 		<td class="namecell" data-name="vote"><a href="#vote" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID}, nameLength=4, columnCount=8">VOTE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_day" title="FK_VOTE_VILLAGE_DAY">VILLAGE_DAY</a></td>
@@ -947,7 +957,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">44</td>
+		<td class="rownumcell">45</td>
 		<td class="namecell" data-name="wolf_allocation"><a href="#wolf_allocation" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=15, columnCount=7">WOLF_ALLOCATION</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village" title="FK_WOLF_ALLOCATION_VILLAGE">VILLAGE</a></td>
@@ -5703,7 +5713,7 @@ VILLAGE_PLAYER
 		<td class="typecell">INT UNSIGNED</td>
 		<td class="sizecell"> 10 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell"><a href="#commit" title="FK_COMMIT_VILLAGE_PLAYER">COMMIT</a>,<br><a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER_TO">MESSAGE</a>,<br><a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER">MESSAGE</a>,<br><a href="#message_sendto" title="FK_MESSAGE_SENDTO_VILLAGE_PLAYER">MESSAGE_SENDTO</a>,<br><a href="#village_player_access_info" title="FK_VILLAGE_PLAYER_ACCESS_INFO_VILLAGE_PLAYER">VILLAGE_PLAYER_ACCESS_INFO</a>,<br><a href="#village_player_dead_history" title="FK_VILLAGE_PLAYER_DEAD_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER_DEAD_HISTORY</a>,<br><a href="#village_player_room_history" title="FK_VILLAGE_PLAYER_ROOM_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER_ROOM_HISTORY</a>,<br><a href="#village_player_skill_history" title="FK_VILLAGE_PLAYER_SKILL_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER_SKILL_HISTORY</a>,<br><a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_TO_VILLAGE_PLAYER">VILLAGE_PLAYER_STATUS</a>,<br><a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER">VILLAGE_PLAYER_STATUS</a>&nbsp;</td>
+		<td class="relcell"><a href="#commit" title="FK_COMMIT_VILLAGE_PLAYER">COMMIT</a>,<br><a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER_TO">MESSAGE</a>,<br><a href="#message" title="FK_MESSAGE_VILLAGE_PLAYER">MESSAGE</a>,<br><a href="#message_sendto" title="FK_MESSAGE_SENDTO_VILLAGE_PLAYER">MESSAGE_SENDTO</a>,<br><a href="#village_player_access_info" title="FK_VILLAGE_PLAYER_ACCESS_INFO_VILLAGE_PLAYER">VILLAGE_PLAYER_ACCESS_INFO</a>,<br><a href="#village_player_dead_history" title="FK_VILLAGE_PLAYER_DEAD_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER_DEAD_HISTORY</a>,<br><a href="#village_player_notification" title="FK_VILLAGE_PLAYER_NOTIFICATION_VILLAGE_PLAYER">VILLAGE_PLAYER_NOTIFICATION</a>,<br><a href="#village_player_room_history" title="FK_VILLAGE_PLAYER_ROOM_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER_ROOM_HISTORY</a>,<br><a href="#village_player_skill_history" title="FK_VILLAGE_PLAYER_SKILL_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER_SKILL_HISTORY</a>,<br><a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_TO_VILLAGE_PLAYER">VILLAGE_PLAYER_STATUS</a>,<br><a href="#village_player_status" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER">VILLAGE_PLAYER_STATUS</a>&nbsp;</td>
 		<td class="relcell"> &nbsp;</td>
 		<td class="commentcell"><pre>村参加者ID</pre></td>
 		<td class="subcell">villagePlayerId</td>
@@ -6446,6 +6456,235 @@ VILLAGE_PLAYER_DEAD_HISTORY
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">*</td>
 		<td class="comcolcell columnnamecell" id="village_player_dead_history_update_trace">UPDATE_TRACE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 64 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>更新トレース</pre></td>
+		<td class="subcell">updateTrace</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	</tbody>
+</table>
+
+<h2 id="village_player_notification" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=27, columnCount=11">
+VILLAGE_PLAYER_NOTIFICATION
+&nbsp;<span class="tablefirstdatetitle">since 2023/02/22</span>
+</h2>
+<div class="tablecomment village_player_notification_comment" data-name="village_player_notification"><pre>村参加者通知</pre></div>
+<input type="hidden" value="village_player_notification">
+<table class="tablecontent">
+	<thead>
+	<tr>
+		<th class="rownumhead">No.</th>
+		<th>PK</th>
+		<th>ID</th>
+		<th>UQ</th>
+		<th>IX</th>
+		<th>Not<br />Null</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Size</th>
+		<th>ForeignTable</th>
+		<th>ReferrerTable</th>
+		<th>Classification</th>
+		<th>ColumnComment</th>
+		<th>PropertyName</th>
+		<th>JavaType</th>
+		<th>Since</th>
+	</tr>
+	</thead>
+	<tbody id="village_player_notification-body">
+	<tr>
+		<td class="rownumcell">1</td>
+		<td class="flgcell" title="PRIMARY">o</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_player_notification_village_player_id">VILLAGE_PLAYER_ID</td>
+		<td class="typecell">INT UNSIGNED</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_NOTIFICATION_VILLAGE_PLAYER">VILLAGE_PLAYER</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>村参加者ID</pre></td>
+		<td class="subcell">villagePlayerId</td>
+		<td class="subcell">Integer</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_player_notification_discord_webhook_url">DISCORD_WEBHOOK_URL</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 1000 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>DiscordWebhookUrl</pre></td>
+		<td class="subcell">discordWebhookUrl</td>
+		<td class="subcell">String</td>
+		<td class="subcell">2023/02/22</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">3</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_player_notification_village_start">VILLAGE_START</td>
+		<td class="typecell">BIT</td>
+		<td class="sizecell"> &nbsp;</td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>村が開始した際通知する</pre></td>
+		<td class="subcell">villageStart</td>
+		<td class="subcell">Boolean</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">4</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_player_notification_village_epilogue">VILLAGE_EPILOGUE</td>
+		<td class="typecell">BIT</td>
+		<td class="sizecell"> &nbsp;</td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>村がエピローグを迎えた際通知する</pre></td>
+		<td class="subcell">villageEpilogue</td>
+		<td class="subcell">Boolean</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">5</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_player_notification_receive_secret_say">RECEIVE_SECRET_SAY</td>
+		<td class="typecell">BIT</td>
+		<td class="sizecell"> &nbsp;</td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>秘話を受け取った際通知する</pre></td>
+		<td class="subcell">receiveSecretSay</td>
+		<td class="subcell">Boolean</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">6</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_player_notification_receive_ability_say">RECEIVE_ABILITY_SAY</td>
+		<td class="typecell">BIT</td>
+		<td class="sizecell"> &nbsp;</td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>役職窓発言を受け取った際通知する</pre></td>
+		<td class="subcell">receiveAbilitySay</td>
+		<td class="subcell">Boolean</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">7</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="village_player_notification_receive_anchor_say">RECEIVE_ANCHOR_SAY</td>
+		<td class="typecell">BIT</td>
+		<td class="sizecell"> &nbsp;</td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>アンカーで指定された際通知する</pre></td>
+		<td class="subcell">receiveAnchorSay</td>
+		<td class="subcell">Boolean</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">8</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="village_player_notification_register_datetime">REGISTER_DATETIME</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>登録日時</pre></td>
+		<td class="subcell">registerDatetime</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">9</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="village_player_notification_register_trace">REGISTER_TRACE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 64 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>登録トレース</pre></td>
+		<td class="subcell">registerTrace</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">10</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="village_player_notification_update_datetime">UPDATE_DATETIME</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>更新日時</pre></td>
+		<td class="subcell">updateDatetime</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">11</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="village_player_notification_update_trace">UPDATE_TRACE</td>
 		<td class="typecell">VARCHAR</td>
 		<td class="sizecell"> 64 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
@@ -12599,6 +12838,44 @@ function StoreClient() {
 				}
 				, 'DEAD_REASON_CODE': {
 					'databaseComment': '死亡理由コード'
+				}
+				, 'REGISTER_DATETIME': {
+					'databaseComment': '登録日時'
+				}
+				, 'REGISTER_TRACE': {
+					'databaseComment': '登録トレース'
+				}
+				, 'UPDATE_DATETIME': {
+					'databaseComment': '更新日時'
+				}
+				, 'UPDATE_TRACE': {
+					'databaseComment': '更新トレース'
+				}
+			}
+		}
+		, 'village_player_notification': {
+			'databaseComment': '村参加者通知'
+			, 'columns': {
+				'VILLAGE_PLAYER_ID': {
+					'databaseComment': '村参加者ID'
+				}
+				, 'DISCORD_WEBHOOK_URL': {
+					'databaseComment': 'DiscordWebhookUrl'
+				}
+				, 'VILLAGE_START': {
+					'databaseComment': '村が開始した際通知する'
+				}
+				, 'VILLAGE_EPILOGUE': {
+					'databaseComment': '村がエピローグを迎えた際通知する'
+				}
+				, 'RECEIVE_SECRET_SAY': {
+					'databaseComment': '秘話を受け取った際通知する'
+				}
+				, 'RECEIVE_ABILITY_SAY': {
+					'databaseComment': '役職窓発言を受け取った際通知する'
+				}
+				, 'RECEIVE_ANCHOR_SAY': {
+					'databaseComment': 'アンカーで指定された際通知する'
 				}
 				, 'REGISTER_DATETIME': {
 					'databaseComment': '登録日時'

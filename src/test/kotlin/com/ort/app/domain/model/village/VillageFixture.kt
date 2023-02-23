@@ -106,7 +106,8 @@ fun createVillageOrganize(organize: String): VillageOrganize = VillageOrganize(
     fixedOrganization = organize,
     randomOrganization = VillageRandomOrganize(
         skillAllocation = emptyList(),
-        campAllocation = emptyList()
+        campAllocation = emptyList(),
+        wolfAllocation = VillageRandomOrganize.WolfAllocation(min = 1, max = null)
     )
 )
 
@@ -126,5 +127,6 @@ fun createVillageParticipant(skill: Skill, id: Int): VillageParticipant = Villag
     camp = null,
     lastAccessDatetime = LocalDateTime.now(),
     memo = null,
-    ipAddresses = emptyList()
+    ipAddresses = emptyList(),
+    notification = null
 ).assignSkill(skill, 1).assignRoom(roomNumber = id, day = 1)

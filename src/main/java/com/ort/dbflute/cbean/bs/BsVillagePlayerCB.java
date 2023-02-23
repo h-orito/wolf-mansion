@@ -407,6 +407,32 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
         return _nssVillage;
     }
 
+    protected VillagePlayerNotificationNss _nssVillagePlayerNotificationAsOne;
+    public VillagePlayerNotificationNss xdfgetNssVillagePlayerNotificationAsOne() {
+        if (_nssVillagePlayerNotificationAsOne == null) { _nssVillagePlayerNotificationAsOne = new VillagePlayerNotificationNss(null); }
+        return _nssVillagePlayerNotificationAsOne;
+    }
+    /**
+     * Set up relation columns to select clause. <br>
+     * village_player_notification by VILLAGE_PLAYER_ID, named 'villagePlayerNotificationAsOne'.
+     * <pre>
+     * <span style="color: #0000C0">villagePlayerBhv</span>.selectEntity(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">cb</span>.<span style="color: #CC4747">setupSelect_VillagePlayerNotificationAsOne()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     *     <span style="color: #553000">cb</span>.query().set...
+     * }).alwaysPresent(<span style="color: #553000">villagePlayer</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     ... = <span style="color: #553000">villagePlayer</span>.<span style="color: #CC4747">getVillagePlayerNotificationAsOne()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
+     * });
+     * </pre>
+     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
+     */
+    public VillagePlayerNotificationNss setupSelect_VillagePlayerNotificationAsOne() {
+        assertSetupSelectPurpose("villagePlayerNotificationAsOne");
+        doSetupSelect(() -> query().queryVillagePlayerNotificationAsOne());
+        if (_nssVillagePlayerNotificationAsOne == null || !_nssVillagePlayerNotificationAsOne.hasConditionQuery())
+        { _nssVillagePlayerNotificationAsOne = new VillagePlayerNotificationNss(query().queryVillagePlayerNotificationAsOne()); }
+        return _nssVillagePlayerNotificationAsOne;
+    }
+
     // [DBFlute-0.7.4]
     // ===================================================================================
     //                                                                             Specify
@@ -454,6 +480,7 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
         protected SkillCB.HpSpecification _skillBySecondRequestSkillCode;
         protected SkillCB.HpSpecification _skillBySkillCode;
         protected VillageCB.HpSpecification _village;
+        protected VillagePlayerNotificationCB.HpSpecification _villagePlayerNotificationAsOne;
         public HpSpecification(ConditionBean baseCB, HpSpQyCall<VillagePlayerCQ> qyCall
                              , HpCBPurpose purpose, DBMetaProvider dbmetaProvider
                              , HpSDRFunctionFactory sdrFuncFactory)
@@ -724,6 +751,26 @@ public class BsVillagePlayerCB extends AbstractConditionBean {
                 }
             }
             return _village;
+        }
+        /**
+         * Prepare to specify functions about relation table. <br>
+         * village_player_notification by VILLAGE_PLAYER_ID, named 'villagePlayerNotificationAsOne'.
+         * @return The instance for specification for relation table to specify. (NotNull)
+         */
+        public VillagePlayerNotificationCB.HpSpecification specifyVillagePlayerNotificationAsOne() {
+            assertRelation("villagePlayerNotificationAsOne");
+            if (_villagePlayerNotificationAsOne == null) {
+                _villagePlayerNotificationAsOne = new VillagePlayerNotificationCB.HpSpecification(_baseCB
+                    , xcreateSpQyCall(() -> _qyCall.has() && _qyCall.qy().hasConditionQueryVillagePlayerNotificationAsOne()
+                                    , () -> _qyCall.qy().queryVillagePlayerNotificationAsOne())
+                    , _purpose, _dbmetaProvider, xgetSDRFnFc());
+                if (xhasSyncQyCall()) { // inherits it
+                    _villagePlayerNotificationAsOne.xsetSyncQyCall(xcreateSpQyCall(
+                        () -> xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryVillagePlayerNotificationAsOne()
+                      , () -> xsyncQyCall().qy().queryVillagePlayerNotificationAsOne()));
+                }
+            }
+            return _villagePlayerNotificationAsOne;
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>

@@ -71,4 +71,6 @@ interface VillageRepository {
     fun updateLastAccessDatetime(participant: VillageParticipant)
 
     fun addIpAddress(participant: VillageParticipant, ipAddress: String)
+
+    fun registerNotificationSetting(participant: VillageParticipant)
 }

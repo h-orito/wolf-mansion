@@ -1,4 +1,57 @@
 map:{
+    ; 2023/02/23 23:03:33 = map:{
+        ; diffDate = 2023/02/23 23:03:33
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; village_player_notification = map:{
+                ; tableName = village_player_notification
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; VILLAGE_PLAYER_ID = map:{
+                        ; columnName = VILLAGE_PLAYER_ID
+                        ; diffType = CHANGE
+                        ; autoIncrementDiff = map:{
+                            ; next = false
+                            ; previous = true
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ; 2023/02/22 23:38:07 = map:{
+        ; diffDate = 2023/02/22 23:38:07
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; village_player_notification = map:{
+                ; tableName = village_player_notification
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; DISCORD_WEBHOOK_URL = map:{
+                        ; columnName = DISCORD_WEBHOOK_URL
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
+    ; 2023/02/22 23:12:05 = map:{
+        ; diffDate = 2023/02/22 23:12:05
+        ; tableCount = map:{
+            ; next = 45
+            ; previous = 44
+        }
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; village_player_notification = map:{
+                ; tableName = village_player_notification
+                ; diffType = ADD
+            }
+        }
+    }
     ; 2023/02/21 21:36:50 = map:{
         ; diffDate = 2023/02/21 21:36:50
         ; tableCount = map:{

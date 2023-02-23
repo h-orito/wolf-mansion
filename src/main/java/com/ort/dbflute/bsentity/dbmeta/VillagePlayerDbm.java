@@ -119,6 +119,7 @@ public class VillagePlayerDbm extends AbstractDBMeta {
         setupEfpg(_efpgMap, et -> ((VillagePlayer)et).getSkillBySecondRequestSkillCode(), (et, vl) -> ((VillagePlayer)et).setSkillBySecondRequestSkillCode((OptionalEntity<Skill>)vl), "skillBySecondRequestSkillCode");
         setupEfpg(_efpgMap, et -> ((VillagePlayer)et).getSkillBySkillCode(), (et, vl) -> ((VillagePlayer)et).setSkillBySkillCode((OptionalEntity<Skill>)vl), "skillBySkillCode");
         setupEfpg(_efpgMap, et -> ((VillagePlayer)et).getVillage(), (et, vl) -> ((VillagePlayer)et).setVillage((OptionalEntity<Village>)vl), "village");
+        setupEfpg(_efpgMap, et -> ((VillagePlayer)et).getVillagePlayerNotificationAsOne(), (et, vl) -> ((VillagePlayer)et).setVillagePlayerNotificationAsOne((OptionalEntity<VillagePlayerNotification>)vl), "villagePlayerNotificationAsOne");
     }
     public PropertyGateway findForeignPropertyGateway(String prop)
     { return doFindEfpg(_efpgMap, prop); }
@@ -374,6 +375,14 @@ public class VillagePlayerDbm extends AbstractDBMeta {
     public ForeignInfo foreignVillage() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillageId(), VillageDbm.getInstance().columnVillageId());
         return cfi("FK_VILLAGE_PLAYER_VILLAGE", "village", this, VillageDbm.getInstance(), mp, 5, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villagePlayerList", false);
+    }
+    /**
+     * village_player_notification by VILLAGE_PLAYER_ID, named 'villagePlayerNotificationAsOne'.
+     * @return The information object of foreign property(referrer-as-one). (NotNull)
+     */
+    public ForeignInfo foreignVillagePlayerNotificationAsOne() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillagePlayerId(), VillagePlayerNotificationDbm.getInstance().columnVillagePlayerId());
+        return cfi("FK_VILLAGE_PLAYER_NOTIFICATION_VILLAGE_PLAYER", "villagePlayerNotificationAsOne", this, VillagePlayerNotificationDbm.getInstance(), mp, 6, org.dbflute.optional.OptionalEntity.class, true, false, true, false, null, null, false, "villagePlayer", false);
     }
 
     // -----------------------------------------------------

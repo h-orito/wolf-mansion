@@ -6,6 +6,8 @@ import com.ort.app.domain.model.slack.SlackRepository
 import com.ort.app.domain.model.toot.TootRepository
 import com.ort.app.domain.model.tweet.TweetRepository
 import com.ort.app.domain.model.village.Village
+import com.ort.app.domain.service.MessageDomainService
+import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 import java.time.format.DateTimeFormatter
 
@@ -14,7 +16,8 @@ class NotificationService(
     private val discordRepository: DiscordRepository,
     private val slackRepository: SlackRepository,
     private val tweetRepository: TweetRepository,
-    private val tootRepository: TootRepository
+    private val tootRepository: TootRepository,
+    private val messageDomainService: MessageDomainService
 ) {
 
     private val format = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm")
@@ -53,9 +56,89 @@ class NotificationService(
         tootRepository.toot(msg, village.id)
     }
 
-    fun notifyDaychangeToCustomer(villageId: Int, list: List<String>) =
+    fun notifyDaychange(villageId: Int, list: List<String>) =
         list.forEach {
-            tweetRepository.tweet(it, villageId)
-            tootRepository.toot(it, villageId)
+            tweetRepository.tweet(it, villageId) // admin twitter
+            tootRepository.toot(it, villageId) // admin mastodon
         }
+
+    fun notifyVillageStartToCustomerIfNeeded(village: Village) {
+        village.allParticipants().list.filter {
+            it.notification?.village?.start ?: false
+        }.forEach {
+            discordRepository.postToWebhook(
+                webhookUrl = it.notification!!.discordWebhookUrl,
+                villageId = village.id,
+                message = "村が開始されました。"
+            )
+        }
+    }
+
+    fun notifyVillageEpilogueToCustomerIfNeeded(village: Village) {
+        village.allParticipants().list.filter {
+            it.notification?.village?.epilogue ?: false
+        }.forEach {
+            discordRepository.postToWebhook(
+                webhookUrl = it.notification!!.discordWebhookUrl,
+                villageId = village.id,
+                message = "村がエピローグを迎えました。"
+            )
+        }
+    }
+
+    fun notifyTest(url: String, villageId: Int) {
+        discordRepository.postToWebhook(
+            webhookUrl = url,
+            villageId = villageId,
+            message = "テスト通知です。"
+        )
+    }
+
+    fun notifyReceiveMessageToCustomerIfNeeded(
+        village: Village,
+        message: Message
+    ) {
+        notifyReceiveSecretSayToCustomerIfNeeded(village, message)
+        notifyReceiveAbilitySayToCustomerIfNeeded(village, message)
+    }
+
+    private fun notifyReceiveSecretSayToCustomerIfNeeded(
+        village: Village,
+        message: Message
+    ) {
+        if (message.content.type.toCdef() != CDef.MessageType.秘話) return
+        val toParticipant = village.allParticipants().list.find { it.id == message.toParticipantId } ?: return
+        val fromParticipant = village.allParticipants().list.find { it.id == message.fromParticipantId } ?: return
+        toParticipant.notification?.let {
+            if (!it.message.secretSay) return
+            discordRepository.postToWebhook(
+                webhookUrl = it.discordWebhookUrl,
+                villageId = village.id,
+                message = "${fromParticipant.name()}から秘話が届きました。",
+                shouldContainVillageUrl = false
+            )
+        }
+    }
+
+    private fun notifyReceiveAbilitySayToCustomerIfNeeded(
+        village: Village,
+        message: Message
+    ) {
+        if (!message.content.type.isOwlViewableType()) return
+        val fromParticipant = village.participants.list.find { it.id == message.fromParticipantId } ?: return
+        village.participants.list
+            .filterNot { it.id == message.fromParticipantId } // 自分の発言でない
+            .filter {
+                messageDomainService.isViewable(village, it, message.content.type.toCdef(), village.latestDay())
+            }.filter {
+                it.notification?.message?.abilitySay ?: false
+            }.forEach {
+                discordRepository.postToWebhook(
+                    webhookUrl = it.notification!!.discordWebhookUrl,
+                    villageId = village.id,
+                    message = "${fromParticipant.name()}から${message.content.type.name}が届きました。",
+                    shouldContainVillageUrl = false
+                )
+            }
+    }
 }

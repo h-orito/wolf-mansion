@@ -93,6 +93,7 @@ class VillageDataSource(
             }
             loader.loadVillagePlayer {
                 it.setupSelect_Player()
+                it.setupSelect_VillagePlayerNotificationAsOne()
                 if (excludeGone) it.query().setIsGone_Equal_False()
             }.withNestedReferrer { villagePlayerDataSource.withNestedVillagePlayer(it) }
             loader.loadNormalSayRestriction { }
@@ -169,6 +170,13 @@ class VillageDataSource(
 
     override fun addIpAddress(participant: VillageParticipant, ipAddress: String) {
         villagePlayerDataSource.insertVillagePlayerAccessInfo(participant.id, ipAddress)
+    }
+
+    override fun registerNotificationSetting(participant: VillageParticipant) {
+        villagePlayerDataSource.updateVillagePlayerNotification(
+            participant.id,
+            participant.notification!!
+        )
     }
 
     override fun leave(participant: VillageParticipant) = villagePlayerDataSource.leave(participant)
@@ -251,7 +259,6 @@ class VillageDataSource(
         return Village(
             id = village.villageId,
             name = village.villageDisplayName,
-
             createPlayerName = village.createPlayerName,
             createDatetime = village.registerDatetime,
             status = VillageStatus(village.villageStatusCodeAsVillageStatus),
