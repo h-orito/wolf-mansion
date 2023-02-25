@@ -368,6 +368,159 @@ public abstract class AbstractBsVillagePlayerNotificationCQ extends AbstractCond
     protected abstract ConditionValue xgetCValueReceiveAnchorSay();
 
     /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * KEYWORD: {VARCHAR(255)}
+     * @param keyword The value of keyword as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setKeyword_Equal(String keyword) {
+        doSetKeyword_Equal(fRES(keyword));
+    }
+
+    protected void doSetKeyword_Equal(String keyword) {
+        regKeyword(CK_EQ, keyword);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * KEYWORD: {VARCHAR(255)}
+     * @param keyword The value of keyword as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setKeyword_NotEqual(String keyword) {
+        doSetKeyword_NotEqual(fRES(keyword));
+    }
+
+    protected void doSetKeyword_NotEqual(String keyword) {
+        regKeyword(CK_NES, keyword);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * KEYWORD: {VARCHAR(255)}
+     * @param keyword The value of keyword as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setKeyword_GreaterThan(String keyword) {
+        regKeyword(CK_GT, fRES(keyword));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * KEYWORD: {VARCHAR(255)}
+     * @param keyword The value of keyword as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setKeyword_LessThan(String keyword) {
+        regKeyword(CK_LT, fRES(keyword));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * KEYWORD: {VARCHAR(255)}
+     * @param keyword The value of keyword as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setKeyword_GreaterEqual(String keyword) {
+        regKeyword(CK_GE, fRES(keyword));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * KEYWORD: {VARCHAR(255)}
+     * @param keyword The value of keyword as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setKeyword_LessEqual(String keyword) {
+        regKeyword(CK_LE, fRES(keyword));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * KEYWORD: {VARCHAR(255)}
+     * @param keywordList The collection of keyword as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setKeyword_InScope(Collection<String> keywordList) {
+        doSetKeyword_InScope(keywordList);
+    }
+
+    protected void doSetKeyword_InScope(Collection<String> keywordList) {
+        regINS(CK_INS, cTL(keywordList), xgetCValueKeyword(), "KEYWORD");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * KEYWORD: {VARCHAR(255)}
+     * @param keywordList The collection of keyword as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setKeyword_NotInScope(Collection<String> keywordList) {
+        doSetKeyword_NotInScope(keywordList);
+    }
+
+    protected void doSetKeyword_NotInScope(Collection<String> keywordList) {
+        regINS(CK_NINS, cTL(keywordList), xgetCValueKeyword(), "KEYWORD");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * KEYWORD: {VARCHAR(255)} <br>
+     * <pre>e.g. setKeyword_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param keyword The value of keyword as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setKeyword_LikeSearch(String keyword, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setKeyword_LikeSearch(keyword, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * KEYWORD: {VARCHAR(255)} <br>
+     * <pre>e.g. setKeyword_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param keyword The value of keyword as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setKeyword_LikeSearch(String keyword, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(keyword), xgetCValueKeyword(), "KEYWORD", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * KEYWORD: {VARCHAR(255)}
+     * @param keyword The value of keyword as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setKeyword_NotLikeSearch(String keyword, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setKeyword_NotLikeSearch(keyword, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * KEYWORD: {VARCHAR(255)}
+     * @param keyword The value of keyword as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setKeyword_NotLikeSearch(String keyword, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(keyword), xgetCValueKeyword(), "KEYWORD", likeSearchOption);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * KEYWORD: {VARCHAR(255)}
+     */
+    public void setKeyword_IsNull() { regKeyword(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * KEYWORD: {VARCHAR(255)}
+     */
+    public void setKeyword_IsNullOrEmpty() { regKeyword(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * KEYWORD: {VARCHAR(255)}
+     */
+    public void setKeyword_IsNotNull() { regKeyword(CK_ISNN, DOBJ); }
+
+    protected void regKeyword(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueKeyword(), "KEYWORD"); }
+    protected abstract ConditionValue xgetCValueKeyword();
+
+    /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @param registerDatetime The value of registerDatetime as equal. (basically NotNull: error as default, or no condition as option)

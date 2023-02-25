@@ -301,7 +301,8 @@ class VillageControllerHelper(
                 villageEpilogue = myself.notification?.village?.epilogue ?: false,
                 secretSay = myself.notification?.message?.secretSay ?: false,
                 anchorSay = myself.notification?.message?.anchor ?: false,
-                abilitySay = myself.notification?.message?.abilitySay ?: false
+                abilitySay = myself.notification?.message?.abilitySay ?: false,
+                keyword = myself.notification?.message?.keywords?.joinToString(separator = " ") ?: ""
             )
         )
     }

@@ -98,13 +98,15 @@ class NotificationService(
         village: Village,
         message: Message
     ) {
-        // 秘話→アンカー→役職窓の順
+        // 秘話→アンカー→キーワード→役職窓の順
         val alreadyNotifiedParticipantIds = mutableListOf<Int>()
         notifyReceiveSecretSayToCustomerIfNeeded(village, message)?.let {
             alreadyNotifiedParticipantIds.add(it)
         }
-        val ids = notifyReceiveAnchorToCustomerIfNeeded(village, message, alreadyNotifiedParticipantIds)
-        alreadyNotifiedParticipantIds.addAll(ids)
+        val idsByAnchor = notifyReceiveAnchorToCustomerIfNeeded(village, message, alreadyNotifiedParticipantIds)
+        alreadyNotifiedParticipantIds.addAll(idsByAnchor)
+        val idsByKeyword = notifyReceiveKeywordToCustomerIfNeeded(village, message, alreadyNotifiedParticipantIds)
+        alreadyNotifiedParticipantIds.addAll(idsByKeyword)
         notifyReceiveAbilitySayToCustomerIfNeeded(village, message, alreadyNotifiedParticipantIds)
     }
 
@@ -151,6 +153,43 @@ class NotificationService(
                 val text = if (fromParticipant == null) {
                     "${messageTypeName}であなたの発言がアンカー指定されました。"
                 } else "${fromParticipant.name()}の${messageTypeName}であなたの発言がアンカー指定されました。"
+                discordRepository.postToWebhook(
+                    webhookUrl = it.notification!!.discordWebhookUrl,
+                    villageId = village.id,
+                    message = text,
+                    shouldContainVillageUrl = false
+                )
+                notifiedParticipantIds.add(it.id)
+            }
+        return notifiedParticipantIds
+    }
+
+    private fun notifyReceiveKeywordToCustomerIfNeeded(
+        village: Village,
+        message: Message,
+        alreadyNotifiedParticipantIds: List<Int>
+    ): List<Int> {
+        val notifiedParticipantIds = mutableListOf<Int>()
+        val fromParticipant = village.participants.list.find { it.id == message.fromParticipantId }
+
+        village.participants.list
+            .asSequence()
+            .filter {
+                val keywords = it.notification?.message?.keywords
+
+                it.id != message.fromParticipantId &&  // 自分の発言でない
+                        !alreadyNotifiedParticipantIds.contains(it.id) &&  // 通知済みでない
+                        // 発言を閲覧できる
+                        messageDomainService.isViewable(village, it, message.content.type.toCdef(), village.latestDay())
+                        // キーワードが含まれている
+                        && !keywords.isNullOrEmpty()
+                        && keywords.any { keyword -> message.content.text.contains(keyword) }
+            }
+            .toList().forEach {
+                val messageTypeName = message.content.type.name
+                val text = if (fromParticipant == null) {
+                    "${messageTypeName}に指定キーワードが含まれています。"
+                } else "${fromParticipant.name()}の${messageTypeName}に指定キーワードが含まれています。"
                 discordRepository.postToWebhook(
                     webhookUrl = it.notification!!.discordWebhookUrl,
                     villageId = village.id,

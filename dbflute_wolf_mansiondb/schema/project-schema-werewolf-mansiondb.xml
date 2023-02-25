@@ -1046,6 +1046,8 @@
             required="true" type="BIT"/>
         <column comment="アンカーで指定された際通知する" dbType="BIT"
             javaType="Boolean" name="RECEIVE_ANCHOR_SAY" required="true" type="BIT"/>
+        <column comment="キーワードを含む際通知する" dbType="VARCHAR"
+            javaType="String" name="KEYWORD" size="255" type="VARCHAR"/>
         <column comment="登録日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>

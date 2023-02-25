@@ -68,6 +68,7 @@ public class VillagePlayerNotificationCIQ extends AbstractBsVillagePlayerNotific
     protected ConditionValue xgetCValueReceiveSecretSay() { return _myCQ.xdfgetReceiveSecretSay(); }
     protected ConditionValue xgetCValueReceiveAbilitySay() { return _myCQ.xdfgetReceiveAbilitySay(); }
     protected ConditionValue xgetCValueReceiveAnchorSay() { return _myCQ.xdfgetReceiveAnchorSay(); }
+    protected ConditionValue xgetCValueKeyword() { return _myCQ.xdfgetKeyword(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
     protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }
     protected ConditionValue xgetCValueUpdateDatetime() { return _myCQ.xdfgetUpdateDatetime(); }

@@ -350,6 +350,11 @@ public class BsVillagePlayerNotificationCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnReceiveAnchorSay() { return doColumn("RECEIVE_ANCHOR_SAY"); }
         /**
+         * KEYWORD: {VARCHAR(255)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnKeyword() { return doColumn("KEYWORD"); }
+        /**
          * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
          */

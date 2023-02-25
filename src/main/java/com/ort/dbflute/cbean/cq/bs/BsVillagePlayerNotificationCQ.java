@@ -213,6 +213,26 @@ public class BsVillagePlayerNotificationCQ extends AbstractBsVillagePlayerNotifi
      */
     public BsVillagePlayerNotificationCQ addOrderBy_ReceiveAnchorSay_Desc() { regOBD("RECEIVE_ANCHOR_SAY"); return this; }
 
+    protected ConditionValue _keyword;
+    public ConditionValue xdfgetKeyword()
+    { if (_keyword == null) { _keyword = nCV(); }
+      return _keyword; }
+    protected ConditionValue xgetCValueKeyword() { return xdfgetKeyword(); }
+
+    /**
+     * Add order-by as ascend. <br>
+     * KEYWORD: {VARCHAR(255)}
+     * @return this. (NotNull)
+     */
+    public BsVillagePlayerNotificationCQ addOrderBy_Keyword_Asc() { regOBA("KEYWORD"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * KEYWORD: {VARCHAR(255)}
+     * @return this. (NotNull)
+     */
+    public BsVillagePlayerNotificationCQ addOrderBy_Keyword_Desc() { regOBD("KEYWORD"); return this; }
+
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
     { if (_registerDatetime == null) { _registerDatetime = nCV(); }

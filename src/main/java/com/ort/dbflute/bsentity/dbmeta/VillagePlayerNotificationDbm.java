@@ -50,6 +50,7 @@ public class VillagePlayerNotificationDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((VillagePlayerNotification)et).getReceiveSecretSay(), (et, vl) -> ((VillagePlayerNotification)et).setReceiveSecretSay((Boolean)vl), "receiveSecretSay");
         setupEpg(_epgMap, et -> ((VillagePlayerNotification)et).getReceiveAbilitySay(), (et, vl) -> ((VillagePlayerNotification)et).setReceiveAbilitySay((Boolean)vl), "receiveAbilitySay");
         setupEpg(_epgMap, et -> ((VillagePlayerNotification)et).getReceiveAnchorSay(), (et, vl) -> ((VillagePlayerNotification)et).setReceiveAnchorSay((Boolean)vl), "receiveAnchorSay");
+        setupEpg(_epgMap, et -> ((VillagePlayerNotification)et).getKeyword(), (et, vl) -> ((VillagePlayerNotification)et).setKeyword((String)vl), "keyword");
         setupEpg(_epgMap, et -> ((VillagePlayerNotification)et).getRegisterDatetime(), (et, vl) -> ((VillagePlayerNotification)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((VillagePlayerNotification)et).getRegisterTrace(), (et, vl) -> ((VillagePlayerNotification)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((VillagePlayerNotification)et).getUpdateDatetime(), (et, vl) -> ((VillagePlayerNotification)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -93,6 +94,7 @@ public class VillagePlayerNotificationDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnReceiveSecretSay = cci("RECEIVE_SECRET_SAY", "RECEIVE_SECRET_SAY", null, null, Boolean.class, "receiveSecretSay", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnReceiveAbilitySay = cci("RECEIVE_ABILITY_SAY", "RECEIVE_ABILITY_SAY", null, null, Boolean.class, "receiveAbilitySay", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnReceiveAnchorSay = cci("RECEIVE_ANCHOR_SAY", "RECEIVE_ANCHOR_SAY", null, null, Boolean.class, "receiveAnchorSay", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnKeyword = cci("KEYWORD", "KEYWORD", null, null, String.class, "keyword", null, false, false, false, "VARCHAR", 255, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -134,6 +136,11 @@ public class VillagePlayerNotificationDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnReceiveAnchorSay() { return _columnReceiveAnchorSay; }
     /**
+     * KEYWORD: {VARCHAR(255)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnKeyword() { return _columnKeyword; }
+    /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
      */
@@ -163,6 +170,7 @@ public class VillagePlayerNotificationDbm extends AbstractDBMeta {
         ls.add(columnReceiveSecretSay());
         ls.add(columnReceiveAbilitySay());
         ls.add(columnReceiveAnchorSay());
+        ls.add(columnKeyword());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());

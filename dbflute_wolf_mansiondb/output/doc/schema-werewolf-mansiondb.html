@@ -858,7 +858,7 @@ pre.spolicyviodisp {
 	</tr>
 	<tr>
 		<td class="rownumcell">35</td>
-		<td class="namecell" data-name="village_player_notification"><a href="#village_player_notification" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=27, columnCount=11">VILLAGE_PLAYER_NOTIFICATION</a></td>
+		<td class="namecell" data-name="village_player_notification"><a href="#village_player_notification" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=27, columnCount=12">VILLAGE_PLAYER_NOTIFICATION</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_NOTIFICATION_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
 		<td class="relcell">&nbsp;</td>
@@ -6469,7 +6469,7 @@ VILLAGE_PLAYER_DEAD_HISTORY
 	</tbody>
 </table>
 
-<h2 id="village_player_notification" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=27, columnCount=11">
+<h2 id="village_player_notification" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=27, columnCount=12">
 VILLAGE_PLAYER_NOTIFICATION
 &nbsp;<span class="tablefirstdatetitle">since 2023/02/22</span>
 </h2>
@@ -6629,6 +6629,24 @@ VILLAGE_PLAYER_NOTIFICATION
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class=" columnnamecell" id="village_player_notification_keyword">KEYWORD</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 255 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>キーワードを含む際通知する</pre></td>
+		<td class="subcell">keyword</td>
+		<td class="subcell">String</td>
+		<td class="subcell">2023/02/26</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">9</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">*</td>
 		<td class="comcolcell columnnamecell" id="village_player_notification_register_datetime">REGISTER_DATETIME</td>
 		<td class="typecell">DATETIME</td>
@@ -6642,7 +6660,7 @@ VILLAGE_PLAYER_NOTIFICATION
 		<td class="subcell">first</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">9</td>
+		<td class="rownumcell">10</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -6660,7 +6678,7 @@ VILLAGE_PLAYER_NOTIFICATION
 		<td class="subcell">first</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">10</td>
+		<td class="rownumcell">11</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -6678,7 +6696,7 @@ VILLAGE_PLAYER_NOTIFICATION
 		<td class="subcell">first</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">11</td>
+		<td class="rownumcell">12</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -12876,6 +12894,9 @@ function StoreClient() {
 				}
 				, 'RECEIVE_ANCHOR_SAY': {
 					'databaseComment': 'アンカーで指定された際通知する'
+				}
+				, 'KEYWORD': {
+					'databaseComment': 'キーワードを含む際通知する'
 				}
 				, 'REGISTER_DATETIME': {
 					'databaseComment': '登録日時'

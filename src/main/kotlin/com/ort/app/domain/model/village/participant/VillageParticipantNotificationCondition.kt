@@ -19,5 +19,7 @@ data class VillageParticipantNotificationCondition(
         val abilitySay: Boolean,
         /** アンカー */
         val anchor: Boolean,
+        /** キーワード */
+        val keywords: List<String>
     )
 }

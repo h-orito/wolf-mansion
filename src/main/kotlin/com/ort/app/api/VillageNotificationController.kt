@@ -55,7 +55,8 @@ class VillageNotificationController(
                     message = VillageParticipantNotificationCondition.MessageCondition(
                         secretSay = notificationForm.secretSay ?: false,
                         abilitySay = notificationForm.abilitySay ?: false,
-                        anchor = notificationForm.anchorSay ?: false
+                        anchor = notificationForm.anchorSay ?: false,
+                        keywords = notificationForm.keyword?.trim()?.replace("　", " ")?.split(" ") ?: emptyList()
                     )
                 )
             )

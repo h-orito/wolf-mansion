@@ -20,7 +20,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_PLAYER_ID
  *
  * [column]
- *     VILLAGE_PLAYER_ID, DISCORD_WEBHOOK_URL, VILLAGE_START, VILLAGE_EPILOGUE, RECEIVE_SECRET_SAY, RECEIVE_ABILITY_SAY, RECEIVE_ANCHOR_SAY, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_PLAYER_ID, DISCORD_WEBHOOK_URL, VILLAGE_START, VILLAGE_EPILOGUE, RECEIVE_SECRET_SAY, RECEIVE_ABILITY_SAY, RECEIVE_ANCHOR_SAY, KEYWORD, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -52,6 +52,7 @@ import com.ort.dbflute.exentity.*;
  * Boolean receiveSecretSay = entity.getReceiveSecretSay();
  * Boolean receiveAbilitySay = entity.getReceiveAbilitySay();
  * Boolean receiveAnchorSay = entity.getReceiveAnchorSay();
+ * String keyword = entity.getKeyword();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -63,6 +64,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setReceiveSecretSay(receiveSecretSay);
  * entity.setReceiveAbilitySay(receiveAbilitySay);
  * entity.setReceiveAnchorSay(receiveAnchorSay);
+ * entity.setKeyword(keyword);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -102,6 +104,9 @@ public abstract class BsVillagePlayerNotification extends AbstractEntity impleme
 
     /** RECEIVE_ANCHOR_SAY: {NotNull, BIT} */
     protected Boolean _receiveAnchorSay;
+
+    /** KEYWORD: {VARCHAR(255)} */
+    protected String _keyword;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -211,6 +216,7 @@ public abstract class BsVillagePlayerNotification extends AbstractEntity impleme
         sb.append(dm).append(xfND(_receiveSecretSay));
         sb.append(dm).append(xfND(_receiveAbilitySay));
         sb.append(dm).append(xfND(_receiveAnchorSay));
+        sb.append(dm).append(xfND(_keyword));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -379,6 +385,26 @@ public abstract class BsVillagePlayerNotification extends AbstractEntity impleme
     public void setReceiveAnchorSay(Boolean receiveAnchorSay) {
         registerModifiedProperty("receiveAnchorSay");
         _receiveAnchorSay = receiveAnchorSay;
+    }
+
+    /**
+     * [get] KEYWORD: {VARCHAR(255)} <br>
+     * キーワードを含む際通知する
+     * @return The value of the column 'KEYWORD'. (NullAllowed even if selected: for no constraint)
+     */
+    public String getKeyword() {
+        checkSpecifiedProperty("keyword");
+        return convertEmptyToNull(_keyword);
+    }
+
+    /**
+     * [set] KEYWORD: {VARCHAR(255)} <br>
+     * キーワードを含む際通知する
+     * @param keyword The value of the column 'KEYWORD'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setKeyword(String keyword) {
+        registerModifiedProperty("keyword");
+        _keyword = keyword;
     }
 
     /**

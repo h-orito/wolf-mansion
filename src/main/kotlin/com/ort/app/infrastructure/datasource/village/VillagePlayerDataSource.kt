@@ -325,6 +325,10 @@ class VillagePlayerDataSource(
         n.receiveSecretSay = notification.message.secretSay
         n.receiveAbilitySay = notification.message.abilitySay
         n.receiveAnchorSay = notification.message.anchor
+        n.keyword = notification.message.keywords.let {
+            if (it.isEmpty()) null
+            else it.joinToString(separator = " ")
+        }
         villagePlayerNotificationBhv.insert(n)
     }
 
@@ -436,7 +440,8 @@ class VillagePlayerDataSource(
                 message = VillageParticipantNotificationCondition.MessageCondition(
                     secretSay = it.receiveSecretSay,
                     abilitySay = it.receiveAbilitySay,
-                    anchor = it.receiveAnchorSay
+                    anchor = it.receiveAnchorSay,
+                    keywords = it.keyword?.split(" ") ?: emptyList()
                 )
             )
         }.orElse(null)
@@ -502,7 +507,8 @@ class VillagePlayerDataSource(
 
         return VillageParticipantStatus(
             loverIdList = statusList.filter { it.isVillagePlayerStatusCode後追い }.map { it.toVillagePlayerId },
-            foxPossessionedIdList = toStatusList.filter { it.isVillagePlayerStatusCode狐憑き }.map { it.villagePlayerId },
+            foxPossessionedIdList = toStatusList.filter { it.isVillagePlayerStatusCode狐憑き }
+                .map { it.villagePlayerId },
             insanedIdList = toStatusList.filter { it.isVillagePlayerStatusCode狂気 }.map { it.villagePlayerId },
             persuadedIdList = toStatusList.filter { it.isVillagePlayerStatusCode信念 }.map { it.villagePlayerId },
             insuranceIdList = toStatusList.filter { it.isVillagePlayerStatusCode保険 }.map { it.villagePlayerId },
