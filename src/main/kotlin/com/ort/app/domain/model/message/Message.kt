@@ -9,7 +9,8 @@ data class Message(
     val toParticipantId: Int?,
     val toCharacterName: String?,
     val time: MessageTime,
-    val content: MessageContent
+    val content: MessageContent,
+    val sendToParticipantIds: List<Int> = emptyList()
 ) {
     fun shouldNotify(): Boolean = content.shouldNotify()
 

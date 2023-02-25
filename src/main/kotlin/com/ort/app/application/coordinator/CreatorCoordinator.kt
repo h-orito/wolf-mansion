@@ -1,5 +1,6 @@
 package com.ort.app.application.coordinator
 
+import com.ort.app.application.service.NotificationService
 import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.village.Village
@@ -12,7 +13,8 @@ class CreatorCoordinator(
     private val messageCoordinator: MessageCoordinator,
     private val villageService: VillageService,
     private val playerService: PlayerService,
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
+    private val notificationService: NotificationService
 ) {
 
     fun isCreator(userName: String?, villageId: Int): Boolean {
@@ -35,10 +37,12 @@ class CreatorCoordinator(
     fun say(villageId: Int, text: String, isConvertDisable: Boolean) {
         val village = villageService.findVillage(villageId)
             ?: throw WolfMansionBusinessException("village not found. id: $villageId")
-        messageCoordinator.registerMessage(
+        val message = messageCoordinator.registerMessage(
             villageId,
             messageDomainService.createCreatorMessage(village, text, isConvertDisable)
         )
+        // notification
+        notificationService.notifyReceiveMessageToCustomerIfNeeded(village, message)
     }
 
     fun cancel(villageId: Int) {

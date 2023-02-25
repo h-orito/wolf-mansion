@@ -8,7 +8,6 @@ import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.service.MessageDomainService
 import com.ort.app.domain.service.SayDomainService
-import com.ort.app.domain.service.ability.AbilityDomainService
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
@@ -29,7 +28,7 @@ class MessageCoordinator(
     private val messageDomainService: MessageDomainService,
     private val sayDomainService: SayDomainService,
 ) {
-    fun registerMessage(villageId: Int, message: Message) {
+    fun registerMessage(villageId: Int, message: Message): Message {
         val village =
             villageService.findVillage(villageId) ?: throw IllegalStateException("village not found. id: $villageId")
         val replacedMessage = messageDomainService.replaceRandomMessageIfNeeded(
@@ -37,8 +36,9 @@ class MessageCoordinator(
             participants = village.allParticipants(),
             randomKeywords = randomKeywordService.findRandomKeywords()
         )
-        messageService.registerMessage(village, replacedMessage)
+        val registered = messageService.registerMessage(village, replacedMessage)
         slackService.notifyToDeveloperIfNeeded(village.id, replacedMessage)
+        return registered
     }
 
     fun confirmToSay(
@@ -87,12 +87,11 @@ class MessageCoordinator(
             } else null,
             messageContent = messageContent,
             abilities = abilityService.findAbilities(village.id)
-        )
-        messages.list.forEach { registerMessage(village.id, it) }
+        ).list.map { registerMessage(village.id, it) }
         // register access info
         accessInfoCoordinator.registerAccessInfo(village, myself, ipAddress)
         // notification
-        notificationService.notifyReceiveMessageToCustomerIfNeeded(village, messages.list.last())
+        notificationService.notifyReceiveMessageToCustomerIfNeeded(village, messages.last())
     }
 
     private fun assertSay(

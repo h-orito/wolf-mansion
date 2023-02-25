@@ -57,7 +57,8 @@ class MessageService(
         participant: VillageParticipant
     ): Map<CDef.MessageType, Int> = messageRepository.findParticipantDayMessageCount(village, day, participant)
 
-    fun registerMessage(village: Village, message: Message) = messageRepository.registerMessage(village, message)
+    fun registerMessage(village: Village, message: Message): Message =
+        messageRepository.registerMessage(village, message)
 
     fun updateDaychangeDifference(village: Village, current: Messages, changed: Messages) =
         changed.list.drop(current.list.size).forEach { registerMessage(village, it) }

@@ -30,5 +30,5 @@ interface MessageRepository {
         participant: VillageParticipant
     ): Map<CDef.MessageType, Int>
 
-    fun registerMessage(village: Village, message: Message)
+    fun registerMessage(village: Village, message: Message): Message
 }

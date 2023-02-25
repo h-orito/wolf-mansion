@@ -55,6 +55,7 @@ class MessageDataSource(
                 it.query().addOrderBy_MessageId_Asc()
             }
         }
+        messageBhv.load(messagePage) { it.loadMessageSendto { } }
         return if (query.isDispLatest) mapMessagesWithLatest(village, messagePage)
         else mapMessagesWithPaging(village, messagePage)
     }
@@ -64,11 +65,15 @@ class MessageDataSource(
         messageType: CDef.MessageType,
         messageNumber: Int
     ): Message? {
-        return messageBhv.selectEntity {
+        val optMessage = messageBhv.selectEntity {
             it.query().setVillageId_Equal(village.id)
             it.query().setMessageNumber_Equal(messageNumber)
             it.query().setMessageTypeCode_Equal_AsMessageType(messageType)
-        }.map { mapMessage(village, it) }.orElse(null)
+        }
+        if (!optMessage.isPresent) return null
+        val message = optMessage.get()
+        messageBhv.load(message) { it.loadMessageSendto { } }
+        return mapMessage(village, message)
     }
 
     override fun findLatestMessageDatetime(myself: VillageParticipant?, query: MessageQuery): LocalDateTime? {
@@ -106,7 +111,18 @@ class MessageDataSource(
         else mapToMessageTypeCount(list.filterNot { it.messageId == optFirstAttackMessage.get().messageId })
     }
 
-    override fun registerMessage(village: Village, message: Message) = insertMessage(village, message)
+    override fun registerMessage(village: Village, message: Message): Message {
+        val id = insertMessage(village, message)
+        return findMessageById(id, village)
+    }
+
+    private fun findMessageById(id: Int, village: Village): Message {
+        val message = messageBhv.selectEntityWithDeletedCheck {
+            it.query().setMessageId_Equal(id)
+        }
+        messageBhv.load(message) { it.loadMessageSendto { } }
+        return mapMessage(village, message)
+    }
 
     private fun mapMessagesWithPaging(village: Village, messagePage: PagingResultBean<DbMessage>): Messages =
         Messages(
@@ -151,10 +167,11 @@ class MessageDataSource(
                 text = message.messageContent,
                 faceTypeCode = message.faceTypeCode,
                 isConvertDisable = message.isConvertDisable
-            )
+            ),
+            sendToParticipantIds = message.messageSendtoList.map { it.villagePlayerId }
         )
 
-    private fun insertMessage(village: Village, message: Message) {
+    private fun insertMessage(village: Village, message: Message): Int {
         val m = DbMessage()
         m.villageId = village.id
         m.day = message.time.day
@@ -180,7 +197,7 @@ class MessageDataSource(
             try {
                 messageBhv.insert(m)
                 insertMessageSendTo(m)
-                return
+                return m.messageId
             } catch (e: Exception) {
             }
         }

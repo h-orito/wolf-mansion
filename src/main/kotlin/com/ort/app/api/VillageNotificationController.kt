@@ -55,7 +55,7 @@ class VillageNotificationController(
                     message = VillageParticipantNotificationCondition.MessageCondition(
                         secretSay = notificationForm.secretSay ?: false,
                         abilitySay = notificationForm.abilitySay ?: false,
-                        anchor = false
+                        anchor = notificationForm.anchorSay ?: false
                     )
                 )
             )

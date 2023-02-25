@@ -10,5 +10,6 @@ data class VillageNotificationForm(
     val villageStart: Boolean? = null,
     val villageEpilogue: Boolean? = null,
     val secretSay: Boolean? = null,
-    val abilitySay: Boolean? = null
+    val abilitySay: Boolean? = null,
+    val anchorSay: Boolean? = null
 )

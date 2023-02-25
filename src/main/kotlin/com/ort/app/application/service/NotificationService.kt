@@ -98,36 +98,80 @@ class NotificationService(
         village: Village,
         message: Message
     ) {
-        notifyReceiveSecretSayToCustomerIfNeeded(village, message)
-        notifyReceiveAbilitySayToCustomerIfNeeded(village, message)
+        // 秘話→アンカー→役職窓の順
+        val alreadyNotifiedParticipantIds = mutableListOf<Int>()
+        notifyReceiveSecretSayToCustomerIfNeeded(village, message)?.let {
+            alreadyNotifiedParticipantIds.add(it)
+        }
+        val ids = notifyReceiveAnchorToCustomerIfNeeded(village, message, alreadyNotifiedParticipantIds)
+        alreadyNotifiedParticipantIds.addAll(ids)
+        notifyReceiveAbilitySayToCustomerIfNeeded(village, message, alreadyNotifiedParticipantIds)
     }
 
     private fun notifyReceiveSecretSayToCustomerIfNeeded(
         village: Village,
         message: Message
-    ) {
-        if (message.content.type.toCdef() != CDef.MessageType.秘話) return
-        val toParticipant = village.allParticipants().list.find { it.id == message.toParticipantId } ?: return
-        val fromParticipant = village.allParticipants().list.find { it.id == message.fromParticipantId } ?: return
-        toParticipant.notification?.let {
-            if (!it.message.secretSay) return
+    ): Int? {
+        if (message.content.type.toCdef() != CDef.MessageType.秘話) return null
+        val toParticipant = village.allParticipants().list.find { it.id == message.toParticipantId } ?: return null
+        val fromParticipant = village.allParticipants().list.find { it.id == message.fromParticipantId } ?: return null
+        return toParticipant.notification?.let {
+            if (!it.message.secretSay) return null
             discordRepository.postToWebhook(
                 webhookUrl = it.discordWebhookUrl,
                 villageId = village.id,
                 message = "${fromParticipant.name()}から秘話が届きました。",
                 shouldContainVillageUrl = false
             )
+            return toParticipant.id
         }
+    }
+
+    private fun notifyReceiveAnchorToCustomerIfNeeded(
+        village: Village,
+        message: Message,
+        alreadyNotifiedParticipantIds: List<Int>
+    ): List<Int> {
+        val notifiedParticipantIds = mutableListOf<Int>()
+        val fromParticipant = village.participants.list.find { it.id == message.fromParticipantId }
+
+        village.participants.list
+            .asSequence()
+            .filterNot { it.id == message.fromParticipantId } // 自分の発言でない
+            .filterNot { alreadyNotifiedParticipantIds.contains(it.id) }
+            .filter {
+                messageDomainService.isViewable(village, it, message.content.type.toCdef(), village.latestDay())
+            }.filter {
+                it.notification?.message?.anchor ?: false
+            }.filter {
+                message.sendToParticipantIds.contains(it.id)
+            }
+            .toList().forEach {
+                val messageTypeName = message.content.type.name
+                val text = if (fromParticipant == null) {
+                    "${messageTypeName}であなたの発言がアンカー指定されました。"
+                } else "${fromParticipant.name()}の${messageTypeName}であなたの発言がアンカー指定されました。"
+                discordRepository.postToWebhook(
+                    webhookUrl = it.notification!!.discordWebhookUrl,
+                    villageId = village.id,
+                    message = text,
+                    shouldContainVillageUrl = false
+                )
+                notifiedParticipantIds.add(it.id)
+            }
+        return notifiedParticipantIds
     }
 
     private fun notifyReceiveAbilitySayToCustomerIfNeeded(
         village: Village,
-        message: Message
+        message: Message,
+        alreadyNotifiedParticipantIds: List<Int>
     ) {
         if (!message.content.type.isOwlViewableType()) return
         val fromParticipant = village.participants.list.find { it.id == message.fromParticipantId } ?: return
         village.participants.list
             .filterNot { it.id == message.fromParticipantId } // 自分の発言でない
+            .filterNot { alreadyNotifiedParticipantIds.contains(it.id) } // 既にアンカーで通知していたら通知しない
             .filter {
                 messageDomainService.isViewable(village, it, message.content.type.toCdef(), village.latestDay())
             }.filter {
