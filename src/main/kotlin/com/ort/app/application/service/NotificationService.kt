@@ -135,9 +135,9 @@ class NotificationService(
         alreadyNotifiedParticipantIds: List<Int>
     ): List<Int> {
         val notifiedParticipantIds = mutableListOf<Int>()
-        val fromParticipant = village.participants.list.find { it.id == message.fromParticipantId }
+        val fromParticipant = village.allParticipants().list.find { it.id == message.fromParticipantId }
 
-        village.participants.list
+        village.allParticipants().list
             .asSequence()
             .filterNot { it.id == message.fromParticipantId } // 自分の発言でない
             .filterNot { alreadyNotifiedParticipantIds.contains(it.id) }
@@ -170,9 +170,9 @@ class NotificationService(
         alreadyNotifiedParticipantIds: List<Int>
     ): List<Int> {
         val notifiedParticipantIds = mutableListOf<Int>()
-        val fromParticipant = village.participants.list.find { it.id == message.fromParticipantId }
+        val fromParticipant = village.allParticipants().list.find { it.id == message.fromParticipantId }
 
-        village.participants.list
+        village.allParticipants().list
             .asSequence()
             .filter {
                 val keywords = it.notification?.message?.keywords
