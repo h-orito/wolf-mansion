@@ -209,7 +209,7 @@ class MessageDataSource(
         if (splitted.size <= 1) {
             return  // >>が含まれていない
         }
-        splitted.forEach { str ->
+        splitted.drop(1).forEach { str ->
             patternMessageTypeMap.forEach { (pattern: Pattern, messageType: CDef.MessageType) ->
                 val matcher = pattern.matcher(str)
                 if (matcher.find()) {
