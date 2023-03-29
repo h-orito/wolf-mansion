@@ -2,11 +2,7 @@ package com.ort.app.api
 
 import com.ort.app.api.request.LoginForm
 import com.ort.app.api.request.VillageRecordListForm
-import com.ort.app.api.view.IndexContent
-import com.ort.app.api.view.RecruitingContent
-import com.ort.app.api.view.SkillListContent
-import com.ort.app.api.view.VillageRecordLatestVidContent
-import com.ort.app.api.view.VillageRecordListContent
+import com.ort.app.api.view.*
 import com.ort.app.application.service.CampService
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
@@ -49,11 +45,56 @@ class IndexController(
         if (LocalDateTime.of(2023, 4, 1, 0, 0, 0).isBefore(now)
             && LocalDateTime.of(2023, 4, 2, 0, 0, 0).isAfter(now)
         ) {
+            val charachip = charaService.findCharachip(1, false)
+            model.addAttribute("stuffs", charachip!!.charas.list.take(20).map {
+                IndexChara(
+                    it.name.substringAfter(" "),
+                    it.defaultImage().url,
+                    it.size.width,
+                    it.size.height,
+                    comments[it.id - 1].padEnd(40, '　')
+                )
+            })
             return "april-fool"
         }
 
         return "index"
     }
+
+    data class IndexChara(
+        /** キャラ名 */
+        val name: String,
+        /** ダミーキャラ画像URL  */
+        val imgUrl: String,
+        /** ダミーキャラ画像横幅  */
+        val imgWidth: Int,
+        /** ダミーキャラ画像縦幅  */
+        val imgHeight: Int,
+        val comment: String
+    )
+
+    private val comments = listOf(
+        "快適に睡眠できるマンションを紹介します",
+        "おう兄ちゃん、いいブツ（物件）入ってるぜ",
+        "老後も安心のマンションを紹介するぞい",
+        "近所に美女がいる部屋を紹介しますよ",
+        "何？いいマンションがない？作ればいいじゃねえか",
+        "諸経費が安いマンションを紹介するよ",
+        "うるさくしてもいいマンション？あるぜ",
+        "ちかくに公園があるおへやがいいな",
+        "かわいいおへや？いっぱいあるの！",
+        "ヒヒ...お客さんいいの（物件）ありますぜ",
+        "ペット可の物件を紹介するねー！",
+        "おいしいパン屋が近くにある物件を紹介しましょう",
+        "んあ？静かに寝られる物件なら詳しいよ",
+        "オシャな街の物件はまかせてちょうだい",
+        "農業がしたい？田舎はワシにまかせるべ",
+        "ここは近くに安いスーパーがないからやめときな！！",
+        "近所に神父さんのような変態がいない部屋を紹介します",
+        "おしゃれな服屋さんが近くにあると楽しいですよ",
+        "ヲタ活しやすい地域に自信ネキです",
+        "VRを楽しむには広い部屋が必要だよ"
+    )
 
     @GetMapping("/recruiting")
     @ResponseBody

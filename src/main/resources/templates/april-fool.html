@@ -104,6 +104,25 @@
                 <div th:if="${user != null && !content.participate}">
                     <a th:href="@{/new-village}">マンションオーナーになる</a>
                 </div>
+
+                <div class="april-panel">
+                    <h3>スタッフ一覧</h3>
+                </div>
+
+                <div>
+                    <div class="col-sm-2 col-xs-4" style="border: 1px solid #ccc;"
+                         th:each="chara : ${stuffs}">
+						<span style="display: block; text-align: center;">
+                            <img th:src="${chara.imgUrl}"
+                                 th:width="${chara.imgWidth}"
+                                 th:height="${chara.imgHeight}"/>
+						</span>
+                        <span style="display: block; text-align: center;"
+                              th:text="${chara.name}"></span>
+                        <span style="display: block; text-align: center;"
+                              th:text="${chara.comment}"></span>
+                    </div>
+                </div>
             </div>
 
             <div class="clearfix"></div>
@@ -118,6 +137,20 @@
                          data-ad-slot="1022209690" data-ad-format="auto"></ins>
                     <script>
                 (adsbygoogle = window.adsbygoogle || []).push({});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     </script>
                 </div>
                 <div class="col-sm-12 col-xs-12 crearfix">
