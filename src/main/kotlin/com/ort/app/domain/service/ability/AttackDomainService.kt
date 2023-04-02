@@ -50,30 +50,37 @@ class AttackDomainService(
                 val roomList = roomDomainService.detectWasdRoomNumbers(myself.room!!, village.roomSize!!)
                 baseTargetList.filter { roomList.contains(it.room!!.number) }.ifEmpty { baseTargetList }
             }
+
             CDef.Skill.銀狼 -> {
                 val roomList = roomDomainService.detectGinRoomNumbers(myself.room!!, village.roomSize!!)
                 baseTargetList.filter { roomList.contains(it.room!!.number) }.ifEmpty { baseTargetList }
             }
+
             CDef.Skill.金狼 -> {
                 val roomList = roomDomainService.detectKinRoomNumbers(myself.room!!, village.roomSize!!)
                 baseTargetList.filter { roomList.contains(it.room!!.number) }.ifEmpty { baseTargetList }
             }
+
             CDef.Skill.王狼 -> {
                 val roomList = roomDomainService.detectKingRoomNumbers(myself.room!!, village.roomSize!!)
                 baseTargetList.filter { roomList.contains(it.room!!.number) }.ifEmpty { baseTargetList }
             }
+
             CDef.Skill.飛狼 -> {
                 val roomList = roomDomainService.detectHishaRoomNumbers(myself.room!!, village.roomSize!!)
                 baseTargetList.filter { roomList.contains(it.room!!.number) }.ifEmpty { baseTargetList }
             }
+
             CDef.Skill.角狼 -> {
                 val roomList = roomDomainService.detectKakuRoomNumbers(myself.room!!, village.roomSize!!)
                 baseTargetList.filter { roomList.contains(it.room!!.number) }.ifEmpty { baseTargetList }
             }
+
             CDef.Skill.静狼 -> {
                 val roomList = roomDomainService.detectSilentRoomNumbers(myself, village)
                 baseTargetList.filter { roomList.contains(it.room!!.number) }.ifEmpty { baseTargetList }
             }
+
             else -> baseTargetList
         }
     }
@@ -346,7 +353,7 @@ class AttackDomainService(
         val footsteps = daychange.footsteps
             .filterByDay(daychange.village.latestDay() - 1)
         val groups = abilities.groupBy { ability ->
-            val footstep = footsteps.list.first { it.charaId == ability.attackerCharaId }
+            val footstep = footsteps.list.first { it.registerCharaId == ability.charaId }
             "${ability.attackerCharaId}_${ability.targetCharaId}_${footstep.roomNumbers}"
         }
         // 襲撃者x襲撃対象x足音で数を集計して一番多かったものを採用
