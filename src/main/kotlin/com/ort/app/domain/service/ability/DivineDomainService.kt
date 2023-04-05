@@ -70,7 +70,7 @@ class DivineDomainService(
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
 
-        village.participants.filterAlive().list.filter { it.skill!!.hasDivineAbility() }.shuffled().forEach {
+        village.participants.filterAlive().list.shuffled().filter { it.skill!!.hasDivineAbility() }.shuffled().forEach {
             val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
             messages = messages.add(createDivineMessage(village, it, target))

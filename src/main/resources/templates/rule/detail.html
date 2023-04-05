@@ -192,7 +192,9 @@
                     <li>村建てオプションで転生先役職が「全ての役職」になっている村では、上記ペア役職以外の全ての役職から選択されます。</li>
                     <li>村建てオプションで転生先役職が「編成に存在する役職」になっている村では、以下のように選択されます。
                         <ul>
-                            <li>固定編成の場合は、編成に含まれる役職から選択されます（例えば17人村で、16人編成に含まれて17人編成に含まれない役職などは選択されません）。</li>
+                            <li>
+                                固定編成の場合は、編成に含まれる役職から選択されます（例えば17人村で、16人編成に含まれて17人編成に含まれない役職などは選択されません）。
+                            </li>
                             <li>闇鍋編成の場合は、「配分」が0でない役職から等確率でランダムに選択されます（最大数は無視されます）。</li>
                         </ul>
                     </li>
@@ -251,67 +253,133 @@
     <li id="process-order">日付更新時の処理順
         <ol style="-webkit-padding-start: 20px;">
             <li style="padding-left: 5px;">
+                文字装飾系（
                 <a href="#rainbow">虹塗り</a>、
                 <a href="#loudspeaker">拡声</a>、
                 <a href="#tatsuya">濁点</a>、
-                <a href="#translator">翻訳</a></li>
+                <a href="#legendassassin">道化</a>、
+                <a href="#clown">殺し屋化</a>、
+                <a href="#translator">翻訳</a>）
+            </li>
             <li style="padding-left: 5px;"><a href="#suddenly-death">突然死</a></li>
-            <li style="padding-left: 5px;"><a href="#separator">破局</a></li>
-            <li style="padding-left: 5px;"><a href="#thiefcat">恋泥棒</a></li>
-            <li style="padding-left: 5px;"><a href="#courtship">求愛</a></li>
-            <li style="padding-left: 5px;"><a href="#stalker">ストーキング</a></li>
-            <li style="padding-left: 5px;"><a href="#jorogumo">絡新婦</a>による誘惑</li>
-            <li style="padding-left: 5px;"><a href="#badgergame">美人局</a>による誘惑</li>
-            <li style="padding-left: 5px;"><a href="#cheaterfox">誑狐</a>による誑かし</li>
-            <li style="padding-left: 5px;"><a href="#abetter">教唆者</a>による教唆</li>
-            <li style="padding-left: 5px;"><a href="#pastor">牧師</a>による説得</li>
+            <li style="padding-left: 5px;">
+                陣営変化系（
+                <a href="#separator">破局</a>、
+                <a href="#thiefcat">恋泥棒</a>、
+                <a href="#courtship">求愛</a>、
+                <a href="#stalker">ストーキング</a>、
+                <a href="#jorogumo">絡新婦</a>による誘惑、
+                <a href="#badgergame">美人局</a>による誘惑、
+                <a href="#cheaterfox">誑狐</a>による誑かし、
+                <a href="#abetter">教唆者</a>による教唆、
+                <a href="#pastor">牧師</a>
+                による説得）
+            </li>
             <li style="padding-left: 5px;"><a href="#insurancer">保険屋</a>による保険勧誘</li>
+            <li style="padding-left: 5px;">
+                設置系（
+                <a href="#bomber">爆弾</a>、
+                <a href="#trapper">罠</a>）
+                の設置
+            </li>
             <li style="padding-left: 5px;"><a href="#revolutionary">革命者</a>による革命宣言</li>
-            <li style="padding-left: 5px;"><a href="#vote">処刑</a></li>
-            <li style="padding-left: 5px;"><a href="#hunter">狩人</a>、<a href="#wanderer">風来狩人</a>の護衛</li>
-            <li style="padding-left: 5px;"><a href="#wallpuncher">壁殴り</a></li>
-            <li style="padding-left: 5px;"><a href="#omniscience">全知</a></li>
-            <li style="padding-left: 5px;"><a href="#seer">占い（呪殺）</a></li>
-            <li style="padding-left: 5px;"><a href="#detective">探偵</a>、<a href="#observer">監視者</a>の捜査</li>
-            <li style="padding-left: 5px;"><a href="#medium">霊能</a></li>
+            <li style="padding-left: 5px;"><a href="#vote">処刑</a>（処刑死）</li>
+            <li style="padding-left: 5px;">
+                護衛系（
+                <a href="#hunter">狩人</a>、
+                <a href="#wanderer">風来狩人</a>、
+                <a href="#wallpuncher">壁殴り代行</a>
+                ）の護衛
+            </li>
+            <li style="padding-left: 5px;">
+                占い系（
+                <a href="#omniscience">全知</a>、
+                <a href="#seer">占い師</a>、
+                <a href="#wise">賢者</a>、
+                <a href="#astrologer">占星術師</a>、
+                <a href="#flowerseer">花占い師</a>、
+                <a href="#sixthsensor">感覚者</a>、
+                <a href="#kudafox">管狐</a>
+                の占い（全知以降はランダム順）（呪殺、逆呪殺）
+            </li>
+            <li style="padding-left: 5px;">
+                探偵系（
+                <a href="#detective">探偵</a>、
+                <a href="#evildetective">闇探偵</a>、
+                <a href="#observer">監視者</a>
+                ）の捜査（逆呪殺）
+            </li>
+            <li style="padding-left: 5px;">
+                霊能系（
+                <a href="#medium">霊能</a>、
+                <a href="#guru">導師</a>、
+                <a href="#evilmedium">魔神官</a>、
+                <a href="#inari">稲荷</a>
+                ）の霊視
+            </li>
             <li style="padding-left: 5px;"><a href="#cohabiter">同棲者</a>が移動</li>
-            <li style="padding-left: 5px;"><a href="#werewolf">襲撃</a></li>
-            <li style="padding-left: 5px;"><a href="#badgergame">美人局</a>による襲撃</li>
-            <li style="padding-left: 5px;"><a href="#lonewolf">一匹狼</a>の単独襲撃</li>
-            <li style="padding-left: 5px;"><a href="#matagi">マタギ</a>の狩猟</li>
-            <li style="padding-left: 5px;"><a href="#bar">殴打</a></li>
-            <li style="padding-left: 5px;"><a href="#trapper">罠</a></li>
-            <li style="padding-left: 5px;"><a href="#bomber">爆弾</a></li>
-            <li style="padding-left: 5px;"><a href="#pushpin">画鋲</a></li>
-            <li style="padding-left: 5px;"><a href="#drawers">箪笥</a></li>
+            <li style="padding-left: 5px;">
+                襲撃系（
+                人狼の<a href="#werewolf">襲撃</a>、
+                強面の男性の<a href="#badgergame">襲撃</a>、
+                一匹狼の<a href="#lonewolf">単独襲撃</a>、
+                マタギの<a href="#matagi">狩猟</a>、
+                バールの<a href="#bar">殴打</a>
+                ）処理（襲撃死）
+            </li>
+            <li style="padding-left: 5px;">
+                設置系（
+                <a href="#trapper">罠</a>、
+                <a href="#bomber">爆弾</a>
+                ）の起動（罠死、爆死）
+            </li>
+            <li style="padding-left: 5px;">
+                事故系（
+                <a href="#pushpin">画鋲</a>、
+                <a href="#drawers">箪笥</a>
+                ）（雑魚死）
+            </li>
             <li style="padding-left: 5px;">無惨メッセージ</li>
             <li style="padding-left: 5px;"><a href="#coroner">検死</a></li>
-            <li style="padding-left: 5px;"><a href="#truck">トラック</a>の強制転生</li>
-            <li style="padding-left: 5px;"><a href="#baba">ババ</a>の役職交換</li>
-            <li style="padding-left: 5px;"><a href="#winner">当選者</a>の役職交換</li>
-            <li style="padding-left: 5px;"><a href="#resuscitator">蘇生者</a>の蘇生</li>
-            <li style="padding-left: 5px;"><a href="#necromancer">死霊術師</a>の死霊蘇生</li>
-            <li style="padding-left: 5px;"><a href="#onmyoji">陰陽師</a>の降霊</li>
             <li style="padding-left: 5px;">
+                役職変化系（
+                <a href="#truck">トラック</a>の強制転生、
+                <a href="#baba">ババ</a>の役職交換、
+                <a href="#winner">当選者</a>の役職交換
+                ）
+            </li>
+            <li style="padding-left: 5px;">
+                他者蘇生系（
+                <a href="#resuscitator">蘇生者</a>の蘇生、
+                <a href="#necromancer">死霊術師</a>の死霊蘇生、
+                <a href="#onmyoji">陰陽師</a>の降霊
+                ）の蘇生（ランダム順）
+            </li>
+            <li style="padding-left: 5px;">
+                自己蘇生系（
                 <a href="#absolutewolf">絶対人狼</a>、
                 <a href="#reincarnation">転生者</a>、
                 <a href="#heavenchild">申し子</a>、
-                <a href="#anpanman">餡麺麭者</a>の復活
+                <a href="#anpanman">餡麺麭者</a>
+                ）の復活（転生者と申し子はランダム順）
             </li>
             <li style="padding-left: 5px;">ステータス「<a href="#insurance">保険</a>」による復活</li>
             <li style="padding-left: 5px;">
+                後追い系（
                 <a href="#status">恋絆</a>、
                 <a href="#wallpuncher">壁殴り代行</a>、
                 <a href="#anpanman">餡麺麭者</a>、
                 <a href="#immoral">背徳者</a>
                 <a href="#onmyoji">陰陽師</a>、
-                <a href="#fox_possession">狐憑き</a>の後追い
+                <a href="#fox_possession">狐憑き</a>
+                ）の後追い
             </li>
             <li style="padding-left: 5px;"><a href="#epilogue-condition">勝敗判定</a></li>
             <li style="padding-left: 5px;"><a href="#bakery">パン屋</a></li>
             <li style="padding-left: 5px;"><a href="#gonfox">ごん</a></li>
             <li style="padding-left: 5px;"><a href="#dyingpointer">不止者</a>の指差し</li>
-            <li style="padding-left: 5px;"><a href="#falsecharges">冤罪者</a>、<a href="#guilter">濡衣者</a>の足音発生</li>
+            <li style="padding-left: 5px;"><a href="#falsecharges">冤罪者</a>、<a href="#guilter">濡衣者</a>の足音発生
+            </li>
             <li style="padding-left: 5px;">生存者、足音の報告</li>
             <li style="padding-left: 5px;"><a href="#fruitsbasket">フルーツバスケット</a></li>
             <li style="padding-left: 5px;">能力行使と足音のデフォルト登録</li>

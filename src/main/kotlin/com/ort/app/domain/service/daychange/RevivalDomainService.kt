@@ -1,5 +1,6 @@
 package com.ort.app.domain.service.daychange
 
+import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.skill.toModel
@@ -17,12 +18,12 @@ class RevivalDomainService(
     fun revival(orgDaychange: Daychange): Daychange {
         // 梟が存在するか
         val existOwl = orgDaychange.village.participants.filterBySkill(CDef.Skill.梟.toModel()).list.isNotEmpty()
+        // 蘇生者、死霊術師、陰陽師
+        var daychange = revivalByResuscitate(orgDaychange)
         // 絶対人狼
-        var daychange = revivalAbsoluteWolf(orgDaychange)
-        // 転生者
+        daychange = revivalAbsoluteWolf(daychange)
+        // 転生者/申し子
         daychange = revivalReincarnation(daychange)
-        // 申し子
-        daychange = revivalHeavenChild(daychange)
         // 餡麺麭者
         daychange = revivalAnpanman(daychange)
         // 梟が0→1名以上になった場合、メッセージ追加
@@ -37,6 +38,36 @@ class RevivalDomainService(
         daychange = revivalByInsurance(daychange)
 
         return daychange
+    }
+
+    // 蘇生者、死霊術師、陰陽師
+    fun revivalByResuscitate(daychange: Daychange): Daychange {
+        var village = daychange.village.copy()
+        var messages = daychange.messages.copy()
+        village.participants.filterAlive().list.filter {
+            listOf(CDef.Skill.蘇生者, CDef.Skill.死霊術師, CDef.Skill.陰陽師).contains(it.skill!!.toCdef())
+        }.shuffled().forEach {
+            val abilityType = when (it.skill!!.toCdef()) {
+                CDef.Skill.蘇生者 -> CDef.AbilityType.蘇生.toModel()
+                CDef.Skill.死霊術師 -> CDef.AbilityType.死霊蘇生.toModel()
+                CDef.Skill.陰陽師 -> CDef.AbilityType.降霊.toModel()
+                else -> throw IllegalStateException("想定外の役職です。")
+            }
+            val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
+            val target = village.participants.chara(ability.targetCharaId!!)
+            // 蘇生済み/同棲者の場合は失敗
+            if (target.isAlive() || target.skill!!.toCdef() == CDef.Skill.同棲者) return@forEach
+            village = village.reviveParticipant(target.id)
+            // 死霊蘇生、降霊の場合は役職変化
+            if (abilityType.toCdef() == CDef.AbilityType.死霊蘇生) {
+                village = village.assignParticipantSkill(target.id, CDef.Skill.黙狼.toModel())
+            } else if (abilityType.toCdef() == CDef.AbilityType.降霊) {
+                village = village.assignParticipantSkill(target.id, CDef.Skill.妖狐.toModel())
+            }
+            messages = messages.add(createRevivalMessage(village, target))
+        }
+
+        return daychange.copy(village = village, messages = messages)
     }
 
     private fun revivalAbsoluteWolf(daychange: Daychange): Daychange {
@@ -58,35 +89,30 @@ class RevivalDomainService(
     private fun revivalReincarnation(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
-        village.participants.filterDead().filterBySkill(CDef.Skill.転生者.toModel()).list.forEach {
-            village = village.reviveParticipant(it.id)
-            // ランダム役職で転生
-            val skill = village.getRevivableSkills().shuffled().first()
-            village = village.assignParticipantSkill(it.id, skill)
-            messages = messages.add(createRevivalMessage(village, it))
-            // 絶対人狼に転生した場合、メッセージ追加
-            if (skill.toCdef() == CDef.Skill.絶対人狼) {
-                messages = messages.add(
-                    messageDomainService.createOpenSkillMessage(
-                        village = village,
-                        text = "${it.name()}は絶対人狼のようだ。"
+        village.participants.filterDead().list
+            .filter { it.skill?.toCdef() == CDef.Skill.申し子 || it.skill?.toCdef() == CDef.Skill.転生者 }
+            .shuffled()
+            .forEach {
+                village = village.reviveParticipant(it.id)
+                val skill = if (it.skill?.toCdef() == CDef.Skill.申し子) {
+                    // 村陣営のランダム役職で転生
+                    village.getRevivableSkills().filter { it.camp().toCdef() == CDef.Camp.村人陣営 }.shuffled().first()
+                } else {
+                    // 転生者はランダム役職で転生
+                    village.getRevivableSkills().shuffled().first()
+                }
+                village = village.assignParticipantSkill(it.id, skill)
+                messages = messages.add(createRevivalMessage(village, it))
+                // 絶対人狼に転生した場合、メッセージ追加
+                if (skill.toCdef() == CDef.Skill.絶対人狼) {
+                    messages = messages.add(
+                        messageDomainService.createOpenSkillMessage(
+                            village = village,
+                            text = "${it.name()}は絶対人狼のようだ。"
+                        )
                     )
-                )
+                }
             }
-        }
-        return daychange.copy(village = village, messages = messages)
-    }
-
-    private fun revivalHeavenChild(daychange: Daychange): Daychange {
-        var village = daychange.village.copy()
-        var messages = daychange.messages.copy()
-        village.participants.filterDead().filterBySkill(CDef.Skill.申し子.toModel()).list.forEach { heavenChild ->
-            village = village.reviveParticipant(heavenChild.id)
-            // 村陣営のランダム役職で転生
-            val skill = village.getRevivableSkills().filter { it.camp().toCdef() == CDef.Camp.村人陣営 }.shuffled().first()
-            village = village.assignParticipantSkill(heavenChild.id, skill)
-            messages = messages.add(createRevivalMessage(village, heavenChild))
-        }
         return daychange.copy(village = village, messages = messages)
     }
 
