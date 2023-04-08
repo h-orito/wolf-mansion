@@ -15,7 +15,10 @@ class SleepwalkDomainService(
     fun addDefaultAbilities(daychange: Daychange): Daychange {
         val village = daychange.village
         var footsteps = daychange.footsteps.copy()
-        village.participants.filterAlive().filterBySkill(CDef.Skill.夢遊病者.toModel()).list.forEach { walker ->
+        village.participants.filterAlive().list.filter {
+            val skill = it.skill!!.toCdef()
+            skill == CDef.Skill.夢遊病者 || skill == CDef.Skill.リア充
+        }.forEach { walker ->
             val target = village.participants.list.filterNot { it.id == walker.id }.shuffled().first()
             val footstep = Footstep(
                 day = village.latestDay(),

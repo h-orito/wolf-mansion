@@ -1457,6 +1457,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 闇パン屋 (EVILBAKERY). And OnlyOnceRegistered. <br>
+     * 闇パン屋
+     */
+    public void setSkillCode_Equal_闇パン屋() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.闇パン屋);
+    }
+
+    /**
      * Equal(=). As 闇探偵 (EVILDETECTIVE). And OnlyOnceRegistered. <br>
      * 闇探偵
      */
@@ -1862,6 +1870,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_Equal_おまかせ役職窓なし() {
         setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ役職窓なし);
+    }
+
+    /**
+     * Equal(=). As リア充 (NORMIE). And OnlyOnceRegistered. <br>
+     * リア充
+     */
+    public void setSkillCode_Equal_リア充() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.リア充);
     }
 
     /**
@@ -2360,6 +2376,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 闇パン屋 (EVILBAKERY). And OnlyOnceRegistered. <br>
+     * 闇パン屋
+     */
+    public void setSkillCode_NotEqual_闇パン屋() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.闇パン屋);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 闇探偵 (EVILDETECTIVE). And OnlyOnceRegistered. <br>
      * 闇探偵
      */
@@ -2765,6 +2789,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_おまかせ役職窓なし() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ役職窓なし);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As リア充 (NORMIE). And OnlyOnceRegistered. <br>
+     * リア充
+     */
+    public void setSkillCode_NotEqual_リア充() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.リア充);
     }
 
     /**
@@ -3460,6 +3492,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 闇パン屋 (EVILBAKERY). And OnlyOnceRegistered. <br>
+     * 闇パン屋
+     */
+    public void setRequestSkillCode_Equal_闇パン屋() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.闇パン屋);
+    }
+
+    /**
      * Equal(=). As 闇探偵 (EVILDETECTIVE). And OnlyOnceRegistered. <br>
      * 闇探偵
      */
@@ -3865,6 +3905,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_Equal_おまかせ役職窓なし() {
         setRequestSkillCode_Equal_AsSkill(CDef.Skill.おまかせ役職窓なし);
+    }
+
+    /**
+     * Equal(=). As リア充 (NORMIE). And OnlyOnceRegistered. <br>
+     * リア充
+     */
+    public void setRequestSkillCode_Equal_リア充() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.リア充);
     }
 
     /**
@@ -4363,6 +4411,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 闇パン屋 (EVILBAKERY). And OnlyOnceRegistered. <br>
+     * 闇パン屋
+     */
+    public void setRequestSkillCode_NotEqual_闇パン屋() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.闇パン屋);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 闇探偵 (EVILDETECTIVE). And OnlyOnceRegistered. <br>
      * 闇探偵
      */
@@ -4768,6 +4824,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_おまかせ役職窓なし() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ役職窓なし);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As リア充 (NORMIE). And OnlyOnceRegistered. <br>
+     * リア充
+     */
+    public void setRequestSkillCode_NotEqual_リア充() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.リア充);
     }
 
     /**
@@ -5463,6 +5527,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 闇パン屋 (EVILBAKERY). And OnlyOnceRegistered. <br>
+     * 闇パン屋
+     */
+    public void setSecondRequestSkillCode_Equal_闇パン屋() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.闇パン屋);
+    }
+
+    /**
      * Equal(=). As 闇探偵 (EVILDETECTIVE). And OnlyOnceRegistered. <br>
      * 闇探偵
      */
@@ -5868,6 +5940,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_Equal_おまかせ役職窓なし() {
         setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.おまかせ役職窓なし);
+    }
+
+    /**
+     * Equal(=). As リア充 (NORMIE). And OnlyOnceRegistered. <br>
+     * リア充
+     */
+    public void setSecondRequestSkillCode_Equal_リア充() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.リア充);
     }
 
     /**
@@ -6366,6 +6446,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 闇パン屋 (EVILBAKERY). And OnlyOnceRegistered. <br>
+     * 闇パン屋
+     */
+    public void setSecondRequestSkillCode_NotEqual_闇パン屋() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.闇パン屋);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 闇探偵 (EVILDETECTIVE). And OnlyOnceRegistered. <br>
      * 闇探偵
      */
@@ -6771,6 +6859,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_おまかせ役職窓なし() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ役職窓なし);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As リア充 (NORMIE). And OnlyOnceRegistered. <br>
+     * リア充
+     */
+    public void setSecondRequestSkillCode_NotEqual_リア充() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.リア充);
     }
 
     /**

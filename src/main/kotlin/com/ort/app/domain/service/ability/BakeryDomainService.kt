@@ -2,7 +2,6 @@ package com.ort.app.domain.service.ability
 
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.message.Message
-import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
@@ -28,10 +27,15 @@ class BakeryDomainService {
     }
 
     private fun existsAliveBakery(village: Village): Boolean =
-        village.participants.filterAlive().filterBySkill(CDef.Skill.パン屋.toModel()).list.isNotEmpty()
+        village.participants.filterAlive().list.any {
+            val skill = it.skill!!.toCdef()
+            skill == CDef.Skill.パン屋 || skill == CDef.Skill.闇パン屋
+        }
 
     private fun isEradicatedBakeryToday(village: Village): Boolean =
         !existsAliveBakery(village) && village.participants
-            .filterDeadDay(village.latestDay())
-            .filterBySkill(CDef.Skill.パン屋.toModel()).list.isNotEmpty()
+            .filterDeadDay(village.latestDay()).list.any {
+                val skill = it.skill!!.toCdef()
+                skill == CDef.Skill.パン屋 || skill == CDef.Skill.闇パン屋
+            }
 }

@@ -557,6 +557,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 闇パン屋 (EVILBAKERY). <br>
+     * 闇パン屋
+     */
+    public void setSkillCode_闇パン屋() {
+        setSkillCodeAsSkill(CDef.Skill.闇パン屋);
+    }
+
+    /**
      * Set the value of skillCode as 闇探偵 (EVILDETECTIVE). <br>
      * 闇探偵
      */
@@ -962,6 +970,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSkillCode_おまかせ役職窓なし() {
         setSkillCodeAsSkill(CDef.Skill.おまかせ役職窓なし);
+    }
+
+    /**
+     * Set the value of skillCode as リア充 (NORMIE). <br>
+     * リア充
+     */
+    public void setSkillCode_リア充() {
+        setSkillCodeAsSkill(CDef.Skill.リア充);
     }
 
     /**
@@ -1437,6 +1453,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 闇パン屋 (EVILBAKERY). <br>
+     * 闇パン屋
+     */
+    public void setRequestSkillCode_闇パン屋() {
+        setRequestSkillCodeAsSkill(CDef.Skill.闇パン屋);
+    }
+
+    /**
      * Set the value of requestSkillCode as 闇探偵 (EVILDETECTIVE). <br>
      * 闇探偵
      */
@@ -1842,6 +1866,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setRequestSkillCode_おまかせ役職窓なし() {
         setRequestSkillCodeAsSkill(CDef.Skill.おまかせ役職窓なし);
+    }
+
+    /**
+     * Set the value of requestSkillCode as リア充 (NORMIE). <br>
+     * リア充
+     */
+    public void setRequestSkillCode_リア充() {
+        setRequestSkillCodeAsSkill(CDef.Skill.リア充);
     }
 
     /**
@@ -2317,6 +2349,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of secondRequestSkillCode as 闇パン屋 (EVILBAKERY). <br>
+     * 闇パン屋
+     */
+    public void setSecondRequestSkillCode_闇パン屋() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.闇パン屋);
+    }
+
+    /**
      * Set the value of secondRequestSkillCode as 闇探偵 (EVILDETECTIVE). <br>
      * 闇探偵
      */
@@ -2722,6 +2762,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_おまかせ役職窓なし() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.おまかせ役職窓なし);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as リア充 (NORMIE). <br>
+     * リア充
+     */
+    public void setSecondRequestSkillCode_リア充() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.リア充);
     }
 
     /**
@@ -3397,6 +3445,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of skillCode 闇パン屋? <br>
+     * 闇パン屋
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode闇パン屋() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.闇パン屋) : false;
+    }
+
+    /**
      * Is the value of skillCode 闇探偵? <br>
      * 闇探偵
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -3955,6 +4014,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCodeおまかせ役職窓なし() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.おまかせ役職窓なし) : false;
+    }
+
+    /**
+     * Is the value of skillCode リア充? <br>
+     * リア充
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCodeリア充() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.リア充) : false;
     }
 
     /**
@@ -4737,6 +4807,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 闇パン屋? <br>
+     * 闇パン屋
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode闇パン屋() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.闇パン屋) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 闇探偵? <br>
      * 闇探偵
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -5295,6 +5376,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isRequestSkillCodeおまかせ役職窓なし() {
         CDef.Skill cdef = getRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.おまかせ役職窓なし) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode リア充? <br>
+     * リア充
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCodeリア充() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.リア充) : false;
     }
 
     /**
@@ -6077,6 +6169,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of secondRequestSkillCode 闇パン屋? <br>
+     * 闇パン屋
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode闇パン屋() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.闇パン屋) : false;
+    }
+
+    /**
      * Is the value of secondRequestSkillCode 闇探偵? <br>
      * 闇探偵
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -6635,6 +6738,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCodeおまかせ役職窓なし() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.おまかせ役職窓なし) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode リア充? <br>
+     * リア充
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCodeリア充() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.リア充) : false;
     }
 
     /**

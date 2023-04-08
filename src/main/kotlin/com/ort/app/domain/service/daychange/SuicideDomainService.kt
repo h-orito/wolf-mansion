@@ -73,7 +73,10 @@ class SuicideDomainService(
 
     private fun findAnpanmanSuicideTarget(village: Village): VillageParticipant? {
         // パン屋が全員死亡していたら後追い対象
-        if (village.participants.filterAlive().filterBySkill(CDef.Skill.パン屋.toModel()).list.isNotEmpty()) return null
+        if (village.participants.filterAlive().list.any {
+                val skill = it.skill!!.toCdef()
+                skill == CDef.Skill.パン屋 || skill == CDef.Skill.闇パン屋
+            }) return null
 
         return village.participants
             .filterAlive() // 自分は生きていて

@@ -247,6 +247,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 闇パン屋 (EVILBAKERY). And OnlyOnceRegistered. <br>
+     * 闇パン屋
+     */
+    public void setSkillCode_Equal_闇パン屋() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.闇パン屋);
+    }
+
+    /**
      * Equal(=). As 闇探偵 (EVILDETECTIVE). And OnlyOnceRegistered. <br>
      * 闇探偵
      */
@@ -652,6 +660,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_Equal_おまかせ役職窓なし() {
         setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ役職窓なし);
+    }
+
+    /**
+     * Equal(=). As リア充 (NORMIE). And OnlyOnceRegistered. <br>
+     * リア充
+     */
+    public void setSkillCode_Equal_リア充() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.リア充);
     }
 
     /**
@@ -1150,6 +1166,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 闇パン屋 (EVILBAKERY). And OnlyOnceRegistered. <br>
+     * 闇パン屋
+     */
+    public void setSkillCode_NotEqual_闇パン屋() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.闇パン屋);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 闇探偵 (EVILDETECTIVE). And OnlyOnceRegistered. <br>
      * 闇探偵
      */
@@ -1555,6 +1579,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_おまかせ役職窓なし() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ役職窓なし);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As リア充 (NORMIE). And OnlyOnceRegistered. <br>
+     * リア充
+     */
+    public void setSkillCode_NotEqual_リア充() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.リア充);
     }
 
     /**

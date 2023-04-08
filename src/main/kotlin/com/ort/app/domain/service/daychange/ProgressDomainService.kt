@@ -64,6 +64,7 @@ class ProgressDomainService(
     private val epilogueDomainService: EpilogueDomainService,
     private val abilityDomainService: AbilityDomainService,
     private val voteDomainService: VoteDomainService,
+    private val normieDomainService: NormieDomainService,
     private val suddenlyDeathDomainService: SuddenlyDeathDomainService,
     private val miserableDomainService: MiserableDomainService,
     private val executeDomainService: ExecuteDomainService,
@@ -153,6 +154,8 @@ class ProgressDomainService(
         daychange = pushpinDomainService.pushpin(daychange)
         // 箪笥
         daychange = drawerDomainService.littleFinger(daychange)
+        // リア充の爆発
+        daychange = normieDomainService.normieBomb(daychange)
         // 無惨メッセージ
         daychange = miserableDomainService.addMiserableMessages(daychange)
         // 検死

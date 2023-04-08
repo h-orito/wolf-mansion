@@ -261,7 +261,7 @@ data class Skill(
                 CDef.Skill.陰陽師
             )
         val hasLoneAttackAbilitySkills = listOf(CDef.Skill.マタギ, CDef.Skill.バールのようなもの, CDef.Skill.一匹狼)
-        val hasAutoFootstepAbilitySkills = listOf(CDef.Skill.妄想癖, CDef.Skill.夢遊病者, CDef.Skill.冤罪者, CDef.Skill.濡衣者)
+        val hasAutoFootstepAbilitySkills = listOf(CDef.Skill.妄想癖, CDef.Skill.夢遊病者, CDef.Skill.冤罪者, CDef.Skill.濡衣者, CDef.Skill.リア充)
 
         val madmanPriorityList = listOf(
             CDef.Skill.C国狂人,

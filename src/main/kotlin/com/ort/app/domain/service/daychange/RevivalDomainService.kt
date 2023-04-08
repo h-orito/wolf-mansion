@@ -121,8 +121,10 @@ class RevivalDomainService(
         // パン屋が生存しているか
         val existsBakery = village.participants
             .filterAlive()
-            .filterBySkill(CDef.Skill.パン屋.toModel())
-            .list.isNotEmpty()
+            .list.any {
+                val skill = it.skill!!.toCdef()
+                skill == CDef.Skill.パン屋 || skill == CDef.Skill.闇パン屋
+            }
         if (!existsBakery) return daychange
 
         var messages = daychange.messages.copy()
