@@ -138,7 +138,7 @@ class ExecuteDomainService(
     ): VillageParticipant? {
         // 革命中は少数決、そうでなければ多数決
         val votedCount =
-            if (existsRevolution) votedMap.map { (_, count) -> count }.minOrNull()
+            if (existsRevolution) votedMap.filterNot { (_, count) -> count == 0 }.map { (_, count) -> count }.minOrNull()
             else votedMap.map { (_, count) -> count }.maxOrNull()
         votedCount ?: return null
         val candidates = votedMap
