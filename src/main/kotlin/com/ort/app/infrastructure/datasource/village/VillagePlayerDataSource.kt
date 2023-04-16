@@ -239,6 +239,8 @@ class VillagePlayerDataSource(
             .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.狂気) }
         changed.persuadedIdList.filterNot { current.persuadedIdList.contains(it) }
             .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.信念) }
+        changed.insuranceIdList.filterNot { current.insuranceIdList.contains(it) }
+            .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.保険) }
         changed.disrespectfulList.filterNot { current.disrespectfulList.contains(it) }
             .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.不敬) }
     }
