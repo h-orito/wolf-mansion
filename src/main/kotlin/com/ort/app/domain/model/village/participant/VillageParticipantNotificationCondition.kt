@@ -8,6 +8,8 @@ data class VillageParticipantNotificationCondition(
     data class VillageCondition(
         /** 村が開始した */
         val start: Boolean,
+        /** 日付更新 */
+        val dayChange: Boolean,
         /** 村がエピローグを迎えた */
         val epilogue: Boolean
     )

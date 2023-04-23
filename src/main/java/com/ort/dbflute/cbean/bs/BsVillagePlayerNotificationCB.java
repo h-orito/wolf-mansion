@@ -330,6 +330,11 @@ public class BsVillagePlayerNotificationCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnVillageStart() { return doColumn("VILLAGE_START"); }
         /**
+         * VILLAGE_DAYCHANGE: {NotNull, BIT}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnVillageDaychange() { return doColumn("VILLAGE_DAYCHANGE"); }
+        /**
          * VILLAGE_EPILOGUE: {NotNull, BIT}
          * @return The information object of specified column. (NotNull)
          */

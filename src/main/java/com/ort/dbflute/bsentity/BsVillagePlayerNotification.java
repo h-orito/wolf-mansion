@@ -20,7 +20,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_PLAYER_ID
  *
  * [column]
- *     VILLAGE_PLAYER_ID, DISCORD_WEBHOOK_URL, VILLAGE_START, VILLAGE_EPILOGUE, RECEIVE_SECRET_SAY, RECEIVE_ABILITY_SAY, RECEIVE_ANCHOR_SAY, KEYWORD, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_PLAYER_ID, DISCORD_WEBHOOK_URL, VILLAGE_START, VILLAGE_DAYCHANGE, VILLAGE_EPILOGUE, RECEIVE_SECRET_SAY, RECEIVE_ABILITY_SAY, RECEIVE_ANCHOR_SAY, KEYWORD, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -48,6 +48,7 @@ import com.ort.dbflute.exentity.*;
  * Integer villagePlayerId = entity.getVillagePlayerId();
  * String discordWebhookUrl = entity.getDiscordWebhookUrl();
  * Boolean villageStart = entity.getVillageStart();
+ * Boolean villageDaychange = entity.getVillageDaychange();
  * Boolean villageEpilogue = entity.getVillageEpilogue();
  * Boolean receiveSecretSay = entity.getReceiveSecretSay();
  * Boolean receiveAbilitySay = entity.getReceiveAbilitySay();
@@ -60,6 +61,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setVillagePlayerId(villagePlayerId);
  * entity.setDiscordWebhookUrl(discordWebhookUrl);
  * entity.setVillageStart(villageStart);
+ * entity.setVillageDaychange(villageDaychange);
  * entity.setVillageEpilogue(villageEpilogue);
  * entity.setReceiveSecretSay(receiveSecretSay);
  * entity.setReceiveAbilitySay(receiveAbilitySay);
@@ -92,6 +94,9 @@ public abstract class BsVillagePlayerNotification extends AbstractEntity impleme
 
     /** VILLAGE_START: {NotNull, BIT} */
     protected Boolean _villageStart;
+
+    /** VILLAGE_DAYCHANGE: {NotNull, BIT} */
+    protected Boolean _villageDaychange;
 
     /** VILLAGE_EPILOGUE: {NotNull, BIT} */
     protected Boolean _villageEpilogue;
@@ -212,6 +217,7 @@ public abstract class BsVillagePlayerNotification extends AbstractEntity impleme
         sb.append(dm).append(xfND(_villagePlayerId));
         sb.append(dm).append(xfND(_discordWebhookUrl));
         sb.append(dm).append(xfND(_villageStart));
+        sb.append(dm).append(xfND(_villageDaychange));
         sb.append(dm).append(xfND(_villageEpilogue));
         sb.append(dm).append(xfND(_receiveSecretSay));
         sb.append(dm).append(xfND(_receiveAbilitySay));
@@ -305,6 +311,26 @@ public abstract class BsVillagePlayerNotification extends AbstractEntity impleme
     public void setVillageStart(Boolean villageStart) {
         registerModifiedProperty("villageStart");
         _villageStart = villageStart;
+    }
+
+    /**
+     * [get] VILLAGE_DAYCHANGE: {NotNull, BIT} <br>
+     * 村の日付が更新された際通知する
+     * @return The value of the column 'VILLAGE_DAYCHANGE'. (basically NotNull if selected: for the constraint)
+     */
+    public Boolean getVillageDaychange() {
+        checkSpecifiedProperty("villageDaychange");
+        return _villageDaychange;
+    }
+
+    /**
+     * [set] VILLAGE_DAYCHANGE: {NotNull, BIT} <br>
+     * 村の日付が更新された際通知する
+     * @param villageDaychange The value of the column 'VILLAGE_DAYCHANGE'. (basically NotNull if update: for the constraint)
+     */
+    public void setVillageDaychange(Boolean villageDaychange) {
+        registerModifiedProperty("villageDaychange");
+        _villageDaychange = villageDaychange;
     }
 
     /**

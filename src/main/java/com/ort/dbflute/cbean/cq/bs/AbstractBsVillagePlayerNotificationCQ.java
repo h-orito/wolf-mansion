@@ -321,6 +321,18 @@ public abstract class AbstractBsVillagePlayerNotificationCQ extends AbstractCond
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * VILLAGE_DAYCHANGE: {NotNull, BIT}
+     * @param villageDaychange The value of villageDaychange as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setVillageDaychange_Equal(Boolean villageDaychange) {
+        regVillageDaychange(CK_EQ, villageDaychange);
+    }
+
+    protected void regVillageDaychange(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueVillageDaychange(), "VILLAGE_DAYCHANGE"); }
+    protected abstract ConditionValue xgetCValueVillageDaychange();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * VILLAGE_EPILOGUE: {NotNull, BIT}
      * @param villageEpilogue The value of villageEpilogue as equal. (basically NotNull: error as default, or no condition as option)
      */

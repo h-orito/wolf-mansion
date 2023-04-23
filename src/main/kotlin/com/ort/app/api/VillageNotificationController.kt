@@ -50,6 +50,7 @@ class VillageNotificationController(
                     discordWebhookUrl = notificationForm.webhookUrl!!,
                     village = VillageParticipantNotificationCondition.VillageCondition(
                         start = notificationForm.villageStart ?: false,
+                        dayChange = notificationForm.villageDaychange ?: false,
                         epilogue = notificationForm.villageEpilogue ?: false
                     ),
                     message = VillageParticipantNotificationCondition.MessageCondition(

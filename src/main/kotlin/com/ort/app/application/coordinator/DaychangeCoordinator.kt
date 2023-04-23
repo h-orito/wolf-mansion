@@ -72,6 +72,8 @@ class DaychangeCoordinator(
             notificationService.notifyVillageStartToCustomerIfNeeded(changed.village)
         } else if (current.village.status.isProgress() && changed.village.status.isEpilogue()) {
             notificationService.notifyVillageEpilogueToCustomerIfNeeded(changed.village)
+        } else if (current.village.days.latestDay() != changed.village.days.latestDay()) {
+            notificationService.notifyVillageDaychangeToCustomerIfNeeded(changed.village)
         }
     }
 }

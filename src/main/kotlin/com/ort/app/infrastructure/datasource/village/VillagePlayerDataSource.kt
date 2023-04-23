@@ -323,6 +323,7 @@ class VillagePlayerDataSource(
         n.villagePlayerId = participantId
         n.discordWebhookUrl = notification.discordWebhookUrl
         n.villageStart = notification.village.start
+        n.villageDaychange = notification.village.dayChange
         n.villageEpilogue = notification.village.epilogue
         n.receiveSecretSay = notification.message.secretSay
         n.receiveAbilitySay = notification.message.abilitySay
@@ -437,6 +438,7 @@ class VillagePlayerDataSource(
                 discordWebhookUrl = it.discordWebhookUrl,
                 village = VillageParticipantNotificationCondition.VillageCondition(
                     start = it.villageStart,
+                    dayChange = it.villageDaychange,
                     epilogue = it.villageEpilogue
                 ),
                 message = VillageParticipantNotificationCondition.MessageCondition(

@@ -64,6 +64,7 @@ public class VillagePlayerNotificationCIQ extends AbstractBsVillagePlayerNotific
     protected ConditionValue xgetCValueVillagePlayerId() { return _myCQ.xdfgetVillagePlayerId(); }
     protected ConditionValue xgetCValueDiscordWebhookUrl() { return _myCQ.xdfgetDiscordWebhookUrl(); }
     protected ConditionValue xgetCValueVillageStart() { return _myCQ.xdfgetVillageStart(); }
+    protected ConditionValue xgetCValueVillageDaychange() { return _myCQ.xdfgetVillageDaychange(); }
     protected ConditionValue xgetCValueVillageEpilogue() { return _myCQ.xdfgetVillageEpilogue(); }
     protected ConditionValue xgetCValueReceiveSecretSay() { return _myCQ.xdfgetReceiveSecretSay(); }
     protected ConditionValue xgetCValueReceiveAbilitySay() { return _myCQ.xdfgetReceiveAbilitySay(); }

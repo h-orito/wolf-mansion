@@ -86,6 +86,18 @@ class NotificationService(
         }
     }
 
+    fun notifyVillageDaychangeToCustomerIfNeeded(village: Village) {
+        village.allParticipants().list.filter {
+            it.notification?.village?.dayChange ?: false
+        }.forEach {
+            discordRepository.postToWebhook(
+                webhookUrl = it.notification!!.discordWebhookUrl,
+                villageId = village.id,
+                message = "村の日付が${village.latestDay()}日目に更新されました。"
+            )
+        }
+    }
+
     fun notifyTest(url: String, villageId: Int) {
         discordRepository.postToWebhook(
             webhookUrl = url,

@@ -133,6 +133,26 @@ public class BsVillagePlayerNotificationCQ extends AbstractBsVillagePlayerNotifi
      */
     public BsVillagePlayerNotificationCQ addOrderBy_VillageStart_Desc() { regOBD("VILLAGE_START"); return this; }
 
+    protected ConditionValue _villageDaychange;
+    public ConditionValue xdfgetVillageDaychange()
+    { if (_villageDaychange == null) { _villageDaychange = nCV(); }
+      return _villageDaychange; }
+    protected ConditionValue xgetCValueVillageDaychange() { return xdfgetVillageDaychange(); }
+
+    /**
+     * Add order-by as ascend. <br>
+     * VILLAGE_DAYCHANGE: {NotNull, BIT}
+     * @return this. (NotNull)
+     */
+    public BsVillagePlayerNotificationCQ addOrderBy_VillageDaychange_Asc() { regOBA("VILLAGE_DAYCHANGE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * VILLAGE_DAYCHANGE: {NotNull, BIT}
+     * @return this. (NotNull)
+     */
+    public BsVillagePlayerNotificationCQ addOrderBy_VillageDaychange_Desc() { regOBD("VILLAGE_DAYCHANGE"); return this; }
+
     protected ConditionValue _villageEpilogue;
     public ConditionValue xdfgetVillageEpilogue()
     { if (_villageEpilogue == null) { _villageEpilogue = nCV(); }

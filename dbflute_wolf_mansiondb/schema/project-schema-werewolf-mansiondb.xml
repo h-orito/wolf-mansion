@@ -1037,6 +1037,8 @@
             size="1000" type="VARCHAR"/>
         <column comment="村が開始した際通知する" dbType="BIT" javaType="Boolean"
             name="VILLAGE_START" required="true" type="BIT"/>
+        <column comment="村の日付が更新された際通知する" dbType="BIT"
+            javaType="Boolean" name="VILLAGE_DAYCHANGE" required="true" type="BIT"/>
         <column comment="村がエピローグを迎えた際通知する" dbType="BIT"
             javaType="Boolean" name="VILLAGE_EPILOGUE" required="true" type="BIT"/>
         <column comment="秘話を受け取った際通知する" dbType="BIT" javaType="Boolean"

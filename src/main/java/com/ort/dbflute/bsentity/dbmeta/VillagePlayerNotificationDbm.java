@@ -46,6 +46,7 @@ public class VillagePlayerNotificationDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((VillagePlayerNotification)et).getVillagePlayerId(), (et, vl) -> ((VillagePlayerNotification)et).setVillagePlayerId(cti(vl)), "villagePlayerId");
         setupEpg(_epgMap, et -> ((VillagePlayerNotification)et).getDiscordWebhookUrl(), (et, vl) -> ((VillagePlayerNotification)et).setDiscordWebhookUrl((String)vl), "discordWebhookUrl");
         setupEpg(_epgMap, et -> ((VillagePlayerNotification)et).getVillageStart(), (et, vl) -> ((VillagePlayerNotification)et).setVillageStart((Boolean)vl), "villageStart");
+        setupEpg(_epgMap, et -> ((VillagePlayerNotification)et).getVillageDaychange(), (et, vl) -> ((VillagePlayerNotification)et).setVillageDaychange((Boolean)vl), "villageDaychange");
         setupEpg(_epgMap, et -> ((VillagePlayerNotification)et).getVillageEpilogue(), (et, vl) -> ((VillagePlayerNotification)et).setVillageEpilogue((Boolean)vl), "villageEpilogue");
         setupEpg(_epgMap, et -> ((VillagePlayerNotification)et).getReceiveSecretSay(), (et, vl) -> ((VillagePlayerNotification)et).setReceiveSecretSay((Boolean)vl), "receiveSecretSay");
         setupEpg(_epgMap, et -> ((VillagePlayerNotification)et).getReceiveAbilitySay(), (et, vl) -> ((VillagePlayerNotification)et).setReceiveAbilitySay((Boolean)vl), "receiveAbilitySay");
@@ -90,6 +91,7 @@ public class VillagePlayerNotificationDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnVillagePlayerId = cci("VILLAGE_PLAYER_ID", "VILLAGE_PLAYER_ID", null, null, Integer.class, "villagePlayerId", null, true, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "villagePlayer", null, null, false);
     protected final ColumnInfo _columnDiscordWebhookUrl = cci("DISCORD_WEBHOOK_URL", "DISCORD_WEBHOOK_URL", null, null, String.class, "discordWebhookUrl", null, false, false, true, "VARCHAR", 1000, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnVillageStart = cci("VILLAGE_START", "VILLAGE_START", null, null, Boolean.class, "villageStart", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnVillageDaychange = cci("VILLAGE_DAYCHANGE", "VILLAGE_DAYCHANGE", null, null, Boolean.class, "villageDaychange", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnVillageEpilogue = cci("VILLAGE_EPILOGUE", "VILLAGE_EPILOGUE", null, null, Boolean.class, "villageEpilogue", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnReceiveSecretSay = cci("RECEIVE_SECRET_SAY", "RECEIVE_SECRET_SAY", null, null, Boolean.class, "receiveSecretSay", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnReceiveAbilitySay = cci("RECEIVE_ABILITY_SAY", "RECEIVE_ABILITY_SAY", null, null, Boolean.class, "receiveAbilitySay", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, null, false);
@@ -115,6 +117,11 @@ public class VillagePlayerNotificationDbm extends AbstractDBMeta {
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageStart() { return _columnVillageStart; }
+    /**
+     * VILLAGE_DAYCHANGE: {NotNull, BIT}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnVillageDaychange() { return _columnVillageDaychange; }
     /**
      * VILLAGE_EPILOGUE: {NotNull, BIT}
      * @return The information object of specified column. (NotNull)
@@ -166,6 +173,7 @@ public class VillagePlayerNotificationDbm extends AbstractDBMeta {
         ls.add(columnVillagePlayerId());
         ls.add(columnDiscordWebhookUrl());
         ls.add(columnVillageStart());
+        ls.add(columnVillageDaychange());
         ls.add(columnVillageEpilogue());
         ls.add(columnReceiveSecretSay());
         ls.add(columnReceiveAbilitySay());

@@ -8,6 +8,7 @@ data class VillageNotificationForm(
     @field:Length(min = 1)
     val webhookUrl: String? = null,
     val villageStart: Boolean? = null,
+    val villageDaychange: Boolean? = null,
     val villageEpilogue: Boolean? = null,
     val secretSay: Boolean? = null,
     val abilitySay: Boolean? = null,
