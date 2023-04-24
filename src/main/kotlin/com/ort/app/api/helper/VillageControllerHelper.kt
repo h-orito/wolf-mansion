@@ -298,6 +298,7 @@ class VillageControllerHelper(
             VillageNotificationForm(
                 webhookUrl = myself.notification?.discordWebhookUrl,
                 villageStart = myself.notification?.village?.start ?: false,
+                villageDaychange = myself.notification?.village?.dayChange ?: false,
                 villageEpilogue = myself.notification?.village?.epilogue ?: false,
                 secretSay = myself.notification?.message?.secretSay ?: false,
                 anchorSay = myself.notification?.message?.anchor ?: false,
