@@ -29,7 +29,8 @@ class DaychangeCoordinator(
         val commits = commitService.findCommits(village.id)
         val players = playerService.findPlayers(village.id)
         val footsteps = footstepService.findFootsteps(village.id)
-        val charas = village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas() }
+        val charas =
+            village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas() }
 
         var daychange = Daychange(village, abilities, votes, footsteps, players)
         daychange = daychangeDomainService.leaveParticipantIfNeeded(daychange).let {
@@ -72,7 +73,10 @@ class DaychangeCoordinator(
             notificationService.notifyVillageStartToCustomerIfNeeded(changed.village)
         } else if (current.village.status.isProgress() && changed.village.status.isEpilogue()) {
             notificationService.notifyVillageEpilogueToCustomerIfNeeded(changed.village)
-        } else if (current.village.days.latestDay() != changed.village.days.latestDay()) {
+        } else if (
+            !current.village.status.isEpilogue() &&
+            current.village.days.latestDay() != changed.village.days.latestDay()
+        ) {
             notificationService.notifyVillageDaychangeToCustomerIfNeeded(changed.village)
         }
     }
