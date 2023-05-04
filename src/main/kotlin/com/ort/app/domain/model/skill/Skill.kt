@@ -185,6 +185,7 @@ data class Skill(
                 CDef.Skill.マタギ,
                 CDef.Skill.牧師,
                 CDef.Skill.死霊術師,
+                CDef.Skill.バールのようなもの,
                 CDef.Skill.破局者,
                 CDef.Skill.教唆者,
                 CDef.Skill.求愛者,
@@ -192,6 +193,9 @@ data class Skill(
                 CDef.Skill.絡新婦,
                 CDef.Skill.美人局,
                 CDef.Skill.誑狐,
+                CDef.Skill.陰陽師,
+                CDef.Skill.呪縛者,
+                CDef.Skill.反呪者,
                 CDef.Skill.爆弾魔,
                 CDef.Skill.一匹狼,
                 CDef.Skill.虹職人,
@@ -203,8 +207,6 @@ data class Skill(
                 CDef.Skill.トラック,
                 CDef.Skill.ババ,
                 CDef.Skill.泥棒猫,
-                CDef.Skill.壁殴り代行,
-                CDef.Skill.バールのようなもの
             ).contains(it.toCdef())
         }
 
@@ -233,7 +235,7 @@ data class Skill(
                 CDef.Skill.当選者,
                 CDef.Skill.死霊術師
             )
-        val hasRevivalOtherAbilitySkills = listOf(CDef.Skill.蘇生者, CDef.Skill.死霊術師)
+        val hasRevivalOtherAbilitySkills = listOf(CDef.Skill.蘇生者, CDef.Skill.死霊術師, CDef.Skill.陰陽師)
         val hasRevivalMyselfAbilitySkills = listOf(CDef.Skill.申し子, CDef.Skill.転生者, CDef.Skill.餡麺麭者, CDef.Skill.絶対人狼)
         val hasTrapAbilitySkills = listOf(CDef.Skill.罠師, CDef.Skill.爆弾魔, CDef.Skill.画鋲, CDef.Skill.箪笥)
         val hasChangeRoomAbilitySkills = listOf(CDef.Skill.果実籠)
@@ -260,7 +262,8 @@ data class Skill(
                 CDef.Skill.同棲者,
                 CDef.Skill.ストーカー,
                 CDef.Skill.背徳者,
-                CDef.Skill.陰陽師
+                CDef.Skill.陰陽師,
+                CDef.Skill.リア充
             )
         val hasLoneAttackAbilitySkills = listOf(CDef.Skill.マタギ, CDef.Skill.バールのようなもの, CDef.Skill.一匹狼)
         val hasAutoFootstepAbilitySkills =
